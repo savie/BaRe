@@ -75,7 +75,7 @@ jobs:
           printf '%s' "$clean_b64" | base64 --decode > "$HOME/.android/debug.keystore"
           chmod 600 "$HOME/.android/debug.keystore"
 
-          actual_cert_sha256="$(keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | awk -F': ' '/SHA256:/{print $2}' | tr -d ':')"
+          actual_cert_sha256="$(keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | awk -F': ' '/SHA256:/{print $2}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
           if [ "$actual_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
             echo "Stable debug keystore certificate fingerprint mismatch."
             echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
@@ -95,7 +95,7 @@ jobs:
           fi
           apk_path="app/build/outputs/apk/debug/app-debug.apk"
           "$apksigner_path" verify --verbose --print-certs "$apk_path"
-          actual_apk_cert_sha256="$("$apksigner_path" verify --print-certs "$apk_path" | awk '/V2 Signer: certificate SHA-256 digest:/{print $NF}' | tr -d ':')"
+          actual_apk_cert_sha256="$("$apksigner_path" verify --print-certs "$apk_path" | awk '/V2 Signer: certificate SHA-256 digest:/{print $NF}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
           if [ "$actual_apk_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
             echo "Built APK certificate fingerprint mismatch."
             echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
