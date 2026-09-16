@@ -31,6 +31,7 @@ android {
     buildFeatures { compose = true }
 
     // CI injects this exact development identity so APK updates remain installable in-place.
+    // The CI workflow independently verifies the resulting APK certificate fingerprint.
     if (stableDebugKeystore.exists()) {
         signingConfigs {
             create("stableDebug") {
