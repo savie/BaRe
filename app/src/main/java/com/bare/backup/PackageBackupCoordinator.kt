@@ -6,7 +6,7 @@ import java.io.File
 
 class PackageBackupCoordinator(private val context: Context) {
     private val discovery = PackageDiscovery(context)
-    private val resolver = CapabilityResolver()
+    private val resolver = CapabilityResolver(context)
     private val writer = BackupArchiveWriter()
 
     fun backup(packageName: String, mode: PrivilegeMode = PrivilegeMode.NON_ROOT): BackupResult {
