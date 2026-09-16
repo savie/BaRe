@@ -15,5 +15,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BaReRoot() {
+    // CI build verification trigger: app source input changed intentionally without behavior change.
     Text("BaRe")
 }
