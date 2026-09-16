@@ -5,6 +5,8 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.security.MessageDigest
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
@@ -50,7 +52,12 @@ class BackupArchiveWriter {
                 }
                 putText(zip, "integrity.json", hashes.toString(2))
             }
-            check(staging.renameTo(destination)) { "Atomic archive commit failed" }
+
+            // Commit the completed archive only after the ZIP stream is closed.
+            // Files.move gives the JVM test/runtime a deterministic filesystem operation
+            // instead of relying on the platform-dependent semantics of File.renameTo().
+            Files.move(staging.toPath(), destination.toPath(), StandardCopyOption.ATOMIC_MOVE)
+
             val verification = verifyArchiveDetailed(destination)
             check(verification.isValid) { verification.reason }
             BackupResult.Success(
