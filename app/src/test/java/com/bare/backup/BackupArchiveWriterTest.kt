@@ -30,6 +30,10 @@ class BackupArchiveWriterTest {
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
+            if (result !is BackupResult.Success) {
+                System.err.println("ARCHIVE_WRITE_DIAGNOSTIC result=$result")
+                result.cause?.printStackTrace(System.err)
+            }
 
             assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
             assertTrue("Archive was not marked verified: $result", (result as BackupResult.Success).artifact.verified)
@@ -60,6 +64,10 @@ class BackupArchiveWriterTest {
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
+            if (result !is BackupResult.Success) {
+                System.err.println("ARCHIVE_TAMPER_SETUP_DIAGNOSTIC result=$result")
+                result.cause?.printStackTrace(System.err)
+            }
             assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
 
             val tampered = File(root, "tampered.zip")
