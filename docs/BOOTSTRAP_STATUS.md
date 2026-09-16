@@ -19,12 +19,13 @@ This is an implementation bootstrap plus the first P0 package-backup vertical sl
 - Run #6: GREEN baseline `assembleDebug` build.
 - Run #25: GREEN build of the first P0 package-backup slice, including stable signing preparation and APK artifact upload.
 - Run #25 artifact: `bare-debug-apk-v25`, SHA-256 `2db30a1d4a8cfa000e712745cb9c5e54cca8e0898829d22a267833f5e774dd3b` for the uploaded artifact ZIP.
+- Run #26: triggered after enabling the JVM unit-test step; result pending.
 
 ## First P0 Vertical Slice
 
 Implemented boundary:
 
-`installed app → package discovery → capability resolution → backup plan → package/APK backup → manifest → archive → integrity → persisted artifact metadata → verification`
+`installed app → package discovery → capability resolution → backup plan → package/APK backup → manifest → archive → integrity → artifact metadata result → verification`
 
 Implemented components:
 
@@ -35,6 +36,7 @@ Implemented components:
 - SHA-256 integrity hashing and archive-structure verification.
 - App-private backup staging under `files/backups`.
 - Basic UI to discover visible packages and trigger APK backup.
+- JVM unit-test coverage for the SHA-256 primitive, with CI execution enabled.
 
 ## P0 Verification Gaps
 
