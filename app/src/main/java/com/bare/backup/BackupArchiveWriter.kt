@@ -46,8 +46,7 @@ class BackupArchiveWriter {
 
                 val hashes = JSONObject()
                 files.forEach { (entryName, file) ->
-                    putFile(zip, entryName, file)
-                    hashes.put(entryName, Sha256.file(file))
+                    hashes.put(entryName, putFile(zip, entryName, file))
                 }
                 putText(zip, "integrity.json", hashes.toString(2))
             }
@@ -65,7 +64,7 @@ class BackupArchiveWriter {
         }.getOrElse {
             staging.delete()
             destination.delete()
-            BackupResult.Failed("Backup archive creation failed.", it)
+            BackupResult.Failed("Backup archive creation failed: ${it.message ?: it::class.java.simpleName}", it)
         }
     }
 
@@ -115,9 +114,21 @@ class BackupArchiveWriter {
         zip.closeEntry()
     }
 
-    private fun putFile(zip: ZipOutputStream, name: String, source: File) {
+    private fun putFile(zip: ZipOutputStream, name: String, source: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
         zip.putNextEntry(ZipEntry(name))
-        FileInputStream(source).use { input -> input.copyTo(zip) }
+        FileInputStream(source).use { input ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                zip.write(buffer, 0, read)
+                digest.update(buffer, 0, read)
+            }
+        }
         zip.closeEntry()
+        return digest.digest().joinToString("") { byte ->
+            "%02x".format(byte.toInt() and 0xff)
+        }
     }
 }
