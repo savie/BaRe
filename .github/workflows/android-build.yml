@@ -106,7 +106,16 @@ jobs:
       - name: Run JVM unit tests
         run: gradle :app:testDebugUnitTest --stacktrace
 
+      - name: Upload unit test reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: bare-unit-test-reports-v${{ github.run_number }}
+          path: app/build/reports/tests/testDebugUnitTest
+          if-no-files-found: warn
+
       - name: Upload debug APK
+        if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
           name: bare-debug-apk-v${{ github.run_number }}
