@@ -12,8 +12,8 @@ data class CapabilityResolution(
     val reason: String,
 )
 
-class CapabilityResolver(context: Context) {
-    private val shizuku = ShizukuCapabilityProvider(context)
+class CapabilityResolver(context: Context? = null) {
+    private val shizuku = context?.let(::ShizukuCapabilityProvider)
 
     fun resolve(mode: PrivilegeMode): CapabilityResolution = when (mode) {
         PrivilegeMode.NON_ROOT -> CapabilityResolution(
@@ -25,8 +25,10 @@ class CapabilityResolver(context: Context) {
         )
         PrivilegeMode.ADB -> unavailable(mode, "ADB transport/provider is not integrated yet.")
         PrivilegeMode.SHIZUKU -> {
-            val available = shizuku.isAvailable()
-            val authorized = shizuku.isAuthorized()
+            val provider = shizuku
+                ?: return unavailable(mode, "Shizuku runtime context is unavailable.")
+            val available = provider.isAvailable()
+            val authorized = provider.isAuthorized()
             CapabilityResolution(
                 mode = mode,
                 available = available,
