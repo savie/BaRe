@@ -1,47 +1,42 @@
 package com.bare.capability
 
-import java.io.BufferedReader
+import android.os.ParcelFileDescriptor
 import java.io.File
-import java.io.InputStreamReader
+import java.io.FileInputStream
 import java.io.RandomAccessFile
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.Executors
 
 class ShizukuUserService : IPrivilegedProbe.Stub() {
-    override fun getIdentity(): String = exec(arrayOf("id")).trim()
+    private val streamExecutor = Executors.newCachedThreadPool()
+
+    override fun getIdentity(): String = Shell.exec(arrayOf("id")).trim()
 
     override fun getPackagePaths(packageName: String): Array<String> {
         validatePackageName(packageName)
         return packagePaths(packageName).toTypedArray()
     }
 
-    override fun readFileChunk(
-        packageName: String,
-        path: String,
-        offset: Long,
-        maxBytes: Int,
-    ): ByteArray {
+    override fun openPackageFile(packageName: String, path: String): ParcelFileDescriptor {
         validatePackageName(packageName)
-        require(offset >= 0) { "Invalid offset" }
-        require(maxBytes in 1..65536) { "Invalid chunk size" }
-
         val canonical = File(path).canonicalFile
         require(canonical.isFile) { "APK path is not a file" }
         require(canonical in packagePaths(packageName).map { File(it).canonicalFile }) {
             "APK path is not owned by requested package"
         }
 
-        RandomAccessFile(canonical, "r").use { file ->
-            if (offset >= file.length()) return ByteArray(0)
-            file.seek(offset)
-            val count = minOf(maxBytes.toLong(), file.length() - offset).toInt()
-            val buffer = ByteArray(count)
-            file.readFully(buffer)
-            return buffer
+        val pipe = ParcelFileDescriptor.createPipe()
+        streamExecutor.execute {
+            ParcelFileDescriptor.AutoCloseOutputStream(pipe[1]).use { output ->
+                FileInputStream(canonical).use { input ->
+                    input.copyTo(output, DEFAULT_BUFFER_SIZE)
+                }
+            }
         }
+        return pipe[0]
     }
 
     private fun packagePaths(packageName: String): List<String> =
-        exec(arrayOf("pm", "path", packageName))
+        Shell.exec(arrayOf("pm", "path", packageName))
             .lineSequence()
             .map(String::trim)
             .filter { it.startsWith("package:") }
@@ -56,17 +51,19 @@ class ShizukuUserService : IPrivilegedProbe.Stub() {
         }
     }
 
-    private fun exec(command: Array<String>): String {
-        val process = Runtime.getRuntime().exec(command)
-        val output = BufferedReader(InputStreamReader(process.inputStream)).use { it.readText() }
-        val error = BufferedReader(InputStreamReader(process.errorStream)).use { it.readText() }
-        if (!process.waitFor(10, TimeUnit.SECONDS)) {
-            process.destroyForcibly()
-            throw IllegalStateException("Privileged command timed out")
+    private object Shell {
+        fun exec(command: Array<String>): String {
+            val process = Runtime.getRuntime().exec(command)
+            val output = process.inputStream.bufferedReader().use { it.readText() }
+            val error = process.errorStream.bufferedReader().use { it.readText() }
+            if (!process.waitFor(10, java.util.concurrent.TimeUnit.SECONDS)) {
+                process.destroyForcibly()
+                throw IllegalStateException("Privileged command timed out")
+            }
+            if (process.exitValue() != 0) {
+                throw IllegalStateException("Privileged command failed: ${error.trim()}")
+            }
+            return output
         }
-        if (process.exitValue() != 0) {
-            throw IllegalStateException("Privileged command failed: ${error.trim()}")
-        }
-        return output
     }
 }
