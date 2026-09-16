@@ -95,7 +95,7 @@ jobs:
           fi
           apk_path="app/build/outputs/apk/debug/app-debug.apk"
           "$apksigner_path" verify --verbose --print-certs "$apk_path"
-          actual_apk_cert_sha256="$("$apksigner_path" verify --print-certs "$apk_path" | awk -F': ' '/Signer #1 certificate SHA-256 digest:/{print $2}' | tr -d ':')"
+          actual_apk_cert_sha256="$("$apksigner_path" verify --print-certs "$apk_path" | awk '/V2 Signer: certificate SHA-256 digest:/{print $NF}' | tr -d ':')"
           if [ "$actual_apk_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
             echo "Built APK certificate fingerprint mismatch."
             echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
