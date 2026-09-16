@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.IBinder
-import com.bare.core.domain.PrivilegeMode
 import rikka.shizuku.Shizuku
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -17,12 +16,12 @@ class ShizukuCapabilityProvider(private val context: Context) {
     fun isAuthorized(): Boolean =
         isAvailable() && Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
 
-    suspend fun probe(packageName: String): ShizukuProbeResult = {
+    suspend fun probe(packageName: String): ShizukuProbeResult {
         if (!isAvailable()) {
-            return@probe ShizukuProbeResult.Failed("Shizuku binder is not available.")
+            return ShizukuProbeResult.Failed("Shizuku binder is not available.")
         }
         if (!isAuthorized()) {
-            return@probe ShizukuProbeResult.Failed("Shizuku permission is not granted.")
+            return ShizukuProbeResult.Failed("Shizuku permission is not granted.")
         }
 
         val connection = ProbeConnection()
@@ -39,10 +38,10 @@ class ShizukuCapabilityProvider(private val context: Context) {
             val identity = probe.getIdentity()
             val packagePaths = probe.getPackagePaths(packageName).toList()
             Shizuku.unbindUserService(args, connection, true)
-            ShizukuProbeResult.Success(identity, packagePaths)
+            return ShizukuProbeResult.Success(identity, packagePaths)
         } catch (error: Throwable) {
             runCatching { Shizuku.unbindUserService(args, connection, true) }
-            ShizukuProbeResult.Failed(error.message ?: error::class.java.simpleName)
+            return ShizukuProbeResult.Failed(error.message ?: error::class.java.simpleName)
         }
     }
 
