@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.savie.bare"
+    namespace = "com.bare"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.savie.bare"
+        applicationId = "com.bare"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
