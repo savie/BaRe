@@ -61,13 +61,7 @@ jobs:
             exit 0
           fi
           mkdir -p "$HOME/.android"
-          clean_b64="$(printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | tr -d '[:space:]')"
-          case "$clean_b64" in
-            *[!A-Za-z0-9+/=]*|*=*=*)
-              echo "BARE_DEBUG_KEYSTORE_B64 contains invalid Base64 characters or padding."
-              exit 1
-              ;;
-          esac
+          clean_b64="$(printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | tr -cd 'A-Za-z0-9+/')"
           remainder=$(( ${#clean_b64} % 4 ))
           if [ "$remainder" -eq 1 ]; then
             echo "BARE_DEBUG_KEYSTORE_B64 has an invalid Base64 length."
