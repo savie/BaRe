@@ -6,6 +6,7 @@ import java.nio.file.Files
 import java.util.zip.ZipFile
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 
 class BackupArchiveWriterTest {
@@ -30,13 +31,10 @@ class BackupArchiveWriterTest {
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
-            if (result !is BackupResult.Success) {
-                System.err.println("ARCHIVE_WRITE_DIAGNOSTIC result=$result")
-                result.cause?.printStackTrace(System.err)
-            }
+            requireSuccess(result, "ARCHIVE_WRITE_DIAGNOSTIC")
+            val artifact = (result as BackupResult.Success).artifact
 
-            assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
-            assertTrue("Archive was not marked verified: $result", (result as BackupResult.Success).artifact.verified)
+            assertTrue("Archive was not marked verified: $result", artifact.verified)
             assertTrue("Archive failed post-write verification", BackupArchiveWriter().verifyArchive(destination))
         } finally {
             root.deleteRecursively()
@@ -64,11 +62,7 @@ class BackupArchiveWriterTest {
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
-            if (result !is BackupResult.Success) {
-                System.err.println("ARCHIVE_TAMPER_SETUP_DIAGNOSTIC result=$result")
-                result.cause?.printStackTrace(System.err)
-            }
-            assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
+            requireSuccess(result, "ARCHIVE_TAMPER_SETUP_DIAGNOSTIC")
 
             val tampered = File(root, "tampered.zip")
             ZipFile(destination).use { input ->
@@ -90,6 +84,21 @@ class BackupArchiveWriterTest {
             assertFalse("Tampered archive unexpectedly verified", BackupArchiveWriter().verifyArchive(tampered))
         } finally {
             root.deleteRecursively()
+        }
+    }
+
+    private fun requireSuccess(result: BackupResult, diagnosticTag: String) {
+        when (result) {
+            is BackupResult.Success -> Unit
+            is BackupResult.Rejected -> fail("$diagnosticTag rejected: ${result.reason}")
+            is BackupResult.Failed -> fail(
+                buildString {
+                    append("$diagnosticTag failed: ${result.reason}")
+                    result.cause?.let {
+                        append("\\nCause: ${it::class.qualifiedName}: ${it.message}")
+                    }
+                },
+            )
         }
     }
 }
