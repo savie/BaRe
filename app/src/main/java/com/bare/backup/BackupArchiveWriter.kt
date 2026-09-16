@@ -69,7 +69,7 @@ class BackupArchiveWriter {
         }
     }
 
-    private fun verifyArchive(file: File): Boolean = runCatching {
+    internal fun verifyArchive(file: File): Boolean = runCatching {
         ZipFile(file).use { zip ->
             val manifest = zip.getEntry("manifest.json") ?: return false
             val integrity = zip.getEntry("integrity.json") ?: return false
