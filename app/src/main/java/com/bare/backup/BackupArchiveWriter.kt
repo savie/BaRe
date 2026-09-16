@@ -5,7 +5,9 @@ import org.json.JSONObject
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.security.MessageDigest
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
 
 class BackupArchiveWriter {
@@ -50,28 +52,60 @@ class BackupArchiveWriter {
                 putText(zip, "integrity.json", hashes.toString(2))
             }
             check(staging.renameTo(destination)) { "Atomic archive commit failed" }
-            val verified = verifyArchive(destination)
+            check(verifyArchive(destination)) { "Backup archive integrity verification failed" }
             BackupResult.Success(
                 BackupArtifact(
                     archive = destination,
                     packageName = discovered.packageName,
                     sha256 = Sha256.file(destination),
                     sizeBytes = destination.length(),
-                    verified = verified,
+                    verified = true,
                 ),
             )
         }.getOrElse {
             staging.delete()
+            destination.delete()
             BackupResult.Failed("Backup archive creation failed.", it)
         }
     }
 
     private fun verifyArchive(file: File): Boolean = runCatching {
-        java.util.zip.ZipFile(file).use { zip ->
-            zip.getEntry("manifest.json") != null && zip.getEntry("integrity.json") != null &&
-                zip.getEntry("apk/base.apk") != null
+        ZipFile(file).use { zip ->
+            val manifest = zip.getEntry("manifest.json") ?: return false
+            val integrity = zip.getEntry("integrity.json") ?: return false
+            val manifestJson = zip.getInputStream(manifest).use { input ->
+                JSONObject(input.bufferedReader(Charsets.UTF_8).readText())
+            }
+            val integrityJson = zip.getInputStream(integrity).use { input ->
+                JSONObject(input.bufferedReader(Charsets.UTF_8).readText())
+            }
+            val components = manifestJson.optJSONArray("components") ?: return false
+            if (components.length() != integrityJson.length()) return false
+
+            for (index in 0 until components.length()) {
+                val name = components.getString(index)
+                val expected = integrityJson.optString(name, "")
+                if (expected.isBlank()) return false
+                val entry = zip.getEntry(name) ?: return false
+                val actual = sha256(zip, entry)
+                if (!expected.equals(actual, ignoreCase = true)) return false
+            }
+            zip.getEntry("apk/base.apk") != null
         }
     }.getOrDefault(false)
+
+    private fun sha256(zip: ZipFile, entry: ZipEntry): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        zip.getInputStream(entry).use { input ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
 
     private fun putText(zip: ZipOutputStream, name: String, text: String) {
         zip.putNextEntry(ZipEntry(name))
