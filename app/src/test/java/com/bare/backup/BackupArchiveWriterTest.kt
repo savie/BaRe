@@ -55,11 +55,12 @@ class BackupArchiveWriterTest {
                 debuggable = false,
             )
 
-            BackupArchiveWriter().write(
+            val result = BackupArchiveWriter().write(
                 destination,
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
+            assertTrue(result is BackupResult.Success)
 
             val tampered = File(root, "tampered.zip")
             ZipFile(destination).use { input ->
