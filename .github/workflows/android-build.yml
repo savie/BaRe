@@ -5,9 +5,27 @@ on:
     branches:
       - master
       - 'bootstrap/**'
+    paths:
+      - 'app/**'
+      - 'core/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/**'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
   pull_request:
     branches:
       - master
+    paths:
+      - 'app/**'
+      - 'core/**'
+      - 'build.gradle.kts'
+      - 'settings.gradle.kts'
+      - 'gradle/**'
+      - 'gradle.properties'
+      - 'gradlew'
+      - 'gradlew.bat'
 
 jobs:
   build:
