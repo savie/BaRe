@@ -5,10 +5,10 @@ import android.content.Context
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.IBinder
+import android.os.ParcelFileDescriptor
 import rikka.shizuku.Shizuku
 import java.io.File
 import java.io.FileOutputStream
-import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -46,13 +46,11 @@ class ShizukuCapabilityProvider(private val context: Context) {
                 val files = paths.mapIndexed { index, path ->
                     val name = if (index == 0) "base.apk" else "split-$index.apk"
                     val destination = File(destinationDir, name)
-                    FileOutputStream(destination).use { output ->
-                        var offset = 0L
-                        while (true) {
-                            val chunk = probe.readFileChunk(packageName, path, offset, 65536)
-                            if (chunk.isEmpty()) break
-                            output.write(chunk)
-                            offset += chunk.size
+                    ParcelFileDescriptor.AutoCloseInputStream(
+                        probe.openPackageFile(packageName, path),
+                    ).use { input ->
+                        FileOutputStream(destination).use { output ->
+                            input.copyTo(output, DEFAULT_BUFFER_SIZE)
                         }
                     }
                     check(destination.isFile && destination.length() > 0) {
@@ -78,7 +76,7 @@ class ShizukuCapabilityProvider(private val context: Context) {
             )
                 .processNameSuffix("privileged")
                 .tag("bare-privileged-backup")
-                .version(2)
+                .version(3)
                 .daemon(false)
             try {
                 val probe = bind(args, connection)
