@@ -16,5 +16,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun BaReRoot() {
     // CI build verification trigger: app source input changed intentionally without behavior change.
+    // Gradle bootstrap is pinned to the AGP-compatible 8.13 release for reproducible CI execution.
     Text("BaRe")
 }
