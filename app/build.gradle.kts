@@ -7,7 +7,9 @@ plugins {
 val bareVersionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
 val bareVersionName = (System.getenv("BARE_VERSION_NAME") ?: "0.1.0").trim()
 
-require(bareVersionCode > 0) { "BARE_VERSION_CODE must be greater than zero" }
+require(bareVersionCode in 1..2_100_000_000) {
+    "BARE_VERSION_CODE must be between 1 and 2100000000"
+}
 require(bareVersionName.isNotBlank()) { "BARE_VERSION_NAME must not be blank" }
 require(bareVersionName.matches(Regex("\\d+\\.\\d+\\.\\d+"))) {
     "BARE_VERSION_NAME must use MAJOR.MINOR.PATCH format"
