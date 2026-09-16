@@ -6,6 +6,7 @@ plugins {
 
 val bareVersionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
 val bareVersionName = (System.getenv("BARE_VERSION_NAME") ?: "0.1.0").trim()
+val stableDebugKeystore = file("${System.getProperty("user.home")}/.android/debug.keystore")
 
 require(bareVersionCode in 1..2_100_000_000) {
     "BARE_VERSION_CODE must be between 1 and 2100000000"
@@ -28,6 +29,23 @@ android {
     }
 
     buildFeatures { compose = true }
+
+    if (stableDebugKeystore.exists()) {
+        signingConfigs {
+            create("stableDebug") {
+                storeFile = stableDebugKeystore
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
+        }
+
+        buildTypes {
+            getByName("debug") {
+                signingConfig = signingConfigs.getByName("stableDebug")
+            }
+        }
+    }
 }
 
 kotlin { jvmToolchain(17) }
