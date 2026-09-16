@@ -33,6 +33,8 @@ android {
 kotlin { jvmToolchain(17) }
 
 dependencies {
+    implementation(project(":core:domain"))
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.compose.material3:material3:1.4.0")
+    testImplementation("junit:junit:4.13.2")
 }
