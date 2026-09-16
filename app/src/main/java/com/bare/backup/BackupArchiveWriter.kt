@@ -104,7 +104,9 @@ class BackupArchiveWriter {
                 digest.update(buffer, 0, read)
             }
         }
-        return digest.digest().joinToString("") { "%02x".format(it) }
+        return digest.digest().joinToString("") { byte ->
+            "%02x".format(byte.toInt() and 0xff)
+        }
     }
 
     private fun putText(zip: ZipOutputStream, name: String, text: String) {
