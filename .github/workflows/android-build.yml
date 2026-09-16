@@ -32,6 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    env:
+      BARE_VERSION_CODE: ${{ github.run_number }}
+      BARE_VERSION_NAME: 0.1.${{ github.run_number }}
 
     steps:
       - name: Checkout
@@ -49,12 +52,20 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Prepare stable debug signing key
+        if: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 != '' }}
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+        run: |
+          mkdir -p "$HOME/.android"
+          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$HOME/.android/debug.keystore"
+
       - name: Build debug APK
         run: gradle :app:assembleDebug --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: bare-debug-apk
+          name: bare-debug-apk-v${{ github.run_number }}
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
