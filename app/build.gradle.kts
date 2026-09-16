@@ -28,7 +28,10 @@ android {
         versionName = bareVersionName
     }
 
-    buildFeatures { compose = true }
+    buildFeatures {
+        compose = true
+        aidl = true
+    }
 
     // CI injects this exact development identity so APK updates remain installable in-place.
     // The CI workflow independently verifies the resulting APK certificate fingerprint.
@@ -57,5 +60,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation("androidx.activity:activity-compose:1.11.0")
     implementation("androidx.compose.material3:material3:1.4.0")
+    implementation("dev.rikka.shizuku:api:13.1.5")
+    implementation("dev.rikka.shizuku:provider:13.1.5")
     testImplementation("junit:junit:4.13.2")
 }
