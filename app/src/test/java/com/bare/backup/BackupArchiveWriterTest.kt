@@ -31,9 +31,9 @@ class BackupArchiveWriterTest {
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
 
-            assertTrue(result is BackupResult.Success)
-            assertTrue((result as BackupResult.Success).artifact.verified)
-            assertTrue(BackupArchiveWriter().verifyArchive(destination))
+            assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
+            assertTrue("Archive was not marked verified: $result", (result as BackupResult.Success).artifact.verified)
+            assertTrue("Archive failed post-write verification", BackupArchiveWriter().verifyArchive(destination))
         } finally {
             root.deleteRecursively()
         }
@@ -60,7 +60,7 @@ class BackupArchiveWriterTest {
                 discovered,
                 BackupPlan("com.example.app", PrivilegeMode.NON_ROOT),
             )
-            assertTrue(result is BackupResult.Success)
+            assertTrue("Unexpected backup result: $result", result is BackupResult.Success)
 
             val tampered = File(root, "tampered.zip")
             ZipFile(destination).use { input ->
@@ -79,7 +79,7 @@ class BackupArchiveWriterTest {
                 }
             }
 
-            assertFalse(BackupArchiveWriter().verifyArchive(tampered))
+            assertFalse("Tampered archive unexpectedly verified", BackupArchiveWriter().verifyArchive(tampered))
         } finally {
             root.deleteRecursively()
         }
