@@ -51,7 +51,8 @@ class BackupArchiveWriter {
                 putText(zip, "integrity.json", hashes.toString(2))
             }
             check(staging.renameTo(destination)) { "Atomic archive commit failed" }
-            check(verifyArchive(destination)) { "Backup archive integrity verification failed" }
+            val verification = verifyArchiveDetailed(destination)
+            check(verification.isValid) { verification.reason }
             BackupResult.Success(
                 BackupArtifact(
                     archive = destination,
@@ -68,30 +69,46 @@ class BackupArchiveWriter {
         }
     }
 
-    internal fun verifyArchive(file: File): Boolean = runCatching {
+    internal fun verifyArchive(file: File): Boolean = verifyArchiveDetailed(file).isValid
+
+    private fun verifyArchiveDetailed(file: File): VerificationResult = runCatching {
         ZipFile(file).use { zip ->
-            val manifest = zip.getEntry("manifest.json") ?: return false
-            val integrity = zip.getEntry("integrity.json") ?: return false
+            val manifest = zip.getEntry("manifest.json")
+                ?: return VerificationResult(false, "Missing manifest.json")
+            val integrity = zip.getEntry("integrity.json")
+                ?: return VerificationResult(false, "Missing integrity.json")
             val manifestJson = zip.getInputStream(manifest).use { input ->
                 JSONObject(input.bufferedReader(Charsets.UTF_8).readText())
             }
             val integrityJson = zip.getInputStream(integrity).use { input ->
                 JSONObject(input.bufferedReader(Charsets.UTF_8).readText())
             }
-            val components = manifestJson.optJSONArray("components") ?: return false
-            if (components.length() != integrityJson.length()) return false
+            val components = manifestJson.optJSONArray("components")
+                ?: return VerificationResult(false, "Manifest components are missing")
+            if (components.length() != integrityJson.length()) {
+                return VerificationResult(
+                    false,
+                    "Component count mismatch: manifest=${components.length()} integrity=${integrityJson.length()}",
+                )
+            }
 
             for (index in 0 until components.length()) {
                 val name = components.getString(index)
                 val expected = integrityJson.optString(name, "")
-                if (expected.isBlank()) return false
-                val entry = zip.getEntry(name) ?: return false
+                if (expected.isBlank()) return VerificationResult(false, "Missing integrity hash for $name")
+                val entry = zip.getEntry(name)
+                    ?: return VerificationResult(false, "Missing archive entry $name")
                 val actual = sha256(zip, entry)
-                if (!expected.equals(actual, ignoreCase = true)) return false
+                if (!expected.equals(actual, ignoreCase = true)) {
+                    return VerificationResult(false, "Hash mismatch for $name: expected=$expected actual=$actual")
+                }
             }
-            zip.getEntry("apk/base.apk") != null
+            if (zip.getEntry("apk/base.apk") == null) {
+                return VerificationResult(false, "Missing required apk/base.apk")
+            }
+            VerificationResult(true, "Archive verified")
         }
-    }.getOrDefault(false)
+    }.getOrElse { VerificationResult(false, "Archive verification exception: ${it.message ?: it::class.java.simpleName}") }
 
     private fun sha256(zip: ZipFile, entry: ZipEntry): String {
         val digest = MessageDigest.getInstance("SHA-256")
@@ -131,4 +148,6 @@ class BackupArchiveWriter {
             "%02x".format(byte.toInt() and 0xff)
         }
     }
+
+    private data class VerificationResult(val isValid: Boolean, val reason: String)
 }
