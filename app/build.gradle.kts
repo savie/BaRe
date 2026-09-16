@@ -30,6 +30,7 @@ android {
 
     buildFeatures { compose = true }
 
+    // CI injects this exact development identity so APK updates remain installable in-place.
     if (stableDebugKeystore.exists()) {
         signingConfigs {
             create("stableDebug") {
