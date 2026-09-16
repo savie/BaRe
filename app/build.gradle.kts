@@ -4,6 +4,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val bareVersionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
+val bareVersionName = System.getenv("BARE_VERSION_NAME") ?: "0.1.0"
+
 android {
     namespace = "com.bare"
     compileSdk = 36
@@ -12,8 +15,8 @@ android {
         applicationId = "com.bare"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = bareVersionCode
+        versionName = bareVersionName
     }
 
     buildFeatures { compose = true }
