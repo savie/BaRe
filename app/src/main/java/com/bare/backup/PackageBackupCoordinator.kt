@@ -20,7 +20,7 @@ class PackageBackupCoordinator(private val context: Context) {
         val backupDir = File(context.filesDir, "backups")
         if (!backupDir.exists() && !backupDir.mkdirs()) return BackupResult.Failed("Unable to create backup directory.")
         val safeName = packageName.replace(Regex("[^A-Za-z0-9._-]"), "_")
-        val archive = File(backupDir, "$safeName-${target.versionCode}.bare.zip")
+        val archive = nextArchiveFile(backupDir, safeName, target.versionCode)
 
         if (mode != PrivilegeMode.SHIZUKU) {
             return writer.write(archive, target, BackupPlan(packageName, mode))
@@ -40,6 +40,19 @@ class PackageBackupCoordinator(private val context: Context) {
             writer.write(archive, privilegedTarget, BackupPlan(packageName, mode))
         } finally {
             staging.deleteRecursively()
+        }
+    }
+
+    private fun nextArchiveFile(backupDir: File, safeName: String, versionCode: Long): File {
+        val baseName = "$safeName-$versionCode"
+        val first = File(backupDir, "$baseName.bare.zip")
+        if (!first.exists()) return first
+
+        var sequence = 2
+        while (true) {
+            val candidate = File(backupDir, "$baseName-$sequence.bare.zip")
+            if (!candidate.exists()) return candidate
+            sequence++
         }
     }
 }
