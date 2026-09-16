@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BaRe"
 include(":app")
+include(":core:domain")
