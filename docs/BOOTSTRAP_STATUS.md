@@ -10,17 +10,15 @@ This is an implementation bootstrap plus the first P0 package-backup vertical sl
 - Baseline Android build: VERIFIED by GitHub Actions run #6 (`assembleDebug` passed).
 - Stable development signing: VERIFIED by GitHub Actions run #25; the configured `BARE_DEBUG_KEYSTORE_B64` secret decoded and passed `keytool` validation before the APK build.
 - APK update versioning: IMPLEMENTED; CI supplies increasing `versionCode` from `github.run_number` and `versionName` in `MAJOR.MINOR.PATCH` format.
-- In-place APK update on a device: NOT VERIFIED; requires two signed APKs with the same signing identity and a real device update test.
-- Runtime/device behavior: UNKNOWN.
+- In-place APK update on a device: NOT VERIFIED; current user observation is that v13 → v25 → v26 was performed as uninstall/install.
+- Runtime/device behavior: PARTIALLY OBSERVED by user; backup archives are being created under `/data/data/com.bare/files/backups/*.bare.zip`.
 - Functional backup/restore parity: NOT IMPLEMENTED.
 
 ## Current CI Evidence
 
 - Run #6: GREEN baseline `assembleDebug` build.
 - Run #25: GREEN build of the first P0 package-backup slice, including stable signing preparation and APK artifact upload.
-- Run #25 artifact: `bare-debug-apk-v25`, SHA-256 `2db30a1d4a8cfa000e712745cb9c5e54cca8e0898829d22a267833f5e774dd3b` for the uploaded artifact ZIP.
-- Run #26: GREEN; `assembleDebug` and `:app:testDebugUnitTest` both passed after the unit-test step was enabled.
-- Run #26 artifact: `bare-debug-apk-v26`, SHA-256 `a2ef6bd1774844cac7b1fc249955dce6633aa172350f73396e09fd59db7ca4b8` for the uploaded artifact ZIP.
+- Run #26: GREEN build, including JVM unit tests and APK artifact upload.
 
 ## First P0 Vertical Slice
 
@@ -30,31 +28,43 @@ Implemented boundary:
 
 Implemented components:
 
-- Android visible-package discovery with package/version/APK/split metadata.
+- Android installed-package discovery with package/version/APK/split metadata.
+- Broad package visibility request via `QUERY_ALL_PACKAGES` so the discovery path can enumerate installed packages subject to Android/device policy.
 - Explicit capability resolution for `NON_ROOT`, `ADB`, `SHIZUKU`, and `ROOT`.
 - `NON_ROOT` APK/package backup execution path.
 - Versioned ZIP archive containing `manifest.json`, APK components, and `integrity.json`.
 - SHA-256 integrity hashing and archive-structure verification.
 - App-private backup staging under `files/backups`.
 - Basic UI to discover visible packages and trigger APK backup.
-- JVM unit-test coverage for the SHA-256 primitive and capability resolution, with CI execution enabled.
+- JVM unit-test coverage for the SHA-256 primitive, with CI execution enabled.
+
+## Runtime Observation / Gap
+
+Observed by user:
+
+- Backup archive is created at `/data/data/com.bare/files/backups/*.bare.zip`.
+- Archive contains `base.apk`, `split_*.apk` where applicable, `integrity.json`, and `manifest.json`.
+- Current discovery is showing internal/system applications but has not yet demonstrated installed third-party applications such as WhatsApp or ChatGPT.
+
+This is a runtime observation, not yet an independently captured device verification result.
 
 ## P0 Verification Gaps
 
-- Runtime/device package discovery is not yet verified on a real Android device.
-- Actual APK backup execution and resulting archive integrity are not yet device-verified.
+- Real-device package discovery for third-party/user-installed applications is not yet verified after enabling `QUERY_ALL_PACKAGES`.
+- Actual APK backup execution and resulting archive integrity are not yet independently device-verified.
 - `ADB`, `SHIZUKU`, and `ROOT` providers are modeled but not integrated/executable yet.
 - App-data backup/restore is not implemented.
 - Restore path is not implemented.
-- Package visibility limitations are not yet validated across target Android/OEM environments.
+- Package visibility behavior and `QUERY_ALL_PACKAGES` policy/device behavior are not yet validated across target Android/OEM environments.
+- In-place APK update without uninstall remains unverified.
 
-The first slice is therefore `IMPLEMENTED / CI-BUILD-VERIFIED / RUNTIME-UNVERIFIED`, not complete or fully verified.
+The first slice is therefore `IMPLEMENTED / CI-BUILD-VERIFIED / RUNTIME-PARTIALLY-OBSERVED`, with critical device verification gaps remaining.
 
 ## Next Lifecycle Target
 
-Runtime validation of the first slice, then extend the provider boundary in order:
+Verify the package discovery change on a real device first. Then continue the provider boundary:
 
-1. `NON_ROOT` runtime package/APK backup verification.
+1. `NON_ROOT` runtime package/APK backup verification, including user-installed apps.
 2. ADB provider.
 3. Shizuku provider.
 4. Root provider.
