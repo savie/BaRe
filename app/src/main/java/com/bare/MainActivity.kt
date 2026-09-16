@@ -1,5 +1,6 @@
 package com.bare
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,9 +27,14 @@ import com.bare.backup.BackupResult
 import com.bare.backup.DiscoveredPackage
 import com.bare.backup.PackageBackupCoordinator
 import com.bare.backup.PackageDiscovery
+import com.bare.capability.ShizukuCapabilityProvider
+import com.bare.capability.ShizukuProbeResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import rikka.shizuku.Shizuku
+
+private const val SHIZUKU_PERMISSION_REQUEST_CODE = 4101
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +49,7 @@ private fun BaReRoot() {
     val scope = rememberCoroutineScope()
     var packages by remember { mutableStateOf<List<DiscoveredPackage>>(emptyList()) }
     var status by remember { mutableStateOf("Discovering packages…") }
+    val shizuku = remember { ShizukuCapabilityProvider(context) }
 
     LaunchedEffect(Unit) {
         packages = withContext(Dispatchers.IO) { PackageDiscovery(context).discover() }
@@ -56,6 +63,32 @@ private fun BaReRoot() {
         ) {
             Text("BaRe", style = MaterialTheme.typography.headlineMedium)
             Text(status, style = MaterialTheme.typography.bodyMedium)
+            Button(onClick = {
+                when {
+                    !shizuku.isAvailable() -> status = "Shizuku unavailable"
+                    !shizuku.isAuthorized() -> {
+                        status = "Requesting Shizuku permission…"
+                        runCatching { Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE) }
+                            .onFailure { status = "Shizuku permission request failed: ${it.message}" }
+                    }
+                    else -> {
+                        status = "Executing privileged Shizuku probe…"
+                        scope.launch {
+                            val result = withContext(Dispatchers.IO) {
+                                shizuku.probe(context.packageName)
+                            }
+                            status = when (result) {
+                                is ShizukuProbeResult.Success ->
+                                    "Shizuku verified: ${result.identity}; ${result.packagePaths.size} APK path(s)"
+                                is ShizukuProbeResult.Failed ->
+                                    "Shizuku probe failed: ${result.reason}"
+                            }
+                        }
+                    }
+                }
+            }) {
+                Text("Test Shizuku")
+            }
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(packages, key = { it.packageName }) { app ->
                     Column(modifier = Modifier.fillMaxWidth()) {
