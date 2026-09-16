@@ -1,11 +1,11 @@
 package com.bare
 
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,6 +29,7 @@ import com.bare.backup.PackageBackupCoordinator
 import com.bare.backup.PackageDiscovery
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.capability.ShizukuProbeResult
+import com.bare.core.domain.PrivilegeMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,11 +50,12 @@ private fun BaReRoot() {
     val scope = rememberCoroutineScope()
     var packages by remember { mutableStateOf<List<DiscoveredPackage>>(emptyList()) }
     var status by remember { mutableStateOf("Discovering packages…") }
+    var selectedMode by remember { mutableStateOf(PrivilegeMode.SHIZUKU) }
     val shizuku = remember { ShizukuCapabilityProvider(context) }
 
     LaunchedEffect(Unit) {
         packages = withContext(Dispatchers.IO) { PackageDiscovery(context).discover() }
-        status = "${packages.size} visible packages"
+        status = "${packages.size} visible packages · mode=${selectedMode.name}"
     }
 
     MaterialTheme {
@@ -62,7 +64,18 @@ private fun BaReRoot() {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text("BaRe", style = MaterialTheme.typography.headlineMedium)
+            Text("Backup mode: ${selectedMode.name}", style = MaterialTheme.typography.titleMedium)
             Text(status, style = MaterialTheme.typography.bodyMedium)
+
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { selectedMode = PrivilegeMode.NON_ROOT }) {
+                    Text("NON_ROOT")
+                }
+                Button(onClick = { selectedMode = PrivilegeMode.SHIZUKU }) {
+                    Text("SHIZUKU")
+                }
+            }
+
             Button(onClick = {
                 when {
                     !shizuku.isAvailable() -> status = "Shizuku unavailable"
@@ -89,25 +102,30 @@ private fun BaReRoot() {
             }) {
                 Text("Test Shizuku")
             }
+
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(packages, key = { it.packageName }) { app ->
                     Column(modifier = Modifier.fillMaxWidth()) {
                         Text(app.label, style = MaterialTheme.typography.titleMedium)
                         Text("${app.packageName} · ${app.versionName ?: "unknown"} (${app.versionCode})")
                         Button(onClick = {
-                            status = "Backing up ${app.packageName}…"
+                            val mode = selectedMode
+                            status = "Backing up ${app.packageName} via ${mode.name}…"
                             scope.launch {
                                 val result = withContext(Dispatchers.IO) {
-                                    PackageBackupCoordinator(context).backup(app.packageName)
+                                    PackageBackupCoordinator(context).backup(app.packageName, mode)
                                 }
                                 status = when (result) {
-                                    is BackupResult.Success -> "Backup verified: ${result.artifact.archive.name}"
-                                    is BackupResult.Rejected -> "Backup rejected: ${result.reason}"
-                                    is BackupResult.Failed -> "Backup failed: ${result.reason}"
+                                    is BackupResult.Success ->
+                                        "Backup verified via ${mode.name}: ${result.artifact.archive.name}"
+                                    is BackupResult.Rejected ->
+                                        "Backup rejected via ${mode.name}: ${result.reason}"
+                                    is BackupResult.Failed ->
+                                        "Backup failed via ${mode.name}: ${result.reason}"
                                 }
                             }
                         }) {
-                            Text("Backup APK")
+                            Text("Backup APK (${selectedMode.name})")
                         }
                     }
                 }
