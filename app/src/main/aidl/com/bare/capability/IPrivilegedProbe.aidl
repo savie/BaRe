@@ -1,7 +1,9 @@
 package com.bare.capability;
 
+import android.os.ParcelFileDescriptor;
+
 interface IPrivilegedProbe {
     String getIdentity();
     String[] getPackagePaths(String packageName);
-    byte[] readFileChunk(String packageName, String path, long offset, int maxBytes);
+    ParcelFileDescriptor openPackageFile(String packageName, String path);
 }
