@@ -3,8 +3,8 @@
 **Project:** BaRe  
 **Reference artifact:** Swift Backup `5.1.0 (620)`  
 **Package:** `org.swiftapps.swiftbackup`  
-**Audit date:** 2026-09-17  
-**Audit level:** Static APK + visual evidence + public product documentation + FE/state/transition modeling  
+**Audit date:** 2026-09-18  
+**Audit level:** Static APK + visual evidence + public product documentation + FE/state/transition modeling + targeted capability reconciliation  
 **Runtime verification of the reference APK:** NOT PERFORMED  
 **Purpose:** menjadi evidence baseline untuk desain FE BaRe; bukan implementation source.
 
@@ -1941,11 +1941,279 @@ Current BaRe shell sudah menyediakan surface untuk discovery, tetapi belum boleh
 
 ---
 
-# 19. Source register
+# 19. Targeted audit reconciliation — 2026-09-18
+
+Bagian ini mencatat **delta hasil targeted audit terbaru** terhadap isi `reference.md` sebelumnya. Tujuannya bukan membuat dokumen audit kedua, tetapi memastikan capability yang baru ditemukan/terkonfirmasi tidak hilang dari reference baseline.
+
+## 19.1 Reconciliation result
+
+**Source:** targeted static audit terhadap `SwiftBackup-5.1.0-620-decompiled.zip`, difokuskan pada high-signal package/class/resource/navigation/capability indicators. ZIP tidak dibaca file-per-file.
+
+**Reference runtime:** tetap `NOT PERFORMED`.
+
+**Classification:** seluruh item di bawah tetap `OBSERVED_STATIC` kecuali bila dinyatakan lain.
+
+### 19.2 Capability deltas yang sekarang dipastikan masuk baseline
+
+| Domain | Reconciled capability | Evidence indicator | Status |
+|---|---|---|---|
+| Apps | Multiple backup versions/history | `MultipleBackupsActivity`, multiple-backup models/strings | `OBSERVED_STATIC` |
+| Apps | Protected backups / retention protection | protected-backup strings/state | `OBSERVED_STATIC` |
+| Apps | Backup notes | backup-note metadata/strings | `OBSERVED_STATIC` |
+| Apps | Favorites | `FavoriteApp`, `FavoriteAppsRepo` | `OBSERVED_STATIC` |
+| Apps | Blacklist | `BlacklistActivity`, blacklist data/state | `OBSERVED_STATIC` |
+| Apps | Hide/exclude app behavior | blacklist/hide/exclusion state | `OBSERVED_STATIC` |
+| Apps | APK-only backup/restore policy | blacklist/app-part policy indicators | `OBSERVED_STATIC` |
+| Apps | Custom configurations | config list/edit/settings/run classes | `OBSERVED_STATIC` |
+| Apps | Quick actions | `AppsQuickActionsActivity`, Home quick-action references | `OBSERVED_STATIC` |
+| Apps | App-specific configuration strategy | config data/settings/run flow | `OBSERVED_STATIC` |
+| APK | APK import | `ApkImportActivity`, import UI state | `OBSERVED_STATIC` |
+| APK | APK/APKS metadata handling | APK/APKS metadata classes | `OBSERVED_STATIC` |
+| APK | Installation fallback flow | root/Shizuku/system-installer indicators | `OBSERVED_STATIC` |
+| Folders | Folder batch operations | `FoldersBatchActivity` | `OBSERVED_STATIC` |
+| Folders | Manifest/file-entry model | `Manifest`, `ManifestInfo`, `FileEntry` indicators | `OBSERVED_STATIC` |
+| Folders | Incremental/base backup model | `IncrementalBackup`, `BaseBackup` | `OBSERVED_STATIC` |
+| Folders | Chain validation | `ChainValidationResult` | `OBSERVED_STATIC` |
+| Messages | MMS/RCS-specific handling | message models/strings/flows | `OBSERVED_STATIC` |
+| Wi-Fi | Authentication before sensitive Wi-Fi access | biometric/device-credential indicators | `OBSERVED_STATIC` |
+| Wi-Fi | Enterprise Wi-Fi data handling | enterprise Wi-Fi field indicators | `OBSERVED_STATIC` |
+| Schedules | Label-based schedule selection | `ScheduleLabelsSelectActivity` | `OBSERVED_STATIC` |
+| Schedules | Folder-based schedule selection | `ScheduleFolderSelectActivity` | `OBSERVED_STATIC` |
+| Schedules | Detailed last-run error/skipped states | `ScheduleLastRunDetails` + blocked/skipped states | `OBSERVED_STATIC` |
+| Cloud | Cloud orphan cleanup | `CloudOrphanCleanerActivity` | `OBSERVED_STATIC` |
+| Cloud | Provider diagnostic transfer tests | cloud diagnostic state/test indicators | `OBSERVED_STATIC` |
+| Cloud | Multi-provider/server protocol abstraction | cloud client/protocol/model packages | `OBSERVED_STATIC` |
+| Cloud | Additional provider indicators | Filen/TeraBox/Yandex and generic protocol references | `OBSERVED_STATIC` |
+| Security | Compression levels | compression configuration/method indicators | `OBSERVED_STATIC` |
+| Security | Password/encryption strategy | `PasswordStrategyActivity`, `UserPasswordActivity` | `OBSERVED_STATIC` |
+| Security | Biometric/device authentication | authentication flow indicators | `OBSERVED_STATIC` |
+| Storage | Storage space management | `ManageSpaceActivity` | `OBSERVED_STATIC` |
+| Diagnostics | App visibility diagnostics | `AppVisibilityDiagnosticsActivity` | `OBSERVED_STATIC` |
+| Diagnostics | Structured logging | `SwiftLogger`, `SLogActivity` | `OBSERVED_STATIC` |
+| Search | Dedicated home search | `HomeSearchActivity` | `OBSERVED_STATIC` |
+| Android integration | Launcher shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `OBSERVED_STATIC` |
+| Background execution | Boot/alarm/task receivers | `BootReceiver`, `AlarmReceiver`, task service indicators | `OBSERVED_STATIC` |
+
+### 19.3 Capability details that must remain explicit
+
+#### Apps
+
+The Apps domain is confirmed to contain more than basic Backup/Restore. The reference model must preserve at least:
+
+```text
+APP
+├── APK
+├── Split APK
+├── App Data
+├── External Data
+├── Expansion/OBB
+├── Media
+├── Cache
+├── Multiple Backups
+├── Protected Backups
+├── Backup Notes
+├── Favorites
+├── Labels
+├── Blacklist
+├── Custom Configurations
+└── Quick Actions
+```
+
+These are reference observations only. BaRe implementation feasibility remains separate.
+
+#### Folders
+
+Folder backup is a structured backup subsystem, not merely a generic recursive copy. Static evidence includes folder metadata, manifest/file-entry models, base/incremental backup models, backup statistics/results, and chain-validation concepts.
+
+BaRe should therefore retain the existing manifest/incremental/validation direction rather than reducing folder backup to a simple archive action.
+
+#### Cloud
+
+Cloud should be modeled as provider infrastructure plus repository/sync workflows. The latest targeted audit additionally confirms dedicated cloud diagnostics and orphan-cleanup workflows. These must not be collapsed into a single `CloudConnected = true/false` state.
+
+#### Security
+
+Compression and encryption are separate concerns. Compression has multiple configuration/level indicators; encryption has password/key/authentication state. BaRe must keep archive/compression and crypto boundaries separate.
+
+#### Diagnostics
+
+Diagnostics are not only a failure page. Static evidence supports dedicated cloud diagnostics, app-visibility diagnostics, logging, transfer checks, and actionable result states.
+
+### 19.4 Premium / entitlement reconciliation
+
+The targeted audit confirms a dedicated Premium/billing surface and reference capability grouping around:
+
+- cloud backups;
+- scheduled backups;
+- backup history/protection;
+- labels;
+- custom configurations.
+
+Evidence includes `PremiumActivity`, billing-related infrastructure, and Premium feature strings.
+
+**Important BaRe interpretation:** Premium gating in the reference is an observed product/entitlement behavior. BaRe's product decision to make intended capabilities free must not be implemented by bypassing or modifying Swift licensing. BaRe remains an independent application.
+
+Status: `OBSERVED_STATIC` for reference entitlement indicators; runtime entitlement behavior: `UNKNOWN`.
+
+### 19.5 Navigation reconciliation
+
+The targeted audit reinforces the existing navigation model:
+
+```text
+Swift reference primary destinations:
+
+Home ↔ Cloud sync ↔ Schedules ↔ Account
+```
+
+Apps/Folders/Messages/Calls/Wi-Fi/Wallpapers and other domains are deep/secondary surfaces reachable from Home or related flows.
+
+For BaRe, the previously chosen four primary tabs remain a **BaRe product decision**, not a claim of 1:1 Swift navigation:
+
+```text
+BaRe:
+Home ↔ Apps ↔ Schedules ↔ Account
+```
+
+This distinction is now explicitly preserved in the reference document so future implementation work does not accidentally treat Swift's Cloud Sync tab as an unresolved BaRe navigation requirement.
+
+### 19.6 Onboarding reconciliation
+
+The targeted audit confirms reference first-run infrastructure around:
+
+- intro/benefit presentation;
+- account/sign-in state;
+- storage setup;
+- privilege/permission state;
+- setup failure/recovery;
+- first-run restore state.
+
+This supports the BaRe onboarding direction:
+
+```text
+WELCOME
+  ↓
+ACCOUNT / LOCAL SETUP
+  ↓
+ACCESS / CAPABILITY SETUP
+  ↓
+BARE MAIN SHELL
+```
+
+The exact BaRe split of `Root` vs `Non-root` is a BaRe design decision and must not be represented as an observed Swift screen unless separately evidenced.
+
+### 19.7 State-machine reconciliation
+
+The latest audit reinforces that reference workflows need explicit states beyond `available/unavailable`:
+
+```text
+AVAILABLE
+UNAVAILABLE
+LIMITED
+BLOCKED
+PERMISSION_REQUIRED
+PRIVILEGE_REQUIRED
+USER_ACTION_REQUIRED
+LOADING
+READY
+RUNNING
+PAUSED/BLOCKED
+SUCCESS
+NO_CHANGE
+PARTIAL
+FAILED
+SKIPPED
+CANCELLED
+```
+
+For backup/restore completion:
+
+```text
+EXECUTED
+→ RESULT_RECORDED
+→ POST-CONDITION CHECK
+→ VERIFIED
+```
+
+The reference audit itself still does not provide runtime verification. These states are therefore reference/state-model evidence, not proof that each transition succeeds on current Android devices.
+
+### 19.8 Reconciliation against existing capability matrix
+
+No existing capability is removed because of this audit. The delta is additive/refining.
+
+The following existing areas are specifically reinforced:
+
+- Apps → backup/restore/app parts/management/configuration;
+- Folders → incremental + manifest + validation;
+- Messages → SMS/MMS/RCS;
+- Call Logs → dedicated backup/restore;
+- Wi-Fi → constrained privilege-aware restore;
+- Wallpapers → backup/manage/apply;
+- Schedules → domain selectors + prerequisite/last-run states;
+- Cloud → provider abstraction + diagnostics + orphan management;
+- Storage → location + capacity + management;
+- Security → encryption + compression + authentication;
+- Diagnostics → structured operational troubleshooting;
+- Import/Export → APK/APKS and settings/cloud setup flows.
+
+No runtime capability is promoted from `OBSERVED_STATIC` to `RUNTIME_VERIFIED` by this reconciliation.
+
+### 19.9 BaRe requirements impact
+
+The reconciliation changes the **reference-derived requirement surface**, not the implementation status.
+
+Before implementing any of the newly reconciled capability areas, the next chain remains:
+
+```text
+REFERENCE OBSERVATION
+      ↓
+BARE PRODUCT REQUIREMENT
+      ↓
+FE STATE / TRANSITION CONTRACT
+      ↓
+CAPABILITY CONTRACT
+      ↓
+FE IMPLEMENTATION
+      ↓
+RUNTIME TEST
+      ↓
+VERIFICATION EVIDENCE
+```
+
+Particularly, BaRe must not:
+
+- add Swift-specific proprietary classes;
+- reproduce Swift's implementation;
+- bypass Swift licensing;
+- claim root capability merely because the reference contains root paths;
+- claim runtime parity from static evidence;
+- claim backup/restore success without post-operation verification.
+
+### 19.10 Reconciliation status
+
+```text
+TARGETED AUDIT
+        ↓
+        PASS
+        ↓
+REFERENCE RECONCILIATION
+        ↓
+        RECORDED IN THIS DOCUMENT
+        ↓
+REFERENCE RUNTIME VERIFICATION
+        ↓
+        NOT PERFORMED
+```
+
+The reference baseline is now explicitly reconciled with the latest targeted audit. Further static audit should only target unresolved `UNKNOWN` items or materially new questions; it should not repeat the same full-tree scan.
+
+---
+
+# 20. Source register
 
 ## Project / local evidence
 
 - `5.1.0 (620).apk` — reference APK audited in this document.
+- `SwiftBackup-5.1.0-620-decompiled.zip` — decompiled reference artifact used for targeted static reconciliation.
 - Provided Swift Backup screenshots — visual evidence.
 - `14Doc_tapikayaknyalebihdari14.md` — previous static capability/feasibility audit and requirement baseline.
 - `FULL_LIFECYCLE_SYSTEM_ENGINEER_MASTER_v2.md` — governance/verification rules.
@@ -1964,12 +2232,13 @@ Public sources were used only to corroborate product-visible workflows and publi
 
 ---
 
-# 20. Current audit status
+# 21. Current audit status
 
-**Audit:** COMPLETE FOR CURRENT EVIDENCE LEVEL  
-**Static depth:** HIGH  
+**Audit:** RECONCILED FOR CURRENT EVIDENCE LEVEL  
+**Static depth:** HIGH + TARGETED RECONCILIATION  
 **Visual depth:** MEDIUM/HIGH for supplied screens  
 **Public documentation depth:** HIGH for documented workflows  
 **Runtime reference verification:** NOT STARTED  
 **BaRe FE implementation:** NOT STARTED beyond current shell  
-**Next use:** derive BaRe FE contracts/state models from this reference, then implement only after capability contract and verification path are defined.
+**Reference reconciliation:** RECORDED IN SECTION 19  
+**Next use:** derive BaRe FE contracts/state models from this reconciled reference, then implement only after capability contract and verification path are defined.
