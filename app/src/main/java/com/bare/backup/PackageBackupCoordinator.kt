@@ -42,7 +42,7 @@ class PackageBackupCoordinator(private val context: Context) {
         val staging = File(context.cacheDir, "adb-apk-${packageName.replace(Regex("[^A-Za-z0-9._-]"), "_")}")
         val copied = adb.copyPackageApks(packageName, staging)
         if (copied !is com.bare.capability.AdbCopyResult.Success) {
-            return BackupResult.Failed(copied.reason)
+            return BackupResult.Failed((copied as com.bare.capability.AdbCopyResult.Failed).reason)
         }
         return try {
             val adbTarget = target.copy(
@@ -55,7 +55,7 @@ class PackageBackupCoordinator(private val context: Context) {
         }
     }
 
-    private fun backupViaShizuku(
+    private suspend fun backupViaShizuku(
         packageName: String,
         target: DiscoveredPackage,
         archive: File,
