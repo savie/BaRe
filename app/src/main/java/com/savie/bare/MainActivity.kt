@@ -24,9 +24,9 @@ import androidx.compose.material.icons.filled.Folder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Message
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Wallpaper
 import androidx.compose.material.icons.filled.Wifi
 import androidx.compose.material3.Button
@@ -53,7 +53,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 private enum class Screen(val title: String, val icon: ImageVector) {
-    HOME("BaRe", Icons.Default.Home),
+    HOME("Home", Icons.Default.Home),
     APPS("Apps", Icons.Default.Apps),
     FOLDERS("Folders", Icons.Default.Folder),
     MESSAGES("Messages", Icons.Default.Message),
@@ -62,13 +62,20 @@ private enum class Screen(val title: String, val icon: ImageVector) {
     WALLPAPERS("Wallpapers", Icons.Default.Wallpaper),
     SCHEDULES("Schedules", Icons.Default.Schedule),
     STORAGE("Storage", Icons.Default.Folder),
-    CLOUD("Remote / Cloud", Icons.Default.Cloud),
+    CLOUD("Cloud", Icons.Default.Cloud),
     MANAGEMENT("Management", Icons.Default.Build),
     DIAGNOSTICS("Diagnostics", Icons.Default.Info),
     SETTINGS("Settings", Icons.Default.Settings),
     IMPORT_EXPORT("Import / Export", Icons.Default.Folder),
     SEARCH("Search", Icons.Default.Search),
 }
+
+private val primaryNavigation = listOf(
+    Screen.HOME,
+    Screen.APPS,
+    Screen.SCHEDULES,
+    Screen.SETTINGS,
+)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +88,17 @@ class MainActivity : ComponentActivity() {
 private fun BaReApp() {
     var screen by remember { mutableStateOf(Screen.HOME) }
     var backStack by remember { mutableStateOf(listOf<Screen>()) }
+
+    fun navigate(target: Screen) {
+        if (target == screen) return
+        if (target in primaryNavigation) {
+            screen = target
+            backStack = emptyList()
+        } else {
+            backStack = backStack + screen
+            screen = target
+        }
+    }
 
     MaterialTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
@@ -96,22 +114,16 @@ private fun BaReApp() {
                                 screen = previous
                             }
                         },
-                        onSearch = {
-                            if (screen != Screen.SEARCH) {
-                                backStack = backStack + screen
-                                screen = Screen.SEARCH
-                            }
-                        }
+                        onSearch = { navigate(Screen.SEARCH) }
                     )
                 },
                 bottomBar = {
-                    if (screen in setOf(Screen.HOME, Screen.APPS, Screen.FOLDERS, Screen.SCHEDULES, Screen.SETTINGS)) {
+                    if (screen in primaryNavigation) {
                         NavigationBar {
-                            val items = listOf(Screen.HOME, Screen.APPS, Screen.FOLDERS, Screen.SCHEDULES, Screen.SETTINGS)
-                            items.forEach { item ->
+                            primaryNavigation.forEach { item ->
                                 NavigationBarItem(
                                     selected = screen == item,
-                                    onClick = { screen = item; backStack = emptyList() },
+                                    onClick = { navigate(item) },
                                     icon = { Icon(item.icon, contentDescription = item.title) },
                                     label = { Text(item.title) }
                                 )
@@ -123,10 +135,7 @@ private fun BaReApp() {
                 ScreenContent(
                     screen = screen,
                     modifier = Modifier.padding(padding),
-                    onNavigate = { target ->
-                        if (target != screen) backStack = backStack + screen
-                        screen = target
-                    }
+                    onNavigate = ::navigate
                 )
             }
         }
@@ -142,10 +151,12 @@ private fun BaReTopBar(
     onSearch: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(screen.title) },
+        title = { Text("BaRe · ${screen.title}") },
         navigationIcon = {
-            if (canGoBack) IconButton(onClick = onBack) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+            if (canGoBack) {
+                IconButton(onClick = onBack) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                }
             }
         },
         actions = {
@@ -159,11 +170,14 @@ private fun BaReTopBar(
 }
 
 @Composable
-private fun ScreenContent(screen: Screen, modifier: Modifier, onNavigate: (Screen) -> Unit) {
+private fun ScreenContent(
+    screen: Screen,
+    modifier: Modifier,
+    onNavigate: (Screen) -> Unit
+) {
     when (screen) {
         Screen.HOME -> HomeScreen(modifier, onNavigate)
-        Screen.SEARCH -> PlaceholderScreen(modifier, "Search", "Search across apps, backups, folders, and configuration.")
-        Screen.APPS -> AreaScreen(modifier, Screen.APPS, listOf("All apps", "User apps", "System apps", "Favorites", "Labels", "Backup history", "Protected backups"), onNavigate)
+        Screen.APPS -> AppsScreen(modifier, onNavigate)
         Screen.FOLDERS -> AreaScreen(modifier, Screen.FOLDERS, listOf("Folder setups", "Backup", "Restore", "Incremental backups", "Multiple versions", "Protected backups", "Tags & notes"), onNavigate)
         Screen.MESSAGES -> AreaScreen(modifier, Screen.MESSAGES, listOf("SMS / MMS", "Attachments", "Backup", "Restore", "Default SMS app", "History"), onNavigate)
         Screen.CALL_LOGS -> AreaScreen(modifier, Screen.CALL_LOGS, listOf("Call history", "Backup", "Restore", "Permissions", "History"), onNavigate)
@@ -174,23 +188,22 @@ private fun ScreenContent(screen: Screen, modifier: Modifier, onNavigate: (Scree
         Screen.CLOUD -> AreaScreen(modifier, Screen.CLOUD, listOf("Providers", "Connect", "Remote folder", "Upload", "Download", "Sync", "Transfer diagnostics"), onNavigate)
         Screen.MANAGEMENT -> AreaScreen(modifier, Screen.MANAGEMENT, listOf("Labels", "Favorites", "Blacklist", "Quick actions", "App configs", "Retention", "Protection"), onNavigate)
         Screen.DIAGNOSTICS -> AreaScreen(modifier, Screen.DIAGNOSTICS, listOf("Operation logs", "Errors", "Skipped parts", "Blocked operations", "Storage checks", "Transfer checks"), onNavigate)
-        Screen.SETTINGS -> AreaScreen(modifier, Screen.SETTINGS, listOf("Appearance", "Backup defaults", "Restore defaults", "Security", "Compression", "Notifications", "About"), onNavigate)
+        Screen.SETTINGS -> AccountScreen(modifier, onNavigate)
         Screen.IMPORT_EXPORT -> AreaScreen(modifier, Screen.IMPORT_EXPORT, listOf("Import APK / APKS", "Export configuration", "Import configuration", "Validation", "History"), onNavigate)
+        Screen.SEARCH -> PlaceholderScreen(modifier, "Search", "Search across apps, backups, folders, and configuration.")
     }
 }
 
 @Composable
 private fun HomeScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
-    val areas = listOf(
-        Screen.APPS, Screen.FOLDERS, Screen.MESSAGES, Screen.CALL_LOGS,
-        Screen.WIFI, Screen.WALLPAPERS, Screen.SCHEDULES, Screen.STORAGE,
-        Screen.CLOUD, Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.IMPORT_EXPORT
-    )
-    LazyColumn(modifier = modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    LazyColumn(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         item {
             Text("Backup & Restore", style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(4.dp))
-            Text("BaRe product shell — capability behavior is being implemented incrementally.")
+            Text("Satu tempat untuk menemukan, mencadangkan, memulihkan, dan memverifikasi data perangkat.")
         }
         item {
             Card(modifier = Modifier.fillMaxWidth()) {
@@ -202,11 +215,89 @@ private fun HomeScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
                         Spacer(Modifier.width(8.dp))
                         TextButton(onClick = { onNavigate(Screen.FOLDERS) }) { Text("Backup folders") }
                     }
+                    Spacer(Modifier.height(4.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        TextButton(onClick = { onNavigate(Screen.MESSAGES) }) { Text("Messages") }
+                        TextButton(onClick = { onNavigate(Screen.CALL_LOGS) }) { Text("Call logs") }
+                    }
                 }
             }
         }
-        items(areas) { area ->
+        item {
+            Text("Backup areas", style = MaterialTheme.typography.titleLarge)
+        }
+        items(listOf(Screen.APPS, Screen.FOLDERS, Screen.MESSAGES, Screen.CALL_LOGS, Screen.WIFI, Screen.WALLPAPERS)) { area ->
             AreaCard(area = area, onClick = { onNavigate(area) })
+        }
+        item {
+            Text("Storage & automation", style = MaterialTheme.typography.titleLarge)
+        }
+        items(listOf(Screen.STORAGE, Screen.CLOUD, Screen.SCHEDULES, Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.IMPORT_EXPORT)) { area ->
+            AreaCard(area = area, onClick = { onNavigate(area) })
+        }
+    }
+}
+
+@Composable
+private fun AppsScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
+    LazyColumn(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text("Apps", style = MaterialTheme.typography.headlineSmall)
+            Spacer(Modifier.height(4.dp))
+            Text("Mulai dari aplikasi terpasang, lalu pilih backup atau restore dan bagian yang dibutuhkan.")
+        }
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp)) {
+                    Text("App actions", style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(8.dp))
+                    Row {
+                        Button(onClick = { }) { Text("Backup") }
+                        Spacer(Modifier.width(8.dp))
+                        TextButton(onClick = { }) { Text("Restore") }
+                    }
+                    TextButton(onClick = { onNavigate(Screen.IMPORT_EXPORT) }) { Text("Import APK / APKS") }
+                }
+            }
+        }
+        item { Text("App discovery", style = MaterialTheme.typography.titleLarge) }
+        items(listOf("All apps", "User apps", "System apps", "Favorites", "Labels", "Protected backups", "Blacklist")) { entry ->
+            PlaceholderRow(title = entry, subtitle = "Discovery/filter surface — capability runtime belum diklaim.")
+        }
+        item { Text("App backup & restore", style = MaterialTheme.typography.titleLarge) }
+        items(listOf("APK & split APK", "App data", "External data / media", "Backup history", "Multiple backups", "Per-app configuration")) { entry ->
+            PlaceholderRow(title = entry, subtitle = "Planned capability surface — akan mengikuti contract dan verification state.")
+        }
+    }
+}
+
+@Composable
+private fun AccountScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
+    LazyColumn(
+        modifier = modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text("Account", style = MaterialTheme.typography.headlineSmall)
+            Spacer(Modifier.height(4.dp))
+            Text("Pengaturan, maintenance, diagnostics, dan informasi BaRe.")
+        }
+        items(listOf(Screen.SETTINGS, Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.CLOUD, Screen.STORAGE, Screen.IMPORT_EXPORT)) { area ->
+            if (area != Screen.SETTINGS) {
+                AreaCard(area = area, onClick = { onNavigate(area) })
+            }
+        }
+        item {
+            Card(modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp)) {
+                    Text("About BaRe", style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(4.dp))
+                    Text("v1.0 product shell. Capability behavior is implemented and verified incrementally.")
+                }
+            }
         }
     }
 }
@@ -219,7 +310,7 @@ private fun AreaCard(area: Screen, onClick: () -> Unit) {
             Spacer(Modifier.width(16.dp))
             Column {
                 Text(area.title, style = MaterialTheme.typography.titleMedium)
-                Text("UX surface available; behavior not yet wired.")
+                Text("UX surface tersedia; behavior capability belum diklaim.")
             }
         }
     }
@@ -236,22 +327,28 @@ private fun AreaScreen(
         item {
             Text(area.title, style = MaterialTheme.typography.headlineSmall)
             Spacer(Modifier.height(4.dp))
-            Text("Whole-product UX baseline. Entries represent the planned interaction surface; functionality is intentionally not claimed.")
+            Text("Surface BaRe untuk capability ini. State runtime tetap harus dibuktikan melalui implementation dan verification.")
             Spacer(Modifier.height(8.dp))
         }
         items(entries) { entry ->
-            Card(modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(entry, style = MaterialTheme.typography.titleMedium)
-                    Spacer(Modifier.height(4.dp))
-                    Text("State: unavailable / placeholder until the corresponding capability is implemented and verified.")
-                    Spacer(Modifier.height(8.dp))
-                    TextButton(onClick = { }) { Text("Open") }
-                }
-            }
+            PlaceholderRow(
+                title = entry,
+                subtitle = "State: unavailable / placeholder sampai capability terkait diimplementasikan dan diverifikasi."
+            )
         }
         item {
             TextButton(onClick = { onNavigate(Screen.HOME) }) { Text("Back to Home") }
+        }
+    }
+}
+
+@Composable
+private fun PlaceholderRow(title: String, subtitle: String) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp)) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(4.dp))
+            Text(subtitle)
         }
     }
 }
