@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -18,7 +17,7 @@ require(bareVersionName.matches(Regex("\\d+\\.\\d+\\.\\d+"))) {
 
 android {
     namespace = "com.bare"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.bare"
