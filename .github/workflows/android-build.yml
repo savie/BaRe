@@ -113,6 +113,7 @@ jobs:
           test -f "$BARE_APK_PATH"
 
       - name: Retry in-place APK update with stable signing
+        id: retry_update_apk
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true && steps.update_apk.outcome == 'failure' && steps.prepare_stable_key.outcome == 'success' }}
         run: |
           if [ "$BARE_APK_UPDATE_MODE" != "IN_PLACE" ]; then
@@ -120,6 +121,27 @@ jobs:
             exit 1
           fi
           adb install -r "$BARE_APK_PATH"
+
+      - name: Verify in-place APK update result
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.install_apk == true }}
+        env:
+          INITIAL_UPDATE_OUTCOME: ${{ steps.update_apk.outcome }}
+          FALLBACK_PREPARE_OUTCOME: ${{ steps.prepare_stable_key.outcome }}
+          FALLBACK_UPDATE_OUTCOME: ${{ steps.retry_update_apk.outcome }}
+        run: |
+          if [ "$INITIAL_UPDATE_OUTCOME" = "success" ]; then
+            echo "In-place APK update succeeded without fallback."
+            exit 0
+          fi
+          if [ "$FALLBACK_PREPARE_OUTCOME" = "success" ] && [ "$FALLBACK_UPDATE_OUTCOME" = "success" ]; then
+            echo "In-place APK update succeeded after stable-signing fallback."
+            exit 0
+          fi
+          echo "In-place APK update was not verified as successful."
+          echo "Initial update: $INITIAL_UPDATE_OUTCOME"
+          echo "Stable-key preparation: $FALLBACK_PREPARE_OUTCOME"
+          echo "Fallback update: $FALLBACK_UPDATE_OUTCOME"
+          exit 1
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
