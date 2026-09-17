@@ -1671,17 +1671,17 @@ Static class/package structure is evidence about responsibility boundaries, not 
 
 # 12. Current BaRe FE comparison
 
-Current `v1.0/rebaseline` commit at audit time:
+Current `v1.0/rebaseline` commit observed before this documentation change:
 
-`136e18a617333f3554d2d13d41af6565c0e12e86`
+`1705452dc77482dd5573d023d091491ec4864319`
 
 Current UI source:
 
 `app/src/main/java/com/savie/bare/MainActivity.kt`
 
-Current source SHA:
+Current source SHA observed from repository:
 
-`7a10b21d4289765af7d3962c2a7881741858e408`
+`b3e244d252958b401e8e5d5ac5c5f45036d7e757`
 
 The current file contains the screen enum:
 
