@@ -25,6 +25,18 @@ BaRe v1.0 mencakup:
 13. **Diagnostics** — operation logs, diagnostics, error/skip reporting, storage/transfer checks.
 14. **Import/Export** — APK/APKS dan konfigurasi yang memang diperlukan product workflow.
 
+## Explicit v1.0 Exclusions
+
+Hal berikut tidak otomatis menjadi scope v1.0 hanya karena dapat terlihat pada reference atau potensial secara teknis:
+
+- provider cloud/remote yang belum memiliki implementation dan verification path nyata;
+- capability Android yang tidak tersedia atau tidak dapat diverifikasi pada target platform/mode;
+- feature enhancement yang tidak diperlukan untuk baseline backup/restore journey;
+- optimasi performa yang belum dibutuhkan untuk correctness atau operability;
+- internal/proprietary Swift Backup implementation, asset, credential, premium/license mechanism, atau architecture.
+
+Extension tersebut dapat masuk BaRe++ setelah memiliki alasan product, dependency yang jelas, dan verification path.
+
 ## Whole-Product UX Baseline
 
 Tahap awal implementation membentuk **UX/UI seluruh product**, bukan menyelesaikan satu capability secara end-to-end sebelum capability lain mulai.
@@ -84,13 +96,28 @@ Execution mode adalah **mechanism/capability source**, bukan domain model. Satu 
 - Interrupted operation harus meninggalkan state yang dapat didiagnosis dan, bila aman, dilanjutkan/recover.
 - Reference behavior menjadi target observasi; keputusan desain BaRe boleh berbeda selama product capability dan semantic yang ditargetkan tetap tercapai.
 
+## Product Acceptance Criteria
+
+Capability hanya boleh dinyatakan **supported** bila seluruh chain berikut tersedia dan dapat dibuktikan:
+
+`Defined Scope → User Journey → UX State → Capability Resolution → Implementation → Runtime Test → Evidence`
+
+Acceptance minimum:
+
+- happy path berjalan pada target device/mode yang dinyatakan;
+- unavailable/limited/blocked condition menghasilkan state yang benar dan tidak dipalsukan sebagai success;
+- failure/partial/interruption memiliki result dan diagnostics yang dapat ditelusuri;
+- operation yang memutasi data melakukan validation dan confirmation yang diperlukan sebelum mutation;
+- hasil penting dapat diverifikasi terhadap state/artifact yang diharapkan;
+- evidence dicatat sebelum capability dianggap verified.
+
 ## v1.0 vs Later
 
 **Target v1.0:** capability inti dan end-to-end journey yang membentuk product baseline, dengan dukungan platform/mode/provider yang benar-benar dapat diverifikasi.
 
 **Later / BaRe++:** extension yang tidak diperlukan untuk product baseline, optimasi, provider tambahan, UX enhancement, dan capability baru.
 
-Jangan memasukkan fitur hanya karena terlihat menarik. Setiap tambahan harus punya alasan product dan verification path.
+Perubahan scope harus mempertahankan alasan product, dependency, dan verification path. Fitur tidak masuk scope hanya karena tersedia pada reference.
 
 ## Definition of Product Completion
 
@@ -102,4 +129,4 @@ untuk setiap capability yang dinyatakan supported.
 
 ## Status
 
-**PRODUCT BASELINE — DEFINED FROM REFERENCE / WHOLE-PRODUCT UX FIRST**
+**PRODUCT BASELINE — RECONCILED / WHOLE-PRODUCT UX FIRST / EVIDENCE-BASED COMPLETION**
