@@ -65,6 +65,7 @@ private enum class Screen(val title: String, val icon: ImageVector) {
     CLOUD("Cloud", Icons.Default.Cloud),
     MANAGEMENT("Management", Icons.Default.Build),
     DIAGNOSTICS("Diagnostics", Icons.Default.Info),
+    ACCOUNT("Account", Icons.Default.Settings),
     SETTINGS("Settings", Icons.Default.Settings),
     IMPORT_EXPORT("Import / Export", Icons.Default.Folder),
     SEARCH("Search", Icons.Default.Search),
@@ -74,7 +75,7 @@ private val primaryNavigation = listOf(
     Screen.HOME,
     Screen.APPS,
     Screen.SCHEDULES,
-    Screen.SETTINGS,
+    Screen.ACCOUNT,
 )
 
 class MainActivity : ComponentActivity() {
@@ -188,7 +189,8 @@ private fun ScreenContent(
         Screen.CLOUD -> AreaScreen(modifier, Screen.CLOUD, listOf("Providers", "Connect", "Remote folder", "Upload", "Download", "Sync", "Transfer diagnostics"), onNavigate)
         Screen.MANAGEMENT -> AreaScreen(modifier, Screen.MANAGEMENT, listOf("Labels", "Favorites", "Blacklist", "Quick actions", "App configs", "Retention", "Protection"), onNavigate)
         Screen.DIAGNOSTICS -> AreaScreen(modifier, Screen.DIAGNOSTICS, listOf("Operation logs", "Errors", "Skipped parts", "Blocked operations", "Storage checks", "Transfer checks"), onNavigate)
-        Screen.SETTINGS -> AccountScreen(modifier, onNavigate)
+        Screen.ACCOUNT -> AccountScreen(modifier, onNavigate)
+        Screen.SETTINGS -> AreaScreen(modifier, Screen.SETTINGS, listOf("Appearance", "Language", "Backup defaults", "Restore defaults", "Security", "Compression", "Notifications", "About"), onNavigate)
         Screen.IMPORT_EXPORT -> AreaScreen(modifier, Screen.IMPORT_EXPORT, listOf("Import APK / APKS", "Export configuration", "Import configuration", "Validation", "History"), onNavigate)
         Screen.SEARCH -> PlaceholderScreen(modifier, "Search", "Search across apps, backups, folders, and configuration.")
     }
@@ -223,15 +225,11 @@ private fun HomeScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
                 }
             }
         }
-        item {
-            Text("Backup areas", style = MaterialTheme.typography.titleLarge)
-        }
+        item { Text("Backup areas", style = MaterialTheme.typography.titleLarge) }
         items(listOf(Screen.APPS, Screen.FOLDERS, Screen.MESSAGES, Screen.CALL_LOGS, Screen.WIFI, Screen.WALLPAPERS)) { area ->
             AreaCard(area = area, onClick = { onNavigate(area) })
         }
-        item {
-            Text("Storage & automation", style = MaterialTheme.typography.titleLarge)
-        }
+        item { Text("Storage & automation", style = MaterialTheme.typography.titleLarge) }
         items(listOf(Screen.STORAGE, Screen.CLOUD, Screen.SCHEDULES, Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.IMPORT_EXPORT)) { area ->
             AreaCard(area = area, onClick = { onNavigate(area) })
         }
@@ -285,10 +283,9 @@ private fun AccountScreen(modifier: Modifier, onNavigate: (Screen) -> Unit) {
             Spacer(Modifier.height(4.dp))
             Text("Pengaturan, maintenance, diagnostics, dan informasi BaRe.")
         }
-        items(listOf(Screen.SETTINGS, Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.CLOUD, Screen.STORAGE, Screen.IMPORT_EXPORT)) { area ->
-            if (area != Screen.SETTINGS) {
-                AreaCard(area = area, onClick = { onNavigate(area) })
-            }
+        item { AreaCard(area = Screen.SETTINGS, onClick = { onNavigate(Screen.SETTINGS) }) }
+        items(listOf(Screen.MANAGEMENT, Screen.DIAGNOSTICS, Screen.CLOUD, Screen.STORAGE, Screen.IMPORT_EXPORT)) { area ->
+            AreaCard(area = area, onClick = { onNavigate(area) })
         }
         item {
             Card(modifier = Modifier.fillMaxWidth()) {
