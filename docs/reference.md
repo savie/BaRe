@@ -1,12 +1,56 @@
 # BaRe Reference — Swift Backup FE / Workflow Audit
 
 **Project:** BaRe  
+**Jenis dokumen:** Reference / Discovery Artifact  
+**Status dokumen:** `current`  
+**Authority dokumen:** reference evidence untuk Swift Backup; **tidak** menjadi authority atas product decision, architecture decision, implementation, atau runtime BaRe  
+**Governance:** `Varnexis-Workspace/GOVERNANCE`  
+**Authority governance:** `Varnexis-Workspace/GOVERNANCE/AUTHORITY.md`  
+**Authority implementasi project:** repository BaRe, termasuk source, tests, dan project-specific configuration  
+**Authority runtime:** runtime evidence untuk deployment, execution, logs, metrics, dan behavior aktual  
 **Reference artifact:** Swift Backup `5.1.0 (620)`  
 **Package:** `org.swiftapps.swiftbackup`  
 **Audit date:** 2026-09-18  
 **Audit level:** Static APK + visual evidence + public product documentation + FE/state/transition modeling + targeted capability reconciliation  
 **Runtime verification of the reference APK:** NOT PERFORMED  
-**Purpose:** menjadi evidence baseline untuk desain FE BaRe; bukan implementation source.
+**Purpose:** menjadi evidence baseline untuk discovery capability dan desain FE BaRe; bukan implementation source.
+
+---
+
+## 0. Authority, status, dan aturan penggunaan
+
+Dokumen ini mengikuti boundary repository yang ditetapkan pada `README.md`. Governance lintas-project berasal dari Varnexis-Workspace; technical truth untuk implementasi/test/configuration BaRe berada di repository BaRe; runtime truth berasal dari evidence runtime. Dokumen ini hanya berwenang mencatat dan memodelkan evidence yang berasal dari reference artifact serta implikasinya sebagai **derived reference**, bukan menetapkan keputusan BaRe secara diam-diam.
+
+### Precedence sumber
+
+Jika sumber berbeda atau bertentangan, **jangan silently merge**. Pertahankan sumber, status evidence, dan konflik sampai authority yang tepat menyelesaikannya.
+
+| Kelas sumber | Fungsi | Authority |
+|---|---|---|
+| Varnexis-Workspace Governance | governance, authority, lifecycle, boundary | Canonical governance |
+| BaRe `README.md` + `docs/product.md` + `docs/architecture.md` + `docs/capability_matrix.md` | product dan technical truth BaRe | Canonical project documentation |
+| BaRe source/tests/project config | implementation dan test truth | Project repository authority |
+| Runtime evidence BaRe | deployment, execution, logs, metrics, behavior | Runtime authority |
+| Swift Backup APK/decompiled artifact | static reference evidence | Reference evidence only |
+| Screenshot/reference images | visual reference evidence | Reference evidence only |
+| Public SwiftApps/Google Play/APKMirror documentation | published product/workflow evidence | Reference evidence only |
+| Model/audit interpretation | derived engineering interpretation | Non-canonical; tidak boleh menggantikan source evidence |
+
+### Status claim
+
+Gunakan istilah berikut secara disiplin:
+
+- **FACT / OBSERVED / VERIFIED** — hanya bila evidence mendukung status tersebut.
+- **INFERRED / DERIVED** — hasil penalaran dari evidence; bukan observasi langsung.
+- **PROPOSAL** — usulan untuk BaRe; bukan keputusan.
+- **DECISION / REQUIREMENT** — hanya bila sudah ditetapkan oleh authority yang sesuai.
+- **UNKNOWN / UNVERIFIED / BLOCKED** — evidence atau prerequisite belum cukup.
+
+`RUNTIME_VERIFIED` tidak boleh digunakan untuk reference APK pada audit ini karena APK reference belum dieksekusi dan diuji.
+
+### Boundary BaRe
+
+Isi yang berbunyi “BaRe should/must” di dokumen ini harus dibaca sebagai **reference-derived implication** kecuali secara eksplisit ditandai sebagai `DECISION` atau `REQUIREMENT` yang berasal dari dokumen canonical BaRe. Dokumen ini tidak boleh secara diam-diam mengubah product scope, architecture, capability contract, atau implementation status.
 
 ---
 
@@ -2234,11 +2278,11 @@ Public sources were used only to corroborate product-visible workflows and publi
 
 # 21. Current audit status
 
-**Audit:** RECONCILED FOR CURRENT EVIDENCE LEVEL  
+**Audit:** RECONCILED FOR CURRENT EVIDENCE SCOPE  
 **Static depth:** HIGH + TARGETED RECONCILIATION  
 **Visual depth:** MEDIUM/HIGH for supplied screens  
 **Public documentation depth:** HIGH for documented workflows  
 **Runtime reference verification:** NOT STARTED  
-**BaRe FE implementation:** NOT STARTED beyond current shell  
+**BaRe FE implementation:** CURRENT SHELL IMPLEMENTED; capability backend/runtime remains UNVERIFIED  
 **Reference reconciliation:** RECORDED IN SECTION 19  
 **Next use:** derive BaRe FE contracts/state models from this reconciled reference, then implement only after capability contract and verification path are defined.
