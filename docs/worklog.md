@@ -96,7 +96,7 @@ Mengurangi trigger GitHub Actions untuk perubahan dokumentasi yang tidak membutu
 - Menambahkan `paths-ignore` untuk `docs/**` dan `README.md` pada trigger `push` dan `pull_request` di `.github/workflows/android-build.yml`.
 
 ### Verification
-- Workflow source sebelum perubahan: trigger `push` dan `pull_request` hanya dibatasi branch `v1.0/rebaseline`, tanpa `paths-ignore`. 
+- Workflow source sebelum perubahan: trigger `push` dan `pull_request` hanya dibatasi branch `v1.0/rebaseline`, tanpa `paths-ignore`.
 - Perubahan workflow berhasil ditulis ke branch `v1.0/rebaseline` dalam commit `92451bd356043e249e2a306afd487ba2170f2538`.
 - Struktur filter yang diterapkan sesuai intent: hanya `docs/**` dan `README.md` di-ignore; path implementation/configuration lainnya tidak di-ignore.
 - Runtime verification berupa docs-only push/PR belum dilakukan; perilaku aktual GitHub Actions setelah perubahan masih UNVERIFIED.
@@ -109,3 +109,31 @@ Mengurangi trigger GitHub Actions untuk perubahan dokumentasi yang tidak membutu
 - Lanjutkan implementation dari actual state.
 - Jika diperlukan, verifikasi runtime path filtering dengan perubahan docs-only dan/atau mixed docs + code.
 - Setelah setiap pekerjaan consequential berikutnya, update worklog ini.
+
+## 2026-09-17 — Documentation Baseline Reconciliation
+
+### Current Work
+Reconcile `product.md`, `architecture.md`, dan `capability_matrix.md` berdasarkan audit dokumentasi setelah repository boundary reconciliation. `reference.md` tidak diubah; worklog ini menerima record pekerjaan reconciliation.
+
+### Changes
+- `product.md`: memperjelas explicit v1.0 exclusions, product acceptance criteria, dan aturan scope deferral agar capability supported tidak hanya berarti menu/screen tersedia.
+- `architecture.md`: memperjelas dependency direction, persistence ownership, canonical lifecycle/state, recovery/idempotency, serta archive/data migration/versioning.
+- `capability_matrix.md`: menambahkan implementation/verification state, evidence model, pembedaan platform limitation vs implementation limitation, dan canonical mapping `Capability → Journey → Evidence`.
+- Tidak membuat contract file/folder baru.
+- Tidak mengubah implementation source atau UX shell.
+
+### Verification
+- Tiga dokumen berhasil diperbarui pada branch `v1.0/rebaseline`.
+- Perubahan tetap berada pada documentation boundary `docs/`.
+- Tidak ada claim bahwa capability backend menjadi implemented/verified; matrix secara eksplisit mempertahankan distinction antara UX shell, implementation, runtime test, dan verification.
+- Tidak ada runtime/device verification baru dari reconciliation ini.
+
+### Not Done / Explicitly Unchanged
+- Tidak ada implementation capability baru.
+- Tidak ada refactor source code.
+- Tidak ada perubahan archive format atau persistence implementation.
+- Tidak ada runtime test/device install.
+
+### Next
+- Gunakan acceptance/evidence model baru ketika implementation capability berikutnya dikerjakan.
+- Update worklog setelah pekerjaan consequential berikutnya.
