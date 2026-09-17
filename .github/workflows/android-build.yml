@@ -49,7 +49,9 @@ jobs:
           ls -lh "$BARE_APK_PATH"
 
       - name: Optional in-place APK update
+        id: update_apk
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true }}
+        continue-on-error: true
         env:
           BARE_APK_UPDATE_MODE: "IN_PLACE"
         run: |
@@ -58,6 +60,65 @@ jobs:
             exit 1
           fi
           adb devices
+          adb install -r "$BARE_APK_PATH"
+
+      - name: Prepare stable debug signing key fallback
+        id: prepare_stable_key
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true && steps.update_apk.outcome == 'failure' }}
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+          BARE_EXPECTED_DEBUG_CERT_SHA256: ${{ vars.BARE_EXPECTED_DEBUG_CERT_SHA256 }}
+        run: |
+          if [ -z "$BARE_DEBUG_KEYSTORE_B64" ]; then
+            echo "Stable debug keystore secret is not configured; fallback cannot be attempted."
+            exit 1
+          fi
+          if [ -z "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
+            echo "BARE_EXPECTED_DEBUG_CERT_SHA256 repository variable is required for stable signing fallback."
+            exit 1
+          fi
+          mkdir -p "$HOME/.android"
+          clean_b64="$(printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | tr -cd 'A-Za-z0-9+/')"
+          remainder=$(( ${#clean_b64} % 4 ))
+          if [ "$remainder" -eq 1 ]; then
+            echo "BARE_DEBUG_KEYSTORE_B64 has an invalid Base64 length."
+            exit 1
+          fi
+          while [ "$remainder" -ne 0 ]; do
+            clean_b64="${clean_b64}="
+            remainder=$(( ${#clean_b64} % 4 ))
+          done
+          printf '%s' "$clean_b64" | base64 --decode > "$HOME/.android/debug.keystore"
+          chmod 600 "$HOME/.android/debug.keystore"
+
+          actual_cert_sha256="$(keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | awk -F': ' '/SHA256:/{print $2}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
+          expected_cert_sha256="$(printf '%s' "$BARE_EXPECTED_DEBUG_CERT_SHA256" | tr -d ':' | tr '[:lower:]' '[:upper:]')"
+          if [ "$actual_cert_sha256" != "$expected_cert_sha256" ]; then
+            echo "Stable debug keystore certificate fingerprint mismatch."
+            echo "Expected: $expected_cert_sha256"
+            echo "Actual:   $actual_cert_sha256"
+            exit 1
+          fi
+
+          echo "BARE_DEBUG_KEYSTORE_PATH=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEYSTORE_PASSWORD=android" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEY_ALIAS=androiddebugkey" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEY_PASSWORD=android" >> "$GITHUB_ENV"
+
+      - name: Rebuild debug APK with stable signing
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true && steps.update_apk.outcome == 'failure' && steps.prepare_stable_key.outcome == 'success' }}
+        run: |
+          rm -f "$BARE_APK_PATH"
+          gradle :app:assembleDebug --no-daemon
+          test -f "$BARE_APK_PATH"
+
+      - name: Retry in-place APK update with stable signing
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true && steps.update_apk.outcome == 'failure' && steps.prepare_stable_key.outcome == 'success' }}
+        run: |
+          if [ "$BARE_APK_UPDATE_MODE" != "IN_PLACE" ]; then
+            echo "Refusing APK update: update mode must remain IN_PLACE."
+            exit 1
+          fi
           adb install -r "$BARE_APK_PATH"
 
       - name: Upload debug APK
