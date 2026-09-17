@@ -137,3 +137,34 @@ Reconcile `product.md`, `architecture.md`, dan `capability_matrix.md` berdasarka
 ### Next
 - Gunakan acceptance/evidence model baru ketika implementation capability berikutnya dikerjakan.
 - Update worklog setelah pekerjaan consequential berikutnya.
+
+## 2026-09-17 — Reference-Aligned Onboarding & Navigation
+
+### Current Work
+Mengubah UX shell agar mengikuti pola dasar dan alur reference, dengan penyederhanaan BaRe sesuai arahan user.
+
+### Decision Applied
+- Primary navigation tetap tepat 4 tab: `Home`, `Apps`, `Schedules`, `Account`.
+- Empat tab menggunakan horizontal pager sehingga tab dapat diganti dengan swipe kanan/kiri selain tap pada bottom navigation.
+- Submenu tidak lagi membutuhkan tombol `Back to Home` di bagian bawah.
+- Android system back dan top-bar back mengembalikan user dari submenu ke context sebelumnya.
+- Startup tidak langsung membuka backup/restore. Flow UI dimulai dari `Welcome → Login → Access Method → Main App`.
+- Access Method menyediakan pilihan `Non-root` dan `Root`; pilihan tersebut diperlakukan sebagai mechanism selection, bukan bukti privilege/capability tersedia.
+
+### Implementation
+- Reworked `MainActivity.kt` menjadi onboarding + four-tab shell + submenu navigation.
+- Menambahkan `BackHandler` untuk Android back.
+- Menambahkan `HorizontalPager` untuk swipe antar empat tab.
+- Menambahkan login/setup surface dan access-method selection.
+- Menjaga capability runtime tetap tidak diklaim; backend authentication dan root capability belum diimplementasikan/verified.
+
+### Verification
+- Source change berhasil ditulis ke branch `v1.0/rebaseline` pada commit `7817aca2ec54d4ad1059fbd9a4a26369065104ef`.
+- Build/runtime verification setelah perubahan ini: UNVERIFIED.
+- Actual Android back behavior, pager gesture, login backend, dan root detection belum diuji pada device/runtime.
+
+### Not Done / Explicitly Unchanged
+- Belum mengimplementasikan backup/restore backend.
+- Belum mengimplementasikan real authentication.
+- Belum mengimplementasikan root/non-root capability detection/execution.
+- Belum mengubah archive, storage provider, persistence, scheduler backend, atau cloud provider.
