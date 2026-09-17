@@ -77,3 +77,35 @@ UX/UI foundation — whole-product shell.
 - Timeout, cleanup, dan fail-closed pada boundary yang berisiko.
 - Per-component result agar `SUCCESS` tidak menyamarkan partial/failed state.
 - Execution mode tidak dibawa menjadi semantic domain contract.
+
+## 2026-09-17 — CI Path Filtering
+
+### Current Work
+Mengurangi trigger GitHub Actions untuk perubahan dokumentasi yang tidak membutuhkan build Android.
+
+### Decision Applied
+- Perubahan `docs/**` tidak memicu workflow build pada `push` ke `v1.0/rebaseline`.
+- Perubahan `README.md` di root tidak memicu workflow build pada `push` ke `v1.0/rebaseline`.
+- Perubahan `docs/**` tidak memicu workflow build pada `pull_request` ke `v1.0/rebaseline`.
+- Perubahan `README.md` di root tidak memicu workflow build pada `pull_request` ke `v1.0/rebaseline`.
+- Semua path lain tetap dapat memicu CI.
+- Jika satu perubahan mencampur `docs/**`/`README.md` dengan path non-ignored, CI tetap dapat terpicu.
+- `workflow_dispatch` tetap tersedia untuk eksekusi manual.
+
+### Done
+- Menambahkan `paths-ignore` untuk `docs/**` dan `README.md` pada trigger `push` dan `pull_request` di `.github/workflows/android-build.yml`.
+
+### Verification
+- Workflow source sebelum perubahan: trigger `push` dan `pull_request` hanya dibatasi branch `v1.0/rebaseline`, tanpa `paths-ignore`. 
+- Perubahan workflow berhasil ditulis ke branch `v1.0/rebaseline` dalam commit `92451bd356043e249e2a306afd487ba2170f2538`.
+- Struktur filter yang diterapkan sesuai intent: hanya `docs/**` dan `README.md` di-ignore; path implementation/configuration lainnya tidak di-ignore.
+- Runtime verification berupa docs-only push/PR belum dilakukan; perilaku aktual GitHub Actions setelah perubahan masih UNVERIFIED.
+
+### Not Done / Explicitly Unchanged
+- Tidak mengubah build steps, signing, APK artifact, atau device install/update path.
+- Tidak meng-ignore `.github/**`, `app/**`, Gradle files, atau source files.
+
+### Next
+- Lanjutkan implementation dari actual state.
+- Jika diperlukan, verifikasi runtime path filtering dengan perubahan docs-only dan/atau mixed docs + code.
+- Setelah setiap pekerjaan consequential berikutnya, update worklog ini.
