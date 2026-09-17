@@ -29,6 +29,8 @@ import com.bare.backup.PackageBackupCoordinator
 import com.bare.backup.PackageDiscovery
 import com.bare.capability.AdbCapabilityProvider
 import com.bare.capability.AdbProbeResult
+import com.bare.capability.RootCapabilityProvider
+import com.bare.capability.RootProbeResult
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.capability.ShizukuProbeResult
 import com.bare.core.domain.PrivilegeMode
@@ -55,6 +57,7 @@ private fun BaReRoot() {
     var selectedMode by remember { mutableStateOf(PrivilegeMode.SHIZUKU) }
     val adb = remember { AdbCapabilityProvider() }
     val shizuku = remember { ShizukuCapabilityProvider(context) }
+    val root = remember { RootCapabilityProvider() }
 
     LaunchedEffect(Unit) {
         packages = withContext(Dispatchers.IO) { PackageDiscovery(context).discover() }
@@ -79,6 +82,9 @@ private fun BaReRoot() {
                 }
                 Button(onClick = { selectedMode = PrivilegeMode.SHIZUKU }) {
                     Text("SHIZUKU")
+                }
+                Button(onClick = { selectedMode = PrivilegeMode.ROOT }) {
+                    Text("ROOT")
                 }
             }
 
@@ -121,6 +127,19 @@ private fun BaReRoot() {
                     }
                 }) {
                     Text("Test Shizuku")
+                }
+
+                Button(onClick = {
+                    scope.launch {
+                        status = "Testing root shell…"
+                        val result = withContext(Dispatchers.IO) { root.probe() }
+                        status = when (result) {
+                            is RootProbeResult.Success -> "Root verified: ${result.identity}"
+                            is RootProbeResult.Failed -> "Root probe failed: ${result.reason}"
+                        }
+                    }
+                }) {
+                    Text("Test Root")
                 }
             }
 
