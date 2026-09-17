@@ -5,7 +5,9 @@ on:
     branches:
       - master
       - 'bootstrap/**'
+      - 'fix/**'
     paths:
+      - '.github/workflows/android-build.yml'
       - 'app/**'
       - 'core/**'
       - 'build.gradle.kts'
@@ -18,6 +20,7 @@ on:
     branches:
       - master
     paths:
+      - '.github/workflows/android-build.yml'
       - 'app/**'
       - 'core/**'
       - 'build.gradle.kts'
@@ -51,7 +54,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.13'
+          gradle-version: '9.3.1'
 
       - name: Prepare and verify stable debug signing key
         env:
