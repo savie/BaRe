@@ -194,3 +194,9 @@ Memperbaiki `docs/reference.md` agar mengikuti README dan Governance: authority,
 - Tidak melakukan runtime execution terhadap Swift Backup.
 - Tidak mengubah product/architecture/capability decisions.
 - Tidak mengklaim parity atau capability runtime BaRe.
+
+### Follow-up verification
+- Setelah pemeriksaan ulang, ditemukan satu stale repository-state reference di `docs/reference.md`; record tersebut dikoreksi.
+- Final reference documentation commit: `e5a78abd2b8f800b5b379215e178e70fc3066207`.
+- Current `MainActivity.kt` blob SHA yang terobservasi: `b3e244d252958b401e8e5d5ac5c5f45036d7e757`.
+- Status runtime tetap UNVERIFIED; perubahan ini hanya documentation reconciliation.
