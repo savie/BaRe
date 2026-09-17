@@ -168,3 +168,29 @@ Mengubah UX shell agar mengikuti pola dasar dan alur reference, dengan penyederh
 - Belum mengimplementasikan real authentication.
 - Belum mengimplementasikan root/non-root capability detection/execution.
 - Belum mengubah archive, storage provider, persistence, scheduler backend, atau cloud provider.
+
+## 2026-09-18 — Reference Documentation Governance Reconciliation
+
+### Current Work
+Memperbaiki `docs/reference.md` agar mengikuti README dan Governance: authority, status dokumen, precedence sumber, evidence language, dan boundary antara reference-derived interpretation dengan canonical BaRe decisions.
+
+### Changes
+- Menetapkan `reference.md` sebagai `current` **Reference / Discovery Artifact**.
+- Menjelaskan authority hierarchy: Varnexis-Workspace Governance, canonical BaRe documentation/source/tests, runtime evidence, lalu reference evidence.
+- Menegaskan aturan **tidak silently merge** ketika sumber berbeda atau conflict.
+- Menambahkan klasifikasi claim: FACT/OBSERVED/VERIFIED, INFERRED/DERIVED, PROPOSAL, DECISION/REQUIREMENT, UNKNOWN/UNVERIFIED/BLOCKED.
+- Memperbaiki stale repository-state claim agar menunjuk ke HEAD `1705452dc77482dd5573d023d091491ec4864319` yang terobservasi saat perubahan ini.
+- Memperjelas bahwa current FE shell sudah ada, sedangkan capability backend/runtime tetap belum terverifikasi.
+- Tidak mengubah reference evidence atau menaikkan status runtime menjadi verified.
+
+### Verification
+- Branch target terobservasi: `v1.0/rebaseline`.
+- HEAD sebelum perubahan: `1705452dc77482dd5573d023d091491ec4864319`.
+- `docs/reference.md` berhasil diperbarui pada commit hasil perubahan.
+- Runtime reference APK tetap NOT PERFORMED.
+- Tidak ada implementation capability baru yang diklaim.
+
+### Not Done / Explicitly Unchanged
+- Tidak melakukan runtime execution terhadap Swift Backup.
+- Tidak mengubah product/architecture/capability decisions.
+- Tidak mengklaim parity atau capability runtime BaRe.
