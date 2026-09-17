@@ -1,0 +1,68 @@
+name: BaRe Android Build
+
+on:
+  push:
+    branches:
+      - "v1.0/rebaseline"
+  pull_request:
+    branches:
+      - "v1.0/rebaseline"
+  workflow_dispatch:
+    inputs:
+      install_apk:
+        description: "Pasang APK ke device/emulator yang sudah terhubung"
+        required: false
+        default: false
+        type: boolean
+
+env:
+  BARE_APPLICATION_ID: "com.savie.bare"
+  BARE_APK_PATH: "app/build/outputs/apk/debug/app-debug.apk"
+  BARE_APK_UPDATE_MODE: "IN_PLACE"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "8.11"
+
+      - name: Assemble debug APK
+        run: gradle :app:assembleDebug --no-daemon
+
+      - name: Verify APK artifact
+        run: |
+          test -f "$BARE_APK_PATH"
+          ls -lh "$BARE_APK_PATH"
+
+      - name: Optional in-place APK update
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.install_apk == true }}
+        env:
+          BARE_APK_UPDATE_MODE: "IN_PLACE"
+        run: |
+          if [ "$BARE_APK_UPDATE_MODE" != "IN_PLACE" ]; then
+            echo "Refusing APK update: update mode must remain IN_PLACE."
+            exit 1
+          fi
+          adb devices
+          adb install -r "$BARE_APK_PATH"
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BaRe-debug-apk
+          path: ${{ env.BARE_APK_PATH }}
+          if-no-files-found: error
