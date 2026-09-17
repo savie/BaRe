@@ -27,6 +27,8 @@ import com.bare.backup.BackupResult
 import com.bare.backup.DiscoveredPackage
 import com.bare.backup.PackageBackupCoordinator
 import com.bare.backup.PackageDiscovery
+import com.bare.capability.AdbCapabilityProvider
+import com.bare.capability.AdbProbeResult
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.capability.ShizukuProbeResult
 import com.bare.core.domain.PrivilegeMode
@@ -51,6 +53,7 @@ private fun BaReRoot() {
     var packages by remember { mutableStateOf<List<DiscoveredPackage>>(emptyList()) }
     var status by remember { mutableStateOf("Discovering packages…") }
     var selectedMode by remember { mutableStateOf(PrivilegeMode.SHIZUKU) }
+    val adb = remember { AdbCapabilityProvider() }
     val shizuku = remember { ShizukuCapabilityProvider(context) }
 
     LaunchedEffect(Unit) {
@@ -71,36 +74,54 @@ private fun BaReRoot() {
                 Button(onClick = { selectedMode = PrivilegeMode.NON_ROOT }) {
                     Text("NON_ROOT")
                 }
+                Button(onClick = { selectedMode = PrivilegeMode.ADB }) {
+                    Text("ADB")
+                }
                 Button(onClick = { selectedMode = PrivilegeMode.SHIZUKU }) {
                     Text("SHIZUKU")
                 }
             }
 
-            Button(onClick = {
-                when {
-                    !shizuku.isAvailable() -> status = "Shizuku unavailable"
-                    !shizuku.isAuthorized() -> {
-                        status = "Requesting Shizuku permission…"
-                        runCatching { Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE) }
-                            .onFailure { status = "Shizuku permission request failed: ${it.message}" }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = {
+                    scope.launch {
+                        status = "Testing ADB localhost:5037…"
+                        val result = withContext(Dispatchers.IO) { adb.probe() }
+                        status = when (result) {
+                            is AdbProbeResult.Success -> "ADB verified: ${result.identity} via localhost:5037"
+                            is AdbProbeResult.Failed -> "ADB probe failed: ${result.reason}"
+                        }
                     }
-                    else -> {
-                        status = "Executing privileged Shizuku probe…"
-                        scope.launch {
-                            val result = withContext(Dispatchers.IO) {
-                                shizuku.probe(context.packageName)
-                            }
-                            status = when (result) {
-                                is ShizukuProbeResult.Success ->
-                                    "Shizuku verified: ${result.identity}; ${result.packagePaths.size} APK path(s)"
-                                is ShizukuProbeResult.Failed ->
-                                    "Shizuku probe failed: ${result.reason}"
+                }) {
+                    Text("Test ADB")
+                }
+
+                Button(onClick = {
+                    when {
+                        !shizuku.isAvailable() -> status = "Shizuku unavailable"
+                        !shizuku.isAuthorized() -> {
+                            status = "Requesting Shizuku permission…"
+                            runCatching { Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE) }
+                                .onFailure { status = "Shizuku permission request failed: ${it.message}" }
+                        }
+                        else -> {
+                            status = "Executing privileged Shizuku probe…"
+                            scope.launch {
+                                val result = withContext(Dispatchers.IO) {
+                                    shizuku.probe(context.packageName)
+                                }
+                                status = when (result) {
+                                    is ShizukuProbeResult.Success ->
+                                        "Shizuku verified: ${result.identity}; ${result.packagePaths.size} APK path(s)"
+                                    is ShizukuProbeResult.Failed ->
+                                        "Shizuku probe failed: ${result.reason}"
+                                }
                             }
                         }
                     }
+                }) {
+                    Text("Test Shizuku")
                 }
-            }) {
-                Text("Test Shizuku")
             }
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
