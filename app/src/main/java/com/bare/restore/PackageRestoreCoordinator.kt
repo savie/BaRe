@@ -33,7 +33,7 @@ class PackageRestoreCoordinator(private val context: Context) {
         suspendCancellableCoroutine { continuation ->
             val packageInstaller = context.packageManager.packageInstaller
             val params = PackageInstaller.SessionParams(
-                PackageInstaller.SessionParams.MODE_FULL,
+                PackageInstaller.SessionParams.MODE_FULL_INSTALL,
             ).apply {
                 setSize(payload.files.sumOf { it.length() })
                 setAppPackageName(payload.packageName)
