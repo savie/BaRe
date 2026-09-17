@@ -2,6 +2,7 @@ package com.bare.backup
 
 import android.content.Context
 import com.bare.capability.AdbCapabilityProvider
+import com.bare.capability.RootCapabilityProvider
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.core.domain.PrivilegeMode
 
@@ -15,6 +16,7 @@ data class CapabilityResolution(
 
 class CapabilityResolver(context: Context? = null) {
     private val adb = AdbCapabilityProvider()
+    private val root = RootCapabilityProvider()
     private val shizuku = context?.let(::ShizukuCapabilityProvider)
 
     fun resolve(mode: PrivilegeMode): CapabilityResolution = when (mode) {
@@ -57,7 +59,21 @@ class CapabilityResolver(context: Context? = null) {
                 },
             )
         }
-        PrivilegeMode.ROOT -> unavailable(mode, "Root provider is not integrated yet.")
+        PrivilegeMode.ROOT -> {
+            when (val probe = root.probe()) {
+                is com.bare.capability.RootProbeResult.Success -> CapabilityResolution(
+                    mode = mode,
+                    available = true,
+                    authorized = true,
+                    executable = true,
+                    reason = "Root shell authorized as ${probe.identity.trim()}.",
+                )
+                is com.bare.capability.RootProbeResult.Failed -> unavailable(
+                    mode,
+                    "Root unavailable or unauthorized: ${probe.reason}",
+                )
+            }
+        }
     }
 
     private fun unavailable(mode: PrivilegeMode, reason: String) = CapabilityResolution(
