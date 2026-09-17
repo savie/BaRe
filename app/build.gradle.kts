@@ -1,3 +1,5 @@
+import java.io.File
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,6 +16,21 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+    }
+
+    val stableDebugKeystorePath = System.getenv("BARE_DEBUG_KEYSTORE_PATH")
+    if (!stableDebugKeystorePath.isNullOrBlank()) {
+        signingConfigs {
+            create("stableDebug") {
+                storeFile = File(stableDebugKeystorePath)
+                storePassword = System.getenv("BARE_DEBUG_KEYSTORE_PASSWORD") ?: "android"
+                keyAlias = System.getenv("BARE_DEBUG_KEY_ALIAS") ?: "androiddebugkey"
+                keyPassword = System.getenv("BARE_DEBUG_KEY_PASSWORD") ?: "android"
+            }
+        }
+        buildTypes.getByName("debug") {
+            signingConfig = signingConfigs.getByName("stableDebug")
+        }
     }
 
     buildFeatures {
