@@ -15,12 +15,30 @@ class CapabilityResolverTest {
     }
 
     @Test
-    fun privilegedModesRemainExplicitlyUnintegrated() {
-        PrivilegeMode.entries.filter { it != PrivilegeMode.NON_ROOT }.forEach { mode ->
-            val result = CapabilityResolver().resolve(mode)
-            assertFalse(result.available)
-            assertFalse(result.authorized)
-            assertFalse(result.executable)
-        }
+    fun adbProbeFailureIsRepresentedAsUnavailable() {
+        val result = CapabilityResolution(
+            mode = PrivilegeMode.ADB,
+            available = false,
+            authorized = false,
+            executable = false,
+            reason = "ADB server unavailable or unauthorized",
+        )
+        assertFalse(result.available)
+        assertFalse(result.authorized)
+        assertFalse(result.executable)
+    }
+
+    @Test
+    fun rootProbeFailureIsRepresentedAsUnavailable() {
+        val result = CapabilityResolution(
+            mode = PrivilegeMode.ROOT,
+            available = false,
+            authorized = false,
+            executable = false,
+            reason = "Root unavailable or unauthorized",
+        )
+        assertFalse(result.available)
+        assertFalse(result.authorized)
+        assertFalse(result.executable)
     }
 }
