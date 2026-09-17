@@ -1,6 +1,7 @@
 package com.bare.backup
 
 import android.content.Context
+import com.bare.capability.AdbCapabilityProvider
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.core.domain.PrivilegeMode
 
@@ -13,6 +14,7 @@ data class CapabilityResolution(
 )
 
 class CapabilityResolver(context: Context? = null) {
+    private val adb = AdbCapabilityProvider()
     private val shizuku = context?.let(::ShizukuCapabilityProvider)
 
     fun resolve(mode: PrivilegeMode): CapabilityResolution = when (mode) {
@@ -23,7 +25,21 @@ class CapabilityResolver(context: Context? = null) {
             executable = true,
             reason = "APK/package backup through app-visible Android APIs is available.",
         )
-        PrivilegeMode.ADB -> unavailable(mode, "ADB transport/provider is not integrated yet.")
+        PrivilegeMode.ADB -> {
+            when (val probe = adb.probe()) {
+                is com.bare.capability.AdbProbeResult.Success -> CapabilityResolution(
+                    mode = mode,
+                    available = true,
+                    authorized = true,
+                    executable = true,
+                    reason = "ADB server connected on 127.0.0.1:5037 as ${probe.identity}.",
+                )
+                is com.bare.capability.AdbProbeResult.Failed -> unavailable(
+                    mode,
+                    "ADB server unavailable or unauthorized: ${probe.reason}",
+                )
+            }
+        }
         PrivilegeMode.SHIZUKU -> {
             val provider = shizuku
                 ?: return unavailable(mode, "Shizuku runtime context is unavailable.")
