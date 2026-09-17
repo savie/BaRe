@@ -17,6 +17,7 @@ on:
 
 env:
   BARE_APPLICATION_ID: "com.savie.bare"
+  BARE_VERSION_NAME: "1.0"
   BARE_APK_PATH: "app/build/outputs/apk/debug/app-debug.apk"
   BARE_APK_UPDATE_MODE: "IN_PLACE"
 
@@ -24,6 +25,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      BARE_VERSION_CODE: ${{ github.run_number }}
 
     steps:
       - name: Checkout
@@ -47,6 +50,14 @@ jobs:
         run: |
           test -f "$BARE_APK_PATH"
           ls -lh "$BARE_APK_PATH"
+
+      - name: Label APK with build identity
+        run: |
+          versioned_apk="app/build/outputs/apk/debug/BaRe-v${BARE_VERSION_NAME}-build-${BARE_VERSION_CODE}.apk"
+          cp "$BARE_APK_PATH" "$versioned_apk"
+          echo "BARE_VERSIONED_APK_PATH=$versioned_apk" >> "$GITHUB_ENV"
+          echo "BaRe v${BARE_VERSION_NAME} build #${BARE_VERSION_CODE}"
+          ls -lh "$versioned_apk"
 
       - name: Optional in-place APK update
         id: update_apk
@@ -111,6 +122,9 @@ jobs:
           rm -f "$BARE_APK_PATH"
           gradle :app:assembleDebug --no-daemon
           test -f "$BARE_APK_PATH"
+          versioned_apk="app/build/outputs/apk/debug/BaRe-v${BARE_VERSION_NAME}-build-${BARE_VERSION_CODE}.apk"
+          cp "$BARE_APK_PATH" "$versioned_apk"
+          echo "BARE_VERSIONED_APK_PATH=$versioned_apk" >> "$GITHUB_ENV"
 
       - name: Retry in-place APK update with stable signing
         id: retry_update_apk
@@ -146,6 +160,6 @@ jobs:
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: BaRe-debug-apk
-          path: ${{ env.BARE_APK_PATH }}
+          name: BaRe-v${{ env.BARE_VERSION_NAME }}-build-${{ env.BARE_VERSION_CODE }}
+          path: ${{ env.BARE_VERSIONED_APK_PATH }}
           if-no-files-found: error
