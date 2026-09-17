@@ -113,6 +113,19 @@ Provider merealisasikan capability berdasarkan mechanism/environment, termasuk:
 
 Provider boleh berbeda implementasinya, tetapi domain operation tidak berubah.
 
+## Dependency Rules
+
+Dependency mengikuti arah:
+
+`UI → Application → Domain → Capability Provider → Platform/Infrastructure`
+
+- UI tidak memanggil provider/platform secara langsung.
+- Domain tidak bergantung pada Android framework, execution mode, atau provider implementation.
+- Application bergantung pada capability/domain abstraction, bukan detail mechanism.
+- Provider boleh bergantung pada platform API dan infrastructure yang diperlukan.
+- Cross-cutting concern tidak boleh menjadi jalan pintas untuk melewati boundary domain/provider.
+- Dependency tambahan boleh dibuat bila kebutuhan nyata membuktikannya, tetapi harus mempertahankan semantic domain yang independen dari mechanism.
+
 ## Shared Foundation
 
 Fondasi bersama yang perlu tersedia untuk seluruh product meliputi:
@@ -133,6 +146,32 @@ Fondasi bersama yang perlu tersedia untuk seluruh product meliputi:
 - test/verification infrastructure.
 
 Fondasi dibangun sebagai **shared substrate**, bukan sebagai feature slice yang harus diselesaikan end-to-end sebelum area lain boleh dikerjakan.
+
+## Canonical Lifecycle & State
+
+Operation memiliki lifecycle minimum:
+
+`PLANNED → VALIDATING → READY → RUNNING → {SUCCEEDED | FAILED | PARTIAL | BLOCKED | SKIPPED | CANCELLED}`
+
+Verification adalah state/evidence terpisah dari execution result:
+
+`UNVERIFIED → VERIFIED`.
+
+Artifact minimum memiliki lifecycle yang dapat membedakan staging dari committed state:
+
+`STAGING → COMMITTED → VERIFIED`
+
+atau terminal invalid/failed state bila validation atau commit gagal.
+
+State harus persisted sejauh diperlukan agar interruption, restart, diagnostics, dan recovery tidak kehilangan truth penting. State transition harus konsisten dan tidak boleh mengubah failure/partial menjadi success tanpa evidence.
+
+## Persistence Boundary
+
+Persistence bertanggung jawab menyimpan state yang diperlukan untuk continuity product, termasuk metadata artifact, operation history/result, configuration, schedule state, dan diagnostics yang memang diperlukan.
+
+Domain model tidak mengetahui detail database/file format. Application menentukan kebutuhan persistence; infrastructure menyediakan implementation.
+
+Data yang dapat direkonstruksi dari artifact tidak boleh dibuat sebagai duplicate source of truth tanpa alasan. Metadata yang menjadi authoritative harus memiliki ownership yang jelas.
 
 ## Backup Architecture
 
@@ -173,6 +212,19 @@ Select Artifact
 
 Tidak ada provider yang boleh melewati validation hanya karena memiliki privilege lebih tinggi.
 
+## Recovery & Idempotency
+
+Operation yang dapat diulang harus menentukan behavior terhadap retry, duplicate execution, stale staging, dan interrupted state.
+
+Minimum rule:
+
+- staging tidak dianggap committed;
+- retry tidak boleh menganggap partial mutation sebagai full success;
+- recovery harus memeriksa state aktual sebelum melanjutkan mutation;
+- cleanup hanya boleh menghapus state yang aman untuk dihapus;
+- operation yang tidak aman untuk diulang harus diblokir atau meminta explicit user action;
+- verification dilakukan terhadap hasil aktual, bukan hanya terhadap langkah yang telah dieksekusi.
+
 ## Storage
 
 Storage harus melalui abstraction yang membedakan:
@@ -200,6 +252,16 @@ Format backup BaRe harus versioned dan memiliki minimal:
 
 Path traversal, unsafe links, special files, invalid package identity, corrupt archive, dan write di luar target harus ditolak sebelum mutation.
 
+### Archive/Data Migration
+
+Perubahan format artifact atau persisted state harus versioned dan memiliki migration strategy yang eksplisit.
+
+- Reader harus mengenali version yang didukung.
+- Format/state yang tidak didukung harus ditolak secara jelas, bukan diparse secara spekulatif.
+- Migration harus menjaga integrity dan metadata yang diperlukan.
+- Migration yang gagal tidak boleh merusak source artifact/state.
+- Compatibility policy ditentukan per version berdasarkan kebutuhan nyata; tidak mengklaim backward/forward compatibility tanpa verification.
+
 ## Security
 
 Security menjadi boundary, bukan fitur tambahan di akhir:
@@ -221,11 +283,15 @@ Scheduled operation harus menggunakan operation/use-case yang sama dengan manual
 
 Background execution harus memiliki state `queued/running/succeeded/failed/blocked/skipped/cancelled` atau semantic equivalent yang jelas.
 
+Persisted schedule state harus dapat membedakan konfigurasi schedule, execution instance, dan hasil execution.
+
 ## Verification
 
 Setiap supported capability harus dapat ditelusuri:
 
 `Reference → Product Requirement → UX → Architecture → Implementation → Runtime Test → Evidence`
+
+Evidence harus mengidentifikasi setidaknya capability, target environment/device bila relevan, kondisi pengujian, expected result, observed result, dan status verification.
 
 Architecture tidak dianggap verified hanya karena code dapat dikompilasi.
 
@@ -237,4 +303,4 @@ BaRe tidak menggunakan source code, internal implementation, proprietary asset, 
 
 ## Status
 
-**ARCHITECTURE BASELINE — UX-FIRST WHOLE-PRODUCT BUILD DEFINED**
+**ARCHITECTURE BASELINE — RECONCILED / UX-FIRST WHOLE-PRODUCT / EXPLICIT LIFECYCLE & BOUNDARIES**
