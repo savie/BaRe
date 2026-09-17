@@ -27,6 +27,7 @@ jobs:
     timeout-minutes: 30
     env:
       BARE_VERSION_CODE: ${{ github.run_number }}
+      BARE_EXPECTED_DEBUG_CERT_SHA256: 1BAF08DCAC7AEE98E4769795A71E3F74070FDB56B03A44C3119D273A66722391
 
     steps:
       - name: Checkout
@@ -47,14 +48,9 @@ jobs:
         id: prepare_stable_key
         env:
           BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
-          BARE_EXPECTED_DEBUG_CERT_SHA256: ${{ vars.BARE_EXPECTED_DEBUG_CERT_SHA256 }}
         run: |
           if [ -z "$BARE_DEBUG_KEYSTORE_B64" ]; then
             echo "BARE_DEBUG_KEYSTORE_B64 is required for the CI APK channel."
-            exit 1
-          fi
-          if [ -z "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
-            echo "BARE_EXPECTED_DEBUG_CERT_SHA256 repository variable is required for stable signing."
             exit 1
           fi
           mkdir -p "$HOME/.android"
@@ -72,10 +68,9 @@ jobs:
           chmod 600 "$HOME/.android/debug.keystore"
 
           actual_cert_sha256="$(keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | awk -F': ' '/SHA256:/{print $2}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
-          expected_cert_sha256="$(printf '%s' "$BARE_EXPECTED_DEBUG_CERT_SHA256" | tr -d ':' | tr '[:lower:]' '[:upper:]')"
-          if [ "$actual_cert_sha256" != "$expected_cert_sha256" ]; then
+          if [ "$actual_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
             echo "Stable debug keystore certificate fingerprint mismatch."
-            echo "Expected: $expected_cert_sha256"
+            echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
             echo "Actual:   $actual_cert_sha256"
             exit 1
           fi
@@ -102,10 +97,9 @@ jobs:
           fi
           "$apksigner_path" verify --verbose --print-certs "$BARE_APK_PATH"
           actual_apk_cert_sha256="$("$apksigner_path" verify --print-certs "$BARE_APK_PATH" | awk '/V2 Signer: certificate SHA-256 digest:/{print $NF}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
-          expected_apk_cert_sha256="$(printf '%s' "${{ vars.BARE_EXPECTED_DEBUG_CERT_SHA256 }}" | tr -d ':' | tr '[:lower:]' '[:upper:]')"
-          if [ "$actual_apk_cert_sha256" != "$expected_apk_cert_sha256" ]; then
+          if [ "$actual_apk_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
             echo "Built APK certificate fingerprint mismatch."
-            echo "Expected: $expected_apk_cert_sha256"
+            echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
             echo "Actual:   $actual_apk_cert_sha256"
             exit 1
           fi
