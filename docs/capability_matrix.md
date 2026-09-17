@@ -38,6 +38,39 @@ Minimum semantic:
 
 Contoh: `App APK = SUCCESS`, `App Data = UNAVAILABLE` tidak boleh dipadatkan menjadi full-backup success.
 
+### Implementation / Verification State
+
+Availability dan verification bukan pengganti status implementation. Untuk tracking engineering, gunakan state berikut bila diperlukan:
+
+`UX_SHELL · PARTIAL · IMPLEMENTED · RUNTIME_TESTED · VERIFIED`
+
+Interpretasi:
+
+- `UX_SHELL` — surface UX ada, behavior masih mock/static/placeholder.
+- `PARTIAL` — sebagian implementation nyata sudah ada, tetapi scope capability belum lengkap.
+- `IMPLEMENTED` — implementation capability sudah ada sesuai scope yang dinyatakan, tetapi evidence runtime belum cukup untuk verification.
+- `RUNTIME_TESTED` — runtime test sudah dijalankan dan observed result tersedia, tetapi verification conclusion/evidence belum lengkap.
+- `VERIFIED` — acceptance criteria dan evidence yang diperlukan terpenuhi untuk target environment yang dinyatakan.
+
+**Current baseline:** repository memiliki whole-product UX shell awal; backend capability implementation belum dinyatakan implemented/verified hanya dari keberadaan menu atau screen. Status per capability harus diperbarui berdasarkan actual implementation dan evidence.
+
+## Evidence Model
+
+Setiap capability yang menuju `RUNTIME_TESTED` atau `VERIFIED` harus memiliki evidence yang dapat ditelusuri minimal:
+
+`Capability ID → Target Environment → Preconditions → Test/Input → Expected → Observed → Result → Evidence Reference`
+
+Evidence reference dapat berupa test output, runtime log, artifact/hash, screenshot bila relevan, device observation, atau record lain yang benar-benar mendukung claim. Jangan menggunakan reference audit sebagai pengganti runtime evidence.
+
+## Platform vs Implementation Limitation
+
+Constraint harus dibaca dengan dua sumber limitation yang berbeda:
+
+- **Platform limitation** — Android version/API, permission, role, device policy, hardware, storage, network, atau privilege yang memang membatasi capability.
+- **Implementation limitation** — BaRe belum memiliki provider, logic, integration, atau verification yang diperlukan.
+
+Keduanya tidak boleh disamakan. `UNAVAILABLE` karena platform tidak sama dengan `NOT_IMPLEMENTED` pada BaRe.
+
 ## Execution Source
 
 Resolver memilih atau memvalidasi capability source berdasarkan operation requirement. Tidak boleh menganggap `ROOT` atau `ADB` otomatis membuat semua capability tersedia.
@@ -68,6 +101,14 @@ Pada setiap iteration:
 
 Pekerjaan dapat berpindah antar area. Shared foundation boleh diperbaiki ketika kebutuhan capability nyata menemukannya. Capability yang belum membutuhkan implementation tidak harus dipaksa dikerjakan hanya karena posisinya ada di matrix.
 
+### Capability → Journey → Evidence
+
+Setiap capability yang dinyatakan supported harus dapat dipetakan ke minimal satu user journey dan evidence verification. Mapping dapat dicatat pada test/evidence record tanpa membuat file contract baru.
+
+Bentuk canonical:
+
+`CAP-ID → Journey/Operation → Implementation State → Runtime Test → Evidence → Verification State`
+
 ### Reference Validation Paths
 
 Jalur seperti:
@@ -81,4 +122,4 @@ adalah **contoh validation path**, bukan urutan pekerjaan dan bukan daftar slice
 
 ## Status
 
-**CAPABILITY MAP — UX-FIRST / DYNAMIC IMPLEMENTATION MODEL DEFINED**
+**CAPABILITY MAP — RECONCILED / EVIDENCE-BASED IMPLEMENTATION & VERIFICATION MODEL**
