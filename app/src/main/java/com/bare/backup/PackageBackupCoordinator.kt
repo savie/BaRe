@@ -1,6 +1,7 @@
 package com.bare.backup
 
 import android.content.Context
+import com.bare.capability.AdbCapabilityProvider
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.core.domain.PrivilegeMode
 import java.io.File
@@ -8,6 +9,7 @@ import java.io.File
 class PackageBackupCoordinator(private val context: Context) {
     private val discovery = PackageDiscovery(context)
     private val resolver = CapabilityResolver(context)
+    private val adb = AdbCapabilityProvider()
     private val shizuku = ShizukuCapabilityProvider(context)
     private val writer = BackupArchiveWriter()
 
@@ -22,22 +24,53 @@ class PackageBackupCoordinator(private val context: Context) {
         val safeName = packageName.replace(Regex("[^A-Za-z0-9._-]"), "_")
         val archive = nextArchiveFile(backupDir, safeName, target.versionCode)
 
-        if (mode != PrivilegeMode.SHIZUKU) {
-            return writer.write(archive, target, BackupPlan(packageName, mode))
+        return when (mode) {
+            PrivilegeMode.NON_ROOT ->
+                writer.write(archive, target, BackupPlan(packageName, mode))
+            PrivilegeMode.ADB -> backupViaAdb(packageName, target, archive)
+            PrivilegeMode.SHIZUKU -> backupViaShizuku(packageName, target, archive)
+            PrivilegeMode.ROOT ->
+                BackupResult.Rejected("Root provider is not integrated yet.")
         }
+    }
 
-        val staging = File(context.cacheDir, "shizuku-apk-$safeName")
+    private fun backupViaAdb(
+        packageName: String,
+        target: DiscoveredPackage,
+        archive: File,
+    ): BackupResult {
+        val staging = File(context.cacheDir, "adb-apk-${packageName.replace(Regex("[^A-Za-z0-9._-]"), "_")}")
+        val copied = adb.copyPackageApks(packageName, staging)
+        if (copied !is com.bare.capability.AdbCopyResult.Success) {
+            return BackupResult.Failed(copied.reason)
+        }
+        return try {
+            val adbTarget = target.copy(
+                sourceApk = copied.files.first().absolutePath,
+                splitApks = copied.files.drop(1).map(File::getAbsolutePath),
+            )
+            writer.write(archive, adbTarget, BackupPlan(packageName, PrivilegeMode.ADB))
+        } finally {
+            staging.deleteRecursively()
+        }
+    }
+
+    private fun backupViaShizuku(
+        packageName: String,
+        target: DiscoveredPackage,
+        archive: File,
+    ): BackupResult {
+        val staging = File(context.cacheDir, "shizuku-apk-${packageName.replace(Regex("[^A-Za-z0-9._-]"), "_")}")
         val copied = shizuku.copyPackageApks(packageName, staging)
         if (copied !is com.bare.capability.ShizukuCopyResult.Success) {
             return BackupResult.Failed((copied as com.bare.capability.ShizukuCopyResult.Failed).reason)
         }
-
         return try {
             val privilegedTarget = target.copy(
                 sourceApk = copied.files.first().absolutePath,
                 splitApks = copied.files.drop(1).map(File::getAbsolutePath),
             )
-            writer.write(archive, privilegedTarget, BackupPlan(packageName, mode))
+            writer.write(archive, privilegedTarget, BackupPlan(packageName, PrivilegeMode.SHIZUKU))
         } finally {
             staging.deleteRecursively()
         }
