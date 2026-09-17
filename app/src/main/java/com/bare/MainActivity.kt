@@ -2,7 +2,9 @@ package com.bare
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,6 +36,8 @@ import com.bare.capability.RootProbeResult
 import com.bare.capability.ShizukuCapabilityProvider
 import com.bare.capability.ShizukuProbeResult
 import com.bare.core.domain.PrivilegeMode
+import com.bare.restore.PackageRestoreCoordinator
+import com.bare.restore.RestoreResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,6 +62,32 @@ private fun BaReRoot() {
     val adb = remember { AdbCapabilityProvider() }
     val shizuku = remember { ShizukuCapabilityProvider(context) }
     val root = remember { RootCapabilityProvider() }
+    val restoreLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri == null) {
+            status = "Restore cancelled"
+        } else {
+            status = "Restoring selected backup…"
+            scope.launch {
+                val result = withContext(Dispatchers.IO) {
+                    val local = java.io.File(context.cacheDir, "selected-restore-${System.currentTimeMillis()}.bare.zip")
+                    runCatching {
+                        context.contentResolver.openInputStream(uri)?.use { input ->
+                            local.outputStream().use { output -> input.copyTo(output) }
+                        } ?: error("Unable to open selected backup")
+                        PackageRestoreCoordinator(context).restore(local)
+                    }.getOrElse { RestoreResult.Failed("Restore input failed: ${it.message}", it) }
+                        .also { local.delete() }
+                }
+                status = when (result) {
+                    is RestoreResult.Success -> "Restore verified: ${result.packageName} · ${result.status}"
+                    is RestoreResult.Rejected -> "Restore rejected: ${result.reason}"
+                    is RestoreResult.Failed -> "Restore failed: ${result.reason}"
+                }
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         packages = withContext(Dispatchers.IO) { PackageDiscovery(context).discover() }
@@ -74,21 +104,17 @@ private fun BaReRoot() {
             Text(status, style = MaterialTheme.typography.bodyMedium)
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { selectedMode = PrivilegeMode.NON_ROOT }) {
-                    Text("NON_ROOT")
-                }
-                Button(onClick = { selectedMode = PrivilegeMode.ADB }) {
-                    Text("ADB")
-                }
-                Button(onClick = { selectedMode = PrivilegeMode.SHIZUKU }) {
-                    Text("SHIZUKU")
-                }
-                Button(onClick = { selectedMode = PrivilegeMode.ROOT }) {
-                    Text("ROOT")
-                }
+                Button(onClick = { selectedMode = PrivilegeMode.NON_ROOT }) { Text("NON_ROOT") }
+                Button(onClick = { selectedMode = PrivilegeMode.ADB }) { Text("ADB") }
+                Button(onClick = { selectedMode = PrivilegeMode.SHIZUKU }) { Text("SHIZUKU") }
+                Button(onClick = { selectedMode = PrivilegeMode.ROOT }) { Text("ROOT") }
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = {
+                    restoreLauncher.launch(arrayOf("application/zip", "application/octet-stream"))
+                }) { Text("Restore Backup") }
+
                 Button(onClick = {
                     scope.launch {
                         status = "Testing ADB localhost:5037…"
@@ -98,9 +124,7 @@ private fun BaReRoot() {
                             is AdbProbeResult.Failed -> "ADB probe failed: ${result.reason}"
                         }
                     }
-                }) {
-                    Text("Test ADB")
-                }
+                }) { Text("Test ADB") }
 
                 Button(onClick = {
                     when {
@@ -113,21 +137,16 @@ private fun BaReRoot() {
                         else -> {
                             status = "Executing privileged Shizuku probe…"
                             scope.launch {
-                                val result = withContext(Dispatchers.IO) {
-                                    shizuku.probe(context.packageName)
-                                }
+                                val result = withContext(Dispatchers.IO) { shizuku.probe(context.packageName) }
                                 status = when (result) {
                                     is ShizukuProbeResult.Success ->
                                         "Shizuku verified: ${result.identity}; ${result.packagePaths.size} APK path(s)"
-                                    is ShizukuProbeResult.Failed ->
-                                        "Shizuku probe failed: ${result.reason}"
+                                    is ShizukuProbeResult.Failed -> "Shizuku probe failed: ${result.reason}"
                                 }
                             }
                         }
                     }
-                }) {
-                    Text("Test Shizuku")
-                }
+                }) { Text("Test Shizuku") }
 
                 Button(onClick = {
                     scope.launch {
@@ -138,9 +157,7 @@ private fun BaReRoot() {
                             is RootProbeResult.Failed -> "Root probe failed: ${result.reason}"
                         }
                     }
-                }) {
-                    Text("Test Root")
-                }
+                }) { Text("Test Root") }
             }
 
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -156,17 +173,12 @@ private fun BaReRoot() {
                                     PackageBackupCoordinator(context).backup(app.packageName, mode)
                                 }
                                 status = when (result) {
-                                    is BackupResult.Success ->
-                                        "Backup verified via ${mode.name}: ${result.artifact.archive.name}"
-                                    is BackupResult.Rejected ->
-                                        "Backup rejected via ${mode.name}: ${result.reason}"
-                                    is BackupResult.Failed ->
-                                        "Backup failed via ${mode.name}: ${result.reason}"
+                                    is BackupResult.Success -> "Backup verified via ${mode.name}: ${result.artifact.archive.name}"
+                                    is BackupResult.Rejected -> "Backup rejected via ${mode.name}: ${result.reason}"
+                                    is BackupResult.Failed -> "Backup failed via ${mode.name}: ${result.reason}"
                                 }
                             }
-                        }) {
-                            Text("Backup APK (${selectedMode.name})")
-                        }
+                        }) { Text("Backup APK (${selectedMode.name})") }
                     }
                 }
             }
