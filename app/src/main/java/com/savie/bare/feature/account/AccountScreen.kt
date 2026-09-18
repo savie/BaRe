@@ -1,4 +1,4 @@
-package com.savie.bare.feature.account
+package com.bare.feature.account
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.Screen
-import com.savie.bare.R
-import com.savie.bare.ui.components.ListEntry
+import com.bare.app.Screen
+import com.bare.R
+import com.bare.ui.components.ListEntry
 
 @Composable
 fun AccountScreen(onOpen: (Screen) -> Unit) {
