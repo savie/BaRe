@@ -128,7 +128,7 @@ fun BaReApp() {
                     onCreateAccount = { startScreen = StartScreen.STORAGE_SETUP },
                     onBack = ::goBack,
                 )
-                StartScreen.STORAGE_SETUP -> StorageSetupScreen({ startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
+                StartScreen.STORAGE_SETUP -> StorageSetupScreen(identityType?.let { identityStore.load()?.identityId }, { startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
                     { selectedMethod = it },
