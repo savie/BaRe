@@ -1,6 +1,5 @@
 package com.savie.bare.feature.misc
 
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +19,7 @@ import com.savie.bare.app.Screen
 import com.savie.bare.app.demoApps
 import com.savie.bare.ui.components.ListEntry
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun CloudScreen(onBack: () -> Unit) {
     Scaffold(topBar = { TopAppBar(title = { Text("Cloud sync") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") } }) }) { padding ->
@@ -58,6 +58,7 @@ fun SearchScreen(query: String, onQueryChange: (String) -> Unit, onOpenApp: (App
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun GenericDomainScreen(title: String, subtitle: String, entries: List<String>, onBack: () -> Unit) {
     Scaffold(topBar = { TopAppBar(title = { Text(title) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") } }) }) { padding ->
