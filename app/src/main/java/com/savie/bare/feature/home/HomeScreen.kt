@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.Screen
+import com.savie.bare.R
 import com.savie.bare.ui.components.ActionCard
 import com.savie.bare.ui.components.ListEntry
 import com.savie.bare.ui.components.StatusCard
