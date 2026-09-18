@@ -552,3 +552,48 @@ Welcome → Local Setup → Backup Storage
 dan
 Welcome → Sign In → Create account → Sign Up → Backup Storage.
 Setelah jalur ini stabil, lanjutkan scope Backup Storage tanpa membuat tahap baru.
+
+
+## 2026-09-18 — Audit Fondasi Identity Local dan Jalur Account
+
+### Pekerjaan
+Inspeksi kondisi aktual setelah verifikasi runtime pengguna pada APK build/CI #199 dan diskusi pembentukan satu BaRe Identity untuk jalur LOCAL dan ACCOUNT.
+
+### Teramati
+- Runtime build #199 telah digunakan pengguna untuk memeriksa alur Welcome, Local Setup, Sign In, dan Sign Up. Screenshot menunjukkan alur FE dapat dinavigasi sesuai scope yang sedang dikerjakan.
+- Source saat ini sudah memiliki `IdentityType.LOCAL` dan `IdentityType.ACCOUNT`.
+- `BaReApp.kt` masih menyimpan `identityType`, email login, dan email sign-up sebagai state Compose sementara; belum ada pemuatan atau penyimpanan identity dari persistence.
+- `LoginScreen` saat ini menggunakan field password kosong dengan callback kosong, sehingga password belum benar-benar ditangkap oleh state. `SignUpScreen` memiliki masalah yang sama untuk password dan confirm password.
+- Belum ada dependency database/persistence pada `app/build.gradle.kts` selain dependency aplikasi/UI yang sedang digunakan. Belum ditemukan implementasi persistence untuk identity.
+- `AndroidManifest.xml` tidak menunjukkan storage/database component khusus; manifest masih berupa bootstrap activity/application.
+- Tidak ditemukan `app/src/test` atau `app/src/androidTest` pada branch saat inspeksi.
+- Architecture BaRe sudah menetapkan Persistence sebagai shared foundation dan menetapkan bahwa domain tidak mengetahui detail database/file format; implementation harus mengikuti kebutuhan nyata.
+
+### Temuan
+- FE onboarding sudah cukup untuk menjadi permukaan kerja, tetapi Local belum membentuk atau me-resolve BaRe Identity secara persistent.
+- Local belum dapat dinyatakan benar-benar hidup karena state identity masih in-memory UI.
+- Password/credential input pada FE auth belum lengkap dan belum boleh dianggap authentication capability.
+- Belum ada alasan teknis untuk mengikat Local ke backend atau Supabase. Local dapat dibangun dengan persistence device terlebih dahulu.
+- Account tetap perlu dipertahankan sebagai jalur produk. Implementasi backend/provider belum ditentukan dan tidak perlu dipaksa ke Supabase pada scope ini.
+- Model yang perlu dipertahankan adalah satu **BaRe Identity** dengan `IdentityType.LOCAL` atau `IdentityType.ACCOUNT`; perbedaan provider/persistence tidak boleh membuat model data inti Local dan Account menjadi dua schema domain yang berbeda.
+
+### Batas Scope
+Scope tetap berada di R3–R4–R5:
+- R3: verifikasi dan perapian behavior FE yang diperlukan.
+- R4: pembekuan FE setelah kontrak identity/auth dan desain UI cukup stabil.
+- R5: implementasi capability Local Identity dan persistence yang benar-benar dibutuhkan untuk jalur Local sampai Home.
+Tidak membuat tahap baru.
+
+### Belum Diputuskan
+- Nama/teknologi persistence Local.
+- Struktur field final BaRe Identity.
+- Pemisahan data biasa, secret/credential, dan session.
+- Provider/backend Account.
+- Apakah Account pada akhirnya membutuhkan backend, dan jika membutuhkan, provider apa.
+- Detail lifecycle uninstall/reset/migrasi yang belum diperlukan untuk menutup Local scope pertama.
+
+### Kondisi Saat Ini
+`FE_FLOW_RUNTIME_OBSERVED / LOCAL_IDENTITY_NOT_PERSISTED / AUTH_FE_INCOMPLETE / ACCOUNT_PROVIDER_OPEN / R3_IN_PROGRESS / R4_NOT_LOCKED / R5_NEXT`
+
+### Berikutnya
+Inspect kebutuhan data minimum untuk satu BaRe Identity dan persistence Local, lalu rancang implementation paling sederhana yang tetap kompatibel dengan Account tanpa mengunci provider/backend. Setelah kontrak cukup jelas, implementasikan Local secara nyata dan verifikasi persistence melalui restart aplikasi.
