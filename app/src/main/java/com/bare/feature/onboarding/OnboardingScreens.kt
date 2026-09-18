@@ -44,7 +44,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier.size(210.dp).offset(x = 10.dp),
+            modifier = Modifier.size(210.dp).offset(x = 30.dp),
             contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
