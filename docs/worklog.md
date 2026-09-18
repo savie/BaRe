@@ -2,7 +2,7 @@
 
 Worklog adalah catatan kesinambungan pekerjaan BaRe. **Setiap pekerjaan engineering yang berdampak harus dicatat di sini setelah pekerjaan tersebut dilakukan**, termasuk audit, rekonsiliasi, perubahan dokumentasi, implementasi, test, verifikasi, deployment, dan recovery.
 
-## 2026-09-17 — Repository Boundary Rekonsiliasi
+## 2026-09-17 — Rekonsiliasi Batas Repository
 
 ### Pekerjaan Saat Ini
 Merekonsiliasi batas dokumentasi antara `Varnexis-Workspace` dan `BaRe` setelah ditemukan overlap dan reference audit sebelumnya dibuat langsung di repo BaRe tanpa konteks governance workspace.
@@ -47,7 +47,7 @@ Merekonsiliasi batas dokumentasi antara `Varnexis-Workspace` dan `BaRe` setelah 
 - Lanjutkan implementasi dari kondisi aktual di BaRe dengan membaca `README.md` dan `docs/*` serta governance yang ditunjuk README.
 - Setelah setiap pekerjaan consequential berikutnya, update worklog ini.
 
-## 2026-09-17 — UX/UI Foundation
+## 2026-09-17 — Fondasi UX/UI
 
 ### Pekerjaan Saat Ini
 UX/UI foundation — shell seluruh produk.
@@ -78,7 +78,7 @@ UX/UI foundation — shell seluruh produk.
 - Per-component result agar `SUCCESS` tidak menyamarkan partial/failed state.
 - Execution mode tidak dibawa menjadi semantic domain contract.
 
-## 2026-09-17 — CI Path Filtering
+## 2026-09-17 — Penyaringan Path CI
 
 ### Pekerjaan Saat Ini
 Mengurangi trigger GitHub Actions untuk perubahan dokumentasi yang tidak membutuhkan build Android.
@@ -161,7 +161,7 @@ Mengubah UX shell agar mengikuti pola dasar dan alur reference, dengan penyederh
 ### Verifikasi
 - Source change berhasil ditulis ke branch `v1.0/rebaseline` pada commit `7817aca2ec54d4ad1059fbd9a4a26369065104ef`.
 - Build/verifikasi runtime setelah perubahan ini: UNVERIFIED.
-- Actual Android back behavior, gesture pager, backend login, dan deteksi root belum diuji pada device/runtime.
+- Perilaku Android back aktual, gesture pager, login di belakang FE, dan deteksi root belum diuji pada device/runtime.
 
 ### Belum Dikerjakan / Tidak Diubah
 - Belum mengimplementasikan implementasi backup/restore di belakang FE.
@@ -169,7 +169,7 @@ Mengubah UX shell agar mengikuti pola dasar dan alur reference, dengan penyederh
 - Belum mengimplementasikan root/non-root capability detection/execution.
 - Belum mengubah archive, provider storage, persistence, implementasi scheduler, atau provider cloud.
 
-## 2026-09-18 — Reference Documentation Governance Rekonsiliasi
+## 2026-09-18 — Rekonsiliasi Governance Dokumentasi Reference
 
 ### Pekerjaan Saat Ini
 Memperbaiki `docs/reference.md` agar mengikuti README dan Governance: authority, status dokumen, precedence sumber, bahasa evidence, dan boundary antara interpretasi turunan reference dengan keputusan canonical BaRe.
@@ -191,9 +191,9 @@ Memperbaiki `docs/reference.md` agar mengikuti README dan Governance: authority,
 - Tidak ada implementasi capability baru yang diklaim.
 
 ### Belum Dikerjakan / Tidak Diubah
-- Tidak melakukan runtime execution terhadap Swift Backup.
+- Tidak melakukan eksekusi runtime terhadap Swift Backup.
 - Tidak mengubah product/architecture/capability decisions.
-- Tidak mengklaim parity atau capability runtime BaRe.
+- Tidak mengklaim kesetaraan atau capability runtime BaRe.
 
 ### Verifikasi Lanjutan
 - Setelah pemeriksaan ulang, ditemukan satu stale repository-state reference di `docs/reference.md`; record tersebut dikoreksi.
@@ -214,19 +214,19 @@ Pemeriksaan kondisi aktual setelah audit Swift Backup untuk memastikan posisi Ba
 - Workflow CI saat ini memiliki jalur build, signing verifikasi, artifact upload, dan optional adb install -r; device update belum menjadi runtime-verified state.
 
 ### Hasil Rekonsiliasi
-- Whole-product UX shell: OBSERVED / IMPLEMENTED AS UI SHELL.
+- Shell UX seluruh produk: OBSERVED / IMPLEMENTED AS UI SHELL.
 - Backend capability v1.0: NOT IMPLEMENTED / UNVERIFIED dari source aktual yang diperiksa.
 - CAP-01 sampai CAP-17 belum boleh dinaikkan ke IMPLEMENTED, RUNTIME_TESTED, atau VERIFIED hanya berdasarkan screen/menu.
-- Acceptance chain product masih terputus pada implementasi/runtime evidence.
+- Rantai acceptance produk masih terputus pada implementasi/runtime evidence.
 - Tidak ada perubahan implementasi source pada pemeriksaan ini.
 
 ### Hambatan Saat Ini
 CI build setelah perubahan UX pada commit 7817aca2ec54d4ad1059fbd9a4a26369065104ef tercatat di worklog sebelumnya sebagai UNVERIFIED dan sebelumnya dilaporkan gagal pada :app:compileDebugKotlin. Status aktual terbaru belum dapat dinyatakan berhasil tanpa run baru.
 
 ### Berikutnya
-Sebelum memilih capability feature, selesaikan baseline build/verifikasi runtime terhadap actual shell, lalu gunakan hasilnya untuk menentukan fondasi bersama pertama yang benar-benar dibutuhkan. Hard reset belum dilakukan.
+Sebelum memilih fitur capability, selesaikan baseline build/verifikasi runtime terhadap shell aktual, lalu gunakan hasilnya untuk menentukan fondasi bersama pertama yang benar-benar dibutuhkan. Hard reset belum dilakukan.
 
-## 2026-09-18 — FE Mockup Expansion
+## 2026-09-18 — Perluasan Mockup FE
 
 ### Pekerjaan Saat Ini
 Membangun mockup FE lengkap berbasis evidence/reference Swift yang sudah direkonsiliasi, dengan tujuan mengunci permukaan dan alur UI terlebih dahulu sebelum implementasi capability di belakang FE.
@@ -248,7 +248,7 @@ Membangun mockup FE lengkap berbasis evidence/reference Swift yang sudah direkon
 - Source change committed pada `facb6c5de42aa3b6e385b4c9765a0254334aed30`.
 - GitHub Actions run #121 terpicu untuk commit tersebut.
 - Saat pencatatan ini dibuat, job `build` masih `in_progress` pada langkah `Assemble debug APK`; hasil build akhir belum dapat dinyatakan VERIFIED.
-- Device/runtime install tidak dijalankan oleh commit ini.
+- Install device/runtime tidak dijalankan oleh commit ini.
 
 ### Berikutnya
 Review visual/mockup dengan user. Jika bentuk FE belum sesuai, revisi permukaan/state terlebih dahulu; jika sudah sesuai, baru bekukan FE baseline dan lanjut ke contract capability/lapisan implementasi di belakang FE secara bertahap.
@@ -256,14 +256,14 @@ Review visual/mockup dengan user. Jika bentuk FE belum sesuai, revisi permukaan/
 ## 2026-09-18 — R1-R3 refactor struktural FE dan persiapan verifikasi
 
 ### Pernyataan Pengguna
-User authorized execution of R1-R3 sekaligus agar FE mockup dapat langsung masuk fase visual verifikasi/editing sebelum FE baseline dikunci.
+Pengguna mengotorisasi pengerjaan of R1-R3 sekaligus agar FE mockup dapat langsung masuk fase visual verifikasi/editing sebelum FE baseline dikunci.
 
 ### Keputusan
 - MainActivity.kt menjadi Android titik masuk saja.
 - App-level state/navigation dipisahkan ke app/.
 - Compose theme dipisahkan ke ui/theme/.
 - Reusable UI primitives dipisahkan ke ui/components/.
-- Product permukaans dipisahkan berdasarkan feature di feature/.
+- Permukaan produk dipisahkan berdasarkan feature di feature/.
 - Mock data/state tetap bersifat FE mockup dan belum menjadi implementasi capability.
 - styles.xml dipertahankan sebagai bootstrap window Android; styling komponen visual menjadi tanggung jawab Compose theme.
 - Ditambahkan dukungan Compose Preview untuk mempercepat visual verifikasi.
@@ -283,9 +283,9 @@ Refactor v1.0/rebaseline memecah:
 - feature/account/AccountScreen.kt
 - feature/misc/MiscScreens.kt
 - ui/PreviewScreens.kt untuk preview FE inti.
-- app/build.gradle.kts mendapat Compose preview dependency.
-- res/values/styles.xml dibatasi sebagai bootstrap window Android dan diselaraskan dengan dark Compose shell.
-- Shared list/status components mendapat accessibility content descriptions.
+- app/build.gradle.kts mendapat dependency Compose Preview.
+- res/values/styles.xml dibatasi sebagai bootstrap window Android dan diselaraskan dengan shell Compose gelap.
+- Shared list/status components mendapat content description untuk accessibility.
 
 ### Verifikasi
 - Source refactor committed ke branch v1.0/rebaseline.
@@ -302,35 +302,35 @@ Lanjutkan review visual dan edit mockup berdasarkan masukan pengguna. Setelah FE
 ## 2026-09-18 — R1-R3 lanjutan: resource, ikon, dan perapian branding
 
 ### Pernyataan Pengguna
-Pengguna menjelaskan that the default APK language can remain English and future languages can be added through additional `strings.xml` resources. Pengguna juga meminta ikon Material bawaan yang umum dan sesuai and a generic backup-oriented logo instead of the Android-head placeholder.
+Pengguna menjelaskan that bahasa default APK tetap bahasa Inggris dan bahasa tambahan dapat ditambahkan melalui resource `strings.xml`. Pengguna juga meminta ikon Material bawaan yang umum dan sesuai serta logo bertema backup sebagai pengganti placeholder kepala Android.
 
 ### Keputusan
-- Default UI language: English.
-- UI text is moved toward Android string resources so bahasa/locale tambahan can be added later without changing screen structure.
-- Use built-in Material icons that semantically match the permukaan; avoid generic `Info` icons where a specific common icon exists.
-- Welcome logo uses a generic built-in backup icon rather than an Android robot/head visual.
-- Scope tetap R1-R3; R4 is still belum dikunci and implementasi capability does not start.
+- Bahasa UI default: bahasa Inggris.
+- Teks UI dipindahkan ke Android string resources agar bahasa/locale tambahan dapat ditambahkan tanpa mengubah struktur screen.
+- Gunakan ikon Material bawaan yang sesuai dengan fungsi permukaan; hindari ikon `Info` generik jika tersedia ikon umum yang lebih spesifik.
+- Logo Welcome menggunakan ikon backup bawaan, bukan visual robot/kepala Android.
+- Scope tetap R1–R3; R4 masih belum dikunci dan implementasi capability penuh belum dimulai.
 
 ### Implementasi
-- Menambahkan `app/src/main/res/values/strings.xml` with the resource UI default bahasa Inggris saat ini.
-- Memindahkan the onboarding, app shell, Home, Apps, Schedules, Account, shared components, and miscellaneous mockup permukaans to use string resources.
-- Mengubah app tab labels to ID resource and resolved them at the Compose UI boundary.
-- Mengubah access-method labels/descriptions to ID resource.
-- Mengganti several generic icons with more ikon bawaan yang lebih spesifik, including SMS, Call, Wi-Fi, Wallpaper, BugReport, Tune, and ImportExport where applicable.
-- Mengganti the Welcome-screen single-letter logo treatment with the built-in Backup icon.
-- Mempertahankan `styles.xml` as bootstrap window Android; Compose remains the pemilik theme komponen visual.
+- Menambahkan `app/src/main/res/values/strings.xml` dengan resource UI default bahasa Inggris saat ini.
+- Memindahkan onboarding, app shell, Home, Apps, Schedules, Account, shared components, dan permukaan mockup lainnya untuk menggunakan string resources.
+- Mengubah label tab aplikasi menjadi ID resource dan menyelesaikannya pada boundary UI Compose.
+- Mengubah label/deskripsi access method menjadi ID resource.
+- Mengganti beberapa ikon generik dengan ikon bawaan yang lebih spesifik, termasuk SMS, Call, Wi-Fi, Wallpaper, BugReport, Tune, dan ImportExport jika sesuai.
+- Mengganti perlakuan logo satu huruf pada Welcome dengan ikon Backup bawaan.
+- Mempertahankan `styles.xml` sebagai bootstrap window Android; Compose tetap menjadi pemilik theme komponen visual.
 
 ### Verifikasi
-- Git branch `v1.0/rebaseline` remains ahead of the previous R1-R3 baseline and contains the perubahan resource/ikon.
-- Local build verifikasi was attempted but blocked by the execution environment's inability to resolve `github.com`; therefore status build remains UNVERIFIED.
-- status CI for the commit resource/ikon terbaru has not been established by an applicable workflow run; no success is klaimed.
-- Device/runtime visual verifikasi remains pending.
+- Branch Git `v1.0/rebaseline` tetap berada di atas baseline R1–R3 sebelumnya dan memuat perubahan resource/ikon.
+- Verifikasi build lokal dicoba tetapi terhambat karena environment eksekusi tidak dapat me-resolve `github.com`; status build tetap UNVERIFIED.
+- Status CI untuk commit resource/ikon terbaru belum ditetapkan oleh workflow yang sesuai; tidak ada klaim success.
+- Verifikasi visual device/runtime masih tertunda.
 
 ### Kondisi Saat Ini
 FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
 
 ### Berikutnya
-Lanjutkan review visual/editing of the mockup. Jangan freeze R4 until the user approves the FE permukaan.
+Lanjutkan review dan editing mockup. Jangan bekukan R4 sebelum pengguna menyetujui permukaan FE.
 
 
 iry hanya membatasi capability yang membutuhkan session account/authentication yang valid.
