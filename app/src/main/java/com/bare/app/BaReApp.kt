@@ -158,7 +158,7 @@ fun BaReApp() {
                     { searchOpen = true }, { searchOpen = false },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } }, { selectedApp = it; screen = Screen.APP_DETAIL },
-                    screen, selectedApp, ::goBack
+                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT
                 )
             }
         }
