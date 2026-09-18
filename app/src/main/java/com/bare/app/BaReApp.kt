@@ -135,8 +135,8 @@ fun BaReApp() {
                     selectedMethod,
                     { selectedMethod = it; accessError = null },
                     {
-                        val method = selectedMethod ?: return@AccessMethodScreen
-                        scope.launch(Dispatchers.IO) {
+                        val method = selectedMethod
+                        if (method != null) scope.launch(Dispatchers.IO) {
                             val capability = accessResolver.resolve(method)
                             withContext(Dispatchers.Main) {
                                 if (capability.available) {
