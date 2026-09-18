@@ -252,3 +252,50 @@ Membangun mockup FE lengkap berbasis evidence/reference Swift yang sudah direkon
 
 ### Next
 Review visual/mockup dengan user. Jika bentuk FE belum sesuai, revisi surface/state terlebih dahulu; jika sudah sesuai, baru bekukan FE baseline dan lanjut ke capability contract/backend secara bertahap.
+
+## 2026-09-18 — R1-R3 FE structural refactor and verification preparation
+
+### USER SAID
+User authorized execution of R1-R3 sekaligus agar FE mockup dapat langsung masuk fase visual verification/editing sebelum FE baseline dikunci.
+
+### DECISION
+- MainActivity.kt menjadi Android entry point saja.
+- App-level state/navigation dipisahkan ke app/.
+- Compose theme dipisahkan ke ui/theme/.
+- Reusable UI primitives dipisahkan ke ui/components/.
+- Product surfaces dipisahkan berdasarkan feature di feature/.
+- Mock data/state tetap bersifat FE mockup dan belum menjadi capability implementation.
+- styles.xml dipertahankan sebagai Android window bootstrap; visual component styling menjadi tanggung jawab Compose theme.
+- Ditambahkan Compose Preview support untuk mempercepat visual verification.
+- Tidak membuat abstraction/domain/provider dummy hanya demi memenuhi struktur folder; mengikuti boundary architecture berdasarkan kebutuhan nyata.
+
+### IMPLEMENTATION
+Refactor v1.0/rebaseline memecah:
+- MainActivity.kt menjadi entry point minimal.
+- app/AppState.kt untuk navigation/domain-neutral app state model dan mock app model.
+- app/BaReApp.kt untuk app shell, onboarding orchestration, navigation, dan tab shell.
+- ui/theme/Theme.kt untuk Compose theme.
+- ui/components/Common.kt untuk shared reusable UI components.
+- feature/onboarding/OnboardingScreens.kt
+- feature/home/HomeScreen.kt
+- feature/apps/AppsScreens.kt
+- feature/schedules/SchedulesScreen.kt
+- feature/account/AccountScreen.kt
+- feature/misc/MiscScreens.kt
+- ui/PreviewScreens.kt untuk core FE previews.
+- app/build.gradle.kts mendapat Compose preview dependency.
+- res/values/styles.xml dibatasi sebagai Android window bootstrap dan diselaraskan dengan dark Compose shell.
+- Shared list/status components mendapat accessibility content descriptions.
+
+### VERIFICATION
+- Source refactor committed ke branch v1.0/rebaseline.
+- Behavioral equivalence ditargetkan terhadap FE mockup sebelum refactor.
+- GitHub Actions runtime/build verification untuk commit final belum tersedia pada saat pencatatan ini; status build karenanya tetap UNVERIFIED.
+- Device/runtime visual verification belum dilakukan.
+
+### CURRENT STATE
+FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
+
+### NEXT
+Lanjutkan visual review dan edit mockup berdasarkan feedback pengguna. Setelah FE disepakati, freeze FE baseline (R4), lalu mulai capability foundation/implementation.
+
