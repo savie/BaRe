@@ -1105,3 +1105,50 @@ Android menyediakan ScaleDrawable dengan atribut scaleWidth dan scaleHeight dala
 
 ### Note
 Build #274 sebelumnya gagal karena width=65% / height=65% digunakan pada atribut dimension layer-list/item; itu memang resource syntax yang salah. Pendekatan baru menempatkan persentase pada atribut scaleWidth/scaleHeight yang memang didukung oleh ScaleDrawable.
+
+## 2026-09-19 — Implementasi Fondasi Backup Storage dan Access Capability
+
+### Authorization
+User memberikan **GO** untuk melanjutkan fondasi backup storage dan audit penerapan capability **Root/Non-root** dari baseline bootstrap ke struktur BaRe pada branch aktif.
+
+### User Direction
+- Backup storage harus selalu menampilkan **Internal storage**.
+- Path internal mengikuti pola backup reference dengan folder BaRe:
+  `/storage/emulated/0/BaRe/accounts/<16-digit dari Identity ID>/backups/*`.
+- External storage hanya ditampilkan ketika hardware/storage removable benar-benar terhubung dan mounted, misalnya USB OTG atau MMC; jika tidak ada, tidak ditampilkan.
+- Root dan Non-root diaudit dari implementation yang sudah valid pada branch bootstrap dan dapat diterapkan ke BaRe dengan perbedaan struktur/file/package.
+- Branch kerja tetap **`v1.0/rebaseline`**. `master` tidak disentuh.
+
+### Implementasi
+- Menambahkan `BackupStorageRepository` untuk menginspeksi Internal, removable External, dan Remote placeholder.
+- Internal storage diarahkan ke:
+  `/storage/emulated/0/BaRe/accounts/<identity-folder>/backups`.
+- Removable storage dideteksi melalui Android `StorageManager.storageVolumes`; hanya volume removable yang berstatus mounted yang dimasukkan. Primary external storage tidak diduplikasi sebagai External.
+- Remote tetap direpresentasikan sebagai unavailable placeholder; belum ada cloud/provider implementation.
+- Menambahkan `RootCapabilityProvider` dengan probe aktual melalui `su -c id` dan root APK copy melalui `pm path` + privileged file read.
+- Menambahkan `NonRootCapabilityProvider` menggunakan Android app-visible package APIs untuk membaca base/split APK dan melakukan staging copy.
+- Menambahkan `AccessCapabilityResolver` untuk membedakan capability availability berdasarkan mekanisme akses yang dipilih.
+- Storage Setup UI diubah dari static mockup menjadi membaca hasil inspection storage aktual.
+- Access Method Continue sekarang melakukan capability resolution sebelum setup ditandai complete dan masuk ke Main App.
+- Implementasi tetap berada di package namespace BaRe (`com.bare`).
+
+### Status Truth
+- Source implementation: **IMPLEMENTED / COMMITTED**.
+- Storage runtime behavior: **UNVERIFIED**.
+- Root runtime probe/execution: **UNVERIFIED**.
+- Non-root runtime execution terhadap target backup workflow: **UNVERIFIED**.
+- External removable hardware detection: **UNVERIFIED** pada device.
+- CI/build setelah implementation ini: **PENDING / UNVERIFIED**.
+- Identity-folder mapping 16 karakter dari Identity ID adalah **IMPLEMENTATION ASSUMPTION** sampai format canonical Identity ID tersebut diverifikasi terhadap requirement/source yang authoritative.
+- Remote/cloud execution: **NOT IMPLEMENTED / OUT OF SCOPE** pada pekerjaan ini.
+
+### Scope Boundary
+- Tidak menyentuh backend, database, authentication provider, account/session, atau cloud transfer.
+- Tidak mengubah `master`.
+- Tidak mengklaim backup/restore end-to-end sudah bekerja.
+- Tidak mengklaim Root/Non-root capability sudah runtime-verified hanya karena provider dan resolver sudah ada.
+
+### Berikutnya
+- Verifikasi CI terhadap source aktual.
+- Jika build green, lakukan runtime verification pada device untuk Internal storage path, kondisi External tanpa hardware, serta Root/Non-root capability resolution.
+- Setelah evidence runtime tersedia, rekonsiliasi status capability matrix dan worklog berdasarkan hasil aktual.
