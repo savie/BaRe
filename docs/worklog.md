@@ -755,3 +755,39 @@ Field password dan confirm password sebelumnya memakai nilai kosong dengan callb
 **Migration note:** Install lama dengan application identity `com.savie.bare` tidak otomatis berbagi data dengan `com.bare`; data lama berada di identity Android yang berbeda. Migrasi data lama belum dilakukan.
 
 **Verification status:** Source/Gradle rename sudah committed. Build CI setelah rename belum diverifikasi pada saat entry ini dibuat. Runtime package/data-directory verification juga belum dilakukan.
+
+
+## 2026-09-18 — Full Rename Android Package / Namespace ke `com.bare`
+
+### Pernyataan Pengguna
+Pengguna secara eksplisit mengotorisasi **GO** untuk melakukan full rename agar nama akun/owner tidak lagi menjadi bagian dari identity package/source BaRe.
+
+### Pekerjaan Saat Ini
+Melakukan full rename application identity dan source package BaRe dari `com.savie.bare` menjadi `com.bare` pada branch `v1.0/rebaseline`.
+
+### Perubahan
+- Android `applicationId` menggunakan `com.bare`.
+- Gradle `namespace` diubah dari `com.savie.bare` menjadi `com.bare`.
+- Package declaration Kotlin diubah dari `com.savie.bare...` menjadi `com.bare...`.
+- Import Kotlin internal diubah mengikuti package baru.
+- Referensi package aplikasi pada mock data ikut diselaraskan menjadi `com.bare`.
+- Tidak mengubah behavior capability, authentication, persistence model, atau scope produk lainnya.
+- `master` tidak disentuh; seluruh pekerjaan tetap pada `v1.0/rebaseline`.
+
+### Dampak / Migration Note
+Application identity Android berubah dari `com.savie.bare` menjadi `com.bare`. Install/data lama pada identity `com.savie.bare` tidak otomatis menjadi data untuk `com.bare`. Migrasi data lama belum dilakukan dan belum diotorisasi sebagai scope terpisah.
+
+### Verifikasi
+- Source package rename: **IMPLEMENTED / COMMITTED**.
+- Gradle namespace rename: **IMPLEMENTED / COMMITTED**.
+- Android application ID: **com.bare / IMPLEMENTED**.
+- Build CI setelah full rename: **UNVERIFIED** pada saat pencatatan ini.
+- Runtime install dan verifikasi package/data directory `com.bare`: **UNVERIFIED**.
+
+### Commit Trail
+Perubahan rename source/namespace dilakukan pada commit bertahap selama pekerjaan ini; commit terakhir untuk dokumentasi rename adalah commit yang mencatat state setelah implementation.
+
+### Berikutnya
+- Tunggu/cek CI untuk memastikan full package rename tetap compile.
+- Jika build green, lakukan runtime verification pada APK baru dan pastikan Android identity/data path menggunakan `com.bare`.
+- Jangan melakukan migrasi data dari `com.savie.bare` tanpa scope dan authorization terpisah.
