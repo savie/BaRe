@@ -502,3 +502,53 @@ Menutup scope terkecil **Welcome** berdasarkan keputusan authentication yang sud
 
 ### Berikutnya
 Lanjut ke **Login / Local Setup** dengan scope terkecil. Untuk Local, tentukan dan implementasikan hanya fondasi yang benar-benar dibutuhkan untuk melanjutkan ke Storage / Access Setup. Untuk Account, pertahankan boundary authentication/provider dan jangan mengarang detail credential/session yang belum diputuskan.
+
+
+## 2026-09-18 — Lanjutan Welcome: Local Setup dan Sign Up
+
+### Pekerjaan
+Menutup gap FE yang ditemukan dari runtime BaRe pada CI #194: jalur Local sebelumnya langsung menuju Backup Storage, sedangkan jalur Account belum memiliki halaman Sign Up yang nyata.
+
+### Keputusan yang Diterapkan
+- Jalur LOCAL memiliki langkah **Local Setup** sebelum Backup Storage.
+- Jalur ACCOUNT tetap menuju **Sign In**.
+- Tombol **Continue with local setup** di halaman Sign In dihapus karena pilihan Local/Account sudah dilakukan di Welcome.
+- **Create account** memiliki halaman **Sign Up** sendiri.
+- Setelah Local Setup, Sign In, atau Sign Up pada FE mockup, alur berlanjut ke Backup Storage.
+- Tidak menambahkan detail identity persistence, authentication provider, credential storage, session policy, atau backend account karena capability tersebut belum diimplementasikan pada scope ini.
+
+### Implementasi
+- Menambahkan StartScreen.LOCAL_SETUP.
+- Menambahkan StartScreen.SIGN_UP.
+- Menambahkan LocalSetupScreen.
+- Menambahkan SignUpScreen dengan Email, Password, Confirm password, dan Create account.
+- Menghubungkan Welcome → Local Setup untuk LOCAL.
+- Menghubungkan Welcome → Sign In untuk ACCOUNT.
+- Menghubungkan Sign In → Sign Up melalui Create account.
+- Menghubungkan Local Setup → Backup Storage.
+- Menghubungkan Sign Up → Backup Storage.
+- Memperbaiki Back navigation Backup Storage agar kembali ke Local Setup untuk identity LOCAL dan kembali ke Sign In untuk identity ACCOUNT.
+- Menambahkan resource string untuk Local Setup dan Sign Up.
+
+### Verifikasi
+- Source BaReApp.kt, OnboardingScreens.kt, dan strings.xml telah di-fetch ulang setelah perubahan dan struktur flow yang ditargetkan terobservasi pada branch v1.0/rebaseline.
+- Commit implementasi terakhir: f284aabdb3bae79ad87ea99ced1043e62828391c.
+- GitHub Actions run #197 untuk commit tersebut terobservasi in_progress saat pencatatan ini dibuat.
+- Build akhir belum dapat dinyatakan VERIFIED sampai run selesai.
+- Runtime CI #194 yang menjadi dasar temuan adalah evidence dari perangkat pengguna; implementasi baru ini belum diuji pada perangkat pengguna.
+
+### Status
+- Local Setup FE: IMPLEMENTED.
+- Sign Up FE: IMPLEMENTED.
+- Login/Sign In FE: IMPLEMENTED.
+- Authentication/account creation capability: BELUM DIIMPLEMENTASIKAN.
+- Local identity persistence: BELUM DIIMPLEMENTASIKAN.
+- Build terbaru: UNVERIFIED / CI IN PROGRESS.
+- R4: belum dikunci.
+
+### Berikutnya
+Tunggu hasil CI terbaru. Jika build berhasil, lakukan verifikasi runtime jalur:
+Welcome → Local Setup → Backup Storage
+dan
+Welcome → Sign In → Create account → Sign Up → Backup Storage.
+Setelah jalur ini stabil, lanjutkan scope Backup Storage tanpa membuat tahap baru.
