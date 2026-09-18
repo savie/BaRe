@@ -12,12 +12,18 @@
     <string name="use_account">Use BaRe account</string>
 
     <string name="back">Back</string>
+    <string name="local_setup">Local setup</string>
+    <string name="local_setup_description">Set up a local BaRe identity on this device before choosing the backup storage.</string>
+    <string name="local_identity">Local BaRe identity</string>
+    <string name="local_identity_description">This path does not require a BaRe account. Account sign-in can be used separately when needed.</string>
     <string name="sign_in">Sign in</string>
     <string name="account_cloud_description">Your account is used to manage cloud storage, synchronization, and BaRe configuration.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="continue_local_setup">Continue with local setup</string>
     <string name="create_account">Create account</string>
+    <string name="create_account_description">Create a BaRe account to use the account identity and continue with setup.</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="mockup_auth_not_connected">Mockup only — authentication is not connected.</string>
 
