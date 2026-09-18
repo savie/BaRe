@@ -4,17 +4,22 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.savie.bare.R
-import androidx.compose.ui.text.font.FontWeight
 import com.savie.bare.feature.account.AccountScreen
 import com.savie.bare.feature.apps.AppConfigScreen
 import com.savie.bare.feature.apps.AppDetailScreen
@@ -106,7 +111,14 @@ private fun MainShell(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("BaRe · " + stringResource(currentTab.titleRes), fontWeight = FontWeight.Bold) },
+                title = {
+                    Image(
+                        painter = painterResource(R.drawable.bare_header),
+                        contentDescription = stringResource(R.string.app_name),
+                        modifier = Modifier.width(220.dp).height(56.dp),
+                        contentScale = ContentScale.Crop,
+                    )
+                },
                 actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Default.Search, stringResource(R.string.search)) } },
             )
         },
