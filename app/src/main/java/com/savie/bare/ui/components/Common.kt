@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 fun StatusCard(icon: ImageVector, title: String, value: String, detail: String) {
     Card(Modifier.fillMaxWidth()) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, null, Modifier.size(32.dp))
+            Icon(icon, contentDescription = title, modifier = Modifier.size(32.dp))
             Spacer(Modifier.width(14.dp))
             Column {
                 Text(title, style = MaterialTheme.typography.labelLarge)
@@ -43,7 +43,7 @@ fun ActionCard(title: String, icon: ImageVector, modifier: Modifier = Modifier, 
 fun ListEntry(title: String, subtitle: String, icon: ImageVector, onClick: () -> Unit) {
     Card(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(icon, null)
+            Icon(icon, contentDescription = title)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(title, fontWeight = FontWeight.Bold)
