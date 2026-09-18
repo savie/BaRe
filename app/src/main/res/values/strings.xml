@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">BaRe</string>
+    <string name="app_name">B Λ R E</string>
     <string name="backup_restore_manager">Backup &amp; Restore</string>
-    <string name="brand_tagline">S A V E   O U R   D A Y</string>
+    <string name="brand_tagline">SAVE OUR DAY</string>
     <string name="welcome_description">Back up, restore, and manage your apps and data.</string>
     <string name="get_started">Get started</string>
     <string name="already_have_account">Already have an account</string>
 
-    <string name="use_local">Use BaRe locally</string>
-    <string name="use_account">Use BaRe account</string>
+    <string name="use_local">Use B Λ R E locally</string>
+    <string name="use_account">Use B Λ R E account</string>
 
     <string name="back">Back</string>
-    <string name="local_confirmation_title">Set up BaRe on this device</string>
-    <string name="local_confirmation_description">Your BaRe setup stays on this device. You can connect an account later.</string>
+    <string name="local_confirmation_title">Set up B Λ R E on this device</string>
+    <string name="local_confirmation_description">Your B Λ R E setup stays on this device. You can connect an account later.</string>
     <string name="not_now">Not now</string>
     <string name="sign_in">Sign in</string>
-    <string name="sign_in_description">Welcome back. Sign in to continue with your BaRe account.</string>
+    <string name="sign_in_description">Welcome back. Sign in to continue with your B Λ R E account.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="show_password">Show password</string>
@@ -24,7 +24,7 @@
     <string name="password_too_short">Password must be at least 8 characters.</string>
     <string name="password_mismatch">Passwords do not match.</string>
     <string name="create_account">Create account</string>
-    <string name="create_account_description">Use an account to keep your setup connected across your BaRe experience.</string>
+    <string name="create_account_description">Use an account to keep your setup connected across your B Λ R E experience.</string>
     <string name="confirm_password">Confirm password</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="forgot_password">Forgot password?</string>
@@ -36,7 +36,6 @@
     <string name="check_your_email">Check your email</string>
     <string name="reset_email_sent">If an account exists for this email, a password reset link will be sent.</string>
     <string name="back_to_sign_in">Back to sign in</string>
-    <string name="mockup_auth_not_connected">Mockup only — authentication is not connected.</string>
 
     <string name="backup_storage">Backup storage</string>
     <string name="storage_setup_description">Choose the backup repository location. This screen does not write data yet.</string>
@@ -51,7 +50,7 @@
 
     <string name="access_method">Access method</string>
     <string name="access_method_description">Choose the access mechanism. Actual capability status will be determined by providers and runtime.</string>
-    <string name="enter_bare">Enter BaRe</string>
+    <string name="enter_bare">Enter B Λ R E</string>
 
     <string name="home">Home</string>
     <string name="home_summary">Device, backup, restore, storage, cloud, and capability state at a glance.</string>
@@ -65,7 +64,7 @@
     <string name="root">Root</string>
     <string name="non_root_description">Standard Android mode. Capabilities that require special access will be shown according to device conditions.</string>
     <string name="root_description">Use root access when available. This choice is mockup-only and does not prove that root is active.</string>
-    <string name="backup_storage_mockup">BaRe/Backups • mockup state</string>
+    <string name="backup_storage_mockup">B Λ R E/Backups • mockup state</string>
     <string name="runtime_capability_not_verified">Runtime capability has not been verified.</string>
     <string name="quick_actions">Quick actions</string>
     <string name="backup_apps">Backup apps</string>
@@ -135,7 +134,7 @@
     <string name="conditions">Conditions</string>
     <string name="schedule_conditions">Charging, Wi-Fi, storage, battery</string>
 
-    <string name="bare_account">BaRe account</string>
+    <string name="bare_account">B Λ R E account</string>
     <string name="local_setup_mockup_account">Local setup / mockup account</string>
     <string name="appearance_language_security_defaults">Appearance, language, security, defaults</string>
     <string name="providers_transfer">Providers and transfer</string>
@@ -144,7 +143,7 @@
     <string name="logs_errors_blocked_skipped">Logs, errors, blocked and skipped</string>
     <string name="apk_apks_configuration">APK/APKS and configuration</string>
     <string name="about">About</string>
-    <string name="bare_version_mockup">BaRe v1.0 FE mockup</string>
+    <string name="bare_version_mockup">B Λ R E v1.0 FE mockup</string>
 
     <string name="search">Search</string>
     <string name="search_scope">Search across apps, backups, folders, and configuration.</string>

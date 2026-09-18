@@ -20,11 +20,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.bare.app.AccessMethod
 import com.bare.app.IdentityType
 import com.bare.R
@@ -42,19 +44,21 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier.size(112.dp),
+            modifier = Modifier.size(216.dp),
             contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
         Text(
             text = "B Λ R E",
-            style = MaterialTheme.typography.displaySmall.copy(letterSpacing = 0.16.em),
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Light,
         )
         Spacer(Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.brand_tagline),
-            style = MaterialTheme.typography.labelLarge.copy(letterSpacing = 0.28.em),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Light,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -63,7 +67,8 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
             text = stringResource(R.string.welcome_description),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.widthIn(max = 320.dp),
+            modifier = Modifier.widthIn(max = 280.dp),
+            textAlign = TextAlign.Center,
         )
         Spacer(Modifier.weight(0.55f))
         Button(
@@ -164,7 +169,6 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.continue_with_google)) }
         TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
-        Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
 }
 
@@ -201,7 +205,6 @@ fun ForgotPasswordScreen(
             Text(stringResource(R.string.check_your_email), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.reset_email_sent), color = MaterialTheme.colorScheme.onSurfaceVariant)
             Button(onClick = onBack, modifier = Modifier.fillMaxWidth().height(52.dp)) { Text(stringResource(R.string.back_to_sign_in)) }
-            Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -290,7 +293,6 @@ fun SignUpScreen(
         ) {
             Text(stringResource(R.string.create_account))
         }
-        Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
 }
 
