@@ -461,3 +461,44 @@ Remote/server/backend terpisah belum otomatis diperlukan. Jika suatu capability 
 6. Setelah seluruh scope yang diperlukan selesai dan diverifikasi, masuk R6 — Final.
 
 R4 tetap menjadi gerbang pembekuan FE. R6 menjadi satu-satunya tahap final.
+
+
+## 2026-09-18 — Scope Welcome: Pilihan Identity Local / Account
+
+### Pekerjaan
+Menutup scope terkecil **Welcome** berdasarkan keputusan authentication yang sudah ditetapkan.
+
+### Keputusan yang Dipakai
+- Welcome sekarang menjadi titik pemilihan identity:
+  - **LOCAL** — menggunakan BaRe secara lokal pada device.
+  - **ACCOUNT** — menggunakan identity account BaRe.
+- **ACCOUNT** tetap satu tipe identity walaupun metode authentication nantinya Email atau Google.
+- Pemilihan identity di Welcome belum dianggap sebagai bukti authentication atau persistence sudah bekerja.
+
+### Implementasi
+- Menambahkan `IdentityType.LOCAL` dan `IdentityType.ACCOUNT` pada app state.
+- Welcome sekarang menyediakan dua jalur eksplisit: Local dan Account.
+- Jalur Local menuju **Storage / Local Setup**.
+- Jalur Account menuju **Login**.
+- Permukaan Login menampilkan jalur Email/password, Google, dan create account sebagai FE; authentication backend/provider belum diimplementasikan.
+- Tidak membuat identity ID, persistence, session, credential storage, atau provider implementation baru karena detail tersebut masih terbuka dan belum diperlukan untuk menutup FE Welcome.
+
+### Status
+- Welcome FE: IMPLEMENTED.
+- Welcome identity selection state: IMPLEMENTED sebagai state UI.
+- Local identity persistence: BELUM DIIMPLEMENTASIKAN.
+- Account authentication/provider: BELUM DIIMPLEMENTASIKAN.
+- Runtime verification: UNVERIFIED.
+- R4: belum dikunci.
+
+### Verifikasi
+- Perubahan source berhasil ditulis ke branch `v1.0/rebaseline`.
+- Commit terkait:
+  - `399f1a38afc4a5238cb5e43c315591f8904a8cb4`
+  - `56152a0a21b0891676d211f79c1bdc6b6b0bd3fe`
+  - `393787643b71e173094b547479b5a1247ca73b86`
+  - `862c8a99be4137d98f9844d3d66ba996e1c607a2`
+- Build dan runtime device belum dijalankan setelah perubahan ini; status keseluruhan tetap UNVERIFIED.
+
+### Berikutnya
+Lanjut ke **Login / Local Setup** dengan scope terkecil. Untuk Local, tentukan dan implementasikan hanya fondasi yang benar-benar dibutuhkan untuk melanjutkan ke Storage / Access Setup. Untuk Account, pertahankan boundary authentication/provider dan jangan mengarang detail credential/session yang belum diputuskan.
