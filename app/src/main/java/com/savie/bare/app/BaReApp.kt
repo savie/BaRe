@@ -55,7 +55,10 @@ fun BaReApp() {
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var loginEmail by remember { mutableStateOf("") }
+    var loginPassword by remember { mutableStateOf("") }
     var signUpEmail by remember { mutableStateOf("") }
+    var signUpPassword by remember { mutableStateOf("") }
+    var signUpConfirmPassword by remember { mutableStateOf("") }
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
@@ -99,6 +102,8 @@ fun BaReApp() {
                 StartScreen.LOGIN -> LoginScreen(
                     email = loginEmail,
                     onEmailChange = { loginEmail = it },
+                    password = loginPassword,
+                    onPasswordChange = { loginPassword = it },
                     onContinue = { startScreen = StartScreen.STORAGE_SETUP },
                     onCreateAccount = { startScreen = StartScreen.SIGN_UP },
                     onBack = ::goBack,
@@ -106,6 +111,10 @@ fun BaReApp() {
                 StartScreen.SIGN_UP -> SignUpScreen(
                     email = signUpEmail,
                     onEmailChange = { signUpEmail = it },
+                    password = signUpPassword,
+                    onPasswordChange = { signUpPassword = it },
+                    confirmPassword = signUpConfirmPassword,
+                    onConfirmPasswordChange = { signUpConfirmPassword = it },
                     onCreateAccount = { startScreen = StartScreen.STORAGE_SETUP },
                     onBack = ::goBack,
                 )
