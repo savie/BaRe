@@ -23,7 +23,7 @@ import com.savie.bare.app.AccessMethod\nimport com.savie.bare.app.IdentityType
 import com.savie.bare.R
 
 @Composable
-fun WelcomeScreen(onSelectIdentity: (com.savie.bare.app.IdentityType) -> Unit) {
+fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp), Arrangement.Center, Alignment.CenterHorizontally) {
         Box(Modifier.size(92.dp).background(MaterialTheme.colorScheme.primary, CircleShape), Alignment.Center) {
             Icon(Icons.Default.Backup, contentDescription = stringResource(R.string.app_name), modifier = Modifier.size(48.dp))
@@ -34,8 +34,14 @@ fun WelcomeScreen(onSelectIdentity: (com.savie.bare.app.IdentityType) -> Unit) {
         Spacer(Modifier.height(12.dp))
         Text(stringResource(R.string.welcome_description))
         Spacer(Modifier.height(28.dp))
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.get_started)) }
-        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.already_have_account)) }
+        Text(stringResource(R.string.choose_identity), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+        Text(stringResource(R.string.choose_identity_description), style = MaterialTheme.typography.bodyMedium)
+        OutlinedButton(onClick = { onSelectIdentity(IdentityType.LOCAL) }, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.use_local))
+        }
+        Button(onClick = { onSelectIdentity(IdentityType.ACCOUNT) }, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.use_account))
+        }
     }
 }
 
@@ -49,6 +55,7 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
         OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in)) }
         OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_local_setup)) }
+        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_with_google)) }
         TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
@@ -57,7 +64,7 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
 @Composable
 fun StorageSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") }
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.backup_storage), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.storage_setup_description))
         StorageCard(stringResource(R.string.internal_storage), stringResource(R.string.internal_backup_path), true)
