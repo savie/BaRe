@@ -332,3 +332,34 @@ FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
 ### NEXT
 Continue visual review/editing of the mockup. Do not freeze R4 until the user approves the FE surface.
 
+
+## 2026-09-18 — Authentication architecture discussion (P1)
+
+### USER SAID / OBSERVED
+- User approved local-first authentication: local backup/use does not require an account.
+- User approved account authentication for capabilities that require identity, especially Cloud/Sync; Cloud is enabled only after successful Email or Google authentication.
+- User observed from personal runtime use of Swift Backup that local/account modes appear to have separate account namespaces/folders, and that reinstall + login can recreate an account namespace even when its backup contents were not carried over. This is recorded as user-observed reference behavior, not as a verified claim about Swift's internal implementation.
+- User observed that Swift backup artifacts are strongly protected/encrypted in practice, but the exact cryptographic/device/account mechanism is UNKNOWN and is explicitly deferred from this authentication phase.
+
+### DECISION
+- BaRe has two identity types: \`LOCAL\` and \`ACCOUNT\`.
+- \`LOCAL\` is a BaRe local identity, not an anonymous server account.
+- \`ACCOUNT\` is one account identity regardless of whether authentication uses Email or Google.
+- After account logout, BaRe returns to an identity-selection/authentication surface where the user can choose Local, the same account, or another account.
+- Account session expiry does not disable local capabilities; it restricts only capabilities that require a valid account session/authentication.
+- Authentication uses a provider boundary; session and credential are separate concerns.
+- UI must not directly retain passwords/tokens; credential handling belongs behind the authentication/session boundary and secure persistence.
+- Authentication failures use explicit error semantics.
+- Login/session state is persisted securely.
+- Logout and session expiry have recovery paths.
+- Authentication scope is intentionally limited to identity/session/account access. Backup/restore security, encryption, device binding, cross-device restore authorization, and recovery-key design are deferred to a later security/backup architecture phase.
+
+### PROPOSAL / OPEN
+- Exact \`LocalIdentity\`/\`AccountIdentity\` data model, identity IDs, persistence location, uninstall/reset behavior, provider implementation, session expiry policy, and secure credential technology remain to be designed and verified.
+- Swift's internal mechanism for the observed device/reset behavior remains UNKNOWN; no implementation detail is copied or assumed.
+
+### CURRENT STATE
+FE_STRUCTURED / MOCKUP / AUTH_DISCUSSION / R4_NOT_LOCKED
+
+### NEXT
+Finalize authentication UX and contracts only after the identity/session decisions are accepted. Do not expand authentication work into backup/restore security until that phase is explicitly opened.
