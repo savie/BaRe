@@ -19,11 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.AccessMethod
+import com.savie.bare.app.AccessMethod\nimport com.savie.bare.app.IdentityType
 import com.savie.bare.R
 
 @Composable
-fun WelcomeScreen(onContinue: () -> Unit) {
+fun WelcomeScreen(onSelectIdentity: (com.savie.bare.app.IdentityType) -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp), Arrangement.Center, Alignment.CenterHorizontally) {
         Box(Modifier.size(92.dp).background(MaterialTheme.colorScheme.primary, CircleShape), Alignment.Center) {
             Icon(Icons.Default.Backup, contentDescription = stringResource(R.string.app_name), modifier = Modifier.size(48.dp))
