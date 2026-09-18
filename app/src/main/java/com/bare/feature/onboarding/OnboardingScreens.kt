@@ -297,21 +297,79 @@ fun SignUpScreen(
 }
 
 @Composable
-fun StorageSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+fun StorageSetupScreen(
+    identityId: String?,
+    onContinue: () -> Unit,
+    onBack: () -> Unit,
+) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val repository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
+    val storages = remember(identityId) {
+        if (identityId.isNullOrBlank()) emptyList() else repository.inspect(identityId)
+    }
+    var selectedPath by remember(storages) {
+        mutableStateOf(storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }?.path)
+    }
+
+    Column(
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.backup_storage), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.storage_setup_description))
-        StorageCard(stringResource(R.string.internal_storage), stringResource(R.string.internal_backup_path), true)
-        StorageCard(stringResource(R.string.external_storage), stringResource(R.string.saf_removable_storage), false)
-        StorageCard(stringResource(R.string.remote_storage), stringResource(R.string.cloud_provider), false)
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_label)) }
+
+        storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }.forEach { storage ->
+            StorageCard(
+                title = storage.displayName,
+                subtitle = storage.path,
+                selected = selectedPath == storage.path,
+                enabled = storage.available,
+                onClick = { selectedPath = storage.path },
+            )
+        }
+
+        storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }.forEach { storage ->
+            StorageCard(
+                title = storage.displayName,
+                subtitle = storage.path,
+                selected = selectedPath == storage.path,
+                enabled = storage.available,
+                onClick = { selectedPath = storage.path },
+            )
+        }
+
+        StorageCard(
+            title = stringResource(R.string.remote_storage),
+            subtitle = stringResource(R.string.cloud_provider),
+            selected = false,
+            enabled = false,
+            onClick = {},
+        )
+
+        Button(
+            onClick = onContinue,
+            enabled = selectedPath != null,
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text(stringResource(R.string.continue_label)) }
     }
 }
 
 @Composable
-private fun StorageCard(title: String, subtitle: String, selected: Boolean) {
-    Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant)) {
+private fun StorageCard(
+    title: String,
+    subtitle: String,
+    selected: Boolean,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
+    Card(
+        Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Default.Storage, null)
             Spacer(Modifier.width(14.dp))
