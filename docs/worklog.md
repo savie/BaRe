@@ -333,7 +333,19 @@ FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
 Lanjutkan review dan editing mockup. Jangan bekukan R4 sebelum pengguna menyetujui permukaan FE.
 
 
-iry hanya membatasi capability yang membutuhkan session account/authentication yang valid.
+## 2026-09-18 — Rekonsiliasi Pembahasan dan Keputusan Authentication
+
+### Temuan Audit
+Pencatatan sebelumnya terlalu jauh mengoreksi status authentication dengan menganggap seluruh pembahasan masih DISCUSSION. Itu tidak tepat untuk poin yang memang sudah dinaikkan pengguna menjadi keputusan.
+
+Pembahasan tetap menjadi ruang untuk menyempurnakan detail, tetapi keputusan yang sudah disetujui pengguna menjadi arah yang harus dipertahankan dan menjadi dasar implementasi ketika pekerjaan tersebut diotorisasi.
+
+### Keputusan yang Sudah Ditetapkan
+- BaRe memiliki dua tipe identity: LOCAL dan ACCOUNT.
+- LOCAL adalah identity lokal BaRe, bukan anonymous server account.
+- ACCOUNT adalah satu identity account, baik authentication dilakukan melalui Email maupun Google.
+- Setelah logout account, user kembali ke permukaan pemilihan identity/authentication dan dapat memilih Local, account yang sama, atau account lain.
+- Session expiry tidak mematikan capability lokal. Session expiry hanya membatasi capability yang membutuhkan session account/authentication yang valid.
 - Authentication dipisahkan melalui provider boundary; session dan credential merupakan concern yang berbeda.
 - UI tidak boleh menyimpan password/token secara langsung. Penanganan credential berada di belakang boundary authentication/session dan secure persistence.
 - Kegagalan authentication harus memiliki error semantics yang eksplisit.
@@ -342,11 +354,80 @@ iry hanya membatasi capability yang membutuhkan session account/authentication y
 - Scope authentication saat ini dibatasi pada identity/session/account access. Security backup/restore, encryption archive, device binding, otorisasi restore lintas device, dan recovery-key design tetap dibuka untuk fase security/backup berikutnya.
 
 ### Usulan / Terbuka
-- Detail `LocalIdentity`/`AccountIdentity`, identity ID, lokasi persistence, perilaku uninstall/reset, implementasi provider, kebijakan session expiry, dan teknologi secure credential masih perlu dirancang dan diverifikasi.
+- Detail LocalIdentity/AccountIdentity, identity ID, lokasi persistence, perilaku uninstall/reset, implementasi provider, kebijakan session expiry, dan teknologi secure credential masih perlu dirancang dan diverifikasi.
 - Mekanisme internal Swift Backup untuk perilaku account/device/reset yang teramati tetap UNKNOWN; tidak digunakan sebagai implementasi BaRe.
 
 ### Verifikasi
-- Rekonsiliasi dilakukan terhadap actual `docs/worklog.md` pada branch `v1.0/rebaseline`.
-- Tidak ada perubahan implementasi source authentication pada pekerjaan dokumentasi ini.
+- Rekonsiliasi dilakukan terhadap actual docs/worklog.md pada branch v1.0/rebaseline.
+- Tidak ada perubahan implementasi authentication pada pekerjaan dokumentasi ini.
 - Tidak ada klaim bahwa authentication, backup/restore, storage, cloud, scheduler, atau capability runtime sudah implemented/verified.
 
+## 2026-09-18 — Penetapan Posisi R1–R5 dan Jalur Kerja Paralel
+
+### Pernyataan Pengguna
+Pengguna menegaskan bahwa mockup bukan tujuan akhir. FE dibentuk lebih dahulu agar produk dapat terlihat dan alurnya terbuka, tetapi capability dan implementasi di belakang FE harus dipikirkan sejak awal agar tidak terjadi pekerjaan dua kali.
+
+Pekerjaan saat ini tetap berfokus pada jalur awal aplikasi:
+Welcome → Login/Local Setup → Storage/Access Setup → Home.
+
+### Keputusan
+Urutan kerja BaRe untuk baseline FE/capability menggunakan lima tahap berikut:
+
+1. R1 — Refactor Struktural
+   MainActivity → BaReApp → App Shell → Feature Screens → Shared Components → Theme
+   dengan target mempertahankan behavior mockup.
+2. R2 — Perapian FE
+   strings → theme → dimensions → icons → accessibility → preview → state ownership.
+3. R3 — Verifikasi FE
+   Memastikan seluruh flow dan surface yang sudah dibangun tetap tersedia dan dapat dikembangkan, termasuk Welcome, Login, Storage, Access, Home, Apps, Schedules, Account, serta submenu yang relevan.
+4. R4 — Pembekuan FE
+   Baseline FE dikunci setelah bentuk dan flow disepakati pengguna. R4 BELUM DIKUNCI.
+5. R5 — Fondasi Capability
+   Mulai membangun fondasi Domain → Application → Capability → Provider beserta Storage, Archive, Operation, Verification, dan Diagnostics sesuai kebutuhan nyata.
+
+### Rekonsiliasi R3 dan R4
+R3 BELUM BOLEH dinyatakan 100% VERIFIED. Namun hasil R1–R3 saat ini sudah membuka struktur FE secara signifikan dan tidak lagi bergantung pada satu file utama untuk seluruh product surface.
+
+Kondisi ini sudah layak untuk mulai pekerjaan capability secara paralel pada fondasi yang memang dibutuhkan. R4 tidak menjadi blocker untuk seluruh pekerjaan R5, karena pembentukan fondasi dapat dilakukan di belakang boundary yang sudah cukup jelas.
+
+Syaratnya:
+- R3 tetap dicatat sebagai IN PROGRESS/PARTIALLY VERIFIED.
+- R4 tetap belum dikunci sampai FE benar-benar disepakati.
+- Tidak memaksa seluruh capability sekaligus.
+- Fondasi yang dibuat harus punya kebutuhan nyata dari flow/FE atau capability yang sedang dibuka.
+- Perubahan FE tetap boleh dilakukan tanpa merusak boundary capability.
+
+### Batas Pekerjaan Capability Saat Ini
+Untuk BaRe, istilah “backend” tidak otomatis berarti server/backend terpisah. Lapisan di belakang FE yang relevan saat ini terutama:
+- domain;
+- application/use case;
+- capability resolver dan capability implementation;
+- provider untuk Android/privilege/storage/network;
+- persistence;
+- storage dan archive;
+- operation lifecycle;
+- verification;
+- diagnostics.
+
+Remote/Cloud dapat membutuhkan network service/provider tambahan pada tahap berikutnya, tetapi BELUM menjadi pekerjaan sekarang.
+
+Jadi R5 saat ini berarti membangun fondasi dan capability yang dibutuhkan, bukan langsung membangun seluruh backend/service remote.
+
+### Kondisi Saat Ini
+R1_IMPLEMENTED / R2_IMPLEMENTED / R3_IN_PROGRESS_PARTIALLY_VERIFIED / R4_NOT_LOCKED / R5_FOUNDATION_CAN_START_IN_PARALLEL
+
+### Verifikasi
+- docs/worklog.md diperiksa ulang pada branch v1.0/rebaseline.
+- Worklog telah direkonsiliasi agar keputusan yang sudah dinaikkan pengguna tidak kembali diturunkan menjadi sekadar DISCUSSION.
+- Bahasa narasi dan heading worklog dirapikan ke Bahasa Indonesia; istilah teknis, nama file, API, status Governance, dan identifier dipertahankan bila memang perlu.
+- Tidak ada perubahan source implementation sebagai bagian dari rekonsiliasi ini.
+- Tidak ada klaim bahwa R3 100% VERIFIED, R4 terkunci, atau capability runtime sudah implemented/verified.
+
+### Berikutnya
+1. Lanjutkan jalur Welcome sampai Home dan rapikan FE yang masih kurang.
+2. Tutup verification gap R3 secara bertahap.
+3. Identifikasi fondasi bersama pertama yang benar-benar dibutuhkan.
+4. Mulai R5 secara paralel pada boundary tersebut.
+5. Pertahankan R4 sebagai gerbang pembekuan FE, bukan blocker untuk semua pekerjaan capability.
+
+R5 tidak berarti “langsung membangun seluruh backend”. R5 dimulai dari fondasi capability yang dibutuhkan dan diverifikasi satu per satu.
