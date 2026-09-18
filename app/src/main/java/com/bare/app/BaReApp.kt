@@ -53,7 +53,8 @@ fun BaReApp() {
             }
         )
     }
-    var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }\n    var accessError by remember { mutableStateOf<String?>(null) }\n    val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
+    var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }
+    var accessError by remember { mutableStateOf<String?>(null) }\n    val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var loginEmail by remember { mutableStateOf("") }
@@ -179,6 +180,7 @@ private fun MainShell(
     screen: Screen,
     selectedApp: AppItem?,
     onBack: () -> Unit,
+    hasAccount: Boolean,
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
