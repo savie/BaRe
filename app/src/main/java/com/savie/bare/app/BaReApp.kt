@@ -1,4 +1,4 @@
-package com.savie.bare.app
+package com.bare.app
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -21,19 +21,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
-import com.savie.bare.R
-import com.savie.bare.feature.account.AccountScreen
-import com.savie.bare.feature.apps.AppConfigScreen
-import com.savie.bare.feature.apps.AppDetailScreen
-import com.savie.bare.feature.apps.AppsScreen
-import com.savie.bare.feature.home.HomeScreen
-import com.savie.bare.feature.misc.CloudScreen
-import com.savie.bare.feature.misc.GenericDomainScreen
-import com.savie.bare.feature.misc.MiscScreen
-import com.savie.bare.feature.misc.SearchScreen
-import com.savie.bare.feature.onboarding.*
-import com.savie.bare.feature.schedules.SchedulesScreen
-import com.savie.bare.ui.theme.BaReTheme
+import com.bare.R
+import com.bare.feature.account.AccountScreen
+import com.bare.feature.apps.AppConfigScreen
+import com.bare.feature.apps.AppDetailScreen
+import com.bare.feature.apps.AppsScreen
+import com.bare.feature.home.HomeScreen
+import com.bare.feature.misc.CloudScreen
+import com.bare.feature.misc.GenericDomainScreen
+import com.bare.feature.misc.MiscScreen
+import com.bare.feature.misc.SearchScreen
+import com.bare.feature.onboarding.*
+import com.bare.feature.schedules.SchedulesScreen
+import com.bare.ui.theme.BaReTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
