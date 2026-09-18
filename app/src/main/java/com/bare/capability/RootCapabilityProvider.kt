@@ -40,13 +40,21 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         check(destination.isFile && destination.length() > 0) { "Root copy produced an empty file" }
     }
 
-    private fun runSu(command: String): Result = try {
-        val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
-        val stdout = process.inputStream.bufferedReader().use { it.readText() }
-        val stderr = process.errorStream.bufferedReader().use { it.readText() }
-        if (!process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) { process.destroyForcibly(); return Result(-1, stdout, "Command timed out") }
-        Result(process.exitValue(), stdout, stderr)
-    } catch (t: Throwable) { Result(-1, "", t.message ?: t::class.java.simpleName) }
+    private fun runSu(command: String): Result {
+        return try {
+            val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
+            val stdout = process.inputStream.bufferedReader().use { it.readText() }
+            val stderr = process.errorStream.bufferedReader().use { it.readText() }
+            if (!process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
+                process.destroyForcibly()
+                Result(-1, stdout, "Command timed out")
+            } else {
+                Result(process.exitValue(), stdout, stderr)
+            }
+        } catch (t: Throwable) {
+            Result(-1, "", t.message ?: t::class.java.simpleName)
+        }
+    }
 
     private data class Result(val exitCode: Int, val stdout: String, val stderr: String)
     companion object { private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""") }
