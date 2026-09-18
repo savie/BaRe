@@ -1007,3 +1007,30 @@ Fokus verifikasi pengguna:
 3. Description tepat dua baris dan turun ke posisi yang diinginkan.
 4. B Λ R E dan SAVE OUR DAY tetap seperti build #267.
 
+
+
+## 2026-09-18 — Refinement: Launcher 8dp dan Welcome Logo +30dp
+
+### Authorization
+User memberikan **GO** langsung berdasarkan runtime build #270.
+
+### User Direction
+- Launcher icon masih dinilai terlalu besar; user memilih **8dp** sebagai titik uji berikutnya untuk mencari ukuran final di rentang 8–16dp.
+- Welcome logo sebelumnya +10dp tidak terlihat cukup berbeda; user meminta offset yang lebih besar sebagai baseline visual. Dipilih **+30dp** sebagai test point tengah antara +20dp dan +40dp.
+
+### Implementation
+- Adaptive launcher foreground inset: **16dp → 8dp** pada seluruh sisi.
+- Welcome logo horizontal offset: **+10dp → +30dp**.
+- Ukuran logo Welcome, wordmark **B Λ R E**, tagline **SAVE OUR DAY**, dan canonical `bare_logo.png` tidak diubah.
+- Backend/authentication/provider tetap tidak disentuh.
+
+### Verification Status
+- Source changes: **IMPLEMENTED / COMMITTED**.
+- CI: **PENDING** untuk commit terbaru.
+- Runtime: **PENDING**.
+
+### Next Runtime Check
+Bandingkan build berikutnya terhadap #270:
+1. Launcher foreground apakah sudah cukup kecil pada launcher.
+2. Welcome logo +30dp apakah sudah terlihat jelas pergeserannya.
+3. Jika +30dp terlalu jauh, gunakan hasil ini sebagai baseline untuk memilih titik antara +10dp dan +30dp; jika masih kurang, lanjutkan menuju +40dp.
