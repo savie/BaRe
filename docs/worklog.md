@@ -939,3 +939,6 @@ User memberikan **GO** untuk refinement Welcome berdasarkan runtime screenshots.
 
 ### Verification
 CI dan runtime verification menunggu build baru. Fokus runtime: logo tanpa kotak hitam, proporsi logo/wordmark/tagline, description wrapping, dan keberadaan screen mockup tanpa disclosure text.
+
+
+> CI trigger for branding refinement: push event requested so the Android Build workflow evaluates commit `64bd354ed21336b071ddd0cf2ff94e28c391ab89`.
