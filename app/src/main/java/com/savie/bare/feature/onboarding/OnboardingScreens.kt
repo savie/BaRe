@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.AccessMethod
 import com.savie.bare.app.IdentityType
@@ -73,15 +74,21 @@ fun LoginScreen(
     email: String,
     onEmailChange: (String) -> Unit,
     onContinue: () -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    confirmPassword: String,
+    onConfirmPasswordChange: (String) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.account_cloud_description))
         OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
-        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
+        OutlinedTextField(password, onPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in)) }
         OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_with_google)) }
         TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
@@ -101,8 +108,8 @@ fun SignUpScreen(
         Text(stringResource(R.string.create_account), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.create_account_description))
         OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
-        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
-        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.confirm_password)) }, singleLine = true)
+        OutlinedTextField(password, onPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
+        OutlinedTextField(confirmPassword, onConfirmPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.confirm_password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
         Button(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.create_account))
         }
