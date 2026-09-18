@@ -1,4 +1,4 @@
-package com.savie.bare.feature.misc
+package com.bare.feature.misc
 
 
 import androidx.compose.foundation.layout.*
@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.AppItem
-import com.savie.bare.R
-import com.savie.bare.app.Screen
-import com.savie.bare.app.demoApps
-import com.savie.bare.ui.components.ListEntry
+import com.bare.app.AppItem
+import com.bare.R
+import com.bare.app.Screen
+import com.bare.app.demoApps
+import com.bare.ui.components.ListEntry
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
