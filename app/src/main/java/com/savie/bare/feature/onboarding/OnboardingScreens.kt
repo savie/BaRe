@@ -8,10 +8,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material3.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,31 +25,31 @@ import com.savie.bare.app.AccessMethod
 fun WelcomeScreen(onContinue: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp), Arrangement.Center, Alignment.CenterHorizontally) {
         Box(Modifier.size(92.dp).background(MaterialTheme.colorScheme.primary, CircleShape), Alignment.Center) {
-            Text("B", style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
+            Icon(Icons.Default.Backup, contentDescription = stringResource(R.string.app_name), modifier = Modifier.size(48.dp))
         }
         Spacer(Modifier.height(20.dp))
-        Text("BaRe", style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
-        Text("Backup & Restore manager", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.backup_restore_manager), style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(12.dp))
-        Text("Mockup FE lengkap untuk membentuk alur product terlebih dahulu. Capability backend akan dihubungkan setelah tampilan dan state disepakati.")
+        Text(stringResource(R.string.welcome_description))
         Spacer(Modifier.height(28.dp))
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Mulai") }
-        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Sudah punya account") }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.get_started)) }
+        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.already_have_account)) }
     }
 }
 
 @Composable
 fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -> Unit, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") }
-        Text("Sign in", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text("Account dipakai untuk mengatur cloud, sinkronisasi, dan konfigurasi BaRe.")
-        OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text("Email") }, singleLine = true)
-        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text("Password") }, singleLine = true)
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.account_cloud_description))
+        OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
+        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Sign in") }
-        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Continue with local setup") }
-        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Create account") }
-        Text("Mockup only — autentikasi belum terhubung.", style = MaterialTheme.typography.bodySmall)
+        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_local_setup)) }
+        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
+        Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
 }
 
@@ -55,12 +57,12 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
 fun StorageSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") }
-        Text("Backup storage", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text("Pilih lokasi repository backup. Ini masih state FE dan belum menulis data.")
-        StorageCard("Internal storage", "BaRe/Backups", true)
-        StorageCard("External storage", "SAF / removable storage", false)
-        StorageCard("Remote storage", "Cloud provider", false)
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Continue") }
+        Text(stringResource(R.string.backup_storage), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.storage_setup_description))
+        StorageCard(stringResource(R.string.internal_storage), stringResource(R.string.internal_backup_path), true)
+        StorageCard(stringResource(R.string.external_storage), stringResource(R.string.saf_removable_storage), false)
+        StorageCard(stringResource(R.string.remote_storage), stringResource(R.string.cloud_provider), false)
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_label)) }
     }
 }
 
@@ -74,7 +76,7 @@ private fun StorageCard(title: String, subtitle: String, selected: Boolean) {
                 Text(title, fontWeight = FontWeight.Bold)
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
-            if (selected) Text("Selected", style = MaterialTheme.typography.labelMedium)
+            if (selected) Text(stringResource(R.string.selected), style = MaterialTheme.typography.labelMedium)
         }
     }
 }
@@ -83,11 +85,11 @@ private fun StorageCard(title: String, subtitle: String, selected: Boolean) {
 fun AccessMethodScreen(selected: AccessMethod?, onSelect: (AccessMethod) -> Unit, onContinue: () -> Unit, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") }
-        Text("Access method", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text("Pilih mekanisme akses. Status capability aktual nanti ditentukan provider dan runtime.")
+        Text(stringResource(R.string.access_method), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.access_method_description))
         AccessCard(AccessMethod.NON_ROOT, selected == AccessMethod.NON_ROOT, onSelect)
         AccessCard(AccessMethod.ROOT, selected == AccessMethod.ROOT, onSelect)
-        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) { Text("Enter BaRe") }
+        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.enter_bare)) }
     }
 }
 
