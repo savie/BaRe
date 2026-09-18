@@ -42,7 +42,7 @@ fun BaReApp() {
     var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
-    var loginEmail by remember { mutableStateOf("") }
+    var loginEmail by remember { mutableStateOf("") }\n    var identityType by remember { mutableStateOf<IdentityType?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -64,7 +64,13 @@ fun BaReApp() {
     BaReTheme {
         Surface(Modifier.fillMaxSize()) {
             when (startScreen) {
-                StartScreen.WELCOME -> WelcomeScreen { startScreen = StartScreen.LOGIN }
+                StartScreen.WELCOME -> WelcomeScreen { identity ->
+                    identityType = identity
+                    startScreen = when (identity) {
+                        IdentityType.LOCAL -> StartScreen.STORAGE_SETUP
+                        IdentityType.ACCOUNT -> StartScreen.LOGIN
+                    }
+                }
                 StartScreen.LOGIN -> LoginScreen(loginEmail, { loginEmail = it }, { startScreen = StartScreen.STORAGE_SETUP }, ::goBack)
                 StartScreen.STORAGE_SETUP -> StorageSetupScreen({ startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(selectedMethod, { selectedMethod = it }, { if (selectedMethod != null) startScreen = StartScreen.APP }, ::goBack)
