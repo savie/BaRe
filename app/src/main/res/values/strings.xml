@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BaRe</string>
-    <string name="backup_restore_manager">Backup &amp; Restore manager</string>
-    <string name="welcome_description">A backup and restore manager for apps, data, folders, storage, and cloud workflows.</string>
+    <string name="backup_restore_manager">Backup &amp; Restore</string>
+    <string name="brand_tagline">S A V E   O U R   D A Y</string>
+    <string name="welcome_description">Back up, restore, and manage your apps and data.</string>
     <string name="get_started">Get started</string>
     <string name="already_have_account">Already have an account</string>
 
-    <string name="choose_identity">Choose how you want to use BaRe</string>
-    <string name="choose_identity_description">Use BaRe locally on this device, or continue with a BaRe account.</string>
     <string name="use_local">Use BaRe locally</string>
     <string name="use_account">Use BaRe account</string>
 
     <string name="back">Back</string>
-    <string name="local_setup">Local setup</string>
-    <string name="local_setup_description">Set up a local BaRe identity on this device before choosing the backup storage.</string>
-    <string name="local_identity">Local BaRe identity</string>
-    <string name="local_identity_description">This path does not require a BaRe account. Account sign-in can be used separately when needed.</string>
+    <string name="local_confirmation_title">Set up BaRe on this device</string>
+    <string name="local_confirmation_description">Your BaRe setup stays on this device. You can connect an account later.</string>
+    <string name="not_now">Not now</string>
     <string name="sign_in">Sign in</string>
-    <string name="account_cloud_description">Your account is used to manage cloud storage, synchronization, and BaRe configuration.</string>
+    <string name="sign_in_description">Welcome back. Sign in to continue with your BaRe account.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="show_password">Show password</string>
@@ -25,11 +23,19 @@
     <string name="invalid_email">Enter a valid email such as x@x.x.</string>
     <string name="password_too_short">Password must be at least 8 characters.</string>
     <string name="password_mismatch">Passwords do not match.</string>
-    <string name="continue_local_setup">Continue with local setup</string>
     <string name="create_account">Create account</string>
-    <string name="create_account_description">Create a BaRe account to use the account identity and continue with setup.</string>
+    <string name="create_account_description">Use an account to keep your setup connected across your BaRe experience.</string>
     <string name="confirm_password">Confirm password</string>
     <string name="continue_with_google">Continue with Google</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="no_account_prefix">Don&apos;t have an account?</string>
+    <string name="already_have_account_prefix">Already have an account?</string>
+    <string name="reset_password">Reset password</string>
+    <string name="reset_password_description">Enter your email and we&apos;ll send you a link to reset your password.</string>
+    <string name="send_reset_link">Send reset link</string>
+    <string name="check_your_email">Check your email</string>
+    <string name="reset_email_sent">If an account exists for this email, we&apos;ll send a password reset link.</string>
+    <string name="back_to_sign_in">Back to sign in</string>
     <string name="mockup_auth_not_connected">Mockup only — authentication is not connected.</string>
 
     <string name="backup_storage">Backup storage</string>
