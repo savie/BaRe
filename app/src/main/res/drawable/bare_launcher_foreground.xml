@@ -4,4 +4,4 @@
     android:scaleGravity="center"
     android:scaleWidth="60%"
     android:scaleHeight="60%"
-    android:level="10000" />
+    android:level="3333" />
