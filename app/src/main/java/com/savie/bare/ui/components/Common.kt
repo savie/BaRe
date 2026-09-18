@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.savie.bare.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
@@ -34,7 +36,7 @@ fun ActionCard(title: String, icon: ImageVector, modifier: Modifier = Modifier, 
             Icon(icon, null, Modifier.size(28.dp))
             Spacer(Modifier.height(8.dp))
             Text(title, fontWeight = FontWeight.Bold)
-            Text("Mockup", style = MaterialTheme.typography.labelSmall)
+            Text(stringResource(R.string.mockup), style = MaterialTheme.typography.labelSmall)
         }
     }
 }
