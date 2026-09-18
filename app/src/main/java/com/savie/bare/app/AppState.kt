@@ -24,7 +24,15 @@ enum class Screen(val title: String) {
     IMPORT_EXPORT("Import / Export"), TASK("Task"), SCHEDULE_DETAIL("Schedule")
 }
 
-enum class StartScreen { WELCOME, LOGIN, STORAGE_SETUP, ACCESS_METHOD, APP }
+enum class StartScreen {
+    WELCOME,
+    LOCAL_SETUP,
+    LOGIN,
+    SIGN_UP,
+    STORAGE_SETUP,
+    ACCESS_METHOD,
+    APP,
+}
 
 enum class IdentityType {
     LOCAL,
