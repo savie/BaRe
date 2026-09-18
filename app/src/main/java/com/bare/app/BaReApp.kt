@@ -133,7 +133,12 @@ fun BaReApp() {
                     onCreateAccount = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
                     onBack = ::goBack,
                 )
-                StartScreen.STORAGE_SETUP -> StorageSetupScreen(identityType?.let { identityStore.load()?.identityId }, { startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
+                StartScreen.STORAGE_SETUP -> StorageSetupScreen(
+                    identityType?.let { identityStore.load()?.identityId },
+                    { startScreen = StartScreen.ACCESS_METHOD },
+                    { if (identityType == IdentityType.ACCOUNT) { startScreen = StartScreen.APP; screen = Screen.CLOUD } else { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } },
+                    ::goBack,
+                )
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
                     { selectedMethod = it; accessError = null },
