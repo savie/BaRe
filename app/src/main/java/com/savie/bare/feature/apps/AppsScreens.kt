@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.AppItem
+import com.savie.bare.R
 import com.savie.bare.app.Screen
 import com.savie.bare.app.demoApps
 import com.savie.bare.ui.components.CheckRow
