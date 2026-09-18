@@ -235,7 +235,7 @@ private fun StorageSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
 @Composable
 private fun StorageCard(title: String, subtitle: String, selected: Boolean) {
     Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant)) {
-        Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Default.Storage, null)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
@@ -263,7 +263,7 @@ private fun AccessMethodScreen(selected: AccessMethod?, onSelect: (AccessMethod)
 @Composable
 private fun AccessCard(method: AccessMethod, selected: Boolean, onSelect: (AccessMethod) -> Unit) {
     Card(Modifier.fillMaxWidth().clickable { onSelect(method) }) {
-        Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(if (method == AccessMethod.ROOT) Icons.Default.Security else Icons.Default.Info, null)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
@@ -389,7 +389,7 @@ private fun HomeTab(onOpen: (Screen) -> Unit) {
 @Composable
 private fun StatusCard(icon: androidx.compose.ui.graphics.vector.ImageVector, title: String, value: String, detail: String) {
     Card(Modifier.fillMaxWidth()) {
-        Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null, Modifier.size(32.dp))
             Spacer(Modifier.width(14.dp))
             Column {
@@ -434,7 +434,7 @@ private fun AppsTab(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
         item { Text("Installed apps", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
         items(demoApps) { app ->
             Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
-                Row(Modifier.padding(14.dp), Alignment.CenterVertically) {
+                Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
                         Text(app.name.take(1), fontWeight = FontWeight.Bold)
                     }
@@ -469,7 +469,7 @@ private fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () 
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Row(Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.size(64.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
                         Text(item.name.take(1), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                     }
@@ -528,7 +528,7 @@ private fun AccountTab(onOpen: (Screen) -> Unit) {
     LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item {
             Card(Modifier.fillMaxWidth()) {
-                Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+                Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.size(56.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
                         Text("B", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                     }
@@ -592,7 +592,7 @@ private fun TaskScreen(onBack: () -> Unit) {
 @Composable
 private fun SearchScreen(query: String, onQueryChange: (String) -> Unit, onOpenApp: (AppItem) -> Unit, onClose: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onClose) { Icon(Icons.Default.ArrowBack, "Back") }
             OutlinedTextField(query, onQueryChange, Modifier.weight(1f), label = { Text("Search") }, singleLine = true)
         }
@@ -615,7 +615,7 @@ private fun GenericDomainScreen(title: String, subtitle: String, entries: List<S
             }
             items(entries) { entry ->
                 Card(Modifier.fillMaxWidth()) {
-                    Row(Modifier.padding(16.dp), Alignment.CenterVertically) {
+                    Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.Info, null)
                         Spacer(Modifier.width(14.dp))
                         Column(Modifier.weight(1f)) {
@@ -632,7 +632,7 @@ private fun GenericDomainScreen(title: String, subtitle: String, entries: List<S
 @Composable
 private fun ListEntry(title: String, subtitle: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
     Card(Modifier.fillMaxWidth().clickable(onClick = onClick)) {
-        Row(Modifier.padding(14.dp), Alignment.CenterVertically) {
+        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, null)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
@@ -645,7 +645,7 @@ private fun ListEntry(title: String, subtitle: String, icon: androidx.compose.ui
 
 @Composable
 private fun CheckRow(title: String, checked: Boolean) {
-    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Switch(checked = checked, onCheckedChange = {}, enabled = false)
         Spacer(Modifier.width(10.dp))
         Text(title)
