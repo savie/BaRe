@@ -59,6 +59,8 @@ fun BaReApp() {
     var signUpEmail by remember { mutableStateOf("") }
     var signUpPassword by remember { mutableStateOf("") }
     var signUpConfirmPassword by remember { mutableStateOf("") }
+    var resetEmail by remember { mutableStateOf("") }
+    var showLocalConfirmation by remember { mutableStateOf(false) }
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
@@ -71,9 +73,9 @@ fun BaReApp() {
             screen != Screen.NONE -> screen = Screen.NONE
             startScreen == StartScreen.ACCESS_METHOD -> startScreen = StartScreen.STORAGE_SETUP
             startScreen == StartScreen.STORAGE_SETUP -> startScreen =
-                if (identityType == IdentityType.LOCAL) StartScreen.LOCAL_SETUP else StartScreen.LOGIN
+                if (identityType == IdentityType.LOCAL) StartScreen.WELCOME else StartScreen.LOGIN
+            startScreen == StartScreen.FORGOT_PASSWORD -> startScreen = StartScreen.LOGIN
             startScreen == StartScreen.SIGN_UP -> startScreen = StartScreen.LOGIN
-            startScreen == StartScreen.LOCAL_SETUP -> startScreen = StartScreen.WELCOME
             startScreen == StartScreen.LOGIN -> startScreen = StartScreen.WELCOME
             startScreen == StartScreen.APP -> scope.launch { pagerState.animateScrollToPage(Tab.HOME.ordinal) }
         }
@@ -84,21 +86,23 @@ fun BaReApp() {
     BaReTheme {
         Surface(Modifier.fillMaxSize()) {
             when (startScreen) {
-                StartScreen.WELCOME -> WelcomeScreen { identity ->
-                    identityType = identity
-                    startScreen = when (identity) {
-                        IdentityType.LOCAL -> StartScreen.LOCAL_SETUP
-                        IdentityType.ACCOUNT -> StartScreen.LOGIN
+                StartScreen.WELCOME -> {
+                    WelcomeScreen { identity ->
+                        identityType = identity
+                        if (identity == IdentityType.LOCAL) showLocalConfirmation = true else startScreen = StartScreen.LOGIN
+                    }
+                    if (showLocalConfirmation) {
+                        LocalSetupConfirmation(
+                            onContinue = {
+                                val identity = identityStore.createLocalIdentity()
+                                identityType = identity.type
+                                showLocalConfirmation = false
+                                startScreen = StartScreen.STORAGE_SETUP
+                            },
+                            onDismiss = { showLocalConfirmation = false },
+                        )
                     }
                 }
-                StartScreen.LOCAL_SETUP -> LocalSetupScreen(
-                    onContinue = {
-                        val identity = identityStore.createLocalIdentity()
-                        identityType = identity.type
-                        startScreen = StartScreen.STORAGE_SETUP
-                    },
-                    onBack = ::goBack,
-                )
                 StartScreen.LOGIN -> LoginScreen(
                     email = loginEmail,
                     onEmailChange = { loginEmail = it },
@@ -106,6 +110,12 @@ fun BaReApp() {
                     onPasswordChange = { loginPassword = it },
                     onContinue = { startScreen = StartScreen.STORAGE_SETUP },
                     onCreateAccount = { startScreen = StartScreen.SIGN_UP },
+                    onForgotPassword = { resetEmail = loginEmail; startScreen = StartScreen.FORGOT_PASSWORD },
+                    onBack = ::goBack,
+                )
+                StartScreen.FORGOT_PASSWORD -> ForgotPasswordScreen(
+                    email = resetEmail,
+                    onEmailChange = { resetEmail = it },
                     onBack = ::goBack,
                 )
                 StartScreen.SIGN_UP -> SignUpScreen(
