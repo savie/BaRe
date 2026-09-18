@@ -1,4 +1,4 @@
-package com.savie.bare.feature.onboarding
+package com.bare.feature.onboarding
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,9 +24,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.AccessMethod
-import com.savie.bare.app.IdentityType
-import com.savie.bare.R
+import com.bare.app.AccessMethod
+import com.bare.app.IdentityType
+import com.bare.R
 
 private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
