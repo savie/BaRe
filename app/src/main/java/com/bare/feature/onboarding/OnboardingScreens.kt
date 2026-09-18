@@ -44,7 +44,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier.size(210.dp).offset(x = 6.dp),
+            modifier = Modifier.size(210.dp).offset(x = 10.dp),
             contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
@@ -62,7 +62,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
             fontWeight = FontWeight.Light,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(Modifier.height(38.dp))
+        Spacer(Modifier.height(70.dp))
         Text(
             text = stringResource(R.string.welcome_description),
             style = MaterialTheme.typography.bodyLarge,
