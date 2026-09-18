@@ -255,7 +255,7 @@ private fun AccessMethodScreen(selected: AccessMethod?, onSelect: (AccessMethod)
         Text("Pilih mekanisme akses. Status capability aktual nanti ditentukan provider dan runtime.")
         AccessCard(AccessMethod.NON_ROOT, selected == AccessMethod.NON_ROOT, onSelect)
         AccessCard(AccessMethod.ROOT, selected == AccessMethod.ROOT, onSelect)
-        Button(onClick = onContinue, enabled = selected != null, Modifier.fillMaxWidth()) { Text("Enter BaRe") }
+        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) { Text("Enter BaRe") }
     }
 }
 
