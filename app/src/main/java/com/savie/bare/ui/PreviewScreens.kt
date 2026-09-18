@@ -1,15 +1,15 @@
-package com.savie.bare.ui
+package com.bare.ui
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
-import com.savie.bare.app.IdentityType
-import com.savie.bare.feature.account.AccountScreen
-import com.savie.bare.feature.apps.AppsScreen
-import com.savie.bare.feature.home.HomeScreen
-import com.savie.bare.feature.onboarding.LoginScreen
-import com.savie.bare.feature.onboarding.WelcomeScreen
-import com.savie.bare.feature.schedules.SchedulesScreen
-import com.savie.bare.ui.theme.BaReTheme
+import com.bare.app.IdentityType
+import com.bare.feature.account.AccountScreen
+import com.bare.feature.apps.AppsScreen
+import com.bare.feature.home.HomeScreen
+import com.bare.feature.onboarding.LoginScreen
+import com.bare.feature.onboarding.WelcomeScreen
+import com.bare.feature.schedules.SchedulesScreen
+import com.bare.ui.theme.BaReTheme
 
 @Preview(showBackground = true)
 @Composable
