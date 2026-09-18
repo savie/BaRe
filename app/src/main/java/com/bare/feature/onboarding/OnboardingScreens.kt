@@ -383,14 +383,32 @@ private fun StorageCard(
 }
 
 @Composable
-fun AccessMethodScreen(selected: AccessMethod?, onSelect: (AccessMethod) -> Unit, onContinue: () -> Unit, onBack: () -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") }
+fun AccessMethodScreen(
+    selected: AccessMethod?,
+    onSelect: (AccessMethod) -> Unit,
+    onContinue: () -> Unit,
+    onBack: () -> Unit,
+    errorMessage: String?,
+) {
+    Column(
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.access_method), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.access_method_description))
         AccessCard(AccessMethod.NON_ROOT, selected == AccessMethod.NON_ROOT, onSelect)
         AccessCard(AccessMethod.ROOT, selected == AccessMethod.ROOT, onSelect)
-        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.enter_bare)) }
+        if (!errorMessage.isNullOrBlank()) {
+            Text(
+                text = errorMessage,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.enter_bare))
+        }
     }
 }
 
