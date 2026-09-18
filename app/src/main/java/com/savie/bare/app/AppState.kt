@@ -26,6 +26,11 @@ enum class Screen(val title: String) {
 
 enum class StartScreen { WELCOME, LOGIN, STORAGE_SETUP, ACCESS_METHOD, APP }
 
+enum class IdentityType {
+    LOCAL,
+    ACCOUNT,
+}
+
 enum class AccessMethod(@StringRes val titleRes: Int, @StringRes val descriptionRes: Int) {
     NON_ROOT(R.string.non_root, R.string.non_root_description),
     ROOT(R.string.root, R.string.root_description)
