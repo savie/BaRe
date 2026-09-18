@@ -1079,3 +1079,29 @@ Persentase tidak didukung oleh atribut `width/height` pada resource drawable ter
 - Fix commit: **IMPLEMENTED**.
 - CI terbaru: **PENDING**.
 - Runtime: **PENDING**.
+
+
+## 2026-09-19 — Launcher Scaling: Switch to ScaleDrawable
+
+### Decision
+Pendekatan inset tidak digunakan sebagai mekanisme scaling final. User meminta solusi scaling yang logis dan deterministic.
+
+### Research / Basis
+Android menyediakan ScaleDrawable dengan atribut scaleWidth dan scaleHeight dalam persentase, serta scaleGravity=center. Dokumentasi Android juga menyediakan contoh resmi penggunaan <scale> untuk mengecilkan drawable secara persentase.
+
+### Implementation
+- bare_launcher_foreground.xml diubah dari inset-based drawable menjadi root <scale>.
+- Width scaling: 60%.
+- Height scaling: 60%.
+- Gravity: center.
+- Level: 10000 agar ScaleDrawable berada pada maximum scale yang ditentukan.
+- Canonical bare_logo.png tetap tidak diubah.
+- Welcome logo +25dp tetap.
+
+### Verification Status
+- Source: IMPLEMENTED.
+- CI: PENDING.
+- Runtime: PENDING.
+
+### Note
+Build #274 sebelumnya gagal karena width=65% / height=65% digunakan pada atribut dimension layer-list/item; itu memang resource syntax yang salah. Pendekatan baru menempatkan persentase pada atribut scaleWidth/scaleHeight yang memang didukung oleh ScaleDrawable.
