@@ -791,3 +791,35 @@ Perubahan rename source/namespace dilakukan pada commit bertahap selama pekerjaa
 - Tunggu/cek CI untuk memastikan full package rename tetap compile.
 - Jika build green, lakukan runtime verification pada APK baru dan pastikan Android identity/data path menggunakan `com.bare`.
 - Jangan melakukan migrasi data dari `com.savie.bare` tanpa scope dan authorization terpisah.
+
+## 2026-09-18 — Runtime Verification: CI Build Terakhir dan Auth Form
+
+### Pekerjaan
+Verifikasi runtime pengguna terhadap APK CI terakhir setelah full rename Android package ke `com.bare` dan perbaikan form authentication.
+
+### Observasi Pengguna
+- APK CI terakhir sudah di-install dan diverifikasi pada device.
+- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
+- Password pada field authentication sudah dapat digunakan sesuai input yang diharapkan.
+- Form authentication menolak interaksi lanjut ketika format email tidak valid.
+- Password dengan panjang kurang dari 8 karakter tidak dapat melanjutkan authentication flow.
+
+### Verifikasi
+- APK terakhir: **RUNTIME VERIFIED BY USER** untuk scope observasi di atas.
+- Full rename/application identity `com.bare`: terverifikasi pada APK yang di-install sebagai bagian dari verifikasi pengguna.
+- Email format validation: **VERIFIED BY USER**.
+- Minimum password length 8: **VERIFIED BY USER**.
+- Tidak ada perubahan behavior lain yang teramati dalam scope verifikasi ini.
+- Authentication backend/provider tetap **NOT IMPLEMENTED / OUT OF SCOPE** pada pekerjaan ini; verifikasi hanya mencakup FE validation dan behavior yang terlihat pada device.
+
+### Scope Boundary
+- Backend tidak dimasuki.
+- Tidak ada perubahan database, provider, session, credential handling, atau authentication service.
+- Tidak ada perubahan product capability lain.
+
+### Kondisi Saat Ini
+`RUNTIME_FE_VERIFIED / PACKAGE_RENAME_VERIFIED / AUTH_FORM_VALIDATION_VERIFIED / BACKEND_NOT_ENTERED`
+
+### Berikutnya
+Lanjutkan dari kondisi aktual ini. Backend/authentication provider tetap terpisah dan tidak menjadi bagian dari verifikasi ini sampai ada scope dan authorization tersendiri.
+
