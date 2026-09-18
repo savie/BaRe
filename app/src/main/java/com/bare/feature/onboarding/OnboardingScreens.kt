@@ -1,5 +1,6 @@
 package com.bare.feature.onboarding
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import com.bare.app.AccessMethod
 import com.bare.app.IdentityType
 import com.bare.R
@@ -32,46 +34,92 @@ private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
 
 @Composable
-fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
-    Column(Modifier.fillMaxSize().padding(24.dp), Arrangement.Center, Alignment.CenterHorizontally) {
-        Box(Modifier.size(92.dp).background(MaterialTheme.colorScheme.primary, CircleShape), Alignment.Center) {
-            Icon(Icons.Default.Backup, contentDescription = stringResource(R.string.app_name), modifier = Modifier.size(48.dp))
+fun BaReMark(modifier: Modifier = Modifier) {
+    Canvas(modifier) {
+        val stroke = size.minDimension * 0.075f
+        val w = size.width
+        val h = size.height
+        val style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val color = MaterialTheme.colorScheme.onBackground
+
+        val stem = Path().apply {
+            moveTo(w * 0.28f, h * 0.13f)
+            lineTo(w * 0.28f, h * 0.67f)
+            cubicTo(w * 0.28f, h * 0.77f, w * 0.31f, h * 0.84f, w * 0.39f, h * 0.90f)
         }
-        Spacer(Modifier.height(20.dp))
-        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Bold)
-        Text(stringResource(R.string.backup_restore_manager), style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(12.dp))
-        Text(stringResource(R.string.welcome_description))
-        Spacer(Modifier.height(28.dp))
-        Text(stringResource(R.string.choose_identity), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-        Text(stringResource(R.string.choose_identity_description), style = MaterialTheme.typography.bodyMedium)
-        OutlinedButton(onClick = { onSelectIdentity(IdentityType.LOCAL) }, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.use_local))
+        drawPath(stem, color, style = style)
+
+        val arch = Path().apply {
+            moveTo(w * 0.34f, h * 0.47f)
+            cubicTo(w * 0.43f, h * 0.36f, w * 0.62f, h * 0.35f, w * 0.72f, h * 0.46f)
+            cubicTo(w * 0.77f, h * 0.51f, w * 0.79f, h * 0.58f, w * 0.79f, h * 0.64f)
         }
-        Button(onClick = { onSelectIdentity(IdentityType.ACCOUNT) }, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.use_account))
+        drawPath(arch, color, style = style)
+
+        val loop = Path().apply {
+            moveTo(w * 0.40f, h * 0.91f)
+            cubicTo(w * 0.51f, h * 1.00f, w * 0.67f, h * 0.96f, w * 0.75f, h * 0.81f)
+            cubicTo(w * 0.80f, h * 0.71f, w * 0.83f, h * 0.61f, w * 0.90f, h * 0.57f)
+            cubicTo(w * 0.94f, h * 0.55f, w * 0.97f, h * 0.54f, w * 0.99f, h * 0.54f)
         }
+        drawPath(loop, color, style = style)
     }
 }
 
 @Composable
-fun LocalSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
+fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-        Text(stringResource(R.string.local_setup), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text(stringResource(R.string.local_setup_description))
-        Card(Modifier.fillMaxWidth()) {
-            Column(Modifier.padding(16.dp)) {
-                Text(stringResource(R.string.local_identity), fontWeight = FontWeight.Bold)
-                Spacer(Modifier.height(6.dp))
-                Text(stringResource(R.string.local_identity_description), style = MaterialTheme.typography.bodyMedium)
+        Spacer(Modifier.weight(0.72f))
+        BaReMark(Modifier.size(112.dp))
+        Spacer(Modifier.height(24.dp))
+        Text(
+            text = "B Λ R E",
+            style = MaterialTheme.typography.displaySmall.copy(letterSpacing = 0.16.em),
+            fontWeight = FontWeight.Light,
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.brand_tagline),
+            style = MaterialTheme.typography.labelLarge.copy(letterSpacing = 0.28.em),
+            fontWeight = FontWeight.Light,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(28.dp))
+        Text(
+            text = stringResource(R.string.welcome_description),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.widthIn(max = 320.dp),
+        )
+        Spacer(Modifier.weight(0.55f))
+        Button(
+            onClick = { onSelectIdentity(IdentityType.LOCAL) },
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+        ) { Text(stringResource(R.string.use_local)) }
+        TextButton(
+            onClick = { onSelectIdentity(IdentityType.ACCOUNT) },
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+        ) { Text(stringResource(R.string.use_account)) }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LocalSetupConfirmation(onContinue: () -> Unit, onDismiss: () -> Unit) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(
+            Modifier.fillMaxWidth().padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(stringResource(R.string.local_confirmation_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.local_confirmation_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.not_now)) }
+                Button(onClick = onContinue) { Text(stringResource(R.string.continue_label)) }
             }
-        }
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
-            Text(stringResource(R.string.continue_label))
         }
     }
 }
@@ -84,6 +132,7 @@ fun LoginScreen(
     onPasswordChange: (String) -> Unit,
     onContinue: () -> Unit,
     onCreateAccount: () -> Unit,
+    onForgotPassword: () -> Unit,
     onBack: () -> Unit,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
@@ -135,6 +184,7 @@ fun LoginScreen(
             },
             modifier = Modifier.fillMaxWidth(),
         ) { Text(stringResource(R.string.sign_in)) }
+        TextButton(onClick = onForgotPassword, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.forgot_password)) }
         OutlinedButton(
             onClick = {
                 submitted = true
@@ -144,6 +194,44 @@ fun LoginScreen(
         ) { Text(stringResource(R.string.continue_with_google)) }
         TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
+    }
+}
+
+@Composable
+fun ForgotPasswordScreen(
+    email: String,
+    onEmailChange: (String) -> Unit,
+    onBack: () -> Unit,
+) {
+    var submitted by remember { mutableStateOf(false) }
+    var sent by remember { mutableStateOf(false) }
+    val emailValid = EMAIL_PATTERN.matches(email.trim())
+
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        if (!sent) {
+            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.reset_password_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            OutlinedTextField(
+                value = email,
+                onValueChange = onEmailChange,
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.email)) },
+                singleLine = true,
+                keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = KeyboardType.Email),
+                isError = submitted && !emailValid,
+                supportingText = { if (submitted && !emailValid) Text(stringResource(R.string.invalid_email)) },
+            )
+            Button(
+                onClick = { submitted = true; if (emailValid) sent = true },
+                modifier = Modifier.fillMaxWidth().height(52.dp),
+            ) { Text(stringResource(R.string.send_reset_link)) }
+        } else {
+            Text(stringResource(R.string.check_your_email), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.reset_email_sent), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Button(onClick = onBack, modifier = Modifier.fillMaxWidth().height(52.dp)) { Text(stringResource(R.string.back_to_sign_in)) }
+            Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
     }
 }
 
