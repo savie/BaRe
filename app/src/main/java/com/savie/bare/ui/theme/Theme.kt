@@ -1,4 +1,4 @@
-package com.savie.bare.ui.theme
+package com.bare.ui.theme
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
