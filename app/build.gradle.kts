@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.savie.bare"
+    namespace = "com.bare"
     compileSdk = 35
 
     defaultConfig {
