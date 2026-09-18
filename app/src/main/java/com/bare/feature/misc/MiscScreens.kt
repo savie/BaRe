@@ -23,24 +23,76 @@ import com.bare.ui.components.ListEntry
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-fun CloudScreen(onBack: () -> Unit) {
-    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.cloud_sync)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Card(Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.CloudOff, null, Modifier.size(52.dp))
-                    Spacer(Modifier.height(10.dp))
-                    Text(stringResource(R.string.cloud_account_not_connected), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.connect_provider_description))
-                    Spacer(Modifier.height(12.dp))
-                    Button(onClick = {}) { Text(stringResource(R.string.connect_account)) }
+fun CloudScreen(
+    hasAccount: Boolean,
+    onBack: () -> Unit,
+    onConnectAccount: () -> Unit,
+) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.cloud_sync)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            item {
+                Spacer(Modifier.height(4.dp))
+                if (!hasAccount) {
+                    Card(Modifier.fillMaxWidth()) {
+                        Column(
+                            Modifier.padding(20.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp),
+                        ) {
+                            Icon(Icons.Default.CloudQueue, null, Modifier.size(32.dp))
+                            Text(
+                                stringResource(R.string.cloud_account_title),
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            Text(
+                                stringResource(R.string.cloud_account_description),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            TextButton(
+                                onClick = onConnectAccount,
+                                contentPadding = PaddingValues(0.dp),
+                            ) {
+                                Text(stringResource(R.string.connect_account))
+                            }
+                        }
+                    }
+                } else {
+                    Text(
+                        stringResource(R.string.cloud_ready_title),
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Text(
+                        stringResource(R.string.cloud_ready_description),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
-            Text(stringResource(R.string.providers), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-            ListEntry(stringResource(R.string.google_drive), stringResource(R.string.disconnected), Icons.Default.Cloud) {}
-            ListEntry(stringResource(R.string.webdav), stringResource(R.string.disconnected), Icons.Default.Sync) {}
-            ListEntry(stringResource(R.string.generic_remote), stringResource(R.string.disconnected), Icons.Default.Cloud) {}
-            ListEntry(stringResource(R.string.cloud_diagnostics), stringResource(R.string.transfer_connection_checks), Icons.Default.BugReport) {}
+            item {
+                Text(
+                    stringResource(R.string.providers),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                )
+            }
+            item { ListEntry(stringResource(R.string.google_drive), stringResource(R.string.disconnected), Icons.Default.Cloud) {} }
+            item { ListEntry(stringResource(R.string.webdav), stringResource(R.string.disconnected), Icons.Default.Sync) {} }
+            item { ListEntry(stringResource(R.string.generic_remote), stringResource(R.string.disconnected), Icons.Default.Cloud) {} }
+            item { ListEntry(stringResource(R.string.cloud_diagnostics), stringResource(R.string.transfer_connection_checks), Icons.Default.BugReport) {} }
         }
     }
 }
