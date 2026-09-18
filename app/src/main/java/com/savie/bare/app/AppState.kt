@@ -1,4 +1,4 @@
-package com.savie.bare.app
+package com.bare.app
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Apps
@@ -6,7 +6,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
 import androidx.annotation.StringRes
-import com.savie.bare.R
+import com.bare.R
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
@@ -54,7 +54,7 @@ data class AppItem(
 )
 
 val demoApps = listOf(
-    AppItem("BaRe", "com.savie.bare", "User app", "42 MB", protected = true, favorite = true),
+    AppItem("BaRe", "com.bare", "User app", "42 MB", protected = true, favorite = true),
     AppItem("Messages", "com.google.android.apps.messaging", "User app", "118 MB"),
     AppItem("Chrome", "com.android.chrome", "User app", "286 MB", favorite = true),
     AppItem("Files", "com.google.android.documentsui", "System app", "31 MB"),
