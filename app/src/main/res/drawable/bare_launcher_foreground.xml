@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:width="65%"
-        android:height="65%"
-        android:gravity="center">
+        android:left="22dp"
+        android:top="22dp"
+        android:right="22dp"
+        android:bottom="22dp">
         <bitmap
             android:gravity="fill"
             android:src="@drawable/bare_logo" />
