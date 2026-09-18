@@ -3,6 +3,7 @@ package com.savie.bare.app
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -120,7 +121,7 @@ private fun MainShell(
             }
         },
     ) { padding ->
-        HorizontalPager(state = pagerState, Modifier.fillMaxSize().then(Modifier)) { page ->
+        HorizontalPager(state = pagerState, Modifier.fillMaxSize().padding(padding)) { page ->
             when (tabs[page]) {
                 Tab.HOME -> HomeScreen(onOpenScreen)
                 Tab.APPS -> AppsScreen(onOpenScreen, onOpenApp)
