@@ -1152,3 +1152,46 @@ User memberikan **GO** untuk melanjutkan fondasi backup storage dan audit penera
 - Verifikasi CI terhadap source aktual.
 - Jika build green, lakukan runtime verification pada device untuk Internal storage path, kondisi External tanpa hardware, serta Root/Non-root capability resolution.
 - Setelah evidence runtime tersedia, rekonsiliasi status capability matrix dan worklog berdasarkan hasil aktual.
+
+
+## 2026-09-19 — Cloud Account Gate dan Existing Auth Flow
+
+### Authorization
+User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementation: desain mengikuti UI BaRe yang sudah ada, dibuat modern/kekinian tetapi minimalis, default APK tetap English, dan tidak membuat halaman login baru karena Sign in/Create account/Forgot password sudah tersedia pada onboarding.
+
+### Keputusan
+- Cloud tetap mengikuti journey product: Connect Provider → Prepare Storage → Upload/Download/Sync → Verify → Maintain Metadata.
+- Account menjadi prerequisite untuk masuk ke penggunaan cloud provider.
+- Account authentication menggunakan screen authentication BaRe yang sudah ada.
+- Jika user membuka Cloud dari sesi local, BaRe mengarahkan ke existing Sign in; setelah flow auth selesai, user dikembalikan ke Cloud.
+- Tidak membuat duplicate login/account screen khusus Cloud.
+- Copy Cloud ditulis dalam English sebagai default APK.
+- Visual Cloud dibuat lebih ringkas dengan hierarchy Material yang sudah dipakai BaRe; tidak menambahkan gaya/branding yang keluar dari existing UI baseline.
+- Provider cloud tetap belum diimplementasikan; perubahan ini hanya memperbaiki UX flow/gate.
+
+### Implementasi
+- BaReApp.kt menambahkan return state agar existing Sign in/Create account dapat kembali ke Screen.CLOUD setelah authentication flow.
+- Saat authentication flow Cloud selesai, session UI mempertahankan IdentityType.ACCOUNT untuk navigasi berikutnya dalam runtime session.
+- Routing dari Account → Cloud memeriksa identity type; local identity diarahkan ke existing Sign in, account identity langsung membuka Cloud.
+- CloudScreen diperbarui menjadi account-aware dengan entry card yang lebih compact dan provider list tetap mempertahankan surface yang sudah ada.
+- String baru ditambahkan dalam English untuk cloud account gate dan connected state.
+
+### Status Truth
+- UX routing source: IMPLEMENTED / UNVERIFIED.
+- Existing authentication screen reuse: IMPLEMENTED / UNVERIFIED.
+- Cloud provider connection/transfer: NOT IMPLEMENTED.
+- Authentication backend/session persistence: NOT IMPLEMENTED / OUT OF SCOPE pada pekerjaan ini.
+- Runtime visual/navigation: UNVERIFIED.
+- CI setelah perubahan Cloud: PENDING / UNVERIFIED.
+
+### Scope Boundary
+- Tidak membuat screen login baru.
+- Tidak mengubah existing Sign in/Create account/Forgot password UI.
+- Tidak mengimplementasikan provider Google Drive, WebDAV, atau Generic Remote.
+- Tidak menyentuh backup artifact, storage provider implementation, database, atau backend.
+- master tidak disentuh; seluruh perubahan berada di v1.0/rebaseline.
+
+### Berikutnya
+- Verifikasi CI compile/resource packaging.
+- Jika green, runtime test: Account/local → Cloud → existing Sign in → kembali ke Cloud; account path → Cloud langsung.
+- Setelah runtime evidence tersedia, update status worklog berdasarkan hasil aktual.
