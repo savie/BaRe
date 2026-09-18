@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.savie.bare.R
 import androidx.compose.ui.text.font.FontWeight
 import com.savie.bare.feature.account.AccountScreen
 import com.savie.bare.feature.apps.AppConfigScreen
