@@ -1,4 +1,4 @@
-package com.savie.bare.feature.home
+package com.bare.feature.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.Screen
-import com.savie.bare.R
-import com.savie.bare.ui.components.ActionCard
-import com.savie.bare.ui.components.ListEntry
-import com.savie.bare.ui.components.StatusCard
+import com.bare.app.Screen
+import com.bare.R
+import com.bare.ui.components.ActionCard
+import com.bare.ui.components.ListEntry
+import com.bare.ui.components.StatusCard
 
 @Composable
 fun HomeScreen(onOpen: (Screen) -> Unit) {
