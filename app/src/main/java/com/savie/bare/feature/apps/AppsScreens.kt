@@ -58,6 +58,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     val item = app ?: demoApps.first()
