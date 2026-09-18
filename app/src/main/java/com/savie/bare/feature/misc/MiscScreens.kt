@@ -12,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.AppItem
@@ -22,23 +23,23 @@ import com.savie.bare.ui.components.ListEntry
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun CloudScreen(onBack: () -> Unit) {
-    Scaffold(topBar = { TopAppBar(title = { Text("Cloud sync") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, "Kembali") } }) }) { padding ->
+    Scaffold(topBar = { TopAppBar(title = { Text(stringResource(R.string.cloud_sync)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(Icons.Default.CloudOff, null, Modifier.size(52.dp))
                     Spacer(Modifier.height(10.dp))
-                    Text("Cloud account not connected", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    Text("Connect provider untuk upload/download/sync.")
+                    Text(stringResource(R.string.cloud_account_not_connected), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.connect_provider_description))
                     Spacer(Modifier.height(12.dp))
-                    Button(onClick = {}) { Text("Connect account") }
+                    Button(onClick = {}) { Text(stringResource(R.string.connect_account)) }
                 }
             }
-            Text("Providers", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-            ListEntry("Google Drive", "Disconnected", Icons.Default.Cloud) {}
-            ListEntry("WebDAV", "Disconnected", Icons.Default.Sync) {}
-            ListEntry("Generic remote", "Disconnected", Icons.Default.Cloud) {}
-            ListEntry("Cloud diagnostics", "Transfer test dan connection checks", Icons.Default.Info) {}
+            Text(stringResource(R.string.providers), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            ListEntry(stringResource(R.string.google_drive), stringResource(R.string.disconnected), Icons.Default.Cloud) {}
+            ListEntry(stringResource(R.string.webdav), stringResource(R.string.disconnected), Icons.Default.Sync) {}
+            ListEntry(stringResource(R.string.generic_remote), stringResource(R.string.disconnected), Icons.Default.Cloud) {}
+            ListEntry(stringResource(R.string.cloud_diagnostics), stringResource(R.string.transfer_connection_checks), Icons.Default.BugReport) {}
         }
     }
 }
@@ -48,9 +49,9 @@ fun SearchScreen(query: String, onQueryChange: (String) -> Unit, onOpenApp: (App
     Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onClose) { Icon(Icons.Default.ArrowBack, "Kembali") }
-            OutlinedTextField(query, onQueryChange, Modifier.weight(1f), label = { Text("Search") }, singleLine = true)
+            OutlinedTextField(query, onQueryChange, Modifier.weight(1f), label = { Text(stringResource(R.string.search)) }, singleLine = true)
         }
-        Text("Search across apps, backups, folders, and configuration.")
+        Text(stringResource(R.string.search_scope))
         val results = demoApps.filter { query.isBlank() || it.name.contains(query, true) || it.packageName.contains(query, true) }
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(results) { app -> ListEntry(app.name, app.packageName, Icons.Default.Apps) { onOpenApp(app) } }
@@ -70,11 +71,11 @@ fun GenericDomainScreen(title: String, subtitle: String, entries: List<String>, 
             items(entries) { entry ->
                 Card(Modifier.fillMaxWidth()) {
                     Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Info, null)
+                        Icon(Icons.Default.Settings, null)
                         Spacer(Modifier.width(14.dp))
                         Column(Modifier.weight(1f)) {
                             Text(entry, fontWeight = FontWeight.Bold)
-                            Text("Mockup state • capability belum terhubung", style = MaterialTheme.typography.bodySmall)
+                            Text(stringResource(R.string.mockup_capability_unconnected), style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
