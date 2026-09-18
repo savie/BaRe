@@ -1246,3 +1246,33 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 - Tap Cloud dari local identity harus mengarahkan ke **existing Sign in/Create account**, bukan local setup dan bukan membuat login screen baru.
 - Setelah auth flow selesai, user kembali ke Cloud provider surface.
 - Pertahankan External storage conditional berdasarkan hardware mounted.
+
+## 2026-09-19 — Fix: Cloud Tetap Visible pada Backup Storage
+
+### Authorization
+Pengguna mengonfirmasi bahwa **Cloud harus tetap tampil** pada Backup storage meskipun sesi saat ini menggunakan local identity. Jika Cloud dipilih dari local identity, flow harus menuju authentication yang sudah ada, bukan membuat local identity dan bukan membuat screen login baru.
+
+### Temuan
+- Root/Non-root dan Internal/External behavior telah dilaporkan berfungsi aman pada runtime device oleh pengguna.
+- Cloud sebelumnya dirender sebagai Remote storage yang disabled pada Backup storage, sehingga tidak dapat menjadi entry point ke account-gated Cloud flow.
+- Penyebabnya bukan karena Cloud secara product harus hilang untuk local identity; implementation UI sebelumnya memang membuat card Remote/Cloud non-interactive.
+
+### Perubahan
+- Cloud storage sekarang tetap visible pada Backup storage.
+- Cloud storage sekarang dapat dipilih/ditekan.
+- Dari local identity, tap Cloud mengarahkan ke existing Sign in flow melalui state return-to-cloud.
+- Dari account identity, tap Cloud langsung membuka Cloud surface.
+- Tidak membuat login/account screen baru.
+- External removable storage tetap conditional berdasarkan volume removable yang benar-benar mounted.
+- Internal storage tetap menjadi opsi utama dengan path BaRe yang sudah ada.
+
+### Verifikasi
+- CI run **#301** untuk commit `44a795be5d17a016dd8d724375b8fc0623d738ea`: **COMPLETED / SUCCESS**.
+- Perubahan source Cloud visibility/account routing: **CI VERIFIED**.
+- Runtime device verification untuk tap Cloud → existing auth → kembali ke Cloud: **PENDING / UNVERIFIED**.
+
+### Status Truth
+- Backup storage Cloud visibility: **IMPLEMENTED / CI VERIFIED**.
+- Local → existing authentication → Cloud: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
+- Account → Cloud: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
+- Cloud provider connection/transfer: **NOT IMPLEMENTED**.
