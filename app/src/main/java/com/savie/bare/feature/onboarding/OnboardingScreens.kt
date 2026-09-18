@@ -12,17 +12,24 @@ import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.ui.res.stringResource
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.AccessMethod
 import com.savie.bare.app.IdentityType
 import com.savie.bare.R
+
+private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
+private const val MIN_PASSWORD_LENGTH = 8
 
 @Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
@@ -79,14 +86,62 @@ fun LoginScreen(
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
 ) {
+    var passwordVisible by remember { mutableStateOf(false) }
+    var submitted by remember { mutableStateOf(false) }
+    val emailValid = EMAIL_PATTERN.matches(email.trim())
+    val passwordValid = password.length >= MIN_PASSWORD_LENGTH
+    val formValid = emailValid && passwordValid
+
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.account_cloud_description))
-        OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
-        OutlinedTextField(password, onPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in)) }
-        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_with_google)) }
+        OutlinedTextField(
+            value = email,
+            onValueChange = onEmailChange,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.email)) },
+            singleLine = true,
+            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = submitted && !emailValid,
+            supportingText = {
+                if (submitted && !emailValid) Text(stringResource(R.string.invalid_email))
+            },
+        )
+        OutlinedTextField(
+            value = password,
+            onValueChange = onPasswordChange,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.password)) },
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = stringResource(if (passwordVisible) R.string.hide_password else R.string.show_password),
+                    )
+                }
+            },
+            isError = submitted && !passwordValid,
+            supportingText = {
+                if (submitted && !passwordValid) Text(stringResource(R.string.password_too_short))
+            },
+        )
+        Button(
+            onClick = {
+                submitted = true
+                if (formValid) onContinue()
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text(stringResource(R.string.sign_in)) }
+        OutlinedButton(
+            onClick = {
+                submitted = true
+                if (formValid) onContinue()
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) { Text(stringResource(R.string.continue_with_google)) }
         TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
@@ -103,14 +158,77 @@ fun SignUpScreen(
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
 ) {
+    var passwordVisible by remember { mutableStateOf(false) }
+    var confirmPasswordVisible by remember { mutableStateOf(false) }
+    var submitted by remember { mutableStateOf(false) }
+    val emailValid = EMAIL_PATTERN.matches(email.trim())
+    val passwordValid = password.length >= MIN_PASSWORD_LENGTH
+    val passwordsMatch = password == confirmPassword
+    val formValid = emailValid && passwordValid && passwordsMatch
+
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.create_account), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.create_account_description))
-        OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
-        OutlinedTextField(password, onPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
-        OutlinedTextField(confirmPassword, onConfirmPasswordChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.confirm_password)) }, singleLine = true, visualTransformation = PasswordVisualTransformation())
-        Button(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) {
+        OutlinedTextField(
+            value = email,
+            onValueChange = onEmailChange,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.email)) },
+            singleLine = true,
+            keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = KeyboardType.Email),
+            isError = submitted && !emailValid,
+            supportingText = {
+                if (submitted && !emailValid) Text(stringResource(R.string.invalid_email))
+            },
+        )
+        OutlinedTextField(
+            value = password,
+            onValueChange = onPasswordChange,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.password)) },
+            singleLine = true,
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        imageVector = if (passwordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = stringResource(if (passwordVisible) R.string.hide_password else R.string.show_password),
+                    )
+                }
+            },
+            isError = submitted && !passwordValid,
+            supportingText = {
+                if (submitted && !passwordValid) Text(stringResource(R.string.password_too_short))
+            },
+        )
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = onConfirmPasswordChange,
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text(stringResource(R.string.confirm_password)) },
+            singleLine = true,
+            visualTransformation = if (confirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                IconButton(onClick = { confirmPasswordVisible = !confirmPasswordVisible }) {
+                    Icon(
+                        imageVector = if (confirmPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
+                        contentDescription = stringResource(if (confirmPasswordVisible) R.string.hide_password else R.string.show_password),
+                    )
+                }
+            },
+            isError = submitted && !passwordsMatch,
+            supportingText = {
+                if (submitted && !passwordsMatch) Text(stringResource(R.string.password_mismatch))
+            },
+        )
+        Button(
+            onClick = {
+                submitted = true
+                if (formValid) onCreateAccount()
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text(stringResource(R.string.create_account))
         }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
