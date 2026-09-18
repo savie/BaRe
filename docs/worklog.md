@@ -299,3 +299,36 @@ FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
 ### NEXT
 Lanjutkan visual review dan edit mockup berdasarkan feedback pengguna. Setelah FE disepakati, freeze FE baseline (R4), lalu mulai capability foundation/implementation.
 
+## 2026-09-18 — R1-R3 continuation: resources, icons, and branding cleanup
+
+### USER SAID
+User clarified that the default APK language can remain English and future languages can be added through additional `strings.xml` resources. User also requested common, appropriate built-in Material icons and a generic backup-oriented logo instead of the Android-head placeholder.
+
+### DECISION
+- Default UI language: English.
+- UI text is moved toward Android string resources so additional locales can be added later without changing screen structure.
+- Use built-in Material icons that semantically match the surface; avoid generic `Info` icons where a specific common icon exists.
+- Welcome logo uses a generic built-in backup icon rather than an Android robot/head visual.
+- Scope remains R1-R3; R4 is still not locked and capability implementation does not start.
+
+### IMPLEMENTATION
+- Added `app/src/main/res/values/strings.xml` with the current default English UI resource set.
+- Localized the onboarding, app shell, Home, Apps, Schedules, Account, shared components, and miscellaneous mockup surfaces to use string resources.
+- Changed app tab labels to resource IDs and resolved them at the Compose UI boundary.
+- Changed access-method labels/descriptions to resource IDs.
+- Replaced several generic icons with more specific built-in icons, including SMS, Call, Wi-Fi, Wallpaper, BugReport, Tune, and ImportExport where applicable.
+- Replaced the Welcome-screen single-letter logo treatment with the built-in Backup icon.
+- Kept `styles.xml` as Android window bootstrap; Compose remains the visual component theme owner.
+
+### VERIFICATION
+- Git branch `v1.0/rebaseline` remains ahead of the previous R1-R3 baseline and contains the resource/icon changes.
+- Local build verification was attempted but blocked by the execution environment's inability to resolve `github.com`; therefore build status remains UNVERIFIED.
+- CI status for the latest resource/icon commits has not been established by an applicable workflow run; no success is claimed.
+- Device/runtime visual verification remains pending.
+
+### CURRENT STATE
+FE_STRUCTURED / MOCKUP / BUILD_UNVERIFIED / R4_NOT_LOCKED
+
+### NEXT
+Continue visual review/editing of the mockup. Do not freeze R4 until the user approves the FE surface.
+
