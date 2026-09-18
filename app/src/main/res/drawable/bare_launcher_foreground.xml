@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:gravity="center">
+    <item
+        android:left="16dp"
+        android:top="16dp"
+        android:right="16dp"
+        android:bottom="16dp">
         <bitmap
-            android:gravity="center"
+            android:gravity="fill"
             android:src="@drawable/bare_logo" />
     </item>
 </layer-list>
