@@ -11,7 +11,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.savie.bare"
+        applicationId = "com.bare"
         minSdk = 26
         targetSdk = 35
         versionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
