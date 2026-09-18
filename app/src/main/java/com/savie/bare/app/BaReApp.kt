@@ -43,6 +43,7 @@ fun BaReApp() {
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var loginEmail by remember { mutableStateOf("") }
+    var signUpEmail by remember { mutableStateOf("") }
     var identityType by remember { mutableStateOf<IdentityType?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
@@ -54,7 +55,10 @@ fun BaReApp() {
             searchOpen -> searchOpen = false
             screen != Screen.NONE -> screen = Screen.NONE
             startScreen == StartScreen.ACCESS_METHOD -> startScreen = StartScreen.STORAGE_SETUP
-            startScreen == StartScreen.STORAGE_SETUP -> startScreen = StartScreen.LOGIN
+            startScreen == StartScreen.STORAGE_SETUP -> startScreen =
+                if (identityType == IdentityType.LOCAL) StartScreen.LOCAL_SETUP else StartScreen.LOGIN
+            startScreen == StartScreen.SIGN_UP -> startScreen = StartScreen.LOGIN
+            startScreen == StartScreen.LOCAL_SETUP -> startScreen = StartScreen.WELCOME
             startScreen == StartScreen.LOGIN -> startScreen = StartScreen.WELCOME
             startScreen == StartScreen.APP -> scope.launch { pagerState.animateScrollToPage(Tab.HOME.ordinal) }
         }
@@ -68,13 +72,34 @@ fun BaReApp() {
                 StartScreen.WELCOME -> WelcomeScreen { identity ->
                     identityType = identity
                     startScreen = when (identity) {
-                        IdentityType.LOCAL -> StartScreen.STORAGE_SETUP
+                        IdentityType.LOCAL -> StartScreen.LOCAL_SETUP
                         IdentityType.ACCOUNT -> StartScreen.LOGIN
                     }
                 }
-                StartScreen.LOGIN -> LoginScreen(loginEmail, { loginEmail = it }, { startScreen = StartScreen.STORAGE_SETUP }, ::goBack)
+                StartScreen.LOCAL_SETUP -> LocalSetupScreen(
+                    onContinue = { startScreen = StartScreen.STORAGE_SETUP },
+                    onBack = ::goBack,
+                )
+                StartScreen.LOGIN -> LoginScreen(
+                    email = loginEmail,
+                    onEmailChange = { loginEmail = it },
+                    onContinue = { startScreen = StartScreen.STORAGE_SETUP },
+                    onCreateAccount = { startScreen = StartScreen.SIGN_UP },
+                    onBack = ::goBack,
+                )
+                StartScreen.SIGN_UP -> SignUpScreen(
+                    email = signUpEmail,
+                    onEmailChange = { signUpEmail = it },
+                    onCreateAccount = { startScreen = StartScreen.STORAGE_SETUP },
+                    onBack = ::goBack,
+                )
                 StartScreen.STORAGE_SETUP -> StorageSetupScreen({ startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
-                StartScreen.ACCESS_METHOD -> AccessMethodScreen(selectedMethod, { selectedMethod = it }, { if (selectedMethod != null) startScreen = StartScreen.APP }, ::goBack)
+                StartScreen.ACCESS_METHOD -> AccessMethodScreen(
+                    selectedMethod,
+                    { selectedMethod = it },
+                    { if (selectedMethod != null) startScreen = StartScreen.APP },
+                    ::goBack
+                )
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
