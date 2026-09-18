@@ -259,6 +259,7 @@ private fun AccessMethodScreen(selected: AccessMethod?, onSelect: (AccessMethod)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AccessCard(method: AccessMethod, selected: Boolean, onSelect: (AccessMethod) -> Unit) {
     Card(Modifier.fillMaxWidth().clickable { onSelect(method) }) {
@@ -412,6 +413,7 @@ private fun ActionCard(title: String, icon: androidx.compose.ui.graphics.vector.
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppsTab(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
     LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
