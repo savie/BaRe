@@ -3,7 +3,7 @@
     <string name="app_name">B Λ R E</string>
     <string name="backup_restore_manager">Backup &amp; Restore</string>
     <string name="brand_tagline">SAVE OUR DAY</string>
-    <string name="welcome_description">Back up, restore, manage your apps and data.</string>
+    <string name="welcome_description">Back up, restore, manage\nyour apps and data</string>
     <string name="get_started">Get started</string>
     <string name="already_have_account">Already have an account</string>
 
