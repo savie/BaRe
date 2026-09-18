@@ -1058,3 +1058,24 @@ User memberikan **GO** untuk:
 - Bandingkan ukuran launcher icon terhadap build #272.
 - Verifikasi Welcome logo pada +25dp.
 - Jika launcher 60% terlalu kecil/besar, gunakan hasil runtime sebagai calibration point berikutnya.
+
+
+## 2026-09-19 — Fix: Launcher Scaling Resource
+
+### Incident
+CI run #274 gagal pada `processDebugResources` karena `android:width="65%"` dan `android:height="65%"` tidak valid untuk atribut dimension pada `layer-list/item`.
+
+### Root Cause
+Persentase tidak didukung oleh atribut `width/height` pada resource drawable tersebut.
+
+### Fix
+- Menghapus pendekatan percentage dimension yang invalid.
+- Menggunakan valid drawable insets **22dp** pada seluruh sisi untuk menghasilkan area foreground sekitar **60%** dari area adaptive icon.
+- Canonical `bare_logo.png` tetap tidak diubah.
+- Welcome +25dp tetap dipertahankan.
+
+### Verification
+- CI failure #274: **ROOT CAUSE CONFIRMED** dari log AAPT.
+- Fix commit: **IMPLEMENTED**.
+- CI terbaru: **PENDING**.
+- Runtime: **PENDING**.
