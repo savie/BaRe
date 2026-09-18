@@ -737,3 +737,21 @@ Field password dan confirm password sebelumnya memakai nilai kosong dengan callb
 **Verification status:** Source change sudah di-commit. Build/CI setelah perubahan ini masih perlu diverifikasi; keberhasilan build sebelumnya (#205) tidak dianggap sebagai bukti untuk commit baru.
 
 **Governance note:** Perubahan dibatasi pada tiga scope yang diminta: application ID, password visibility, dan form validation. Tidak mengubah `master`.
+
+
+## 2026-09-18 — Full Rename Android Package / Namespace ke `com.bare`
+
+**User authorization:** User explicitly authorized full rename agar identifier akun/owner tidak ikut terbawa ke APK.
+
+**Scope:** Android `applicationId`, Gradle `namespace`, seluruh source Kotlin package/import dari `com.savie.bare` menjadi `com.bare` pada source app yang aktif.
+
+**Implementation:**
+- `applicationId` tetap `com.bare`.
+- Gradle `namespace` diubah menjadi `com.bare`.
+- Package declaration dan import source Kotlin diubah dari `com.savie.bare...` menjadi `com.bare...`.
+- Tidak mengubah backend/authentication, persistence model, atau behavior capability lain.
+- Tidak mengubah `master`; target tetap `v1.0/rebaseline`.
+
+**Migration note:** Install lama dengan application identity `com.savie.bare` tidak otomatis berbagi data dengan `com.bare`; data lama berada di identity Android yang berbeda. Migrasi data lama belum dilakukan.
+
+**Verification status:** Source/Gradle rename sudah committed. Build CI setelah rename belum diverifikasi pada saat entry ini dibuat. Runtime package/data-directory verification juga belum dilakukan.
