@@ -1034,3 +1034,27 @@ Bandingkan build berikutnya terhadap #270:
 1. Launcher foreground apakah sudah cukup kecil pada launcher.
 2. Welcome logo +30dp apakah sudah terlihat jelas pergeserannya.
 3. Jika +30dp terlalu jauh, gunakan hasil ini sebagai baseline untuk memilih titik antara +10dp dan +30dp; jika masih kurang, lanjutkan menuju +40dp.
+
+
+## 2026-09-19 — Refinement: Welcome +25dp dan Launcher Explicit Scaling
+
+### Authorization
+User memberikan **GO** untuk:
+- Welcome logo **+25dp**.
+- Launcher icon foreground **60% scaling target**.
+
+### Implementation
+- Welcome logo horizontal offset: **+30dp → +25dp**.
+- Adaptive launcher foreground tidak lagi mengandalkan inset sebagai mekanisme utama.
+- Foreground logo diubah ke explicit centered sizing dengan target sekitar **60%** dari adaptive icon area.
+- Canonical `bare_logo.png`, App Info presentation target, wordmark, tagline, dan backend tidak diubah.
+
+### Verification Status
+- Source changes: **IMPLEMENTED / COMMITTED**.
+- CI: **PENDING**.
+- Runtime: **PENDING**.
+
+### Next Runtime Check
+- Bandingkan ukuran launcher icon terhadap build #272.
+- Verifikasi Welcome logo pada +25dp.
+- Jika launcher 60% terlalu kecil/besar, gunakan hasil runtime sebagai calibration point berikutnya.
