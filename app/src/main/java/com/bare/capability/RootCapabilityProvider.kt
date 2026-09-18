@@ -49,7 +49,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     } catch (t: Throwable) { Result(-1, "", t.message ?: t::class.java.simpleName) }
 
     private data class Result(val exitCode: Int, val stdout: String, val stderr: String)
-    companion object { private val PACKAGE_REGEX = Regex("[A-Za-z0-9_]+(?:\\\\.[A-Za-z0-9_]+)+") }
+    companion object { private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""") }
 }
 
 sealed interface RootProbeResult { data class Success(val identity: String) : RootProbeResult; data class Failed(val reason: String) : RootProbeResult }
