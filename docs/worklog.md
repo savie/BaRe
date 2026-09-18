@@ -700,3 +700,20 @@ Build CI pada commit source terbaru, lalu runtime test:
 5. Buka kembali.
 6. Pastikan tidak kembali ke Welcome dan Local Identity tetap terbaca.
 7. Uji juga restart sebelum setup selesai untuk memastikan aplikasi kembali ke Storage Setup, bukan menganggap onboarding selesai.
+
+
+## 2026-09-18 — Perbaikan Input Password Auth
+
+### Temuan
+Field password dan confirm password sebelumnya memakai nilai kosong dengan callback kosong, sehingga input memang tidak dapat diketik.
+
+### Perbaikan
+- Login sekarang memiliki state password dan callback perubahan.
+- Sign Up sekarang memiliki state password dan confirm password serta callback perubahan.
+- Field password memakai `PasswordVisualTransformation` agar nilai tidak tampil sebagai plaintext.
+- Perubahan ini hanya memperbaiki input UI/state; authentication Account tetap **NOT IMPLEMENTED** dan belum ada credential yang disimpan atau dikirim ke provider.
+
+### Status
+- Password input editable: **IMPLEMENTED / BUILD VERIFICATION PENDING**.
+- Credential handling: **NOT IMPLEMENTED**.
+- Account authentication/provider: **OPEN / NOT IMPLEMENTED**.
