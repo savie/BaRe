@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,13 +39,24 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BaReApp() {
-    var startScreen by remember { mutableStateOf(StartScreen.WELCOME) }
+    val context = LocalContext.current
+    val identityStore = remember(context) { LocalIdentityStore(context) }
+    val restoredIdentity = remember(identityStore) { identityStore.load() }
+    var startScreen by remember(restoredIdentity) {
+        mutableStateOf(
+            if (restoredIdentity != null) {
+                if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.STORAGE_SETUP
+            } else {
+                StartScreen.WELCOME
+            }
+        )
+    }
     var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var loginEmail by remember { mutableStateOf("") }
     var signUpEmail by remember { mutableStateOf("") }
-    var identityType by remember { mutableStateOf<IdentityType?>(null) }
+    var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -77,7 +89,11 @@ fun BaReApp() {
                     }
                 }
                 StartScreen.LOCAL_SETUP -> LocalSetupScreen(
-                    onContinue = { startScreen = StartScreen.STORAGE_SETUP },
+                    onContinue = {
+                        val identity = identityStore.createLocalIdentity()
+                        identityType = identity.type
+                        startScreen = StartScreen.STORAGE_SETUP
+                    },
                     onBack = ::goBack,
                 )
                 StartScreen.LOGIN -> LoginScreen(
@@ -97,7 +113,7 @@ fun BaReApp() {
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
                     { selectedMethod = it },
-                    { if (selectedMethod != null) startScreen = StartScreen.APP },
+                    { if (selectedMethod != null) { identityStore.markSetupComplete(); startScreen = StartScreen.APP } },
                     ::goBack
                 )
                 StartScreen.APP -> MainShell(
