@@ -4,7 +4,7 @@
         android:allowBackup="false"
         android:label="BaRe"
         android:icon="@drawable/bare_logo"
-        android:roundIcon="@drawable/bare_launcher_icon"
+        android:roundIcon="@drawable/bare_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.BaRe">
         <activity
