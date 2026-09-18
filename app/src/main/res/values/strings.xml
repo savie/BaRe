@@ -12,7 +12,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="continue_local_setup">Continue with local setup</string>
-    <string name="create_account">Create account</string>
+    <string name="create_account">Create account</string>\n    <string name="continue_with_google">Continue with Google</string>
     <string name="mockup_auth_not_connected">Mockup only — authentication is not connected.</string>
 
     <string name="backup_storage">Backup storage</string>
