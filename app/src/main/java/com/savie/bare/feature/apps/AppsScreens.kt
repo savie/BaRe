@@ -80,7 +80,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 }
             }
             item { Text(stringResource(R.string.backup_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
-            items(listOf(stringResource(R.string.apk), stringResource(R.string.split_apk), stringResource(R.string.app_data), stringResource(R.string.external_data), stringResource(R.string.media), stringResource(R.string.cache), stringResource(R.string.expansion_obb))) { CheckRow(it, true) }
+            item {\n                val backupParts = listOf(\n                    stringResource(R.string.apk),\n                    stringResource(R.string.split_apk),\n                    stringResource(R.string.app_data),\n                    stringResource(R.string.external_data),\n                    stringResource(R.string.media),\n                    stringResource(R.string.cache),\n                    stringResource(R.string.expansion_obb),\n                )\n                backupParts.forEach { CheckRow(it, true) }\n            }
             item { Text(stringResource(R.string.actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             item { Button(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.backup)) } }
             item { OutlinedButton(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.restore)) } }
