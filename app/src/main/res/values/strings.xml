@@ -146,6 +146,10 @@
     <string name="messages_summary">SMS / MMS / RCS, attachments, backup, restore, history.</string>
     <string name="attachments">Attachments</string>
     <string name="history">History</string>
+    <string name="rcs">RCS</string>
+    <string name="appearance">Appearance</string>
+    <string name="security">Security</string>
+    <string name="task">Task</string>
     <string name="call_logs_summary">Call history and permission state.</string>
     <string name="call_history">Call history</string>
     <string name="permissions">Permissions</string>
