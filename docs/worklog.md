@@ -362,72 +362,102 @@ Pembahasan tetap menjadi ruang untuk menyempurnakan detail, tetapi keputusan yan
 - Tidak ada perubahan implementasi authentication pada pekerjaan dokumentasi ini.
 - Tidak ada klaim bahwa authentication, backup/restore, storage, cloud, scheduler, atau capability runtime sudah implemented/verified.
 
-## 2026-09-18 — Penetapan Posisi R1–R5 dan Jalur Kerja Paralel
-
-### Pernyataan Pengguna
-Pengguna menegaskan bahwa mockup bukan tujuan akhir. FE dibentuk lebih dahulu agar produk dapat terlihat dan alurnya terbuka, tetapi capability dan implementasi di belakang FE harus dipikirkan sejak awal agar tidak terjadi pekerjaan dua kali.
-
-Pekerjaan saat ini tetap berfokus pada jalur awal aplikasi:
-Welcome → Login/Local Setup → Storage/Access Setup → Home.
+## 2026-09-18 — Penetapan R1–R6 dan Cara Kerja per Scope Terkecil
 
 ### Keputusan
-Urutan kerja BaRe untuk baseline FE/capability menggunakan lima tahap berikut:
+Mulai titik ini pekerjaan BaRe hanya menggunakan enam tahap:
 
-1. R1 — Refactor Struktural
-   MainActivity → BaReApp → App Shell → Feature Screens → Shared Components → Theme
-   dengan target mempertahankan behavior mockup.
-2. R2 — Perapian FE
-   strings → theme → dimensions → icons → accessibility → preview → state ownership.
-3. R3 — Verifikasi FE
-   Memastikan seluruh flow dan surface yang sudah dibangun tetap tersedia dan dapat dikembangkan, termasuk Welcome, Login, Storage, Access, Home, Apps, Schedules, Account, serta submenu yang relevan.
-4. R4 — Pembekuan FE
-   Baseline FE dikunci setelah bentuk dan flow disepakati pengguna. R4 BELUM DIKUNCI.
-5. R5 — Fondasi Capability
-   Mulai membangun fondasi Domain → Application → Capability → Provider beserta Storage, Archive, Operation, Verification, dan Diagnostics sesuai kebutuhan nyata.
+1. **R1 — Refactor Struktural**
+2. **R2 — Perapian FE**
+3. **R3 — Verifikasi FE**
+4. **R4 — Pembekuan FE**
+5. **R5 — Implementasi Capability**
+6. **R6 — Final**
 
-### Rekonsiliasi R3 dan R4
-R3 BELUM BOLEH dinyatakan 100% VERIFIED. Namun hasil R1–R3 saat ini sudah membuka struktur FE secara signifikan dan tidak lagi bergantung pada satu file utama untuk seluruh product surface.
+Tidak membuat nama tahap tambahan di antara R1–R6. Pekerjaan di dalam R3 dan R5 dipecah berdasarkan **scope terkecil yang bisa ditutup dengan jelas**, bukan berdasarkan pembagian baru.
 
-Kondisi ini sudah layak untuk mulai pekerjaan capability secara paralel pada fondasi yang memang dibutuhkan. R4 tidak menjadi blocker untuk seluruh pekerjaan R5, karena pembentukan fondasi dapat dilakukan di belakang boundary yang sudah cukup jelas.
+R3 dan R5 boleh berjalan paralel selama boundary dan dependensinya jelas. R4 tetap merupakan gerbang pembekuan FE dan bukan blocker untuk R5. R6 adalah tahap final setelah scope produk yang diperlukan selesai dan seluruh hasil penting sudah diverifikasi.
 
-Syaratnya:
-- R3 tetap dicatat sebagai IN PROGRESS/PARTIALLY VERIFIED.
-- R4 tetap belum dikunci sampai FE benar-benar disepakati.
-- Tidak memaksa seluruh capability sekaligus.
-- Fondasi yang dibuat harus punya kebutuhan nyata dari flow/FE atau capability yang sedang dibuka.
-- Perubahan FE tetap boleh dilakukan tanpa merusak boundary capability.
+### Scope Terkecil Saat Ini — Welcome sampai Home
+Jalur yang sedang dikerjakan:
 
-### Batas Pekerjaan Capability Saat Ini
-Untuk BaRe, istilah “backend” tidak otomatis berarti server/backend terpisah. Lapisan di belakang FE yang relevan saat ini terutama:
-- domain;
-- application/use case;
-- capability resolver dan capability implementation;
-- provider untuk Android/privilege/storage/network;
-- persistence;
-- storage dan archive;
-- operation lifecycle;
-- verification;
-- diagnostics.
+`Welcome → Login / Local Setup → Storage / Access Setup → Home`
 
-Remote/Cloud dapat membutuhkan network service/provider tambahan pada tahap berikutnya, tetapi BELUM menjadi pekerjaan sekarang.
+Status setiap bagian harus ditandai secara terpisah:
 
-Jadi R5 saat ini berarti membangun fondasi dan capability yang dibutuhkan, bukan langsung membangun seluruh backend/service remote.
+| Bagian | FE | Capability di belakang FE | Status |
+|---|---|---|---|
+| Welcome | Ada | Belum | FE ada, capability belum |
+| Login / Local Setup | Ada sebagai mockup | Authentication belum diimplementasikan | FE ada, capability belum |
+| Storage / Access Setup | Ada sebagai mockup | Storage/access capability belum diimplementasikan | FE ada, capability belum |
+| Home | Ada | Backup/restore dan capability lain belum diimplementasikan | FE ada, capability belum |
+
+Artinya jalur Welcome sampai Home **sudah jelas secara FE**, tetapi belum boleh dianggap selesai secara produk karena bagian di belakang FE masih belum diimplementasikan dan diverifikasi.
+
+### Cara Kerja Berikutnya
+Kita tutup scope terkecil satu per satu.
+
+Contoh:
+
+`Welcome`
+→ bentuk FE dibereskan  
+→ state/flow jelas  
+→ capability yang benar-benar dibutuhkan diidentifikasi  
+→ implementasi bila sudah masuk R5  
+→ test  
+→ verifikasi  
+→ tandai status
+
+Lalu lanjut ke:
+
+`Login / Local Setup`
+
+kemudian:
+
+`Storage / Access Setup`
+
+kemudian:
+
+`Home`
+
+Tidak perlu menunggu seluruh R3 selesai untuk mulai mengerjakan bagian R5 yang sudah cukup jelas. Sebaliknya, jangan membangun capability yang belum punya kebutuhan nyata dari scope yang sedang ditutup.
+
+### Batas R5
+R5 berarti **implementasi capability di belakang FE** yang memang dibutuhkan oleh scope produk.
+
+Untuk kondisi sekarang, lapisan yang mungkin tersentuh adalah:
+- Domain;
+- Application / Use Case;
+- Capability;
+- Provider;
+- Android / privilege / storage / network;
+- Persistence;
+- Storage / Archive;
+- Operation;
+- Verification;
+- Diagnostics.
+
+Daftar tersebut adalah area implementasi, **bukan tahap baru**.
+
+Remote/server/backend terpisah belum otomatis diperlukan. Jika suatu capability nantinya membutuhkan service remote, dependency tersebut dibuka pada saat scope capability itu memang dikerjakan.
 
 ### Kondisi Saat Ini
-R1_IMPLEMENTED / R2_IMPLEMENTED / R3_IN_PROGRESS_PARTIALLY_VERIFIED / R4_NOT_LOCKED / R5_FOUNDATION_CAN_START_IN_PARALLEL
+`R1_IMPLEMENTED / R2_IMPLEMENTED / R3_IN_PROGRESS / R4_NOT_LOCKED / R5_READY_TO_WORK_BY_SMALLEST_SCOPE / R6_NOT_STARTED`
 
 ### Verifikasi
-- docs/worklog.md diperiksa ulang pada branch v1.0/rebaseline.
-- Worklog telah direkonsiliasi agar keputusan yang sudah dinaikkan pengguna tidak kembali diturunkan menjadi sekadar DISCUSSION.
-- Bahasa narasi dan heading worklog dirapikan ke Bahasa Indonesia; istilah teknis, nama file, API, status Governance, dan identifier dipertahankan bila memang perlu.
-- Tidak ada perubahan source implementation sebagai bagian dari rekonsiliasi ini.
-- Tidak ada klaim bahwa R3 100% VERIFIED, R4 terkunci, atau capability runtime sudah implemented/verified.
+- Keputusan R1–R6 dicatat dalam worklog.
+- Tidak ada tahap tambahan yang dibuat.
+- R3 belum dinyatakan 100% VERIFIED.
+- R4 belum dikunci.
+- R5 boleh mulai secara paralel berdasarkan scope terkecil yang sudah jelas.
+- Tidak ada claim capability runtime sudah implemented atau verified hanya karena FE sudah tersedia.
 
 ### Berikutnya
-1. Lanjutkan jalur Welcome sampai Home dan rapikan FE yang masih kurang.
-2. Tutup verification gap R3 secara bertahap.
-3. Identifikasi fondasi bersama pertama yang benar-benar dibutuhkan.
-4. Mulai R5 secara paralel pada boundary tersebut.
-5. Pertahankan R4 sebagai gerbang pembekuan FE, bukan blocker untuk semua pekerjaan capability.
+1. Bereskan dan tutup scope **Welcome → Home** dari sisi FE.
+2. Tandai dengan jelas mana yang sudah ada dan mana yang belum di setiap bagian.
+3. Ambil bagian pertama yang capability-nya sudah cukup jelas untuk dikerjakan dalam R5.
+4. Kerjakan R3 dan R5 secara paralel per scope terkecil.
+5. Jangan membuat tahap baru.
+6. Setelah seluruh scope yang diperlukan selesai dan diverifikasi, masuk R6 — Final.
 
-R5 tidak berarti “langsung membangun seluruh backend”. R5 dimulai dari fondasi capability yang dibutuhkan dan diverifikasi satu per satu.
+R4 tetap menjadi gerbang pembekuan FE. R6 menjadi satu-satunya tahap final.
