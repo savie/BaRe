@@ -597,3 +597,70 @@ Tidak membuat tahap baru.
 
 ### Berikutnya
 Inspect kebutuhan data minimum untuk satu BaRe Identity dan persistence Local, lalu rancang implementation paling sederhana yang tetap kompatibel dengan Account tanpa mengunci provider/backend. Setelah kontrak cukup jelas, implementasikan Local secara nyata dan verifikasi persistence melalui restart aplikasi.
+
+
+## 2026-09-18 — Desain Minimum BaRe Identity dan Persistence Local
+
+### Hasil Audit
+Inspeksi source, architecture, product, dan capability matrix menunjukkan bahwa scope pertama tidak membutuhkan backend atau database server untuk membuat LOCAL identity hidup.
+
+### Kontrak Minimum yang Dipakai
+Untuk menutup scope Local secara nyata, BaRe hanya membutuhkan:
+- satu **BaRe Identity** yang memiliki identifier stabil pada installation/state Local;
+- `IdentityType.LOCAL` untuk membedakan jalur Local dari Account;
+- penanda identity aktif/current agar startup dapat memulihkan context;
+- metadata minimum yang memang dibutuhkan UI/operation, tanpa memasukkan credential atau session Account ke model Local.
+
+### Batas Data
+- Identity biasa dipisahkan dari secret/credential.
+- Password/token tidak menjadi field pada model Local Identity.
+- Session Account tidak disimpan di model Local Identity.
+- Data artifact/backup tidak diduplikasi sebagai identity metadata kecuali benar-benar menjadi authoritative state.
+- Provider Account tetap berada di luar scope Local dan belum dikunci ke backend/provider tertentu.
+
+### Pilihan Implementation
+Untuk scope pertama, gunakan persistence device sederhana dan reversible, bukan langsung database/server. Teknologi final belum dinaikkan sebagai keputusan sebelum implementasi dan verifikasi menunjukkan kebutuhan tambahannya.
+
+Prinsipnya:
+`UI → application/state → persistence implementation`
+
+Model identity tidak mengetahui detail persistence.
+
+### Lifecycle Minimum Local
+```
+First launch
+  ↓
+tidak ada current identity
+  ↓
+Local Setup
+  ↓
+buat/resolve Local Identity
+  ↓
+persist
+  ↓
+Storage / Access Setup
+  ↓
+Home
+  ↓
+startup berikutnya
+  ↓
+load current Local Identity
+```
+
+Jika persistence tidak dapat dibaca atau state tidak valid, sistem tidak boleh diam-diam menganggap identity berhasil dipulihkan. State harus masuk error/recovery path yang jelas.
+
+### Dampak
+- Tidak perlu Supabase untuk Local.
+- Tidak perlu membuat schema database besar.
+- Tidak perlu membuat Account backend sebelum Local bisa diverifikasi.
+- Persistence boundary tetap kompatibel dengan Account karena provider/auth/session dapat ditambahkan di belakang boundary yang sama nanti.
+
+### Status
+- Kontrak minimum identity: **DESIGNED / belum runtime verified**.
+- Pilihan persistence konkret: **PROPOSAL / belum final**.
+- Local identity implementation: **BELUM DIIMPLEMENTASIKAN**.
+- Account provider/backend: **UNKNOWN / OPEN**.
+- Runtime persistence test: **BELUM DILAKUKAN**.
+
+### Berikutnya
+Implementasikan persistence Local paling sederhana yang memenuhi lifecycle di atas, lalu uji minimal: buat Local Identity → masuk Home → restart app → identity/context tetap terbaca. Tambahkan test failure untuk state persistence yang invalid bila implementation sudah tersedia.
