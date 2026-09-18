@@ -1,4 +1,4 @@
-package com.savie.bare.feature.apps
+package com.bare.feature.apps
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.AppItem
-import com.savie.bare.R
-import com.savie.bare.app.Screen
-import com.savie.bare.app.demoApps
-import com.savie.bare.ui.components.CheckRow
-import com.savie.bare.ui.components.FilterPill
-import com.savie.bare.ui.components.ListEntry
+import com.bare.app.AppItem
+import com.bare.R
+import com.bare.app.Screen
+import com.bare.app.demoApps
+import com.bare.ui.components.CheckRow
+import com.bare.ui.components.FilterPill
+import com.bare.ui.components.ListEntry
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
@@ -105,5 +105,5 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
     val item = app ?: demoApps.first()
-    com.savie.bare.feature.misc.GenericDomainScreen(stringResource(R.string.configuration_title, item.name), stringResource(R.string.per_app_mockup_settings), listOf(stringResource(R.string.backup_parts), stringResource(R.string.compression), stringResource(R.string.encryption), stringResource(R.string.multiple_backups), stringResource(R.string.protection), stringResource(R.string.notes), stringResource(R.string.schedule)), onBack)
+    com.bare.feature.misc.GenericDomainScreen(stringResource(R.string.configuration_title, item.name), stringResource(R.string.per_app_mockup_settings), listOf(stringResource(R.string.backup_parts), stringResource(R.string.compression), stringResource(R.string.encryption), stringResource(R.string.multiple_backups), stringResource(R.string.protection), stringResource(R.string.notes), stringResource(R.string.schedule)), onBack)
 }
