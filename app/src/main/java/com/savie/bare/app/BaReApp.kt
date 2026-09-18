@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.savie.bare.feature.account.AccountScreen
 import com.savie.bare.feature.apps.AppConfigScreen
@@ -104,8 +105,8 @@ private fun MainShell(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("BaRe · " + currentTab.title, fontWeight = FontWeight.Bold) },
-                actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Default.Search, "Search") } },
+                title = { Text("BaRe · " + stringResource(currentTab.titleRes), fontWeight = FontWeight.Bold) },
+                actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Default.Search, stringResource(R.string.search)) } },
             )
         },
         bottomBar = {
@@ -114,8 +115,8 @@ private fun MainShell(
                     NavigationBarItem(
                         selected = pagerState.currentPage == index,
                         onClick = { onTabSelected(index) },
-                        icon = { Icon(tab.icon, tab.title) },
-                        label = { Text(tab.title) },
+                        icon = { Icon(tab.icon, stringResource(tab.titleRes)) },
+                        label = { Text(stringResource(tab.titleRes)) },
                     )
                 }
             }
