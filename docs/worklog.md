@@ -967,3 +967,43 @@ Backend tidak disentuh. Perubahan hanya UI/branding/resource/manifest pada `v1.0
 
 ### Verification
 CI harus membuktikan resource packaging dan APK artifact. Runtime berikutnya fokus pada: visual center logo `O`, wordmark weight, description wrapping/vertical position, dan launcher icon appearance.
+
+
+## 2026-09-18 — Refinement: Welcome Runtime Feedback #267
+
+### Authorization
+User memberikan **GO** untuk mengeksekusi feedback runtime terhadap build #267.
+
+### Observed Runtime Feedback
+- Adaptive launcher icon: ukuran foreground logo dinilai masih terlalu besar pada launcher/package presentation; tampilan pada **App Info** dinilai sudah sesuai.
+- Welcome logo: perlu digeser sedikit ke kanan agar visual balance lebih natural.
+- Wordmark **B Λ R E**: sudah sesuai dan tidak diubah.
+- Tagline **SAVE OUR DAY**: sudah sesuai dan tidak diubah.
+- Welcome description: user meminta dua baris eksplisit:
+  `Back up, restore, manage`
+  `your apps and data`
+  tanpa wrapping otomatis yang menghasilkan susunan berbeda.
+- Posisi description: perlu diturunkan lebih jauh; target visual adalah baris pertama baru berada kurang-lebih pada posisi baris kedua sebelumnya.
+- Disclosure `Mockup only...`: sudah hilang sesuai feedback sebelumnya; screen mockup tetap dipertahankan.
+
+### Implementation
+- Welcome logo horizontal offset diubah dari **6dp** menjadi **10dp**.
+- Jarak tagline → description dinaikkan dari **38dp** menjadi **70dp**.
+- `welcome_description` diberi explicit newline agar selalu menjadi dua baris sesuai copy yang diminta.
+- Adaptive launcher foreground diberi inset **16dp** pada tiap sisi dan bitmap menggunakan `gravity="fill"` agar visual logo lebih kecil di dalam adaptive icon.
+- Tidak mengubah canonical `bare_logo.png`.
+- Tidak mengubah wordmark atau tagline.
+- Backend/authentication/provider tidak disentuh.
+
+### Verification Status
+- Source changes: **IMPLEMENTED / COMMITTED**.
+- CI untuk commit perubahan terbaru: **PENDING**.
+- Runtime verification pada device: **PENDING**.
+
+### Next Runtime Check
+Fokus verifikasi pengguna:
+1. Launcher icon sudah lebih kecil tanpa mengubah tampilan App Info secara tidak diinginkan.
+2. Welcome logo sudah cukup ke kanan.
+3. Description tepat dua baris dan turun ke posisi yang diinginkan.
+4. B Λ R E dan SAVE OUR DAY tetap seperti build #267.
+
