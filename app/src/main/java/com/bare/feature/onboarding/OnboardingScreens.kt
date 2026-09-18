@@ -300,6 +300,7 @@ fun SignUpScreen(
 fun StorageSetupScreen(
     identityId: String?,
     onContinue: () -> Unit,
+    onCloudClick: () -> Unit,
     onBack: () -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -340,11 +341,11 @@ fun StorageSetupScreen(
         }
 
         StorageCard(
-            title = stringResource(R.string.remote_storage),
+            title = "Cloud storage",
             subtitle = stringResource(R.string.cloud_provider),
             selected = false,
-            enabled = false,
-            onClick = {},
+            enabled = true,
+            onClick = onCloudClick,
         )
 
         Button(
