@@ -73,15 +73,11 @@ fun LocalSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
 fun LoginScreen(
     email: String,
     onEmailChange: (String) -> Unit,
-    onContinue: () -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
+    onContinue: () -> Unit,
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
-    password: String,
-    onPasswordChange: (String) -> Unit,
-    confirmPassword: String,
-    onConfirmPasswordChange: (String) -> Unit,
 ) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
@@ -100,6 +96,10 @@ fun LoginScreen(
 fun SignUpScreen(
     email: String,
     onEmailChange: (String) -> Unit,
+    password: String,
+    onPasswordChange: (String) -> Unit,
+    confirmPassword: String,
+    onConfirmPasswordChange: (String) -> Unit,
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
 ) {
