@@ -887,3 +887,32 @@ User memberikan **GO** untuk mengeksekusi design direction yang sudah dibahas. S
 
 ### Berikutnya
 Menunggu CI build selesai, lalu APK hasil build perlu dipasang dan dilakukan runtime verification pada device. Fokus verification: Welcome layout, local confirmation + persistence transition, Sign in/Create account, Forgot Password mockup flow, dan visual monochrome.
+
+
+## 2026-09-18 — Cleanup: Canonical PNG Logo dan CI Build Fix
+
+### Authorization
+User memberikan **GO** untuk merapikan asset logo yang tidak diperlukan, mengganti redraw logo Welcome dengan asset PNG canonical, dan membereskan CI yang sedang merah.
+
+### Perubahan
+- BaReMark Canvas redraw dihapus dari OnboardingScreens.kt; Welcome sekarang memakai res/drawable-nodpi/bare_logo.png sebagai asset logo asli.
+- ContentScale.Fit digunakan agar PNG tidak dipaksa crop/stretch. PNG tidak diberi tint berbasis theme, sehingga switching Light/Dark tidak mengubah warna internal asset.
+- Import Compose yang hanya dibutuhkan oleh redraw lama dibersihkan.
+- bare_header.png dihapus karena tidak memiliki consumer yang teridentifikasi pada source/runtime path saat cleanup ini dilakukan.
+- bare_logo_foreground.xml dipertahankan karena masih direferensikan oleh adaptive launcher icon; asset ini bukan kandidat aman untuk dihapus.
+- Preview LoginScreen diperbaiki dengan menambahkan onForgotPassword setelah signature berubah.
+
+### CI Root Cause
+Run #256 (35361253664) gagal pada :app:compileDebugKotlin, bukan pada signing atau resource packaging. Error yang terverifikasi dari log:
+- unresolved reference Stroke dan penggunaan redraw di OnboardingScreens.kt;
+- LoginPreview tidak mengirim parameter onForgotPassword.
+
+### Scope Boundary
+- Backend tidak disentuh.
+- master tidak disentuh; perubahan hanya pada v1.0/rebaseline.
+
+### Status
+LOGO_CANONICAL_PNG / UNUSED_HEADER_ASSET_REMOVED / PREVIEW_SIGNATURE_FIXED / CI_FIX_COMMITTED / CI_REVERIFICATION_PENDING
+
+### Berikutnya
+CI terbaru harus diverifikasi setelah commit cleanup. Jika build sukses, lanjut runtime verification Welcome + theme behavior pada device.

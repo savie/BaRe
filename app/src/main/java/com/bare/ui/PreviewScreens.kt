@@ -28,6 +28,7 @@ private fun LoginPreview() {
             onPasswordChange = {},
             onContinue = {},
             onCreateAccount = {},
+            onForgotPassword = {},
             onBack = {},
         )
     }

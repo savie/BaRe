@@ -1,29 +1,24 @@
 package com.bare.feature.onboarding
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Backup
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.Stroke
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,46 +33,18 @@ private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
 
 @Composable
-fun BaReMark(modifier: Modifier = Modifier) {
-    Canvas(modifier) {
-        val stroke = size.minDimension * 0.075f
-        val w = size.width
-        val h = size.height
-        val style = Stroke(width = stroke, cap = StrokeCap.Round, join = StrokeJoin.Round)
-        val color = MaterialTheme.colorScheme.onBackground
-
-        val stem = Path().apply {
-            moveTo(w * 0.28f, h * 0.13f)
-            lineTo(w * 0.28f, h * 0.67f)
-            cubicTo(w * 0.28f, h * 0.77f, w * 0.31f, h * 0.84f, w * 0.39f, h * 0.90f)
-        }
-        drawPath(stem, color, style = style)
-
-        val arch = Path().apply {
-            moveTo(w * 0.34f, h * 0.47f)
-            cubicTo(w * 0.43f, h * 0.36f, w * 0.62f, h * 0.35f, w * 0.72f, h * 0.46f)
-            cubicTo(w * 0.77f, h * 0.51f, w * 0.79f, h * 0.58f, w * 0.79f, h * 0.64f)
-        }
-        drawPath(arch, color, style = style)
-
-        val loop = Path().apply {
-            moveTo(w * 0.40f, h * 0.91f)
-            cubicTo(w * 0.51f, h * 1.00f, w * 0.67f, h * 0.96f, w * 0.75f, h * 0.81f)
-            cubicTo(w * 0.80f, h * 0.71f, w * 0.83f, h * 0.61f, w * 0.90f, h * 0.57f)
-            cubicTo(w * 0.94f, h * 0.55f, w * 0.97f, h * 0.54f, w * 0.99f, h * 0.54f)
-        }
-        drawPath(loop, color, style = style)
-    }
-}
-
-@Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.weight(0.72f))
-        BaReMark(Modifier.size(112.dp))
+        Image(
+            painter = painterResource(R.drawable.bare_logo),
+            contentDescription = stringResource(R.string.app_name),
+            modifier = Modifier.size(112.dp),
+            contentScale = ContentScale.Fit,
+        )
         Spacer(Modifier.height(24.dp))
         Text(
             text = "B Λ R E",
