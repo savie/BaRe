@@ -225,3 +225,30 @@ CI build setelah perubahan UX pada commit 7817aca2ec54d4ad1059fbd9a4a26369065104
 
 ### Next
 Sebelum memilih capability feature, selesaikan baseline build/runtime verification terhadap actual shell, lalu gunakan hasilnya untuk menentukan shared foundation pertama yang benar-benar dibutuhkan. Hard reset belum dilakukan.
+
+## 2026-09-18 — FE Mockup Expansion
+
+### Current Work
+Membangun mockup FE lengkap berbasis evidence/reference Swift yang sudah direkonsiliasi, dengan tujuan mengunci surface dan alur UI terlebih dahulu sebelum capability backend.
+
+### Decision Applied
+- Fase ini memprioritaskan FE mockup; tombol/aksi tidak dianggap sebagai capability backend.
+- Struktur sementara boleh terpusat di MainActivity.kt untuk mempercepat iterasi visual; pemecahan file dilakukan setelah bentuk FE stabil.
+- Alur reference dipakai sebagai baseline discovery, sementara implementasi tetap BaRe.
+- Detail login dan layout Home yang belum ditentukan user diperlakukan sebagai mockup awal yang dapat direvisi; tidak dianggap final product decision.
+
+### Implementation
+- Memperluas onboarding menjadi Welcome → Sign in → Backup storage → Access method → Main App.
+- Menambahkan empat tab utama Home, Apps, Schedules, Account.
+- Menambahkan surface Apps, app detail, app configuration, Folders, Messages, Call Logs, Wi-Fi, Wallpapers, Storage, Cloud sync, Management, Diagnostics, Settings, Import/Export, Task, Schedule, dan Search.
+- Menambahkan state/surface mockup untuk empty, disconnected, task lifecycle, verification state, app parts, management, dan provider diagnostics.
+- Tidak menambahkan backend authentication, backup/restore execution, storage mutation, cloud transfer, root detection, scheduler execution, atau capability runtime.
+
+### Verification
+- Source change committed pada `facb6c5de42aa3b6e385b4c9765a0254334aed30`.
+- GitHub Actions run #121 terpicu untuk commit tersebut.
+- Saat pencatatan ini dibuat, job `build` masih `in_progress` pada langkah `Assemble debug APK`; hasil build akhir belum dapat dinyatakan VERIFIED.
+- Device/runtime install tidak dijalankan oleh commit ini.
+
+### Next
+Review visual/mockup dengan user. Jika bentuk FE belum sesuai, revisi surface/state terlebih dahulu; jika sudah sesuai, baru bekukan FE baseline dan lanjut ke capability contract/backend secara bertahap.
