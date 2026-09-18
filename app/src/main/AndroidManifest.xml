@@ -3,7 +3,7 @@
     <application
         android:allowBackup="false"
         android:label="BaRe"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bare_logo"
         android:roundIcon="@drawable/bare_launcher_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.BaRe">
