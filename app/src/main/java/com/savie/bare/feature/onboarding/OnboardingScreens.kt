@@ -46,7 +46,7 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
         Text(stringResource(R.string.account_cloud_description))
         OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
         OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
-        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Sign in") }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in)) }
         OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_local_setup)) }
         TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
