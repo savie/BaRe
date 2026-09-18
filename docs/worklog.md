@@ -1221,3 +1221,28 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 ### Next
 - Lanjut runtime verification pada device untuk journey local/account → Cloud → existing auth → kembali ke Cloud.
 - Setelah runtime evidence tersedia, rekonsiliasi status runtime capability dan lanjut ke provider cloud sesuai scope product.
+
+## 2026-09-19 — Verifikasi Runtime Access Method dan Review Backup Storage
+
+### Evidence Runtime
+- Pengguna melakukan verifikasi langsung pada device terhadap alur onboarding **Backup storage → Access method**.
+- **Internal storage** tampil dengan path BaRe berbasis Identity ID dan menjadi pilihan aktif pada runtime.
+- **External removable storage** tidak tampil ketika tidak ada hardware removable yang terhubung; ini sesuai behavior yang diharapkan untuk kondisi device tersebut.
+- **Root** dan **Non-root** dilaporkan berfungsi aman pada runtime device oleh pengguna. Evidence ini dicatat sebagai **USER-OBSERVED**, bukan pengganti automated/runtime test evidence dari engineer.
+
+### Temuan
+- Pada kondisi identity **local**, surface **Cloud/Remote storage** pada Backup storage belum tampil sebagai opsi yang dapat dipilih untuk memulai account-gated Cloud flow.
+- Ini tidak sesuai intent yang sudah ditetapkan: Cloud tetap visible, tetapi eksekusinya harus melewati existing Account authentication; local identity tidak boleh membuat Cloud menghilang.
+
+### Status Truth
+- CI build: **VERIFIED — run #299 SUCCESS** untuk commit 34374130469d248f8857b175fae90c30acf9569f.
+- Internal storage UI: **USER-OBSERVED**.
+- External removable visibility pada kondisi tanpa hardware: **USER-OBSERVED**.
+- Root/Non-root runtime: **USER-OBSERVED / NOT INDEPENDENTLY VERIFIED**.
+- Cloud visibility + account gate pada Backup storage: **IMPLEMENTATION GAP IDENTIFIED**.
+
+### Next
+- Perbaiki Backup storage agar Cloud tetap visible pada local identity.
+- Tap Cloud dari local identity harus mengarahkan ke **existing Sign in/Create account**, bukan local setup dan bukan membuat login screen baru.
+- Setelah auth flow selesai, user kembali ke Cloud provider surface.
+- Pertahankan External storage conditional berdasarkan hardware mounted.
