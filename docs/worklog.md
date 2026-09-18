@@ -717,3 +717,23 @@ Field password dan confirm password sebelumnya memakai nilai kosong dengan callb
 - Password input editable: **IMPLEMENTED / BUILD VERIFICATION PENDING**.
 - Credential handling: **NOT IMPLEMENTED**.
 - Account authentication/provider: **OPEN / NOT IMPLEMENTED**.
+
+
+## 2026-09-18 — Fix Package ID, Password Visibility, dan Auth Form Validation
+
+**Scope:** Login / Sign Up FE, application identity, dan validasi form.
+
+**User-reported observation:** Build #205 sudah green. Setelah aplikasi dijalankan, ditemukan persistence file `bare_identity.xml` pada `data/data/com.savie.bare/shared_prefs`. User juga meminta application ID menjadi `com.bare`, password memiliki kontrol show/hide, serta email dan password tidak boleh diterima secara asal.
+
+**Implementation:**
+- Mengubah Android `applicationId` dari `com.savie.bare` menjadi `com.bare`. Namespace source `com.savie.bare` dipertahankan untuk membatasi scope perubahan pada application identifier.
+- Menambahkan tombol show/hide password pada Login dan Sign Up, menggunakan `Visibility` / `VisibilityOff`.
+- Menambahkan validasi email dengan format minimum `x@x.x`; form ditolak bila format tidak valid.
+- Menambahkan minimum password length 8 karakter.
+- Menambahkan validasi confirm password agar harus sama dengan password saat Sign Up.
+- Tombol Sign In / Create Account hanya melanjutkan bila form valid.
+- Tidak menambahkan fake authentication atau menyimpan raw password. Account authentication tetap belum terhubung ke backend/provider.
+
+**Verification status:** Source change sudah di-commit. Build/CI setelah perubahan ini masih perlu diverifikasi; keberhasilan build sebelumnya (#205) tidak dianggap sebagai bukti untuk commit baru.
+
+**Governance note:** Perubahan dibatasi pada tiga scope yang diminta: application ID, password visibility, dan form validation. Tidak mengubah `master`.
