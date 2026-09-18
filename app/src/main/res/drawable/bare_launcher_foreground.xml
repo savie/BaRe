@@ -2,6 +2,6 @@
 <scale xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/bare_logo"
     android:scaleGravity="center"
-    android:scaleWidth="60%"
-    android:scaleHeight="60%"
-    android:level="3333" />
+    android:scaleWidth="100%"
+    android:scaleHeight="100%"
+    android:level="4000" />
