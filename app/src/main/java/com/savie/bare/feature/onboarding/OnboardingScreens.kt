@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.savie.bare.app.AccessMethod
+import com.savie.bare.R
 
 @Composable
 fun WelcomeScreen(onContinue: () -> Unit) {
