@@ -100,9 +100,9 @@ private fun AccessCard(method: AccessMethod, selected: Boolean, onSelect: (Acces
             Icon(if (method == AccessMethod.ROOT) Icons.Default.Security else Icons.Default.Info, null)
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
-                Text(method.title, fontWeight = FontWeight.Bold)
+                Text(stringResource(method.titleRes), fontWeight = FontWeight.Bold)
                 Spacer(Modifier.height(4.dp))
-                Text(method.description, style = MaterialTheme.typography.bodySmall)
+                Text(stringResource(method.descriptionRes), style = MaterialTheme.typography.bodySmall)
             }
             if (selected) Text("✓")
         }
