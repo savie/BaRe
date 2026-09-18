@@ -44,7 +44,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier.size(216.dp),
+            modifier = Modifier.size(210.dp).offset(x = 6.dp),
             contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
@@ -52,7 +52,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
             text = "B Λ R E",
             style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Light,
+            fontWeight = FontWeight.Medium,
         )
         Spacer(Modifier.height(8.dp))
         Text(
@@ -62,7 +62,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
             fontWeight = FontWeight.Light,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.height(38.dp))
         Text(
             text = stringResource(R.string.welcome_description),
             style = MaterialTheme.typography.bodyLarge,
