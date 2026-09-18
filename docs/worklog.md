@@ -664,3 +664,39 @@ Jika persistence tidak dapat dibaca atau state tidak valid, sistem tidak boleh d
 
 ### Berikutnya
 Implementasikan persistence Local paling sederhana yang memenuhi lifecycle di atas, lalu uji minimal: buat Local Identity → masuk Home → restart app → identity/context tetap terbaca. Tambahkan test failure untuk state persistence yang invalid bila implementation sudah tersedia.
+
+
+## 2026-09-18 — Implementasi Persistence Local Minimum
+
+### Implementasi
+Local Identity sekarang memiliki persistence device minimum tanpa backend/server:
+- `BaReIdentity` menyimpan `identityId` stabil dan `IdentityType`.
+- `LocalIdentityStore` menggunakan Android `SharedPreferences` sebagai implementation persistence awal yang sederhana dan reversible.
+- Saat Local Setup dilanjutkan, identity dibuat bila belum ada lalu disimpan.
+- Status penyelesaian setup disimpan terpisah dari identity.
+- Saat startup berikutnya, identity Local yang tersimpan dipulihkan.
+- Jika setup sudah selesai, aplikasi masuk ke Home; jika identity ada tetapi setup belum selesai, aplikasi melanjutkan ke Storage Setup.
+- Credential/password/token tidak masuk ke persistence Local.
+
+### Batas
+- Ini hanya persistence Local Identity dan continuity onboarding.
+- Tidak ada Supabase.
+- Tidak ada database server.
+- Account authentication/provider belum diimplementasikan.
+- Belum ada runtime proof bahwa state benar-benar bertahan setelah proses aplikasi dihentikan dan dibuka kembali.
+
+### Status
+- Local Identity implementation: **IMPLEMENTED / BUILD VERIFICATION PENDING**.
+- Persistence technology: **IMPLEMENTED CHOICE — SharedPreferences** untuk scope minimum ini.
+- Runtime restart persistence: **UNVERIFIED**.
+- Account provider/session: **OPEN / NOT IMPLEMENTED**.
+
+### Verifikasi Berikutnya
+Build CI pada commit source terbaru, lalu runtime test:
+1. Fresh install / data bersih.
+2. Pilih Local.
+3. Lanjut sampai Home.
+4. Tutup aplikasi sepenuhnya.
+5. Buka kembali.
+6. Pastikan tidak kembali ke Welcome dan Local Identity tetap terbaca.
+7. Uji juga restart sebelum setup selesai untuk memastikan aplikasi kembali ke Storage Setup, bukan menganggap onboarding selesai.
