@@ -111,7 +111,7 @@ fun BaReApp() {
                     onEmailChange = { loginEmail = it },
                     password = loginPassword,
                     onPasswordChange = { loginPassword = it },
-                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
+                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; identityType = IdentityType.ACCOUNT; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
                     onCreateAccount = { startScreen = StartScreen.SIGN_UP },
                     onForgotPassword = { resetEmail = loginEmail; startScreen = StartScreen.FORGOT_PASSWORD },
                     onBack = ::goBack,
