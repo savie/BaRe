@@ -2,6 +2,7 @@ package com.savie.bare.ui
 
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
+import com.savie.bare.app.IdentityType
 import com.savie.bare.feature.account.AccountScreen
 import com.savie.bare.feature.apps.AppsScreen
 import com.savie.bare.feature.home.HomeScreen
@@ -13,13 +14,13 @@ import com.savie.bare.ui.theme.BaReTheme
 @Preview(showBackground = true)
 @Composable
 private fun WelcomePreview() {
-    BaReTheme { WelcomeScreen {} }
+    BaReTheme { WelcomeScreen { _: IdentityType -> } }
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    BaReTheme { LoginScreen("", {}, {}, {}) }
+    BaReTheme { LoginScreen("", {}, {}, {}, {}) }
 }
 
 @Preview(showBackground = true)
