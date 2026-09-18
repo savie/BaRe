@@ -20,7 +20,17 @@ private fun WelcomePreview() {
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    BaReTheme { LoginScreen("", {}, {}, {}, {}) }
+    BaReTheme {
+        LoginScreen(
+            email = "",
+            onEmailChange = {},
+            password = "",
+            onPasswordChange = {},
+            onContinue = {},
+            onCreateAccount = {},
+            onBack = {},
+        )
+    }
 }
 
 @Preview(showBackground = true)
