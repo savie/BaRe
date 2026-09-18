@@ -148,6 +148,10 @@
     <string name="search">Search</string>
     <string name="search_scope">Search across apps, backups, folders, and configuration.</string>
     <string name="cloud_account_not_connected">Cloud account not connected</string>
+    <string name="cloud_account_title">Bring your cloud storage to B Λ R E</string>
+    <string name="cloud_account_description">Sign in to your B Λ R E account first, then connect a storage provider for backup sync.</string>
+    <string name="cloud_ready_title">Cloud storage</string>
+    <string name="cloud_ready_description">Your B Λ R E account is connected. Choose a provider to continue.</string>
     <string name="connect_provider_description">Connect a provider for upload, download, and sync.</string>
     <string name="connect_account">Connect account</string>
     <string name="providers">Providers</string>
