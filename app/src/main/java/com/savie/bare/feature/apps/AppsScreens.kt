@@ -80,8 +80,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             item { Text("Backup parts", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             items(listOf("APK", "Split APK", "App data", "External data", "Media", "Cache", "Expansion / OBB")) { CheckRow(it, true) }
             item { Text("Actions", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
-            item { Button(onClick = {}, Modifier.fillMaxWidth()) { Text("Backup") } }
-            item { OutlinedButton(onClick = {}, Modifier.fillMaxWidth()) { Text("Restore") } }
+            item { Button(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text("Backup") } }
+            item { OutlinedButton(onClick = {}, modifier = Modifier.fillMaxWidth()) { Text("Restore") } }
             item { ListEntry("Multiple backups", "History and versions", Icons.Default.Sync) { onOpen(Screen.TASK) } }
             item { ListEntry("Custom configuration", "Parts and strategy", Icons.Default.Settings) { onOpen(Screen.APP_CONFIG) } }
             item { ListEntry("Management", "Favorite, labels, blacklist, protection", Icons.Default.Build) { onOpen(Screen.MANAGEMENT) } }
