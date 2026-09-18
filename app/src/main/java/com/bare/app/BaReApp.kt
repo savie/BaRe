@@ -34,7 +34,9 @@ import com.bare.feature.misc.SearchScreen
 import com.bare.feature.onboarding.*
 import com.bare.feature.schedules.SchedulesScreen
 import com.bare.ui.theme.BaReTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -51,7 +53,7 @@ fun BaReApp() {
             }
         )
     }
-    var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }
+    var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }\n    var accessError by remember { mutableStateOf<String?>(null) }\n    val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var loginEmail by remember { mutableStateOf("") }
@@ -131,9 +133,23 @@ fun BaReApp() {
                 StartScreen.STORAGE_SETUP -> StorageSetupScreen(identityType?.let { identityStore.load()?.identityId }, { startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
-                    { selectedMethod = it },
-                    { if (selectedMethod != null) { identityStore.markSetupComplete(); startScreen = StartScreen.APP } },
-                    ::goBack
+                    { selectedMethod = it; accessError = null },
+                    {
+                        val method = selectedMethod ?: return@AccessMethodScreen
+                        scope.launch(Dispatchers.IO) {
+                            val capability = accessResolver.resolve(method)
+                            withContext(Dispatchers.Main) {
+                                if (capability.available) {
+                                    identityStore.markSetupComplete()
+                                    startScreen = StartScreen.APP
+                                } else {
+                                    accessError = capability.reason
+                                }
+                            }
+                        }
+                    },
+                    ::goBack,
+                    accessError,
                 )
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
