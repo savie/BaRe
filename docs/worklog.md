@@ -200,3 +200,28 @@ Memperbaiki `docs/reference.md` agar mengikuti README dan Governance: authority,
 - Final reference documentation commit: `e5a78abd2b8f800b5b379215e178e70fc3066207`.
 - Current `MainActivity.kt` blob SHA yang terobservasi: `b3e244d252958b401e8e5d5ac5c5f45036d7e757`.
 - Status runtime tetap UNVERIFIED; perubahan ini hanya documentation reconciliation.
+## 2026-09-18 — BaRe Actual-State Reconciliation
+
+### Current Work
+Pemeriksaan actual state setelah audit Swift Backup untuk memastikan posisi BaRe saat ini sebelum memilih implementation berikutnya.
+
+### Observed
+- Source implementation pada app/src/main/java/com/savie/bare/ saat ini hanya MainActivity.kt.
+- MainActivity.kt berisi onboarding, pemilihan Non-root/Root, four-tab navigation, submenu, dan placeholder UI.
+- Placeholder UI belum merupakan implementation capability backend.
+- Belum ditemukan source implementation terpisah untuk provider, domain, application/use case, storage, archive, persistence, scheduler backend, cloud provider, diagnostics backend, atau capability execution.
+- Tidak ditemukan app/src/test atau app/src/androidTest pada branch saat pemeriksaan.
+- Workflow CI saat ini memiliki jalur build, signing verification, artifact upload, dan optional adb install -r; device update belum menjadi runtime-verified state.
+
+### Reconciliation Result
+- Whole-product UX shell: OBSERVED / IMPLEMENTED AS UI SHELL.
+- Backend capability v1.0: NOT IMPLEMENTED / UNVERIFIED dari actual source yang diperiksa.
+- CAP-01 sampai CAP-17 belum boleh dinaikkan ke IMPLEMENTED, RUNTIME_TESTED, atau VERIFIED hanya berdasarkan screen/menu.
+- Acceptance chain product masih terputus pada implementation/runtime evidence.
+- Tidak ada perubahan source implementation pada pemeriksaan ini.
+
+### Current Blocker
+CI build setelah perubahan UX pada commit 7817aca2ec54d4ad1059fbd9a4a26369065104ef tercatat di worklog sebelumnya sebagai UNVERIFIED dan sebelumnya dilaporkan gagal pada :app:compileDebugKotlin. Status aktual terbaru belum dapat dinyatakan berhasil tanpa run baru.
+
+### Next
+Sebelum memilih capability feature, selesaikan baseline build/runtime verification terhadap actual shell, lalu gunakan hasilnya untuk menentukan shared foundation pertama yang benar-benar dibutuhkan. Hard reset belum dilakukan.
