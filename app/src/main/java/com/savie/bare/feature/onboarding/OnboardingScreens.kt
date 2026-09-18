@@ -47,7 +47,35 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
 }
 
 @Composable
-fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -> Unit, onBack: () -> Unit) {
+fun LocalSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
+    Column(
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+    ) {
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        Text(stringResource(R.string.local_setup), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.local_setup_description))
+        Card(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(16.dp)) {
+                Text(stringResource(R.string.local_identity), fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(6.dp))
+                Text(stringResource(R.string.local_identity_description), style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.continue_label))
+        }
+    }
+}
+
+@Composable
+fun LoginScreen(
+    email: String,
+    onEmailChange: (String) -> Unit,
+    onContinue: () -> Unit,
+    onCreateAccount: () -> Unit,
+    onBack: () -> Unit,
+) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -55,9 +83,29 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
         OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
         OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
         Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in)) }
-        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_local_setup)) }
         OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.continue_with_google)) }
-        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
+        TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
+        Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
+    }
+}
+
+@Composable
+fun SignUpScreen(
+    email: String,
+    onEmailChange: (String) -> Unit,
+    onCreateAccount: () -> Unit,
+    onBack: () -> Unit,
+) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        Text(stringResource(R.string.create_account), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.create_account_description))
+        OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.email)) }, singleLine = true)
+        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.password)) }, singleLine = true)
+        OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text(stringResource(R.string.confirm_password)) }, singleLine = true)
+        Button(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) {
+            Text(stringResource(R.string.create_account))
+        }
         Text(stringResource(R.string.mockup_auth_not_connected), style = MaterialTheme.typography.bodySmall)
     }
 }
