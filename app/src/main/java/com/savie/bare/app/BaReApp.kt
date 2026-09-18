@@ -121,7 +121,7 @@ private fun MainShell(
             }
         },
     ) { padding ->
-        HorizontalPager(state = pagerState, Modifier.fillMaxSize().padding(padding)) { page ->
+        HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize().padding(padding)) { page ->
             when (tabs[page]) {
                 Tab.HOME -> HomeScreen(onOpenScreen)
                 Tab.APPS -> AppsScreen(onOpenScreen, onOpenApp)
