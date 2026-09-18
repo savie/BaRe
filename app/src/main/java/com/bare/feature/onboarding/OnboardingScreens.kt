@@ -144,7 +144,7 @@ fun LoginScreen(
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
         Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-        Text(stringResource(R.string.account_cloud_description))
+        Text(stringResource(R.string.sign_in_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
