@@ -1195,3 +1195,29 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 - Verifikasi CI compile/resource packaging.
 - Jika green, runtime test: Account/local → Cloud → existing Sign in → kembali ke Cloud; account path → Cloud langsung.
 - Setelah runtime evidence tersedia, update status worklog berdasarkan hasil aktual.
+
+
+## 2026-09-19 — Verifikasi Final Cloud Flow: CI Green
+
+### Perbaikan
+- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
+- Memperbaiki `RootCapabilityProvider.runSu()` agar menggunakan block body sehingga `return` tidak melanggar aturan Kotlin expression body.
+- Tidak mengubah scope Cloud atau membuat authentication screen baru.
+
+### Evidence
+- CI run **#297** gagal pada `:app:compileDebugKotlin`; log menunjukkan syntax error di `BaReApp.kt`, unresolved `accessResolver`, serta error expression body pada `RootCapabilityProvider.kt`.
+- CI run **#298** masih gagal karena literal escaped newline di `BaReApp.kt` belum benar-benar terhapus dari source.
+- Commit perbaikan akhir: `34374130469d248f8857b175fae90c30acf9569f`.
+- CI run **#299** untuk commit tersebut: **COMPLETED / SUCCESS**.
+- Job `build`: **SUCCESS**; `:app:assembleDebug` berhasil melewati tahap build dan workflow selesai sukses.
+
+### Status Truth
+- Cloud account-gated routing: **IMPLEMENTED / CI VERIFIED**.
+- Existing auth screen reuse: **IMPLEMENTED / CI VERIFIED**.
+- Cloud provider connection/transfer: **NOT IMPLEMENTED**.
+- Runtime navigation/visual Cloud: **UNVERIFIED** karena belum ada device evidence pada pekerjaan ini.
+- Authentication backend/session persistence: **NOT IMPLEMENTED / OUT OF SCOPE**.
+
+### Next
+- Lanjut runtime verification pada device untuk journey local/account → Cloud → existing auth → kembali ke Cloud.
+- Setelah runtime evidence tersedia, rekonsiliasi status runtime capability dan lanjut ke provider cloud sesuai scope product.
