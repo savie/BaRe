@@ -31,8 +31,8 @@ fun WelcomeScreen(onContinue: () -> Unit) {
         Spacer(Modifier.height(12.dp))
         Text("Mockup FE lengkap untuk membentuk alur product terlebih dahulu. Capability backend akan dihubungkan setelah tampilan dan state disepakati.")
         Spacer(Modifier.height(28.dp))
-        Button(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Mulai") }
-        TextButton(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Sudah punya account") }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Mulai") }
+        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Sudah punya account") }
     }
 }
 
@@ -44,9 +44,9 @@ fun LoginScreen(email: String, onEmailChange: (String) -> Unit, onContinue: () -
         Text("Account dipakai untuk mengatur cloud, sinkronisasi, dan konfigurasi BaRe.")
         OutlinedTextField(email, onEmailChange, Modifier.fillMaxWidth(), label = { Text("Email") }, singleLine = true)
         OutlinedTextField("", {}, Modifier.fillMaxWidth(), label = { Text("Password") }, singleLine = true)
-        Button(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Sign in") }
-        OutlinedButton(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Continue with local setup") }
-        TextButton(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Create account") }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Sign in") }
+        OutlinedButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Continue with local setup") }
+        TextButton(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Create account") }
         Text("Mockup only — autentikasi belum terhubung.", style = MaterialTheme.typography.bodySmall)
     }
 }
@@ -60,7 +60,7 @@ fun StorageSetupScreen(onContinue: () -> Unit, onBack: () -> Unit) {
         StorageCard("Internal storage", "BaRe/Backups", true)
         StorageCard("External storage", "SAF / removable storage", false)
         StorageCard("Remote storage", "Cloud provider", false)
-        Button(onClick = onContinue, Modifier.fillMaxWidth()) { Text("Continue") }
+        Button(onClick = onContinue, modifier = Modifier.fillMaxWidth()) { Text("Continue") }
     }
 }
 
