@@ -19,7 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.savie.bare.app.AccessMethod\nimport com.savie.bare.app.IdentityType
+import com.savie.bare.app.AccessMethod
+import com.savie.bare.app.IdentityType
 import com.savie.bare.R
 
 @Composable
