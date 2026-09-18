@@ -22,7 +22,7 @@ class NonRootCapabilityProvider(private val context: Context) {
             destinationDir.deleteRecursively(); NonRootCopyResult.Failed(it.message ?: it::class.java.simpleName)
         })
     }
-    companion object { private val PACKAGE_REGEX = Regex("[A-Za-z0-9_]+(?:\\\\.[A-Za-z0-9_]+)+") }
+    companion object { private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""") }
 }
 
 sealed interface NonRootProbeResult { data class Success(val identity: String) : NonRootProbeResult; data class Failed(val reason: String) : NonRootProbeResult }
