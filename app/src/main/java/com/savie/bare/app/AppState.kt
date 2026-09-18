@@ -5,13 +5,15 @@ import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Settings
+import androidx.annotation.StringRes
+import com.savie.bare.R
 import androidx.compose.ui.graphics.vector.ImageVector
 
-enum class Tab(val title: String, val icon: ImageVector) {
-    HOME("Home", Icons.Default.Home),
-    APPS("Apps", Icons.Default.Apps),
-    SCHEDULES("Schedules", Icons.Default.Schedule),
-    ACCOUNT("Account", Icons.Default.Settings),
+enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
+    HOME(R.string.home, Icons.Default.Home),
+    APPS(R.string.apps, Icons.Default.Apps),
+    SCHEDULES(R.string.schedules, Icons.Default.Schedule),
+    ACCOUNT(R.string.account, Icons.Default.Settings),
 }
 
 enum class Screen(val title: String) {
@@ -24,9 +26,9 @@ enum class Screen(val title: String) {
 
 enum class StartScreen { WELCOME, LOGIN, STORAGE_SETUP, ACCESS_METHOD, APP }
 
-enum class AccessMethod(val title: String, val description: String) {
-    NON_ROOT("Non-root", "Mode Android standar. Capability yang membutuhkan akses khusus akan ditampilkan sesuai kondisi perangkat."),
-    ROOT("Root", "Gunakan akses root bila tersedia. Pilihan ini hanya mockup dan bukan bukti root aktif.")
+enum class AccessMethod(@StringRes val titleRes: Int, @StringRes val descriptionRes: Int) {
+    NON_ROOT(R.string.non_root, R.string.non_root_description),
+    ROOT(R.string.root, R.string.root_description)
 }
 
 data class AppItem(
