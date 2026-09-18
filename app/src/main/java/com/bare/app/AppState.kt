@@ -26,8 +26,8 @@ enum class Screen(val title: String) {
 
 enum class StartScreen {
     WELCOME,
-    LOCAL_SETUP,
     LOGIN,
+    FORGOT_PASSWORD,
     SIGN_UP,
     STORAGE_SETUP,
     ACCESS_METHOD,
