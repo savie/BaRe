@@ -64,6 +64,7 @@ fun BaReApp() {
     var resetEmail by remember { mutableStateOf("") }
     var showLocalConfirmation by remember { mutableStateOf(false) }
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
+    var returnToCloudAfterAuth by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -110,7 +111,7 @@ fun BaReApp() {
                     onEmailChange = { loginEmail = it },
                     password = loginPassword,
                     onPasswordChange = { loginPassword = it },
-                    onContinue = { startScreen = StartScreen.STORAGE_SETUP },
+                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
                     onCreateAccount = { startScreen = StartScreen.SIGN_UP },
                     onForgotPassword = { resetEmail = loginEmail; startScreen = StartScreen.FORGOT_PASSWORD },
                     onBack = ::goBack,
@@ -127,7 +128,7 @@ fun BaReApp() {
                     onPasswordChange = { signUpPassword = it },
                     confirmPassword = signUpConfirmPassword,
                     onConfirmPasswordChange = { signUpConfirmPassword = it },
-                    onCreateAccount = { startScreen = StartScreen.STORAGE_SETUP },
+                    onCreateAccount = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
                     onBack = ::goBack,
                 )
                 StartScreen.STORAGE_SETUP -> StorageSetupScreen(identityType?.let { identityStore.load()?.identityId }, { startScreen = StartScreen.ACCESS_METHOD }, ::goBack)
@@ -155,7 +156,7 @@ fun BaReApp() {
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
-                    { screen = it }, { selectedApp = it; screen = Screen.APP_DETAIL },
+                    { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } }, { selectedApp = it; screen = Screen.APP_DETAIL },
                     screen, selectedApp, ::goBack
                 )
             }
