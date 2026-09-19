@@ -1723,3 +1723,123 @@ Sebelum implementation final, lifecycle proof tetap diperlukan untuk:
 9. corrupted/tampered recovery package rejection;
 10. recovery identity reconciliation dengan backup directory lama.
 
+
+
+## 2026-09-19 — Audit Mode R3–R4–R5: Reconciliation Identity, Storage, Foundation, dan Verification
+
+### Authorization
+Pengguna memberikan **GO** untuk audit mode R3–R4–R5. Audit dilakukan tanpa implementasi source, tanpa memilih cryptographic construction final, dan tanpa mengunci phase artificial. R3–R4–R5 diperlakukan sebagai area yang saling beririsan; urutan kerja selanjutnya ditentukan dari dependency dan evidence aktual.
+
+### Scope
+Audit mencakup:
+- worklog canonical;
+- product / architecture / capability matrix;
+- source aktual branch `v1.0/rebaseline`;
+- identity lifecycle;
+- storage boundary;
+- recovery/continuity;
+- archive/security dependency;
+- verification gaps;
+- consistency antara dokumentasi dan source aktual.
+
+### Current Repository State — OBSERVED
+- Repository: `savie/BaRe`.
+- Target branch: `v1.0/rebaseline`.
+- `master` tidak disentuh.
+- Current source tree sudah lebih maju daripada catatan audit 2026-09-18 yang menyatakan source implementation hanya `MainActivity.kt`. Source aktual sekarang memiliki `app/`, `capability/`, `feature/`, `storage/`, dan `ui/` di bawah `app/src/main/java/com/bare/`.
+- Karena itu, catatan "source hanya MainActivity.kt" harus diperlakukan sebagai **stale historical observation**, bukan kondisi aktual terbaru.
+
+### Identity — OBSERVED / VERIFIED STATIC
+- `LocalIdentityStore` masih membuat `identityId` menggunakan `UUID.randomUUID()`.
+- Identity disimpan pada SharedPreferences `bare_identity`.
+- Identity dapat dipulihkan selama app-private data masih tersedia.
+- `IdentityType.LOCAL` dan `IdentityType.ACCOUNT` sudah dipisahkan secara semantic pada source/UI.
+- Tidak ada evidence source bahwa LOCAL identity saat ini memiliki recovery mechanism durable lintas uninstall/reset/ROM.
+- APK signing identity tidak digunakan oleh source saat ini sebagai pembentuk `identityId`.
+- Status lifecycle canonical masih terbuka: installation persistence != durable continuity.
+
+### Storage — OBSERVED
+- `BackupStorageRepository` membentuk path internal:
+  `/storage/emulated/0/BaRe/accounts/<derived-identity-folder>/backups`.
+- Folder namespace masih diturunkan dari 16 karakter alphanumeric awal `identityId`.
+- Repository saat ini terutama **menginspeksi** storage/capacity/path; audit ini tidak menemukan implementation recovery artifact atau encrypted identity package.
+- Manifest menetapkan `android:allowBackup="false"`.
+- `targetSdk=35`.
+- Tidak ada evidence pada manifest bahwa aplikasi saat ini memiliki broad storage permission.
+- Kemampuan nyata untuk membuat/mengubah file publik pada `/storage/emulated/0/BaRe/` masih harus diverifikasi melalui runtime pada target Android/device; jangan menganggap `root.canWrite()` sebagai proof bahwa arbitrary public-path write akan berhasil.
+
+### Recovery / Continuity — OPEN
+Target continuity yang dicatat dari user tetap:
+- restart → same LOCAL;
+- APK update → same LOCAL;
+- uninstall/reinstall pada device yang sama → recover same LOCAL;
+- factory reset/format pada device yang sama → recover same LOCAL bila recovery evidence tersedia;
+- ROM replacement pada device yang sama → recover same LOCAL bila recovery evidence tersedia;
+- device lain → boundary berbeda.
+
+Belum ada implementation proof untuk lifecycle di atas.
+
+### Recovery Artifact — PROPOSAL, NOT CONTRACT
+Audit Swift Backup memperkuat arah portable encrypted recovery artifact, tetapi:
+- final artifact format BaRe belum diputuskan;
+- final KDF belum diputuskan;
+- final encryption/authentication construction belum diputuskan;
+- recovery secret lifecycle belum diputuskan;
+- user unlock/password/recovery authority belum diputuskan;
+- import/reconciliation behavior belum diputuskan;
+- versioning/migration belum diputuskan.
+
+Karena dependency tersebut belum tertutup, **belum boleh membuat artifact implementation dan menyebutnya final**.
+
+### R3–R4–R5 Reconciliation
+Label R3/R4/R5 belum didefinisikan sebagai canonical phase contract pada dokumen project; karena itu audit ini tidak mengarang mapping formal.
+
+Namun evidence worklog menunjukkan overlap nyata:
+- **R3-area:** structural FE/app boundary sudah dilakukan.
+- **R4-area:** FE baseline masih memiliki verification/lock history dan tidak boleh disamakan dengan backend capability verification.
+- **R5-area:** capability/shared foundation membutuhkan identity, storage, archive, security, persistence, operation/result, dan verification semantics yang belum seluruhnya terkunci.
+
+Ini diperlakukan sebagai **working classification**, bukan decision baru.
+
+### Critical Dependencies Found
+1. Canonical identity semantics harus jelas sebelum backup namespace/recovery reconciliation dikunci.
+2. Recovery mechanism harus jelas sebelum continuity lintas destructive lifecycle dapat diklaim.
+3. Storage write mechanism harus diverifikasi pada target Android sebelum menentukan artifact path/API.
+4. Recovery secret model harus jelas sebelum memilih KDF/encryption implementation.
+5. Archive/version/integrity semantics harus selaras dengan recovery package agar migration dan corruption handling tidak terpisah.
+6. Runtime test harness/evidence perlu tersedia karena repository belum memiliki proof lifecycle untuk identity/recovery.
+
+### Verification Gaps
+Belum terbukti:
+- restart identity continuity;
+- APK update identity continuity;
+- uninstall/reinstall recovery;
+- clear-data recovery;
+- factory-reset/format recovery;
+- ROM replacement recovery;
+- creation of actual public recovery file;
+- import/recovery of identity from artifact;
+- wrong-secret rejection;
+- tamper/corruption rejection;
+- old backup directory reconciliation after identity recovery;
+- artifact atomic write/partial-file recovery;
+- runtime storage permission/write behavior on target Android.
+
+### Engineering Conclusion
+**Current state: AUDIT / OPEN DESIGN, NOT READY FOR FINAL RECOVERY IMPLEMENTATION.**
+
+Tidak ada source change pada audit ini.
+
+Urutan kerja berikutnya tidak dibuat sebagai Phase 1/2/3 artificial. Setelah open dependencies cukup tertutup, pekerjaan dilakukan langsung berdasarkan highest-priority dependency:
+`Safety/Security → Blocker → Prerequisite → Correctness → Verification Gap → Maintainability → Optimization`.
+
+### Next Action Candidate
+Candidate paling dekat bukan langsung "buat file recovery", melainkan menutup dependency yang menentukan apakah file tersebut benar-benar portable dan recoverable:
+1. audit/verify storage write boundary pada target Android;
+2. close identity/recovery semantics;
+3. close recovery secret/key lifecycle;
+4. baru pilih artifact format dan implementation;
+5. runtime-test lifecycle dan recovery;
+6. reconcile backup namespace setelah recovery.
+
+Status: **NO SOURCE CHANGE / NO FINAL CRYPTO DECISION / AUDIT RECORDED**.
