@@ -20,7 +20,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -236,14 +235,15 @@ private fun MainShell(
                     ) {
                         Text(
                             text = "B Λ R E",
-                            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
-                            fontWeight = FontWeight.Medium,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 5.sp,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
                             text = stringResource(R.string.brand_tagline),
-                            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
-                            fontWeight = FontWeight.Light,
+                            style = MaterialTheme.typography.labelSmall,
+                            letterSpacing = 3.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
