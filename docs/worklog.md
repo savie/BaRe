@@ -1371,3 +1371,31 @@ Setelah implementation, build/CI harus diverifikasi. Runtime storage information
 - Build source verification: **CI VERIFIED**.
 - Runtime verification untuk tampilan baru capacity/progress bar dan top bar: **UNVERIFIED** sampai APK terbaru dipasang dan diuji di device.
 - Runtime Internal/External storage sebelumnya sudah **USER-OBSERVED PASS** pada build #305; perubahan UI/capacity terbaru tetap membutuhkan runtime re-test.
+
+## 2026-09-19 — Design Lock dan Implementasi Home Dashboard Compact
+
+### Authorization
+Pengguna memberikan **GO** setelah mengunci arah Home: header brand centered mengikuti Welcome, identity cukup Local/Account, storage actual dengan progress, access status, backup/schedule status, enam backup areas tanpa heading, empat quick actions, dan entry **More Apps Actions** yang untuk sementara mengikuti Apps tab sampai flow Apps secondary actions difinalkan.
+
+### Keputusan yang Diterapkan
+- Header 4 main tabs tetap menggunakan search di kanan; brand `B Λ R E` + `SAVE OUR DAY` dipusatkan seperti Welcome. Tidak menambahkan profile/avatar di header.
+- Identity pada Home hanya menunjukkan `LOCAL` atau `ACCOUNT`; account menampilkan email sesi bila tersedia. Tap identity diarahkan ke bottom **Account** tab.
+- Internal storage pada dashboard harus menggunakan actual free/total/usage dan progress bar; tap diarahkan ke flow **Backup storage**.
+- Access status menampilkan Root/Non-root dan menjadi entry ke flow **Access method**.
+- Last Backup dan Next Backup/Schedule ditampilkan sebagai status compact. Tidak membuat timestamp backup/schedule palsu; state yang belum memiliki evidence harus tetap ditampilkan sebagai no-data/disabled.
+- Backup areas langsung berupa icon + feature dalam grid 3×2 tanpa heading terpisah: Apps, Messages, Call logs, Folders, Wi-Fi, Wallpapers.
+- Quick actions dibatasi empat: Backup apps, Restore apps, Backup folders, Restore data.
+- Icon harus semantik sesuai fungsi dan konsisten dengan icon language BaRe.
+- **More Apps Actions** tetap sebagai konsep secondary Apps flow. Untuk fase ini entry diarahkan ke tab Apps; detail secondary actions menunggu Apps flow/capability selesai.
+- Target layout: dashboard + quick actions dapat terlihat dalam satu viewport pada device target, tanpa vertical scrolling sebagai pola utama Home.
+
+### Scope Boundary
+- Home implementation dan routing yang sudah jelas masuk scope.
+- Tidak membuat secondary Apps actions baru.
+- Tidak membuat fake backup history, fake scheduler execution, atau fake cloud state.
+- `master` tidak disentuh; target tetap `v1.0/rebaseline`.
+
+### Verification Target
+- CI/build harus membuktikan source compile dan resource integrity.
+- Runtime berikutnya harus memeriksa centered header, compact one-screen Home, actual storage progress, identity routing, access routing, six feature entries, dan four quick actions.
+- Last/next backup state harus direkonsiliasi lagi setelah backup/scheduler capability mempunyai runtime evidence nyata.
