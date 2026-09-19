@@ -37,6 +37,9 @@ import com.bare.recovery.RecoveryArtifactRepository
 import com.bare.storage.StorageConfigurationStore
 import com.bare.app.IdentityType
 import com.bare.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
