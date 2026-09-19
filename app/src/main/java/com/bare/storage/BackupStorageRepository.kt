@@ -1,6 +1,8 @@
 package com.bare.storage
 
 import android.content.Context
+import android.net.Uri
+import androidx.documentfile.provider.DocumentFile
 import android.os.Build
 import android.os.Environment
 import android.os.storage.StorageManager
@@ -19,6 +21,26 @@ data class BackupStorage(
 }
 
 class BackupStorageRepository(private val context: Context) {
+    fun initialize(identityId: String, treeUri: Uri): Uri {
+        require(identityId.isNotBlank()) { "identityId is required" }
+        require(treeUri.scheme == "content") { "storage boundary must be a content URI" }
+
+        val root = DocumentFile.fromTreeUri(context, treeUri)
+            ?: throw IllegalStateException("selected storage folder is unavailable")
+        require(root.canWrite()) { "selected storage folder is not writable" }
+
+        val bare = root.directory("BaRe")
+        val accounts = bare.directory("accounts")
+        val account = accounts.directory(identityFolder(identityId))
+        val backups = account.directory("backups")
+        val recovery = account.directory("recovery")
+
+        return recovery.createFile(
+            "application/octet-stream",
+            "bare-recovery-v1.bare",
+        )?.uri ?: throw IllegalStateException("unable to initialize recovery storage")
+    }
+
     fun inspect(identityId: String): List<BackupStorage> = buildList {
         add(internalStorage(identityId))
         val removable = removableStorages(identityId)
@@ -86,6 +108,12 @@ class BackupStorageRepository(private val context: Context) {
         }.distinctBy { it.path }
     }
 
-    private fun identityFolder(identityId: String): String =
+    fun identityFolder(identityId: String): String =
         identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')
+
+    private fun DocumentFile.directory(name: String): DocumentFile {
+        return findFile(name)?.takeIf { it.isDirectory }
+            ?: createDirectory(name)
+            ?: throw IllegalStateException("unable to create directory: $name")
+    }
 }
