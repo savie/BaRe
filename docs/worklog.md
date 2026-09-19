@@ -2331,3 +2331,34 @@ Batch A is not considered device-verified until:
 - artifact can be imported with the same password;
 - wrong password/tamper behavior remains rejected.
 
+
+
+## 2026-09-19 — GO: Rebaseline canonical storage initialization
+
+**Intent / Authorization**
+- User authorized GO after identifying that storage confirmation must initialize the canonical BaRe namespace directly.
+- Home remains unchanged.
+
+**Finding reconciled**
+- Previous Batch A incorrectly made SAF Document Tree the canonical storage boundary.
+- Android 11+ blocks selecting shared-storage volume roots through ACTION_OPEN_DOCUMENT_TREE; this caused the observed "Can't use this folder" behavior.
+- SAF remains appropriate for portable recovery export/import, not for canonical BaRe storage initialization.
+
+**Implementation**
+- Canonical storage no longer requires a user-selected Document Tree URI.
+- Storage target is selected in BaRe UI: INTERNAL or mounted EXTERNAL/removable.
+- Confirm Storage now executes initialization and verification in one flow.
+- Canonical namespace:
+  - `<storage-root>/BaRe/accounts/<identity>/backups/`
+  - `<storage-root>/BaRe/accounts/<identity>/recovery/`
+  - `<storage-root>/BaRe/accounts/<identity>/recovery/bare-recovery-v1.bare`
+- Recovery artifact is written through a filesystem backend, read back, decoded with the supplied recovery password, then finalized.
+- Selected storage kind is persisted instead of a SAF tree URI.
+- External/removable storage discovery remains present and is surfaced again in onboarding.
+- Added MANAGE_EXTERNAL_STORAGE declaration and a settings route for devices where direct shared-storage write access is not available. Android documents this capability for backup/restore apps and permits direct access to shared storage, SD card, and USB OTG roots when granted.
+- Root capability can initialize the target directory when root is available.
+
+**Verification status**
+- Source implementation: IMPLEMENTED STATIC.
+- CI: IN PROGRESS on latest branch commit; device runtime remains UNVERIFIED.
+- Required runtime verification: fresh LOCAL onboarding on rooted POCO F6, confirm canonical folder tree and recovery artifact exist before Access Method/Home; repeat with INTERNAL and mounted EXTERNAL where available.
