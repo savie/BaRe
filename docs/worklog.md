@@ -1354,3 +1354,20 @@ Perubahan ini hanya mencakup Welcome → account flow → Backup storage → Acc
 
 ### Verification Target
 Setelah implementation, build/CI harus diverifikasi. Runtime storage information wajib dibuktikan dari device sebelum dianggap runtime verified; tidak boleh menggunakan nilai mockup.
+
+## 2026-09-19 — Verification: Flow Header, Actual Storage Capacity, dan Access Copy
+
+### Implementation
+- Flow screens `Sign in`, `Reset password`, `Create account`, `Backup storage`, dan `Access method` sekarang menggunakan top bar **← Title**.
+- `Backup storage` sekarang menggunakan data kapasitas aktual dari storage root: free space, total space, usage percentage, progress bar, dan folder location.
+- Internal dan mounted removable storage tidak lagi memakai nilai kapasitas mockup.
+- External storage yang tidak terhubung tetap ditampilkan sebagai `Not connected` dan tidak dapat dipilih.
+- Cloud storage tetap visible sebagai pilihan terpisah.
+- Copy `Access method`, `Non-root`, dan `Root` diperbarui menjadi product-facing wording; wording `mockup-only` dihapus dari root description.
+- Home dan 4 tab utama tidak diubah.
+
+### Verification
+- CI run **#308** pada commit `21fe5875b66b27f61c00d337b439e86b5e8af88c`: **COMPLETED / SUCCESS**.
+- Build source verification: **CI VERIFIED**.
+- Runtime verification untuk tampilan baru capacity/progress bar dan top bar: **UNVERIFIED** sampai APK terbaru dipasang dan diuji di device.
+- Runtime Internal/External storage sebelumnya sudah **USER-OBSERVED PASS** pada build #305; perubahan UI/capacity terbaru tetap membutuhkan runtime re-test.
