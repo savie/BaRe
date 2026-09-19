@@ -38,6 +38,9 @@
     <string name="back_to_sign_in">Back to sign in</string>
 
     <string name="backup_storage">Backup storage</string>
+    <string name="cloud_storage">Cloud storage</string>
+    <string name="storage_usage">%1$s free · %2$s total</string>
+    <string name="storage_used_percent">%1$d%% used</string>
     <string name="storage_setup_description">Choose the backup repository location. This screen does not write data yet.</string>
     <string name="internal_storage">Internal storage</string>
     <string name="internal_backup_path">BaRe/Backups</string>
@@ -50,7 +53,7 @@
     <string name="continue_label">Continue</string>
 
     <string name="access_method">Access method</string>
-    <string name="access_method_description">Choose the access mechanism. Actual capability status will be determined by providers and runtime.</string>
+    <string name="access_method_description">Choose how B Λ R E accesses your device.</string>
     <string name="enter_bare">Enter B Λ R E</string>
 
     <string name="home">Home</string>
@@ -63,8 +66,8 @@
     <string name="import_export">Import / Export</string>
     <string name="non_root">Non-root</string>
     <string name="root">Root</string>
-    <string name="non_root_description">Standard Android mode. Capabilities that require special access will be shown according to device conditions.</string>
-    <string name="root_description">Use root access when available. This choice is mockup-only and does not prove that root is active.</string>
+    <string name="non_root_description">Uses standard Android access. Some system-level backup capabilities may be limited without root access.</string>
+    <string name="root_description">Uses root access for deeper system-level backup capabilities when root is available.</string>
     <string name="backup_storage_mockup">B Λ R E/Backups • mockup state</string>
     <string name="runtime_capability_not_verified">Runtime capability has not been verified.</string>
     <string name="quick_actions">Quick actions</string>
