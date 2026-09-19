@@ -1,5 +1,6 @@
 package com.bare.recovery
 
+import android.content.Context
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.DocumentsContract
@@ -8,8 +9,9 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class RecoveryArtifactRepository(
-    private val contentResolver: ContentResolver,
+    private val context: Context,
 ) {
+    private val contentResolver: ContentResolver = context.contentResolver {
     fun export(
         treeUri: Uri,
         payload: RecoveryPackageCodec.Payload,
@@ -57,7 +59,7 @@ class RecoveryArtifactRepository(
         fileName: String = "bare-recovery-v1.bare",
     ): Uri {
         require(directoryUri.scheme == "content") { "recovery directory must be a content URI" }
-        val directory = DocumentFile.fromSingleUri(contentResolver, directoryUri)
+        val directory = DocumentFile.fromTreeUri(context, directoryUri)
             ?: throw IOException("recovery directory is unavailable")
         require(directory.isDirectory && directory.canWrite()) {
             "recovery directory is not writable"
