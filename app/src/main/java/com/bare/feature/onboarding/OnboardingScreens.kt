@@ -1,6 +1,10 @@
 package com.bare.feature.onboarding
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -317,37 +321,45 @@ fun StorageSetupScreen(
     val storageConfig = remember(context) { StorageConfigurationStore(context) }
     val scope = rememberCoroutineScope()
 
-    var selectedTreeUri by remember(identityId) {
-        mutableStateOf(storageConfig.loadTreeUri())
+    val storages = remember(identityId) {
+        if (identityId.isNullOrBlank()) emptyList() else repository.inspect(identityId)
+    }
+    val internal = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }
+    val external = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }
+
+    var selectedStorageKind by remember(identityId) {
+        mutableStateOf(
+            storageConfig.loadKind()
+                ?.takeIf { kind -> storages.any { it.kind == kind && it.available } }
+                ?: com.bare.storage.BackupStorage.Kind.INTERNAL
+        )
     }
     var recoveryPassword by remember { mutableStateOf("") }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
 
-    val treePicker = rememberLauncherForActivityResult(
-        ActivityResultContracts.OpenDocumentTree(),
-    ) { uri ->
-        if (uri != null) {
-            selectedTreeUri = uri
-            runCatching {
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
-                )
-            }.onSuccess {
-                status = "Storage folder selected."
-            }.onFailure {
-                selectedTreeUri = null
-                status = "B Λ R E could not keep access to that folder."
-            }
+    val allFilesSettings = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        status = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            Environment.isExternalStorageManager()
+        ) {
+            "File access enabled. Press Continue again."
+        } else {
+            "File access is still required for canonical BaRe storage."
         }
     }
 
-    val storages = remember(identityId) {
-        if (identityId.isNullOrBlank()) emptyList() else repository.inspect(identityId)
-    }
-    val internal = storages.firstOrNull {
-        it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL
+    fun requestStorageAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                Uri.parse("package:" + context.packageName),
+            )
+            allFilesSettings.launch(intent)
+        } else {
+            status = "Storage access is unavailable on this Android version."
+        }
     }
 
     Column(
@@ -360,13 +372,40 @@ fun StorageSetupScreen(
         if (internal != null) {
             StorageCard(
                 title = internal.displayName,
-                subtitle = selectedTreeUri?.let { "Storage folder selected" }
-                    ?: "Choose a folder where B Λ R E will create its storage",
-                selected = selectedTreeUri != null,
+                subtitle = if (selectedStorageKind == internal.kind) {
+                    "BaRe akan membuat folder penyimpanan di storage internal."
+                } else {
+                    "Gunakan storage internal untuk BaRe."
+                },
+                selected = selectedStorageKind == internal.kind,
                 enabled = internal.available,
                 totalBytes = internal.totalBytes,
                 freeBytes = internal.freeBytes,
-                onClick = { treePicker.launch(null) },
+                onClick = {
+                    selectedStorageKind = internal.kind
+                    status = null
+                },
+            )
+        }
+
+        if (external != null) {
+            StorageCard(
+                title = external.displayName,
+                subtitle = if (!external.available) {
+                    "External storage tidak ter-mount."
+                } else if (selectedStorageKind == external.kind) {
+                    "BaRe akan membuat folder penyimpanan di external storage."
+                } else {
+                    "Gunakan storage removable untuk BaRe."
+                },
+                selected = selectedStorageKind == external.kind,
+                enabled = external.available,
+                totalBytes = external.totalBytes,
+                freeBytes = external.freeBytes,
+                onClick = {
+                    selectedStorageKind = external.kind
+                    status = null
+                },
             )
         }
 
@@ -397,29 +436,38 @@ fun StorageSetupScreen(
             onClick = {
                 when {
                     identityId.isNullOrBlank() -> onContinue()
-                    selectedTreeUri == null -> treePicker.launch(null)
                     recoveryPassword.length < 8 ->
                         status = context.getString(R.string.password_too_short)
+                    !repository.canInitialize(selectedStorageKind) ->
+                        requestStorageAccess()
                     else -> {
                         busy = true
                         status = null
                         val identity = identityId
-                        val treeUri = selectedTreeUri!!
+                        val selectedKind = selectedStorageKind
                         scope.launch {
                             runCatching {
                                 withContext(Dispatchers.IO) {
-                                    val recoveryDirectoryUri = repository.initialize(identity, treeUri)
-                                    storageConfig.saveTreeUri(treeUri)
-                                    recoveryRepository.exportToDirectory(
-                                        directoryUri = recoveryDirectoryUri,
-                                        payload = identityStore.toRecoveryPayload(),
-                                        password = recoveryPassword.toCharArray(),
-                                    )
+                                    val initialized = repository.initialize(identity, selectedKind)
+                                    val password = recoveryPassword.toCharArray()
+                                    try {
+                                        val artifact = recoveryRepository.exportToFile(
+                                            directory = initialized.recoveryDirectory,
+                                            payload = identityStore.toRecoveryPayload(),
+                                            password = password,
+                                        )
+                                        check(artifact.isFile && artifact.length() > 0L) {
+                                            "recovery artifact verification failed"
+                                        }
+                                        storageConfig.saveKind(selectedKind)
+                                    } finally {
+                                        password.fill('\u0000')
+                                    }
                                 }
                             }.onSuccess {
                                 recoveryPassword = ""
                                 busy = false
-                                status = "B Λ R E storage and recovery package are ready."
+                                status = "BaRe storage + recovery artifact siap."
                                 onContinue()
                             }.onFailure { error ->
                                 busy = false
