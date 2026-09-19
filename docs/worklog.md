@@ -1426,3 +1426,23 @@ Pengguna memberikan **GO** setelah mengunci arah Home: header brand centered men
 - GitHub Actions status untuk commit final belum tersedia melalui connector pada saat pencatatan ini; build karena itu **UNVERIFIED**.
 - Device/runtime Home verification belum dilakukan.
 - Tidak ada perubahan pada `master`.
+
+## 2026-09-19 — Debug APK Build Fix: Home Icon Compatibility
+
+### Incident
+Build channel dilaporkan merah setelah implementasi Home Dashboard. Karena workflow status untuk commit sebelumnya tidak dapat dibaca melalui connector pada sesi ini, source dilakukan static inspection terhadap dependency `material-icons-extended` dan penggunaan icon pada Home.
+
+### Fix
+- Mengganti icon Home yang paling berisiko terhadap availability/version mismatch:
+  - Access `Security` → `Settings`
+  - Backup → `CloudUpload`
+  - Restore → `CloudDownload`
+  - Wallpapers → `Image`
+- Tidak mengubah layout, routing, storage logic, atau product scope Home.
+- Tidak mengubah `master`.
+
+### Verification Truth
+- Source fix: **IMPLEMENTED / COMMITTED**.
+- Local/connector build execution: **NOT AVAILABLE** pada sesi ini.
+- GitHub Actions result untuk commit fix: **PENDING / UNVERIFIED**.
+- Target verifikasi: `:app:assembleDebug` harus SUCCESS.
