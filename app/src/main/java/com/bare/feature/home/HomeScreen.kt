@@ -72,7 +72,7 @@ fun HomeScreen(
                     CompactStatus(
                         title = stringResource(R.string.access),
                         value = accessLabel,
-                        icon = Icons.Default.Security,
+                        icon = Icons.Default.Settings,
                         modifier = Modifier.weight(1f).clickable { onOpenAccessMethod() },
                     )
                 }
@@ -142,12 +142,12 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_apps),
-                icon = Icons.Default.Backup,
+                icon = Icons.Default.CloudUpload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
-                icon = Icons.Default.Restore,
+                icon = Icons.Default.CloudDownload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
         }
@@ -203,7 +203,7 @@ private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
         Triple(stringResource(R.string.call_logs), Icons.Default.Call, Screen.CALL_LOGS),
         Triple(stringResource(R.string.folders), Icons.Default.Folder, Screen.FOLDERS),
         Triple(stringResource(R.string.wifi), Icons.Default.Wifi, Screen.WIFI),
-        Triple(stringResource(R.string.wallpapers), Icons.Default.Wallpaper, Screen.WALLPAPERS),
+        Triple(stringResource(R.string.wallpapers), Icons.Default.Image, Screen.WALLPAPERS),
     )
     Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
         areas.chunked(3).forEach { row ->
