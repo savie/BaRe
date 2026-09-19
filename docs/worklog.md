@@ -1446,3 +1446,20 @@ Build channel dilaporkan merah setelah implementasi Home Dashboard. Karena workf
 - Local/connector build execution: **NOT AVAILABLE** pada sesi ini.
 - GitHub Actions result untuk commit fix: **PENDING / UNVERIFIED**.
 - Target verifikasi: `:app:assembleDebug` harus SUCCESS.
+
+
+## 2026-09-19 — Debug Build Recovery: Home Compose Compatibility
+
+### Incident
+Build channel masih dilaporkan merah setelah fix icon sebelumnya. Exact CI log belum tersedia melalui connector, sehingga diagnosis langsung dari failed job masih **BLOCKED**.
+
+### Fix
+- Menyederhanakan LinearProgressIndicator Home ke overload `progress: Float` yang lebih konservatif terhadap Material3 version compatibility.
+- Mengganti icon Restore data ke `Icons.Default.Download` untuk mengurangi dependency terhadap symbol yang berpotensi mismatch.
+- Scope tetap terbatas pada build compatibility; tidak mengubah routing atau product behavior yang lain.
+
+### Verification Truth
+- Source fix: **IMPLEMENTED / COMMITTED** pada `ab28cbf1e45ede700359afd827acc7b804afd238`.
+- Local build: **BLOCKED** karena environment tidak memiliki akses network/dependency cache.
+- GitHub Actions build result: **UNVERIFIED**.
+- Target: `:app:assembleDebug` SUCCESS.
