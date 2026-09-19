@@ -19,8 +19,21 @@ data class BackupStorage(
 class BackupStorageRepository(private val context: Context) {
     fun inspect(identityId: String): List<BackupStorage> = buildList {
         add(internalStorage(identityId))
-        addAll(removableStorages(identityId))
-        add(BackupStorage(BackupStorage.Kind.REMOTE, "Remote storage", "Cloud provider", false, false))
+        val removable = removableStorages(identityId)
+        if (removable.isEmpty()) {
+            add(
+                BackupStorage(
+                    kind = BackupStorage.Kind.EXTERNAL,
+                    displayName = "External storage",
+                    path = "",
+                    available = false,
+                    writable = false,
+                )
+            )
+        } else {
+            addAll(removable)
+        }
+        add(BackupStorage(BackupStorage.Kind.REMOTE, "Cloud storage", "Cloud provider", false, false))
     }
 
     fun internalStorage(identityId: String): BackupStorage {
