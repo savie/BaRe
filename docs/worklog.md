@@ -1335,3 +1335,22 @@ Pengguna memberikan **GO** untuk mengubah behavior External storage sesuai inten
 ### Berikutnya
 - Lanjutkan capability berikutnya yang tidak bergantung pada authentication/cloud.
 - Cloud/account flow dapat digarap kembali ketika authentication/account foundation sudah menjadi prioritas.
+
+## 2026-09-19 — Design Decision: Flow Header dan Actual Storage Information
+
+### User Decision / Authorization
+Pengguna menyetujui dan memberikan **GO** untuk menerapkan refinement pada flow onboarding/account tanpa menyentuh Home atau 4 tab utama.
+
+### Keputusan
+- Seluruh flow menggunakan top bar dengan format **← Title**.
+- `Backup storage` harus menampilkan informasi **actual runtime**, bukan mockup: free/total storage, usage, progress bar, dan folder location untuk storage yang tersedia.
+- External storage tetap visible saat tidak terhubung dan menampilkan state aktual `Not connected`; saat removable storage terhubung, kapasitas dan path berasal dari volume aktual.
+- Cloud tetap visible dan menggunakan state account/provider yang sesuai; detail kapasitas hanya ditampilkan bila data provider benar-benar tersedia.
+- `Access method` menggunakan product-facing copy. Runtime capability yang sudah proven tetap dipertahankan; kondisi non-root perlu dijelaskan dengan copy yang lebih jelas dan tidak menggunakan wording internal/developer seperti `mockup-only`.
+- Home dan 4 tab utama **out of scope** untuk perubahan ini.
+
+### Scope Boundary
+Perubahan ini hanya mencakup Welcome → account flow → Backup storage → Access method serta komponen pendukung yang diperlukan. Tidak ada perubahan Home atau navigasi 4 tab utama.
+
+### Verification Target
+Setelah implementation, build/CI harus diverifikasi. Runtime storage information wajib dibuktikan dari device sebelum dianggap runtime verified; tidak boleh menggunakan nilai mockup.
