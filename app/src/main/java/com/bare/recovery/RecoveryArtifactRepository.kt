@@ -63,6 +63,11 @@ class RecoveryArtifactRepository(
             "recovery directory is not writable"
         }
 
+        directory.findFile(fileName)?.let { existing ->
+            if (existing.isFile) {
+                runCatching { existing.delete() }
+            }
+        }
         val partial = directory.createFile("application/octet-stream", "$fileName.partial")
             ?: throw IOException("unable to create recovery artifact")
         try {
