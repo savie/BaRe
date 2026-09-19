@@ -3,6 +3,7 @@ package com.bare.recovery
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.DocumentsContract
+import androidx.documentfile.provider.DocumentFile
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -45,6 +46,37 @@ class RecoveryArtifactRepository(
                 ?: throw IOException("unable to finalize recovery artifact")
         } catch (error: Throwable) {
             runCatching { DocumentsContract.deleteDocument(contentResolver, partialUri) }
+            throw error
+        }
+    }
+
+    fun exportToDirectory(
+        directoryUri: Uri,
+        payload: RecoveryPackageCodec.Payload,
+        password: CharArray,
+        fileName: String = "bare-recovery-v1.bare",
+    ): Uri {
+        require(directoryUri.scheme == "content") { "recovery directory must be a content URI" }
+        val directory = DocumentFile.fromSingleUri(contentResolver, directoryUri)
+            ?: throw IOException("recovery directory is unavailable")
+        require(directory.isDirectory && directory.canWrite()) {
+            "recovery directory is not writable"
+        }
+
+        val partial = directory.createFile("application/octet-stream", "$fileName.partial")
+            ?: throw IOException("unable to create recovery artifact")
+        try {
+            val bytes = RecoveryPackageCodec.encode(payload, password)
+            contentResolver.openOutputStream(partial.uri, "w")?.use { output ->
+                output.write(bytes)
+                output.flush()
+            } ?: throw IOException("unable to open recovery artifact for writing")
+
+            RecoveryPackageCodec.decode(read(partial.uri), password)
+            return DocumentsContract.renameDocument(contentResolver, partial.uri, fileName)
+                ?: throw IOException("unable to finalize recovery artifact")
+        } catch (error: Throwable) {
+            runCatching { DocumentsContract.deleteDocument(contentResolver, partial.uri) }
             throw error
         }
     }
