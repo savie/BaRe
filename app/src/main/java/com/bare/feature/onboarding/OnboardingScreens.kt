@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import kotlin.math.roundToInt
+import java.security.SecureRandom
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -47,6 +48,11 @@ import kotlinx.coroutines.withContext
 
 private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
+private const val RECOVERY_SECRET_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"
+
+private fun generateRecoverySecret(random: SecureRandom = SecureRandom()): CharArray {
+    return CharArray(48) { RECOVERY_SECRET_ALPHABET[random.nextInt(RECOVERY_SECRET_ALPHABET.length)] }
+}
 
 @Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
@@ -372,11 +378,8 @@ fun StorageSetupScreen(
         if (internal != null) {
             StorageCard(
                 title = internal.displayName,
-                subtitle = if (selectedStorageKind == internal.kind) {
-                    stringResource(R.string.internal_storage_selected_description)
-                } else {
-                    stringResource(R.string.internal_storage_description)
-                },
+                subtitle = "",
+
                 selected = selectedStorageKind == internal.kind,
                 enabled = internal.available,
                 totalBytes = internal.totalBytes,
@@ -393,10 +396,8 @@ fun StorageSetupScreen(
                 title = external.displayName,
                 subtitle = if (!external.available) {
                     stringResource(R.string.external_storage_not_mounted)
-                } else if (selectedStorageKind == external.kind) {
-                    stringResource(R.string.external_storage_selected_description)
                 } else {
-                    stringResource(R.string.external_storage_description)
+                    ""
                 },
                 selected = selectedStorageKind == external.kind,
                 enabled = external.available,
@@ -406,21 +407,6 @@ fun StorageSetupScreen(
                     selectedStorageKind = external.kind
                     status = null
                 },
-            )
-        }
-
-        if (identityId != null) {
-            OutlinedTextField(
-                value = recoveryPassword,
-                onValueChange = { recoveryPassword = it },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.recovery_password)) },
-                supportingText = {
-                    Text(stringResource(R.string.recovery_password_setup_description))
-                },
-                visualTransformation = PasswordVisualTransformation(),
-                singleLine = true,
-                enabled = !busy,
             )
         }
 
@@ -436,8 +422,6 @@ fun StorageSetupScreen(
             onClick = {
                 when {
                     identityId.isNullOrBlank() -> onContinue()
-                    recoveryPassword.length < 8 ->
-                        status = context.getString(R.string.password_too_short)
                     !repository.canInitialize(selectedStorageKind) ->
                         requestStorageAccess()
                     else -> {
@@ -449,7 +433,7 @@ fun StorageSetupScreen(
                             runCatching {
                                 withContext(Dispatchers.IO) {
                                     val initialized = repository.initialize(identity, selectedKind)
-                                    val password = recoveryPassword.toCharArray()
+                                    val password = generateRecoverySecret()
                                     try {
                                         val artifact = recoveryRepository.exportToFile(
                                             directory = initialized.recoveryDirectory,
@@ -465,7 +449,6 @@ fun StorageSetupScreen(
                                     }
                                 }
                             }.onSuccess {
-                                recoveryPassword = ""
                                 busy = false
                                 status = context.getString(R.string.storage_setup_ready)
                                 onContinue()
@@ -533,8 +516,10 @@ private fun StorageCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
-                Spacer(Modifier.height(4.dp))
-                Text(subtitle, style = MaterialTheme.typography.bodySmall)
+                if (subtitle.isNotBlank()) {
+                    Spacer(Modifier.height(4.dp))
+                    Text(subtitle, style = MaterialTheme.typography.bodySmall)
+                }
             }
             if (selected) {
                 RadioButton(
