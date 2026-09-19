@@ -57,6 +57,7 @@
     <string name="enter_bare">Enter B Λ R E</string>
 
     <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
     <string name="home_summary">Device, backup, restore, storage, cloud, and capability state at a glance.</string>
     <string name="access">Access</string>
     <string name="account">Account</string>
