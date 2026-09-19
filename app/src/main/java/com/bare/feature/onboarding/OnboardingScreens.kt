@@ -1,5 +1,8 @@
 package com.bare.feature.onboarding
 
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,6 +32,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.bare.app.AccessMethod
+import com.bare.app.LocalIdentityStore
+import com.bare.recovery.RecoveryArtifactRepository
+import com.bare.storage.StorageConfigurationStore
 import com.bare.app.IdentityType
 import com.bare.R
 
@@ -303,11 +309,42 @@ fun StorageSetupScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val repository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
+    val identityStore = remember(context) { LocalIdentityStore(context) }
+    val recoveryRepository = remember(context) { RecoveryArtifactRepository(context.contentResolver) }
+    val storageConfig = remember(context) { StorageConfigurationStore(context) }
+    val scope = rememberCoroutineScope()
+
+    var selectedTreeUri by remember(identityId) {
+        mutableStateOf(storageConfig.loadTreeUri())
+    }
+    var recoveryPassword by remember { mutableStateOf("") }
+    var status by remember { mutableStateOf<String?>(null) }
+    var busy by remember { mutableStateOf(false) }
+
+    val treePicker = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocumentTree(),
+    ) { uri ->
+        if (uri != null) {
+            selectedTreeUri = uri
+            runCatching {
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
+                )
+            }.onSuccess {
+                status = "Storage folder selected."
+            }.onFailure {
+                selectedTreeUri = null
+                status = "B Λ R E could not keep access to that folder."
+            }
+        }
+    }
+
     val storages = remember(identityId) {
         if (identityId.isNullOrBlank()) emptyList() else repository.inspect(identityId)
     }
-    var selectedPath by remember(storages) {
-        mutableStateOf(storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }?.path)
+    val internal = storages.firstOrNull {
+        it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL
     }
 
     Column(
@@ -317,27 +354,31 @@ fun StorageSetupScreen(
         FlowTopBar(title = stringResource(R.string.backup_storage), onBack = onBack)
         FlowDescription(stringResource(R.string.storage_setup_description))
 
-        storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }.forEach { storage ->
+        if (internal != null) {
             StorageCard(
-                title = storage.displayName,
-                subtitle = storage.path,
-                selected = selectedPath == storage.path,
-                enabled = storage.available,
-                totalBytes = storage.totalBytes,
-                freeBytes = storage.freeBytes,
-                onClick = { selectedPath = storage.path },
+                title = internal.displayName,
+                subtitle = selectedTreeUri?.let { "Storage folder selected" }
+                    ?: "Choose a folder where B Λ R E will create its storage",
+                selected = selectedTreeUri != null,
+                enabled = internal.available,
+                totalBytes = internal.totalBytes,
+                freeBytes = internal.freeBytes,
+                onClick = { treePicker.launch(null) },
             )
         }
 
-        storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }.forEach { storage ->
-            StorageCard(
-                title = storage.displayName,
-                subtitle = if (storage.available) storage.path else stringResource(R.string.storage_not_connected),
-                selected = selectedPath == storage.path && storage.available,
-                enabled = storage.available,
-                totalBytes = storage.totalBytes,
-                freeBytes = storage.freeBytes,
-                onClick = { selectedPath = storage.path },
+        if (identityId != null) {
+            OutlinedTextField(
+                value = recoveryPassword,
+                onValueChange = { recoveryPassword = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.recovery_password)) },
+                supportingText = {
+                    Text(stringResource(R.string.recovery_password_setup_description))
+                },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                enabled = !busy,
             )
         }
 
@@ -350,10 +391,51 @@ fun StorageSetupScreen(
         )
 
         Button(
-            onClick = onContinue,
-            enabled = selectedPath != null,
+            onClick = {
+                when {
+                    identityId.isNullOrBlank() -> onContinue()
+                    selectedTreeUri == null -> treePicker.launch(null)
+                    recoveryPassword.length < 8 ->
+                        status = context.getString(R.string.password_too_short)
+                    else -> {
+                        busy = true
+                        status = null
+                        val identity = identityId
+                        val treeUri = selectedTreeUri!!
+                        scope.launch {
+                            runCatching {
+                                withContext(Dispatchers.IO) {
+                                    val recoveryDirectoryUri = repository.initialize(identity, treeUri)
+                                    storageConfig.saveTreeUri(treeUri)
+                                    recoveryRepository.exportToDirectory(
+                                        directoryUri = recoveryDirectoryUri,
+                                        payload = identityStore.toRecoveryPayload(),
+                                        password = recoveryPassword.toCharArray(),
+                                    )
+                                }
+                            }.onSuccess {
+                                recoveryPassword = ""
+                                busy = false
+                                status = "B Λ R E storage and recovery package are ready."
+                                onContinue()
+                            }.onFailure { error ->
+                                busy = false
+                                status = "Storage setup failed: " +
+                                    (error.message ?: "unable to initialize storage")
+                            }
+                        }
+                    }
+                }
+            },
+            enabled = !busy,
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(stringResource(R.string.continue_label)) }
+        ) {
+            Text(if (busy) "Preparing storage…" else stringResource(R.string.continue_label))
+        }
+
+        status?.let {
+            Text(it, style = MaterialTheme.typography.bodyMedium)
+        }
     }
 }
 
