@@ -1276,3 +1276,38 @@ Pengguna mengonfirmasi bahwa **Cloud harus tetap tampil** pada Backup storage me
 - Local → existing authentication → Cloud: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
 - Account → Cloud: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
 - Cloud provider connection/transfer: **NOT IMPLEMENTED**.
+
+## 2026-09-19 — External Storage Tetap Visible Saat Tidak Terhubung
+
+### Authorization
+Pengguna memberikan **GO** untuk mengubah behavior External storage sesuai intent: opsi External tetap dibuat sebagai UI state ketika tidak ada USB OTG/MMC, dengan `available = false` dan status **Not connected**.
+
+### Perubahan
+- `BackupStorageRepository` sekarang selalu mengembalikan satu entry External ketika tidak ada removable storage yang mounted.
+- Entry disconnected menggunakan state `available = false` dan `writable = false`; tidak dianggap sebagai storage yang siap dipakai.
+- Ketika removable storage terdeteksi dan mounted, entry External menggunakan volume aktual dan path backup pada volume tersebut.
+- Storage Setup menampilkan **External storage** tetap pada kondisi disconnected dengan subtitle **Not connected**.
+- Card External yang disconnected tidak dapat dipilih/ditetapkan sebagai repository.
+- Cloud tetap visible sebagai entry terpisah dan tidak dipengaruhi oleh ada/tidaknya external hardware.
+
+### Incident dan Recovery
+- CI run **#304** gagal pada resource merge karena duplicate `external_storage` string.
+- Root cause dikonfirmasi dari AAPT/resource merger.
+- Duplicate resource dihapus tanpa mengubah behavior yang diminta.
+
+### Verifikasi
+- CI run **#305** untuk commit `93b98382bd0efb4ef340a1e92758e51e65ec85ee`: **COMPLETED / SUCCESS**.
+- External disconnected UI behavior: **CI VERIFIED** untuk source/build.
+- Runtime device untuk kondisi tanpa USB OTG/MMC: **USER-OBSERVED sebelumnya bahwa External tidak tampil; behavior baru belum runtime-verified**.
+- Runtime detection saat USB OTG/MMC dipasang: **UNVERIFIED**.
+
+### Status Truth
+- External option model: **IMPLEMENTED / CI VERIFIED**.
+- Disconnected state: **IMPLEMENTED / CI VERIFIED**.
+- Mounted removable detection: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
+- Cloud visibility/account gate: **IMPLEMENTED / CI VERIFIED, runtime UNVERIFIED**.
+
+### Berikutnya
+- Install APK hasil build terbaru ke device.
+- Verifikasi External tetap tampil sebagai **Not connected** tanpa USB/MMC.
+- Hubungkan USB OTG/MMC dan verifikasi state berubah menjadi storage yang dapat dipilih serta path backup terbentuk sesuai volume.
