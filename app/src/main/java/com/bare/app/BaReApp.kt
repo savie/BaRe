@@ -53,7 +53,7 @@ fun BaReApp() {
             }
         )
     }
-    var selectedMethod by remember { mutableStateOf<AccessMethod?>(null) }
+    var selectedMethod by remember { mutableStateOf<AccessMethod?>(identityStore.loadAccessMethod()) }
     var accessError by remember { mutableStateOf<String?>(null) }
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
@@ -141,7 +141,7 @@ fun BaReApp() {
                 )
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
-                    { selectedMethod = it; accessError = null },
+                    { selectedMethod = it; identityStore.saveAccessMethod(it); accessError = null },
                     {
                         val method = selectedMethod
                         if (method != null) scope.launch(Dispatchers.IO) {
@@ -163,8 +163,11 @@ fun BaReApp() {
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
-                    { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } }, { selectedApp = it; screen = Screen.APP_DETAIL },
-                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT
+                    { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
+                    { selectedApp = it; screen = Screen.APP_DETAIL },
+                    { startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
+                    { startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
+                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod
                 )
             }
         }
@@ -183,10 +186,14 @@ private fun MainShell(
     onTabSelected: (Int) -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
+    onOpenStorage: () -> Unit,
+    onOpenAccessMethod: () -> Unit,
     screen: Screen,
     selectedApp: AppItem?,
     onBack: () -> Unit,
     hasAccount: Boolean,
+    accountEmail: String,
+    accessMethod: AccessMethod?,
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
@@ -210,7 +217,7 @@ private fun MainShell(
                         horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "BARE",
+                            text = "B Λ R E",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = androidx.compose.ui.text.font.FontWeight.Light,
                             letterSpacing = 8.sp,
@@ -242,7 +249,15 @@ private fun MainShell(
     ) { padding ->
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize().padding(padding)) { page ->
             when (tabs[page]) {
-                Tab.HOME -> HomeScreen(onOpenScreen)
+                Tab.HOME -> HomeScreen(
+                    identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
+                    accountEmail = accountEmail,
+                    accessMethod = accessMethod,
+                    onOpen = onOpenScreen,
+                    onOpenTab = onTabSelected,
+                    onOpenAccessMethod = onOpenAccessMethod,
+                    onOpenStorage = onOpenStorage,
+                )
                 Tab.APPS -> AppsScreen(onOpenScreen, onOpenApp)
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
                 Tab.ACCOUNT -> AccountScreen(onOpenScreen)
