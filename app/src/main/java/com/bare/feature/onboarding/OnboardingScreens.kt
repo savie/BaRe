@@ -346,12 +346,13 @@ fun StorageSetupScreen(
     val allFilesSettings = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
     ) {
-        status = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
             Environment.isExternalStorageManager()
         ) {
-            context.getString(R.string.file_access_enabled)
+            status = context.getString(R.string.file_access_enabled)
+            if (identityId.isNullOrBlank()) onContinue()
         } else {
-            context.getString(R.string.file_access_required)
+            status = context.getString(R.string.file_access_required)
         }
     }
 
@@ -420,7 +421,15 @@ fun StorageSetupScreen(
         Button(
             onClick = {
                 when {
-                    identityId.isNullOrBlank() -> onContinue()
+                    identityId.isNullOrBlank() -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+                            !Environment.isExternalStorageManager()
+                        ) {
+                            requestStorageAccess()
+                        } else {
+                            onContinue()
+                        }
+                    }
                     !repository.canInitialize(selectedStorageKind) ->
                         requestStorageAccess()
                     else -> {
