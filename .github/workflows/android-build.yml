@@ -151,3 +151,5 @@ jobs:
           name: BaRe-v${{ env.BARE_VERSION_NAME }}-build-${{ env.BARE_VERSION_CODE }}
           path: ${{ env.BARE_VERSIONED_APK_PATH }}
           if-no-files-found: error
+
+# CI trigger: validate current v1.0/rebaseline source after build fixes.
