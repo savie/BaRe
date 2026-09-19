@@ -53,6 +53,18 @@
     <string name="storage_not_connected">Not connected</string>
     <string name="selected">Selected</string>
     <string name="continue_label">Continue</string>
+    <string name="internal_storage_selected_description">BaRe will create its storage folders on internal storage.</string>
+    <string name="internal_storage_description">Use internal storage for BaRe.</string>
+    <string name="external_storage_not_mounted">External storage is not mounted.</string>
+    <string name="external_storage_selected_description">BaRe will create its storage folders on external storage.</string>
+    <string name="external_storage_description">Use removable storage for BaRe.</string>
+    <string name="file_access_enabled">File access enabled. Press Continue again.</string>
+    <string name="file_access_required">File access is still required for canonical BaRe storage.</string>
+    <string name="storage_access_unavailable">Storage access is unavailable on this Android version.</string>
+    <string name="storage_setup_ready">BaRe storage and recovery package are ready.</string>
+    <string name="storage_setup_failed">Storage setup failed: %1$s</string>
+    <string name="unable_to_initialize_storage">unable to initialize storage</string>
+    <string name="preparing_storage">Preparing storage…</string>
 
     <string name="access_method">Access method</string>
     <string name="access_method_description">Choose how B Λ R E accesses your device.</string>
