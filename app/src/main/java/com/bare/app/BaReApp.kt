@@ -35,6 +35,8 @@ import com.bare.feature.misc.GenericDomainScreen
 import com.bare.feature.misc.MiscScreen
 import com.bare.feature.misc.SearchScreen
 import com.bare.feature.onboarding.*
+import com.bare.storage.BackupStorage
+import com.bare.storage.StorageConfigurationStore
 import com.bare.feature.schedules.SchedulesScreen
 import com.bare.ui.theme.BaReTheme
 import kotlinx.coroutines.Dispatchers
@@ -169,8 +171,21 @@ fun BaReApp() {
                                         val identity = identityStore.loadOrRecover()
                                             ?: identityStore.createLocalIdentity()
                                         identityType = identity.type
-                                        initialIdentityPending = false
-                                        startScreen = StartScreen.STORAGE_SETUP
+                                        val selectedStorageKind = StorageConfigurationStore(context).loadKind()
+                                            ?: BackupStorage.Kind.INTERNAL
+                                        runCatching {
+                                            initializeStorageForIdentity(
+                                                context = context,
+                                                identityId = identity.identityId,
+                                                selectedStorageKind = selectedStorageKind,
+                                            )
+                                        }.onSuccess {
+                                            initialIdentityPending = false
+                                            identityStore.markSetupComplete()
+                                            startScreen = StartScreen.APP
+                                        }.onFailure { error ->
+                                            accessError = error.message ?: "storage initialization failed"
+                                        }
                                     } else {
                                         identityStore.markSetupComplete()
                                         startScreen = StartScreen.APP
