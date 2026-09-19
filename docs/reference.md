@@ -1618,3 +1618,191 @@ REFERENCE RUNTIME VERIFICATION
 * **BaRe FE implementation:** CURRENT SHELL IMPLEMENTED; capability backend/runtime remains UNVERIFIED
 * **Reference reconciliation:** RECORDED IN SECTION 19
 * **Next use:** turunkan kontrak/model *state* FE BaRe dari *reference* yang telah direkonsiliasi ini, kemudian implementasikan hanya setelah kontrak *capability* dan jalur verifikasi didefinisikan.
+
+
+---
+
+## 22. Targeted audit — Swift Backup local identity / account continuity (2026-09-19)
+
+Bagian ini mencatat hasil targeted static audit terhadap `SwiftBackup-5.1.0-620-decompiled.zip` yang difokuskan pada pertanyaan baru: bagaimana reference mempertahankan namespace/account lokal dan apa yang dapat dijadikan acuan desain continuity BaRe.
+
+**Scope boundary:** bagian ini masih berada pada domain **Account / Identity / continuity**, bukan Apps restore implementation. Reference runtime tetap `NOT PERFORMED`.
+
+### 22.1 Temuan identifier pada UI vs storage
+
+`Swift Backup` menampilkan nilai seperti:
+
+```text
+DEVICE
+24069PC21G
+```
+
+Pada perangkat uji, `24069PC21G` juga muncul pada property:
+
+```text
+ro.product.vendor_dlkm.model = 24069PC21G
+```
+
+Karena nilainya berbentuk model/product identifier, nilai tersebut **tidak boleh diperlakukan sebagai unique Device ID**. Status: `OBSERVED` untuk property/model correlation; status sebagai Swift Device ID internal: `UNKNOWN`.
+
+Folder account yang diamati:
+
+```text
+SwiftBackup/accounts/79b59739d9f9eb13/
+```
+
+Nilai `79b59739d9f9eb13` tidak sama dengan `Settings.Secure.ANDROID_ID` pada perangkat uji. Status: `OBSERVED`.
+
+### 22.2 Temuan mekanisme local/account namespace
+
+Static decompiled evidence menunjukkan pola berikut pada reference:
+
+```text
+LOCAL / anonymous user identity
+        ↓
+local UID
+        ↓
+MD5(local UID)
+        ↓
+ambil 1/2 panjang hash
+        ↓
+16 karakter hex
+        ↓
+account storage namespace
+```
+
+Dengan demikian bentuk:
+
+```text
+79b59739d9f9eb13
+```
+
+konsisten dengan **16-character hex derived namespace**.
+
+Pada jalur local/anonymous, evidence statis juga menunjukkan generator identity/UID yang terkait dengan **application signing certificate identity** melalui mekanisme hashing/transformasi internal reference. Ini berarti local identity reference bersifat **deterministik terhadap application identity**, bukan evidence bahwa reference mengambil IMEI/serial/MAC sebagai canonical Device ID.
+
+**Klasifikasi:** `OBSERVED_STATIC` untuk struktur derivasi; `INFERRED` untuk interpretasi bahwa tujuan utamanya adalah menyediakan deterministic local namespace.
+
+### 22.3 Hal yang belum boleh disimpulkan
+
+Audit ini **tidak** membuktikan bahwa:
+
+```text
+format / factory reset / ROM replacement
+        ↓
+selalu mempertahankan local identity reference
+```
+
+Audit juga tidak membuktikan bahwa `79b59739d9f9eb13` adalah:
+
+* hardware identifier;
+* Android `ANDROID_ID`;
+* canonical account ID;
+* unique physical-device ID.
+
+Perilaku runtime reference untuk skenario tersebut tetap `UNKNOWN / UNVERIFIED`.
+
+### 22.4 Reference-derived engineering implications untuk BaRe
+
+Bagian ini adalah **reference-derived implication**, bukan `DECISION` BaRe.
+
+Pelajaran yang relevan:
+
+```text
+Canonical BaRe Identity
+        ↓
+deterministic / derived storage namespace
+        ↓
+backup repository
+```
+
+Artinya nama folder/namespace storage **tidak harus menjadi canonical identity**. Namespace dapat diturunkan dari canonical identity sehingga:
+
+* tidak mengekspos ID mentah;
+* memiliki format stabil;
+* dapat direkonstruksi ketika canonical identity berhasil dipulihkan;
+* tidak bergantung langsung pada nama/model perangkat.
+
+Model ID BaRe tetap perlu dipisahkan menjadi:
+
+```text
+BaRe ID          = logical Account identity
+Device Identity  = device continuity/security context
+Installation ID  = satu instalasi aplikasi
+Account ID       = backend binding (jika online)
+Recovery Anchor  = bukti continuity/recovery
+```
+
+Reference menunjukkan nilai tambah dari **deterministic local identity/namespace**, tetapi tidak menjadi alasan untuk menjadikan signing certificate, model device, IMEI, serial, MAC, atau hardware fingerprint sebagai canonical BaRe ID.
+
+### 22.5 Continuity matrix untuk penelitian BaRe
+
+Target penelitian account/identity:
+
+```text
+Fresh install
+  → create/recover local identity
+
+Restart
+  → same BaRe ID
+
+App update
+  → same BaRe ID
+
+Uninstall / reinstall
+  → recover same local account namespace when continuity evidence exists
+
+Clear app data
+  → recovery path required
+
+Factory reset
+  → recovery path required
+
+Format / ROM replacement
+  → recovery/continuity evidence required
+
+New device
+  → account/recovery based identity resolution
+```
+
+**Key principle:**
+
+> **Persistence adalah hasil dari continuity evidence, bukan asumsi bahwa satu hardware identifier selalu tersedia atau stabil.**
+
+### 22.6 Relevance terhadap model LOCAL = ACCOUNT
+
+Reference audit ini mendukung eksplorasi model BaRe:
+
+```text
+BARE ACCOUNT
+     │
+     ├── mode = LOCAL
+     │      └── authoritative state: local
+     │
+     └── mode = ONLINE
+            └── authoritative state: remote/server
+```
+
+Perubahan `LOCAL → ONLINE` idealnya menjadi **account binding/synchronization**, bukan pembuatan identity baru. Ini masih `PROPOSAL` dan belum menjadi keputusan implementasi.
+
+### 22.7 Verification status
+
+```text
+Swift static identity mechanism
+        ↓
+OBSERVED_STATIC
+        ↓
+16-char derived account namespace
+        ↓
+OBSERVED_STATIC / INFERRED
+        ↓
+Uninstall → reinstall continuity
+        ↓
+NOT RUNTIME VERIFIED
+        ↓
+Format / ROM / factory-reset continuity
+        ↓
+UNKNOWN
+```
+
+Audit lebih lanjut tidak perlu mengulang full-tree decompilation. Target berikutnya cukup diarahkan ke item `UNKNOWN` yang material, terutama lifecycle persistence dan recovery behavior.
