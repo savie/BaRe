@@ -25,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.bare.R
 import com.bare.feature.account.AccountScreen
+import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
 import com.bare.feature.apps.AppsScreen
@@ -183,6 +184,7 @@ fun BaReApp() {
                     { selectedApp = it; screen = Screen.APP_DETAIL },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
+                    { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod
                 )
             }
@@ -204,6 +206,7 @@ private fun MainShell(
     onOpenApp: (AppItem) -> Unit,
     onOpenStorage: () -> Unit,
     onOpenAccessMethod: () -> Unit,
+    onRecoveryRestored: (BaReIdentity) -> Unit,
     screen: Screen,
     selectedApp: AppItem?,
     onBack: () -> Unit,
@@ -215,6 +218,7 @@ private fun MainShell(
         when (screen) {
             Screen.APP_DETAIL -> AppDetailScreen(selectedApp, onOpenScreen, onBack)
             Screen.APP_CONFIG -> AppConfigScreen(selectedApp, onBack)
+            Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
             else -> MiscScreen(screen, onBack)
         }
         return
