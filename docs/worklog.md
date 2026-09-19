@@ -2519,3 +2519,261 @@ Identity harus dapat direkonsiliasi dari durable external state sebelum createLo
 
 Tidak ada Home change pada audit ini.
 master: NOT TOUCHED.
+
+## 2026-09-20 — Audit File-by-File Commit e43e4ba9 → 96fb5b3f
+
+### Authorization
+
+Pengguna memberikan GO untuk melakukan audit file-by-file terhadap rangkaian commit e43e4ba9 sampai 96fb5b3f, menyusun daftar KEEP / DROP, dan mencatat hasilnya ke worklog. Scope audit tidak menghapus atau mengubah docs/reference.md.
+
+### Scope dan Boundary
+
+- Repository: savie/BaRe.
+- Branch target: v1.0/rebaseline.
+- Base pembanding: a694bef551377b802178932d40b567d9a59ece35.
+- Head audit: 96fb5b3f25a6d1f62ce789b96f68bf21b8236289.
+- Range audited: 50 commit.
+- master: NOT TOUCHED.
+- docs/reference.md: KEEP UTUH; tidak termasuk file yang berubah pada compare a694bef... → 96fb5b3f.
+- Home: tidak menjadi target audit perubahan visual.
+
+### Metode Audit
+
+Audit dilakukan terhadap:
+1. diff setiap commit pada range;
+2. file yang berubah pada keseluruhan compare;
+3. dependency antar commit;
+4. kesesuaian terhadap README dan dokumentasi canonical BaRe;
+5. reconciliation terhadap worklog sebelumnya;
+6. actual state pada HEAD 96fb5b3f.
+
+Klasifikasi:
+- KEEP — dipertahankan sebagai bagian dari baseline/reconstruction.
+- KEEP + FIX — fondasi/arah benar, tetapi implementation saat ini harus diperbaiki atau direbuild sebagian.
+- DROP — tidak dipertahankan dalam reconstruction implementation karena boundary/semantics-nya sudah digantikan atau bertentangan dengan canonical direction.
+- REBUILD — konsep berguna tetapi implementation block perlu dibuat ulang berdasarkan contract yang sudah direkonsiliasi.
+
+### Hasil Compare
+
+Compare a694bef... → 96fb5b3f menunjukkan tepat 50 commit dan 15 file yang berubah/ditambahkan.
+
+File yang berubah:
+- app/build.gradle.kts
+- app/src/main/AndroidManifest.xml
+- app/src/main/java/com/bare/app/BaReApp.kt
+- app/src/main/java/com/bare/app/LocalIdentityStore.kt
+- app/src/main/java/com/bare/capability/RootCapabilityProvider.kt
+- app/src/main/java/com/bare/feature/account/RecoveryScreen.kt
+- app/src/main/java/com/bare/feature/onboarding/OnboardingScreens.kt
+- app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt
+- app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt
+- app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt
+- app/src/main/java/com/bare/storage/BackupStorageRepository.kt
+- app/src/main/java/com/bare/storage/StorageConfigurationStore.kt
+- app/src/main/res/values/strings.xml
+- app/src/test/java/com/bare/recovery/RecoveryPackageCodecTest.kt
+- docs/worklog.md
+
+docs/reference.md tidak berubah pada compare tersebut.
+
+### A. Audit Commit 1–10
+
+| # | Commit | Hasil | Alasan |
+|---|---|---|---|
+| 1 | 097e15a9 | KEEP | Dokumentasi recovery implication dari audit Swift; tidak mengubah implementation. Evidence/history dipertahankan. |
+| 2 | c4728659 | KEEP | Audit R3–R5 dan dependency reconciliation; menjadi historical engineering evidence. |
+| 3 | e43e4ba9 | KEEP + FIX | Boundary implementation pertama: encrypted recovery codec. Fondasi crypto/container masih berguna, tetapi v1 tidak menyelesaikan automatic bootstrap dan lifecycle secret. |
+| 4 | 2ac84a02 | KEEP + FIX | Recovery artifact repository dan partial→verify→rename berguna. Canonical storage boundary kemudian berubah; portable recovery tetap relevan. |
+| 5 | 2b116dd3 | DROP | RecoveryStorageBoundaryResolver menetapkan Document Tree sebagai boundary yang kemudian tidak menjadi canonical storage direction. |
+| 6 | 264fb6df | KEEP + FIX | Verification harness crypto berguna, tetapi test cleartext-header awal salah dan dikoreksi oleh commit berikutnya. |
+| 7 | a5fa7161 | KEEP | LocalIdentityStore mendapat export payload dan conflict-safe restore. Semantics ini penting untuk reconciliation. |
+| 8 | 9ea04118 | KEEP | JUnit dependency diperlukan oleh test recovery. |
+| 9 | 3c73d24f | KEEP | Memperbaiki test cleartext-header menjadi assertion yang benar. |
+| 10 | 8aebc076 | KEEP | Worklog mencatat authorization, implementation boundary, dan verification truth. |
+
+### B. Audit Commit 11–20
+
+| # | Commit | Hasil | Alasan |
+|---|---|---|---|
+| 11 | 2d7f6d2b | KEEP + FIX | Recovery UI tetap berguna, tetapi model password manual kemudian bertentangan dengan requirement app-managed secret. |
+| 12 | 1589bd6a | KEEP | Wiring Account → Import/Export valid dan tidak bergantung pada canonical storage initialization. |
+| 13 | 7104b428 | KEEP | Verification truth dan history harus dipertahankan. |
+| 14 | 767dbd3a | KEEP | Fix type comparison yang benar. |
+| 15 | dbf9952c | KEEP | Hardening Document Tree parent URI tetap relevan untuk portable recovery export/import. |
+| 16 | a46fbd54 | KEEP | Audit pre-Home menemukan dependency dan gap yang menjadi dasar Batch A. |
+| 17 | de2b9c6c | KEEP | Persistence boundary storage tetap diperlukan; implementation target kemudian berubah dari URI menjadi storage kind. |
+| 18 | f72ac062 | DROP | Menjadikan SAF sebagai canonical storage initializer; direction ini kemudian direbaseline sebagai salah. |
+| 19 | 02204543 | DROP | Hanya mengoreksi placeholder artifact pada implementation SAF yang kemudian dibuang sebagai canonical boundary. |
+| 20 | dbcc4f6b | KEEP | DocumentFile masih dipakai oleh portable recovery artifact path. |
+
+### C. Audit Commit 21–30
+
+| # | Commit | Hasil | Alasan |
+|---|---|---|---|
+| 21 | 412a64b0 | KEEP | Export ke initialized directory melalui DocumentFile tetap berguna untuk portable recovery. |
+| 22 | e59fc5ea | DROP / REBUILD | Integrasi onboarding versi ini mengikat canonical storage ke SAF dan meminta password manual. Lifecycle intent dipertahankan untuk rebuild, implementation block tidak. |
+| 23 | 50ec80cb | DROP / REBUILD | Copy UI mengunci password manual dan setup SAF yang sudah obsolete. |
+| 24 | d4b3faf1 | KEEP | Replacement artifact melalui partial file dan cleanup adalah pola integrity/atomicity yang berguna. |
+| 25 | 7b55ad99 | DROP | Guard BaRe/BaRe spesifik terhadap SAF tree root lama. Tidak diperlukan pada canonical direct filesystem boundary. |
+| 26 | a370f170 | KEEP | Dokumentasi Batch A dan boundary verification dipertahankan sebagai historical evidence. |
+| 27 | 0869318d | KEEP | Import coroutine diperlukan oleh current onboarding flow. |
+| 28 | 3b00d501 | KEEP | Context-based DocumentFile access tetap dibutuhkan pada portable recovery repository. |
+| 29 | d3a7b7ed | KEEP | Construction repository berbasis Context sesuai current implementation. |
+| 30 | c47b7d6d | KEEP | Fix construction contentResolver yang benar. |
+
+### D. Audit Commit 31–40
+
+| # | Commit | Hasil | Alasan |
+|---|---|---|---|
+| 31 | b51c64bf | KEEP | Onboarding menggunakan repository Context-aware. |
+| 32 | c4e4a2d5 | KEEP + FIX | Root capability directory initialization merupakan dependency canonical storage; ownership/permission tetap harus diverifikasi. |
+| 33 | 66fcad5b | KEEP + FIX | Rebaseline penting: canonical storage berpindah dari SAF ke direct filesystem INTERNAL/EXTERNAL + root capability. Direction dipertahankan. |
+| 34 | ce3507b9 | KEEP | Filesystem recovery artifact export dengan partial→decode→rename cocok dengan canonical storage. |
+| 35 | c3312412 | KEEP | Persist storage target sebagai kind INTERNAL/EXTERNAL sesuai canonical storage rebaseline. |
+| 36 | 3ae36269 | KEEP | MANAGE_EXTERNAL_STORAGE dipakai current canonical storage path; statusnya tetap capability/policy dependency, bukan proof runtime write. |
+| 37 | c2e9a22c | KEEP + FIX | Menghubungkan confirmation dengan direct canonical initialization dan settings gate. |
+| 38 | a00d156a | KEEP | Documentation/copy update merekam canonical storage behavior. |
+| 39 | df546a93 | KEEP | Mencatat rebaseline canonical storage dan alasan SAF → filesystem. |
+| 40 | e1bf964c | KEEP | Fix penting agar root volume permissions tidak diubah. |
+
+### E. Audit Commit 41–50
+
+| # | Commit | Hasil | Alasan |
+|---|---|---|---|
+| 41 | 9a43ae70 | KEEP | Memperjelas handling failure dari root directory initialization. |
+| 42 | 1e4f7f01 | KEEP | Resource string dan radio selection diperlukan dan tidak mengubah canonical storage contract. |
+| 43 | 780a2681 | KEEP | Resource English storage UI diperlukan dan konsisten dengan default language. |
+| 44 | 84670fc9 | KEEP + FIX | Penghapusan password manual sesuai requirement user dan secret generation internal adalah arah benar; lifecycle secret belum selesai. |
+| 45 | 2a1de60e | KEEP | Penyederhanaan copy storage location tidak mengubah core semantics. |
+| 46 | 820d0d98 | KEEP | Menghapus obsolete recovery password state dari onboarding. |
+| 47 | 2ce9acbe | KEEP | Root-cause audit identity continuity adalah evidence kritis. |
+| 48 | d3c94a69 | KEEP + FIX | Menambahkan pre-creation artifact scan dan bootstrap identity; direction benar tetapi masih perlu lifecycle, authorization, integrity, conflict, dan secret handling. |
+| 49 | b2c0ad85 | KEEP | Test membuktikan contract v2 bootstrap identity tanpa password. |
+| 50 | 96fb5b3f | KEEP | Pure Kotlin compatibility fix; tidak mengubah semantics recovery. |
+
+## File-by-File Decision Matrix
+
+### app/build.gradle.kts — KEEP
+Pertahankan JUnit 4.13.2 dan DocumentFile. DocumentFile tetap dibutuhkan portable recovery walaupun canonical storage sudah filesystem.
+
+### app/src/main/AndroidManifest.xml — KEEP + GOVERNANCE CHECK
+Pertahankan MANAGE_EXTERNAL_STORAGE untuk current direct shared-storage architecture. Permission ini tetap harus diperlakukan sebagai capability/policy dependency dan bukan bukti runtime write. Android mendokumentasikan all-files access untuk use case seperti backup/restore, dengan batasan policy yang perlu dipenuhi.
+
+### app/src/main/java/com/bare/app/BaReApp.kt — KEEP + FIX
+Pertahankan orchestration dan recovery-aware bootstrap. Perlu explicit handling ketika artifact ada tetapi tidak dapat diverifikasi, conflict state, dan lifecycle setelah destructive app-data loss.
+
+### app/src/main/java/com/bare/app/LocalIdentityStore.kt — KEEP + FIX
+Ini file paling kritis. Pertahankan SharedPreferences sebagai local state, LOCAL identity semantics, conflict-safe restore, dan loadOrRecover(). Perlu perbaikan artifact discovery, v1/v2 handling, multiple-artifact reconciliation, dan pemisahan identity bootstrap dari full payload recovery.
+
+### app/src/main/java/com/bare/capability/RootCapabilityProvider.kt — KEEP
+ensureDirectory() diperlukan oleh canonical storage. Root hanya membuat target directory tree; tidak boleh mengubah volume root. Input validation, timeout, dan fail-closed tetap dipertahankan.
+
+### app/src/main/java/com/bare/feature/account/RecoveryScreen.kt — KEEP + FIX
+Pertahankan Account → Import/Export, portable recovery UI, import/decode, dan conflict-safe restore. Recovery secret/password lifecycle perlu diputuskan ulang dan jangan menyamakan bootstrap identity dengan full-payload recovery.
+
+### app/src/main/java/com/bare/feature/onboarding/OnboardingScreens.kt — KEEP + REBUILD BLOCK
+File tetap dipertahankan karena onboarding/storage/access-method adalah boundary sebelum Home. Pertahankan INTERNAL/EXTERNAL selection, all-files settings gate, direct filesystem initialization, artifact creation, storage-kind persistence, dan Continue setelah initialization berhasil. Rebuild secret lifecycle dan error/status handling berdasarkan verification.
+
+### app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt — KEEP + FIX
+Pertahankan portable SAF dan filesystem canonical boundary, partial write, read-back/decode, finalize, cleanup, replacement, dan import. Perlu audit crash consistency, version migration, corruption handling, dan permissions.
+
+### app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt — KEEP + FIX
+Pertahankan versioned container, PBKDF2-HMAC-SHA256, AES-256-GCM, authenticated header, validation, dan legacy v1 decode. v2 bootstrap identity adalah metadata, bukan secret. peekIdentity() memungkinkan bootstrap setelah app-data loss, tetapi full payload tetap membutuhkan key/secret. v1 tidak dapat bootstrap melalui peekIdentity(); migration harus eksplisit. Secret lifecycle masih OPEN.
+
+### app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt — DROP
+Resolver ini tidak lagi menjadi source of truth. Portable SAF tetap tersedia langsung melalui RecoveryArtifactRepository; canonical storage menggunakan filesystem.
+
+### app/src/main/java/com/bare/storage/BackupStorageRepository.kt — KEEP + FIX
+Ini canonical storage implementation. Pertahankan INTERNAL/EXTERNAL, namespace BaRe/accounts/<identity>/backups, recovery directory, root fallback, all-files detection, dan removable storage discovery. Mapping identity-folder 16 karakter tetap OPEN dan belum boleh dianggap canonical identity representation.
+
+### app/src/main/java/com/bare/storage/StorageConfigurationStore.kt — KEEP
+Persist storage kind INTERNAL/EXTERNAL sesuai canonical storage rebaseline. Tidak perlu mengembalikan tree URI sebagai canonical state.
+
+### app/src/main/res/values/strings.xml — KEEP + FIX
+Pertahankan English default resource. Rewrite hanya string yang masih mengunci semantics obsolete seperti manual password onboarding atau SAF canonical selection.
+
+### app/src/test/java/com/bare/recovery/RecoveryPackageCodecTest.kt — KEEP + EXTEND
+Pertahankan round-trip, wrong-password, tamper, dan bootstrap identity. Tambahkan v1/v2 compatibility, malformed input, bootstrap mismatch, trailing bytes, multiple-artifact reconciliation, partial/corrupt artifact, dan secret lifecycle tests.
+
+### docs/worklog.md — KEEP
+Seluruh history tetap dipertahankan dan audit ini ditambahkan sebagai continuation.
+
+### docs/reference.md — KEEP UTUH / PROTECTED
+Tidak berubah dalam audit range. Reference evidence tidak menjadi target cleanup implementation.
+
+## Final KEEP / DROP Set
+
+### KEEP
+097e15a9, c4728659, e43e4ba9 + FIX, 2ac84a02 + FIX, 264fb6df + FIX, a5fa7161, 9ea04118, 3c73d24f, 8aebc076, 2d7f6d2b + FIX, 1589bd6a, 7104b428, 767dbd3a, dbf9952c, a46fbd54, de2b9c6c, dbcc4f6b, 412a64b0, d4b3faf1, a370f170, 0869318d, 3b00d501, d3a7b7ed, c47b7d6d, b51c64bf, c4e4a2d5 + FIX, 66fcad5b + FIX, ce3507b9, c3312412, 3ae36269, c2e9a22c + FIX, a00d156a, df546a93, e1bf964c, 9a43ae70, 1e4f7f01, 780a2681, 84670fc9 + FIX, 2a1de60e, 820d0d98, 2ce9acbe, d3c94a69 + FIX, b2c0ad85, 96fb5b3f.
+
+### DROP dari reconstruction implementation
+- 2b116dd3 — canonical SAF resolver direction.
+- f72ac062 — SAF sebagai canonical storage initializer.
+- 02204543 — correction terhadap initializer SAF obsolete.
+- e59fc5ea — onboarding implementation yang mengikat canonical storage ke SAF + manual password; lifecycle intent dipertahankan untuk rebuild.
+- 50ec80cb — copy contract untuk manual-password/SAF setup.
+- 7b55ad99 — nested BaRe guard spesifik SAF.
+
+DROP berarti tidak dipilih sebagai implementation yang akan direplay/reconstruct. Commit history dan evidence tetap berada di Git; tidak ada history deletion.
+
+## Reconstructed Architecture Boundary
+
+Recovery crypto foundation
+→ Artifact repository
+→ Conflict-safe identity restore
+→ Portable recovery via SAF
+→ Canonical storage rebaseline
+→ Direct INTERNAL / EXTERNAL filesystem
+→ Root / MANAGE_EXTERNAL_STORAGE capability
+→ Pre-Home initialization
+→ App-managed recovery secret
+→ Identity bootstrap from durable .bare metadata.
+
+Yang dibuang dari reconstruction adalah SAF sebagai canonical storage boundary, bukan seluruh recovery foundation.
+
+### Current Critical Open Items
+
+1. Identity bootstrap: source implementation ada; runtime clear-data proof belum dinyatakan VERIFIED dari audit ini.
+2. Uninstall → reinstall: belum terbukti end-to-end.
+3. Recovery secret lifecycle: OPEN. Secret onboarding saat ini dibuat, dipakai untuk encryption, lalu di-zero. Ini cukup untuk bootstrap identity v2 karena identity metadata tersedia tanpa password, tetapi belum cukup untuk automatic full-payload recovery.
+4. Artifact versioning: v1 dapat didecode tetapi tidak menyediakan bootstrap identity; migration/upgrade strategy belum closed.
+5. Canonical identity namespace: current folder mapping masih derived 16-character value.
+6. Runtime verification: audit static tidak menaikkan status runtime.
+
+### Engineering Conclusion
+
+Audit result: COMPLETED — implementation range telah direkonsiliasi tanpa menghapus reference evidence.
+
+Kesimpulan utama:
+- a694bef bukan boundary “semua sesudahnya salah”.
+- e43e4ba9 adalah awal implementation recovery yang nyata.
+- Recovery crypto, artifact repository, conflict-safe restore, portable recovery, root capability, direct canonical storage, dan identity bootstrap adalah bagian yang dapat dipertahankan.
+- SAF canonical storage adalah branch implementation yang harus DROP, bukan seluruh recovery system.
+- Password manual onboarding harus DROP, sementara app-managed secret direction tetap KEEP + FIX.
+- Identity bootstrap dari .bare adalah KEEP + FIX karena langsung menjawab root cause continuity.
+- docs/reference.md dipertahankan utuh dan tidak disentuh oleh audit.
+- docs/worklog.md menerima record audit ini.
+- Tidak ada hard reset, revert massal, cherry-pick, atau perubahan implementation dilakukan sebagai bagian audit ini.
+
+### Status Truth
+
+| Area | Status |
+|---|---|
+| Commit range e43e4ba9 → 96fb5b3f audited | VERIFIED STATIC |
+| File-level decision matrix | RECORDED |
+| KEEP/DROP commit list | RECORDED |
+| reference.md preserved | VERIFIED STATIC |
+| Canonical SAF direction | DROPPED FROM RECONSTRUCTION |
+| Canonical direct filesystem direction | KEEP / CURRENT BASELINE |
+| Identity bootstrap direction | KEEP + FIX |
+| Recovery secret lifecycle | OPEN / BLOCKED FOR FULL AUTOMATIC RECOVERY |
+| Clear-data runtime continuity | NOT VERIFIED BY THIS AUDIT |
+| Uninstall/reinstall continuity | NOT VERIFIED BY THIS AUDIT |
+| master | NOT TOUCHED |
+
+### Next Authorized Boundary
+
+Audit tidak otomatis melakukan cleanup Git.
+
+Jika cleanup implementation berikutnya diotorisasi, replay/reconstruction harus dimulai dari KEEP set di atas:
+Preserve reference/history → Preserve canonical direct-storage baseline → Preserve recovery foundation → Drop obsolete SAF-canonical onboarding path → Rebuild identity bootstrap + secret lifecycle → Compile → Unit test → Runtime clear-data verification → Runtime uninstall/reinstall verification.
