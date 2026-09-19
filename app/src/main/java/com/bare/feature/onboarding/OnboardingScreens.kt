@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import kotlin.math.roundToInt
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -118,8 +119,7 @@ fun LoginScreen(
     val formValid = emailValid && passwordValid
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-        Text(stringResource(R.string.sign_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        FlowTopBar(title = stringResource(R.string.sign_in), onBack = onBack)
         Text(stringResource(R.string.sign_in_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
         OutlinedTextField(
             value = email,
@@ -183,9 +183,8 @@ fun ForgotPasswordScreen(
     val emailValid = EMAIL_PATTERN.matches(email.trim())
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        FlowTopBar(title = stringResource(R.string.reset_password), onBack = onBack)
         if (!sent) {
-            Text(stringResource(R.string.reset_password), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.reset_password_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
             OutlinedTextField(
                 value = email,
@@ -229,8 +228,7 @@ fun SignUpScreen(
     val formValid = emailValid && passwordValid && passwordsMatch
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-        Text(stringResource(R.string.create_account), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        FlowTopBar(title = stringResource(R.string.create_account), onBack = onBack)
         Text(stringResource(R.string.create_account_description))
         OutlinedTextField(
             value = email,
@@ -316,8 +314,7 @@ fun StorageSetupScreen(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-        Text(stringResource(R.string.backup_storage), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        FlowTopBar(title = stringResource(R.string.backup_storage), onBack = onBack)
         Text(stringResource(R.string.storage_setup_description))
 
         storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }.forEach { storage ->
@@ -326,6 +323,8 @@ fun StorageSetupScreen(
                 subtitle = storage.path,
                 selected = selectedPath == storage.path,
                 enabled = storage.available,
+                totalBytes = storage.totalBytes,
+                freeBytes = storage.freeBytes,
                 onClick = { selectedPath = storage.path },
             )
         }
@@ -336,12 +335,14 @@ fun StorageSetupScreen(
                 subtitle = if (storage.available) storage.path else stringResource(R.string.storage_not_connected),
                 selected = selectedPath == storage.path && storage.available,
                 enabled = storage.available,
+                totalBytes = storage.totalBytes,
+                freeBytes = storage.freeBytes,
                 onClick = { selectedPath = storage.path },
             )
         }
 
         StorageCard(
-            title = "Cloud storage",
+            title = stringResource(R.string.cloud_storage),
             subtitle = stringResource(R.string.cloud_provider),
             selected = false,
             enabled = true,
@@ -362,6 +363,8 @@ private fun StorageCard(
     subtitle: String,
     selected: Boolean,
     enabled: Boolean = true,
+    totalBytes: Long = 0L,
+    freeBytes: Long = 0L,
     onClick: () -> Unit,
 ) {
     Card(
@@ -376,6 +379,26 @@ private fun StorageCard(
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(title, fontWeight = FontWeight.Bold)
+                if (enabled && totalBytes > 0L) {
+                    val usedBytes = (totalBytes - freeBytes).coerceAtLeast(0L)
+                    val usage = (usedBytes.toDouble() / totalBytes.toDouble()).coerceIn(0.0, 1.0)
+                    Text(
+                        text = stringResource(R.string.storage_usage, formatStorageSize(freeBytes), formatStorageSize(totalBytes)),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        progress = { usage.toFloat() },
+                        modifier = Modifier.fillMaxWidth().height(5.dp),
+                    )
+                    Spacer(Modifier.height(6.dp))
+                    Text(
+                        text = stringResource(R.string.storage_used_percent, (usage * 100).roundToInt()),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Spacer(Modifier.height(4.dp))
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
             if (selected) Text(stringResource(R.string.selected), style = MaterialTheme.typography.labelMedium)
@@ -395,8 +418,7 @@ fun AccessMethodScreen(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-        Text(stringResource(R.string.access_method), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        FlowTopBar(title = stringResource(R.string.access_method), onBack = onBack)
         Text(stringResource(R.string.access_method_description))
         AccessCard(AccessMethod.NON_ROOT, selected == AccessMethod.NON_ROOT, onSelect)
         AccessCard(AccessMethod.ROOT, selected == AccessMethod.ROOT, onSelect)
@@ -411,6 +433,30 @@ fun AccessMethodScreen(
             Text(stringResource(R.string.enter_bare))
         }
     }
+}
+
+@Composable
+private fun FlowTopBar(title: String, onBack: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().height(48.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+        Text(title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+    }
+}
+
+private fun formatStorageSize(bytes: Long): String {
+    if (bytes < 1024L) return "$bytes B"
+    val units = arrayOf("KB", "MB", "GB", "TB")
+    var value = bytes.toDouble()
+    var index = -1
+    while (value >= 1024.0 && index < units.lastIndex) {
+        value /= 1024.0
+        index++
+    }
+    return if (value >= 100.0) "%.0f %s".format(java.util.Locale.US, value, units[index])
+    else "%.1f %s".format(java.util.Locale.US, value, units[index])
 }
 
 @Composable
