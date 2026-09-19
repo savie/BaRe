@@ -1647,3 +1647,79 @@ Untuk mode **LOCAL**, boundary continuity yang diharapkan adalah **device yang s
 ### Catatan Penting
 Harapan "device yang sama selalu persistent" adalah **target continuity**, bukan bukti bahwa Android menyediakan satu identifier universal yang otomatis bertahan pada seluruh kondisi tersebut. Karena itu mekanisme final harus diuji terhadap lifecycle nyata: restart, update APK, uninstall/reinstall, clear data, factory reset/format, dan ROM replacement.
 
+## 2026-09-19 — Swift Backup App-Backup Encryption Reference untuk BaRe Identity Recovery
+
+### Authorization
+
+Pengguna memberikan **GO** untuk memasukkan hasil audit artifact backup app Swift Backup ke `docs/reference.md` dan implikasi yang relevan terhadap BaRe ke `docs/worklog.md`.
+
+### Evidence
+
+Artifact yang dianalisis:
+
+- `backup_swift_com.bare.zip`
+- `SwiftBackup-5.1.0-620-decompiled.zip`
+- `data_org.swiftapps.swiftbackup.zip`
+
+Artifact `com.bare.dat` terbukti secara static memiliki container `SBA1` v2 dengan encryption method AEGIS-256, KDF Argon2id, salt/key-check/nonce material, parameter KDF, dan authentication material untuk index.
+
+Source decompile menunjukkan:
+
+- KDF SBA menggunakan Argon2id.
+- AEGIS-256 menggunakan derived key 32 byte.
+- Archive memiliki key-check; key yang tidak cocok ditolak sebagai invalid archive key.
+- Standard password strategy membentuk password material secara deterministic dari internal identity context, termasuk Firebase UID dan package context pada source yang diaudit.
+- Swift juga menyediakan user-password strategy.
+
+### Kesimpulan untuk BaRe
+
+Temuan ini memperkuat arah **portable encrypted recovery artifact** untuk LOCAL identity continuity:
+
+```text
+BaRe ID
+  │
+  ├── logical identity
+  │
+  └── Recovery Package
+        ├── encrypted identity/recovery payload
+        ├── KDF metadata
+        ├── integrity/authentication
+        └── key-check
+```
+
+Recovery package dapat ditempatkan pada `/storage/emulated/0/BaRe/` untuk kemudian dipindahkan user ke media/storage lain sebelum uninstall, factory reset, format, atau ROM replacement. File tersebut **bukan trust anchor dalam bentuk plaintext**; identity dan secret material harus terlindungi oleh encryption/authentication.
+
+### Boundary yang Dipertahankan
+
+- BaRe ID bukan encryption key.
+- BaRe ID bukan Installation ID.
+- Device Continuity evidence bukan recovery secret.
+- Recovery Package bukan canonical identity; recovery package adalah mechanism untuk membuktikan/memulihkan continuity.
+- APK signing identity bukan fondasi canonical LOCAL ID.
+- Swift tetap hanya reference; implementation BaRe tidak menyalin proprietary implementation Swift.
+
+### Status Truth
+
+- Swift artifact crypto structure: **OBSERVED_STATIC / VERIFIED_STATIC**.
+- Swift standard password derivation path: **OBSERVED_STATIC** dari decompiled source.
+- Portable encrypted recovery artifact sebagai BaRe direction: **PROPOSAL / REFERENCE-DERIVED**.
+- Final BaRe cryptographic construction: **UNDECIDED**.
+- Keystore/backup/recovery lifecycle pada device target: **UNVERIFIED**.
+- BaRe source implementation: **NOT CHANGED** pada pekerjaan ini.
+- `master`: **NOT TOUCHED**.
+
+### Next Verification
+
+Sebelum implementation final, lifecycle proof tetap diperlukan untuk:
+
+1. restart;
+2. APK update;
+3. uninstall → reinstall;
+4. clear app data;
+5. factory reset/format;
+6. ROM replacement;
+7. recovery package export/import;
+8. wrong-secret rejection;
+9. corrupted/tampered recovery package rejection;
+10. recovery identity reconciliation dengan backup directory lama.
+
