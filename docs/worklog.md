@@ -1399,3 +1399,30 @@ Pengguna memberikan **GO** setelah mengunci arah Home: header brand centered men
 - CI/build harus membuktikan source compile dan resource integrity.
 - Runtime berikutnya harus memeriksa centered header, compact one-screen Home, actual storage progress, identity routing, access routing, six feature entries, dan four quick actions.
 - Last/next backup state harus direkonsiliasi lagi setelah backup/scheduler capability mempunyai runtime evidence nyata.
+
+## 2026-09-19 — Implementasi Home Dashboard Compact
+
+### Implementasi
+- Mengganti Home mockup lama yang panjang menjadi dashboard compact satu-viewport dengan satu dashboard surface dan empat Quick Actions.
+- Header main shell sekarang menampilkan `B Λ R E` + `SAVE OUR DAY` centered dan search tetap di kanan.
+- Identity status di Home hanya menampilkan `Local` atau email account sesi; tap diarahkan ke tab **Account**.
+- Internal storage memakai actual filesystem capacity dari `BackupStorageRepository`, dengan free space, total space, usage percentage, dan progress bar.
+- Access method yang dipilih dipersist melalui `LocalIdentityStore` agar status Root/Non-root dapat dipulihkan pada startup.
+- Access status di Home menjadi entry ke existing **Access method** flow.
+- Storage status menjadi entry ke existing **Backup storage** flow, dengan return path yang mempertahankan context Main App saat user menekan Back.
+- Backup areas menjadi grid 3×2 langsung di dashboard tanpa heading terpisah: Apps, Messages, Call logs, Folders, Wi-Fi, Wallpapers.
+- Quick Actions menjadi empat action: Backup apps, Restore apps, Backup folders, Restore data.
+- Icon dipilih berdasarkan fungsi masing-masing feature/action dan tetap menggunakan Material icon language yang konsisten.
+- **More Apps Actions** sementara diarahkan ke tab Apps; secondary Apps flow belum dibuat sampai Apps flow/capability selesai.
+
+### Truth / Limitation
+- Home tidak membuat fake timestamp untuk Last Backup atau Next Backup.
+- Karena backup execution dan scheduler execution belum mempunyai runtime capability/evidence, Home saat ini menampilkan `No backups yet` dan `Not scheduled` sebagai state no-data/disabled yang jujur.
+- Last/Next Backup belum dapat dinaikkan menjadi functional runtime state sampai backup history dan scheduler capability mempunyai source-of-truth dan execution evidence.
+- Account identity/email saat ini masih berasal dari session UI; account backend/session persistence belum implemented.
+
+### Verification
+- Source changes committed pada branch `v1.0/rebaseline`.
+- GitHub Actions status untuk commit final belum tersedia melalui connector pada saat pencatatan ini; build karena itu **UNVERIFIED**.
+- Device/runtime Home verification belum dilakukan.
+- Tidak ada perubahan pada `master`.
