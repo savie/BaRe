@@ -2362,3 +2362,160 @@ Batch A is not considered device-verified until:
 - Source implementation: IMPLEMENTED STATIC.
 - CI: IN PROGRESS on latest branch commit; device runtime remains UNVERIFIED.
 - Required runtime verification: fresh LOCAL onboarding on rooted POCO F6, confirm canonical folder tree and recovery artifact exist before Access Method/Home; repeat with INTERNAL and mounted EXTERNAL where available.
+
+
+## 2026-09-19 — Audit: Identity ID Regenerates After App Data Loss / Reinstall
+
+### Intent
+Pengguna meminta audit khusus terhadap masalah paling kritis saat ini: BaRe menghasilkan identity_id baru, contoh runtime yang dilaporkan: 8b17657e-f640-4b26-8f8e-ef920877b089.
+Scope audit dibatasi pada asal identity, continuity setelah app data hilang/uninstall, dan jalur recovery/restore yang seharusnya mempertahankan identity. Tidak ada source implementation change pada audit ini.
+
+### Actual Source Flow — VERIFIED STATIC
+
+```text
+BaReApp()
+  ↓
+LocalIdentityStore.load()
+  ↓
+[tidak ada identity di SharedPreferences]
+  ↓
+WELCOME → Local confirmation
+  ↓
+LocalIdentityStore.createLocalIdentity()
+  ↓
+UUID.randomUUID()
+  ↓
+putString("identity_id", generated UUID)
+  ↓
+STORAGE_SETUP
+```
+
+Source aktual LocalIdentityStore.createLocalIdentity() adalah:
+- return load() ?: BaReIdentity(identityId = UUID.randomUUID().toString(), ...)
+- hasil UUID kemudian disimpan ke SharedPreferences bare_identity dengan key identity_id.
+
+BaReApp() hanya melakukan identityStore.load() untuk menentukan identity yang sudah ada. Tidak ada lookup identity dari public BaRe storage sebelum createLocalIdentity() dijalankan.
+
+### Root Cause — CONFIRMED STATIC
+
+Masalah utamanya bukan UUID generator. Masalahnya adalah sumber canonical identity hanya app-private SharedPreferences.
+
+Saat bare_identity masih ada:
+- load() menemukan identity lama;
+- createLocalIdentity() mengembalikan identity lama;
+- UUID baru tidak dibuat.
+
+Saat app-private state sudah hilang, load() mengembalikan null dan code secara eksplisit membuat UUID baru melalui UUID.randomUUID().
+
+Manifest saat ini juga menetapkan android:allowBackup="false".
+
+Jadi Android backup/restore bukan continuity mechanism yang tersedia untuk mengembalikan SharedPreferences bare_identity pada implementation saat ini.
+
+### Kenapa Folder BaRe yang Sudah Ada Tidak Menyelamatkan Identity
+
+Canonical storage saat ini menggunakan path:
+
+<storage-root>/BaRe/accounts/<identity-folder>/...
+
+dengan mapping:
+
+identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0').
+
+Ada dua masalah:
+
+1. Storage hanya menerima identity setelah identity dibuat. Storage tidak menjadi sumber identity pada startup.
+2. Nama folder hanya menyimpan derived 16-character value, bukan full UUID. Jadi folder existing tidak cukup untuk merekonstruksi UUID canonical secara aman.
+
+Dengan demikian alurnya sekarang adalah:
+
+```text
+App state hilang
+  ↓
+load() = null
+  ↓
+UUID baru dibuat
+  ↓
+Storage diarahkan ke namespace identity baru
+```
+
+Bukan:
+
+```text
+App state hilang
+  ↓
+scan existing BaRe identity/recovery state
+  ↓
+recover canonical identity
+  ↓
+continue with same ID
+```
+
+### Recovery Foundation Juga Belum Menutup Gap Ini
+
+RecoveryPackageCodec menyimpan identityId di payload terenkripsi. Namun codec membutuhkan CharArray password untuk decode.
+
+Pada onboarding terbaru, secret recovery dibuat internal:
+- generateRecoverySecret() menghasilkan secret;
+- secret dipakai untuk membuat artifact;
+- secret kemudian di-zero dengan password.fill('\\u0000').
+
+Secret tersebut tidak dipersist dan tidak tersedia kembali untuk automatic recovery.
+
+Akibatnya artifact recovery yang baru dibuat belum menjadi mekanisme continuity yang dapat secara otomatis dipakai setelah uninstall/reinstall.
+
+Ini juga berarti perubahan terakhir yang menghapus password manual berhasil menghilangkan friction UI, tetapi belum menyelesaikan lifecycle secret. Statusnya OPEN/BLOCKED untuk automatic recovery.
+
+### Kesalahan Arsitektur yang Teridentifikasi
+
+Identity sekarang memiliki dependency order yang terbalik untuk kebutuhan continuity:
+
+```text
+CURRENT
+Identity = app-private state
+        ↓
+Storage namespace derived from identity
+        ↓
+Recovery artifact contains identity
+```
+
+Untuk continuity setelah app-private state hilang, minimal harus ada external durable source yang dapat mengembalikan identity sebelum identity baru dibuat.
+
+Saat ini tidak ada source tersebut yang terhubung ke startup/onboarding.
+
+### Consequence
+
+Ini menjelaskan langsung kenapa user dapat melihat:
+
+identity_id = 8b17657e-f640-4b26-8f8e-ef920877b089
+
+meskipun sebelumnya sudah pernah memiliki identity lain dan folder BaRe sudah dibuat.
+
+UUID baru tersebut bukan random bug; itu adalah expected result dari implementation saat bare_identity tidak tersedia.
+
+### Status Truth
+
+| Area | Status |
+|---|---|
+| UUID generation source | VERIFIED STATIC |
+| Identity persistence in SharedPreferences | VERIFIED STATIC |
+| Identity lookup from canonical public storage before creation | MISSING |
+| Identity lookup from recovery artifact before creation | MISSING |
+| Android backup continuity | DISABLED BY MANIFEST (allowBackup=false) |
+| Existing BaRe folder as identity source | NOT IMPLEMENTED |
+| Full identity encoded in current folder name | NO; only derived 16-char mapping |
+| Automatic recovery secret lifecycle | OPEN / BLOCKED |
+| Uninstall → reinstall same identity | NOT IMPLEMENTED / NOT VERIFIED |
+| Clear data → same identity | NOT IMPLEMENTED / NOT VERIFIED |
+
+### Audit Conclusion
+
+ROOT CAUSE CONFIRMED: identity_id baru muncul karena LocalIdentityStore menganggap SharedPreferences sebagai satu-satunya durable identity source. Setelah app-private state hilang, createLocalIdentity() memang sengaja membuat UUID.randomUUID() baru. Tidak ada pre-creation reconciliation terhadap BaRe storage atau recovery state.
+
+Jadi pekerjaan yang salah bukan pada UUID generation itu sendiri, melainkan pada identity continuity architecture dan urutan bootstrap.
+
+### Required Next Engineering Boundary
+
+Identity harus dapat direkonsiliasi dari durable external state sebelum createLocalIdentity() membuat UUID baru. Desain berikutnya wajib menentukan source of truth dan recovery secret lifecycle terlebih dahulu; jangan sekadar mengganti UUID.randomUUID() dengan generator lain.
+
+Tidak ada Home change pada audit ini.
+master: NOT TOUCHED.
