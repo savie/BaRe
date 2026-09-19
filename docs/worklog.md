@@ -1478,3 +1478,43 @@ CI log menunjukkan `:app:compileDebugKotlin FAILED` karena `PreviewScreens.kt` m
 - Source fix: **IMPLEMENTED / COMMITTED** pada `869613f8f9c16994b30e5a8e61afdff0db884b99`.
 - CI rerun: **PENDING / UNVERIFIED**.
 - Target: `:app:assembleDebug` SUCCESS.
+
+## 2026-09-19 — Visual Refinement Home #318
+
+### Authorization
+Pengguna memberikan **GO** setelah review desain Home #318 dan rekonsiliasi dengan Design Lock Home yang sudah ada. Perubahan ini merupakan visual refinement; tidak mengubah content, flow, capability scope, atau product decision yang sudah dikunci.
+
+### Keputusan yang Diterapkan
+- Dashboard tetap satu **card/surface besar**; tidak membuat nested card untuk tiap bagian.
+- Dashboard memiliki grouping visual internal untuk Identity/Access, Storage, Backup status, dan feature launcher menggunakan hierarchy typography, spacing, dan divider yang subtle.
+- Brand B Λ R E pada main shell dibuat lebih berisi dengan weight yang lebih kuat, sementara SAVE OUR DAY tetap ringan dan restrained.
+- Storage progress dibuat lebih subtle; primary storage value tetap lebih dominan daripada progress bar.
+- Backup status tetap jujur sebagai No backups yet / Not scheduled dan dibuat lebih understated.
+- Format waktu BaRe tidak menetapkan AM/PM sendiri; saat actual time tersedia, formatting harus mengikuti system/device time convention.
+- Enam backup-area icon diperkecil dan diperlakukan sebagai satu kesatuan icon + label.
+- Iconography Home dan primary navigation dimodernisasi ke Material outlined icon language untuk tampilan yang lebih minimalis dan konsisten.
+- Quick Actions dibuat lebih compact tanpa menghilangkan breathing room; empat action tetap sama.
+- Vertical spacing dipertahankan cukup longgar agar Home tetap one-viewport tanpa dipaksa menjadi cramped.
+- More Apps Actions tetap menjadi secondary Apps entry dan belum membuat detail backup/restore Apps baru.
+- Bottom navigation hanya dipoles pada icon language dan branding; struktur empat tab tetap.
+- Tidak menambahkan decorative content, fake state, atau warna baru di luar visual language yang sudah ada.
+
+### Implementasi
+- feature/home/HomeScreen.kt: refinement dashboard spacing/hierarchy, subtle divider, storage bar, compact status, feature-grid icon sizing, Quick Actions sizing, dan More Apps secondary affordance.
+- app/BaReApp.kt: main-shell B Λ R E weight/spacing refinement dan outlined Search icon.
+- app/AppState.kt: primary bottom-navigation icons dipindahkan ke outlined icon language.
+
+### Verification
+- Source changes committed pada v1.0/rebaseline:
+  - Home refinement: c97ed15b2a963743f1db4aed66e6b375de6b8e76.
+  - Main shell branding/navigation: 7e2f5a50970e090fdf38a2c039ee09fc68f3ec69.
+  - Primary navigation iconography: 38bb0ee18318d5f992d12cecd7ebad0eeb6e4484.
+- GitHub Actions run **#319** untuk Home refinement: **IN_PROGRESS** saat pencatatan.
+- GitHub Actions run **#320** untuk main-shell/icon refinement: **IN_PROGRESS** saat pencatatan.
+- Build/runtime visual result: **UNVERIFIED** sampai CI selesai dan APK terbaru diuji pada device.
+- master tidak disentuh.
+
+### Berikutnya
+- Tunggu CI run #319/#320 dan rekonsiliasi hasil build.
+- Jika CI green, install APK hasil terbaru dan lakukan visual runtime verification Home pada device target.
+- Bandingkan hasil aktual terhadap Design Lock dan change set ini sebelum menyatakan visual refinement verified.
