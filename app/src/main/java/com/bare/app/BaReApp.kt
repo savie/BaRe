@@ -68,6 +68,7 @@ fun BaReApp() {
     var signUpConfirmPassword by remember { mutableStateOf("") }
     var resetEmail by remember { mutableStateOf("") }
     var showLocalConfirmation by remember { mutableStateOf(false) }
+    var initialIdentityPending by remember(restoredIdentity) { mutableStateOf(restoredIdentity == null) }
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var returnToCloudAfterAuth by remember { mutableStateOf(false) }
     var returnToAppAfterFlow by remember { mutableStateOf(false) }
@@ -116,9 +117,8 @@ fun BaReApp() {
                     if (showLocalConfirmation) {
                         LocalSetupConfirmation(
                             onContinue = {
-                                val identity = identityStore.createLocalIdentity()
-                                identityType = identity.type
                                 showLocalConfirmation = false
+                                initialIdentityPending = true
                                 startScreen = StartScreen.STORAGE_SETUP
                             },
                             onDismiss = { showLocalConfirmation = false },
@@ -165,8 +165,16 @@ fun BaReApp() {
                             val capability = accessResolver.resolve(method)
                             withContext(Dispatchers.Main) {
                                 if (capability.available) {
-                                    identityStore.markSetupComplete()
-                                    startScreen = StartScreen.APP
+                                    if (initialIdentityPending) {
+                                        val identity = identityStore.loadOrRecover()
+                                            ?: identityStore.createLocalIdentity()
+                                        identityType = identity.type
+                                        initialIdentityPending = false
+                                        startScreen = StartScreen.STORAGE_SETUP
+                                    } else {
+                                        identityStore.markSetupComplete()
+                                        startScreen = StartScreen.APP
+                                    }
                                 } else {
                                     accessError = capability.reason
                                 }
