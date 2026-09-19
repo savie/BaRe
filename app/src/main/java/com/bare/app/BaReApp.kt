@@ -13,7 +13,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -233,19 +233,19 @@ private fun MainShell(
                         Text(
                             text = "B Λ R E",
                             style = MaterialTheme.typography.titleLarge,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.Light,
-                            letterSpacing = 8.sp,
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
+                            letterSpacing = 5.sp,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
                             text = "SAVE OUR DAY",
                             style = MaterialTheme.typography.labelSmall,
-                            letterSpacing = 4.sp,
+                            letterSpacing = 3.5.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 },
-                actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Default.Search, stringResource(R.string.search)) } },
+                actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Outlined.Search, stringResource(R.string.search)) } },
             )
         },
         bottomBar = {
