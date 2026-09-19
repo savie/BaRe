@@ -1553,3 +1553,19 @@ Pengguna memberikan **GO** untuk mengeksekusi langsung refinement Home berdasark
 - Signing/artifact verification pada workflow: **SUCCESS**.
 - Runtime visual verification: source/build verified; device screenshot baru setelah refinement ini belum tersedia, sehingga visual runtime final tetap **UNVERIFIED** sampai APK #330 diuji pada device.
 - master tidak disentuh.
+## 2026-09-19 — Home Visual Weight Correction
+
+### Authorization
+Pengguna memberikan **GO** untuk koreksi terakhir berdasarkan screenshot build #330.
+
+### Perubahan
+- Header dikembalikan ke proporsi sebelumnya; hanya weight B Λ R E yang diperkuat, tanpa memperbesar tinggi/lebar karakter. Tagline dikembalikan ke treatment ringan sebelumnya.
+- Quick Actions menggunakan ukuran heading yang sama dengan Dashboard.
+- Account status, Access, Internal storage, Last backup, Next backup, iconography, dan More Apps Actions dinaikkan ke foreground/weight yang lebih tegas.
+- Feature dan Quick Action icons diberi foreground yang konsisten.
+
+### Verification
+- CI run **#333** pada commit `0ad03d14cb5e94553244fb6a8cf420bf2b711ee9`: **COMPLETED / SUCCESS**.
+- `:app:assembleDebug`: **SUCCESS**.
+- `master` tidak disentuh.
+- Screenshot runtime setelah koreksi ini belum tersedia; visual runtime final masih **UNVERIFIED** sampai APK #333 diuji pada device.
