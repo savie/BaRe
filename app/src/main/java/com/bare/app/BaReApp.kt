@@ -67,6 +67,7 @@ fun BaReApp() {
     var showLocalConfirmation by remember { mutableStateOf(false) }
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var returnToCloudAfterAuth by remember { mutableStateOf(false) }
+    var returnToAppAfterFlow by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -76,9 +77,22 @@ fun BaReApp() {
         when {
             searchOpen -> searchOpen = false
             screen != Screen.NONE -> screen = Screen.NONE
-            startScreen == StartScreen.ACCESS_METHOD -> startScreen = StartScreen.STORAGE_SETUP
-            startScreen == StartScreen.STORAGE_SETUP -> startScreen =
-                if (identityType == IdentityType.LOCAL) StartScreen.WELCOME else StartScreen.LOGIN
+            startScreen == StartScreen.ACCESS_METHOD -> {
+                if (returnToAppAfterFlow) {
+                    returnToAppAfterFlow = false
+                    startScreen = StartScreen.APP
+                } else {
+                    startScreen = StartScreen.STORAGE_SETUP
+                }
+            }
+            startScreen == StartScreen.STORAGE_SETUP -> {
+                if (returnToAppAfterFlow) {
+                    returnToAppAfterFlow = false
+                    startScreen = StartScreen.APP
+                } else {
+                    startScreen = if (identityType == IdentityType.LOCAL) StartScreen.WELCOME else StartScreen.LOGIN
+                }
+            }
             startScreen == StartScreen.FORGOT_PASSWORD -> startScreen = StartScreen.LOGIN
             startScreen == StartScreen.SIGN_UP -> startScreen = StartScreen.LOGIN
             startScreen == StartScreen.LOGIN -> startScreen = StartScreen.WELCOME
@@ -165,8 +179,8 @@ fun BaReApp() {
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; screen = Screen.APP_DETAIL },
-                    { startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
-                    { startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
+                    { returnToAppAfterFlow = true; startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
+                    { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
                     screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod
                 )
             }
