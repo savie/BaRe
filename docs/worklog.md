@@ -1463,3 +1463,18 @@ Build channel masih dilaporkan merah setelah fix icon sebelumnya. Exact CI log b
 - Local build: **BLOCKED** karena environment tidak memiliki akses network/dependency cache.
 - GitHub Actions build result: **UNVERIFIED**.
 - Target: `:app:assembleDebug` SUCCESS.
+
+
+## 2026-09-19 — Debug Build Fix: Home Preview Contract
+
+### Evidence
+CI log menunjukkan `:app:compileDebugKotlin FAILED` karena `PreviewScreens.kt` masih memanggil `HomeScreen {}` dengan contract lama. Compiler melaporkan tujuh parameter baru belum diberikan.
+
+### Fix
+- Memperbarui `HomePreview` agar menyediakan `identityType`, `accountEmail`, `accessMethod`, `onOpen`, `onOpenTab`, `onOpenAccessMethod`, dan `onOpenStorage`.
+- Tidak mengubah runtime Home behavior.
+
+### Verification Truth
+- Source fix: **IMPLEMENTED / COMMITTED** pada `869613f8f9c16994b30e5a8e61afdff0db884b99`.
+- CI rerun: **PENDING / UNVERIFIED**.
+- Target: `:app:assembleDebug` SUCCESS.
