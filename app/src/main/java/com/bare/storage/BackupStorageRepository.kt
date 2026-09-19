@@ -91,7 +91,7 @@ class BackupStorageRepository(private val context: Context) {
         return BackupStorage(
             kind = BackupStorage.Kind.INTERNAL,
             displayName = "Internal storage",
-            path = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
+            path = if (identityId.isNullOrBlank()) root.absolutePath else File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
             available = root.exists() && Environment.getExternalStorageState(root) == Environment.MEDIA_MOUNTED,
             writable = hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success,
             totalBytes = root.totalSpace,
@@ -99,7 +99,13 @@ class BackupStorageRepository(private val context: Context) {
         )
     }
 
-    private fun removableStorages(identityId: String): List<BackupStorage> {
+    fun inspectAvailable(): List<BackupStorage> = buildList {
+        add(internalStorageCapacity())
+        addAll(removableStorages(null))
+        add(BackupStorage(BackupStorage.Kind.REMOTE, "Cloud storage", "Cloud provider", false, false))
+    }
+
+    private fun removableStorages(identityId: String?): List<BackupStorage> {
         val storageManager = context.getSystemService(StorageManager::class.java) ?: return emptyList()
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return emptyList()
         return storageManager.storageVolumes.mapNotNull { volume ->
