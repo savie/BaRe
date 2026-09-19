@@ -1569,3 +1569,47 @@ Pengguna memberikan **GO** untuk koreksi terakhir berdasarkan screenshot build #
 - `:app:assembleDebug`: **SUCCESS**.
 - `master` tidak disentuh.
 - Screenshot runtime setelah koreksi ini belum tersedia; visual runtime final masih **UNVERIFIED** sampai APK #333 diuji pada device.
+## 2026-09-19 — Audit Semantik BaRe Identity ID dan Lifecycle Persistence
+
+### Authorization
+Pengguna meminta audit fondasi penentuan BaRe ID sebelum melanjutkan area Apps, khususnya continuity setelah uninstall/reinstall, factory reset, dan pergantian ROM.
+
+### Kondisi Aktual yang Diverifikasi
+- `BaReIdentity.identityId` saat ini dibuat dengan `UUID.randomUUID()` pada `LocalIdentityStore.createLocalIdentity()`.
+- Identity tersebut dipersist menggunakan `SharedPreferences` dengan preference name `bare_identity`.
+- Identity yang sama dipulihkan pada restart aplikasi selama app data masih tersedia.
+- `AndroidManifest.xml` saat ini menetapkan `android:allowBackup="false"`, sehingga Android Auto Backup tidak menjadi mekanisme continuity untuk identity ini.
+- Karena persistence berada pada app-private data, uninstall menghapus state tersebut; reinstall dapat membuat UUID baru.
+- Factory reset / wipe data atau pergantian ROM yang menghapus data pengguna juga tidak dapat mempertahankan UUID tersebut.
+- `BackupStorageRepository` menggunakan `identityId` untuk membentuk folder `/storage/emulated/0/BaRe/accounts/<identity-folder>/backups`; perubahan identity ID setelah reinstall berpotensi membuat backup lama berada pada folder identity lama dan tidak otomatis direkonsiliasi dengan identity baru.
+- Worklog sebelumnya memang mencatat bahwa detail perilaku uninstall/reset masih terbuka, tetapi implementasi SharedPreferences kemudian dilakukan tanpa menutup lifecycle continuity tersebut.
+
+### Temuan Utama
+- `identityId` saat ini secara semantik adalah **Local Installation/State Identity**, bukan bukti identitas device fisik.
+- Nama/kontrak `BaRe Identity` saat ini terlalu luas bila `identityId` diperlakukan sebagai ID yang harus tetap sama melewati uninstall, factory reset, atau pergantian ROM.
+- Tidak ada satu ID aplikasi biasa yang dapat dijadikan jaminan identitas device lintas semua kondisi tersebut. Android sendiri membedakan lifecycle identifier dan menyarankan menghindari hardware identifier yang tidak dapat di-reset. `ANDROID_ID`, misalnya, dapat berubah setelah factory reset dan perubahan signing key. citeturn1search0turn1search2
+- Untuk continuity lintas uninstall/reinstall, diperlukan mekanisme restore/transfer identity; persistence app-private saja tidak cukup. Android menyediakan mekanisme backup/restore, tetapi mekanisme tersebut harus dirancang dan diverifikasi sebagai recovery path, bukan diasumsikan sebagai identity hardware. citeturn0search1turn0search4
+- Untuk factory reset atau pergantian ROM, continuity tidak boleh bergantung pada ID device semata. Diperlukan durable external anchor seperti account identity, exported/imported recovery identity, atau backup/restore yang memang membawa identity state.
+
+### Kontrak yang Perlu Dikunci Sebelum Implementasi Berikutnya
+- **BaRe Identity ID** = identifier logical identity yang harus tetap sama selama continuity identity berhasil dipulihkan.
+- **Installation ID** = identifier instalasi/runtime lokal yang boleh berubah setelah reinstall dan tidak boleh dipakai sebagai canonical identity.
+- **Device identifier** = identifier platform/device-scoped bila diperlukan untuk telemetry/security; bukan canonical BaRe Identity dan tidak boleh dipakai untuk menjanjikan continuity lintas reset/ROM.
+- **Recovery/Continuity Anchor** = mekanisme yang menghubungkan installation baru dengan BaRe Identity lama setelah state lokal hilang.
+- Local identity dan Account identity tetap satu model logical identity, tetapi lifecycle recovery-nya berbeda.
+
+### Gap / Belum Diputuskan
+- Belum diputuskan apakah Local Identity dapat dipulihkan melalui Android backup/restore, export/import identity bundle, external storage, recovery key, atau kombinasi beberapa mekanisme.
+- Belum ada aturan eksplisit untuk uninstall → reinstall.
+- Belum ada aturan eksplisit untuk clear app data.
+- Belum ada aturan eksplisit untuk factory reset.
+- Belum ada aturan eksplisit untuk flash/ganti ROM pada device yang sama.
+- Belum ada aturan untuk mendeteksi identity baru yang menemukan backup folder lama dan meminta recovery/import, bukan membuat folder identity baru tanpa penjelasan.
+- Belum ada contract/versioning untuk identity metadata dan migration.
+- Mapping 16 karakter `identityId` ke folder backup masih tercatat sebagai implementation assumption dan belum menjadi format identity canonical yang diverifikasi.
+
+### Status Truth
+`LOCAL_IDENTITY_UUID_PERSISTED / INSTALLATION_SCOPED / CROSS_REINSTALL_NOT_SUPPORTED / CROSS_RESET_NOT_SUPPORTED / IDENTITY_LIFECYCLE_CONTRACT_OPEN / RECOVERY_DESIGN_REQUIRED`
+
+### Keputusan Engineering Saat Ini
+Tidak melakukan perubahan source pada audit ini. Sebelum melanjutkan capability Apps, identity lifecycle dan recovery contract harus ditutup terlebih dahulu agar artifact/backup path tidak terikat pada ID instalasi yang dapat berubah tanpa mekanisme rekonsiliasi.
