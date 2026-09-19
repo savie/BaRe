@@ -35,10 +35,7 @@ class BackupStorageRepository(private val context: Context) {
         val backups = account.directory("backups")
         val recovery = account.directory("recovery")
 
-        return recovery.createFile(
-            "application/octet-stream",
-            "bare-recovery-v1.bare",
-        )?.uri ?: throw IllegalStateException("unable to initialize recovery storage")
+        return recovery.uri
     }
 
     fun inspect(identityId: String): List<BackupStorage> = buildList {
