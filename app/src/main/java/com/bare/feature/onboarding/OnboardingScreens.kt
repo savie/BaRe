@@ -333,8 +333,8 @@ fun StorageSetupScreen(
         storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }.forEach { storage ->
             StorageCard(
                 title = storage.displayName,
-                subtitle = storage.path,
-                selected = selectedPath == storage.path,
+                subtitle = if (storage.available) storage.path else stringResource(R.string.storage_not_connected),
+                selected = selectedPath == storage.path && storage.available,
                 enabled = storage.available,
                 onClick = { selectedPath = storage.path },
             )
