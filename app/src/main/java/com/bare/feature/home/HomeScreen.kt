@@ -199,6 +199,7 @@ private fun CompactStatus(
 
 @Composable
 private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
+    // Keep this grid on the baseline Material icon set supported by the app's current dependency graph.
     val areas = listOf(
         Triple(stringResource(R.string.apps), Icons.Default.Apps, Screen.APP_DETAIL),
         Triple(stringResource(R.string.messages), Icons.Default.Sms, Screen.MESSAGES),
