@@ -1806,3 +1806,250 @@ UNKNOWN
 ```
 
 Audit lebih lanjut tidak perlu mengulang full-tree decompilation. Target berikutnya cukup diarahkan ke item `UNKNOWN` yang material, terutama lifecycle persistence dan recovery behavior.
+
+---
+## 23. Targeted runtime-data audit — Swift Backup local account / installation / continuity evidence (2026-09-19)
+
+Bagian ini mencatat audit terhadap data runtime/app-private snapshot data_org.swiftapps.swiftbackup.zip yang disediakan untuk melengkapi audit static APK pada Section 22. Snapshot ini tidak berarti reference APK dieksekusi oleh auditor; status runtime di sini berarti artifact data yang dihasilkan/tersimpan pada instalasi reference yang diamati, bukan independent reproduction oleh auditor.
+
+### 23.1 Scope dan batasan
+
+Artifact yang diperiksa mencakup:
+* databases/swiftbackup-db;
+* shared_prefs/*;
+* no_backup/PersistedInstallation.*;
+* files/datastore/*;
+* Crashlytics session/device metadata;
+* diagnostic runtime ledger.
+
+Payload credential/token/auth yang ditemukan pada artifact tidak direkam ulang ke dokumen reference. Audit hanya mencatat struktur, identifier class, dan hubungan antar-ID yang relevan terhadap continuity.
+
+### 23.2 Runtime snapshot menunjukkan banyak identifier dengan lifecycle berbeda
+
+Snapshot yang sama memuat beberapa identifier yang jelas berbeda:
+
+| Identifier / source | Observed role | Status |
+| --- | --- | --- |
+| firebase.installation.id | Firebase Installation ID | OBSERVED_DATA |
+| crashlytics.installation.id | Crashlytics installation/session context | OBSERVED_DATA |
+| existing_instance_identifier | Crashlytics existing instance identifier | OBSERVED_DATA |
+| device_id_guid pada Microsoft telemetry preferences | telemetry/device-context identifier | OBSERVED_DATA |
+| PersistedInstallation.* / Fid | Firebase Installation persistence record | OBSERVED_DATA |
+| Crashlytics install_uuid | app installation/session diagnostic identifier | OBSERVED_DATA |
+| build_model | device model (24069PC21G) | OBSERVED_DATA |
+| Swift account namespace 79b59739d9f9eb13 | storage namespace observed sebelumnya | OBSERVED |
+| Firebase FIREBASE_USER | persisted auth/account state | present but encrypted / OBSERVED_DATA |
+
+Keberadaan banyak ID pada satu instalasi merupakan evidence bahwa installation identity, telemetry identity, device context, authentication identity, dan storage/account namespace tidak dapat diperlakukan sebagai satu ID tunggal berdasarkan artifact ini.
+
+### 23.3 swiftbackup-db bukan sumber canonical identity yang terlihat
+
+SQLite databases/swiftbackup-db yang diperiksa memiliki tabel utama:
+```
+SMessage
+app_cached_data
+android_metadata
+room_master_table
+sqlite_sequence
+```
+
+app_cached_data menyimpan cache metadata aplikasi:
+```
+pkgName
+name
+isInstalled
+isEnabled
+isLaunchable
+locale
+```
+
+Tidak ditemukan pada schema yang diperiksa field yang secara eksplisit menunjukkan canonical Swift account ID atau canonical physical-device ID.
+
+Status: OBSERVED_DATA untuk schema; kesimpulan bahwa database tersebut bukan canonical identity store adalah INFERRED, karena database/preferences/auth stores lain juga hadir.
+
+### 23.4 Firebase persistence memberi evidence account/install separation
+
+Snapshot memiliki:
+`shared_prefs/com.google.firebase.auth.api.Store.*`
+dan:
+`no_backup/PersistedInstallation.*`
+serta:
+`files/datastore/firebaseSessions/`
+
+Ini menunjukkan setidaknya tiga concern berbeda:
+```
+Firebase Auth persistence
+        +
+Firebase Installation persistence
+        +
+Firebase session state
+```
+
+Payload FIREBASE_USER dan token/auth material tidak digunakan untuk mengekstrak atau mencatat credential. Status canonical relationship terhadap Swift local backup account: UNKNOWN.
+
+### 23.5 Firebase Installation ID bukan otomatis Swift Account ID
+
+Artifact menunjukkan Firebase Installation ID hadir sebagai identifier tersendiri. Pada saat yang sama Swift mempunyai local/anonymous UID → derived storage namespace dari static audit Section 22.
+
+Model yang konsisten dengan evidence:
+```
+Swift Local/Anonymous Account
+        │
+        └── local UID
+              │
+              └── derived backup namespace
+
+Firebase Installation
+        │
+        └── FID / persisted installation state
+
+Firebase Authentication
+        │
+        └── persisted user/auth state
+
+Crash/Telemetry
+        │
+        ├── Crashlytics installation identifiers
+        └── telemetry device GUID
+```
+
+Tidak ada evidence yang cukup untuk menyamakan seluruh node tersebut.
+
+Status: INFERRED FROM COMBINED STATIC + DATA EVIDENCE.
+
+### 23.6 Device model tetap bukan Device Identity
+
+Crashlytics native/device.json memuat manufacturer = Xiaomi, product = peridot_global, model = 24069PC21G, is_emulator = false.
+
+Nilai model tersebut konsisten dengan observasi sebelumnya terhadap ro.product.vendor_dlkm.model.
+
+Jadi 24069PC21G harus tetap diperlakukan sebagai device/model context, bukan canonical unique Device ID.
+
+Status: OBSERVED_DATA.
+
+### 23.7 Runtime ledger menunjukkan operational state terpisah dari identity
+
+Snapshot juga memiliki files/diagnostics/data_sync_fgs_runtime_ledger.json dengan satu entry TaskService berstatus COMPLETED.
+
+Ini merupakan evidence bahwa operational task state disimpan terpisah dari identity/auth state. Artifact tersebut tidak membuktikan bahwa task result selalu berarti backup integrity/restore correctness; post-condition verification tetap merupakan concern terpisah.
+
+Status: OBSERVED_DATA.
+
+### 23.8 Security implication untuk artifact audit
+
+Snapshot berisi material credential/authentication-sensitive, termasuk encrypted Firebase auth state dan installation/auth token material pada persistence file.
+
+Untuk reference documentation:
+* jangan memasukkan token mentah;
+* jangan menjadikan credential material sebagai identity evidence;
+* jangan menganggap kemampuan membaca artifact app-private sebagai kemampuan recovery setelah uninstall/clear-data;
+* jangan menganggap keberadaan no_backup sebagai bukti bahwa data tersebut pasti survive uninstall/reinstall.
+
+Status lifecycle continuity: UNKNOWN / UNVERIFIED.
+
+### 23.9 Dampak terhadap model identity BaRe
+
+Evidence sekarang mendukung model pemisahan yang lebih tegas:
+```
+                         BARE ACCOUNT
+                              │
+             ┌────────────────┴────────────────┐
+             │                                 │
+          LOCAL                             ONLINE
+             │                                 │
+      authoritative                    authoritative
+         local state                    server state
+             │                                 │
+      ┌──────┴────────┐                 Account Binding
+      │               │
+Installation ID   Device Context
+      │               │
+      └──────┬────────┘
+             │
+      Recovery Anchor
+             │
+      Storage Namespace
+```
+
+Interpretasi:
+* BaRe Account ID = logical identity;
+* Installation ID = lifecycle identity satu instalasi;
+* Device Context / Device Identity = context/security/continuity evidence, bukan otomatis Account ID;
+* Recovery Anchor = material/proof yang memungkinkan logical identity dipulihkan;
+* Storage Namespace = derived identifier untuk repository layout;
+* Online Account Binding = hubungan logical account dengan backend identity/provider.
+
+Ini tetap REFERENCE-DERIVED PROPOSAL, bukan DECISION BaRe.
+
+### 23.10 Continuity question yang masih belum terjawab
+
+Data snapshot belum membuktikan:
+```
+uninstall
+    ↓
+reinstall
+    ↓
+same Swift local UID?
+same storage namespace?
+same backup visibility?
+```
+
+dan juga belum membuktikan:
+```
+clear data
+factory reset
+ROM replacement
+new device
+```
+
+Untuk menjawabnya dibutuhkan paired lifecycle evidence (before/after) atau eksperimen runtime yang terkontrol. Satu snapshot hanya membuktikan state pada satu titik waktu.
+
+### 23.11 Audit conclusion
+
+Dengan menggabungkan Section 22 + runtime-data snapshot:
+```
+STATIC APK
+    ↓
+local/anonymous UID mechanism
+    ↓
+derived 16-char storage namespace
+
+RUNTIME DATA
+    ↓
+Firebase installation identity
+    ↓
+Firebase auth persistence
+    ↓
+Crash/telemetry installation/device identifiers
+    ↓
+operational task state
+```
+
+Kesimpulan engineering reference:
+
+> Swift Backup tidak memberikan evidence bahwa satu universal Device ID menjadi sumber tunggal seluruh identity/continuity system.
+
+Yang terlihat justru adalah beberapa identity domains dengan lifecycle berbeda, sementara local backup namespace memiliki mekanisme derivasi tersendiri.
+
+Implikasi untuk BaRe: penelitian berikutnya sebaiknya fokus pada continuity/recovery protocol—bukti apa yang memungkinkan BaRe Account ID dipulihkan—bukan mencari satu hardware identifier yang dipaksa menjadi canonical identity.
+
+### 23.12 Verification status
+```
+Runtime data artifact inspected
+        ↓
+OBSERVED_DATA
+        ↓
+Multiple identity domains confirmed
+        ↓
+OBSERVED_DATA / INFERRED
+        ↓
+Swift uninstall/reinstall continuity
+        ↓
+NOT VERIFIED BY THIS SNAPSHOT
+        ↓
+Factory reset / ROM / device migration
+        ↓
+UNKNOWN
+```
+
+Audit selanjutnya tidak perlu mengulang full-tree decompilation. Fokus evidence yang paling bernilai adalah paired lifecycle test terhadap Swift atau artifact before/after yang menunjukkan perubahan identity, namespace, dan backup visibility.
