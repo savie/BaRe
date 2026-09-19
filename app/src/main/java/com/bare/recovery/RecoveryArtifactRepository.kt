@@ -15,12 +15,18 @@ class RecoveryArtifactRepository(
         password: CharArray,
         fileName: String = "bare-recovery-v1.bare",
     ): Uri {
-        require(treeUri.scheme == "content") { "recovery storage must be a document-tree URI" }
+        require(treeUri.scheme == "content" && DocumentsContract.isTreeUri(treeUri)) {
+            "recovery storage must be a document-tree URI"
+        }
 
+        val parentDocumentUri = DocumentsContract.buildDocumentUriUsingTree(
+            treeUri,
+            DocumentsContract.getTreeDocumentId(treeUri),
+        )
         val partialName = "$fileName.partial"
         val partialUri = DocumentsContract.createDocument(
             contentResolver,
-            treeUri,
+            parentDocumentUri,
             "application/octet-stream",
             partialName,
         ) ?: throw IOException("unable to create recovery artifact")
