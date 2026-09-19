@@ -1,11 +1,11 @@
 package com.bare.storage
 
 import android.content.Context
-import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
 import android.os.Build
 import android.os.Environment
+import android.os.Process
 import android.os.storage.StorageManager
+import com.bare.capability.RootCapabilityProvider
 import java.io.File
 
 data class BackupStorage(
@@ -20,22 +20,40 @@ data class BackupStorage(
     enum class Kind { INTERNAL, EXTERNAL, REMOTE }
 }
 
+data class StorageInitialization(
+    val rootDirectory: File,
+    val recoveryDirectory: File,
+)
+
 class BackupStorageRepository(private val context: Context) {
-    fun initialize(identityId: String, treeUri: Uri): Uri {
+    private val rootCapability = RootCapabilityProvider()
+
+    fun initialize(identityId: String, kind: BackupStorage.Kind): StorageInitialization {
         require(identityId.isNotBlank()) { "identityId is required" }
-        require(treeUri.scheme == "content") { "storage boundary must be a content URI" }
+        require(kind == BackupStorage.Kind.INTERNAL || kind == BackupStorage.Kind.EXTERNAL) {
+            "canonical BaRe storage must use local storage"
+        }
 
-        val root = DocumentFile.fromTreeUri(context, treeUri)
-            ?: throw IllegalStateException("selected storage folder is unavailable")
-        require(root.canWrite()) { "selected storage folder is not writable" }
+        val root = storageRoot(kind)
+            ?: throw IllegalStateException("selected storage is not mounted")
+        ensureWritableRoot(root)
 
-        val bare = if (root.name == "BaRe" && root.isDirectory) root else root.directory("BaRe")
-        val accounts = bare.directory("accounts")
-        val account = accounts.directory(identityFolder(identityId))
-        val backups = account.directory("backups")
-        val recovery = account.directory("recovery")
+        val identityDirectory = File(root, "BaRe/accounts/" + identityFolder(identityId))
+        val backups = File(identityDirectory, "backups")
+        val recovery = File(identityDirectory, "recovery")
 
-        return recovery.uri
+        ensureDirectoryTree(identityDirectory, backups, recovery)
+
+        check(backups.isDirectory && backups.canWrite()) { "backup directory is not writable" }
+        check(recovery.isDirectory && recovery.canWrite()) { "recovery directory is not writable" }
+
+        return StorageInitialization(root, recovery)
+    }
+
+    fun canInitialize(kind: BackupStorage.Kind): Boolean {
+        if (kind != BackupStorage.Kind.INTERNAL && kind != BackupStorage.Kind.EXTERNAL) return false
+        val root = storageRoot(kind) ?: return false
+        return hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success
     }
 
     fun inspect(identityId: String): List<BackupStorage> = buildList {
@@ -64,7 +82,7 @@ class BackupStorageRepository(private val context: Context) {
             displayName = "Internal storage",
             path = "",
             available = root.exists() && Environment.getExternalStorageState(root) == Environment.MEDIA_MOUNTED,
-            writable = root.canWrite(),
+            writable = hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success,
             totalBytes = root.totalSpace,
             freeBytes = root.freeSpace,
         )
@@ -72,13 +90,12 @@ class BackupStorageRepository(private val context: Context) {
 
     fun internalStorage(identityId: String): BackupStorage {
         val root = Environment.getExternalStorageDirectory()
-        val backups = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups")
         return BackupStorage(
             kind = BackupStorage.Kind.INTERNAL,
             displayName = "Internal storage",
-            path = backups.absolutePath,
+            path = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
             available = root.exists() && Environment.getExternalStorageState(root) == Environment.MEDIA_MOUNTED,
-            writable = if (backups.exists()) backups.canWrite() else root.canWrite(),
+            writable = hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success,
             totalBytes = root.totalSpace,
             freeBytes = root.freeSpace,
         )
@@ -98,7 +115,7 @@ class BackupStorageRepository(private val context: Context) {
                 displayName = name,
                 path = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
                 available = true,
-                writable = root.canWrite(),
+                writable = hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success,
                 totalBytes = root.totalSpace,
                 freeBytes = root.freeSpace,
             )
@@ -108,9 +125,48 @@ class BackupStorageRepository(private val context: Context) {
     fun identityFolder(identityId: String): String =
         identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')
 
-    private fun DocumentFile.directory(name: String): DocumentFile {
-        return findFile(name)?.takeIf { it.isDirectory }
-            ?: createDirectory(name)
-            ?: throw IllegalStateException("unable to create directory: $name")
+    private fun storageRoot(kind: BackupStorage.Kind): File? {
+        return when (kind) {
+            BackupStorage.Kind.INTERNAL -> Environment.getExternalStorageDirectory()
+            BackupStorage.Kind.EXTERNAL -> {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) null
+                else {
+                    val storageManager = context.getSystemService(StorageManager::class.java) ?: return null
+                    storageManager.storageVolumes.firstOrNull {
+                        it.isRemovable && it.state == Environment.MEDIA_MOUNTED
+                    }?.directory
+                }
+            }
+            BackupStorage.Kind.REMOTE -> null
+        }
+    }
+
+    private fun ensureWritableRoot(root: File) {
+        if (hasDirectWriteAccess(root)) return
+        val result = rootCapability.ensureDirectory(root.absolutePath, Process.myUid())
+        if (result !is com.bare.capability.RootProbeResult.Success) {
+            throw IllegalStateException(result.reason)
+        }
+    }
+
+    private fun ensureDirectoryTree(identityDirectory: File, backups: File, recovery: File) {
+        if (hasDirectWriteAccess(identityDirectory) || identityDirectory.mkdirs()) {
+            check(backups.exists() || backups.mkdirs()) { "unable to create backups directory" }
+            check(recovery.exists() || recovery.mkdirs()) { "unable to create recovery directory" }
+            return
+        }
+
+        val result = rootCapability.ensureDirectory(recovery.absolutePath, Process.myUid())
+        if (result !is com.bare.capability.RootProbeResult.Success) {
+            throw IllegalStateException(result.reason)
+        }
+        check(identityDirectory.isDirectory) { "identity directory was not created" }
+        check(backups.exists() || backups.mkdirs()) { "unable to create backups directory" }
+        check(recovery.isDirectory) { "recovery directory was not created" }
+    }
+
+    private fun hasDirectWriteAccess(root: File): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) return true
+        return root.canWrite()
     }
 }
