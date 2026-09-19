@@ -29,7 +29,7 @@ class BackupStorageRepository(private val context: Context) {
             ?: throw IllegalStateException("selected storage folder is unavailable")
         require(root.canWrite()) { "selected storage folder is not writable" }
 
-        val bare = root.directory("BaRe")
+        val bare = if (root.name == "BaRe" && root.isDirectory) root else root.directory("BaRe")
         val accounts = bare.directory("accounts")
         val account = accounts.directory(identityFolder(identityId))
         val backups = account.directory("backups")
