@@ -90,7 +90,7 @@ fun HomeScreen(
                         )
                     }
                     LinearProgressIndicator(
-                        progress = { usage.toFloat() },
+                        progress = usage.toFloat(),
                         modifier = Modifier.fillMaxWidth().height(6.dp),
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -160,7 +160,7 @@ fun HomeScreen(
             ) { onOpen(Screen.FOLDERS) }
             QuickAction(
                 title = stringResource(R.string.restore_data),
-                icon = Icons.Default.Restore,
+                icon = Icons.Default.Download,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
         }
