@@ -34,7 +34,7 @@ fun RecoveryScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
-    val repository = remember(context) { RecoveryArtifactRepository(context.contentResolver) }
+    val repository = remember(context) { RecoveryArtifactRepository(context) }
     val scope = rememberCoroutineScope()
 
     var password by remember { mutableStateOf("") }
