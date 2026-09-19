@@ -2242,3 +2242,92 @@ Tidak ada source change pada audit ini.
 Menunggu **GO** untuk Batch A — Pre-Home Storage/Recovery Integration.
 
 `master`: **NOT TOUCHED**.
+
+
+## 2026-09-19 — GO Batch A: Pre-Home Storage/Recovery Integration
+
+### Authorization
+Pengguna memberikan **GO Batch A** untuk menghubungkan foundation identity/storage/recovery yang sudah ada ke lifecycle Welcome → Storage Setup → Access Method → sebelum Home. Home tidak diubah.
+
+### Implementasi
+- Menambahkan `StorageConfigurationStore` untuk menyimpan URI storage boundary yang dipilih user.
+- Menambahkan `DocumentFile` sebagai implementation boundary untuk storage folder yang diberikan melalui Android Storage Access Framework.
+- `BackupStorageRepository.initialize(identityId, treeUri)` sekarang membuat namespace:
+  `BaRe/accounts/<derived-identity-folder>/backups/`
+  dan
+  `BaRe/accounts/<derived-identity-folder>/recovery/`.
+- Jika user memilih folder bernama `BaRe` langsung, aplikasi tidak membuat `BaRe/BaRe` nested.
+- Recovery artifact sekarang dapat ditulis langsung ke directory recovery yang sudah diinisialisasi.
+- Recovery export menggunakan encrypted existing `RecoveryPackageCodec`, bukan crypto baru.
+- Pre-Home flow `StorageSetupScreen` sekarang:
+  1. meminta user memilih storage folder;
+  2. meminta recovery password;
+  3. mempertahankan URI permission;
+  4. membuat namespace BaRe;
+  5. membuat encrypted recovery artifact `bare-recovery-v1.bare`;
+  6. hanya setelah berhasil melanjutkan ke Access Method.
+- Recovery password tidak dipersist oleh aplikasi.
+- Existing recovery artifact yang sama nama diganti melalui partial artifact setelah content verification.
+- Text Storage Setup diperbarui agar tidak lagi mengklaim "does not write data"; sekarang menjelaskan bahwa setup membuat storage dan recovery package sebelum masuk B Λ R E.
+
+### Lifecycle Baru — SOURCE IMPLEMENTED
+
+```text
+WELCOME
+  ↓
+LOCAL confirmation
+  ↓
+createLocalIdentity()
+  ↓
+STORAGE SETUP
+  ↓
+choose storage boundary
+  ↓
+recovery password
+  ↓
+initialize BaRe/accounts/<identity>/backups + recovery
+  ↓
+encrypt + write + read-back verify recovery artifact
+  ↓
+ACCESS METHOD
+  ↓
+capability resolve
+  ↓
+markSetupComplete()
+  ↓
+HOME
+```
+
+### Important Boundary
+Canonical public-path write via raw `/storage/emulated/0/BaRe` tetap tidak diklaim sebagai runtime capability. Pre-Home storage initialization menggunakan user-granted SAF boundary sehingga folder yang dibuat benar-benar berada di lokasi storage yang dipilih user. Artifact recovery juga berada di namespace BaRe yang sama.
+
+### Truth Status
+- Pre-Home integration source: **IMPLEMENTED**.
+- Storage namespace creation: **IMPLEMENTED STATIC; DEVICE RUNTIME UNVERIFIED**.
+- Recovery artifact creation in selected folder: **IMPLEMENTED STATIC; DEVICE RUNTIME UNVERIFIED**.
+- Recovery encryption: **existing unit-verified core reused**.
+- Storage URI persistence: **IMPLEMENTED STATIC**.
+- Home: **NOT CHANGED**.
+- CI for latest commit: **IN PROGRESS** at worklog update time.
+- Device install/runtime: **NOT PERFORMED** in this batch.
+- Clear/uninstall/reinstall/destructive lifecycle: **NOT PERFORMED**; reserved for verification batch.
+
+### Commit Trail
+- Storage configuration: `de2b9c6c905662a846389695f9599bb9c8f657f5`
+- SAF storage initialization: `f72ac06269c1c6dbe7ced22b2c5ec24bc1b740e1`
+- Directory initialization correction: `02204543c6630dc19193f12caaf0152e55075168`
+- DocumentFile dependency: `dbcc4f6b9a3141d8af4191c6660b3ecfbe201732`
+- Recovery directory export: `412a64b09e5ba30f8c4da7a18d6d379bde44b744`
+- Pre-Home onboarding integration: `e59fc5eab597b7569a712aa073ff15afd86f1b12`
+- Recovery artifact replacement handling: `d4b3faf1363876a019a9a42f2e50f57305746433`
+- Nested BaRe guard: `7b55ad995106dbdb288c4dc63be2527e07ba2b67`
+
+### Verification Gate
+Batch A is not considered device-verified until:
+- CI build succeeds for the final commit;
+- APK is installed on target device;
+- Welcome → Storage Setup → Access Method → Home is exercised;
+- user can observe `BaRe/accounts/<identity>/backups` and `recovery/bare-recovery-v1.bare`;
+- artifact can be imported with the same password;
+- wrong password/tamper behavior remains rejected.
+
