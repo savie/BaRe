@@ -21,6 +21,7 @@ import com.bare.app.IdentityType
 import com.bare.app.Screen
 import com.bare.app.Tab
 import com.bare.storage.BackupStorageRepository
+import com.bare.ui.BareIcons
 import kotlin.math.roundToInt
 
 @Composable
@@ -53,103 +54,123 @@ fun HomeScreen(
 
     Column(
         modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 10.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
+        Text(
+            text = stringResource(R.string.dashboard),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.SemiBold,
+        )
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         ) {
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    CompactStatus(
-                        title = stringResource(R.string.account_status),
-                        value = identityLabel,
-                        icon = MaterialIcons.Outlined.AccountCircle,
-                        modifier = Modifier.weight(1f).clickable { onOpenTab(Tab.ACCOUNT.ordinal) },
-                    )
-                    Spacer(Modifier.width(10.dp))
-                    CompactStatus(
-                        title = stringResource(R.string.access),
-                        value = accessLabel,
-                        icon = MaterialIcons.Outlined.Security,
-                        modifier = Modifier.weight(1f).clickable { onOpenAccessMethod() },
-                    )
-                }
+            Column(
+                Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalArrangement = Arrangement.spacedBy(11.dp),
+            ) {
+                DashboardStatusRow(
+                    left = {
+                        CompactStatus(
+                            title = stringResource(R.string.account_status),
+                            value = identityLabel,
+                            icon = MaterialIcons.Outlined.AccountCircle,
+                            modifier = Modifier.fillMaxWidth().clickable { onOpenTab(Tab.ACCOUNT.ordinal) },
+                        )
+                    },
+                    right = {
+                        CompactStatus(
+                            title = stringResource(R.string.access),
+                            value = accessLabel,
+                            icon = MaterialIcons.Outlined.Security,
+                            modifier = Modifier.fillMaxWidth().clickable { onOpenAccessMethod() },
+                        )
+                    },
+                )
+
+                DashboardDivider()
 
                 Column(
                     modifier = Modifier.fillMaxWidth().clickable { onOpenStorage() },
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(stringResource(R.string.internal_storage), style = MaterialTheme.typography.labelLarge)
                         Text(
-                            text = stringResource(R.string.storage_free_short, formatStorageSize(internal.freeBytes)),
+                            stringResource(R.string.internal_storage),
                             style = MaterialTheme.typography.labelLarge,
                             fontWeight = FontWeight.Medium,
+                        )
+                        Text(
+                            text = stringResource(R.string.storage_free_short, formatStorageSize(internal.freeBytes)),
+                            style = MaterialTheme.typography.bodyLarge,
+                            fontWeight = FontWeight.SemiBold,
                         )
                     }
                     LinearProgressIndicator(
                         progress = usage.toFloat(),
-                        modifier = Modifier.fillMaxWidth().height(4.dp),
+                        modifier = Modifier.fillMaxWidth().height(3.dp),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
+                        trackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.28f),
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(
                             text = stringResource(R.string.storage_used_percent, (usage * 100).roundToInt()),
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         Text(
-                            text = stringResource(
-                                R.string.storage_total_short,
-                                formatStorageSize(internal.totalBytes),
-                            ),
-                            style = MaterialTheme.typography.labelSmall,
+                            text = stringResource(R.string.storage_total_short, formatStorageSize(internal.totalBytes)),
+                            style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
 
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    CompactStatus(
-                        title = stringResource(R.string.last_backup),
-                        value = stringResource(R.string.no_backups_yet),
-                        icon = MaterialIcons.Outlined.History,
-                        modifier = Modifier.weight(1f),
-                    )
-                    Spacer(Modifier.width(10.dp))
-                    CompactStatus(
-                        title = stringResource(R.string.next_backup),
-                        value = stringResource(R.string.not_scheduled),
-                        icon = MaterialIcons.Outlined.Schedule,
-                        modifier = Modifier.weight(1f).clickable { onOpen(Screen.SCHEDULE_DETAIL) },
-                    )
-                }
+                DashboardDivider()
 
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.28f))
-
-                BackupAreaGrid(
-                    onOpen = onOpen,
+                DashboardStatusRow(
+                    left = {
+                        CompactStatus(
+                            title = stringResource(R.string.last_backup),
+                            value = stringResource(R.string.no_backups_yet),
+                            icon = MaterialIcons.Outlined.History,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    },
+                    right = {
+                        CompactStatus(
+                            title = stringResource(R.string.next_backup),
+                            value = stringResource(R.string.not_scheduled),
+                            icon = MaterialIcons.Outlined.Schedule,
+                            modifier = Modifier.fillMaxWidth().clickable { onOpen(Screen.SCHEDULE_DETAIL) },
+                        )
+                    },
                 )
+
+                DashboardDivider()
+
+                BackupAreaGrid(onOpen = onOpen)
             }
         }
 
         Text(
             text = stringResource(R.string.quick_actions),
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(horizontal = 2.dp, vertical = 1.dp),
+            modifier = Modifier.padding(top = 3.dp),
         )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_apps),
-                icon = MaterialIcons.Outlined.CloudUpload,
+                icon = BareIcons.Upload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
-                icon = MaterialIcons.Outlined.CloudDownload,
+                icon = BareIcons.Download,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
         }
@@ -157,24 +178,50 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_folders),
-                icon = MaterialIcons.Outlined.Folder,
+                icon = BareIcons.Folders,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
             QuickAction(
                 title = stringResource(R.string.restore_data),
-                icon = MaterialIcons.Outlined.Download,
+                icon = BareIcons.Download,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
         }
 
         TextButton(
             onClick = { onOpenTab(Tab.APPS.ordinal) },
-            modifier = Modifier.align(Alignment.End).height(32.dp),
+            modifier = Modifier.align(Alignment.End).height(30.dp),
             contentPadding = PaddingValues(horizontal = 4.dp, vertical = 0.dp),
         ) {
-            Text(stringResource(R.string.more_apps_actions), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(
+                stringResource(R.string.more_apps_actions),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
+}
+
+@Composable
+private fun DashboardStatusRow(
+    left: @Composable () -> Unit,
+    right: @Composable () -> Unit,
+) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Box(Modifier.weight(1f)) { left() }
+        Box(Modifier.weight(1f)) { right() }
+    }
+}
+
+@Composable
+private fun DashboardDivider() {
+    HorizontalDivider(
+        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.24f),
+        thickness = 1.dp,
+    )
 }
 
 @Composable
@@ -188,36 +235,59 @@ private fun CompactStatus(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(icon, contentDescription = title, modifier = Modifier.size(18.dp))
+        Box(
+            modifier = Modifier.width(28.dp),
+            contentAlignment = Alignment.CenterStart,
+        ) {
+            Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp))
+        }
         Spacer(Modifier.width(8.dp))
-        Column {
-            Text(title, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, maxLines = 1)
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(1.dp),
+        ) {
+            Text(
+                title,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+            )
+            Text(
+                value,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+            )
         }
     }
 }
 
 @Composable
 private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
-        val areas = listOf(
-        Triple(stringResource(R.string.apps), MaterialIcons.Outlined.Apps, Screen.APP_DETAIL),
-        Triple(stringResource(R.string.messages), MaterialIcons.Outlined.Sms, Screen.MESSAGES),
-        Triple(stringResource(R.string.call_logs), MaterialIcons.Outlined.Call, Screen.CALL_LOGS),
-        Triple(stringResource(R.string.folders), MaterialIcons.Outlined.Folder, Screen.FOLDERS),
-        Triple(stringResource(R.string.wifi), MaterialIcons.Outlined.Wifi, Screen.WIFI),
-        Triple(stringResource(R.string.wallpapers), MaterialIcons.Outlined.Image, Screen.WALLPAPERS),
+    val areas = listOf(
+        Triple(stringResource(R.string.apps), BareIcons.Apps, Screen.APP_DETAIL),
+        Triple(stringResource(R.string.messages), BareIcons.Messages, Screen.MESSAGES),
+        Triple(stringResource(R.string.call_logs), BareIcons.Call, Screen.CALL_LOGS),
+        Triple(stringResource(R.string.folders), BareIcons.Folders, Screen.FOLDERS),
+        Triple(stringResource(R.string.wifi), BareIcons.Wifi, Screen.WIFI),
+        Triple(stringResource(R.string.wallpapers), BareIcons.Wallpapers, Screen.WALLPAPERS),
     )
-    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(9.dp)) {
         areas.chunked(3).forEach { row ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 row.forEach { (label, icon, screen) ->
                     Column(
                         modifier = Modifier.weight(1f).clickable { onOpen(screen) },
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(3.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        Icon(icon, contentDescription = label, modifier = Modifier.size(18.dp))
-                        Text(label, style = MaterialTheme.typography.labelSmall, maxLines = 1)
+                        Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp))
+                        Text(
+                            label,
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Medium,
+                            maxLines = 1,
+                        )
                     }
                 }
                 repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
@@ -234,16 +304,22 @@ private fun QuickAction(
     onClick: () -> Unit,
 ) {
     Card(
-        modifier = modifier.height(62.dp).clickable(onClick = onClick),
-        shape = RoundedCornerShape(14.dp),
+        modifier = modifier.height(56.dp).clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
     ) {
         Row(
             Modifier.fillMaxSize().padding(horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp))
-            Spacer(Modifier.width(8.dp))
-            Text(title, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
+            Icon(icon, contentDescription = title, modifier = Modifier.size(21.dp))
+            Spacer(Modifier.width(9.dp))
+            Text(
+                title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+            )
         }
     }
 }
