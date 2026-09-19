@@ -4,7 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -52,34 +52,34 @@ fun HomeScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         ) {
-            Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     CompactStatus(
                         title = stringResource(R.string.account_status),
                         value = identityLabel,
-                        icon = Icons.Default.AccountCircle,
+                        icon = Icons.Outlined.AccountCircle,
                         modifier = Modifier.weight(1f).clickable { onOpenTab(Tab.ACCOUNT.ordinal) },
                     )
                     Spacer(Modifier.width(10.dp))
                     CompactStatus(
                         title = stringResource(R.string.access),
                         value = accessLabel,
-                        icon = Icons.Default.Settings,
+                        icon = Icons.Outlined.Security,
                         modifier = Modifier.weight(1f).clickable { onOpenAccessMethod() },
                     )
                 }
 
                 Column(
                     modifier = Modifier.fillMaxWidth().clickable { onOpenStorage() },
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(stringResource(R.string.internal_storage), style = MaterialTheme.typography.labelLarge)
@@ -91,7 +91,7 @@ fun HomeScreen(
                     }
                     LinearProgressIndicator(
                         progress = usage.toFloat(),
-                        modifier = Modifier.fillMaxWidth().height(6.dp),
+                        modifier = Modifier.fillMaxWidth().height(4.dp),
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(
@@ -114,17 +114,19 @@ fun HomeScreen(
                     CompactStatus(
                         title = stringResource(R.string.last_backup),
                         value = stringResource(R.string.no_backups_yet),
-                        icon = Icons.Default.History,
+                        icon = Icons.Outlined.History,
                         modifier = Modifier.weight(1f),
                     )
                     Spacer(Modifier.width(10.dp))
                     CompactStatus(
                         title = stringResource(R.string.next_backup),
                         value = stringResource(R.string.not_scheduled),
-                        icon = Icons.Default.Schedule,
+                        icon = Icons.Outlined.Schedule,
                         modifier = Modifier.weight(1f).clickable { onOpen(Screen.SCHEDULE_DETAIL) },
                     )
                 }
+
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.28f))
 
                 BackupAreaGrid(
                     onOpen = onOpen,
@@ -136,18 +138,18 @@ fun HomeScreen(
             text = stringResource(R.string.quick_actions),
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(horizontal = 2.dp),
+            modifier = Modifier.padding(horizontal = 2.dp, vertical = 1.dp),
         )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_apps),
-                icon = Icons.Default.CloudUpload,
+                icon = Icons.Outlined.CloudUpload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
-                icon = Icons.Default.CloudDownload,
+                icon = Icons.Outlined.CloudDownload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
         }
@@ -155,22 +157,22 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_folders),
-                icon = Icons.Default.Folder,
+                icon = Icons.Outlined.Folder,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
             QuickAction(
                 title = stringResource(R.string.restore_data),
-                icon = Icons.Default.Download,
+                icon = Icons.Outlined.Download,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
         }
 
         TextButton(
             onClick = { onOpenTab(Tab.APPS.ordinal) },
-            modifier = Modifier.align(Alignment.End).height(28.dp),
+            modifier = Modifier.align(Alignment.End).height(32.dp),
             contentPadding = PaddingValues(horizontal = 4.dp, vertical = 0.dp),
         ) {
-            Text(stringResource(R.string.more_apps_actions), fontSize = 12.sp)
+            Text(stringResource(R.string.more_apps_actions), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
@@ -186,8 +188,8 @@ private fun CompactStatus(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp))
-        Spacer(Modifier.width(7.dp))
+        Icon(icon, contentDescription = title, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(8.dp))
         Column {
             Text(title, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Text(value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, maxLines = 1)
@@ -205,16 +207,16 @@ private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
         Triple(stringResource(R.string.wifi), Icons.Default.Wifi, Screen.WIFI),
         Triple(stringResource(R.string.wallpapers), Icons.Default.Image, Screen.WALLPAPERS),
     )
-    Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         areas.chunked(3).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 row.forEach { (label, icon, screen) ->
                     Column(
                         modifier = Modifier.weight(1f).clickable { onOpen(screen) },
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                        verticalArrangement = Arrangement.spacedBy(3.dp),
                     ) {
-                        Icon(icon, contentDescription = label, modifier = Modifier.size(22.dp))
+                        Icon(icon, contentDescription = label, modifier = Modifier.size(18.dp))
                         Text(label, style = MaterialTheme.typography.labelSmall, maxLines = 1)
                     }
                 }
@@ -232,15 +234,15 @@ private fun QuickAction(
     onClick: () -> Unit,
 ) {
     Card(
-        modifier = modifier.height(66.dp).clickable(onClick = onClick),
+        modifier = modifier.height(62.dp).clickable(onClick = onClick),
         shape = RoundedCornerShape(14.dp),
     ) {
         Row(
-            Modifier.fillMaxSize().padding(horizontal = 12.dp),
+            Modifier.fillMaxSize().padding(horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(icon, contentDescription = title, modifier = Modifier.size(24.dp))
-            Spacer(Modifier.width(9.dp))
+            Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(8.dp))
             Text(title, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Medium)
         }
     }
