@@ -1,7 +1,6 @@
 package com.bare.recovery
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
 import org.junit.Test
 
@@ -42,11 +41,9 @@ class RecoveryPackageCodecTest {
     }
 
     @Test
-    fun cleartextHeaderDoesNotContainIdentity() {
+    fun bootstrapIdentityIsReadableWithoutPassword() {
         val encoded = RecoveryPackageCodec.encode(payload, "correct".toCharArray())
-        val cleartext = encoded.copyOfRange(0, 4 + 1 + 1 + 4 + 1 + 1 + 16 + 12)
-        val identity = payload.identityId.toByteArray(Charsets.UTF_8)
 
-        assertFalse(cleartext.toString(Charsets.ISO_8859_1).contains(identity.toString(Charsets.ISO_8859_1)))
+        assertEquals(payload.identityId, RecoveryPackageCodec.peekIdentity(encoded))
     }
 }
