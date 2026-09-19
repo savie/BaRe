@@ -1976,3 +1976,269 @@ Batch 1–5 berhasil menutup core implementation dependency, tetapi tidak mengub
 
 ### Important
 Current implementation sudah menyediakan jalur source/UI untuk export/import recovery, tetapi **belum boleh disebut end-to-end VERIFIED** sebelum APK dibuild dan diuji pada device target.
+
+
+## 2026-09-19 — Audit Ulang Welcome → Storage Setup → Access Method → Sebelum Home
+
+### Authorization
+Pengguna memberikan **GO** untuk satu kali audit ulang dengan scope eksplisit: menelusuri actual flow dari Welcome sampai tepat sebelum Home, menghubungkan hasilnya dengan foundation identity/storage/recovery yang sudah ada, dan memperbarui worklog. Audit ini tidak mengubah Home. Perubahan FE hanya dilakukan bila audit membuktikan flow/text saat ini tidak merepresentasikan capability yang sudah ada.
+
+### Scope yang Dicek
+Audit source aktual branch `v1.0/rebaseline` mencakup:
+- `BaReApp.kt` sebagai orchestration flow;
+- `WelcomeScreen` dan `LocalSetupConfirmation`;
+- `StorageSetupScreen`;
+- `AccessMethodScreen`;
+- `LocalIdentityStore`;
+- `BackupStorageRepository`;
+- boundary menuju `StartScreen.APP`;
+- existing recovery foundation sebagai dependency downstream;
+- worklog sebagai continuity record.
+
+### Actual Flow — OBSERVED STATIC
+
+```text
+WELCOME
+  ↓
+pilih LOCAL
+  ↓
+LocalSetupConfirmation
+  ↓
+createLocalIdentity()
+  ↓
+STORAGE_SETUP
+  ↓
+inspect(identityId)
+  ↓
+pilih Internal / External / Cloud
+  ↓
+ACCESS_METHOD
+  ↓
+pilih NON_ROOT / ROOT
+  ↓
+resolve capability
+  ↓
+markSetupComplete()
+  ↓
+START_SCREEN.APP
+  ↓
+HOME
+```
+
+### Temuan 1 — Identity Sudah Menjadi Pondasi Nyata
+**OBSERVED:**
+- LOCAL identity dibuat tepat setelah user mengonfirmasi Local pada Welcome.
+- `LocalIdentityStore.createLocalIdentity()` menyimpan UUID + LOCAL type ke SharedPreferences `bare_identity`.
+- Storage Setup menerima identity ID tersebut untuk membentuk tampilan namespace.
+- Identity yang sama menjadi input downstream recovery payload.
+
+**VERIFIED STATIC:**
+- Jalur identity creation bukan asumsi; call-site aktual ada di `BaReApp.kt`.
+- Identity persistence dan recovery payload sudah terhubung secara source.
+
+### Temuan 2 — Storage Setup Saat Ini Hanya INSPECT, Belum INITIALIZE
+**OBSERVED:**
+`StorageSetupScreen` membuat `BackupStorageRepository`, lalu memanggil:
+`repository.inspect(identityId)`.
+
+`BackupStorageRepository.internalStorage(identityId)` hanya membentuk:
+`/storage/emulated/0/BaRe/accounts/<derived-identity-folder>/backups`
+dan mengembalikan metadata path/capacity/writable.
+
+Tidak ditemukan pada flow sebelum Home call yang:
+- `mkdir`/create directory;
+- create canonical BaRe root;
+- create identity namespace;
+- create `backups` directory;
+- write marker/state;
+- persist selected storage path;
+- atau menulis recovery artifact.
+
+**Kesimpulan:**
+Storage Setup saat ini secara semantic lebih tepat disebut **storage inspection/selection**, bukan storage initialization.
+
+Ini menjelaskan secara langsung mengapa setelah install #344 identity ID dapat ada tetapi folder public BaRe tidak otomatis muncul.
+
+### Temuan 3 — Path Storage Existing Belum Menjadi Contract yang Aman
+**OBSERVED:**
+Path dibentuk dengan:
+`identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')`.
+
+Artinya namespace folder tidak menggunakan full canonical identity dan belum ada evidence bahwa mapping 16-character tersebut merupakan contract final.
+
+**UNKNOWN / UNVERIFIED:**
+- apakah folder ini memang intended canonical namespace final;
+- apakah path public tersebut dapat dibuat/ditulis oleh target Android 35 tanpa user-granted boundary;
+- apakah path yang pernah terlihat pada build/runtime sebelumnya benar-benar dibuat oleh implementation branch saat ini;
+- apakah existing backup data harus dimigrasikan bila namespace contract berubah.
+
+Karena itu audit tidak mengubah mapping pada pekerjaan ini.
+
+### Temuan 4 — User Selection di Storage Setup Belum Persist sebagai Storage State
+**OBSERVED:**
+`StorageSetupScreen` memiliki `selectedPath` sebagai Compose state lokal.
+
+Saat Continue ditekan, callback hanya memindahkan flow ke `ACCESS_METHOD`.
+
+Tidak ada source yang menyimpan:
+- selected storage kind;
+- selected path;
+- storage URI;
+- storage initialization state.
+
+Jadi selection UI saat ini bukan persisted storage configuration.
+
+### Temuan 5 — Access Method Sudah Menjadi Gate Sebelum Home
+**OBSERVED:**
+Setelah storage selection, flow masuk `AccessMethodScreen`.
+
+Saat Continue:
+- capability resolver dijalankan;
+- hanya jika capability available, `identityStore.markSetupComplete()`;
+- lalu `startScreen = StartScreen.APP`.
+
+Dengan demikian **Home memang tidak perlu diubah** untuk menutup audit ini. Boundary yang benar untuk pekerjaan berikutnya berada sebelum `markSetupComplete()` / sebelum `StartScreen.APP`.
+
+### Temuan 6 — Recovery Foundation Ada, Tetapi Tidak Terhubung ke Onboarding
+**OBSERVED:**
+Recovery codec/repository/UI sudah ada pada branch:
+- encrypted recovery package;
+- export/import;
+- conflict-safe identity restore;
+- Document Tree boundary;
+- read-back verification.
+
+Namun flow Welcome → Storage Setup → Access Method tidak memanggil recovery export/init.
+
+Recovery saat ini merupakan capability terpisah yang diakses dari Account setelah masuk app.
+
+Akibatnya:
+```text
+Identity created
+  ↓
+Storage inspected
+  ↓
+Access verified
+  ↓
+Home
+```
+tidak menghasilkan recovery artifact.
+
+Sedangkan artifact hanya dapat muncul melalui:
+```text
+Account
+  ↓
+Import / Export
+  ↓
+password
+  ↓
+user selects destination
+  ↓
+export
+```
+
+### Temuan 7 — "Artifact di Folder Storage" Belum Memiliki Satu Contract
+Audit menemukan dua konsep yang saat ini bercampur:
+
+1. **Canonical BaRe backup storage**
+   `/storage/emulated/0/BaRe/accounts/.../backups`
+
+2. **Portable encrypted recovery artifact**
+   artifact yang ditulis melalui user-granted Document Tree.
+
+Source sekarang belum menetapkan secara eksplisit apakah:
+- recovery artifact wajib otomatis berada di canonical BaRe storage;
+- recovery artifact dibuat pada setup pertama;
+- recovery artifact hanya dibuat saat user melakukan backup/export;
+- atau canonical storage dan portable recovery sengaja terpisah.
+
+**Decision belum dibuat oleh audit ini.**
+
+### Temuan 8 — FE/UX Sebelum Home Belum Mengkomunikasikan State Sebenarnya
+Text `backup_storage` dan `storage_setup_description` membuat screen terlihat seperti setup storage, sementara implementation aktual terutama melakukan inspection/selection dan belum melakukan initialization/persistence.
+
+Ini adalah **FE truth mismatch**, bukan sekadar masalah wording.
+
+Namun audit belum mengubah text karena contract storage artifact belum diputuskan. Mengubah copy sekarang berisiko mengunci semantics yang belum disetujui.
+
+### Reconciliation dengan Foundation yang Sudah Ada
+
+```text
+FOUNDATION SUDAH ADA
+├── LOCAL UUID identity
+├── identity persistence
+├── recovery payload
+├── encryption/authentication codec
+├── recovery artifact repository
+├── Document Tree boundary
+├── import/export UI
+└── conflict-safe restore
+
+GAP SEBELUM HOME
+├── canonical storage initialization
+├── persisted storage selection
+├── canonical namespace contract
+├── trigger recovery artifact
+└── hubungan storage setup ↔ recovery lifecycle
+```
+
+Jadi commit-commit sebelumnya **tidak dibuang**. Mereka memang sudah menjadi pondasi. Yang kurang adalah orchestration/lifecycle integration dan contract boundary sebelum Home.
+
+### Batch Boundary yang Terbukti
+
+Pekerjaan berikutnya secara natural memang perlu dipisah menjadi batch implementation karena dependency dan verification berbeda:
+
+**Batch A — Pre-Home Storage/Recovery Integration**
+- kunci canonical storage contract;
+- hubungkan existing repository/foundation ke Welcome → Storage Setup → Access Method;
+- buat initialization trigger yang benar;
+- persist storage state bila memang diperlukan;
+- hubungkan recovery artifact lifecycle;
+- perbaiki FE text/flow hanya berdasarkan contract final;
+- jangan ubah Home.
+
+**Batch B — Destructive Lifecycle Verification**
+- restart;
+- APK update;
+- clear data;
+- uninstall/reinstall;
+- export/import artifact nyata;
+- recovery identity;
+- namespace reconciliation;
+- tamper/wrong password;
+- factory reset/format dan ROM replacement hanya pada boundary yang dapat diuji.
+
+User kemudian hanya perlu melakukan verification pada device untuk destructive lifecycle tersebut setelah Batch A/B menghasilkan APK yang dapat diuji.
+
+### Status Truth Setelah Audit
+
+| Area | Status |
+|---|---|
+| Welcome → LOCAL identity | **VERIFIED STATIC** |
+| LOCAL identity persistence | **VERIFIED STATIC** |
+| Storage inspection | **VERIFIED STATIC** |
+| Storage initialization sebelum Home | **MISSING / NOT IMPLEMENTED** |
+| Selected storage persistence | **MISSING** |
+| Canonical namespace contract | **OPEN / UNDECIDED** |
+| Public path runtime write | **UNVERIFIED** |
+| Recovery crypto core | **IMPLEMENTED / UNIT-VERIFIED** |
+| Recovery UI | **IMPLEMENTED** |
+| Recovery linked to onboarding | **MISSING** |
+| Automatic recovery artifact trigger | **MISSING** |
+| Home | **NOT CHANGED** |
+| End-to-end device recovery | **UNVERIFIED** |
+
+### Engineering Conclusion
+
+**Audit result: OPEN, but now the actual pre-Home gap is identified.**
+
+Bukan masalah bahwa foundation sebelumnya tidak berguna. Foundation identity, storage inspection, dan recovery sudah ada. Masalahnya adalah **belum ada lifecycle integration yang menghubungkan ketiganya sebelum Home**.
+
+Boundary implementation yang paling tepat sekarang adalah **sebelum `markSetupComplete()` / sebelum `StartScreen.APP`**, bukan di Home.
+
+Tidak ada source change pada audit ini.
+
+### Next Authorized Work
+Menunggu **GO** untuk Batch A — Pre-Home Storage/Recovery Integration.
+
+`master`: **NOT TOUCHED**.
