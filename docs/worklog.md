@@ -2914,3 +2914,63 @@ Prioritas investigasi:
 Ini mempersempit masalah secara material: mekanisme `.bare` sudah cukup untuk recovery pada kondisi clear-data, tetapi bootstrap setelah uninstall masih bergantung pada kondisi public-storage discovery/access yang belum terbukti.
 
 Tidak ada source change pada record ini.
+
+## 2026-09-20 — Runtime Verification #384: Onboarding Storage Access Gate
+
+### Pekerjaan Saat Ini
+
+Melakukan verifikasi runtime terhadap APK **#384** setelah perbaikan onboarding state transition dan pre-identity storage inspection.
+
+### Implementasi yang Diverifikasi
+
+- **Backup Storage** menjadi gate sebelum capability access berikutnya.
+- Saat **All Files Access belum diberikan**, flow kembali/bertahan di **Backup Storage** dan tidak meneruskan onboarding ke Access Method.
+- Saat **All Files Access dipilih/diberikan**, flow dapat lanjut ke **Access Method** dan kemudian **HOME**.
+- Pre-identity storage inspection tetap menampilkan pilihan storage sebelum identity bootstrap selesai.
+- Perbaikan compile pada pre-identity external storage inspection tercatat pada commit `559947e57ac7f4e444920bf02fd23a5cb5fe0209`.
+
+### User Runtime Result
+
+Pengguna melakukan test langsung terhadap build **#384** dan menyatakan flow tersebut sesuai secara logis:
+
+```
+Welcome
+  ↓
+Local
+  ↓
+Backup Storage
+  ├─ belum All Files Access → kembali/bertahan Backup Storage
+  └─ All Files Access       → Access Method → HOME
+```
+
+Status evidence:
+- Backup Storage sebagai gate: **USER RUNTIME OBSERVED**
+- Tanpa All Files Access → kembali ke Backup Storage: **USER RUNTIME OBSERVED**
+- Dengan All Files Access → Access Method → HOME: **USER RUNTIME OBSERVED**
+- UX loop Storage → Access → Storage → ...: **USER RUNTIME OBSERVED FIXED**
+
+### CI Verification
+
+- GitHub Actions **#384**: **CI VERIFIED SUCCESS**.
+- Run ID: `35477035746`
+- Head: `559947e57ac7f4e444920bf02fd23a5cb5fe0209`
+- Branch: `v1.0/rebaseline`
+- Workflow conclusion: `success`
+
+### Status Truth
+
+| Area | Status |
+|---|---|
+| Build #384 | **CI VERIFIED SUCCESS** |
+| Backup Storage gate | **USER RUNTIME OBSERVED** |
+| No All Files Access → Backup Storage | **USER RUNTIME OBSERVED** |
+| All Files Access → Access Method → HOME | **USER RUNTIME OBSERVED** |
+| Onboarding loop | **USER RUNTIME OBSERVED FIXED** |
+| Home visual | **NOT CHANGED** |
+| master | **NOT TOUCHED** |
+
+### Kesimpulan
+
+Flow onboarding #384 yang diverifikasi runtime sekarang mengikuti boundary capability yang lebih jelas: **Backup Storage menunggu storage access; setelah All Files Access tersedia, onboarding lanjut ke Access Method lalu HOME**.
+
+Tidak ada perubahan source tambahan yang dilakukan dari hasil verifikasi runtime ini.
