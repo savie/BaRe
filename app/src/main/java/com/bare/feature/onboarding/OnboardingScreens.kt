@@ -78,7 +78,7 @@ suspend fun initializeStorageForIdentity(
             storageConfig.saveKind(selectedStorageKind)
         }
     } finally {
-        password.fill('\\u0000')
+        password.fill('\u0000')
     }
 }
 
