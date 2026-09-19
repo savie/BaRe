@@ -1613,3 +1613,37 @@ Pengguna meminta audit fondasi penentuan BaRe ID sebelum melanjutkan area Apps, 
 
 ### Keputusan Engineering Saat Ini
 Tidak melakukan perubahan source pada audit ini. Sebelum melanjutkan capability Apps, identity lifecycle dan recovery contract harus ditutup terlebih dahulu agar artifact/backup path tidak terikat pada ID instalasi yang dapat berubah tanpa mekanisme rekonsiliasi.
+
+## 2026-09-19 — Diskusi Boundary Local Identity: Device Continuity
+
+### Status Diskusi
+Pembahasan lanjutan setelah audit BaRe Identity dan referensi Swift Backup. **Belum menjadi contract, requirement final, atau implementasi.** Catatan ini hanya menjaga arah diskusi agar tidak hilang.
+
+### Arah yang Diinginkan Pengguna
+Untuk mode **LOCAL**, boundary continuity yang diharapkan adalah **device yang sama**:
+- LOCAL tetap persistent pada device yang sama.
+- Update APK seharusnya mempertahankan LOCAL identity/state.
+- Uninstall → install kembali di device yang sama diharapkan dapat mempertahankan LOCAL identity/state.
+- Format ulang / factory reset pada device yang sama diharapkan sebisa mungkin tetap dapat memulihkan LOCAL identity/state.
+- Ganti/flash ROM pada device yang sama diharapkan sebisa mungkin tetap dapat memulihkan LOCAL identity/state.
+- Pindah ke device lain dianggap boundary yang berbeda dan recovery/migration menjadi lebih kompleks; belum ditentukan mekanismenya.
+
+### Batas Desain yang Sedang Dibahas
+- BaRe LOCAL tidak akan mengikuti alur Swift Backup secara langsung. Swift hanya menjadi reference/discovery material.
+- APK signing identity tidak digunakan sebagai pembentuk canonical LOCAL ID.
+- Jangan mengunci canonical LOCAL identity pada application signing/build identity karena perubahan release/update/signing dapat memutus continuity.
+- Nilai hard-code yang saat ini ada di implementasi BaRe juga belum dianggap solusi final.
+- BaRe ID, Device ID, Installation ID, dan Account ID tetap perlu dipisahkan secara semantik; mekanisme final belum diputuskan.
+- Target continuity harus dibedakan dari mekanisme persistence: persistence biasa cukup untuk restart/update, sedangkan uninstall/reset/ROM membutuhkan recovery evidence yang lebih durable.
+
+### Truth Status
+- **USER INTENT:** LOCAL diharapkan persistent selama boundary device yang sama.
+- **PROPOSAL:** Device-bound continuity/recovery mechanism untuk LOCAL.
+- **UNKNOWN:** mekanisme teknis yang mampu memenuhi continuity setelah uninstall, format/factory reset, dan ROM replacement tanpa account/server.
+- **UNKNOWN:** identifier/device evidence apa yang aman, stabil, dan tersedia pada seluruh lifecycle target.
+- **NOT AUTHORIZED:** perubahan source atau pemilihan algoritma final identity.
+- **NO SOURCE CHANGE:** diskusi ini tidak mengubah implementation.
+
+### Catatan Penting
+Harapan "device yang sama selalu persistent" adalah **target continuity**, bukan bukti bahwa Android menyediakan satu identifier universal yang otomatis bertahan pada seluruh kondisi tersebut. Karena itu mekanisme final harus diuji terhadap lifecycle nyata: restart, update APK, uninstall/reinstall, clear data, factory reset/format, dan ROM replacement.
+
