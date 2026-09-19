@@ -158,7 +158,7 @@ fun HomeScreen(
 
         Text(
             text = stringResource(R.string.quick_actions),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(top = 3.dp),
         )
@@ -284,11 +284,12 @@ private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp))
+                        Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface)
                         Text(
                             label,
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
+                            color = MaterialTheme.colorScheme.onSurface,
                             maxLines = 1,
                         )
                     }
@@ -315,7 +316,7 @@ private fun QuickAction(
             Modifier.fillMaxSize().padding(horizontal = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(icon, contentDescription = title, modifier = Modifier.size(21.dp))
+            Icon(icon, contentDescription = title, modifier = Modifier.size(21.dp), tint = MaterialTheme.colorScheme.onSurface)
             Spacer(Modifier.width(9.dp))
             Text(
                 title,
