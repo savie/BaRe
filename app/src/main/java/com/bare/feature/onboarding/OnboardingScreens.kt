@@ -313,7 +313,7 @@ fun StorageSetupScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val repository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
     val identityStore = remember(context) { LocalIdentityStore(context) }
-    val recoveryRepository = remember(context) { RecoveryArtifactRepository(context.contentResolver) }
+    val recoveryRepository = remember(context) { RecoveryArtifactRepository(context) }
     val storageConfig = remember(context) { StorageConfigurationStore(context) }
     val scope = rememberCoroutineScope()
 
