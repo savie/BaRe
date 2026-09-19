@@ -1518,3 +1518,38 @@ Pengguna memberikan **GO** setelah review desain Home #318 dan rekonsiliasi deng
 - Tunggu CI run #319/#320 dan rekonsiliasi hasil build.
 - Jika CI green, install APK hasil terbaru dan lakukan visual runtime verification Home pada device target.
 - Bandingkan hasil aktual terhadap Design Lock dan change set ini sebelum menyatakan visual refinement verified.
+
+## 2026-09-19 — Home Visual Refinement #2: Typography, Layers, Actions, dan Icon System
+
+### Authorization
+Pengguna memberikan **GO** untuk mengeksekusi langsung refinement Home berdasarkan review runtime screenshot dan Design Lock sebelumnya sampai CI green.
+
+### Keputusan yang Diterapkan
+- Brand main shell diselaraskan dengan karakter Welcome: B Λ R E menggunakan 42sp / Medium dengan letter spacing yang sama; SAVE OUR DAY menggunakan 17sp / Light dengan letter spacing yang sama.
+- Home sekarang memiliki judul **Dashboard** sebelum surface utama agar struktur halaman konsisten dan tidak terasa seperti kumpulan card tanpa konteks.
+- Dashboard tetap **satu card/surface besar**.
+- Internal dashboard diberi layer separation yang eksplisit namun tetap tanpa nested card: Identity / Access, Storage, Backup status, Features.
+- Identity / Access menggunakan dua kolom dengan slot icon dan typography yang konsisten agar Local/Root tidak terlihat timpang.
+- Typography Home dinaikkan ke scale yang lebih konsisten dengan Welcome; body value dan Quick Actions menggunakan body scale yang lebih jelas, tanpa memaksa font mengecil hanya demi viewport.
+- Storage progress dibuat lebih tipis dan subdued.
+- Quick Actions direstrukturisasi secara visual: tinggi 56dp, radius 12dp, tonal surface yang lebih ringan, icon + label sebagai satu unit, empat action tetap sama.
+- Enam feature icons dan empat bottom-navigation icons menggunakan custom lightweight vector iconography di source, tanpa dependency/icon asset tambahan.
+- Custom vectors dibuat sebagai ImageVector sehingga tidak menambah library atau asset package baru.
+- Search tetap menggunakan Material outlined search karena symbol tersebut sudah sesuai dengan visual language yang dibutuhkan.
+- Bottom navigation tetap empat tab dan hanya visual icon language yang berubah; routing/tab structure tidak berubah.
+- More Apps Actions tetap secondary entry ke Apps.
+
+### Implementation
+- app/src/main/java/com/bare/ui/BareIcons.kt
+- app/src/main/java/com/bare/feature/home/HomeScreen.kt
+- app/src/main/java/com/bare/app/AppState.kt
+- app/src/main/java/com/bare/app/BaReApp.kt
+- app/src/main/res/values/strings.xml
+
+### Verification
+- CI run **#330** pada commit b0bd1006c5a8be4ebbc9c3f1d0ec09134f5697b7: **COMPLETED / SUCCESS**.
+- :app:assembleDebug: **SUCCESS**.
+- APK artifact BaRe-v1.0-build-330: tersedia dan tidak expired.
+- Signing/artifact verification pada workflow: **SUCCESS**.
+- Runtime visual verification: source/build verified; device screenshot baru setelah refinement ini belum tersedia, sehingga visual runtime final tetap **UNVERIFIED** sampai APK #330 diuji pada device.
+- master tidak disentuh.
