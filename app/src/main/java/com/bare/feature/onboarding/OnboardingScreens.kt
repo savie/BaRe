@@ -340,7 +340,6 @@ fun StorageSetupScreen(
                 ?: com.bare.storage.BackupStorage.Kind.INTERNAL
         )
     }
-    var recoveryPassword by remember { mutableStateOf("") }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
 
