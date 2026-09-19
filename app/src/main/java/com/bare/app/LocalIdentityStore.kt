@@ -1,6 +1,7 @@
 package com.bare.app
 
 import android.content.Context
+import com.bare.recovery.RecoveryPackageCodec
 import java.util.UUID
 
 data class BaReIdentity(
@@ -30,6 +31,45 @@ class LocalIdentityStore(context: Context) {
                 .putString(KEY_TYPE, identity.type.name)
                 .apply()
         }
+    }
+
+    fun toRecoveryPayload(): RecoveryPackageCodec.Payload {
+        val identity = load() ?: createLocalIdentity()
+        return RecoveryPackageCodec.Payload(
+            identityId = identity.identityId,
+            type = identity.type.name,
+            setupComplete = isSetupComplete(),
+            accessMethod = loadAccessMethod()?.name,
+        )
+    }
+
+    /**
+     * Restores LOCAL identity only when there is no conflicting local identity.
+     * A conflicting installed identity is never silently overwritten.
+     */
+    fun restoreFromRecovery(payload: RecoveryPackageCodec.Payload): BaReIdentity {
+        require(payload.type == IdentityType.LOCAL) { "recovery package is not LOCAL" }
+        require(payload.identityId.isNotBlank()) { "recovery package has no identity" }
+
+        val existing = load()
+        if (existing != null && existing.identityId != payload.identityId) {
+            throw IllegalStateException("existing LOCAL identity conflicts with recovery identity")
+        }
+
+        preferences.edit()
+            .putString(KEY_ID, payload.identityId)
+            .putString(KEY_TYPE, IdentityType.LOCAL.name)
+            .putBoolean(KEY_SETUP_COMPLETE, payload.setupComplete)
+            .apply()
+
+        if (payload.accessMethod != null) {
+            runCatching { AccessMethod.valueOf(payload.accessMethod) }
+                .onSuccess { saveAccessMethod(it) }
+        } else {
+            preferences.edit().remove(KEY_ACCESS_METHOD).apply()
+        }
+
+        return BaReIdentity(payload.identityId, IdentityType.LOCAL)
     }
 
     fun isSetupComplete(): Boolean = preferences.getBoolean(KEY_SETUP_COMPLETE, false)
