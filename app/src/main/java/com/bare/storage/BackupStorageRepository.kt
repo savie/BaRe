@@ -12,6 +12,8 @@ data class BackupStorage(
     val path: String,
     val available: Boolean,
     val writable: Boolean,
+    val totalBytes: Long = 0L,
+    val freeBytes: Long = 0L,
 ) {
     enum class Kind { INTERNAL, EXTERNAL, REMOTE }
 }
@@ -45,6 +47,8 @@ class BackupStorageRepository(private val context: Context) {
             path = backups.absolutePath,
             available = root.exists() && Environment.getExternalStorageState(root) == Environment.MEDIA_MOUNTED,
             writable = if (backups.exists()) backups.canWrite() else root.canWrite(),
+            totalBytes = root.totalSpace,
+            freeBytes = root.freeSpace,
         )
     }
 
@@ -63,6 +67,8 @@ class BackupStorageRepository(private val context: Context) {
                 path = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
                 available = true,
                 writable = root.canWrite(),
+                totalBytes = root.totalSpace,
+                freeBytes = root.freeSpace,
             )
         }.distinctBy { it.path }
     }
