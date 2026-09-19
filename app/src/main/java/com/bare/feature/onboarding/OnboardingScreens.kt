@@ -357,7 +357,7 @@ fun StorageSetupScreen(
     val scope = rememberCoroutineScope()
 
     val storages = remember(identityId) {
-        if (identityId.isNullOrBlank()) emptyList() else repository.inspect(identityId)
+        if (identityId.isNullOrBlank()) repository.inspectAvailable() else repository.inspect(identityId)
     }
     val internal = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }
     val external = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }
