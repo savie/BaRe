@@ -1311,3 +1311,27 @@ Pengguna memberikan **GO** untuk mengubah behavior External storage sesuai inten
 - Install APK hasil build terbaru ke device.
 - Verifikasi External tetap tampil sebagai **Not connected** tanpa USB/MMC.
 - Hubungkan USB OTG/MMC dan verifikasi state berubah menjadi storage yang dapat dipilih serta path backup terbentuk sesuai volume.
+
+## 2026-09-19 — Runtime Verification #305: Internal dan External Storage
+
+### Evidence Runtime
+- Pengguna melakukan test langsung pada device menggunakan build **#305**.
+- **Internal storage: PASS** — path BaRe tampil dan repository internal dapat digunakan sebagai pilihan.
+- **External storage tanpa hardware: PASS** — External storage tetap tampil sebagai **Not connected**.
+- **External storage dengan hardware: PASS** — setelah storage removable terhubung, volume terdeteksi dan tampil sebagai storage eksternal dengan path BaRe pada volume tersebut.
+- Evidence runtime di atas berasal dari screenshot/device observation pengguna.
+
+### Cloud
+- Cloud flow tidak diverifikasi pada sesi ini.
+- Cloud sengaja ditunda karena authentication/account flow belum menjadi capability yang siap untuk runtime verification.
+- Tidak ada perubahan implementation Cloud pada pekerjaan ini.
+
+### Status Truth
+- Internal storage: **RUNTIME TESTED / USER-OBSERVED PASS**.
+- External disconnected state: **RUNTIME TESTED / USER-OBSERVED PASS**.
+- External mounted removable storage: **RUNTIME TESTED / USER-OBSERVED PASS**.
+- Cloud: **DEFERRED / UNVERIFIED**.
+
+### Berikutnya
+- Lanjutkan capability berikutnya yang tidak bergantung pada authentication/cloud.
+- Cloud/account flow dapat digarap kembali ketika authentication/account foundation sudah menjadi prioritas.
