@@ -89,6 +89,37 @@ class RecoveryArtifactRepository(
         }
     }
 
+
+    fun exportToFile(
+        directory: java.io.File,
+        payload: RecoveryPackageCodec.Payload,
+        password: CharArray,
+        fileName: String = "bare-recovery-v1.bare",
+    ): java.io.File {
+        require(directory.isDirectory && directory.canWrite()) {
+            "recovery directory is not writable"
+        }
+        val finalFile = java.io.File(directory, fileName)
+        val partialFile = java.io.File(directory, "$fileName.partial")
+        runCatching { partialFile.delete() }
+        try {
+            val bytes = RecoveryPackageCodec.encode(payload, password)
+            partialFile.outputStream().use { output ->
+                output.write(bytes)
+                output.flush()
+            }
+            RecoveryPackageCodec.decode(partialFile.readBytes(), password)
+            if (finalFile.exists()) {
+                check(finalFile.delete()) { "unable to replace recovery artifact" }
+            }
+            check(partialFile.renameTo(finalFile)) { "unable to finalize recovery artifact" }
+            return finalFile
+        } catch (error: Throwable) {
+            runCatching { partialFile.delete() }
+            throw error
+        }
+    }
+
     fun import(
         artifactUri: Uri,
         password: CharArray,
