@@ -2777,3 +2777,140 @@ Audit tidak otomatis melakukan cleanup Git.
 
 Jika cleanup implementation berikutnya diotorisasi, replay/reconstruction harus dimulai dari KEEP set di atas:
 Preserve reference/history → Preserve canonical direct-storage baseline → Preserve recovery foundation → Drop obsolete SAF-canonical onboarding path → Rebuild identity bootstrap + secret lifecycle → Compile → Unit test → Runtime clear-data verification → Runtime uninstall/reinstall verification.
+
+
+## 2026-09-20 — Runtime Verification #375: Clear Data PASS, Uninstall/Reinstall FAIL
+
+### User Runtime Result
+
+Pengguna melakukan verifikasi terhadap APK/build **#375**.
+
+- **Clear data:** PASS.
+  - Existing `.bare` artifact tetap dapat digunakan.
+  - Identity lama berhasil dipertahankan.
+- **Uninstall → install:** FAIL.
+  - Setelah aplikasi di-uninstall lalu di-install kembali, BaRe menghasilkan UUID baru.
+  - Artinya continuity setelah uninstall/reinstall belum tercapai.
+
+Status evidence:
+- Clear-data continuity: **OBSERVED PASS / user runtime evidence**.
+- Uninstall/reinstall continuity: **OBSERVED FAIL / user runtime evidence**.
+- CI build #375: **VERIFIED SUCCESS** pada GitHub Actions run `35455804306`, head `96fb5b3f25a6d1f62ce789b96f68bf21b8236289`.
+
+### Reconciliation terhadap Source Aktual
+
+Source `LocalIdentityStore.loadOrRecover()` saat ini melakukan bootstrap dari SharedPreferences, lalu `findRecoveryArtifacts()`, lalu `peekIdentity(.bare)`, lalu `restoreBootstrapIdentity()`.
+
+Namun `findRecoveryArtifacts()` hanya dapat membaca filesystem public ketika proses aplikasi mempunyai akses yang diperlukan terhadap storage target.
+
+Source bootstrap dipanggil saat startup melalui `BaReApp`, sebelum lifecycle storage-access UI dijalankan.
+
+Manifest saat ini menggunakan `MANAGE_EXTERNAL_STORAGE`. Permission/capability tersebut tidak boleh diasumsikan tetap tersedia setelah aplikasi di-uninstall dan di-install ulang.
+
+### Inference — ROOT CAUSE CANDIDATE
+
+Perbedaan antara dua test mengarah pada kemungkinan berikut:
+
+```text
+CLEAR DATA
+Shared storage + permission/capability
+        ↓
+.bare masih dapat dibaca
+        ↓
+UUID lama dipulihkan
+        ↓
+PASS
+
+UNINSTALL → INSTALL
+app-private state hilang
++ permission/capability dapat kembali menjadi tidak granted
+        ↓
+startup loadOrRecover() mencoba scan public storage
+        ↓
+artifact tidak terbaca / tidak terdiscover
+        ↓
+loadOrRecover() = null
+        ↓
+createLocalIdentity()
+        ↓
+UUID baru
+        ↓
+FAIL
+```
+
+Ini masih **INFERENCE / ROOT-CAUSE CANDIDATE**, bukan root cause final yang sudah terinstrumentasi.
+
+### Hal yang Sudah Terbukti
+
+1. Recovery artifact mechanism bekerja pada kondisi clear-data.
+2. `peekIdentity()` v2 dapat menyediakan identity sebelum password.
+3. UUID baru masih dibuat ketika `loadOrRecover()` gagal menemukan candidate.
+4. Jadi problem uninstall/reinstall bukan lagi sekadar ketiadaan algoritma recovery; problem berada pada **availability/discovery boundary sebelum identity bootstrap** atau lifecycle artifact/permission setelah uninstall.
+
+### Hal yang Belum Terbukti
+
+Belum dibedakan secara runtime apakah kegagalan uninstall/reinstall disebabkan oleh:
+- `MANAGE_EXTERNAL_STORAGE` kembali tidak granted setelah reinstall;
+- artifact public benar-benar terhapus oleh uninstall pada target device;
+- artifact berada pada storage root yang tidak terdiscover oleh `storageVolumes`;
+- permission tersedia tetapi filesystem enumeration gagal;
+- atau kondisi lain pada startup ordering.
+
+Tidak boleh mengunci satu penyebab sebagai VERIFIED tanpa observasi tersebut.
+
+### Engineering Boundary Berikutnya
+
+Jangan mengubah UUID generator.
+
+Bootstrap identity perlu fail-safe terhadap uninstall/reinstall:
+
+```text
+STARTUP
+    ↓
+local identity?
+    ├─ yes → use
+    └─ no
+       ↓
+public artifact discoverable?
+    ├─ yes → recover old identity
+    └─ no
+       ↓
+storage capability/access state?
+    ├─ not available → DO NOT silently mint new identity
+    └─ available → retry reconciliation
+       ↓
+only when proven no durable identity exists
+       ↓
+create new UUID
+```
+
+Prioritas investigasi:
+1. verifikasi state `Environment.isExternalStorageManager()` setelah reinstall;
+2. verifikasi keberadaan `.bare` sebelum first launch;
+3. verifikasi apakah `findRecoveryArtifacts()` dapat enumerate artifact pada kondisi tersebut;
+4. tambahkan observable bootstrap result/error state agar failure discovery tidak berubah diam-diam menjadi UUID baru;
+5. baru setelah evidence tersebut, implementasikan fix yang tepat.
+
+### Status Truth
+
+| Area | Status |
+|---|---|
+| Build #375 | **CI VERIFIED SUCCESS** |
+| Clear data → same UUID | **USER RUNTIME OBSERVED PASS** |
+| Uninstall → install → same UUID | **USER RUNTIME OBSERVED FAIL** |
+| `.bare` v2 bootstrap | **IMPLEMENTED / STATIC VERIFIED** |
+| Public artifact survives uninstall | **UNKNOWN** |
+| Storage capability survives uninstall | **UNKNOWN** |
+| Artifact enumeration after reinstall | **UNKNOWN** |
+| Root cause uninstall failure | **INFERENCE / NOT VERIFIED** |
+| New UUID fallback still reachable | **VERIFIED STATIC** |
+| Home | **NOT CHANGED** |
+| master | **NOT TOUCHED** |
+
+### Conclusion
+
+**Identity continuity sekarang terbukti hanya sampai clear-data. Uninstall/reinstall masih gagal.**
+
+Ini mempersempit masalah secara material: mekanisme `.bare` sudah cukup untuk recovery pada kondisi clear-data, tetapi bootstrap setelah uninstall masih bergantung pada kondisi public-storage discovery/access yang belum terbukti.
+
+Tidak ada source change pada record ini.
