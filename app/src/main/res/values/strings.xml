@@ -45,7 +45,6 @@
     <string name="saf_removable_storage">SAF / removable storage</string>
     <string name="remote_storage">Remote storage</string>
     <string name="cloud_provider">Cloud provider</string>
-    <string name="external_storage">External storage</string>
     <string name="storage_not_connected">Not connected</string>
     <string name="selected">Selected</string>
     <string name="continue_label">Continue</string>
