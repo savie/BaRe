@@ -344,9 +344,9 @@ fun StorageSetupScreen(
         status = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
             Environment.isExternalStorageManager()
         ) {
-            "File access enabled. Press Continue again."
+            context.getString(R.string.file_access_enabled)
         } else {
-            "File access is still required for canonical BaRe storage."
+            context.getString(R.string.file_access_required)
         }
     }
 
@@ -358,7 +358,7 @@ fun StorageSetupScreen(
             )
             allFilesSettings.launch(intent)
         } else {
-            status = "Storage access is unavailable on this Android version."
+            status = context.getString(R.string.storage_access_unavailable)
         }
     }
 
@@ -373,9 +373,9 @@ fun StorageSetupScreen(
             StorageCard(
                 title = internal.displayName,
                 subtitle = if (selectedStorageKind == internal.kind) {
-                    "BaRe akan membuat folder penyimpanan di storage internal."
+                    stringResource(R.string.internal_storage_selected_description)
                 } else {
-                    "Gunakan storage internal untuk BaRe."
+                    stringResource(R.string.internal_storage_description)
                 },
                 selected = selectedStorageKind == internal.kind,
                 enabled = internal.available,
@@ -392,11 +392,11 @@ fun StorageSetupScreen(
             StorageCard(
                 title = external.displayName,
                 subtitle = if (!external.available) {
-                    "External storage tidak ter-mount."
+                    stringResource(R.string.external_storage_not_mounted)
                 } else if (selectedStorageKind == external.kind) {
-                    "BaRe akan membuat folder penyimpanan di external storage."
+                    stringResource(R.string.external_storage_selected_description)
                 } else {
-                    "Gunakan storage removable untuk BaRe."
+                    stringResource(R.string.external_storage_description)
                 },
                 selected = selectedStorageKind == external.kind,
                 enabled = external.available,
@@ -467,12 +467,14 @@ fun StorageSetupScreen(
                             }.onSuccess {
                                 recoveryPassword = ""
                                 busy = false
-                                status = "BaRe storage + recovery artifact siap."
+                                status = context.getString(R.string.storage_setup_ready)
                                 onContinue()
                             }.onFailure { error ->
                                 busy = false
-                                status = "Storage setup failed: " +
-                                    (error.message ?: "unable to initialize storage")
+                                status = context.getString(
+                                    R.string.storage_setup_failed,
+                                    error.message ?: context.getString(R.string.unable_to_initialize_storage),
+                                )
                             }
                         }
                     }
@@ -481,7 +483,7 @@ fun StorageSetupScreen(
             enabled = !busy,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(if (busy) "Preparing storage…" else stringResource(R.string.continue_label))
+            Text(if (busy) stringResource(R.string.preparing_storage) else stringResource(R.string.continue_label))
         }
 
         status?.let {
@@ -534,7 +536,12 @@ private fun StorageCard(
                 Spacer(Modifier.height(4.dp))
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
-            if (selected) Text(stringResource(R.string.selected), style = MaterialTheme.typography.labelMedium)
+            if (selected) {
+                RadioButton(
+                    selected = true,
+                    onClick = onClick,
+                )
+            }
         }
     }
 }
