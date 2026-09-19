@@ -11,7 +11,8 @@ import java.io.IOException
 class RecoveryArtifactRepository(
     private val context: Context,
 ) {
-    private val contentResolver: ContentResolver = context.contentResolver {
+    private val contentResolver: ContentResolver = context.contentResolver
+
     fun export(
         treeUri: Uri,
         payload: RecoveryPackageCodec.Payload,
