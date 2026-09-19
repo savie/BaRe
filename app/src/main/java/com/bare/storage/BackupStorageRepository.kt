@@ -36,8 +36,6 @@ class BackupStorageRepository(private val context: Context) {
 
         val root = storageRoot(kind)
             ?: throw IllegalStateException("selected storage is not mounted")
-        ensureWritableRoot(root)
-
         val identityDirectory = File(root, "BaRe/accounts/" + identityFolder(identityId))
         val backups = File(identityDirectory, "backups")
         val recovery = File(identityDirectory, "recovery")
@@ -141,14 +139,6 @@ class BackupStorageRepository(private val context: Context) {
         }
     }
 
-    private fun ensureWritableRoot(root: File) {
-        if (hasDirectWriteAccess(root)) return
-        val result = rootCapability.ensureDirectory(root.absolutePath, Process.myUid())
-        if (result !is com.bare.capability.RootProbeResult.Success) {
-            throw IllegalStateException(result.reason)
-        }
-    }
-
     private fun ensureDirectoryTree(identityDirectory: File, backups: File, recovery: File) {
         if (hasDirectWriteAccess(identityDirectory) || identityDirectory.mkdirs()) {
             check(backups.exists() || backups.mkdirs()) { "unable to create backups directory" }
@@ -156,12 +146,21 @@ class BackupStorageRepository(private val context: Context) {
             return
         }
 
-        val result = rootCapability.ensureDirectory(recovery.absolutePath, Process.myUid())
-        if (result !is com.bare.capability.RootProbeResult.Success) {
-            throw IllegalStateException(result.reason)
+        val uid = Process.myUid()
+        val identityResult = rootCapability.ensureDirectory(identityDirectory.absolutePath, uid)
+        if (identityResult !is com.bare.capability.RootProbeResult.Success) {
+            throw IllegalStateException(identityResult.reason)
+        }
+        val backupsResult = rootCapability.ensureDirectory(backups.absolutePath, uid)
+        if (backupsResult !is com.bare.capability.RootProbeResult.Success) {
+            throw IllegalStateException(backupsResult.reason)
+        }
+        val recoveryResult = rootCapability.ensureDirectory(recovery.absolutePath, uid)
+        if (recoveryResult !is com.bare.capability.RootProbeResult.Success) {
+            throw IllegalStateException(recoveryResult.reason)
         }
         check(identityDirectory.isDirectory) { "identity directory was not created" }
-        check(backups.exists() || backups.mkdirs()) { "unable to create backups directory" }
+        check(backups.isDirectory) { "backup directory was not created" }
         check(recovery.isDirectory) { "recovery directory was not created" }
     }
 
