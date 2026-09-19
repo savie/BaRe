@@ -43,7 +43,7 @@
     <string name="cloud_storage">Cloud storage</string>
     <string name="storage_usage">%1$s free · %2$s total</string>
     <string name="storage_used_percent">%1$d%% used</string>
-    <string name="storage_setup_description">Choose the storage target for B Λ R E. Confirming storage creates the BaRe folder, backup namespace, recovery directory, and encrypted recovery package before you enter B Λ R E.</string>
+    <string name="storage_setup_description">Choose B Λ R E storage location</string>
     <string name="internal_storage">Internal storage</string>
     <string name="internal_backup_path">BaRe/Backups</string>
     <string name="external_storage">External storage</string>
@@ -53,11 +53,7 @@
     <string name="storage_not_connected">Not connected</string>
     <string name="selected">Selected</string>
     <string name="continue_label">Continue</string>
-    <string name="internal_storage_selected_description">BaRe will create its storage folders on internal storage.</string>
-    <string name="internal_storage_description">Use internal storage for BaRe.</string>
     <string name="external_storage_not_mounted">External storage is not mounted.</string>
-    <string name="external_storage_selected_description">BaRe will create its storage folders on external storage.</string>
-    <string name="external_storage_description">Use removable storage for BaRe.</string>
     <string name="file_access_enabled">File access enabled. Press Continue again.</string>
     <string name="file_access_required">File access is still required for canonical BaRe storage.</string>
     <string name="storage_access_unavailable">Storage access is unavailable on this Android version.</string>
