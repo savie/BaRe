@@ -1,19 +1,15 @@
 package com.bare.app
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Apps
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Schedule
-import androidx.compose.material.icons.outlined.Settings
 import androidx.annotation.StringRes
-import com.bare.R
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.bare.R
+import com.bare.ui.BareIcons
 
 enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
-    HOME(R.string.home, Icons.Outlined.Home),
-    APPS(R.string.apps, Icons.Outlined.Apps),
-    SCHEDULES(R.string.schedules, Icons.Outlined.Schedule),
-    ACCOUNT(R.string.account, Icons.Outlined.Settings),
+    HOME(R.string.home, BareIcons.Home),
+    APPS(R.string.apps, BareIcons.Grid),
+    SCHEDULES(R.string.schedules, BareIcons.Schedule),
+    ACCOUNT(R.string.account, BareIcons.Account),
 }
 
 enum class Screen(val title: String) {
