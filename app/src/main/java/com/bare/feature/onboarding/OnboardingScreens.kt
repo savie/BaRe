@@ -92,7 +92,7 @@ fun LocalSetupConfirmation(onContinue: () -> Unit, onDismiss: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(stringResource(R.string.local_confirmation_title), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-            Text(stringResource(R.string.local_confirmation_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FlowDescription(stringResource(R.string.local_confirmation_description))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                 TextButton(onClick = onDismiss) { Text(stringResource(R.string.not_now)) }
                 Button(onClick = onContinue) { Text(stringResource(R.string.continue_label)) }
@@ -120,7 +120,7 @@ fun LoginScreen(
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         FlowTopBar(title = stringResource(R.string.sign_in), onBack = onBack)
-        Text(stringResource(R.string.sign_in_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+        FlowDescription(stringResource(R.string.sign_in_description))
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -185,7 +185,7 @@ fun ForgotPasswordScreen(
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         FlowTopBar(title = stringResource(R.string.reset_password), onBack = onBack)
         if (!sent) {
-            Text(stringResource(R.string.reset_password_description), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            FlowDescription(stringResource(R.string.reset_password_description))
             OutlinedTextField(
                 value = email,
                 onValueChange = onEmailChange,
@@ -229,7 +229,7 @@ fun SignUpScreen(
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         FlowTopBar(title = stringResource(R.string.create_account), onBack = onBack)
-        Text(stringResource(R.string.create_account_description))
+        FlowDescription(stringResource(R.string.create_account_description))
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -315,7 +315,7 @@ fun StorageSetupScreen(
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         FlowTopBar(title = stringResource(R.string.backup_storage), onBack = onBack)
-        Text(stringResource(R.string.storage_setup_description))
+        FlowDescription(stringResource(R.string.storage_setup_description))
 
         storages.filter { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }.forEach { storage ->
             StorageCard(
@@ -419,7 +419,7 @@ fun AccessMethodScreen(
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
         FlowTopBar(title = stringResource(R.string.access_method), onBack = onBack)
-        Text(stringResource(R.string.access_method_description))
+        FlowDescription(stringResource(R.string.access_method_description))
         AccessCard(AccessMethod.NON_ROOT, selected == AccessMethod.NON_ROOT, onSelect)
         AccessCard(AccessMethod.ROOT, selected == AccessMethod.ROOT, onSelect)
         if (!errorMessage.isNullOrBlank()) {
@@ -433,6 +433,16 @@ fun AccessMethodScreen(
             Text(stringResource(R.string.enter_bare))
         }
     }
+}
+
+@Composable
+private fun FlowDescription(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyLarge,
+        fontWeight = FontWeight.Light,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+    )
 }
 
 @Composable
