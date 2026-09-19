@@ -38,10 +38,18 @@ class LocalIdentityStore(context: Context) {
         preferences.edit().putBoolean(KEY_SETUP_COMPLETE, true).apply()
     }
 
+    fun loadAccessMethod(): AccessMethod? = preferences.getString(KEY_ACCESS_METHOD, null)
+        ?.let { value -> runCatching { AccessMethod.valueOf(value) }.getOrNull() }
+
+    fun saveAccessMethod(method: AccessMethod) {
+        preferences.edit().putString(KEY_ACCESS_METHOD, method.name).apply()
+    }
+
     companion object {
         private const val PREFERENCES_NAME = "bare_identity"
         private const val KEY_ID = "identity_id"
         private const val KEY_TYPE = "identity_type"
         private const val KEY_SETUP_COMPLETE = "setup_complete"
+        private const val KEY_ACCESS_METHOD = "access_method"
     }
 }
