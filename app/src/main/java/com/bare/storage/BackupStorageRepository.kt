@@ -101,7 +101,20 @@ class BackupStorageRepository(private val context: Context) {
 
     fun inspectAvailable(): List<BackupStorage> = buildList {
         add(internalStorageCapacity())
-        addAll(removableStorages(null))
+        val removable = removableStorages(null)
+        if (removable.isEmpty()) {
+            add(
+                BackupStorage(
+                    kind = BackupStorage.Kind.EXTERNAL,
+                    displayName = "External storage",
+                    path = "",
+                    available = false,
+                    writable = false,
+                )
+            )
+        } else {
+            addAll(removable)
+        }
         add(BackupStorage(BackupStorage.Kind.REMOTE, "Cloud storage", "Cloud provider", false, false))
     }
 
