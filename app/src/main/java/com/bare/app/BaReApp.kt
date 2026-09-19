@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
 fun BaReApp() {
     val context = LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
-    val restoredIdentity = remember(identityStore) { identityStore.load() }
+    val restoredIdentity = remember(identityStore) { identityStore.loadOrRecover() }
     var startScreen by remember(restoredIdentity) {
         mutableStateOf(
             if (restoredIdentity != null) {

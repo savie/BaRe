@@ -11,10 +11,11 @@ import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-/** Versioned encrypted recovery container. Identity data never appears in the cleartext header. */
+/** Versioned encrypted recovery container. Identity bootstrap metadata is readable without the recovery password. */
 object RecoveryPackageCodec {
     private val MAGIC = byteArrayOf('B'.code.toByte(), 'R'.code.toByte(), 'E'.code.toByte(), 'C'.code.toByte())
-    private const val VERSION = 1
+    private const val VERSION = 2
+    private const val LEGACY_VERSION = 1
     private const val KDF_PBKDF2_SHA256 = 1
     private const val ITERATIONS = 310_000
     private const val SALT_BYTES = 16
@@ -42,7 +43,7 @@ object RecoveryPackageCodec {
         val nonce = ByteArray(NONCE_BYTES).also(random::nextBytes)
         val key = deriveKey(password, salt)
 
-        val header = header(VERSION, KDF_PBKDF2_SHA256, ITERATIONS, salt, nonce)
+        val header = header(VERSION, KDF_PBKDF2_SHA256, ITERATIONS, salt, nonce, payload.identityId)
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(GCM_TAG_BITS, nonce))
         cipher.updateAAD(header)
@@ -58,6 +59,27 @@ object RecoveryPackageCodec {
         }
     }
 
+    /** Reads only the durable identity bootstrap metadata; no password is required. */
+    fun peekIdentity(bytes: ByteArray): String? {
+        DataInputStream(ByteArrayInputStream(bytes)).use { input ->
+            val magic = ByteArray(MAGIC.size)
+            input.readFully(magic)
+            require(magic.contentEquals(MAGIC)) { "invalid BaRe recovery package" }
+
+            val version = input.readUnsignedByte()
+            require(version == VERSION) { "recovery package does not contain bootstrap identity" }
+            input.readUnsignedByte()
+            input.readInt()
+            val saltLength = input.readUnsignedByte()
+            val nonceLength = input.readUnsignedByte()
+            require(saltLength == SALT_BYTES && nonceLength == NONCE_BYTES) { "invalid recovery parameters" }
+            input.skipBytes(saltLength + nonceLength)
+            val identityId = input.readUTF()
+            require(identityId.isNotBlank()) { "recovery package has no identity" }
+            return identityId
+        }
+    }
+
     fun decode(bytes: ByteArray, password: CharArray): Payload {
         require(password.isNotEmpty()) { "recovery password is required" }
 
@@ -67,7 +89,9 @@ object RecoveryPackageCodec {
             require(magic.contentEquals(MAGIC)) { "invalid BaRe recovery package" }
 
             val version = input.readUnsignedByte()
-            require(version == VERSION) { "unsupported recovery package version: $version" }
+            require(version == LEGACY_VERSION || version == VERSION) {
+                "unsupported recovery package version: $version"
+            }
 
             val kdf = input.readUnsignedByte()
             require(kdf == KDF_PBKDF2_SHA256) { "unsupported recovery KDF: $kdf" }
@@ -83,6 +107,8 @@ object RecoveryPackageCodec {
 
             val salt = ByteArray(saltLength).also(input::readFully)
             val nonce = ByteArray(nonceLength).also(input::readFully)
+            val bootstrapIdentity = if (version == VERSION) input.readUTF() else null
+            val aadHeader = header(version, kdf, iterations, salt, nonce, bootstrapIdentity)
             val ciphertextLength = input.readInt()
             require(ciphertextLength in (GCM_TAG_BITS / 8)..(MAX_PAYLOAD_BYTES + GCM_TAG_BITS / 8)) {
                 "invalid recovery payload length"
@@ -93,8 +119,12 @@ object RecoveryPackageCodec {
             val key = deriveKey(password, salt, iterations)
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
             cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(GCM_TAG_BITS, nonce))
-            cipher.updateAAD(header(version, kdf, iterations, salt, nonce))
-            return deserialize(cipher.doFinal(ciphertext))
+            cipher.updateAAD(aadHeader)
+            val payload = deserialize(cipher.doFinal(ciphertext))
+            require(bootstrapIdentity == null || bootstrapIdentity == payload.identityId) {
+                "recovery bootstrap identity conflicts with payload"
+            }
+            return payload
         }
     }
 
@@ -104,6 +134,7 @@ object RecoveryPackageCodec {
         iterations: Int,
         salt: ByteArray,
         nonce: ByteArray,
+        bootstrapIdentity: String?,
     ): ByteArray = ByteArrayOutputStream().use { output ->
         DataOutputStream(output).use { data ->
             data.write(MAGIC)
@@ -114,6 +145,7 @@ object RecoveryPackageCodec {
             data.writeByte(nonce.size)
             data.write(salt)
             data.write(nonce)
+            if (version == VERSION) data.writeUTF(bootstrapIdentity ?: "")
         }
         output.toByteArray()
     }

@@ -1,7 +1,11 @@
 package com.bare.app
 
 import android.content.Context
+import android.os.Build
+import android.os.Environment
+import android.os.storage.StorageManager
 import com.bare.recovery.RecoveryPackageCodec
+import java.io.File
 import java.util.UUID
 
 data class BaReIdentity(
@@ -10,7 +14,8 @@ data class BaReIdentity(
 )
 
 class LocalIdentityStore(context: Context) {
-    private val preferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+    private val appContext = context.applicationContext
+    private val preferences = appContext.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     fun load(): BaReIdentity? {
         val id = preferences.getString(KEY_ID, null)
@@ -19,6 +24,27 @@ class LocalIdentityStore(context: Context) {
             return null
         }
         return BaReIdentity(id, IdentityType.LOCAL)
+    }
+
+    /**
+     * Restores the durable LOCAL identity from an existing .bare artifact before
+     * creating a new UUID. This is the bootstrap path used after app-data loss.
+     */
+    fun loadOrRecover(): BaReIdentity? {
+        load()?.let { return it }
+
+        val candidates = findRecoveryArtifacts()
+        if (candidates.isEmpty()) return null
+
+        val identities = candidates.mapNotNull { file ->
+            runCatching { RecoveryPackageCodec.peekIdentity(file.readBytes()) }.getOrNull()
+        }.distinct()
+
+        if (identities.size > 1) {
+            throw IllegalStateException("multiple conflicting LOCAL recovery identities found")
+        }
+        val recoveredId = identities.singleOrNull() ?: return null
+        return restoreBootstrapIdentity(recoveredId)
     }
 
     fun createLocalIdentity(): BaReIdentity {
@@ -84,6 +110,41 @@ class LocalIdentityStore(context: Context) {
     fun saveAccessMethod(method: AccessMethod) {
         preferences.edit().putString(KEY_ACCESS_METHOD, method.name).apply()
     }
+
+    private fun restoreBootstrapIdentity(identityId: String): BaReIdentity {
+        val identity = BaReIdentity(identityId, IdentityType.LOCAL)
+        preferences.edit()
+            .putString(KEY_ID, identity.identityId)
+            .putString(KEY_TYPE, identity.type.name)
+            .apply()
+        return identity
+    }
+
+    private fun findRecoveryArtifacts(): List<File> {
+        return storageRoots().flatMap { root ->
+            val accounts = File(root, "BaRe/accounts")
+            accounts.listFiles()
+                ?.asSequence()
+                ?.filter(File::isDirectory)
+                ?.map { File(it, "recovery/bare-recovery-v1.bare") }
+                ?.filter(File::isFile)
+                ?.toList()
+                ?: emptyList()
+        }.distinctBy(File::absolutePath)
+    }
+
+    private fun storageRoots(): List<File> = buildList {
+        add(Environment.getExternalStorageDirectory())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val storageManager = appContext.getSystemService(StorageManager::class.java)
+            storageManager?.storageVolumes
+                ?.filter { it.isRemovable && it.state == Environment.MEDIA_MOUNTED }
+                ?.mapNotNull { volume ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) volume.directory else null
+                }
+                ?.forEach { root -> if (root.absolutePath != Environment.getExternalStorageDirectory().absolutePath) add(root) }
+        }
+    }.distinctBy(File::absolutePath)
 
     companion object {
         private const val PREFERENCES_NAME = "bare_identity"
