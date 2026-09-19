@@ -2053,3 +2053,156 @@ UNKNOWN
 ```
 
 Audit selanjutnya tidak perlu mengulang full-tree decompilation. Fokus evidence yang paling bernilai adalah paired lifecycle test terhadap Swift atau artifact before/after yang menunjukkan perubahan identity, namespace, dan backup visibility.
+
+---
+
+## 2026-09-19 — Swift Backup App-Backup Encryption Artifact Audit
+
+### Scope
+
+Audit tambahan terhadap artifact **Swift Backup app backup** untuk package `com.bare`, terpisah dari audit Swift Backup Account/identity sebelumnya. Artifact yang dianalisis:
+
+- `backup_swift_com.bare.zip`
+- `SwiftBackup-5.1.0-620-decompiled.zip`
+- `data_org.swiftapps.swiftbackup.zip`
+
+SHA-256 artifact utama:
+
+- `backup_swift_com.bare.zip`: `b8b6f08aa7d7acfff0cca23aa514ee05d1039b761d4f30c1e926a573ecb946f2`
+- `SwiftBackup-5.1.0-620-decompiled.zip`: `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
+
+### OBSERVED_STATIC — Backup Artifact
+
+Artifact `backup_swift_com.bare.zip` berisi:
+
+```text
+com.bare/
+└── 20260919-184357-CO/
+    ├── com.bare.app
+    ├── com.bare.dat
+    └── com.bare.xml
+```
+
+`com.bare.dat` menggunakan container dengan magic/header `SBA1`, version **2**, header size **144 bytes**, compression method **1**, dan encryption method **4** yang pada source dipetakan sebagai **AEGIS-256**.
+
+Header artifact yang dibaca langsung menunjukkan:
+
+- KDF method id: **1**
+- KDF iterations: **3**
+- key-check length: **16 bytes**
+- salt length: **16 bytes**
+- nonce-seed length: **16 bytes**
+- MAC length: **0** untuk mode AEGIS ini
+- chunk size: **1 MiB**
+- memoryKiB: **16384**
+- parallelism: **1**
+- root/index authentication material tersedia pada header v2.
+
+Nilai salt, nonce seed, key-check, dan material autentikasi **tidak dicatat sebagai plaintext secret di dokumentasi ini**.
+
+### OBSERVED_STATIC — Crypto Pipeline
+
+Source decompile menunjukkan:
+
+- password archive tidak dipakai langsung sebagai encryption key;
+- password dikonversi menjadi bytes;
+- KDF yang digunakan untuk SBA adalah **Argon2id**;
+- Argon2id menerima password, salt, iterations, memoryKiB, parallelism, dan output length;
+- untuk AEGIS-256 output key yang digunakan adalah **32 bytes**;
+- setelah key diturunkan, Swift menghitung key-check dengan domain string khusus untuk metode AEGIS-256;
+- key-check dibandingkan dengan material yang tersimpan di archive;
+- jika tidak cocok, reader menghasilkan error **`Invalid SBA archive key`**;
+- untuk archive v2 terdapat authentication terhadap index sehingga perubahan terhadap index dapat dideteksi.
+
+Source juga menunjukkan konstanta domain key-check:
+
+```text
+SBA1-AEGIS256-key-check-v1
+SBA1-AEGIS128X2-key-check-v1
+SBA2-index-mac-key-v1
+SBA2-index-metadata-mac-v1
+```
+
+### OBSERVED_STATIC — Standard Password Strategy
+
+Source `defpackage.yx5` menunjukkan dua password strategy:
+
+- `STANDARD_PASSWORD`
+- `USER_PASSWORD`
+
+Untuk `STANDARD_PASSWORD`, source menunjukkan password material dibentuk melalui:
+
+```text
+Firebase user UID
+        +
+package name dengan "."
+dihilangkan
+        ↓
+transform/hash helper
+        ↓
+char[] password material
+        ↓
+Argon2id
+        ↓
+archive encryption key
+```
+
+Untuk `USER_PASSWORD`, source memungkinkan password yang disimpan sebagai user password menjadi input tambahan pada material password strategy.
+
+**Penting:** temuan ini adalah static decompile evidence. Ini tidak berarti setiap backup artifact selalu memakai strategy yang sama; strategy dapat dikonfigurasi.
+
+### VERIFIED STATIC CONCLUSION
+
+Yang dapat dinyatakan dari source + artifact:
+
+1. Swift Backup app-backup artifact tidak menyimpan archive encryption key dalam plaintext.
+2. Archive menggunakan KDF sebelum memperoleh encryption key.
+3. KDF untuk SBA v2 adalah Argon2id dengan parameter yang disimpan di archive header.
+4. AEGIS-256 digunakan sebagai encryption method pada artifact `com.bare` yang dianalisis.
+5. Archive mempunyai key-check sehingga key/password yang salah dapat ditolak sebelum payload dianggap valid.
+6. Archive v2 juga mempunyai integrity/authentication material untuk index.
+7. Pada standard password strategy, password material diturunkan secara deterministic dari internal identity context (termasuk Firebase UID dan package context pada source yang diaudit), bukan sekadar menyimpan password plaintext di archive.
+
+### UNKNOWN / LIMITATION
+
+- Audit ini tidak menetapkan bahwa mekanisme Swift adalah satu-satunya cara Swift melakukan seluruh jenis backup.
+- Audit ini tidak membuktikan bahwa password strategy standard selalu aktif pada semua konfigurasi.
+- Audit ini tidak menjadikan hasil decompile sebagai source implementation BaRe.
+- Asal-usul Firebase UID, lifecycle UID, dan seluruh lifecycle password material Swift berada di luar scope audit ini.
+- Tidak ada password/secret Swift yang diekstrak atau dicatat sebagai nilai plaintext dalam reference ini.
+
+### Reference-Derived Implication untuk BaRe
+
+Untuk kebutuhan **LOCAL continuity setelah uninstall/reinstall, factory reset, atau ROM replacement**, artifact Swift memperkuat pola desain berikut:
+
+```text
+BaRe Identity
+      │
+      ├── logical identity
+      │
+      └── Recovery Package
+             │
+             ├── encrypted payload
+             ├── KDF parameters
+             ├── salt
+             ├── nonce
+             ├── key-check / authentication
+             └── versioned metadata
+```
+
+Recovery package harus dapat dipindahkan user sebelum operasi destruktif terhadap storage, tetapi **isi identity/recovery secret tidak boleh bergantung pada plaintext file di `/storage/emulated/0/BaRe/`**.
+
+Untuk BaRe, reference-derived direction yang muncul dari audit ini adalah:
+
+- recovery artifact portable;
+- encrypted recovery payload;
+- password/secret atau protected recovery authority yang tidak disimpan plaintext di artifact;
+- KDF dengan parameter/version yang eksplisit;
+- authenticated encryption/integrity verification;
+- key-check atau equivalent early validation;
+- BaRe ID dipisahkan dari encryption key;
+- Installation ID dipisahkan dari BaRe ID;
+- Device Continuity evidence dipisahkan dari recovery secret;
+- recovery artifact menjadi **continuity/recovery mechanism**, bukan canonical identity itu sendiri.
+
+**Status:** `REFERENCE-DERIVED / PROPOSAL INPUT`. Ini belum menjadi implementation contract atau keputusan final BaRe.
