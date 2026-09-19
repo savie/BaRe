@@ -3,7 +3,7 @@ package com.bare.feature.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.Icons as MaterialIcons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -65,14 +65,14 @@ fun HomeScreen(
                     CompactStatus(
                         title = stringResource(R.string.account_status),
                         value = identityLabel,
-                        icon = Icons.Outlined.AccountCircle,
+                        icon = MaterialIcons.Outlined.AccountCircle,
                         modifier = Modifier.weight(1f).clickable { onOpenTab(Tab.ACCOUNT.ordinal) },
                     )
                     Spacer(Modifier.width(10.dp))
                     CompactStatus(
                         title = stringResource(R.string.access),
                         value = accessLabel,
-                        icon = Icons.Outlined.Security,
+                        icon = MaterialIcons.Outlined.Security,
                         modifier = Modifier.weight(1f).clickable { onOpenAccessMethod() },
                     )
                 }
@@ -114,14 +114,14 @@ fun HomeScreen(
                     CompactStatus(
                         title = stringResource(R.string.last_backup),
                         value = stringResource(R.string.no_backups_yet),
-                        icon = Icons.Outlined.History,
+                        icon = MaterialIcons.Outlined.History,
                         modifier = Modifier.weight(1f),
                     )
                     Spacer(Modifier.width(10.dp))
                     CompactStatus(
                         title = stringResource(R.string.next_backup),
                         value = stringResource(R.string.not_scheduled),
-                        icon = Icons.Outlined.Schedule,
+                        icon = MaterialIcons.Outlined.Schedule,
                         modifier = Modifier.weight(1f).clickable { onOpen(Screen.SCHEDULE_DETAIL) },
                     )
                 }
@@ -144,12 +144,12 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_apps),
-                icon = Icons.Outlined.CloudUpload,
+                icon = MaterialIcons.Outlined.CloudUpload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
-                icon = Icons.Outlined.CloudDownload,
+                icon = MaterialIcons.Outlined.CloudDownload,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.APP_DETAIL) }
         }
@@ -157,12 +157,12 @@ fun HomeScreen(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
                 title = stringResource(R.string.backup_folders),
-                icon = Icons.Outlined.Folder,
+                icon = MaterialIcons.Outlined.Folder,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
             QuickAction(
                 title = stringResource(R.string.restore_data),
-                icon = Icons.Outlined.Download,
+                icon = MaterialIcons.Outlined.Download,
                 modifier = Modifier.weight(1f),
             ) { onOpen(Screen.FOLDERS) }
         }
@@ -199,14 +199,13 @@ private fun CompactStatus(
 
 @Composable
 private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
-    // Keep this grid on the baseline Material icon set supported by the app's current dependency graph.
-    val areas = listOf(
-        Triple(stringResource(R.string.apps), Icons.Default.Apps, Screen.APP_DETAIL),
-        Triple(stringResource(R.string.messages), Icons.Default.Sms, Screen.MESSAGES),
-        Triple(stringResource(R.string.call_logs), Icons.Default.Call, Screen.CALL_LOGS),
-        Triple(stringResource(R.string.folders), Icons.Default.Folder, Screen.FOLDERS),
-        Triple(stringResource(R.string.wifi), Icons.Default.Wifi, Screen.WIFI),
-        Triple(stringResource(R.string.wallpapers), Icons.Default.Image, Screen.WALLPAPERS),
+        val areas = listOf(
+        Triple(stringResource(R.string.apps), MaterialIcons.Outlined.Apps, Screen.APP_DETAIL),
+        Triple(stringResource(R.string.messages), MaterialIcons.Outlined.Sms, Screen.MESSAGES),
+        Triple(stringResource(R.string.call_logs), MaterialIcons.Outlined.Call, Screen.CALL_LOGS),
+        Triple(stringResource(R.string.folders), MaterialIcons.Outlined.Folder, Screen.FOLDERS),
+        Triple(stringResource(R.string.wifi), MaterialIcons.Outlined.Wifi, Screen.WIFI),
+        Triple(stringResource(R.string.wallpapers), MaterialIcons.Outlined.Image, Screen.WALLPAPERS),
     )
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         areas.chunked(3).forEach { row ->
