@@ -54,6 +54,35 @@ private fun generateRecoverySecret(random: SecureRandom = SecureRandom()): CharA
     return CharArray(48) { RECOVERY_SECRET_ALPHABET[random.nextInt(RECOVERY_SECRET_ALPHABET.length)] }
 }
 
+suspend fun initializeStorageForIdentity(
+    context: android.content.Context,
+    identityId: String,
+    selectedStorageKind: com.bare.storage.BackupStorage.Kind,
+) {
+    val repository = com.bare.storage.BackupStorageRepository(context)
+    val identityStore = LocalIdentityStore(context)
+    val recoveryRepository = RecoveryArtifactRepository(context)
+    val storageConfig = StorageConfigurationStore(context)
+    val initialized = withContext(Dispatchers.IO) {
+        repository.initialize(identityId, selectedStorageKind)
+    }
+    val password = generateRecoverySecret()
+    try {
+        withContext(Dispatchers.IO) {
+            val artifact = recoveryRepository.exportToFile(
+                directory = initialized.recoveryDirectory,
+                payload = identityStore.toRecoveryPayload(),
+                password = password,
+            )
+            check(artifact.isFile && artifact.length() > 0L) { "recovery artifact verification failed" }
+            storageConfig.saveKind(selectedStorageKind)
+        }
+    } finally {
+        password.fill('\\u0000')
+    }
+}
+
+
 @Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(
@@ -422,6 +451,7 @@ fun StorageSetupScreen(
             onClick = {
                 when {
                     identityId.isNullOrBlank() -> {
+                        storageConfig.saveKind(selectedStorageKind)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
                             !Environment.isExternalStorageManager()
                         ) {
@@ -439,23 +469,11 @@ fun StorageSetupScreen(
                         val selectedKind = selectedStorageKind
                         scope.launch {
                             runCatching {
-                                withContext(Dispatchers.IO) {
-                                    val initialized = repository.initialize(identity, selectedKind)
-                                    val password = generateRecoverySecret()
-                                    try {
-                                        val artifact = recoveryRepository.exportToFile(
-                                            directory = initialized.recoveryDirectory,
-                                            payload = identityStore.toRecoveryPayload(),
-                                            password = password,
-                                        )
-                                        check(artifact.isFile && artifact.length() > 0L) {
-                                            "recovery artifact verification failed"
-                                        }
-                                        storageConfig.saveKind(selectedKind)
-                                    } finally {
-                                        password.fill('\u0000')
-                                    }
-                                }
+                                initializeStorageForIdentity(
+                                    context = context,
+                                    identityId = identity,
+                                    selectedStorageKind = selectedKind,
+                                )
                             }.onSuccess {
                                 busy = false
                                 status = context.getString(R.string.storage_setup_ready)
