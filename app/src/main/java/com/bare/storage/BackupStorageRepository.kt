@@ -38,6 +38,19 @@ class BackupStorageRepository(private val context: Context) {
         add(BackupStorage(BackupStorage.Kind.REMOTE, "Cloud storage", "Cloud provider", false, false))
     }
 
+    fun internalStorageCapacity(): BackupStorage {
+        val root = Environment.getExternalStorageDirectory()
+        return BackupStorage(
+            kind = BackupStorage.Kind.INTERNAL,
+            displayName = "Internal storage",
+            path = "",
+            available = root.exists() && Environment.getExternalStorageState(root) == Environment.MEDIA_MOUNTED,
+            writable = root.canWrite(),
+            totalBytes = root.totalSpace,
+            freeBytes = root.freeSpace,
+        )
+    }
+
     fun internalStorage(identityId: String): BackupStorage {
         val root = Environment.getExternalStorageDirectory()
         val backups = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups")
