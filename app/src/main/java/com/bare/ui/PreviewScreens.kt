@@ -37,7 +37,17 @@ private fun LoginPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun HomePreview() {
-    BaReTheme { HomeScreen {} }
+    BaReTheme {
+        HomeScreen(
+            identityType = IdentityType.LOCAL,
+            accountEmail = "",
+            accessMethod = null,
+            onOpen = {},
+            onOpenTab = {},
+            onOpenAccessMethod = {},
+            onOpenStorage = {},
+        )
+    }
 }
 
 @Preview(showBackground = true)
