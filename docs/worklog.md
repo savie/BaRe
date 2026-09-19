@@ -1948,3 +1948,31 @@ Batch 1–5 berhasil menutup core implementation dependency, tetapi tidak mengub
 6. Clear app data/uninstall → reinstall → import → verify same BaRe ID.
 7. Verify existing /BaRe/accounts/<identity-folder>/backups namespace kembali ke identity yang sama.
 8. Factory reset/format dan ROM replacement hanya setelah recovery artifact dipindahkan ke storage/media yang tetap tersedia.
+
+## 2026-09-19 — Recovery UI Wiring dan Current Verification State
+
+### Implementation
+- Menambahkan Recovery screen pada jalur Account → Import / Export.
+- Recovery screen menggunakan Android Document Tree untuk memilih folder artifact export.
+- Import menggunakan Android document picker.
+- Password hanya berada di UI state sementara dan dikirim ke recovery codec; tidak dipersist.
+- Export melakukan write/read-back verification melalui RecoveryArtifactRepository.
+- Import melakukan decode lalu conflict-safe identity restore melalui LocalIdentityStore.
+- Setelah recovery berhasil, app kembali ke Main App dengan restored LOCAL identity.
+- Tidak mengubah Home atau struktur 4 tab utama.
+
+### Source
+- app/src/main/java/com/bare/feature/account/RecoveryScreen.kt
+- app/src/main/java/com/bare/app/BaReApp.kt
+
+### Verification Truth
+- Recovery crypto core local JVM harness: **VERIFIED** — round-trip, wrong-password rejection, dan tamper rejection PASS.
+- GitHub Actions result untuk source batch terakhir: **UNVERIFIED** melalui connector karena workflow run push tidak tersedia pada endpoint yang dapat dibaca; tidak menganggap source/build verified.
+- Android Document Tree picker/runtime: **UNVERIFIED**.
+- Export/import artifact nyata pada device: **UNVERIFIED**.
+- Uninstall/reinstall recovery: **UNVERIFIED**.
+- Factory reset/ROM recovery: **UNVERIFIED**.
+- master: **NOT TOUCHED**.
+
+### Important
+Current implementation sudah menyediakan jalur source/UI untuk export/import recovery, tetapi **belum boleh disebut end-to-end VERIFIED** sebelum APK dibuild dan diuji pada device target.
