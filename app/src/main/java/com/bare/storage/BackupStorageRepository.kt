@@ -130,7 +130,7 @@ class BackupStorageRepository(private val context: Context) {
             BackupStorage(
                 kind = BackupStorage.Kind.EXTERNAL,
                 displayName = name,
-                path = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
+                path = if (identityId.isNullOrBlank()) root.absolutePath else File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath,
                 available = true,
                 writable = hasDirectWriteAccess(root) || rootCapability.probe() is com.bare.capability.RootProbeResult.Success,
                 totalBytes = root.totalSpace,
