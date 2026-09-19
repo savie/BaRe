@@ -100,7 +100,8 @@ fun HomeScreen(
                         Text(
                             stringResource(R.string.internal_storage),
                             style = MaterialTheme.typography.labelLarge,
-                            fontWeight = FontWeight.Medium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
                             text = stringResource(R.string.storage_free_short, formatStorageSize(internal.freeBytes)),
@@ -196,7 +197,8 @@ fun HomeScreen(
             Text(
                 stringResource(R.string.more_apps_actions),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
     }
@@ -239,7 +241,7 @@ private fun CompactStatus(
             modifier = Modifier.width(28.dp),
             contentAlignment = Alignment.CenterStart,
         ) {
-            Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp))
+            Icon(icon, contentDescription = title, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurface)
         }
         Spacer(Modifier.width(8.dp))
         Column(
@@ -249,7 +251,8 @@ private fun CompactStatus(
             Text(
                 title,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
             )
             Text(
