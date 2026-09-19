@@ -1843,3 +1843,108 @@ Candidate paling dekat bukan langsung "buat file recovery", melainkan menutup de
 6. reconcile backup namespace setelah recovery.
 
 Status: **NO SOURCE CHANGE / NO FINAL CRYPTO DECISION / AUDIT RECORDED**.
+
+## 2026-09-19 — GO 1–5: Implementasi Recovery Core, Storage Boundary, Reconciliation, dan Verification Harness
+
+### Authorization
+Pengguna memberikan **GO 1–5** untuk menjalankan batch pekerjaan recovery/identity dari hasil audit R3–R4–R5. Scope dijalankan langsung berdasarkan dependency aktual; tidak membuat phase artificial baru.
+
+### Pekerjaan yang Dikerjakan
+
+#### 1. Storage boundary
+- Recovery artifact tidak melakukan arbitrary direct write ke /storage/emulated/0/BaRe/ dari aplikasi target Android 10+.
+- Boundary implementation menggunakan Android Document Tree URI yang diberikan user/app flow.
+- RecoveryStorageBoundaryResolver menandai mode portable recovery sebagai DOCUMENT_TREE.
+- Artifact filename default: bare-recovery-v1.bare.
+- Write path menggunakan .partial → write → read-back decode/verify → rename ke nama final.
+- Jika finalize gagal, partial artifact dihapus bila provider mengizinkan.
+
+#### 2. Identity + recovery semantics
+- LocalIdentityStore tetap menggunakan UUID sebagai identifier logical LOCAL yang dibuat saat identity belum ada.
+- Recovery package hanya boleh membawa IdentityType.LOCAL.
+- Recovery restore tidak boleh diam-diam menimpa LOCAL identity yang sudah berbeda.
+- Jika identity lokal belum ada, payload recovery dapat menjadi sumber untuk memulihkan identity lama.
+- Jika identity lokal sudah ada dan sama, restore bersifat idempotent.
+- Jika identity lokal sudah ada tetapi berbeda, restore ditolak sebagai conflict.
+- Setup-complete dan access-method metadata ikut dipulihkan sebagai metadata lifecycle, bukan secret.
+
+#### 3. Recovery secret / key lifecycle
+- Recovery password diperlakukan sebagai user-held recovery secret; tidak disimpan oleh recovery codec.
+- Artifact memakai KDF PBKDF2-HMAC-SHA-256 dengan parameter versioned dan 310.000 iterations.
+- Encryption/authentication memakai AES-256-GCM.
+- Salt 16 byte dan nonce 12 byte dibuat random per artifact.
+- Header hanya berisi metadata format/KDF/salt/nonce; identity ID tidak ditulis plaintext.
+- GCM authenticated data mengikat header terhadap ciphertext.
+- Wrong password dan tampering menyebabkan decode gagal.
+- Construction ini adalah BaRe implementation decision untuk current recovery core, bukan salinan proprietary Swift implementation.
+
+#### 4. Recovery artifact implementation
+File baru:
+- app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt
+- app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt
+- app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt
+
+LocalIdentityStore sekarang memiliki:
+- toRecoveryPayload()
+- restoreFromRecovery(...)
+
+Recovery codec menggunakan container version BREC v1 dan payload terenkripsi.
+
+RecoveryArtifactRepository mendukung:
+- export ke Document Tree;
+- read-back verification;
+- atomic-ish .partial → rename final;
+- import/decode dari artifact URI.
+
+#### 5. Verification + reconciliation
+Test baru:
+- round-trip encode/decode;
+- wrong-password rejection;
+- tamper rejection;
+- cleartext-header check agar identity tidak berada di header plaintext.
+
+app/build.gradle.kts menambahkan JUnit 4.13.2 untuk unit test.
+
+Identity reconciliation sekarang conflict-safe:
+- no current identity → restore;
+- same identity → idempotent;
+- different current identity → reject.
+
+### Status Truth
+
+- Recovery core source: IMPLEMENTED.
+- Identity export/import semantics: IMPLEMENTED STATIC.
+- Wrong-secret rejection: UNIT TEST IMPLEMENTED; CI RESULT PENDING.
+- Tamper rejection: UNIT TEST IMPLEMENTED; CI RESULT PENDING.
+- Artifact write/read-back path: IMPLEMENTED STATIC.
+- Public /storage/emulated/0/BaRe/ runtime creation: UNVERIFIED.
+- Document Tree grant/runtime behavior: UNVERIFIED.
+- Actual uninstall → reinstall recovery: UNVERIFIED.
+- Actual clear-data recovery: UNVERIFIED.
+- Actual factory reset/format recovery: UNVERIFIED.
+- Actual ROM replacement recovery: UNVERIFIED.
+- Runtime import/recovery UI flow: NOT WIRED YET.
+- Existing backup directory reconciliation after real recovery: STATIC SEMANTICALLY COMPATIBLE because restored identity produces the same identity-derived namespace, but runtime discovery/reconciliation is UNVERIFIED.
+- master: NOT TOUCHED.
+
+### Important Engineering Boundary
+Batch 1–5 berhasil menutup core implementation dependency, tetapi tidak mengubah static implementation menjadi runtime proof. Device lifecycle tetap membutuhkan APK install/update/reinstall/reset/ROM evidence. Tidak boleh menyatakan end-to-end recovery VERIFIED sebelum evidence tersebut tersedia.
+
+### Commit Trail
+- Recovery codec: e43e4ba9c5507108c1c4e17ae9bd4569dfa9cdf7
+- Artifact repository: 2ac84a0215f873c2b2dfc7accc43bd959e318108
+- Storage boundary: 2b116dd3d4ee68d55dd874ad7548189a5eac87b9
+- Recovery tests: 264fb6df2328fcc92244428ecd0a888e8ad2c4ef
+- Identity reconciliation: a5fa71613a2c3249f116da44cd5bda6b9ecdfc15
+- Test dependency: 9ea04118abd82eeeb9ce851210faf7fd763e7a29
+- Test correction: 3c73d24f524b21182bf681263a530e28ab2c6d30
+
+### Next Verification
+1. CI :app:assembleDebug + unit test.
+2. Install/update APK pada device.
+3. Exercise Document Tree selection ke folder recovery yang dipilih user.
+4. Export artifact → inspect filename/header → import dengan password benar.
+5. Wrong password dan tamper test pada artifact nyata.
+6. Clear app data/uninstall → reinstall → import → verify same BaRe ID.
+7. Verify existing /BaRe/accounts/<identity-folder>/backups namespace kembali ke identity yang sama.
+8. Factory reset/format dan ROM replacement hanya setelah recovery artifact dipindahkan ke storage/media yang tetap tersedia.
