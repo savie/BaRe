@@ -125,12 +125,12 @@ class LocalIdentityStore(context: Context) {
             val accounts = File(root, "BaRe/accounts")
             accounts.listFiles()
                 ?.asSequence()
-                ?.filter(File::isDirectory)
+                ?.filter { it.isDirectory }
                 ?.map { File(it, "recovery/bare-recovery-v1.bare") }
-                ?.filter(File::isFile)
+                ?.filter { it.isFile }
                 ?.toList()
                 ?: emptyList()
-        }.distinctBy(File::absolutePath)
+        }.distinctBy { it.absolutePath }
     }
 
     private fun storageRoots(): List<File> = buildList {
@@ -142,9 +142,11 @@ class LocalIdentityStore(context: Context) {
                 ?.mapNotNull { volume ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) volume.directory else null
                 }
-                ?.forEach { root -> if (root.absolutePath != Environment.getExternalStorageDirectory().absolutePath) add(root) }
+                ?.forEach { root ->
+                    if (root.absolutePath != Environment.getExternalStorageDirectory().absolutePath) add(root)
+                }
         }
-    }.distinctBy(File::absolutePath)
+    }.distinctBy { it.absolutePath }
 
     companion object {
         private const val PREFERENCES_NAME = "bare_identity"
