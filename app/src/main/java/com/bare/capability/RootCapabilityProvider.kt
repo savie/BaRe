@@ -12,6 +12,18 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         else RootProbeResult.Failed("su did not provide uid 0: " + result.stdout)
     }
 
+
+    fun ensureDirectory(path: String, ownerUid: Int): RootProbeResult {
+        if (path.isBlank() || path.contains("\\n") || path.contains("\\r")) {
+            return RootProbeResult.Failed("Invalid storage path")
+        }
+        val quoted = path.replace("'", "'\\\"'\\\"'")
+        val command = "mkdir -p '$quoted' && chown $ownerUid:$ownerUid '$quoted' && chmod 0700 '$quoted'"
+        val result = runSu(command)
+        return if (result.exitCode == 0) RootProbeResult.Success(result.stdout.ifBlank { "root directory ready" }.trim())
+        else RootProbeResult.Failed(result.stderr.ifBlank { result.stdout })
+    }
+
     fun copyPackageApks(packageName: String, destinationDir: File): RootCopyResult {
         if (!packageName.matches(PACKAGE_REGEX)) return RootCopyResult.Failed("Invalid package name")
         if (!destinationDir.exists() && !destinationDir.mkdirs()) return RootCopyResult.Failed("Unable to create staging directory")
