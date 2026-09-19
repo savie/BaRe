@@ -22,6 +22,8 @@
     <string name="hide_password">Hide password</string>
     <string name="invalid_email">Enter a valid email such as x@x.x.</string>
     <string name="password_too_short">Password must be at least 8 characters.</string>
+    <string name="recovery_password">Recovery password</string>
+    <string name="recovery_password_setup_description">This password protects your recovery package. B Λ R E does not store it. Keep it somewhere safe because it is required to restore this identity.</string>
     <string name="password_mismatch">Passwords do not match.</string>
     <string name="create_account">Create account</string>
     <string name="create_account_description">Use an account to keep your setup connected across your B Λ R E experience.</string>
@@ -41,7 +43,7 @@
     <string name="cloud_storage">Cloud storage</string>
     <string name="storage_usage">%1$s free · %2$s total</string>
     <string name="storage_used_percent">%1$d%% used</string>
-    <string name="storage_setup_description">Choose the backup repository location. This screen does not write data yet.</string>
+    <string name="storage_setup_description">Choose where B Λ R E will create its storage. Setup creates the BaRe folder, backup namespace, and an encrypted recovery package before you enter B Λ R E.</string>
     <string name="internal_storage">Internal storage</string>
     <string name="internal_backup_path">BaRe/Backups</string>
     <string name="external_storage">External storage</string>
