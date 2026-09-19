@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import com.bare.R
 import com.bare.feature.account.AccountScreen
 import com.bare.feature.apps.AppConfigScreen
@@ -224,6 +225,7 @@ private fun MainShell(
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.height(96.dp),
                 title = {
                     Column(
                         modifier = Modifier.fillMaxWidth(),
@@ -232,15 +234,14 @@ private fun MainShell(
                     ) {
                         Text(
                             text = "B Λ R E",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
-                            letterSpacing = 5.sp,
+                            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+                            fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface,
                         )
                         Text(
-                            text = "SAVE OUR DAY",
-                            style = MaterialTheme.typography.labelSmall,
-                            letterSpacing = 3.5.sp,
+                            text = stringResource(R.string.brand_tagline),
+                            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+                            fontWeight = FontWeight.Light,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
@@ -254,8 +255,8 @@ private fun MainShell(
                     NavigationBarItem(
                         selected = pagerState.currentPage == index,
                         onClick = { onTabSelected(index) },
-                        icon = { Icon(tab.icon, stringResource(tab.titleRes)) },
-                        label = { Text(stringResource(tab.titleRes)) },
+                        icon = { Icon(tab.icon, stringResource(tab.titleRes), modifier = Modifier.size(22.dp)) },
+                        label = { Text(stringResource(tab.titleRes), style = MaterialTheme.typography.labelMedium) },
                     )
                 }
             }
