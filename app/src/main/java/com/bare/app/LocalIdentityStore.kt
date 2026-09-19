@@ -48,7 +48,7 @@ class LocalIdentityStore(context: Context) {
      * A conflicting installed identity is never silently overwritten.
      */
     fun restoreFromRecovery(payload: RecoveryPackageCodec.Payload): BaReIdentity {
-        require(payload.type == IdentityType.LOCAL) { "recovery package is not LOCAL" }
+        require(payload.type == IdentityType.LOCAL.name) { "recovery package is not LOCAL" }
         require(payload.identityId.isNotBlank()) { "recovery package has no identity" }
 
         val existing = load()
