@@ -279,7 +279,7 @@ private fun MainShell(
                     Column(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                        horizontalAlignment = androidx.compose.ui.Alignment.Start,
                     ) {
                         Text(
                             text = "B Λ R E",
