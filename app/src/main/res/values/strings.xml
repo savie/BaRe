@@ -295,8 +295,8 @@
     <string name="apps_local_search_description">Search stays inside Apps. Global search remains available elsewhere.</string>
     <string name="no_matching_apps">No matching apps</string>
     <string name="apps_tools_capability_map">Apps tools &amp; capability map</string>
-    <string name="apps_capability_mockups">43 capability mockups</string>
-    <string name="apps_capability_mockups_description">All target Apps capabilities are represented here before deeper implementation. Mockup coverage is not runtime verification.</string>
+    <string name="apps_capability_mockups">Apps workflow coverage</string>
+    <string name="apps_capability_mockups_description">Use this surface to review the Apps workflow. Capability IDs are engineering metadata; the product UI uses actions and destinations instead of numbered capability labels.</string>
     <string name="apps_mockup_placement_note">Native placement/flow is intentionally open for review.</string>
     <string name="backup_inventory">Backup inventory</string>
     <string name="backup_inventory_state">On device: No backup • Cloud: Not synced</string>

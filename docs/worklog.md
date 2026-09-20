@@ -3800,3 +3800,53 @@ Do **not** begin full backup/restore execution from APP-01 merely because the wo
 - CI: **pending re-verification (#444)**
 - Runtime: **pending**
 
+
+
+## 2026-09-21 — Apps UX Flow Rebaseline: APP-01 Workspace
+
+### AUTHORIZATION
+
+USER SAID: **GO** untuk melanjutkan Apps setelah menyepakati bahwa target saat ini adalah **feature-complete UX flow**, bukan runtime-complete behavior.
+
+### DECISION / BOUNDARY
+
+- Apps primary tab, discovery, search, sort, dan User/System surface dipertahankan sebagai protected baseline.
+- Fokus implementasi sekarang dipindahkan ke hamburger/tools surface dan App Detail sebagai **App Workspace / APP-01**.
+- Tidak melakukan refactor multi-file sekarang. `AppsScreens.kt` tetap menjadi working surface agar UX/flow Apps dapat diselesaikan dahulu.
+- Refactor akan menjadi fase terpisah setelah UX/behavior Apps stabil dan dependency boundary terbukti.
+- Capability yang belum mempunyai runtime behavior tetap mempunyai UI entry point + destination/action flow.
+- Capability ID APP-xx adalah engineering traceability, bukan label utama pada product UI.
+- Reference workflow tetap menjadi evidence scope; implementation tetap BaRe-native.
+
+### IMPLEMENTATION
+
+APP-01 App Detail sekarang mempunyai:
+- primary actions: Launch, Backup, Restore;
+- contextual `⋮` menu untuk Play Store, Android App Info, Share APK, Favorite/labels/blacklist, Battery optimization, Add to Home, Force stop, dan Uninstall;
+- backup destination flow: Device, Cloud, Device + Cloud;
+- backup inventory destination;
+- backup-part selection surface;
+- Management destination;
+- Configuration destination;
+- Diagnostics/import destination;
+- Restore variants destination.
+
+Destination yang belum mempunyai runtime implementation menampilkan explicit mockup state sehingga **flow ada sekarang** dan behavior dapat diisi kemudian.
+
+### TRUTH STATUS
+
+- Apps primary tab: **PRESERVED / protected baseline**.
+- Search / Sort: **FUNCTIONAL**.
+- User/System filtering: **IMPLEMENTED; runtime verification state remains separate**.
+- APP-01 workspace flow: **IMPLEMENTED UI / runtime behavior mixed and pending by capability**.
+- Backup/restore execution: **NOT CLAIMED IMPLEMENTED**.
+- Management actions: **UI flow present; runtime execution pending**.
+- Configuration: **UI flow present; persistence/execution pending**.
+- Diagnostics/import: **UI flow present; runtime capability pending**.
+- Refactor: **DEFERRED**.
+
+### VERIFICATION
+
+- Source changes are committed atomically with this worklog update.
+- CI is required before claiming compile/build success.
+- Device/runtime verification remains pending until a passing APK is available.

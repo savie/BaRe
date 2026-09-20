@@ -405,6 +405,7 @@ fun AppsToolsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit) {
@@ -413,6 +414,9 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     val repository = remember(context) { AppDetailsRepository(context) }
     var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
     var error by remember(packageName) { mutableStateOf<String?>(null) }
+    var showActions by remember { mutableStateOf(false) }
+    var mockupAction by remember { mutableStateOf<String?>(null) }
+    var selectedParts by remember { mutableStateOf(setOf("APK")) }
 
     LaunchedEffect(repository, packageName) {
         details = null
@@ -426,6 +430,54 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         }
     }
 
+    if (mockupAction != null) {
+        AppMockupActionDialog(
+            title = mockupAction!!,
+            appName = details?.name ?: app?.name ?: "App",
+            onDismiss = { mockupAction = null },
+        )
+    }
+
+    if (showActions && details != null) {
+        ModalBottomSheet(onDismissRequest = { showActions = false }) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text("App actions", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(
+                    "Actions are presented here first. Runtime execution can be filled in independently.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                AppActionMenuItem("Play Store", Icons.Default.ShoppingBag) {
+                    showActions = false; mockupAction = "Play Store"
+                }
+                AppActionMenuItem("Android App Info", Icons.Default.Info) {
+                    showActions = false; mockupAction = "Android App Info"
+                }
+                AppActionMenuItem("Share APK", Icons.Default.Share) {
+                    showActions = false; mockupAction = "Share APK"
+                }
+                AppActionMenuItem("Favorite / labels / blacklist", Icons.Default.Star) {
+                    showActions = false; onOpen(Screen.APP_MANAGEMENT)
+                }
+                AppActionMenuItem("Battery optimization", Icons.Default.BatteryChargingFull) {
+                    showActions = false; mockupAction = "Battery optimization"
+                }
+                AppActionMenuItem("Add to Home screen", Icons.Default.Home) {
+                    showActions = false; mockupAction = "Add to Home screen"
+                }
+                AppActionMenuItem("Force stop", Icons.Default.Stop) {
+                    showActions = false; mockupAction = "Force stop"
+                }
+                AppActionMenuItem("Uninstall", Icons.Default.Delete) {
+                    showActions = false; mockupAction = "Uninstall"
+                }
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -434,31 +486,32 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     IconButton(onClick = onBack) {
                         Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
                     }
+                },
+                actions = {
+                    IconButton(enabled = details != null, onClick = { showActions = true }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
+                    }
                 }
             )
         }
     ) { padding ->
         when {
-            error != null -> {
-                Column(
-                    Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(stringResource(R.string.app_detail_unavailable), fontWeight = FontWeight.Bold)
-                    Text(error!!, color = MaterialTheme.colorScheme.error)
-                }
+            error != null -> Column(
+                Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(stringResource(R.string.app_detail_unavailable), fontWeight = FontWeight.Bold)
+                Text(error!!, color = MaterialTheme.colorScheme.error)
             }
-            details == null -> {
-                Box(
-                    Modifier.fillMaxSize().padding(padding),
-                    contentAlignment = Alignment.Center
-                ) { CircularProgressIndicator() }
-            }
+            details == null -> Box(
+                Modifier.fillMaxSize().padding(padding),
+                contentAlignment = Alignment.Center
+            ) { CircularProgressIndicator() }
             else -> {
                 val item = details!!
                 LazyColumn(
                     Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     item {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -466,16 +519,12 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 Modifier.size(64.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
                                 Alignment.Center
                             ) {
-                                Text(
-                                    item.name.take(1),
-                                    style = MaterialTheme.typography.headlineSmall,
-                                    fontWeight = FontWeight.Bold
-                                )
+                                Text(item.name.take(1), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                             }
                             Spacer(Modifier.width(14.dp))
-                            Column {
+                            Column(Modifier.weight(1f)) {
                                 Text(item.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                                Text(item.packageName)
+                                Text(item.packageName, maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 Text(item.category)
                                 Text(
                                     if (item.isEnabled) stringResource(R.string.enabled) else stringResource(R.string.disabled),
@@ -486,36 +535,44 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         }
                     }
                     item {
-                        Card(Modifier.fillMaxWidth()) {
-                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text(stringResource(R.string.app_package_surface), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                                Text(
-                                    stringResource(
-                                        R.string.app_version_value,
-                                        item.versionName ?: stringResource(R.string.unknown_value),
-                                        item.versionCode?.toString() ?: stringResource(R.string.unknown_value),
-                                    )
-                                )
-                                Text(stringResource(R.string.app_apk_count_value, item.apkCount))
-                                Text(stringResource(R.string.app_apk_size_value, formatAppSize(item.apkSizeBytes)))
-                                Text(
-                                    if (item.canLaunch) stringResource(R.string.app_launch_capable)
-                                    else stringResource(R.string.app_launch_unavailable)
-                                )
-                                Text(
-                                    if (item.canOpenAppInfo) stringResource(R.string.app_info_capable)
-                                    else stringResource(R.string.app_info_unavailable)
-                                )
-                            }
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Button(enabled = item.canLaunch, onClick = { mockupAction = "Launch" }, modifier = Modifier.weight(1f)) { Text("Launch") }
+                            OutlinedButton(onClick = { onOpen(Screen.APP_BACKUP) }, modifier = Modifier.weight(1f)) { Text("Backup") }
+                            OutlinedButton(onClick = { onOpen(Screen.APP_RESTORE) }, modifier = Modifier.weight(1f)) { Text("Restore") }
                         }
                     }
                     item {
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                                Text(stringResource(R.string.backup_inventory_state), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                Text(stringResource(R.string.backup_inventory_versions))
-                                Text(stringResource(R.string.app_backup_surface_foundation_note), style = MaterialTheme.typography.bodySmall)
+                                Text(stringResource(R.string.app_package_surface), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                                Text(stringResource(
+                                    R.string.app_version_value,
+                                    item.versionName ?: stringResource(R.string.unknown_value),
+                                    item.versionCode?.toString() ?: stringResource(R.string.unknown_value)
+                                ))
+                                Text(stringResource(R.string.app_apk_count_value, item.apkCount))
+                                Text(stringResource(R.string.app_apk_size_value, formatAppSize(item.apkSizeBytes)))
+                                Text(if (item.canLaunch) "Launch capability: available" else "Launch capability: unavailable")
+                                Text(if (item.canOpenAppInfo) "Android App Info: available" else "Android App Info: unavailable")
+                            }
+                        }
+                    }
+                    item {
+                        Card(Modifier.fillMaxWidth()) {
+                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Column(Modifier.weight(1f)) {
+                                        Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                                        Text("Device: no verified backup")
+                                        Text("Cloud: not synced")
+                                    }
+                                    TextButton(onClick = { onOpen(Screen.APP_BACKUPS) }) { Text("View backups") }
+                                }
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    OutlinedButton(onClick = { onOpen(Screen.APP_BACKUP) }, modifier = Modifier.weight(1f)) { Text("Device") }
+                                    OutlinedButton(onClick = { onOpen(Screen.APP_BACKUP) }, modifier = Modifier.weight(1f)) { Text("Cloud") }
+                                    OutlinedButton(onClick = { onOpen(Screen.APP_BACKUP) }, modifier = Modifier.weight(1f)) { Text("Both") }
+                                }
                             }
                         }
                     }
@@ -524,63 +581,247 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     }
                     item {
                         val parts = listOf(
-                            "APK" to true,
-                            "Split APK" to (item.apkCount > 1),
-                            "App data" to false,
-                            "External data" to false,
-                            "Expansion / OBB" to false,
-                            "Media" to false,
-                            stringResource(R.string.backup_parts_optional) to false,
-                            stringResource(R.string.shared_libraries) to false
+                            "APK", "Split APK", "App data", "External data", "Expansion / OBB",
+                            "Media", stringResource(R.string.backup_parts_optional), stringResource(R.string.shared_libraries)
                         )
-                        parts.forEach { (name, available) ->
-                            CheckRow(
-                                name + if (!available) stringResource(R.string.apps_capability_mockup_suffix) else "",
-                                available
-                            )
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            parts.forEach { part ->
+                                val selected = selectedParts.contains(part)
+                                Row(
+                                    Modifier.fillMaxWidth().clickable {
+                                        selectedParts = if (selected) selectedParts - part else selectedParts + part
+                                    }.padding(vertical = 4.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Checkbox(
+                                        checked = selected,
+                                        onCheckedChange = { checked ->
+                                            selectedParts = if (checked) selectedParts + part else selectedParts - part
+                                        }
+                                    )
+                                    Text(part + if (part != "APK" && !selected) " • mockup" else "")
+                                }
+                            }
                         }
                     }
                     item {
                         Text(stringResource(R.string.app_actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.app_actions_foundation_note), style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Each entry below is a real navigation/action surface. Pending runtime behavior is marked inside the destination.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                     item {
-                        ListEntry(
-                            stringResource(R.string.multiple_backup_strategy),
-                            stringResource(R.string.multiple_backup_strategy_value),
-                            Icons.Default.Sync
-                        ) { onOpen(Screen.APP_CONFIG) }
+                        ListEntry("Management", "Enable / disable • force stop • uninstall • favorite • labels • blacklist", Icons.Default.Build) {
+                            onOpen(Screen.APP_MANAGEMENT)
+                        }
                     }
                     item {
-                        ListEntry(
-                            stringResource(R.string.management),
-                            stringResource(R.string.management_summary_short),
-                            Icons.Default.Build
-                        ) { onOpen(Screen.MANAGEMENT) }
+                        ListEntry(stringResource(R.string.configuration), "Parts • compression • encryption • limits • cache • notes • schedule", Icons.Default.Settings) {
+                            onOpen(Screen.APP_CONFIG)
+                        }
                     }
                     item {
-                        ListEntry(
-                            stringResource(R.string.configuration),
-                            stringResource(R.string.configuration_summary),
-                            Icons.Default.Settings
-                        ) { onOpen(Screen.APP_CONFIG) }
+                        ListEntry(stringResource(R.string.diagnostics), "Visibility • capability • preconditions • APK/APKS import", Icons.Default.BugReport) {
+                            onOpen(Screen.APP_DIAGNOSTICS)
+                        }
                     }
                     item {
-                        ListEntry(
-                            stringResource(R.string.diagnostics),
-                            stringResource(R.string.diagnostics_short),
-                            Icons.Default.BugReport
-                        ) { onOpen(Screen.DIAGNOSTICS) }
+                        ListEntry(stringResource(R.string.restore_variants), "Missing app • newer version • special data • SSAID", Icons.Default.Restore) {
+                            onOpen(Screen.APP_RESTORE)
+                        }
                     }
                     item {
-                        ListEntry(
-                            stringResource(R.string.restore_variants),
-                            stringResource(R.string.restore_variants_short),
-                            Icons.Default.Restore
-                        ) { onOpen(Screen.TASK) }
+                        ListEntry("Backup history", "Device/cloud versions • protected state • notes • delete", Icons.Default.History) {
+                            onOpen(Screen.APP_BACKUPS)
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun AppActionMenuItem(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit,
+) {
+    ListItem(
+        headlineContent = { Text(title) },
+        leadingContent = { Icon(icon, contentDescription = null) },
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)
+    )
+}
+
+@Composable
+private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(appName, fontWeight = FontWeight.Bold)
+                Text("This action is part of the BaRe Apps flow.")
+                Text("Runtime behavior is pending; this UI is intentionally available as a mockup so the workflow can be reviewed.")
+                Text("Capability execution will be connected after its Android capability and verification path are established.")
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } }
+    )
+}
+
+@Composable
+fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
+    var destination by remember { mutableStateOf("Device") }
+    var showMockup by remember { mutableStateOf(false) }
+    if (showMockup) AppMockupActionDialog("Run backup", app?.name ?: "App") { showMockup = false }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Backup • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                Text("Backup destination", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf("Device", "Cloud", "Device + Cloud").forEach { value ->
+                        FilterChip(selected = destination == value, onClick = { destination = value }, label = { Text(value) }, modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Selected backup parts", fontWeight = FontWeight.Bold)
+                        Text("APK • split APK • app data • external data • OBB • media • cache • shared libraries")
+                        Text("Part selection is represented in the App Detail workspace; persistent configuration is pending.")
+                    }
+                }
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { showMockup = true }, modifier = Modifier.weight(1f)) { Text("Run backup") }
+                    OutlinedButton(onClick = { showMockup = true }, modifier = Modifier.weight(1f)) { Text("Share APK") }
+                }
+            }
+            item {
+                ListEntry("Device backups", "View backup versions and retention state", Icons.Default.History) { onOpen(Screen.APP_BACKUPS) }
+            }
+        }
+    }
+}
+
+@Composable
+fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
+    var showMockup by remember { mutableStateOf(false) }
+    if (showMockup) AppMockupActionDialog("Backup action", app?.name ?: "App") { showMockup = false }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Backups • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item {
+                Text("Device backups", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text("This surface is ready for real backup inventory; no verified backup is claimed yet.")
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text("No verified backup version", fontWeight = FontWeight.Bold)
+                        Text("Protected • notes • version comparison • size")
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            OutlinedButton(onClick = { showMockup = true }) { Text("Restore") }
+                            OutlinedButton(onClick = { showMockup = true }) { Text("Delete") }
+                        }
+                    }
+                }
+            }
+            item {
+                Text("Cloud backups", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text("Cloud inventory and sync state are represented as a downstream workflow.")
+            }
+        }
+    }
+}
+
+@Composable
+fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
+    var showMockup by remember { mutableStateOf<String?>(null) }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Management • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item {
+                Text("App management", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text("The controls are present now; execution is connected later to the appropriate Android capability/provider.")
+            }
+            item { ListEntry(if (app?.isEnabled == true) "Disable app" else "Enable app", "Change installed application enabled state", Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) "Disable app" else "Enable app" } }
+            item { ListEntry("Force stop", "Stop the running application", Icons.Default.Stop) { showMockup = "Force stop" } }
+            item { ListEntry("Uninstall", "Open uninstall workflow with confirmation", Icons.Default.Delete) { showMockup = "Uninstall" } }
+            item { ListEntry("Favorite / labels / blacklist", "Manage per-app organization and protection state", Icons.Default.Star) { showMockup = "Favorite / labels / blacklist" } }
+            item { ListEntry("Protected backup", "Protect retained backup versions from deletion", Icons.Default.Lock) { showMockup = "Protected backup" } }
+        }
+    }
+}
+
+@Composable
+fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
+    var showMockup by remember { mutableStateOf<String?>(null) }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Diagnostics • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item { Text("Capability diagnostics", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
+            item { ListEntry("App visibility", "Explain why a package may be unavailable", Icons.Default.Visibility) { showMockup = "App visibility diagnostics" } }
+            item { ListEntry("Execution capability", "Show available provider/access prerequisites", Icons.Default.Security) { showMockup = "Execution capability" } }
+            item { ListEntry("APK / APKS import", "Validate an APK artifact and expose install flow", Icons.Default.FileOpen) { showMockup = "APK / APKS import and install" } }
+            item { ListEntry("Storage / data preconditions", "Expose what can and cannot be measured", Icons.Default.Storage) { showMockup = "Storage preconditions" } }
+        }
+    }
+}
+
+@Composable
+fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
+    var showMockup by remember { mutableStateOf<String?>(null) }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Restore • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item { Text("Restore variants", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
+            item { ListEntry("Missing app", "Install/prepare the app before restoring its data", Icons.Default.Apps) { showMockup = "Missing-app restore" } }
+            item { ListEntry("Newer backup version", "Resolve installed-versus-backup version mismatch", Icons.Default.Update) { showMockup = "Newer-version restore" } }
+            item { ListEntry("Special data", "Expose optional special-data restore choices", Icons.Default.Extension) { showMockup = "Special-data restore" } }
+            item { ListEntry("SSAAD", "Explicit optional SSAID restore choice with warning", Icons.Default.Fingerprint) { showMockup = "SSAAD restore" } }
+            item { ListEntry("Restore selected backup", "Choose a backup version and continue through preconditions", Icons.Default.Restore) { showMockup = "Restore selected backup" } }
         }
     }
 }
@@ -597,17 +838,79 @@ private fun formatAppSize(bytes: Long): String {
     return if (index == 0) "${bytes} ${units[index]}" else "%.1f %s".format(value, units[index])
 }
 
+
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
-    val itemName = app?.name ?: stringResource(R.string.app_details)
-    com.bare.feature.misc.GenericDomainScreen(
-        stringResource(R.string.configuration_title, itemName),
-        "BaRe-native Apps configuration mockup. Values are not stored in the backend yet.",
-        listOf(
-            stringResource(R.string.backup_parts), "Compression", "Encryption", "Multiple backups",
-            "Backup limits", "Protection", "Notes", "Favorite", "Labels",
-            "Blacklist", stringResource(R.string.cloud_destination), stringResource(R.string.run_now), stringResource(R.string.schedule_binding)
-        ),
-        onBack
-    )
+    var compression by remember { mutableStateOf(false) }
+    var encryption by remember { mutableStateOf(false) }
+    var cache by remember { mutableStateOf(false) }
+    var protection by remember { mutableStateOf(false) }
+    var notes by remember { mutableStateOf(false) }
+    var schedule by remember { mutableStateOf(false) }
+    var strategy by remember { mutableStateOf("Single") }
+    var showMockup by remember { mutableStateOf<String?>(null) }
+
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Configuration • " + (app?.name ?: "App")) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+            )
+        }
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                Text("App configuration", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text("The configuration flow is present now. Persistence and execution are downstream behavior.")
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(14.dp)) {
+                        Text("Backup parts", fontWeight = FontWeight.Bold)
+                        listOf("APK", "Split APK", "App data", "External data", "Expansion / OBB", "Media", "Cache", "Shared libraries").forEach { Text("✓ " + it) }
+                    }
+                }
+            }
+            item {
+                Text("Backup strategy", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    listOf("Single", "Dated", "Conditional").forEach {
+                        FilterChip(selected = strategy == it, onClick = { strategy = it }, label = { Text(it) }, modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+            item {
+                AppSwitchRow("Compression", compression) { compression = it }
+                AppSwitchRow("Encryption", encryption) { encryption = it }
+                AppSwitchRow("Cache", cache) { cache = it }
+                AppSwitchRow("Protected backup", protection) { protection = it }
+                AppSwitchRow("Notes", notes) { notes = it }
+                AppSwitchRow("Schedule binding", schedule) { schedule = it }
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(onClick = { showMockup = "Run configuration now" }, modifier = Modifier.weight(1f)) { Text("Run now") }
+                    OutlinedButton(onClick = { showMockup = "Schedule configuration" }, modifier = Modifier.weight(1f)) { Text("Schedule") }
+                }
+            }
+            item {
+                Text("Limits and retention", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                ListEntry("Backup limits", "Local/cloud size limits and warnings", Icons.Default.Tune) { showMockup = "Backup limits" }
+                ListEntry("Multiple backups", "Single / dated / conditional retention", Icons.Default.Sync) { showMockup = "Multiple-backup strategy" }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppSwitchRow(title: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().clickable { onCheckedChange(!checked) }.padding(vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(title, Modifier.weight(1f))
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
+    }
 }
