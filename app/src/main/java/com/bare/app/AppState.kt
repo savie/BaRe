@@ -45,6 +45,8 @@ data class AppItem(
     val packageName: String,
     val category: String,
     val size: String,
+    val isSystem: Boolean = false,
+    val isEnabled: Boolean = true,
     val protected: Boolean = false,
     val favorite: Boolean = false,
 )
