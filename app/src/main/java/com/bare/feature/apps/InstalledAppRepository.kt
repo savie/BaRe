@@ -17,6 +17,8 @@ class InstalledAppRepository(private val context: Context) {
                     packageName = info.packageName,
                     category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
                     size = formatSize(File(info.sourceDir).length()),
+                    isSystem = isSystem,
+                    isEnabled = info.enabled,
                 )
             }
             .sortedBy { it.name.lowercase() }
