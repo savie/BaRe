@@ -3777,3 +3777,26 @@ Do **not** begin full backup/restore execution from APP-01 merely because the wo
 - If CI passes, install/run the resulting APK and verify App Detail against at least enabled and disabled installed apps while confirming Apps search/sort/User/System behavior remains unchanged.
 - Then close the APP-01 foundation verification gap before moving to downstream action slices.
 
+## 2026-09-21 — APP-01 CI Failure Fix: stale demoApps reference
+
+### OBSERVED
+- CI run #443 failed at `:app:compileDebugKotlin`.
+- Compiler error: `AppsScreens.kt:602:23 Unresolved reference 'demoApps'`.
+- The failing reference was the stale fallback inside `AppConfigScreen`.
+
+### FIX
+- Removed the `demoApps.first()` fallback from `AppConfigScreen`.
+- Configuration screen now derives its title from the selected `AppItem`, with a resource-backed generic title when no app is selected.
+- No change to Apps discovery/search/sort/User/System filtering.
+
+### VERIFICATION
+- Fix commit: `e6c20a9d141ef9d61866f8775c97d8cfc1dc973c`.
+- GitHub Actions run #444 has been triggered and is currently **QUEUED**.
+- CI #443 is recorded as **FAILED** with the stale `demoApps` compile error.
+- Runtime verification remains blocked until a passing build artifact is available.
+
+### STATUS
+- APP-01 implementation: **implemented**
+- CI: **pending re-verification (#444)**
+- Runtime: **pending**
+
