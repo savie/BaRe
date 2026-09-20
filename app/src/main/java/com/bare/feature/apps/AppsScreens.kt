@@ -29,57 +29,58 @@ private enum class AppScope { ALL, USER, SYSTEM }
 
 private data class AppsCapability(
     val id: String,
-    val title: String,
-    val group: String,
-    val description: String,
-    val status: String = "Mockup",
+    val titleRes: Int,
+    val groupRes: Int,
+    val descriptionRes: Int,
+    val statusRes: Int,
 )
 
 private val appsCapabilities = listOf(
-    AppsCapability("01", "Local apps / Cloud synced apps", "Browse & context", "Switch the Apps repository context without changing the primary Apps tab."),
-    AppsCapability("02", "Search", "Browse & context", "Find apps by display name or package name and open the matching app detail.", status = "Functional"),
-    AppsCapability("03", "Sort", "Browse & context", "Name and direction control for the installed-app inventory.", status = "Functional"),
-    AppsCapability("04", "User/System + system-app filtering", "Browse & context", "App type filters with room for system-app subfilters."),
-    AppsCapability("05", "Favorites", "Browse & context", "Favorite state and favorite-only filtering."),
-    AppsCapability("06", "Labels", "Browse & context", "Custom labels attached to apps and usable as filters."),
-    AppsCapability("07", "On-device backup status", "State & inventory", "Show whether a local backup exists, its state, date, and size."),
-    AppsCapability("08", "Cloud sync status", "State & inventory", "Show cloud presence and synchronization state."),
-    AppsCapability("09", "Install + enabled status", "State & inventory", "Installed/removed and enabled/disabled state."),
-    AppsCapability("10", "Multiple backups filter", "State & inventory", "Find apps with multiple retained backup versions."),
-    AppsCapability("11", "Protected backups filter", "State & inventory", "Find protected/retained backups."),
-    AppsCapability("12", "Backup notes filter", "State & inventory", "Find backups carrying notes or annotations."),
-    AppsCapability("13", "Older/newer APK relationship filter", "State & inventory", "Compare installed APK version against backup APK versions."),
-    AppsCapability("14", "Google Play source filter", "State & inventory", "Filter by Google Play installation source."),
-    AppsCapability("15", "App detail", "App detail", "Central app workspace for metadata, state, parts, actions, management, and diagnostics."),
-    AppsCapability("16", "Device/cloud backup inventory", "App detail", "Show available local and cloud backup versions before restore/delete."),
-    AppsCapability("17", "Backup parts", "App detail", "APK, split APK, app data, external data, OBB, media, cache, and shared libraries."),
-    AppsCapability("18", "APK", "Backup parts", "Base APK backup/restore part."),
-    AppsCapability("19", "Split APK", "Backup parts", "Split APK set backup/restore part."),
-    AppsCapability("20", "App data", "Backup parts", "Application private data backup/restore part."),
-    AppsCapability("21", "External data", "Backup parts", "External app data backup/restore part."),
-    AppsCapability("22", "Expansion / OBB", "Backup parts", "Expansion/OBB backup/restore part."),
-    AppsCapability("23", "Media", "Backup parts", "App-related media backup/restore part."),
-    AppsCapability("24", "Cache", "Backup parts", "Optional cache backup with size/warning state."),
-    AppsCapability("25", "Shared libraries", "Backup parts", "Reference-aware shared-library dependency/state."),
-    AppsCapability("26", "Backup", "Operations", "Create an app backup using selected parts and configuration."),
-    AppsCapability("27", "Restore", "Operations", "Restore an app from a selected backup with precondition states."),
-    AppsCapability("28", "Delete backup", "Operations", "Delete selected backup versions with confirmation/protection checks."),
-    AppsCapability("29", "Multiple-backup strategy", "Operations", "Single/dated/conditional retention strategy."),
-    AppsCapability("30", "Backup limits", "Operations", "Local/cloud app-data size limits and warnings."),
-    AppsCapability("31", "App-data encryption", "Operations", "Encryption state and policy for app-data backup."),
-    AppsCapability("32", "Batch actions", "Management", "Select multiple apps, apply action, and show per-item plus aggregate results."),
-    AppsCapability("33", "Blacklist", "Management", "Hide/exclude apps or apply APK-only policy."),
-    AppsCapability("34", "Custom configurations", "Management", "Per-app backup/restore configuration editor."),
-    AppsCapability("35", "Run configuration", "Management", "Run a saved configuration immediately."),
-    AppsCapability("36", "Configuration → schedule", "Management", "Bind a saved app configuration to a schedule."),
-    AppsCapability("37", "Quick actions", "Management", "Reusable app actions surfaced from the Apps workspace."),
-    AppsCapability("38", "Per-app actions / swipe actions", "Management", "Contextual actions for a specific app item."),
-    AppsCapability("39", "App visibility diagnostics", "Diagnostics & import", "Explain package visibility and why an app may be unavailable."),
-    AppsCapability("40", "APK / APKS import and install", "Diagnostics & import", "Validate/import APK artifacts and expose install capability state."),
-    AppsCapability("41", "Missing-app restore", "Diagnostics & import", "Restore an app when it is absent from the current device."),
-    AppsCapability("42", "Newer-version restore", "Diagnostics & import", "Handle backup APK newer than the currently installed version."),
-    AppsCapability("43", "Special-data + SSAID restore", "Diagnostics & import", "Explicit special-data and optional SSAID restore choices with warnings."),
+    AppsCapability("01", R.string.apps_cap_01_title, R.string.apps_cap_01_group, R.string.apps_cap_01_description, R.string.apps_cap_01_status),
+    AppsCapability("02", R.string.apps_cap_02_title, R.string.apps_cap_02_group, R.string.apps_cap_02_description, R.string.apps_cap_02_status),
+    AppsCapability("03", R.string.apps_cap_03_title, R.string.apps_cap_03_group, R.string.apps_cap_03_description, R.string.apps_cap_03_status),
+    AppsCapability("04", R.string.apps_cap_04_title, R.string.apps_cap_04_group, R.string.apps_cap_04_description, R.string.apps_cap_04_status),
+    AppsCapability("05", R.string.apps_cap_05_title, R.string.apps_cap_05_group, R.string.apps_cap_05_description, R.string.apps_cap_05_status),
+    AppsCapability("06", R.string.apps_cap_06_title, R.string.apps_cap_06_group, R.string.apps_cap_06_description, R.string.apps_cap_06_status),
+    AppsCapability("07", R.string.apps_cap_07_title, R.string.apps_cap_07_group, R.string.apps_cap_07_description, R.string.apps_cap_07_status),
+    AppsCapability("08", R.string.apps_cap_08_title, R.string.apps_cap_08_group, R.string.apps_cap_08_description, R.string.apps_cap_08_status),
+    AppsCapability("09", R.string.apps_cap_09_title, R.string.apps_cap_09_group, R.string.apps_cap_09_description, R.string.apps_cap_09_status),
+    AppsCapability("10", R.string.apps_cap_10_title, R.string.apps_cap_10_group, R.string.apps_cap_10_description, R.string.apps_cap_10_status),
+    AppsCapability("11", R.string.apps_cap_11_title, R.string.apps_cap_11_group, R.string.apps_cap_11_description, R.string.apps_cap_11_status),
+    AppsCapability("12", R.string.apps_cap_12_title, R.string.apps_cap_12_group, R.string.apps_cap_12_description, R.string.apps_cap_12_status),
+    AppsCapability("13", R.string.apps_cap_13_title, R.string.apps_cap_13_group, R.string.apps_cap_13_description, R.string.apps_cap_13_status),
+    AppsCapability("14", R.string.apps_cap_14_title, R.string.apps_cap_14_group, R.string.apps_cap_14_description, R.string.apps_cap_14_status),
+    AppsCapability("15", R.string.apps_cap_15_title, R.string.apps_cap_15_group, R.string.apps_cap_15_description, R.string.apps_cap_15_status),
+    AppsCapability("16", R.string.apps_cap_16_title, R.string.apps_cap_16_group, R.string.apps_cap_16_description, R.string.apps_cap_16_status),
+    AppsCapability("17", R.string.apps_cap_17_title, R.string.apps_cap_17_group, R.string.apps_cap_17_description, R.string.apps_cap_17_status),
+    AppsCapability("18", R.string.apps_cap_18_title, R.string.apps_cap_18_group, R.string.apps_cap_18_description, R.string.apps_cap_18_status),
+    AppsCapability("19", R.string.apps_cap_19_title, R.string.apps_cap_19_group, R.string.apps_cap_19_description, R.string.apps_cap_19_status),
+    AppsCapability("20", R.string.apps_cap_20_title, R.string.apps_cap_20_group, R.string.apps_cap_20_description, R.string.apps_cap_20_status),
+    AppsCapability("21", R.string.apps_cap_21_title, R.string.apps_cap_21_group, R.string.apps_cap_21_description, R.string.apps_cap_21_status),
+    AppsCapability("22", R.string.apps_cap_22_title, R.string.apps_cap_22_group, R.string.apps_cap_22_description, R.string.apps_cap_22_status),
+    AppsCapability("23", R.string.apps_cap_23_title, R.string.apps_cap_23_group, R.string.apps_cap_23_description, R.string.apps_cap_23_status),
+    AppsCapability("24", R.string.apps_cap_24_title, R.string.apps_cap_24_group, R.string.apps_cap_24_description, R.string.apps_cap_24_status),
+    AppsCapability("25", R.string.apps_cap_25_title, R.string.apps_cap_25_group, R.string.apps_cap_25_description, R.string.apps_cap_25_status),
+    AppsCapability("26", R.string.apps_cap_26_title, R.string.apps_cap_26_group, R.string.apps_cap_26_description, R.string.apps_cap_26_status),
+    AppsCapability("27", R.string.apps_cap_27_title, R.string.apps_cap_27_group, R.string.apps_cap_27_description, R.string.apps_cap_27_status),
+    AppsCapability("28", R.string.apps_cap_28_title, R.string.apps_cap_28_group, R.string.apps_cap_28_description, R.string.apps_cap_28_status),
+    AppsCapability("29", R.string.apps_cap_29_title, R.string.apps_cap_29_group, R.string.apps_cap_29_description, R.string.apps_cap_29_status),
+    AppsCapability("30", R.string.apps_cap_30_title, R.string.apps_cap_30_group, R.string.apps_cap_30_description, R.string.apps_cap_30_status),
+    AppsCapability("31", R.string.apps_cap_31_title, R.string.apps_cap_31_group, R.string.apps_cap_31_description, R.string.apps_cap_31_status),
+    AppsCapability("32", R.string.apps_cap_32_title, R.string.apps_cap_32_group, R.string.apps_cap_32_description, R.string.apps_cap_32_status),
+    AppsCapability("33", R.string.apps_cap_33_title, R.string.apps_cap_33_group, R.string.apps_cap_33_description, R.string.apps_cap_33_status),
+    AppsCapability("34", R.string.apps_cap_34_title, R.string.apps_cap_34_group, R.string.apps_cap_34_description, R.string.apps_cap_34_status),
+    AppsCapability("35", R.string.apps_cap_35_title, R.string.apps_cap_35_group, R.string.apps_cap_35_description, R.string.apps_cap_35_status),
+    AppsCapability("36", R.string.apps_cap_36_title, R.string.apps_cap_36_group, R.string.apps_cap_36_description, R.string.apps_cap_36_status),
+    AppsCapability("37", R.string.apps_cap_37_title, R.string.apps_cap_37_group, R.string.apps_cap_37_description, R.string.apps_cap_37_status),
+    AppsCapability("38", R.string.apps_cap_38_title, R.string.apps_cap_38_group, R.string.apps_cap_38_description, R.string.apps_cap_38_status),
+    AppsCapability("39", R.string.apps_cap_39_title, R.string.apps_cap_39_group, R.string.apps_cap_39_description, R.string.apps_cap_39_status),
+    AppsCapability("40", R.string.apps_cap_40_title, R.string.apps_cap_40_group, R.string.apps_cap_40_description, R.string.apps_cap_40_status),
+    AppsCapability("41", R.string.apps_cap_41_title, R.string.apps_cap_41_group, R.string.apps_cap_41_description, R.string.apps_cap_41_status),
+    AppsCapability("42", R.string.apps_cap_42_title, R.string.apps_cap_42_group, R.string.apps_cap_42_description, R.string.apps_cap_42_status),
+    AppsCapability("43", R.string.apps_cap_43_title, R.string.apps_cap_43_group, R.string.apps_cap_43_description, R.string.apps_cap_43_status),
 )
+
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
@@ -121,18 +122,18 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     if (showFilters) {
         AlertDialog(
             onDismissRequest = { showFilters = false },
-            title = { Text("Apps filters") },
+            title = { Text(stringResource(R.string.apps_filters)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Mockup filter model", fontWeight = FontWeight.Bold)
-                    Text("Favorites • Labels • Backup status • Cloud sync • Install/enabled status")
-                    Text("Multiple backups • Protected • Notes • Older/newer APKs")
-                    Text("Installed from Google Play • Not installed from Google Play")
-                    Text("System-app subfilters can be added without changing this surface.")
+                    Text(stringResource(R.string.apps_filter_model), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.apps_filter_favorites_labels_status))
+                    Text(stringResource(R.string.apps_filter_versions))
+                    Text(stringResource(R.string.apps_filter_play))
+                    Text(stringResource(R.string.apps_filter_system_note))
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showFilters = false }) { Text("Close") }
+                TextButton(onClick = { showFilters = false }) { Text(stringResource(R.string.close)) }
             }
         )
     }
@@ -140,18 +141,18 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     if (showContext) {
         AlertDialog(
             onDismissRequest = { showContext = false },
-            title = { Text("Apps context") },
+            title = { Text(stringResource(R.string.apps_context)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Local apps", fontWeight = FontWeight.Bold)
-                    Text("Installed inventory and on-device backup state.")
-                    Text("Cloud synced apps", fontWeight = FontWeight.Bold)
-                    Text("Cloud inventory and synchronization state.")
-                    Text("Context switching is a mockup until cloud repository capability exists.")
+                    Text(stringResource(R.string.apps_local), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.apps_local_description))
+                    Text(stringResource(R.string.apps_cloud_synced), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.apps_cloud_description))
+                    Text(stringResource(R.string.apps_context_mockup_note))
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showContext = false }) { Text("Close") }
+                TextButton(onClick = { showContext = false }) { Text(stringResource(R.string.close)) }
             }
         )
     }
@@ -170,12 +171,12 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                         singleLine = true,
                         minLines = 1,
                         maxLines = 1,
-                        placeholder = { Text("Search apps or package name", maxLines = 1) },
+                        placeholder = { Text(stringResource(R.string.search_apps_or_package), maxLines = 1) },
                         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                         trailingIcon = {
                             if (searchQuery.isNotBlank()) {
                                 IconButton(onClick = { searchQuery = "" }) {
-                                    Icon(Icons.Default.Clear, contentDescription = "Clear search")
+                                    Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear_search))
                                 }
                             }
                         }
@@ -184,7 +185,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                     TextButton(onClick = {
                         searchQuery = ""
                         onSearchOpenChange(false)
-                    }) { Text("Close") }
+                    }) { Text(stringResource(R.string.close)) }
                 }
             }
         }
@@ -205,7 +206,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                 FilterChip(
                     selected = scope == AppScope.SYSTEM,
                     onClick = { scope = AppScope.SYSTEM },
-                    label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text("System apps", maxLines = 1) } },
+                    label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.apps_system), maxLines = 1) } },
                     modifier = Modifier.weight(1f).height(56.dp)
                 )
             }
@@ -215,17 +216,17 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                 OutlinedButton(onClick = { descending = !descending }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.Sort, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text(if (descending) "Name ↓" else "Name ↑")
+                    Text(if (descending) stringResource(R.string.apps_name_descending) else stringResource(R.string.apps_name_ascending))
                 }
                 OutlinedButton(onClick = { showFilters = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.FilterList, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text("Filter")
+                    Text(stringResource(R.string.apps_filter))
                 }
                 OutlinedButton(onClick = { showContext = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.Cloud, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text("Context")
+                    Text(stringResource(R.string.apps_context))
                 }
             }
         }
@@ -234,7 +235,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         }
         when {
             error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
-            visibleApps.isEmpty() -> item { Text("No visible installed apps") }
+            visibleApps.isEmpty() -> item { Text(stringResource(R.string.no_visible_installed_apps)) }
             else -> items(visibleApps, key = { it.packageName }) { app ->
                 Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
                     Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -257,7 +258,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                                 overflow = TextOverflow.Ellipsis,
                             )
                             Text(
-                                "Backup: Never",
+                                stringResource(R.string.backup_never),
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
@@ -265,24 +266,24 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                         }
                         Box {
                             IconButton(onClick = { selectedMenuPackage = app.packageName }) {
-                                Icon(Icons.Default.MoreVert, contentDescription = "App actions")
+                                Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
                             }
                             DropdownMenu(
                                 expanded = selectedMenuPackage == app.packageName,
                                 onDismissRequest = { selectedMenuPackage = null }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("App details") },
+                                    text = { Text(stringResource(R.string.app_details)) },
                                     leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
                                     onClick = { selectedMenuPackage = null; onOpenApp(app) }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Custom configuration") },
+                                    text = { Text(stringResource(R.string.custom_configuration)) },
                                     leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
                                     onClick = { selectedMenuPackage = null; onOpenApp(app); onOpen(Screen.APP_CONFIG) }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Management") },
+                                    text = { Text(stringResource(R.string.management)) },
                                     leadingIcon = { Icon(Icons.Default.Build, contentDescription = null) },
                                     onClick = { selectedMenuPackage = null; onOpen(Screen.MANAGEMENT) }
                                 )
@@ -318,7 +319,7 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
                     OutlinedTextField(
                         value = query,
                         onValueChange = { query = it },
-                        placeholder = { Text("Search apps or package name") },
+                        placeholder = { Text(stringResource(R.string.search_apps_or_package)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -331,11 +332,11 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("Apps-local search", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text("Search stays inside Apps. Global search remains available elsewhere.")
+                Text(stringResource(R.string.apps_local_search), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.apps_local_search_description))
             }
             if (query.isNotBlank() && matches.isEmpty()) {
-                item { Text("No matching apps") }
+                item { Text(stringResource(R.string.no_matching_apps)) }
             }
             items(matches, key = { it.packageName }) { app ->
                 Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
@@ -355,48 +356,48 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
 @Composable
 fun AppsToolsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     var selected by remember { mutableStateOf<AppsCapability?>(null) }
-    val groups = appsCapabilities.groupBy { it.group }
+    val groups = appsCapabilities.groupBy { it.groupRes }
 
     if (selected != null) {
         AlertDialog(
             onDismissRequest = { selected = null },
-            title = { Text(selected!!.title) },
+            title = { Text(stringResource(selected!!.titleRes)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    AssistChip(onClick = {}, label = { Text(selected!!.status) })
-                    Text(selected!!.description)
-                    Text("BaRe-native placement/flow is intentionally open for review.", style = MaterialTheme.typography.bodySmall)
+                    AssistChip(onClick = {}, label = { Text(stringResource(selected!!.statusRes)) })
+                    Text(stringResource(selected!!.descriptionRes))
+                    Text(stringResource(R.string.apps_mockup_placement_note), style = MaterialTheme.typography.bodySmall)
                 }
             },
-            confirmButton = { TextButton(onClick = { selected = null }) { Text("Close") } }
+            confirmButton = { TextButton(onClick = { selected = null }) { Text(stringResource(R.string.close)) } }
         )
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Apps tools & capability map") },
+                title = { Text(stringResource(R.string.apps_tools_capability_map)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("43 capability mockups", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("All target Apps capabilities are represented here before deeper implementation. Mockup coverage is not runtime verification.")
+                Text(stringResource(R.string.apps_capability_mockups), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.apps_capability_mockups_description))
             }
             groups.forEach { (group, capabilities) ->
                 item {
-                    Text(group, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    Text(stringResource(group), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 }
                 items(capabilities, key = { it.id }) { capability ->
                     Card(Modifier.fillMaxWidth().clickable { selected = capability }) {
                         Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f)) {
-                                Text(capability.id + " · " + capability.title, fontWeight = FontWeight.Bold)
-                                Text(capability.description, style = MaterialTheme.typography.bodySmall)
+                                Text(capability.id + " · " + stringResource(capability.titleRes), fontWeight = FontWeight.Bold)
+                                Text(stringResource(capability.descriptionRes), style = MaterialTheme.typography.bodySmall)
                             }
-                            AssistChip(onClick = { selected = capability }, label = { Text(capability.status) })
+                            AssistChip(onClick = { selected = capability }, label = { Text(stringResource(capability.statusRes)) })
                         }
                     }
                 }
@@ -434,49 +435,49 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             item {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text("Backup inventory", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                        Text("On device: No backup • Cloud: Not synced", color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text("Versions: 0 • Protected: No • Notes: None")
+                        Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.backup_inventory_state), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.backup_inventory_versions))
                     }
                 }
             }
-            item { Text("Backup parts", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+            item { Text(stringResource(R.string.backup_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             item {
                 val parts = listOf(
                     "APK" to true, "Split APK" to false, "App data" to false, "External data" to false,
-                    "Expansion / OBB" to false, "Media" to false, "Cache (optional)" to false, "Shared libraries" to false
+                    "Expansion / OBB" to false, "Media" to false, stringResource(R.string.backup_parts_optional) to false, stringResource(R.string.shared_libraries) to false
                 )
                 parts.forEach { (name, available) ->
                     CheckRow(name + if (!available) " · mockup" else "", available)
                 }
             }
-            item { Text("Operations", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+            item { Text(stringResource(R.string.actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             item {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = {}, modifier = Modifier.weight(1f)) { Text("Backup") }
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text("Restore") }
+                    Button(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.backup)) }
+                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.restore)) }
                 }
             }
             item {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text("History") }
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text("Delete backup") }
+                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.history)) }
+                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.delete_backup)) }
                 }
             }
             item {
-                ListEntry("Multiple-backup strategy", "Single / dated / conditional", Icons.Default.Sync) { onOpen(Screen.APP_CONFIG) }
+                ListEntry(stringResource(R.string.multiple_backup_strategy), stringResource(R.string.multiple_backup_strategy_value), Icons.Default.Sync) { onOpen(Screen.APP_CONFIG) }
             }
             item {
-                ListEntry("Management", "Favorite • labels • blacklist • protection", Icons.Default.Build) { onOpen(Screen.MANAGEMENT) }
+                ListEntry(stringResource(R.string.management), stringResource(R.string.management_summary_short), Icons.Default.Build) { onOpen(Screen.MANAGEMENT) }
             }
             item {
-                ListEntry("Configuration", "Parts • compression • encryption • limits • notes • schedule", Icons.Default.Settings) { onOpen(Screen.APP_CONFIG) }
+                ListEntry(stringResource(R.string.configuration), stringResource(R.string.configuration_summary), Icons.Default.Settings) { onOpen(Screen.APP_CONFIG) }
             }
             item {
-                ListEntry("Diagnostics", "Visibility • capability • preconditions", Icons.Default.BugReport) { onOpen(Screen.DIAGNOSTICS) }
+                ListEntry(stringResource(R.string.diagnostics), stringResource(R.string.diagnostics_short), Icons.Default.BugReport) { onOpen(Screen.DIAGNOSTICS) }
             }
             item {
-                ListEntry("Restore variants", "Missing app • newer version • special data • SSAID", Icons.Default.Restore) { onOpen(Screen.TASK) }
+                ListEntry(stringResource(R.string.restore_variants), stringResource(R.string.restore_variants_short), Icons.Default.Restore) { onOpen(Screen.TASK) }
             }
         }
     }
@@ -489,9 +490,9 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
         stringResource(R.string.configuration_title, item.name),
         "BaRe-native Apps configuration mockup. Values are not stored in the backend yet.",
         listOf(
-            "Backup parts", "Compression", "Encryption", "Multiple backups",
+            stringResource(R.string.backup_parts), "Compression", "Encryption", "Multiple backups",
             "Backup limits", "Protection", "Notes", "Favorite", "Labels",
-            "Blacklist", "Cloud destination", "Run now", "Schedule binding"
+            "Blacklist", stringResource(R.string.cloud_destination), stringResource(R.string.run_now), stringResource(R.string.schedule_binding)
         ),
         onBack
     )
