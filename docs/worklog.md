@@ -3850,3 +3850,29 @@ Destination yang belum mempunyai runtime implementation menampilkan explicit moc
 - Source changes are committed atomically with this worklog update.
 - CI is required before claiming compile/build success.
 - Device/runtime verification remains pending until a passing APK is available.
+
+
+## 2026-09-21 — APP-01 Flow Routing Follow-up
+
+### OBSERVED
+
+- APP-01 flow destinations were added in AppsScreens.kt.
+- The first flow commit did not yet route the new Screen.APP_* destinations through MainShell.
+
+### FIX
+
+- Added explicit routing for:
+  - APP_BACKUP
+  - APP_BACKUPS
+  - APP_MANAGEMENT
+  - APP_CONFIG
+  - APP_DIAGNOSTICS
+  - APP_RESTORE
+- Existing App Detail selected-app/package identity path remains unchanged.
+- No Apps primary-tab discovery/search/sort/filter behavior was changed.
+
+### VERIFICATION
+
+- Fix commit: bd283b1b95d5109e1542826ea88a0edee7dedf85.
+- GitHub Actions run #446 is IN_PROGRESS for this commit.
+- Runtime verification remains pending.
