@@ -3897,3 +3897,38 @@ Destination yang belum mempunyai runtime implementation menampilkan explicit moc
 - CI #446: **FAILED** at compileDebugKotlin with the errors above.
 - Runtime verification remains pending.
 - Next: push compile correction and verify the next CI run before runtime testing.
+
+
+## 2026-09-21 — APP-01 Navigation Fix: child flow Back returns to App Detail
+
+### USER SAID
+
+- CI #447 **GREEN**.
+- The current disruptive behavior is that Back from App Detail child flows returns to the Apps tab instead of returning to the selected App Detail.
+- USER SAID: **GO** to fix this behavior.
+
+### OBSERVED
+
+The shared `goBack()` handler correctly exits `screen != Screen.NONE` to the Apps tab, but APP-01 child destinations were incorrectly wired directly to that global Back handler.
+
+### FIX
+
+For APP-01 child destinations:
+- Backup → Back → App Detail
+- Backups → Back → App Detail
+- Management → Back → App Detail
+- Configuration → Back → App Detail
+- Diagnostics → Back → App Detail
+- Restore → Back → App Detail
+
+App Detail itself continues to use the global Back behavior, so:
+- App Detail → Back → Apps tab
+
+This preserves the intended navigation hierarchy without changing Apps discovery/search/sort/filter.
+
+### VERIFICATION
+
+- CI #447: **GREEN / SUCCESS** for commit `65693a5fd1f03afb09d01cd52f3efcdbc60e1b1c`.
+- Navigation fix source is committed next.
+- New CI verification is required before claiming the fix verified.
+- Runtime/device verification of Back behavior remains pending.
