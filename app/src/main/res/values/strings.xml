@@ -510,4 +510,18 @@
     <string name="unknown_size">Unknown size</string>
     <string name="apps_capability_mockup_suffix"> • mockup</string>
     <string name="unable_to_discover_installed_apps">Unable to discover installed apps</string>
+
+    <string name="app_detail_missing_package">No app package was selected.</string>
+    <string name="app_detail_unavailable">App details unavailable.</string>
+    <string name="app_package_surface">Package surface</string>
+    <string name="app_version_value">Version %1$s (%2$s)</string>
+    <string name="unknown_value">Unknown</string>
+    <string name="app_apk_count_value">Installed APKs: %1$d</string>
+    <string name="app_apk_size_value">APK size: %1$s</string>
+    <string name="app_launch_capable">Launch capability: available</string>
+    <string name="app_launch_unavailable">Launch capability: unavailable</string>
+    <string name="app_info_capable">Android App Info: available</string>
+    <string name="app_info_unavailable">Android App Info: unavailable</string>
+    <string name="app_backup_surface_foundation_note">Backup inventory and backup execution remain separate downstream capabilities.</string>
+    <string name="app_actions_foundation_note">Action availability is now exposed by the foundation; action execution is implemented only when its Android capability and verification path are established.</string>
 </resources>
