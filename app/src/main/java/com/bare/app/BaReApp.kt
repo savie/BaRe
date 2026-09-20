@@ -323,7 +323,6 @@ private fun MainShell(
                             ) {
                                 DropdownMenuItem(
                                     text = { Text("Apps tools & capability map") },
-                                    leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APPS_TOOLS)
