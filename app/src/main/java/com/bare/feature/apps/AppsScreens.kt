@@ -20,6 +20,8 @@ import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
 import com.bare.app.demoApps
+import com.bare.ui.components.CheckRow
+import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
 
