@@ -490,4 +490,17 @@
     <string name="apps_cap_43_description">Explicit special-data and optional SSAID restore choices with warnings.</string>
     <string name="apps_cap_43_status">Mockup</string>
     <string name="delete_backup">Delete backup</string>
+    <string name="recovery">Recovery</string>
+    <string name="recovery_description">Export or import the encrypted LOCAL identity recovery package. The recovery password is not stored.</string>
+    <string name="recovery_folder_selected">Recovery folder selected.</string>
+    <string name="recovery_identity_restored">Recovery identity restored.</string>
+    <string name="recovery_failed">Recovery failed: %1$s</string>
+    <string name="invalid_package_or_password">invalid package or password</string>
+    <string name="enter_recovery_password_first">Enter a recovery password first.</string>
+    <string name="recovery_package_exported">Recovery package exported.</string>
+    <string name="export_failed">Export failed: %1$s</string>
+    <string name="storage_error">storage error</string>
+    <string name="choose_recovery_folder">Choose recovery folder</string>
+    <string name="export_recovery_package">Export recovery package</string>
+    <string name="import_recovery_package">Import recovery package</string>
 </resources>
