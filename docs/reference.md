@@ -2265,6 +2265,122 @@ Static/decompiled evidence menunjukkan bahwa Apps bukan hanya inventory installe
 | Missing-app restore | restore_missing_apps | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
 | Newer-version restore | restore_newer_versions | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
 
+### 24.1A Apps capability rebaseline — canonical working inventory
+
+Audit rebaseline terhadap seluruh evidence Apps yang sudah tersedia menghasilkan **53 capability/workflow items** pada working inventory.
+
+Angka ini **bukan target scope v1.0**, bukan ranking, dan bukan kewajiban bahwa seluruh item harus diimplementasikan sekarang. Angka ini adalah inventory discovery yang dipakai agar tidak ada capability reference yang hilang ketika mockup → implementation dilakukan.
+
+Perubahan utama dari inventory sebelumnya:
+
+- inventory sebelumnya memiliki **44 capability/workflow rows** pada static Apps reconciliation;
+- audit visual/reference menegaskan **9 action/workflow reference** yang sebelumnya belum berdiri eksplisit sebagai capability row;
+- hasil rebaseline menjadi **53 items**;
+- **App Workspace / App Detail** dinaikkan menjadi **APP-01** karena berfungsi sebagai workspace foundation untuk capability per-app lain;
+- capability yang satu implementation slice-nya sama tetap boleh dikerjakan beririsan; ID tidak berarti satu ID = satu task;
+- mockup yang sudah ada dipertahankan sebagai **FE contract/evidence**, bukan dibuat ulang.
+
+| ID | Capability / workflow | Reference evidence | Status reference |
+| --- | --- | --- | --- |
+| APP-01 | App Workspace / App Detail foundation | AppInfoActivity, app detail layouts/models, Device/Cloud backup state models, user-provided detail screenshots | OBSERVED_STATIC + OBSERVED_VISUAL |
+| APP-02 | Local apps inventory | AppListActivity, local-app menu | OBSERVED_STATIC |
+| APP-03 | Cloud-synced apps inventory | menu_apps_switch.xml, cloud_synced_apps | OBSERVED_STATIC |
+| APP-04 | Search apps | menu_apps.xml, search_hint_apps | OBSERVED_STATIC |
+| APP-05 | Sort apps | filter bottom sheet, sort, ascending, descending, install/update/backup metadata | OBSERVED_STATIC |
+| APP-06 | App-type filtering | app_type, user/system filters | OBSERVED_STATIC |
+| APP-07 | System-app subfilters | system_apps, launchable/updated/labelled-or-favorites indicators | OBSERVED_STATIC |
+| APP-08 | Favorites | FavoriteApp, FavoriteAppsRepo, favorites/not-favorites filters | OBSERVED_STATIC |
+| APP-09 | Labels | LabelsActivity, LabelEditActivity, label data/model | OBSERVED_STATIC |
+| APP-10 | On-device backup status filter | backed-up / not-backed-up state | OBSERVED_STATIC |
+| APP-11 | Cloud-sync status filter | synced / not-synced state | OBSERVED_STATIC |
+| APP-12 | Install-status filter | installed / not-installed | OBSERVED_STATIC |
+| APP-13 | Enabled-status filter | enabled / disabled | OBSERVED_STATIC |
+| APP-14 | Multiple-backup filter | apps_with_multiple_backpus | OBSERVED_STATIC |
+| APP-15 | Protected-backup filter | apps_with_protected_backpus | OBSERVED_STATIC |
+| APP-16 | Notes filter | backups_with_notes | OBSERVED_STATIC |
+| APP-17 | Older/newer APK relation | installed_apps_with_older_backups, installed_apps_with_newer_backups | OBSERVED_STATIC |
+| APP-18 | Google Play install-source filter | installed_from_google_play, not_installed_from_google_play | OBSERVED_STATIC |
+| APP-19 | Device/cloud backup state | DetailModels$DeviceBackupStates, DetailModels$CloudBackupStates | OBSERVED_STATIC |
+| APP-20 | App backup parts | APK, split APKs, app data, external data, expansion/OBB, media, cache, shared libraries indicators | OBSERVED_STATIC |
+| APP-21 | App backup | backup task/manager/helper classes and UI | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-22 | App restore | restore task/manager/helper classes and UI | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-23 | Delete local/device backups | backup delete strings/actions | OBSERVED_STATIC |
+| APP-24 | Multiple-backup strategy | single/dated/conditional strategy resources/settings | OBSERVED_STATIC |
+| APP-25 | Protected backup | protected backup resources/settings | OBSERVED_STATIC |
+| APP-26 | Backup data size limits | AppBackupLimitsActivity and local/cloud limit fields | OBSERVED_STATIC |
+| APP-27 | Encryption of app data backups | encrypt_app_data and security/config resources | OBSERVED_STATIC |
+| APP-28 | Backup cache option | backup_cache and warning/summary | OBSERVED_STATIC |
+| APP-29 | Batch operations | AppsBatchActivity, batch menu/layout | OBSERVED_STATIC |
+| APP-30 | Batch search/filter/select-all | batch menu contains search, filter, select-all | OBSERVED_STATIC |
+| APP-31 | Batch app backup settings | batch menu entry to app backup settings | OBSERVED_STATIC |
+| APP-32 | Labels/favorites/blacklist management | dedicated activities/data/repositories | OBSERVED_STATIC |
+| APP-33 | Blacklist behavior | BlacklistActivity, blacklist mode, hide or APK-only behavior | OBSERVED_STATIC |
+| APP-34 | Custom app configurations | ConfigListActivity, ConfigEditActivity, ConfigSettingsActivity | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-35 | Run configuration now | AppsConfigRunActivity | OBSERVED_STATIC |
+| APP-36 | Schedule configuration | reference Configs can be attached to schedules | DOCUMENTED_PUBLIC |
+| APP-37 | Quick actions | AppsQuickActionsActivity and quick-action layouts | OBSERVED_STATIC |
+| APP-38 | App swipe actions | AppSwipeActionsActivity, swipe-action persistence | OBSERVED_STATIC |
+| APP-39 | App visibility diagnostics | AppVisibilityDiagnosticsActivity; raw PackageManager package count/search/share | OBSERVED_STATIC |
+| APP-40 | APK/APKS import/install | APK import layouts/strings; installer flow incl. root/Shizuku/system installer | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-41 | Restore runtime/special data | special-data restore details include permissions/settings/access-related items | OBSERVED_STATIC |
+| APP-42 | App SSAID restore option | restore_app_ssaids resources and reboot note | OBSERVED_STATIC |
+| APP-43 | Missing-app restore | restore_missing_apps | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-44 | Newer-version restore | restore_newer_versions | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| APP-45 | Launch installed app | app action/context references and user-provided App Workspace/context screenshots | OBSERVED_VISUAL + reference-derived workflow |
+| APP-46 | Enable / disable app | user-provided reference management action surface; enabled/disabled state model | OBSERVED_VISUAL + reference-derived state transition |
+| APP-47 | Force stop app | user-provided reference management action surface | OBSERVED_VISUAL |
+| APP-48 | Uninstall app | user-provided reference primary/context action surface | OBSERVED_VISUAL |
+| APP-49 | Open Android App Info | user-provided reference context action surface | OBSERVED_VISUAL |
+| APP-50 | Open Play Store | user-provided reference context action surface | OBSERVED_VISUAL |
+| APP-51 | Share APK | user-provided reference backup/context action surface | OBSERVED_VISUAL |
+| APP-52 | Battery optimization management | user-provided reference context action surface | OBSERVED_VISUAL |
+| APP-53 | Add app to Home screen | user-provided reference context action surface | OBSERVED_VISUAL |
+
+**Counting rule:** APP-01..APP-53 are capability/workflow inventory IDs. They are not implementation-task IDs. One implementation slice may close several IDs when the same domain model, workspace, action contract, or runtime service is shared.
+
+**#15 rebaseline:** the previous “App detail” concept is now represented by **APP-01 App Workspace / App Detail foundation**. The old numeric position is not preserved because the rebaseline is intentionally dependency-oriented.
+
+**Explicit boundary:** reference screenshots are visual evidence only. The nine action rows APP-45..APP-53 are not claims that the reference APK was runtime-tested in this audit. They record observed FE/workflow evidence and therefore remain reference evidence, not runtime verification.
+
+### 24.1B Capability grouping for implementation overlap
+
+The 53 inventory items naturally form implementation groups. These groups are **not separate phases** and may be implemented together when dependencies align:
+
+```text
+APP-01  App Workspace foundation
+   ├── APP-19  device/cloud backup state
+   ├── APP-20  backup parts
+   ├── APP-45  launch
+   ├── APP-46  enable / disable
+   ├── APP-47  force stop
+   ├── APP-48  uninstall
+   ├── APP-49  Android App Info
+   ├── APP-50  Play Store
+   ├── APP-51  Share APK
+   ├── APP-52  Battery optimization
+   └── APP-53  Home screen
+
+Apps inventory/filter
+   ├── APP-02..APP-18
+   └── APP-29..APP-31
+
+Backup/restore
+   ├── APP-21..APP-28
+   ├── APP-40..APP-44
+   └── APP-19..APP-20
+
+Management/configuration
+   ├── APP-08..APP-09
+   ├── APP-32..APP-38
+   └── APP-36
+
+Diagnostics
+   └── APP-39
+
+```
+
+This grouping is an **implementation planning aid**, not a new product requirement.
+
 ### 24.2 Filter model reference — detail yang perlu dipertahankan
 
 Decompiled filter_bottom_dialog.xml memperlihatkan struktur filter yang lebih kaya daripada tiga pill pada BaRe saat ini:
