@@ -167,7 +167,9 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                         onValueChange = { searchQuery = it },
                         modifier = Modifier.weight(1f),
                         singleLine = true,
-                        placeholder = { Text("Search apps or package name") },
+                        minLines = 1,
+                        maxLines = 1,
+                        placeholder = { Text("Search apps or package name", maxLines = 1) },
                         leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                         trailingIcon = {
                             if (searchQuery.isNotBlank()) {
@@ -191,24 +193,42 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(selected = scope == AppScope.ALL, onClick = { scope = AppScope.ALL }, label = { Text(stringResource(R.string.all_apps)) })
-                FilterChip(selected = scope == AppScope.USER, onClick = { scope = AppScope.USER }, label = { Text(stringResource(R.string.user_apps)) })
-                FilterChip(selected = scope == AppScope.SYSTEM, onClick = { scope = AppScope.SYSTEM }, label = { Text(stringResource(R.string.system)) })
+                FilterChip(
+                    selected = scope == AppScope.ALL,
+                    onClick = { scope = AppScope.ALL },
+                    label = { Text(stringResource(R.string.all_apps)) },
+                    modifier = Modifier.weight(1.3f),
+                    contentPadding = PaddingValues(vertical = 10.dp)
+                )
+                FilterChip(
+                    selected = scope == AppScope.USER,
+                    onClick = { scope = AppScope.USER },
+                    label = { Text(stringResource(R.string.user_apps)) },
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(vertical = 10.dp)
+                )
+                FilterChip(
+                    selected = scope == AppScope.SYSTEM,
+                    onClick = { scope = AppScope.SYSTEM },
+                    label = { Text(stringResource(R.string.system)) },
+                    modifier = Modifier.weight(0.9f),
+                    contentPadding = PaddingValues(vertical = 10.dp)
+                )
             }
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { descending = !descending }) {
+                OutlinedButton(onClick = { descending = !descending }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.Sort, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
                     Text(if (descending) "Name ↓" else "Name ↑")
                 }
-                OutlinedButton(onClick = { showFilters = true }) {
+                OutlinedButton(onClick = { showFilters = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.FilterList, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
                     Text("Filter")
                 }
-                OutlinedButton(onClick = { showContext = true }) {
+                OutlinedButton(onClick = { showContext = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.Cloud, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
                     Text("Context")
