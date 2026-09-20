@@ -292,7 +292,7 @@ private fun MainShell(
                         horizontalAlignment = androidx.compose.ui.Alignment.Start,
                     ) {
                         Text(
-                            text = "B Λ R E",
+                            text = stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 5.sp,
@@ -315,14 +315,14 @@ private fun MainShell(
                     if (appsSelected) {
                         Box {
                             IconButton(onClick = { appsMenuOpen = true }) {
-                                Icon(Icons.Default.Menu, contentDescription = "Apps menu")
+                                Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.apps_menu))
                             }
                             DropdownMenu(
                                 expanded = appsMenuOpen,
                                 onDismissRequest = { appsMenuOpen = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Apps tools & capability map") },
+                                    text = { Text(stringResource(R.string.apps_tools_capability_map)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APPS_TOOLS)
