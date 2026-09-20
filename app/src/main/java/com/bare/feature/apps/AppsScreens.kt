@@ -26,6 +26,23 @@ import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
 
+private data class AppsGroup(
+    val id: String,
+    val title: String,
+    val summary: String,
+    val primarySurface: String,
+)
+
+private val appsGroups = listOf(
+    AppsGroup("G1", "Discovery & Filtering", "Menemukan, mencari, mengurutkan, dan menyaring daftar aplikasi.", "Apps list / Options"),
+    AppsGroup("G2", "Action & Management", "Aksi per-app dan pengelolaan state/organisasi aplikasi.", "App Detail / ⋮"),
+    AppsGroup("G3", "Backup", "Destination, parts, retention, protection, dan backup workflow.", "App Detail → Backup"),
+    AppsGroup("G4", "Restore / Install", "Restore variants, import/install, dan precondition flow.", "App Detail → Restore"),
+    AppsGroup("G5", "Batch Operations", "Selection, batch search/filter, dan operasi multi-app.", "Apps list → Selection mode"),
+    AppsGroup("G6", "Configuration", "Konfigurasi per-app, run-now, dan scheduling.", "App Detail → Configuration"),
+    AppsGroup("G7", "Diagnostics", "Visibility, capability, precondition, dan diagnostic evidence.", "App Detail → Diagnostics"),
+)
+
 private data class AppsCapability(
     val id: String,
     val titleRes: Int,
@@ -381,6 +398,30 @@ fun AppsToolsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            item {
+                Text("7 functional groups", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(
+                    "Groups are an internal IA/capability map. User-facing navigation stays contextual; the groups are not seven top-level menus.",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            items(appsGroups, key = { it.id }) { group ->
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(group.id, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.width(10.dp))
+                            Text(group.title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        }
+                        Text(group.summary, style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            "Primary UI: " + group.primarySurface,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
             item {
                 Text(stringResource(R.string.apps_capability_mockups), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                 Text(stringResource(R.string.apps_capability_mockups_description))
