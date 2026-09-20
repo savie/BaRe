@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -96,7 +97,6 @@ fun BaReApp() {
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
-    var appsMenuOpen by remember { mutableStateOf(false) }
 
     fun goBack() {
         when {
@@ -269,6 +269,7 @@ private fun MainShell(
         SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
         return
     }
+    var appsMenuOpen by remember { mutableStateOf(false) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     Scaffold(
         topBar = {
