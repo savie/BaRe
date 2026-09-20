@@ -7,6 +7,7 @@ import com.bare.app.AppItem
 import java.io.File
 import java.util.Locale
 
+/** Discovery is limited by Android package-visibility policy on the target device. */
 class AppDiscoveryRepository(context: Context) {
     private val packageManager = context.applicationContext.packageManager
 
