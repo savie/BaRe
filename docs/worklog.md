@@ -497,8 +497,7 @@ Menutup scope terkecil **Welcome** berdasarkan keputusan authentication yang sud
   - `399f1a38afc4a5238cb5e43c315591f8904a8cb4`
   - `56152a0a21b0891676d211f79c1bdc6b6b0bd3fe`
   - `393787643b71e173094b547479b5a1247ca73b86`
-  - `862c8a99be4137d98f9844d3d66ba996e1c607a2`
-- Build dan runtime device belum dijalankan setelah perubahan ini; status keseluruhan tetap UNVERIFIED.
+  - `862c8a99be4137d98f9844d3d66ba996e1c607a2`- Build dan runtime device belum dijalankan setelah perubahan ini; status keseluruhan tetap UNVERIFIED.
 
 ### Berikutnya
 Lanjut ke **Login / Local Setup** dengan scope terkecil. Untuk Local, tentukan dan implementasikan hanya fondasi yang benar-benar dibutuhkan untuk melanjutkan ke Storage / Access Setup. Untuk Account, pertahankan boundary authentication/provider dan jangan mengarang detail credential/session yang belum diputuskan.
@@ -997,8 +996,7 @@ User memberikan **GO** untuk mengeksekusi feedback runtime terhadap build #267.
 
 ### Verification Status
 - Source changes: **IMPLEMENTED / COMMITTED**.
-- CI untuk commit perubahan terbaru: **PENDING**.
-- Runtime verification pada device: **PENDING**.
+- CI untuk commit perubahan terbaru: **PENDING**.- Runtime verification pada device: **PENDING**.
 
 ### Next Runtime Check
 Fokus verifikasi pengguna:
@@ -1498,7 +1496,6 @@ Pengguna memberikan **GO** setelah review desain Home #318 dan rekonsiliasi deng
 - More Apps Actions tetap menjadi secondary Apps entry dan belum membuat detail backup/restore Apps baru.
 - Bottom navigation hanya dipoles pada icon language dan branding; struktur empat tab tetap.
 - Tidak menambahkan decorative content, fake state, atau warna baru di luar visual language yang sudah ada.
-
 ### Implementasi
 - feature/home/HomeScreen.kt: refinement dashboard spacing/hierarchy, subtle divider, storage bar, compact status, feature-grid icon sizing, Quick Actions sizing, dan More Apps secondary affordance.
 - app/BaReApp.kt: main-shell B Λ R E weight/spacing refinement dan outlined Search icon.
@@ -1997,8 +1994,7 @@ Audit source aktual branch `v1.0/rebaseline` mencakup:
 
 ### Actual Flow — OBSERVED STATIC
 
-```text
-WELCOME
+```textWELCOME
   ↓
 pilih LOCAL
   ↓
@@ -2497,8 +2493,7 @@ UUID baru tersebut bukan random bug; itu adalah expected result dari implementat
 | Area | Status |
 |---|---|
 | UUID generation source | VERIFIED STATIC |
-| Identity persistence in SharedPreferences | VERIFIED STATIC |
-| Identity lookup from canonical public storage before creation | MISSING |
+| Identity persistence in SharedPreferences | VERIFIED STATIC || Identity lookup from canonical public storage before creation | MISSING |
 | Identity lookup from recovery artifact before creation | MISSING |
 | Android backup continuity | DISABLED BY MANIFEST (allowBackup=false) |
 | Existing BaRe folder as identity source | NOT IMPLEMENTED |
@@ -2997,8 +2992,7 @@ Tidak ada perubahan source tambahan yang dilakukan dari hasil verifikasi runtime
 
 The following tracks are intentionally allowed to progress in parallel:
 
-1. **Onboarding:** #384 baseline is accepted and should not be reopened unless a regression appears.
-2. **Identity / Recovery:** migrate the actual production .bare writer/export path from V1 output to the intended V2 format, while preserving existing continuity behavior and compatibility with existing artifacts.
+1. **Onboarding:** #384 baseline is accepted and should not be reopened unless a regression appears.2. **Identity / Recovery:** migrate the actual production .bare writer/export path from V1 output to the intended V2 format, while preserving existing continuity behavior and compatibility with existing artifacts.
 
 These are separate workstreams but share the same identity → storage namespace → recovery artifact boundary. Progress on one does not require reopening the completed onboarding work.
 
@@ -3026,3 +3020,109 @@ Inspect the **actual .bare writer/export path** used by onboarding/runtime and d
 **Inspect → identify exact writer path → minimal fix → compile/unit regression test → runtime verification → record evidence.**
 
 No speculative fix and no reopening of the completed onboarding audit.
+
+
+## 2026-09-20 — Runtime Verification #389: Identity / Artifact Balance dan SHA-256
+
+### Evidence Runtime
+
+Pengguna melakukan verifikasi langsung terhadap APK **#389** dengan baseline Local identity / short account representation:
+
+`e0614ae07f324b61`.
+
+Hasil runtime yang dicatat:
+
+1. **Update APK**, tanpa menghapus `*.bare` → `bare_id` tetap sama dengan state awal.
+2. **Clear data**, tanpa menghapus `*.bare` → `bare_id` tetap sama dengan state awal.
+3. **Ganti access method NON-ROOT → ROOT**, tanpa menghapus `*.bare` → `bare_id` tetap sama.
+4. **Clear data + ROOT** → langsung masuk HOME.
+5. **Clear data + NON-ROOT** → langsung masuk HOME.
+6. **Ulang ROOT** → langsung masuk HOME.
+7. **Uninstall → install**, `*.bare` dipertahankan, mode NON-ROOT → langsung HOME.
+8. **Uninstall → install**, `*.bare` dipertahankan, mode ROOT → langsung HOME.
+9. **Hapus `*.bare`** → `*.bare` dibuat kembali dan state identity tetap sama.
+10. **Hapus `*.bare` + clear data** → baru dibuat `bare_id` baru.
+
+Evidence runtime di atas dicatat sebagai **USER RUNTIME OBSERVED**.
+
+### Artifact SHA-256 Verification
+
+Pengguna menghitung SHA-256 artifact `*.bare` pada beberapa kondisi:
+
+- ROOT: `0a2225073a6b88777f2604151289e1999cae6fb93018c2657e288205084c941b`
+- NON-ROOT: `0a2225073a6b88777f2604151289e1999cae6fb93018c2657e288205084c941b`
+
+Interpretasi:
+- ROOT ↔ NON-ROOT menghasilkan **SHA-256 identik**, sehingga pada test tersebut byte artifact tidak berubah hanya karena access method berubah.
+
+Setelah clear data:
+- SHA-256: `c2faa16bb0dc01f34c799b5551bc816091aa546af7635f4f80fc7296cf5ad4a3`
+- Berbeda dari artifact sebelumnya, sehingga artifact hasil clear data **tidak byte-identical** dengan artifact sebelumnya.
+
+Setelah `*.bare` dihapus dan dibuat kembali:
+- SHA-256: `a1609e2e03282a089146aaf7dae721f2ccf493e3a8c3a64e2d9836f030823c21`
+- Berbeda dari dua SHA sebelumnya.
+
+Catatan penting: SHA berbeda hanya membuktikan byte file berbeda; SHA berbeda **tidak** membuktikan identity berbeda. Sebaliknya, SHA sama membuktikan byte file identik pada dua kondisi yang dibandingkan.
+
+### Recovery / Balance Model Observed
+
+Runtime #389 mendukung model berikut:
+
+```
+bare_id ada + *.bare ada
+        ↓
+identity state dipertahankan
+
+bare_id hilang + *.bare tetap ada
+        ↓
+identity lama direkonstruksi
+
+bare_id tetap ada + *.bare hilang
+        ↓
+*.bare direkonstruksi dengan identity lama
+
+bare_id hilang + *.bare hilang
+        ↓
+fresh state → identity baru + *.bare baru
+```
+
+Perpindahan ROOT/NON-ROOT tidak menjadi perubahan identity dan tidak mengubah byte artifact pada test #389.
+
+### Verification Gap yang Tetap Terbuka
+
+Test #389 **belum membuktikan**:
+
+- bahwa `bare_id` lokal selalu sama dengan **full canonical identityId** di dalam artifact;
+- bahwa kecocokan folder derived/short identity bukan satu-satunya dasar verifikasi;
+- bahwa artifact memiliki **device binding** yang dapat membedakan artifact device A dan device B;
+- bahwa `*.bare` dari device lain akan ditolak meskipun membawa identity ID yang sama;
+- bahwa access-method switch tidak mengubah payload terenkripsi; SHA hanya membuktikan byte-level equality untuk artifact yang dibandingkan.
+
+Dengan demikian, verifikasi identity yang lebih ketat tetap menjadi gap terpisah dari behavior reconciliation yang sudah terbukti secara runtime.
+
+### Status Truth
+
+| Area | Status |
+|---|---|
+| Build #389 | **USER REPORT: CI GREEN** |
+| Update APK → same identity | **USER RUNTIME OBSERVED PASS** |
+| Clear data + retained `.bare` → same identity | **USER RUNTIME OBSERVED PASS** |
+| ROOT ↔ NON-ROOT → same identity | **USER RUNTIME OBSERVED PASS** |
+| ROOT ↔ NON-ROOT → artifact SHA unchanged | **USER RUNTIME OBSERVED PASS** |
+| Uninstall/reinstall + retained `.bare` → same identity | **USER RUNTIME OBSERVED PASS** |
+| Delete `.bare` → recreate with existing identity | **USER RUNTIME OBSERVED PASS** |
+| Delete `.bare` + clear data → new identity | **USER RUNTIME OBSERVED PASS** |
+| Exact full identityId ↔ artifact verification | **OPEN** |
+| Device A ↔ Device B boundary | **NOT TESTED / BLOCKED BY TEST ENVIRONMENT** |
+| Device-bound cryptographic verification | **NOT IMPLEMENTED / OPEN** |
+| Home | **ACCEPTED / NOT TOUCHED** |
+| master | **NOT TOUCHED** |
+
+### Conclusion
+
+Build/runtime #389 memperkuat bahwa reconciliation lokal sekarang mengikuti model **balanced state** yang diinginkan: identity lama dipertahankan selama salah satu durable side masih tersedia, sedangkan identity baru dibuat ketika kedua sisi hilang.
+
+Verifikasi SHA-256 juga menunjukkan bahwa perubahan access method ROOT/NON-ROOT tidak mengubah artifact pada test ini. Namun, SHA tidak menggantikan verifikasi semantic identity maupun device binding.
+
+Test berikutnya yang paling informatif adalah **dua device**, bila environment memungkinkan: gunakan artifact/state dari device A pada device B dan pastikan artifact foreign-device tidak diterima sebagai LOCAL identity B. Sampai test tersebut tersedia, status device-bound verification tetap OPEN.
