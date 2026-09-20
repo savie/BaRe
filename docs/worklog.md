@@ -398,6 +398,7 @@ Artinya jalur Welcome sampai Home **sudah jelas secara FE**, tetapi belum boleh 
 Kita tutup scope terkecil satu per satu.
 
 Contoh:
+
 `Welcome`
 → bentuk FE dibereskan  
 → state/flow jelas  
@@ -796,7 +797,8 @@ Perubahan rename source/namespace dilakukan pada commit bertahap selama pekerjaa
 Verifikasi runtime pengguna terhadap APK CI terakhir setelah full rename Android package ke `com.bare` dan perbaikan form authentication.
 
 ### Observasi Pengguna
-- APK CI terakhir sudah di-install dan diverifikasi pada device.- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
+- APK CI terakhir sudah di-install dan diverifikasi pada device.
+- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
 - Password pada field authentication sudah dapat digunakan sesuai input yang diharapkan.
 - Form authentication menolak interaksi lanjut ketika format email tidak valid.
 - Password dengan panjang kurang dari 8 karakter tidak dapat melanjutkan authentication flow.
@@ -1195,7 +1197,8 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 
 ## 2026-09-19 — Verifikasi Final Cloud Flow: CI Green
 
-### Perbaikan- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
+### Perbaikan
+- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
 - Memperbaiki `RootCapabilityProvider.runSu()` agar menggunakan block body sehingga `return` tidak melanggar aturan Kotlin expression body.
 - Tidak mengubah scope Cloud atau membuat authentication screen baru.
 
@@ -1594,7 +1597,8 @@ Pengguna meminta audit fondasi penentuan BaRe ID sebelum melanjutkan area Apps, 
 
 ### Gap / Belum Diputuskan
 - Belum diputuskan apakah Local Identity dapat dipulihkan melalui Android backup/restore, export/import identity bundle, external storage, recovery key, atau kombinasi beberapa mekanisme.
-- Belum ada aturan eksplisit untuk uninstall → reinstall.- Belum ada aturan eksplisit untuk clear app data.
+- Belum ada aturan eksplisit untuk uninstall → reinstall.
+- Belum ada aturan eksplisit untuk clear app data.
 - Belum ada aturan eksplisit untuk factory reset.
 - Belum ada aturan eksplisit untuk flash/ganti ROM pada device yang sama.
 - Belum ada aturan untuk mendeteksi identity baru yang menemukan backup folder lama dan meminta recovery/import, bukan membuat folder identity baru tanpa penjelasan.
@@ -1993,7 +1997,8 @@ Audit source aktual branch `v1.0/rebaseline` mencakup:
 ```textWELCOME
   ↓
 pilih LOCAL
-  ↓LocalSetupConfirmation
+  ↓
+LocalSetupConfirmation
   ↓
 createLocalIdentity()
   ↓
@@ -2392,7 +2397,8 @@ BaReApp() hanya melakukan identityStore.load() untuk menentukan identity yang su
 Masalah utamanya bukan UUID generator. Masalahnya adalah sumber canonical identity hanya app-private SharedPreferences.
 
 Saat bare_identity masih ada:
-- load() menemukan identity lama;- createLocalIdentity() mengembalikan identity lama;
+- load() menemukan identity lama;
+- createLocalIdentity() mengembalikan identity lama;
 - UUID baru tidak dibuat.
 
 Saat app-private state sudah hilang, load() mengembalikan null dan code secara eksplisit membuat UUID baru melalui UUID.randomUUID().
@@ -2791,6 +2797,7 @@ Status evidence:
 Source `LocalIdentityStore.loadOrRecover()` saat ini melakukan bootstrap dari SharedPreferences, lalu `findRecoveryArtifacts()`, lalu `peekIdentity(.bare)`, lalu `restoreBootstrapIdentity()`.
 
 Namun `findRecoveryArtifacts()` hanya dapat membaca filesystem public ketika proses aplikasi mempunyai akses yang diperlukan terhadap storage target.
+
 Source bootstrap dipanggil saat startup melalui `BaReApp`, sebelum lifecycle storage-access UI dijalankan.
 
 Manifest saat ini menggunakan `MANAGE_EXTERNAL_STORAGE`. Permission/capability tersebut tidak boleh diasumsikan tetap tersedia setelah aplikasi di-uninstall dan di-install ulang.
