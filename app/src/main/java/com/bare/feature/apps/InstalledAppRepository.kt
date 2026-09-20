@@ -15,7 +15,7 @@ class InstalledAppRepository(private val context: Context) {
                 AppItem(
                     name = info.loadLabel(packageManager).toString().ifBlank { info.packageName },
                     packageName = info.packageName,
-                    category = if (isSystem) context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app) else context.getString(com.bare.R.string.user_app),
+                    category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
                     size = formatSize(File(info.sourceDir).length()),
                 )
             }
