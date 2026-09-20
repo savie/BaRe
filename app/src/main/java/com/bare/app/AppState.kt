@@ -13,7 +13,7 @@ enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
 }
 
 enum class Screen(val title: String) {
-    NONE(""), SEARCH("Search"), APP_DETAIL("App"), APP_CONFIG("App configuration"),
+    NONE(""), SEARCH("Search"), APPS_SEARCH("Apps search"), APPS_TOOLS("Apps tools"), APP_DETAIL("App"), APP_CONFIG("App configuration"),
     FOLDERS("Folders"), MESSAGES("Messages"), CALL_LOGS("Call Logs"), WIFI("Wi-Fi"),
     WALLPAPERS("Wallpapers"), STORAGE("Storage"), CLOUD("Cloud sync"),
     MANAGEMENT("Management"), DIAGNOSTICS("Diagnostics"), SETTINGS("Settings"),
