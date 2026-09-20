@@ -194,22 +194,19 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                     selected = scope == AppScope.ALL,
                     onClick = { scope = AppScope.ALL },
                     label = { Text(stringResource(R.string.all_apps)) },
-                    modifier = Modifier.weight(1.3f),
-                    contentPadding = PaddingValues(vertical = 10.dp)
+                    modifier = Modifier.weight(1.3f).height(56.dp)
                 )
                 FilterChip(
                     selected = scope == AppScope.USER,
                     onClick = { scope = AppScope.USER },
                     label = { Text(stringResource(R.string.user_apps)) },
-                    modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(vertical = 10.dp)
+                    modifier = Modifier.weight(1f).height(56.dp)
                 )
                 FilterChip(
                     selected = scope == AppScope.SYSTEM,
                     onClick = { scope = AppScope.SYSTEM },
                     label = { Text(stringResource(R.string.system)) },
-                    modifier = Modifier.weight(0.9f),
-                    contentPadding = PaddingValues(vertical = 10.dp)
+                    modifier = Modifier.weight(0.9f).height(56.dp)
                 )
             }
         }
