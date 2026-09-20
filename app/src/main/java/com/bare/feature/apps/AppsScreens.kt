@@ -133,6 +133,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
 
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
-    val item = app ?: demoApps.first()
+    val item = app ?: return
     com.bare.feature.misc.GenericDomainScreen(stringResource(R.string.configuration_title, item.name), stringResource(R.string.per_app_mockup_settings), listOf(stringResource(R.string.backup_parts), stringResource(R.string.compression), stringResource(R.string.encryption), stringResource(R.string.multiple_backups), stringResource(R.string.protection), stringResource(R.string.notes), stringResource(R.string.schedule)), onBack)
 }
