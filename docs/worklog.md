@@ -2974,3 +2974,55 @@ Status evidence:
 Flow onboarding #384 yang diverifikasi runtime sekarang mengikuti boundary capability yang lebih jelas: **Backup Storage menunggu storage access; setelah All Files Access tersedia, onboarding lanjut ke Access Method lalu HOME**.
 
 Tidak ada perubahan source tambahan yang dilakukan dari hasil verifikasi runtime ini.
+
+
+## 2026-09-20 — Baseline Clarification After #384 / Recovery Track
+
+### User-Verified Current State
+
+- Build **#384** is the current onboarding baseline.
+- Flow **Welcome → Local → Backup Storage → Access Method → HOME** is already runtime-verified on #384. This flow is not reopened here.
+- **Uninstall → install → continuity:** user reports the old identity is recovered successfully **as long as the existing .bare artifact is not manually deleted**.
+- Therefore the current continuity evidence is stronger than the earlier #375 record: the durable .bare artifact is functioning as the continuity source across reinstall when it remains present and discoverable.
+- Identity remains the full UUID, e.g. `bd4d74f1-30e2-4c06-8b49-123eb145066e`.
+- The account directory name in storage is a derived/shortened representation of that identity; this is a storage namespace detail, not a replacement for the canonical full UUID.
+
+### Recovery Artifact Version Status
+
+- Runtime-generated .bare artifact is still observed as **V1**, not V2.
+- The codebase already contains RecoveryPackageCodec V2 bootstrap metadata support, but this does **not** prove that the production writer path is emitting V2.
+- This creates a concrete implementation gap: **codec V2 exists, while the actual .bare writer/export path still needs inspection and alignment**.
+
+### Parallel Workstreams
+
+The following tracks are intentionally allowed to progress in parallel:
+
+1. **Onboarding:** #384 baseline is accepted and should not be reopened unless a regression appears.
+2. **Identity / Recovery:** migrate the actual production .bare writer/export path from V1 output to the intended V2 format, while preserving existing continuity behavior and compatibility with existing artifacts.
+
+These are separate workstreams but share the same identity → storage namespace → recovery artifact boundary. Progress on one does not require reopening the completed onboarding work.
+
+### Current Status Truth
+
+| Area | Status |
+|---|---|
+| Build #384 | **CI VERIFIED SUCCESS** |
+| Welcome → Local → Storage → Access → Home | **USER RUNTIME OBSERVED PASS** |
+| Home | **ACCEPTED / NOT TOUCHED** |
+| Uninstall → reinstall with existing .bare retained | **USER RUNTIME OBSERVED PASS** |
+| .bare runtime output version | **USER OBSERVED V1** |
+| RecoveryPackageCodec V2 implementation | **STATIC PRESENT** |
+| Actual production .bare writer emits V2 | **UNKNOWN / TO BE INSPECTED** |
+| Full UUID as canonical identity | **CURRENT SEMANTICS** |
+| Account folder short name | **DERIVED STORAGE REPRESENTATION** |
+| Onboarding workstream | **BASELINE / CLOSED FOR CURRENT SCOPE** |
+| Recovery writer/version workstream | **NEXT AUTHORIZED TASK** |
+| master | **NOT TOUCHED** |
+
+### Next Authorized Task
+
+Inspect the **actual .bare writer/export path** used by onboarding/runtime and determine why the produced artifact is V1 despite V2 codec support. Then:
+
+**Inspect → identify exact writer path → minimal fix → compile/unit regression test → runtime verification → record evidence.**
+
+No speculative fix and no reopening of the completed onboarding audit.
