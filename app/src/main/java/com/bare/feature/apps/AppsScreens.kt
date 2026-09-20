@@ -100,7 +100,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     LaunchedEffect(repository) {
         runCatching { repository.load() }
             .onSuccess { apps = it; error = null }
-            .onFailure { error = it.message ?: "Unable to discover installed apps" }
+            .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
     }
 
     val visibleApps = remember(apps, scope, descending, searchQuery) {
@@ -108,8 +108,8 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         val filtered = apps.filter { app ->
             val matchesScope = when (scope) {
                 AppScope.ALL -> true
-                AppScope.USER -> app.category == "User app"
-                AppScope.SYSTEM -> app.category == "System app"
+                AppScope.USER -> app.category == context.getString(R.string.user_app)
+                AppScope.SYSTEM -> app.category == context.getString(R.string.system_app)
             }
             val matchesQuery = query.isBlank() ||
                 app.name.lowercase().contains(query) ||
@@ -448,7 +448,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     "Expansion / OBB" to false, "Media" to false, stringResource(R.string.backup_parts_optional) to false, stringResource(R.string.shared_libraries) to false
                 )
                 parts.forEach { (name, available) ->
-                    CheckRow(name + if (!available) " · mockup" else "", available)
+                    CheckRow(name + if (!available) stringResource(R.string.apps_capability_mockup_suffix) else "", available)
                 }
             }
             item { Text(stringResource(R.string.actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
