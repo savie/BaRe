@@ -84,6 +84,7 @@ fun BaReApp() {
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
+    var selectedAppPackageName by remember { mutableStateOf<String?>(null) }
     var loginEmail by remember { mutableStateOf("") }
     var loginPassword by remember { mutableStateOf("") }
     var signUpEmail by remember { mutableStateOf("") }
@@ -227,11 +228,11 @@ fun BaReApp() {
                     { appsSearchOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
-                    { selectedApp = it; screen = Screen.APP_DETAIL },
+                    { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
-                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
+                    screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }
                 )
             }
@@ -257,6 +258,7 @@ private fun MainShell(
     onRecoveryRestored: (BaReIdentity) -> Unit,
     screen: Screen,
     selectedApp: AppItem?,
+    selectedAppPackageName: String?,
     onBack: () -> Unit,
     hasAccount: Boolean,
     accountEmail: String,
@@ -268,7 +270,7 @@ private fun MainShell(
         when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APPS_TOOLS -> AppsToolsScreen(onOpenScreen, onBack)
-            Screen.APP_DETAIL -> AppDetailScreen(selectedApp, onOpenScreen, onBack)
+            Screen.APP_DETAIL -> AppDetailScreen(selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName), onOpenScreen, onBack)
             Screen.APP_CONFIG -> AppConfigScreen(selectedApp, onBack)
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
             else -> MiscScreen(screen, onBack)
