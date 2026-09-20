@@ -503,4 +503,9 @@
     <string name="choose_recovery_folder">Choose recovery folder</string>
     <string name="export_recovery_package">Export recovery package</string>
     <string name="import_recovery_package">Import recovery package</string>
+    <string name="user_app">User app</string>
+    <string name="system_app">System app</string>
+    <string name="unknown_size">Unknown size</string>
+    <string name="apps_capability_mockup_suffix"> • mockup</string>
+    <string name="apps_configuration_mockup_note">BΛR-native Apps configuration mockup. Values are not stored in the backend yet.</string>
 </resources>
