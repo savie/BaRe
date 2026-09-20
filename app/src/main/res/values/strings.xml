@@ -305,7 +305,6 @@
     <string name="management_summary_short">Favorite • labels • blacklist • protection</string>
     <string name="configuration">Configuration</string>
     <string name="configuration_summary">Parts • compression • encryption • limits • notes • schedule</string>
-    <string name="diagnostics">Diagnostics</string>
     <string name="diagnostics_short">Visibility • capability • preconditions</string>
     <string name="restore_variants">Restore variants</string>
     <string name="restore_variants_short">Missing app • newer version • special data • SSAID</string>
@@ -315,7 +314,6 @@
     <string name="shared_libraries">Shared libraries</string>
     <string name="mockup_suffix"> • mockup</string>
     <string name="functional">Functional</string>
-    <string name="mockup">Mockup</string>
     <string name="apps_menu">Apps menu</string>
     <string name="apps_cap_01_title">Local apps / Cloud synced apps</string>
     <string name="apps_cap_01_group">Browse &amp; context</string>
@@ -507,6 +505,5 @@
     <string name="system_app">System app</string>
     <string name="unknown_size">Unknown size</string>
     <string name="apps_capability_mockup_suffix"> • mockup</string>
-    <string name="apps_configuration_mockup_note">BΛR-native Apps configuration mockup. Values are not stored in the backend yet.</string>
     <string name="unable_to_discover_installed_apps">Unable to discover installed apps</string>
 </resources>
