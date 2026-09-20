@@ -3932,3 +3932,89 @@ This preserves the intended navigation hierarchy without changing Apps discovery
 - Navigation fix source is committed next.
 - New CI verification is required before claiming the fix verified.
 - Runtime/device verification of Back behavior remains pending.
+
+
+## 2026-09-21 — Apps Capability Reconciliation: 53 → 54 + 7 Functional Groups
+
+### USER SAID
+
+- GO untuk memperbarui dokumentasi setelah review lanjutan terhadap Swift Backup reference screenshots.
+- User menetapkan bahwa seluruh hasil review perlu masuk dokumentasi: **54 capability**, konsep **7 functional groups + APP-01 foundation**, refinement Sort/Filter, Quick Actions, dan scope placement configuration.
+- User menetapkan bahwa karena Global Settings/Account belum menjadi fase aktif, **per-app settings/configuration sementara ditempatkan di Apps / local App Workspace**. Global configuration dapat direconcile ketika tab Account/global settings siap.
+- Setelah dokumentasi, next implementation direction adalah **UI-first**, tetapi belum dimulai pada pekerjaan ini.
+
+### RECONCILIATION
+
+- Inventory Apps direbaseline dari **53 → 54 capability/workflow items**.
+- Temuan baru: **APP-54 — Clear app data**, berdasarkan user-provided Swift Backup App Detail/context screenshots.
+- APP-54 ditempatkan pada **G2 — Action & Management**.
+- Existing 53 IDs dipertahankan; tidak ada capability ID lain yang digeser.
+
+### FUNCTIONAL IA CONCEPT
+
+Canonical planning concept sekarang:
+
+```text
+FOUNDATION
+APP-01  App Workspace / App Detail
+
+G1 — Discovery & Filtering
+G2 — Action & Management
+G3 — Backup
+G4 — Restore / Install
+G5 — Batch Operations
+G6 — Configuration
+G7 — Diagnostics
+```
+
+Coverage:
+- APP-01 foundation: 1
+- G1 Discovery & Filtering: 15
+- G2 Action & Management: 16
+- G3 Backup: 9
+- G4 Restore / Install: 6
+- G5 Batch Operations: 3
+- G6 Configuration: 3
+- G7 Diagnostics: 1
+- Total: **54 capability IDs**.
+
+Quick Actions (**APP-37**) tetap dianggap access/shortcut layer, bukan functional group ke-8. Quick Backup / Quick Restore / Other Quick Actions dapat mengakses capability dari G2/G3/G4 dan batch workflows.
+
+### SORT / FILTER RECONCILIATION
+
+- APP-05 Sort apps tetap satu capability, tetapi reference detail sekarang dicatat eksplisit: Name, Install date, Update date, Backup date, Backup size, Date used, dan App size.
+- `Date used` dicatat sebagai **reference-observed**, dengan BaRe feasibility masih **UNKNOWN / UNVERIFIED**.
+- APP-06..APP-18 tetap menjadi filter capabilities.
+- Reference menunjukkan Sort + Filter dapat disajikan dalam satu Apps options surface; ini dicatat sebagai IA/evidence mapping, bukan kewajiban menyalin layout Swift.
+
+### CONFIGURATION SCOPE DECISION
+
+- Reference menunjukkan global App Backup Settings dan per-app App Settings sebagai dua scope berbeda.
+- BaRe belum masuk fase Global Account/Settings.
+- **DECISION:** per-app configuration/settings untuk sementara ditempatkan di **Apps / local App Workspace**.
+- APP-34/35/36 tetap berada di G6 — Configuration.
+- Global configuration tidak dipindahkan ke Account sampai tab Account/global settings siap; scope akan direconcile pada fase tersebut.
+
+### TRUTH BOUNDARY
+
+- 54 items adalah **discovery/reconciliation inventory**, bukan automatic implementation scope.
+- User-provided Swift Backup screenshots adalah **OBSERVED_VISUAL reference evidence**; reference APK tidak runtime-verified.
+- APP-54 tidak berarti BaRe sudah memiliki implementation atau platform feasibility yang verified.
+- Documentation update tidak mengubah source implementation.
+- Mockups existing tetap diperlakukan sebagai FE contract/evidence.
+
+### DOCUMENTATION
+
+- `docs/reference.md` diperbarui untuk canonical inventory APP-01..APP-54, 7 functional groups + foundation, Sort/Filter detail, Quick Actions boundary, App configuration scope, dan APP-54 evidence.
+- `docs/worklog.md` mencatat reconciliation dan decision trace ini.
+- Reference update commit: `eb927e4a95befedbc0da921f4eb82c25632ea357`.
+
+### VERIFICATION
+
+- Documentation changes are committed to `v1.0/rebaseline`.
+- No source implementation was changed in this documentation slice.
+- CI/runtime verification is not claimed by this documentation change.
+
+### NEXT
+
+Setelah dokumentasi ini stabil, lanjut ke **UI-first implementation planning** untuk Apps berdasarkan 7-group IA + APP-01 foundation, dengan mockup existing sebagai FE contract/evidence. Jangan langsung masuk global Account settings sebelum scope Account/global configuration memang dimulai.
