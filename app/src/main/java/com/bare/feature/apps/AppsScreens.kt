@@ -186,10 +186,6 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                     }) { Text("Close") }
                 }
             }
-        } else {
-            item {
-                Text(stringResource(R.string.apps_summary))
-            }
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
