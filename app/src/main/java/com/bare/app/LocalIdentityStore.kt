@@ -126,7 +126,7 @@ class LocalIdentityStore(context: Context) {
             accounts.listFiles()
                 ?.asSequence()
                 ?.filter { it.isDirectory }
-                ?.map { File(it, "recovery/bare-recovery-v1.bare") }
+                ?.map { File(it, "recovery/bare-recovery-v2.bare") }
                 ?.filter { it.isFile }
                 ?.toList()
                 ?: emptyList()
