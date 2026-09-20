@@ -3596,3 +3596,42 @@ This is intentionally incremental. A larger query/domain abstraction was not int
 3. Keep #39 deferred unless runtime evidence reveals a real visibility problem requiring diagnostics.
 4. Do not start Backup/Restore execution from this slice.
 
+
+
+## 2026-09-21 — Apps Capability Rebaseline: 43 → 53
+
+### Pekerjaan Saat Ini
+
+Merevisi baseline capability domain Apps setelah audit ulang terhadap seluruh reference evidence dan FE reference yang sudah tersedia.
+
+### Perubahan
+
+- Inventory Apps sebelumnya yang dicatat sebagai **43 capability** direbaseline menjadi **53 capability/workflow items**.
+- Rebaseline mempertahankan capability reference yang sudah ada dan menambahkan 9 action/workflow yang sebelumnya belum berdiri eksplisit sebagai capability: Launch, Enable/Disable, Force stop, Uninstall, Android App Info, Play Store, Share APK, Battery optimization, dan Add to Home screen.
+- **App Detail / #15 direbaseline menjadi APP-01 — App Workspace / App Detail Foundation** karena menjadi workspace/foundation bagi capability per-app lainnya.
+- Capability ID tidak diperlakukan sebagai task ID. Capability yang memiliki implementation boundary/dependency yang sama boleh dikerjakan dalam satu implementation slice.
+- Mockup Apps yang sudah dibuat dipertahankan sebagai **FE contract/evidence**. Rebaseline ini tidak meminta pembuatan mockup baru.
+- docs/reference.md telah diperbarui dengan canonical working inventory **APP-01..APP-53** dan grouping untuk implementation overlap.
+
+### Truth Boundary
+
+- 53 items adalah **discovery/reconciliation inventory**, bukan otomatis seluruhnya menjadi scope implementation v1.0.
+- Reference evidence tetap bukan runtime verification.
+- Functional implementation, CI, runtime test, dan verification tetap dipisahkan.
+- Installed-app discovery yang sudah runtime-verified tetap menjadi protected baseline.
+
+### Verifikasi
+
+- docs/reference.md berhasil diperbarui pada commit e1db7ceb808e8a92282d264dd315520308eba40b.
+- Kesimpulan rebaseline kemudian direkam pada commit 66e1747f41a0b3c08e369cc21145bfd8464d0d2c.
+- Inventory setelah pembaruan diverifikasi berisi **53 ID**, dari APP-01 sampai APP-53.
+- Tidak ada source implementation capability baru pada pekerjaan rebaseline ini.
+
+### Berikutnya
+
+**APP-01 Foundation Implementation Planning / Inspection**:
+1. inspect source Apps aktual, AppState, InstalledAppRepository, routing, manifest/SDK, dan existing App Detail FE;
+2. reconcile mockup FE yang sudah ada terhadap actual source dan Android capability constraints;
+3. tentukan minimal AppDetails/workspace contract dan dependency boundary;
+4. petakan capability APP-01 dan capability yang dapat ditutup beririsan oleh foundation yang sama;
+5. baru setelah planning/inspection tervalidasi, lanjut ke implementation — **bukan membuat mockup baru**.
