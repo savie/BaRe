@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.AppItem
@@ -246,9 +247,24 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                         ) { Text(app.name.take(1), fontWeight = FontWeight.Bold) }
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(app.name, fontWeight = FontWeight.Bold)
-                            Text(app.packageName, style = MaterialTheme.typography.bodySmall)
-                            Text(app.category + " • " + app.size, style = MaterialTheme.typography.labelSmall)
+                            Text(
+                                app.name,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Text(
+                                app.packageName,
+                                style = MaterialTheme.typography.bodySmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                            Text(
+                                "Backup: Never",
+                                style = MaterialTheme.typography.labelSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
                         }
                         Box {
                             IconButton(onClick = { selectedMenuPackage = app.packageName }) {
