@@ -98,7 +98,7 @@ fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
         )
         Spacer(Modifier.height(24.dp))
         Text(
-            text = "B Λ R E",
+            text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Medium,
