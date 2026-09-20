@@ -3635,3 +3635,103 @@ Merevisi baseline capability domain Apps setelah audit ulang terhadap seluruh re
 3. tentukan minimal AppDetails/workspace contract dan dependency boundary;
 4. petakan capability APP-01 dan capability yang dapat ditutup beririsan oleh foundation yang sama;
 5. baru setelah planning/inspection tervalidasi, lanjut ke implementation — **bukan membuat mockup baru**.
+
+
+## 2026-09-21 — APP-01 Foundation Implementation Planning / Inspection
+
+### Authorization
+
+GO diterima untuk masuk ke **APP-01 Foundation Implementation Planning / Inspection** setelah Apps capability direbaseline 43 → 53.
+
+Boundary pekerjaan ini: **inspect + reconcile + plan**. Tidak membuat mockup baru dan belum mengubah source implementation.
+
+### Actual Source Inspection
+
+Source aktual branch v1.0/rebaseline menunjukkan:
+
+- AppItem saat ini masih menjadi model list yang berisi name, packageName, category, size, isSystem, isEnabled, protected, dan favorite.
+- InstalledAppRepository masih menjadi repository discovery utama dan memetakan PackageManager application state ke AppItem.
+- AppsScreen saat ini memegang repository instance, loading/error state, search/sort/filter state, lalu meneruskan selected AppItem ke route App Detail.
+- App Detail saat ini menerima AppItem snapshot, bukan dedicated detail model/repository.
+- App Detail masih memiliki fallback demoApps.first() ketika selected app null; ini merupakan boundary yang harus dihilangkan untuk workspace foundation karena dapat menampilkan app yang bukan target user.
+- App Detail saat ini masih mockup-heavy: identity minimal, backup inventory static, backup parts static, action buttons no-op, dan management/configuration/diagnostics/restore entry masih surface navigation.
+- Source Apps masih memiliki capability map internal 43 item; ini sekarang stale terhadap canonical reference rebaseline APP-01..APP-53 dan harus diperlakukan sebagai FE/mockup metadata yang perlu direconcile saat implementation foundation masuk.
+- BaReApp masih membawa selectedApp sebagai AppItem dan route APP_DETAIL menuju AppDetailScreen.
+- Manifest saat ini menggunakan QUERY_ALL_PACKAGES; targetSdk 35, minSdk 26.
+- Belum ditemukan implementation BaRe untuk AppDetails/workspace model dedicated.
+- Belum ditemukan implementation BaRe untuk StorageStatsManager, getLaunchIntentForPackage, Android App Info intent, uninstall flow, enable/disable action, atau force-stop action.
+- Capability layer yang sudah ada memiliki RootCapabilityProvider dan NonRootCapabilityProvider. Keduanya sudah memiliki kemampuan membaca/copy APK package sebagai bagian dari capability yang berbeda; ini dapat menjadi dependency bersama untuk APK/share/backup work tetapi belum menjadi App Workspace contract.
+
+### Android / Platform Feasibility Evidence
+
+- PackageInfo menyediakan versionName, longVersionCode, firstInstallTime, lastUpdateTime, splitNames, dan splitRevisionCodes; sehingga package metadata yang dibutuhkan workspace memiliki platform evidence. citeturn0search0turn0search2
+- PackageManager menyediakan getApplicationIcon dan getLaunchIntentForPackage; launch intent dapat null bila package tidak memiliki front-door activity yang sesuai. citeturn0search1turn0search7
+- PackageManager setApplicationEnabledSetting tersedia, tetapi dokumentasi menyatakan SecurityException dapat terjadi bila caller tidak memiliki akses untuk mengubah state. Jadi Enable/Disable belum boleh dianggap universally executable pada BaRe hanya karena API tersedia. citeturn1search1
+- Target runtime BaRe saat ini targetSdk 35; actual device/privilege behavior untuk Enable/Disable dan action management belum diverifikasi pada BaRe.
+- Storage breakdown seperti Data/External/Media belum memiliki implementation evidence pada source saat ini; jangan menampilkan angka seolah-olah verified sebelum provider/permission/measurement path tersedia.
+
+### APP-01 Boundary Reconciliation
+
+APP-01 ditetapkan sebagai **App Workspace / App Detail Foundation** dengan boundary:
+
+1. Identity — app icon, name, package name.
+2. Package metadata — version, install/update metadata, split/package information.
+3. Runtime state — enabled/disabled dan state yang memang dapat dibuktikan.
+4. Action capability surface — launch dan management actions dengan explicit availability/precondition.
+5. Package/APK surface — APK/split information dan dependency ke APK access/copy capability.
+6. Storage surface — hanya data yang benar-benar dapat diperoleh dari provider.
+7. Backup surface — entry/inventory boundary yang dapat dikembangkan tanpa memalsukan backup execution.
+8. Downstream workspace entries — management, configuration, diagnostics, restore variants.
+
+### Proposed Minimal Foundation Contract
+
+Foundation berikutnya sebaiknya memisahkan list projection dari detail projection:
+
+InstalledAppRepository
+→ AppItem (Apps list)
+
+AppDetailsRepository / equivalent package-detail provider
+→ AppDetails
+→ App Workspace
+
+Minimal AppDetails perlu membawa identity + package metadata + runtime/action capability state, tanpa menjadikan model sebagai monster yang langsung memiliki seluruh backup/configuration domain.
+
+Selected app navigation sebaiknya menggunakan stable package identity dan detail provider melakukan reload actual package state, bukan hanya mempercayai AppItem snapshot dari list.
+
+### Implementation Slices Identified
+
+APP-01 dapat menutup beberapa capability secara beririsan bila implementation boundary sama:
+
+- APP-01 + APP-19 + APP-20: workspace identity/detail + backup state/parts contract.
+- APP-01 + APP-45: app icon + launch capability.
+- APP-01 + APP-46: enabled/disabled state + action capability, tetapi execution mechanism harus capability-resolved dan runtime-tested.
+- APP-01 + APP-47/48/49/50/51: action surface contracts; execution masing-masing tetap mengikuti platform/privilege evidence.
+- APP-01 + package metadata needed by APP-17 and later APK/version workflows.
+- Storage-related capabilities remain dependency-gated until measurement/provider feasibility is established.
+
+### Important Finding
+
+Tidak perlu membuat mockup baru. Mockup App Detail yang sudah ada menjadi **FE contract/evidence** yang direconcile terhadap foundation implementation.
+
+Namun sebelum implementation, dua mismatch harus dianggap explicit:
+
+1. **#15 → APP-01** sudah berubah secara semantic menjadi workspace foundation, sementara source masih memakai AppItem snapshot.
+2. **Reference capability inventory sudah 53**, sementara capability map internal AppsScreens masih 43. Source metadata tersebut belum direconcile dan tidak boleh menjadi source of truth baru.
+
+### Truth Status
+
+- APP-01 foundation contract: **PLANNED / INSPECTED**.
+- Dedicated AppDetails model/provider: **NOT IMPLEMENTED**.
+- App Workspace runtime behavior: **UNVERIFIED**.
+- Enable/Disable execution: **PLATFORM-CONSTRAINED / UNVERIFIED**.
+- Launch execution: **FE/contract candidate; runtime unverified**.
+- Package metadata feasibility: **SUPPORTED BY PLATFORM API; BaRe implementation not yet added**.
+- Storage breakdown: **UNKNOWN / NOT IMPLEMENTED**.
+- Existing installed-app discovery: **PROTECTED BASELINE / previously runtime-verified by user**.
+- Mockup FE: **PRESERVED; no new mockup required**.
+
+### Berikutnya
+
+Implement **APP-01 foundation** setelah planning boundary ini: introduce the smallest dedicated detail/workspace contract, reconcile the existing App Detail FE to that contract, preserve Apps discovery/search/sort/filter behavior, then CI and runtime verification.
+
+Do **not** begin full backup/restore execution from APP-01 merely because the workspace now exists.
