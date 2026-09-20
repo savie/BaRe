@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -95,6 +96,7 @@ fun BaReApp() {
     var searchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
+    var appsMenuOpen by remember { mutableStateOf(false) }
 
     fun goBack() {
         when {
@@ -267,33 +269,76 @@ private fun MainShell(
         SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
         return
     }
+    val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     Scaffold(
         topBar = {
-            TopAppBar(
-                modifier = Modifier.height(96.dp),
-                title = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = "B Λ R E",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 5.sp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        Text(
-                            text = stringResource(R.string.brand_tagline),
-                            style = MaterialTheme.typography.labelSmall,
-                            letterSpacing = 3.5.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+            if (appsSelected) {
+                TopAppBar(
+                    title = { Text(stringResource(R.string.apps), fontWeight = FontWeight.Bold) },
+                    actions = {
+                        IconButton(onClick = onOpenSearch) {
+                            Icon(Icons.Outlined.Search, stringResource(R.string.search))
+                        }
+                        Box {
+                            IconButton(onClick = { appsMenuOpen = true }) {
+                                Icon(Icons.Default.Menu, contentDescription = "Apps menu")
+                            }
+                            DropdownMenu(
+                                expanded = appsMenuOpen,
+                                onDismissRequest = { appsMenuOpen = false }
+                            ) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.import_apk_apks)) },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.IMPORT_EXPORT)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.labels_favorites)) },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.MANAGEMENT)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.protected_backups)) },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.MANAGEMENT)
+                                    }
+                                )
+                            }
+                        }
                     }
-                },
-                actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Outlined.Search, stringResource(R.string.search)) } },
-            )
+                )
+            } else {
+                TopAppBar(
+                    modifier = Modifier.height(96.dp),
+                    title = {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                        ) {
+                            Text(
+                                text = "B Λ R E",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 5.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                            Text(
+                                text = stringResource(R.string.brand_tagline),
+                                style = MaterialTheme.typography.labelSmall,
+                                letterSpacing = 3.5.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    },
+                    actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Outlined.Search, stringResource(R.string.search)) } },
+                )
+            }
         },
         bottomBar = {
             NavigationBar {
