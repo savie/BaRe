@@ -489,4 +489,5 @@
     <string name="apps_cap_43_group">Diagnostics &amp; import</string>
     <string name="apps_cap_43_description">Explicit special-data and optional SSAID restore choices with warnings.</string>
     <string name="apps_cap_43_status">Mockup</string>
+    <string name="delete_backup">Delete backup</string>
 </resources>
