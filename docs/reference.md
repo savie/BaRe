@@ -2607,4 +2607,8 @@ Current BaRe Apps state:
 
 Jadi untuk domain Apps saja, gap reference masih material. Namun gap tersebut sekarang sudah terpetakan secara lebih granular sehingga implementasi berikutnya dapat dipilih berdasarkan dependency dan evidence, bukan berdasarkan tampilan mockup semata.
 
-**Status:** REFERENCE_RECONCILED / APPS_GAP_MATRIX_UPDATED / RUNTIME_REFERENCE_NOT_PERFORMED.
+Rebaseline ini juga mengoreksi inventory capability: **44 capability/workflow rows dari reconciliation static sebelumnya + 9 action/workflow yang ditegaskan oleh visual reference = 53 capability/workflow items**. Inventory 53 item tersebut adalah working discovery inventory, bukan scope commitment.
+
+**APP-01 App Workspace / App Detail foundation** sekarang menjadi foundation utama untuk capability per-app. Mockup yang sudah dibuat dipertahankan sebagai FE contract/evidence; implementation boleh menutup beberapa capability ID sekaligus bila dependency dan implementation boundary memang sama.
+
+**Status:** REFERENCE_RECONCILED / APPS_CAPABILITY_REBASELINED_53 / APPS_GAP_MATRIX_UPDATED / MOCKUP_FE_CONTRACT_PRESERVED / RUNTIME_REFERENCE_NOT_PERFORMED.
