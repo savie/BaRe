@@ -21,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
-import com.bare.app.demoApps
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
 
@@ -409,83 +408,193 @@ fun AppsToolsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit) {
-    val item = app ?: demoApps.first()
+    val context = LocalContext.current
+    val packageName = app?.packageName
+    val repository = remember(context) { AppDetailsRepository(context) }
+    var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
+    var error by remember(packageName) { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(repository, packageName) {
+        details = null
+        error = null
+        if (packageName.isNullOrBlank()) {
+            error = context.getString(R.string.app_detail_missing_package)
+        } else {
+            runCatching { repository.load(packageName) }
+                .onSuccess { details = it }
+                .onFailure { error = it.message ?: context.getString(R.string.app_detail_unavailable) }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(item.name) },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+                title = { Text(details?.name ?: app?.name ?: stringResource(R.string.app_details)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
+                    }
+                }
             )
         }
     ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(64.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
-                        Text(item.name.take(1), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        when {
+            error != null -> {
+                Column(
+                    Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(stringResource(R.string.app_detail_unavailable), fontWeight = FontWeight.Bold)
+                    Text(error!!, color = MaterialTheme.colorScheme.error)
+                }
+            }
+            details == null -> {
+                Box(
+                    Modifier.fillMaxSize().padding(padding),
+                    contentAlignment = Alignment.Center
+                ) { CircularProgressIndicator() }
+            }
+            else -> {
+                val item = details!!
+                LazyColumn(
+                    Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    item {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                Modifier.size(64.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                                Alignment.Center
+                            ) {
+                                Text(
+                                    item.name.take(1),
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            Spacer(Modifier.width(14.dp))
+                            Column {
+                                Text(item.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                                Text(item.packageName)
+                                Text(item.category)
+                                Text(
+                                    if (item.isEnabled) stringResource(R.string.enabled) else stringResource(R.string.disabled),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (item.isEnabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error,
+                                )
+                            }
+                        }
                     }
-                    Spacer(Modifier.width(14.dp))
-                    Column {
-                        Text(item.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                        Text(item.packageName)
-                        Text(item.category + " • " + item.size)
-                        Text(
-                            if (item.isEnabled) stringResource(R.string.enabled) else stringResource(R.string.disabled),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = if (item.isEnabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error,
+                    item {
+                        Card(Modifier.fillMaxWidth()) {
+                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Text(stringResource(R.string.app_package_surface), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                                Text(
+                                    stringResource(
+                                        R.string.app_version_value,
+                                        item.versionName ?: stringResource(R.string.unknown_value),
+                                        item.versionCode?.toString() ?: stringResource(R.string.unknown_value),
+                                    )
+                                )
+                                Text(stringResource(R.string.app_apk_count_value, item.apkCount))
+                                Text(stringResource(R.string.app_apk_size_value, formatAppSize(item.apkSizeBytes)))
+                                Text(
+                                    if (item.canLaunch) stringResource(R.string.app_launch_capable)
+                                    else stringResource(R.string.app_launch_unavailable)
+                                )
+                                Text(
+                                    if (item.canOpenAppInfo) stringResource(R.string.app_info_capable)
+                                    else stringResource(R.string.app_info_unavailable)
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        Card(Modifier.fillMaxWidth()) {
+                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                                Text(stringResource(R.string.backup_inventory_state), color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(stringResource(R.string.backup_inventory_versions))
+                                Text(stringResource(R.string.app_backup_surface_foundation_note), style = MaterialTheme.typography.bodySmall)
+                            }
+                        }
+                    }
+                    item {
+                        Text(stringResource(R.string.backup_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    }
+                    item {
+                        val parts = listOf(
+                            "APK" to true,
+                            "Split APK" to (item.apkCount > 1),
+                            "App data" to false,
+                            "External data" to false,
+                            "Expansion / OBB" to false,
+                            "Media" to false,
+                            stringResource(R.string.backup_parts_optional) to false,
+                            stringResource(R.string.shared_libraries) to false
                         )
+                        parts.forEach { (name, available) ->
+                            CheckRow(
+                                name + if (!available) stringResource(R.string.apps_capability_mockup_suffix) else "",
+                                available
+                            )
+                        }
+                    }
+                    item {
+                        Text(stringResource(R.string.app_actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.app_actions_foundation_note), style = MaterialTheme.typography.bodySmall)
+                    }
+                    item {
+                        ListEntry(
+                            stringResource(R.string.multiple_backup_strategy),
+                            stringResource(R.string.multiple_backup_strategy_value),
+                            Icons.Default.Sync
+                        ) { onOpen(Screen.APP_CONFIG) }
+                    }
+                    item {
+                        ListEntry(
+                            stringResource(R.string.management),
+                            stringResource(R.string.management_summary_short),
+                            Icons.Default.Build
+                        ) { onOpen(Screen.MANAGEMENT) }
+                    }
+                    item {
+                        ListEntry(
+                            stringResource(R.string.configuration),
+                            stringResource(R.string.configuration_summary),
+                            Icons.Default.Settings
+                        ) { onOpen(Screen.APP_CONFIG) }
+                    }
+                    item {
+                        ListEntry(
+                            stringResource(R.string.diagnostics),
+                            stringResource(R.string.diagnostics_short),
+                            Icons.Default.BugReport
+                        ) { onOpen(Screen.DIAGNOSTICS) }
+                    }
+                    item {
+                        ListEntry(
+                            stringResource(R.string.restore_variants),
+                            stringResource(R.string.restore_variants_short),
+                            Icons.Default.Restore
+                        ) { onOpen(Screen.TASK) }
                     }
                 }
-            }
-            item {
-                Card(Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.backup_inventory_state), color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(stringResource(R.string.backup_inventory_versions))
-                    }
-                }
-            }
-            item { Text(stringResource(R.string.backup_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
-            item {
-                val parts = listOf(
-                    "APK" to true, "Split APK" to false, "App data" to false, "External data" to false,
-                    "Expansion / OBB" to false, "Media" to false, stringResource(R.string.backup_parts_optional) to false, stringResource(R.string.shared_libraries) to false
-                )
-                parts.forEach { (name, available) ->
-                    CheckRow(name + if (!available) stringResource(R.string.apps_capability_mockup_suffix) else "", available)
-                }
-            }
-            item { Text(stringResource(R.string.actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
-            item {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.backup)) }
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.restore)) }
-                }
-            }
-            item {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.history)) }
-                    OutlinedButton(onClick = {}, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.delete_backup)) }
-                }
-            }
-            item {
-                ListEntry(stringResource(R.string.multiple_backup_strategy), stringResource(R.string.multiple_backup_strategy_value), Icons.Default.Sync) { onOpen(Screen.APP_CONFIG) }
-            }
-            item {
-                ListEntry(stringResource(R.string.management), stringResource(R.string.management_summary_short), Icons.Default.Build) { onOpen(Screen.MANAGEMENT) }
-            }
-            item {
-                ListEntry(stringResource(R.string.configuration), stringResource(R.string.configuration_summary), Icons.Default.Settings) { onOpen(Screen.APP_CONFIG) }
-            }
-            item {
-                ListEntry(stringResource(R.string.diagnostics), stringResource(R.string.diagnostics_short), Icons.Default.BugReport) { onOpen(Screen.DIAGNOSTICS) }
-            }
-            item {
-                ListEntry(stringResource(R.string.restore_variants), stringResource(R.string.restore_variants_short), Icons.Default.Restore) { onOpen(Screen.TASK) }
             }
         }
     }
+}
+
+private fun formatAppSize(bytes: Long): String {
+    if (bytes <= 0L) return "0 B"
+    val units = arrayOf("B", "KB", "MB", "GB")
+    var value = bytes.toDouble()
+    var index = 0
+    while (value >= 1024 && index < units.lastIndex) {
+        value /= 1024
+        index++
+    }
+    return if (index == 0) "${bytes} ${units[index]}" else "%.1f %s".format(value, units[index])
 }
 
 @Composable
