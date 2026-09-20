@@ -264,6 +264,8 @@
     <string name="selected_apps">Selected apps</string>
     <string name="selected_folders">Selected folders</string>
     <string name="enabled">Enabled</string>
+    <string name="installed">Installed</string>
+    <string name="disabled">Disabled</string>
     <string name="run_now">Run now</string>
 
     <string name="apps_system">System apps</string>
