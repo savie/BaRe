@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">B Λ R E</string>
+    <string name="app_name">B Λ R ☰</string>
     <string name="backup_restore_manager">Backup &amp; Restore</string>
     <string name="brand_tagline">SAVE OUR DAY</string>
     <string name="welcome_description">Back up, restore, manage\nyour apps and data</string>
@@ -265,4 +265,56 @@
     <string name="selected_folders">Selected folders</string>
     <string name="enabled">Enabled</string>
     <string name="run_now">Run now</string>
+
+    <string name="apps_system">System apps</string>
+    <string name="apps_name_ascending">Name ↑</string>
+    <string name="apps_name_descending">Name ↓</string>
+    <string name="apps_filter">Filter</string>
+    <string name="apps_context">Context</string>
+    <string name="apps_filters">Apps filters</string>
+    <string name="apps_filter_model">Mockup filter model</string>
+    <string name="apps_filter_favorites_labels_status">Favorites • Labels • Backup status • Cloud sync • Install/enabled status</string>
+    <string name="apps_filter_versions">Multiple backups • Protected • Notes • Older/newer APKs</string>
+    <string name="apps_filter_play">Installed from Google Play • Not installed from Google Play</string>
+    <string name="apps_filter_system_note">System-app subfilters can be added without changing this surface.</string>
+    <string name="close">Close</string>
+    <string name="apps_local">Local apps</string>
+    <string name="apps_local_description">Installed inventory and on-device backup state.</string>
+    <string name="apps_cloud_synced">Cloud synced apps</string>
+    <string name="apps_cloud_description">Cloud inventory and synchronization state.</string>
+    <string name="apps_context_mockup_note">Context switching is a mockup until cloud repository capability exists.</string>
+    <string name="search_apps_or_package">Search apps or package name</string>
+    <string name="clear_search">Clear search</string>
+    <string name="no_visible_installed_apps">No visible installed apps</string>
+    <string name="backup_never">Backup: Never</string>
+    <string name="app_actions">App actions</string>
+    <string name="app_details">App details</string>
+    <string name="apps_local_search">Apps-local search</string>
+    <string name="apps_local_search_description">Search stays inside Apps. Global search remains available elsewhere.</string>
+    <string name="no_matching_apps">No matching apps</string>
+    <string name="apps_tools_capability_map">Apps tools &amp; capability map</string>
+    <string name="apps_capability_mockups">43 capability mockups</string>
+    <string name="apps_capability_mockups_description">All target Apps capabilities are represented here before deeper implementation. Mockup coverage is not runtime verification.</string>
+    <string name="apps_mockup_placement_note">BaRe-native placement/flow is intentionally open for review.</string>
+    <string name="backup_inventory">Backup inventory</string>
+    <string name="backup_inventory_state">On device: No backup • Cloud: Not synced</string>
+    <string name="backup_inventory_versions">Versions: 0 • Protected: No • Notes: None</string>
+    <string name="backup_parts_optional">Cache (optional)</string>
+    <string name="multiple_backup_strategy">Multiple-backup strategy</string>
+    <string name="multiple_backup_strategy_value">Single / dated / conditional</string>
+    <string name="management_summary_short">Favorite • labels • blacklist • protection</string>
+    <string name="configuration">Configuration</string>
+    <string name="configuration_summary">Parts • compression • encryption • limits • notes • schedule</string>
+    <string name="diagnostics">Diagnostics</string>
+    <string name="diagnostics_short">Visibility • capability • preconditions</string>
+    <string name="restore_variants">Restore variants</string>
+    <string name="restore_variants_short">Missing app • newer version • special data • SSAID</string>
+    <string name="apps_configuration_mockup_note">BΛR-native Apps configuration mockup. Values are not stored in the backend yet.</string>
+    <string name="cloud_destination">Cloud destination</string>
+    <string name="schedule_binding">Schedule binding</string>
+    <string name="shared_libraries">Shared libraries</string>
+    <string name="mockup_suffix"> • mockup</string>
+    <string name="functional">Functional</string>
+    <string name="mockup">Mockup</string>
+    <string name="apps_menu">Apps menu</string>
 </resources>
