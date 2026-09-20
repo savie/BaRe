@@ -7,15 +7,15 @@
     <string name="get_started">Get started</string>
     <string name="already_have_account">Already have an account</string>
 
-    <string name="use_local">Use B Λ R E locally</string>
-    <string name="use_account">Use B Λ R E account</string>
+    <string name="use_local">Use locally</string>
+    <string name="use_account">Use account</string>
 
     <string name="back">Back</string>
-    <string name="local_confirmation_title">Set up B Λ R E on this device</string>
-    <string name="local_confirmation_description">Your B Λ R E setup stays on this device. You can connect an account later.</string>
+    <string name="local_confirmation_title">Set up on this device</string>
+    <string name="local_confirmation_description">Your setup stays on this device. You can connect an account later.</string>
     <string name="not_now">Not now</string>
     <string name="sign_in">Sign in</string>
-    <string name="sign_in_description">Welcome back. Sign in to continue with your B Λ R E account.</string>
+    <string name="sign_in_description">Welcome back. Sign in to continue with your account.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="show_password">Show password</string>
@@ -23,10 +23,10 @@
     <string name="invalid_email">Enter a valid email such as x@x.x.</string>
     <string name="password_too_short">Password must be at least 8 characters.</string>
     <string name="recovery_password">Recovery password</string>
-    <string name="recovery_password_setup_description">This password protects your recovery package. B Λ R E does not store it. Keep it somewhere safe because it is required to restore this identity.</string>
+    <string name="recovery_password_setup_description">This password protects your recovery package. It is not stored. Keep it somewhere safe because it is required to restore this identity.</string>
     <string name="password_mismatch">Passwords do not match.</string>
     <string name="create_account">Create account</string>
-    <string name="create_account_description">Use an account to keep your setup connected across your B Λ R E experience.</string>
+    <string name="create_account_description">Use an account to keep your setup connected across your experience.</string>
     <string name="confirm_password">Confirm password</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="forgot_password">Forgot password?</string>
@@ -43,7 +43,7 @@
     <string name="cloud_storage">Cloud storage</string>
     <string name="storage_usage">%1$s free · %2$s total</string>
     <string name="storage_used_percent">%1$d%% used</string>
-    <string name="storage_setup_description">Choose B Λ R E storage location</string>
+    <string name="storage_setup_description">Choose storage location</string>
     <string name="internal_storage">Internal storage</string>
     <string name="internal_backup_path">BaRe/Backups</string>
     <string name="external_storage">External storage</string>
@@ -63,8 +63,8 @@
     <string name="preparing_storage">Preparing storage…</string>
 
     <string name="access_method">Access method</string>
-    <string name="access_method_description">Choose how B Λ R E accesses your device.</string>
-    <string name="enter_bare">Enter B Λ R E</string>
+    <string name="access_method_description">Choose how the app accesses your device.</string>
+    <string name="enter_bare">Enter</string>
 
     <string name="home">Home</string>
     <string name="dashboard">Dashboard</string>
@@ -91,7 +91,7 @@
     <string name="root">Root</string>
     <string name="non_root_description">Uses standard Android access. Some system-level backup capabilities may be limited without root access.</string>
     <string name="root_description">Uses root access for deeper system-level backup capabilities when root is available.</string>
-    <string name="backup_storage_mockup">B Λ R E/Backups • mockup state</string>
+    <string name="backup_storage_mockup">Backups • mockup state</string>
     <string name="runtime_capability_not_verified">Runtime capability has not been verified.</string>
     <string name="quick_actions">Quick actions</string>
     <string name="backup_apps">Backup apps</string>
@@ -161,7 +161,7 @@
     <string name="conditions">Conditions</string>
     <string name="schedule_conditions">Charging, Wi-Fi, storage, battery</string>
 
-    <string name="bare_account">B Λ R E account</string>
+    <string name="bare_account">Account</string>
     <string name="local_setup_mockup_account">Local setup / mockup account</string>
     <string name="appearance_language_security_defaults">Appearance, language, security, defaults</string>
     <string name="providers_transfer">Providers and transfer</string>
@@ -170,15 +170,15 @@
     <string name="logs_errors_blocked_skipped">Logs, errors, blocked and skipped</string>
     <string name="apk_apks_configuration">APK/APKS and configuration</string>
     <string name="about">About</string>
-    <string name="bare_version_mockup">B Λ R E v1.0 FE mockup</string>
+    <string name="bare_version_mockup">Version 1.0 • FE mockup</string>
 
     <string name="search">Search</string>
     <string name="search_scope">Search across apps, backups, folders, and configuration.</string>
     <string name="cloud_account_not_connected">Cloud account not connected</string>
-    <string name="cloud_account_title">Bring your cloud storage to B Λ R E</string>
-    <string name="cloud_account_description">Sign in to your B Λ R E account first, then connect a storage provider for backup sync.</string>
+    <string name="cloud_account_title">Bring your cloud storage here</string>
+    <string name="cloud_account_description">Sign in to your account first, then connect a storage provider for backup sync.</string>
     <string name="cloud_ready_title">Cloud storage</string>
-    <string name="cloud_ready_description">Your B Λ R E account is connected. Choose a provider to continue.</string>
+    <string name="cloud_ready_description">Your account is connected. Choose a provider to continue.</string>
     <string name="connect_provider_description">Connect a provider for upload, download, and sync.</string>
     <string name="connect_account">Connect account</string>
     <string name="providers">Providers</string>
@@ -295,7 +295,7 @@
     <string name="apps_tools_capability_map">Apps tools &amp; capability map</string>
     <string name="apps_capability_mockups">43 capability mockups</string>
     <string name="apps_capability_mockups_description">All target Apps capabilities are represented here before deeper implementation. Mockup coverage is not runtime verification.</string>
-    <string name="apps_mockup_placement_note">BaRe-native placement/flow is intentionally open for review.</string>
+    <string name="apps_mockup_placement_note">Native placement/flow is intentionally open for review.</string>
     <string name="backup_inventory">Backup inventory</string>
     <string name="backup_inventory_state">On device: No backup • Cloud: Not synced</string>
     <string name="backup_inventory_versions">Versions: 0 • Protected: No • Notes: None</string>
@@ -308,7 +308,7 @@
     <string name="diagnostics_short">Visibility • capability • preconditions</string>
     <string name="restore_variants">Restore variants</string>
     <string name="restore_variants_short">Missing app • newer version • special data • SSAID</string>
-    <string name="apps_configuration_mockup_note">BΛR-native Apps configuration mockup. Values are not stored in the backend yet.</string>
+    <string name="apps_configuration_mockup_note">Native Apps configuration mockup. Values are not stored in the backend yet.</string>
     <string name="cloud_destination">Cloud destination</string>
     <string name="schedule_binding">Schedule binding</string>
     <string name="shared_libraries">Shared libraries</string>
