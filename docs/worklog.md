@@ -398,7 +398,6 @@ Artinya jalur Welcome sampai Home **sudah jelas secara FE**, tetapi belum boleh 
 Kita tutup scope terkecil satu per satu.
 
 Contoh:
-
 `Welcome`
 → bentuk FE dibereskan  
 → state/flow jelas  
@@ -797,8 +796,7 @@ Perubahan rename source/namespace dilakukan pada commit bertahap selama pekerjaa
 Verifikasi runtime pengguna terhadap APK CI terakhir setelah full rename Android package ke `com.bare` dan perbaikan form authentication.
 
 ### Observasi Pengguna
-- APK CI terakhir sudah di-install dan diverifikasi pada device.
-- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
+- APK CI terakhir sudah di-install dan diverifikasi pada device.- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
 - Password pada field authentication sudah dapat digunakan sesuai input yang diharapkan.
 - Form authentication menolak interaksi lanjut ketika format email tidak valid.
 - Password dengan panjang kurang dari 8 karakter tidak dapat melanjutkan authentication flow.
@@ -1197,8 +1195,7 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 
 ## 2026-09-19 — Verifikasi Final Cloud Flow: CI Green
 
-### Perbaikan
-- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
+### Perbaikan- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
 - Memperbaiki `RootCapabilityProvider.runSu()` agar menggunakan block body sehingga `return` tidak melanggar aturan Kotlin expression body.
 - Tidak mengubah scope Cloud atau membuat authentication screen baru.
 
@@ -1598,1555 +1595,156 @@ Pengguna meminta audit fondasi penentuan BaRe ID sebelum melanjutkan area Apps, 
 ### Gap / Belum Diputuskan
 - Belum diputuskan apakah Local Identity dapat dipulihkan melalui Android backup/restore, export/import identity bundle, external storage, recovery key, atau kombinasi beberapa mekanisme.
 - Belum ada aturan eksplisit untuk uninstall → reinstall.
-- Belum ada aturan eksplisit untuk clear app data.
-- Belum ada aturan eksplisit untuk factory reset.
-- Belum ada aturan eksplisit untuk flash/ganti ROM pada device yang sama.
-- Belum ada aturan untuk mendeteksi identity baru yang menemukan backup folder lama dan meminta recovery/import, bukan membuat folder identity baru tanpa penjelasan.
-- Belum ada contract/versioning untuk identity metadata dan migration.
-- Mapping 16 karakter `identityId` ke folder backup masih tercatat sebagai implementation assumption dan belum menjadi format identity canonical yang diverifikasi.
 
-### Status Truth
-`LOCAL_IDENTITY_UUID_PERSISTED / INSTALLATION_SCOPED / CROSS_REINSTALL_NOT_SUPPORTED / CROSS_RESET_NOT_SUPPORTED / IDENTITY_LIFECYCLE_CONTRACT_OPEN / RECOVERY_DESIGN_REQUIRED`
-
-### Keputusan Engineering Saat Ini
-Tidak melakukan perubahan source pada audit ini. Sebelum melanjutkan capability Apps, identity lifecycle dan recovery contract harus ditutup terlebih dahulu agar artifact/backup path tidak terikat pada ID instalasi yang dapat berubah tanpa mekanisme rekonsiliasi.
-
-## 2026-09-19 — Diskusi Boundary Local Identity: Device Continuity
-
-### Status Diskusi
-Pembahasan lanjutan setelah audit BaRe Identity dan referensi Swift Backup. **Belum menjadi contract, requirement final, atau implementasi.** Catatan ini hanya menjaga arah diskusi agar tidak hilang.
-
-### Arah yang Diinginkan Pengguna
-Untuk mode **LOCAL**, boundary continuity yang diharapkan adalah **device yang sama**:
-- LOCAL tetap persistent pada device yang sama.
-- Update APK seharusnya mempertahankan LOCAL identity/state.
-- Uninstall → install kembali di device yang sama diharapkan dapat mempertahankan LOCAL identity/state.
-- Format ulang / factory reset pada device yang sama diharapkan sebisa mungkin tetap dapat memulihkan LOCAL identity/state.
-- Ganti/flash ROM pada device yang sama diharapkan sebisa mungkin tetap dapat memulihkan LOCAL identity/state.
-- Pindah ke device lain dianggap boundary yang berbeda dan recovery/migration menjadi lebih kompleks; belum ditentukan mekanismenya.
-
-### Batas Desain yang Sedang Dibahas
-- BaRe LOCAL tidak akan mengikuti alur Swift Backup secara langsung. Swift hanya menjadi reference/discovery material.
-- APK signing identity tidak digunakan sebagai pembentuk canonical LOCAL ID.
-- Jangan mengunci canonical LOCAL identity pada application signing/build identity karena perubahan release/update/signing dapat memutus continuity.
-- Nilai hard-code yang saat ini ada di implementasi BaRe juga belum dianggap solusi final.
-- BaRe ID, Device ID, Installation ID, dan Account ID tetap perlu dipisahkan secara semantik; mekanisme final belum diputuskan.
-- Target continuity harus dibedakan dari mekanisme persistence: persistence biasa cukup untuk restart/update, sedangkan uninstall/reset/ROM membutuhkan recovery evidence yang lebih durable.
-
-### Truth Status
-- **USER INTENT:** LOCAL diharapkan persistent selama boundary device yang sama.
-- **PROPOSAL:** Device-bound continuity/recovery mechanism untuk LOCAL.
-- **UNKNOWN:** mekanisme teknis yang mampu memenuhi continuity setelah uninstall, format/factory reset, dan ROM replacement tanpa account/server.
-- **UNKNOWN:** identifier/device evidence apa yang aman, stabil, dan tersedia pada seluruh lifecycle target.
-- **NOT AUTHORIZED:** perubahan source atau pemilihan algoritma final identity.
-- **NO SOURCE CHANGE:** diskusi ini tidak mengubah implementation.
-
-### Catatan Penting
-Harapan "device yang sama selalu persistent" adalah **target continuity**, bukan bukti bahwa Android menyediakan satu identifier universal yang otomatis bertahan pada seluruh kondisi tersebut. Karena itu mekanisme final harus diuji terhadap lifecycle nyata: restart, update APK, uninstall/reinstall, clear data, factory reset/format, dan ROM replacement.
-
-## 2026-09-19 — Swift Backup App-Backup Encryption Reference untuk BaRe Identity Recovery
+## 2026-09-20 — Runtime Apps Discovery #399 dan Rekonsiliasi Capability Reference
 
 ### Authorization
 
-Pengguna memberikan **GO** untuk memasukkan hasil audit artifact backup app Swift Backup ke `docs/reference.md` dan implikasi yang relevan terhadap BaRe ke `docs/worklog.md`.
-
-### Evidence
-
-Artifact yang dianalisis:
-
-- `backup_swift_com.bare.zip`
-- `SwiftBackup-5.1.0-620-decompiled.zip`
-- `data_org.swiftapps.swiftbackup.zip`
-
-Artifact `com.bare.dat` terbukti secara static memiliki container `SBA1` v2 dengan encryption method AEGIS-256, KDF Argon2id, salt/key-check/nonce material, parameter KDF, dan authentication material untuk index.
-
-Source decompile menunjukkan:
-
-- KDF SBA menggunakan Argon2id.
-- AEGIS-256 menggunakan derived key 32 byte.
-- Archive memiliki key-check; key yang tidak cocok ditolak sebagai invalid archive key.
-- Standard password strategy membentuk password material secara deterministic dari internal identity context, termasuk Firebase UID dan package context pada source yang diaudit.
-- Swift juga menyediakan user-password strategy.
-
-### Kesimpulan untuk BaRe
-
-Temuan ini memperkuat arah **portable encrypted recovery artifact** untuk LOCAL identity continuity:
-
-```text
-BaRe ID
-  │
-  ├── logical identity
-  │
-  └── Recovery Package
-        ├── encrypted identity/recovery payload
-        ├── KDF metadata
-        ├── integrity/authentication
-        └── key-check
-```
-
-Recovery package dapat ditempatkan pada `/storage/emulated/0/BaRe/` untuk kemudian dipindahkan user ke media/storage lain sebelum uninstall, factory reset, format, atau ROM replacement. File tersebut **bukan trust anchor dalam bentuk plaintext**; identity dan secret material harus terlindungi oleh encryption/authentication.
-
-### Boundary yang Dipertahankan
-
-- BaRe ID bukan encryption key.
-- BaRe ID bukan Installation ID.
-- Device Continuity evidence bukan recovery secret.
-- Recovery Package bukan canonical identity; recovery package adalah mechanism untuk membuktikan/memulihkan continuity.
-- APK signing identity bukan fondasi canonical LOCAL ID.
-- Swift tetap hanya reference; implementation BaRe tidak menyalin proprietary implementation Swift.
-
-### Status Truth
-
-- Swift artifact crypto structure: **OBSERVED_STATIC / VERIFIED_STATIC**.
-- Swift standard password derivation path: **OBSERVED_STATIC** dari decompiled source.
-- Portable encrypted recovery artifact sebagai BaRe direction: **PROPOSAL / REFERENCE-DERIVED**.
-- Final BaRe cryptographic construction: **UNDECIDED**.
-- Keystore/backup/recovery lifecycle pada device target: **UNVERIFIED**.
-- BaRe source implementation: **NOT CHANGED** pada pekerjaan ini.
-- `master`: **NOT TOUCHED**.
-
-### Next Verification
-
-Sebelum implementation final, lifecycle proof tetap diperlukan untuk:
-
-1. restart;
-2. APK update;
-3. uninstall → reinstall;
-4. clear app data;
-5. factory reset/format;
-6. ROM replacement;
-7. recovery package export/import;
-8. wrong-secret rejection;
-9. corrupted/tampered recovery package rejection;
-10. recovery identity reconciliation dengan backup directory lama.
-
-
-
-## 2026-09-19 — Audit Mode R3–R4–R5: Reconciliation Identity, Storage, Foundation, dan Verification
-
-### Authorization
-Pengguna memberikan **GO** untuk audit mode R3–R4–R5. Audit dilakukan tanpa implementasi source, tanpa memilih cryptographic construction final, dan tanpa mengunci phase artificial. R3–R4–R5 diperlakukan sebagai area yang saling beririsan; urutan kerja selanjutnya ditentukan dari dependency dan evidence aktual.
-
-### Scope
-Audit mencakup:
-- worklog canonical;
-- product / architecture / capability matrix;
-- source aktual branch `v1.0/rebaseline`;
-- identity lifecycle;
-- storage boundary;
-- recovery/continuity;
-- archive/security dependency;
-- verification gaps;
-- consistency antara dokumentasi dan source aktual.
-
-### Current Repository State — OBSERVED
-- Repository: `savie/BaRe`.
-- Target branch: `v1.0/rebaseline`.
-- `master` tidak disentuh.
-- Current source tree sudah lebih maju daripada catatan audit 2026-09-18 yang menyatakan source implementation hanya `MainActivity.kt`. Source aktual sekarang memiliki `app/`, `capability/`, `feature/`, `storage/`, dan `ui/` di bawah `app/src/main/java/com/bare/`.
-- Karena itu, catatan "source hanya MainActivity.kt" harus diperlakukan sebagai **stale historical observation**, bukan kondisi aktual terbaru.
-
-### Identity — OBSERVED / VERIFIED STATIC
-- `LocalIdentityStore` masih membuat `identityId` menggunakan `UUID.randomUUID()`.
-- Identity disimpan pada SharedPreferences `bare_identity`.
-- Identity dapat dipulihkan selama app-private data masih tersedia.
-- `IdentityType.LOCAL` dan `IdentityType.ACCOUNT` sudah dipisahkan secara semantic pada source/UI.
-- Tidak ada evidence source bahwa LOCAL identity saat ini memiliki recovery mechanism durable lintas uninstall/reset/ROM.
-- APK signing identity tidak digunakan oleh source saat ini sebagai pembentuk `identityId`.
-- Status lifecycle canonical masih terbuka: installation persistence != durable continuity.
-
-### Storage — OBSERVED
-- `BackupStorageRepository` membentuk path internal:
-  `/storage/emulated/0/BaRe/accounts/<derived-identity-folder>/backups`.
-- Folder namespace masih diturunkan dari 16 karakter alphanumeric awal `identityId`.
-- Repository saat ini terutama **menginspeksi** storage/capacity/path; audit ini tidak menemukan implementation recovery artifact atau encrypted identity package.
-- Manifest menetapkan `android:allowBackup="false"`.
-- `targetSdk=35`.
-- Tidak ada evidence pada manifest bahwa aplikasi saat ini memiliki broad storage permission.
-- Kemampuan nyata untuk membuat/mengubah file publik pada `/storage/emulated/0/BaRe/` masih harus diverifikasi melalui runtime pada target Android/device; jangan menganggap `root.canWrite()` sebagai proof bahwa arbitrary public-path write akan berhasil.
-
-### Recovery / Continuity — OPEN
-Target continuity yang dicatat dari user tetap:
-- restart → same LOCAL;
-- APK update → same LOCAL;
-- uninstall/reinstall pada device yang sama → recover same LOCAL;
-- factory reset/format pada device yang sama → recover same LOCAL bila recovery evidence tersedia;
-- ROM replacement pada device yang sama → recover same LOCAL bila recovery evidence tersedia;
-- device lain → boundary berbeda.
-
-Belum ada implementation proof untuk lifecycle di atas.
-
-### Recovery Artifact — PROPOSAL, NOT CONTRACT
-Audit Swift Backup memperkuat arah portable encrypted recovery artifact, tetapi:
-- final artifact format BaRe belum diputuskan;
-- final KDF belum diputuskan;
-- final encryption/authentication construction belum diputuskan;
-- recovery secret lifecycle belum diputuskan;
-- user unlock/password/recovery authority belum diputuskan;
-- import/reconciliation behavior belum diputuskan;
-- versioning/migration belum diputuskan.
-
-Karena dependency tersebut belum tertutup, **belum boleh membuat artifact implementation dan menyebutnya final**.
-
-### R3–R4–R5 Reconciliation
-Label R3/R4/R5 belum didefinisikan sebagai canonical phase contract pada dokumen project; karena itu audit ini tidak mengarang mapping formal.
-
-Namun evidence worklog menunjukkan overlap nyata:
-- **R3-area:** structural FE/app boundary sudah dilakukan.
-- **R4-area:** FE baseline masih memiliki verification/lock history dan tidak boleh disamakan dengan backend capability verification.
-- **R5-area:** capability/shared foundation membutuhkan identity, storage, archive, security, persistence, operation/result, dan verification semantics yang belum seluruhnya terkunci.
-
-Ini diperlakukan sebagai **working classification**, bukan decision baru.
-
-### Critical Dependencies Found
-1. Canonical identity semantics harus jelas sebelum backup namespace/recovery reconciliation dikunci.
-2. Recovery mechanism harus jelas sebelum continuity lintas destructive lifecycle dapat diklaim.
-3. Storage write mechanism harus diverifikasi pada target Android sebelum menentukan artifact path/API.
-4. Recovery secret model harus jelas sebelum memilih KDF/encryption implementation.
-5. Archive/version/integrity semantics harus selaras dengan recovery package agar migration dan corruption handling tidak terpisah.
-6. Runtime test harness/evidence perlu tersedia karena repository belum memiliki proof lifecycle untuk identity/recovery.
-
-### Verification Gaps
-Belum terbukti:
-- restart identity continuity;
-- APK update identity continuity;
-- uninstall/reinstall recovery;
-- clear-data recovery;
-- factory-reset/format recovery;
-- ROM replacement recovery;
-- creation of actual public recovery file;
-- import/recovery of identity from artifact;
-- wrong-secret rejection;
-- tamper/corruption rejection;
-- old backup directory reconciliation after identity recovery;
-- artifact atomic write/partial-file recovery;
-- runtime storage permission/write behavior on target Android.
-
-### Engineering Conclusion
-**Current state: AUDIT / OPEN DESIGN, NOT READY FOR FINAL RECOVERY IMPLEMENTATION.**
-
-Tidak ada source change pada audit ini.
-
-Urutan kerja berikutnya tidak dibuat sebagai Phase 1/2/3 artificial. Setelah open dependencies cukup tertutup, pekerjaan dilakukan langsung berdasarkan highest-priority dependency:
-`Safety/Security → Blocker → Prerequisite → Correctness → Verification Gap → Maintainability → Optimization`.
-
-### Next Action Candidate
-Candidate paling dekat bukan langsung "buat file recovery", melainkan menutup dependency yang menentukan apakah file tersebut benar-benar portable dan recoverable:
-1. audit/verify storage write boundary pada target Android;
-2. close identity/recovery semantics;
-3. close recovery secret/key lifecycle;
-4. baru pilih artifact format dan implementation;
-5. runtime-test lifecycle dan recovery;
-6. reconcile backup namespace setelah recovery.
-
-Status: **NO SOURCE CHANGE / NO FINAL CRYPTO DECISION / AUDIT RECORDED**.
-
-## 2026-09-19 — GO 1–5: Implementasi Recovery Core, Storage Boundary, Reconciliation, dan Verification Harness
-
-### Authorization
-Pengguna memberikan **GO 1–5** untuk menjalankan batch pekerjaan recovery/identity dari hasil audit R3–R4–R5. Scope dijalankan langsung berdasarkan dependency aktual; tidak membuat phase artificial baru.
-
-### Pekerjaan yang Dikerjakan
-
-#### 1. Storage boundary
-- Recovery artifact tidak melakukan arbitrary direct write ke /storage/emulated/0/BaRe/ dari aplikasi target Android 10+.
-- Boundary implementation menggunakan Android Document Tree URI yang diberikan user/app flow.
-- RecoveryStorageBoundaryResolver menandai mode portable recovery sebagai DOCUMENT_TREE.
-- Artifact filename default: bare-recovery-v1.bare.
-- Write path menggunakan .partial → write → read-back decode/verify → rename ke nama final.
-- Jika finalize gagal, partial artifact dihapus bila provider mengizinkan.
-
-#### 2. Identity + recovery semantics
-- LocalIdentityStore tetap menggunakan UUID sebagai identifier logical LOCAL yang dibuat saat identity belum ada.
-- Recovery package hanya boleh membawa IdentityType.LOCAL.
-- Recovery restore tidak boleh diam-diam menimpa LOCAL identity yang sudah berbeda.
-- Jika identity lokal belum ada, payload recovery dapat menjadi sumber untuk memulihkan identity lama.
-- Jika identity lokal sudah ada dan sama, restore bersifat idempotent.
-- Jika identity lokal sudah ada tetapi berbeda, restore ditolak sebagai conflict.
-- Setup-complete dan access-method metadata ikut dipulihkan sebagai metadata lifecycle, bukan secret.
-
-#### 3. Recovery secret / key lifecycle
-- Recovery password diperlakukan sebagai user-held recovery secret; tidak disimpan oleh recovery codec.
-- Artifact memakai KDF PBKDF2-HMAC-SHA-256 dengan parameter versioned dan 310.000 iterations.
-- Encryption/authentication memakai AES-256-GCM.
-- Salt 16 byte dan nonce 12 byte dibuat random per artifact.
-- Header hanya berisi metadata format/KDF/salt/nonce; identity ID tidak ditulis plaintext.
-- GCM authenticated data mengikat header terhadap ciphertext.
-- Wrong password dan tampering menyebabkan decode gagal.
-- Construction ini adalah BaRe implementation decision untuk current recovery core, bukan salinan proprietary Swift implementation.
-
-#### 4. Recovery artifact implementation
-File baru:
-- app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt
-- app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt
-- app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt
-
-LocalIdentityStore sekarang memiliki:
-- toRecoveryPayload()
-- restoreFromRecovery(...)
-
-Recovery codec menggunakan container version BREC v1 dan payload terenkripsi.
-
-RecoveryArtifactRepository mendukung:
-- export ke Document Tree;
-- read-back verification;
-- atomic-ish .partial → rename final;
-- import/decode dari artifact URI.
-
-#### 5. Verification + reconciliation
-Test baru:
-- round-trip encode/decode;
-- wrong-password rejection;
-- tamper rejection;
-- cleartext-header check agar identity tidak berada di header plaintext.
-
-app/build.gradle.kts menambahkan JUnit 4.13.2 untuk unit test.
-
-Identity reconciliation sekarang conflict-safe:
-- no current identity → restore;
-- same identity → idempotent;
-- different current identity → reject.
-
-### Status Truth
-
-- Recovery core source: IMPLEMENTED.
-- Identity export/import semantics: IMPLEMENTED STATIC.
-- Wrong-secret rejection: UNIT TEST IMPLEMENTED; CI RESULT PENDING.
-- Tamper rejection: UNIT TEST IMPLEMENTED; CI RESULT PENDING.
-- Artifact write/read-back path: IMPLEMENTED STATIC.
-- Public /storage/emulated/0/BaRe/ runtime creation: UNVERIFIED.
-- Document Tree grant/runtime behavior: UNVERIFIED.
-- Actual uninstall → reinstall recovery: UNVERIFIED.
-- Actual clear-data recovery: UNVERIFIED.
-- Actual factory reset/format recovery: UNVERIFIED.
-- Actual ROM replacement recovery: UNVERIFIED.
-- Runtime import/recovery UI flow: NOT WIRED YET.
-- Existing backup directory reconciliation after real recovery: STATIC SEMANTICALLY COMPATIBLE because restored identity produces the same identity-derived namespace, but runtime discovery/reconciliation is UNVERIFIED.
-- master: NOT TOUCHED.
-
-### Important Engineering Boundary
-Batch 1–5 berhasil menutup core implementation dependency, tetapi tidak mengubah static implementation menjadi runtime proof. Device lifecycle tetap membutuhkan APK install/update/reinstall/reset/ROM evidence. Tidak boleh menyatakan end-to-end recovery VERIFIED sebelum evidence tersebut tersedia.
-
-### Commit Trail
-- Recovery codec: e43e4ba9c5507108c1c4e17ae9bd4569dfa9cdf7
-- Artifact repository: 2ac84a0215f873c2b2dfc7accc43bd959e318108
-- Storage boundary: 2b116dd3d4ee68d55dd874ad7548189a5eac87b9
-- Recovery tests: 264fb6df2328fcc92244428ecd0a888e8ad2c4ef
-- Identity reconciliation: a5fa71613a2c3249f116da44cd5bda6b9ecdfc15
-- Test dependency: 9ea04118abd82eeeb9ce851210faf7fd763e7a29
-- Test correction: 3c73d24f524b21182bf681263a530e28ab2c6d30
-
-### Next Verification
-1. CI :app:assembleDebug + unit test.
-2. Install/update APK pada device.
-3. Exercise Document Tree selection ke folder recovery yang dipilih user.
-4. Export artifact → inspect filename/header → import dengan password benar.
-5. Wrong password dan tamper test pada artifact nyata.
-6. Clear app data/uninstall → reinstall → import → verify same BaRe ID.
-7. Verify existing /BaRe/accounts/<identity-folder>/backups namespace kembali ke identity yang sama.
-8. Factory reset/format dan ROM replacement hanya setelah recovery artifact dipindahkan ke storage/media yang tetap tersedia.
-
-## 2026-09-19 — Recovery UI Wiring dan Current Verification State
-
-### Implementation
-- Menambahkan Recovery screen pada jalur Account → Import / Export.
-- Recovery screen menggunakan Android Document Tree untuk memilih folder artifact export.
-- Import menggunakan Android document picker.
-- Password hanya berada di UI state sementara dan dikirim ke recovery codec; tidak dipersist.
-- Export melakukan write/read-back verification melalui RecoveryArtifactRepository.
-- Import melakukan decode lalu conflict-safe identity restore melalui LocalIdentityStore.
-- Setelah recovery berhasil, app kembali ke Main App dengan restored LOCAL identity.
-- Tidak mengubah Home atau struktur 4 tab utama.
-
-### Source
-- app/src/main/java/com/bare/feature/account/RecoveryScreen.kt
-- app/src/main/java/com/bare/app/BaReApp.kt
-
-### Verification Truth
-- Recovery crypto core local JVM harness: **VERIFIED** — round-trip, wrong-password rejection, dan tamper rejection PASS.
-- GitHub Actions result untuk source batch terakhir: **UNVERIFIED** melalui connector karena workflow run push tidak tersedia pada endpoint yang dapat dibaca; tidak menganggap source/build verified.
-- Android Document Tree picker/runtime: **UNVERIFIED**.
-- Export/import artifact nyata pada device: **UNVERIFIED**.
-- Uninstall/reinstall recovery: **UNVERIFIED**.
-- Factory reset/ROM recovery: **UNVERIFIED**.
-- master: **NOT TOUCHED**.
-
-### Important
-Current implementation sudah menyediakan jalur source/UI untuk export/import recovery, tetapi **belum boleh disebut end-to-end VERIFIED** sebelum APK dibuild dan diuji pada device target.
-
-
-## 2026-09-19 — Audit Ulang Welcome → Storage Setup → Access Method → Sebelum Home
-
-### Authorization
-Pengguna memberikan **GO** untuk satu kali audit ulang dengan scope eksplisit: menelusuri actual flow dari Welcome sampai tepat sebelum Home, menghubungkan hasilnya dengan foundation identity/storage/recovery yang sudah ada, dan memperbarui worklog. Audit ini tidak mengubah Home. Perubahan FE hanya dilakukan bila audit membuktikan flow/text saat ini tidak merepresentasikan capability yang sudah ada.
-
-### Scope yang Dicek
-Audit source aktual branch `v1.0/rebaseline` mencakup:
-- `BaReApp.kt` sebagai orchestration flow;
-- `WelcomeScreen` dan `LocalSetupConfirmation`;
-- `StorageSetupScreen`;
-- `AccessMethodScreen`;
-- `LocalIdentityStore`;
-- `BackupStorageRepository`;
-- boundary menuju `StartScreen.APP`;
-- existing recovery foundation sebagai dependency downstream;
-- worklog sebagai continuity record.
-
-### Actual Flow — OBSERVED STATIC
-
-```textWELCOME
-  ↓
-pilih LOCAL
-  ↓
-LocalSetupConfirmation
-  ↓
-createLocalIdentity()
-  ↓
-STORAGE_SETUP
-  ↓
-inspect(identityId)
-  ↓
-pilih Internal / External / Cloud
-  ↓
-ACCESS_METHOD
-  ↓
-pilih NON_ROOT / ROOT
-  ↓
-resolve capability
-  ↓
-markSetupComplete()
-  ↓
-START_SCREEN.APP
-  ↓
-HOME
-```
-
-### Temuan 1 — Identity Sudah Menjadi Pondasi Nyata
-**OBSERVED:**
-- LOCAL identity dibuat tepat setelah user mengonfirmasi Local pada Welcome.
-- `LocalIdentityStore.createLocalIdentity()` menyimpan UUID + LOCAL type ke SharedPreferences `bare_identity`.
-- Storage Setup menerima identity ID tersebut untuk membentuk tampilan namespace.
-- Identity yang sama menjadi input downstream recovery payload.
-
-**VERIFIED STATIC:**
-- Jalur identity creation bukan asumsi; call-site aktual ada di `BaReApp.kt`.
-- Identity persistence dan recovery payload sudah terhubung secara source.
-
-### Temuan 2 — Storage Setup Saat Ini Hanya INSPECT, Belum INITIALIZE
-**OBSERVED:**
-`StorageSetupScreen` membuat `BackupStorageRepository`, lalu memanggil:
-`repository.inspect(identityId)`.
-
-`BackupStorageRepository.internalStorage(identityId)` hanya membentuk:
-`/storage/emulated/0/BaRe/accounts/<derived-identity-folder>/backups`
-dan mengembalikan metadata path/capacity/writable.
-
-Tidak ditemukan pada flow sebelum Home call yang:
-- `mkdir`/create directory;
-- create canonical BaRe root;
-- create identity namespace;
-- create `backups` directory;
-- write marker/state;
-- persist selected storage path;
-- atau menulis recovery artifact.
-
-**Kesimpulan:**
-Storage Setup saat ini secara semantic lebih tepat disebut **storage inspection/selection**, bukan storage initialization.
-
-Ini menjelaskan secara langsung mengapa setelah install #344 identity ID dapat ada tetapi folder public BaRe tidak otomatis muncul.
-
-### Temuan 3 — Path Storage Existing Belum Menjadi Contract yang Aman
-**OBSERVED:**
-Path dibentuk dengan:
-`identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')`.
-
-Artinya namespace folder tidak menggunakan full canonical identity dan belum ada evidence bahwa mapping 16-character tersebut merupakan contract final.
-
-**UNKNOWN / UNVERIFIED:**
-- apakah folder ini memang intended canonical namespace final;
-- apakah path public tersebut dapat dibuat/ditulis oleh target Android 35 tanpa user-granted boundary;
-- apakah path yang pernah terlihat pada build/runtime sebelumnya benar-benar dibuat oleh implementation branch saat ini;
-- apakah existing backup data harus dimigrasikan bila namespace contract berubah.
-
-Karena itu audit tidak mengubah mapping pada pekerjaan ini.
-
-### Temuan 4 — User Selection di Storage Setup Belum Persist sebagai Storage State
-**OBSERVED:**
-`StorageSetupScreen` memiliki `selectedPath` sebagai Compose state lokal.
-
-Saat Continue ditekan, callback hanya memindahkan flow ke `ACCESS_METHOD`.
-
-Tidak ada source yang menyimpan:
-- selected storage kind;
-- selected path;
-- storage URI;
-- storage initialization state.
-
-Jadi selection UI saat ini bukan persisted storage configuration.
-
-### Temuan 5 — Access Method Sudah Menjadi Gate Sebelum Home
-**OBSERVED:**
-Setelah storage selection, flow masuk `AccessMethodScreen`.
-
-Saat Continue:
-- capability resolver dijalankan;
-- hanya jika capability available, `identityStore.markSetupComplete()`;
-- lalu `startScreen = StartScreen.APP`.
-
-Dengan demikian **Home memang tidak perlu diubah** untuk menutup audit ini. Boundary yang benar untuk pekerjaan berikutnya berada sebelum `markSetupComplete()` / sebelum `StartScreen.APP`.
-
-### Temuan 6 — Recovery Foundation Ada, Tetapi Tidak Terhubung ke Onboarding
-**OBSERVED:**
-Recovery codec/repository/UI sudah ada pada branch:
-- encrypted recovery package;
-- export/import;
-- conflict-safe identity restore;
-- Document Tree boundary;
-- read-back verification.
-
-Namun flow Welcome → Storage Setup → Access Method tidak memanggil recovery export/init.
-
-Recovery saat ini merupakan capability terpisah yang diakses dari Account setelah masuk app.
-
-Akibatnya:
-```text
-Identity created
-  ↓
-Storage inspected
-  ↓
-Access verified
-  ↓
-Home
-```
-tidak menghasilkan recovery artifact.
-
-Sedangkan artifact hanya dapat muncul melalui:
-```text
-Account
-  ↓
-Import / Export
-  ↓
-password
-  ↓
-user selects destination
-  ↓
-export
-```
-
-### Temuan 7 — "Artifact di Folder Storage" Belum Memiliki Satu Contract
-Audit menemukan dua konsep yang saat ini bercampur:
-
-1. **Canonical BaRe backup storage**
-   `/storage/emulated/0/BaRe/accounts/.../backups`
-
-2. **Portable encrypted recovery artifact**
-   artifact yang ditulis melalui user-granted Document Tree.
-
-Source sekarang belum menetapkan secara eksplisit apakah:
-- recovery artifact wajib otomatis berada di canonical BaRe storage;
-- recovery artifact dibuat pada setup pertama;
-- recovery artifact hanya dibuat saat user melakukan backup/export;
-- atau canonical storage dan portable recovery sengaja terpisah.
-
-**Decision belum dibuat oleh audit ini.**
-
-### Temuan 8 — FE/UX Sebelum Home Belum Mengkomunikasikan State Sebenarnya
-Text `backup_storage` dan `storage_setup_description` membuat screen terlihat seperti setup storage, sementara implementation aktual terutama melakukan inspection/selection dan belum melakukan initialization/persistence.
-
-Ini adalah **FE truth mismatch**, bukan sekadar masalah wording.
-
-Namun audit belum mengubah text karena contract storage artifact belum diputuskan. Mengubah copy sekarang berisiko mengunci semantics yang belum disetujui.
-
-### Reconciliation dengan Foundation yang Sudah Ada
-
-```text
-FOUNDATION SUDAH ADA
-├── LOCAL UUID identity
-├── identity persistence
-├── recovery payload
-├── encryption/authentication codec
-├── recovery artifact repository
-├── Document Tree boundary
-├── import/export UI
-└── conflict-safe restore
-
-GAP SEBELUM HOME
-├── canonical storage initialization
-├── persisted storage selection
-├── canonical namespace contract
-├── trigger recovery artifact
-└── hubungan storage setup ↔ recovery lifecycle
-```
-
-Jadi commit-commit sebelumnya **tidak dibuang**. Mereka memang sudah menjadi pondasi. Yang kurang adalah orchestration/lifecycle integration dan contract boundary sebelum Home.
-
-### Batch Boundary yang Terbukti
-
-Pekerjaan berikutnya secara natural memang perlu dipisah menjadi batch implementation karena dependency dan verification berbeda:
-
-**Batch A — Pre-Home Storage/Recovery Integration**
-- kunci canonical storage contract;
-- hubungkan existing repository/foundation ke Welcome → Storage Setup → Access Method;
-- buat initialization trigger yang benar;
-- persist storage state bila memang diperlukan;
-- hubungkan recovery artifact lifecycle;
-- perbaiki FE text/flow hanya berdasarkan contract final;
-- jangan ubah Home.
-
-**Batch B — Destructive Lifecycle Verification**
-- restart;
-- APK update;
-- clear data;
-- uninstall/reinstall;
-- export/import artifact nyata;
-- recovery identity;
-- namespace reconciliation;
-- tamper/wrong password;
-- factory reset/format dan ROM replacement hanya pada boundary yang dapat diuji.
-
-User kemudian hanya perlu melakukan verification pada device untuk destructive lifecycle tersebut setelah Batch A/B menghasilkan APK yang dapat diuji.
-
-### Status Truth Setelah Audit
-
-| Area | Status |
-|---|---|
-| Welcome → LOCAL identity | **VERIFIED STATIC** |
-| LOCAL identity persistence | **VERIFIED STATIC** |
-| Storage inspection | **VERIFIED STATIC** |
-| Storage initialization sebelum Home | **MISSING / NOT IMPLEMENTED** |
-| Selected storage persistence | **MISSING** |
-| Canonical namespace contract | **OPEN / UNDECIDED** |
-| Public path runtime write | **UNVERIFIED** |
-| Recovery crypto core | **IMPLEMENTED / UNIT-VERIFIED** |
-| Recovery UI | **IMPLEMENTED** |
-| Recovery linked to onboarding | **MISSING** |
-| Automatic recovery artifact trigger | **MISSING** |
-| Home | **NOT CHANGED** |
-| End-to-end device recovery | **UNVERIFIED** |
-
-### Engineering Conclusion
-
-**Audit result: OPEN, but now the actual pre-Home gap is identified.**
-
-Bukan masalah bahwa foundation sebelumnya tidak berguna. Foundation identity, storage inspection, dan recovery sudah ada. Masalahnya adalah **belum ada lifecycle integration yang menghubungkan ketiganya sebelum Home**.
-
-Boundary implementation yang paling tepat sekarang adalah **sebelum `markSetupComplete()` / sebelum `StartScreen.APP`**, bukan di Home.
-
-Tidak ada source change pada audit ini.
-
-### Next Authorized Work
-Menunggu **GO** untuk Batch A — Pre-Home Storage/Recovery Integration.
-
-`master`: **NOT TOUCHED**.
-
-
-## 2026-09-19 — GO Batch A: Pre-Home Storage/Recovery Integration
-
-### Authorization
-Pengguna memberikan **GO Batch A** untuk menghubungkan foundation identity/storage/recovery yang sudah ada ke lifecycle Welcome → Storage Setup → Access Method → sebelum Home. Home tidak diubah.
-
-### Implementasi
-- Menambahkan `StorageConfigurationStore` untuk menyimpan URI storage boundary yang dipilih user.
-- Menambahkan `DocumentFile` sebagai implementation boundary untuk storage folder yang diberikan melalui Android Storage Access Framework.
-- `BackupStorageRepository.initialize(identityId, treeUri)` sekarang membuat namespace:
-  `BaRe/accounts/<derived-identity-folder>/backups/`
-  dan
-  `BaRe/accounts/<derived-identity-folder>/recovery/`.
-- Jika user memilih folder bernama `BaRe` langsung, aplikasi tidak membuat `BaRe/BaRe` nested.
-- Recovery artifact sekarang dapat ditulis langsung ke directory recovery yang sudah diinisialisasi.
-- Recovery export menggunakan encrypted existing `RecoveryPackageCodec`, bukan crypto baru.
-- Pre-Home flow `StorageSetupScreen` sekarang:
-  1. meminta user memilih storage folder;
-  2. meminta recovery password;
-  3. mempertahankan URI permission;
-  4. membuat namespace BaRe;
-  5. membuat encrypted recovery artifact `bare-recovery-v1.bare`;
-  6. hanya setelah berhasil melanjutkan ke Access Method.
-- Recovery password tidak dipersist oleh aplikasi.
-- Existing recovery artifact yang sama nama diganti melalui partial artifact setelah content verification.
-- Text Storage Setup diperbarui agar tidak lagi mengklaim "does not write data"; sekarang menjelaskan bahwa setup membuat storage dan recovery package sebelum masuk B Λ R E.
-
-### Lifecycle Baru — SOURCE IMPLEMENTED
-
-```text
-WELCOME
-  ↓
-LOCAL confirmation
-  ↓
-createLocalIdentity()
-  ↓
-STORAGE SETUP
-  ↓
-choose storage boundary
-  ↓
-recovery password
-  ↓
-initialize BaRe/accounts/<identity>/backups + recovery
-  ↓
-encrypt + write + read-back verify recovery artifact
-  ↓
-ACCESS METHOD
-  ↓
-capability resolve
-  ↓
-markSetupComplete()
-  ↓
-HOME
-```
-
-### Important Boundary
-Canonical public-path write via raw `/storage/emulated/0/BaRe` tetap tidak diklaim sebagai runtime capability. Pre-Home storage initialization menggunakan user-granted SAF boundary sehingga folder yang dibuat benar-benar berada di lokasi storage yang dipilih user. Artifact recovery juga berada di namespace BaRe yang sama.
-
-### Truth Status
-- Pre-Home integration source: **IMPLEMENTED**.
-- Storage namespace creation: **IMPLEMENTED STATIC; DEVICE RUNTIME UNVERIFIED**.
-- Recovery artifact creation in selected folder: **IMPLEMENTED STATIC; DEVICE RUNTIME UNVERIFIED**.
-- Recovery encryption: **existing unit-verified core reused**.
-- Storage URI persistence: **IMPLEMENTED STATIC**.
-- Home: **NOT CHANGED**.
-- CI for latest commit: **IN PROGRESS** at worklog update time.
-- Device install/runtime: **NOT PERFORMED** in this batch.
-- Clear/uninstall/reinstall/destructive lifecycle: **NOT PERFORMED**; reserved for verification batch.
-
-### Commit Trail
-- Storage configuration: `de2b9c6c905662a846389695f9599bb9c8f657f5`
-- SAF storage initialization: `f72ac06269c1c6dbe7ced22b2c5ec24bc1b740e1`
-- Directory initialization correction: `02204543c6630dc19193f12caaf0152e55075168`
-- DocumentFile dependency: `dbcc4f6b9a3141d8af4191c6660b3ecfbe201732`
-- Recovery directory export: `412a64b09e5ba30f8c4da7a18d6d379bde44b744`
-- Pre-Home onboarding integration: `e59fc5eab597b7569a712aa073ff15afd86f1b12`
-- Recovery artifact replacement handling: `d4b3faf1363876a019a9a42f2e50f57305746433`
-- Nested BaRe guard: `7b55ad995106dbdb288c4dc63be2527e07ba2b67`
-
-### Verification Gate
-Batch A is not considered device-verified until:
-- CI build succeeds for the final commit;
-- APK is installed on target device;
-- Welcome → Storage Setup → Access Method → Home is exercised;
-- user can observe `BaRe/accounts/<identity>/backups` and `recovery/bare-recovery-v1.bare`;
-- artifact can be imported with the same password;
-- wrong password/tamper behavior remains rejected.
-
-
-
-## 2026-09-19 — GO: Rebaseline canonical storage initialization
-
-**Intent / Authorization**
-- User authorized GO after identifying that storage confirmation must initialize the canonical BaRe namespace directly.
-- Home remains unchanged.
-
-**Finding reconciled**
-- Previous Batch A incorrectly made SAF Document Tree the canonical storage boundary.
-- Android 11+ blocks selecting shared-storage volume roots through ACTION_OPEN_DOCUMENT_TREE; this caused the observed "Can't use this folder" behavior.
-- SAF remains appropriate for portable recovery export/import, not for canonical BaRe storage initialization.
-
-**Implementation**
-- Canonical storage no longer requires a user-selected Document Tree URI.
-- Storage target is selected in BaRe UI: INTERNAL or mounted EXTERNAL/removable.
-- Confirm Storage now executes initialization and verification in one flow.
-- Canonical namespace:
-  - `<storage-root>/BaRe/accounts/<identity>/backups/`
-  - `<storage-root>/BaRe/accounts/<identity>/recovery/`
-  - `<storage-root>/BaRe/accounts/<identity>/recovery/bare-recovery-v1.bare`
-- Recovery artifact is written through a filesystem backend, read back, decoded with the supplied recovery password, then finalized.
-- Selected storage kind is persisted instead of a SAF tree URI.
-- External/removable storage discovery remains present and is surfaced again in onboarding.
-- Added MANAGE_EXTERNAL_STORAGE declaration and a settings route for devices where direct shared-storage write access is not available. Android documents this capability for backup/restore apps and permits direct access to shared storage, SD card, and USB OTG roots when granted.
-- Root capability can initialize the target directory when root is available.
-
-**Verification status**
-- Source implementation: IMPLEMENTED STATIC.
-- CI: IN PROGRESS on latest branch commit; device runtime remains UNVERIFIED.
-- Required runtime verification: fresh LOCAL onboarding on rooted POCO F6, confirm canonical folder tree and recovery artifact exist before Access Method/Home; repeat with INTERNAL and mounted EXTERNAL where available.
-
-
-## 2026-09-19 — Audit: Identity ID Regenerates After App Data Loss / Reinstall
-
-### Intent
-Pengguna meminta audit khusus terhadap masalah paling kritis saat ini: BaRe menghasilkan identity_id baru, contoh runtime yang dilaporkan: 8b17657e-f640-4b26-8f8e-ef920877b089.
-Scope audit dibatasi pada asal identity, continuity setelah app data hilang/uninstall, dan jalur recovery/restore yang seharusnya mempertahankan identity. Tidak ada source implementation change pada audit ini.
-
-### Actual Source Flow — VERIFIED STATIC
-
-```text
-BaReApp()
-  ↓
-LocalIdentityStore.load()
-  ↓
-[tidak ada identity di SharedPreferences]
-  ↓
-WELCOME → Local confirmation
-  ↓
-LocalIdentityStore.createLocalIdentity()
-  ↓
-UUID.randomUUID()
-  ↓
-putString("identity_id", generated UUID)
-  ↓
-STORAGE_SETUP
-```
-
-Source aktual LocalIdentityStore.createLocalIdentity() adalah:
-- return load() ?: BaReIdentity(identityId = UUID.randomUUID().toString(), ...)
-- hasil UUID kemudian disimpan ke SharedPreferences bare_identity dengan key identity_id.
-
-BaReApp() hanya melakukan identityStore.load() untuk menentukan identity yang sudah ada. Tidak ada lookup identity dari public BaRe storage sebelum createLocalIdentity() dijalankan.
-
-### Root Cause — CONFIRMED STATIC
-
-Masalah utamanya bukan UUID generator. Masalahnya adalah sumber canonical identity hanya app-private SharedPreferences.
-
-Saat bare_identity masih ada:
-- load() menemukan identity lama;
-- createLocalIdentity() mengembalikan identity lama;
-- UUID baru tidak dibuat.
-
-Saat app-private state sudah hilang, load() mengembalikan null dan code secara eksplisit membuat UUID baru melalui UUID.randomUUID().
-
-Manifest saat ini juga menetapkan android:allowBackup="false".
-
-Jadi Android backup/restore bukan continuity mechanism yang tersedia untuk mengembalikan SharedPreferences bare_identity pada implementation saat ini.
-
-### Kenapa Folder BaRe yang Sudah Ada Tidak Menyelamatkan Identity
-
-Canonical storage saat ini menggunakan path:
-
-<storage-root>/BaRe/accounts/<identity-folder>/...
-
-dengan mapping:
-
-identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0').
-
-Ada dua masalah:
-
-1. Storage hanya menerima identity setelah identity dibuat. Storage tidak menjadi sumber identity pada startup.
-2. Nama folder hanya menyimpan derived 16-character value, bukan full UUID. Jadi folder existing tidak cukup untuk merekonstruksi UUID canonical secara aman.
-
-Dengan demikian alurnya sekarang adalah:
-
-```text
-App state hilang
-  ↓
-load() = null
-  ↓
-UUID baru dibuat
-  ↓
-Storage diarahkan ke namespace identity baru
-```
-
-Bukan:
-
-```text
-App state hilang
-  ↓
-scan existing BaRe identity/recovery state
-  ↓
-recover canonical identity
-  ↓
-continue with same ID
-```
-
-### Recovery Foundation Juga Belum Menutup Gap Ini
-
-RecoveryPackageCodec menyimpan identityId di payload terenkripsi. Namun codec membutuhkan CharArray password untuk decode.
-
-Pada onboarding terbaru, secret recovery dibuat internal:
-- generateRecoverySecret() menghasilkan secret;
-- secret dipakai untuk membuat artifact;
-- secret kemudian di-zero dengan password.fill('\\u0000').
-
-Secret tersebut tidak dipersist dan tidak tersedia kembali untuk automatic recovery.
-
-Akibatnya artifact recovery yang baru dibuat belum menjadi mekanisme continuity yang dapat secara otomatis dipakai setelah uninstall/reinstall.
-
-Ini juga berarti perubahan terakhir yang menghapus password manual berhasil menghilangkan friction UI, tetapi belum menyelesaikan lifecycle secret. Statusnya OPEN/BLOCKED untuk automatic recovery.
-
-### Kesalahan Arsitektur yang Teridentifikasi
-
-Identity sekarang memiliki dependency order yang terbalik untuk kebutuhan continuity:
-
-```text
-CURRENT
-Identity = app-private state
-        ↓
-Storage namespace derived from identity
-        ↓
-Recovery artifact contains identity
-```
-
-Untuk continuity setelah app-private state hilang, minimal harus ada external durable source yang dapat mengembalikan identity sebelum identity baru dibuat.
-
-Saat ini tidak ada source tersebut yang terhubung ke startup/onboarding.
-
-### Consequence
-
-Ini menjelaskan langsung kenapa user dapat melihat:
-
-identity_id = 8b17657e-f640-4b26-8f8e-ef920877b089
-
-meskipun sebelumnya sudah pernah memiliki identity lain dan folder BaRe sudah dibuat.
-
-UUID baru tersebut bukan random bug; itu adalah expected result dari implementation saat bare_identity tidak tersedia.
-
-### Status Truth
-
-| Area | Status |
-|---|---|
-| UUID generation source | VERIFIED STATIC |
-| Identity persistence in SharedPreferences | VERIFIED STATIC || Identity lookup from canonical public storage before creation | MISSING |
-| Identity lookup from recovery artifact before creation | MISSING |
-| Android backup continuity | DISABLED BY MANIFEST (allowBackup=false) |
-| Existing BaRe folder as identity source | NOT IMPLEMENTED |
-| Full identity encoded in current folder name | NO; only derived 16-char mapping |
-| Automatic recovery secret lifecycle | OPEN / BLOCKED |
-| Uninstall → reinstall same identity | NOT IMPLEMENTED / NOT VERIFIED |
-| Clear data → same identity | NOT IMPLEMENTED / NOT VERIFIED |
-
-### Audit Conclusion
-
-ROOT CAUSE CONFIRMED: identity_id baru muncul karena LocalIdentityStore menganggap SharedPreferences sebagai satu-satunya durable identity source. Setelah app-private state hilang, createLocalIdentity() memang sengaja membuat UUID.randomUUID() baru. Tidak ada pre-creation reconciliation terhadap BaRe storage atau recovery state.
-
-Jadi pekerjaan yang salah bukan pada UUID generation itu sendiri, melainkan pada identity continuity architecture dan urutan bootstrap.
-
-### Required Next Engineering Boundary
-
-Identity harus dapat direkonsiliasi dari durable external state sebelum createLocalIdentity() membuat UUID baru. Desain berikutnya wajib menentukan source of truth dan recovery secret lifecycle terlebih dahulu; jangan sekadar mengganti UUID.randomUUID() dengan generator lain.
-
-Tidak ada Home change pada audit ini.
-master: NOT TOUCHED.
-
-## 2026-09-20 — Audit File-by-File Commit e43e4ba9 → 96fb5b3f
-
-### Authorization
-
-Pengguna memberikan GO untuk melakukan audit file-by-file terhadap rangkaian commit e43e4ba9 sampai 96fb5b3f, menyusun daftar KEEP / DROP, dan mencatat hasilnya ke worklog. Scope audit tidak menghapus atau mengubah docs/reference.md.
-
-### Scope dan Boundary
-
-- Repository: savie/BaRe.
-- Branch target: v1.0/rebaseline.
-- Base pembanding: a694bef551377b802178932d40b567d9a59ece35.
-- Head audit: 96fb5b3f25a6d1f62ce789b96f68bf21b8236289.
-- Range audited: 50 commit.
-- master: NOT TOUCHED.
-- docs/reference.md: KEEP UTUH; tidak termasuk file yang berubah pada compare a694bef... → 96fb5b3f.
-- Home: tidak menjadi target audit perubahan visual.
-
-### Metode Audit
+Pengguna memberikan **GO** untuk melanjutkan setelah runtime Apps menunjukkan installed apps bawaan/system terlihat tetapi app user-installed belum muncul, lalu melakukan audit capability Apps terhadap Swift Backup reference dan source BaRe aktual.
+
+### Runtime Evidence
+
+Pengguna memverifikasi build dengan CI run **#399** dan melaporkan:
+- installed system/internal apps terbaca;
+- setelah perubahan package visibility, app user-installed seperti WhatsApp juga muncul;
+- daftar Apps pada screenshot BaRe sekarang berisi User app dan System app secara aktual;
+- contoh user-installed yang terlihat antara lain 1DM+ dan Acode.
+
+Status:
+- CI #399: **SUCCESS**.
+- Installed-app discovery: **RUNTIME TESTED / USER-OBSERVED PASS**.
+- User/System classification: **USER-OBSERVED PASS**.
+- Filter All apps / User apps / System: **UNVERIFIED AS FUNCTIONAL**; pada source masih FilterPill statis.
+- Backup/restore Apps capability: **NOT IMPLEMENTED**; UI masih mockup.
+
+### Source Change Related to #399
+
+Perubahan yang diverifikasi pada source:
+- Manifest menambahkan QUERY_ALL_PACKAGES.
+- InstalledAppRepository menggunakan PackageManager.getInstalledApplications(0).
+- Repository memetakan label, package name, User/System classification, dan base APK file size.
+- Discovery diurutkan berdasarkan nama.
+- CI #399 membuktikan source/build untuk perubahan tersebut berhasil.
+
+### Reference Audit Scope
 
 Audit dilakukan terhadap:
-1. diff setiap commit pada range;
-2. file yang berubah pada keseluruhan compare;
-3. dependency antar commit;
-4. kesesuaian terhadap README dan dokumentasi canonical BaRe;
-5. reconciliation terhadap worklog sebelumnya;
-6. actual state pada HEAD 96fb5b3f.
+- docs/reference.md;
+- SwiftBackup-5.1.0-620-decompiled.zip pada project;
+- reference screenshots Apps yang diberikan pengguna;
+- source aktual BaRe branch v1.0/rebaseline.
+
+### Swift Apps Capability Findings
+
+Decompiled reference menunjukkan Apps mencakup lebih dari installed-app discovery:
+
+- Local apps dan Cloud synced apps context;
+- search;
+- sort dan ascending/descending;
+- app type User/System;
+- system-app subfilters;
+- favorites;
+- labels;
+- on-device backup status;
+- cloud sync status;
+- install status;
+- enabled status;
+- filters untuk multiple backups, protected backups, notes, older/newer APK relation, dan Google Play install source;
+- app detail dengan device/cloud backup state;
+- backup parts: APK, split APKs, app data, external data, OBB/expansion, media, cache, dan shared-library indicators;
+- backup/restore;
+- delete backup;
+- multiple-backup strategy;
+- protected backups;
+- local/cloud app-data backup limits;
+- encryption of app-data backups;
+- optional cache backup;
+- batch actions;
+- blacklist;
+- custom app configurations;
+- run configuration;
+- config-to-schedule binding;
+- quick actions;
+- app swipe actions;
+- app visibility diagnostics;
+- APK/APKS import/install;
+- missing-app restore;
+- newer-version restore;
+- special-data restore;
+- optional SSAID restore.
+
+Status seluruh reference capability di atas: **REFERENCE EVIDENCE ONLY**; tidak menjadi requirement BaRe secara otomatis.
+
+### BaRe Current Apps Reconciliation
+
+Current source membuktikan hanya discovery minimal yang functional:
+- installed package discovery;
+- User/System classification;
+- base APK size;
+- name sorting;
+- actual runtime visibility setelah QUERY_ALL_PACKAGES.
+
+Surface berikut masih mockup/static:
+- All/User/System filter;
+- search;
+- rich filter;
+- sort;
+- Local/Cloud context;
+- backup inventory;
+- app detail backup state;
+- backup/restore execution;
+- delete backup;
+- multiple-backup/protection/notes;
+- labels/favorites;
+- blacklist;
+- custom configurations;
+- batch actions;
+- quick actions;
+- swipe actions;
+- app visibility diagnostics;
+- APK/APKS installation flow;
+- missing/newer-version restore;
+- special-data/SSAID restore.
+
+### Documentation Update
+
+docs/reference.md diperbarui dengan section **24 — Apps domain capability reconciliation: Swift Backup reference vs BaRe current state**.
+
+Section tersebut memuat:
+- capability evidence reference;
+- detail filter model;
+- backup-part model;
+- current BaRe Apps implementation state;
+- gap matrix;
+- interpretation boundary;
+- shared foundation dependencies;
+- visual evidence dari screenshots pengguna.
+
+Commit documentation:
+- 395d61138aba77a22cddf5be343c40e6311017b7
+
+### Governance / Truth Boundary
+
+Audit ini **tidak** mengubah product scope menjadi feature parity dengan Swift Backup.
 
 Klasifikasi:
-- KEEP — dipertahankan sebagai bagian dari baseline/reconstruction.
-- KEEP + FIX — fondasi/arah benar, tetapi implementation saat ini harus diperbaiki atau direbuild sebagian.
-- DROP — tidak dipertahankan dalam reconstruction implementation karena boundary/semantics-nya sudah digantikan atau bertentangan dengan canonical direction.
-- REBUILD — konsep berguna tetapi implementation block perlu dibuat ulang berdasarkan contract yang sudah direkonsiliasi.
-
-### Hasil Compare
-
-Compare a694bef... → 96fb5b3f menunjukkan tepat 50 commit dan 15 file yang berubah/ditambahkan.
-
-File yang berubah:
-- app/build.gradle.kts
-- app/src/main/AndroidManifest.xml
-- app/src/main/java/com/bare/app/BaReApp.kt
-- app/src/main/java/com/bare/app/LocalIdentityStore.kt
-- app/src/main/java/com/bare/capability/RootCapabilityProvider.kt
-- app/src/main/java/com/bare/feature/account/RecoveryScreen.kt
-- app/src/main/java/com/bare/feature/onboarding/OnboardingScreens.kt
-- app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt
-- app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt
-- app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt
-- app/src/main/java/com/bare/storage/BackupStorageRepository.kt
-- app/src/main/java/com/bare/storage/StorageConfigurationStore.kt
-- app/src/main/res/values/strings.xml
-- app/src/test/java/com/bare/recovery/RecoveryPackageCodecTest.kt
-- docs/worklog.md
-
-docs/reference.md tidak berubah pada compare tersebut.
-
-### A. Audit Commit 1–10
-
-| # | Commit | Hasil | Alasan |
-|---|---|---|---|
-| 1 | 097e15a9 | KEEP | Dokumentasi recovery implication dari audit Swift; tidak mengubah implementation. Evidence/history dipertahankan. |
-| 2 | c4728659 | KEEP | Audit R3–R5 dan dependency reconciliation; menjadi historical engineering evidence. |
-| 3 | e43e4ba9 | KEEP + FIX | Boundary implementation pertama: encrypted recovery codec. Fondasi crypto/container masih berguna, tetapi v1 tidak menyelesaikan automatic bootstrap dan lifecycle secret. |
-| 4 | 2ac84a02 | KEEP + FIX | Recovery artifact repository dan partial→verify→rename berguna. Canonical storage boundary kemudian berubah; portable recovery tetap relevan. |
-| 5 | 2b116dd3 | DROP | RecoveryStorageBoundaryResolver menetapkan Document Tree sebagai boundary yang kemudian tidak menjadi canonical storage direction. |
-| 6 | 264fb6df | KEEP + FIX | Verification harness crypto berguna, tetapi test cleartext-header awal salah dan dikoreksi oleh commit berikutnya. |
-| 7 | a5fa7161 | KEEP | LocalIdentityStore mendapat export payload dan conflict-safe restore. Semantics ini penting untuk reconciliation. |
-| 8 | 9ea04118 | KEEP | JUnit dependency diperlukan oleh test recovery. |
-| 9 | 3c73d24f | KEEP | Memperbaiki test cleartext-header menjadi assertion yang benar. |
-| 10 | 8aebc076 | KEEP | Worklog mencatat authorization, implementation boundary, dan verification truth. |
-
-### B. Audit Commit 11–20
-
-| # | Commit | Hasil | Alasan |
-|---|---|---|---|
-| 11 | 2d7f6d2b | KEEP + FIX | Recovery UI tetap berguna, tetapi model password manual kemudian bertentangan dengan requirement app-managed secret. |
-| 12 | 1589bd6a | KEEP | Wiring Account → Import/Export valid dan tidak bergantung pada canonical storage initialization. |
-| 13 | 7104b428 | KEEP | Verification truth dan history harus dipertahankan. |
-| 14 | 767dbd3a | KEEP | Fix type comparison yang benar. |
-| 15 | dbf9952c | KEEP | Hardening Document Tree parent URI tetap relevan untuk portable recovery export/import. |
-| 16 | a46fbd54 | KEEP | Audit pre-Home menemukan dependency dan gap yang menjadi dasar Batch A. |
-| 17 | de2b9c6c | KEEP | Persistence boundary storage tetap diperlukan; implementation target kemudian berubah dari URI menjadi storage kind. |
-| 18 | f72ac062 | DROP | Menjadikan SAF sebagai canonical storage initializer; direction ini kemudian direbaseline sebagai salah. |
-| 19 | 02204543 | DROP | Hanya mengoreksi placeholder artifact pada implementation SAF yang kemudian dibuang sebagai canonical boundary. |
-| 20 | dbcc4f6b | KEEP | DocumentFile masih dipakai oleh portable recovery artifact path. |
-
-### C. Audit Commit 21–30
-
-| # | Commit | Hasil | Alasan |
-|---|---|---|---|
-| 21 | 412a64b0 | KEEP | Export ke initialized directory melalui DocumentFile tetap berguna untuk portable recovery. |
-| 22 | e59fc5ea | DROP / REBUILD | Integrasi onboarding versi ini mengikat canonical storage ke SAF dan meminta password manual. Lifecycle intent dipertahankan untuk rebuild, implementation block tidak. |
-| 23 | 50ec80cb | DROP / REBUILD | Copy UI mengunci password manual dan setup SAF yang sudah obsolete. |
-| 24 | d4b3faf1 | KEEP | Replacement artifact melalui partial file dan cleanup adalah pola integrity/atomicity yang berguna. |
-| 25 | 7b55ad99 | DROP | Guard BaRe/BaRe spesifik terhadap SAF tree root lama. Tidak diperlukan pada canonical direct filesystem boundary. |
-| 26 | a370f170 | KEEP | Dokumentasi Batch A dan boundary verification dipertahankan sebagai historical evidence. |
-| 27 | 0869318d | KEEP | Import coroutine diperlukan oleh current onboarding flow. |
-| 28 | 3b00d501 | KEEP | Context-based DocumentFile access tetap dibutuhkan pada portable recovery repository. |
-| 29 | d3a7b7ed | KEEP | Construction repository berbasis Context sesuai current implementation. |
-| 30 | c47b7d6d | KEEP | Fix construction contentResolver yang benar. |
-
-### D. Audit Commit 31–40
-
-| # | Commit | Hasil | Alasan |
-|---|---|---|---|
-| 31 | b51c64bf | KEEP | Onboarding menggunakan repository Context-aware. |
-| 32 | c4e4a2d5 | KEEP + FIX | Root capability directory initialization merupakan dependency canonical storage; ownership/permission tetap harus diverifikasi. |
-| 33 | 66fcad5b | KEEP + FIX | Rebaseline penting: canonical storage berpindah dari SAF ke direct filesystem INTERNAL/EXTERNAL + root capability. Direction dipertahankan. |
-| 34 | ce3507b9 | KEEP | Filesystem recovery artifact export dengan partial→decode→rename cocok dengan canonical storage. |
-| 35 | c3312412 | KEEP | Persist storage target sebagai kind INTERNAL/EXTERNAL sesuai canonical storage rebaseline. |
-| 36 | 3ae36269 | KEEP | MANAGE_EXTERNAL_STORAGE dipakai current canonical storage path; statusnya tetap capability/policy dependency, bukan proof runtime write. |
-| 37 | c2e9a22c | KEEP + FIX | Menghubungkan confirmation dengan direct canonical initialization dan settings gate. |
-| 38 | a00d156a | KEEP | Documentation/copy update merekam canonical storage behavior. |
-| 39 | df546a93 | KEEP | Mencatat rebaseline canonical storage dan alasan SAF → filesystem. |
-| 40 | e1bf964c | KEEP | Fix penting agar root volume permissions tidak diubah. |
-
-### E. Audit Commit 41–50
-
-| # | Commit | Hasil | Alasan |
-|---|---|---|---|
-| 41 | 9a43ae70 | KEEP | Memperjelas handling failure dari root directory initialization. |
-| 42 | 1e4f7f01 | KEEP | Resource string dan radio selection diperlukan dan tidak mengubah canonical storage contract. |
-| 43 | 780a2681 | KEEP | Resource English storage UI diperlukan dan konsisten dengan default language. |
-| 44 | 84670fc9 | KEEP + FIX | Penghapusan password manual sesuai requirement user dan secret generation internal adalah arah benar; lifecycle secret belum selesai. |
-| 45 | 2a1de60e | KEEP | Penyederhanaan copy storage location tidak mengubah core semantics. |
-| 46 | 820d0d98 | KEEP | Menghapus obsolete recovery password state dari onboarding. |
-| 47 | 2ce9acbe | KEEP | Root-cause audit identity continuity adalah evidence kritis. |
-| 48 | d3c94a69 | KEEP + FIX | Menambahkan pre-creation artifact scan dan bootstrap identity; direction benar tetapi masih perlu lifecycle, authorization, integrity, conflict, dan secret handling. |
-| 49 | b2c0ad85 | KEEP | Test membuktikan contract v2 bootstrap identity tanpa password. |
-| 50 | 96fb5b3f | KEEP | Pure Kotlin compatibility fix; tidak mengubah semantics recovery. |
-
-## File-by-File Decision Matrix
-
-### app/build.gradle.kts — KEEP
-Pertahankan JUnit 4.13.2 dan DocumentFile. DocumentFile tetap dibutuhkan portable recovery walaupun canonical storage sudah filesystem.
-
-### app/src/main/AndroidManifest.xml — KEEP + GOVERNANCE CHECK
-Pertahankan MANAGE_EXTERNAL_STORAGE untuk current direct shared-storage architecture. Permission ini tetap harus diperlakukan sebagai capability/policy dependency dan bukan bukti runtime write. Android mendokumentasikan all-files access untuk use case seperti backup/restore, dengan batasan policy yang perlu dipenuhi.
-
-### app/src/main/java/com/bare/app/BaReApp.kt — KEEP + FIX
-Pertahankan orchestration dan recovery-aware bootstrap. Perlu explicit handling ketika artifact ada tetapi tidak dapat diverifikasi, conflict state, dan lifecycle setelah destructive app-data loss.
-
-### app/src/main/java/com/bare/app/LocalIdentityStore.kt — KEEP + FIX
-Ini file paling kritis. Pertahankan SharedPreferences sebagai local state, LOCAL identity semantics, conflict-safe restore, dan loadOrRecover(). Perlu perbaikan artifact discovery, v1/v2 handling, multiple-artifact reconciliation, dan pemisahan identity bootstrap dari full payload recovery.
-
-### app/src/main/java/com/bare/capability/RootCapabilityProvider.kt — KEEP
-ensureDirectory() diperlukan oleh canonical storage. Root hanya membuat target directory tree; tidak boleh mengubah volume root. Input validation, timeout, dan fail-closed tetap dipertahankan.
-
-### app/src/main/java/com/bare/feature/account/RecoveryScreen.kt — KEEP + FIX
-Pertahankan Account → Import/Export, portable recovery UI, import/decode, dan conflict-safe restore. Recovery secret/password lifecycle perlu diputuskan ulang dan jangan menyamakan bootstrap identity dengan full-payload recovery.
-
-### app/src/main/java/com/bare/feature/onboarding/OnboardingScreens.kt — KEEP + REBUILD BLOCK
-File tetap dipertahankan karena onboarding/storage/access-method adalah boundary sebelum Home. Pertahankan INTERNAL/EXTERNAL selection, all-files settings gate, direct filesystem initialization, artifact creation, storage-kind persistence, dan Continue setelah initialization berhasil. Rebuild secret lifecycle dan error/status handling berdasarkan verification.
-
-### app/src/main/java/com/bare/recovery/RecoveryArtifactRepository.kt — KEEP + FIX
-Pertahankan portable SAF dan filesystem canonical boundary, partial write, read-back/decode, finalize, cleanup, replacement, dan import. Perlu audit crash consistency, version migration, corruption handling, dan permissions.
-
-### app/src/main/java/com/bare/recovery/RecoveryPackageCodec.kt — KEEP + FIX
-Pertahankan versioned container, PBKDF2-HMAC-SHA256, AES-256-GCM, authenticated header, validation, dan legacy v1 decode. v2 bootstrap identity adalah metadata, bukan secret. peekIdentity() memungkinkan bootstrap setelah app-data loss, tetapi full payload tetap membutuhkan key/secret. v1 tidak dapat bootstrap melalui peekIdentity(); migration harus eksplisit. Secret lifecycle masih OPEN.
-
-### app/src/main/java/com/bare/recovery/RecoveryStorageBoundary.kt — DROP
-Resolver ini tidak lagi menjadi source of truth. Portable SAF tetap tersedia langsung melalui RecoveryArtifactRepository; canonical storage menggunakan filesystem.
-
-### app/src/main/java/com/bare/storage/BackupStorageRepository.kt — KEEP + FIX
-Ini canonical storage implementation. Pertahankan INTERNAL/EXTERNAL, namespace BaRe/accounts/<identity>/backups, recovery directory, root fallback, all-files detection, dan removable storage discovery. Mapping identity-folder 16 karakter tetap OPEN dan belum boleh dianggap canonical identity representation.
-
-### app/src/main/java/com/bare/storage/StorageConfigurationStore.kt — KEEP
-Persist storage kind INTERNAL/EXTERNAL sesuai canonical storage rebaseline. Tidak perlu mengembalikan tree URI sebagai canonical state.
-
-### app/src/main/res/values/strings.xml — KEEP + FIX
-Pertahankan English default resource. Rewrite hanya string yang masih mengunci semantics obsolete seperti manual password onboarding atau SAF canonical selection.
-
-### app/src/test/java/com/bare/recovery/RecoveryPackageCodecTest.kt — KEEP + EXTEND
-Pertahankan round-trip, wrong-password, tamper, dan bootstrap identity. Tambahkan v1/v2 compatibility, malformed input, bootstrap mismatch, trailing bytes, multiple-artifact reconciliation, partial/corrupt artifact, dan secret lifecycle tests.
-
-### docs/worklog.md — KEEP
-Seluruh history tetap dipertahankan dan audit ini ditambahkan sebagai continuation.
-
-### docs/reference.md — KEEP UTUH / PROTECTED
-Tidak berubah dalam audit range. Reference evidence tidak menjadi target cleanup implementation.
-
-## Final KEEP / DROP Set
-
-### KEEP
-097e15a9, c4728659, e43e4ba9 + FIX, 2ac84a02 + FIX, 264fb6df + FIX, a5fa7161, 9ea04118, 3c73d24f, 8aebc076, 2d7f6d2b + FIX, 1589bd6a, 7104b428, 767dbd3a, dbf9952c, a46fbd54, de2b9c6c, dbcc4f6b, 412a64b0, d4b3faf1, a370f170, 0869318d, 3b00d501, d3a7b7ed, c47b7d6d, b51c64bf, c4e4a2d5 + FIX, 66fcad5b + FIX, ce3507b9, c3312412, 3ae36269, c2e9a22c + FIX, a00d156a, df546a93, e1bf964c, 9a43ae70, 1e4f7f01, 780a2681, 84670fc9 + FIX, 2a1de60e, 820d0d98, 2ce9acbe, d3c94a69 + FIX, b2c0ad85, 96fb5b3f.
-
-### DROP dari reconstruction implementation
-- 2b116dd3 — canonical SAF resolver direction.
-- f72ac062 — SAF sebagai canonical storage initializer.
-- 02204543 — correction terhadap initializer SAF obsolete.
-- e59fc5ea — onboarding implementation yang mengikat canonical storage ke SAF + manual password; lifecycle intent dipertahankan untuk rebuild.
-- 50ec80cb — copy contract untuk manual-password/SAF setup.
-- 7b55ad99 — nested BaRe guard spesifik SAF.
-
-DROP berarti tidak dipilih sebagai implementation yang akan direplay/reconstruct. Commit history dan evidence tetap berada di Git; tidak ada history deletion.
-
-## Reconstructed Architecture Boundary
-
-Recovery crypto foundation
-→ Artifact repository
-→ Conflict-safe identity restore
-→ Portable recovery via SAF
-→ Canonical storage rebaseline
-→ Direct INTERNAL / EXTERNAL filesystem
-→ Root / MANAGE_EXTERNAL_STORAGE capability
-→ Pre-Home initialization
-→ App-managed recovery secret
-→ Identity bootstrap from durable .bare metadata.
-
-Yang dibuang dari reconstruction adalah SAF sebagai canonical storage boundary, bukan seluruh recovery foundation.
-
-### Current Critical Open Items
-
-1. Identity bootstrap: source implementation ada; runtime clear-data proof belum dinyatakan VERIFIED dari audit ini.
-2. Uninstall → reinstall: belum terbukti end-to-end.
-3. Recovery secret lifecycle: OPEN. Secret onboarding saat ini dibuat, dipakai untuk encryption, lalu di-zero. Ini cukup untuk bootstrap identity v2 karena identity metadata tersedia tanpa password, tetapi belum cukup untuk automatic full-payload recovery.
-4. Artifact versioning: v1 dapat didecode tetapi tidak menyediakan bootstrap identity; migration/upgrade strategy belum closed.
-5. Canonical identity namespace: current folder mapping masih derived 16-character value.
-6. Runtime verification: audit static tidak menaikkan status runtime.
-
-### Engineering Conclusion
-
-Audit result: COMPLETED — implementation range telah direkonsiliasi tanpa menghapus reference evidence.
-
-Kesimpulan utama:
-- a694bef bukan boundary “semua sesudahnya salah”.
-- e43e4ba9 adalah awal implementation recovery yang nyata.
-- Recovery crypto, artifact repository, conflict-safe restore, portable recovery, root capability, direct canonical storage, dan identity bootstrap adalah bagian yang dapat dipertahankan.
-- SAF canonical storage adalah branch implementation yang harus DROP, bukan seluruh recovery system.
-- Password manual onboarding harus DROP, sementara app-managed secret direction tetap KEEP + FIX.
-- Identity bootstrap dari .bare adalah KEEP + FIX karena langsung menjawab root cause continuity.
-- docs/reference.md dipertahankan utuh dan tidak disentuh oleh audit.
-- docs/worklog.md menerima record audit ini.
-- Tidak ada hard reset, revert massal, cherry-pick, atau perubahan implementation dilakukan sebagai bagian audit ini.
-
-### Status Truth
-
-| Area | Status |
-|---|---|
-| Commit range e43e4ba9 → 96fb5b3f audited | VERIFIED STATIC |
-| File-level decision matrix | RECORDED |
-| KEEP/DROP commit list | RECORDED |
-| reference.md preserved | VERIFIED STATIC |
-| Canonical SAF direction | DROPPED FROM RECONSTRUCTION |
-| Canonical direct filesystem direction | KEEP / CURRENT BASELINE |
-| Identity bootstrap direction | KEEP + FIX |
-| Recovery secret lifecycle | OPEN / BLOCKED FOR FULL AUTOMATIC RECOVERY |
-| Clear-data runtime continuity | NOT VERIFIED BY THIS AUDIT |
-| Uninstall/reinstall continuity | NOT VERIFIED BY THIS AUDIT |
-| master | NOT TOUCHED |
-
-### Next Authorized Boundary
-
-Audit tidak otomatis melakukan cleanup Git.
-
-Jika cleanup implementation berikutnya diotorisasi, replay/reconstruction harus dimulai dari KEEP set di atas:
-Preserve reference/history → Preserve canonical direct-storage baseline → Preserve recovery foundation → Drop obsolete SAF-canonical onboarding path → Rebuild identity bootstrap + secret lifecycle → Compile → Unit test → Runtime clear-data verification → Runtime uninstall/reinstall verification.
-
-
-## 2026-09-20 — Runtime Verification #375: Clear Data PASS, Uninstall/Reinstall FAIL
-
-### User Runtime Result
-
-Pengguna melakukan verifikasi terhadap APK/build **#375**.
-
-- **Clear data:** PASS.
-  - Existing `.bare` artifact tetap dapat digunakan.
-  - Identity lama berhasil dipertahankan.
-- **Uninstall → install:** FAIL.
-  - Setelah aplikasi di-uninstall lalu di-install kembali, BaRe menghasilkan UUID baru.
-  - Artinya continuity setelah uninstall/reinstall belum tercapai.
-
-Status evidence:
-- Clear-data continuity: **OBSERVED PASS / user runtime evidence**.
-- Uninstall/reinstall continuity: **OBSERVED FAIL / user runtime evidence**.
-- CI build #375: **VERIFIED SUCCESS** pada GitHub Actions run `35455804306`, head `96fb5b3f25a6d1f62ce789b96f68bf21b8236289`.
-
-### Reconciliation terhadap Source Aktual
-
-Source `LocalIdentityStore.loadOrRecover()` saat ini melakukan bootstrap dari SharedPreferences, lalu `findRecoveryArtifacts()`, lalu `peekIdentity(.bare)`, lalu `restoreBootstrapIdentity()`.
-
-Namun `findRecoveryArtifacts()` hanya dapat membaca filesystem public ketika proses aplikasi mempunyai akses yang diperlukan terhadap storage target.
-
-Source bootstrap dipanggil saat startup melalui `BaReApp`, sebelum lifecycle storage-access UI dijalankan.
-
-Manifest saat ini menggunakan `MANAGE_EXTERNAL_STORAGE`. Permission/capability tersebut tidak boleh diasumsikan tetap tersedia setelah aplikasi di-uninstall dan di-install ulang.
-
-### Inference — ROOT CAUSE CANDIDATE
-
-Perbedaan antara dua test mengarah pada kemungkinan berikut:
-
-```text
-CLEAR DATA
-Shared storage + permission/capability
-        ↓
-.bare masih dapat dibaca
-        ↓
-UUID lama dipulihkan
-        ↓
-PASS
-
-UNINSTALL → INSTALL
-app-private state hilang
-+ permission/capability dapat kembali menjadi tidak granted
-        ↓
-startup loadOrRecover() mencoba scan public storage
-        ↓
-artifact tidak terbaca / tidak terdiscover
-        ↓
-loadOrRecover() = null
-        ↓
-createLocalIdentity()
-        ↓
-UUID baru
-        ↓
-FAIL
-```
-
-Ini masih **INFERENCE / ROOT-CAUSE CANDIDATE**, bukan root cause final yang sudah terinstrumentasi.
-
-### Hal yang Sudah Terbukti
-
-1. Recovery artifact mechanism bekerja pada kondisi clear-data.
-2. `peekIdentity()` v2 dapat menyediakan identity sebelum password.
-3. UUID baru masih dibuat ketika `loadOrRecover()` gagal menemukan candidate.
-4. Jadi problem uninstall/reinstall bukan lagi sekadar ketiadaan algoritma recovery; problem berada pada **availability/discovery boundary sebelum identity bootstrap** atau lifecycle artifact/permission setelah uninstall.
-
-### Hal yang Belum Terbukti
-
-Belum dibedakan secara runtime apakah kegagalan uninstall/reinstall disebabkan oleh:
-- `MANAGE_EXTERNAL_STORAGE` kembali tidak granted setelah reinstall;
-- artifact public benar-benar terhapus oleh uninstall pada target device;
-- artifact berada pada storage root yang tidak terdiscover oleh `storageVolumes`;
-- permission tersedia tetapi filesystem enumeration gagal;
-- atau kondisi lain pada startup ordering.
-
-Tidak boleh mengunci satu penyebab sebagai VERIFIED tanpa observasi tersebut.
-
-### Engineering Boundary Berikutnya
-
-Jangan mengubah UUID generator.
-
-Bootstrap identity perlu fail-safe terhadap uninstall/reinstall:
-
-```text
-STARTUP
-    ↓
-local identity?
-    ├─ yes → use
-    └─ no
-       ↓
-public artifact discoverable?
-    ├─ yes → recover old identity
-    └─ no
-       ↓
-storage capability/access state?
-    ├─ not available → DO NOT silently mint new identity
-    └─ available → retry reconciliation
-       ↓
-only when proven no durable identity exists
-       ↓
-create new UUID
-```
-
-Prioritas investigasi:
-1. verifikasi state `Environment.isExternalStorageManager()` setelah reinstall;
-2. verifikasi keberadaan `.bare` sebelum first launch;
-3. verifikasi apakah `findRecoveryArtifacts()` dapat enumerate artifact pada kondisi tersebut;
-4. tambahkan observable bootstrap result/error state agar failure discovery tidak berubah diam-diam menjadi UUID baru;
-5. baru setelah evidence tersebut, implementasikan fix yang tepat.
-
-### Status Truth
-
-| Area | Status |
-|---|---|
-| Build #375 | **CI VERIFIED SUCCESS** |
-| Clear data → same UUID | **USER RUNTIME OBSERVED PASS** |
-| Uninstall → install → same UUID | **USER RUNTIME OBSERVED FAIL** |
-| `.bare` v2 bootstrap | **IMPLEMENTED / STATIC VERIFIED** |
-| Public artifact survives uninstall | **UNKNOWN** |
-| Storage capability survives uninstall | **UNKNOWN** |
-| Artifact enumeration after reinstall | **UNKNOWN** |
-| Root cause uninstall failure | **INFERENCE / NOT VERIFIED** |
-| New UUID fallback still reachable | **VERIFIED STATIC** |
-| Home | **NOT CHANGED** |
-| master | **NOT TOUCHED** |
-
-### Conclusion
-
-**Identity continuity sekarang terbukti hanya sampai clear-data. Uninstall/reinstall masih gagal.**
-
-Ini mempersempit masalah secara material: mekanisme `.bare` sudah cukup untuk recovery pada kondisi clear-data, tetapi bootstrap setelah uninstall masih bergantung pada kondisi public-storage discovery/access yang belum terbukti.
-
-Tidak ada source change pada record ini.
-
-## 2026-09-20 — Runtime Verification #384: Onboarding Storage Access Gate
-
-### Pekerjaan Saat Ini
-
-Melakukan verifikasi runtime terhadap APK **#384** setelah perbaikan onboarding state transition dan pre-identity storage inspection.
-
-### Implementasi yang Diverifikasi
-
-- **Backup Storage** menjadi gate sebelum capability access berikutnya.
-- Saat **All Files Access belum diberikan**, flow kembali/bertahan di **Backup Storage** dan tidak meneruskan onboarding ke Access Method.
-- Saat **All Files Access dipilih/diberikan**, flow dapat lanjut ke **Access Method** dan kemudian **HOME**.
-- Pre-identity storage inspection tetap menampilkan pilihan storage sebelum identity bootstrap selesai.
-- Perbaikan compile pada pre-identity external storage inspection tercatat pada commit `559947e57ac7f4e444920bf02fd23a5cb5fe0209`.
-
-### User Runtime Result
-
-Pengguna melakukan test langsung terhadap build **#384** dan menyatakan flow tersebut sesuai secara logis:
-
-```
-Welcome
-  ↓
-Local
-  ↓
-Backup Storage
-  ├─ belum All Files Access → kembali/bertahan Backup Storage
-  └─ All Files Access       → Access Method → HOME
-```
-
-Status evidence:
-- Backup Storage sebagai gate: **USER RUNTIME OBSERVED**
-- Tanpa All Files Access → kembali ke Backup Storage: **USER RUNTIME OBSERVED**
-- Dengan All Files Access → Access Method → HOME: **USER RUNTIME OBSERVED**
-- UX loop Storage → Access → Storage → ...: **USER RUNTIME OBSERVED FIXED**
-
-### CI Verification
-
-- GitHub Actions **#384**: **CI VERIFIED SUCCESS**.
-- Run ID: `35477035746`
-- Head: `559947e57ac7f4e444920bf02fd23a5cb5fe0209`
-- Branch: `v1.0/rebaseline`
-- Workflow conclusion: `success`
-
-### Status Truth
-
-| Area | Status |
-|---|---|
-| Build #384 | **CI VERIFIED SUCCESS** |
-| Backup Storage gate | **USER RUNTIME OBSERVED** |
-| No All Files Access → Backup Storage | **USER RUNTIME OBSERVED** |
-| All Files Access → Access Method → HOME | **USER RUNTIME OBSERVED** |
-| Onboarding loop | **USER RUNTIME OBSERVED FIXED** |
-| Home visual | **NOT CHANGED** |
-| master | **NOT TOUCHED** |
-
-### Kesimpulan
-
-Flow onboarding #384 yang diverifikasi runtime sekarang mengikuti boundary capability yang lebih jelas: **Backup Storage menunggu storage access; setelah All Files Access tersedia, onboarding lanjut ke Access Method lalu HOME**.
-
-Tidak ada perubahan source tambahan yang dilakukan dari hasil verifikasi runtime ini.
-
-
-## 2026-09-20 — Baseline Clarification After #384 / Recovery Track
-
-### User-Verified Current State
-
-- Build **#384** is the current onboarding baseline.
-- Flow **Welcome → Local → Backup Storage → Access Method → HOME** is already runtime-verified on #384. This flow is not reopened here.
-- **Uninstall → install → continuity:** user reports the old identity is recovered successfully **as long as the existing .bare artifact is not manually deleted**.
-- Therefore the current continuity evidence is stronger than the earlier #375 record: the durable .bare artifact is functioning as the continuity source across reinstall when it remains present and discoverable.
-- Identity remains the full UUID, e.g. `bd4d74f1-30e2-4c06-8b49-123eb145066e`.
-- The account directory name in storage is a derived/shortened representation of that identity; this is a storage namespace detail, not a replacement for the canonical full UUID.
-
-### Recovery Artifact Version Status
-
-- Runtime-generated .bare artifact is still observed as **V1**, not V2.
-- The codebase already contains RecoveryPackageCodec V2 bootstrap metadata support, but this does **not** prove that the production writer path is emitting V2.
-- This creates a concrete implementation gap: **codec V2 exists, while the actual .bare writer/export path still needs inspection and alignment**.
-
-### Parallel Workstreams
-
-The following tracks are intentionally allowed to progress in parallel:
-
-1. **Onboarding:** #384 baseline is accepted and should not be reopened unless a regression appears.2. **Identity / Recovery:** migrate the actual production .bare writer/export path from V1 output to the intended V2 format, while preserving existing continuity behavior and compatibility with existing artifacts.
-
-These are separate workstreams but share the same identity → storage namespace → recovery artifact boundary. Progress on one does not require reopening the completed onboarding work.
-
-### Current Status Truth
-
-| Area | Status |
-|---|---|
-| Build #384 | **CI VERIFIED SUCCESS** |
-| Welcome → Local → Storage → Access → Home | **USER RUNTIME OBSERVED PASS** |
-| Home | **ACCEPTED / NOT TOUCHED** |
-| Uninstall → reinstall with existing .bare retained | **USER RUNTIME OBSERVED PASS** |
-| .bare runtime output version | **USER OBSERVED V1** |
-| RecoveryPackageCodec V2 implementation | **STATIC PRESENT** |
-| Actual production .bare writer emits V2 | **UNKNOWN / TO BE INSPECTED** |
-| Full UUID as canonical identity | **CURRENT SEMANTICS** |
-| Account folder short name | **DERIVED STORAGE REPRESENTATION** |
-| Onboarding workstream | **BASELINE / CLOSED FOR CURRENT SCOPE** |
-| Recovery writer/version workstream | **NEXT AUTHORIZED TASK** |
-| master | **NOT TOUCHED** |
-
-### Next Authorized Task
-
-Inspect the **actual .bare writer/export path** used by onboarding/runtime and determine why the produced artifact is V1 despite V2 codec support. Then:
-
-**Inspect → identify exact writer path → minimal fix → compile/unit regression test → runtime verification → record evidence.**
-
-No speculative fix and no reopening of the completed onboarding audit.
-
-
-## 2026-09-20 — Runtime Verification #389: Identity / Artifact Balance dan SHA-256
-
-### Evidence Runtime
-
-Pengguna melakukan verifikasi langsung terhadap APK **#389** dengan baseline Local identity / short account representation:
-
-`e0614ae07f324b61`.
-
-Hasil runtime yang dicatat:
-
-1. **Update APK**, tanpa menghapus `*.bare` → `bare_id` tetap sama dengan state awal.
-2. **Clear data**, tanpa menghapus `*.bare` → `bare_id` tetap sama dengan state awal.
-3. **Ganti access method NON-ROOT → ROOT**, tanpa menghapus `*.bare` → `bare_id` tetap sama.
-4. **Clear data + ROOT** → langsung masuk HOME.
-5. **Clear data + NON-ROOT** → langsung masuk HOME.
-6. **Ulang ROOT** → langsung masuk HOME.
-7. **Uninstall → install**, `*.bare` dipertahankan, mode NON-ROOT → langsung HOME.
-8. **Uninstall → install**, `*.bare` dipertahankan, mode ROOT → langsung HOME.
-9. **Hapus `*.bare`** → `*.bare` dibuat kembali dan state identity tetap sama.
-10. **Hapus `*.bare` + clear data** → baru dibuat `bare_id` baru.
-
-Evidence runtime di atas dicatat sebagai **USER RUNTIME OBSERVED**.
-
-### Artifact SHA-256 Verification
-
-Pengguna menghitung SHA-256 artifact `*.bare` pada beberapa kondisi:
-
-- ROOT: `0a2225073a6b88777f2604151289e1999cae6fb93018c2657e288205084c941b`
-- NON-ROOT: `0a2225073a6b88777f2604151289e1999cae6fb93018c2657e288205084c941b`
-
-Interpretasi:
-- ROOT ↔ NON-ROOT menghasilkan **SHA-256 identik**, sehingga pada test tersebut byte artifact tidak berubah hanya karena access method berubah.
-
-Setelah clear data:
-- SHA-256: `c2faa16bb0dc01f34c799b5551bc816091aa546af7635f4f80fc7296cf5ad4a3`
-- Berbeda dari artifact sebelumnya, sehingga artifact hasil clear data **tidak byte-identical** dengan artifact sebelumnya.
-
-Setelah `*.bare` dihapus dan dibuat kembali:
-- SHA-256: `a1609e2e03282a089146aaf7dae721f2ccf493e3a8c3a64e2d9836f030823c21`
-- Berbeda dari dua SHA sebelumnya.
-
-Catatan penting: SHA berbeda hanya membuktikan byte file berbeda; SHA berbeda **tidak** membuktikan identity berbeda. Sebaliknya, SHA sama membuktikan byte file identik pada dua kondisi yang dibandingkan.
-
-### Recovery / Balance Model Observed
-
-Runtime #389 mendukung model berikut:
-
-```
-bare_id ada + *.bare ada
-        ↓
-identity state dipertahankan
-
-bare_id hilang + *.bare tetap ada
-        ↓
-identity lama direkonstruksi
-
-bare_id tetap ada + *.bare hilang
-        ↓
-*.bare direkonstruksi dengan identity lama
-
-bare_id hilang + *.bare hilang
-        ↓
-fresh state → identity baru + *.bare baru
-```
-
-Perpindahan ROOT/NON-ROOT tidak menjadi perubahan identity dan tidak mengubah byte artifact pada test #389.
-
-### Verification Gap yang Tetap Terbuka
-
-Test #389 **belum membuktikan**:
-
-- bahwa `bare_id` lokal selalu sama dengan **full canonical identityId** di dalam artifact;
-- bahwa kecocokan folder derived/short identity bukan satu-satunya dasar verifikasi;
-- bahwa artifact memiliki **device binding** yang dapat membedakan artifact device A dan device B;
-- bahwa `*.bare` dari device lain akan ditolak meskipun membawa identity ID yang sama;
-- bahwa access-method switch tidak mengubah payload terenkripsi; SHA hanya membuktikan byte-level equality untuk artifact yang dibandingkan.
-
-Dengan demikian, verifikasi identity yang lebih ketat tetap menjadi gap terpisah dari behavior reconciliation yang sudah terbukti secara runtime.
-
-### Status Truth
-
-| Area | Status |
-|---|---|
-| Build #389 | **USER REPORT: CI GREEN** |
-| Update APK → same identity | **USER RUNTIME OBSERVED PASS** |
-| Clear data + retained `.bare` → same identity | **USER RUNTIME OBSERVED PASS** |
-| ROOT ↔ NON-ROOT → same identity | **USER RUNTIME OBSERVED PASS** |
-| ROOT ↔ NON-ROOT → artifact SHA unchanged | **USER RUNTIME OBSERVED PASS** |
-| Uninstall/reinstall + retained `.bare` → same identity | **USER RUNTIME OBSERVED PASS** |
-| Delete `.bare` → recreate with existing identity | **USER RUNTIME OBSERVED PASS** |
-| Delete `.bare` + clear data → new identity | **USER RUNTIME OBSERVED PASS** |
-| Exact full identityId ↔ artifact verification | **OPEN** |
-| Device A ↔ Device B boundary | **NOT TESTED / BLOCKED BY TEST ENVIRONMENT** |
-| Device-bound cryptographic verification | **NOT IMPLEMENTED / OPEN** |
-| Home | **ACCEPTED / NOT TOUCHED** |
-| master | **NOT TOUCHED** |
-
-### Conclusion
-
-Build/runtime #389 memperkuat bahwa reconciliation lokal sekarang mengikuti model **balanced state** yang diinginkan: identity lama dipertahankan selama salah satu durable side masih tersedia, sedangkan identity baru dibuat ketika kedua sisi hilang.
-
-Verifikasi SHA-256 juga menunjukkan bahwa perubahan access method ROOT/NON-ROOT tidak mengubah artifact pada test ini. Namun, SHA tidak menggantikan verifikasi semantic identity maupun device binding.
-
-Test berikutnya yang paling informatif adalah **dua device**, bila environment memungkinkan: gunakan artifact/state dari device A pada device B dan pastikan artifact foreign-device tidak diterima sebagai LOCAL identity B. Sampai test tersebut tersedia, status device-bound verification tetap OPEN.
-
-
-## 2026-09-20 — Recovery Boundary Audit + Apps Discovery Foundation
-
-### 1. Production `.bare` writer
-Current source shows `RecoveryArtifactRepository.exportToFile()` → `RecoveryPackageCodec.encode()` with `VERSION = 2` and default `bare-recovery-v2.bare`; the artifact is decoded before final rename. Current HEAD therefore has a V2 production writer. No writer change was required.
-
-### 2. `.bare` contract
-Current codec implements BREC/V2, PBKDF2-HMAC-SHA-256 (310000 iterations), random salt/nonce, AES-256-GCM authenticated header, duplicated identity bootstrap/payload consistency check, 64 KiB payload limit, partial-write/finalize flow, and fail-closed parsing. Existing tests cover current version, round-trip, wrong password, tamper, and passwordless bootstrap identity.
-
-### 3. Failure-path
-Source already rejects unsupported version/KDF, invalid parameters, invalid payload length, trailing data, tamper, wrong password, and identity conflict. Dedicated malformed/truncated runtime tests remain a verification gap.
-
-### 4. Multiple artifact reconciliation
-`LocalIdentityStore.loadOrRecover()` scans `bare-recovery-v2.bare` candidates, extracts bootstrap identities, rejects conflicting identities, and ignores unreadable candidates. Runtime test with multiple real artifacts remains UNVERIFIED.
-
-### 5. Device boundary
-OPEN / UNVERIFIED. No device-A → device-B evidence exists in the current environment. No implementation change made without a defined target behavior.
-
-### 6. Broader APK capability — App Discovery
-Implemented real installed-app discovery using PackageManager, mapping label/package/system-vs-user/base-APK size, sorting by label, and exposing loading/error/empty states. `QUERY_ALL_PACKAGES` is declared because the product capability requires broad package discovery; Android 11+ package visibility remains a platform constraint. Runtime verification is still required.
-
-### Verification boundary
-CI/build after this change is the next gate. Device verification of App Discovery is still REQUIRED.
+- **OBSERVED / VERIFIED:** source dan CI #399 untuk installed-app discovery.
+- **USER-OBSERVED:** runtime user-installed apps tampil.
+- **REFERENCE EVIDENCE:** capability Swift Backup.
+- **GAP:** capability reference yang belum ditemukan sebagai implementation fungsional BaRe.
+- **PROPOSAL INPUT:** foundation/dependency map.
+- **NOT A REQUIREMENT:** seluruh daftar reference capability sampai ada keputusan/requirement canonical BaRe.
+
+### Next
+
+Prioritas berikutnya tidak otomatis berarti mengimplementasikan seluruh gap sekaligus. Gunakan dependency/evidence untuk memilih capability Apps berikutnya.
+
+Immediate verification gap yang terlihat dari runtime/source:
+1. Functional User/System filtering.
+2. Search.
+3. Sort/filter state model.
+4. App metadata/detail state.
+5. Backup inventory sebelum execution.
+6. Capability/precondition model sebelum tombol Backup/Restore dibuat functional.
+
+master tidak disentuh.
