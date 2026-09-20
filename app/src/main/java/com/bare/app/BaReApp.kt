@@ -271,7 +271,12 @@ private fun MainShell(
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APPS_TOOLS -> AppsToolsScreen(onOpenScreen, onBack)
             Screen.APP_DETAIL -> AppDetailScreen(selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName), onOpenScreen, onBack)
+            Screen.APP_BACKUP -> AppBackupScreen(selectedApp, onBack, onOpenScreen)
+            Screen.APP_BACKUPS -> AppBackupsScreen(selectedApp, onBack)
+            Screen.APP_MANAGEMENT -> AppManagementScreen(selectedApp, onBack)
             Screen.APP_CONFIG -> AppConfigScreen(selectedApp, onBack)
+            Screen.APP_DIAGNOSTICS -> AppDiagnosticsScreen(selectedApp, onBack)
+            Screen.APP_RESTORE -> AppRestoreScreen(selectedApp, onBack)
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
             else -> MiscScreen(screen, onBack)
         }
