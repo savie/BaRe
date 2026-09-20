@@ -3381,3 +3381,70 @@ Implementasi berikutnya harus:
 ### Explicit Boundary
 
 This record is a **pre-implementation plan/decision record**, not a verification result. Runtime success/failure will be recorded separately after execution.
+
+## 2026-09-20 — Apps Capability Target: 43 Reference Capabilities as BaRe Scope
+
+### Decision
+
+Pengguna menetapkan bahwa daftar 43 capability Apps hasil audit Swift Backup menjadi **target capability scope untuk domain Apps BaRe**.
+
+Target tersebut berarti setiap capability harus pada akhirnya memiliki bentuk UI/flow yang dapat digunakan di BaRe, tetapi **tidak harus menyalin desain, layout, navigation, screen count, terminology presentation, atau flow Swift Backup**.
+
+### BaRe Design Boundary
+
+- Implementasi UX mengikuti shell, architecture, terminology, state model, dan interaction pattern BaRe.
+- Satu capability reference tidak harus menjadi satu halaman.
+- Beberapa capability dapat digabung dalam satu screen, contextual menu, detail surface, configuration flow, batch flow, atau task flow.
+- Penempatan dan navigation ditentukan oleh BaRe selama capability dan dependency-nya tetap ter-cover.
+- Reference Swift berfungsi sebagai capability evidence/target discovery, bukan implementation template.
+- Mockup/surface yang mewakili capability boleh dibuat lebih dahulu sebelum backend/runtime implementation.
+- Mockup tidak boleh dicatat sebagai functional/verified capability.
+
+### Target 43 Capability
+
+Target Apps mencakup capability reference yang telah direkonsiliasi sebelumnya, termasuk:
+- local/cloud app context;
+- search;
+- sort;
+- User/System dan system-app filtering;
+- favorites;
+- labels;
+- on-device/cloud/install/enabled status;
+- multiple/protected/notes/older-newer APK/Google Play filters;
+- app detail and backup state;
+- APK, split APK, app data, external data, OBB/expansion, media, cache, shared-library backup parts;
+- backup/restore/delete;
+- multiple-backup strategy;
+- backup limits;
+- app-data encryption;
+- batch actions;
+- blacklist;
+- custom configurations;
+- run configuration and configuration-to-schedule binding;
+- quick actions;
+- per-app actions/swipe actions;
+- app visibility diagnostics;
+- APK/APKS import/install;
+- missing-app restore;
+- newer-version restore;
+- special-data restore;
+- optional SSAID restore.
+
+### Status Boundary
+
+- Target list: **DECISION / SCOPE**.
+- Current discovery: **IMPLEMENTED + runtime verified/observed**.
+- Current Apps header and per-app contextual UI: **IMPLEMENTED UI**, pending latest runtime regression evidence where applicable.
+- Remaining capability surfaces: **PARTIAL / MOCKUP / UNIMPLEMENTED** according to current source.
+- Functional implementation and runtime verification remain separate lifecycle stages.
+
+### Execution Order
+
+Immediate task after header alignment:
+1. establish/mock the 43-capability Apps surface in BaRe-native UX;
+2. map each capability to screen/action/state/dependency;
+3. then implement capability behavior incrementally;
+4. preserve installed-app discovery as protected baseline;
+5. verify each capability and regression-test existing domains.
+
+This scope does not authorize unrelated domains or imply feature parity outside Apps.
