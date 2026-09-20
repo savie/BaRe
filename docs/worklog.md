@@ -3528,3 +3528,71 @@ Search + Sort sudah functional. Next work masuk ke **Apps foundation vertical sl
 ### Berikutnya
 
 Inspect source aktual Apps/AppState/InstalledAppRepository dan existing App Detail/mockup sebelum perubahan. Bentuk query/state contract minimal yang dapat menampung search + sort + filter tanpa merusak behavior yang sudah verified. Setelah itu implement #4/#9/#15 secara bertahap, CI, runtime verification, dan update worklog evidence.
+
+## 2026-09-21 — Apps Foundation Slice: #4 Filter + #9 Enabled Status + #15 Detail Metadata
+
+### Implementation
+
+GO executed against the authorized Apps vertical slice.
+
+Implemented:
+- #4 User/System filtering now uses explicit `AppItem.isSystem` state instead of comparing localized display strings.
+- #9 installed-app repository now exposes `ApplicationInfo.enabled` through `AppItem.isEnabled`.
+- #15 App Detail now presents the selected real installed app's category, APK size, and enabled/disabled state.
+- Existing Search and Sort behavior remains in the same Apps query path.
+- Installed-app discovery remains the protected baseline; no repository discovery mechanism was replaced.
+- Backup/Restore actions in App Detail remain non-functional mockup actions.
+
+### Architecture Direction
+
+The current minimal Apps state flow is:
+
+```
+InstalledAppRepository
+        ↓
+AppItem
+ ├── isSystem
+ └── isEnabled
+        ↓
+AppsScreen
+ ├── Search
+ ├── Sort
+ └── User/System filter
+        ↓
+App Detail
+ └── metadata + runtime package state
+```
+
+This is intentionally incremental. A larger query/domain abstraction was not introduced before evidence showed it was necessary.
+
+### Truth Status
+
+| Capability | Status |
+|---|---|
+| Installed app discovery | **IMPLEMENTED + RUNTIME VERIFIED/USER-OBSERVED** |
+| Search | **FUNCTIONAL** |
+| Sort | **FUNCTIONAL** |
+| #4 User/System filtering | **IMPLEMENTED / RUNTIME VERIFICATION PENDING** |
+| #9 Install + enabled status | **PARTIAL IMPLEMENTATION / RUNTIME VERIFICATION PENDING** |
+| #15 App Detail | **PARTIAL IMPLEMENTATION / RUNTIME VERIFICATION PENDING** |
+| #39 Visibility diagnostics | **NOT IMPLEMENTED / DEFERRED** |
+| Backup/Restore execution | **NOT IMPLEMENTED** |
+
+### Verification
+
+- Source changes committed incrementally through latest commit `9729dc7aacb06c5ffeeba6bb03bd215e84667ff8`.
+- CI workflow for the latest commit had not yet appeared when this record was written.
+- Runtime/device verification has **not** been claimed for this slice.
+- No claim is made that #4/#9/#15 are verified until CI and device evidence are available.
+
+### Next
+
+1. Verify CI for latest commit.
+2. If CI is green, runtime-test Apps:
+   - All/User/System filters;
+   - enabled/disabled state in App Detail;
+   - opening the correct selected app from list/search;
+   - Search + Sort regression.
+3. Keep #39 deferred unless runtime evidence reveals a real visibility problem requiring diagnostics.
+4. Do not start Backup/Restore execution from this slice.
+
