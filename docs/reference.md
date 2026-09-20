@@ -397,8 +397,7 @@ ITEM
 ```text
 NO_BACKUP
 LOCAL_BACKUP_AVAILABLE
-CLOUD_BACKUP_AVAILABLE
-LOCAL_AND_CLOUD_AVAILABLE
+CLOUD_BACKUP_AVAILABLELOCAL_AND_CLOUD_AVAILABLE
 BACKUP_IN_PROGRESS
 RESTORE_IN_PROGRESS
 BACKUP_FAILED
@@ -798,7 +797,6 @@ UI *task* harus mengekspos mengapa sebuah operasi diblokir/dilewati/gagal. *Spin
 *Verification*: `OBSERVED_STATIC`.
 
 ### S21 — Diagnostics / logs
-
 *Evidence*  
 `SLogActivity`; referensi `SwiftLogger`; *diagnostics cloud*; *diagnostics app visibility*; *string diagnostik restore/backup*; pemeriksaan *storage/transfer*.
 
@@ -1197,8 +1195,7 @@ app/
      │   ├── search/
      │   └── importexport/
      └── ...
-```
-Ini adalah proposal, bukan keputusan implementasi saat ini.  
+```Ini adalah proposal, bukan keputusan implementasi saat ini.  
 Batas tersebut harus mengikuti tanggung jawab yang sebenarnya:
 ```text
 Feature UI
@@ -1597,8 +1594,7 @@ REFERENCE RUNTIME VERIFICATION
 * BaRe `v1.0/rebaseline` — *shell* FE saat ini digunakan untuk perbandingan celah.
 
 *Public evidence*
-* SwiftApps: https://www.swiftapps.org/
-* SwiftApps FAQ: https://www.swiftapps.org/faq
+* SwiftApps: https://www.swiftapps.org/* SwiftApps FAQ: https://www.swiftapps.org/faq
 * SwiftApps Configs: https://www.swiftapps.org/configs
 * SwiftApps Issues: https://www.swiftapps.org/issues
 * Google Play: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup
@@ -1997,8 +1993,7 @@ same backup visibility?
 dan juga belum membuktikan:
 ```
 clear data
-factory reset
-ROM replacement
+factory resetROM replacement
 new device
 ```
 
@@ -2206,3 +2201,294 @@ Untuk BaRe, reference-derived direction yang muncul dari audit ini adalah:
 - recovery artifact menjadi **continuity/recovery mechanism**, bukan canonical identity itu sendiri.
 
 **Status:** `REFERENCE-DERIVED / PROPOSAL INPUT`. Ini belum menjadi implementation contract atau keputusan final BaRe.
+
+## 24 — Apps domain capability reconciliation: Swift Backup reference vs BaRe current state
+
+### Scope
+
+Audit khusus **domain Apps** berdasarkan:
+- docs/reference.md existing audit;
+- decompiled artifact **Swift Backup 5.1.0 (620)** yang tersedia pada project;
+- visual reference screenshots yang diberikan pengguna;
+- source aktual BaRe branch v1.0/rebaseline.
+
+Audit ini hanya membandingkan **capability/reference evidence**. Keberadaan class, string, layout, atau mockup tidak dianggap sebagai runtime proof.
+
+### 24.1 Swift Backup Apps — capability evidence
+
+Static/decompiled evidence menunjukkan bahwa Apps bukan hanya inventory installed packages. Surface Apps memiliki setidaknya concern berikut:
+
+| Capability / workflow | Reference evidence | Status reference |
+|---|---|---|
+| Local apps inventory | AppListActivity, local-app menu | OBSERVED_STATIC |
+| Cloud-synced apps inventory | menu_apps_switch.xml, cloud_synced_apps | OBSERVED_STATIC |
+| Search apps | menu_apps.xml, search_hint_apps | OBSERVED_STATIC |
+| Sort apps | filter bottom sheet, sort, ascending, descending, install/update/backup metadata | OBSERVED_STATIC |
+| App-type filtering | app_type, user/system filters | OBSERVED_STATIC |
+| System-app subfilters | system_apps, launchable/updated/labelled-or-favorites indicators | OBSERVED_STATIC |
+| Favorites | FavoriteApp, FavoriteAppsRepo, favorites/not-favorites filters | OBSERVED_STATIC |
+| Labels | LabelsActivity, LabelEditActivity, label data/model | OBSERVED_STATIC |
+| On-device backup status filter | backed-up / not-backed-up state | OBSERVED_STATIC |
+| Cloud-sync status filter | synced / not-synced state | OBSERVED_STATIC |
+| Install-status filter | installed / not-installed | OBSERVED_STATIC |
+| Enabled-status filter | enabled / disabled | OBSERVED_STATIC |
+| Multiple-backup filter | apps_with_multiple_backpus | OBSERVED_STATIC |
+| Protected-backup filter | apps_with_protected_backpus | OBSERVED_STATIC |
+| Notes filter | backups_with_notes | OBSERVED_STATIC |
+| Older/newer APK relation | installed_apps_with_older_backups, installed_apps_with_newer_backups | OBSERVED_STATIC |
+| Google Play install-source filter | installed_from_google_play, not_installed_from_google_play | OBSERVED_STATIC |
+| Per-app detail | AppInfoActivity, app detail layouts/models | OBSERVED_STATIC |
+| Device/cloud backup state | DetailModels$DeviceBackupStates, DetailModels$CloudBackupStates | OBSERVED_STATIC |
+| App backup parts | APK, split APKs, app data, external data, expansion/OBB, media, cache, shared libraries indicators | OBSERVED_STATIC |
+| App backup | backup task/manager/helper classes and UI | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| App restore | restore task/manager/helper classes and UI | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| Delete local/device backups | backup delete strings/actions | OBSERVED_STATIC |
+| Multiple-backup strategy | single/dated/conditional strategy resources/settings | OBSERVED_STATIC |
+| Protected backup | protected backup resources/settings | OBSERVED_STATIC |
+| Backup data size limits | AppBackupLimitsActivity and local/cloud limit fields | OBSERVED_STATIC |
+| Encryption of app data backups | encrypt_app_data and security/config resources | OBSERVED_STATIC |
+| Backup cache option | backup_cache and warning/summary | OBSERVED_STATIC |
+| Batch operations | AppsBatchActivity, batch menu/layout | OBSERVED_STATIC |
+| Batch search/filter/select-all | batch menu contains search, filter, select-all | OBSERVED_STATIC |
+| Batch app backup settings | batch menu entry to app backup settings | OBSERVED_STATIC |
+| Labels/favorites/blacklist management | dedicated activities/data/repositories | OBSERVED_STATIC |
+| Blacklist behavior | BlacklistActivity, blacklist mode, hide or APK-only behavior | OBSERVED_STATIC |
+| Custom app configurations | ConfigListActivity, ConfigEditActivity, ConfigSettingsActivity | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| Run configuration now | AppsConfigRunActivity | OBSERVED_STATIC |
+| Schedule configuration | reference Configs can be attached to schedules | DOCUMENTED_PUBLIC |
+| Quick actions | AppsQuickActionsActivity and quick-action layouts | OBSERVED_STATIC |
+| App swipe actions | AppSwipeActionsActivity, swipe-action persistence | OBSERVED_STATIC |
+| App visibility diagnostics | AppVisibilityDiagnosticsActivity; raw PackageManager package count/search/share | OBSERVED_STATIC |
+| APK/APKS import/install | APK import layouts/strings; installer flow incl. root/Shizuku/system installer | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| Restore runtime/special data | special-data restore details include permissions/settings/access-related items | OBSERVED_STATIC |
+| App SSAID restore option | restore_app_ssaids resources and reboot note | OBSERVED_STATIC |
+| Missing-app restore | restore_missing_apps | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+| Newer-version restore | restore_newer_versions | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
+
+### 24.2 Filter model reference — detail yang perlu dipertahankan
+
+Decompiled filter_bottom_dialog.xml memperlihatkan struktur filter yang lebih kaya daripada tiga pill pada BaRe saat ini:
+
+    SORT
+      ├── sort selector
+      └── ascending / descending
+
+    FILTER
+      ├── App type
+      │    └── System app filters
+      ├── Favorites
+      ├── App Labels
+      ├── On-device backup
+      ├── Cloud sync
+      ├── Install status
+      ├── Enabled status
+      └── Miscellaneous
+           ├── Apps with multiple backups
+           ├── Apps with Protected backups
+           ├── Backups with notes
+           ├── Backups with older APKs
+           ├── Backups with newer APKs
+           ├── Installed from Google Play
+           └── Not installed from Google Play
+
+Reference juga memiliki:
+
+    Local apps
+    Cloud synced apps
+
+sebagai context switch, bukan sekadar User/System filter.
+
+Status: OBSERVED_STATIC.
+
+### 24.3 Backup-part model reference
+
+Evidence resource/source menunjukkan bahwa App backup configuration tidak berhenti pada APK:
+
+    APP
+    ├── Base APK
+    ├── Split APKs
+    ├── App data
+    ├── External data
+    ├── Expansion / OBB
+    ├── Media
+    ├── Cache [optional]
+    └── Shared libraries [reference evidence]
+
+Configuration juga berkaitan dengan:
+
+    Backup destination
+    ├── Device
+    ├── Cloud
+    └── Device + Cloud
+
+    Multiple backups
+    ├── Single
+    ├── Dated
+    └── Conditional
+
+    Security
+    ├── Encryption
+    └── protected backup
+
+    Limits
+    └── local/cloud app-data size limits
+
+Cache memiliki warning khusus karena dapat menghasilkan backup berukuran sangat besar. Status seluruh model di atas adalah reference evidence; bukan requirement BaRe.
+
+### 24.4 Current BaRe Apps state — source actual
+
+Pada source aktual branch v1.0/rebaseline saat audit:
+
+**Implemented / source-backed**
+- Installed app discovery menggunakan Android PackageManager.getInstalledApplications(0).
+- Mapping minimal: label/name, package name, User/System classification, base APK file size.
+- Sorting saat load berdasarkan nama.
+- Runtime user-installed apps sudah terobservasi muncul setelah QUERY_ALL_PACKAGES ditambahkan ke manifest.
+- CI #399: SUCCESS untuk perubahan permission tersebut.
+- Visual screen sudah menampilkan daftar installed apps aktual.
+
+**Mockup / UI shell only**
+- All apps / User apps / System pada Apps screen masih berupa FilterPill statis; belum ada state/filter transition.
+- Import APK / APKS masih routing ke IMPORT_EXPORT surface.
+- Labels & Favorites masih routing ke MANAGEMENT.
+- Protected backups masih routing ke MANAGEMENT.
+- App detail menampilkan daftar backup parts dengan semua CheckRow bernilai aktif/static; belum ada capability detection atau backup inventory.
+- Tombol Backup dan Restore pada App detail belum memiliki execution handler.
+- Multiple backups, Custom configuration, dan Management masih membuka surface/mockup.
+- AppConfigScreen adalah generic mockup dengan daftar: backup parts, compression, encryption, multiple backups, protection, notes, schedule.
+
+### 24.5 Gap matrix — reference vs BaRe
+
+| Area | Swift reference | BaRe current | Classification |
+|---|---|---|---|
+| Installed app discovery | Yes | Yes | PARTIAL |
+| User/System classification | Yes | Yes | PARTIAL |
+| Local/Cloud app context | Yes | No | GAP |
+| Search | Yes | No functional implementation | GAP |
+| Sort | Yes | No functional implementation | GAP |
+| Rich filtering | Yes | Only static pills | GAP |
+| Favorites | Yes | Field exists in mock model only | GAP |
+| Labels | Yes | Navigation/mockup only | GAP |
+| On-device backup state | Yes | No | GAP |
+| Cloud sync state | Yes | No | GAP |
+| Install status | Yes | No | GAP |
+| Enabled status | Yes | No | GAP |
+| Multiple/protected/notes/old-new APK filters | Yes | No | GAP |
+| Play-source filter | Yes | No | GAP |
+| App detail | Yes | UI mockup | PARTIAL |
+| Device/cloud backup inventory | Yes | No | GAP |
+| Backup parts capability | Yes | Static list only | GAP |
+| Backup execution | Yes | Button no-op | GAP |
+| Restore execution | Yes | Button no-op | GAP |
+| Delete backup | Yes | No | GAP |
+| Multiple backup strategy | Yes | Mockup only | GAP |
+| Protection | Yes | Mockup only | GAP |
+| App-data size limits | Yes | No | GAP |
+| App-data encryption | Yes | No Apps-specific implementation | GAP |
+| Cache option | Yes | Static label only | GAP |
+| Batch select/actions | Yes | No | GAP |
+| Blacklist | Yes | Mockup/management only | GAP |
+| Custom configurations | Yes | Mockup only | GAP |
+| Run config | Yes | No | GAP |
+| Config → schedule | Yes | No | GAP |
+| Quick actions | Yes | No | GAP |
+| Swipe actions | Yes | No | GAP |
+| App visibility diagnostics | Yes | No | GAP |
+| APK/APKS import/install | Yes | UI entry only | GAP |
+| Missing-app restore | Yes | No | GAP |
+| Newer-version restore | Yes | No | GAP |
+| Special-data restore | Yes | No | GAP |
+| SSAID restore | Yes | No | GAP |
+
+### 24.6 Interpretation boundary
+
+Matrix di atas **bukan ranking**, bukan keputusan parity, dan bukan requirement final BaRe. Ini adalah **discovery gap map**:
+
+    REFERENCE EVIDENCE
+            ↓
+    capability present in Swift
+            ↓
+    compare against actual BaRe source
+            ↓
+    CURRENT / PARTIAL / GAP
+
+GAP berarti capability reference tersebut belum ditemukan sebagai implementation fungsional pada source BaRe saat audit. GAP tidak berarti capability tersebut wajib masuk scope v1.0.
+
+### 24.7 High-value shared foundations sebelum Apps execution
+
+Dari dependency evidence, beberapa capability Apps bergantung pada foundation yang belum sepenuhnya tersedia:
+
+    Package inventory
+          │
+          ├── search / filter / sort
+          ├── app metadata/state
+          └── visibility diagnostics
+
+    Backup inventory
+          │
+          ├── local repository
+          ├── cloud repository
+          ├── version/history
+          ├── protection
+          └── notes/tags
+
+    Backup engine
+          │
+          ├── APK / split APK
+          ├── app data
+          ├── external data / OBB
+          ├── media / cache
+          └── integrity / encryption
+
+    Operation/task model
+          │
+          ├── precondition/capability
+          ├── progress
+          ├── per-item result
+          ├── partial success
+          └── post-condition verification
+
+    Management/configuration
+          │
+          ├── labels
+          ├── favorites
+          ├── blacklist
+          ├── app configs
+          └── schedule binding
+
+Reference-derived conclusion:
+
+> Apps discovery adalah fondasi inventory, tetapi **belum sama dengan Apps backup/restore capability**.
+
+Karena BaRe saat ini baru memiliki discovery minimal, pekerjaan berikutnya sebaiknya tidak langsung menyalin seluruh surface reference. Capability perlu ditutup satu per satu berdasarkan dependency, product scope, dan verification evidence.
+
+### 24.8 Additional reference evidence from user-provided visual screenshots
+
+Screenshot reference yang diberikan menunjukkan beberapa surface Apps yang relevan:
+- LOCAL APPS dengan jumlah app, search, filter, dan batch-action entry;
+- context switch Local apps ↔ Cloud synced apps;
+- per-item card menampilkan package name, app name, backup state (No backup on device pada contoh);
+- filter surface yang memisahkan Sort dan Filter serta menyediakan kategori filter bertingkat;
+- quick/management surface berisi Quick actions, App Labels, Custom configurations, Blacklist, App backup settings.
+
+Status: OBSERVED_VISUAL dari reference screenshots pengguna.
+
+### 24.9 Audit conclusion
+
+Current BaRe Apps state:
+
+    Package discovery
+          ↓
+    RUNTIME USER-OBSERVED PASS
+          ↓
+    UI inventory
+          ↓
+    PARTIAL IMPLEMENTATION
+          ↓
+    backup / restore / management / filter / cloud / config
+          ↓
+    NOT IMPLEMENTED OR MOCKUP
+
+Jadi untuk domain Apps saja, gap reference masih material. Namun gap tersebut sekarang sudah terpetakan secara lebih granular sehingga implementasi berikutnya dapat dipilih berdasarkan dependency dan evidence, bukan berdasarkan tampilan mockup semata.
+
+**Status:** REFERENCE_RECONCILED / APPS_GAP_MATRIX_UPDATED / RUNTIME_REFERENCE_NOT_PERFORMED.
