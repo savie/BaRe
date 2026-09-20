@@ -48,6 +48,20 @@ class BackupStorageRepository(private val context: Context) {
         return StorageInitialization(root, recovery)
     }
 
+    fun hasDurableLocalState(identityId: String, kind: BackupStorage.Kind): Boolean {
+        if (identityId.isBlank()) return false
+        val root = storageRoot(kind) ?: return false
+        val identityDirectory = File(root, "BaRe/accounts/" + identityFolder(identityId))
+        val backups = File(identityDirectory, "backups")
+        val recovery = File(identityDirectory, "recovery")
+        val artifact = File(recovery, "bare-recovery-v2.bare")
+        return identityDirectory.isDirectory &&
+            backups.isDirectory &&
+            recovery.isDirectory &&
+            artifact.isFile &&
+            artifact.length() > 0L
+    }
+
     fun canInitialize(kind: BackupStorage.Kind): Boolean {
         if (kind != BackupStorage.Kind.INTERNAL && kind != BackupStorage.Kind.EXTERNAL) return false
         val root = storageRoot(kind) ?: return false
