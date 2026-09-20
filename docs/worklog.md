@@ -3302,3 +3302,82 @@ Immediate verification gap yang terlihat dari runtime/source:
 6. Capability/precondition model sebelum tombol Backup/Restore dibuat functional.
 
 master tidak disentuh.
+
+## 2026-09-20 — Apps UI Shell Proposal: Apps-Specific Header dan Per-Item Actions
+
+### Discussion / Authorization
+
+Pengguna menyetujui arah untuk mengejar capability Apps secara bertahap, tetapi sebelum implementasi meminta pembahasan dan kemudian memberikan persetujuan untuk mencatat rencana UI scope Apps sebelum eksekusi.
+
+### Scope
+
+Rencana ini **khusus domain Apps** dan tidak mengubah global shell/tab navigation domain lain.
+
+Proposed Apps-specific UI shell:
+
+- Apps tetap berada pada tab utama BaRe.
+- Saat route aktif adalah Apps, header dapat menggunakan layout khusus Apps.
+- Header Apps dapat menyediakan title/count context, Search action, dan Apps-specific menu/filter action (ikon garis tiga).
+- Domain lain tetap menggunakan header/shell yang sudah ada.
+
+Proposed per-app contextual action:
+
+- Setiap installed-app item dapat memiliki action affordance titik tiga.
+- Titik tiga membuka contextual action surface untuk app yang dipilih.
+- Action yang tampil nantinya harus berasal dari capability/action state aktual; UI tidak boleh menampilkan action executable yang belum memiliki implementation/precondition.
+
+### Relationship to Current Apps Discovery
+
+Implementasi UI shell ini harus mempertahankan:
+- InstalledAppRepository;
+- actual installed-app discovery;
+- User/System classification;
+- base APK size;
+- current runtime behavior verified by user;
+- existing loading/error/empty states.
+
+Tidak boleh melakukan perubahan yang dapat merusak Apps discovery yang sudah terverifikasi.
+
+### Compatibility Boundary
+
+Perubahan dibatasi pada:
+- Apps screen/header;
+- Apps list item presentation;
+- Apps-specific menu/contextual actions;
+- supporting Apps UI state only.
+
+Tidak mengubah:
+- Home;
+- Schedules;
+- Account;
+- onboarding;
+- identity/recovery;
+- canonical storage;
+- recovery artifact;
+- unrelated capabilities.
+
+### Implementation Strategy
+
+Implementasi berikutnya harus:
+1. inspect current Apps UI/source;
+2. preserve existing discovery repository and data contract;
+3. introduce Apps-specific header/menu with minimal state;
+4. introduce per-app titik tiga affordance without pretending unsupported actions work;
+5. keep existing app detail/navigation intact;
+6. run CI before runtime testing;
+7. verify Apps discovery regression and other-tab regression;
+8. record evidence after runtime test.
+
+### Truth Status
+
+- Apps-specific header/menu: **PROPOSAL AUTHORIZED FOR IMPLEMENTATION**.
+- Per-app titik tiga: **PROPOSAL AUTHORIZED FOR IMPLEMENTATION**.
+- Search/filter/sort functionality: **SEPARATE FOLLOW-UP CAPABILITY**, not implicitly implemented by this UI shell change.
+- Backup/restore actions: **NOT AUTHORIZED AS FUNCTIONAL IMPLEMENTATION** by this record.
+- Current Apps discovery: **PROTECTED BASELINE**.
+- Other domains: **PROTECTED BASELINE**.
+- Worklog entry itself does not claim implementation success.
+
+### Explicit Boundary
+
+This record is a **pre-implementation plan/decision record**, not a verification result. Runtime success/failure will be recorded separately after execution.
