@@ -3735,3 +3735,45 @@ Namun sebelum implementation, dua mismatch harus dianggap explicit:
 Implement **APP-01 foundation** setelah planning boundary ini: introduce the smallest dedicated detail/workspace contract, reconcile the existing App Detail FE to that contract, preserve Apps discovery/search/sort/filter behavior, then CI and runtime verification.
 
 Do **not** begin full backup/restore execution from APP-01 merely because the workspace now exists.
+
+## 2026-09-21 — APP-01 Foundation Implementation / CI Verification Pending
+
+### USER SAID
+- GO untuk menjalankan implementasi APP-01 foundation sesuai planning/inspection sebelumnya.
+
+### IMPLEMENTATION
+- Added `AppDetailsRepository` as a dedicated package-detail provider.
+- Added `AppDetails` foundation contract for:
+  - identity/name/package
+  - category/system state
+  - version name/code
+  - install/update timestamps
+  - enabled state
+  - installed APK count and aggregate APK size
+  - launch capability availability
+  - Android App Info capability availability
+- App Detail now reloads live package state from PackageManager instead of rendering the selected list snapshot as the source of truth.
+- Navigation retains the selected package identity separately from the list object.
+- Removed the synthetic `demoApps.first()` fallback from App Detail.
+- Preserved Apps discovery/search/sort/User/System filtering and the existing Apps navigation surface.
+- Backup inventory/parts remain explicitly downstream/mockup surfaces; this slice does not claim backup/restore execution.
+
+### EVIDENCE / VERIFICATION
+- Git commits created on `v1.0/rebaseline`:
+  - `e7490810eade15a321936f22b00dc8c9b604373b` — AppDetailsRepository
+  - `ec4cb59af55cb117e3ae71b3ff95d55d0dee07e9` — App Detail binding
+  - `ca3ca100909210a00f9f84a7604a6ac2d3100d44` — foundation strings
+  - `ca8ab58228827537fa755dfedc962739f703a0e9` — stable package identity
+- GitHub Actions run #443 was triggered for `ca8ab58228827537fa755dfedc962739f703a0e9`; current observed state is `in_progress`.
+- Local build could not be executed because this runtime has no external DNS/network access to GitHub.
+- Therefore source implementation is **implemented, CI verification pending, runtime device verification pending**.
+
+### SCOPE BOUNDARY
+- Enable/Disable, Force Stop, Uninstall, Launch execution, Share APK, App Info execution, storage statistics, backup inventory, and backup/restore execution are not claimed implemented by this slice.
+- The foundation exposes only capability availability for Launch/App Info; it does not fake successful execution.
+
+### NEXT
+- Verify CI #443.
+- If CI passes, install/run the resulting APK and verify App Detail against at least enabled and disabled installed apps while confirming Apps search/sort/User/System behavior remains unchanged.
+- Then close the APP-01 foundation verification gap before moving to downstream action slices.
+
