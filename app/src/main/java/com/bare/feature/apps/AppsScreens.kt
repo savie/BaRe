@@ -108,8 +108,8 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         val filtered = apps.filter { app ->
             val matchesScope = when (scope) {
                 AppScope.ALL -> true
-                AppScope.USER -> app.category == context.getString(R.string.user_app)
-                AppScope.SYSTEM -> app.category == context.getString(R.string.system_app)
+                AppScope.USER -> !app.isSystem
+                AppScope.SYSTEM -> app.isSystem
             }
             val matchesQuery = query.isBlank() ||
                 app.name.lowercase().contains(query) ||
@@ -429,6 +429,11 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         Text(item.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
                         Text(item.packageName)
                         Text(item.category + " • " + item.size)
+                        Text(
+                            if (item.isEnabled) stringResource(R.string.enabled) else stringResource(R.string.disabled),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = if (item.isEnabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.error,
+                        )
                     }
                 }
             }
