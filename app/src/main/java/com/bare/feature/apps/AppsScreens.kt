@@ -30,6 +30,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
     val repository = remember(context) { InstalledAppRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
+    var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(repository) {
         runCatching { repository.load() }
@@ -44,7 +45,6 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
 
     LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item {
-            Text(stringResource(R.string.apps), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.apps_summary))
         }
         item {
@@ -62,17 +62,61 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
         when {
             error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
             apps.isEmpty() -> item { Text("No visible installed apps") }
-            else -> items(apps) { app ->
-                Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
-                    Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
-                            Text(app.name.take(1), fontWeight = FontWeight.Bold)
-                        }
-                        Spacer(Modifier.width(12.dp))
-                        Column(Modifier.weight(1f)) {
-                            Text(app.name, fontWeight = FontWeight.Bold)
-                            Text(app.packageName, style = MaterialTheme.typography.bodySmall)
-                            Text(app.category + " • " + app.size, style = MaterialTheme.typography.labelSmall)
+            else -> items(apps, key = { it.packageName }) { app ->
+                Box(Modifier.fillMaxWidth()) {
+                    Card(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable { onOpenApp(app) }
+                    ) {
+                        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Box(
+                                Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                                Alignment.Center
+                            ) {
+                                Text(app.name.take(1), fontWeight = FontWeight.Bold)
+                            }
+                            Spacer(Modifier.width(12.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(app.name, fontWeight = FontWeight.Bold)
+                                Text(app.packageName, style = MaterialTheme.typography.bodySmall)
+                                Text(app.category + " • " + app.size, style = MaterialTheme.typography.labelSmall)
+                            }
+                            Box {
+                                IconButton(onClick = { selectedMenuPackage = app.packageName }) {
+                                    Icon(Icons.Default.MoreVert, contentDescription = "App actions")
+                                }
+                                DropdownMenu(
+                                    expanded = selectedMenuPackage == app.packageName,
+                                    onDismissRequest = { selectedMenuPackage = null }
+                                ) {
+                                    DropdownMenuItem(
+                                        text = { Text("App details") },
+                                        leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                                        onClick = {
+                                            selectedMenuPackage = null
+                                            onOpenApp(app)
+                                        }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Custom configuration") },
+                                        leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                                        onClick = {
+                                            selectedMenuPackage = null
+                                            onOpenApp(app)
+                                            onOpen(Screen.APP_CONFIG)
+                                        }
+                                    )
+                                    DropdownMenuItem(
+                                        text = { Text("Management") },
+                                        leadingIcon = { Icon(Icons.Default.Build, contentDescription = null) },
+                                        onClick = {
+                                            selectedMenuPackage = null
+                                            onOpen(Screen.MANAGEMENT)
+                                        }
+                                    )
+                                }
+                            }
                         }
                     }
                 }
