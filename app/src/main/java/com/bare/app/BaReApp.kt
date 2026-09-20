@@ -97,6 +97,7 @@ fun BaReApp() {
     var returnToAppAfterFlow by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
+    var appsSearchOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
 
@@ -223,13 +224,15 @@ fun BaReApp() {
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
+                    { appsSearchOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; screen = Screen.APP_DETAIL },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
                     { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
-                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod
+                    screen, selectedApp, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
+                    appsSearchOpen, { appsSearchOpen = it }
                 )
             }
         }
@@ -245,6 +248,7 @@ private fun MainShell(
     onSearchQueryChange: (String) -> Unit,
     onOpenSearch: () -> Unit,
     onCloseSearch: () -> Unit,
+    onOpenAppsSearch: () -> Unit,
     onTabSelected: (Int) -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
@@ -257,6 +261,8 @@ private fun MainShell(
     hasAccount: Boolean,
     accountEmail: String,
     accessMethod: AccessMethod?,
+    appsSearchOpen: Boolean,
+    onAppsSearchOpenChange: (Boolean) -> Unit,
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
@@ -302,7 +308,7 @@ private fun MainShell(
                 },
                 actions = {
                     IconButton(onClick = {
-                        if (appsSelected) onOpenScreen(Screen.APPS_SEARCH) else onOpenSearch()
+                        if (appsSelected) onOpenAppsSearch() else onOpenSearch()
                     }) {
                         Icon(Icons.Outlined.Search, stringResource(R.string.search))
                     }
@@ -316,28 +322,8 @@ private fun MainShell(
                                 onDismissRequest = { appsMenuOpen = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Browse, sort & filter") },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APPS_TOOLS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text("Management & batch actions") },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APPS_TOOLS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text("Backup, restore & configuration") },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APPS_TOOLS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text("Import, diagnostics & restore variants") },
+                                    text = { Text("Apps tools & capability map") },
+                                    leadingIcon = { Icon(Icons.Default.Tune, contentDescription = null) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APPS_TOOLS)
@@ -373,7 +359,12 @@ private fun MainShell(
                     onOpenAccessMethod = onOpenAccessMethod,
                     onOpenStorage = onOpenStorage,
                 )
-                Tab.APPS -> AppsScreen(onOpenScreen, onOpenApp)
+                Tab.APPS -> AppsScreen(
+                    onOpen = onOpenScreen,
+                    onOpenApp = onOpenApp,
+                    searchOpen = appsSearchOpen,
+                    onSearchOpenChange = onAppsSearchOpenChange,
+                )
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
                 Tab.ACCOUNT -> AccountScreen(onOpenScreen)
             }
