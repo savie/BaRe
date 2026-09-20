@@ -273,13 +273,34 @@ private fun MainShell(
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     Scaffold(
         topBar = {
-            if (appsSelected) {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.apps), fontWeight = FontWeight.Bold) },
-                    actions = {
-                        IconButton(onClick = onOpenSearch) {
-                            Icon(Icons.Outlined.Search, stringResource(R.string.search))
-                        }
+            TopAppBar(
+                modifier = Modifier.height(96.dp),
+                title = {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "B Λ R E",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 5.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                        Text(
+                            text = stringResource(R.string.brand_tagline),
+                            style = MaterialTheme.typography.labelSmall,
+                            letterSpacing = 3.5.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onOpenSearch) {
+                        Icon(Icons.Outlined.Search, stringResource(R.string.search))
+                    }
+                    if (appsSelected) {
                         Box {
                             IconButton(onClick = { appsMenuOpen = true }) {
                                 Icon(Icons.Default.Menu, contentDescription = "Apps menu")
@@ -312,34 +333,8 @@ private fun MainShell(
                             }
                         }
                     }
-                )
-            } else {
-                TopAppBar(
-                    modifier = Modifier.height(96.dp),
-                    title = {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                        ) {
-                            Text(
-                                text = "B Λ R E",
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 5.sp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            )
-                            Text(
-                                text = stringResource(R.string.brand_tagline),
-                                style = MaterialTheme.typography.labelSmall,
-                                letterSpacing = 3.5.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    },
-                    actions = { IconButton(onClick = onOpenSearch) { Icon(Icons.Outlined.Search, stringResource(R.string.search)) } },
-                )
-            }
+                },
+            )
         },
         bottomBar = {
             NavigationBar {
