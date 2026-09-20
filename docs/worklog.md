@@ -4018,3 +4018,36 @@ Quick Actions (**APP-37**) tetap dianggap access/shortcut layer, bukan functiona
 ### NEXT
 
 Setelah dokumentasi ini stabil, lanjut ke **UI-first implementation planning** untuk Apps berdasarkan 7-group IA + APP-01 foundation, dengan mockup existing sebagai FE contract/evidence. Jangan langsung masuk global Account settings sebelum scope Account/global configuration memang dimulai.
+
+## 2026-09-21 — Apps IA: surface 7 functional groups
+
+### USER SAID
+
+- **GO** untuk membuat mapping 7 functional groups Apps yang sebelumnya didiskusikan menjadi UI.
+
+### DECISION / BOUNDARY
+
+- 7 groups ditampilkan sebagai capability/IA map di **Apps tools**, bukan sebagai 7 top-level navigation menus.
+- Primary product navigation tetap kontekstual:
+  - G1 Discovery & Filtering → Apps list / Options
+  - G2 Action & Management → App Detail / ⋮
+  - G3 Backup → App Detail → Backup
+  - G4 Restore / Install → App Detail → Restore
+  - G5 Batch Operations → Apps list → Selection mode
+  - G6 Configuration → App Detail → Configuration
+  - G7 Diagnostics → App Detail → Diagnostics
+- Tidak mengubah protected Apps discovery/search/sort/User/System surface pada slice ini.
+- Tidak menambah runtime capability baru; ini adalah perubahan FE/IA visibility.
+
+### IMPLEMENTATION
+
+- Menambahkan explicit 7-group summary surface pada AppsToolsScreen.
+- Setiap group menampilkan ID, nama, ringkasan, dan primary UI surface.
+- Capability detail map yang sudah ada tetap dipertahankan di bawah group summary.
+- Tidak mengklaim seluruh capability inventory sudah implemented hanya karena group map tampil.
+
+### VERIFICATION
+
+- Source change committed pada commit `ac346667202f63b29baa2619ad9bdbc0066c5e08`.
+- CI/build verification: **PENDING**.
+- Device/runtime visual verification: **PENDING**.
