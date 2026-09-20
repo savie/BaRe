@@ -17,7 +17,7 @@ class RecoveryArtifactRepository(
         treeUri: Uri,
         payload: RecoveryPackageCodec.Payload,
         password: CharArray,
-        fileName: String = "bare-recovery-v1.bare",
+        fileName: String = "bare-recovery-v2.bare",
     ): Uri {
         require(treeUri.scheme == "content" && DocumentsContract.isTreeUri(treeUri)) {
             "recovery storage must be a document-tree URI"
@@ -57,7 +57,7 @@ class RecoveryArtifactRepository(
         directoryUri: Uri,
         payload: RecoveryPackageCodec.Payload,
         password: CharArray,
-        fileName: String = "bare-recovery-v1.bare",
+        fileName: String = "bare-recovery-v2.bare",
     ): Uri {
         require(directoryUri.scheme == "content") { "recovery directory must be a content URI" }
         val directory = DocumentFile.fromTreeUri(context, directoryUri)
@@ -94,7 +94,7 @@ class RecoveryArtifactRepository(
         directory: java.io.File,
         payload: RecoveryPackageCodec.Payload,
         password: CharArray,
-        fileName: String = "bare-recovery-v1.bare",
+        fileName: String = "bare-recovery-v2.bare",
     ): java.io.File {
         require(directory.isDirectory && directory.canWrite()) {
             "recovery directory is not writable"
