@@ -30,6 +30,11 @@ import com.bare.feature.account.AccountScreen
 import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
+import com.bare.feature.apps.AppBackupScreen
+import com.bare.feature.apps.AppBackupsScreen
+import com.bare.feature.apps.AppManagementScreen
+import com.bare.feature.apps.AppDiagnosticsScreen
+import com.bare.feature.apps.AppRestoreScreen
 import com.bare.feature.apps.AppsScreen
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsToolsScreen

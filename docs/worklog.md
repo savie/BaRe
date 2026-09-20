@@ -3876,3 +3876,24 @@ Destination yang belum mempunyai runtime implementation menampilkan explicit moc
 - Fix commit: bd283b1b95d5109e1542826ea88a0edee7dedf85.
 - GitHub Actions run #446 is IN_PROGRESS for this commit.
 - Runtime verification remains pending.
+
+
+## 2026-09-21 — APP-01 CI Failure: missing flow imports / Material3 opt-in
+
+### OBSERVED
+
+- CI run #446 failed during Kotlin compilation after the APP-01 flow expansion.
+- Unresolved references in BaReApp.kt: AppBackupScreen, AppBackupsScreen, AppManagementScreen, AppDiagnosticsScreen, AppRestoreScreen.
+- AppsScreens.kt also emitted experimental Material3 API diagnostics for the new Scaffold/TopAppBar flow screens.
+
+### FIX
+
+- Added explicit imports for the new Apps flow screens in BaReApp.kt.
+- Added ExperimentalMaterial3Api opt-in to the new Apps flow screens.
+- No product-flow scope was reduced; this is a compile correction only.
+
+### VERIFICATION
+
+- CI #446: **FAILED** at compileDebugKotlin with the errors above.
+- Runtime verification remains pending.
+- Next: push compile correction and verify the next CI run before runtime testing.

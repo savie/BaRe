@@ -673,6 +673,7 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
     var destination by remember { mutableStateOf("Device") }
@@ -718,6 +719,7 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf(false) }
@@ -755,6 +757,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf<String?>(null) }
@@ -781,6 +784,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf<String?>(null) }
@@ -803,6 +807,7 @@ fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf<String?>(null) }
@@ -839,6 +844,7 @@ private fun formatAppSize(bytes: Long): String {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
     var compression by remember { mutableStateOf(false) }
