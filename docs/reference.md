@@ -2267,16 +2267,16 @@ Static/decompiled evidence menunjukkan bahwa Apps bukan hanya inventory installe
 
 ### 24.1A Apps capability rebaseline — canonical working inventory
 
-Audit rebaseline terhadap seluruh evidence Apps yang sudah tersedia menghasilkan **53 capability/workflow items** pada working inventory.
+Audit rebaseline terhadap seluruh evidence Apps yang sudah tersedia menghasilkan **54 capability/workflow items** pada working inventory.
 
 Angka ini **bukan target scope v1.0**, bukan ranking, dan bukan kewajiban bahwa seluruh item harus diimplementasikan sekarang. Angka ini adalah inventory discovery yang dipakai agar tidak ada capability reference yang hilang ketika mockup → implementation dilakukan.
 
 Perubahan utama dari inventory sebelumnya:
 
-- inventory sebelumnya memiliki **44 capability/workflow rows** pada static Apps reconciliation;
-- audit visual/reference menegaskan **9 action/workflow reference** yang sebelumnya belum berdiri eksplisit sebagai capability row;
-- hasil rebaseline menjadi **53 items**;
-- **App Workspace / App Detail** dinaikkan menjadi **APP-01** karena berfungsi sebagai workspace foundation untuk capability per-app lain;
+- inventory sebelumnya memiliki **53 capability/workflow items**;
+- review lanjutan terhadap visual reference App Detail menemukan satu action/workflow yang belum berdiri eksplisit sebagai capability row: **Clear app data**;
+- hasil rebaseline menjadi **54 items**;
+- **App Workspace / App Detail** tetap menjadi **APP-01** karena berfungsi sebagai workspace foundation untuk capability per-app lain;
 - capability yang satu implementation slice-nya sama tetap boleh dikerjakan beririsan; ID tidak berarti satu ID = satu task;
 - mockup yang sudah ada dipertahankan sebagai **FE contract/evidence**, bukan dibuat ulang.
 
@@ -2286,7 +2286,7 @@ Perubahan utama dari inventory sebelumnya:
 | APP-02 | Local apps inventory | AppListActivity, local-app menu | OBSERVED_STATIC |
 | APP-03 | Cloud-synced apps inventory | menu_apps_switch.xml, cloud_synced_apps | OBSERVED_STATIC |
 | APP-04 | Search apps | menu_apps.xml, search_hint_apps | OBSERVED_STATIC |
-| APP-05 | Sort apps | filter bottom sheet, sort, ascending, descending, install/update/backup metadata | OBSERVED_STATIC |
+| APP-05 | Sort apps | filter bottom sheet, sort, ascending/descending, install/update/backup metadata; visual reference shows Name, Install date, Update date, Backup date, Backup size, Date used, and App size | OBSERVED_STATIC + OBSERVED_VISUAL |
 | APP-06 | App-type filtering | app_type, user/system filters | OBSERVED_STATIC |
 | APP-07 | System-app subfilters | system_apps, launchable/updated/labelled-or-favorites indicators | OBSERVED_STATIC |
 | APP-08 | Favorites | FavoriteApp, FavoriteAppsRepo, favorites/not-favorites filters | OBSERVED_STATIC |
@@ -2318,7 +2318,7 @@ Perubahan utama dari inventory sebelumnya:
 | APP-34 | Custom app configurations | ConfigListActivity, ConfigEditActivity, ConfigSettingsActivity | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
 | APP-35 | Run configuration now | AppsConfigRunActivity | OBSERVED_STATIC |
 | APP-36 | Schedule configuration | reference Configs can be attached to schedules | DOCUMENTED_PUBLIC |
-| APP-37 | Quick actions | AppsQuickActionsActivity and quick-action layouts | OBSERVED_STATIC |
+| APP-37 | Quick actions | AppsQuickActionsActivity and quick-action layouts; visual reference shows quick backup, quick restore, and other cross-app actions | OBSERVED_STATIC + OBSERVED_VISUAL |
 | APP-38 | App swipe actions | AppSwipeActionsActivity, swipe-action persistence | OBSERVED_STATIC |
 | APP-39 | App visibility diagnostics | AppVisibilityDiagnosticsActivity; raw PackageManager package count/search/share | OBSERVED_STATIC |
 | APP-40 | APK/APKS import/install | APK import layouts/strings; installer flow incl. root/Shizuku/system installer | OBSERVED_STATIC + DOCUMENTED_PUBLIC |
@@ -2335,52 +2335,215 @@ Perubahan utama dari inventory sebelumnya:
 | APP-51 | Share APK | user-provided reference backup/context action surface | OBSERVED_VISUAL |
 | APP-52 | Battery optimization management | user-provided reference context action surface | OBSERVED_VISUAL |
 | APP-53 | Add app to Home screen | user-provided reference context action surface | OBSERVED_VISUAL |
+| APP-54 | Clear app data | user-provided Swift Backup App Detail/context screenshots showing Clear data action | OBSERVED_VISUAL + reference-derived workflow |
 
-**Counting rule:** APP-01..APP-53 are capability/workflow inventory IDs. They are not implementation-task IDs. One implementation slice may close several IDs when the same domain model, workspace, action contract, or runtime service is shared.
+**Counting rule:** APP-01..APP-54 are capability/workflow inventory IDs. They are not implementation-task IDs. One implementation slice may close several IDs when the same domain model, workspace, action contract, or runtime service is shared.
 
 **#15 rebaseline:** the previous “App detail” concept is now represented by **APP-01 App Workspace / App Detail foundation**. The old numeric position is not preserved because the rebaseline is intentionally dependency-oriented.
 
-**Explicit boundary:** reference screenshots are visual evidence only. The nine action rows APP-45..APP-53 are not claims that the reference APK was runtime-tested in this audit. They record observed FE/workflow evidence and therefore remain reference evidence, not runtime verification.
+**Explicit boundary:** reference screenshots are visual evidence only. APP-45..APP-54 are not claims that the reference APK was runtime-tested in this audit. They record observed FE/workflow evidence and therefore remain reference evidence, not runtime verification.
 
-### 24.1B Capability grouping for implementation overlap
+### 24.1B Functional grouping — 7 groups + foundation
 
-The 53 inventory items naturally form implementation groups. These groups are **not separate phases** and may be implemented together when dependencies align:
+The 54 capability inventory is organized into **7 functional groups**, with **APP-01 as the App Workspace foundation** rather than a user-facing capability group. This grouping is the current FE/IA planning concept and is not a separate implementation phase.
 
 ```text
-APP-01  App Workspace foundation
-   ├── APP-19  device/cloud backup state
-   ├── APP-20  backup parts
-   ├── APP-45  launch
-   ├── APP-46  enable / disable
-   ├── APP-47  force stop
-   ├── APP-48  uninstall
-   ├── APP-49  Android App Info
-   ├── APP-50  Play Store
+FOUNDATION
+APP-01  App Workspace / App Detail
+
+G1 — Discovery & Filtering
+   ├── APP-02  Local apps inventory
+   ├── APP-03  Cloud-synced apps inventory
+   ├── APP-04  Search apps
+   ├── APP-05  Sort apps
+   ├── APP-06  App-type filtering
+   ├── APP-07  System-app subfilters
+   ├── APP-10  On-device backup status filter
+   ├── APP-11  Cloud-sync status filter
+   ├── APP-12  Install-status filter
+   ├── APP-13  Enabled-status filter
+   ├── APP-14  Multiple-backup filter
+   ├── APP-15  Protected-backup filter
+   ├── APP-16  Notes filter
+   ├── APP-17  Older/newer APK relation
+   └── APP-18  Google Play install-source filter
+
+G2 — Action & Management
+   ├── APP-08  Favorites
+   ├── APP-09  Labels
+   ├── APP-32  Labels/favorites/blacklist management
+   ├── APP-33  Blacklist behavior
+   ├── APP-37  Quick actions
+   ├── APP-38  App swipe actions
+   ├── APP-45  Launch installed app
+   ├── APP-46  Enable / disable app
+   ├── APP-47  Force stop app
+   ├── APP-48  Uninstall app
+   ├── APP-49  Open Android App Info
+   ├── APP-50  Open Play Store
    ├── APP-51  Share APK
-   ├── APP-52  Battery optimization
-   └── APP-53  Home screen
+   ├── APP-52  Battery optimization management
+   ├── APP-53  Add app to Home screen
+   └── APP-54  Clear app data
 
-Apps inventory/filter
-   ├── APP-02..APP-18
-   └── APP-29..APP-31
+G3 — Backup
+   ├── APP-19  Device/cloud backup state
+   ├── APP-20  App backup parts
+   ├── APP-21  App backup
+   ├── APP-23  Delete local/device backups
+   ├── APP-24  Multiple-backup strategy
+   ├── APP-25  Protected backup
+   ├── APP-26  Backup data size limits
+   ├── APP-27  Encryption of app data backups
+   └── APP-28  Backup cache option
 
-Backup/restore
-   ├── APP-21..APP-28
-   ├── APP-40..APP-44
-   └── APP-19..APP-20
+G4 — Restore / Install
+   ├── APP-22  App restore
+   ├── APP-40  APK/APKS import/install
+   ├── APP-41  Restore runtime/special data
+   ├── APP-42  App SSAID restore option
+   ├── APP-43  Missing-app restore
+   └── APP-44  Newer-version restore
 
-Management/configuration
-   ├── APP-08..APP-09
-   ├── APP-32..APP-38
-   └── APP-36
+G5 — Batch Operations
+   ├── APP-29  Batch operations
+   ├── APP-30  Batch search/filter/select-all
+   └── APP-31  Batch app backup settings
 
-Diagnostics
-   └── APP-39
+G6 — Configuration
+   ├── APP-34  Custom app configurations
+   ├── APP-35  Run configuration now
+   └── APP-36  Schedule configuration
 
+G7 — Diagnostics
+   └── APP-39  App visibility diagnostics
 ```
 
-This grouping is an **implementation planning aid**, not a new product requirement.
+**Coverage:** Foundation APP-01 + G1 (15) + G2 (16) + G3 (9) + G4 (6) + G5 (3) + G6 (3) + G7 (1) = **54 capability IDs**.
 
+**Quick Actions boundary:** APP-37 is an access/shortcut surface that can expose actions from G2, G3, G4, and batch workflows. It is therefore kept in G2 for primary grouping but must not be interpreted as an eighth functional domain.
+
+**Sort / Filter boundary:** APP-05 and APP-06..APP-18 remain capability IDs; the UI may expose them together as one Apps options surface containing SORT and FILTER, as shown by the reference. This is an IA proposal/evidence mapping, not a requirement to copy the reference layout.
+
+### 24.1C Sort and Filter reference detail
+
+The user-provided visual reference shows a combined options surface:
+
+```text
+Apps options
+├── SORT
+│   ├── Name
+│   ├── Install date
+│   ├── Update date
+│   ├── Backup date
+│   ├── Backup size
+│   ├── Date used
+│   └── App size
+│
+└── FILTER
+    ├── Favorites
+    ├── App Labels
+    ├── On-device backup
+    ├── Cloud sync
+    ├── Install status
+    ├── Enabled status
+    └── Miscellaneous
+         ├── Apps with multiple backups
+         ├── Apps with Protected backups
+         ├── Backups with notes
+         ├── Backups with older APKs
+         ├── Backups with newer APKs
+         ├── Installed from Google Play
+         └── Not installed from Google Play
+```
+
+Reference juga menunjukkan Local apps dan Cloud synced apps sebagai context switch.
+
+`Date used` adalah **reference-observed sort criterion**. BaRe belum memiliki evidence implementation/measurement untuk criterion tersebut, sehingga feasibility tetap **UNKNOWN / UNVERIFIED** sampai provider/data source ditentukan.
+
+### 24.1D Quick Actions reference detail
+
+User-provided visual reference menunjukkan Apps Quick Actions yang mengelompokkan operasi lintas-app:
+
+```text
+Quick Actions
+├── Quick Backup Apps
+│   ├── Backup all apps
+│   ├── Backup pending apps
+│   ├── Backup updated apps
+│   ├── Redo existing backups
+│   └── Sync latest device backups to cloud
+│
+├── Quick Restore Apps
+│   ├── Restore all apps
+│   ├── Restore missing apps
+│   └── Restore new versions
+│
+└── Other Quick Actions
+    ├── Delete backups of missing apps
+    └── Enable / Disable apps
+```
+
+Status: `OBSERVED_VISUAL`.
+
+Interpretation: Quick Actions adalah **shortcut/access layer**, bukan functional group ke-8. Capability detail tetap ditelusurkan ke G2/G3/G4 dan batch workflows.
+
+### 24.1E App configuration scope and placement
+
+Reference visual menunjukkan dua scope configuration yang perlu dibedakan:
+
+```text
+GLOBAL
+Settings
+└── App backups
+    ├── General
+    ├── Multiple backups
+    ├── Encryption & compression
+    └── App data
+
+PER-APP
+Apps
+└── App Detail
+    └── ⋮
+        └── Settings
+            └── App settings
+```
+
+Untuk BaRe saat ini ditetapkan sebagai **DECISION**:
+
+- BaRe belum masuk fase Global Account/Settings implementation.
+- Karena itu, **per-app configuration/settings sementara ditempatkan di Apps / local App Workspace scope**.
+- Global configuration belum dipindahkan ke Account sebelum tab Account/global settings siap.
+- Ketika Account/global settings sudah memasuki implementation phase, scope global vs per-app akan direconcile kembali.
+- APP-34/35/36 tetap berada di **G6 — Configuration**; placement lokal saat ini adalah navigation/IA decision, bukan perubahan capability identity.
+
+Status reference structure: `OBSERVED_VISUAL`.
+Status BaRe placement: `DECISION`.
+
+### 24.1F App Detail reference action coverage
+
+User-provided visual reference juga menunjukkan App Detail/context actions yang sekarang tercakup dalam inventory:
+
+```text
+App Detail / context
+├── Launch
+├── Uninstall
+├── App Info
+├── Play Store
+├── Share APK
+├── Favorites
+├── Set app labels
+├── Add to blacklist
+├── Battery optimization
+├── Add to Home screen
+├── Enable / Disable
+├── Force stop
+└── Clear data
+```
+
+`Clear data` adalah temuan baru yang menyebabkan rebaseline **53 → 54** dan dicatat sebagai **APP-54** pada G2 — Action & Management.
+
+Status: `OBSERVED_VISUAL`; tidak berarti BaRe sudah mampu mengeksekusi action tersebut.
 ### 24.2 Filter model reference — detail yang perlu dipertahankan
 
 Decompiled filter_bottom_dialog.xml memperlihatkan struktur filter yang lebih kaya daripada tiga pill pada BaRe saat ini:
@@ -2607,8 +2770,19 @@ Current BaRe Apps state:
 
 Jadi untuk domain Apps saja, gap reference masih material. Namun gap tersebut sekarang sudah terpetakan secara lebih granular sehingga implementasi berikutnya dapat dipilih berdasarkan dependency dan evidence, bukan berdasarkan tampilan mockup semata.
 
-Rebaseline ini juga mengoreksi inventory capability: **44 capability/workflow rows dari reconciliation static sebelumnya + 9 action/workflow yang ditegaskan oleh visual reference = 53 capability/workflow items**. Inventory 53 item tersebut adalah working discovery inventory, bukan scope commitment.
+Rebaseline ini juga mengoreksi inventory capability: **53 capability/workflow items dari reconciliation sebelumnya + APP-54 Clear app data yang ditegaskan oleh visual reference = 54 capability/workflow items**. Inventory 54 item tersebut adalah working discovery inventory, bukan scope commitment.
 
-**APP-01 App Workspace / App Detail foundation** sekarang menjadi foundation utama untuk capability per-app. Mockup yang sudah dibuat dipertahankan sebagai FE contract/evidence; implementation boleh menutup beberapa capability ID sekaligus bila dependency dan implementation boundary memang sama.
+**APP-01 App Workspace / App Detail foundation** tetap menjadi foundation utama untuk capability per-app. Mockup yang sudah dibuat dipertahankan sebagai FE contract/evidence; implementation boleh menutup beberapa capability ID sekaligus bila dependency dan implementation boundary memang sama.
 
-**Status:** REFERENCE_RECONCILED / APPS_CAPABILITY_REBASELINED_53 / APPS_GAP_MATRIX_UPDATED / MOCKUP_FE_CONTRACT_PRESERVED / RUNTIME_REFERENCE_NOT_PERFORMED.
+**Functional IA concept saat ini:** 7 functional groups + APP-01 foundation:
+1. Discovery & Filtering
+2. Action & Management
+3. Backup
+4. Restore / Install
+5. Batch Operations
+6. Configuration
+7. Diagnostics
+
+Quick Actions adalah access/shortcut layer, bukan group ke-8. Sort + Filter dapat dipresentasikan dalam satu Apps options surface. Per-app configuration sementara ditempatkan di Apps/local App Workspace; global settings ditunda sampai Account/global settings siap.
+
+**Status:** REFERENCE_RECONCILED / APPS_CAPABILITY_REBASELINED_54 / APPS_7_GROUPS_PLUS_FOUNDATION / SORT_FILTER_RECONCILED / QUICK_ACTIONS_RECONCILED / APP_CONFIGURATION_SCOPE_DECIDED_LOCAL / APPS_GAP_MATRIX_UPDATED / MOCKUP_FE_CONTRACT_PRESERVED / RUNTIME_REFERENCE_NOT_PERFORMED.
