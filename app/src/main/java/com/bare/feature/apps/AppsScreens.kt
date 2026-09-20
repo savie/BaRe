@@ -599,9 +599,9 @@ private fun formatAppSize(bytes: Long): String {
 
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
-    val item = app ?: demoApps.first()
+    val itemName = app?.name ?: stringResource(R.string.app_details)
     com.bare.feature.misc.GenericDomainScreen(
-        stringResource(R.string.configuration_title, item.name),
+        stringResource(R.string.configuration_title, itemName),
         "BaRe-native Apps configuration mockup. Values are not stored in the backend yet.",
         listOf(
             stringResource(R.string.backup_parts), "Compression", "Encryption", "Multiple backups",
