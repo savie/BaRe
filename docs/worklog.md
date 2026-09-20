@@ -3448,3 +3448,83 @@ Immediate task after header alignment:
 5. verify each capability and regression-test existing domains.
 
 This scope does not authorize unrelated domains or imply feature parity outside Apps.
+
+## 2026-09-21 — Apps Vertical Slice Next: Filter, Status, App Detail
+
+### Verification Result
+
+- CI #434: **USER-REPORTED GREEN**.
+- Latest onboarding Welcome fix is included in the current workstream: the Welcome brand now resolves from canonical `R.string.app_name` instead of a hardcoded `B Λ R E`.
+- Canonical brand resource is `B Λ R ☰`.
+- Welcome surface is classified as **Onboarding → Welcome Screen**.
+- The previous CI #432 failure caused by the missing `com.bare.R` import in `RecoveryScreen.kt` was fixed before CI #433/#434.
+- Current Apps capability state is treated as **2 functional capabilities: Search and Sort**. The remaining target capabilities remain mockup/partial/unimplemented according to source and runtime evidence.
+
+### Current Apps Truth
+
+| Capability | Status |
+|---|---|
+| Installed app discovery | **IMPLEMENTED + RUNTIME VERIFIED/USER-OBSERVED** |
+| User/System classification data | **IMPLEMENTED + RUNTIME VERIFIED/USER-OBSERVED** |
+| Search | **FUNCTIONAL** |
+| Sort | **FUNCTIONAL** |
+| User/System filtering (#4) | **MOCKUP / NEXT** |
+| Install + enabled status (#9) | **PARTIAL DATA / NEXT** |
+| App Detail (#15) | **MOCKUP / NEXT** |
+| App visibility diagnostics (#39) | **FOLLOW-UP / CONDITIONAL** |
+| Backup/Restore execution | **NOT IMPLEMENTED** |
+
+### Decision / Next Authorized Slice
+
+Pengguna menyetujui arah implementasi Apps berikutnya sebagai satu vertical slice yang dependency-nya rapat:
+
+1. **#4 — User/System + system-app filtering**
+2. **#9 — Install + enabled status**
+3. **#15 — App Detail**
+4. **#39 — App visibility diagnostics** hanya jika fondasinya dapat ditambahkan tanpa memperbesar complexity secara tidak proporsional.
+
+Rationale:
+- Search dan Sort sudah menjadi query/navigation entry points yang nyata.
+- Filtering menggunakan data discovery yang sudah tersedia.
+- Install/enabled status berasal dari package/application state yang dekat dengan discovery layer.
+- App Detail menjadi destination/workspace natural dari hasil Apps.
+- Ketiganya dapat dibangun di atas satu Apps query/state model tanpa membuka dependency besar backup/restore.
+- #39 diperlakukan sebagai diagnostic layer setelah discovery/filter/detail, bukan sebagai prerequisite untuk memulai slice.
+
+### Implementation Boundary
+
+Target architecture untuk slice ini:
+
+```
+InstalledAppRepository
+        ↓
+Apps Query / State
+ ├── Search
+ ├── Sort
+ └── Filter
+        ↓
+Apps Screen
+        ↓
+App Detail
+        ├── Metadata
+        ├── Install / Enabled state
+        └── Contextual actions/state
+```
+
+Rules:
+- Installed-app discovery yang sudah verified menjadi **protected baseline**.
+- Jangan mengubah Home, Schedules, Account, onboarding, identity/recovery, atau storage/recovery boundary.
+- Jangan membuat tombol Backup/Restore menjadi functional hanya karena App Detail sudah dibuat.
+- Jangan mengklaim App Detail/Filter/Status sebagai functional sebelum runtime evidence tersedia.
+- Reference Swift tetap menjadi capability evidence/target scope, bukan implementation template.
+- Implementasi harus dimulai dengan **Inspect → Impact → Plan → Change → Test → Verify → Record**.
+
+### Current Phase
+
+**Apps domain: BUILD/IMPLEMENTATION PLANNING**
+
+Search + Sort sudah functional. Next work masuk ke **Apps foundation vertical slice (#4 + #9 + #15)** dengan #39 sebagai optional diagnostic follow-up.
+
+### Berikutnya
+
+Inspect source aktual Apps/AppState/InstalledAppRepository dan existing App Detail/mockup sebelum perubahan. Bentuk query/state contract minimal yang dapat menampung search + sort + filter tanpa merusak behavior yang sudah verified. Setelah itu implement #4/#9/#15 secara bertahap, CI, runtime verification, dan update worklog evidence.
