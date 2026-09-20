@@ -3126,3 +3126,27 @@ Build/runtime #389 memperkuat bahwa reconciliation lokal sekarang mengikuti mode
 Verifikasi SHA-256 juga menunjukkan bahwa perubahan access method ROOT/NON-ROOT tidak mengubah artifact pada test ini. Namun, SHA tidak menggantikan verifikasi semantic identity maupun device binding.
 
 Test berikutnya yang paling informatif adalah **dua device**, bila environment memungkinkan: gunakan artifact/state dari device A pada device B dan pastikan artifact foreign-device tidak diterima sebagai LOCAL identity B. Sampai test tersebut tersedia, status device-bound verification tetap OPEN.
+
+
+## 2026-09-20 — Recovery Boundary Audit + Apps Discovery Foundation
+
+### 1. Production `.bare` writer
+Current source shows `RecoveryArtifactRepository.exportToFile()` → `RecoveryPackageCodec.encode()` with `VERSION = 2` and default `bare-recovery-v2.bare`; the artifact is decoded before final rename. Current HEAD therefore has a V2 production writer. No writer change was required.
+
+### 2. `.bare` contract
+Current codec implements BREC/V2, PBKDF2-HMAC-SHA-256 (310000 iterations), random salt/nonce, AES-256-GCM authenticated header, duplicated identity bootstrap/payload consistency check, 64 KiB payload limit, partial-write/finalize flow, and fail-closed parsing. Existing tests cover current version, round-trip, wrong password, tamper, and passwordless bootstrap identity.
+
+### 3. Failure-path
+Source already rejects unsupported version/KDF, invalid parameters, invalid payload length, trailing data, tamper, wrong password, and identity conflict. Dedicated malformed/truncated runtime tests remain a verification gap.
+
+### 4. Multiple artifact reconciliation
+`LocalIdentityStore.loadOrRecover()` scans `bare-recovery-v2.bare` candidates, extracts bootstrap identities, rejects conflicting identities, and ignores unreadable candidates. Runtime test with multiple real artifacts remains UNVERIFIED.
+
+### 5. Device boundary
+OPEN / UNVERIFIED. No device-A → device-B evidence exists in the current environment. No implementation change made without a defined target behavior.
+
+### 6. Broader APK capability — App Discovery
+Implemented real installed-app discovery using PackageManager, mapping label/package/system-vs-user/base-APK size, sorting by label, and exposing loading/error/empty states. `QUERY_ALL_PACKAGES` is declared because the product capability requires broad package discovery; Android 11+ package visibility remains a platform constraint. Runtime verification is still required.
+
+### Verification boundary
+CI/build after this change is the next gate. Device verification of App Discovery is still REQUIRED.

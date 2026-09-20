@@ -49,12 +49,4 @@ data class AppItem(
     val favorite: Boolean = false,
 )
 
-val demoApps = listOf(
-    AppItem("BaRe", "com.bare", "User app", "42 MB", protected = true, favorite = true),
-    AppItem("Messages", "com.google.android.apps.messaging", "User app", "118 MB"),
-    AppItem("Chrome", "com.android.chrome", "User app", "286 MB", favorite = true),
-    AppItem("Files", "com.google.android.documentsui", "System app", "31 MB"),
-    AppItem("Settings", "com.android.settings", "System app", "18 MB", protected = true),
-)
-
 val tabs = Tab.entries

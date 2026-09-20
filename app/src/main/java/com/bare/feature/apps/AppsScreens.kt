@@ -10,21 +10,45 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bare.app.AppItem
 import com.bare.R
 import com.bare.app.Screen
-import com.bare.app.demoApps
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.FilterPill
 import com.bare.ui.components.ListEntry
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
+    val context = LocalContext.current
+    var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
+    var loaded by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        runCatching {
+            withContext(Dispatchers.IO) { AppDiscoveryRepository(context).discover() }
+        }.onSuccess {
+            apps = it
+            loaded = true
+        }.onFailure {
+            loaded = true
+            error = it.message ?: "App discovery failed"
+        }
+    }
+
     LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         item {
             Text(stringResource(R.string.apps), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
@@ -41,19 +65,24 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
         item { ListEntry(stringResource(R.string.labels_favorites), stringResource(R.string.management_filtering), Icons.Default.Tune) { onOpen(Screen.MANAGEMENT) } }
         item { ListEntry(stringResource(R.string.protected_backups), stringResource(R.string.retention_protection), Icons.Default.Lock) { onOpen(Screen.MANAGEMENT) } }
         item { Text(stringResource(R.string.installed_apps), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
-        items(demoApps) { app ->
-            Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
-                Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
-                        Text(app.name.take(1), fontWeight = FontWeight.Bold)
+        when {
+            !loaded -> item { Text("Discovering installed apps…") }
+            error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
+            apps.isEmpty() -> item { Text("No visible installed apps.") }
+            else -> items(apps) { app ->
+                Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
+                    Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape), Alignment.Center) {
+                            Text(app.name.take(1), fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(app.name, fontWeight = FontWeight.Bold)
+                            Text(app.packageName, style = MaterialTheme.typography.bodySmall)
+                            Text(app.category + " • " + app.size, style = MaterialTheme.typography.labelSmall)
+                        }
+                        if (app.favorite) Text(stringResource(R.string.favorite_star))
                     }
-                    Spacer(Modifier.width(12.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text(app.name, fontWeight = FontWeight.Bold)
-                        Text(app.packageName, style = MaterialTheme.typography.bodySmall)
-                        Text(app.category + " • " + app.size, style = MaterialTheme.typography.labelSmall)
-                    }
-                    if (app.favorite) Text(stringResource(R.string.favorite_star))
                 }
             }
         }
@@ -63,7 +92,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit) {
-    val item = app ?: demoApps.first()
+    val item = app ?: return
     Scaffold(topBar = { TopAppBar(title = { Text(item.name) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
