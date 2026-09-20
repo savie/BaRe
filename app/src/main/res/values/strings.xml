@@ -508,4 +508,5 @@
     <string name="unknown_size">Unknown size</string>
     <string name="apps_capability_mockup_suffix"> • mockup</string>
     <string name="apps_configuration_mockup_note">BΛR-native Apps configuration mockup. Values are not stored in the backend yet.</string>
+    <string name="unable_to_discover_installed_apps">Unable to discover installed apps</string>
 </resources>
