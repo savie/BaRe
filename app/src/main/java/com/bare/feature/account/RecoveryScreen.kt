@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.bare.app.BaReIdentity
@@ -53,7 +54,7 @@ fun RecoveryScreen(
                     Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
                 )
             }
-            status = "Recovery folder selected."
+            status = context.getString(R.string.recovery_folder_selected)
         }
     }
 
@@ -72,11 +73,11 @@ fun RecoveryScreen(
             }.onSuccess { identity ->
                 busy = false
                 password = ""
-                status = "Recovery identity restored."
+                status = context.getString(R.string.recovery_identity_restored)
                 onRecovered(identity)
             }.onFailure { error ->
                 busy = false
-                status = "Recovery failed: " + (error.message ?: "invalid package or password")
+                status = context.getString(R.string.recovery_failed, error.message ?: context.getString(R.string.invalid_package_or_password))
             }
         }
     }
@@ -85,17 +86,16 @@ fun RecoveryScreen(
         modifier = Modifier.fillMaxSize().padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Text("Recovery", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(R.string.recovery), style = MaterialTheme.typography.headlineSmall)
         Text(
-            "Export or import the encrypted LOCAL identity recovery package. " +
-                "The recovery password is not stored by BaRe.",
+            stringResource(R.string.recovery_description),
             style = MaterialTheme.typography.bodyMedium,
         )
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text("Recovery password") },
+            label = { Text(stringResource(R.string.recovery_password)) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             enabled = !busy,
@@ -103,7 +103,7 @@ fun RecoveryScreen(
         Button(
             onClick = {
                 if (password.isBlank()) {
-                    status = "Enter a recovery password first."
+                    status = context.getString(R.string.enter_recovery_password_first)
                 } else if (selectedTreeUri == null) {
                     treePicker.launch(null)
                 } else {
@@ -120,10 +120,10 @@ fun RecoveryScreen(
                             }
                         }.onSuccess {
                             busy = false
-                            status = "Recovery package exported."
+                            status = context.getString(R.string.recovery_package_exported)
                         }.onFailure { error ->
                             busy = false
-                            status = "Export failed: " + (error.message ?: "storage error")
+                            status = context.getString(R.string.export_failed, error.message ?: context.getString(R.string.storage_error))
                         }
                     }
                 }
@@ -131,24 +131,24 @@ fun RecoveryScreen(
             modifier = Modifier.fillMaxWidth(),
             enabled = !busy,
         ) {
-            Text(if (selectedTreeUri == null) "Choose recovery folder" else "Export recovery package")
+            Text(if (selectedTreeUri == null) stringResource(R.string.choose_recovery_folder) else stringResource(R.string.export_recovery_package))
         }
         Button(
             onClick = {
-                if (password.isBlank()) status = "Enter a recovery password first."
+                if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
                 else importPicker.launch(arrayOf("application/octet-stream", "*/*"))
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = !busy,
         ) {
-            Text("Import recovery package")
+            Text(stringResource(R.string.import_recovery_package))
         }
         Spacer(Modifier.height(4.dp))
         status?.let {
             Text(it, style = MaterialTheme.typography.bodyMedium)
         }
         TextButton(onClick = onBack, enabled = !busy) {
-            Text("Back")
+            Text(stringResource(R.string.back))
         }
     }
 }
