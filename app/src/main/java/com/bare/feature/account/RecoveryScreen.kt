@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
 import com.bare.recovery.RecoveryArtifactRepository
