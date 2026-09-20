@@ -31,6 +31,8 @@ import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
 import com.bare.feature.apps.AppsScreen
+import com.bare.feature.apps.AppsSearchScreen
+import com.bare.feature.apps.AppsToolsScreen
 import com.bare.feature.home.HomeScreen
 import com.bare.feature.misc.CloudScreen
 import com.bare.feature.misc.GenericDomainScreen
@@ -258,6 +260,8 @@ private fun MainShell(
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
+            Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
+            Screen.APPS_TOOLS -> AppsToolsScreen(onOpenScreen, onBack)
             Screen.APP_DETAIL -> AppDetailScreen(selectedApp, onOpenScreen, onBack)
             Screen.APP_CONFIG -> AppConfigScreen(selectedApp, onBack)
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
@@ -297,7 +301,9 @@ private fun MainShell(
                     }
                 },
                 actions = {
-                    IconButton(onClick = onOpenSearch) {
+                    IconButton(onClick = {
+                        if (appsSelected) onOpenScreen(Screen.APPS_SEARCH) else onOpenSearch()
+                    }) {
                         Icon(Icons.Outlined.Search, stringResource(R.string.search))
                     }
                     if (appsSelected) {
@@ -310,24 +316,31 @@ private fun MainShell(
                                 onDismissRequest = { appsMenuOpen = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.import_apk_apks)) },
+                                    text = { Text("Browse, sort & filter") },
                                     onClick = {
                                         appsMenuOpen = false
-                                        onOpenScreen(Screen.IMPORT_EXPORT)
+                                        onOpenScreen(Screen.APPS_TOOLS)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.labels_favorites)) },
+                                    text = { Text("Management & batch actions") },
                                     onClick = {
                                         appsMenuOpen = false
-                                        onOpenScreen(Screen.MANAGEMENT)
+                                        onOpenScreen(Screen.APPS_TOOLS)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.protected_backups)) },
+                                    text = { Text("Backup, restore & configuration") },
                                     onClick = {
                                         appsMenuOpen = false
-                                        onOpenScreen(Screen.MANAGEMENT)
+                                        onOpenScreen(Screen.APPS_TOOLS)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Import, diagnostics & restore variants") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.APPS_TOOLS)
                                     }
                                 )
                             }
