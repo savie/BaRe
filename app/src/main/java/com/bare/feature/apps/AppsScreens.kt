@@ -1,5 +1,6 @@
 package com.bare.feature.apps
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -80,7 +81,7 @@ private val appsCapabilities = listOf(
 )
 
 @Composable
-fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
+fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
     val context = LocalContext.current
     val repository = remember(context) { InstalledAppRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
@@ -90,6 +91,9 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
     var descending by remember { mutableStateOf(false) }
     var showFilters by remember { mutableStateOf(false) }
     var showContext by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
+
+    BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
 
     LaunchedEffect(repository) {
         runCatching { repository.load() }
@@ -97,13 +101,18 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
             .onFailure { error = it.message ?: "Unable to discover installed apps" }
     }
 
-    val visibleApps = remember(apps, scope, descending) {
-        val filtered = apps.filter {
-            when (scope) {
+    val visibleApps = remember(apps, scope, descending, searchQuery) {
+        val query = searchQuery.trim().lowercase()
+        val filtered = apps.filter { app ->
+            val matchesScope = when (scope) {
                 AppScope.ALL -> true
-                AppScope.USER -> it.category == "User app"
-                AppScope.SYSTEM -> it.category == "System app"
+                AppScope.USER -> app.category == "User app"
+                AppScope.SYSTEM -> app.category == "System app"
             }
+            val matchesQuery = query.isBlank() ||
+                app.name.lowercase().contains(query) ||
+                app.packageName.lowercase().contains(query)
+            matchesScope && matchesQuery
         }
         if (descending) filtered.sortedByDescending { it.name.lowercase() } else filtered.sortedBy { it.name.lowercase() }
     }
@@ -150,8 +159,35 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
         Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        item {
-            Text(stringResource(R.string.apps_summary))
+        if (searchOpen) {
+            item {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { searchQuery = it },
+                        modifier = Modifier.weight(1f),
+                        singleLine = true,
+                        placeholder = { Text("Search apps or package name") },
+                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                        trailingIcon = {
+                            if (searchQuery.isNotBlank()) {
+                                IconButton(onClick = { searchQuery = "" }) {
+                                    Icon(Icons.Default.Clear, contentDescription = "Clear search")
+                                }
+                            }
+                        }
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    TextButton(onClick = {
+                        searchQuery = ""
+                        onSearchOpenChange(false)
+                    }) { Text("Close") }
+                }
+            }
+        } else {
+            item {
+                Text(stringResource(R.string.apps_summary))
+            }
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -180,31 +216,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit) {
             }
         }
         item {
-            ListEntry(
-                stringResource(R.string.import_apk_apks),
-                stringResource(R.string.import_validate_apk),
-                Icons.Default.Apps
-            ) { onOpen(Screen.IMPORT_EXPORT) }
-        }
-        item {
-            ListEntry(
-                stringResource(R.string.labels_favorites),
-                stringResource(R.string.management_filtering),
-                Icons.Default.Tune
-            ) { onOpen(Screen.MANAGEMENT) }
-        }
-        item {
-            ListEntry(
-                stringResource(R.string.protected_backups),
-                stringResource(R.string.retention_protection),
-                Icons.Default.Lock
-            ) { onOpen(Screen.MANAGEMENT) }
-        }
-        item {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.installed_apps), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                AssistChip(onClick = { onOpen(Screen.APPS_TOOLS) }, label = { Text("43 capability mockups") })
-            }
+            Text(stringResource(R.string.installed_apps), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         }
         when {
             error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
