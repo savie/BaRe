@@ -13,6 +13,13 @@ class RecoveryPackageCodecTest {
     )
 
     @Test
+    fun encodedPackageUsesCurrentVersion() {
+        val encoded = RecoveryPackageCodec.encode(payload, "correct horse battery staple".toCharArray())
+
+        assertEquals(2, encoded[4].toInt())
+    }
+
+    @Test
     fun roundTripRestoresPayload() {
         val password = "correct horse battery staple".toCharArray()
         val encoded = RecoveryPackageCodec.encode(payload, password)
