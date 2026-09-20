@@ -49,10 +49,27 @@ fun BaReApp() {
     val context = LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val restoredIdentity = remember(identityStore) { identityStore.loadOrRecover() }
-    var startScreen by remember(restoredIdentity) {
+    val storageRepository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
+    val storageConfiguration = remember(context) { StorageConfigurationStore(context) }
+    val durableLocalState = remember(restoredIdentity) {
+        restoredIdentity?.let { identity ->
+            if (!identityStore.isSetupComplete()) {
+                false
+            } else {
+                storageConfiguration.loadKind()?.let { kind ->
+                    storageRepository.hasDurableLocalState(identity.identityId, kind)
+                } ?: false
+            }
+        } ?: false
+    }
+    var startScreen by remember(restoredIdentity, durableLocalState) {
         mutableStateOf(
             if (restoredIdentity != null) {
-                if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.STORAGE_SETUP
+                if (identityStore.isSetupComplete() && durableLocalState) {
+                    StartScreen.APP
+                } else {
+                    StartScreen.STORAGE_SETUP
+                }
             } else {
                 StartScreen.WELCOME
             }
