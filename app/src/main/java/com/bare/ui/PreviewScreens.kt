@@ -53,7 +53,7 @@ private fun HomePreview() {
 @Preview(showBackground = true)
 @Composable
 private fun AppsPreview() {
-    BaReTheme { AppsScreen({}, {}) }
+    BaReTheme { AppsScreen({}, {}, searchOpen = false, onSearchOpenChange = {}) }
 }
 
 @Preview(showBackground = true)
