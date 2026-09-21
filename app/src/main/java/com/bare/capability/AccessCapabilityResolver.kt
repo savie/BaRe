@@ -13,6 +13,24 @@ class AccessCapabilityResolver(context: Context) {
     private val root = RootCapabilityProvider()
     private val nonRoot = NonRootCapabilityProvider(context)
 
+    fun prepare(method: AccessMethod): AccessCapability {
+        return when (method) {
+            AccessMethod.NON_ROOT -> resolve(method)
+            AccessMethod.ROOT -> {
+                val grant = root.grantRequiredPermissions()
+                if (grant.failed.isNotEmpty()) {
+                    AccessCapability(
+                        method = method,
+                        available = false,
+                        reason = "Root permission grant failed: " + grant.failed.joinToString("; "),
+                    )
+                } else {
+                    resolve(method)
+                }
+            }
+        }
+    }
+
     fun resolve(method: AccessMethod): AccessCapability {
         return when (method) {
             AccessMethod.NON_ROOT -> when (val result = nonRoot.probe()) {
