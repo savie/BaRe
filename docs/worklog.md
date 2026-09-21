@@ -2592,3 +2592,30 @@ Pengguna memberikan **GO** untuk memprioritaskan **Tab Account** terlebih dahulu
 - Supplied build: **FAILED** at Kotlin compilation; exact diagnostics unavailable in supplied excerpt.
 - Build after this fix: **UNVERIFIED** pending a new build result.
 - Device/UI Account verification: **UNVERIFIED**.
+
+
+## 2026-09-21 — Build Failure Triage: Account Preview Contract
+
+### Observed
+- User-provided build failed at `:app:compileDebugKotlin`.
+- Exact diagnostics: `PreviewScreens.kt:68:17 No value passed for parameter 'onOpen'` and `PreviewScreens.kt:68:31 Argument type mismatch: actual type is Function0<Unit>, but String was expected`.
+- `stripDebugDebugSymbols` warning for `libandroidx.graphics.path.so` is non-fatal packaging behavior and is not the compile blocker.
+
+### Root Cause
+- `AccountScreen` contract now requires `onOpen: (Screen) -> Unit`, but the preview still invoked the old zero-argument form `AccountScreen {}`.
+- The trailing lambda was therefore interpreted against the wrong parameter contract.
+
+### Change
+- Updated preview invocation to `AccountScreen(onOpen = {})`.
+- Fix commit: `c4700c66264a171017cc941422f12bf70fbd7c83`.
+
+### Verification
+- Source fix: **VERIFIED STATIC**.
+- Supplied build: **FAILED** at Kotlin compilation before this fix.
+- Build after this fix: **UNVERIFIED** pending new build result.
+- Device/UI Account verification: **UNVERIFIED**.
+
+### Active Priority List
+1. **Account tab**
+2. **Recovery lifecycle / BREC**
+3. **Global header vs local header**
