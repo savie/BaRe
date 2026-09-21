@@ -42,6 +42,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -55,14 +56,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.bare.app.AppItem
 import com.bare.app.Screen
+import android.content.Intent
+import android.provider.Settings
 
 private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
 private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
+private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
+private enum class LabelFilter { ALL, LABELLED, UNLABELLED }
 private enum class SortOption(val title: String, val icon: ImageVector, val available: Boolean) {
     NAME("Name", Icons.Default.Sort, true),
     INSTALL_DATE("Install date", Icons.Default.Event, true),
@@ -78,6 +86,9 @@ private data class AppsFilterState(
     val appType: AppTypeFilter = AppTypeFilter.ALL,
     val enabled: EnabledFilter = EnabledFilter.ALL,
     val googlePlay: GooglePlayFilter = GooglePlayFilter.ALL,
+    val favorite: FavoriteFilter = FavoriteFilter.ALL,
+    val label: LabelFilter = LabelFilter.ALL,
+    val selectedLabels: Set<String> = emptySet(),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,13 +102,20 @@ fun AppsFilterScreen(
     onFilterOpenChange: (Boolean) -> Unit,
 ) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
     val repository = remember(context) { InstalledAppRepository(context) }
+    val organizationStore = remember(context) { AppOrganizationStore(context) }
+    val usageRepository = remember(context) { AppUsageRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
+    var usageAccess by remember { mutableStateOf(usageRepository.hasUsageAccess()) }
+    var lastUsedTimes by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
+    var showLabelPicker by remember { mutableStateOf(false) }
+    var labelDraft by remember { mutableStateOf<Set<String>>(emptySet()) }
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
-    LaunchedEffect(repository) {
+    fun reloadApps() {
         runCatching { repository.load() }
             .onSuccess {
                 apps = it
@@ -108,16 +126,38 @@ fun AppsFilterScreen(
             }
     }
 
+    fun refreshUsageAccess() {
+        usageAccess = usageRepository.hasUsageAccess()
+        lastUsedTimes = if (usageAccess) usageRepository.loadLastUsed() else emptyMap()
+    }
+
+    LaunchedEffect(repository) { reloadApps() }
+    LaunchedEffect(usageRepository) { refreshUsageAccess() }
+
+    DisposableEffect(lifecycleOwner, repository, usageRepository) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                reloadApps()
+                refreshUsageAccess()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
     LaunchedEffect(filterOpen) {
         if (filterOpen) pendingFilter = activeFilter
     }
 
-    val visibleApps = remember(apps, activeFilter, searchQuery) {
+    val visibleApps = remember(apps, activeFilter, searchQuery, lastUsedTimes) {
         val query = searchQuery.trim().lowercase()
         val filtered = apps.asSequence()
             .filter { app -> when (activeFilter.appType) { AppTypeFilter.ALL -> true; AppTypeFilter.USER -> !app.isSystem; AppTypeFilter.SYSTEM -> app.isSystem } }
             .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
             .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
+            .filter { app -> when (activeFilter.favorite) { FavoriteFilter.ALL -> true; FavoriteFilter.FAVORITES -> organizationStore.isFavorite(app.packageName); FavoriteFilter.NOT_FAVORITES -> !organizationStore.isFavorite(app.packageName) } }
+            .filter { app -> when (activeFilter.label) { LabelFilter.ALL -> true; LabelFilter.LABELLED -> organizationStore.labels(app.packageName).isNotEmpty(); LabelFilter.UNLABELLED -> organizationStore.labels(app.packageName).isEmpty() } }
+            .filter { app -> activeFilter.selectedLabels.isEmpty() || organizationStore.labels(app.packageName).intersect(activeFilter.selectedLabels).isNotEmpty() }
             .filter { app -> query.isBlank() || app.name.lowercase().contains(query) || app.packageName.lowercase().contains(query) }
             .toList()
         when (activeFilter.sort) {
@@ -125,7 +165,8 @@ fun AppsFilterScreen(
             SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
-            SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE, SortOption.DATE_USED -> filtered.sortedBy { it.name.lowercase() }
+            SortOption.DATE_USED -> filtered.sortedWith(compareBy<AppItem> { lastUsedTimes[it.packageName] ?: Long.MIN_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE -> filtered.sortedBy { it.name.lowercase() }
         }
     }
 
@@ -214,6 +255,47 @@ fun AppsFilterScreen(
         }
     }
 
+    if (showLabelPicker) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { showLabelPicker = false },
+            title = { Text("Select labels to filter") },
+            text = {
+                val labels = organizationStore.allLabels(apps.map { it.packageName }).toList()
+                if (labels.isEmpty()) {
+                    Text("No labels have been created yet.")
+                } else {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        labels.forEach { label ->
+                            Row(
+                                Modifier.fillMaxWidth().clickable {
+                                    labelDraft = if (label in labelDraft) labelDraft - label else labelDraft + label
+                                },
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Checkbox(
+                                    checked = label in labelDraft,
+                                    onCheckedChange = { checked ->
+                                        labelDraft = if (checked) labelDraft + label else labelDraft - label
+                                    },
+                                )
+                                Text(label)
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    pendingFilter = pendingFilter.copy(label = LabelFilter.ALL, selectedLabels = labelDraft)
+                    showLabelPicker = false
+                }) { Text("APPLY") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLabelPicker = false }) { Text("CANCEL") }
+            },
+        )
+    }
+
     if (filterOpen) {
         ModalBottomSheet(onDismissRequest = { onFilterOpenChange(false) }) {
             Column(Modifier.fillMaxWidth().fillMaxHeight(0.88f)) {
@@ -244,28 +326,32 @@ fun AppsFilterScreen(
                                     modifier = Modifier
                                         .width(84.dp)
                                         .clickable(enabled = option.available) {
-                                            pendingFilter = if (selected) {
-                                                pendingFilter.copy(descending = !pendingFilter.descending)
+                                            if (option == SortOption.DATE_USED && !usageAccess) {
+                                                context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
                                             } else {
-                                                pendingFilter.copy(sort = option, descending = false)
+                                                pendingFilter = if (selected) {
+                                                    pendingFilter.copy(descending = !pendingFilter.descending)
+                                                } else {
+                                                    pendingFilter.copy(sort = option, descending = false)
+                                                }
                                             }
                                         },
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     androidx.compose.foundation.layout.Box(
                                         modifier = Modifier
-                                            .size(64.dp)
+                                            .size(56.dp)
                                             .clip(CircleShape),
                                         contentAlignment = Alignment.Center,
                                     ) {
                                         Surface(
-                                            modifier = Modifier.size(64.dp),
+                                            modifier = Modifier.size(56.dp),
                                             shape = CircleShape,
                                             color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
                                             border = androidx.compose.foundation.BorderStroke(1.dp, tint),
                                         ) {
                                             androidx.compose.foundation.layout.Box(contentAlignment = Alignment.Center) {
-                                                Icon(option.icon, contentDescription = null, tint = tint, modifier = Modifier.size(30.dp))
+                                                Icon(option.icon, contentDescription = null, tint = tint, modifier = Modifier.size(26.dp))
                                             }
                                         }
                                         if (selected) {
@@ -309,17 +395,23 @@ fun AppsFilterScreen(
                     item {
                         Text("Favorites", fontWeight = FontWeight.SemiBold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Favorites") })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Not favorites") })
+                            FilterChip(selected = pendingFilter.favorite == FavoriteFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(favorite = FavoriteFilter.ALL) }, label = { Text("All") })
+                            FilterChip(selected = pendingFilter.favorite == FavoriteFilter.FAVORITES, onClick = { pendingFilter = pendingFilter.copy(favorite = FavoriteFilter.FAVORITES) }, label = { Text("Favorites") })
+                            FilterChip(selected = pendingFilter.favorite == FavoriteFilter.NOT_FAVORITES, onClick = { pendingFilter = pendingFilter.copy(favorite = FavoriteFilter.NOT_FAVORITES) }, label = { Text("Not favorites") })
                         }
                     }
                     item {
                         Text("App Labels", fontWeight = FontWeight.SemiBold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Labelled") })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Unlabelled") })
+                            FilterChip(selected = pendingFilter.label == LabelFilter.ALL && pendingFilter.selectedLabels.isEmpty(), onClick = { pendingFilter = pendingFilter.copy(label = LabelFilter.ALL, selectedLabels = emptySet()) }, label = { Text("All") })
+                            TextButton(onClick = {
+                                labelDraft = pendingFilter.selectedLabels
+                                showLabelPicker = true
+                            }) {
+                                Text(if (pendingFilter.selectedLabels.isEmpty()) "Select labels to filter" else pendingFilter.selectedLabels.size.toString() + " labels selected")
+                            }
+                            FilterChip(selected = pendingFilter.label == LabelFilter.LABELLED && pendingFilter.selectedLabels.isEmpty(), onClick = { pendingFilter = pendingFilter.copy(label = LabelFilter.LABELLED, selectedLabels = emptySet()) }, label = { Text("Labelled") })
+                            FilterChip(selected = pendingFilter.label == LabelFilter.UNLABELLED && pendingFilter.selectedLabels.isEmpty(), onClick = { pendingFilter = pendingFilter.copy(label = LabelFilter.UNLABELLED, selectedLabels = emptySet()) }, label = { Text("Unlabelled") })
                         }
                     }
 
@@ -378,7 +470,14 @@ fun AppsFilterScreen(
                             listOf("Apps with multiple backups", "Apps with Protected backups", "Backups with notes", "Backups with older APKs", "Backups with newer APKs").forEach { label -> FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(label) }) }
                         }
                     }
-                    item { Text("Unavailable options stay disabled until BaRe has a verified local/cloud backup index or label/favorite source. No backup or cloud metadata is fabricated.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    item {
+                        Text(
+                            if (usageAccess) "Date used uses Android Usage Access data." else "Date used requires Usage Access. Tap it to open Android settings.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    item { Text("Backup/cloud options stay disabled until BaRe has a verified backup index. No backup or cloud metadata is fabricated.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
                 }
             }
         }
