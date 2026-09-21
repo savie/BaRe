@@ -183,6 +183,7 @@ fun GenericDomainScreen(title: String, subtitle: String, entries: List<String>, 
 @Composable
 fun MiscScreen(
     screen: Screen,
+    identityId: String?,
     onBack: () -> Unit,
     onOpen: (Screen) -> Unit,
     onOpenApps: () -> Unit,
@@ -203,6 +204,7 @@ fun MiscScreen(
         Screen.MANAGEMENT -> GenericDomainScreen(stringResource(R.string.management), stringResource(R.string.management_summary), listOf(stringResource(R.string.labels), stringResource(R.string.favorites), stringResource(R.string.blacklist), stringResource(R.string.quick_actions_label), stringResource(R.string.custom_configurations), stringResource(R.string.retention), stringResource(R.string.protected_backups)), onBack)
         Screen.DIAGNOSTICS -> GenericDomainScreen(stringResource(R.string.diagnostics), stringResource(R.string.diagnostics_summary), listOf(stringResource(R.string.operation_logs), stringResource(R.string.errors), stringResource(R.string.skipped_parts), stringResource(R.string.blocked_operations), stringResource(R.string.storage_checks), stringResource(R.string.transfer_checks), stringResource(R.string.app_visibility_diagnostics)), onBack)
         Screen.SETTINGS -> SettingsScreen(
+            identityId = identityId,
             onOpen = onOpen,
             onOpenApps = onOpenApps,
             themeMode = themeMode,
