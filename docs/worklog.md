@@ -2262,7 +2262,7 @@ Pengguna memberikan **GO** untuk menyederhanakan UX konfirmasi Root dengan pola 
 - All Files Access pada Android R+ disiapkan melalui AppOps android:manage_external_storage, bukan dianggap sebagai runtime permission biasa.
 - Access Method Root menampilkan confirmation dialog sebelum grant dijalankan.
 - Dialog mencantumkan Storage / All files access, SMS, Call logs, Contacts, Notifications (API 33+), dan Installed apps.
-- Setelah konfirmasi, BaRe menjalankan root grant path lalu melakukan root capability probe sebelum melanjutkan ke Storage Setup.
+- Setelah konfirmasi, BaRe menjalankan root grant path lalu melakukan root capability probe sebelum melanjutkan ke Storage Setup. Jika sebagian grant tidak dapat dikonfirmasi, root probe tetap menjadi gate utama dan hasil partial grant dipertahankan sebagai diagnostic state untuk verifikasi capability berikutnya.
 - Non-root flow tidak dipaksa melewati root grant dialog.
 
 ### Verification Truth
