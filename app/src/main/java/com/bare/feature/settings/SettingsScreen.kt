@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.bare.BuildConfig
 import com.bare.R
 import com.bare.app.AppThemeMode
 import com.bare.app.Screen
@@ -286,7 +285,13 @@ fun SettingsScreen(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.settings_about_version, BuildConfig.VERSION_NAME))
+                    Text(
+                        stringResource(
+                            R.string.settings_about_version,
+                            context.packageManager.getPackageInfo(context.packageName, 0).versionName
+                                ?: stringResource(R.string.unknown),
+                        ),
+                    )
                     Text(stringResource(R.string.settings_about_product))
                 }
             },
