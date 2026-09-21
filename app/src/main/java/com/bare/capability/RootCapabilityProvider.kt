@@ -56,23 +56,6 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         return RootGrantResult(granted, failed)
     }
 
-    fun grantRequiredPermissionsAndVerify(): RootGrantResult {
-        val result = grantRequiredPermissions()
-        return if (result.failed.isNotEmpty()) {
-            result
-        } else {
-            val verification = runSu(
-                "cmd package check-permission '$PACKAGE_NAME' " +
-                    "android.permission.READ_SMS"
-            )
-            if (verification.exitCode != 0) {
-                result.copy(failed = listOf("Root permission verification failed"))
-            } else {
-                result
-            }
-        }
-    }
-
     fun ensureDirectory(path: String, ownerUid: Int): RootProbeResult {
         if (path.isBlank() || path.contains("\\n") || path.contains("\\r")) {
             return RootProbeResult.Failed("Invalid storage path")
