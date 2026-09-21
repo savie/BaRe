@@ -2249,3 +2249,36 @@ HOME
 ### Boundary
 Perubahan ini hanya merebaseline urutan onboarding. Permission/capability matrix belum diimplementasikan; audit capability tetap menjadi pekerjaan berikutnya setelah flow foundation ini.
 
+
+## 2026-09-21 — Root Permission Confirmation UX + Grant Path
+
+### Authorization
+Pengguna memberikan **GO** untuk menyederhanakan UX konfirmasi Root dengan pola yang dipelajari dari Swift Backup: satu confirmation dialog yang menjelaskan permission/capability set yang akan disiapkan, lalu satu aksi **Grant permissions**. Implementasi BaRe dibuat sendiri; reference hanya digunakan untuk mempelajari workflow/UX.
+
+### Change
+- Manifest BaRe sekarang mendeklarasikan permission yang dibutuhkan oleh Root onboarding baseline: SMS, Contacts, Call Logs, Notifications, serta legacy external storage untuk API lama.
+- Root capability provider sekarang memiliki root grant path sendiri menggunakan su.
+- Android runtime permissions di-grant melalui pm grant.
+- All Files Access pada Android R+ disiapkan melalui AppOps android:manage_external_storage, bukan dianggap sebagai runtime permission biasa.
+- Access Method Root menampilkan confirmation dialog sebelum grant dijalankan.
+- Dialog mencantumkan Storage / All files access, SMS, Call logs, Contacts, Notifications (API 33+), dan Installed apps.
+- Setelah konfirmasi, BaRe menjalankan root grant path lalu melakukan root capability probe sebelum melanjutkan ke Storage Setup.
+- Non-root flow tidak dipaksa melewati root grant dialog.
+
+### Verification Truth
+- Source changes committed and readable from branch: **VERIFIED STATIC**.
+- Runtime permission grant: **UNVERIFIED** sampai diuji pada device rooted yang sesuai.
+- Root AppOps behavior untuk All Files Access: **UNVERIFIED** sampai diuji pada device target.
+- Build/CI: **UNVERIFIED**; belum ada successful workflow run yang dapat dijadikan bukti.
+- Device UX confirmation: **UNVERIFIED**.
+
+### Boundary
+UX mengikuti pola reference secara konseptual, tetapi source/code BaRe dibuat independen. Reference tidak menjadi implementation dependency.
+
+### Next
+1. Build/CI verification.
+2. Device test Root confirmation → grant → storage.
+3. Verify actual permission state setelah grant.
+4. Verify non-root state dan capability limitations secara terpisah.
+5. Perbaiki hanya failure yang terbukti dari runtime evidence.
+
