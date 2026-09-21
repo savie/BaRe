@@ -2030,3 +2030,25 @@ Pengguna memberikan **GO** dengan urutan eksplisit: rename/merge → fix compile
 
 ### Current Truth
 The source naming/compile-fix change is committed on v1.0/rebaseline. This does not establish CI/build/runtime verification until an observable CI result or equivalent build evidence exists.
+
+
+## 2026-09-21 — G1 Apps Options UX Correction
+
+### Authorization
+Pengguna memberikan GO untuk memperbaiki hasil runtime G1 berdasarkan evidence device dan reference yang sudah disepakati. Scope tetap G1; tidak mengubah discovery baseline atau membuat capability baru di luar inventory.
+
+### Change
+- Sort dipindahkan seluruhnya ke bottom sheet; sort control tidak lagi berada di atas list.
+- Count/reset row di atas list dihapus dari surface utama.
+- Local app search tetap satu fungsi dengan icon header; search field tidak lagi memiliki tombol Close. Icon Search menjadi toggle open/close.
+- Terminologi SEARCH BY diganti menjadi SORT BY.
+- Sort options mengikuti reference: Name, Install date, Update date, Backup date, Backup size, Date used, App size. Name/install/update/app size memakai data Android yang tersedia; backup/date-used options tetap disabled karena belum ada verified data source.
+- Filter surface diperluas mengikuti reference: Favorites, App Labels, App type, On-device backup, Cloud sync, Install status, Enabled status, Google Play install source, dan Miscellaneous backup-related filters.
+- Android-backed filters yang benar-benar memiliki source sekarang berfungsi: App type, Enabled status, Google Play install source. Install/update/app-size sorting juga memakai PackageManager/device data.
+- Backup/cloud/label/favorite filters yang belum memiliki verified local data source ditampilkan disabled; tidak ada metadata yang difabrikasi.
+
+### Verification Truth
+- Source inspection before change: VERIFIED.
+- Reference coverage: VERIFIED against docs/reference.md APP-05 through APP-18 and section 24.1C.
+- Runtime/device behavior after change: PENDING CI/device evidence.
+- Backup/cloud metadata capability: UNVERIFIED / unavailable in current installed-app repository.
