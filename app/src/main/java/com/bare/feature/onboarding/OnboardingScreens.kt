@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import kotlin.math.roundToInt
-import java.security.SecureRandom
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -39,50 +38,14 @@ import androidx.compose.ui.unit.sp
 import com.bare.app.AccessMethod
 import com.bare.app.LocalIdentityStore
 import com.bare.recovery.RecoveryArtifactRepository
-import com.bare.storage.StorageConfigurationStore
 import com.bare.app.IdentityType
 import com.bare.R
+import com.bare.storage.initializeLocalBackupStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
-private const val RECOVERY_SECRET_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789"
-
-private fun generateRecoverySecret(random: SecureRandom = SecureRandom()): CharArray {
-    return CharArray(48) { RECOVERY_SECRET_ALPHABET[random.nextInt(RECOVERY_SECRET_ALPHABET.length)] }
-}
-
-suspend fun initializeStorageForIdentity(
-    context: android.content.Context,
-    identityId: String,
-    selectedStorageKind: com.bare.storage.BackupStorage.Kind,
-) {
-    val repository = com.bare.storage.BackupStorageRepository(context)
-    val identityStore = LocalIdentityStore(context)
-    val recoveryRepository = RecoveryArtifactRepository(context)
-    val storageConfig = StorageConfigurationStore(context)
-    val initialized = withContext(Dispatchers.IO) {
-        repository.initialize(identityId, selectedStorageKind)
-    }
-    val password = generateRecoverySecret()
-    try {
-        withContext(Dispatchers.IO) {
-            val artifact = recoveryRepository.exportToFile(
-                directory = initialized.recoveryDirectory,
-                payload = identityStore.toRecoveryPayload(),
-                password = password,
-            )
-            check(artifact.isFile && artifact.length() > 0L) { "recovery artifact verification failed" }
-            storageConfig.saveKind(selectedStorageKind)
-        }
-    } finally {
-        password.fill('\u0000')
-    }
-}
-
-
 @Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(
@@ -468,7 +431,7 @@ fun StorageSetupScreen(
                         val selectedKind = selectedStorageKind
                         scope.launch {
                             runCatching {
-                                initializeStorageForIdentity(
+                                initializeLocalBackupStorage(
                                     context = context,
                                     identityId = identity,
                                     selectedStorageKind = selectedKind,
