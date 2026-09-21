@@ -25,6 +25,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.bare.ui.components.ListEntry
+import com.bare.feature.settings.SettingsScreen
+import com.bare.app.AppThemeMode
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -189,7 +191,17 @@ fun MiscScreen(screen: Screen, onBack: () -> Unit) {
         Screen.STORAGE -> GenericDomainScreen(stringResource(R.string.storage), stringResource(R.string.storage_summary), listOf(stringResource(R.string.internal_storage), stringResource(R.string.external_saf), stringResource(R.string.storage_switch), stringResource(R.string.space_checks), stringResource(R.string.move_copy), stringResource(R.string.repository_status)), onBack)
         Screen.MANAGEMENT -> GenericDomainScreen(stringResource(R.string.management), stringResource(R.string.management_summary), listOf(stringResource(R.string.labels), stringResource(R.string.favorites), stringResource(R.string.blacklist), stringResource(R.string.quick_actions_label), stringResource(R.string.custom_configurations), stringResource(R.string.retention), stringResource(R.string.protected_backups)), onBack)
         Screen.DIAGNOSTICS -> GenericDomainScreen(stringResource(R.string.diagnostics), stringResource(R.string.diagnostics_summary), listOf(stringResource(R.string.operation_logs), stringResource(R.string.errors), stringResource(R.string.skipped_parts), stringResource(R.string.blocked_operations), stringResource(R.string.storage_checks), stringResource(R.string.transfer_checks), stringResource(R.string.app_visibility_diagnostics)), onBack)
-        Screen.SETTINGS -> GenericDomainScreen(stringResource(R.string.settings), stringResource(R.string.settings_summary), listOf(stringResource(R.string.appearance), stringResource(R.string.language), stringResource(R.string.backup_defaults), stringResource(R.string.restore_defaults), stringResource(R.string.security), stringResource(R.string.compression), stringResource(R.string.notifications), stringResource(R.string.about)), onBack)
+        Screen.SETTINGS -> SettingsScreen(
+            onOpen = onOpen,
+            onOpenApps = onOpenApps,
+            themeMode = themeMode,
+            dynamicColors = dynamicColors,
+            amoledBlack = amoledBlack,
+            onThemeModeChanged = onThemeModeChanged,
+            onDynamicColorsChanged = onDynamicColorsChanged,
+            onAmoledBlackChanged = onAmoledBlackChanged,
+            onBack = onBack,
+        )
         Screen.IMPORT_EXPORT -> GenericDomainScreen(stringResource(R.string.import_export), stringResource(R.string.import_export_summary), listOf(stringResource(R.string.import_apk), stringResource(R.string.import_apks), stringResource(R.string.export_configuration), stringResource(R.string.import_configuration), stringResource(R.string.validation), stringResource(R.string.history)), onBack)
         Screen.TASK -> GenericDomainScreen(stringResource(R.string.task), stringResource(R.string.task_summary), listOf(stringResource(R.string.planned), stringResource(R.string.validating), stringResource(R.string.ready), stringResource(R.string.running), stringResource(R.string.succeeded), stringResource(R.string.partial), stringResource(R.string.failed), stringResource(R.string.blocked), stringResource(R.string.skipped), stringResource(R.string.cancelled), stringResource(R.string.verification_unverified_verified)), onBack)
         Screen.SCHEDULE_DETAIL -> GenericDomainScreen(stringResource(R.string.schedule), stringResource(R.string.schedule_summary), listOf(stringResource(R.string.schedule_name), stringResource(R.string.conditions), stringResource(R.string.selected_apps), stringResource(R.string.selected_folders), stringResource(R.string.enabled), stringResource(R.string.last_run), stringResource(R.string.run_now)), onBack)
