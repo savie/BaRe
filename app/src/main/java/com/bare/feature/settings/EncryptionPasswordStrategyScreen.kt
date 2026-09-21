@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -79,19 +79,19 @@ fun EncryptionPasswordStrategyScreen(
                 ),
                 selected = strategy == EncryptionPasswordStrategy.ADVANCED,
                 onClick = { select(EncryptionPasswordStrategy.ADVANCED) },
+                footer = {
+                    Button(
+                        onClick = onOpenUserPassword,
+                        enabled = strategy == EncryptionPasswordStrategy.ADVANCED,
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(vertical = 14.dp),
+                    ) {
+                        Text(stringResource(R.string.encryption_set_user_password))
+                    }
+                },
             )
 
-            if (strategy == EncryptionPasswordStrategy.ADVANCED) {
-                Button(
-                    onClick = onOpenUserPassword,
-                    modifier = Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(vertical = 14.dp),
-                ) {
-                    Text(stringResource(R.string.encryption_set_user_password))
-                }
-            } else {
-                Spacer(Modifier.height(4.dp))
-            }
+            Spacer(Modifier.height(4.dp))
         }
     }
 }
@@ -102,6 +102,7 @@ private fun StrategyCard(
     body: String,
     selected: Boolean,
     onClick: () -> Unit,
+    footer: @Composable (() -> Unit)? = null,
 ) {
     val borderModifier = if (selected) {
         Modifier.border(
@@ -136,6 +137,7 @@ private fun StrategyCard(
                 },
             )
             Text(body, style = MaterialTheme.typography.bodyLarge)
+            footer?.invoke()
         }
     }
 }
