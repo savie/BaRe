@@ -1,5 +1,7 @@
 package com.bare.capability
 
+import android.Manifest
+import android.os.Build
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
@@ -12,6 +14,64 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         else RootProbeResult.Failed("su did not provide uid 0: " + result.stdout)
     }
 
+
+    fun grantRequiredPermissions(): RootGrantResult {
+        val permissionSet = buildList {
+            add(Manifest.permission.READ_SMS)
+            add(Manifest.permission.WRITE_SMS)
+            add(Manifest.permission.READ_CONTACTS)
+            add(Manifest.permission.READ_CALL_LOG)
+            add(Manifest.permission.WRITE_CALL_LOG)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                add(Manifest.permission.READ_EXTERNAL_STORAGE)
+                add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            }
+        }
+
+        val granted = mutableListOf<String>()
+        val failed = mutableListOf<String>()
+
+        for (permission in permissionSet) {
+            val result = runSu("pm grant '$PACKAGE_NAME' '$permission'")
+            if (result.exitCode == 0) {
+                granted += permission
+            } else {
+                failed += permission + ": " + result.stderr.ifBlank { result.stdout }.trim()
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val result = runSu("appops set '$PACKAGE_NAME' android:manage_external_storage allow")
+            if (result.exitCode != 0) {
+                failed += "android.permission.MANAGE_EXTERNAL_STORAGE: " +
+                    result.stderr.ifBlank { result.stdout }.trim()
+            } else {
+                granted += "android.permission.MANAGE_EXTERNAL_STORAGE"
+            }
+        }
+
+        return RootGrantResult(granted, failed)
+    }
+
+    fun grantRequiredPermissionsAndVerify(): RootGrantResult {
+        val result = grantRequiredPermissions()
+        return if (result.failed.isNotEmpty()) {
+            result
+        } else {
+            val verification = runSu(
+                "cmd package check-permission '$PACKAGE_NAME' " +
+                    "android.permission.READ_SMS"
+            )
+            if (verification.exitCode != 0) {
+                result.copy(failed = listOf("Root permission verification failed"))
+            } else {
+                result
+            }
+        }
+    }
 
     fun ensureDirectory(path: String, ownerUid: Int): RootProbeResult {
         if (path.isBlank() || path.contains("\\n") || path.contains("\\r")) {
@@ -69,8 +129,13 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     private data class Result(val exitCode: Int, val stdout: String, val stderr: String)
-    companion object { private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""") }
+    companion object {
+        private const val PACKAGE_NAME = "com.bare"
+        private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""")
+    }
 }
+
+data class RootGrantResult(val granted: List<String>, val failed: List<String>)
 
 sealed interface RootProbeResult { data class Success(val identity: String) : RootProbeResult; data class Failed(val reason: String) : RootProbeResult }
 sealed interface RootCopyResult { data class Success(val files: List<File>) : RootCopyResult; data class Failed(val reason: String) : RootCopyResult }
