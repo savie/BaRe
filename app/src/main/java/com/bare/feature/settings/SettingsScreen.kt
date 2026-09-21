@@ -531,7 +531,7 @@ private fun StorageOption(
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        RadioButton(selected = selected, onClick = onClick)
+        RadioButton(selected = selected, onClick = if (enabled) onClick else null, enabled = enabled)
         Spacer(Modifier.width(8.dp))
         Text(
             label,
