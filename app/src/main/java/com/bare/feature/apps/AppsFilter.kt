@@ -73,10 +73,10 @@ private fun formatRelativeTime(timestamp: Long): String {
     val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
     return when {
         minutes < 1L -> "just now"
-        minutes < 60L -> "\$minutes minute\${if (minutes == 1L) "" else "s"} ago"
+        minutes < 60L -> "$minutes minute${if (minutes == 1L) "" else "s"} ago"
         minutes < 1440L -> {
             val hours = minutes / 60L
-            "\$hours hour\${if (hours == 1L) "" else "s"} ago"
+            "$hours hour${if (hours == 1L) "" else "s"} ago"
         }
         else -> {
             val days = minutes / 1440L
