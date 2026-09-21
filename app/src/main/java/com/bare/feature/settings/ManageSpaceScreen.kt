@@ -67,6 +67,7 @@ fun ManageSpaceScreen(
                         ManageSpaceAction.DELETE_ALL_DATA -> repository.deleteAllLocalData(id)
                         ManageSpaceAction.RESET_SETTINGS -> {
                             context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
+                            context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
                             0L
                         }
                     }
