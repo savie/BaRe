@@ -300,13 +300,10 @@ fun SettingsScreen(
                         },
                     )
                     StorageOption(
-                        label = stringResource(R.string.external_saf),
+                        label = stringResource(R.string.external_saf) + " · Requires folder selection",
                         selected = storageKind == BackupStorage.Kind.EXTERNAL,
-                        onClick = {
-                            storageStore.saveKind(BackupStorage.Kind.EXTERNAL)
-                            storageKind = BackupStorage.Kind.EXTERNAL
-                            showStorageDialog = false
-                        },
+                        enabled = false,
+                        onClick = {},
                     )
                 }
             },
@@ -436,15 +433,22 @@ private fun SettingsRow(
 private fun StorageOption(
     label: String,
     selected: Boolean,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 10.dp),
+        modifier = Modifier.fillMaxWidth()
+            .clickable(enabled = enabled, onClick = onClick)
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         RadioButton(selected = selected, onClick = onClick)
         Spacer(Modifier.width(8.dp))
-        Text(label)
+        Text(
+            label,
+            color = if (enabled) MaterialTheme.colorScheme.onSurface
+            else MaterialTheme.colorScheme.onSurfaceVariant,
+        )
     }
 }
 
