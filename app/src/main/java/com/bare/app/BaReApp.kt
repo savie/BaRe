@@ -36,7 +36,7 @@ import com.bare.feature.apps.AppBackupsScreen
 import com.bare.feature.apps.AppManagementScreen
 import com.bare.feature.apps.AppDiagnosticsScreen
 import com.bare.feature.apps.AppRestoreScreen
-import com.bare.feature.apps.AppsG1Screen
+import com.bare.feature.apps.AppsFilterScreen
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsToolsScreen
 import com.bare.feature.home.HomeScreen
@@ -386,7 +386,7 @@ private fun MainShell(
                     onOpenAccessMethod = onOpenAccessMethod,
                     onOpenStorage = onOpenStorage,
                 )
-                Tab.APPS -> AppsG1Screen(
+                Tab.APPS -> AppsFilterScreen(
                     onOpen = onOpenScreen,
                     onOpenApp = onOpenApp,
                     searchOpen = appsSearchOpen,
