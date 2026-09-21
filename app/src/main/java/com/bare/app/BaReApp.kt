@@ -251,7 +251,7 @@ fun BaReApp() {
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
-                    screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
+                    screen, identityStore.load()?.identityId, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it },
                     themeMode, dynamicColors, amoledBlack,
                     { value -> themeMode = value; settingsStore.saveThemeMode(value) },
