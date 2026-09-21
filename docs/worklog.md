@@ -2570,3 +2570,25 @@ Pengguna memberikan **GO** untuk memprioritaskan **Tab Account** terlebih dahulu
 - Supplied build result: FAILED at resource merge before this fix.
 - Build after this fix: UNVERIFIED pending a new build result.
 - Device/UI verification: UNVERIFIED.
+
+
+## 2026-09-21 — Build Failure Triage: Account Call-Site Syntax
+
+### Observed
+- User-provided build reached `:app:compileDebugKotlin` but failed during Kotlin compilation.
+- The supplied excerpt omitted the individual compiler diagnostics, so the exact compiler message was not available in the user-provided tail.
+
+### Inspection
+- Static inspection of the current source found the AccountScreen call-site in `BaReApp.kt` contained literal escaped newline sequences (`\\n`) inside Kotlin source instead of actual line breaks.
+- This is invalid Kotlin syntax and is consistent with a compile-time failure in the Account mockup wiring.
+
+### Change
+- Replaced the literal escaped newline sequences with normal Kotlin multiline formatting.
+- No Account behavior or UI scope changed.
+- Fix commit: `8ed5516d0682f84d2ccaaa2d0e577c0cd1734d36`.
+
+### Verification
+- Source fix: **VERIFIED STATIC** by re-fetching the affected file.
+- Supplied build: **FAILED** at Kotlin compilation; exact diagnostics unavailable in supplied excerpt.
+- Build after this fix: **UNVERIFIED** pending a new build result.
+- Device/UI Account verification: **UNVERIFIED**.
