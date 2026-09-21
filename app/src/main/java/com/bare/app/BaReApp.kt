@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
+import androidx.compose.ui.input.nestedscroll.NestedScrollSource
+import androidx.compose.ui.unit.Velocity
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.filled.Menu
@@ -233,6 +237,7 @@ fun BaReApp() {
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
+                    { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it }
                 )
@@ -255,6 +260,7 @@ private fun MainShell(
     onTabSelected: (Int) -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
+    onAccessChanged: (AccessMethod) -> Unit,
     onRecoveryRestored: (BaReIdentity) -> Unit,
     screen: Screen,
     selectedApp: AppItem?,
@@ -289,7 +295,26 @@ private fun MainShell(
         return
     }
     var appsMenuOpen by remember { mutableStateOf(false) }
+    var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
+    val bottomBarScrollConnection = remember {
+        object : NestedScrollConnection {
+            override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
+                if (available.y < -1f) bottomBarVisible = false
+                else if (available.y > 1f) bottomBarVisible = true
+                return Offset.Zero
+            }
+
+            override suspend fun onPreFling(available: Velocity): Velocity {
+                if (available.y < -1f) bottomBarVisible = false
+                else if (available.y > 1f) bottomBarVisible = true
+                return Velocity.Zero
+            }
+        }
+    }
+    LaunchedEffect(pagerState.currentPage) {
+        bottomBarVisible = true
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -347,19 +372,28 @@ private fun MainShell(
             )
         },
         bottomBar = {
-            NavigationBar {
-                tabs.forEachIndexed { index, tab ->
-                    NavigationBarItem(
-                        selected = pagerState.currentPage == index,
-                        onClick = { onTabSelected(index) },
-                        icon = { Icon(tab.icon, stringResource(tab.titleRes), modifier = Modifier.size(22.dp)) },
-                        label = { Text(stringResource(tab.titleRes), style = MaterialTheme.typography.labelMedium) },
-                    )
+            androidx.compose.animation.AnimatedVisibility(
+                visible = bottomBarVisible,
+                enter = androidx.compose.animation.slideInVertically { it } + androidx.compose.animation.fadeIn(),
+                exit = androidx.compose.animation.slideOutVertically { it } + androidx.compose.animation.fadeOut(),
+            ) {
+                NavigationBar {
+                    tabs.forEachIndexed { index, tab ->
+                        NavigationBarItem(
+                            selected = pagerState.currentPage == index,
+                            onClick = { onTabSelected(index) },
+                            icon = { Icon(tab.icon, stringResource(tab.titleRes), modifier = Modifier.size(22.dp)) },
+                            label = { Text(stringResource(tab.titleRes), style = MaterialTheme.typography.labelMedium) },
+                        )
+                    }
                 }
             }
         },
     ) { padding ->
-        HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize().padding(padding)) { page ->
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxSize().padding(padding).nestedScroll(bottomBarScrollConnection),
+        ) { page ->
             when (tabs[page]) {
                 Tab.HOME -> HomeScreen(
                     identityId = LocalIdentityStore(LocalContext.current).load()?.identityId,
@@ -368,7 +402,7 @@ private fun MainShell(
                     accessMethod = accessMethod,
                     onOpen = onOpenScreen,
                     onOpenTab = onTabSelected,
-                    onAccessChanged = { selectedMethod = it; identityStore.saveAccessMethod(it) },
+                    onAccessChanged = onAccessChanged,
                 )
                 Tab.APPS -> AppsFilterScreen(
                     onOpen = onOpenScreen,
