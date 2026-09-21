@@ -1,6 +1,5 @@
 package com.bare.feature.home
 
-import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -9,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons as MaterialIcons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,6 +67,12 @@ fun HomeScreen(
     var accessBusy by remember { mutableStateOf(false) }
     var storageBusy by remember { mutableStateOf(false) }
     var storageError by remember { mutableStateOf<String?>(null) }
+    var selectedStorageKind by remember(context) {
+        mutableStateOf(
+            com.bare.storage.StorageConfigurationStore(context).loadKind()
+                ?: BackupStorage.Kind.INTERNAL
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -84,9 +90,7 @@ fun HomeScreen(
         OutlinedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
-            border = CardDefaults.outlinedCardBorder().copy(
-                width = 1.dp,
-            ),
+            border = BorderStroke(1.dp, Color.White),
             colors = CardDefaults.outlinedCardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
             ),
@@ -301,7 +305,7 @@ fun HomeScreen(
                 StorageSwitchOption(
                     title = stringResource(R.string.internal_storage),
                     subtitle = formatStorageSize(internal.freeBytes) + " free",
-                    selected = true,
+                    selected = selectedStorageKind == BackupStorage.Kind.INTERNAL,
                     enabled = !storageBusy && internal.available,
                 ) {
                     if (!identityId.isNullOrBlank()) {
@@ -312,6 +316,7 @@ fun HomeScreen(
                                 initializeStorageForIdentity(context, identityId, BackupStorage.Kind.INTERNAL)
                             }.onSuccess {
                                 storageBusy = false
+                                selectedStorageKind = BackupStorage.Kind.INTERNAL
                                 storageSheetOpen = false
                             }.onFailure {
                                 storageBusy = false
@@ -327,7 +332,7 @@ fun HomeScreen(
                     } else {
                         stringResource(R.string.external_storage_not_mounted)
                     },
-                    selected = false,
+                    selected = selectedStorageKind == BackupStorage.Kind.EXTERNAL,
                     enabled = !storageBusy && external?.available == true,
                 ) {
                     if (!identityId.isNullOrBlank()) {
@@ -338,6 +343,7 @@ fun HomeScreen(
                                 initializeStorageForIdentity(context, identityId, BackupStorage.Kind.EXTERNAL)
                             }.onSuccess {
                                 storageBusy = false
+                                selectedStorageKind = BackupStorage.Kind.EXTERNAL
                                 storageSheetOpen = false
                             }.onFailure {
                                 storageBusy = false
@@ -349,11 +355,12 @@ fun HomeScreen(
                 StorageSwitchOption(
                     title = stringResource(R.string.cloud_storage),
                     subtitle = cloud?.displayName ?: stringResource(R.string.cloud_provider),
-                    selected = false,
+                    selected = selectedStorageKind == BackupStorage.Kind.REMOTE,
                     enabled = !storageBusy,
                 ) {
                     storageBusy = false
                     storageError = null
+                    selectedStorageKind = BackupStorage.Kind.REMOTE
                     storageSheetOpen = false
                 }
                 if (storageBusy) {
