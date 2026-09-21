@@ -2088,3 +2088,16 @@ Pengguna memberikan GO untuk memperbaiki hasil runtime G1 berdasarkan evidence d
   - Install status and backup/cloud-derived options remain deferred because they require the verified backup inventory / G3 dependency.
 - Verification truth:
   - Source changes are committed on `v1.0/rebaseline`; compile/runtime verification is pending CI/device execution.
+
+
+## 2026-09-21 — Apps Sort Context and Active Filter Chips
+
+- Authorization: explicit **GO** from user.
+- Implemented:
+  - Sort controls reduced to 48dp circle / 20dp icon.
+  - App cards now expose sort-context metadata for device-backed sort modes: install date, update date, date used, and app size.
+  - Active Favorites, Labels, App Type, Enabled Status, and Google Play filters are surfaced as removable chips above the app list.
+  - Removing a chip updates the same filter state used by the options sheet.
+  - Date used continues to use the explicit Android Usage Access path; no permission bypass was introduced.
+  - Backup-date and backup-size presentation remain deferred until verified backup inventory data is available; no metadata is fabricated.
+- Verification truth: source committed; CI/device verification pending.
