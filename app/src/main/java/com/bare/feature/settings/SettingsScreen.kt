@@ -184,7 +184,7 @@ fun SettingsScreen(
                         title = stringResource(R.string.settings_manage_space),
                         subtitle = stringResource(R.string.settings_manage_space_subtitle),
                         icon = Icons.Outlined.DataUsage,
-                        onClick = { openSystemSettings(context, Settings.ACTION_INTERNAL_STORAGE_SETTINGS) },
+                        onClick = { onOpen(Screen.MANAGE_SPACE) },
                     )
                 }
             }
