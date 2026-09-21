@@ -38,6 +38,8 @@ import androidx.compose.ui.text.font.FontWeight
 import com.bare.R
 import com.bare.feature.account.AccountScreen
 import com.bare.feature.settings.ManageSpaceScreen
+import com.bare.feature.settings.EncryptionPasswordStrategyScreen
+import com.bare.feature.settings.UserPasswordScreen
 import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
@@ -339,6 +341,11 @@ private fun MainShell(
             Screen.APP_RESTORE -> AppRestoreScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
             Screen.MANAGE_SPACE -> ManageSpaceScreen(identityId = identityId, onBack = onBack)
+            Screen.ENCRYPTION_PASSWORD_STRATEGY -> EncryptionPasswordStrategyScreen(
+                onBack = onBack,
+                onOpenUserPassword = { onOpenScreen(Screen.USER_PASSWORD) },
+            )
+            Screen.USER_PASSWORD -> UserPasswordScreen(onBack = onBack)
             else -> MiscScreen(
                 screen = screen,
                 identityId = identityId,
