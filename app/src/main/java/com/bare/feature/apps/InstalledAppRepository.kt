@@ -19,6 +19,17 @@ class InstalledAppRepository(private val context: Context) {
                     size = formatSize(File(info.sourceDir).length()),
                     isSystem = isSystem,
                     isEnabled = info.enabled,
+                    firstInstallTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).firstInstallTime }.getOrNull(),
+                    lastUpdateTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime }.getOrNull(),
+                    apkSizeBytes = runCatching {
+                        buildList {
+                            add(info.sourceDir)
+                            info.splitSourceDirs?.let(::addAll)
+                        }.sumOf { path -> File(path).length().coerceAtLeast(0L) }
+                    }.getOrNull(),
+                    installedFromGooglePlay = runCatching {
+                        packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
+                    }.getOrNull(),
                 )
             }
             .sortedBy { it.name.lowercase() }
