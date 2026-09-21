@@ -220,7 +220,7 @@ fun SettingsScreen(
                         title = stringResource(R.string.help_center),
                         subtitle = stringResource(R.string.settings_help_center_subtitle),
                         icon = Icons.Outlined.HelpOutline,
-                        onClick = { onOpen(Screen.DIAGNOSTICS) },
+                        enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.contact),
@@ -409,6 +409,7 @@ private fun openSystemSettings(
     vararg extras: Pair<String, String>,
 ) {
     val intent = Intent(action).apply {
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         extras.forEach { (key, value) -> putExtra(key, value) }
     }
     if (intent.resolveActivity(context.packageManager) != null) {
