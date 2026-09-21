@@ -219,7 +219,7 @@ private fun clearBaReAppData(context: Context) {
     context.cacheDir.deleteChildren()
     context.codeCacheDir.deleteChildren()
     context.noBackupFilesDir.deleteChildren()
-    context.databaseList.forEach { name -> context.deleteDatabase(name) }
+    context.databaseList().forEach { name -> context.deleteDatabase(name) }
 }
 
 private fun resetBaReSettings(context: Context) {
