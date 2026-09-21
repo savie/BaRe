@@ -18,7 +18,12 @@ import androidx.compose.ui.unit.dp
 import com.bare.app.AppItem
 import com.bare.R
 import com.bare.app.Screen
-import com.bare.app.demoApps
+import com.bare.feature.apps.InstalledAppRepository
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.bare.ui.components.ListEntry
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
@@ -99,15 +104,51 @@ fun CloudScreen(
 
 @Composable
 fun SearchScreen(query: String, onQueryChange: (String) -> Unit, onOpenApp: (AppItem) -> Unit, onClose: () -> Unit) {
-    Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onClose) { Icon(Icons.Default.ArrowBack, "Kembali") }
-            OutlinedTextField(query, onQueryChange, Modifier.weight(1f), label = { Text(stringResource(R.string.search)) }, singleLine = true)
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val repository = remember(context) { InstalledAppRepository(context) }
+    var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
+
+    LaunchedEffect(repository) {
+        apps = runCatching { repository.load() }.getOrDefault(emptyList())
+    }
+
+    val normalizedQuery = query.trim()
+    val results = remember(apps, normalizedQuery) {
+        apps.filter {
+            normalizedQuery.isBlank() ||
+                it.name.contains(normalizedQuery, true) ||
+                it.packageName.contains(normalizedQuery, true)
         }
-        Text(stringResource(R.string.search_scope))
-        val results = demoApps.filter { query.isBlank() || it.name.contains(query, true) || it.packageName.contains(query, true) }
+    }
+
+    Column(
+        Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onClose) {
+                Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
+            }
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                modifier = Modifier.weight(1f),
+                label = { Text(stringResource(R.string.search)) },
+                singleLine = true,
+            )
+        }
+        Text(
+            stringResource(R.string.search_scope),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(results) { app -> ListEntry(app.name, app.packageName, Icons.Default.Apps) { onOpenApp(app) } }
+            items(results, key = { it.packageName }) { app ->
+                ListEntry(
+                    app.name,
+                    app.packageName,
+                    Icons.Default.Apps,
+                ) { onOpenApp(app) }
+            }
         }
     }
 }
