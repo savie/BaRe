@@ -312,6 +312,7 @@ private fun MainShell(
             else -> MiscScreen(
                 screen = screen,
                 onBack = onBack,
+                onOpen = onOpenScreen,
                 onOpenApps = { onTabSelected(Tab.APPS.ordinal) },
                 themeMode = themeMode,
                 dynamicColors = dynamicColors,
