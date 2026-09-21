@@ -35,7 +35,7 @@ import com.bare.feature.apps.AppBackupsScreen
 import com.bare.feature.apps.AppManagementScreen
 import com.bare.feature.apps.AppDiagnosticsScreen
 import com.bare.feature.apps.AppRestoreScreen
-import com.bare.feature.apps.AppsScreen
+import com.bare.feature.apps.AppsG1Screen
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsToolsScreen
 import com.bare.feature.home.HomeScreen
@@ -104,6 +104,7 @@ fun BaReApp() {
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     var appsSearchOpen by remember { mutableStateOf(false) }
+    var appsFilterOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
 
@@ -238,7 +239,7 @@ fun BaReApp() {
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
-                    { appsSearchOpen = true },
+                    { appsSearchOpen = true }, { appsFilterOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
@@ -246,7 +247,7 @@ fun BaReApp() {
                     { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
-                    appsSearchOpen, { appsSearchOpen = it }
+                    appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it }
                 )
             }
         }
@@ -278,6 +279,8 @@ private fun MainShell(
     accessMethod: AccessMethod?,
     appsSearchOpen: Boolean,
     onAppsSearchOpenChange: (Boolean) -> Unit,
+    appsFilterOpen: Boolean,
+    onAppsFilterOpenChange: (Boolean) -> Unit,
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
@@ -333,6 +336,9 @@ private fun MainShell(
                         Icon(Icons.Outlined.Search, stringResource(R.string.search))
                     }
                     if (appsSelected) {
+                        IconButton(onClick = { onAppsFilterOpenChange(true) }) {
+                            Icon(Icons.Default.Tune, contentDescription = "Filter & Search")
+                        }
                         Box {
                             IconButton(onClick = { appsMenuOpen = true }) {
                                 Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.apps_menu))
@@ -378,11 +384,13 @@ private fun MainShell(
                     onOpenAccessMethod = onOpenAccessMethod,
                     onOpenStorage = onOpenStorage,
                 )
-                Tab.APPS -> AppsScreen(
+                Tab.APPS -> AppsG1Screen(
                     onOpen = onOpenScreen,
                     onOpenApp = onOpenApp,
                     searchOpen = appsSearchOpen,
                     onSearchOpenChange = onAppsSearchOpenChange,
+                    filterOpen = appsFilterOpen,
+                    onFilterOpenChange = onAppsFilterOpenChange,
                 )
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
                 Tab.ACCOUNT -> AccountScreen(onOpenScreen)
