@@ -2440,3 +2440,19 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - Source change: **COMMITTED** pada `v1.0/rebaseline`, commit `1bdd46338f3ae1038bb97c8f3c8abd9b4c5a3c6d`.
 - Build setelah perubahan: **UNVERIFIED**.
 - Device/UI verification hasil refinement ini: **PENDING** screenshot berikutnya.
+
+## 2026-09-21 — #499 Horizontal Centering for Floating 4-Tab Navigation
+
+### Authorization
+- Pengguna memberikan **GO** untuk menerapkan `Alignment.CenterHorizontally` / explicit horizontal centering pada floating 4-tab navigation.
+
+### Change
+- `AnimatedVisibility` dibuat full-width sebagai positioning parent.
+- Ditambahkan `Box(fillMaxWidth(), contentAlignment = Alignment.Center)` sebagai parent floating navigation.
+- Existing NavigationBar width `62%`, height `64.dp`, dan vertical offset `-12.dp` dipertahankan.
+- Tab semantics, icon-only presentation, pager navigation, dan scroll hide/show tidak diubah.
+
+### Verification
+- Source change: **COMMITTED** pada `v1.0/rebaseline`, commit `cf9ff3228e7d27534b7b30c724d6531bd63b4b4e`.
+- Build: **UNVERIFIED**.
+- Device/UI horizontal centering: **PENDING** screenshot runtime berikutnya.
