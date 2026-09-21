@@ -210,6 +210,7 @@ fun AppsFilterScreen(
                 }
             }
         }
+        }
     }
 
     if (filterOpen) {
@@ -377,7 +378,6 @@ fun AppsFilterScreen(
                         }
                     }
                     item { Text("Unavailable options stay disabled until BaRe has a verified local/cloud backup index or label/favorite source. No backup or cloud metadata is fabricated.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-                    item { if (activeFilter != AppsFilterState()) TextButton(onClick = { pendingFilter = AppsFilterState() }) { Text("Reset all options") } }
                 }
             }
         }
