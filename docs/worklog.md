@@ -3138,3 +3138,38 @@ Retry CI/build; jika retry mencapai compilation dan menghasilkan source error, r
 - Source change committed on `v1.0/rebaseline`.
 - CI/device verification: **PENDING** setelah perubahan ini.
 - Full wipe behavior still needs controlled runtime verification for both non-root and root-capable paths.
+
+
+## 2026-09-22 — #550 Settings Encryption Password Strategy
+
+### User Goal
+Settings → **Encryption password strategy** mengikuti reference flow:
+- Standard / Advanced selectable strategy.
+- Description berubah mengikuti strategy.
+- Advanced menyediakan **Set user password**.
+- Set user password memiliki active password dan old passwords flow.
+- UI text wajib menggunakan strings.xml.
+- Navigation tetap bertingkat saat Back digunakan.
+
+### Implementation
+- Added EncryptionPasswordStrategy persistence with Standard as the default.
+- Added Android Keystore-backed AES/GCM encryption for stored active/old user-password material.
+- Added EncryptionPasswordStrategyScreen.
+- Added UserPasswordScreen with active password state, new/change password dialog, password confirmation, visibility toggle, and old password storage flow.
+- Settings encryption row now opens the dedicated strategy screen.
+- Settings subtitle dynamically reflects Standard / Advanced.
+- Advanced card contains SET USER PASSWORD and only enables it when Advanced is selected.
+- Added screen-stack routing:
+  Settings → Encryption password strategy → Set user password
+  and Back returns one level at a time.
+- All new user-facing strings are in strings.xml; source scan for the new screens found no hardcoded UI literals.
+
+### Verification
+- Source changes committed on v1.0/rebaseline.
+- Resource references for the new screens: VERIFIED; no missing string resources.
+- Hardcoded UI scan for the new screens: VERIFIED clean.
+- CI/build for latest commit: PENDING / no workflow run observed yet.
+- Device/runtime verification: UNVERIFIED.
+
+### Boundary
+The password store/persistence flow is implemented, but integration of this strategy into the future backup encryption engine is not claimed as verified. No Cloud flow was changed.
