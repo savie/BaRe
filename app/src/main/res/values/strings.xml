@@ -570,6 +570,7 @@
     <string name="settings_folder_backups">Folder backups</string>
     <string name="settings_folder_backups_subtitle">Encryption, compression</string>
     <string name="settings_local_storage">Storage for local backups</string>
+    <string name="storage_identity_unavailable">Local identity is not available.</string>
     <string name="settings_cloud_backups">Cloud backups</string>
     <string name="settings_cloud_backups_subtitle">Diagnostics, transfers, downloads, chunks</string>
     <string name="settings_encryption_strategy">Encryption password strategy</string>
