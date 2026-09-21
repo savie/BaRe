@@ -76,7 +76,11 @@ fun ManageSpaceScreen(
             }.onSuccess {
                 busy = false
                 confirmAction = null
-                refresh()
+                if (action == ManageSpaceAction.DELETE_ALL_DATA) {
+                    restartAfterDataWipe(context)
+                } else {
+                    refresh()
+                }
             }.onFailure {
                 busy = false
                 error = it.message ?: "Operation failed"
@@ -148,7 +152,7 @@ fun ManageSpaceScreen(
             item {
                 ManageSpaceActionCard(
                     title = "Delete all data",
-                    body = "Delete all BaRe backup, recovery, and app data. This cannot be undone.",
+                    body = "Delete all backup, recovery, and app data. This cannot be undone.",
                     button = "Delete all data",
                     icon = Icons.Outlined.Delete,
                     enabled = !busy && identityId != null,
@@ -192,6 +196,17 @@ fun ManageSpaceScreen(
             },
         )
     }
+}
+
+private fun restartAfterDataWipe(context: Context) {
+    val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        ?: return
+    launchIntent.addFlags(
+        android.content.Intent.FLAG_ACTIVITY_NEW_TASK or
+            android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK or
+            android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP,
+    )
+    context.startActivity(launchIntent)
 }
 
 private fun clearBaReAppData(context: Context) {
