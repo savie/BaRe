@@ -232,8 +232,6 @@ fun BaReApp() {
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
-                    { returnToAppAfterFlow = true; startScreen = StartScreen.STORAGE_SETUP; screen = Screen.NONE },
-                    { returnToAppAfterFlow = true; startScreen = StartScreen.ACCESS_METHOD; screen = Screen.NONE },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it }
@@ -257,8 +255,6 @@ private fun MainShell(
     onTabSelected: (Int) -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
-    onOpenStorage: () -> Unit,
-    onOpenAccessMethod: () -> Unit,
     onRecoveryRestored: (BaReIdentity) -> Unit,
     screen: Screen,
     selectedApp: AppItem?,
@@ -366,13 +362,13 @@ private fun MainShell(
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize().padding(padding)) { page ->
             when (tabs[page]) {
                 Tab.HOME -> HomeScreen(
+                    identityId = LocalIdentityStore(LocalContext.current).load()?.identityId,
                     identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
                     accountEmail = accountEmail,
                     accessMethod = accessMethod,
                     onOpen = onOpenScreen,
                     onOpenTab = onTabSelected,
-                    onOpenAccessMethod = onOpenAccessMethod,
-                    onOpenStorage = onOpenStorage,
+                    onAccessChanged = { selectedMethod = it; identityStore.saveAccessMethod(it) },
                 )
                 Tab.APPS -> AppsFilterScreen(
                     onOpen = onOpenScreen,
