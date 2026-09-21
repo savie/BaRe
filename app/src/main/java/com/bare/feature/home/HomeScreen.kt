@@ -1,41 +1,51 @@
 package com.bare.feature.home
 
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons as MaterialIcons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.bare.R
 import com.bare.app.AccessMethod
 import com.bare.app.IdentityType
 import com.bare.app.Screen
 import com.bare.app.Tab
+import com.bare.capability.AccessCapabilityResolver
+import com.bare.storage.BackupStorage
 import com.bare.storage.BackupStorageRepository
+import com.bare.feature.onboarding.initializeStorageForIdentity
 import com.bare.ui.BareIcons
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    identityId: String?,
     identityType: IdentityType?,
     accountEmail: String,
     accessMethod: AccessMethod?,
     onOpen: (Screen) -> Unit,
     onOpenTab: (Int) -> Unit,
-    onOpenAccessMethod: () -> Unit,
-    onOpenStorage: () -> Unit,
+    onAccessChanged: (AccessMethod) -> Unit,
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     val storageRepository = remember(context) { BackupStorageRepository(context) }
+    val accessResolver = remember(context) { AccessCapabilityResolver(context) }
     val internal = remember(context) { storageRepository.internalStorageCapacity() }
     val usedBytes = (internal.totalBytes - internal.freeBytes).coerceAtLeast(0L)
     val usage = if (internal.totalBytes > 0L) {
@@ -52,8 +62,17 @@ fun HomeScreen(
         null -> stringResource(R.string.access_not_set)
     }
 
+    var accessSheetOpen by remember { mutableStateOf(false) }
+    var storageSheetOpen by remember { mutableStateOf(false) }
+    var accessBusy by remember { mutableStateOf(false) }
+    var storageBusy by remember { mutableStateOf(false) }
+    var storageError by remember { mutableStateOf<String?>(null) }
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 10.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
@@ -62,14 +81,19 @@ fun HomeScreen(
             fontWeight = FontWeight.SemiBold,
         )
 
-        Card(
+        OutlinedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+            border = CardDefaults.outlinedCardBorder().copy(
+                width = 1.dp,
+            ),
+            colors = CardDefaults.outlinedCardColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+            ),
         ) {
             Column(
-                Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(11.dp),
+                Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(13.dp),
             ) {
                 DashboardStatusRow(
                     left = {
@@ -85,7 +109,7 @@ fun HomeScreen(
                             title = stringResource(R.string.access),
                             value = accessLabel,
                             icon = MaterialIcons.Outlined.Security,
-                            modifier = Modifier.fillMaxWidth().clickable { onOpenAccessMethod() },
+                            modifier = Modifier.fillMaxWidth().clickable { accessSheetOpen = true },
                         )
                     },
                 )
@@ -93,7 +117,7 @@ fun HomeScreen(
                 DashboardDivider()
 
                 Column(
-                    modifier = Modifier.fillMaxWidth().clickable { onOpenStorage() },
+                    modifier = Modifier.fillMaxWidth().clickable { storageSheetOpen = true },
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -110,7 +134,7 @@ fun HomeScreen(
                         )
                     }
                     LinearProgressIndicator(
-                        progress = usage.toFloat(),
+                        progress = { usage.toFloat() },
                         modifier = Modifier.fillMaxWidth().height(3.dp),
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f),
                         trackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.28f),
@@ -151,17 +175,9 @@ fun HomeScreen(
                 )
 
                 DashboardDivider()
-
                 BackupAreaGrid(onOpen = onOpen)
             }
         }
-
-        Text(
-            text = stringResource(R.string.quick_actions),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(top = 3.dp),
-        )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickAction(
@@ -202,6 +218,208 @@ fun HomeScreen(
             )
         }
     }
+
+    if (accessSheetOpen) {
+        ModalBottomSheet(
+            onDismissRequest = { if (!accessBusy) accessSheetOpen = false },
+        ) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    stringResource(R.string.access_method),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    stringResource(R.string.access_method_description),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                AccessSwitchOption(
+                    title = stringResource(R.string.non_root),
+                    selected = accessMethod == AccessMethod.NON_ROOT,
+                    enabled = !accessBusy,
+                ) {
+                    accessBusy = true
+                    scope.launch(Dispatchers.IO) {
+                        val result = accessResolver.prepare(AccessMethod.NON_ROOT)
+                        withContext(Dispatchers.Main) {
+                            accessBusy = false
+                            if (result.available) {
+                                accessSheetOpen = false
+                                onAccessChanged(AccessMethod.NON_ROOT)
+                            }
+                        }
+                    }
+                }
+                AccessSwitchOption(
+                    title = stringResource(R.string.root),
+                    selected = accessMethod == AccessMethod.ROOT,
+                    enabled = !accessBusy,
+                ) {
+                    accessBusy = true
+                    scope.launch(Dispatchers.IO) {
+                        val result = accessResolver.prepare(AccessMethod.ROOT)
+                        withContext(Dispatchers.Main) {
+                            accessBusy = false
+                            if (result.available) {
+                                accessSheetOpen = false
+                                onAccessChanged(AccessMethod.ROOT)
+                            }
+                        }
+                    }
+                }
+                if (accessBusy) {
+                    LinearProgressIndicator(Modifier.fillMaxWidth())
+                }
+                Spacer(Modifier.height(16.dp))
+            }
+        }
+    }
+
+    if (storageSheetOpen) {
+        val storages = remember(identityId, internal) {
+            if (identityId.isNullOrBlank()) storageRepository.inspectAvailable()
+            else storageRepository.inspect(identityId)
+        }
+        val external = storages.firstOrNull { it.kind == BackupStorage.Kind.EXTERNAL }
+        val cloud = storages.firstOrNull { it.kind == BackupStorage.Kind.REMOTE }
+
+        ModalBottomSheet(
+            onDismissRequest = { if (!storageBusy) storageSheetOpen = false },
+        ) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    stringResource(R.string.backup_storage),
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                StorageSwitchOption(
+                    title = stringResource(R.string.internal_storage),
+                    subtitle = formatStorageSize(internal.freeBytes) + " free",
+                    selected = true,
+                    enabled = !storageBusy && internal.available,
+                ) {
+                    if (!identityId.isNullOrBlank()) {
+                        storageBusy = true
+                        storageError = null
+                        scope.launch {
+                            runCatching {
+                                initializeStorageForIdentity(context, identityId, BackupStorage.Kind.INTERNAL)
+                            }.onSuccess {
+                                storageBusy = false
+                                storageSheetOpen = false
+                            }.onFailure {
+                                storageBusy = false
+                                storageError = it.message
+                            }
+                        }
+                    }
+                }
+                StorageSwitchOption(
+                    title = external?.displayName ?: stringResource(R.string.external_storage),
+                    subtitle = if (external?.available == true) {
+                        formatStorageSize(external.freeBytes) + " free"
+                    } else {
+                        stringResource(R.string.external_storage_not_mounted)
+                    },
+                    selected = false,
+                    enabled = !storageBusy && external?.available == true,
+                ) {
+                    if (!identityId.isNullOrBlank()) {
+                        storageBusy = true
+                        storageError = null
+                        scope.launch {
+                            runCatching {
+                                initializeStorageForIdentity(context, identityId, BackupStorage.Kind.EXTERNAL)
+                            }.onSuccess {
+                                storageBusy = false
+                                storageSheetOpen = false
+                            }.onFailure {
+                                storageBusy = false
+                                storageError = it.message
+                            }
+                        }
+                    }
+                }
+                StorageSwitchOption(
+                    title = stringResource(R.string.cloud_storage),
+                    subtitle = cloud?.displayName ?: stringResource(R.string.cloud_provider),
+                    selected = false,
+                    enabled = !storageBusy,
+                ) {
+                    storageBusy = false
+                    storageError = null
+                    storageSheetOpen = false
+                }
+                if (storageBusy) {
+                    LinearProgressIndicator(Modifier.fillMaxWidth())
+                }
+                storageError?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                }
+                Spacer(Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun AccessSwitchOption(
+    title: String,
+    selected: Boolean,
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    Card(
+        Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                if (title == stringResource(R.string.root)) MaterialIcons.Outlined.Security
+                else MaterialIcons.Outlined.Info,
+                contentDescription = null,
+            )
+            Spacer(Modifier.width(14.dp))
+            Text(title, Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
+            if (selected) Text("✓", fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun StorageSwitchOption(
+    title: String,
+    subtitle: String,
+    selected: Boolean,
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    Card(
+        Modifier.fillMaxWidth().clickable(enabled = enabled, onClick = onClick),
+        colors = CardDefaults.cardColors(
+            containerColor = if (selected) MaterialTheme.colorScheme.primaryContainer
+            else MaterialTheme.colorScheme.surfaceVariant,
+        ),
+    ) {
+        Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(MaterialIcons.Outlined.Storage, contentDescription = null)
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, fontWeight = FontWeight.SemiBold)
+                Text(subtitle, style = MaterialTheme.typography.bodySmall)
+            }
+            if (selected) Text("✓", fontWeight = FontWeight.Bold)
+        }
+    }
 }
 
 @Composable
@@ -221,7 +439,7 @@ private fun DashboardStatusRow(
 @Composable
 private fun DashboardDivider() {
     HorizontalDivider(
-        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.24f),
+        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.18f),
         thickness = 1.dp,
     )
 }
