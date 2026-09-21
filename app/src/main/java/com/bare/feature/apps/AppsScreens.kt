@@ -801,8 +801,14 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
+    val context = LocalContext.current
+    val organizationStore = remember(context) { AppOrganizationStore(context) }
     var showMockup by remember { mutableStateOf<String?>(null) }
+    var favorite by remember(app?.packageName) { mutableStateOf(app?.packageName?.let(organizationStore::isFavorite) == true) }
+    var labelsText by remember(app?.packageName) { mutableStateOf(app?.packageName?.let { organizationStore.labels(it).joinToString(", ") }.orEmpty()) }
+
     if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -814,12 +820,42 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
                 Text("App management", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("The controls are present now; execution is connected later to the appropriate Android capability/provider.")
+                Text("Organization state is stored locally on this device.")
             }
-            item { ListEntry(if (app?.isEnabled == true) "Disable app" else "Enable app", "Change installed application enabled state", Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) "Disable app" else "Enable app" } }
-            item { ListEntry("Force stop", "Stop the running application", Icons.Default.Stop) { showMockup = "Force stop" } }
-            item { ListEntry("Uninstall", "Open uninstall workflow with confirmation", Icons.Default.Delete) { showMockup = "Uninstall" } }
-            item { ListEntry("Favorite / labels / blacklist", "Manage per-app organization and protection state", Icons.Default.Star) { showMockup = "Favorite / labels / blacklist" } }
+            item {
+                ListEntry(if (app?.isEnabled == true) "Disable app" else "Enable app", "Change installed application enabled state", Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) "Disable app" else "Enable app" }
+                ListEntry("Force stop", "Stop the running application", Icons.Default.Stop) { showMockup = "Force stop" }
+                ListEntry("Uninstall", "Open uninstall workflow with confirmation", Icons.Default.Delete) { showMockup = "Uninstall" }
+            }
+            item {
+                Text("Favorites and labels", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Row(Modifier.fillMaxWidth().clickable { favorite = !favorite }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Star, contentDescription = null)
+                    Spacer(Modifier.width(12.dp))
+                    Text(if (favorite) "Favorite" else "Not favorite", Modifier.weight(1f))
+                    Switch(checked = favorite, onCheckedChange = { favorite = it })
+                }
+                OutlinedTextField(
+                    value = labelsText,
+                    onValueChange = { labelsText = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    label = { Text("Labels") },
+                    placeholder = { Text("e.g. Work, Media") },
+                )
+                Button(
+                    onClick = {
+                        app?.packageName?.let { packageName ->
+                            organizationStore.setFavorite(packageName, favorite)
+                            organizationStore.setLabels(packageName, labelsText.split(",").toSet())
+                        }
+                    },
+                    enabled = app?.packageName != null,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text("Save organization")
+                }
+            }
             item { ListEntry("Protected backup", "Protect retained backup versions from deletion", Icons.Default.Lock) { showMockup = "Protected backup" } }
         }
     }
