@@ -2299,3 +2299,28 @@ UX mengikuti pola reference secara konseptual, tetapi source/code BaRe dibuat in
 - CI workflow result for the new head: **UNVERIFIED / NO RUN OBSERVED** through the available workflow connector at record time.
 - Build and device/runtime behavior remain **UNVERIFIED** until a new CI/device run provides evidence.
 
+## 2026-09-21 — Root Grant Implementation + Fresh-Install Runtime Checkpoint
+
+### Observed / user-reported runtime evidence
+- Setelah fresh uninstall/install, onboarding berhasil kembali melewati flow dan aplikasi saat ini sudah mencapai **Home**.
+- Fungsi yang sebelumnya sudah diuji tidak dilaporkan mengalami error pada checkpoint ini selama identity lokal/account tetap memiliki salah satu artifact yang diharapkan: `bare` identity atau `*v2.bare`.
+- Perpindahan state **Root ↔ Non-root** belum memiliki evidence runtime yang cukup untuk dinyatakan verified; mekanisme internal/device root manager tidak disimpulkan dari keberhasilan masuk Home.
+
+### BaRe implementation boundary
+- Root onboarding memiliki confirmation dialog lalu grant path sebelum Storage Setup.
+- Grant path BaRe menggunakan privileged shell melalui `su`; mekanisme tersebut menjadi jalur eksekusi aktual yang dipakai source saat ini.
+- `pm grant` digunakan untuk permission runtime yang menjadi bagian dari Root onboarding baseline.
+- All Files Access Android R+ disiapkan melalui AppOps `android:manage_external_storage`.
+- Jika root manager/device menyediakan shell melalui `su`, BaRe mengandalkan entrypoint tersebut; dukungan terhadap manager tertentu tidak dinyatakan verified tanpa device evidence spesifik.
+
+### Verification truth
+- Fresh-install → Home: **USER-REPORTED OBSERVED**.
+- Existing tested functions at this checkpoint: **USER-REPORTED NO ERROR** under the stated identity-artifact condition.
+- Root ↔ Non-root switching semantics: **UNVERIFIED**.
+- Actual permission state after grant: **UNVERIFIED**.
+- Actual All Files Access state: **UNVERIFIED**.
+- Actual File R/W and recovery artifact write after Root grant: **UNVERIFIED**.
+- CI/build for the current documentation head: **UNVERIFIED / NO RUN OBSERVED** through the available workflow connector.
+
+### Boundary
+Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/reference.md`. This worklog records only BaRe implementation/runtime state and does not treat Swift behavior as proof of BaRe behavior.
