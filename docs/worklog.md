@@ -2324,3 +2324,27 @@ UX mengikuti pola reference secara konseptual, tetapi source/code BaRe dibuat in
 
 ### Boundary
 Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/reference.md`. This worklog records only BaRe implementation/runtime state and does not treat Swift behavior as proof of BaRe behavior.
+
+## 2026-09-21 — Home Shell Rework: Scroll Navigation, Search Scope, Access/Storage Switching
+
+### Authorization
+- Pengguna memberikan **GO** untuk mengerjakan Home shell sesuai scope diskusi terakhir.
+
+### Implemented
+- Bottom navigation tetap 4 tab dan mempertahankan isi/navigation contract yang ada; sekarang memiliki scroll-aware visibility: scroll down menyembunyikan bar, scroll up menampilkannya kembali.
+- Home search tetap satu global entry point dari shell, tetapi scope implementasi saat ini dibatasi pada data yang benar-benar tersedia: installed apps dan package names. Tidak menggunakan web/external search engine dan tidak mengarang index untuk domain yang belum memiliki data fungsional.
+- Access pada Home sekarang menjadi post-onboarding switching surface. Root/Non-root dipilih dari bottom sheet dan diproses langsung; tidak kembali ke onboarding dan tidak menampilkan Root confirmation dialog kedua.
+- Storage pada Home sekarang menjadi post-onboarding switching surface. Internal dan External menjalankan `initializeStorageForIdentity`, termasuk update/write recovery artifact `bare-recovery-v2.bare`; Cloud tetap mockup dan kembali ke Home tanpa mengklaim remote persistence.
+- Dashboard tetap sebagai satu card/surface tersendiri. Quick Actions tetap berada di bawah Dashboard tanpa heading `Quick actions` dan tanpa membungkus keduanya ke dalam surface baru.
+- Dashboard boundary diubah menjadi outline putih dan spacing internal direbalance ringan.
+
+### Verification
+- Static source re-fetch: **VERIFIED** untuk Home, MainShell, SearchScreen, storage/access switching flow, dan updated search scope string.
+- Current branch HEAD: `2cca4992be184794794ce1854995acda4cbd81eb3b2`.
+- CI workflow lookup for current HEAD: **UNVERIFIED / NO RUN OBSERVED**.
+- Commit status lookup: **UNVERIFIED / NO STATUS OBSERVED**.
+- Device/UI runtime after this Home rework: **UNVERIFIED**.
+
+### Boundary
+- Apps, Schedules, Account content, Cloud storage implementation, and other Home capability work remain outside this slice.
+- Search engine/index architecture is intentionally not finalized beyond the currently available installed-app data source.
