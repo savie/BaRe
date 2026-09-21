@@ -181,7 +181,17 @@ fun GenericDomainScreen(title: String, subtitle: String, entries: List<String>, 
 }
 
 @Composable
-fun MiscScreen(screen: Screen, onBack: () -> Unit) {
+fun MiscScreen(
+    screen: Screen,
+    onBack: () -> Unit,
+    onOpenApps: () -> Unit,
+    themeMode: AppThemeMode,
+    dynamicColors: Boolean,
+    amoledBlack: Boolean,
+    onThemeModeChanged: (AppThemeMode) -> Unit,
+    onDynamicColorsChanged: (Boolean) -> Unit,
+    onAmoledBlackChanged: (Boolean) -> Unit,
+) {
     when (screen) {
         Screen.FOLDERS -> GenericDomainScreen(stringResource(R.string.folders), stringResource(R.string.folders_summary), listOf(stringResource(R.string.folder_setups), stringResource(R.string.backup), stringResource(R.string.restore), stringResource(R.string.incremental_backups), stringResource(R.string.multiple_versions), stringResource(R.string.manifest_file_entries), stringResource(R.string.chain_validation)), onBack)
         Screen.MESSAGES -> GenericDomainScreen(stringResource(R.string.messages), stringResource(R.string.messages_summary), listOf(stringResource(R.string.sms_mms_rcs), stringResource(R.string.attachments), stringResource(R.string.rcs), stringResource(R.string.backup), stringResource(R.string.restore), stringResource(R.string.history)), onBack)
