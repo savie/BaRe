@@ -2072,3 +2072,19 @@ Pengguna memberikan GO untuk memperbaiki hasil runtime G1 berdasarkan evidence d
   - Source change committed to `v1.0/rebaseline` at `2af3f5a3c2092ac34190b2bb36e6e4d6722f4b0c`.
   - GitHub Actions run #463 is observed **in progress**; compile/build result is therefore **UNVERIFIED/PENDING** at this record point.
   - Runtime/device verification is still pending.
+
+
+## 2026-09-21 — Apps Filter Capability Extension
+
+- Authorization: explicit **GO** from user.
+- Scope: continue Apps Filter surface before moving to another functional group; reference UI remains the visual baseline while behavior is independently implemented.
+- Implemented:
+  - Sort icon surface reduced from 64dp to 56dp with 26dp icons for balance.
+  - Date used sort is now device-backed through Android Usage Access; when access is unavailable, tapping Date used opens Android Usage Access settings. No usage data is fabricated.
+  - Latest usage time is aggregated per package from Android UsageStats.
+  - Favorites filter is now backed by local per-device organization state.
+  - App Labels are now backed by local per-device organization state, with label selection available directly from the filter surface.
+  - App Management now provides functional Favorite + Labels persistence used by the filter surface.
+  - Install status and backup/cloud-derived options remain deferred because they require the verified backup inventory / G3 dependency.
+- Verification truth:
+  - Source changes are committed on `v1.0/rebaseline`; compile/runtime verification is pending CI/device execution.
