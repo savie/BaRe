@@ -2340,7 +2340,7 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 
 ### Verification
 - Static source re-fetch: **VERIFIED** untuk Home, MainShell, SearchScreen, storage/access switching flow, dan updated search scope string.
-- Current branch HEAD: `2cca4992be184794794ce1854995acda4cbd81eb3b2`.
+- Home implementation checkpoint commit: `2cca4992be184794ce1854995acda4cbd81eb3b2`.
 - CI workflow lookup for current HEAD: **UNVERIFIED / NO RUN OBSERVED**.
 - Commit status lookup: **UNVERIFIED / NO STATUS OBSERVED**.
 - Device/UI runtime after this Home rework: **UNVERIFIED**.
