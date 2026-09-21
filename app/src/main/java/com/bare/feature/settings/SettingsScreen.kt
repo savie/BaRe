@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,10 +29,13 @@ import com.bare.app.AppThemeMode
 import com.bare.app.Screen
 import com.bare.storage.BackupStorage
 import com.bare.storage.StorageConfigurationStore
+import com.bare.storage.BackupStorageRepository
+import com.bare.storage.initializeLocalBackupStorage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    identityId: String?,
     onOpen: (Screen) -> Unit,
     onOpenApps: () -> Unit,
     themeMode: AppThemeMode,
@@ -47,7 +51,11 @@ fun SettingsScreen(
     var showAboutDialog by remember { mutableStateOf(false) }
     var showStorageDialog by remember { mutableStateOf(false) }
     val storageStore = remember(context) { StorageConfigurationStore(context) }
+    val storageRepository = remember(context) { BackupStorageRepository(context) }
     var storageKind by remember { mutableStateOf(storageStore.loadKind()) }
+    var storageBusy by remember { mutableStateOf(false) }
+    var storageError by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -147,10 +155,16 @@ fun SettingsScreen(
                 SettingsSection(stringResource(R.string.settings_storage_security)) {
                     SettingsRow(
                         title = stringResource(R.string.settings_local_storage),
-                        subtitle = storageKind?.name?.lowercase()?.replaceFirstChar { it.uppercase() }
-                            ?: stringResource(R.string.settings_local_storage),
+                        subtitle = when (storageKind) {
+                            BackupStorage.Kind.INTERNAL -> stringResource(R.string.internal_storage)
+                            BackupStorage.Kind.EXTERNAL -> stringResource(R.string.external_storage)
+                            else -> stringResource(R.string.settings_local_storage)
+                        },
                         icon = Icons.Outlined.Storage,
-                        onClick = { showStorageDialog = true },
+                        onClick = {
+                            storageError = null
+                            showStorageDialog = true
+                        },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_cloud_backups),
@@ -285,30 +299,105 @@ fun SettingsScreen(
     }
 
     if (showStorageDialog) {
+        val localStorages = remember(identityId, showStorageDialog) {
+            if (identityId.isNullOrBlank()) {
+                emptyList()
+            } else {
+                storageRepository.inspect(identityId)
+                    .filter { it.kind == BackupStorage.Kind.INTERNAL || it.kind == BackupStorage.Kind.EXTERNAL }
+            }
+        }
+        val internal = localStorages.firstOrNull { it.kind == BackupStorage.Kind.INTERNAL }
+        val external = localStorages.firstOrNull { it.kind == BackupStorage.Kind.EXTERNAL }
+
         AlertDialog(
-            onDismissRequest = { showStorageDialog = false },
+            onDismissRequest = { if (!storageBusy) showStorageDialog = false },
             title = { Text(stringResource(R.string.settings_local_storage)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    StorageOption(
-                        label = stringResource(R.string.internal_storage),
-                        selected = storageKind == BackupStorage.Kind.INTERNAL,
-                        onClick = {
-                            storageStore.saveKind(BackupStorage.Kind.INTERNAL)
-                            storageKind = BackupStorage.Kind.INTERNAL
-                            showStorageDialog = false
-                        },
-                    )
-                    StorageOption(
-                        label = stringResource(R.string.external_saf) + " · Requires folder selection",
-                        selected = storageKind == BackupStorage.Kind.EXTERNAL,
-                        enabled = false,
-                        onClick = {},
-                    )
+                    if (identityId.isNullOrBlank()) {
+                        Text(
+                            stringResource(R.string.storage_identity_unavailable),
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    } else {
+                        StorageOption(
+                            label = stringResource(R.string.internal_storage),
+                            selected = storageKind == BackupStorage.Kind.INTERNAL,
+                            enabled = !storageBusy && internal?.available == true,
+                            onClick = {
+                                storageBusy = true
+                                storageError = null
+                                val id = identityId
+                                if (id != null) {
+                                    scope.launch {
+                                        runCatching {
+                                            initializeLocalBackupStorage(
+                                                context = context,
+                                                identityId = id,
+                                                selectedStorageKind = BackupStorage.Kind.INTERNAL,
+                                            )
+                                        }.onSuccess {
+                                            storageKind = BackupStorage.Kind.INTERNAL
+                                            storageBusy = false
+                                            showStorageDialog = false
+                                        }.onFailure {
+                                            storageBusy = false
+                                            storageError = it.message
+                                        }
+                                    }
+                                }
+                            },
+                        )
+                        StorageOption(
+                            label = stringResource(R.string.external_storage),
+                            selected = storageKind == BackupStorage.Kind.EXTERNAL,
+                            enabled = !storageBusy && external?.available == true,
+                            onClick = {
+                                storageBusy = true
+                                storageError = null
+                                val id = identityId
+                                if (id != null) {
+                                    scope.launch {
+                                        runCatching {
+                                            initializeLocalBackupStorage(
+                                                context = context,
+                                                identityId = id,
+                                                selectedStorageKind = BackupStorage.Kind.EXTERNAL,
+                                            )
+                                        }.onSuccess {
+                                            storageKind = BackupStorage.Kind.EXTERNAL
+                                            storageBusy = false
+                                            showStorageDialog = false
+                                        }.onFailure {
+                                            storageBusy = false
+                                            storageError = it.message
+                                        }
+                                    }
+                                }
+                            },
+                        )
+                        if (external?.available != true) {
+                            Text(
+                                stringResource(R.string.external_storage_not_mounted),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        if (storageBusy) {
+                            LinearProgressIndicator(Modifier.fillMaxWidth())
+                        }
+                        storageError?.let {
+                            Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+                        }
+                    }
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showStorageDialog = false }) {
+                TextButton(
+                    onClick = { if (!storageBusy) showStorageDialog = false },
+                    enabled = !storageBusy,
+                ) {
                     Text(stringResource(R.string.close))
                 }
             },
