@@ -2397,3 +2397,25 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 ### Boundary
 - Ini adalah **visual/navigation shell rework**, bukan perubahan destination semantics.
 - Access/Storage relocation ke Settings tetap deferred.
+
+## 2026-09-21 — Build Failure Triage: Floating Navigation `clip` Import
+
+### Observed
+- User-provided debug build failed at `:app:compileDebugKotlin`.
+- Exact compiler error: `BaReApp.kt:387:26 Unresolved reference 'clip'`.
+- The new floating NavigationBar used `Modifier.clip(RoundedCornerShape(28.dp))`, but the required Compose extension import was missing.
+- No other compile error was reported in the supplied log.
+
+### Root Cause
+- Missing source import for `androidx.compose.ui.draw.clip`.
+- This is a compile-time source issue introduced by the navigation visual rework; it is not a runtime/navigation behavior failure.
+
+### Change
+- Added `import androidx.compose.ui.draw.clip` to `BaReApp.kt`.
+- Commit: `0e77c36c243c1530538edca8f3110186c86949ab`.
+
+### Verification
+- Static source: **VERIFIED** — the `clip` call and matching import are present on `v1.0/rebaseline`.
+- Supplied build: **FAILED** before this fix.
+- Build after this fix: **UNVERIFIED** until a new CI/build result is observed.
+- Device/UI verification: **UNVERIFIED**.
