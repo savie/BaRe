@@ -265,6 +265,7 @@ private fun MainShell(
     onOpenSearch: () -> Unit,
     onCloseSearch: () -> Unit,
     onOpenAppsSearch: () -> Unit,
+    onOpenAppsFilter: () -> Unit,
     onTabSelected: (Int) -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
@@ -337,7 +338,7 @@ private fun MainShell(
                         Icon(Icons.Outlined.Search, stringResource(R.string.search))
                     }
                     if (appsSelected) {
-                        IconButton(onClick = { onAppsFilterOpenChange(true) }) {
+                        IconButton(onClick = onOpenAppsFilter) {
                             Icon(Icons.Default.Tune, contentDescription = "Filter & Search")
                         }
                         Box {
