@@ -247,8 +247,7 @@ fun ForgotPasswordScreen(
             Button(
                 onClick = { submitted = true; if (emailValid) sent = true },
                 modifier = Modifier.fillMaxWidth().height(52.dp),
-            ) { Text(stringResource(R.string.send_reset_link)) }
-        } else {
+            ) { Text(stringResource(R.string.send_reset_link)) }        } else {
             Text(stringResource(R.string.check_your_email), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.reset_email_sent), color = MaterialTheme.colorScheme.onSurfaceVariant)
             Button(onClick = onBack, modifier = Modifier.fillMaxWidth().height(52.dp)) { Text(stringResource(R.string.back_to_sign_in)) }
@@ -497,8 +496,7 @@ fun StorageSetupScreen(
 
         status?.let {
             Text(it, style = MaterialTheme.typography.bodyMedium)
-        }
-    }
+        }    }
 }
 
 @Composable
@@ -565,6 +563,8 @@ fun AccessMethodScreen(
     onBack: () -> Unit,
     errorMessage: String?,
 ) {
+    var showRootGrantConfirmation by remember { mutableStateOf(false) }
+
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
@@ -580,9 +580,54 @@ fun AccessMethodScreen(
                 style = MaterialTheme.typography.bodySmall,
             )
         }
-        Button(onClick = onContinue, enabled = selected != null, modifier = Modifier.fillMaxWidth()) {
+        Button(
+            onClick = {
+                if (selected == AccessMethod.ROOT) {
+                    showRootGrantConfirmation = true
+                } else {
+                    onContinue()
+                }
+            },
+            enabled = selected != null,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text(stringResource(R.string.enter_bare))
         }
+    }
+
+    if (showRootGrantConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showRootGrantConfirmation = false },
+            title = { Text(stringResource(R.string.root_grant_dialog_title)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.root_grant_dialog_description))
+                    Text("• " + stringResource(R.string.root_grant_storage))
+                    Text("• " + stringResource(R.string.root_grant_sms))
+                    Text("• " + stringResource(R.string.root_grant_call_logs))
+                    Text("• " + stringResource(R.string.root_grant_contacts))
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                        Text("• " + stringResource(R.string.root_grant_notifications))
+                    }
+                    Text("• " + stringResource(R.string.root_grant_installed_apps))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showRootGrantConfirmation = false
+                        onContinue()
+                    },
+                ) {
+                    Text(stringResource(R.string.grant_permissions))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRootGrantConfirmation = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
     }
 }
 
