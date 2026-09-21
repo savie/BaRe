@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.AppThemeMode
 import com.bare.app.Screen
+import com.bare.storage.BackupStorage
+import com.bare.storage.StorageConfigurationStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +45,9 @@ fun SettingsScreen(
     val context = LocalContext.current
     var showThemeDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
+    var showStorageDialog by remember { mutableStateOf(false) }
+    val storageStore = remember(context) { StorageConfigurationStore(context) }
+    var storageKind by remember { mutableStateOf(storageStore.loadKind()) }
 
     Scaffold(
         topBar = {
@@ -119,21 +124,21 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_messages_backups),
-                        subtitle = stringResource(R.string.settings_messages_backups_subtitle),
+                        subtitle = stringResource(R.string.settings_messages_backups_subtitle) + " · Not implemented",
                         icon = Icons.Outlined.Message,
-                        onClick = { onOpen(Screen.MESSAGES) },
+                        enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_call_logs_backups),
-                        subtitle = stringResource(R.string.settings_call_logs_backups_subtitle),
+                        subtitle = stringResource(R.string.settings_call_logs_backups_subtitle) + " · Not implemented",
                         icon = Icons.Outlined.Call,
-                        onClick = { onOpen(Screen.CALL_LOGS) },
+                        enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_folder_backups),
-                        subtitle = stringResource(R.string.settings_folder_backups_subtitle),
+                        subtitle = stringResource(R.string.settings_folder_backups_subtitle) + " · Not implemented",
                         icon = Icons.Outlined.Folder,
-                        onClick = { onOpen(Screen.FOLDERS) },
+                        enabled = false,
                     )
                 }
             }
@@ -142,9 +147,10 @@ fun SettingsScreen(
                 SettingsSection(stringResource(R.string.settings_storage_security)) {
                     SettingsRow(
                         title = stringResource(R.string.settings_local_storage),
-                        subtitle = stringResource(R.string.internal_storage),
+                        subtitle = storageKind?.name?.lowercase()?.replaceFirstChar { it.uppercase() }
+                            ?: stringResource(R.string.settings_local_storage),
                         icon = Icons.Outlined.Storage,
-                        onClick = { onOpen(Screen.STORAGE) },
+                        onClick = { showStorageDialog = true },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_cloud_backups),
@@ -200,9 +206,9 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_diagnostics),
-                        subtitle = stringResource(R.string.diagnostics_short),
+                        subtitle = stringResource(R.string.diagnostics_short) + " · Not implemented",
                         icon = Icons.Outlined.BugReport,
-                        onClick = { onOpen(Screen.DIAGNOSTICS) },
+                        enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_restart_app),
@@ -272,6 +278,40 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showThemeDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+        )
+    }
+
+    if (showStorageDialog) {
+        AlertDialog(
+            onDismissRequest = { showStorageDialog = false },
+            title = { Text(stringResource(R.string.settings_local_storage)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    StorageOption(
+                        label = stringResource(R.string.internal_storage),
+                        selected = storageKind == BackupStorage.Kind.INTERNAL,
+                        onClick = {
+                            storageStore.saveKind(BackupStorage.Kind.INTERNAL)
+                            storageKind = BackupStorage.Kind.INTERNAL
+                            showStorageDialog = false
+                        },
+                    )
+                    StorageOption(
+                        label = stringResource(R.string.external_saf),
+                        selected = storageKind == BackupStorage.Kind.EXTERNAL,
+                        onClick = {
+                            storageStore.saveKind(BackupStorage.Kind.EXTERNAL)
+                            storageKind = BackupStorage.Kind.EXTERNAL
+                            showStorageDialog = false
+                        },
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showStorageDialog = false }) {
                     Text(stringResource(R.string.close))
                 }
             },
@@ -389,6 +429,22 @@ private fun SettingsRow(
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+    }
+}
+
+@Composable
+private fun StorageOption(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RadioButton(selected = selected, onClick = onClick)
+        Spacer(Modifier.width(8.dp))
+        Text(label)
     }
 }
 
