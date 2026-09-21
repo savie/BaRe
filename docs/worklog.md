@@ -2478,3 +2478,49 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - Supplied build: **FAILED** before this fix.
 - Build after this fix: **UNVERIFIED** pending a new build result.
 - Device/UI: **UNVERIFIED**.
+
+## 2026-09-21 — #502 Account Tab Mockup Rework
+
+### Authorization
+Pengguna memberikan **GO** untuk memprioritaskan **Tab Account** terlebih dahulu. Lifecycle recovery/BREC dicatat sebagai target berikutnya, tetapi implementasinya ditunda sampai mockup Account selesai.
+
+### Reference / Scope
+- Body Account dirework berdasarkan reference Swift Backup yang diberikan pengguna.
+- Top/header reference tidak diikuti sebagai struktur baru; shell header BaRe tetap menjadi tanggung jawab MainShell.
+- Scope hanya **Account tab body / FE mockup**.
+- Access dan Storage tidak dipindahkan ke Settings pada slice ini; keduanya tetap temporary Home entry sesuai checkpoint sebelumnya.
+- Recovery lifecycle/BREC tidak diubah pada slice ini.
+
+### Implemented
+- Account tab sekarang memiliki section **Account** dengan account/local identity card.
+- Card menampilkan identity context, device, avatar B, dan action surface mockup.
+- Section **Settings** mengikuti pola body reference dengan menu:
+  - Settings
+  - Diagnostics
+  - Language
+  - Help center
+  - Contact
+  - Rate BaRe
+  - Share BaRe
+  - About
+- Teks dan branding disesuaikan ke BaRe.
+- Account tab menerima identityType dan accountEmail dari MainShell agar body dapat menampilkan context yang sesuai.
+- Menu yang sudah memiliki destination (Settings, Diagnostics) tetap menggunakan navigation contract existing; item lain masih FE mockup dan belum mengklaim backend/action implementation.
+
+### Verification
+- AccountScreen source update: **COMMITTED** pada commit b74556e1e03a3a6278098bf32156bdfa7bbe401e.
+- Account strings update: **COMMITTED** pada commit 587473d69e45ce9b1c5d4416f5a4f199c3c1b3e8.
+- MainShell Account context wiring: **COMMITTED** pada commit fe83bb73979ef18e7a3a0b97294586e4b6f8f667.
+- Static source/build verification setelah perubahan: **UNVERIFIED**.
+- Device/UI visual verification: **UNVERIFIED**.
+- CI result: **UNVERIFIED** sampai workflow run baru terobservasi.
+
+### Next
+1. Build/CI verification Account mockup.
+2. Device visual review Account body terhadap reference.
+3. Setelah Account mockup stabil, lanjut ke **durable recovery lifecycle / BREC v2 consistency**:
+   - state update,
+   - recovery artifact refresh,
+   - recovery bootstrap,
+   - clear app data/uninstall/ROM-change scenario,
+   - verification evidence.
