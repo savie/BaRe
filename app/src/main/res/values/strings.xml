@@ -576,7 +576,7 @@
     <string name="settings_encryption_strategy">Encryption password strategy</string>
     <string name="settings_encryption_strategy_subtitle">Recovery package password</string>
     <string name="settings_manage_space">Manage space</string>
-    <string name="settings_manage_space_subtitle">Open Android storage settings</string>
+    <string name="settings_manage_space_subtitle">Manage local backup and app data</string>
     <string name="settings_manage_notifications">Manage notifications</string>
     <string name="settings_manage_notifications_subtitle">Android notification settings for BaRe</string>
     <string name="settings_play_notification_sounds">Play notification sounds</string>
@@ -589,6 +589,39 @@
     <string name="settings_contact_subtitle">Open email composer</string>
     <string name="settings_about_subtitle">Version, product information</string>
     <string name="settings_about_version">Version %1$s</string>
-    <string name="settings_about_product">BaRe backup and restore manager.</string>
+    <string name="settings_about_product">%1$s backup and restore manager.</string>
+
+    <string name="not_implemented">Not implemented</string>
+    <string name="filter_and_search">Filter &amp; Search</string>
+    <string name="manage_space_local_identity">Local identity</string>
+    <string name="manage_space_local_backup_storage">Local backup storage</string>
+    <string name="manage_space_no_local_identity">No local identity is available.</string>
+    <string name="manage_space_local_backup_data">Local backup data</string>
+    <string name="manage_space_backup_files">Backup files: %1$s</string>
+    <string name="manage_space_recovery_package">Recovery package: %1$s</string>
+    <string name="manage_space_backup_location">Backup location:</string>
+    <string name="manage_space_reset_app_settings">Reset app settings</string>
+    <string name="manage_space_reset_description">Reset appearance and local storage preferences. Backup files and recovery data are kept.</string>
+    <string name="manage_space_reset_settings">Reset settings</string>
+    <string name="manage_space_delete_backup_title">Delete backup files (%1$s)</string>
+    <string name="manage_space_delete_backup_description">Delete local backup files for this identity. Recovery data is kept.</string>
+    <string name="manage_space_delete_backup_button">Delete backup files</string>
+    <string name="manage_space_delete_all_title">Delete all data</string>
+    <string name="manage_space_delete_all_description">Delete all backup, recovery, and app data. This cannot be undone.</string>
+    <string name="manage_space_delete_all_button">Delete all data</string>
+    <string name="manage_space_reset_confirm_title">Reset settings?</string>
+    <string name="manage_space_delete_backup_confirm_title">Delete backup files?</string>
+    <string name="manage_space_delete_all_confirm_title">Delete all data?</string>
+    <string name="manage_space_reset_confirm_message">Appearance and local storage preferences will be reset. Backup and recovery files will remain.</string>
+    <string name="manage_space_delete_backup_confirm_message">Local backup files for this identity will be permanently deleted.</string>
+    <string name="manage_space_delete_all_confirm_message">Local backups and the recovery package for this identity will be permanently deleted.</string>
+    <string name="manage_space_reset_confirm_button">Reset</string>
+    <string name="manage_space_delete_confirm_button">Delete</string>
+    <string name="operation_failed">Operation failed</string>
+    <string name="size_bytes">%1$d B</string>
+    <string name="size_kb">%1$.2f KB</string>
+    <string name="size_mb">%1$.2f MB</string>
+    <string name="size_gb">%1$.2f GB</string>
+    <string name="size_tb">%1$.2f TB</string>
 
 </resources>
