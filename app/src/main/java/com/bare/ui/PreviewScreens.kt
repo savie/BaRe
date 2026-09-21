@@ -39,13 +39,13 @@ private fun LoginPreview() {
 private fun HomePreview() {
     BaReTheme {
         HomeScreen(
+            identityId = null,
             identityType = IdentityType.LOCAL,
             accountEmail = "",
             accessMethod = null,
             onOpen = {},
             onOpenTab = {},
-            onOpenAccessMethod = {},
-            onOpenStorage = {},
+            onAccessChanged = {},
         )
     }
 }
