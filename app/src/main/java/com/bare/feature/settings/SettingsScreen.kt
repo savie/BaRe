@@ -33,6 +33,7 @@ import com.bare.storage.BackupStorage
 import com.bare.storage.StorageConfigurationStore
 import com.bare.storage.BackupStorageRepository
 import com.bare.storage.initializeLocalBackupStorage
+import com.bare.feature.settings.EncryptionPasswordStore
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,6 +54,7 @@ fun SettingsScreen(
     var showAboutDialog by remember { mutableStateOf(false) }
     var showStorageDialog by remember { mutableStateOf(false) }
     val storageStore = remember(context) { StorageConfigurationStore(context) }
+    val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
     val storageRepository = remember(context) { BackupStorageRepository(context) }
     var storageKind by remember { mutableStateOf(storageStore.loadKind()) }
     var storageBusy by remember { mutableStateOf(false) }
@@ -176,9 +178,12 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_encryption_strategy),
-                        subtitle = stringResource(R.string.settings_encryption_strategy_subtitle),
+                        subtitle = when (encryptionPasswordStore.loadStrategy()) {
+                            EncryptionPasswordStrategy.STANDARD -> stringResource(R.string.encryption_strategy_standard)
+                            EncryptionPasswordStrategy.ADVANCED -> stringResource(R.string.encryption_strategy_advanced)
+                        },
                         icon = Icons.Outlined.Key,
-                        onClick = { onOpen(Screen.IMPORT_EXPORT) },
+                        onClick = { onOpen(Screen.ENCRYPTION_PASSWORD_STRATEGY) },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_manage_space),
