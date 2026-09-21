@@ -64,7 +64,12 @@ fun ManageSpaceScreen(
                 withContext(Dispatchers.IO) {
                     when (action) {
                         ManageSpaceAction.DELETE_BACKUPS -> repository.deleteLocalBackups(id)
-                        ManageSpaceAction.DELETE_ALL_DATA -> repository.deleteAllLocalData(id)
+                        ManageSpaceAction.DELETE_ALL_DATA -> {
+                            val deleted = repository.deleteAllLocalData(id)
+                            context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
+                            context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
+                            deleted
+                        }
                         ManageSpaceAction.RESET_SETTINGS -> {
                             context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
                             context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
