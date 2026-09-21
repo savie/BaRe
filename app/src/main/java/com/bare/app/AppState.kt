@@ -49,6 +49,10 @@ data class AppItem(
     val isEnabled: Boolean = true,
     val protected: Boolean = false,
     val favorite: Boolean = false,
+    val firstInstallTime: Long? = null,
+    val lastUpdateTime: Long? = null,
+    val apkSizeBytes: Long? = null,
+    val installedFromGooglePlay: Boolean? = null,
 )
 
 val demoApps = listOf(
