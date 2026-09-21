@@ -2348,3 +2348,23 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 ### Boundary
 - Apps, Schedules, Account content, Cloud storage implementation, and other Home capability work remain outside this slice.
 - Search engine/index architecture is intentionally not finalized beyond the currently available installed-app data source.
+
+
+
+## 2026-09-21 — Build Failure Triage: Home Shell Callback Contract
+
+### Observed
+- User-provided debug build failed at :app:compileDebugKotlin.
+- BaReApp.kt errors at lines 240–241 came from the newly added MainShell callback parameter being passed in the wrong order: the BaReIdentity callback was being supplied where AccessMethod was expected.
+- PreviewScreens.kt still used the old HomeScreen contract and supplied removed parameters onOpenAccessMethod / onOpenStorage, while omitting identityId and onAccessChanged.
+- libandroidx.graphics.path.so strip warning is packaging behavior and was not the compile failure.
+
+### Change
+- Reordered MainShell callbacks so onAccessChanged and onRecoveryRestored match the function signature.
+- Updated HomePreview to the current HomeScreen contract.
+
+### Verification
+- Static re-fetch after changes: VERIFIED for the affected call sites.
+- Previous build result remains FAILED; a new build after the fix has not yet been observed.
+- Current build status: UNVERIFIED until the next compile/build result.
+\n
