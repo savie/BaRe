@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.bare.R
 import com.bare.feature.account.AccountScreen
+import com.bare.feature.settings.ManageSpaceScreen
 import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
@@ -310,6 +311,7 @@ private fun MainShell(
             Screen.APP_DIAGNOSTICS -> AppDiagnosticsScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.APP_RESTORE -> AppRestoreScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
+            Screen.MANAGE_SPACE -> ManageSpaceScreen(identityId = identityId, onBack = onBack)
             else -> MiscScreen(
                 screen = screen,
                 identityId = identityId,
