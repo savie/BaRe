@@ -196,7 +196,7 @@ fun BaReApp() {
                     {
                         val method = selectedMethod
                         if (method != null) scope.launch(Dispatchers.IO) {
-                            val capability = accessResolver.resolve(method)
+                            val capability = accessResolver.prepare(method)
                             withContext(Dispatchers.Main) {
                                 if (capability.available) {
                                     if (initialIdentityPending) {
