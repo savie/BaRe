@@ -3109,3 +3109,32 @@ Dengan demikian #541 adalah failure terbaru, tetapi failure terjadi pada Setup G
 
 ### Next
 Retry CI/build; jika retry mencapai compilation dan menghasilkan source error, repair error tersebut berdasarkan log aktual.
+
+
+## 2026-09-21 — #528 Complete Manage Space Data Wipe Semantics
+
+### User Decision
+- **Delete all data** berarti seluruh data yang dapat dihapus BaRe melalui mekanisme yang tersedia pada device, untuk root maupun non-root.
+- Label `Delete all BaRe data` disederhanakan menjadi **Delete all data** mengikuti header/penamaan UI.
+- Cloud cache tetap **OUT OF SCOPE** sampai keputusan account/cloud lifecycle dibuat.
+- Reset settings dilanjutkan dengan scope settings yang teridentifikasi; tidak dianggap sebagai full app-data wipe.
+
+### Implementation
+- `Delete all data` tetap menghapus local backup/recovery identity data pada internal dan mounted external storage.
+- Setelah itu, flow sekarang juga membersihkan private app state yang dapat dihapus tanpa menghapus APK/process container:
+  - `bare_identity`
+  - `bare_settings`
+  - `bare_storage`
+  - app files
+  - cache
+  - code cache
+  - no-backup files
+  - app databases
+- Setelah full data wipe, app direstart ke launcher entry point agar state in-memory lama tidak dipakai lagi.
+- Reset app settings tetap hanya membersihkan settings/storage preferences yang menjadi scope settings; backup/recovery tidak ikut dihapus.
+- Tidak ada perubahan pada Cloud/Cloud Cache.
+
+### Verification
+- Source change committed on `v1.0/rebaseline`.
+- CI/device verification: **PENDING** setelah perubahan ini.
+- Full wipe behavior still needs controlled runtime verification for both non-root and root-capable paths.
