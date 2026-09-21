@@ -2773,3 +2773,179 @@ User confirmed GO after identifying that the initial Settings implementation sti
 
 ### Next
 Run debug build. If green, verify the runtime path Account → Settings and each enabled Settings action on device.
+
+## 2026-09-21 — #523 Audit Total Implementasi BaRe (Implementation-Only Baseline)
+
+### Authorization
+Pengguna memberikan **GO** untuk melakukan audit total implementasi **BaRe saja** pada branch `v1.0/rebaseline`. Scope audit sengaja dibatasi pada kondisi implementasi BaRe yang dapat diamati dari repository/source saat ini. Tidak dilakukan rekonsiliasi dengan Swift/reference, tidak membuka boundary capability eksternal, dan tidak membuat perubahan architecture berdasarkan hasil audit ini.
+
+### Audit Boundary
+Audit ini memeriksa:
+- source implementation yang benar-benar ada;
+- navigation dan screen wiring;
+- persistence/state yang benar-benar digunakan;
+- Android/platform integration yang benar-benar dipanggil;
+- capability provider yang benar-benar ada;
+- recovery/storage implementation yang benar-benar ada;
+- test source yang benar-benar ada;
+- bagian yang masih mockup/static/unavailable;
+- gap antara surface UI dan implementation di belakangnya.
+
+Audit ini **bukan runtime/device verification**. Tidak ada claim bahwa APK BaRe berjalan benar hanya berdasarkan source.
+
+### Observed — Product Shell / Navigation
+- `MainActivity.kt` tetap menjadi entry point minimal.
+- App shell berada di `BaReApp.kt`.
+- Primary navigation saat ini memiliki 4 tab: Home, Apps, Schedules, Account.
+- Startup flow yang benar-benar diwiring di source:
+  `Welcome → Login/Local Setup → Access Method → Storage Setup → App`.
+- Screen enum masih mencakup banyak domain surface: Apps, Folders, Messages, Call Logs, Wi-Fi, Wallpapers, Storage, Cloud, Management, Diagnostics, Settings, Import/Export, Task, Schedule.
+- Banyak screen domain tersebut masih diarahkan ke `GenericDomainScreen` atau state mockup dan tidak boleh dianggap capability implementation.
+
+### Observed — Real Implementation yang Sudah Ada
+1. **Identity / Local persistence**
+   - `LocalIdentityStore` menyimpan LOCAL identity, setup completion, dan access method pada SharedPreferences.
+   - Local identity memakai UUID.
+   - `loadOrRecover()` dapat bootstrap identity dari recovery artifact yang ditemukan pada local/removable storage.
+   - Recovery restore menolak conflict dengan identity LOCAL yang sudah terpasang.
+
+2. **Access capability**
+   - `AccessCapabilityResolver` memisahkan NON_ROOT dan ROOT.
+   - NON_ROOT probe menggunakan Android app-visible APIs.
+   - ROOT melakukan `su` probe.
+   - Root flow memiliki permission-grant attempt melalui `pm grant` dan AppOps untuk `MANAGE_EXTERNAL_STORAGE`.
+   - Root provider juga memiliki package APK copy dan directory preparation melalui root.
+   - Ini adalah implementation nyata, tetapi belum membuktikan seluruh backup capability tersedia pada mode tersebut.
+
+3. **Storage foundation**
+   - `BackupStorageRepository` memiliki internal/removable storage inspection.
+   - Storage initialization membuat:
+     `BaRe/accounts/<identity>/backups`
+     dan
+     `BaRe/accounts/<identity>/recovery`.
+   - Ada writable/available/space inspection.
+   - External/removable storage masih menggunakan storage-volume path; Settings belum memiliki SAF URI lifecycle sendiri.
+   - Remote/Cloud storage masih unavailable/static pada repository.
+
+4. **Recovery / BREC**
+   - `RecoveryPackageCodec` benar-benar melakukan versioned container encoding/decoding.
+   - Current package version: v2.
+   - KDF: PBKDF2-HMAC-SHA256, 310,000 iterations.
+   - Encryption: AES-256-GCM.
+   - Bootstrap identity dapat dibaca tanpa password.
+   - `RecoveryArtifactRepository` memiliki export/import melalui SAF dan direct File path.
+   - Write path menggunakan `.partial`, read-back/decode verification, lalu rename/finalize.
+   - Test source tersedia untuk version, round-trip, wrong password, tampering, dan bootstrap identity.
+
+5. **Apps discovery / inspection**
+   - `InstalledAppRepository` membaca installed applications dari PackageManager secara nyata.
+   - Metadata yang diambil mencakup package identity, system/user state, enabled state, install/update time, APK/split size, dan installer source.
+   - `AppDetailsRepository` membaca detail package, version, APK/split paths, launch capability, dan Android App Info capability.
+   - Search juga menggunakan installed-app repository, bukan demo list.
+   - `AppOrganizationStore` memiliki persistence nyata untuk favorites dan labels.
+   - `AppUsageRepository` memiliki integration UsageStats bila usage access tersedia.
+
+6. **APK artifact collection**
+   - NON_ROOT provider dapat menyalin base APK dan split APK dari `ApplicationInfo.sourceDir` / `splitSourceDirs`.
+   - ROOT provider dapat mengambil APK paths melalui `pm path` dan menyalin file melalui root.
+   - Ini merupakan partial artifact capability, bukan backup/restore implementation penuh.
+
+7. **Settings / platform integration**
+   - Theme mode, dynamic colors, dan AMOLED black dipersistenkan melalui `SettingsStore`.
+   - Settings dapat membuka Android notification settings dan internal storage settings.
+   - Restart app menggunakan launcher activity.
+   - About membaca package version.
+   - Contact membuka system email composer.
+   - Settings tidak lagi menyajikan beberapa destination unsupported sebagai GenericDomainScreen; Messages, Call Logs, Folder backups, dan Diagnostics ditandai unavailable.
+   - Local storage Settings membaca existing `StorageConfigurationStore`, tetapi belum menjadi owner lifecycle storage selection yang lengkap.
+
+### Observed — Masih Mockup / Partial / Unavailable
+- **Account authentication**: UI Sign In / Sign Up / Forgot Password ada, tetapi provider/backend/session authentication belum ada.
+- **Google sign-in**: UI/form path ada, tetapi authentication implementation belum ada.
+- **Backup execution**: belum ditemukan operation engine yang melakukan backup end-to-end.
+- **Restore execution**: belum ditemukan restore engine end-to-end.
+- **App data backup**: belum ada implementation end-to-end.
+- **Folders**: surface masih GenericDomainScreen/mockup.
+- **Messages**: surface masih GenericDomainScreen/mockup.
+- **Call Logs**: surface masih GenericDomainScreen/mockup.
+- **Wi-Fi**: belum ada capability execution yang terverifikasi dari source audit ini.
+- **Wallpapers**: belum ada capability execution yang terverifikasi.
+- **Schedules**: UI ada, tetapi create/run/background execution masih mockup.
+- **Cloud/Remote**: CloudScreen ada sebagai UI, provider rows masih disconnected/static; transfer/sync provider implementation belum ada.
+- **Management**: sebagian persistence nyata untuk app favorites/labels ada, tetapi product management scope belum lengkap.
+- **Diagnostics**: surface ada, backend diagnostics/operation log pipeline belum ditemukan.
+- **Compression**: belum ditemukan archive compression implementation.
+- **General archive/backup format**: recovery archive ada, tetapi itu tidak sama dengan backup archive engine.
+- **Import/Export product workflows**: recovery import/export nyata; APK/APKS/general product import/export belum lengkap.
+- **External SAF storage switching from Settings**: belum lengkap karena Settings tidak memiliki folder-picker/URI ownership lifecycle.
+- **Language**: UI tetap English; no localization switching flow.
+- **Notification sound pipeline**: unavailable/disabled.
+
+### Observed — Test / Verification Surface
+- Ditemukan unit test source untuk `RecoveryPackageCodec`.
+- Tidak ditemukan evidence dari audit source bahwa seluruh capability matrix sudah memiliki runtime test suite.
+- Source build configuration dan workflow CI tersedia.
+- Runtime device verification tidak dilakukan pada audit ini.
+- Tidak ada BaRe APK artifact/runtime session yang digunakan sebagai proof dalam audit ini; status runtime tetap **UNVERIFIED**.
+
+### Implementation Baseline
+Berdasarkan source yang terobservasi:
+
+| Area | Current state |
+|---|---|
+| Product shell/navigation | **IMPLEMENTED AS UI** |
+| Welcome/onboarding flow | **PARTIAL / IMPLEMENTED UI + real local/access/storage foundations** |
+| Local identity persistence | **IMPLEMENTED** |
+| Root/non-root capability probing | **IMPLEMENTED** |
+| Local storage initialization | **IMPLEMENTED PARTIAL** |
+| Recovery/BREC | **IMPLEMENTED** |
+| Recovery tests | **IMPLEMENTED TEST SOURCE** |
+| App discovery | **IMPLEMENTED** |
+| App detail inspection | **IMPLEMENTED** |
+| APK artifact copy | **IMPLEMENTED PARTIAL** |
+| App backup | **NOT IMPLEMENTED** |
+| App restore | **NOT IMPLEMENTED** |
+| App data backup/restore | **NOT IMPLEMENTED** |
+| Folder backup/restore | **MOCKUP** |
+| Messages backup/restore | **MOCKUP** |
+| Call Logs backup/restore | **MOCKUP** |
+| Wi-Fi backup/restore | **NOT IMPLEMENTED / UNVERIFIED** |
+| Wallpapers | **NOT IMPLEMENTED / UNVERIFIED** |
+| Scheduling execution | **MOCKUP** |
+| Cloud transfer/sync | **NOT IMPLEMENTED / UI ONLY** |
+| Management | **PARTIAL** |
+| Diagnostics backend | **NOT IMPLEMENTED / UNVERIFIED** |
+| Compression | **NOT IMPLEMENTED / UNVERIFIED** |
+| Product backup archive | **NOT IMPLEMENTED** |
+| Recovery import/export | **IMPLEMENTED** |
+| Settings persistence/system actions | **IMPLEMENTED PARTIAL** |
+| Account authentication | **NOT IMPLEMENTED** |
+| Language switching | **NOT IMPLEMENTED** |
+| Runtime/device verification | **UNVERIFIED** |
+
+### Important Findings
+- BaRe **sudah tidak berada pada kondisi “UI shell only”**. Source saat ini memiliki beberapa implementation foundation nyata: identity persistence, access probing, root operations, storage initialization, recovery/BREC, app discovery/detail inspection, APK artifact copying, app organization persistence, dan beberapa Settings/platform integrations.
+- Namun implementation tersebut **belum membentuk backup/restore product end-to-end**.
+- Recovery/BREC adalah capability nyata yang sudah memiliki crypto, persistence integration, atomic-ish staging/finalization, dan unit tests; tetapi recovery artifact tidak boleh disamakan dengan general backup archive.
+- App discovery/detail dan APK copy adalah capability nyata/partial; belum ada evidence bahwa app backup/restore lengkap sudah implemented.
+- UI surface masih jauh lebih luas daripada implementation backend. Generic/mockup surfaces harus tetap diperlakukan sebagai UX shell, bukan supported capability.
+- Storage sudah memiliki implementation foundation di onboarding. Settings saat ini hanya membaca/mengelola sebagian state yang sudah ada; ownership lifecycle belum perlu diubah dalam audit ini.
+
+### Audit Conclusion
+**Current BaRe implementation state: PARTIAL IMPLEMENTATION / UI + SHARED FOUNDATIONS / NO END-TO-END BACKUP-RESTORE VERIFICATION.**
+
+Audit ini tidak menghasilkan perubahan source implementation dan tidak mengubah boundary/domain ownership. Hasilnya hanya menjadi baseline aktual untuk pekerjaan berikutnya.
+
+### Verification
+- Branch target: `v1.0/rebaseline`.
+- Repository structure dan source paths: **OBSERVED**.
+- Implementation claims di atas diturunkan dari source aktual yang berhasil di-fetch dari branch.
+- Runtime/device behavior: **UNVERIFIED**.
+- CI/build status terbaru setelah Settings changes: **UNVERIFIED** dari evidence yang tersedia pada audit ini.
+- Tidak ada comparison terhadap Swift/reference dalam audit ini.
+
+### Next
+1. Gunakan baseline audit ini sebagai satu-satunya current implementation view.
+2. Jangan memperluas scope ke reference comparison sampai audit/implementation BaRe membutuhkan evidence tersebut.
+3. Pilih next work hanya dari gap BaRe yang nyata dan prerequisite yang diperlukan.
+4. Jangan menganggap screen/menu yang masih mockup sebagai supported capability.
