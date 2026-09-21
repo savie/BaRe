@@ -2368,3 +2368,32 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - Previous build result remains FAILED; a new build after the fix has not yet been observed.
 - Current build status: UNVERIFIED until the next compile/build result.
 \n
+
+## 2026-09-21 — Main Navigation 4-Tab Visual Rework: KSun-like Floating Bar
+
+### Authorization
+- Pengguna memberikan **GO** untuk mengerjakan ulang **Main navigation 4-tab** agar secara visual lebih mendekati reference KSun.
+
+### Scope
+- Scope hanya **main navigation 4-tab** (`Home`, `Apps`, `Schedules`, `Account`).
+- Access dan Storage tidak disentuh; keduanya tetap sebagai temporary Home entry point dan nantinya dipindahkan ke Settings.
+- Existing scroll-aware hide/show behavior dipertahankan.
+- Tab semantics dan pager navigation tidak diubah.
+
+### Implemented
+- Bottom navigation diubah dari full-width bar menjadi **floating compact navigation surface** yang terpusat.
+- Label tab dihilangkan sehingga pola visual menjadi icon-first seperti reference KSun.
+- Selected tab tetap memiliki visual indicator melalui `primaryContainer`.
+- Bar menggunakan rounded shape, compact width, dan tonal elevation untuk mendekati floating navigation reference.
+- Four-tab click/swipe navigation contract tetap sama.
+- Scroll down/up visibility behavior tetap dipertahankan.
+
+### Verification
+- Static source change: **COMMITTED** pada `v1.0/rebaseline`, commit `edf88cd7c110f998f9e0f1bb81f2cefd6d3586e0`.
+- Static source re-fetch/build verification: **PENDING**.
+- Device/UI visual verification: **UNVERIFIED** sampai APK baru dijalankan pada device.
+- CI result untuk commit ini belum dijadikan bukti sampai workflow result terobservasi.
+
+### Boundary
+- Ini adalah **visual/navigation shell rework**, bukan perubahan destination semantics.
+- Access/Storage relocation ke Settings tetap deferred.
