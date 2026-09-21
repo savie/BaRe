@@ -443,7 +443,11 @@ private fun MainShell(
                     onFilterOpenChange = onAppsFilterOpenChange,
                 )
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
-                Tab.ACCOUNT -> AccountScreen(\n                    onOpen = onOpenScreen,\n                    identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,\n                    accountEmail = accountEmail,\n                )
+                Tab.ACCOUNT -> AccountScreen(
+                    onOpen = onOpenScreen,
+                    identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
+                    accountEmail = accountEmail,
+                )
             }
         }
     }
