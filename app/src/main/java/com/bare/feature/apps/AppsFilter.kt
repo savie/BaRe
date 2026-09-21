@@ -44,6 +44,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,7 +78,7 @@ private enum class SortOption(val title: String, val icon: ImageVector, val avai
     UPDATE_DATE("Update date", Icons.Default.Update, true),
     BACKUP_DATE("Backup date", Icons.Default.Backup, false),
     BACKUP_SIZE("Backup size", Icons.Default.Storage, false),
-    DATE_USED("Date used", Icons.Default.TouchApp, false),
+    DATE_USED("Date used", Icons.Default.TouchApp, true),
     APP_SIZE("App size", Icons.Default.Android, true),
 }
 private data class AppsFilterState(
