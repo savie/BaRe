@@ -1,0 +1,433 @@
+package com.bare.feature.settings
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.bare.BuildConfig
+import com.bare.R
+import com.bare.app.AppThemeMode
+import com.bare.app.Screen
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SettingsScreen(
+    onOpen: (Screen) -> Unit,
+    onOpenApps: () -> Unit,
+    themeMode: AppThemeMode,
+    dynamicColors: Boolean,
+    amoledBlack: Boolean,
+    onThemeModeChanged: (AppThemeMode) -> Unit,
+    onDynamicColorsChanged: (Boolean) -> Unit,
+    onAmoledBlackChanged: (Boolean) -> Unit,
+    onBack: () -> Unit,
+) {
+    val context = LocalContext.current
+    var showThemeDialog by remember { mutableStateOf(false) }
+    var showAboutDialog by remember { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.height(96.dp),
+                title = { Text(stringResource(R.string.settings)) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Outlined.ArrowBack, stringResource(R.string.back))
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = 12.dp),
+            contentPadding = PaddingValues(top = 4.dp, bottom = 28.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            item {
+                SettingsSection(stringResource(R.string.settings_appearance_language)) {
+                    SettingsRow(
+                        title = stringResource(R.string.settings_app_theme),
+                        subtitle = when (themeMode) {
+                            AppThemeMode.SYSTEM -> stringResource(R.string.settings_theme_system)
+                            AppThemeMode.LIGHT -> stringResource(R.string.settings_theme_light)
+                            AppThemeMode.DARK -> stringResource(R.string.settings_theme_dark)
+                        },
+                        icon = Icons.Outlined.DarkMode,
+                        onClick = { showThemeDialog = true },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_dynamic_colors),
+                        subtitle = stringResource(R.string.settings_dynamic_colors_subtitle),
+                        icon = Icons.Outlined.Palette,
+                        trailing = {
+                            Switch(
+                                checked = dynamicColors,
+                                onCheckedChange = onDynamicColorsChanged,
+                            )
+                        },
+                        onClick = { onDynamicColorsChanged(!dynamicColors) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_amoled_black),
+                        subtitle = stringResource(R.string.settings_amoled_black_subtitle),
+                        icon = Icons.Outlined.Brightness4,
+                        trailing = {
+                            Switch(
+                                checked = amoledBlack,
+                                onCheckedChange = onAmoledBlackChanged,
+                            )
+                        },
+                        onClick = { onAmoledBlackChanged(!amoledBlack) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.language),
+                        subtitle = stringResource(R.string.settings_language_english),
+                        icon = Icons.Outlined.Language,
+                    )
+                }
+            }
+
+            item {
+                SettingsSection(stringResource(R.string.settings_backup_content)) {
+                    SettingsRow(
+                        title = stringResource(R.string.settings_app_backups),
+                        subtitle = stringResource(R.string.settings_app_backups_subtitle),
+                        icon = Icons.Outlined.Android,
+                        onClick = onOpenApps,
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_messages_backups),
+                        subtitle = stringResource(R.string.settings_messages_backups_subtitle),
+                        icon = Icons.Outlined.Message,
+                        onClick = { onOpen(Screen.MESSAGES) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_call_logs_backups),
+                        subtitle = stringResource(R.string.settings_call_logs_backups_subtitle),
+                        icon = Icons.Outlined.Call,
+                        onClick = { onOpen(Screen.CALL_LOGS) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_folder_backups),
+                        subtitle = stringResource(R.string.settings_folder_backups_subtitle),
+                        icon = Icons.Outlined.Folder,
+                        onClick = { onOpen(Screen.FOLDERS) },
+                    )
+                }
+            }
+
+            item {
+                SettingsSection(stringResource(R.string.settings_storage_security)) {
+                    SettingsRow(
+                        title = stringResource(R.string.settings_local_storage),
+                        subtitle = stringResource(R.string.internal_storage),
+                        icon = Icons.Outlined.Storage,
+                        onClick = { onOpen(Screen.STORAGE) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_cloud_backups),
+                        subtitle = stringResource(R.string.settings_cloud_backups_subtitle),
+                        icon = Icons.Outlined.Cloud,
+                        onClick = { onOpen(Screen.CLOUD) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_encryption_strategy),
+                        subtitle = stringResource(R.string.settings_encryption_strategy_subtitle),
+                        icon = Icons.Outlined.Key,
+                        onClick = { onOpen(Screen.IMPORT_EXPORT) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_manage_space),
+                        subtitle = stringResource(R.string.settings_manage_space_subtitle),
+                        icon = Icons.Outlined.DataUsage,
+                        onClick = { openSystemSettings(context, Settings.ACTION_INTERNAL_STORAGE_SETTINGS) },
+                    )
+                }
+            }
+
+            item {
+                SettingsSection(stringResource(R.string.settings_notifications)) {
+                    SettingsRow(
+                        title = stringResource(R.string.settings_manage_notifications),
+                        subtitle = stringResource(R.string.settings_manage_notifications_subtitle),
+                        icon = Icons.Outlined.Notifications,
+                        onClick = {
+                            openSystemSettings(
+                                context,
+                                Settings.ACTION_APP_NOTIFICATION_SETTINGS,
+                                Settings.EXTRA_APP_PACKAGE to context.packageName,
+                            )
+                        },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_play_notification_sounds),
+                        subtitle = stringResource(R.string.settings_play_notification_sounds_subtitle),
+                        icon = Icons.Outlined.MusicNote,
+                        enabled = false,
+                    )
+                }
+            }
+
+            item {
+                SettingsSection(stringResource(R.string.settings_advanced_tools)) {
+                    SettingsRow(
+                        title = stringResource(R.string.settings_recovery),
+                        subtitle = stringResource(R.string.recovery_description),
+                        icon = Icons.Outlined.Restore,
+                        onClick = { onOpen(Screen.IMPORT_EXPORT) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_diagnostics),
+                        subtitle = stringResource(R.string.diagnostics_short),
+                        icon = Icons.Outlined.BugReport,
+                        onClick = { onOpen(Screen.DIAGNOSTICS) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_restart_app),
+                        subtitle = stringResource(R.string.settings_restart_app_subtitle),
+                        icon = Icons.Outlined.Refresh,
+                        onClick = { restartApp(context) },
+                    )
+                }
+            }
+
+            item {
+                SettingsSection(stringResource(R.string.settings_help_info)) {
+                    SettingsRow(
+                        title = stringResource(R.string.help_center),
+                        subtitle = stringResource(R.string.settings_help_center_subtitle),
+                        icon = Icons.Outlined.HelpOutline,
+                        onClick = { onOpen(Screen.DIAGNOSTICS) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.contact),
+                        subtitle = stringResource(R.string.settings_contact_subtitle),
+                        icon = Icons.Outlined.MailOutline,
+                        onClick = { openContact(context) },
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.about),
+                        subtitle = stringResource(R.string.settings_about_subtitle),
+                        icon = Icons.Outlined.Info,
+                        onClick = { showAboutDialog = true },
+                    )
+                }
+            }
+        }
+    }
+
+    if (showThemeDialog) {
+        AlertDialog(
+            onDismissRequest = { showThemeDialog = false },
+            title = { Text(stringResource(R.string.settings_app_theme)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    ThemeOption(
+                        label = stringResource(R.string.settings_theme_system),
+                        selected = themeMode == AppThemeMode.SYSTEM,
+                        onClick = {
+                            onThemeModeChanged(AppThemeMode.SYSTEM)
+                            showThemeDialog = false
+                        },
+                    )
+                    ThemeOption(
+                        label = stringResource(R.string.settings_theme_light),
+                        selected = themeMode == AppThemeMode.LIGHT,
+                        onClick = {
+                            onThemeModeChanged(AppThemeMode.LIGHT)
+                            showThemeDialog = false
+                        },
+                    )
+                    ThemeOption(
+                        label = stringResource(R.string.settings_theme_dark),
+                        selected = themeMode == AppThemeMode.DARK,
+                        onClick = {
+                            onThemeModeChanged(AppThemeMode.DARK)
+                            showThemeDialog = false
+                        },
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showThemeDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+        )
+    }
+
+    if (showAboutDialog) {
+        AlertDialog(
+            onDismissRequest = { showAboutDialog = false },
+            title = { Text(stringResource(R.string.about)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.settings_about_version, BuildConfig.VERSION_NAME))
+                    Text(stringResource(R.string.settings_about_product))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showAboutDialog = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+        )
+    }
+}
+
+@Composable
+private fun SettingsSection(
+    title: String,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(
+            title,
+            modifier = Modifier.padding(start = 10.dp, bottom = 2.dp),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.primary,
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(14.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant),
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun SettingsRow(
+    title: String,
+    subtitle: String,
+    icon: ImageVector,
+    onClick: (() -> Unit)? = null,
+    trailing: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
+) {
+    val modifier = if (onClick != null && enabled) {
+        Modifier.fillMaxWidth().clickable(onClick = onClick)
+    } else {
+        Modifier.fillMaxWidth()
+    }
+
+    Row(
+        modifier = modifier
+            .heightIn(min = 62.dp)
+            .padding(horizontal = 14.dp, vertical = 7.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .background(
+                    MaterialTheme.colorScheme.primaryContainer,
+                    CircleShape,
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(1.dp)) {
+            Text(
+                title,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (trailing != null) {
+            Spacer(Modifier.width(10.dp))
+            trailing()
+        } else if (onClick != null && enabled) {
+            Icon(
+                Icons.Outlined.ChevronRight,
+                contentDescription = null,
+                modifier = Modifier.size(20.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun ThemeOption(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick).padding(vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RadioButton(selected = selected, onClick = onClick)
+        Spacer(Modifier.width(8.dp))
+        Text(label)
+    }
+}
+
+private fun openSystemSettings(
+    context: Context,
+    action: String,
+    vararg extras: Pair<String, String>,
+) {
+    val intent = Intent(action).apply {
+        extras.forEach { (key, value) -> putExtra(key, value) }
+    }
+    if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+    }
+}
+
+private fun openContact(context: Context) {
+    val intent = Intent(Intent.ACTION_SENDTO).apply {
+        data = Uri.parse("mailto:")
+    }
+    if (intent.resolveActivity(context.packageManager) != null) {
+        context.startActivity(intent)
+    }
+}
+
+private fun restartApp(context: Context) {
+    val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName) ?: return
+    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    context.startActivity(launchIntent)
+    (context as? Activity)?.finish()
+}
