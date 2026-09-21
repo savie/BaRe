@@ -2741,3 +2741,35 @@ The previous BuildConfig replacement introduced stringResource(R.string.unknown)
 
 ### Commit
 - 444e80b6f292f6e43c5abea8ace1eb33995bc6e3 — literal version fallback.
+
+## 2026-09-21 — #509 Settings Flow Rework: Remove Mockup Destinations
+
+### Authorization
+User confirmed GO after identifying that the initial Settings implementation still exposed GenericDomainScreen mockups. Settings scope is now treated as Account → Settings with real capability routing where available and explicit unavailable state where not implemented.
+
+### Change
+- Settings is entered from Account → Settings; it is not a new bottom-navigation tab.
+- App backups remains connected to the existing Apps tab.
+- Cloud backups remains connected to the existing Cloud flow.
+- Recovery remains connected to the existing RecoveryScreen/export-import flow.
+- Manage notifications opens Android app notification settings.
+- Manage space opens Android internal storage settings.
+- Restart app performs an actual launcher-activity restart.
+- About uses the installed package version.
+- Contact opens the system email composer.
+- Local storage now uses the existing StorageConfigurationStore for the actual persisted storage kind.
+- External SAF selection is explicitly disabled here because this Settings surface does not yet own the required folder-picker/URI lifecycle.
+- Messages, Call Logs, Folder backups, and Diagnostics no longer navigate to GenericDomainScreen from Settings; they are explicitly marked unavailable instead of presenting mockup capability.
+
+### Verification
+- Settings source re-fetched after the change: VERIFIED STATIC.
+- No unsupported Settings destination is intentionally presented as an implemented capability.
+- Build after this change: UNVERIFIED pending CI run.
+- Device/UI verification: UNVERIFIED.
+
+### Commits
+- eabf719edc20d6973d7168854cd7a98af76ebc1e — replace unsupported Settings mockups with real or explicit unavailable flows.
+- d4aaa1fa2c5facc3bb8440cb4965cc66867700a7 — keep external storage selection explicit until SAF flow is wired.
+
+### Next
+Run debug build. If green, verify the runtime path Account → Settings and each enabled Settings action on device.
