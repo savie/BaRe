@@ -2719,3 +2719,25 @@ stripDebugDebugSymbols warning for libandroidx.graphics.path.so is non-fatal pac
 
 ### Next
 Run the same debug build again. If it passes, proceed to device/UI verification of Settings against the reference.
+
+## 2026-09-21 — Settings Build Failure Triage #2
+
+### Observed
+The repeated debug build progressed through resource processing and failed only at Kotlin compilation:
+- SettingsScreen.kt:292:60 — Unresolved reference 'unknown'.
+
+The libandroidx.graphics.path.so strip message remains a non-fatal packaging warning.
+
+### Root Cause
+The previous BuildConfig replacement introduced stringResource(R.string.unknown) as the fallback for a nullable package version, but the unknown string resource does not exist.
+
+### Change
+- Replaced the missing resource fallback with the literal "unknown".
+- No Settings behavior or scope changed.
+
+### Verification
+- Affected source re-fetched after change: VERIFIED STATIC.
+- New build result after this fix: UNVERIFIED pending the next CI run.
+
+### Commit
+- 444e80b6f292f6e43c5abea8ace1eb33995bc6e3 — literal version fallback.
