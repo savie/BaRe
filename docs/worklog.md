@@ -2101,3 +2101,113 @@ Pengguna memberikan GO untuk memperbaiki hasil runtime G1 berdasarkan evidence d
   - Date used continues to use the explicit Android Usage Access path; no permission bypass was introduced.
   - Backup-date and backup-size presentation remain deferred until verified backup inventory data is available; no metadata is fabricated.
 - Verification truth: source committed; CI/device verification pending.
+
+
+## 2026-09-21 — Apps G1 Stop Point + Return to Onboarding Permission/Capability Audit
+
+### Authorization
+Pengguna memberikan **GO** untuk: merekam hasil engineering sampai CI **#475**, menghentikan sementara ekspansi Apps, lalu mengaudit kembali fondasi onboarding/access capability sebelum pekerjaan feature berikutnya dilanjutkan.
+
+### Current Stop Point — Apps
+- Functional inventory Apps tetap menggunakan **54 capability/workflow items**: APP-01 foundation + G1–G7.
+- Pekerjaan Apps yang sudah dikerjakan pada checkpoint ini mencakup G1 discovery/filtering surface dan refinement yang berujung pada `AppsFilter.kt`.
+- Android Back untuk child App Workspace sudah diperbaiki sebelumnya dan diverifikasi oleh runtime report user.
+- CI **#475 = PASS** untuk commit `9fe80a4816afd46cf5c9d9e9adae3a0828318c2f` (`fix(apps): correct remaining relative time interpolation`).
+- Commit tersebut memperbaiki interpolasi relative-time yang sebelumnya menyebabkan CI failure #473/#474.
+- **STOP APPS FEATURE EXPANSION HERE.** G1 tidak dinyatakan 100% selesai secara product parity; pekerjaan dihentikan sebagai checkpoint agar fondasi awal dapat direkonsiliasi terlebih dahulu.
+
+### Why Work Returns to Onboarding
+Current product flow source masih memiliki urutan:
+
+```text
+WELCOME
+  ↓
+LOCAL / ACCOUNT
+  ↓
+STORAGE SETUP
+  ↓
+ACCESS METHOD (NON-ROOT / ROOT)
+  ↓
+HOME
+```
+
+Flow ini sudah memiliki functional/access verification path, sehingga pekerjaan berikutnya bukan membangun ulang flow dari nol. Fokus audit sekarang adalah **permission/capability completeness dan representation** pada access method, terutama ketika user memilih Local → Root tetapi root/KSU tidak tersedia.
+
+### Audit — OBSERVED FROM CURRENT BaRe SOURCE
+
+**AndroidManifest saat ini hanya mendeklarasikan:**
+- `MANAGE_EXTERNAL_STORAGE`
+- `QUERY_ALL_PACKAGES`
+- `PACKAGE_USAGE_STATS`
+
+Tidak ditemukan pada manifest saat ini deklarasi runtime permission capability untuk domain data seperti:
+- Contacts (`READ_CONTACTS` / `WRITE_CONTACTS`)
+- SMS/MMS (`READ_SMS`, `RECEIVE_SMS`, `SEND_SMS` sesuai capability yang nantinya benar-benar digunakan)
+- Call logs (`READ_CALL_LOG`, `WRITE_CALL_LOG` sesuai operation)
+- Notifications (`POST_NOTIFICATIONS`)
+- Wi-Fi/nearby capability (`NEARBY_WIFI_DEVICES` dan versi-dependent location/network permissions bila capability tersebut membutuhkan akses tersebut)
+
+**AccessMethod / root state:**
+- `AccessCapabilityResolver` saat ini hanya melakukan probe `NON_ROOT` dan `ROOT`.
+- `NonRootCapabilityProvider.probe()` selalu mengembalikan success berbasis “Android app-visible APIs”.
+- `RootCapabilityProvider.probe()` menjalankan `su -c id` dan hanya menganggap root tersedia jika output menunjukkan `uid=0`.
+- Tidak ada layer permission-set reconciliation pada `AccessCapabilityResolver` yang mengubah hasil root/non-root menjadi daftar permission/capability yang granted/required/missing.
+
+**Onboarding UI:**
+- Access Method sudah menjelaskan Non-root dan Root melalui descriptive text.
+- Error access method hanya menerima satu `reason` string dari resolver.
+- Storage setup menangani `MANAGE_EXTERNAL_STORAGE`/canonical storage boundary secara terpisah.
+- Tidak ada current onboarding surface yang menampilkan matrix `granted / missing / unavailable` untuk capability data seperti Contacts, SMS, Call Logs, Wi-Fi, notifications, dan capability lain.
+
+### Important Boundary
+Root availability dan Android runtime permission adalah **dua state berbeda**.
+
+```text
+ROOT/KSU
+  ≠
+ANDROID RUNTIME PERMISSIONS
+  ≠
+SPECIAL ACCESS
+  ≠
+CAPABILITY READY
+```
+
+Root `uid=0` yang terdeteksi tidak membuktikan bahwa seluruh Android runtime permission sudah granted. Sebaliknya, non-root tidak otomatis berarti seluruh capability data unavailable; masing-masing capability harus dinilai terhadap Android API, permission, access mode, version, OEM/device constraint, dan verification path.
+
+### Permission/Capability Audit Matrix — CURRENT
+
+| Capability area | Current source evidence | Onboarding status | Next verification |
+|---|---|---|---|
+| Root | `su -c id` → `uid=0` | FUNCTIONAL probe | Device verification already exists for root/no-root state; retain |
+| Storage | `MANAGE_EXTERNAL_STORAGE` + storage repository checks | FUNCTIONAL path | Keep separate from data permissions |
+| Installed app discovery | `QUERY_ALL_PACKAGES` + PackageManager | FUNCTIONAL in Apps | Already used by Apps baseline |
+| Usage stats | `PACKAGE_USAGE_STATS` + Usage Access settings path | FUNCTIONAL for Date used | Keep capability-specific |
+| Contacts | No manifest/runtime request layer found | MISSING capability integration | Audit exact read/write needs before implementation |
+| SMS/MMS | No manifest/runtime request layer found | MISSING capability integration | Audit exact read/write needs before implementation |
+| Call logs | No manifest/runtime request layer found | MISSING capability integration | Audit exact read/write needs before implementation |
+| Wi-Fi | No dedicated Wi-Fi permission/capability resolver found in current onboarding | MISSING capability integration | Audit API/version-specific requirements |
+| Notifications | No `POST_NOTIFICATIONS` declaration/request layer found | MISSING | Only add if product capability actually requires it |
+| Root-assisted deeper backup | Root probe exists, but no central capability matrix | PARTIAL | Derive capability availability from actual operation dependencies |
+
+### Status Truth
+- Apps G1 checkpoint through CI #475: **VERIFIED at CI level**.
+- Apps product parity: **NOT COMPLETE / intentionally paused**.
+- Onboarding functional flow: **EXISTING / not being rebuilt**.
+- Root probe: **IMPLEMENTED STATIC**; runtime state depends on device.
+- Android permission completeness for data capabilities: **UNVERIFIED / currently incomplete in source**.
+- “Root granted means all required permissions are granted”: **FALSE as an engineering assumption**.
+- Exact permission set for every future capability: **UNKNOWN until capability-by-capability audit is completed**.
+
+### Next Work Order
+Highest-priority next work is **NOT another Apps feature**. It is:
+
+1. inspect current BaRe permission declarations/request paths;
+2. map each capability to required Android permission/special access/root dependency;
+3. distinguish `GRANTED`, `MISSING`, `NOT_APPLICABLE`, `UNAVAILABLE`, and `BLOCKED`;
+4. determine which permissions belong in onboarding versus just-in-time feature flows;
+5. update Access Method UI only after the capability matrix is verified;
+6. implement only the missing permission/capability plumbing that is actually required;
+7. build + CI + device verification;
+8. update this worklog before returning to Apps G2/G3/etc.
+
+**Continuity anchor:** Apps work is intentionally paused at CI #475. This worklog entry is the handoff/return point: **audit onboarding permission/capability completeness first, then resume Apps capability expansion from the recorded checkpoint.**
