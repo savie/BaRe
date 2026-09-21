@@ -2004,3 +2004,29 @@ pilih LOCAL
 - Final header wiring commit: `a420bacdcd842b8b84e061b98c095bdd23aaeebb`.
 - Workflow definition confirms push-triggered Android build for `v1.0/rebaseline`; no run is currently observable through the available workflow-run lookup.
 - Build and device verification therefore remain **PENDING / UNVERIFIED**.
+
+
+## 2026-09-21 — G1 Apps Filter Source Naming + CI #454 Fix
+
+### Authorization
+Pengguna memberikan **GO** dengan urutan eksplisit: rename/merge → fix compile → inspect diff → commit → cek CI #455 → update worklog. Scope G1 yang sudah disepakati tidak diubah.
+
+### Change
+- AppsG1Screen.kt renamed to AppsFilter.kt; internal G1 numbering tidak lagi dipakai sebagai nama source file.
+- Composable renamed from AppsG1Screen to AppsFilterScreen agar boundary source mengikuti fungsi filter/options, bukan traceability group.
+- Fixed CI #454 compile errors in the filter surface: Compose padding import, correct draw.clip import, and Card click handling aligned with the existing project pattern.
+- Existing G1 behavior/scope remains unchanged: local app search, A–Z search-by, app-type filtering, enabled-status filtering, name sorting, and device-backed installed-app data.
+
+### Verification Truth
+- Static diff inspected after the source rename/fix: VERIFIED for requested rename/fix scope.
+- CI #454 root cause: VERIFIED from the reported compiler output; source issues were compile-time Compose/API usage, not Android device data logic.
+- CI #455: UNVERIFIED / NOT OBSERVABLE through the available GitHub workflow-run/status connector for the resulting commit; no workflow run or status was returned.
+- Runtime/device verification: UNVERIFIED.
+
+### Commit Trail
+- Rename/fix source: 893ed238fb9de0c3f75dc4f183750c95fd8bf760
+- Wire renamed filter screen: f9b12d455e1b32fd10bdb78209c333669027baac
+- Remove obsolete source: 2f569e51f880225d490e2c90f9e292e558014896
+
+### Current Truth
+The source naming/compile-fix change is committed on v1.0/rebaseline. This does not establish CI/build/runtime verification until an observable CI result or equivalent build evidence exists.
