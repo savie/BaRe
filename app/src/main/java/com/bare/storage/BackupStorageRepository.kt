@@ -153,6 +153,61 @@ class BackupStorageRepository(private val context: Context) {
         }.distinctBy { it.path }
     }
 
+    fun localBackupSize(identityId: String): Long =
+        storageRootsForIdentity(identityId)
+            .sumOf { root -> File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").directorySize() }
+
+    fun localRecoverySize(identityId: String): Long =
+        storageRootsForIdentity(identityId)
+            .sumOf { root -> File(root, "BaRe/accounts/" + identityFolder(identityId) + "/recovery").directorySize() }
+
+    fun localBackupLocations(identityId: String): List<String> =
+        storageRootsForIdentity(identityId)
+            .map { root -> File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups").absolutePath }
+
+    fun deleteLocalBackups(identityId: String): Long {
+        var deletedBytes = 0L
+        for (root in storageRootsForIdentity(identityId)) {
+            val backups = File(root, "BaRe/accounts/" + identityFolder(identityId) + "/backups")
+            deletedBytes += backups.directorySize()
+            if (backups.exists()) {
+                check(backups.deleteRecursively()) { "unable to delete backup files" }
+                check(backups.mkdirs()) { "unable to recreate backup directory" }
+            }
+        }
+        return deletedBytes
+    }
+
+    fun deleteAllLocalData(identityId: String): Long {
+        var deletedBytes = 0L
+        for (root in storageRootsForIdentity(identityId)) {
+            val account = File(root, "BaRe/accounts/" + identityFolder(identityId))
+            deletedBytes += account.directorySize()
+            if (account.exists()) {
+                check(account.deleteRecursively()) { "unable to delete local BaRe data" }
+            }
+        }
+        return deletedBytes
+    }
+
+    private fun storageRootsForIdentity(identityId: String): List<File> = buildList {
+        if (identityId.isBlank()) return@buildList
+        add(Environment.getExternalStorageDirectory())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val storageManager = context.getSystemService(StorageManager::class.java)
+            storageManager?.storageVolumes
+                ?.filter { it.isRemovable && it.state == Environment.MEDIA_MOUNTED }
+                ?.mapNotNull { it.directory }
+                ?.forEach { add(it) }
+        }
+    }.distinctBy { it.absolutePath }
+
+    private fun File.directorySize(): Long {
+        if (!exists()) return 0L
+        if (isFile) return length()
+        return walkTopDown().filter { it.isFile }.sumOf { it.length() }
+    }
+
     fun identityFolder(identityId: String): String =
         identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')
 
