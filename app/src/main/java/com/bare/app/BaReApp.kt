@@ -240,7 +240,7 @@ fun BaReApp() {
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
-                    { appsSearchOpen = true }, { appsFilterOpen = true },
+                    { appsSearchOpen = !appsSearchOpen }, { appsFilterOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
