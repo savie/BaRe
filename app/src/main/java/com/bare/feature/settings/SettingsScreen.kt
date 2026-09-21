@@ -289,7 +289,7 @@ fun SettingsScreen(
                         stringResource(
                             R.string.settings_about_version,
                             context.packageManager.getPackageInfo(context.packageName, 0).versionName
-                                ?: stringResource(R.string.unknown),
+                                ?: "unknown",
                         ),
                     )
                     Text(stringResource(R.string.settings_about_product))
