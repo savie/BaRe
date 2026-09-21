@@ -3024,3 +3024,49 @@ Screenshot/device UI menunjukkan RadioButton pada dialog **Storage for local bac
 
 ### Next
 After CI #534 passes, install the resulting APK and verify the two radio controls visually align in the Settings dialog for both enabled and disabled External states.
+
+
+## 2026-09-21 — #526 Replace Android Storage Settings with BaRe Manage Space
+
+### User Goal
+Settings → **Manage space** harus menjadi flow BaRe sendiri, mengambil konsep fungsional dari reference Manage Space, tetapi tidak membuka Android Storage Settings dan tidak membuat capability yang belum dimiliki BaRe.
+
+### Implementation
+- Menambahkan `Screen.MANAGE_SPACE` dan `ManageSpaceScreen`.
+- Settings → Manage space sekarang membuka screen BaRe sendiri.
+- Screen menampilkan:
+  - local identity / local backup storage,
+  - backup file size,
+  - recovery package size,
+  - backup location,
+  - Reset app settings,
+  - Delete backup files,
+  - Delete all BaRe data.
+- Backup/recovery size dan location dibaca dari filesystem BaRe aktual melalui `BackupStorageRepository`.
+- Delete backup files menghapus isi folder backup dan membuat ulang folder backup.
+- Delete all BaRe data menghapus folder identity BaRe pada internal dan mounted removable storage yang ditemukan, lalu mereset Settings/Storage preferences.
+- Reset app settings mereset appearance dan storage preferences tanpa menghapus backup/recovery files.
+- Tidak dibuat tombol Cloud Cache karena cloud cache/backend BaRe belum merupakan capability nyata; tidak boleh dimockup sebagai operasi nyata.
+- Tidak lagi memakai `Settings.ACTION_INTERNAL_STORAGE_SETTINGS`.
+
+### Boundary
+```
+Account
+  → Settings
+    → Manage space
+       → BaRe local storage/data management
+
+Android Settings
+  → tidak digunakan untuk flow ini
+```
+
+### Verification
+- Source implementation committed on `v1.0/rebaseline`.
+- CI runs triggered automatically after changes; latest observed runs were still **IN_PROGRESS** at entry time.
+- Device UI/runtime verification: **UNVERIFIED**.
+- Destructive operations are confirmation-gated.
+
+### Next
+1. Repair any CI/build error before additional changes.
+2. After CI PASS, install APK and visually verify Manage space against the reference concept using BaRe visual language.
+3. Verify actual backup-size/location reporting and destructive operation behavior on a controlled test identity.
