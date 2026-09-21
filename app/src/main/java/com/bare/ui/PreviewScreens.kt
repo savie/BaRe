@@ -65,5 +65,5 @@ private fun SchedulesPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun AccountPreview() {
-    BaReTheme { AccountScreen {} }
+    BaReTheme { AccountScreen(onOpen = {}) }
 }
