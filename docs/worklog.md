@@ -2547,3 +2547,26 @@ Pengguna memberikan **GO** untuk memprioritaskan **Tab Account** terlebih dahulu
 - Supplied build result: **FAILED** at resource merge before this fix.
 - Build after this fix: **UNVERIFIED** pending a new build result.
 - Device/UI verification: **UNVERIFIED**.
+
+
+## 2026-09-21 — Build Failure Triage: Duplicate Account Resource
+
+### Observed
+- User-provided build failed at :app:mergeDebugResources.
+- Exact error: Found item String/connect_account more than one time in app/src/main/res/values/strings.xml.
+- Static inspection found two identical connect_account resources at lines 180 and 205 of the build input.
+
+### Root Cause
+- Account mockup rework introduced a new connect_account string even though the resource already existed for the existing Cloud/Account flow.
+- This is a resource-definition collision, not an Account UI runtime failure.
+
+### Change
+- Removed the duplicate connect_account declaration and retained the existing canonical resource.
+- Fix commit: 6af6512398050efe0fe50f1b78874f6038f91741.
+
+### Verification
+- Static re-fetch after change: VERIFIED STATIC.
+- Current connect_account declaration count: 1.
+- Supplied build result: FAILED at resource merge before this fix.
+- Build after this fix: UNVERIFIED pending a new build result.
+- Device/UI verification: UNVERIFIED.
