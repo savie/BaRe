@@ -80,7 +80,7 @@ private fun formatRelativeTime(timestamp: Long): String {
         }
         else -> {
             val days = minutes / 1440L
-            "\$days day\${if (days == 1L) "" else "s"} ago"
+            "$days day${if (days == 1L) "" else "s"} ago"
         }
     }
 }
