@@ -280,6 +280,7 @@ private fun MainShell(
     onAccessChanged: (AccessMethod) -> Unit,
     onRecoveryRestored: (BaReIdentity) -> Unit,
     screen: Screen,
+    identityId: String?,
     selectedApp: AppItem?,
     selectedAppPackageName: String?,
     onBack: () -> Unit,
@@ -311,6 +312,7 @@ private fun MainShell(
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
             else -> MiscScreen(
                 screen = screen,
+                identityId = identityId,
                 onBack = onBack,
                 onOpen = onOpenScreen,
                 onOpenApps = { onTabSelected(Tab.APPS.ordinal) },
