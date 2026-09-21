@@ -1999,60 +1999,8 @@ Audit source aktual branch `v1.0/rebaseline` mencakup:
 pilih LOCAL
   ↓
 
-## 2026-09-21 — Apps G1 Filter & Search implementation
+### FOLLOW-UP
 
-### USER SAID
-
-- **GO** setelah menetapkan struktur Apps:
-  - Header: brand/tagline + local Search + Filter & Search + hamburger.
-  - Filter & Search membuka **bottom sheet**.
-  - Bottom sheet memakai **APPLY OPTIONS** di bagian atas.
-  - **SEARCH BY** berisi A–Z dalam horizontal scroll.
-  - **FILTER BY** harus memakai data yang benar-benar dapat dibaca dari Android device.
-  - Existing functionality yang sudah berfungsi harus dipertahankan; capability yang belum tersedia tidak boleh dibuat sebagai mock behavior.
-
-### DECISION / BOUNDARY
-
-- Existing `AppsScreens.kt` tidak dirombak langsung pada slice ini untuk meminimalkan regression surface.
-- Apps tab diarahkan ke surface baru `AppsG1Screen` yang memakai `InstalledAppRepository` sebagai source of truth installed-app discovery.
-- Local free-text search tetap dipertahankan.
-- Existing Name ascending/descending behavior tetap tersedia.
-- A–Z Search By adalah first-letter filter terhadap nama aplikasi dan dapat digeser horizontal.
-- Filter yang ditampilkan pada slice ini hanya filter yang dapat dihitung dari installed-app data:
-  - All / User apps / System apps
-  - All / Enabled / Disabled
-- Backup/cloud metadata tidak difabrikasi karena belum mempunyai verified device-backed source pada Apps list.
-
-### IMPLEMENTATION
-
-- Added `AppsG1Screen.kt`.
-- Added Filter & Search entry point pada Apps header menggunakan filter icon.
-- Filter surface menggunakan Material bottom sheet.
-- `APPLY OPTIONS` berada di top action row bottom sheet.
-- Search By A–Z menggunakan horizontal `LazyRow`.
-- Filter state menggunakan pending state dan baru diterapkan saat Apply.
-- App list tetap membaca installed apps dari Android melalui `InstalledAppRepository`.
-- App tap tetap membuka existing App Detail flow.
-
-### TRUTH STATUS
-
-- Source implementation: **COMMITTED**.
-- Device-backed installed-app discovery: **IMPLEMENTED in source; runtime verification pending**.
-- Local search: **IMPLEMENTED in source; runtime verification pending**.
-- A–Z Search By: **IMPLEMENTED in source; runtime verification pending**.
-- User/System filter: **IMPLEMENTED in source; runtime verification pending**.
-- Enabled/Disabled filter: **IMPLEMENTED in source; runtime verification pending**.
-- Backup/cloud filter metadata: **NOT FABRICATED / NOT IMPLEMENTED in this slice**.
-- CI: **NOT OBSERVED for these commits yet**.
-- Device/runtime visual verification: **PENDING**.
-
-### COMMITS
-
-- `df90719a5e3355024ff0b543c25cc47e2f322737` — add device-backed G1 filter/search surface.
-- `65d059ef73d3f32c98f54d465dba611def353f9f` — expose Filter & Search from Apps header.
-- `93fb442543c94c5c7b275c5354554d2120ab01e4` — fix filter icon import.
-
-### VERIFICATION
-
-- GitHub workflow lookup for commit `93fb442543c94c5c7b275c5354554d2120ab01e4` returned no workflow run.
-- Therefore build/CI and runtime are **NOT VERIFIED** yet.
+- Final header wiring commit: `a420bacdcd842b8b84e061b98c095bdd23aaeebb`.
+- Workflow definition confirms push-triggered Android build for `v1.0/rebaseline`; no run is currently observable through the available workflow-run lookup.
+- Build and device verification therefore remain **PENDING / UNVERIFIED**.
