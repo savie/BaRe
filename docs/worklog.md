@@ -2456,3 +2456,25 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - Source change: **COMMITTED** pada `v1.0/rebaseline`, commit `cf9ff3228e7d27534b7b30c724d6531bd63b4b4e`.
 - Build: **UNVERIFIED**.
 - Device/UI horizontal centering: **PENDING** screenshot runtime berikutnya.
+
+## 2026-09-21 — Build Failure Triage: Centered Navigation Container
+
+### Observed
+- User-provided build failed at `:app:compileDebugKotlin` after the horizontal-centering change.
+- Errors included missing `content` for the `AnimatedVisibility` call, Composable-context errors, unresolved `offset`, and cascading syntax errors around the new `Box` container.
+
+### Root Cause
+- The centered `Box` wrapper introduced in the previous navigation change was not closed correctly, causing the compiler to parse the following `Scaffold`/`HorizontalPager` structure incorrectly.
+- `Modifier.offset(...)` was used without importing `androidx.compose.foundation.layout.offset`.
+
+### Change
+- Added the missing `offset` import.
+- Corrected the closing structure for `NavigationBar` → centered `Box` → `AnimatedVisibility`.
+- No navigation behavior or geometry values were otherwise changed.
+- Commit: `b87d4ffb76510894b92c5e4c1cf7fc728d79b075`.
+
+### Verification
+- Source fix: **VERIFIED STATIC** by re-fetching the affected source.
+- Supplied build: **FAILED** before this fix.
+- Build after this fix: **UNVERIFIED** pending a new build result.
+- Device/UI: **UNVERIFIED**.
