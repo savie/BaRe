@@ -24,7 +24,7 @@ class SettingsStore(context: Context) {
     }
 
     fun loadDynamicColors(): Boolean =
-        preferences.getBoolean(KEY_DYNAMIC_COLORS, true)
+        preferences.getBoolean(KEY_DYNAMIC_COLORS, false)
 
     fun saveDynamicColors(enabled: Boolean) {
         preferences.edit().putBoolean(KEY_DYNAMIC_COLORS, enabled).apply()
