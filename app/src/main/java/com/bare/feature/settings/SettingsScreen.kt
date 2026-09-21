@@ -134,19 +134,19 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_messages_backups),
-                        subtitle = stringResource(R.string.settings_messages_backups_subtitle) + " · Not implemented",
+                        subtitle = stringResource(R.string.settings_messages_backups_subtitle) + " · " + stringResource(R.string.not_implemented),
                         icon = Icons.Outlined.Message,
                         enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_call_logs_backups),
-                        subtitle = stringResource(R.string.settings_call_logs_backups_subtitle) + " · Not implemented",
+                        subtitle = stringResource(R.string.settings_call_logs_backups_subtitle) + " · " + stringResource(R.string.not_implemented),
                         icon = Icons.Outlined.Call,
                         enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_folder_backups),
-                        subtitle = stringResource(R.string.settings_folder_backups_subtitle) + " · Not implemented",
+                        subtitle = stringResource(R.string.settings_folder_backups_subtitle) + " · " + stringResource(R.string.not_implemented),
                         icon = Icons.Outlined.Folder,
                         enabled = false,
                     )
@@ -222,7 +222,7 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_diagnostics),
-                        subtitle = stringResource(R.string.diagnostics_short) + " · Not implemented",
+                        subtitle = stringResource(R.string.diagnostics_short) + " · " + stringResource(R.string.not_implemented),
                         icon = Icons.Outlined.BugReport,
                         enabled = false,
                     )
@@ -420,7 +420,7 @@ fun SettingsScreen(
                                 ?: "unknown",
                         ),
                     )
-                    Text(stringResource(R.string.settings_about_product))
+                    Text(stringResource(R.string.settings_about_product, stringResource(R.string.app_name)))
                 }
             },
             confirmButton = {
