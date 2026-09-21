@@ -62,10 +62,28 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import java.util.concurrent.TimeUnit
 import com.bare.app.AppItem
 import com.bare.app.Screen
 import android.content.Intent
 import android.provider.Settings
+
+private fun formatRelativeTime(timestamp: Long): String {
+    val delta = (System.currentTimeMillis() - timestamp).coerceAtLeast(0L)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
+    return when {
+        minutes < 1L -> "just now"
+        minutes < 60L -> "\$minutes minute\${if (minutes == 1L) "" else "s"} ago"
+        minutes < 1440L -> {
+            val hours = minutes / 60L
+            "\$hours hour\${if (hours == 1L) "" else "s"} ago"
+        }
+        else -> {
+            val days = minutes / 1440L
+            "\$days day\${if (days == 1L) "" else "s"} ago"
+        }
+    }
+}
 
 private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
@@ -198,6 +216,47 @@ fun AppsFilterScreen(
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
+        val activeChips = buildList {
+            if (activeFilter.favorite == FavoriteFilter.FAVORITES) add("Favorites")
+            if (activeFilter.favorite == FavoriteFilter.NOT_FAVORITES) add("Not favorites")
+            if (activeFilter.label == LabelFilter.LABELLED) add("Labelled")
+            if (activeFilter.label == LabelFilter.UNLABELLED) add("Not labelled")
+            if (activeFilter.selectedLabels.isNotEmpty()) add("Labels: " + activeFilter.selectedLabels.joinToString(", "))
+            if (activeFilter.appType == AppTypeFilter.USER) add("User apps")
+            if (activeFilter.appType == AppTypeFilter.SYSTEM) add("System apps")
+            if (activeFilter.enabled == EnabledFilter.ENABLED) add("Enabled")
+            if (activeFilter.enabled == EnabledFilter.DISABLED) add("Disabled")
+            if (activeFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY) add("Installed from Google Play")
+            if (activeFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY) add("Not installed from Google Play")
+        }
+
+        if (activeChips.isNotEmpty()) {
+            item {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    contentPadding = PaddingValues(vertical = 4.dp),
+                ) {
+                    items(activeChips) { chip ->
+                        FilterChip(
+                            selected = true,
+                            onClick = {
+                                activeFilter = when {
+                                    chip == "Favorites" || chip == "Not favorites" -> activeFilter.copy(favorite = FavoriteFilter.ALL)
+                                    chip == "Labelled" || chip == "Not labelled" || chip.startsWith("Labels:") -> activeFilter.copy(label = LabelFilter.ALL, selectedLabels = emptySet())
+                                    chip == "User apps" || chip == "System apps" -> activeFilter.copy(appType = AppTypeFilter.ALL)
+                                    chip == "Enabled" || chip == "Disabled" -> activeFilter.copy(enabled = EnabledFilter.ALL)
+                                    chip == "Installed from Google Play" || chip == "Not installed from Google Play" -> activeFilter.copy(googlePlay = GooglePlayFilter.ALL)
+                                    else -> activeFilter
+                                }
+                            },
+                            label = { Text(chip) },
+                            trailingIcon = { Icon(Icons.Default.Clear, contentDescription = "Remove $chip") },
+                        )
+                    }
+                }
+            }
+        }
+
         if (error != null) {
             item {
                 Text(
@@ -232,6 +291,18 @@ fun AppsFilterScreen(
                                 )
                                 Text(
                                     if (app.isSystem) "System app • ${app.size}" else "User app • ${app.size}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                )
+                                Text(
+                                    when (activeFilter.sort) {
+                                        SortOption.NAME -> "No backup on device"
+                                        SortOption.INSTALL_DATE -> app.firstInstallTime?.let { "Installed: ${formatRelativeTime(it)}" } ?: "Install date unavailable"
+                                        SortOption.UPDATE_DATE -> app.lastUpdateTime?.let { "Last updated: ${formatRelativeTime(it)}" } ?: "Update date unavailable"
+                                        SortOption.BACKUP_DATE -> "No backup on device"
+                                        SortOption.BACKUP_SIZE -> "No backup on device"
+                                        SortOption.DATE_USED -> lastUsedTimes[app.packageName]?.let { "Last used: ${formatRelativeTime(it)}" } ?: "Usage unavailable"
+                                        SortOption.APP_SIZE -> "App size: ${app.size}"
+                                    },
                                     style = MaterialTheme.typography.labelSmall,
                                 )
                             }
@@ -346,13 +417,13 @@ fun AppsFilterScreen(
                                         contentAlignment = Alignment.Center,
                                     ) {
                                         Surface(
-                                            modifier = Modifier.size(56.dp),
+                                            modifier = Modifier.size(48.dp),
                                             shape = CircleShape,
                                             color = if (selected) MaterialTheme.colorScheme.primaryContainer else Color.Transparent,
                                             border = androidx.compose.foundation.BorderStroke(1.dp, tint),
                                         ) {
                                             androidx.compose.foundation.layout.Box(contentAlignment = Alignment.Center) {
-                                                Icon(option.icon, contentDescription = null, tint = tint, modifier = Modifier.size(26.dp))
+                                                Icon(option.icon, contentDescription = null, tint = tint, modifier = Modifier.size(20.dp))
                                             }
                                         }
                                         if (selected) {
