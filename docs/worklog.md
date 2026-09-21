@@ -2686,3 +2686,36 @@ Pengguna memberikan **GO** untuk melanjutkan ke flow **Settings** berdasarkan re
 1. Build/CI verification for Settings flow.
 2. Device/UI review against reference, especially header 96dp and compact row geometry.
 3. Then continue lifecycle recovery / BREC consistency.
+
+
+## 2026-09-21 — Settings Build Failure Triage
+
+### Observed
+CI build command gradle :app:assembleDebug --no-daemon reached :app:compileDebugKotlin and failed with two source errors:
+- MiscScreens.kt:205:22 Unresolved reference 'onOpen'.
+- SettingsScreen.kt:26:17 and :289:74 unresolved BuildConfig.
+
+stripDebugDebugSymbols warning for libandroidx.graphics.path.so is non-fatal packaging behavior and is not the compile blocker.
+
+### Root Cause
+1. MiscScreen was refactored to receive the new Settings state parameters, but its existing onOpen: (Screen) -> Unit navigation contract was not included in the updated function signature.
+2. Settings About used com.bare.BuildConfig.VERSION_NAME. The current build configuration does not expose that generated symbol to this source compilation path, so the reference is not valid in the observed CI environment.
+
+### Change
+- Restored onOpen: (Screen) -> Unit to MiscScreen and passed onOpenScreen from MainShell.
+- Replaced BuildConfig.VERSION_NAME with the installed package version obtained through context.packageManager.getPackageInfo(...).versionName.
+- No capability was downgraded to mockup; this is a compile-fix only.
+
+### Verification
+- Affected files re-fetched from v1.0/rebaseline after the fixes: VERIFIED STATIC.
+- SettingsScreen.kt no longer references BuildConfig.
+- MiscScreen signature now declares onOpen, and MainShell passes it.
+- New CI/build result after these fixes: UNVERIFIED pending the next run.
+
+### Commits
+- 1380530b68231d66135e0c807ffa9e9fa8a8ff71 — restore Settings navigation contract.
+- 0daae968f60076fa9ea7a334cd039d917f0d649e — pass navigation callback from MainShell.
+- e601cdd04cc9d47fdc4a050901b71ca1984a6748 — remove BuildConfig dependency from Settings About.
+
+### Next
+Run the same debug build again. If it passes, proceed to device/UI verification of Settings against the reference.
