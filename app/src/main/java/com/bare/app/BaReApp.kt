@@ -70,6 +70,10 @@ fun BaReApp() {
     val restoredIdentity = remember(identityStore) { identityStore.loadOrRecover() }
     val storageRepository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
     val storageConfiguration = remember(context) { StorageConfigurationStore(context) }
+    val settingsStore = remember(context) { SettingsStore(context) }
+    var themeMode by remember(settingsStore) { mutableStateOf(settingsStore.loadThemeMode()) }
+    var dynamicColors by remember(settingsStore) { mutableStateOf(settingsStore.loadDynamicColors()) }
+    var amoledBlack by remember(settingsStore) { mutableStateOf(settingsStore.loadAmoledBlack()) }
     val durableLocalState = remember(restoredIdentity) {
         restoredIdentity?.let { identity ->
             if (!identityStore.isSetupComplete()) {
@@ -155,7 +159,11 @@ fun BaReApp() {
 
     BackHandler(enabled = startScreen != StartScreen.WELCOME || screen != Screen.NONE || searchOpen) { goBack() }
 
-    BaReTheme {
+    BaReTheme(
+        themeMode = themeMode,
+        dynamicColors = dynamicColors,
+        amoledBlack = amoledBlack,
+    ) {
         Surface(Modifier.fillMaxSize()) {
             when (startScreen) {
                 StartScreen.WELCOME -> {
@@ -244,7 +252,11 @@ fun BaReApp() {
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
-                    appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it }
+                    appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it },
+                    themeMode, dynamicColors, amoledBlack,
+                    { value -> themeMode = value; settingsStore.saveThemeMode(value) },
+                    { value -> dynamicColors = value; settingsStore.saveDynamicColors(value) },
+                    { value -> amoledBlack = value; settingsStore.saveAmoledBlack(value) },
                 )
             }
         }
@@ -278,6 +290,12 @@ private fun MainShell(
     onAppsSearchOpenChange: (Boolean) -> Unit,
     appsFilterOpen: Boolean,
     onAppsFilterOpenChange: (Boolean) -> Unit,
+    themeMode: AppThemeMode,
+    dynamicColors: Boolean,
+    amoledBlack: Boolean,
+    onThemeModeChanged: (AppThemeMode) -> Unit,
+    onDynamicColorsChanged: (Boolean) -> Unit,
+    onAmoledBlackChanged: (Boolean) -> Unit,
 ) {
     if (screen != Screen.NONE) {
         when (screen) {
@@ -291,7 +309,17 @@ private fun MainShell(
             Screen.APP_DIAGNOSTICS -> AppDiagnosticsScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.APP_RESTORE -> AppRestoreScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.IMPORT_EXPORT -> RecoveryScreen(onRecovered = onRecoveryRestored, onBack = onBack)
-            else -> MiscScreen(screen, onBack)
+            else -> MiscScreen(
+                screen = screen,
+                onBack = onBack,
+                onOpenApps = { onTabSelected(Tab.APPS.ordinal) },
+                themeMode = themeMode,
+                dynamicColors = dynamicColors,
+                amoledBlack = amoledBlack,
+                onThemeModeChanged = onThemeModeChanged,
+                onDynamicColorsChanged = onDynamicColorsChanged,
+                onAmoledBlackChanged = onAmoledBlackChanged,
+            )
         }
         return
     }
