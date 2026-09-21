@@ -41,6 +41,7 @@ import com.bare.recovery.RecoveryArtifactRepository
 import com.bare.app.IdentityType
 import com.bare.R
 import com.bare.storage.initializeLocalBackupStorage
+import com.bare.storage.StorageConfigurationStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
