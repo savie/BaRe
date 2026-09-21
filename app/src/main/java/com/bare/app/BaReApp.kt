@@ -237,8 +237,8 @@ fun BaReApp() {
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
                     { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
-                    { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
+                    { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it }
                 )
