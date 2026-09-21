@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bare.storage.BackupStorageRepository
-import com.bare.storage.StorageConfigurationStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +26,6 @@ fun ManageSpaceScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val repository = remember(context) { BackupStorageRepository(context) }
-    val storageStore = remember(context) { StorageConfigurationStore(context) }
     val scope = rememberCoroutineScope()
 
     var backupBytes by remember { mutableStateOf(0L) }
@@ -66,13 +64,11 @@ fun ManageSpaceScreen(
                         ManageSpaceAction.DELETE_BACKUPS -> repository.deleteLocalBackups(id)
                         ManageSpaceAction.DELETE_ALL_DATA -> {
                             val deleted = repository.deleteAllLocalData(id)
-                            context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
-                            context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
+                            clearBaReAppData(context)
                             deleted
                         }
                         ManageSpaceAction.RESET_SETTINGS -> {
-                            context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
-                            context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
+                            resetBaReSettings(context)
                             0L
                         }
                     }
@@ -151,8 +147,8 @@ fun ManageSpaceScreen(
 
             item {
                 ManageSpaceActionCard(
-                    title = "Delete all BaRe data",
-                    body = "Delete local backup and recovery data for this identity. BaRe settings are also reset. This cannot be undone.",
+                    title = "Delete all data",
+                    body = "Delete all BaRe backup, recovery, and app data. This cannot be undone.",
                     button = "Delete all data",
                     icon = Icons.Outlined.Delete,
                     enabled = !busy && identityId != null,
@@ -173,7 +169,7 @@ fun ManageSpaceScreen(
         val title = when (action) {
             ManageSpaceAction.RESET_SETTINGS -> "Reset BaRe settings?"
             ManageSpaceAction.DELETE_BACKUPS -> "Delete backup files?"
-            ManageSpaceAction.DELETE_ALL_DATA -> "Delete all BaRe data?"
+            ManageSpaceAction.DELETE_ALL_DATA -> "Delete all data?"
         }
         val message = when (action) {
             ManageSpaceAction.RESET_SETTINGS -> "Appearance and local storage preferences will be reset. Backup and recovery files will remain."
@@ -197,6 +193,30 @@ fun ManageSpaceScreen(
         )
     }
 }
+
+private fun clearBaReAppData(context: Context) {
+    val sharedPreferences = context.getSharedPreferences("bare_identity", Context.MODE_PRIVATE)
+    sharedPreferences.edit().clear().commit()
+    context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
+    context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
+
+    context.filesDir.deleteChildren()
+    context.cacheDir.deleteChildren()
+    context.codeCacheDir.deleteChildren()
+    context.noBackupFilesDir.deleteChildren()
+    context.databaseList.forEach { name -> context.deleteDatabase(name) }
+}
+
+private fun resetBaReSettings(context: Context) {
+    context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE).edit().clear().commit()
+    context.getSharedPreferences("bare_storage", Context.MODE_PRIVATE).edit().clear().commit()
+}
+
+private fun java.io.File.deleteChildren() {
+    if (!exists()) return
+    listFiles()?.forEach { it.deleteRecursively() }
+}
+
 
 private enum class ManageSpaceAction {
     RESET_SETTINGS,
