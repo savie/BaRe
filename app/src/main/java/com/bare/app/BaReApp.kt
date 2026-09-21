@@ -110,6 +110,14 @@ fun BaReApp() {
     fun goBack() {
         when {
             searchOpen -> searchOpen = false
+            screen == Screen.APP_BACKUP ||
+                screen == Screen.APP_BACKUPS ||
+                screen == Screen.APP_MANAGEMENT ||
+                screen == Screen.APP_CONFIG ||
+                screen == Screen.APP_DIAGNOSTICS ||
+                screen == Screen.APP_RESTORE -> {
+                screen = Screen.APP_DETAIL
+            }
             screen != Screen.NONE -> screen = Screen.NONE
             startScreen == StartScreen.ACCESS_METHOD -> {
                 if (returnToAppAfterFlow) {
