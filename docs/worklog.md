@@ -4051,3 +4051,34 @@ Setelah dokumentasi ini stabil, lanjut ke **UI-first implementation planning** u
 - Source change committed pada commit `ac346667202f63b29baa2619ad9bdbc0066c5e08`.
 - CI/build verification: **PENDING**.
 - Device/runtime visual verification: **PENDING**.
+
+
+## 2026-09-21 — Apps navigation: Android Back hierarchy fix
+
+### USER SAID
+
+- **GO** untuk memperbaiki Android Back lebih dulu.
+
+### OBSERVED / ROOT CAUSE
+
+- `BaReApp.goBack()` sebelumnya menangani `screen != Screen.NONE` dengan langsung mengosongkan screen.
+- Akibatnya child workspace dari App Detail kembali langsung ke Apps tab, bukan ke App Detail.
+
+### IMPLEMENTATION
+
+- Android Back sekarang mengenali child App Workspace screens:
+  - Backup
+  - Backups
+  - Management
+  - Configuration
+  - Diagnostics
+  - Restore
+- Back dari child tersebut diarahkan ke `Screen.APP_DETAIL`.
+- Back dari App Detail tetap mengikuti parent Apps surface.
+- Tidak mengubah Apps discovery/search/sort/User-System filtering.
+
+### VERIFICATION
+
+- Source commit: `98a7b2ebe857412defcb26c100be1b4e846ac10d`.
+- CI: **PENDING**.
+- Device/runtime verification: **PENDING**.
