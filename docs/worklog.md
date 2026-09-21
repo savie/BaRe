@@ -2282,3 +2282,20 @@ UX mengikuti pola reference secara konseptual, tetapi source/code BaRe dibuat in
 4. Verify non-root state dan capability limitations secara terpisah.
 5. Perbaiki hanya failure yang terbukti dari runtime evidence.
 
+## 2026-09-21 — CI #485 Compile Failure: WRITE_SMS + Root Grant Copy
+
+### Observed
+- CI #485 failed at `:app:compileDebugKotlin` with `Unresolved reference 'WRITE_SMS'` in `RootCapabilityProvider.kt`.
+- Root cause: the Kotlin Android SDK surface used by the build does not expose `Manifest.permission.WRITE_SMS` as a resolvable constant in this source context.
+- Root grant dialog description contained the product name `BaRe`; this was changed to avoid duplicating the branded display name already defined by `app_name`.
+
+### Change
+- Replaced `Manifest.permission.WRITE_SMS` with the canonical permission string `android.permission.WRITE_SMS` in the root grant permission set.
+- Changed `root_grant_dialog_description` to: `Grant the required permissions in one step using Root access.`
+
+### Verification
+- Static source re-fetch on `v1.0/rebaseline` confirms the permission literal and updated string are present.
+- New branch head: `d5668077f6588b8e1ea524b66cc76f5d6d153b32`.
+- CI workflow result for the new head: **UNVERIFIED / NO RUN OBSERVED** through the available workflow connector at record time.
+- Build and device/runtime behavior remain **UNVERIFIED** until a new CI/device run provides evidence.
+
