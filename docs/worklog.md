@@ -2419,3 +2419,24 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - Supplied build: **FAILED** before this fix.
 - Build after this fix: **UNVERIFIED** until a new CI/build result is observed.
 - Device/UI verification: **UNVERIFIED**.
+
+## 2026-09-21 — #499 Floating 4-Tab Navigation Position/Height Refinement
+
+### Authorization
+- Pengguna memberikan **GO** setelah runtime screenshot checkpoint #499.
+
+### User Observation
+- Floating 4-tab navigation sudah berfungsi, tetapi surface masih terlalu tinggi.
+- Posisi horizontal sudah berada di tengah; posisi vertikal diminta sedikit lebih ke atas.
+
+### Change
+- Navigation surface height: `80.dp` → `64.dp`.
+- Vertical offset: `-12.dp` untuk mengangkat floating bar dari bottom edge.
+- Corner radius: `28.dp` → `24.dp` agar proporsional terhadap height baru.
+- Four-tab semantics, icon-only presentation, pager navigation, dan scroll hide/show tidak diubah.
+
+### Verification
+- Runtime screenshot user: **OBSERVED** sebagai basis perubahan.
+- Source change: **COMMITTED** pada `v1.0/rebaseline`, commit `1bdd46338f3ae1038bb97c8f3c8abd9b4c5a3c6d`.
+- Build setelah perubahan: **UNVERIFIED**.
+- Device/UI verification hasil refinement ini: **PENDING** screenshot berikutnya.
