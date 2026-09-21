@@ -25,7 +25,7 @@ import com.bare.app.Tab
 import com.bare.capability.AccessCapabilityResolver
 import com.bare.storage.BackupStorage
 import com.bare.storage.BackupStorageRepository
-import com.bare.feature.onboarding.initializeStorageForIdentity
+import com.bare.storage.initializeLocalBackupStorage
 import com.bare.ui.BareIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -314,7 +314,7 @@ fun HomeScreen(
                         storageError = null
                         scope.launch {
                             runCatching {
-                                initializeStorageForIdentity(context, identityId, BackupStorage.Kind.INTERNAL)
+                                initializeLocalBackupStorage(context, identityId, BackupStorage.Kind.INTERNAL)
                             }.onSuccess {
                                 storageBusy = false
                                 selectedStorageKind = BackupStorage.Kind.INTERNAL
@@ -341,7 +341,7 @@ fun HomeScreen(
                         storageError = null
                         scope.launch {
                             runCatching {
-                                initializeStorageForIdentity(context, identityId, BackupStorage.Kind.EXTERNAL)
+                                initializeLocalBackupStorage(context, identityId, BackupStorage.Kind.EXTERNAL)
                             }.onSuccess {
                                 storageBusy = false
                                 selectedStorageKind = BackupStorage.Kind.EXTERNAL
