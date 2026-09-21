@@ -2619,3 +2619,70 @@ Pengguna memberikan **GO** untuk memprioritaskan **Tab Account** terlebih dahulu
 1. **Account tab**
 2. **Recovery lifecycle / BREC**
 3. **Global header vs local header**
+
+
+## 2026-09-21 — #509 Settings Flow Rework
+
+### Authorization
+Pengguna memberikan **GO** untuk melanjutkan ke flow **Settings** berdasarkan reference yang diberikan. Scope mencakup struktur/settings flow, header local dengan tinggi yang disamakan dengan global header BaRe, adaptasi ke capability BaRe, dan menerapkan capability yang sudah dapat dibuat nyata tanpa mengklaim capability yang belum tersedia.
+
+### Reference / Scope
+- Reference body dibagi menjadi:
+  - Appearance and language
+  - Backup content
+  - Storage and security
+  - Notifications
+  - Advanced tools
+  - Help and info
+- Local Settings header menggunakan 96.dp, sama dengan MainShell global header saat ini.
+- Surface settings dibuat compact dan grouped agar mendekati reference.
+- Visual polish warna/ukuran detail lebih lanjut tetap dapat ditunda sesuai checkpoint pengguna sebelumnya.
+
+### Implemented
+- Menambahkan SettingsScreen sebagai flow Settings native, menggantikan GenericDomainScreen mockup untuk Screen.SETTINGS.
+- Menambahkan persistent SettingsStore untuk:
+  - App theme: System / Light / Dark.
+  - Dynamic colors.
+  - AMOLED black backgrounds.
+- BaReTheme sekarang membaca state tersebut dan mendukung:
+  - system/light/dark selection,
+  - Material 3 dynamic color pada Android 12+,
+  - AMOLED black dark palette.
+- Settings destinations dihubungkan ke flow BaRe yang sudah ada:
+  - App backups → Apps tab.
+  - Messages / Call Logs / Folder backups → domain surfaces existing.
+  - Cloud backups → Cloud surface existing.
+  - Encryption password strategy / Recovery → existing recovery flow.
+  - Diagnostics → existing diagnostics surface.
+- Manage space membuka Android internal storage settings.
+- Manage notifications membuka notification settings untuk package BaRe.
+- Restart app menjalankan ulang launcher activity BaRe.
+- About menampilkan version dari BuildConfig.VERSION_NAME.
+- Contact membuka email composer jika handler tersedia.
+- Capability yang belum tersedia tidak dipalsukan:
+  - notification sound pipeline tetap disabled dan diberi status eksplisit,
+  - Help center tetap disabled karena help surface native BaRe belum tersedia,
+  - Language tetap English karena localization flow belum tersedia.
+
+### Commits
+- 2ab0ad7844791191e94e86445fd722ed35bf980e — persistent settings store.
+- 734081ff7b339c27cdae1893e50c4ead6df95475 — SettingsScreen.
+- ebc700c60d62706b749087615802e1bc3fd90030 — route Settings away from GenericDomainScreen.
+- 1aad89cceb594179cabe631f6e21213393acaafc — configurable theme/dynamic colors.
+- f550ba3cf16ca39949cb2accee6b43d3f01ed48c — settings strings.
+- e0e7cd71c15e49658608266ab0647d1b5029d13c — wire settings state into app shell.
+- e6709d6d13a9bca4fd8d0761a4a72b544562220c — wire settings state into MiscScreen.
+- d9be33a97741daac123cbfa0df6fc987d5f50f10 — make unavailable help flow explicit.
+- ce8017c3b0850966efdfe50e02dbad1f83cb583c — clarify unavailable help surface.
+
+### Verification
+- Repository source re-fetched from branch v1.0/rebaseline after changes: VERIFIED STATIC.
+- GitHub combined status for latest commit: no status reported yet.
+- GitHub Actions workflow run for latest commit: not observed through available workflow-run endpoint.
+- Local build/device verification: UNVERIFIED.
+- Therefore implementation is COMMITTED + STATIC-VERIFIED, not claimed runtime-verified.
+
+### Next
+1. Build/CI verification for Settings flow.
+2. Device/UI review against reference, especially header 96dp and compact row geometry.
+3. Then continue lifecycle recovery / BREC consistency.
