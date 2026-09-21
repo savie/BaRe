@@ -12,7 +12,9 @@ import androidx.compose.material.icons.outlined.RestartAlt
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.bare.R
 import com.bare.storage.BackupStorageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -83,7 +85,7 @@ fun ManageSpaceScreen(
                 }
             }.onFailure {
                 busy = false
-                error = it.message ?: "Operation failed"
+                error = it.message ?: context.getString(R.string.operation_failed)
             }
         }
     }
@@ -91,10 +93,10 @@ fun ManageSpaceScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Manage space") },
+                title = { Text(stringResource(R.string.settings_manage_space)) },
                 navigationIcon = {
                     IconButton(onClick = onBack, enabled = !busy) {
-                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
             )
@@ -107,16 +109,16 @@ fun ManageSpaceScreen(
         ) {
             item {
                 ManageSpaceCard(
-                    title = if (identityId == null) "Local identity" else "Local backup storage",
+                    title = if (identityId == null) stringResource(R.string.manage_space_local_identity) else stringResource(R.string.manage_space_local_backup_storage),
                     body = buildString {
                         append(if (identityId == null) "No local identity is available." else "BaRe local backup data")
                         append("\n")
-                        append("Backup files: ${formatBytes(backupBytes)}")
+                        append(stringResource(R.string.manage_space_backup_files, formatBytes(context, backupBytes)))
                         append("\n")
-                        append("Recovery package: ${formatBytes(recoveryBytes)}")
+                        append(stringResource(R.string.manage_space_recovery_package, formatBytes(context, recoveryBytes)))
                         if (locations.isNotEmpty()) {
                             append("\n\n")
-                            append("Backup location:")
+                            append(stringResource(R.string.manage_space_backup_location))
                             append("\n")
                             append(locations.first())
                         }
@@ -127,9 +129,9 @@ fun ManageSpaceScreen(
 
             item {
                 ManageSpaceActionCard(
-                    title = "Reset app settings",
-                    body = "Reset BaRe appearance and local storage preferences. Backup files and recovery data are kept.",
-                    button = "Reset settings",
+                    title = stringResource(R.string.manage_space_reset_app_settings),
+                    body = stringResource(R.string.manage_space_reset_description),
+                    button = stringResource(R.string.manage_space_reset_settings),
                     icon = Icons.Outlined.RestartAlt,
                     enabled = !busy,
                     destructive = false,
@@ -139,9 +141,9 @@ fun ManageSpaceScreen(
 
             item {
                 ManageSpaceActionCard(
-                    title = "Delete backup files (${formatBytes(backupBytes)})",
-                    body = "Delete local backup files for this BaRe identity. Recovery data is kept.",
-                    button = "Delete backup files",
+                    title = stringResource(R.string.manage_space_delete_backup_title, formatBytes(context, backupBytes)),
+                    body = stringResource(R.string.manage_space_delete_backup_description),
+                    button = stringResource(R.string.manage_space_delete_backup_button),
                     icon = Icons.Outlined.Delete,
                     enabled = !busy && backupBytes > 0L,
                     destructive = true,
@@ -151,9 +153,9 @@ fun ManageSpaceScreen(
 
             item {
                 ManageSpaceActionCard(
-                    title = "Delete all data",
-                    body = "Delete all backup, recovery, and app data. This cannot be undone.",
-                    button = "Delete all data",
+                    title = stringResource(R.string.manage_space_delete_all_title),
+                    body = stringResource(R.string.manage_space_delete_all_description),
+                    button = stringResource(R.string.manage_space_delete_all_button),
                     icon = Icons.Outlined.Delete,
                     enabled = !busy && identityId != null,
                     destructive = true,
@@ -171,14 +173,14 @@ fun ManageSpaceScreen(
 
     confirmAction?.let { action ->
         val title = when (action) {
-            ManageSpaceAction.RESET_SETTINGS -> "Reset BaRe settings?"
-            ManageSpaceAction.DELETE_BACKUPS -> "Delete backup files?"
-            ManageSpaceAction.DELETE_ALL_DATA -> "Delete all data?"
+            ManageSpaceAction.RESET_SETTINGS -> stringResource(R.string.manage_space_reset_confirm_title)
+            ManageSpaceAction.DELETE_BACKUPS -> stringResource(R.string.manage_space_delete_backup_confirm_title)
+            ManageSpaceAction.DELETE_ALL_DATA -> stringResource(R.string.manage_space_delete_all_confirm_title)
         }
         val message = when (action) {
-            ManageSpaceAction.RESET_SETTINGS -> "Appearance and local storage preferences will be reset. Backup and recovery files will remain."
-            ManageSpaceAction.DELETE_BACKUPS -> "Local backup files for this identity will be permanently deleted."
-            ManageSpaceAction.DELETE_ALL_DATA -> "Local backups and the recovery package for this identity will be permanently deleted."
+            ManageSpaceAction.RESET_SETTINGS -> stringResource(R.string.manage_space_reset_confirm_message)
+            ManageSpaceAction.DELETE_BACKUPS -> stringResource(R.string.manage_space_delete_backup_confirm_message)
+            ManageSpaceAction.DELETE_ALL_DATA -> stringResource(R.string.manage_space_delete_all_confirm_message)
         }
         AlertDialog(
             onDismissRequest = { if (!busy) confirmAction = null },
@@ -186,12 +188,12 @@ fun ManageSpaceScreen(
             text = { Text(message) },
             dismissButton = {
                 TextButton(onClick = { confirmAction = null }, enabled = !busy) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             },
             confirmButton = {
                 TextButton(onClick = { runAction(action) }, enabled = !busy) {
-                    Text(if (action == ManageSpaceAction.RESET_SETTINGS) "Reset" else "Delete")
+                    Text(if (action == ManageSpaceAction.RESET_SETTINGS) stringResource(R.string.manage_space_reset_confirm_button) else stringResource(R.string.manage_space_delete_confirm_button))
                 }
             },
         )
@@ -286,16 +288,19 @@ private fun ManageSpaceActionCard(
     }
 }
 
-private fun formatBytes(bytes: Long): String {
-    if (bytes < 1024L) return "$bytes B"
-    val units = arrayOf("KB", "MB", "GB", "TB")
+private fun formatBytes(context: Context, bytes: Long): String {
+    if (bytes < 1024L) return context.getString(R.string.size_bytes, bytes)
     var value = bytes.toDouble()
+    val units = listOf(
+        R.string.size_kb,
+        R.string.size_mb,
+        R.string.size_gb,
+        R.string.size_tb,
+    )
     var index = -1
     while (value >= 1024.0 && index < units.lastIndex) {
         value /= 1024.0
         index++
     }
-    return if (value >= 100) "%.0f %s".format(value, units[index])
-    else if (value >= 10) "%.1f %s".format(value, units[index])
-    else "%.2f %s".format(value, units[index])
+    return context.getString(units[index], value)
 }
