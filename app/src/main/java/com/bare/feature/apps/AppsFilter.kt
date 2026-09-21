@@ -2,6 +2,7 @@ package com.bare.feature.apps
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,11 +54,17 @@ import com.bare.app.Screen
 
 private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
-
+private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
+private enum class SortOption(val title: String, val available: Boolean) {
+    NAME("Name", true), INSTALL_DATE("Install date", true), UPDATE_DATE("Update date", true),
+    BACKUP_DATE("Backup date", false), BACKUP_SIZE("Backup size", false), DATE_USED("Date used", false), APP_SIZE("App size", true),
+}
 private data class AppsFilterState(
-    val firstLetter: Char? = null,
+    val sort: SortOption = SortOption.NAME,
+    val descending: Boolean = false,
     val appType: AppTypeFilter = AppTypeFilter.ALL,
     val enabled: EnabledFilter = EnabledFilter.ALL,
+    val googlePlay: GooglePlayFilter = GooglePlayFilter.ALL,
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -77,8 +84,6 @@ fun AppsFilterScreen(
     var searchQuery by remember { mutableStateOf("") }
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
-    var descending by remember { mutableStateOf(false) }
-
     LaunchedEffect(repository) {
         runCatching { repository.load() }
             .onSuccess {
@@ -94,64 +99,28 @@ fun AppsFilterScreen(
         if (filterOpen) pendingFilter = activeFilter
     }
 
-    val visibleApps = remember(apps, activeFilter, searchQuery, descending) {
+    val visibleApps = remember(apps, activeFilter, searchQuery) {
         val query = searchQuery.trim().lowercase()
-        apps.asSequence()
-            .filter { app ->
-                when (activeFilter.appType) {
-                    AppTypeFilter.ALL -> true
-                    AppTypeFilter.USER -> !app.isSystem
-                    AppTypeFilter.SYSTEM -> app.isSystem
-                }
-            }
-            .filter { app ->
-                when (activeFilter.enabled) {
-                    EnabledFilter.ALL -> true
-                    EnabledFilter.ENABLED -> app.isEnabled
-                    EnabledFilter.DISABLED -> !app.isEnabled
-                }
-            }
-            .filter { app ->
-                activeFilter.firstLetter == null ||
-                    app.name.firstOrNull()?.uppercaseChar() == activeFilter.firstLetter
-            }
-            .filter { app ->
-                query.isBlank() ||
-                    app.name.lowercase().contains(query) ||
-                    app.packageName.lowercase().contains(query)
-            }
-            .sortedWith(
-                if (descending) compareByDescending<AppItem> { it.name.lowercase() }
-                else compareBy<AppItem> { it.name.lowercase() }
-            )
+        val filtered = apps.asSequence()
+            .filter { app -> when (activeFilter.appType) { AppTypeFilter.ALL -> true; AppTypeFilter.USER -> !app.isSystem; AppTypeFilter.SYSTEM -> app.isSystem } }
+            .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
+            .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
+            .filter { app -> query.isBlank() || app.name.lowercase().contains(query) || app.packageName.lowercase().contains(query) }
             .toList()
+        when (activeFilter.sort) {
+            SortOption.NAME -> filtered.sortedWith(if (activeFilter.descending) compareByDescending<AppItem> { it.name.lowercase() } else compareBy<AppItem> { it.name.lowercase() })
+            SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE, SortOption.DATE_USED -> filtered.sortedBy { it.name.lowercase() }
+        }
     }
 
     if (searchOpen) {
-        Row(
-            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                modifier = Modifier.weight(1f),
-                singleLine = true,
-                placeholder = { Text("Search apps or package") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                trailingIcon = {
-                    if (searchQuery.isNotBlank()) {
-                        IconButton(onClick = { searchQuery = "" }) {
-                            Icon(Icons.Default.Clear, contentDescription = "Clear search")
-                        }
-                    }
-                },
-            )
-            Spacer(Modifier.width(8.dp))
-            TextButton(onClick = {
-                searchQuery = ""
-                onSearchOpenChange(false)
-            }) { Text("Close") }
+        Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            OutlinedTextField(value = searchQuery, onValueChange = { searchQuery = it }, modifier = Modifier.weight(1f), singleLine = true,
+                placeholder = { Text("Search apps or package") }, leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = { if (searchQuery.isNotBlank()) IconButton(onClick = { searchQuery = "" }) { Icon(Icons.Default.Clear, contentDescription = "Clear search") } })
         }
     }
 
@@ -160,28 +129,6 @@ fun AppsFilterScreen(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        item {
-            Row(
-                Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    "${visibleApps.size} apps",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.weight(1f),
-                )
-                if (activeFilter != AppsFilterState()) {
-                    TextButton(onClick = { activeFilter = AppsFilterState() }) { Text("Reset") }
-                }
-                TextButton(onClick = { descending = !descending }) {
-                    Icon(Icons.Default.Sort, contentDescription = null)
-                    Spacer(Modifier.width(4.dp))
-                    Text(if (descending) "Name ↓" else "Name ↑")
-                }
-            }
-        }
-
         if (error != null) {
             item {
                 Text(
@@ -241,119 +188,107 @@ fun AppsFilterScreen(
 
     if (filterOpen) {
         ModalBottomSheet(onDismissRequest = { onFilterOpenChange(false) }) {
-            Column(
-                Modifier.fillMaxWidth().fillMaxHeight(0.88f)
-            ) {
-                Row(
-                    Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
+            Column(Modifier.fillMaxWidth().fillMaxHeight(0.88f)) {
+                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = { onFilterOpenChange(false) }) { Text("✕") }
                     Spacer(Modifier.weight(1f))
-                    Button(onClick = {
-                        activeFilter = pendingFilter
-                        onFilterOpenChange(false)
-                    }) { Text("✓  APPLY OPTIONS") }
+                    Button(onClick = { activeFilter = pendingFilter; onFilterOpenChange(false) }) { Text("✓  APPLY OPTIONS") }
                 }
-
                 HorizontalDivider()
-
-                LazyColumn(
-                    Modifier.fillMaxWidth(),
-                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
+                LazyColumn(Modifier.fillMaxWidth(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    item { Text("SORT BY", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) }
                     item {
-                        Text(
-                            "SEARCH BY",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                    item {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            item {
-                                FilterChip(
-                                    selected = pendingFilter.firstLetter == null,
-                                    onClick = { pendingFilter = pendingFilter.copy(firstLetter = null) },
-                                    label = { Text("ALL") },
-                                )
-                            }
-                            items(('A'..'Z').toList()) { letter ->
-                                FilterChip(
-                                    selected = pendingFilter.firstLetter == letter,
-                                    onClick = { pendingFilter = pendingFilter.copy(firstLetter = letter) },
-                                    label = { Text(letter.toString()) },
-                                )
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            SortOption.values().toList().chunked(3).forEach { row ->
+                                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    row.forEach { option -> FilterChip(selected = pendingFilter.sort == option, enabled = option.available, onClick = { pendingFilter = pendingFilter.copy(sort = option) }, label = { Text(option.title) }, modifier = Modifier.weight(1f)) }
+                                    repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
+                                }
                             }
                         }
                     }
                     item {
-                        Text(
-                            "FILTER BY",
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier.padding(top = 8.dp),
-                        )
+                        Text("Order", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(selected = !pendingFilter.descending, onClick = { pendingFilter = pendingFilter.copy(descending = false) }, label = { Text("Ascending ↑") }, modifier = Modifier.weight(1f))
+                            FilterChip(selected = pendingFilter.descending, onClick = { pendingFilter = pendingFilter.copy(descending = true) }, label = { Text("Descending ↓") }, modifier = Modifier.weight(1f))
+                        }
                     }
+                    item { Text("FILTER BY", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold) }
+                    item {
+                        Text("Favorites", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Favorites") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Not favorites") })
+                        }
+                    }
+                    item {
+                        Text("App Labels", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Labelled") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Unlabelled") })
+                        }
+                    }
+
                     item {
                         Text("App type", fontWeight = FontWeight.SemiBold)
-                        Row(
-                            Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            FilterChip(
-                                selected = pendingFilter.appType == AppTypeFilter.ALL,
-                                onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.ALL) },
-                                label = { Text("All") },
-                            )
-                            FilterChip(
-                                selected = pendingFilter.appType == AppTypeFilter.USER,
-                                onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.USER) },
-                                label = { Text("User apps") },
-                            )
-                            FilterChip(
-                                selected = pendingFilter.appType == AppTypeFilter.SYSTEM,
-                                onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.SYSTEM) },
-                                label = { Text("System apps") },
-                            )
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(selected = pendingFilter.appType == AppTypeFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.ALL) }, label = { Text("All") })
+                            FilterChip(selected = pendingFilter.appType == AppTypeFilter.USER, onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.USER) }, label = { Text("User apps") })
+                            FilterChip(selected = pendingFilter.appType == AppTypeFilter.SYSTEM, onClick = { pendingFilter = pendingFilter.copy(appType = AppTypeFilter.SYSTEM) }, label = { Text("System apps") })
                         }
                     }
+                    item {
+                        Text("On-device backup", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Backed up") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Not backed up") })
+                        }
+                    }
+                    item {
+                        Text("Cloud sync", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Synced") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Not synced") })
+                        }
+                    }
+                    item {
+                        Text("Install status", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("All") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Installed") })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text("Not installed") })
+                        }
+                    }
+
                     item {
                         Text("Enabled status", fontWeight = FontWeight.SemiBold)
-                        Row(
-                            Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            FilterChip(
-                                selected = pendingFilter.enabled == EnabledFilter.ALL,
-                                onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.ALL) },
-                                label = { Text("All") },
-                            )
-                            FilterChip(
-                                selected = pendingFilter.enabled == EnabledFilter.ENABLED,
-                                onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.ENABLED) },
-                                label = { Text("Enabled") },
-                            )
-                            FilterChip(
-                                selected = pendingFilter.enabled == EnabledFilter.DISABLED,
-                                onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.DISABLED) },
-                                label = { Text("Disabled") },
-                            )
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(selected = pendingFilter.enabled == EnabledFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.ALL) }, label = { Text("All") })
+                            FilterChip(selected = pendingFilter.enabled == EnabledFilter.ENABLED, onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.ENABLED) }, label = { Text("Enabled") })
+                            FilterChip(selected = pendingFilter.enabled == EnabledFilter.DISABLED, onClick = { pendingFilter = pendingFilter.copy(enabled = EnabledFilter.DISABLED) }, label = { Text("Disabled") })
                         }
                     }
                     item {
-                        Text(
-                            "Device-backed filters only",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Text(
-                            "Filters are applied from installed-app data read from Android. Backup/cloud metadata is not fabricated.",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Text("Google Play install source", fontWeight = FontWeight.SemiBold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.ALL) }, label = { Text("All") })
+                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.GOOGLE_PLAY) }, label = { Text("Installed from Google Play") })
+                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.NOT_GOOGLE_PLAY) }, label = { Text("Not installed from Google Play") })
+                        }
                     }
+                    item {
+                        Text("Miscellaneous", fontWeight = FontWeight.SemiBold)
+                        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                            listOf("Apps with multiple backups", "Apps with Protected backups", "Backups with notes", "Backups with older APKs", "Backups with newer APKs").forEach { label -> FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(label) }) }
+                        }
+                    }
+                    item { Text("Unavailable options stay disabled until BaRe has a verified local/cloud backup index or label/favorite source. No backup or cloud metadata is fabricated.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    item { if (activeFilter != AppsFilterState()) TextButton(onClick = { pendingFilter = AppsFilterState() }) { Text("Reset all options") } }
                 }
             }
         }
