@@ -2211,3 +2211,41 @@ Highest-priority next work is **NOT another Apps feature**. It is:
 8. update this worklog before returning to Apps G2/G3/etc.
 
 **Continuity anchor:** Apps work is intentionally paused at CI #475. This worklog entry is the handoff/return point: **audit onboarding permission/capability completeness first, then resume Apps capability expansion from the recorded checkpoint.**
+
+## 2026-09-21 — Onboarding Flow Rebaseline: Access Method Before Storage Setup
+
+### Authorization
+Pengguna memberikan **GO** untuk mengubah urutan onboarding menjadi:
+
+```text
+WELCOME
+  ↓
+LOCAL / ACCOUNT
+  ↓
+ACCESS METHOD (NON-ROOT / ROOT)
+  ↓
+STORAGE SETUP
+  ↓
+HOME
+```
+
+### Change
+- Local setup confirmation sekarang menuju Access Method.
+- Login dan Sign Up selesai menuju Access Method untuk initial setup.
+- Access Method tetap melakukan capability probe untuk selected method.
+- Setelah probe berhasil, flow sekarang menuju Storage Setup dan belum langsung menandai setup complete.
+- Identity awal tetap dipastikan tersedia sebelum Storage Setup.
+- Storage Setup menjadi tahap yang menyelesaikan storage initialization lalu menandai setup complete dan masuk Home.
+- Back navigation diselaraskan: Access Method → Welcome/Login; Storage Setup → Access Method.
+- Existing restored identity yang belum setup complete diarahkan kembali ke Access Method.
+
+### Verification Truth
+- Static source diff: **VERIFIED** terhadap scope perubahan flow.
+- Commit flow change: `9acf2d54f49968db91fa4e6bca64830e13217001`.
+- Follow-up correction untuk restored incomplete setup: `77d61ac3b3224efb584c8aa4827865509ea74ff4`.
+- GitHub workflow lookup untuk commit terakhir: **UNVERIFIED / NO RUN OBSERVED** melalui connector.
+- Device/runtime verification: **UNVERIFIED**.
+
+### Boundary
+Perubahan ini hanya merebaseline urutan onboarding. Permission/capability matrix belum diimplementasikan; audit capability tetap menjadi pekerjaan berikutnya setelah flow foundation ini.
+
