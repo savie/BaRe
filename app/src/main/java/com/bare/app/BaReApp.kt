@@ -126,7 +126,7 @@ fun BaReApp() {
                     returnToAppAfterFlow = false
                     startScreen = StartScreen.APP
                 } else {
-                    startScreen = StartScreen.STORAGE_SETUP
+                    startScreen = if (identityType == IdentityType.LOCAL) StartScreen.WELCOME else StartScreen.LOGIN
                 }
             }
             startScreen == StartScreen.STORAGE_SETUP -> {
@@ -134,7 +134,7 @@ fun BaReApp() {
                     returnToAppAfterFlow = false
                     startScreen = StartScreen.APP
                 } else {
-                    startScreen = if (identityType == IdentityType.LOCAL) StartScreen.WELCOME else StartScreen.LOGIN
+                    startScreen = StartScreen.ACCESS_METHOD
                 }
             }
             startScreen == StartScreen.FORGOT_PASSWORD -> startScreen = StartScreen.LOGIN
@@ -159,7 +159,7 @@ fun BaReApp() {
                             onContinue = {
                                 showLocalConfirmation = false
                                 initialIdentityPending = true
-                                startScreen = StartScreen.STORAGE_SETUP
+                                startScreen = StartScreen.ACCESS_METHOD
                             },
                             onDismiss = { showLocalConfirmation = false },
                         )
@@ -170,7 +170,7 @@ fun BaReApp() {
                     onEmailChange = { loginEmail = it },
                     password = loginPassword,
                     onPasswordChange = { loginPassword = it },
-                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; identityType = IdentityType.ACCOUNT; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
+                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; identityType = IdentityType.ACCOUNT; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.ACCESS_METHOD },
                     onCreateAccount = { startScreen = StartScreen.SIGN_UP },
                     onForgotPassword = { resetEmail = loginEmail; startScreen = StartScreen.FORGOT_PASSWORD },
                     onBack = ::goBack,
@@ -187,14 +187,8 @@ fun BaReApp() {
                     onPasswordChange = { signUpPassword = it },
                     confirmPassword = signUpConfirmPassword,
                     onConfirmPasswordChange = { signUpConfirmPassword = it },
-                    onCreateAccount = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.STORAGE_SETUP },
+                    onCreateAccount = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.ACCESS_METHOD },
                     onBack = ::goBack,
-                )
-                StartScreen.STORAGE_SETUP -> StorageSetupScreen(
-                    identityType?.let { identityStore.load()?.identityId },
-                    { startScreen = StartScreen.ACCESS_METHOD },
-                    { if (identityType == IdentityType.ACCOUNT) { startScreen = StartScreen.APP; screen = Screen.CLOUD } else { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } },
-                    ::goBack,
                 )
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
                     selectedMethod,
@@ -209,25 +203,10 @@ fun BaReApp() {
                                         val identity = identityStore.loadOrRecover()
                                             ?: identityStore.createLocalIdentity()
                                         identityType = identity.type
-                                        val selectedStorageKind = StorageConfigurationStore(context).loadKind()
-                                            ?: BackupStorage.Kind.INTERNAL
-                                        runCatching {
-                                            initializeStorageForIdentity(
-                                                context = context,
-                                                identityId = identity.identityId,
-                                                selectedStorageKind = selectedStorageKind,
-                                            )
-                                        }.onSuccess {
-                                            initialIdentityPending = false
-                                            identityStore.markSetupComplete()
-                                            startScreen = StartScreen.APP
-                                        }.onFailure { error ->
-                                            accessError = error.message ?: "storage initialization failed"
-                                        }
-                                    } else {
-                                        identityStore.markSetupComplete()
-                                        startScreen = StartScreen.APP
+                                        initialIdentityPending = false
                                     }
+                                    accessError = null
+                                    startScreen = StartScreen.STORAGE_SETUP
                                 } else {
                                     accessError = capability.reason
                                 }
@@ -236,6 +215,15 @@ fun BaReApp() {
                     },
                     ::goBack,
                     accessError,
+                )
+                StartScreen.STORAGE_SETUP -> StorageSetupScreen(
+                    identityType?.let { identityStore.load()?.identityId },
+                    {
+                        identityStore.markSetupComplete()
+                        startScreen = StartScreen.APP
+                    },
+                    { if (identityType == IdentityType.ACCOUNT) { startScreen = StartScreen.APP; screen = Screen.CLOUD } else { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } },
+                    ::goBack,
                 )
                 StartScreen.APP -> MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
