@@ -18,14 +18,15 @@ class AccessCapabilityResolver(context: Context) {
             AccessMethod.NON_ROOT -> resolve(method)
             AccessMethod.ROOT -> {
                 val grant = root.grantRequiredPermissions()
-                if (grant.failed.isNotEmpty()) {
-                    AccessCapability(
-                        method = method,
-                        available = false,
-                        reason = "Root permission grant failed: " + grant.failed.joinToString("; "),
+                val resolved = resolve(method)
+                if (resolved.available && grant.failed.isNotEmpty()) {
+                    resolved.copy(
+                        reason = resolved.reason +
+                            ". Some optional permission grants were not confirmed: " +
+                            grant.failed.joinToString("; "),
                     )
                 } else {
-                    resolve(method)
+                    resolved
                 }
             }
         }
