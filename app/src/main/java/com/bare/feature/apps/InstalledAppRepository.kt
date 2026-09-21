@@ -7,6 +7,7 @@ import java.io.File
 
 class InstalledAppRepository(private val context: Context) {
     private val packageManager = context.packageManager
+    private val organizationStore = AppOrganizationStore(context)
 
     fun load(): List<AppItem> =
         packageManager.getInstalledApplications(0)
@@ -19,6 +20,7 @@ class InstalledAppRepository(private val context: Context) {
                     size = formatSize(File(info.sourceDir).length()),
                     isSystem = isSystem,
                     isEnabled = info.enabled,
+                    favorite = organizationStore.isFavorite(info.packageName),
                     firstInstallTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).firstInstallTime }.getOrNull(),
                     lastUpdateTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime }.getOrNull(),
                     apkSizeBytes = runCatching {
