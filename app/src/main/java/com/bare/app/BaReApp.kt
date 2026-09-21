@@ -28,6 +28,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.Modifier
@@ -103,6 +104,8 @@ fun BaReApp() {
     var accessError by remember { mutableStateOf<String?>(null) }
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
+    val screenBackStack = remember { mutableStateListOf<Screen>() }
+    var screenOriginTab by remember { mutableStateOf<Int?>(null) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var selectedAppPackageName by remember { mutableStateOf<String?>(null) }
     var loginEmail by remember { mutableStateOf("") }
@@ -126,15 +129,18 @@ fun BaReApp() {
     fun goBack() {
         when {
             searchOpen -> searchOpen = false
-            screen == Screen.APP_BACKUP ||
-                screen == Screen.APP_BACKUPS ||
-                screen == Screen.APP_MANAGEMENT ||
-                screen == Screen.APP_CONFIG ||
-                screen == Screen.APP_DIAGNOSTICS ||
-                screen == Screen.APP_RESTORE -> {
-                screen = Screen.APP_DETAIL
+            screen != Screen.NONE -> {
+                if (screenBackStack.isNotEmpty()) {
+                    screen = screenBackStack.removeAt(screenBackStack.lastIndex)
+                } else {
+                    screen = Screen.NONE
+                    val originTab = screenOriginTab
+                    screenOriginTab = null
+                    if (originTab != null) {
+                        scope.launch { pagerState.animateScrollToPage(originTab) }
+                    }
+                }
             }
-            screen != Screen.NONE -> screen = Screen.NONE
             startScreen == StartScreen.ACCESS_METHOD -> {
                 if (returnToAppAfterFlow) {
                     returnToAppAfterFlow = false
@@ -248,7 +254,29 @@ fun BaReApp() {
                     { searchOpen = true }, { searchOpen = false },
                     { appsSearchOpen = !appsSearchOpen }, { appsFilterOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
-                    { target -> if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } else { screen = target } },
+                    { target ->
+                        if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) {
+                            returnToCloudAfterAuth = true
+                            startScreen = StartScreen.LOGIN
+                        } else if (target != screen) {
+                            val isParentTransition =
+                                target == Screen.APP_DETAIL &&
+                                    screen in setOf(
+                                        Screen.APP_BACKUP,
+                                        Screen.APP_BACKUPS,
+                                        Screen.APP_MANAGEMENT,
+                                        Screen.APP_CONFIG,
+                                        Screen.APP_DIAGNOSTICS,
+                                        Screen.APP_RESTORE,
+                                    )
+                            if (screen == Screen.NONE) {
+                                screenOriginTab = pagerState.currentPage
+                            } else if (!isParentTransition) {
+                                screenBackStack.add(screen)
+                            }
+                            screen = target
+                        }
+                    },
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
@@ -386,7 +414,7 @@ private fun MainShell(
                     }
                     if (appsSelected) {
                         IconButton(onClick = onOpenAppsFilter) {
-                            Icon(Icons.Default.Tune, contentDescription = "Filter & Search")
+                            Icon(Icons.Default.Tune, contentDescription = stringResource(R.string.filter_and_search))
                         }
                         Box {
                             IconButton(onClick = { appsMenuOpen = true }) {
