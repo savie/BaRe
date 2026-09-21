@@ -154,6 +154,79 @@ Audit saat ini meningkatkan resolusi dari *feature list* menjadi *screen* → *s
 
 ---
 
+## 3.1 Root permission / privilege workflow — Swift Backup reference audit
+
+Audit ini menambahkan resolusi khusus terhadap pola **Root permission grant** yang ditemukan pada artifact Swift Backup `5.1.0 (620)`. Bagian ini tetap **reference evidence only** dan tidak menjadi implementation specification BaRe.
+
+### Static evidence
+
+Decompiled source menunjukkan Swift menyediakan satu confirmation flow untuk menyiapkan permission/capability set melalui **Root access atau Shizuku**.
+
+Reference UI menggunakan:
+- dialog title: `root_grant_permissions_dialog_title`;
+- dialog message prefix: `root_grant_permissions_dialog_msg_prefix`;
+- action: **Grant permissions**;
+- action pembatalan: **Cancel**.
+
+Isi dialog secara konseptual mencantumkan:
+- Storage;
+- SMS;
+- Call logs;
+- Contacts;
+- Notifications bila API mendukung;
+- Installed apps bila capability tersebut relevan.
+
+Evidence utama berasal dari `defpackage/mf.java`.
+
+### Mechanism boundary observed in reference
+
+Implementasi reference tidak memperlakukan seluruh item di atas sebagai satu jenis Android permission.
+
+Static evidence pada `defpackage/dz5.java` menunjukkan:
+- runtime permissions diproses sebagai permission strings melalui helper grant;
+- **All Files Access** pada Android R+ ditangani melalui AppOps `android:manage_external_storage`;
+- status **MANAGE_EXTERNAL_STORAGE** diverifikasi melalui `Environment.isExternalStorageManager()`;
+- **POST_NOTIFICATIONS** memiliki version-specific handling;
+- **Installed apps** memiliki jalur khusus dan tidak diperlakukan sama dengan runtime permission biasa.
+
+Static evidence juga menunjukkan Swift memiliki jalur **Shizuku** untuk operasi grant, selain root-based flow.
+
+### Reference-derived engineering implication
+
+```text
+USER CHOOSES ROOT / PRIVILEGED ACCESS
+          ↓
+CONFIRM PERMISSION SET
+          ↓
+GRANT THROUGH AVAILABLE PRIVILEGED MECHANISM
+          ├── runtime permission grant
+          ├── special-access / AppOps
+          └── capability-specific access
+          ↓
+VERIFY ACTUAL STATE
+          ↓
+CONTINUE ONLY WHEN REQUIRED CAPABILITY IS AVAILABLE
+```
+
+**Important boundary:** satu confirmation dialog **tidak berarti** semua item mempunyai mekanisme grant yang sama. Reference evidence justru menunjukkan adanya beberapa mechanism boundary yang harus direkonsiliasi terhadap actual capability.
+
+Reference juga menunjukkan privilege path dapat melibatkan **Root atau Shizuku**. Ini adalah evidence mengenai reference workflow, bukan bukti bahwa BaRe harus mengimplementasikan Shizuku.
+
+### Evidence status
+
+| Item | Status |
+|---|---|
+| One-step Root/Shizuku permission confirmation UX | OBSERVED_STATIC |
+| Permission/capability list in confirmation dialog | OBSERVED_STATIC |
+| Runtime permission grant path | OBSERVED_STATIC |
+| MANAGE_EXTERNAL_STORAGE via AppOps | OBSERVED_STATIC |
+| Installed-apps special handling | OBSERVED_STATIC |
+| Shizuku privilege path | OBSERVED_STATIC |
+| Reference APK runtime success | UNKNOWN / NOT PERFORMED |
+
+**Boundary:** hasil audit ini dipakai sebagai reference pattern untuk memahami workflow dan capability boundaries. BaRe tetap menggunakan implementation dan verification evidence miliknya sendiri.
+
+---
 ## 4. UI architecture reference
 
 ### 4.1 *Framework/component evidence*
