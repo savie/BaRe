@@ -184,6 +184,7 @@ fun GenericDomainScreen(title: String, subtitle: String, entries: List<String>, 
 fun MiscScreen(
     screen: Screen,
     onBack: () -> Unit,
+    onOpen: (Screen) -> Unit,
     onOpenApps: () -> Unit,
     themeMode: AppThemeMode,
     dynamicColors: Boolean,
