@@ -584,7 +584,7 @@
     <string name="settings_diagnostics">Diagnostics</string>
     <string name="settings_restart_app">Restart app</string>
     <string name="settings_restart_app_subtitle">Reload BaRe activity</string>
-    <string name="settings_help_center_subtitle">Guides and support surface</string>
+    <string name="settings_help_center_subtitle">BaRe help surface is not implemented yet</string>
     <string name="settings_contact_subtitle">Open email composer</string>
     <string name="settings_about_subtitle">Version, product information</string>
     <string name="settings_about_version">Version %1$s</string>
