@@ -184,7 +184,7 @@
     <string name="bare_version_mockup">Version 1.0 • FE mockup</string>
 
     <string name="search">Search</string>
-    <string name="search_scope">Search across apps, backups, folders, and configuration.</string>
+    <string name="search_scope">Search installed apps and package names.</string>
     <string name="cloud_account_not_connected">Cloud account not connected</string>
     <string name="cloud_account_title">Bring your cloud storage here</string>
     <string name="cloud_account_description">Sign in to your account first, then connect a storage provider for backup sync.</string>
