@@ -28,6 +28,7 @@ class AppUsageRepository(private val context: Context) {
         return stats
             .asSequence()
             .filter { it.lastTimeUsed > 0L }
-            .associate { it.packageName to it.lastTimeUsed }
+            .groupBy { it.packageName }
+            .mapValues { (_, values) -> values.maxOf { it.lastTimeUsed } }
     }
 }
