@@ -78,7 +78,7 @@ fun BaReApp() {
                 if (identityStore.isSetupComplete() && durableLocalState) {
                     StartScreen.APP
                 } else {
-                    StartScreen.STORAGE_SETUP
+                    StartScreen.ACCESS_METHOD
                 }
             } else {
                 StartScreen.WELCOME
