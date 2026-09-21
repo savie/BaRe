@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -526,12 +528,52 @@ private fun StorageOption(
     onClick: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .clickable(enabled = enabled, onClick = onClick)
-            .padding(vertical = 10.dp),
+            .padding(vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        RadioButton(selected = selected, onClick = if (enabled) onClick else null, enabled = enabled)
+        Box(
+            modifier = Modifier.size(48.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            val borderColor = when {
+                !enabled -> MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
+                selected -> MaterialTheme.colorScheme.primary
+                else -> MaterialTheme.colorScheme.onSurfaceVariant
+            }
+            Box(
+                modifier = Modifier
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .background(
+                        if (selected) MaterialTheme.colorScheme.primary
+                        else Color.Transparent
+                    )
+                    .then(
+                        Modifier.drawBehind {
+                            if (!selected) {
+                                drawCircle(
+                                    color = borderColor,
+                                    radius = size.minDimension / 2f - 1.5f,
+                                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2.5f),
+                                )
+                            }
+                        }
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                if (selected) {
+                    Box(
+                        Modifier
+                            .size(8.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.onPrimary),
+                    )
+                }
+            }
+        }
         Spacer(Modifier.width(8.dp))
         Text(
             label,
