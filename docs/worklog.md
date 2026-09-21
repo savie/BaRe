@@ -2052,3 +2052,23 @@ Pengguna memberikan GO untuk memperbaiki hasil runtime G1 berdasarkan evidence d
 - Reference coverage: VERIFIED against docs/reference.md APP-05 through APP-18 and section 24.1C.
 - Runtime/device behavior after change: PENDING CI/device evidence.
 - Backup/cloud metadata capability: UNVERIFIED / unavailable in current installed-app repository.
+
+
+## 2026-09-21 — Apps Sort/Search Reference Alignment
+
+- Authorization: explicit **GO** from user.
+- User-provided reference intent: follow the reference UI for the Apps options surface first; keep behavior/code independently implemented.
+- Changes:
+  - Local app search is constrained to a single-line field and the app list now occupies the remaining content area instead of leaving a large empty region.
+  - Sort options are one horizontally scrollable row.
+  - Sort items use an icon with the label below it.
+  - Clicking the selected sort item again toggles ascending/descending; there is no separate Order row.
+  - Selecting a different sort starts at ascending.
+  - Reference headings are aligned to **SORT** and **FILTER**; reset filters is surfaced with the filter heading.
+- Functional truth:
+  - Device-backed sort remains Name, Install date, Update date, and App size.
+  - Backup date/size and Date used remain disabled because their backing metadata is not verified.
+- Verification:
+  - Source change committed to `v1.0/rebaseline` at `2af3f5a3c2092ac34190b2bb36e6e4d6722f4b0c`.
+  - GitHub Actions run #463 is observed **in progress**; compile/build result is therefore **UNVERIFIED/PENDING** at this record point.
+  - Runtime/device verification is still pending.
