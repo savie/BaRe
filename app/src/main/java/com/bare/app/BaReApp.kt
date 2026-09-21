@@ -378,10 +378,15 @@ private fun MainShell(
         bottomBar = {
             androidx.compose.animation.AnimatedVisibility(
                 visible = bottomBarVisible,
+                modifier = Modifier.fillMaxWidth(),
                 enter = androidx.compose.animation.slideInVertically { it } + androidx.compose.animation.fadeIn(),
                 exit = androidx.compose.animation.slideOutVertically { it } + androidx.compose.animation.fadeOut(),
             ) {
-                NavigationBar(
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = androidx.compose.ui.Alignment.Center,
+                ) {
+                    NavigationBar(
                     modifier = Modifier
                         .fillMaxWidth(0.62f)
                         .height(64.dp)
