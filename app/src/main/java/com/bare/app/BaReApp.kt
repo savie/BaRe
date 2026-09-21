@@ -384,8 +384,9 @@ private fun MainShell(
                 NavigationBar(
                     modifier = Modifier
                         .fillMaxWidth(0.62f)
-                        .height(80.dp)
-                        .clip(RoundedCornerShape(28.dp)),
+                        .height(64.dp)
+                        .offset(y = (-12).dp)
+                        .clip(RoundedCornerShape(24.dp)),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     tonalElevation = 6.dp,
                     windowInsets = WindowInsets(0, 0, 0, 0),
