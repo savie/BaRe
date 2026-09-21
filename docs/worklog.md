@@ -2949,3 +2949,57 @@ Audit ini tidak menghasilkan perubahan source implementation dan tidak mengubah 
 2. Jangan memperluas scope ke reference comparison sampai audit/implementation BaRe membutuhkan evidence tersebut.
 3. Pilih next work hanya dari gap BaRe yang nyata dan prerequisite yang diperlukan.
 4. Jangan menganggap screen/menu yang masih mockup sebagai supported capability.
+
+
+## 2026-09-21 — #524 Unify Local Backup Storage Flow (Onboarding / Home / Account → Settings)
+
+### User Goal
+Menyelesaikan flow **storage for local backup** terlebih dahulu dan menjaga boundary yang jelas:
+- **Onboarding → Storage Setup**: Internal, External, Cloud.
+- **Home → Backup Storage**: Internal, External, Cloud.
+- **Account → Settings → Storage for local backups**: **Internal dan External saja**; Cloud tetap berada pada flow Cloud terpisah.
+
+### Implementation
+- Menambahkan `storage/LocalBackupStorageService.kt` sebagai shared service untuk initialization local backup storage.
+- Onboarding `StorageSetupScreen` sekarang menggunakan shared local-storage service yang sama.
+- Home `Backup Storage` menggunakan shared local-storage service yang sama untuk Internal/External.
+- Settings sekarang menerima `identityId`, membaca actual storage availability dari `BackupStorageRepository`, dan dapat menjalankan initialization untuk Internal/External.
+- Settings tidak lagi memperlakukan External sebagai mockup/disabled karena alasan SAF; current repository model menggunakan mounted removable storage sebagai `BackupStorage.Kind.EXTERNAL`.
+- Settings tetap tidak menampilkan Cloud pada selector **Storage for local backups**.
+- Storage configuration tetap dibatasi pada `INTERNAL` / `EXTERNAL`; `REMOTE` tidak dipersist sebagai local backup storage.
+- Radio option yang unavailable dibuat non-interactive.
+
+### Boundary
+```
+Onboarding
+  Storage Setup
+    ├─ Internal
+    ├─ External
+    └─ Cloud
+
+Home
+  Backup Storage
+    ├─ Internal
+    ├─ External
+    └─ Cloud
+
+Account
+  Settings
+    Storage for local backups
+      ├─ Internal
+      └─ External
+```
+
+### Evidence / Verification
+- Source changes committed on `v1.0/rebaseline`.
+- CI Android build was triggered automatically after source commits; latest run observed **IN_PROGRESS** at time of this entry.
+- Runtime/device UI verification: **UNVERIFIED**.
+- External storage behavior is based on the current `BackupStorageRepository` implementation: mounted removable storage is the current External storage mechanism. SAF folder/URI ownership is still a separate future concern and was not introduced into this flow.
+
+### Next
+1. Wait for latest CI result and repair any build error before further feature work.
+2. After build passes, verify the three user journeys on device:
+   - Onboarding → Storage Setup → Internal/External/Cloud.
+   - Home → Backup Storage → Internal/External/Cloud.
+   - Account → Settings → Storage for local backups → Internal/External.
+3. Do not start unrelated architecture cleanup until this flow is runtime-verified.
