@@ -3003,3 +3003,24 @@ Account
    - Home → Backup Storage → Internal/External/Cloud.
    - Account → Settings → Storage for local backups → Internal/External.
 3. Do not start unrelated architecture cleanup until this flow is runtime-verified.
+
+
+## 2026-09-21 — #525 Fix Settings Local Storage Radio Alignment
+
+### Observed
+Screenshot/device UI menunjukkan RadioButton pada dialog **Storage for local backups** tidak memiliki alignment horizontal yang konsisten antara **Internal storage** dan **External storage**. State disabled External membuat posisi visual terlihat bergeser.
+
+### Change
+- Replaced the Material3 `RadioButton` interaction surface in `StorageOption` with a fixed `48.dp` control box and a fixed `20.dp` visual radio.
+- Selected/unselected/disabled states now share the exact same layout bounds.
+- Row spacing and vertical padding remain compact; only the radio control geometry was normalized.
+- No storage behavior or persistence semantics changed.
+
+### Verification
+- Source change committed: `897a4700f3b3b4bc098b352347ab76a43e40bc78`.
+- CI run #533 for previous storage-flow changes: **PASS**.
+- CI run #534 for this visual fix: **QUEUED** at entry time.
+- Device screenshot after this change: **UNVERIFIED**; visual confirmation still requires installing/running the new APK.
+
+### Next
+After CI #534 passes, install the resulting APK and verify the two radio controls visually align in the Settings dialog for both enabled and disabled External states.
