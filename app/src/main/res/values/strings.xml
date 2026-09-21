@@ -202,7 +202,6 @@
     <string name="cloud_ready_title">Cloud storage</string>
     <string name="cloud_ready_description">Your account is connected. Choose a provider to continue.</string>
     <string name="connect_provider_description">Connect a provider for upload, download, and sync.</string>
-    <string name="connect_account">Connect account</string>
     <string name="providers">Providers</string>
     <string name="disconnected">Disconnected</string>
     <string name="cloud_diagnostics">Cloud diagnostics</string>
