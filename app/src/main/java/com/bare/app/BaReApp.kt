@@ -222,7 +222,9 @@ fun BaReApp() {
             when (startScreen) {
                 StartScreen.RECOVERY_ONBOARDING -> {
                     val candidates = recoveryCandidates
-                    if (!storageAccessGranted) {
+                    if (!startupRevealFinished) {
+                        StartupSplash(onFinished = { startupRevealFinished = true })
+                    } else if (!storageAccessGranted) {
                         StorageAccessOnboardingScreen(
                             onAccessGranted = {
                                 storageAccessGranted = true
@@ -230,8 +232,6 @@ fun BaReApp() {
                                 startupRevealFinished = false
                             },
                         )
-                    } else if (!startupRevealFinished) {
-                        StartupSplash(onFinished = { startupRevealFinished = true })
                     } else if (candidates == null) {
                         StartupSplash(onFinished = { })
                     } else if (candidates.isEmpty()) {
