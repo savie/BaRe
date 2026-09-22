@@ -16,6 +16,7 @@ class RecoveryArtifactRepository(
     fun export(
         treeUri: Uri,
         payload: RecoveryPackageCodec.Payload,
+        masterKey: ByteArray,
         password: CharArray,
         fileName: String = "bare-recovery-v2.bare",
     ): Uri {
@@ -36,7 +37,7 @@ class RecoveryArtifactRepository(
         ) ?: throw IOException("unable to create recovery artifact")
 
         try {
-            val bytes = RecoveryPackageCodec.encode(payload, password)
+            val bytes = RecoveryPackageCodec.encode(payload, masterKey, password)
             contentResolver.openOutputStream(partialUri, "w")?.use { output ->
                 output.write(bytes)
                 output.flush()
@@ -123,7 +124,7 @@ class RecoveryArtifactRepository(
     fun import(
         artifactUri: Uri,
         password: CharArray,
-    ): RecoveryPackageCodec.Payload {
+    ): RecoveryPackageCodec.DecodedPackage {
         return RecoveryPackageCodec.decode(read(artifactUri), password)
     }
 
