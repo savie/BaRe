@@ -53,17 +53,8 @@ private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
 @Composable
 fun StartupSplash(onFinished: () -> Unit) {
-    var progress by remember { mutableFloatStateOf(0f) }
-
     LaunchedEffect(Unit) {
-        androidx.compose.animation.core.animate(
-            initialValue = 0f,
-            targetValue = 1f,
-            animationSpec = androidx.compose.animation.core.tween(
-                durationMillis = 650,
-                easing = androidx.compose.animation.core.FastOutSlowInEasing,
-            ),
-        ) { value, _ -> progress = value }
+        delay(650)
         onFinished()
     }
 
@@ -95,7 +86,6 @@ fun StartupSplash(onFinished: () -> Unit) {
         )
         Spacer(Modifier.weight(0.55f))
         LinearProgressIndicator(
-            progress = { progress },
             modifier = Modifier.fillMaxWidth().height(4.dp),
         )
     }
