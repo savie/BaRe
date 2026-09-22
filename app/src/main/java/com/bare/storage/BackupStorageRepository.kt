@@ -54,7 +54,7 @@ class BackupStorageRepository(private val context: Context) {
         val identityDirectory = File(root, "BaRe/accounts/" + identityFolder(identityId))
         val backups = File(identityDirectory, "backups")
         val recovery = File(identityDirectory, "recovery")
-        val artifact = File(recovery, "bare-recovery-v2.bare")
+        val artifact = File(recovery, "bare-recovery.bare")
         return identityDirectory.isDirectory &&
             backups.isDirectory &&
             recovery.isDirectory &&
