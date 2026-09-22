@@ -220,10 +220,10 @@ fun SettingsScreen(
             item {
                 SettingsSection(stringResource(R.string.settings_advanced_tools)) {
                     SettingsRow(
-                        title = stringResource(R.string.settings_swift_labs),
-                        subtitle = stringResource(R.string.settings_swift_labs_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        title = stringResource(R.string.settings_bare_labs),
+                        subtitle = stringResource(R.string.settings_swift_labs_subtitle),
                         icon = Icons.Outlined.Science,
-                        enabled = false,
+                        onClick = { onOpen(Screen.BARE_LABS) },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_export_settings),
@@ -238,10 +238,10 @@ fun SettingsScreen(
                         enabled = false,
                     )
                     SettingsRow(
-                        title = stringResource(R.string.settings_swift_logger),
-                        subtitle = stringResource(R.string.settings_swift_logger_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        title = stringResource(R.string.settings_bare_logger),
+                        subtitle = stringResource(R.string.settings_swift_logger_subtitle),
                         icon = Icons.Outlined.BugReport,
-                        enabled = false,
+                        onClick = { onOpen(Screen.BARE_LOGGER) },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_recovery),
