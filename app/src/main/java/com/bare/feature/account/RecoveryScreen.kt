@@ -58,7 +58,6 @@ fun RecoveryScreen(
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val repository = remember(context) { RecoveryArtifactRepository(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
-    val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val storageRepository = remember(context) { BackupStorageRepository(context) }
     val storageConfiguration = remember(context) { StorageConfigurationStore(context) }
     val scope = rememberCoroutineScope()
@@ -67,26 +66,21 @@ fun RecoveryScreen(
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
-    var recoveryPasswordConfigured by remember {
-        mutableStateOf(recoveryPasswordStore.hasPassword())
-    }
     var passwordDialogOpen by remember { mutableStateOf(false) }
 
     val importPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
     ) { uri ->
-        if (uri == null || password.isBlank()) return@rememberLauncherForActivityResult
+        if (uri == null) return@rememberLauncherForActivityResult
         busy = true
         status = null
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (!recoveryPasswordStore.verifyPassword(password.toCharArray())) {
-                        error(context.getString(R.string.recovery_password_incorrect))
-                    }
+                    if (password.isBlank()) error(context.getString(R.string.enter_advanced_password_first))
                     val decoded = repository.import(uri, password.toCharArray())
                     if (identityStore.hasConflictingIdentity(decoded.payload)) {
-                        error("existing LOCAL identity conflicts with recovery identity")
+                        error(context.getString(R.string.recovery_identity_conflict))
                     }
                     masterKeyStore.saveImported(decoded.masterKey)
                     identityStore.restoreFromRecovery(decoded.payload)
@@ -106,110 +100,18 @@ fun RecoveryScreen(
         }
     }
 
-    fun saveRecoveryPassword(newPassword: CharArray, confirmation: CharArray) {
-        if (newPassword.size < 8) {
-            newPassword.fill('\u0000')
-            confirmation.fill('\u0000')
-            status = context.getString(R.string.password_too_short)
-            return
-        }
-        if (!newPassword.contentEquals(confirmation)) {
-            newPassword.fill('\u0000')
-            confirmation.fill('\u0000')
-            status = context.getString(R.string.password_mismatch)
-            return
-        }
-        recoveryPasswordStore.savePassword(newPassword)
-        confirmation.fill('\u0000')
-        recoveryPasswordConfigured = true
-        passwordDialogOpen = false
-        status = context.getString(R.string.recovery_password_set)
-    }
-
-    fun changeRecoveryPassword(
-        currentPassword: CharArray,
-        newPassword: CharArray,
-        confirmation: CharArray,
-    ) {
-        if (newPassword.size < 8) {
-            currentPassword.fill('\u0000')
-            newPassword.fill('\u0000')
-            confirmation.fill('\u0000')
-            status = context.getString(R.string.password_too_short)
-            return
-        }
-        if (!newPassword.contentEquals(confirmation)) {
-            currentPassword.fill('\u0000')
-            newPassword.fill('\u0000')
-            confirmation.fill('\u0000')
-            status = context.getString(R.string.password_mismatch)
-            return
-        }
-
-        busy = true
-        status = null
-        passwordDialogOpen = false
-        scope.launch {
-            runCatching {
-                withContext(Dispatchers.IO) {
-                    if (!recoveryPasswordStore.verifyPassword(currentPassword)) {
-                        error(context.getString(R.string.recovery_password_incorrect))
-                    }
-
-                    val identity = identityStore.load()
-                    val recoveryDirectory = if (identity != null) {
-                        val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
-                        storageRepository.initialize(identity.identityId, kind).recoveryDirectory
-                    } else {
-                        null
-                    }
-                    val artifact = recoveryDirectory?.let {
-                        java.io.File(it, "bare-recovery.bare")
-                    }
-
-                    if (artifact?.isFile == true) {
-                        val masterKey = masterKeyStore.getExisting()
-                            ?: error(context.getString(R.string.recovery_master_key_unavailable))
-                        repository.exportToFile(
-                            directory = recoveryDirectory,
-                            payload = identityStore.toRecoveryPayload(),
-                            masterKey = masterKey,
-                            password = newPassword,
-                        )
-                    }
-                    recoveryPasswordStore.savePassword(newPassword)
-                }
-            }.onSuccess {
-                busy = false
-                status = context.getString(R.string.recovery_password_changed)
-            }.onFailure { error ->
-                busy = false
-                status = context.getString(
-                    R.string.recovery_password_change_failed,
-                    error.message ?: context.getString(R.string.operation_failed),
-                )
-            }
-        }
-    }
-
     fun exportRecovery() {
-        if (!recoveryPasswordStore.hasPassword()) {
+        if (password.isBlank()) {
+            status = context.getString(R.string.enter_advanced_password_first)
             passwordDialogOpen = true
             return
         }
-        if (password.isBlank()) {
-            status = context.getString(R.string.enter_recovery_password_first)
-            return
-        }
 
         busy = true
         status = null
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (!recoveryPasswordStore.verifyPassword(password.toCharArray())) {
-                        error(context.getString(R.string.recovery_password_incorrect))
-                    }
                     val payload = identityStore.toRecoveryPayload()
                     val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
                     val recoveryDirectory = storageRepository
@@ -252,94 +154,101 @@ fun RecoveryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 20.dp, vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
                 stringResource(R.string.recovery_description),
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
             )
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
+            androidx.compose.material3.Card(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.recovery_password)) },
-                visualTransformation = if (passwordVisible) {
-                    VisualTransformation.None
-                } else {
-                    PasswordVisualTransformation()
-                },
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }, enabled = !busy) {
-                        Icon(
-                            if (passwordVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                            contentDescription = stringResource(
-                                if (passwordVisible) R.string.hide_password else R.string.show_password,
-                            ),
-                        )
-                    }
-                },
-                singleLine = true,
-                enabled = !busy,
-            )
-
-            TextButton(
-                onClick = { passwordDialogOpen = true },
-                enabled = !busy,
             ) {
-                Text(
-                    stringResource(
-                        if (recoveryPasswordConfigured) {
-                            R.string.change_recovery_password
-                        } else {
-                            R.string.set_recovery_password
-                        },
-                    ),
-                )
-            }
-
-            Button(
-                onClick = ::exportRecovery,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !busy && recoveryPasswordConfigured,
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier.padding(18.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    Icon(Icons.Outlined.Upload, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.export_recovery_package))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Outlined.Lock, contentDescription = null)
+                        Spacer(Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                stringResource(R.string.recovery_password_status_title),
+                                style = MaterialTheme.typography.titleMedium,
+                            )
+                            Text(
+                                stringResource(R.string.recovery_password_status_configured),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        TextButton(
+                            onClick = { passwordDialogOpen = true },
+                            enabled = !busy,
+                        ) {
+                            Text(stringResource(R.string.change_password))
+                        }
+                    }
                 }
             }
 
-            Button(
+            androidx.compose.material3.Card(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = ::exportRecovery,
+                enabled = !busy,
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Outlined.Upload, contentDescription = null)
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            stringResource(R.string.export_recovery_package),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    }
+                    Text(
+                        stringResource(R.string.export_recovery_description),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            androidx.compose.material3.Card(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    if (!recoveryPasswordConfigured) {
+                    if (password.isBlank()) {
                         passwordDialogOpen = true
-                    } else if (password.isBlank()) {
-                        status = context.getString(R.string.enter_recovery_password_first)
                     } else {
                         importPicker.launch(arrayOf("application/octet-stream", "*/*"))
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !busy && recoveryPasswordConfigured,
+                enabled = !busy,
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Icon(Icons.Outlined.Download, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.import_recovery_package))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Outlined.Download, contentDescription = null)
+                        Spacer(Modifier.width(12.dp))
+                        Text(
+                            stringResource(R.string.import_recovery_package),
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                    }
+                    Text(
+                        stringResource(R.string.import_recovery_description),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
             }
 
-            Spacer(Modifier.height(4.dp))
             status?.let {
                 Text(it, style = MaterialTheme.typography.bodyMedium)
             }
