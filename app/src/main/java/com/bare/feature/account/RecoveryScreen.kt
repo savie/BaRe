@@ -80,6 +80,8 @@ fun RecoveryScreen(
                     }
                     masterKeyStore.saveImported(decoded.masterKey)
                     identityStore.restoreFromRecovery(decoded.payload)
+                    encryptionPasswordStore.saveStrategy(EncryptionPasswordStrategy.ADVANCED)
+                    encryptionPasswordStore.saveActivePassword(password.toCharArray())
                 }
             }.onSuccess { identity ->
                 busy = false
@@ -149,8 +151,7 @@ fun RecoveryScreen(
         }
         Button(
             onClick = {
-                if (!advancedRecoveryEnabled) status = context.getString(R.string.recovery_advanced_required)
-                else if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
+                if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
                 else importPicker.launch(arrayOf("application/octet-stream", "*/*"))
             },
             modifier = Modifier.fillMaxWidth(),
