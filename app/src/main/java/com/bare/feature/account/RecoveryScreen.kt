@@ -66,11 +66,6 @@ fun RecoveryScreen(
     var passwordDialogOpen by remember { mutableStateOf(false) }
     var passwordConfigured by remember { mutableStateOf(recoveryPasswordStore.hasPassword()) }
 
-    fun passwordMatchesConfigured(): Boolean {
-        if (!recoveryPasswordStore.hasPassword()) return true
-        return recoveryPasswordStore.verifyPassword(password.toCharArray())
-    }
-
     val importPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
     ) { uri ->
@@ -116,18 +111,18 @@ fun RecoveryScreen(
             passwordDialogOpen = true
             return
         }
-        if (!passwordMatchesConfigured()) {
-            status = context.getString(R.string.recovery_password_incorrect)
-            password = ""
-            passwordDialogOpen = true
-            return
-        }
 
         busy = true
         status = null
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
+                    if (
+                        recoveryPasswordStore.hasPassword() &&
+                        !recoveryPasswordStore.verifyPassword(password.toCharArray())
+                    ) {
+                        error(context.getString(R.string.recovery_password_incorrect))
+                    }
                     val payload = identityStore.toRecoveryPayload()
                     val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
                     val recoveryDirectory = storageRepository
