@@ -11,15 +11,16 @@ import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
-/** Versioned encrypted recovery container. Identity bootstrap metadata is readable without the recovery password. */
+/** Password-protected portable BaRe recovery envelope. */
 object RecoveryPackageCodec {
     private val MAGIC = byteArrayOf('B'.code.toByte(), 'R'.code.toByte(), 'E'.code.toByte(), 'C'.code.toByte())
-    private const val VERSION = 2
-    private const val LEGACY_VERSION = 1
+    private const val VERSION = 3
+    private const val LEGACY_VERSION = 2
     private const val KDF_PBKDF2_SHA256 = 1
     private const val ITERATIONS = 310_000
     private const val SALT_BYTES = 16
     private const val NONCE_BYTES = 12
+    private const val MASTER_KEY_BYTES = 32
     private const val KEY_BITS = 256
     private const val GCM_TAG_BITS = 128
     private const val MAX_PAYLOAD_BYTES = 64 * 1024
@@ -31,19 +32,30 @@ object RecoveryPackageCodec {
         val accessMethod: String?,
     )
 
-    fun encode(payload: Payload, password: CharArray, random: SecureRandom = SecureRandom()): ByteArray {
+    data class DecodedPackage(
+        val payload: Payload,
+        val masterKey: ByteArray,
+    )
+
+    fun encode(
+        payload: Payload,
+        masterKey: ByteArray,
+        password: CharArray,
+        random: SecureRandom = SecureRandom(),
+    ): ByteArray {
         require(payload.identityId.isNotBlank()) { "identityId is required" }
         require(payload.type == "LOCAL") { "only LOCAL identity can be exported" }
+        require(masterKey.size == MASTER_KEY_BYTES) { "invalid BaRe master key" }
         require(password.isNotEmpty()) { "recovery password is required" }
 
-        val plain = serialize(payload)
+        val plain = serialize(payload, masterKey)
         require(plain.size <= MAX_PAYLOAD_BYTES) { "recovery payload too large" }
 
         val salt = ByteArray(SALT_BYTES).also(random::nextBytes)
         val nonce = ByteArray(NONCE_BYTES).also(random::nextBytes)
         val key = deriveKey(password, salt)
 
-        val header = header(VERSION, KDF_PBKDF2_SHA256, ITERATIONS, salt, nonce, payload.identityId)
+        val header = header(VERSION, KDF_PBKDF2_SHA256, ITERATIONS, salt, nonce)
         val cipher = Cipher.getInstance("AES/GCM/NoPadding")
         cipher.init(Cipher.ENCRYPT_MODE, key, GCMParameterSpec(GCM_TAG_BITS, nonce))
         cipher.updateAAD(header)
@@ -59,28 +71,7 @@ object RecoveryPackageCodec {
         }
     }
 
-    /** Reads only the durable identity bootstrap metadata; no password is required. */
-    fun peekIdentity(bytes: ByteArray): String? {
-        DataInputStream(ByteArrayInputStream(bytes)).use { input ->
-            val magic = ByteArray(MAGIC.size)
-            input.readFully(magic)
-            require(magic.contentEquals(MAGIC)) { "invalid BaRe recovery package" }
-
-            val version = input.readUnsignedByte()
-            require(version == VERSION) { "recovery package does not contain bootstrap identity" }
-            input.readUnsignedByte()
-            input.readInt()
-            val saltLength = input.readUnsignedByte()
-            val nonceLength = input.readUnsignedByte()
-            require(saltLength == SALT_BYTES && nonceLength == NONCE_BYTES) { "invalid recovery parameters" }
-            input.skipBytes(saltLength + nonceLength)
-            val identityId = input.readUTF()
-            require(identityId.isNotBlank()) { "recovery package has no identity" }
-            return identityId
-        }
-    }
-
-    fun decode(bytes: ByteArray, password: CharArray): Payload {
+    fun decode(bytes: ByteArray, password: CharArray): DecodedPackage {
         require(password.isNotEmpty()) { "recovery password is required" }
 
         DataInputStream(ByteArrayInputStream(bytes)).use { input ->
@@ -89,8 +80,12 @@ object RecoveryPackageCodec {
             require(magic.contentEquals(MAGIC)) { "invalid BaRe recovery package" }
 
             val version = input.readUnsignedByte()
-            require(version == LEGACY_VERSION || version == VERSION) {
-                "unsupported recovery package version: $version"
+            require(version == VERSION) {
+                if (version == LEGACY_VERSION) {
+                    "legacy recovery package requires re-export; it does not contain the portable master key"
+                } else {
+                    "unsupported recovery package version: $version"
+                }
             }
 
             val kdf = input.readUnsignedByte()
@@ -107,8 +102,7 @@ object RecoveryPackageCodec {
 
             val salt = ByteArray(saltLength).also(input::readFully)
             val nonce = ByteArray(nonceLength).also(input::readFully)
-            val bootstrapIdentity = if (version == VERSION) input.readUTF() else null
-            val aadHeader = header(version, kdf, iterations, salt, nonce, bootstrapIdentity)
+            val aadHeader = header(version, kdf, iterations, salt, nonce)
             val ciphertextLength = input.readInt()
             require(ciphertextLength in (GCM_TAG_BITS / 8)..(MAX_PAYLOAD_BYTES + GCM_TAG_BITS / 8)) {
                 "invalid recovery payload length"
@@ -120,11 +114,7 @@ object RecoveryPackageCodec {
             val cipher = Cipher.getInstance("AES/GCM/NoPadding")
             cipher.init(Cipher.DECRYPT_MODE, key, GCMParameterSpec(GCM_TAG_BITS, nonce))
             cipher.updateAAD(aadHeader)
-            val payload = deserialize(cipher.doFinal(ciphertext))
-            require(bootstrapIdentity == null || bootstrapIdentity == payload.identityId) {
-                "recovery bootstrap identity conflicts with payload"
-            }
-            return payload
+            return deserialize(cipher.doFinal(ciphertext))
         }
     }
 
@@ -134,7 +124,6 @@ object RecoveryPackageCodec {
         iterations: Int,
         salt: ByteArray,
         nonce: ByteArray,
-        bootstrapIdentity: String?,
     ): ByteArray = ByteArrayOutputStream().use { output ->
         DataOutputStream(output).use { data ->
             data.write(MAGIC)
@@ -145,34 +134,38 @@ object RecoveryPackageCodec {
             data.writeByte(nonce.size)
             data.write(salt)
             data.write(nonce)
-            if (version == VERSION) data.writeUTF(bootstrapIdentity ?: "")
         }
         output.toByteArray()
     }
 
-    private fun serialize(payload: Payload): ByteArray = ByteArrayOutputStream().use { output ->
+    private fun serialize(payload: Payload, masterKey: ByteArray): ByteArray = ByteArrayOutputStream().use { output ->
         DataOutputStream(output).use { data ->
             data.writeUTF(payload.identityId)
             data.writeUTF(payload.type)
             data.writeBoolean(payload.setupComplete)
             data.writeBoolean(payload.accessMethod != null)
             payload.accessMethod?.let(data::writeUTF)
+            data.writeInt(masterKey.size)
+            data.write(masterKey)
         }
         output.toByteArray()
     }
 
-    private fun deserialize(bytes: ByteArray): Payload = DataInputStream(ByteArrayInputStream(bytes)).use { input ->
+    private fun deserialize(bytes: ByteArray): DecodedPackage = DataInputStream(ByteArrayInputStream(bytes)).use { input ->
         val payload = Payload(
             identityId = input.readUTF(),
             type = input.readUTF(),
             setupComplete = input.readBoolean(),
             accessMethod = if (input.readBoolean()) input.readUTF() else null,
         )
+        val masterKeyLength = input.readInt()
+        require(masterKeyLength == MASTER_KEY_BYTES) { "invalid BaRe master key" }
+        val masterKey = ByteArray(masterKeyLength).also(input::readFully)
         require(input.read() == -1) { "invalid recovery payload" }
         require(payload.identityId.isNotBlank() && payload.type == "LOCAL") {
             "invalid LOCAL recovery payload"
         }
-        payload
+        DecodedPackage(payload, masterKey)
     }
 
     private fun deriveKey(
