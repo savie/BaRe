@@ -3849,3 +3849,31 @@ Local Account Recovery menggunakan **Recovery password terpisah** dari **Advance
 - Recovery/security UI copy: `440324c0952411a0b166f2d73a1de262e4597fad`.
 - Product/architecture/capability/worklog reconciliation commits follow these source changes.
 - GitHub workflow result for the new source commit was not available through the connected workflow-run query; build status therefore remains **UNVERIFIED**.
+
+
+## 2026-09-22 — UI: Refresh Recovery Screen
+
+### User Intent / Authorization
+User explicitly authorized **GO** after identifying the Recovery screen as a UI/UX issue. Scope is presentation and interaction styling; recovery protocol, password semantics, and operation behavior are intentionally unchanged.
+
+### Observed
+- Existing RecoveryScreen used a dense legacy-style Column with password setup, export/import actions, and bottom Back action in one surface.
+- Existing password input did not expose a show/hide affordance.
+- Existing backup/storage behavior was not changed by this UI pass.
+
+### Implemented
+- Added Material top app bar with standard Back navigation.
+- Added password show/hide affordance using the existing Material visibility icons.
+- Refreshed Export and Import actions with clear leading icons and centered action content.
+- Removed the duplicate bottom Back action so navigation follows the screen-level app-bar pattern.
+- No change to recovery artifact codec, password store, export/import logic, storage boundary, or picker behavior.
+
+### Verification
+- Source updated on v1.0/rebaseline.
+- UI source re-fetched after commit and reflects the intended changes.
+- Post-change CI workflow result for commit 31fc4ba357e2581a965e8fb595d623514261cc73 is currently **UNVERIFIED**; no workflow run was returned by the connected GitHub workflow query.
+- Runtime/UI device verification remains **UNVERIFIED**.
+
+### Change Reference
+- 31fc4ba357e2581a965e8fb595d623514261cc73 — ui: remove duplicate recovery back action
+- Previous UI commit: 6ed10e261ffaf26cc0c0f83708648a01ec0284a0 — ui: refresh recovery screen interaction styling
