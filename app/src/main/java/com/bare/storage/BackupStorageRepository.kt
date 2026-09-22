@@ -178,18 +178,6 @@ class BackupStorageRepository(private val context: Context) {
         return deletedBytes
     }
 
-    fun deleteAllLocalData(identityId: String): Long {
-        var deletedBytes = 0L
-        for (root in storageRootsForIdentity(identityId)) {
-            val account = File(root, "BaRe/accounts/" + identityFolder(identityId))
-            deletedBytes += account.directorySize()
-            if (account.exists()) {
-                check(account.deleteRecursively()) { "unable to delete local BaRe data" }
-            }
-        }
-        return deletedBytes
-    }
-
     private fun storageRootsForIdentity(identityId: String): List<File> = buildList {
         if (identityId.isBlank()) return@buildList
         add(Environment.getExternalStorageDirectory())
