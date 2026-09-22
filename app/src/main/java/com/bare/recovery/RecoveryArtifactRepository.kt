@@ -18,7 +18,7 @@ class RecoveryArtifactRepository(
         payload: RecoveryPackageCodec.Payload,
         masterKey: ByteArray,
         password: CharArray,
-        fileName: String = "bare-recovery-v3.bare",
+        fileName: String = "bare-recovery.bare",
     ): Uri {
         require(treeUri.scheme == "content" && DocumentsContract.isTreeUri(treeUri)) {
             "recovery storage must be a document-tree URI"
@@ -59,7 +59,7 @@ class RecoveryArtifactRepository(
         payload: RecoveryPackageCodec.Payload,
         masterKey: ByteArray,
         password: CharArray,
-        fileName: String = "bare-recovery-v3.bare",
+        fileName: String = "bare-recovery.bare",
     ): Uri {
         require(directoryUri.scheme == "content") { "recovery directory must be a content URI" }
         val directory = DocumentFile.fromTreeUri(context, directoryUri)
@@ -91,12 +91,12 @@ class RecoveryArtifactRepository(
         }
     }
 
-
     fun exportToFile(
         directory: java.io.File,
         payload: RecoveryPackageCodec.Payload,
+        masterKey: ByteArray,
         password: CharArray,
-        fileName: String = "bare-recovery-v3.bare",
+        fileName: String = "bare-recovery.bare",
     ): java.io.File {
         require(directory.isDirectory && directory.canWrite()) {
             "recovery directory is not writable"
@@ -105,7 +105,7 @@ class RecoveryArtifactRepository(
         val partialFile = java.io.File(directory, "$fileName.partial")
         runCatching { partialFile.delete() }
         try {
-            val bytes = RecoveryPackageCodec.encode(payload, password)
+            val bytes = RecoveryPackageCodec.encode(payload, masterKey, password)
             partialFile.outputStream().use { output ->
                 output.write(bytes)
                 output.flush()
