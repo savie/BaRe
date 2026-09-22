@@ -57,6 +57,7 @@ class RecoveryArtifactRepository(
     fun exportToDirectory(
         directoryUri: Uri,
         payload: RecoveryPackageCodec.Payload,
+        masterKey: ByteArray,
         password: CharArray,
         fileName: String = "bare-recovery-v2.bare",
     ): Uri {
@@ -75,7 +76,7 @@ class RecoveryArtifactRepository(
         val partial = directory.createFile("application/octet-stream", "$fileName.partial")
             ?: throw IOException("unable to create recovery artifact")
         try {
-            val bytes = RecoveryPackageCodec.encode(payload, password)
+            val bytes = RecoveryPackageCodec.encode(payload, masterKey, password)
             contentResolver.openOutputStream(partial.uri, "w")?.use { output ->
                 output.write(bytes)
                 output.flush()
