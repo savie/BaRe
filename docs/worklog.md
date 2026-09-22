@@ -3658,3 +3658,38 @@ The import `runCatching { ... }` block performed `restoreFromRecovery()` but did
 - Source repair: **APPLIED**.
 - Expected compiler mismatch addressed directly.
 - CI/build after repair: **NOT YET OBSERVED**.
+
+## 2026-09-22 — #562 Unify Advanced Password for Portable Recovery
+
+### User Decision / Authorization
+Portable LOCAL recovery uses **one password**: the password configured under **Advanced**. Recovery must not introduce a second recovery password.
+
+### Observed
+Runtime test after #561 showed:
+- Advanced password **A** was configured.
+- Recovery Export accepted a different password **B**.
+- `bare-recovery.bare` was successfully created in the selected folder.
+- Import with **A** failed with `BAD_DECRYPT`.
+- Import with **B** succeeded.
+
+This demonstrated that the current Recovery screen treated its password as a separate authority from the configured Advanced password.
+
+### Repair
+- `EncryptionPasswordStore` now keeps a salted PBKDF2-HMAC-SHA256 verifier for the configured Advanced password; the plaintext password is still not persisted.
+- Recovery Export verifies the entered password against the configured Advanced password before creating the artifact.
+- Recovery Import verifies against the existing local Advanced password when one is available; after destructive loss, the artifact itself authenticates the entered password and successful import recreates the local password verifier.
+- Recovery UI labels and descriptions now explicitly call this the **Advanced password** and describe the same password for export/import.
+- User-facing recovery errors no longer expose the raw cryptographic `BAD_DECRYPT` message as the intended error text.
+
+### Verification Status
+- Source repair: **APPLIED**.
+- Runtime verification of the repaired single-password flow: **PENDING**.
+- CI/build after repair: **NOT YET OBSERVED**.
+
+### Next Runtime Test
+1. Set Advanced password **A**.
+2. Open Recovery and export without creating another password; enter **A**.
+3. Confirm `bare-recovery.bare` is created.
+4. Import with **A** → expected success.
+5. Import with **B** → expected failure.
+6. After destructive app-data loss, import the same artifact with **A** → expected same BaRe ID + Master Key continuity.
