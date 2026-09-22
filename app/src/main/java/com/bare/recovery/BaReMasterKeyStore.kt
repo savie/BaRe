@@ -19,6 +19,10 @@ class BaReMasterKeyStore(context: Context) {
         Context.MODE_PRIVATE,
     )
 
+    fun getExisting(): ByteArray? {
+        return if (preferences.contains(KEY_MASTER_KEY)) load() else null
+    }
+
     fun getOrCreate(): ByteArray {
         if (preferences.contains(KEY_MASTER_KEY)) {
             return load() ?: throw IllegalStateException("stored BaRe master key cannot be opened")
