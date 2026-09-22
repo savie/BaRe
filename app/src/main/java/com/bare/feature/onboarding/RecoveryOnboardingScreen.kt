@@ -172,7 +172,7 @@ fun RecoveryOnboardingScreen(
 
         if (decoded.size > 1) {
             Text(
-                stringResource(R.string.recovery_onboarding_select_identity),
+                stringResource(R.string.recovery_onboarding_select_identity, decoded.size),
                 style = MaterialTheme.typography.titleMedium,
             )
             decoded.forEach { candidate ->
