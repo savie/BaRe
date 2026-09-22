@@ -44,6 +44,7 @@ import com.bare.feature.settings.BaReLabsScreen
 import com.bare.feature.settings.BaReLoggerScreen
 import com.bare.feature.settings.AppVisibilityDiagnosticsScreen
 import com.bare.feature.settings.LocalBackupScanScreen
+import com.bare.feature.settings.BaReLogger
 import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
@@ -110,6 +111,13 @@ fun BaReApp() {
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     val screenBackStack = remember { mutableStateListOf<Screen>() }
+    val baReLogger = remember(context) { BaReLogger(context) }
+
+    LaunchedEffect(screen) {
+        if (screen != Screen.NONE) {
+            baReLogger.append(screen.title + ": Opened")
+        }
+    }
     var screenOriginTab by remember { mutableStateOf<Int?>(null) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var selectedAppPackageName by remember { mutableStateOf<String?>(null) }
