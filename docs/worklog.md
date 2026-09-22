@@ -3944,3 +3944,10 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 - **COPY:** recovery copy dinormalisasi ke bahasa produk; standalone canonical tetap `B Λ R ☰`, sedangkan text memakai `BΛR☰`.
 - **STATE:** tombol continue pada selection hanya aktif setelah identity dipilih; Back kembali ke password step; dismiss/cancel kembali ke Welcome flow.
 - **STATUS:** source change committed pada `48a31a926efefb18be9fdde10ee8912cfdbcd8d1`. Build/runtime verification belum dilakukan.
+
+
+## Recovery UI — branded background
+
+- **IMPLEMENTATION:** Recovery dialog sekarang ditampilkan di atas Welcome surface yang sudah ada, sehingga logo, canonical brand, tagline, dan halaman onboarding tetap menjadi konteks visual di belakang modal.
+- **INTENT:** Menghindari recovery tampil sebagai dialog di atas layar hitam/kosong; modal tetap compact sementara branded onboarding surface tetap terlihat.
+- **STATUS:** Source change committed pada `8e6d2915ecb8fb8e1c79bfafb36d68610d7c0ae4`. Build/runtime verification belum dilakukan.
