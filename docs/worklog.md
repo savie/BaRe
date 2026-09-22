@@ -3877,3 +3877,17 @@ User explicitly authorized **GO** after identifying the Recovery screen as a UI/
 ### Change Reference
 - 31fc4ba357e2581a965e8fb595d623514261cc73 — ui: remove duplicate recovery back action
 - Previous UI commit: 6ed10e261ffaf26cc0c0f83708648a01ec0284a0 — ui: refresh recovery screen interaction styling
+
+
+## 2026-09-22 — Build Failure: Recovery UI Imports
+
+### Observed
+CI compile failed in `RecoveryScreen.kt` after the UI refresh because the file referenced `Row`, `Icon`, `Icons`, and `Modifier.width` without importing the corresponding Compose symbols. The `libandroidx.graphics.path.so` strip message is non-fatal packaging behavior; the blocking failure is Kotlin compilation.
+
+### Corrective Action
+Restored the missing Compose imports and kept the intended UI changes intact: top app bar/back navigation, password visibility toggle, and icon-enhanced Export/Import actions.
+
+### Verification
+- Corrective source commit: `acc4def6be317f442cae7af9df831e903b99c68b`.
+- GitHub workflow result for the corrective commit is currently **UNVERIFIED**; no workflow run was returned by the connected query.
+- Runtime/UI remains **UNVERIFIED**.
