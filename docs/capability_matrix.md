@@ -123,3 +123,11 @@ adalah **contoh validation path**, bukan urutan pekerjaan dan bukan daftar slice
 ## Status
 
 **CAPABILITY MAP — RECONCILED / EVIDENCE-BASED IMPLEMENTATION & VERIFICATION MODEL**
+
+## Local Account Recovery Password
+
+Local Account Recovery memiliki password authority sendiri dan tidak bergantung pada Advanced encryption password.
+
+Local Account → Recovery Password → bare-recovery.bare → Import/Export
+
+Advanced password hanya berlaku untuk lifecycle encryption Advanced. Standard backup encryption tidak menjadi prerequisite untuk Local Account recovery.
