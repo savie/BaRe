@@ -628,15 +628,11 @@
     <string name="encryption_strategy_standard">Standard</string>
     <string name="encryption_strategy_advanced">Advanced</string>
     <string name="encryption_strategy_standard_description">Let %1$s handle generating passwords for your encrypted backups. The passwords are unique to your local setup and can differ depending on the backup feature.</string>
-    <string name="encryption_strategy_advanced_description">Same as the Standard strategy but additionally uses a password entered by you to generate the final encryption password. If you lose your password, the backups cannot be decrypted or restored.
-
-%1$s stores your password only locally in its private data directory in encrypted form.
-
-When you set up %1$s, you need to enter your password again so it can decrypt and restore your encrypted backups.</string>
+    <string name="encryption_strategy_advanced_description">Use a password entered by you as the user-owned recovery authority for portable BaRe identity and future encrypted backups. BaRe does not store the password. If you forget it, encrypted recovery artifacts cannot be opened.</string>
     <string name="encryption_set_user_password">SET USER PASSWORD</string>
     <string name="encryption_user_password_title">Set user password</string>
     <string name="encryption_active_password">Active password</string>
-    <string name="encryption_active_password_description">This is the password that will be used for encryption and decryption of your backups by default.</string>
+    <string name="encryption_active_password_description">Choose a password you can remember. BaRe does not store the password; you must enter it again when exporting or importing a protected recovery artifact.</string>
     <string name="encryption_active_password_set">Active password is set</string>
     <string name="encryption_no_active_password">No active password</string>
     <string name="encryption_new_password">New password</string>
@@ -647,8 +643,9 @@ When you set up %1$s, you need to enter your password again so it can decrypt an
     <string name="encryption_add_old_password">Add old password</string>
     <string name="encryption_active_password_dialog_title">Active password</string>
     <string name="encryption_old_password_dialog_title">Old password</string>
-    <string name="encryption_active_password_warning">Please remember or note down the password as you will not be able to retrieve it later.</string>
+    <string name="encryption_active_password_warning">Remember or note down this password. BaRe does not store it and cannot recover it for you.</string>
     <string name="encryption_password_icon">Password</string>
+    <string name="recovery_advanced_required">Select Advanced and set a user password before using portable recovery.</string>
     <string name="save">SAVE</string>
 
     <string name="settings_swift_labs">BaRe Labs</string>
