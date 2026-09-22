@@ -23,20 +23,20 @@
     <string name="invalid_email">Enter a valid email such as x@x.x.</string>
     <string name="password_too_short">Password must be at least 8 characters.</string>
     <string name="advanced_password">Advanced password</string>
-    <string name="recovery_password">Advanced password</string>
-    <string name="recovery_password_setup_description">Create a password used only for Local Account recovery. It is independent from the Advanced password.</string>
+    <string name="recovery_password">Recovery password</string>
+    <string name="recovery_password_setup_description">Create a password used only for BaRe ID recovery. It is independent from the Advanced password used for backup encryption.</string>
     <string name="password_mismatch">Passwords do not match.</string>
     <string name="confirm_recovery_password">Confirm recovery password</string>
     <string name="set_recovery_password">Set password</string>
-    <string name="recovery_password_set">Advanced password is set.</string>
+    <string name="recovery_password_set">Recovery password is set.</string>
     <string name="change_recovery_password">Change password</string>
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
-    <string name="recovery_password_changed">Advanced password changed.</string>
+    <string name="recovery_password_changed">Recovery password changed.</string>
     <string name="recovery_password_change_failed">Recovery password change failed: %1$s</string>
     <string name="recovery_master_key_unavailable">The local recovery key is unavailable; the recovery file was not changed.</string>
     <string name="recovery_password_icon">Recovery password</string>
-    <string name="recovery_password_required">Set a Recovery password before using Local Account recovery.</string>
+    <string name="recovery_password_required">Set a Recovery password before using BaRe ID recovery.</string>
     <string name="create_account">Create account</string>
     <string name="create_account_description">Use an account to keep your setup connected across your experience.</string>
     <string name="confirm_password">Confirm password</string>
@@ -544,9 +544,9 @@
     <string name="recovery_folder_selected">Save location selected.</string>
     <string name="recovery_identity_restored">BaRe ID restored successfully.</string>
     <string name="recovery_failed">Recovery failed: %1$s</string>
-    <string name="recovery_password_incorrect">The Advanced password is incorrect.</string>
+    <string name="recovery_password_incorrect">The Recovery password is incorrect.</string>
     <string name="invalid_package_or_password">The recovery file cannot be opened with this password.</string>
-    <string name="enter_recovery_password_first">Enter your Advanced password first.</string>
+    <string name="enter_recovery_password_first">Enter your Recovery password first.</string>
     <string name="recovery_package_exported">Recovery copy exported.</string>
     <string name="export_failed">Export failed: %1$s</string>
     <string name="storage_error">storage error</string>
@@ -674,6 +674,7 @@
     <string name="encryption_password_incorrect">The current password is incorrect.</string>
     <string name="encryption_password_icon">Password</string>
     <string name="save">SAVE</string>
+    <string name="passwords_do_not_match">Passwords do not match.</string>
 
     <string name="settings_swift_labs">BaRe Labs</string>
     <string name="settings_bare_labs_subtitle">Experimental and repair tools</string>
@@ -707,8 +708,8 @@
     <string name="settings_lab_scan_local_backups_empty">No local backup locations found.</string>
 
     <string name="recovery_password_status_title">Password</string>
-    <string name="recovery_password_status_configured">Your Advanced password is configured for recovery.</string>
+    <string name="recovery_password_status_configured">Your Recovery password is configured for BaRe ID recovery.</string>
     <string name="export_recovery_description">Create an encrypted recovery copy of this identity. Tap to export it.</string>
     <string name="import_recovery_description">Restore an existing identity from an encrypted recovery copy. Tap to import it.</string>
-    <string name="recovery_password_status_missing">Set your Advanced password to enable recovery.</string>
+    <string name="recovery_password_status_missing">Set a Recovery password to enable BaRe ID recovery.</string>
 </resources>
