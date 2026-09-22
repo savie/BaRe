@@ -240,8 +240,5 @@ fun RecoveryScreen(
         status?.let {
             Text(it, style = MaterialTheme.typography.bodyMedium)
         }
-        TextButton(onClick = onBack, enabled = !busy) {
-            Text(stringResource(R.string.back))
-        }
     }
 }
