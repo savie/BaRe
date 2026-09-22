@@ -250,33 +250,17 @@ fun BaReApp() {
                             )
                         }
                     } else {
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            WelcomeScreen(onSelectIdentity = { identity ->
-                                identityType = identity
-                                if (identity == IdentityType.LOCAL) showLocalConfirmation = true else startScreen = StartScreen.LOGIN
-                            })
-                            RecoveryOnboardingScreen(
-                                candidates = candidates,
-                                onRecovered = { identity ->
-                                    identityType = identity.type
-                                    initialIdentityPending = false
-                                    startScreen = if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.ACCESS_METHOD
-                                },
-                                onStartFresh = {
-                                    startScreen = StartScreen.WELCOME
-                                },
-                            )
-                            if (showLocalConfirmation) {
-                                LocalSetupConfirmation(
-                                    onContinue = {
-                                        showLocalConfirmation = false
-                                        initialIdentityPending = true
-                                        startScreen = StartScreen.ACCESS_METHOD
-                                    },
-                                    onDismiss = { showLocalConfirmation = false },
-                                )
-                            }
-                        }
+                        RecoveryOnboardingScreen(
+                            candidates = candidates,
+                            onRecovered = { identity ->
+                                identityType = identity.type
+                                initialIdentityPending = false
+                                startScreen = if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.ACCESS_METHOD
+                            },
+                            onStartFresh = {
+                                startScreen = StartScreen.WELCOME
+                            },
+                        )
                     }
                 }
                 StartScreen.WELCOME -> {
