@@ -25,6 +25,9 @@ import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
 import com.bare.recovery.RecoveryArtifactRepository
+import com.bare.recovery.BaReMasterKeyStore
+import com.bare.feature.settings.EncryptionPasswordStore
+import com.bare.feature.settings.EncryptionPasswordStrategy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -37,6 +40,9 @@ fun RecoveryScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val repository = remember(context) { RecoveryArtifactRepository(context) }
+    val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
+    val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
+    val advancedRecoveryEnabled = encryptionPasswordStore.loadStrategy() == EncryptionPasswordStrategy.ADVANCED && encryptionPasswordStore.hasActivePassword()
     val scope = rememberCoroutineScope()
 
     var password by remember { mutableStateOf("") }
@@ -68,8 +74,12 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    val payload = repository.import(uri, password.toCharArray())
-                    identityStore.restoreFromRecovery(payload)
+                    val decoded = repository.import(uri, password.toCharArray())
+                    if (identityStore.hasConflictingIdentity(decoded.payload)) {
+                        error("existing LOCAL identity conflicts with recovery identity")
+                    }
+                    masterKeyStore.saveImported(decoded.masterKey)
+                    identityStore.restoreFromRecovery(decoded.payload)
                 }
             }.onSuccess { identity ->
                 busy = false
@@ -103,7 +113,9 @@ fun RecoveryScreen(
         )
         Button(
             onClick = {
-                if (password.isBlank()) {
+                if (!advancedRecoveryEnabled) {
+                    status = context.getString(R.string.recovery_advanced_required)
+                } else if (password.isBlank()) {
                     status = context.getString(R.string.enter_recovery_password_first)
                 } else if (selectedTreeUri == null) {
                     treePicker.launch(null)
@@ -116,6 +128,7 @@ fun RecoveryScreen(
                                 repository.export(
                                     treeUri = selectedTreeUri!!,
                                     payload = identityStore.toRecoveryPayload(),
+                                    masterKey = masterKeyStore.getOrCreate(),
                                     password = password.toCharArray(),
                                 )
                             }
@@ -136,7 +149,8 @@ fun RecoveryScreen(
         }
         Button(
             onClick = {
-                if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
+                if (!advancedRecoveryEnabled) status = context.getString(R.string.recovery_advanced_required)
+                else if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
                 else importPicker.launch(arrayOf("application/octet-stream", "*/*"))
             },
             modifier = Modifier.fillMaxWidth(),
