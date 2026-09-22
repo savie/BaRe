@@ -527,17 +527,17 @@
     <string name="delete_backup">Delete backup</string>
     <string name="recovery">Recovery</string>
     <string name="recovery_onboarding_title">Recovery available</string>
-    <string name="recovery_onboarding_description">An existing BaRe recovery package is available. Enter your Advanced password to restore your existing identity.</string>
+    <string name="recovery_onboarding_description">Recovery is available. Enter your Advanced password to restore your existing identity.</string>
     <string name="recovery_onboarding_scanning">Checking for recovery files…</string>
     <string name="recovery_onboarding_found">%1$d recovery package(s) available</string>
     <string name="recovery_onboarding_enter_password">Enter your Advanced password first.</string>
     <string name="recovery_onboarding_invalid_password">No recovery file could be opened with that password.</string>
     <string name="recovery_onboarding_failed">Recovery could not be completed: %1$s</string>
     <string name="recovery_onboarding_continue">RESTORE IDENTITY</string>
-    <string name="recovery_onboarding_select_identity">%1$d BaRe identities are available. Choose which one to restore.</string>
+    <string name="recovery_onboarding_select_identity">%1$d BΛR☰ identities are available. Choose which one to restore.</string>
     <string name="recovery_onboarding_restore_selected">RESTORE SELECTED IDENTITY</string>
     <string name="recovery_onboarding_start_fresh">START AS NEW IDENTITY</string>
-    <string name="recovery_onboarding_identity_label">Identity ••••%1$s</string>
+    <string name="recovery_onboarding_identity_label">BΛR☰ ID</string>
     <string name="recovery_onboarding_identity_package">Recovery package</string>
 
     <string name="recovery_description">Export or import your encrypted BaRe recovery file. Recovery uses its own password, separate from the Advanced password.</string>
