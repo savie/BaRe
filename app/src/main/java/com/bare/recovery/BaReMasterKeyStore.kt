@@ -20,7 +20,9 @@ class BaReMasterKeyStore(context: Context) {
     )
 
     fun getOrCreate(): ByteArray {
-        load()?.let { return it }
+        if (preferences.contains(KEY_MASTER_KEY)) {
+            return load() ?: throw IllegalStateException("stored BaRe master key cannot be opened")
+        }
         val key = ByteArray(KEY_BYTES).also(secureRandom::nextBytes)
         save(key)
         return key
