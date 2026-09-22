@@ -1,5 +1,8 @@
 package com.bare.app
 
+import android.os.Build
+import android.os.Environment
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -109,13 +112,27 @@ fun BaReApp() {
             }
         )
     }
-    var recoveryCandidates by remember(restoredIdentity) { mutableStateOf<List<File>?>(null) }
-    var startupRevealFinished by remember(restoredIdentity) { mutableStateOf(restoredIdentity != null) }
-    LaunchedEffect(restoredIdentity) {
-        if (restoredIdentity == null) {
+    var storageAccessGranted by remember(restoredIdentity) {
+        mutableStateOf(
+            restoredIdentity != null ||
+                Build.VERSION.SDK_INT < Build.VERSION_CODES.R ||
+                Environment.isExternalStorageManager(),
+        )
+    }
+    var recoveryCandidates by remember(restoredIdentity, storageAccessGranted) {
+        mutableStateOf<List<File>?>(null)
+    }
+    var startupRevealFinished by remember(restoredIdentity, storageAccessGranted) {
+        mutableStateOf(restoredIdentity != null)
+    }
+
+    LaunchedEffect(restoredIdentity, storageAccessGranted) {
+        if (restoredIdentity == null && storageAccessGranted) {
             recoveryCandidates = withContext(Dispatchers.IO) {
                 RecoveryArtifactDiscovery(context).findCandidates()
             }
+        } else if (restoredIdentity == null) {
+            recoveryCandidates = null
         }
     }
     LaunchedEffect(recoveryCandidates, startupRevealFinished) {
@@ -205,7 +222,15 @@ fun BaReApp() {
             when (startScreen) {
                 StartScreen.RECOVERY_ONBOARDING -> {
                     val candidates = recoveryCandidates
-                    if (!startupRevealFinished) {
+                    if (!storageAccessGranted) {
+                        StorageAccessOnboardingScreen(
+                            onAccessGranted = {
+                                storageAccessGranted = true
+                                recoveryCandidates = null
+                                startupRevealFinished = false
+                            },
+                        )
+                    } else if (!startupRevealFinished) {
                         StartupSplash(onFinished = { startupRevealFinished = true })
                     } else if (candidates == null) {
                         StartupSplash(onFinished = { })
