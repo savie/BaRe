@@ -26,6 +26,7 @@ import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
 import com.bare.recovery.BaReMasterKeyStore
+import com.bare.feature.account.RecoveryPasswordStore
 import com.bare.recovery.RecoveryArtifactDiscovery
 import com.bare.recovery.RecoveryPackageCodec
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ fun RecoveryOnboardingScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
+    val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val scope = rememberCoroutineScope()
 
     var password by remember { mutableStateOf("") }
@@ -99,6 +101,7 @@ fun RecoveryOnboardingScreen(
                 withContext(Dispatchers.IO) {
                     masterKeyStore.saveImported(candidate.decoded.masterKey)
                     identityStore.restoreFromRecovery(candidate.decoded.payload)
+                    recoveryPasswordStore.savePassword(password.toCharArray())
                 }
             }.onSuccess { identity ->
                 busy = false
