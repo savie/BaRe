@@ -40,6 +40,10 @@ import com.bare.feature.account.AccountScreen
 import com.bare.feature.settings.ManageSpaceScreen
 import com.bare.feature.settings.EncryptionPasswordStrategyScreen
 import com.bare.feature.settings.UserPasswordScreen
+import com.bare.feature.settings.BaReLabsScreen
+import com.bare.feature.settings.BaReLoggerScreen
+import com.bare.feature.settings.AppVisibilityDiagnosticsScreen
+import com.bare.feature.settings.LocalBackupScanScreen
 import com.bare.feature.account.RecoveryScreen
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
