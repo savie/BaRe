@@ -29,6 +29,13 @@
     <string name="confirm_recovery_password">Confirm recovery password</string>
     <string name="set_recovery_password">SET RECOVERY PASSWORD</string>
     <string name="recovery_password_set">Recovery password is set.</string>
+    <string name="change_recovery_password">Change recovery password</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
+    <string name="recovery_password_changed">Recovery password changed.</string>
+    <string name="recovery_password_change_failed">Recovery password change failed: %1$s</string>
+    <string name="recovery_master_key_unavailable">The local recovery key is unavailable; the recovery file was not changed.</string>
+    <string name="recovery_password_icon">Recovery password</string>
     <string name="recovery_password_required">Set a Recovery password before using Local Account recovery.</string>
     <string name="create_account">Create account</string>
     <string name="create_account_description">Use an account to keep your setup connected across your experience.</string>
