@@ -3306,3 +3306,36 @@ Existing Settings entries retained, including BaRe-specific:
 - Source/resource references checked after changes.
 - New flow implementation: **APPLIED**.
 - CI/build after #553: **PENDING**.
+
+
+## 2026-09-22 — #554 Verify BaRe Diagnostics + Recovery/Export Lifecycle Clarification
+
+### Verification
+- BaRe Labs flow: **RUNTIME TESTED / GREEN** berdasarkan user-provided device test.
+- BaRe Logger flow: **RUNTIME TESTED / GREEN** berdasarkan user-provided device test.
+- App visibility diagnostics and local backup scan: included in the tested flow.
+
+### Lifecycle Decision
+- BaRe **Export/Import .bare** diposisikan sebagai artifact continuity/recovery, bukan sekadar export/import settings.xml.
+- Canonical local recovery artifact tetap **bare-recovery-v2.bare**.
+- Tujuan utamanya adalah mempertahankan **LOCAL identity continuity** ketika private app state hilang karena clear data, uninstall/reinstall, factory reset/format, atau perpindahan ROM/device state yang tetap menyediakan artifact recovery.
+- Recovery payload saat ini membawa bootstrap identity dan state minimum yang diperlukan untuk menghidupkan kembali LOCAL identity; bukan backup data dan bukan backup settings lengkap.
+- identityId harus dapat dipertahankan saat recovery sehingga path/account identity BaRe dapat direkonstruksi dengan ID yang sama, bukan membuat UUID lokal baru secara otomatis.
+- Recovery import harus tetap fail-closed terhadap conflicting existing LOCAL identity; identity berbeda tidak boleh diam-diam ditimpa.
+
+### Existing Implementation Alignment
+- RecoveryPackageCodec sudah versioned sebagai **BREC v2** dan menyimpan identityId, LOCAL type, setup state, dan access method.
+- RecoveryArtifactRepository sudah menyediakan export/import artifact bare-recovery-v2.bare.
+- LocalIdentityStore.loadOrRecover() sudah mencari artifact recovery sebelum membuat identity baru.
+- restoreFromRecovery() sudah menjaga conflict protection terhadap LOCAL identity yang berbeda.
+- Dengan demikian, konsep **Recovery Lifecycle** yang sebelumnya dirancang memang merupakan fondasi dari lifecycle .v2.bare ini.
+
+### Important Boundary
+- Artifact recovery yang berada di private app state atau di account directory yang ikut dihapus tidak dapat menyelamatkan dirinya sendiri.
+- Untuk skenario destructive local reset / clear / format / ROM replacement, recovery artifact harus tersedia di lokasi yang survive terhadap kehilangan private app state, misalnya export ke user-selected external/SAF storage.
+- Ini berbeda dari backup encryption: encryption password strategy melindungi **backup artifacts**, sedangkan recovery .v2.bare menjaga **identity continuity/bootstrap**.
+- Export/import settings.xml reference tidak dijadikan target semantic BaRe untuk lifecycle ini.
+
+### Status
+- Recovery lifecycle foundation: **IMPLEMENTED / PARTIALLY VERIFIED**.
+- Full destructive-loss → external artifact → reinstall → import → identity continuity journey: **RUNTIME VERIFICATION PENDING**.
