@@ -313,6 +313,7 @@ fun RecoveryScreen(
 }
 
 @Composable
+@Composable
 private fun RecoveryPasswordDialog(
     configured: Boolean,
     onDismiss: () -> Unit,
