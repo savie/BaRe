@@ -46,6 +46,7 @@ import com.bare.feature.settings.AppVisibilityDiagnosticsScreen
 import com.bare.feature.settings.LocalBackupScanScreen
 import com.bare.feature.settings.BaReLogger
 import com.bare.feature.account.RecoveryScreen
+import com.bare.recovery.RecoveryArtifactDiscovery
 import com.bare.feature.apps.AppConfigScreen
 import com.bare.feature.apps.AppDetailScreen
 import com.bare.feature.apps.AppBackupScreen
@@ -69,6 +70,7 @@ import com.bare.ui.theme.BaReTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -102,9 +104,17 @@ fun BaReApp() {
                     StartScreen.ACCESS_METHOD
                 }
             } else {
-                StartScreen.WELCOME
+                StartScreen.RECOVERY_ONBOARDING
             }
         )
+    }
+    var recoveryCandidates by remember(restoredIdentity) { mutableStateOf<List<File>?>(null) }
+    LaunchedEffect(restoredIdentity) {
+        if (restoredIdentity == null) {
+            recoveryCandidates = withContext(Dispatchers.IO) {
+                RecoveryArtifactDiscovery(context).findCandidates()
+            }
+        }
     }
     var selectedMethod by remember { mutableStateOf<AccessMethod?>(identityStore.loadAccessMethod()) }
     var accessError by remember { mutableStateOf<String?>(null) }
@@ -186,6 +196,34 @@ fun BaReApp() {
     ) {
         Surface(Modifier.fillMaxSize()) {
             when (startScreen) {
+                StartScreen.RECOVERY_ONBOARDING -> {
+                    val candidates = recoveryCandidates
+                    if (candidates == null) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+                        ) {
+                            CircularProgressIndicator()
+                            Spacer(Modifier.height(16.dp))
+                            Text(stringResource(R.string.recovery_onboarding_scanning))
+                        }
+                    } else if (candidates.isEmpty()) {
+                        startScreen = StartScreen.WELCOME
+                    } else {
+                        RecoveryOnboardingScreen(
+                            candidates = candidates,
+                            onRecovered = { identity ->
+                                identityType = identity.type
+                                initialIdentityPending = false
+                                startScreen = if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.ACCESS_METHOD
+                            },
+                            onStartFresh = {
+                                startScreen = StartScreen.WELCOME
+                            },
+                        )
+                    }
+                }
                 StartScreen.WELCOME -> {
                     WelcomeScreen { identity ->
                         identityType = identity
