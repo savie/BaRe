@@ -545,6 +545,8 @@
     <string name="recovery_identity_restored">BaRe ID restored successfully.</string>
     <string name="recovery_failed">Recovery failed: %1$s</string>
     <string name="recovery_password_incorrect">The Recovery password is incorrect.</string>
+    <string name="recovery_password_configured">Recovery password is configured.</string>
+    <string name="recovery_identity_conflict">This device already has a different BaRe identity.</string>
     <string name="invalid_package_or_password">The recovery file cannot be opened with this password.</string>
     <string name="enter_recovery_password_first">Enter your Recovery password first.</string>
     <string name="recovery_package_exported">Recovery copy exported.</string>
