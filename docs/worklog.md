@@ -4091,3 +4091,13 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 - **INTERACTION:** Export/Import menjadi action surface langsung. Jika Advanced password belum tersedia, flow password setup dibuka dari status/action area; tidak ada password recovery kedua.
 - **COPY:** seluruh copy APK tetap bahasa Inggris; terminology diarahkan ke Advanced password dan recovery identity/copy.
 - **STATUS:** implementation source committed bertahap pada `33174615`, `0613d52f`, `a66459cc`, dan `7b47ff2`. Build/runtime verification untuk current HEAD belum dilakukan.
+
+
+## 2026-09-22 — Recovery / Backup terminology checkpoint
+
+- **CONTEXT:** Terminology is still evolving during active implementation; this checkpoint records the current discussion rather than declaring a final/canonical architecture.
+- **RECOVERY:** Continue treating BaRe ID recovery as a distinct lifecycle concern from the broader backup/export-import flow. Exact terminology and boundaries remain subject to the ongoing implementation evidence.
+- **BACKUP / ENCRYPTION:** The ongoing work references the encryption-password strategy and backup lifecycle; these terms must be preserved in the worklog as the implementation evolves rather than replaced by assumptions from the current Recovery UI.
+- **PASSWORD:** Do not introduce or re-establish a separate product-level “Recovery password” concept merely because legacy Recovery UI/source still contains `RecoveryPasswordStore`. Password authority terminology remains tied to the active encryption/backup strategy and must be reconciled from implementation history before further UI changes.
+- **UI CHANGE STATUS:** The Recovery Settings UI change immediately preceding this checkpoint changed the surface toward a single password status/change area plus larger Export/Import cards. This is an implementation step, not a new architecture decision.
+- **VERIFICATION GAP:** Current terminology relationship between Advanced password, encryption password strategy, backup lifecycle, and BaRe ID recovery lifecycle is **UNVERIFIED** from the available repo inspection in this turn. Do not claim the terminology is finalized until the relevant implementation/history is traced.
