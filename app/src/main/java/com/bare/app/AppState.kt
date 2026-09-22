@@ -16,7 +16,7 @@ enum class Screen(val title: String) {
     NONE(""), SEARCH("Search"), APPS_SEARCH("Apps search"), APPS_TOOLS("Apps tools"), APP_DETAIL("App"), APP_BACKUP("App backup"), APP_BACKUPS("App backups"), APP_MANAGEMENT("App management"), APP_CONFIG("App configuration"), APP_DIAGNOSTICS("App diagnostics"), APP_RESTORE("App restore"),
     FOLDERS("Folders"), MESSAGES("Messages"), CALL_LOGS("Call Logs"), WIFI("Wi-Fi"),
     WALLPAPERS("Wallpapers"), STORAGE("Storage"), CLOUD("Cloud sync"),
-    MANAGEMENT("Management"), MANAGE_SPACE("Manage space"), DIAGNOSTICS("Diagnostics"), SETTINGS("Settings"), ENCRYPTION_PASSWORD_STRATEGY("Encryption password strategy"), USER_PASSWORD("Set user password"),
+    MANAGEMENT("Management"), MANAGE_SPACE("Manage space"), DIAGNOSTICS("Diagnostics"), SETTINGS("Settings"), BARE_LABS("BaRe Labs"), BARE_LOGGER("BaRe Logger"), APP_VISIBILITY_DIAGNOSTICS("App visibility diagnostics"), LOCAL_BACKUP_SCAN("Scan local app backups"), ENCRYPTION_PASSWORD_STRATEGY("Encryption password strategy"), USER_PASSWORD("Set user password"),
     IMPORT_EXPORT("Import / Export"), TASK("Task"), SCHEDULE_DETAIL("Schedule")
 }
 
