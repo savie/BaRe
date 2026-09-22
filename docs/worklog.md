@@ -3607,3 +3607,35 @@ Build/CI verification, then runtime test at minimum:
 4. Verify private identity/settings/app-specific data is removed.
 5. Verify shared `BaRe/` backup and recovery artifacts remain untouched.
 6. Separately test actual uninstall/reinstall and storage-format scenarios.
+
+## 2026-09-22 — #560 Repair Local Storage Initialization vs User-Owned Recovery Secret
+
+### Observed
+Review setelah perubahan canonical artifact menunjukkan `LocalBackupStorageService` masih memiliki legacy flow yang:
+- membuat recovery secret random secara otomatis;
+- membuat recovery artifact saat storage initialization;
+- memanggil codec/export contract lama.
+
+Flow tersebut bertentangan dengan decision #556/#557 bahwa recovery authority adalah password yang dipilih/diketahui user dan password tidak dibuat diam-diam oleh BaRe.
+
+### Repair
+- `initializeLocalBackupStorage()` sekarang hanya:
+  - memastikan local storage tree tersedia;
+  - menyimpan selected storage configuration.
+- Auto-generation recovery secret dihapus.
+- Auto-export recovery artifact saat storage initialization dihapus.
+- Recovery artifact sekarang tetap dibuat melalui explicit Recovery Export flow dengan password user dan canonical filename `bare-recovery.bare`.
+
+### Boundary
+Storage initialization ≠ recovery export.
+
+Dengan demikian:
+- memilih/menyiapkan `BaRe/` storage tidak otomatis membuat hidden recovery secret;
+- user secara eksplisit membuat recovery artifact melalui Recovery flow;
+- password recovery tetap user-owned;
+- shared/user-owned storage tetap terpisah dari app-private data wipe.
+
+### Verification
+- Source repair: **APPLIED**.
+- CI/build: **NOT YET OBSERVED**.
+- Runtime storage initialization + explicit recovery export: **NOT VERIFIED**.
