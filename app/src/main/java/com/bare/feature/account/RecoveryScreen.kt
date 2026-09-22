@@ -196,13 +196,21 @@ fun RecoveryScreen(
             modifier = Modifier.fillMaxWidth(),
             enabled = !busy && recoveryPasswordConfigured,
         ) {
-            Text(
-                if (selectedTreeUri == null) {
-                    stringResource(R.string.choose_recovery_folder)
-                } else {
-                    stringResource(R.string.export_recovery_package)
-                },
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Outlined.Upload, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    if (selectedTreeUri == null) {
+                        stringResource(R.string.choose_recovery_folder)
+                    } else {
+                        stringResource(R.string.export_recovery_package)
+                    },
+                )
+            }
         }
 
         Button(
@@ -218,7 +226,15 @@ fun RecoveryScreen(
             modifier = Modifier.fillMaxWidth(),
             enabled = !busy && recoveryPasswordConfigured,
         ) {
-            Text(stringResource(R.string.import_recovery_package))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Outlined.Download, contentDescription = null)
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.import_recovery_package))
+            }
         }
         Spacer(Modifier.height(4.dp))
         status?.let {
