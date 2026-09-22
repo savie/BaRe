@@ -3753,3 +3753,60 @@ Boundary Export / Import yang dipertahankan:
 
 ### Next Checkpoint
 Setelah konsolidasi dokumentasi selesai, **LANJUT/GO berikutnya kembali ke backlog engineering aktual**, dengan prioritas verification gap pada recovery (#562), bukan membuat dokumen baru.
+
+## 2026-09-22 — #564 Reconcile Worklog dengan Actual CI / Branch State
+
+### Observed / Verified
+Checkpoint #563 memiliki status CI yang sudah stale. Rekonsiliasi dilakukan terhadap actual branch state dan GitHub Actions sebelum memperbarui continuity.
+
+- Branch: `v1.0/rebaseline`.
+- Current branch HEAD saat checkpoint ini: `e913f43ee2cc0adf7d5672462576c00dfe14a722`.
+- HEAD berisi konsolidasi/deletion dokumentasi setelah implementation commits; perubahan source recovery yang relevan tetap berada di ancestry branch.
+- GitHub Actions **run #601** untuk commit `368eed21b3f1cb6da4c891f824857d3f60edb9e4`, message `fix: clarify single Advanced password recovery flow`, berstatus **completed / success**.
+- Run #601 job `build` sukses pada seluruh langkah yang relevan: checkout, Java 17, Gradle, assemble debug APK, APK verification, signing certificate verification, labeling, dan upload debug APK.
+- GitHub Actions **run #600** untuk commit `2618a927acfbb89232e3ec10e5f756659e4d37dd`, message `fix: use the configured advanced password for recovery`, berstatus **completed / failure**.
+- #600 tidak menjadi current build evidence karena commit tersebut kemudian diperbaiki oleh commit `368eed21...`, yang menghasilkan #601 success.
+- **CI/build status untuk recovery repair: VERIFIED at build level via #601.**
+- Ini **tidak** membuktikan runtime recovery, device behavior, destructive lifecycle, atau cross-device recovery.
+
+### Continuity Correction
+Pernyataan #563 bahwa “Build/CI terbaru setelah #558–#562 masih perlu diverifikasi” sekarang **ditutup sebagai verification gap CI**, bukan dihapus sebagai historical record. #563 tetap dipertahankan sebagai snapshot historis pada saat dibuat.
+
+Namespace juga ditegaskan:
+- **#562 / #563 / #564 = worklog continuity entries.**
+- **#600 / #601 = GitHub Actions workflow run numbers.**
+Keduanya tidak boleh diperlakukan sebagai sequence yang sama.
+
+### Current Recovery Verification Status
+**VERIFIED / OBSERVED**
+- Source recovery repair exists in branch ancestry.
+- CI/build succeeds on #601.
+- Debug APK berhasil di-assemble, diverifikasi, ditandatangani, dan di-upload oleh workflow #601.
+
+**NOT VERIFIED / PENDING**
+- Runtime single-password recovery end-to-end.
+- Wrong-password fail-closed runtime behavior.
+- Destructive clear-data/uninstall/reinstall recovery.
+- Same BaRe ID + Master Key continuity after destructive app-state loss.
+- Cross-device recovery.
+- Manage Space deletion boundary runtime verification.
+- BREC v3 artifact runtime/export-import verification beyond build/unit evidence.
+
+### Open Work — Reconciled
+1. **Runtime single-password recovery** remains open.
+2. **Manage Space deletion boundary** runtime verification remains open.
+3. **BREC v3 artifact/runtime verification** remains open.
+4. **Destructive uninstall/reinstall/clear-data lifecycle** remains open.
+5. **Cross-device recovery** correct/wrong-password verification remains open.
+6. **Settings Export/Import** remains future/not end-to-end.
+7. **APK/APKS Import** remains future/partial.
+8. **Cloud setup Export/Import** remains future.
+9. **Backup export/import/restore engine** remains separate and not end-to-end.
+10. **Account/Cloud provider** runtime verification remains open where applicable.
+11. **Capability matrix reconciliation** remains open until runtime/build evidence is sufficient.
+
+### Governance Note
+Worklog continuity must not use an old checkpoint as proof of current system state. For each subsequent checkpoint, actual repository/CI state must be inspected and reconciled before carrying an item forward as open.
+
+### Next
+Prioritas berikutnya kembali ke **runtime verification gap pada recovery (#562)**. Jangan menaikkan status recovery menjadi VERIFIED hanya karena #601 build success.
