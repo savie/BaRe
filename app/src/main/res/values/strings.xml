@@ -657,6 +657,7 @@
     <string name="encryption_active_password_dialog_title">Active password</string>
     <string name="encryption_old_password_dialog_title">Old password</string>
     <string name="encryption_active_password_warning">Remember this password. BaRe does not store it and cannot recover it for you.</string>
+    <string name="encryption_password_incorrect">The current password is incorrect.</string>
     <string name="encryption_password_icon">Password</string>
     <string name="save">SAVE</string>
 
