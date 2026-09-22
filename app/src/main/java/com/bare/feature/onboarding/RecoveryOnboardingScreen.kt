@@ -74,7 +74,9 @@ fun RecoveryOnboardingScreen(
                 withContext(Dispatchers.IO) {
                     masterKeyStore.saveImported(candidate.decoded.masterKey)
                     val restoredIdentity = identityStore.restoreFromRecovery(candidate.decoded.payload)
-                    recoveryPasswordStore.savePassword(password.toCharArray())
+                    if (!recoveryPasswordStore.hasPassword()) {
+                        recoveryPasswordStore.savePassword(password.toCharArray())
+                    }
                     restoredIdentity
                 }
             }.onSuccess { identity ->
@@ -102,16 +104,27 @@ fun RecoveryOnboardingScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
+                    val recoveryPassword = password.toCharArray()
+                    if (
+                        recoveryPasswordStore.hasPassword() &&
+                        !recoveryPasswordStore.verifyPassword(recoveryPassword.copyOf())
+                    ) {
+                        recoveryPassword.fill('\u0000')
+                        error(context.getString(R.string.recovery_password_incorrect))
+                    }
+
                     candidates.mapNotNull { file ->
                         runCatching {
                             DecodedCandidate(
                                 file = file,
                                 decoded = RecoveryPackageCodec.decode(
                                     file.readBytes(),
-                                    password.toCharArray(),
+                                    recoveryPassword.copyOf(),
                                 ),
                             )
                         }.getOrNull()
+                    }.also {
+                        recoveryPassword.fill('\u0000')
                     }.distinctBy { it.decoded.payload.identityId }
                 }
             }.onSuccess { matches ->
@@ -165,7 +178,7 @@ fun RecoveryOnboardingScreen(
                             status = null
                         },
                         modifier = Modifier.fillMaxWidth(),
-                        label = { Text(stringResource(R.string.advanced_password)) },
+                        label = { Text(stringResource(R.string.recovery_password)) },
                         visualTransformation = if (passwordVisible) {
                             VisualTransformation.None
                         } else {
