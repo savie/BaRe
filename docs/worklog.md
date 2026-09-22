@@ -3560,3 +3560,50 @@ Setelah implementation review, ditemukan risk pada `BaReMasterKeyStore.getOrCrea
 - Runtime verification: **NOT VERIFIED**.
 - CI run untuk commit repair belum terobservasi.
 
+
+## 2026-09-22 — #559 Canonical Recovery Artifact Name + Manage Space User-Storage Boundary
+
+### User Decision / Authorization
+Pengguna meminta dua koreksi lifecycle agar contract lebih stabil dan tidak mencampur versioning internal dengan ownership storage:
+- Nama file recovery menjadi canonical/general: `bare-recovery.bare`.
+- Versi format tetap dilacak **di dalam artifact** (saat ini BREC v3), bukan melalui perubahan nama file setiap kali format naik versi.
+- Mekanisme **Manage Space → Delete all data** tidak boleh menghapus storage `BaRe/` yang berada di shared/user-owned storage.
+- Delete-all harus mengikuti boundary app-uninstall/app-private data: private app data dan app-specific external storage, bukan shared/user-owned backup/recovery storage.
+- Skenario format storage tetap merupakan operasi storage-level terpisah dan bukan semantic dari Manage Space → Delete all data.
+
+### Implementation
+- Default filename pada `RecoveryArtifactRepository` diubah dari `bare-recovery-v3.bare` menjadi **`bare-recovery.bare`** pada seluruh export overload.
+- Export-to-file overload diselaraskan dengan contract BREC v3 dan sekarang menerima `masterKey`; ini menghilangkan stale call ke codec API lama.
+- `BackupStorageRepository.hasDurableLocalState()` diselaraskan ke canonical `bare-recovery.bare`.
+- Operasi `deleteAllLocalData()` yang sebelumnya dapat menghapus `BaRe/accounts/<identity>` di shared storage dihapus dari repository agar boundary tersebut tidak lagi tersedia sebagai delete-all operation.
+- Manage Space → Delete all data sekarang hanya menjalankan cleanup app-private state:
+  - `bare_identity`
+  - `bare_settings`
+  - `bare_storage`
+  - internal app files/cache/code-cache/no-backup
+  - app databases
+  - app-specific external files/cache (`getExternalFilesDirs()` / `externalCacheDirs`, yaitu scope app-specific external storage)
+- Shared/user-owned `BaRe/` storage, termasuk backup/recovery artifact, tidak disentuh oleh Delete all data.
+- Action **Delete backup files** tetap merupakan explicit user action yang terpisah dan tetap menargetkan backup storage saja; recovery package tetap dipertahankan.
+
+### Semantic Boundary
+- **Canonical filename:** `bare-recovery.bare`
+- **Format version:** BREC internal version (current **v3**)
+- **App-private reset:** data owned by the installed BaRe app and equivalent app-specific storage scope
+- **User-owned storage:** shared `BaRe/` backup/recovery artifacts survive Manage Space → Delete all data
+- **Storage format/reset:** separate storage-level operation, not implied by Manage Space
+
+### Verification Status
+- Source changes: **APPLIED** on `v1.0/rebaseline`.
+- GitHub CI/build: **NOT YET OBSERVED** after these latest changes.
+- Device/runtime Manage Space deletion boundary: **NOT VERIFIED**.
+- Runtime confirmation that `bare-recovery.bare` is exported/imported successfully with BREC v3: **NOT VERIFIED**.
+
+### Next
+Build/CI verification, then runtime test at minimum:
+1. Create/export `bare-recovery.bare` and inspect that the envelope reports BREC v3 through the codec/test path.
+2. Place backup/recovery artifacts under shared `BaRe/` storage.
+3. Run Manage Space → Delete all data.
+4. Verify private identity/settings/app-specific data is removed.
+5. Verify shared `BaRe/` backup and recovery artifacts remain untouched.
+6. Separately test actual uninstall/reinstall and storage-format scenarios.
