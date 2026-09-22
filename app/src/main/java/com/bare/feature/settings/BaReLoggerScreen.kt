@@ -25,7 +25,7 @@ fun BaReLoggerScreen(onBack: () -> Unit) {
     var entries by remember { mutableStateOf(logger.load()) }
     Scaffold(topBar = {
         TopAppBar(
-            title = { Column { Text(stringResource(R.string.settings_bare_logger)); Text(stringResource(R.string.settings_swift_logger_subtitle), style = MaterialTheme.typography.bodySmall) } },
+            title = { Column { Text(stringResource(R.string.settings_bare_logger)); Text(stringResource(R.string.settings_bare_logger_subtitle), style = MaterialTheme.typography.bodySmall) } },
             navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Outlined.ArrowBack, stringResource(R.string.back)) } },
             actions = { IconButton(onClick = { logger.clear(); entries = emptyList() }) { Icon(Icons.Outlined.Delete, stringResource(R.string.clear_logs)) } },
         )
