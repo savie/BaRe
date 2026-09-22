@@ -12,6 +12,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.drawscope.clipRect
+import androidx.compose.ui.draw.drawWithContent
+import kotlinx.coroutines.delay
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Info
@@ -47,6 +51,58 @@ import kotlinx.coroutines.launch
 
 private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
+@Composable
+fun StartupSplash(onFinished: () -> Unit) {
+    var reveal by remember { mutableFloatStateOf(0f) }
+    var wordmarkVisible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) {
+        androidx.compose.animation.core.animate(
+            initialValue = 0f,
+            targetValue = 1f,
+            animationSpec = androidx.compose.animation.core.tween(900, easing = androidx.compose.animation.core.FastOutSlowInEasing),
+        ) { value, _ -> reveal = value }
+        wordmarkVisible = true
+        delay(260)
+        onFinished()
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Image(
+            painter = painterResource(R.drawable.bare_logo),
+            contentDescription = stringResource(R.string.app_name),
+            modifier = Modifier
+                .size(210.dp)
+                .scale(0.94f + (0.06f * reveal))
+                .drawWithContent {
+                    clipRect(right = size.width * reveal) { this@drawWithContent.drawContent() }
+                },
+            contentScale = ContentScale.Fit,
+        )
+        Spacer(Modifier.height(24.dp))
+        androidx.compose.animation.AnimatedVisibility(visible = wordmarkVisible) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+                    fontWeight = FontWeight.Medium,
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.brand_tagline),
+                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+                    fontWeight = FontWeight.Light,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun WelcomeScreen(onSelectIdentity: (IdentityType) -> Unit) {
     Column(
