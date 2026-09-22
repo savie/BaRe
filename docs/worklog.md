@@ -3425,3 +3425,66 @@ Keduanya tetap dua lifecycle domain. Yang disatukan adalah **master-key strategy
 - Tentukan exact BREC v3 envelope/schema dan key hierarchy.
 - Tentukan policy Standard → Advanced untuk LOCAL portable recovery.
 - Setelah decision/authorization final, implementasikan recovery dan backup terhadap shared master-key strategy secara bertahap dan verifikasi destructive lifecycle secara runtime.
+
+## 2026-09-22 — #556 User-Owned Password as LOCAL Recovery Authority
+
+### User Decision / Authorization
+Pengguna mengotorisasi arah recovery berikut untuk dieksekusi sebagai keputusan lifecycle dan security boundary:
+- Password recovery **dipilih dan diketahui oleh user**.
+- BaRe tidak membuat password recovery tersembunyi yang tidak pernah diketahui user sebagai satu-satunya recovery authority.
+- Password **tidak disimpan plaintext** di artifact .bare maupun sebagai secret recovery yang diam-diam bergantung pada device.
+- User bertanggung jawab menyimpan/mengingat password; lupa password berarti tidak ada fallback tersembunyi yang membypass cryptographic recovery boundary.
+- Password tidak perlu dibuat dengan policy khusus di luar praktik password umum; strength password tetap memengaruhi resistance terhadap password guessing.
+- Tujuan utamanya adalah portable LOCAL identity continuity: .bare + password yang benar dapat digunakan untuk recover BaRe ID yang sama pada device yang sama maupun device lain setelah private app state hilang.
+
+### Clarified Recovery Model
+Model semantic yang dibekukan untuk implementasi berikutnya:
+```
+User Password
+      |
+      v
+Key Derivation / Unlock
+      |
+      v
+BaRe Master Key / Recovery Key Material
+      |
+      +--> BaRe ID Lifecycle
+      |
+      +--> Backup Lifecycle
+```
+
+Device bukan authority identity. Device hanya menjadi execution environment dan dapat memiliki local cached protection melalui Android Keystore tanpa menjadi satu-satunya source of truth untuk portable recovery.
+
+### Recovery Expectations
+- Same device + valid .bare + correct password → same BaRe ID.
+- New device + valid .bare + correct password → same BaRe ID.
+- Cleared/uninstalled/formatted app state + surviving external recovery artifact + correct password → same BaRe ID.
+- .bare + wrong password → recovery denied / fail closed.
+- .bare without password → recovery denied.
+- Existing conflicting LOCAL identity must not be silently overwritten.
+- Password itself must not be recoverable from the artifact.
+- The artifact must not require the original physical device as an implicit cryptographic authority.
+
+### Important Security Boundary
+Password strength is part of the effective recovery security. KDF/encryption protects the artifact cryptographically, tetapi weak/common user passwords remain vulnerable to password-guessing attempts. BaRe may communicate password strength and consequences, but the recovery model does not depend on an application-generated secret that the user never knew.
+
+### Scope / Implementation Boundary
+Entry ini **membekukan decision/requirement**, bukan klaim bahwa BREC v2 saat ini sudah memenuhi model tersebut.
+
+Current implementation gaps remain:
+- BREC v2 masih menggunakan current PBKDF2-HMAC-SHA256 → AES-256-GCM envelope.
+- identityId masih dapat dibaca dari bootstrap header melalui peekIdentity() sebelum password verification.
+- LocalIdentityStore.loadOrRecover() masih memiliki jalur bootstrap sebelum cryptographic recovery verification.
+- EncryptionPasswordStore belum menjadi recovery authority dan belum terintegrasi dengan backup engine.
+- Exact BREC v3/master-key envelope dan Standard → Advanced policy masih perlu diimplementasikan dan diverifikasi.
+
+### Verification Status
+- Decision/requirement: **AUTHORIZED / RECORDED**.
+- Current implementation satisfying this model: **NOT VERIFIED**.
+- Destructive recovery runtime journey: **PENDING**.
+- Cross-device correct-password recovery: **PENDING**.
+- Cross-device wrong-password rejection: **PENDING**.
+
+### Next
+Implementasikan contract master-key/password recovery secara bertahap setelah exact envelope/schema ditentukan; kemudian lakukan unit/integration test dan runtime destructive lifecycle verification. Jangan menaikkan status menjadi VERIFIED hanya berdasarkan keberhasilan decrypt unit test.
+
