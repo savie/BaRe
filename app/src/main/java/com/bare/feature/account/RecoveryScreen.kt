@@ -333,17 +333,20 @@ private fun RecoveryPasswordDialog(
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
-    var currentVisible by remember { mutableStateOf(false) }
-    var newVisible by remember { mutableStateOf(false) }
-    var confirmationVisible by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        icon = { Icon(Icons.Outlined.Lock, contentDescription = stringResource(R.string.recovery_password_icon)) },
+        icon = {
+            Icon(
+                Icons.Outlined.Lock,
+                contentDescription = stringResource(R.string.recovery_password_icon),
+            )
+        },
         title = {
             Text(
                 stringResource(
-                    if (configured) R.string.change_recovery_password else R.string.set_recovery_password,
+                    if (configured) R.string.change_recovery_password
+                    else R.string.set_recovery_password,
                 ),
             )
         },
@@ -355,17 +358,7 @@ private fun RecoveryPasswordDialog(
                         onValueChange = { currentPassword = it },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.current_password)) },
-                        visualTransformation = if (currentVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                        trailingIcon = {
-                            IconButton(onClick = { currentVisible = !currentVisible }) {
-                                Icon(
-                                    if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                    contentDescription = stringResource(
-                                        if (currentVisible) R.string.hide_password else R.string.show_password,
-                                    ),
-                                )
-                            }
-                        },
+                        visualTransformation = PasswordVisualTransformation(),
                         singleLine = true,
                     )
                 }
@@ -374,17 +367,7 @@ private fun RecoveryPasswordDialog(
                     onValueChange = { newPassword = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.new_password)) },
-                    visualTransformation = if (newVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { newVisible = !newVisible }) {
-                            Icon(
-                                if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                contentDescription = stringResource(
-                                    if (newVisible) R.string.hide_password else R.string.show_password,
-                                ),
-                            )
-                        }
-                    },
+                    visualTransformation = PasswordVisualTransformation(),
                     singleLine = true,
                 )
                 OutlinedTextField(
@@ -392,17 +375,7 @@ private fun RecoveryPasswordDialog(
                     onValueChange = { confirmation = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.confirm_password)) },
-                    visualTransformation = if (confirmationVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    trailingIcon = {
-                        IconButton(onClick = { confirmationVisible = !confirmationVisible }) {
-                            Icon(
-                                if (confirmationVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                contentDescription = stringResource(
-                                    if (confirmationVisible) R.string.hide_password else R.string.show_password,
-                                ),
-                            }
-                        },
-                    },
+                    visualTransformation = PasswordVisualTransformation(),
                     singleLine = true,
                 )
             }
@@ -417,7 +390,10 @@ private fun RecoveryPasswordDialog(
                             confirmation.toCharArray(),
                         )
                     } else {
-                        onSet(newPassword.toCharArray(), confirmation.toCharArray())
+                        onSet(
+                            newPassword.toCharArray(),
+                            confirmation.toCharArray(),
+                        )
                     }
                     currentPassword = ""
                     newPassword = ""
