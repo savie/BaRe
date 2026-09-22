@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -16,10 +15,8 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Upload
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,6 +53,7 @@ fun RecoveryScreen(
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
+    val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val repository = remember(context) { RecoveryArtifactRepository(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
     val storageRepository = remember(context) { BackupStorageRepository(context) }
@@ -65,9 +63,13 @@ fun RecoveryScreen(
     var password by remember { mutableStateOf("") }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
-    var passwordVisible by remember { mutableStateOf(false) }
     var passwordDialogOpen by remember { mutableStateOf(false) }
-    var passwordConfigured by remember { mutableStateOf(true) }
+    var passwordConfigured by remember { mutableStateOf(recoveryPasswordStore.hasPassword()) }
+
+    fun passwordMatchesConfigured(): Boolean {
+        if (!recoveryPasswordStore.hasPassword()) return true
+        return recoveryPasswordStore.verifyPassword(password.toCharArray())
+    }
 
     val importPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
@@ -78,17 +80,24 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (password.isBlank()) error(context.getString(R.string.enter_advanced_password_first))
+                    if (password.isBlank()) error(context.getString(R.string.enter_recovery_password_first))
+                    if (!passwordMatchesConfigured()) {
+                        error(context.getString(R.string.recovery_password_incorrect))
+                    }
                     val decoded = repository.import(uri, password.toCharArray())
                     if (identityStore.hasConflictingIdentity(decoded.payload)) {
                         error(context.getString(R.string.recovery_identity_conflict))
                     }
                     masterKeyStore.saveImported(decoded.masterKey)
                     identityStore.restoreFromRecovery(decoded.payload)
+                    if (!recoveryPasswordStore.hasPassword()) {
+                        recoveryPasswordStore.savePassword(password.toCharArray())
+                    }
                 }
             }.onSuccess { identity ->
                 busy = false
                 password = ""
+                passwordConfigured = recoveryPasswordStore.hasPassword()
                 status = context.getString(R.string.recovery_identity_restored)
                 onRecovered(identity)
             }.onFailure { error ->
@@ -103,7 +112,13 @@ fun RecoveryScreen(
 
     fun exportRecovery() {
         if (password.isBlank()) {
-            status = context.getString(R.string.enter_advanced_password_first)
+            status = context.getString(R.string.enter_recovery_password_first)
+            passwordDialogOpen = true
+            return
+        }
+        if (!passwordMatchesConfigured()) {
+            status = context.getString(R.string.recovery_password_incorrect)
+            password = ""
             passwordDialogOpen = true
             return
         }
@@ -128,6 +143,7 @@ fun RecoveryScreen(
             }.onSuccess {
                 busy = false
                 password = ""
+                passwordConfigured = recoveryPasswordStore.hasPassword()
                 status = context.getString(R.string.recovery_package_exported)
             }.onFailure { error ->
                 busy = false
@@ -163,9 +179,7 @@ fun RecoveryScreen(
                 style = MaterialTheme.typography.bodyLarge,
             )
 
-            androidx.compose.material3.Card(
-                modifier = Modifier.fillMaxWidth(),
-            ) {
+            Card(modifier = Modifier.fillMaxWidth()) {
                 Column(
                     modifier = Modifier.padding(18.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -179,7 +193,13 @@ fun RecoveryScreen(
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             Text(
-                                stringResource(if (passwordConfigured) R.string.recovery_password_status_configured else R.string.recovery_password_status_missing),
+                                stringResource(
+                                    if (passwordConfigured) {
+                                        R.string.recovery_password_status_configured
+                                    } else {
+                                        R.string.recovery_password_status_missing
+                                    },
+                                ),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -188,16 +208,20 @@ fun RecoveryScreen(
                             onClick = { passwordDialogOpen = true },
                             enabled = !busy,
                         ) {
-                            Text(stringResource(if (passwordConfigured) R.string.change_password else R.string.set_password))
+                            Text(
+                                stringResource(
+                                    if (passwordConfigured) R.string.change_password else R.string.set_password,
+                                ),
+                            )
                         }
                     }
                 }
             }
 
-            androidx.compose.material3.Card(
+            Card(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = ::exportRecovery,
-                enabled = !busy,
+                enabled = !busy && passwordConfigured,
             ) {
                 Column(
                     modifier = Modifier.padding(20.dp),
@@ -219,7 +243,7 @@ fun RecoveryScreen(
                 }
             }
 
-            androidx.compose.material3.Card(
+            Card(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     if (password.isBlank()) {
@@ -258,10 +282,39 @@ fun RecoveryScreen(
 
     if (passwordDialogOpen) {
         RecoveryPasswordDialog(
-            configured = recoveryPasswordConfigured,
+            configured = passwordConfigured,
             onDismiss = { passwordDialogOpen = false },
-            onSet = ::saveRecoveryPassword,
-            onChange = ::changeRecoveryPassword,
+            onSet = { newPassword, confirmation ->
+                if (!newPassword.contentEquals(confirmation)) {
+                    newPassword.fill('\\u0000')
+                    confirmation.fill('\\u0000')
+                    status = context.getString(R.string.passwords_do_not_match)
+                    return@RecoveryPasswordDialog
+                }
+                recoveryPasswordStore.savePassword(newPassword)
+                confirmation.fill('\\u0000')
+                passwordConfigured = true
+                passwordDialogOpen = false
+                status = context.getString(R.string.recovery_password_configured)
+            },
+            onChange = { currentPassword, newPassword, confirmation ->
+                if (!newPassword.contentEquals(confirmation)) {
+                    currentPassword.fill('\\u0000')
+                    newPassword.fill('\\u0000')
+                    confirmation.fill('\\u0000')
+                    status = context.getString(R.string.passwords_do_not_match)
+                    return@RecoveryPasswordDialog
+                }
+                if (!recoveryPasswordStore.changePassword(currentPassword, newPassword)) {
+                    confirmation.fill('\\u0000')
+                    status = context.getString(R.string.recovery_password_incorrect)
+                    return@RecoveryPasswordDialog
+                }
+                confirmation.fill('\\u0000')
+                passwordConfigured = true
+                passwordDialogOpen = false
+                status = context.getString(R.string.recovery_password_configured)
+            },
         )
     }
 }
@@ -286,11 +339,7 @@ private fun RecoveryPasswordDialog(
         title = {
             Text(
                 stringResource(
-                    if (configured) {
-                        R.string.change_recovery_password
-                    } else {
-                        R.string.set_recovery_password
-                    },
+                    if (configured) R.string.change_recovery_password else R.string.set_recovery_password,
                 ),
             )
         },
@@ -347,8 +396,8 @@ private fun RecoveryPasswordDialog(
                                 contentDescription = stringResource(
                                     if (confirmationVisible) R.string.hide_password else R.string.show_password,
                                 ),
-                            )
-                        }
+                            }
+                        },
                     },
                     singleLine = true,
                 )
