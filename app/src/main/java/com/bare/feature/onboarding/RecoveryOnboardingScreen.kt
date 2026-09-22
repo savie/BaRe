@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -19,9 +22,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
@@ -130,18 +139,18 @@ fun RecoveryOnboardingScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(Modifier.height(28.dp))
-        androidx.compose.foundation.Image(
-            painter = androidx.compose.ui.res.painterResource(R.drawable.bare_logo),
+        Image(
+            painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
             modifier = Modifier.size(210.dp).offset(x = 25.dp),
-            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+            contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.app_name),
             style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
         )
         Spacer(Modifier.height(8.dp))
         Text(
