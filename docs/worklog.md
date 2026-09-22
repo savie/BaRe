@@ -3639,3 +3639,22 @@ Dengan demikian:
 - Source repair: **APPLIED**.
 - CI/build: **NOT YET OBSERVED**.
 - Runtime storage initialization + explicit recovery export: **NOT VERIFIED**.
+
+## 2026-09-22 — #561 Repair RecoveryScreen Compile Error
+
+### Observed
+CI/build failed at `RecoveryScreen.kt:90:29`:
+`Argument type mismatch: actual type is 'kotlin.Unit', but 'com.bare.app.BaReIdentity' was expected.`
+
+### Root Cause
+The import `runCatching { ... }` block performed `restoreFromRecovery()` but did not return its result. Kotlin therefore inferred the block result as `Unit`, while `onSuccess` expects the recovered `BaReIdentity` for `onRecovered(identity)`.
+
+### Repair
+- Capture the result of `identityStore.restoreFromRecovery(decoded.payload)` into `restoredIdentity`.
+- Return `restoredIdentity` as the final expression of the recovery operation.
+- No recovery/security/storage semantics were changed; this is a compile-correctness repair only.
+
+### Verification
+- Source repair: **APPLIED**.
+- Expected compiler mismatch addressed directly.
+- CI/build after repair: **NOT YET OBSERVED**.
