@@ -346,6 +346,10 @@ private fun MainShell(
                 onOpenUserPassword = { onOpenScreen(Screen.USER_PASSWORD) },
             )
             Screen.USER_PASSWORD -> UserPasswordScreen(onBack = onBack)
+            Screen.BARE_LABS -> BaReLabsScreen(onBack = onBack, onOpen = onOpenScreen)
+            Screen.BARE_LOGGER -> BaReLoggerScreen(onBack = onBack)
+            Screen.APP_VISIBILITY_DIAGNOSTICS -> AppVisibilityDiagnosticsScreen(onBack = onBack)
+            Screen.LOCAL_BACKUP_SCAN -> LocalBackupScanScreen(identityId = identityId, onBack = onBack)
             else -> MiscScreen(
                 screen = screen,
                 identityId = identityId,
