@@ -3488,3 +3488,60 @@ Current implementation gaps remain:
 ### Next
 Implementasikan contract master-key/password recovery secara bertahap setelah exact envelope/schema ditentukan; kemudian lakukan unit/integration test dan runtime destructive lifecycle verification. Jangan menaikkan status menjadi VERIFIED hanya berdasarkan keberhasilan decrypt unit test.
 
+## 2026-09-22 — #557 Implement Portable Password-Gated LOCAL Recovery
+
+### User Authorization
+Pengguna mengubah status dari discussion menjadi **GO** dan mengotorisasi implementasi recovery berdasarkan model user-owned password yang dicatat pada #556, termasuk penerapan pada jalur Export/Import recovery dan integrasi dengan Encryption Password Strategy yang sudah ada di Settings.
+
+### Implementation
+- Menambahkan `BaReMasterKeyStore` untuk menghasilkan dan menyimpan **BaRe Master Key 256-bit** secara lokal dengan Android Keystore protection.
+- Password user **tidak disimpan**. Settings hanya menyimpan strategy dan non-secret marker bahwa user sudah mengonfigurasi password.
+- Mengubah `RecoveryPackageCodec` menjadi **BREC v3**:
+  - PBKDF2-HMAC-SHA256, 310k iterations;
+  - random 16-byte salt;
+  - random 12-byte GCM nonce;
+  - AES-256-GCM authenticated encryption;
+  - seluruh recovery payload, termasuk `identityId` dan 256-bit BaRe Master Key, berada di encrypted payload;
+  - tidak lagi menyediakan `peekIdentity()` plaintext bootstrap path.
+- Mengubah recovery artifact menjadi `bare-recovery-v3.bare`.
+- Export sekarang mengenkripsi portable recovery envelope menggunakan password yang dimasukkan user dan membungkus Master Key di dalam artifact.
+- Import melakukan password verification/decryption terlebih dahulu, menolak wrong password/tampering, memulihkan Master Key, lalu memulihkan LOCAL identity.
+- Existing conflicting LOCAL identity tetap ditolak sebelum recovery diterapkan.
+- Portable Import tidak bergantung pada local Settings state yang hilang akibat clear data/uninstall; setelah successful import, local strategy dikembalikan ke Advanced sebagai state konfigurasi non-secret.
+- `LocalIdentityStore.loadOrRecover()` tidak lagi melakukan bootstrap identity dari artifact tanpa password.
+- Encryption Password Settings tidak lagi menyimpan active/old password material di Android Keystore. Ini sengaja diubah agar sesuai dengan requirement: password user tidak disimpan oleh BaRe.
+- Standard tetap tersedia sebagai local backup strategy, tetapi **portable LOCAL recovery export memerlukan Advanced + configured user password**.
+
+### Compatibility Boundary
+- BREC v2 artifact lama tidak dianggap portable-recovery-complete karena format tersebut tidak membawa portable BaRe Master Key.
+- BREC v2 import sekarang fail-closed dengan pesan bahwa artifact harus diekspor ulang menggunakan format baru.
+- Ini berarti artifact v2 lama belum dapat dipakai untuk recovery portable berbasis Master Key; migration path runtime belum diverifikasi.
+
+### Verification Added
+Unit coverage diperbarui untuk memverifikasi:
+- BREC version 3;
+- payload + Master Key round-trip;
+- wrong password rejection;
+- ciphertext tampering rejection;
+- identity tidak muncul sebagai plaintext byte sequence pada envelope;
+- legacy v2 portable recovery rejection.
+
+### Verification Status
+- Source changes: **APPLIED** on `v1.0/rebaseline`.
+- GitHub workflow run for latest implementation commit: **NOT YET OBSERVED** at worklog update time.
+- Local Gradle execution: **BLOCKED** karena environment ini tidak memiliki source checkout/Gradle wrapper dan network DNS tidak tersedia untuk cloning repository.
+- Device/runtime destructive recovery: **NOT VERIFIED**.
+- Cross-device correct-password recovery: **NOT VERIFIED**.
+- Cross-device wrong-password rejection: **NOT VERIFIED**.
+
+### Next
+Run CI/build against the implementation commit, then perform controlled runtime verification:
+1. Advanced + user password setup.
+2. Export `bare-recovery-v3.bare`.
+3. Verify artifact survives private app-data loss.
+4. Clear/uninstall/reinstall.
+5. Import artifact with wrong password → must fail without creating/replacing identity.
+6. Import with correct password → same BaRe ID + Master Key restored.
+7. Repeat on a different device/environment.
+8. Only after evidence is collected, update status to VERIFIED.
+
