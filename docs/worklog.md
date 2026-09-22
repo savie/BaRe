@@ -3265,3 +3265,44 @@ Existing Settings entries retained, including BaRe-specific:
 ### Verification
 - Source change applied to v1.0/rebaseline.
 - CI/build after #552: **PENDING**.
+
+
+## 2026-09-22 — #553 BaRe Labs and Logger Reference Flow
+
+### User Decision
+- Continue the reference Settings diagnostic/tool flow first.
+- Adapt all reference branding to BaRe; do not expose Swift branding in BaRe UI.
+- `Swift Labs` becomes **BaRe Labs**.
+- `SwiftLogger` becomes **BaRe Logger**.
+- Keep the reference capability shape, but do not claim unsupported mechanisms are implemented.
+
+### Implemented
+- Added BaRe Labs screen with reference-derived entries:
+  - Extra logging
+  - Skip space checks
+  - Extend schedule dataSync timeout
+  - Delete GMS files of apps
+  - App visibility diagnostics
+  - Scan local app backups
+- Added BaRe Logger screen with:
+  - persisted application diagnostic log entries;
+  - clear logs;
+  - share logs.
+- Added app visibility diagnostics using the Android PackageManager visible-application surface.
+- Added local backup scan using BaRe's existing BackupStorageRepository locations.
+- Added screen-open logging for BaRe navigation.
+
+### Safety / Implementation Boundary
+- Delete GMS files remains disabled because destructive GMS-file deletion has no verified BaRe implementation contract yet.
+- The three Labs switches currently persist their experimental state only; they are **not claimed as connected to backup/runtime mechanisms** until those mechanisms are implemented and verified.
+- App visibility diagnostics and local backup scan are real read-only diagnostics.
+- BaRe Logger is a BaRe-native diagnostic store; it is not a copy of SwiftLogger implementation.
+
+### Branding
+- No new UI surface uses Swift Labs / SwiftLogger branding.
+- Resource keys were renamed to BaRe-specific names as well.
+
+### Verification
+- Source/resource references checked after changes.
+- New flow implementation: **APPLIED**.
+- CI/build after #553: **PENDING**.
