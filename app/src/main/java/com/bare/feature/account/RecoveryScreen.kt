@@ -66,11 +66,12 @@ fun RecoveryScreen(
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
     var passwordDialogOpen by remember { mutableStateOf(false) }
+    var passwordEntryAction by remember { mutableStateOf<String?>(null) }
     var passwordConfigured by remember { mutableStateOf(recoveryPasswordStore.hasPassword()) }
 
-    fun passwordMatchesConfigured(): Boolean {
+    fun passwordMatchesConfigured(candidate: String = password): Boolean {
         if (!recoveryPasswordStore.hasPassword()) return true
-        return recoveryPasswordStore.verifyPassword(password.toCharArray())
+        return recoveryPasswordStore.verifyPassword(candidate.toCharArray())
     }
 
     val importPicker = rememberLauncherForActivityResult(
@@ -114,16 +115,17 @@ fun RecoveryScreen(
         }
     }
 
-    fun exportRecovery() {
-        if (password.isBlank()) {
+    fun exportRecovery(passwordOverride: String? = null) {
+        val candidate = passwordOverride ?: password
+        if (candidate.isBlank()) {
             status = context.getString(R.string.enter_recovery_password_first)
-            passwordDialogOpen = true
+            passwordEntryAction = "export"
             return
         }
-        if (!passwordMatchesConfigured()) {
+        if (!passwordMatchesConfigured(candidate)) {
             status = context.getString(R.string.recovery_password_incorrect)
             password = ""
-            passwordDialogOpen = true
+            passwordEntryAction = "export"
             return
         }
 
@@ -141,7 +143,7 @@ fun RecoveryScreen(
                         directory = recoveryDirectory,
                         payload = payload,
                         masterKey = masterKeyStore.getOrCreate(),
-                        password = password.toCharArray(),
+                        password = candidate.toCharArray(),
                     )
                 }
             }.onSuccess {
@@ -251,7 +253,7 @@ fun RecoveryScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     if (password.isBlank()) {
-                        passwordDialogOpen = true
+                        passwordEntryAction = "import"
                     } else {
                         importPicker.launch(arrayOf("application/octet-stream", "*/*"))
                     }
@@ -282,6 +284,22 @@ fun RecoveryScreen(
                 Text(it, style = MaterialTheme.typography.bodyMedium)
             }
         }
+    }
+
+    if (passwordEntryAction != null) {
+        RecoveryPasswordEntryDialog(
+            onDismiss = { passwordEntryAction = null },
+            onSubmit = { enteredPassword ->
+                val action = passwordEntryAction
+                password = enteredPassword
+                passwordEntryAction = null
+                if (action == "import") {
+                    importPicker.launch(arrayOf("application/octet-stream", "*/*"))
+                } else if (action == "export") {
+                    exportRecovery(enteredPassword)
+                }
+            },
+        )
     }
 
     if (passwordDialogOpen) {
@@ -324,6 +342,61 @@ fun RecoveryScreen(
 }
 
 @Composable
+private fun RecoveryPasswordEntryDialog(
+    onDismiss: () -> Unit,
+    onSubmit: (String) -> Unit,
+) {
+    var password by remember { mutableStateOf("") }
+    var visible by remember { mutableStateOf(false) }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                Icons.Outlined.Lock,
+                contentDescription = stringResource(R.string.recovery_password_icon),
+            )
+        },
+        title = {
+            Text(stringResource(R.string.recovery_password))
+        },
+        text = {
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.recovery_password)) },
+                visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(onClick = { visible = !visible }) {
+                        Icon(
+                            if (visible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                            contentDescription = stringResource(
+                                if (visible) R.string.hide_password else R.string.show_password,
+                            ),
+                        )
+                    }
+                },
+                singleLine = true,
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = { onSubmit(password) },
+                enabled = password.isNotEmpty(),
+            ) {
+                Text(stringResource(R.string.continue_label))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        },
+    )
+}
+
+@Composable
 private fun RecoveryPasswordDialog(
     configured: Boolean,
     onDismiss: () -> Unit,
@@ -333,6 +406,9 @@ private fun RecoveryPasswordDialog(
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
+    var currentVisible by remember { mutableStateOf(false) }
+    var newVisible by remember { mutableStateOf(false) }
+    var confirmationVisible by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -358,7 +434,17 @@ private fun RecoveryPasswordDialog(
                         onValueChange = { currentPassword = it },
                         modifier = Modifier.fillMaxWidth(),
                         label = { Text(stringResource(R.string.current_password)) },
-                        visualTransformation = PasswordVisualTransformation(),
+                        visualTransformation = if (currentVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { currentVisible = !currentVisible }) {
+                                Icon(
+                                    if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                    contentDescription = stringResource(
+                                        if (currentVisible) R.string.hide_password else R.string.show_password,
+                                    ),
+                                )
+                            }
+                        },
                         singleLine = true,
                     )
                 }
@@ -367,7 +453,17 @@ private fun RecoveryPasswordDialog(
                     onValueChange = { newPassword = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.new_password)) },
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (newVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { newVisible = !newVisible }) {
+                            Icon(
+                                if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = stringResource(
+                                    if (newVisible) R.string.hide_password else R.string.show_password,
+                                ),
+                            )
+                        }
+                    },
                     singleLine = true,
                 )
                 OutlinedTextField(
@@ -375,7 +471,17 @@ private fun RecoveryPasswordDialog(
                     onValueChange = { confirmation = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.confirm_password)) },
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (confirmationVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { confirmationVisible = !confirmationVisible }) {
+                            Icon(
+                                if (confirmationVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                contentDescription = stringResource(
+                                    if (confirmationVisible) R.string.hide_password else R.string.show_password,
+                                ),
+                            )
+                        }
+                    },
                     singleLine = true,
                 )
             }
