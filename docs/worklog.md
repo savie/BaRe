@@ -3693,3 +3693,63 @@ This demonstrated that the current Recovery screen treated its password as a sep
 4. Import with **A** → expected success.
 5. Import with **B** → expected failure.
 6. After destructive app-data loss, import the same artifact with **A** → expected same BaRe ID + Master Key continuity.
+
+## 2026-09-22 — #563 Konsolidasi Export / Import Capability Map ke Worklog
+
+### User Decision / Authorization
+Pengguna memberikan **GO** untuk menyelesaikan urusan worklog: informasi dari `docs/export_import_capability_map.md` yang merupakan continuity/decision/implementation-boundary dipindahkan ke worklog agar tidak ada sumber continuity yang terputus.
+
+### Keputusan Dokumentasi
+- `docs/worklog.md` tetap menjadi **satu canonical continuity record** BaRe.
+- **Tidak membuat `worklog2.md`** pada kondisi saat ini. Worklog memang besar, tetapi pemecahan menjadi dua canonical worklog akan menambah ambiguity terhadap checkpoint.
+- `docs/export_import_capability_map.md` tidak dipertahankan sebagai dokumen canonical terpisah karena isinya tidak memiliki authority lifecycle yang berbeda dari product/architecture/capability matrix dan worklog.
+- Setelah konsolidasi, struktur technical documentation kembali sesuai README: `product.md`, `architecture.md`, `capability_matrix.md`, `reference.md`, dan `worklog.md`.
+- `reference.md` tetap menjadi reference/discovery evidence; worklog menjadi continuity record; product/architecture/capability matrix tetap menjadi canonical technical/product documents.
+
+### Isi Capability Map yang Dikonsolidasikan
+Boundary Export / Import yang dipertahankan:
+- **Local BaRe Identity**
+  - Export → `bare-recovery.bare`
+  - Import ← `bare-recovery.bare`
+  - Artifact ini adalah identity-continuity/recovery artifact, bukan backup data dan bukan settings export.
+- **Settings export/import** tetap future capability sampai artifact workflow dan contract benar-benar tersedia.
+- **APK/APKS import/share** tetap future/partial capability dan tidak boleh disamakan dengan backup restore.
+- **Cloud setup export/import** tetap future dan bergantung pada account/cloud lifecycle.
+- **Backup export/import/restore** tetap lifecycle terpisah dari Local BaRe Identity.
+- App configuration transfer dan management metadata export/import tidak ditambahkan tanpa contract yang jelas.
+- Menu Export / Import adalah **entry point**, bukan lifecycle tunggal; hanya capability yang benar-benar tersedia yang boleh masuk executable path.
+
+### Current Recovery Boundary yang Tetap Canonical
+- Canonical artifact filename: `bare-recovery.bare`.
+- Internal format version: **BREC v3**.
+- Portable LOCAL recovery menggunakan **Advanced password yang sama**, bukan password recovery kedua.
+- Recovery artifact tidak boleh diperlakukan sebagai backup archive.
+- Manage Space → Delete all data tidak boleh menghapus shared/user-owned `BaRe/` recovery/backup storage.
+- Storage initialization tidak otomatis membuat hidden recovery secret atau recovery artifact.
+- Recovery tetap explicit user action.
+
+### Open Work yang Dibawa ke Continuity
+1. **Build/CI terbaru** setelah #558–#562 masih perlu diverifikasi.
+2. **Runtime single-password recovery**:
+   - Advanced password A → export `bare-recovery.bare`;
+   - import dengan A → success;
+   - import dengan B → fail closed;
+   - setelah destructive app-data loss → import dengan A → same BaRe ID + Master Key continuity.
+3. **Manage Space deletion boundary** perlu runtime verification: app-private/app-specific state terhapus, shared/user-owned `BaRe/` artifacts tetap ada.
+4. **BREC v3 artifact/runtime verification** perlu membuktikan export/import aktual, bukan hanya unit/compile evidence.
+5. **Destructive uninstall/reinstall/clear-data lifecycle** perlu diverifikasi.
+6. **Cross-device recovery** dengan correct password dan wrong password perlu diverifikasi.
+7. **Settings Export/Import** belum diimplementasikan end-to-end.
+8. **APK/APKS Import** belum lengkap sebagai workflow produk.
+9. **Cloud setup Export/Import** belum diimplementasikan.
+10. **Backup export/import/restore engine** belum end-to-end.
+11. Existing **Account/Cloud provider** implementation masih memiliki boundary yang perlu runtime verification sebelum capability dinaikkan statusnya.
+12. Capability matrix harus direkonsiliasi setelah evidence runtime/build tersedia; jangan menaikkan status hanya berdasarkan UI/source presence.
+
+### Structural Verification
+- `docs/export_import_capability_map.md` diposisikan sebagai redundant derived document dan akan dihapus setelah isi continuity di atas tercatat.
+- Tidak ada worklog split yang dibuat.
+- Tidak ada implementation source code yang diubah oleh pekerjaan konsolidasi ini.
+
+### Next Checkpoint
+Setelah konsolidasi dokumentasi selesai, **LANJUT/GO berikutnya kembali ke backlog engineering aktual**, dengan prioritas verification gap pada recovery (#562), bukan membuat dokumen baru.
