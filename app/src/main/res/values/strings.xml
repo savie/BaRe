@@ -652,13 +652,13 @@ When you set up %1$s, you need to enter your password again so it can decrypt an
     <string name="save">SAVE</string>
 
     <string name="settings_swift_labs">BaRe Labs</string>
-    <string name="settings_swift_labs_subtitle">Experimental and repair tools</string>
+    <string name="settings_bare_labs_subtitle">Experimental and repair tools</string>
     <string name="settings_export_settings">Export settings</string>
     <string name="settings_export_settings_subtitle">Current settings</string>
     <string name="settings_import_settings">Import settings</string>
     <string name="settings_import_settings_subtitle">Saved settings</string>
     <string name="settings_swift_logger">BaRe Logger</string>
-    <string name="settings_swift_logger_subtitle">Logs for bug reports</string>
+    <string name="settings_bare_logger_subtitle">Logs for bug reports</string>
 
     <string name="settings_bare_labs">BaRe Labs</string>
     <string name="settings_bare_logger">BaRe Logger</string>
