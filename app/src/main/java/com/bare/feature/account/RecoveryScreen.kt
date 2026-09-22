@@ -79,9 +79,10 @@ fun RecoveryScreen(
                         error("existing LOCAL identity conflicts with recovery identity")
                     }
                     masterKeyStore.saveImported(decoded.masterKey)
-                    identityStore.restoreFromRecovery(decoded.payload)
+                    val restoredIdentity = identityStore.restoreFromRecovery(decoded.payload)
                     encryptionPasswordStore.saveStrategy(EncryptionPasswordStrategy.ADVANCED)
                     encryptionPasswordStore.saveActivePassword(password.toCharArray())
+                    restoredIdentity
                 }
             }.onSuccess { identity ->
                 busy = false
