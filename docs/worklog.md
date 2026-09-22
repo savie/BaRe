@@ -3925,3 +3925,12 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 - CHANGE: recovery discovery is gated on Android all-files access when required, so inaccessible shared storage is no longer silently treated as “no recovery artifacts”.
 - CHANGE: recovery onboarding now reuses the established Welcome visual template rather than a separate elevated card treatment.
 - VERIFICATION: source changes committed; CI/device verification for the new commits is still UNVERIFIED because no workflow run/status is currently reported for the latest commit.
+
+
+## 2026-09-22 — Recovery onboarding UI correction
+
+- OBSERVED: runtime screenshot showed RecoveryOnboardingScreen rendered on top of WelcomeScreen, producing duplicate branding, overlapping copy/actions, and inconsistent password interaction.
+- DECISION: recovery is a standalone onboarding state, not an overlay; Start as New Identity returns to the existing Welcome onboarding.
+- CHANGE: removed Welcome background composition from recovery state.
+- CHANGE: aligned recovery branding, spacing, primary/secondary action hierarchy, and password visibility control with the established Welcome/Login onboarding patterns.
+- VERIFICATION: source inspected after change; latest commit is `d81f361a5f929f2cc3acaf8ae7d59492ef88acf9`. Build/device verification remains UNVERIFIED.
