@@ -15,7 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -142,7 +142,7 @@ fun RecoveryOnboardingScreen(
             .padding(horizontal = 24.dp, vertical = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(Modifier.weight(0.72f))
+        Spacer(Modifier.height(40.dp))
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
@@ -254,15 +254,15 @@ fun RecoveryOnboardingScreen(
 
             Spacer(Modifier.height(4.dp))
 
-            OutlinedButton(
+            TextButton(
                 onClick = onStartFresh,
                 enabled = !busy,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(48.dp),
             ) {
                 Text(stringResource(R.string.recovery_onboarding_start_fresh))
             }
         }
-        Spacer(Modifier.weight(0.55f))
+        Spacer(Modifier.height(24.dp))
     }
 }
 
