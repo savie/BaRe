@@ -3951,3 +3951,36 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 - **IMPLEMENTATION:** Recovery dialog sekarang ditampilkan di atas Welcome surface yang sudah ada, sehingga logo, canonical brand, tagline, dan halaman onboarding tetap menjadi konteks visual di belakang modal.
 - **INTENT:** Menghindari recovery tampil sebagai dialog di atas layar hitam/kosong; modal tetap compact sementara branded onboarding surface tetap terlihat.
 - **STATUS:** Source change committed pada `8e6d2915ecb8fb8e1c79bfafb36d68610d7c0ae4`. Build/runtime verification belum dilakukan.
+
+
+## 2026-09-22 — Reconcile Recovery Password Decision vs Current Recovery Flows
+
+### Observed
+- Current RecoveryScreen di Settings masih menggunakan **Recovery password terpisah** untuk Export/Import dan menyediakan Set/Change Recovery password.
+- Current RecoveryOnboardingScreen pada startup recovery menggunakan **Advanced password** untuk membuka recovery artifact dan menyimpan password tersebut sebagai recovery password setelah restore.
+- Dengan demikian terdapat **dua recovery password semantics yang saat ini tidak konsisten** antara Settings Recovery dan startup/destructive recovery.
+- Screenshot Settings Recovery juga menunjukkan bahwa UI lama masih mengekspos Recovery password field + Set/Change + Export + Import dalam satu halaman; fungsi/source flow tersedia, tetapi presentation layer masih belum final.
+
+### Existing Decision Requiring Reconciliation
+- Entry `Decision: Separate Local Account Recovery Password` menetapkan Recovery password terpisah dari Advanced password.
+- Entry setelahnya memperbaiki single-password recovery menggunakan Advanced password, tetapi tidak membatalkan/menutup decision separate-password secara eksplisit.
+- Karena kedua state masih ada di source, **password authority final untuk seluruh recovery lifecycle saat ini adalah CONFLICT / UNRECONCILED**, bukan dianggap selesai berdasarkan salah satu entry.
+
+### Current Evidence
+- RecoveryScreen.kt: RecoveryPasswordStore tetap menjadi authority Settings Recovery.
+- RecoveryOnboardingScreen.kt: decode startup recovery menggunakan RecoveryPackageCodec.decode(password) dengan UI label **Advanced password**, lalu menyimpan password melalui RecoveryPasswordStore setelah restore.
+- Tidak ada perubahan password semantics yang dilakukan oleh checkpoint ini.
+
+### UI Observation
+- Settings Recovery **flow/fungsi existing tetap dipertahankan**.
+- UI settings belum dianggap final; screenshot runtime menunjukkan visual masih legacy/dense dan belum selaras dengan compact recovery dialog/onboarding treatment.
+- Redesign UI sebaiknya dilakukan setelah password authority final diputuskan, agar tidak mengunci copy dan interaction model di atas contract yang masih conflict.
+
+### Status
+- **VERIFIED:** worklog sudah memuat decision separate Recovery password dan repair single-password Advanced password sebagai historical entries.
+- **OBSERVED:** source saat ini memiliki kedua semantics.
+- **BLOCKED:** final recovery password authority belum direkonsiliasi.
+- **NO CHANGE:** checkpoint ini tidak mengubah implementation/password behavior.
+
+### Next Decision Required
+Tentukan satu lifecycle canonical untuk recovery password authority sebelum melakukan redesign Settings Recovery secara final. Setelah decision, reconcile RecoveryScreen, RecoveryOnboardingScreen, artifact compatibility/migration, strings, tests, dan worklog terhadap authority yang sama.
