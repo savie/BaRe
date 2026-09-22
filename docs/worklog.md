@@ -3934,3 +3934,13 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 - CHANGE: removed Welcome background composition from recovery state.
 - CHANGE: aligned recovery branding, spacing, primary/secondary action hierarchy, and password visibility control with the established Welcome/Login onboarding patterns.
 - VERIFICATION: source inspected after change; latest commit is `d81f361a5f929f2cc3acaf8ae7d59492ef88acf9`. Build/device verification remains UNVERIFIED.
+
+
+## Recovery UI — compact dialog
+
+- **IMPLEMENTATION:** Recovery onboarding diubah dari full-screen onboarding menjadi compact dialog mengikuti pola dialog produk yang sudah ada.
+- **UI:** single recovery langsung password → restore; multiple recovery menampilkan compact selectable cards tanpa radio button visual, dengan list yang scroll sendiri.
+- **UI:** identity ditampilkan sebagai prefix, misalnya `7568••••`; tidak menampilkan path, filename, atau full UUID.
+- **COPY:** recovery copy dinormalisasi ke bahasa produk; standalone canonical tetap `B Λ R ☰`, sedangkan text memakai `BΛR☰`.
+- **STATE:** tombol continue pada selection hanya aktif setelah identity dipilih; Back kembali ke password step; dismiss/cancel kembali ke Welcome flow.
+- **STATUS:** source change committed pada `48a31a926efefb18be9fdde10ee8912cfdbcd8d1`. Build/runtime verification belum dilakukan.
