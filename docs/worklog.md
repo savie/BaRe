@@ -3545,3 +3545,18 @@ Run CI/build against the implementation commit, then perform controlled runtime 
 7. Repeat on a different device/environment.
 8. Only after evidence is collected, update status to VERIFIED.
 
+## 2026-09-22 — #558 Fail-Closed Local Master-Key Handling
+
+### Repair
+Setelah implementation review, ditemukan risk pada `BaReMasterKeyStore.getOrCreate()`: jika encrypted local Master Key gagal dibuka, implementasi awal dapat membuat Master Key baru. Ini berpotensi memutus continuity antara existing identity dan future backup encryption.
+
+### Perbaikan
+- Jika local Master Key blob sudah ada tetapi tidak dapat didecrypt dengan Android Keystore key yang tersedia, `getOrCreate()` sekarang **fail closed**.
+- Master Key baru hanya dibuat ketika belum ada stored Master Key sama sekali.
+- Tidak ada silent key replacement.
+
+### Verification
+- Source repair applied pada `v1.0/rebaseline`.
+- Runtime verification: **NOT VERIFIED**.
+- CI run untuk commit repair belum terobservasi.
+
