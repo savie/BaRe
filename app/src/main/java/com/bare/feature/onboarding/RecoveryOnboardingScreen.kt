@@ -52,6 +52,32 @@ fun RecoveryOnboardingScreen(
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
 
+    fun restore(candidate: DecodedCandidate) {
+        busy = true
+        status = null
+        scope.launch {
+            runCatching {
+                withContext(Dispatchers.IO) {
+                    masterKeyStore.saveImported(candidate.decoded.masterKey)
+                    val restoredIdentity = identityStore.restoreFromRecovery(candidate.decoded.payload)
+                    recoveryPasswordStore.savePassword(password.toCharArray())
+                    restoredIdentity
+                }
+            }.onSuccess { identity ->
+                busy = false
+                password = ""
+                onRecovered(identity)
+            }.onFailure { error ->
+                busy = false
+                status = context.getString(
+                    R.string.recovery_onboarding_failed,
+                    error.message ?: context.getString(R.string.operation_failed),
+                )
+            }
+        }
+    }
+
+
     fun recover() {
         if (password.isBlank()) {
             status = context.getString(R.string.recovery_onboarding_enter_password)
@@ -93,30 +119,6 @@ fun RecoveryOnboardingScreen(
         }
     }
 
-    fun restore(candidate: DecodedCandidate) {
-        busy = true
-        status = null
-        scope.launch {
-            runCatching {
-                withContext(Dispatchers.IO) {
-                    masterKeyStore.saveImported(candidate.decoded.masterKey)
-                    val restoredIdentity = identityStore.restoreFromRecovery(candidate.decoded.payload)
-                    recoveryPasswordStore.savePassword(password.toCharArray())
-                    restoredIdentity
-                }
-            }.onSuccess { identity ->
-                busy = false
-                password = ""
-                onRecovered(identity)
-            }.onFailure { error ->
-                busy = false
-                status = context.getString(
-                    R.string.recovery_onboarding_failed,
-                    error.message ?: context.getString(R.string.operation_failed),
-                )
-            }
-        }
-    }
 
     val selected = decoded.firstOrNull { it.decoded.payload.identityId == selectedIdentity }
 
