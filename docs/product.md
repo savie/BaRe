@@ -130,3 +130,22 @@ untuk setiap capability yang dinyatakan supported.
 ## Status
 
 **PRODUCT BASELINE — RECONCILED / WHOLE-PRODUCT UX FIRST / EVIDENCE-BASED COMPLETION**
+ 
+## Local Account Recovery Password Boundary
+
+Local Account Recovery memiliki password yang **terpisah** dari Advanced password.
+
+- **Advanced password** adalah authority untuk encryption strategy Advanced dan lifecycle encrypted backup yang memang memilih strategy tersebut.
+- **Recovery password** adalah authority khusus untuk portable Local Account identity recovery.
+- User yang memilih Standard backup encryption tidak perlu membuat Advanced password hanya untuk melakukan Local Account recovery.
+- Account/cloud authentication lifecycle tidak menggunakan Recovery password; account state memiliki lifecycle tersendiri dan data account yang memang termasuk backup mengikuti backup lifecycle.
+- bare-recovery.bare adalah artifact recovery identity, bukan backup archive.
+- Recovery password tidak disimpan plaintext; hanya verifier yang disimpan lokal.
+
+Canonical boundary:
+
+Advanced password → Advanced encryption / encrypted-backup lifecycle
+
+Recovery password → Local Account identity
+  ├── Export → bare-recovery.bare
+  └── Import ← bare-recovery.bare
