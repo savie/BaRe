@@ -24,10 +24,8 @@ import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
-import com.bare.recovery.RecoveryArtifactRepository
 import com.bare.recovery.BaReMasterKeyStore
-import com.bare.feature.settings.EncryptionPasswordStore
-import com.bare.feature.settings.EncryptionPasswordStrategy
+import com.bare.recovery.RecoveryArtifactRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,14 +39,16 @@ fun RecoveryScreen(
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val repository = remember(context) { RecoveryArtifactRepository(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
-    val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
-    val advancedRecoveryEnabled = encryptionPasswordStore.loadStrategy() == EncryptionPasswordStrategy.ADVANCED && encryptionPasswordStore.hasActivePassword()
+    val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val scope = rememberCoroutineScope()
 
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
     var selectedTreeUri by remember { mutableStateOf<Uri?>(null) }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
+
+    val recoveryPasswordConfigured = recoveryPasswordStore.hasPassword()
 
     val treePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocumentTree(),
@@ -74,7 +74,7 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (encryptionPasswordStore.hasActivePassword() && !encryptionPasswordStore.verifyActivePassword(password.toCharArray())) {
+                    if (!recoveryPasswordStore.verifyPassword(password.toCharArray())) {
                         error(context.getString(R.string.recovery_password_incorrect))
                     }
                     val decoded = repository.import(uri, password.toCharArray())
@@ -82,19 +82,33 @@ fun RecoveryScreen(
                         error("existing LOCAL identity conflicts with recovery identity")
                     }
                     masterKeyStore.saveImported(decoded.masterKey)
-                    val restoredIdentity = identityStore.restoreFromRecovery(decoded.payload)
-                    encryptionPasswordStore.saveStrategy(EncryptionPasswordStrategy.ADVANCED)
-                    encryptionPasswordStore.saveActivePassword(password.toCharArray())
-                    restoredIdentity
+                    identityStore.restoreFromRecovery(decoded.payload)
                 }
             }.onSuccess { identity ->
                 busy = false
                 password = ""
+                confirmPassword = ""
                 status = context.getString(R.string.recovery_identity_restored)
                 onRecovered(identity)
             }.onFailure { error ->
                 busy = false
-                status = context.getString(R.string.recovery_failed, error.message ?: context.getString(R.string.invalid_package_or_password))
+                status = context.getString(
+                    R.string.recovery_failed,
+                    error.message ?: context.getString(R.string.invalid_package_or_password),
+                )
+            }
+        }
+    }
+
+    fun saveRecoveryPassword() {
+        when {
+            password.length < 8 -> status = context.getString(R.string.password_too_short)
+            password != confirmPassword -> status = context.getString(R.string.password_mismatch)
+            else -> {
+                recoveryPasswordStore.savePassword(password.toCharArray())
+                password = ""
+                confirmPassword = ""
+                status = context.getString(R.string.recovery_password_set)
             }
         }
     }
@@ -112,15 +126,39 @@ fun RecoveryScreen(
             value = password,
             onValueChange = { password = it },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.advanced_password)) },
+            label = { Text(stringResource(R.string.recovery_password)) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             enabled = !busy,
         )
+
+        if (!recoveryPasswordConfigured) {
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { confirmPassword = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.confirm_recovery_password)) },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                enabled = !busy,
+            )
+            Text(
+                stringResource(R.string.recovery_password_setup_description),
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Button(
+                onClick = ::saveRecoveryPassword,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !busy,
+            ) {
+                Text(stringResource(R.string.set_recovery_password))
+            }
+        }
+
         Button(
             onClick = {
-                if (!advancedRecoveryEnabled) {
-                    status = context.getString(R.string.recovery_advanced_required)
+                if (!recoveryPasswordStore.hasPassword()) {
+                    status = context.getString(R.string.recovery_password_required)
                 } else if (password.isBlank()) {
                     status = context.getString(R.string.enter_recovery_password_first)
                 } else if (selectedTreeUri == null) {
@@ -131,7 +169,7 @@ fun RecoveryScreen(
                     scope.launch {
                         runCatching {
                             withContext(Dispatchers.IO) {
-                                if (!encryptionPasswordStore.verifyActivePassword(password.toCharArray())) {
+                                if (!recoveryPasswordStore.verifyPassword(password.toCharArray())) {
                                     error(context.getString(R.string.recovery_password_incorrect))
                                 }
                                 repository.export(
@@ -143,26 +181,42 @@ fun RecoveryScreen(
                             }
                         }.onSuccess {
                             busy = false
+                            password = ""
                             status = context.getString(R.string.recovery_package_exported)
                         }.onFailure { error ->
                             busy = false
-                            status = context.getString(R.string.export_failed, error.message ?: context.getString(R.string.storage_error))
+                            status = context.getString(
+                                R.string.export_failed,
+                                error.message ?: context.getString(R.string.storage_error),
+                            )
                         }
                     }
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !busy,
+            enabled = !busy && recoveryPasswordConfigured,
         ) {
-            Text(if (selectedTreeUri == null) stringResource(R.string.choose_recovery_folder) else stringResource(R.string.export_recovery_package))
+            Text(
+                if (selectedTreeUri == null) {
+                    stringResource(R.string.choose_recovery_folder)
+                } else {
+                    stringResource(R.string.export_recovery_package)
+                },
+            )
         }
+
         Button(
             onClick = {
-                if (password.isBlank()) status = context.getString(R.string.enter_recovery_password_first)
-                else importPicker.launch(arrayOf("application/octet-stream", "*/*"))
+                if (!recoveryPasswordStore.hasPassword()) {
+                    status = context.getString(R.string.recovery_password_required)
+                } else if (password.isBlank()) {
+                    status = context.getString(R.string.enter_recovery_password_first)
+                } else {
+                    importPicker.launch(arrayOf("application/octet-stream", "*/*"))
+                }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !busy,
+            enabled = !busy && recoveryPasswordConfigured,
         ) {
             Text(stringResource(R.string.import_recovery_package))
         }
