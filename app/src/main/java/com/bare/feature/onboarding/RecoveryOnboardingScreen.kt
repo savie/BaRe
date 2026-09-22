@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,9 +17,11 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -122,10 +125,19 @@ fun RecoveryOnboardingScreen(
 
     val selected = decoded.firstOrNull { it.decoded.payload.identityId == selectedIdentity }
 
-    Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 20.dp)
+            .heightIn(max = 620.dp),
+        shape = RoundedCornerShape(28.dp),
+        tonalElevation = 8.dp,
+        shadowElevation = 8.dp,
     ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(24.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
         Text(
             stringResource(R.string.recovery_onboarding_title),
             style = MaterialTheme.typography.headlineSmall,
@@ -139,14 +151,6 @@ fun RecoveryOnboardingScreen(
             stringResource(R.string.recovery_onboarding_found, candidates.size),
             style = MaterialTheme.typography.titleMedium,
         )
-
-        candidates.forEach { file ->
-            Text(
-                file.absolutePath,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-        }
 
         OutlinedTextField(
             value = password,
@@ -182,9 +186,10 @@ fun RecoveryOnboardingScreen(
                         enabled = !busy,
                     )
                     Column {
-                        Text(candidate.decoded.payload.identityId)
+                        val identityId = candidate.decoded.payload.identityId
+                        Text(stringResource(R.string.recovery_onboarding_identity_label, identityId.takeLast(4)))
                         Text(
-                            candidate.file.absolutePath,
+                            stringResource(R.string.recovery_onboarding_identity_package),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -212,6 +217,7 @@ fun RecoveryOnboardingScreen(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(stringResource(R.string.recovery_onboarding_start_fresh))
+        }
         }
     }
 }
