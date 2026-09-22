@@ -53,52 +53,116 @@ private val EMAIL_PATTERN = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
 private const val MIN_PASSWORD_LENGTH = 8
 @Composable
 fun StartupSplash(onFinished: () -> Unit) {
-    var reveal by remember { mutableFloatStateOf(0f) }
-    var wordmarkVisible by remember { mutableStateOf(false) }
+    var progress by remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(Unit) {
         androidx.compose.animation.core.animate(
             initialValue = 0f,
             targetValue = 1f,
-            animationSpec = androidx.compose.animation.core.tween(900, easing = androidx.compose.animation.core.FastOutSlowInEasing),
-        ) { value, _ -> reveal = value }
-        wordmarkVisible = true
-        delay(260)
+            animationSpec = androidx.compose.animation.core.tween(
+                durationMillis = 650,
+                easing = androidx.compose.animation.core.FastOutSlowInEasing,
+            ),
+        ) { value, _ -> progress = value }
         onFinished()
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
+        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
+        Spacer(Modifier.weight(0.72f))
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier
-                .size(210.dp)
-                .scale(0.94f + (0.06f * reveal))
-                .drawWithContent {
-                    clipRect(right = size.width * reveal) { this@drawWithContent.drawContent() }
-                },
+            modifier = Modifier.size(210.dp).offset(x = 25.dp),
             contentScale = ContentScale.Fit,
         )
         Spacer(Modifier.height(24.dp))
-        androidx.compose.animation.AnimatedVisibility(visible = wordmarkVisible) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
-                    fontWeight = FontWeight.Medium,
-                )
-                Spacer(Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.brand_tagline),
-                    style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
-                    fontWeight = FontWeight.Light,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.brand_tagline),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Light,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.weight(0.55f))
+        LinearProgressIndicator(
+            progress = { progress },
+            modifier = Modifier.fillMaxWidth().height(4.dp),
+        )
+    }
+}
+
+@Composable
+fun StorageAccessOnboardingScreen(onAccessGranted: () -> Unit) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    val accessLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+    ) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R || Environment.isExternalStorageManager()) {
+            onAccessGranted()
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(Modifier.weight(0.72f))
+        Image(
+            painter = painterResource(R.drawable.bare_logo),
+            contentDescription = stringResource(R.string.app_name),
+            modifier = Modifier.size(210.dp).offset(x = 25.dp),
+            contentScale = ContentScale.Fit,
+        )
+        Spacer(Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Medium,
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.brand_tagline),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Light,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(70.dp))
+        Text(
+            text = stringResource(R.string.file_access_required),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.widthIn(max = 300.dp),
+            textAlign = TextAlign.Center,
+        )
+        Spacer(Modifier.weight(0.55f))
+        Button(
+            onClick = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:" + context.packageName),
+                    )
+                    accessLauncher.launch(intent)
+                } else {
+                    onAccessGranted()
+                }
+            },
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+        ) {
+            Text(stringResource(R.string.root_grant_storage))
         }
     }
 }
