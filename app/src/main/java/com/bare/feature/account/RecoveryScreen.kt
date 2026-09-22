@@ -176,9 +176,8 @@ fun RecoveryScreen(
                             masterKey = masterKey,
                             password = newPassword,
                         )
-                    } else {
-                        recoveryPasswordStore.savePassword(newPassword)
                     }
+                    recoveryPasswordStore.savePassword(newPassword)
                 }
             }.onSuccess {
                 busy = false
