@@ -3891,3 +3891,27 @@ Restored the missing Compose imports and kept the intended UI changes intact: to
 - Corrective source commit: `acc4def6be317f442cae7af9df831e903b99c68b`.
 - GitHub workflow result for the corrective commit is currently **UNVERIFIED**; no workflow run was returned by the connected query.
 - Runtime/UI remains **UNVERIFIED**.
+
+
+## 2026-09-22 — Recovery + Encryption Password Lifecycle Alignment
+
+### User Decision / Authorization
+User explicitly authorized GO for three separate fixes after comparing Recovery with the existing Encryption Password lifecycle:
+1. Recovery operation UX/storage flow.
+2. Recovery password lifecycle.
+3. Advanced/Encryption password lifecycle.
+
+### Implementation
+- Recovery no longer uses an export folder picker; export resolves the configured local BaRe storage (default INTERNAL when no storage kind is configured) and writes canonical `bare-recovery.bare` into the recovery directory.
+- Recovery import continues to use the Android file picker.
+- Recovery password setup/change is now a compact dialog instead of inline password setup fields.
+- Recovery password change requires the current password, new password, and confirmation; password visibility controls are available for all password fields.
+- When the canonical local recovery artifact already exists, changing the Recovery password re-exports/rekeys that artifact before persisting the new password verifier. If the existing local master key is unavailable, the change is rejected and the artifact is left unchanged.
+- Advanced/Encryption password change now requires the current password before saving the new password.
+- Advanced password dialog now exposes visibility controls for current/new/confirmation fields.
+- Password verifier storage remains salted PBKDF2; plaintext passwords are not persisted.
+
+### Verification
+- Source changes are applied on `v1.0/rebaseline`.
+- Latest CI run #616 for commit `4f132018c4a3fc51764484a46eae9c9ad6d5ca3f` is **IN PROGRESS**; build verification is not yet complete.
+- Runtime/device verification of the three flows is **NOT VERIFIED**.
