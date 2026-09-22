@@ -3173,3 +3173,56 @@ Settings → **Encryption password strategy** mengikuti reference flow:
 
 ### Boundary
 The password store/persistence flow is implemented, but integration of this strategy into the future backup encryption engine is not claimed as verified. No Cloud flow was changed.
+
+
+## 2026-09-22 — #551 Clarify Backup Encryption vs Recovery Boundary
+
+### User Clarification
+- Recovery package BaRe yang sudah ada dipahami sebagai mekanisme **account/identity recovery / continuity**.
+- Encryption password strategy yang baru dibuat dipahami sebagai **backup encryption strategy**, mengikuti reference Swift Backup.
+- Kedua lifecycle tersebut tidak boleh digabung hanya karena keduanya sama-sama menggunakan encryption.
+
+### Reference Evidence
+- Swift Backup reference memiliki password strategy untuk **encrypted app backups**, dengan strategy:
+  - STANDARD_PASSWORD;
+  - USER_PASSWORD.
+- Reference backup artifact menggunakan password material yang diproses melalui KDF sebelum menjadi archive encryption key.
+- Artifact app-backup yang diaudit menggunakan Argon2id dan AEGIS-256.
+- User password pada strategy USER_PASSWORD menjadi bagian dari password material untuk menghasilkan final backup encryption material.
+- Active/old password behavior merupakan bagian dari backup encryption compatibility, bukan account/identity recovery.
+- Reference evidence tetap berstatus static/decompiled evidence; reference APK tidak runtime-tested.
+
+### BaRe Current Implementation Boundary
+```
+REFERENCE
+Swift Backup
+  └── Backup Encryption
+       ├── Standard password strategy
+       ├── User password strategy
+       └── encrypted backup artifact
+
+BARE
+  ├── Recovery / Identity Continuity
+  │    └── RecoveryPackageCodec / RecoveryArtifactRepository
+  │
+  └── Backup Encryption Strategy
+       └── EncryptionPasswordStore + Settings UI
+```
+
+- BaRe RecoveryPackageCodec **tidak diubah** untuk mengikuti encryption password strategy reference.
+- EncryptionPasswordStore saat ini baru menyediakan persistence/secure storage untuk strategy dan active/old user-password material.
+- Integration dari EncryptionPasswordStrategy ke **actual BaRe backup engine** belum ada dan tidak boleh diklaim selesai.
+- Standard/Advanced UI flow yang green bukan bukti bahwa backup artifact BaRe sudah menggunakan strategy tersebut.
+
+### Decision / Requirement Boundary
+- **Requirement:** Encryption password strategy harus direconcile ke **backup engine**, bukan recovery package.
+- **Requirement:** recovery package tetap mempunyai lifecycle terpisah.
+- **Unknown:** detail final backup-engine integration BaRe sampai actual backup artifact/engine implementation ditemukan dan diverifikasi.
+- Tidak ada perubahan Cloud pada entry ini.
+
+### Verification
+- CI for #550: **GREEN** berdasarkan user-provided CI result.
+- Settings encryption strategy UI: implementation exists.
+- Password material secure persistence: implementation exists.
+- Backup encryption integration: **NOT IMPLEMENTED / NOT VERIFIED**.
+- Recovery encryption and backup encryption remain explicitly separated.
