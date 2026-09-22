@@ -65,9 +65,7 @@ fun ManageSpaceScreen(
                     when (action) {
                         ManageSpaceAction.DELETE_BACKUPS -> repository.deleteLocalBackups(id)
                         ManageSpaceAction.DELETE_ALL_DATA -> {
-                            val deleted = repository.deleteAllLocalData(id)
                             clearBaReAppData(context)
-                            deleted
                         }
                         ManageSpaceAction.RESET_SETTINGS -> {
                             resetBaReSettings(context)
@@ -222,6 +220,9 @@ private fun clearBaReAppData(context: Context) {
     context.codeCacheDir.deleteChildren()
     context.noBackupFilesDir.deleteChildren()
     context.databaseList().forEach { name -> context.deleteDatabase(name) }
+
+    context.getExternalFilesDirs(null).filterNotNull().forEach { it.deleteChildren() }
+    context.externalCacheDirs.filterNotNull().forEach { it.deleteChildren() }
 }
 
 private fun resetBaReSettings(context: Context) {
