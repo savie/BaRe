@@ -3226,3 +3226,42 @@ BARE
 - Password material secure persistence: implementation exists.
 - Backup encryption integration: **NOT IMPLEMENTED / NOT VERIFIED**.
 - Recovery encryption and backup encryption remain explicitly separated.
+
+
+## 2026-09-22 — #552 Settings Reference Surface Completion
+
+### User Decision
+- BaRe Settings untuk sementara **tidak dipisah berdasarkan Local vs Account**.
+- Surface Settings digabung agar mencakup reference Local + Account.
+- Entry yang sudah ada **tidak boleh dihapus**.
+- Tambahkan hanya reference entries yang belum ada.
+- Belum mengubah behavior menjadi identity-dependent pada tahap ini.
+
+### Reference-derived additions
+Added to Settings:
+- Swift Labs
+- Export settings
+- Import settings
+- SwiftLogger
+
+Existing Settings entries retained, including BaRe-specific:
+- Recovery
+- Diagnostics
+- Cloud backups
+- Encryption password strategy
+- Manage space
+- local backup storage
+- notification settings
+- restart
+- Help / Contact / About
+
+### Implementation Status
+- New reference entries are present in the Settings UI.
+- New entries use strings.xml; no new hardcoded UI text.
+- The four newly added reference entries are currently marked Not implemented / disabled because no verified BaRe implementation contract or runtime capability exists for them yet.
+- This preserves UI completeness without falsely claiming implementation.
+- Cloud remains present and is not removed or split by identity in this change.
+
+### Verification
+- Source change applied to v1.0/rebaseline.
+- CI/build after #552: **PENDING**.
