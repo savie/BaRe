@@ -15,6 +15,8 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Upload
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,7 +28,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -75,18 +82,35 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (password.isBlank()) error(context.getString(R.string.enter_recovery_password_first))
-                    if (!passwordMatchesConfigured()) {
-                        error(context.getString(R.string.recovery_password_incorrect))
+                    if (password.isBlank()) {
+                        error(context.getString(R.string.enter_recovery_password_first))
                     }
-                    val decoded = repository.import(uri, password.toCharArray())
-                    if (identityStore.hasConflictingIdentity(decoded.payload)) {
-                        error(context.getString(R.string.recovery_identity_conflict))
-                    }
-                    masterKeyStore.saveImported(decoded.masterKey)
-                    identityStore.restoreFromRecovery(decoded.payload)
-                    if (!recoveryPasswordStore.hasPassword()) {
-                        recoveryPasswordStore.savePassword(password.toCharArray())
+
+                    val enteredPassword = password.toCharArray()
+                    try {
+                        if (recoveryPasswordStore.hasPassword()) {
+                            val verificationPassword = enteredPassword.copyOf()
+                            if (!recoveryPasswordStore.verifyPassword(verificationPassword)) {
+                                error(context.getString(R.string.recovery_password_incorrect))
+                            }
+                        }
+
+                        val decoded = repository.import(uri, enteredPassword)
+                        if (identityStore.hasConflictingIdentity(decoded.payload)) {
+                            error(context.getString(R.string.recovery_identity_conflict))
+                        }
+
+                        masterKeyStore.saveImported(decoded.masterKey)
+                        identityStore.restoreFromRecovery(decoded.payload)
+
+                        if (!recoveryPasswordStore.hasPassword()) {
+                            recoveryPasswordStore.savePassword(enteredPassword)
+                        }
+
+                        identityStore.load()
+                            ?: error(context.getString(R.string.storage_identity_unavailable))
+                    } finally {
+                        enteredPassword.fill('\u0000')
                     }
                 }
             }.onSuccess { identity ->
@@ -97,6 +121,7 @@ fun RecoveryScreen(
                 onRecovered(identity)
             }.onFailure { error ->
                 busy = false
+                password = ""
                 status = context.getString(
                     R.string.recovery_failed,
                     error.message ?: context.getString(R.string.invalid_package_or_password),
@@ -117,23 +142,30 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    if (
-                        recoveryPasswordStore.hasPassword() &&
-                        !recoveryPasswordStore.verifyPassword(password.toCharArray())
-                    ) {
-                        error(context.getString(R.string.recovery_password_incorrect))
+                    val enteredPassword = password.toCharArray()
+                    try {
+                        if (recoveryPasswordStore.hasPassword()) {
+                            val verificationPassword = enteredPassword.copyOf()
+                            if (!recoveryPasswordStore.verifyPassword(verificationPassword)) {
+                                error(context.getString(R.string.recovery_password_incorrect))
+                            }
+                        }
+
+                        val payload = identityStore.toRecoveryPayload()
+                        val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
+                        val recoveryDirectory = storageRepository
+                            .initialize(payload.identityId, kind)
+                            .recoveryDirectory
+
+                        repository.exportToFile(
+                            directory = recoveryDirectory,
+                            payload = payload,
+                            masterKey = masterKeyStore.getOrCreate(),
+                            password = enteredPassword,
+                        )
+                    } finally {
+                        enteredPassword.fill('\u0000')
                     }
-                    val payload = identityStore.toRecoveryPayload()
-                    val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
-                    val recoveryDirectory = storageRepository
-                        .initialize(payload.identityId, kind)
-                        .recoveryDirectory
-                    repository.exportToFile(
-                        directory = recoveryDirectory,
-                        payload = payload,
-                        masterKey = masterKeyStore.getOrCreate(),
-                        password = password.toCharArray(),
-                    )
                 }
             }.onSuccess {
                 busy = false
@@ -142,6 +174,7 @@ fun RecoveryScreen(
                 status = context.getString(R.string.recovery_package_exported)
             }.onFailure { error ->
                 busy = false
+                password = ""
                 status = context.getString(
                     R.string.export_failed,
                     error.message ?: context.getString(R.string.storage_error),
@@ -205,7 +238,7 @@ fun RecoveryScreen(
                         ) {
                             Text(
                                 stringResource(
-                                    if (passwordConfigured) R.string.change_password else R.string.set_password,
+                                    if (passwordConfigured) R.string.change_recovery_password else R.string.set_recovery_password,
                                 ),
                             )
                         }
@@ -280,17 +313,18 @@ fun RecoveryScreen(
             configured = passwordConfigured,
             onDismiss = { passwordDialogOpen = false },
             onSet = { newPassword, confirmation ->
-                if (newPassword.contentEquals(confirmation)) {
-                    recoveryPasswordStore.savePassword(newPassword)
-                    confirmation.fill('\u0000')
-                    passwordConfigured = true
-                    passwordDialogOpen = false
-                    status = context.getString(R.string.recovery_password_configured)
-                } else {
+                if (!newPassword.contentEquals(confirmation)) {
                     newPassword.fill('\u0000')
                     confirmation.fill('\u0000')
                     status = context.getString(R.string.passwords_do_not_match)
+                    return@RecoveryPasswordDialog
                 }
+
+                recoveryPasswordStore.savePassword(newPassword)
+                confirmation.fill('\u0000')
+                passwordConfigured = true
+                passwordDialogOpen = false
+                status = context.getString(R.string.recovery_password_configured)
             },
             onChange = { currentPassword, newPassword, confirmation ->
                 if (!newPassword.contentEquals(confirmation)) {
@@ -298,21 +332,27 @@ fun RecoveryScreen(
                     newPassword.fill('\u0000')
                     confirmation.fill('\u0000')
                     status = context.getString(R.string.passwords_do_not_match)
-                } else if (!recoveryPasswordStore.changePassword(currentPassword, newPassword)) {
+                    return@RecoveryPasswordDialog
+                }
+
+                scope.launch {
+                    val changed = withContext(Dispatchers.IO) {
+                        recoveryPasswordStore.changePassword(currentPassword, newPassword)
+                    }
                     confirmation.fill('\u0000')
-                    status = context.getString(R.string.recovery_password_incorrect)
-                } else {
-                    confirmation.fill('\u0000')
-                    passwordConfigured = true
-                    passwordDialogOpen = false
-                    status = context.getString(R.string.recovery_password_configured)
+                    if (changed) {
+                        passwordConfigured = true
+                        passwordDialogOpen = false
+                        status = context.getString(R.string.recovery_password_configured)
+                    } else {
+                        status = context.getString(R.string.recovery_password_incorrect)
+                    }
                 }
             },
         )
     }
 }
 
-@Composable
 @Composable
 private fun RecoveryPasswordDialog(
     configured: Boolean,
@@ -359,6 +399,7 @@ private fun RecoveryPasswordDialog(
                         singleLine = true,
                     )
                 }
+
                 OutlinedTextField(
                     value = newPassword,
                     onValueChange = { newPassword = it },
@@ -377,6 +418,7 @@ private fun RecoveryPasswordDialog(
                     },
                     singleLine = true,
                 )
+
                 OutlinedTextField(
                     value = confirmation,
                     onValueChange = { confirmation = it },
@@ -390,8 +432,8 @@ private fun RecoveryPasswordDialog(
                                 contentDescription = stringResource(
                                     if (confirmationVisible) R.string.hide_password else R.string.show_password,
                                 ),
-                            }
-                        },
+                            )
+                        }
                     },
                     singleLine = true,
                 )
