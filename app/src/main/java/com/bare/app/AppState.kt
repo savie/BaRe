@@ -21,6 +21,7 @@ enum class Screen(val title: String) {
 }
 
 enum class StartScreen {
+    RECOVERY_ONBOARDING,
     WELCOME,
     LOGIN,
     FORGOT_PASSWORD,
