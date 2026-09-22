@@ -3915,3 +3915,13 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 - Source changes are applied on `v1.0/rebaseline`.
 - Latest CI run #616 for commit `4f132018c4a3fc51764484a46eae9c9ad6d5ca3f` is **IN PROGRESS**; build verification is not yet complete.
 - Runtime/device verification of the three flows is **NOT VERIFIED**.
+
+
+## 2026-09-22 — Recovery startup/onboarding alignment
+
+- AUTHORIZATION: user explicitly issued GO to continue startup/recovery through onboarding.
+- OBSERVED: previous build was green, but startup did not solve recovery after uninstall; custom recovery surface did not match Welcome and startup animation felt static.
+- CHANGE: startup now uses the existing Welcome visual geometry/typography with a restrained indeterminate progress bar instead of a logo reveal animation.
+- CHANGE: recovery discovery is gated on Android all-files access when required, so inaccessible shared storage is no longer silently treated as “no recovery artifacts”.
+- CHANGE: recovery onboarding now reuses the established Welcome visual template rather than a separate elevated card treatment.
+- VERIFICATION: source changes committed; CI/device verification for the new commits is still UNVERIFIED because no workflow run/status is currently reported for the latest commit.
