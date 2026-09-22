@@ -47,6 +47,15 @@ class EncryptionPasswordStore(context: Context) {
         password.fill('\u0000')
     }
 
+    fun changeActivePassword(currentPassword: CharArray, newPassword: CharArray): Boolean {
+        if (!verifyActivePassword(currentPassword)) {
+            newPassword.fill('\u0000')
+            return false
+        }
+        saveActivePassword(newPassword)
+        return true
+    }
+
     fun verifyActivePassword(password: CharArray): Boolean {
         if (!hasActivePassword()) {
             password.fill('\u0000')
