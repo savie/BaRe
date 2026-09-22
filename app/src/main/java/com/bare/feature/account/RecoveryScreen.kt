@@ -15,6 +15,8 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Upload
+import androidx.compose.material.icons.outlined.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -93,6 +95,8 @@ fun RecoveryScreen(
                     if (!recoveryPasswordStore.hasPassword()) {
                         recoveryPasswordStore.savePassword(password.toCharArray())
                     }
+                    identityStore.load()
+                        ?: error(context.getString(R.string.storage_identity_unavailable))
                 }
             }.onSuccess { identity ->
                 busy = false
@@ -210,7 +214,7 @@ fun RecoveryScreen(
                         ) {
                             Text(
                                 stringResource(
-                                    if (passwordConfigured) R.string.change_password else R.string.set_password,
+                                    if (passwordConfigured) R.string.change_recovery_password else R.string.set_recovery_password,
                                 ),
                             )
                         }
