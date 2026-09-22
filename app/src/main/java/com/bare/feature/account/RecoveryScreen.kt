@@ -74,6 +74,9 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
+                    if (encryptionPasswordStore.hasActivePassword() && !encryptionPasswordStore.verifyActivePassword(password.toCharArray())) {
+                        error(context.getString(R.string.recovery_password_incorrect))
+                    }
                     val decoded = repository.import(uri, password.toCharArray())
                     if (identityStore.hasConflictingIdentity(decoded.payload)) {
                         error("existing LOCAL identity conflicts with recovery identity")
@@ -109,7 +112,7 @@ fun RecoveryScreen(
             value = password,
             onValueChange = { password = it },
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.recovery_password)) },
+            label = { Text(stringResource(R.string.advanced_password)) },
             visualTransformation = PasswordVisualTransformation(),
             singleLine = true,
             enabled = !busy,
@@ -128,6 +131,9 @@ fun RecoveryScreen(
                     scope.launch {
                         runCatching {
                             withContext(Dispatchers.IO) {
+                                if (!encryptionPasswordStore.verifyActivePassword(password.toCharArray())) {
+                                    error(context.getString(R.string.recovery_password_incorrect))
+                                }
                                 repository.export(
                                     treeUri = selectedTreeUri!!,
                                     payload = identityStore.toRecoveryPayload(),
