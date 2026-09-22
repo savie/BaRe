@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,11 +16,9 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -125,99 +122,119 @@ fun RecoveryOnboardingScreen(
 
     val selected = decoded.firstOrNull { it.decoded.payload.identityId == selectedIdentity }
 
-    Surface(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 20.dp)
-            .heightIn(max = 620.dp),
-        shape = RoundedCornerShape(28.dp),
-        tonalElevation = 8.dp,
-        shadowElevation = 8.dp,
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 24.dp, vertical = 28.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(24.dp),
+        Spacer(Modifier.height(28.dp))
+        androidx.compose.foundation.Image(
+            painter = androidx.compose.ui.res.painterResource(R.drawable.bare_logo),
+            contentDescription = stringResource(R.string.app_name),
+            modifier = Modifier.size(210.dp).offset(x = 25.dp),
+            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+        )
+        Spacer(Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium,
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.brand_tagline),
+            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Light,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(54.dp))
+        androidx.compose.foundation.layout.Column(
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-        Text(
-            stringResource(R.string.recovery_onboarding_title),
-            style = MaterialTheme.typography.headlineSmall,
-        )
-        Text(
-            stringResource(R.string.recovery_onboarding_description),
-            style = MaterialTheme.typography.bodyLarge,
-        )
-
-        Text(
-            stringResource(R.string.recovery_onboarding_found, candidates.size),
-            style = MaterialTheme.typography.titleMedium,
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.advanced_password)) },
-            visualTransformation = PasswordVisualTransformation(),
-            singleLine = true,
-            enabled = !busy,
-        )
-
-        Button(
-            onClick = ::recover,
-            modifier = Modifier.fillMaxWidth(),
-            enabled = !busy,
-        ) {
-            Text(stringResource(R.string.recovery_onboarding_continue))
-        }
-
-        if (decoded.size > 1) {
             Text(
-                stringResource(R.string.recovery_onboarding_select_identity, decoded.size),
+                stringResource(R.string.recovery_onboarding_title),
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Text(
+                stringResource(R.string.recovery_onboarding_description),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            Text(
+                stringResource(R.string.recovery_onboarding_found, candidates.size),
                 style = MaterialTheme.typography.titleMedium,
             )
-            decoded.forEach { candidate ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    RadioButton(
-                        selected = candidate.decoded.payload.identityId == selectedIdentity,
-                        onClick = { selectedIdentity = candidate.decoded.payload.identityId },
-                        enabled = !busy,
-                    )
-                    Column {
-                        val identityId = candidate.decoded.payload.identityId
-                        Text(stringResource(R.string.recovery_onboarding_identity_label, identityId.takeLast(4)))
-                        Text(
-                            stringResource(R.string.recovery_onboarding_identity_package),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(R.string.advanced_password)) },
+                visualTransformation = PasswordVisualTransformation(),
+                singleLine = true,
+                enabled = !busy,
+            )
+
+            Button(
+                onClick = ::recover,
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !busy,
+            ) {
+                Text(stringResource(R.string.recovery_onboarding_continue))
+            }
+
+            if (decoded.size > 1) {
+                Text(
+                    stringResource(R.string.recovery_onboarding_select_identity, decoded.size),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                decoded.forEach { candidate ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(
+                            selected = candidate.decoded.payload.identityId == selectedIdentity,
+                            onClick = { selectedIdentity = candidate.decoded.payload.identityId },
+                            enabled = !busy,
                         )
+                        Column {
+                            val identityId = candidate.decoded.payload.identityId
+                            Text(stringResource(R.string.recovery_onboarding_identity_label, identityId.takeLast(4)))
+                            Text(
+                                stringResource(R.string.recovery_onboarding_identity_package),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
                     }
                 }
+                Button(
+                    onClick = { selected?.let(::restore) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !busy && selected != null,
+                ) {
+                    Text(stringResource(R.string.recovery_onboarding_restore_selected))
+                }
             }
-            Button(
-                onClick = { selected?.let(::restore) },
+
+            status?.let {
+                Text(it, color = MaterialTheme.colorScheme.error)
+            }
+
+            Spacer(Modifier.height(4.dp))
+
+            OutlinedButton(
+                onClick = onStartFresh,
+                enabled = !busy,
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !busy && selected != null,
             ) {
-                Text(stringResource(R.string.recovery_onboarding_restore_selected))
+                Text(stringResource(R.string.recovery_onboarding_start_fresh))
             }
-        }
-
-        status?.let {
-            Text(it, color = MaterialTheme.colorScheme.error)
-        }
-
-        Spacer(Modifier.height(4.dp))
-
-        OutlinedButton(
-            onClick = onStartFresh,
-            enabled = !busy,
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(stringResource(R.string.recovery_onboarding_start_fresh))
-        }
         }
     }
 }
