@@ -47,7 +47,11 @@ class EncryptionPasswordStore(context: Context) {
         val raw = preferences.getString(KEY_OLD_PASSWORDS, null) ?: return emptyList()
         return runCatching {
             val array = JSONArray(raw)
-            buildList(array.length()) { index -> add(array.getString(index)) }
+            buildList(array.length()) {
+                for (index in 0 until array.length()) {
+                    add(array.getString(index))
+                }
+            }
         }.getOrDefault(emptyList())
     }
 
