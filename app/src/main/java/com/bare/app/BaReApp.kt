@@ -116,6 +116,11 @@ fun BaReApp() {
             }
         }
     }
+    LaunchedEffect(recoveryCandidates) {
+        if (restoredIdentity == null && recoveryCandidates != null && recoveryCandidates!!.isEmpty()) {
+            startScreen = StartScreen.WELCOME
+        }
+    }
     var selectedMethod by remember { mutableStateOf<AccessMethod?>(identityStore.loadAccessMethod()) }
     var accessError by remember { mutableStateOf<String?>(null) }
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
@@ -209,7 +214,20 @@ fun BaReApp() {
                             Text(stringResource(R.string.recovery_onboarding_scanning))
                         }
                     } else if (candidates.isEmpty()) {
-                        startScreen = StartScreen.WELCOME
+                        WelcomeScreen(onSelectIdentity = { identity ->
+                            identityType = identity
+                            if (identity == IdentityType.LOCAL) showLocalConfirmation = true else startScreen = StartScreen.LOGIN
+                        })
+                        if (showLocalConfirmation) {
+                            LocalSetupConfirmation(
+                                onContinue = {
+                                    showLocalConfirmation = false
+                                    initialIdentityPending = true
+                                    startScreen = StartScreen.ACCESS_METHOD
+                                },
+                                onDismiss = { showLocalConfirmation = false },
+                            )
+                        }
                     } else {
                         RecoveryOnboardingScreen(
                             candidates = candidates,
