@@ -221,7 +221,7 @@ fun SettingsScreen(
                 SettingsSection(stringResource(R.string.settings_advanced_tools)) {
                     SettingsRow(
                         title = stringResource(R.string.settings_bare_labs),
-                        subtitle = stringResource(R.string.settings_swift_labs_subtitle),
+                        subtitle = stringResource(R.string.settings_bare_labs_subtitle),
                         icon = Icons.Outlined.Science,
                         onClick = { onOpen(Screen.BARE_LABS) },
                     )
@@ -239,7 +239,7 @@ fun SettingsScreen(
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_bare_logger),
-                        subtitle = stringResource(R.string.settings_swift_logger_subtitle),
+                        subtitle = stringResource(R.string.settings_bare_logger_subtitle),
                         icon = Icons.Outlined.BugReport,
                         onClick = { onOpen(Screen.BARE_LOGGER) },
                     )
