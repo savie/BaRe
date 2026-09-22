@@ -12,7 +12,6 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
-import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -103,10 +102,9 @@ fun UserPasswordScreen(
 
     if (dialogOpen) {
         PasswordDialog(
-            title = stringResource(R.string.encryption_active_password_dialog_title),
+            configured = hasPassword,
             onDismiss = { dialogOpen = false },
-            onSave = { password ->
-                store.saveActivePassword(password)
+            onSave = {
                 hasPassword = true
                 dialogOpen = false
             },
@@ -116,33 +114,69 @@ fun UserPasswordScreen(
 
 @Composable
 private fun PasswordDialog(
-    title: String,
+    configured: Boolean,
     onDismiss: () -> Unit,
-    onSave: (CharArray) -> Unit,
+    onSave: () -> Unit,
 ) {
-    var password by remember { mutableStateOf("") }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val store = remember(context) { EncryptionPasswordStore(context) }
+    var currentPassword by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
-    var visible by remember { mutableStateOf(false) }
-    val valid = password.isNotEmpty() && password == confirmation
+    var currentVisible by remember { mutableStateOf(false) }
+    var newVisible by remember { mutableStateOf(false) }
+    var confirmationVisible by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf<String?>(null) }
+
+    val valid = newPassword.isNotEmpty() &&
+        newPassword == confirmation &&
+        (!configured || currentPassword.isNotEmpty())
 
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Outlined.Lock, stringResource(R.string.encryption_password_icon)) },
-        title = { Text(title) },
+        title = {
+            Text(
+                stringResource(
+                    if (configured) {
+                        R.string.encryption_change_password
+                    } else {
+                        R.string.encryption_new_password
+                    },
+                ),
+            )
+        },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text(stringResource(R.string.encryption_active_password_warning))
+                if (configured) {
+                    OutlinedTextField(
+                        value = currentPassword,
+                        onValueChange = { currentPassword = it; error = null },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.current_password)) },
+                        visualTransformation = if (currentVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { currentVisible = !currentVisible }) {
+                                Icon(
+                                    if (currentVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                    stringResource(if (currentVisible) R.string.hide_password else R.string.show_password),
+                                )
+                            }
+                        },
+                        singleLine = true,
+                    )
+                }
                 OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
+                    value = newPassword,
+                    onValueChange = { newPassword = it; error = null },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(R.string.password)) },
-                    visualTransformation = if (visible) VisualTransformation.None else PasswordVisualTransformation(),
+                    label = { Text(stringResource(R.string.new_password)) },
+                    visualTransformation = if (newVisible) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
-                        IconButton(onClick = { visible = !visible }) {
+                        IconButton(onClick = { newVisible = !newVisible }) {
                             Icon(
-                                if (visible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
-                                stringResource(if (visible) R.string.hide_password else R.string.show_password),
+                                if (newVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                stringResource(if (newVisible) R.string.hide_password else R.string.show_password),
                             )
                         }
                     },
@@ -150,19 +184,44 @@ private fun PasswordDialog(
                 )
                 OutlinedTextField(
                     value = confirmation,
-                    onValueChange = { confirmation = it },
+                    onValueChange = { confirmation = it; error = null },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.confirm_password)) },
-                    visualTransformation = PasswordVisualTransformation(),
+                    visualTransformation = if (confirmationVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        IconButton(onClick = { confirmationVisible = !confirmationVisible }) {
+                            Icon(
+                                if (confirmationVisible) Icons.Outlined.VisibilityOff else Icons.Outlined.Visibility,
+                                stringResource(if (confirmationVisible) R.string.hide_password else R.string.show_password),
+                            )
+                        }
+                    },
                     singleLine = true,
                 )
+                error?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
             }
         },
         confirmButton = {
             TextButton(
                 onClick = {
-                    onSave(password.toCharArray())
-                    password = ""
+                    if (newPassword.length < 8) {
+                        error = context.getString(R.string.password_too_short)
+                        return@TextButton
+                    }
+                    if (newPassword != confirmation) {
+                        error = context.getString(R.string.password_mismatch)
+                        return@TextButton
+                    }
+                    if (configured && !store.verifyActivePassword(currentPassword.toCharArray())) {
+                        error = context.getString(R.string.encryption_password_incorrect)
+                        return@TextButton
+                    }
+                    store.saveActivePassword(newPassword.toCharArray())
+                    onSave()
+                    currentPassword = ""
+                    newPassword = ""
                     confirmation = ""
                 },
                 enabled = valid,
