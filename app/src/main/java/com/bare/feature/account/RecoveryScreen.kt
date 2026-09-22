@@ -67,6 +67,7 @@ fun RecoveryScreen(
     var busy by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
     var passwordDialogOpen by remember { mutableStateOf(false) }
+    var passwordConfigured by remember { mutableStateOf(true) }
 
     val importPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
@@ -178,7 +179,7 @@ fun RecoveryScreen(
                                 style = MaterialTheme.typography.titleMedium,
                             )
                             Text(
-                                stringResource(R.string.recovery_password_status_configured),
+                                stringResource(if (passwordConfigured) R.string.recovery_password_status_configured else R.string.recovery_password_status_missing),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
@@ -187,7 +188,7 @@ fun RecoveryScreen(
                             onClick = { passwordDialogOpen = true },
                             enabled = !busy,
                         ) {
-                            Text(stringResource(R.string.change_password))
+                            Text(stringResource(if (passwordConfigured) R.string.change_password else R.string.set_password))
                         }
                     }
                 }
