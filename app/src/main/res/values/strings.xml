@@ -710,4 +710,5 @@
     <string name="recovery_password_status_configured">Your Advanced password is configured for recovery.</string>
     <string name="export_recovery_description">Create an encrypted recovery copy of this identity. Tap to export it.</string>
     <string name="import_recovery_description">Restore an existing identity from an encrypted recovery copy. Tap to import it.</string>
+    <string name="recovery_password_status_missing">Set your Advanced password to enable recovery.</string>
 </resources>
