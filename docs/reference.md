@@ -2239,41 +2239,65 @@ Yang dapat dinyatakan dari source + artifact:
 - Asal-usul Firebase UID, lifecycle UID, dan seluruh lifecycle password material Swift berada di luar scope audit ini.
 - Tidak ada password/secret Swift yang diekstrak atau dicatat sebagai nilai plaintext dalam reference ini.
 
-### Reference-Derived Implication untuk BaRe
+### Boundary clarification — backup encryption vs recovery
 
-Untuk kebutuhan **LOCAL continuity setelah uninstall/reinstall, factory reset, atau ROM replacement**, artifact Swift memperkuat pola desain berikut:
+Audit artifact pada bagian ini **khusus membahas encryption untuk app-backup artifact Swift Backup**. Evidence tersebut tidak membuktikan bahwa mekanisme yang sama digunakan untuk account/identity recovery.
+
+#### Reference: backup encryption
+
+Yang didukung langsung oleh evidence:
 
 ```text
-BaRe Identity
+Backup artifact
       │
-      ├── logical identity
+      ├── password strategy
+      │     ├── STANDARD_PASSWORD
+      │     └── USER_PASSWORD
       │
-      └── Recovery Package
-             │
-             ├── encrypted payload
-             ├── KDF parameters
-             ├── salt
-             ├── nonce
-             ├── key-check / authentication
-             └── versioned metadata
+      ├── password material
+      │     ↓
+      │   Argon2id
+      │     ↓
+      │   archive encryption key
+      │
+      └── encrypted backup archive
 ```
 
-Recovery package harus dapat dipindahkan user sebelum operasi destruktif terhadap storage, tetapi **isi identity/recovery secret tidak boleh bergantung pada plaintext file di `/storage/emulated/0/BaRe/`**.
+- STANDARD_PASSWORD dan USER_PASSWORD adalah **reference evidence untuk backup encryption**.
+- Password archive tidak digunakan langsung sebagai encryption key.
+- Password material diproses melalui KDF sebelum menjadi encryption key.
+- Artifact com.bare.dat yang diaudit menggunakan AEGIS-256.
+- Old-password behavior/password lifecycle perlu dibaca sebagai bagian dari backup encryption compatibility, bukan account recovery.
+- Audit ini tetap OBSERVED_STATIC; reference APK tidak dijalankan untuk runtime verification.
 
-Untuk BaRe, reference-derived direction yang muncul dari audit ini adalah:
+#### BaRe: recovery package
 
-- recovery artifact portable;
-- encrypted recovery payload;
-- password/secret atau protected recovery authority yang tidak disimpan plaintext di artifact;
-- KDF dengan parameter/version yang eksplisit;
-- authenticated encryption/integrity verification;
-- key-check atau equivalent early validation;
-- BaRe ID dipisahkan dari encryption key;
-- Installation ID dipisahkan dari BaRe ID;
-- Device Continuity evidence dipisahkan dari recovery secret;
-- recovery artifact menjadi **continuity/recovery mechanism**, bukan canonical identity itu sendiri.
+BaRe saat ini mempunyai **recovery package sendiri** dengan lifecycle yang berbeda. Recovery package tersebut bukan implementation of the Swift Backup encryption strategy di atas.
 
-**Status:** `REFERENCE-DERIVED / PROPOSAL INPUT`. Ini belum menjadi implementation contract atau keputusan final BaRe.
+BaRe recovery saat ini digunakan untuk identity/bootstrap continuity dan diimplementasikan melalui RecoveryPackageCodec / RecoveryArtifactRepository. Status implementation dan verification BaRe dicatat di docs/worklog.md serta source repository, bukan sebagai reference evidence di dokumen ini.
+
+#### Explicit boundary
+
+```text
+SWIFT REFERENCE
+    Backup Encryption
+          │
+          ├── Standard password strategy
+          ├── User password strategy
+          └── encrypted backup artifact
+
+
+BARE CURRENT IMPLEMENTATION
+    Recovery / Identity Continuity
+          │
+          ├── recovery payload
+          ├── recovery artifact
+          └── identity bootstrap / restore
+```
+
+**Important:** jangan menggunakan section reference ini sebagai bukti bahwa BaRe recovery harus mengikuti Swift Backup app-backup encryption. Sebaliknya, temuan reference ini menjadi evidence untuk memahami **backup encryption strategy** yang nantinya harus direconcile terhadap BaRe backup engine.
+
+**Status:** REFERENCE EVIDENCE / BOUNDARY CLARIFIED.
 
 ## 24 — Apps domain capability reconciliation: Swift Backup reference vs BaRe current state
 
