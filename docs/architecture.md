@@ -305,18 +305,19 @@ BaRe tidak menggunakan source code, internal implementation, proprietary asset, 
 
 **ARCHITECTURE BASELINE — RECONCILED / UX-FIRST WHOLE-PRODUCT / EXPLICIT LIFECYCLE & BOUNDARIES**
 
-## Local Account Recovery Security Boundary
+## Password Authority Boundaries
 
-Portable Local Account recovery menggunakan password authority yang berbeda dari Advanced encryption password.
-
-AdvancedPasswordStore
-  └── Advanced encryption strategy / backup encryption
+Portable BaRe ID / Local Account recovery dan backup encryption memiliki password authority yang berbeda.
 
 RecoveryPasswordStore
-  └── Local Account identity recovery
-        ├── Export → BREC artifact
-        └── Import ← BREC artifact
+  └── BaRe ID / Local Account recovery
+        ├── Export → `bare-recovery.bare`
+        └── Import ← `bare-recovery.bare`
 
-Kedua password memiliki lifecycle, verifier, dan ownership yang berbeda. Recovery flow tidak boleh bergantung pada konfigurasi Advanced hanya untuk membuat atau membuka bare-recovery.bare.
+Advanced/EncryptionPasswordStore
+  └── Advanced backup encryption
+        └── encrypted backup lifecycle
+
+Recovery password tidak boleh digantikan oleh Advanced password hanya karena keduanya digunakan pada authenticated encryption flow. Advanced password adalah authority backup lifecycle; Recovery password adalah authority identity recovery lifecycle.
 
 Recovery password disimpan hanya sebagai salted PBKDF2 verifier. Password plaintext tidak dipersist. Artifact tetap menggunakan authenticated encryption dan portable recovery master key seperti contract BREC yang berlaku.
