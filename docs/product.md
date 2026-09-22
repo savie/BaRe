@@ -131,21 +131,19 @@ untuk setiap capability yang dinyatakan supported.
 
 **PRODUCT BASELINE — RECONCILED / WHOLE-PRODUCT UX FIRST / EVIDENCE-BASED COMPLETION**
  
-## Local Account Recovery Password Boundary
+## Password Lifecycle Boundary
 
-Local Account Recovery memiliki password yang **terpisah** dari Advanced password.
+BaRe menggunakan dua password authority yang memiliki lifecycle berbeda.
 
-- **Advanced password** adalah authority untuk encryption strategy Advanced dan lifecycle encrypted backup yang memang memilih strategy tersebut.
-- **Recovery password** adalah authority khusus untuk portable Local Account identity recovery.
-- User yang memilih Standard backup encryption tidak perlu membuat Advanced password hanya untuk melakukan Local Account recovery.
-- Account/cloud authentication lifecycle tidak menggunakan Recovery password; account state memiliki lifecycle tersendiri dan data account yang memang termasuk backup mengikuti backup lifecycle.
-- bare-recovery.bare adalah artifact recovery identity, bukan backup archive.
-- Recovery password tidak disimpan plaintext; hanya verifier yang disimpan lokal.
+- **Recovery password** adalah authority untuk BaRe ID / Local Account identity recovery, termasuk `bare-recovery.bare` export dan import.
+- **Advanced password** adalah authority untuk Advanced backup encryption dan lifecycle backup yang memilih Advanced encryption.
+- Kedua password tidak saling menjadi prerequisite. Recovery tidak boleh bergantung pada Advanced password, dan Advanced backup tidak boleh menggunakan Recovery password sebagai encryption authority.
+- Standard backup encryption tidak memerlukan Advanced password dan tidak mengubah Recovery password lifecycle.
+- Account/cloud authentication lifecycle tetap terpisah dari kedua password tersebut.
+- Recovery password dan Advanced password tidak dipersist sebagai plaintext; masing-masing mengikuti verifier/password lifecycle yang berlaku.
 
 Canonical boundary:
 
-Advanced password → Advanced encryption / encrypted-backup lifecycle
+Advanced password → Advanced backup encryption / backup lifecycle
 
-Recovery password → Local Account identity
-  ├── Export → bare-recovery.bare
-  └── Import ← bare-recovery.bare
+Recovery password → BaRe ID / Local Account identity → `bare-recovery.bare` Import/Export
