@@ -3984,3 +3984,101 @@ User explicitly authorized GO for three separate fixes after comparing Recovery 
 
 ### Next Decision Required
 Tentukan satu lifecycle canonical untuk recovery password authority sebelum melakukan redesign Settings Recovery secara final. Setelah decision, reconcile RecoveryScreen, RecoveryOnboardingScreen, artifact compatibility/migration, strings, tests, dan worklog terhadap authority yang sama.
+
+
+## 2026-09-22 — #565 Rekonsiliasi Worklog Penuh dengan Actual Branch State
+
+### Tujuan
+Melakukan rekonsiliasi continuity karena setelah checkpoint #564 terdapat rangkaian implementation/UI/recovery changes yang tersebar di banyak commit, sementara worklog tidak memiliki satu checkpoint canonical yang merangkum actual state terbaru. Historical entries dipertahankan; checkpoint ini menjadi snapshot rekonsiliasi current state.
+
+### Actual Branch State
+- Branch: `v1.0/rebaseline`.
+- Current HEAD: `a71a0b712407158c71cea4be7c16c6c6be9028bf`.
+- Current ancestry setelah #564 mencakup perubahan recovery security, storage boundary, startup recovery, onboarding recovery, password lifecycle, settings UI, branding resource cleanup, dan recovery dialog UI.
+- GitHub Actions run **#646** untuk commit `8e6d2915ecb8fb8e1c79bfafb36d68610d7c0ae4` / recovery branded background tercatat **completed / success**. Run ini membuktikan build untuk commit tersebut, bukan current HEAD `a71a0b71`.
+- Tidak ada workflow run yang terobservasi untuk commit `a71a0b71`; build status current HEAD tetap **UNVERIFIED**.
+
+### Rekonsiliasi Perubahan Setelah #564
+
+#### Recovery security / artifact lifecycle
+- Portable recovery memakai artifact canonical `bare-recovery.bare`.
+- Recovery artifact menggunakan BREC v3 dan password-gated master-key envelope.
+- Recovery import dirancang tetap dapat berjalan setelah app-state loss dengan artifact + password sebagai recovery authority.
+- Local master-key unwrap failure diperlakukan fail-closed.
+- Manage Space tidak boleh menghapus user-owned/shared BaRe recovery storage.
+- Hidden recovery secret tidak boleh dibuat otomatis hanya karena storage diinisialisasi.
+- Recovery storage initialization dan canonical artifact naming telah diperbaiki.
+
+#### Recovery password authority
+- Historical decision yang sempat memperkenalkan **Recovery password terpisah** tidak lagi menjadi current product decision.
+- **CURRENT DECISION:** recovery identity/artifact menggunakan **Advanced password yang sama** sebagai password authority. Tidak ada password Recovery kedua sebagai product concept.
+- Historical entries tentang separate Recovery password tetap dipertahankan sebagai sejarah perubahan, tetapi **superseded** oleh current decision ini.
+- Source saat ini masih memiliki transitional `RecoveryPasswordStore` dan Settings Recovery UI yang mengikuti decision lama; ini adalah **IMPLEMENTATION GAP / stale implementation**, bukan alasan untuk menghidupkan kembali decision lama.
+- Startup Recovery sudah menggunakan label dan flow **Advanced password**.
+- Artifact compatibility/migration terhadap artifact yang pernah dibuat saat separate-password experiment masih harus diverifikasi sebelum implementation cleanup dinyatakan complete.
+
+#### Startup / destructive recovery
+- Recovery discovery dilakukan sebelum bootstrap identity baru ketika local identity belum ada.
+- Recovery discovery digate oleh storage-access state agar inaccessible storage tidak diperlakukan sebagai “no recovery”.
+- Startup surface memakai branded onboarding geometry dengan progress indicator.
+- Recovery menjadi onboarding state tersendiri pada lifecycle startup.
+- Recovery onboarding kemudian diubah menjadi compact dialog.
+- Single candidate → password lalu restore langsung.
+- Multiple candidate → compact selectable cards, tanpa radio button visual, list memiliki scroll sendiri.
+- Identity display menggunakan prefix, misalnya `7568••••`.
+- Recovery dialog memakai Welcome branded surface sebagai background/context.
+- Cancel/dismiss kembali ke Welcome flow.
+- Current source/UI changes belum seluruhnya runtime-verified.
+
+#### Password lifecycle
+- Advanced/Encryption password change memerlukan current password sebelum perubahan.
+- Visibility controls tersedia pada password dialogs.
+- Recovery password lifecycle yang terpisah adalah historical/transitional state dan harus dikeluarkan dari final product flow sesuai current decision di atas.
+- Plaintext password tidak dipersist sebagai password value; verifier/encryption lifecycle tetap mengikuti implementation boundary yang sudah ada.
+
+#### Recovery Settings UI
+- Settings Recovery sudah mendapat top app bar/back navigation, password visibility control, dan icon-enhanced Export/Import actions.
+- Compile repair untuk UI tersebut sudah dilakukan.
+- UI masih perlu direview ulang karena password authority lama masih terefleksi pada source/settings surface.
+- Functional recovery engine tidak dianggap selesai hanya karena UI Settings tersedia.
+
+#### Branding / resource
+- Resource branding Settings telah direfaktor agar memakai BaRe brand resources.
+- Current naming contract:
+  - canonical standalone: `B Λ R ☰`
+  - text/sentence: `BΛR☰`
+- Recovery onboarding copy sudah dinormalisasi mengikuti contract tersebut.
+- Audit pemakaian branding menyeluruh masih merupakan verification gap.
+
+### Verification Reconciliation
+
+**VERIFIED**
+- Recovery-related source changes exist in branch ancestry.
+- Build run #646 succeeded for commit `8e6d2915`.
+- Recovery UI compile repair and subsequent successful build runs exist for the relevant intermediate commits.
+
+**OBSERVED**
+- Current source still contains both the final Advanced-password recovery flow and transitional Settings `RecoveryPasswordStore` flow.
+- Current HEAD is newer than the latest observed successful CI run.
+
+**UNVERIFIED**
+- Build for current HEAD `a71a0b71`.
+- Runtime single-password recovery end-to-end.
+- Wrong-password fail-closed runtime.
+- Destructive clear/uninstall/reinstall recovery.
+- Same BaRe ID + Master Key continuity after destructive state loss.
+- Cross-device recovery.
+- Final Settings Recovery UI after removing obsolete separate-password semantics.
+- Artifact migration/compatibility for artifacts created during the separate-password experiment.
+- Full branding occurrence audit.
+
+### Current Priority
+1. Reconcile/remove stale separate Recovery-password implementation in Settings against the current Advanced-password decision.
+2. Verify BREC v3 single-password recovery end-to-end.
+3. Verify destructive lifecycle and storage deletion boundary.
+4. Redesign/finalize Settings Recovery UI after password authority is consistent.
+5. Reconcile capability matrix with runtime/build evidence.
+6. Maintain worklog checkpoint after each consequential batch so continuity does not fall behind implementation again.
+
+### Continuity Rule
+Historical decisions are not deleted. When a later decision supersedes an earlier one, the old entry remains historical and the latest reconciliation explicitly marks the old decision as **SUPERSEDED**, while current source state is recorded separately as IMPLEMENTED / TRANSITIONAL / UNVERIFIED / BLOCKED as applicable.
