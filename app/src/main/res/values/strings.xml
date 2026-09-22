@@ -651,13 +651,35 @@ When you set up %1$s, you need to enter your password again so it can decrypt an
     <string name="encryption_password_icon">Password</string>
     <string name="save">SAVE</string>
 
-    <string name="settings_swift_labs">Swift Labs</string>
+    <string name="settings_swift_labs">BaRe Labs</string>
     <string name="settings_swift_labs_subtitle">Experimental and repair tools</string>
     <string name="settings_export_settings">Export settings</string>
     <string name="settings_export_settings_subtitle">Current settings</string>
     <string name="settings_import_settings">Import settings</string>
     <string name="settings_import_settings_subtitle">Saved settings</string>
-    <string name="settings_swift_logger">SwiftLogger</string>
+    <string name="settings_swift_logger">BaRe Logger</string>
     <string name="settings_swift_logger_subtitle">Logs for bug reports</string>
+
+    <string name="settings_bare_labs">BaRe Labs</string>
+    <string name="settings_bare_logger">BaRe Logger</string>
+    <string name="clear_logs">Clear logs</string>
+    <string name="share_logs">Share logs</string>
+    <string name="no_logs">No logs</string>
+    <string name="settings_labs_miscellaneous">Miscellaneous</string>
+    <string name="settings_lab_extra_logging">Extra logging</string>
+    <string name="settings_lab_extra_logging_description">More BaRe Logger details</string>
+    <string name="settings_lab_skip_space_checks">Skip space checks</string>
+    <string name="settings_lab_skip_space_checks_description">For systems reporting free space incorrectly</string>
+    <string name="settings_lab_extend_datasync_timeout">Extend schedule dataSync timeout</string>
+    <string name="settings_lab_extend_datasync_timeout_description">Root only. Temporarily raises Android dataSync foreground service timeout to 24h while scheduled backups run, then restores it.</string>
+    <string name="settings_lab_delete_gms_files">Delete GMS files of apps</string>
+    <string name="settings_lab_delete_gms_files_description">Fix restored app notifications</string>
+    <string name="settings_lab_app_visibility">App visibility diagnostics</string>
+    <string name="settings_lab_app_visibility_description">Inspect the raw packages visible to BaRe</string>
+    <string name="settings_lab_app_visibility_result">Visible applications: %1$d</string>
+    <string name="settings_lab_scan_local_backups">Scan local app backups</string>
+    <string name="settings_lab_scan_local_backups_description">Inspect local BaRe backup locations</string>
+    <string name="settings_lab_scan_local_backups_result">Backup locations found: %1$d</string>
+    <string name="settings_lab_scan_local_backups_empty">No local backup locations found.</string>
 
 </resources>
