@@ -3339,3 +3339,89 @@ Existing Settings entries retained, including BaRe-specific:
 ### Status
 - Recovery lifecycle foundation: **IMPLEMENTED / PARTIALLY VERIFIED**.
 - Full destructive-loss → external artifact → reinstall → import → identity continuity journey: **RUNTIME VERIFICATION PENDING**.
+
+## 2026-09-22 — #555 BaRe ID Lifecycle: Master Key / Advanced Password Recovery Direction
+
+### User Discussion / Requirement Clarification
+Pengguna memperjelas tujuan utama `*.bare` untuk LOCAL identity continuity:
+- `bare_identity.xml` adalah live LOCAL identity state di private app storage.
+- `bare-recovery-v2.bare` dan/atau artifact di storage `BaRe/*` harus menjadi continuity artifact yang dapat dipakai setelah private app state hilang.
+- Target destructive lifecycle mencakup clear data, uninstall/reinstall, format/reset data, dan perubahan/replace ROM selama artifact recovery tetap tersedia.
+- Recovery harus kembali ke **BaRe ID yang sama**, bukan membuat LOCAL UUID baru.
+- User-owned password menjadi security boundary: artifact yang disalin ke device lain tidak boleh dapat direcover tanpa password yang benar.
+- Dengan requirement ini, portable recovery tidak perlu bergantung pada device-bound Android Keystore sebagai satu-satunya recovery authority. Password user menjadi authority yang dapat dibawa lintas device.
+
+### Actual Source Observation
+Pemeriksaan source aktual menunjukkan kondisi saat ini belum memenuhi requirement tersebut:
+- `RecoveryPackageCodec` saat ini mengenkripsi payload dengan PBKDF2-HMAC-SHA256 → AES-256-GCM.
+- Payload BREC v2 saat ini berisi `identityId`, `type=LOCAL`, `setupComplete`, dan `accessMethod`.
+- BREC v2 juga menaruh `identityId` pada bootstrap header yang dapat dibaca melalui `peekIdentity()` tanpa password.
+- `LocalIdentityStore.loadOrRecover()` saat ini dapat melakukan bootstrap LOCAL identity dari `peekIdentity()` sebelum password recovery diverifikasi.
+- `EncryptionPasswordStore` saat ini menyimpan active/old user password material dengan Android Keystore, tetapi belum terintegrasi dengan recovery artifact maupun backup engine.
+- Dengan demikian, implementation saat ini **BELUM memenuhi** model “password adalah authority recovery untuk BaRe ID + Backup Lifecycle”.
+
+### Proposed Security Model — Belum Diimplementasikan
+Arah mekanisme yang direkomendasikan untuk dibahas/dibekukan sebelum implementation:
+1. Generate satu random **BaRe Master Key (MK)** 256-bit untuk LOCAL identity.
+2. Pada **Advanced**, password user diproses dengan KDF menjadi **Key Encryption Key (KEK)**.
+3. `.bare` menyimpan **wrapped/encrypted MK**, bukan password plaintext dan bukan MK plaintext.
+4. `.bare` juga menyimpan metadata yang dibutuhkan untuk derivasi/verifikasi: format version, key version, KDF identifier + parameters, salt, nonce/IV, identity metadata, dan authenticated ciphertext/tag.
+5. Import pada device mana pun:
+   - user memilih `.bare`;
+   - user memasukkan password;
+   - KDF menghasilkan KEK;
+   - KEK membuka/wrap MK;
+   - authentication failure = recovery ditolak;
+   - identity baru tidak dibuat sebelum cryptographic verification berhasil.
+6. MK tidak dipakai mentah untuk semua domain. Jika satu master key dipakai bersama, turunkan subkey terpisah dengan domain separation, misalnya:
+   - `BaRe ID subkey`
+   - `Backup subkey`
+   - future artifact/export subkeys
+   sehingga satu master root tetap satu, tetapi key material antar lifecycle tidak langsung identik.
+7. Android Keystore tetap dapat dipakai untuk local caching/protection di device aktif, tetapi **tidak menjadi satu-satunya source of truth** untuk recovery setelah destructive local reset.
+8. Wrong-password behavior harus fail-closed dan tidak boleh mengubah existing identity state.
+
+### Important Product Consequence
+Jika LOCAL destructive recovery wajib dapat dilakukan hanya dari portable artifact + user-owned secret, maka **Advanced/password-backed strategy menjadi prerequisite untuk portable LOCAL recovery**.
+
+Standard yang hanya bergantung pada generated local secret tidak dapat menjadi satu-satunya authority untuk skenario private-app-state loss jika secret tersebut tidak ikut memiliki recovery envelope yang dapat dibuka kembali setelah reinstall/ROM change.
+
+Karena itu, sebelum implementation perlu diputuskan secara eksplisit salah satu policy:
+- **Advanced required before LOCAL portable export/recovery**, atau
+- Standard memiliki mekanisme recovery envelope lain yang tetap memenuhi portability + security requirement.
+
+Arah pembahasan saat ini condong pada **Advanced sebagai canonical LOCAL recovery authority**, karena paling langsung memenuhi prinsip “user memegang secret”.
+
+### Lifecycle Boundary
+Model target:
+```
+BaRe Master Key
+      |
+      +--> BaRe ID Lifecycle
+      |      `--> identity continuity / .bare
+      |
+      `--> Backup Lifecycle
+             `--> backup / restore encryption
+```
+
+Keduanya tetap dua lifecycle domain. Yang disatukan adalah **master-key strategy / cryptographic root**, bukan semantic lifecycle.
+
+### Security Boundary Reconciliation
+- “Tidak bisa dipakai device lain” sekarang didefinisikan sebagai **tidak dapat direcover tanpa password yang benar**, bukan absolute hardware device binding.
+- Dengan password yang benar, portable `.bare` secara sengaja dapat digunakan untuk recovery pada device baru; ini diperlukan untuk memenuhi reinstall/ROM-change continuity.
+- Jadi jika `.bare` dicopy ke device lain tetapi password salah/tidak diketahui, recovery harus gagal tanpa mengubah identity.
+- Jika user lupa password, tidak boleh ada fallback tersembunyi yang membypass password dan mengklaim tetap dapat memulihkan encrypted master key.
+- Password tetap tidak boleh disimpan plaintext di `.bare`.
+
+### Verification Status
+- Current BREC v2 crypto: **OBSERVED / IMPLEMENTED**, tetapi bukan bukti bahwa requirement master-key continuity sudah terpenuhi.
+- Current Advanced password persistence: **IMPLEMENTED**, tetapi integration ke recovery/backup: **NOT IMPLEMENTED / NOT VERIFIED**.
+- Portable destructive-loss → reinstall → password → same BaRe ID: **NOT VERIFIED**.
+- Cross-device wrong-password rejection: **NOT VERIFIED**.
+- Cross-device correct-password recovery: **NOT VERIFIED**.
+
+### Next
+- Bekukan contract master-key + Advanced-password model sebelum mengubah `RecoveryPackageCodec`.
+- Tentukan exact BREC v3 envelope/schema dan key hierarchy.
+- Tentukan policy Standard → Advanced untuk LOCAL portable recovery.
+- Setelah decision/authorization final, implementasikan recovery dan backup terhadap shared master-key strategy secara bertahap dan verifikasi destructive lifecycle secara runtime.
