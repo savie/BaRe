@@ -3810,3 +3810,35 @@ Worklog continuity must not use an old checkpoint as proof of current system sta
 
 ### Next
 Prioritas berikutnya kembali ke **runtime verification gap pada recovery (#562)**. Jangan menaikkan status recovery menjadi VERIFIED hanya karena #601 build success.
+
+## 2026-09-22 — Decision: Separate Local Account Recovery Password
+
+### Decision
+Local Account Recovery menggunakan **Recovery password terpisah** dari **Advanced password**.
+
+### Rationale
+- Kedua password memiliki fungsi berbeda dan lifecycle berbeda.
+- Backup lifecycle dapat menggunakan Standard encryption tanpa memaksa user membuat Advanced password hanya untuk recovery identity.
+- Local Account identity recovery membutuhkan authority yang jelas dan berdiri sendiri.
+- Account/cloud authentication tidak menggunakan Recovery password; account lifecycle tetap terpisah.
+
+### Implemented
+- Menambahkan RecoveryPasswordStore dengan salted PBKDF2 verifier; plaintext password tidak dipersist.
+- RecoveryScreen sekarang menyediakan UI untuk membuat/confirm Recovery password sebelum Export/Import.
+- Export/Import Local Account menggunakan Recovery password, bukan Advanced password.
+- Copy UI dan string recovery diperbarui untuk menjelaskan boundary dua password.
+- Advanced password copy diperbarui agar tidak lagi mengklaim dirinya sebagai authority Local Account recovery.
+
+### Verification
+- Source changes berhasil ditulis ke branch v1.0/rebaseline.
+- Build/runtime setelah perubahan ini: **UNVERIFIED**.
+- Existing BREC v3 artifact format belum diubah oleh decision ini; compatibility terhadap artifact yang dibuat sebelum pemisahan password masih **UNVERIFIED / migration concern**.
+
+### Open Work
+1. Build CI setelah perubahan.
+2. Runtime create Recovery password.
+3. Runtime Export/Import dengan Recovery password.
+4. Wrong Recovery password fail-closed.
+5. Verify Advanced password tidak menjadi prerequisite recovery.
+6. Destructive/cross-device recovery verification.
+7. Decide and verify compatibility/migration behavior for artifacts created under the previous single-Advanced-password implementation.
