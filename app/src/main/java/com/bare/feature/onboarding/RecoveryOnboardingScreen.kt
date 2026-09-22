@@ -2,6 +2,8 @@ package com.bare.feature.onboarding
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -139,7 +141,10 @@ fun RecoveryOnboardingScreen(
         it.decoded.payload.identityId == selectedIdentity
     }
 
-    AlertDialog(
+    Box(modifier = Modifier.fillMaxSize()) {
+        WelcomeScreen(onSelectIdentity = { onStartFresh() })
+
+        AlertDialog(
         onDismissRequest = {
             if (!busy) onStartFresh()
         },
@@ -318,7 +323,8 @@ fun RecoveryOnboardingScreen(
                 }
             }
         },
-    )
+        )
+    }
 }
 
 private data class DecodedCandidate(
