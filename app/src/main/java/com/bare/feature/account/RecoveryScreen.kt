@@ -286,31 +286,31 @@ fun RecoveryScreen(
             onDismiss = { passwordDialogOpen = false },
             onSet = { newPassword, confirmation ->
                 if (!newPassword.contentEquals(confirmation)) {
-                    newPassword.fill('\\u0000')
-                    confirmation.fill('\\u0000')
+                    newPassword.fill('\u0000')
+                    confirmation.fill('\u0000')
                     status = context.getString(R.string.passwords_do_not_match)
                     return@RecoveryPasswordDialog
                 }
                 recoveryPasswordStore.savePassword(newPassword)
-                confirmation.fill('\\u0000')
+                confirmation.fill('\u0000')
                 passwordConfigured = true
                 passwordDialogOpen = false
                 status = context.getString(R.string.recovery_password_configured)
             },
             onChange = { currentPassword, newPassword, confirmation ->
                 if (!newPassword.contentEquals(confirmation)) {
-                    currentPassword.fill('\\u0000')
-                    newPassword.fill('\\u0000')
-                    confirmation.fill('\\u0000')
+                    currentPassword.fill('\u0000')
+                    newPassword.fill('\u0000')
+                    confirmation.fill('\u0000')
                     status = context.getString(R.string.passwords_do_not_match)
                     return@RecoveryPasswordDialog
                 }
                 if (!recoveryPasswordStore.changePassword(currentPassword, newPassword)) {
-                    confirmation.fill('\\u0000')
+                    confirmation.fill('\u0000')
                     status = context.getString(R.string.recovery_password_incorrect)
                     return@RecoveryPasswordDialog
                 }
-                confirmation.fill('\\u0000')
+                confirmation.fill('\u0000')
                 passwordConfigured = true
                 passwordDialogOpen = false
                 status = context.getString(R.string.recovery_password_configured)
