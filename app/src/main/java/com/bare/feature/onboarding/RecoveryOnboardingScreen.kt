@@ -1,45 +1,43 @@
 package com.bare.feature.onboarding
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
-import com.bare.recovery.BaReMasterKeyStore
 import com.bare.feature.account.RecoveryPasswordStore
-import com.bare.recovery.RecoveryArtifactDiscovery
+import com.bare.recovery.BaReMasterKeyStore
 import com.bare.recovery.RecoveryPackageCodec
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,7 +50,7 @@ fun RecoveryOnboardingScreen(
     onRecovered: (BaReIdentity) -> Unit,
     onStartFresh: () -> Unit,
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
     val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
@@ -64,6 +62,7 @@ fun RecoveryOnboardingScreen(
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
+    var selectionStep by remember { mutableStateOf(false) }
 
     fun restore(candidate: DecodedCandidate) {
         busy = true
@@ -90,12 +89,12 @@ fun RecoveryOnboardingScreen(
         }
     }
 
-
     fun recover() {
         if (password.isBlank()) {
             status = context.getString(R.string.recovery_onboarding_enter_password)
             return
         }
+
         busy = true
         status = null
         scope.launch {
@@ -105,7 +104,10 @@ fun RecoveryOnboardingScreen(
                         runCatching {
                             DecodedCandidate(
                                 file = file,
-                                decoded = RecoveryPackageCodec.decode(file.readBytes(), password.toCharArray()),
+                                decoded = RecoveryPackageCodec.decode(
+                                    file.readBytes(),
+                                    password.toCharArray(),
+                                ),
                             )
                         }.getOrNull()
                     }.distinctBy { it.decoded.payload.identityId }
@@ -114,13 +116,14 @@ fun RecoveryOnboardingScreen(
                 busy = false
                 if (matches.isEmpty()) {
                     status = context.getString(R.string.recovery_onboarding_invalid_password)
+                } else if (matches.size == 1) {
+                    decoded = matches
+                    selectedIdentity = matches.single().decoded.payload.identityId
+                    restore(matches.single())
                 } else {
                     decoded = matches
-                    selectedIdentity = matches.singleOrNull()?.decoded?.payload?.identityId
-                    status = null
-                    if (matches.size == 1) {
-                        restore(matches.single())
-                    }
+                    selectedIdentity = null
+                    selectionStep = true
                 }
             }.onFailure { error ->
                 busy = false
@@ -132,138 +135,190 @@ fun RecoveryOnboardingScreen(
         }
     }
 
+    val selected = decoded.firstOrNull {
+        it.decoded.payload.identityId == selectedIdentity
+    }
 
-    val selected = decoded.firstOrNull { it.decoded.payload.identityId == selectedIdentity }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 28.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Spacer(Modifier.height(40.dp))
-        Image(
-            painter = painterResource(R.drawable.bare_logo),
-            contentDescription = stringResource(R.string.app_name),
-            modifier = Modifier.size(210.dp).offset(x = 25.dp),
-            contentScale = ContentScale.Fit,
-        )
-        Spacer(Modifier.height(24.dp))
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.displaySmall.copy(fontSize = 42.sp, letterSpacing = 0.22.em),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Medium,
-        )
-        Spacer(Modifier.height(8.dp))
-        Text(
-            text = stringResource(R.string.brand_tagline),
-            style = MaterialTheme.typography.labelLarge.copy(fontSize = 17.sp, letterSpacing = 0.18.em),
-            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Light,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Spacer(Modifier.height(70.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-        ) {
-            Text(
-                stringResource(R.string.recovery_onboarding_title),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Text(
-                stringResource(R.string.recovery_onboarding_description),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-            Text(
-                stringResource(R.string.recovery_onboarding_found, candidates.size),
-                style = MaterialTheme.typography.titleMedium,
-            )
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(R.string.advanced_password)) },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                singleLine = true,
-                enabled = !busy,
-                trailingIcon = {
-                    IconButton(
-                        onClick = { passwordVisible = !passwordVisible },
+    AlertDialog(
+        onDismissRequest = {
+            if (!busy) onStartFresh()
+        },
+        title = {
+            Text(stringResource(R.string.recovery_onboarding_title))
+        },
+        text = {
+            if (!selectionStep) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        stringResource(R.string.recovery_onboarding_description),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = {
+                            password = it
+                            status = null
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text(stringResource(R.string.advanced_password)) },
+                        visualTransformation = if (passwordVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                        singleLine = true,
                         enabled = !busy,
-                    ) {
-                        Icon(
-                            imageVector = if (passwordVisible) androidx.compose.material.icons.filled.VisibilityOff else androidx.compose.material.icons.filled.Visibility,
-                            contentDescription = stringResource(
-                                if (passwordVisible) R.string.hide_password else R.string.show_password,
-                            ),
+                        trailingIcon = {
+                            IconButton(
+                                onClick = { passwordVisible = !passwordVisible },
+                                enabled = !busy,
+                            ) {
+                                Icon(
+                                    imageVector = if (passwordVisible) {
+                                        Icons.Filled.VisibilityOff
+                                    } else {
+                                        Icons.Filled.Visibility
+                                    },
+                                    contentDescription = stringResource(
+                                        if (passwordVisible) {
+                                            R.string.hide_password
+                                        } else {
+                                            R.string.show_password
+                                        },
+                                    ),
+                                )
+                            }
+                        },
+                    )
+                    status?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
                         )
                     }
-                },
-            )
-
-            Button(
-                onClick = ::recover,
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !busy,
-            ) {
-                Text(stringResource(R.string.recovery_onboarding_continue))
-            }
-
-            if (decoded.size > 1) {
-                Text(
-                    stringResource(R.string.recovery_onboarding_select_identity, decoded.size),
-                    style = MaterialTheme.typography.titleMedium,
-                )
-                decoded.forEach { candidate ->
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
+                }
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        stringResource(
+                            R.string.recovery_onboarding_select_identity,
+                            decoded.size,
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 300.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        RadioButton(
-                            selected = candidate.decoded.payload.identityId == selectedIdentity,
-                            onClick = { selectedIdentity = candidate.decoded.payload.identityId },
-                            enabled = !busy,
-                        )
-                        Column {
+                        items(
+                            items = decoded,
+                            key = { it.decoded.payload.identityId },
+                        ) { candidate ->
                             val identityId = candidate.decoded.payload.identityId
-                            Text(stringResource(R.string.recovery_onboarding_identity_label, identityId.takeLast(4)))
-                            Text(
-                                stringResource(R.string.recovery_onboarding_identity_package),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
+                            val selectedCard =
+                                identityId == selectedIdentity
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
+                                        selected = selectedCard,
+                                        onClick = {
+                                            selectedIdentity = identityId
+                                            status = null
+                                        },
+                                        enabled = !busy,
+                                        role = Role.RadioButton,
+                                    ),
+                                shape = RoundedCornerShape(14.dp),
+                                border = BorderStroke(
+                                    width = if (selectedCard) 2.dp else 1.dp,
+                                    color = if (selectedCard) {
+                                        MaterialTheme.colorScheme.primary
+                                    } else {
+                                        MaterialTheme.colorScheme.outlineVariant
+                                    },
+                                ),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = if (selectedCard) {
+                                        MaterialTheme.colorScheme.secondaryContainer
+                                    } else {
+                                        MaterialTheme.colorScheme.surfaceContainerLow
+                                    },
+                                ),
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(
+                                        horizontal = 16.dp,
+                                        vertical = 12.dp,
+                                    ),
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.recovery_onboarding_identity_label),
+                                        style = MaterialTheme.typography.labelLarge,
+                                    )
+                                    Text(
+                                        text = identityId.take(4) + "••••",
+                                        style = MaterialTheme.typography.titleMedium,
+                                        letterSpacing = 0.08.sp,
+                                    )
+                                }
+                            }
                         }
                     }
+                    status?.let {
+                        Text(
+                            text = it,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
                 }
+            }
+        },
+        confirmButton = {
+            if (!selectionStep) {
+                Button(
+                    onClick = ::recover,
+                    enabled = !busy,
+                ) {
+                    Text(stringResource(R.string.recovery_onboarding_continue))
+                }
+            } else {
                 Button(
                     onClick = { selected?.let(::restore) },
-                    modifier = Modifier.fillMaxWidth(),
                     enabled = !busy && selected != null,
                 ) {
-                    Text(stringResource(R.string.recovery_onboarding_restore_selected))
+                    Text(stringResource(R.string.recovery_onboarding_continue))
                 }
             }
-
-            status?.let {
-                Text(it, color = MaterialTheme.colorScheme.error)
+        },
+        dismissButton = {
+            if (selectionStep) {
+                TextButton(
+                    onClick = {
+                        if (!busy) {
+                            selectionStep = false
+                            selectedIdentity = null
+                            status = null
+                        }
+                    },
+                    enabled = !busy,
+                ) {
+                    Text(stringResource(R.string.back))
+                }
+            } else {
+                TextButton(
+                    onClick = onStartFresh,
+                    enabled = !busy,
+                ) {
+                    Text(stringResource(R.string.cancel))
+                }
             }
-
-            Spacer(Modifier.height(4.dp))
-
-            TextButton(
-                onClick = onStartFresh,
-                enabled = !busy,
-                modifier = Modifier.fillMaxWidth().height(48.dp),
-            ) {
-                Text(stringResource(R.string.recovery_onboarding_start_fresh))
-            }
-        }
-        Spacer(Modifier.height(24.dp))
-    }
+        },
+    )
 }
 
 private data class DecodedCandidate(
