@@ -33,6 +33,15 @@ class RecoveryPasswordStore(context: Context) {
         password.fill('\u0000')
     }
 
+    fun changePassword(currentPassword: CharArray, newPassword: CharArray): Boolean {
+        if (!verifyPassword(currentPassword)) {
+            newPassword.fill('\u0000')
+            return false
+        }
+        savePassword(newPassword)
+        return true
+    }
+
     fun verifyPassword(password: CharArray): Boolean {
         if (!hasPassword()) {
             password.fill('\u0000')
