@@ -69,6 +69,7 @@ import com.bare.storage.StorageConfigurationStore
 import com.bare.feature.schedules.SchedulesScreen
 import com.bare.ui.theme.BaReTheme
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -110,6 +111,7 @@ fun BaReApp() {
         )
     }
     var recoveryCandidates by remember(restoredIdentity) { mutableStateOf<List<File>?>(null) }
+    var startupRevealFinished by remember(restoredIdentity) { mutableStateOf(restoredIdentity != null) }
     LaunchedEffect(restoredIdentity) {
         if (restoredIdentity == null) {
             recoveryCandidates = withContext(Dispatchers.IO) {
@@ -204,16 +206,10 @@ fun BaReApp() {
             when (startScreen) {
                 StartScreen.RECOVERY_ONBOARDING -> {
                     val candidates = recoveryCandidates
-                    if (candidates == null) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-                        ) {
-                            CircularProgressIndicator()
-                            Spacer(Modifier.height(16.dp))
-                            Text(stringResource(R.string.recovery_onboarding_scanning))
-                        }
+                    if (!startupRevealFinished) {
+                        StartupSplash(onFinished = { startupRevealFinished = true })
+                    } else if (candidates == null) {
+                        StartupSplash(onFinished = { })
                     } else if (candidates.isEmpty()) {
                         WelcomeScreen(onSelectIdentity = { identity ->
                             identityType = identity
@@ -230,17 +226,33 @@ fun BaReApp() {
                             )
                         }
                     } else {
-                        RecoveryOnboardingScreen(
-                            candidates = candidates,
-                            onRecovered = { identity ->
-                                identityType = identity.type
-                                initialIdentityPending = false
-                                startScreen = if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.ACCESS_METHOD
-                            },
-                            onStartFresh = {
-                                startScreen = StartScreen.WELCOME
-                            },
-                        )
+                        Box(modifier = Modifier.fillMaxSize()) {
+                            WelcomeScreen(onSelectIdentity = { identity ->
+                                identityType = identity
+                                if (identity == IdentityType.LOCAL) showLocalConfirmation = true else startScreen = StartScreen.LOGIN
+                            })
+                            RecoveryOnboardingScreen(
+                                candidates = candidates,
+                                onRecovered = { identity ->
+                                    identityType = identity.type
+                                    initialIdentityPending = false
+                                    startScreen = if (identityStore.isSetupComplete()) StartScreen.APP else StartScreen.ACCESS_METHOD
+                                },
+                                onStartFresh = {
+                                    startScreen = StartScreen.WELCOME
+                                },
+                            )
+                            if (showLocalConfirmation) {
+                                LocalSetupConfirmation(
+                                    onContinue = {
+                                        showLocalConfirmation = false
+                                        initialIdentityPending = true
+                                        startScreen = StartScreen.ACCESS_METHOD
+                                    },
+                                    onDismiss = { showLocalConfirmation = false },
+                                )
+                            }
+                        }
                     }
                 }
                 StartScreen.WELCOME -> {
