@@ -3842,3 +3842,10 @@ Local Account Recovery menggunakan **Recovery password terpisah** dari **Advance
 5. Verify Advanced password tidak menjadi prerequisite recovery.
 6. Destructive/cross-device recovery verification.
 7. Decide and verify compatibility/migration behavior for artifacts created under the previous single-Advanced-password implementation.
+
+### Source Change References
+- RecoveryPasswordStore implementation: `f14fbf3e54ec82a2135053a516c5d03286158445`.
+- RecoveryScreen separation: `82aa62b3d12a19d02996b5e1eaa4a498227253ce`.
+- Recovery/security UI copy: `440324c0952411a0b166f2d73a1de262e4597fad`.
+- Product/architecture/capability/worklog reconciliation commits follow these source changes.
+- GitHub workflow result for the new source commit was not available through the connected workflow-run query; build status therefore remains **UNVERIFIED**.
