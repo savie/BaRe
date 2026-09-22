@@ -4101,3 +4101,40 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 - **PASSWORD:** Do not introduce or re-establish a separate product-level “Recovery password” concept merely because legacy Recovery UI/source still contains `RecoveryPasswordStore`. Password authority terminology remains tied to the active encryption/backup strategy and must be reconciled from implementation history before further UI changes.
 - **UI CHANGE STATUS:** The Recovery Settings UI change immediately preceding this checkpoint changed the surface toward a single password status/change area plus larger Export/Import cards. This is an implementation step, not a new architecture decision.
 - **VERIFICATION GAP:** Current terminology relationship between Advanced password, encryption password strategy, backup lifecycle, and BaRe ID recovery lifecycle is **UNVERIFIED** from the available repo inspection in this turn. Do not claim the terminology is finalized until the relevant implementation/history is traced.
+
+
+## 2026-09-22 — #565 Recovery / Backup Password Lifecycle Rebaseline
+
+### Decision
+- **DECISION:** BaRe kembali menggunakan dua password authority yang terpisah.
+- **Recovery password** adalah authority untuk **BaRe ID / Local Account identity lifecycle**, termasuk portable recovery artifact `bare-recovery.bare`.
+- **Advanced password** adalah authority untuk **backup encryption lifecycle**, khususnya Advanced encryption.
+- Recovery flow tidak boleh bergantung pada Advanced password.
+- Advanced backup encryption tidak menggunakan Recovery password sebagai password authority.
+- Standard backup encryption tidak menjadi prerequisite untuk BaRe ID recovery.
+
+### Implementation
+- `RecoveryScreen` dikembalikan menggunakan `RecoveryPasswordStore` untuk set/change/verify Recovery password.
+- Settings Recovery export/import menggunakan Recovery password.
+- `RecoveryOnboardingScreen` menggunakan Recovery password untuk membuka BREC artifact dan hanya menginisialisasi verifier Recovery password setelah destructive/app-state-loss recovery bila verifier lokal belum ada.
+- Startup recovery tidak lagi menggunakan Advanced password sebagai product authority.
+- Product, architecture, dan capability documentation direkonsiliasi kembali ke dua-password lifecycle boundary.
+- Transitional `RecoveryPasswordStore` dipertahankan karena sekarang kembali menjadi canonical recovery authority.
+
+### Verification
+- GitHub Actions Android build terpicu untuk perubahan source terbaru.
+- Current latest run pada commit `f38f42d355529d54dd0beb47d741474835798f22` masih **IN_PROGRESS** saat checkpoint ini dicatat.
+- Runtime/device verification belum dilakukan.
+- End-to-end BREC recovery, destructive app-state-loss recovery, wrong-password fail-closed, dan cross-device recovery masih **UNVERIFIED**.
+- Artifact yang pernah dibuat ketika single-password/Advanced-password recovery semantics berlaku memerlukan compatibility/migration verification; tidak ditambahkan hidden Advanced-password fallback.
+
+### Current State
+- **IMPLEMENTED:** password authority separation has been restored in source and canonical project documentation.
+- **UNVERIFIED:** build result for current HEAD and runtime behavior.
+- **KNOWN GAP:** historical artifacts created under the superseded password authority may require explicit compatibility/migration handling.
+
+### Next
+1. Verify current HEAD build.
+2. Run recovery runtime verification using distinct Recovery and Advanced passwords.
+3. Verify BREC export/import and destructive identity recovery.
+4. Verify compatibility behavior for historical artifacts before adding any migration path.
