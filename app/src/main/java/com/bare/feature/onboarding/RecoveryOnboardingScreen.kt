@@ -100,8 +100,9 @@ fun RecoveryOnboardingScreen(
             runCatching {
                 withContext(Dispatchers.IO) {
                     masterKeyStore.saveImported(candidate.decoded.masterKey)
-                    identityStore.restoreFromRecovery(candidate.decoded.payload)
+                    val restoredIdentity = identityStore.restoreFromRecovery(candidate.decoded.payload)
                     recoveryPasswordStore.savePassword(password.toCharArray())
+                    restoredIdentity
                 }
             }.onSuccess { identity ->
                 busy = false
