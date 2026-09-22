@@ -4159,3 +4159,22 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 ### Next
 - Verify the first CI run that includes `3f8f619`.
 - If build succeeds, proceed to runtime verification with distinct Recovery and Advanced passwords.
+
+
+## 2026-09-23 — #567 Recovery UI behavior correction
+
+### Correction
+- **USER DECISION CLARIFIED:** UI Recovery yang sudah ada **dipertahankan**. Yang diubah hanya password authority/behavior di belakang UI.
+- **Recovery password** menggantikan penggunaan **Advanced password** pada Recovery lifecycle; bukan mengganti layout, interaction model, atau action surface Recovery.
+- **Advanced password** tetap menjadi password authority untuk backup lifecycle.
+- Export/Import tetap mengikuti behavior UI yang sudah ada: password dimasukkan melalui flow Recovery yang existing, lalu dipakai untuk artifact operation. Tidak boleh diganti menjadi auto-load password tersembunyi atau flow UI baru.
+
+### Implementation
+- RecoveryScreen dikembalikan ke implementation baseline 195c79f4f06e2d19e6e1fd8630c3b5801f86e4f6 secara UI/interaction, dengan RecoveryPasswordStore sebagai authority.
+- Perubahan direct stored-password export/import pada commit f3bf367e... / 52b8ae6e... dinyatakan **SUPERSEDED** karena mengubah behavior UI yang tidak diminta.
+- Commit koreksi saat ini: 8ae77067845bf4182c1d9001f60caef845ec3982.
+
+### Verification
+- Source correction sudah committed.
+- CI untuk commit koreksi masih perlu diverifikasi.
+- Runtime dua-password behavior masih **UNVERIFIED**.
