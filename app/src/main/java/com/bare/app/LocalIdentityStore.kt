@@ -27,25 +27,10 @@ class LocalIdentityStore(context: Context) {
     }
 
     /**
-     * Restores the durable LOCAL identity from an existing .bare artifact before
-     * creating a new UUID. This is the bootstrap path used after app-data loss.
+     * Normal local load. Portable recovery is explicitly password-gated by RecoveryScreen;
+     * this method never bootstraps an identity from an unreadable/unverified artifact.
      */
-    fun loadOrRecover(): BaReIdentity? {
-        load()?.let { return it }
-
-        val candidates = findRecoveryArtifacts()
-        if (candidates.isEmpty()) return null
-
-        val identities = candidates.mapNotNull { file ->
-            runCatching { RecoveryPackageCodec.peekIdentity(file.readBytes()) }.getOrNull()
-        }.distinct()
-
-        if (identities.size > 1) {
-            throw IllegalStateException("multiple conflicting LOCAL recovery identities found")
-        }
-        val recoveredId = identities.singleOrNull() ?: return null
-        return restoreBootstrapIdentity(recoveredId)
-    }
+    fun loadOrRecover(): BaReIdentity? = load()
 
     fun createLocalIdentity(): BaReIdentity {
         return load() ?: BaReIdentity(
@@ -111,6 +96,11 @@ class LocalIdentityStore(context: Context) {
         preferences.edit().putString(KEY_ACCESS_METHOD, method.name).apply()
     }
 
+    fun hasConflictingIdentity(payload: RecoveryPackageCodec.Payload): Boolean {
+        val existing = load()
+        return existing != null && existing.identityId != payload.identityId
+    }
+
     private fun restoreBootstrapIdentity(identityId: String): BaReIdentity {
         val identity = BaReIdentity(identityId, IdentityType.LOCAL)
         preferences.edit()
@@ -119,34 +109,6 @@ class LocalIdentityStore(context: Context) {
             .apply()
         return identity
     }
-
-    private fun findRecoveryArtifacts(): List<File> {
-        return storageRoots().flatMap { root ->
-            val accounts = File(root, "BaRe/accounts")
-            accounts.listFiles()
-                ?.asSequence()
-                ?.filter { it.isDirectory }
-                ?.map { File(it, "recovery/bare-recovery-v2.bare") }
-                ?.filter { it.isFile }
-                ?.toList()
-                ?: emptyList()
-        }.distinctBy { it.absolutePath }
-    }
-
-    private fun storageRoots(): List<File> = buildList {
-        add(Environment.getExternalStorageDirectory())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val storageManager = appContext.getSystemService(StorageManager::class.java)
-            storageManager?.storageVolumes
-                ?.filter { it.isRemovable && it.state == Environment.MEDIA_MOUNTED }
-                ?.mapNotNull { volume ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) volume.directory else null
-                }
-                ?.forEach { root ->
-                    if (root.absolutePath != Environment.getExternalStorageDirectory().absolutePath) add(root)
-                }
-        }
-    }.distinctBy { it.absolutePath }
 
     companion object {
         private const val PREFERENCES_NAME = "bare_identity"
