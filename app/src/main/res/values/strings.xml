@@ -607,14 +607,14 @@
     <string name="manage_space_delete_backup_description">Delete local backup files for this identity. Recovery data is kept.</string>
     <string name="manage_space_delete_backup_button">Delete backup files</string>
     <string name="manage_space_delete_all_title">Delete all data</string>
-    <string name="manage_space_delete_all_description">Delete all backup, recovery, and app data. This cannot be undone.</string>
+    <string name="manage_space_delete_all_description">Delete BaRe app-private data and app-specific external data. User-owned BaRe storage and recovery files are kept. This cannot be undone.</string>
     <string name="manage_space_delete_all_button">Delete all data</string>
     <string name="manage_space_reset_confirm_title">Reset settings?</string>
     <string name="manage_space_delete_backup_confirm_title">Delete backup files?</string>
     <string name="manage_space_delete_all_confirm_title">Delete all data?</string>
     <string name="manage_space_reset_confirm_message">Appearance and local storage preferences will be reset. Backup and recovery files will remain.</string>
     <string name="manage_space_delete_backup_confirm_message">Local backup files for this identity will be permanently deleted.</string>
-    <string name="manage_space_delete_all_confirm_message">Local backups and the recovery package for this identity will be permanently deleted.</string>
+    <string name="manage_space_delete_all_confirm_message">BaRe app-private data and app-specific external data will be permanently deleted. User-owned BaRe storage and recovery files will remain.</string>
     <string name="manage_space_reset_confirm_button">Reset</string>
     <string name="manage_space_delete_confirm_button">Delete</string>
     <string name="operation_failed">Operation failed</string>
