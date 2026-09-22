@@ -19,6 +19,8 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
@@ -60,6 +63,7 @@ fun RecoveryOnboardingScreen(
     var selectedIdentity by remember { mutableStateOf<String?>(null) }
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
     fun restore(candidate: DecodedCandidate) {
         busy = true
@@ -138,7 +142,7 @@ fun RecoveryOnboardingScreen(
             .padding(horizontal = 24.dp, vertical = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(Modifier.height(28.dp))
+        Spacer(Modifier.weight(0.72f))
         Image(
             painter = painterResource(R.drawable.bare_logo),
             contentDescription = stringResource(R.string.app_name),
@@ -160,8 +164,8 @@ fun RecoveryOnboardingScreen(
             fontWeight = androidx.compose.ui.text.font.FontWeight.Light,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(Modifier.height(54.dp))
-        androidx.compose.foundation.layout.Column(
+        Spacer(Modifier.height(70.dp))
+        Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
@@ -183,9 +187,22 @@ fun RecoveryOnboardingScreen(
                 onValueChange = { password = it },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(R.string.advanced_password)) },
-                visualTransformation = PasswordVisualTransformation(),
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 singleLine = true,
                 enabled = !busy,
+                trailingIcon = {
+                    IconButton(
+                        onClick = { passwordVisible = !passwordVisible },
+                        enabled = !busy,
+                    ) {
+                        Icon(
+                            imageVector = if (passwordVisible) androidx.compose.material.icons.filled.VisibilityOff else androidx.compose.material.icons.filled.Visibility,
+                            contentDescription = stringResource(
+                                if (passwordVisible) R.string.hide_password else R.string.show_password,
+                            ),
+                        )
+                    }
+                },
             )
 
             Button(
@@ -245,6 +262,7 @@ fun RecoveryOnboardingScreen(
                 Text(stringResource(R.string.recovery_onboarding_start_fresh))
             }
         }
+        Spacer(Modifier.weight(0.55f))
     }
 }
 
