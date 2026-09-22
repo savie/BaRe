@@ -4082,3 +4082,12 @@ Melakukan rekonsiliasi continuity karena setelah checkpoint #564 terdapat rangka
 
 ### Continuity Rule
 Historical decisions are not deleted. When a later decision supersedes an earlier one, the old entry remains historical and the latest reconciliation explicitly marks the old decision as **SUPERSEDED**, while current source state is recorded separately as IMPLEMENTED / TRANSITIONAL / UNVERIFIED / BLOCKED as applicable.
+
+
+## 2026-09-22 — Recovery Settings UI / Advanced Password Alignment
+
+- **DECISION APPLIED:** Recovery Settings tidak lagi memperkenalkan konsep Recovery password terpisah. Password recovery mengikuti Advanced password yang sudah dikonfigurasi.
+- **UI:** satu halaman mempertahankan password status/action di bagian atas, lalu Export dan Import sebagai card action yang lebih besar dengan penjelasan fungsi.
+- **INTERACTION:** Export/Import menjadi action surface langsung. Jika Advanced password belum tersedia, flow password setup dibuka dari status/action area; tidak ada password recovery kedua.
+- **COPY:** seluruh copy APK tetap bahasa Inggris; terminology diarahkan ke Advanced password dan recovery identity/copy.
+- **STATUS:** implementation source committed bertahap pada `33174615`, `0613d52f`, `a66459cc`, dan `7b47ff2`. Build/runtime verification untuk current HEAD belum dilakukan.
