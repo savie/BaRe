@@ -230,7 +230,7 @@ fun RecoveryOnboardingScreen(
                                             status = null
                                         },
                                         enabled = !busy,
-                                        role = Role.RadioButton,
+                                        role = Role.Button,
                                     ),
                                 shape = RoundedCornerShape(14.dp),
                                 border = BorderStroke(
