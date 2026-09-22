@@ -118,8 +118,8 @@ fun BaReApp() {
             }
         }
     }
-    LaunchedEffect(recoveryCandidates) {
-        if (restoredIdentity == null && recoveryCandidates != null && recoveryCandidates!!.isEmpty()) {
+    LaunchedEffect(recoveryCandidates, startupRevealFinished) {
+        if (restoredIdentity == null && startupRevealFinished && recoveryCandidates != null && recoveryCandidates!!.isEmpty()) {
             startScreen = StartScreen.WELCOME
         }
     }
