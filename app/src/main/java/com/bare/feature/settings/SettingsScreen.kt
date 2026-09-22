@@ -220,6 +220,30 @@ fun SettingsScreen(
             item {
                 SettingsSection(stringResource(R.string.settings_advanced_tools)) {
                     SettingsRow(
+                        title = stringResource(R.string.settings_swift_labs),
+                        subtitle = stringResource(R.string.settings_swift_labs_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        icon = Icons.Outlined.Science,
+                        enabled = false,
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_export_settings),
+                        subtitle = stringResource(R.string.settings_export_settings_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        icon = Icons.Outlined.FileUpload,
+                        enabled = false,
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_import_settings),
+                        subtitle = stringResource(R.string.settings_import_settings_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        icon = Icons.Outlined.FileDownload,
+                        enabled = false,
+                    )
+                    SettingsRow(
+                        title = stringResource(R.string.settings_swift_logger),
+                        subtitle = stringResource(R.string.settings_swift_logger_subtitle) + " · " + stringResource(R.string.not_implemented),
+                        icon = Icons.Outlined.BugReport,
+                        enabled = false,
+                    )
+                    SettingsRow(
                         title = stringResource(R.string.settings_recovery),
                         subtitle = stringResource(R.string.recovery_description),
                         icon = Icons.Outlined.Restore,
