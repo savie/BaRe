@@ -66,11 +66,6 @@ fun RecoveryScreen(
     var passwordConfigured by remember { mutableStateOf(recoveryPasswordStore.hasPassword()) }
     var passwordAvailable by remember { mutableStateOf(recoveryPasswordStore.hasLocallyStoredPassword()) }
 
-    fun passwordMatchesConfigured(): Boolean {
-        if (!recoveryPasswordStore.hasPassword()) return true
-        return recoveryPasswordStore.verifyPassword(password.toCharArray())
-    }
-
     val importPicker = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocument(),
     ) { uri ->
