@@ -4138,3 +4138,24 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 2. Run recovery runtime verification using distinct Recovery and Advanced passwords.
 3. Verify BREC export/import and destructive identity recovery.
 4. Verify compatibility behavior for historical artifacts before adding any migration path.
+
+
+## 2026-09-22 — #566 Recovery Password CI Repair
+
+### Finding
+- CI runs #651 and #652 failed during `:app:assembleDebug` because `RecoveryPasswordDialog` was missing the `@Composable` annotation in the newly restored separate-password Settings flow.
+- The failure was source-level and directly attributable to the recovery password UI change.
+
+### Change
+- Added the missing `@Composable` annotation to `RecoveryPasswordDialog`.
+- Recovery password verifier work in `RecoveryScreen` is executed from the IO coroutine path rather than the main UI path.
+
+### Verification
+- The failing CI logs were inspected and the reported syntax/Composable errors were identified.
+- Current branch HEAD: `3f8f619fabf30dda2ab12fe730c768ad4a37f7ac`.
+- A build run for the immediately preceding source commit `d4bd837ff128b8ffa00c28708c914e4d2d92bc51` is still **IN_PROGRESS**; it does not yet include the final `@Composable` fix.
+- Therefore current HEAD build remains **UNVERIFIED**.
+
+### Next
+- Verify the first CI run that includes `3f8f619`.
+- If build succeeds, proceed to runtime verification with distinct Recovery and Advanced passwords.
