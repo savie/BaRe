@@ -124,10 +124,14 @@ adalah **contoh validation path**, bukan urutan pekerjaan dan bukan daftar slice
 
 **CAPABILITY MAP — RECONCILED / EVIDENCE-BASED IMPLEMENTATION & VERIFICATION MODEL**
 
-## Local Account Recovery Password
+## Password Lifecycle Separation
 
-Local Account Recovery memiliki password authority sendiri dan tidak bergantung pada Advanced encryption password.
+BaRe memiliki dua password authority dengan lifecycle yang berbeda.
 
-Local Account → Recovery Password → bare-recovery.bare → Import/Export
+- `Recovery password` → BaRe ID / Local Account identity recovery → `bare-recovery.bare` Import/Export.
+- `Advanced password` → Advanced backup encryption → encrypted backup lifecycle.
+- Recovery password tidak bergantung pada Advanced password.
+- Advanced password tidak menjadi prerequisite untuk BaRe ID recovery.
+- Standard backup encryption tidak mengubah atau menghapus Recovery password lifecycle.
 
-Advanced password hanya berlaku untuk lifecycle encryption Advanced. Standard backup encryption tidak menjadi prerequisite untuk Local Account recovery.
+Capability support tetap membutuhkan implementation dan runtime evidence; terminology separation sendiri bukan verification of the recovery workflow.
