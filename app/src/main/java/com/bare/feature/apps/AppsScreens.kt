@@ -1085,7 +1085,7 @@ private fun AppStorageChip(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                icon,
+                if (selected) Icons.Default.Check else icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.size(24.dp)
