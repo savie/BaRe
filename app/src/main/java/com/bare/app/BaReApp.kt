@@ -45,6 +45,7 @@ import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -80,6 +81,7 @@ import com.bare.feature.apps.AppLabelsScreen
 import com.bare.feature.apps.AppCustomConfigurationsScreen
 import com.bare.feature.apps.AppBlacklistScreen
 import com.bare.feature.apps.AppBackupSettingsScreen
+import com.bare.feature.apps.InstalledAppRepository
 import com.bare.feature.home.HomeScreen
 import com.bare.feature.misc.CloudScreen
 import com.bare.feature.misc.GenericDomainScreen
@@ -483,6 +485,9 @@ private fun MainShell(
         return
     }
     var appsMenuOpen by remember { mutableStateOf(false) }
+    var appsSourceMenuOpen by remember { mutableStateOf(false) }
+    var appsSource by remember { mutableStateOf(AppsSource.LOCAL) }
+    var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     val bottomBarScrollConnection = remember {
@@ -539,14 +544,6 @@ private fun MainShell(
                         }) {
                             Icon(Icons.Outlined.Search, stringResource(R.string.search))
                         }
-                        if (appsSelected) {
-                            IconButton(onClick = onOpenAppsFilter) {
-                                Icon(Icons.Default.Tune, contentDescription = stringResource(R.string.filter_and_search))
-                            }
-                            IconButton(onClick = { appsMenuOpen = true }) {
-                                Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.apps_menu))
-                            }
-                        }
                     },
                 )
             },
@@ -595,11 +592,30 @@ private fun MainShell(
         },
     ) { padding ->
 
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize().padding(padding).nestedScroll(bottomBarScrollConnection),
-        ) { page ->
-            when (tabs[page]) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+        ) {
+            if (appsSelected) {
+                AppsContextHeader(
+                    source = appsSource,
+                    appCount = appsInventoryCount,
+                    sourceMenuOpen = appsSourceMenuOpen,
+                    onSourceMenuOpenChange = { appsSourceMenuOpen = it },
+                    onOpenFilter = onOpenAppsFilter,
+                    onOpenMenu = { appsMenuOpen = true },
+                )
+            }
+
+            HorizontalPager(
+                state = pagerState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .nestedScroll(bottomBarScrollConnection),
+            ) { page ->
+                when (tabs[page]) {
                 Tab.HOME -> HomeScreen(
                     identityId = LocalIdentityStore(LocalContext.current).load()?.identityId,
                     identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
@@ -616,6 +632,7 @@ private fun MainShell(
                     onSearchOpenChange = onAppsSearchOpenChange,
                     filterOpen = appsFilterOpen,
                     onFilterOpenChange = onAppsFilterOpenChange,
+                    onInventoryCountChange = { appsInventoryCount = it },
                 )
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
                 Tab.ACCOUNT -> AccountScreen(
@@ -623,6 +640,7 @@ private fun MainShell(
                     identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
                     accountEmail = accountEmail,
                 )
+                }
             }
         }
     }
@@ -704,6 +722,102 @@ private fun MainShell(
     }
     }
 }
+private enum class AppsSource {
+    LOCAL,
+    CLOUD,
+}
+
+@Composable
+private fun AppsContextHeader(
+    source: AppsSource,
+    appCount: Int,
+    sourceMenuOpen: Boolean,
+    onSourceMenuOpenChange: (Boolean) -> Unit,
+    onOpenFilter: () -> Unit,
+    onOpenMenu: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 0.dp,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .padding(horizontal = 12.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        ) {
+            Box {
+                TextButton(
+                    onClick = { onSourceMenuOpenChange(true) },
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
+                ) {
+                    Column(
+                        horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            Text(
+                                text = if (source == AppsSource.LOCAL) "LOCAL APPS" else "CLOUD SYNCED APPS",
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                            )
+                            Icon(
+                                Icons.Default.KeyboardArrowDown,
+                                contentDescription = "Select app source",
+                                modifier = Modifier.size(18.dp),
+                            )
+                        }
+                        Text(
+                            text = if (source == AppsSource.LOCAL) "$appCount apps" else "Cloud inventory unavailable",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                        )
+                    }
+                }
+
+                DropdownMenu(
+                    expanded = sourceMenuOpen,
+                    onDismissRequest = { onSourceMenuOpenChange(false) },
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Local apps") },
+                        leadingIcon = if (source == AppsSource.LOCAL) {
+                            { Text("✓", fontWeight = FontWeight.Bold) }
+                        } else null,
+                        onClick = { onSourceMenuOpenChange(false) },
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Cloud synced apps") },
+                        supportingText = { Text("Cloud inventory is not wired yet") },
+                        enabled = false,
+                        onClick = {},
+                    )
+                }
+            }
+
+            Spacer(Modifier.weight(1f))
+
+            IconButton(onClick = onOpenFilter) {
+                Icon(
+                    Icons.Default.Tune,
+                    contentDescription = stringResource(R.string.filter_and_search),
+                )
+            }
+            IconButton(onClick = onOpenMenu) {
+                Icon(
+                    Icons.Default.Menu,
+                    contentDescription = stringResource(R.string.apps_menu),
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun AppsDrawerItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
