@@ -645,7 +645,7 @@ private fun MainShell(
                     .fillMaxHeight()
                     .fillMaxWidth(0.84f),
                 shape = RoundedCornerShape(topStart = 28.dp, bottomStart = 28.dp),
-                color = MaterialTheme.colorScheme.surface,
+                color = MaterialTheme.colorScheme.surfaceVariant,
                 tonalElevation = 8.dp,
                 shadowElevation = 8.dp,
             ) {
