@@ -5930,3 +5930,38 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 - App Detail storage inspection now runs on `Dispatchers.IO` so recursive Ext. data / Media size measurement does not run on the Compose main thread.
 - Source commit: `5ba3d09d8eacd0eccdb36f20905a6b672bf90cde`.
 - Runtime performance: **UNVERIFIED** until device test.
+
+
+## 2026-09-23 — Follow-up #791: App Detail storage chips dibuat mengikuti bentuk reference
+
+### Authorization
+- **USER GO:** setelah runtime #791, lanjutkan perbaikan visual App Detail.
+- Fokus utama: APKs, Data, Ext. data, dan Media harus terlihat sebagai **empat part chip/pill dengan border/background masing-masing**, mengikuti reference Swift.
+
+### Observed dari runtime #791
+- BaRe sudah memakai grid 2 kolom, tetapi setiap part masih terlihat seperti list/card biasa yang menyatu dengan storage card.
+- Reference Swift menampilkan setiap part sebagai rounded pill/card yang jelas terpisah: APKs, Data, Ext. data, Media.
+- Reference juga menempatkan tombol Backup sebagai pill dengan icon `+`.
+
+### Perubahan
+- AppStorageChip diubah dari generic Card menjadi Surface dengan tinggi 64dp, rounded shape 24dp, background primaryContainer, border 1dp menggunakan outline, icon 24dp, dan title/subtitle ditata vertikal seperti chip reference.
+- Grid 2 kolom dan dynamic visibility Ext. data/Media tetap dipertahankan.
+- Tombol Backup diberi bentuk rounded 24dp, padding lebih mirip reference, dan icon `+`.
+- Tidak mengubah perhitungan ukuran APK/Data/Ext. data/Media atau action flow.
+
+### Source
+- `1bd72a93e2f0c111a52d303368145c0763c7eabd` — `ui: match app storage parts to Swift chips`
+
+### Truth / Verification
+- Source change: **IMPLEMENTED**.
+- Static source review: **DONE** untuk perubahan chip/button.
+- Runtime visual setelah commit: **UNVERIFIED**.
+- CI/build setelah commit: **UNVERIFIED**.
+- Belum menyatakan visual sudah sama dengan reference sebelum ada screenshot runtime berikutnya.
+
+### Next
+1. Cek CI/build commit `1bd72a93e2f0c111a52d303368145c0763c7eabd`.
+2. Install/update APK hasil build tanpa uninstall.
+3. Buka App Detail app yang memiliki APK + Data + Ext. data + Media.
+4. Bandingkan lagi bentuk chip, border, spacing, icon, dan tombol Backup dengan Swift reference.
+5. Jika masih berbeda, lanjutkan visual refinement berdasarkan screenshot aktual.
