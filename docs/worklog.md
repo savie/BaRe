@@ -4178,3 +4178,52 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 - Source correction sudah committed.
 - CI untuk commit koreksi masih perlu diverifikasi.
 - Runtime dua-password behavior masih **UNVERIFIED**.
+## 2026-09-23 — #568 Recovery implementation / commit-chain reconciliation
+
+### Context
+- **PURPOSE:** Mencatat dan menghentikan rangkaian perubahan Recovery yang sempat menghasilkan commit berstatus 0-diff secara efektif, agar current state tidak salah dianggap verified.
+- **USER REQUIREMENT CURRENT:** Dua password authority tetap independen:
+  - **Recovery password** → BaRe ID / Local Account recovery dan recovery artifact.
+  - **Advanced password** → Advanced backup/encryption lifecycle.
+- **UI CONTRACT:** Existing Recovery UI dipertahankan. Tidak membuat dialog baru untuk Export/Import.
+- **ACTION BEHAVIOR CURRENT:** Change password hanya mengubah Recovery password. Export dan Import tidak meminta Recovery password melalui dialog; keduanya menggunakan Recovery password yang tersimpan lokal secara internal.
+
+### Kekacauan yang ditemukan
+1. Beberapa iterasi sebelumnya sempat mengubah Export/Import menjadi password-entry flow baru. Ini **tidak sesuai requirement** karena mengubah interaction behavior/UI yang tidak diminta.
+2. Commit 39676464f1e9af83d462ea50f18bc0d8a4963b28 sempat dianggap sebagai fix, tetapi inspeksi parent/tree/blob menunjukkan state file yang dipakai commit tersebut sudah ada pada parent ancestry. Akibatnya GitHub API melaporkan stats.total = 0 dan compare tidak menunjukkan behavioral diff.
+3. Percobaan lanjutan menghasilkan 510448b82207d82cd4f109d1d029b563ee367ee2 dan 638d52fd2a85b6eccf4e90d75bf66ceed9c51c94; keduanya juga diverifikasi melalui GitHub API sebagai stats.total = 0. Commit message menyatakan perubahan, tetapi commit tidak memiliki diff substantif terhadap parent.
+4. Kesalahan utamanya adalah memperlakukan perbedaan blob/tree ancestry sebagai bukti perubahan yang bermakna tanpa terlebih dahulu memverifikasi parent → commit stats/patch. Ini melanggar prinsip commit bukan bukti perubahan.
+5. Tidak boleh lagi membuat commit tambahan hanya untuk menghasilkan SHA baru. Perubahan harus diverifikasi sebagai diff nyata sebelum dianggap implementation checkpoint.
+
+### Corrected implementation target
+- RecoveryScreen harus mempertahankan surface dan interaction model existing.
+- Change/Set Recovery password memakai RecoveryPasswordStore.
+- Export:
+  - tidak membuka password dialog;
+  - mengambil stored Recovery password secara internal;
+  - jika stored Recovery password tidak tersedia, fail dengan state/error yang sesuai.
+- Import:
+  - user hanya memilih artifact;
+  - tidak membuka password dialog;
+  - mengambil stored Recovery password secara internal;
+  - password material harus dibersihkan setelah operation.
+- Tidak ada dependency Recovery lifecycle terhadap Advanced password.
+- Tidak ada RecoveryPasswordEntryDialog atau action-specific password state.
+
+### Verification status
+- **VERIFIED:** GitHub API membuktikan commit 396764..., 510448..., dan 638d52... memiliki stats.total = 0; ketiganya tidak boleh dipakai sebagai bukti behavioral change.
+- **OBSERVED:** Source pada current branch memuat stored Recovery password flow untuk Export/Import dan existing Recovery password dialog dengan visibility controls.
+- **UNVERIFIED:** Current branch build setelah rekonsiliasi.
+- **UNVERIFIED:** Runtime Export/Import tanpa dialog.
+- **UNVERIFIED:** Recovery password change persistence dan subsequent Export/Import.
+- **UNVERIFIED:** BREC v3 end-to-end, destructive recovery, wrong-password fail-closed, dan cross-device recovery.
+
+### Corrective rule
+- Rebuild/repair harus dimulai dari actual current source, dengan baseline behavior dibandingkan terhadap canonical Recovery baseline 195c79f4f06e2d19e6e1fd8630c3b5801f86e4f6 hanya sebagai reference.
+- Untuk setiap consequential commit:
+  1. inspect parent;
+  2. inspect resulting blob/tree;
+  3. verify parent → commit stats.total > 0;
+  4. verify changed file and patch contain intended behavior;
+  5. only then trigger/accept CI as evidence.
+- Existing bad/0-diff commits tidak boleh disebut sebagai implementation proof.
