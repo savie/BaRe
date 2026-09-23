@@ -1,8 +1,11 @@
 package com.bare.feature.apps
 
 import android.content.Context
+import android.app.usage.StorageStatsManager
 import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
+import android.os.UserHandle
+import android.os.storage.StorageManager
 import android.util.LruCache
 import com.bare.app.AppItem
 import java.io.File
@@ -19,7 +22,7 @@ class InstalledAppRepository(private val context: Context) {
                     name = info.loadLabel(packageManager).toString().ifBlank { info.packageName },
                     packageName = info.packageName,
                     category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
-                    size = formatSize(File(info.sourceDir).length()),
+                    size = formatSize(storageStats(info)?.totalBytes ?: 0L),
                     isSystem = isSystem,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
@@ -31,6 +34,10 @@ class InstalledAppRepository(private val context: Context) {
                             info.splitSourceDirs?.let(::addAll)
                         }.sumOf { path -> File(path).length().coerceAtLeast(0L) }
                     }.getOrNull(),
+                    installedSizeBytes = storageStats(info)?.appBytes,
+                    dataSizeBytes = storageStats(info)?.dataBytes,
+                    cacheSizeBytes = storageStats(info)?.cacheBytes,
+                    totalSizeBytes = storageStats(info)?.totalBytes,
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
@@ -45,6 +52,30 @@ class InstalledAppRepository(private val context: Context) {
             .sortedBy { it.name.lowercase() }
         cachedApps = loaded
         return loaded
+    }
+
+    private data class AppStorageStats(
+        val appBytes: Long,
+        val dataBytes: Long,
+        val cacheBytes: Long,
+    ) {
+        val totalBytes: Long get() = appBytes + dataBytes
+    }
+
+    private fun storageStats(info: ApplicationInfo): AppStorageStats? {
+        return runCatching {
+            val manager = context.getSystemService(StorageStatsManager::class.java) ?: return null
+            val stats = manager.queryStatsForPackage(
+                info.storageUuid ?: StorageManager.UUID_DEFAULT,
+                info.packageName,
+                UserHandle.getUserHandleForUid(info.uid),
+            )
+            AppStorageStats(
+                appBytes = stats.appBytes,
+                dataBytes = stats.dataBytes,
+                cacheBytes = stats.cacheBytes,
+            )
+        }.getOrNull()
     }
 
     private fun loadIconCached(packageName: String, versionCode: Long): Drawable? {
