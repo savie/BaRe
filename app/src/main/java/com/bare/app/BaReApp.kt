@@ -15,6 +15,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Arrangement
@@ -792,8 +793,7 @@ private fun AppsContextHeader(
                         onClick = { onSourceMenuOpenChange(false) },
                     )
                     DropdownMenuItem(
-                        text = { Text("Cloud synced apps") },
-                        supportingText = { Text("Cloud inventory is not wired yet") },
+                        text = { Text("Cloud synced apps — not wired yet") },
                         enabled = false,
                         onClick = {},
                     )
