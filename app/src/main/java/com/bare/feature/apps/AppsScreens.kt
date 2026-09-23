@@ -682,7 +682,9 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 }
                 if (selectedPart == context.getString(R.string.apk_part)) {
                     AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
-                        selectedPart = null; mockupAction = context.getString(R.string.share_apk)
+                        val action = context.getString(R.string.share_apk)
+                        selectedPart = null
+                        mockupAction = action
                     }
                 }
                 AppActionMenuItem(stringResource(R.string.delete), Icons.Default.Delete) {
