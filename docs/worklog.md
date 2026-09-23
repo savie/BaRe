@@ -4877,3 +4877,46 @@ GO untuk scope terbatas setelah baseline dikembalikan ke `a8bcc9dbef1c577a409882
 - Source inspection memastikan kotak search tidak lagi dirender di `AppsFilterScreen`; input berada di `AppsContextHeader`.
 - Device/runtime belum diverifikasi.
 - CI build masih menunggu hasil workflow commit terbaru.
+
+
+## 2026-09-23 — Apps per-app overflow bottom sheet
+
+### Authorization
+GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card ditekan, dengan scope hanya pada surface/action app tersebut.
+
+### Implementasi
+- Tombol `⋮` per app sekarang membuka `ModalBottomSheet` dengan context app yang dipilih.
+- Header sheet menampilkan package name dan nama app.
+- Action area dibuat horizontal-scrollable mengikuti pola reference.
+- Action yang dapat dijalankan dari capability Android yang tersedia sekarang:
+  - Launch app.
+  - Uninstall melalui Android package workflow.
+  - Open Play Store.
+  - Open Android App Info.
+  - Enable/Disable, Force stop, dan Clear data diarahkan ke surface management BaRe yang sudah ada; backend execution tetap mengikuti status capability yang ada dan tidak diklaim berhasil.
+- Capability organization yang sudah tersedia di BaRe dipakai langsung:
+  - Favorite toggle.
+  - Add to blacklist.
+  - Set app labels melalui App Management.
+  - Backup / Restore membuka workflow app backup yang sudah ada.
+- Battery optimization membuka Android battery optimization settings.
+- Share APK tetap berada pada action surface tetapi belum memiliki verified APK-sharing backend; tidak dibuat seolah-olah berhasil.
+- Warna sheet dan action chip menggunakan `MaterialTheme.colorScheme`, bukan hard-coded warna reference.
+- Semua text tambahan untuk bottom sheet dimasukkan ke `strings.xml`.
+
+### Boundary
+- Tidak mengubah Apps Context Header/Search.
+- Tidak mengubah Apps drawer.
+- Tidak mengubah bottom navigation.
+- Tidak menambah backend backup/restore/cloud.
+- Tidak mengklaim privileged action sebagai runtime-verified.
+
+### Verifikasi
+- Source committed pada branch `v1.0/rebaseline`.
+- Source inspection memastikan action sheet terikat ke package app yang diklik.
+- CI build menunggu hasil workflow terbaru.
+- Device/runtime belum diverifikasi.
+
+### Berikutnya
+- Cek CI.
+- Jika hijau, runtime test titik tiga → bottom sheet → dismiss dan action yang tersedia.
