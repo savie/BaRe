@@ -9,8 +9,8 @@ class InstalledAppRepository(private val context: Context) {
     private val packageManager = context.packageManager
     private val organizationStore = AppOrganizationStore(context)
 
-    fun load(): List<AppItem> =
-        packageManager.getInstalledApplications(0)
+    fun load(): List<AppItem> {
+        val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 AppItem(
@@ -35,6 +35,16 @@ class InstalledAppRepository(private val context: Context) {
                 )
             }
             .sortedBy { it.name.lowercase() }
+        cachedApps = loaded
+        return loaded
+    }
+
+    companion object {
+        @Volatile
+        private var cachedApps: List<AppItem> = emptyList()
+
+        fun cached(): List<AppItem> = cachedApps
+    }
 
     private fun formatSize(bytes: Long): String {
         if (bytes <= 0L) return context.getString(com.bare.R.string.unknown_size)
