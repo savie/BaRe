@@ -5546,3 +5546,56 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 1. Cek hasil CI untuk commit fix.
 2. Jika masih gagal, ambil error compile terbaru dan perbaiki blocker berikutnya.
 3. Jika hijau, lanjut ke artifact/device test.
+
+
+## 2026-09-23 — Rapikan app_text dan state loading Apps
+
+### Authorization
+
+- **USER GO:** jalankan masukan UX/string dan update worklog.
+
+### Pemahaman yang dipakai
+
+- `app_name` (string no. 1) = khusus nama aplikasi.
+- `app_text` (string no. 2) = penyebutan BΛR☰ di dalam kalimat/text UI.
+- Text UI tetap memakai resource `strings.xml`, bukan hardcoded di Kotlin.
+
+### Inspection
+
+- `strings.xml` saat ini memiliki:
+  - `app_name` = `B Λ R ☰`
+  - `app_text` = `BΛR☰`
+- Manage Space sebelumnya masih memiliki beberapa penyebutan `BaRe` langsung pada string/UI.
+- Apps screen sudah memiliki state awal `appsLoading = cachedApps.isEmpty()` dan `reloadApps()` berjalan di background thread; jadi pola loading saat pertama masuk **sudah ada**. Tidak perlu membuat mekanisme loading kedua.
+- Saat inventory belum selesai, source memang menampilkan `Loading installed apps…`; setelah inventory selesai baru daftar apps ditampilkan.
+
+### Perubahan
+
+- Mengubah text Manage Space yang menyebut BΛR☰ di dalam kalimat agar memakai placeholder dan diisi dari `app_text`.
+- Menambahkan resource:
+  - `apps_loading`
+  - `apps_no_matching_installed_apps`
+- Memindahkan text loading/no-result Apps dari hardcoded Kotlin ke `strings.xml`.
+- Error fallback Apps juga memakai resource `unable_to_discover_installed_apps`.
+- Tidak mengubah mekanisme background loading Apps karena mekanismenya sudah sesuai masukan.
+
+### Commit
+
+- `3abd6d8fdd01cf27ad2370070b321a3133b9e71d` — `i18n: use app_text for in-sentence BaRe text`
+- `f0a2cdd93cea394ee52e8c97452dcf7e4cf0fea4` — `i18n: use app_text in Manage Space`
+- `8886595c7175f0aab8c180ef258b1789ca16bf56` — `i18n: move Apps loading text to strings`
+- `0ff12cd328f9b68507aea6ae512fd88a9ab9c982` — `fix: resolve Manage Space strings outside composition`
+
+### Truth / Verification
+
+- Source changes: **IMPLEMENTED**.
+- Apps initial loading behavior: **OBSERVED IN SOURCE**, runtime screenshot #773 juga menunjukkan state loading.
+- Build setelah perubahan string: **PENDING**.
+- Runtime setelah perubahan string: **UNVERIFIED**.
+- Belum menyatakan semua penyebutan BΛR☰ di seluruh aplikasi sudah diaudit 100%; scope perubahan ini fokus pada area yang ditemukan pada inspection saat ini.
+
+### Berikutnya
+
+1. Cek CI build commit source terakhir.
+2. Jika gagal, ambil error dan perbaiki.
+3. Jika hijau, lanjut runtime check text + Apps loading.
