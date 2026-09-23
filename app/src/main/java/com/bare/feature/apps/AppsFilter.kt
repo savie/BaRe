@@ -330,7 +330,7 @@ fun AppsFilterScreen(
             SortOption.NAME -> filtered.sortedWith(if (activeFilter.descending) compareByDescending<AppItem> { it.name.lowercase() } else compareBy<AppItem> { it.name.lowercase() })
             SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
-            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.totalSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.DATE_USED -> filtered.sortedWith(compareBy<AppItem> { lastUsedTimes[it.packageName] ?: Long.MIN_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE -> filtered.sortedBy { it.name.lowercase() }
         }
