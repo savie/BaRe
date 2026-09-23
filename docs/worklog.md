@@ -5814,3 +5814,43 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
    - Backup → parts → location → Backup
    - Share APK dari context APK
 4. Update worklog dengan evidence runtime.
+
+## 2026-09-23 — Fix CI duplicate string resource
+
+### Trigger
+- **USER GO:** inspect CI merah, perbaiki sampai lolos verification.
+- CI error yang diberikan user:
+  - `mergeDebugResources FAILED`
+  - `Found item String/play_store more than one time`
+
+### Inspection
+- File target: `app/src/main/res/values/strings.xml`.
+- Pada source aktual branch `v1.0/rebaseline`, `play_store` ditemukan 2 kali:
+  - line 350: definisi existing App Actions.
+  - line 653: definisi baru dari refactor App Detail.
+- Audit seluruh `strings.xml` menemukan **8 duplicate resource names**:
+  - `backup`
+  - `device`
+  - `launch`
+  - `uninstall`
+  - `force_stop`
+  - `play_store`
+  - `share_apk`
+  - `battery_optimization`
+
+### Fix
+- Mempertahankan definisi string yang sudah ada dan menghapus duplicate dari blok string App Detail yang baru.
+- Tidak mengubah value/behavior dari definisi existing.
+- Source commit:
+  - `bd4a2837516e19c3b7b1e8659771910b342615da` — `fix: remove duplicate app action strings`
+
+### Verification Truth
+- Setelah fix, audit ulang seluruh `strings.xml`: **duplicate resource count = 0**.
+- Build CI setelah commit fix: **PENDING / UNVERIFIED**.
+- Runtime App Detail: tetap **UNVERIFIED**.
+- Backup execution: tetap **NOT IMPLEMENTED / PENDING capability backend**.
+
+### Next
+1. Cek GitHub Actions untuk commit `bd4a2837516e19c3b7b1e8659771910b342615da`.
+2. Jika masih merah, ambil error pertama dan perbaiki.
+3. Jika green, lanjut runtime test App Detail sesuai entry sebelumnya.
