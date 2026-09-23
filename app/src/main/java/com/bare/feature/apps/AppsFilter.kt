@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -67,6 +68,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -81,7 +83,12 @@ import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 
 private fun formatRelativeTime(timestamp: Long): String {
@@ -105,6 +112,7 @@ private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
 private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
+private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class LabelFilter { ALL, LABELLED, UNLABELLED }
 private enum class SortOption(val title: String, val icon: ImageVector, val available: Boolean) {
     NAME("Name", Icons.Default.Sort, true),
@@ -150,6 +158,8 @@ fun AppsFilterScreen(
     var showLabelPicker by remember { mutableStateOf(false) }
     var labelDraft by remember { mutableStateOf<Set<String>>(emptySet()) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
+    var blacklistTarget by remember { mutableStateOf<AppItem?>(null) }
+    var blacklistMode by remember { mutableStateOf(BlacklistMode.HIDE) }
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
     fun reloadApps() {
@@ -318,12 +328,11 @@ fun AppsFilterScreen(
                             }
                         },
                         leadingContent = {
-                            androidx.compose.foundation.layout.Box(
-                                Modifier.size(44.dp).clip(CircleShape),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold)
-                            }
+                            AppIcon(
+                                app = app,
+                                size = 48.dp,
+                                showFavoriteBadge = organizationStore.isFavorite(app.packageName),
+                            )
                         },
                         trailingContent = {
                             IconButton(onClick = { selectedApp = app }) {
@@ -346,12 +355,11 @@ fun AppsFilterScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    androidx.compose.foundation.layout.Box(
-                        Modifier.size(52.dp).clip(CircleShape),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
-                    }
+                    AppIcon(
+                        app = app,
+                        size = 52.dp,
+                        showFavoriteBadge = organizationStore.isFavorite(app.packageName),
+                    )
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
                         Text(app.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -418,8 +426,10 @@ fun AppsFilterScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.favorites)) },
                     leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
-                    modifier = Modifier.clickable { organizationStore.setFavorite(app.packageName, !organizationStore.isFavorite(app.packageName)) },
-                    trailingContent = { Text(if (organizationStore.isFavorite(app.packageName)) stringResource(R.string.favorite) else stringResource(R.string.add_to_favorites)) },
+                    modifier = Modifier.clickable {
+                        organizationStore.setFavorite(app.packageName, !organizationStore.isFavorite(app.packageName))
+                        reloadApps()
+                    },
                 )
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.backup_restore)) },
@@ -443,19 +453,130 @@ fun AppsFilterScreen(
                     headlineContent = { Text(stringResource(R.string.add_to_blacklist)) },
                     leadingContent = { Icon(Icons.Default.Block, contentDescription = null) },
                     modifier = Modifier.clickable {
-                        organizationStore.setBlacklisted(app.packageName, true)
+                        blacklistTarget = app
+                        blacklistMode = if (organizationStore.isApkOnlyInBatch(app.packageName)) BlacklistMode.APK_ONLY else BlacklistMode.HIDE
                         selectedApp = null
                     },
                 )
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.battery_optimization)) },
-                    supportingContent = { Text(stringResource(R.string.battery_optimization_description)) },
+                    supportingContent = {
+                        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+                        val optimizing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
+                        } else false
+                        Text(if (optimizing) stringResource(R.string.battery_optimization_status_optimizing) else stringResource(R.string.battery_optimization_status_exempt))
+                    },
                     leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
-                    modifier = Modifier.clickable { context.startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) },
+                    modifier = Modifier.clickable {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            val request = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                                data = Uri.parse("package:${app.packageName}")
+                            }
+                            runCatching { context.startActivity(request) }
+                                .onFailure {
+                                    context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${app.packageName}")))
+                                }
+                        }
+                    },
                 )
             }
         }
     }
+
+    if (blacklistTarget != null) {
+        val target = blacklistTarget!!
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { blacklistTarget = null },
+            title = { Text(target.name) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Row(
+                        Modifier.fillMaxWidth().clickable { blacklistMode = BlacklistMode.HIDE },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        androidx.compose.material3.RadioButton(
+                            selected = blacklistMode == BlacklistMode.HIDE,
+                            onClick = { blacklistMode = BlacklistMode.HIDE },
+                        )
+                        Text(stringResource(R.string.blacklist_hide_app), modifier = Modifier.weight(1f))
+                    }
+                    Row(
+                        Modifier.fillMaxWidth().clickable { blacklistMode = BlacklistMode.APK_ONLY },
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        androidx.compose.material3.RadioButton(
+                            selected = blacklistMode == BlacklistMode.APK_ONLY,
+                            onClick = { blacklistMode = BlacklistMode.APK_ONLY },
+                        )
+                        Text(stringResource(R.string.blacklist_apk_only_batch), modifier = Modifier.weight(1f))
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    when (blacklistMode) {
+                        BlacklistMode.HIDE -> {
+                            organizationStore.setBlacklisted(target.packageName, true)
+                            organizationStore.setApkOnlyInBatch(target.packageName, false)
+                        }
+                        BlacklistMode.APK_ONLY -> {
+                            organizationStore.setBlacklisted(target.packageName, false)
+                            organizationStore.setApkOnlyInBatch(target.packageName, true)
+                        }
+                    }
+                    blacklistTarget = null
+                    reloadApps()
+                }) { Text(stringResource(R.string.ok)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { blacklistTarget = null }) { Text(stringResource(R.string.cancel)) }
+            },
+        )
+    }
+
+private fun Drawable.toAppImageBitmap(sizePx: Int = 96): androidx.compose.ui.graphics.ImageBitmap {
+    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    setBounds(0, 0, sizePx, sizePx)
+    draw(canvas)
+    return bitmap.asImageBitmap()
+}
+
+@Composable
+private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavoriteBadge: Boolean) {
+    androidx.compose.foundation.layout.Box(
+        Modifier.size(size),
+        contentAlignment = Alignment.Center,
+    ) {
+        app.icon?.let { icon ->
+            Image(
+                bitmap = remember(icon) { icon.toAppImageBitmap() },
+                contentDescription = app.name,
+                modifier = Modifier.size(size).clip(CircleShape),
+            )
+        } ?: androidx.compose.foundation.layout.Box(
+            Modifier.size(size).clip(CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold)
+        }
+        if (showFavoriteBadge) {
+            Surface(
+                modifier = Modifier.align(Alignment.BottomEnd).size(18.dp),
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            ) {
+                Icon(
+                    Icons.Default.Star,
+                    contentDescription = stringResource(R.string.favorite),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(2.dp),
+                )
+            }
+        }
+    }
+}
 
     if (showLabelPicker) {
         androidx.compose.material3.AlertDialog(
