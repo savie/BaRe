@@ -644,6 +644,7 @@ private fun MainShell(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.84f),
+                shape = RoundedCornerShape(topStart = 28.dp, bottomStart = 28.dp),
                 color = MaterialTheme.colorScheme.surface,
                 tonalElevation = 8.dp,
                 shadowElevation = 8.dp,
@@ -651,8 +652,23 @@ private fun MainShell(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(top = 20.dp, bottom = 20.dp),
+                        .padding(top = 12.dp, bottom = 20.dp),
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp),
+                        contentAlignment = androidx.compose.ui.Alignment.Center,
+                    ) {
+                        Surface(
+                            modifier = Modifier
+                                .width(54.dp)
+                                .height(4.dp),
+                            shape = RoundedCornerShape(2.dp),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.65f),
+                        ) {}
+                    }
+
                     AppsDrawerItem(Icons.Default.FlashOn, stringResource(R.string.quick_actions_label), onClick = {
                         appsMenuOpen = false
                         onOpenScreen(Screen.APP_QUICK_ACTIONS)
@@ -669,7 +685,9 @@ private fun MainShell(
                         appsMenuOpen = false
                         onOpenScreen(Screen.APP_BLACKLIST)
                     })
-                    Spacer(Modifier.height(12.dp))
+
+                    Spacer(Modifier.weight(1f))
+
                     HorizontalDivider()
                     Spacer(Modifier.height(12.dp))
                     AppsDrawerItem(Icons.Default.Android, stringResource(R.string.app_backup_settings), onClick = {
