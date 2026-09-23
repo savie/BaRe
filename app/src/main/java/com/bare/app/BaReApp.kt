@@ -191,6 +191,7 @@ fun BaReApp() {
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     var appsSearchOpen by remember { mutableStateOf(false) }
+    var appsSearchQuery by remember { mutableStateOf("") }
     var appsFilterOpen by remember { mutableStateOf(false) }
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val scope = rememberCoroutineScope()
@@ -393,7 +394,7 @@ fun BaReApp() {
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, identityStore.load()?.identityId, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
-                    appsSearchOpen, { appsSearchOpen = it }, appsFilterOpen, { appsFilterOpen = it },
+                    appsSearchOpen, { appsSearchOpen = it }, appsSearchQuery, { appsSearchQuery = it }, appsFilterOpen, { appsFilterOpen = it },
                     themeMode, dynamicColors, amoledBlack,
                     { value -> themeMode = value; settingsStore.saveThemeMode(value) },
                     { value -> dynamicColors = value; settingsStore.saveDynamicColors(value) },
@@ -430,6 +431,8 @@ private fun MainShell(
     accessMethod: AccessMethod?,
     appsSearchOpen: Boolean,
     onAppsSearchOpenChange: (Boolean) -> Unit,
+    appsSearchQuery: String,
+    onAppsSearchQueryChange: (String) -> Unit,
     appsFilterOpen: Boolean,
     onAppsFilterOpenChange: (Boolean) -> Unit,
     themeMode: AppThemeMode,
@@ -511,6 +514,10 @@ private fun MainShell(
     }
     BackHandler(enabled = appsSelected && appsMenuOpen) {
         appsMenuOpen = false
+    }
+    BackHandler(enabled = appsSelected && appsSearchOpen) {
+        onAppsSearchOpenChange(false)
+        onAppsSearchQueryChange("")
     }
 
     Box(Modifier.fillMaxSize()) {
@@ -602,6 +609,13 @@ private fun MainShell(
                 AppsContextHeader(
                     source = appsSource,
                     appCount = appsInventoryCount,
+                    searchOpen = appsSearchOpen,
+                    searchQuery = appsSearchQuery,
+                    onSearchQueryChange = onAppsSearchQueryChange,
+                    onCloseSearch = {
+                        onAppsSearchOpenChange(false)
+                        onAppsSearchQueryChange("")
+                    },
                     sourceMenuOpen = appsSourceMenuOpen,
                     onSourceMenuOpenChange = { appsSourceMenuOpen = it },
                     onOpenFilter = onOpenAppsFilter,
@@ -629,8 +643,7 @@ private fun MainShell(
                 Tab.APPS -> AppsFilterScreen(
                     onOpen = onOpenScreen,
                     onOpenApp = onOpenApp,
-                    searchOpen = appsSearchOpen,
-                    onSearchOpenChange = onAppsSearchOpenChange,
+                    searchQuery = appsSearchQuery,
                     filterOpen = appsFilterOpen,
                     onFilterOpenChange = onAppsFilterOpenChange,
                     onInventoryCountChange = { appsInventoryCount = it },
