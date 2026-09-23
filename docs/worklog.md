@@ -5211,3 +5211,167 @@ Runtime parity             = UNVERIFIED
 ```
 
 **Next actionable:** audit capability Android/BaRe untuk memetakan komponen storage satu per satu sebelum mengubah InstalledAppRepository atau UI.
+---
+
+## 2026-09-23 — CEK capability Android untuk App Size / Cache BaRe
+
+### Authorization
+
+- **USER GO:** lanjut audit capability Android/BaRe untuk memetakan APK, split APK, Data, External data, Media, OBB, dan Cache sebelum mengubah source.
+- Scope langkah ini: **inspect + reconcile evidence**.
+- Tidak ada perubahan source aplikasi pada langkah ini.
+
+### Hasil CEK source BaRe
+
+InstalledAppRepository saat ini memakai:
+
+    StorageStatsManager.queryStatsForPackage(...)
+
+dan menyimpan:
+
+    appBytes
+    dataBytes
+    cacheBytes
+    totalBytes = appBytes + dataBytes
+
+Selain itu BaRe menghitung apkSizeBytes sendiri dari:
+
+    ApplicationInfo.sourceDir
+    + ApplicationInfo.splitSourceDirs
+
+Jadi saat ini ada dua jenis angka:
+
+    APK size
+    = base APK + split APK
+
+    Installed/App size
+    = StorageStats.appBytes + StorageStats.dataBytes
+
+### Reconcile dengan Android API
+
+Dokumentasi Android yang dicek untuk StorageStats menyatakan:
+
+    getAppBytes()
+    = APK
+    + optimized compiler output
+    + unpacked native libraries
+    + OBB bila primary external/shared storage berada pada volume tersebut
+
+    getDataBytes()
+    = dataDir
+    + cacheDir
+    + codeCacheDir
+    + externalFilesDir
+    + externalCacheDir
+    + externalMediaDirs
+      (bila primary external/shared storage berada pada volume tersebut)
+
+    getCacheBytes()
+    = cacheDir
+    + codeCacheDir
+    + externalCacheDir
+
+Jadi ada temuan penting:
+
+**BaRe totalBytes = appBytes + dataBytes sudah jauh lebih luas daripada sekadar ukuran APK.**
+
+Artinya kita **tidak perlu langsung membuat scanner folder recursive sendiri** hanya untuk mendapatkan Total App Size.
+
+StorageStats sudah memberi agregat storage app dari Android. citeturn1search0turn1search2
+
+### Mapping capability
+
+| Komponen reference Swift | Capability BaRe sekarang | Status |
+|---|---|---|
+| Base APK | ApplicationInfo.sourceDir + appBytes | **ADA** |
+| Split APK | splitSourceDirs + appBytes | **ADA** |
+| Native / optimized app storage | StorageStats.appBytes | **ADA** |
+| OBB | Android memasukkannya ke getAppBytes() pada kondisi storage yang sesuai | **ADA via aggregate**, belum ada breakdown khusus |
+| Data | StorageStats.dataBytes | **ADA** |
+| App-specific external files | getDataBytes() mencakup getExternalFilesDir() pada kondisi yang sesuai | **ADA via aggregate** |
+| App-specific external media | getDataBytes() mencakup getExternalMediaDirs() pada kondisi yang sesuai | **ADA via aggregate** |
+| External cache | getCacheBytes() / getExternalCacheBytes() | **ADA** |
+| Media umum di MediaStore | Tidak ada mapping per-package langsung dari StorageStats | **UNKNOWN / bukan breakdown yang sama** |
+| Shared libraries ala field Swift | appBytes memberi aggregate app code size, tetapi belum ada breakdown yang sama | **PARTIAL** |
+| Cache terpisah | cacheBytes | **ADA** |
+
+Android juga menyediakan getAppBytesByDataType() mulai API 35 untuk beberapa bagian code path, termasuk APK dan lib, sehingga breakdown code dapat diperiksa lebih detail pada runtime Android yang mendukungnya. BaRe compileSdk saat ini 35. citeturn1search0turn1search4
+
+### Temuan penting soal cache
+
+StorageStats.getCacheBytes() sudah memasukkan cache internal (cacheDir, codeCacheDir) dan external cache. Jadi:
+
+    Total = appBytes + dataBytes
+    Cache = cacheBytes
+
+boleh ditampilkan sebagai:
+
+    Total App Size
+    Cache
+
+tanpa menambahkan Cache lagi ke Total.
+
+Ini cocok dengan prinsip audit Swift sebelumnya: **Cache adalah informasi terpisah, bukan tambahan kedua ke Total.** citeturn1search2
+
+Untuk cache milik **BaRe sendiri**, Android juga menyediakan directory langsung melalui Context; source BaRe saat ini memang sudah menghapus:
+
+    context.cacheDir
+    context.codeCacheDir
+    context.externalCacheDirs
+
+Measurement lokal terhadap directory tersebut bisa dilakukan tanpa mengganti model StorageStats untuk app lain. Android menjelaskan bahwa cacheDir adalah cache app sendiri dan dapat diakses tanpa permission tambahan. citeturn0search2turn0search12
+
+### Root / privilege
+
+BaRe memang sudah memiliki root provider dan su executor.
+
+Tetapi untuk **Total App Size berbasis StorageStats**, root belum terbukti diperlukan.
+
+Jangan otomatis menyalin pendekatan Swift toybox du ke BaRe.
+
+Jalur root baru relevan bila nanti ada komponen storage tertentu yang memang tidak bisa direpresentasikan oleh public Android API dan requirement BaRe memang membutuhkan breakdown tersebut.
+
+Android sendiri mencatat bahwa queryStatsForPackage() untuk package lain membutuhkan PACKAGE_USAGE_STATS; manifest BaRe sudah mendeklarasikan permission tersebut. citeturn1search6
+
+### External storage / OBB boundary
+
+Android menyediakan API langsung untuk:
+
+    getExternalFilesDirs()
+    getExternalCacheDirs()
+    getExternalMediaDirs()
+    getObbDirs()
+
+Tetapi pada Android modern, akses ke direktori app milik **package lain** di external storage dibatasi oleh scoped storage. Karena itu keberadaan path API tidak otomatis berarti BaRe boleh membaca semua isi path package lain secara non-root. citeturn0search7turn0search8
+
+Untuk BaRe inventory app lain, StorageStats adalah jalur yang lebih tepat sebagai aggregate daripada mencoba membaca /Android/data/<package> secara langsung.
+
+### Kesimpulan CEK
+
+    BaRe Total App Size aggregate     = ADA
+    BaRe APK + split breakdown        = ADA
+    BaRe OBB aggregate                = ADA via StorageStats
+    BaRe Data aggregate               = ADA
+    BaRe external app data aggregate  = ADA via StorageStats
+    BaRe external media aggregate     = ADA via StorageStats
+    BaRe cache aggregate              = ADA
+    BaRe cache breakdown internal/ext = PARTIAL / API tersedia
+    BaRe Swift-style shared-lib split = PARTIAL
+    BaRe arbitrary MediaStore media   = UNKNOWN
+    BaRe own cache measurement        = BELUM DIIMPLEMENTASIKAN
+    Root du scanner                   = BELUM DIBUTUHKAN
+
+### Keputusan kerja saat ini
+
+Belum ada DECISION untuk mengubah rumus Total.
+
+**PROPOSAL:** pertahankan totalBytes = appBytes + dataBytes sebagai kandidat model Total karena Android sudah mendefinisikannya sebagai aggregate app/data storage, lalu tambahkan breakdown hanya untuk komponen yang benar-benar bisa dibuktikan dan tidak double-count.
+
+Untuk App size list, totalSizeBytes tetap kandidat sumber sort; jangan menggantinya dengan apkSizeBytes.
+
+### Next actionable
+
+1. Audit API level 35 untuk breakdown getAppBytesByDataType() dan cek apakah bisa memberi breakdown yang berguna untuk UI BaRe.
+2. Audit apakah cacheBytes perlu ditampilkan langsung atau dipecah menjadi internal/external cache.
+3. Audit measurement cache milik BaRe sendiri (cacheDir, codeCacheDir, externalCacheDirs) tanpa mencampurnya dengan per-app inventory.
+4. Setelah evidence itu cukup, baru tentukan perubahan source/UI.
