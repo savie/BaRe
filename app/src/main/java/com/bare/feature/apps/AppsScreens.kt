@@ -1,5 +1,6 @@
 package com.bare.feature.apps
 
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -292,98 +293,6 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
         if (q.isBlank()) emptyList() else apps.filter {
             it.name.lowercase().contains(q) || it.packageName.lowercase().contains(q)
         }.take(30)
-    }
-
-    if (showBackupSelector && details != null) {
-        val availableParts = buildList {
-            add(context.getString(R.string.apks_part))
-            add(context.getString(R.string.data_part))
-            if ((details!!.externalDataSizeBytes ?: 0L) > 0L) add(context.getString(R.string.external_data_part))
-            if ((details!!.mediaSizeBytes ?: 0L) > 0L) add(context.getString(R.string.media_part))
-        }
-        ModalBottomSheet(
-            onDismissRequest = { showBackupSelector = false },
-            dragHandle = { BottomSheetDefaults.DragHandle() }
-        ) {
-            Column(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        stringResource(R.string.user_app_parts),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f)
-                    )
-                    IconButton(onClick = { backupPartNames = availableParts.toSet() }) {
-                        Icon(Icons.Default.CheckCircle, contentDescription = stringResource(R.string.select_all))
-                    }
-                }
-                availableParts.chunked(2).forEach { rowParts ->
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        rowParts.forEach { part ->
-                            AppStorageChip(
-                                title = part,
-                                subtitle = when (part) {
-                                    context.getString(R.string.apks_part) -> formatAppSize(details!!.apkSizeBytes)
-                                    context.getString(R.string.data_part) -> formatAppSize(details!!.dataSizeBytes ?: 0L)
-                                    context.getString(R.string.external_data_part) -> formatAppSize(details!!.externalDataSizeBytes ?: 0L)
-                                    else -> formatAppSize(details!!.mediaSizeBytes ?: 0L)
-                                },
-                                icon = when (part) {
-                                    context.getString(R.string.apks_part) -> Icons.Default.Android
-                                    context.getString(R.string.data_part) -> Icons.Default.Storage
-                                    context.getString(R.string.external_data_part) -> Icons.Default.Folder
-                                    else -> Icons.Default.PhotoLibrary
-                                },
-                                modifier = Modifier.weight(1f),
-                                selected = part in backupPartNames
-                            ) {
-                                backupPartNames = if (part in backupPartNames) backupPartNames - part else backupPartNames + part
-                            }
-                        }
-                        if (rowParts.size == 1) Spacer(Modifier.weight(1f))
-                    }
-                }
-                Text(
-                    stringResource(R.string.select_backup_locations),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FilterChip(
-                        selected = backupDestination == "Device",
-                        onClick = { backupDestination = "Device" },
-                        label = { Text(stringResource(R.string.device)) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    FilterChip(
-                        selected = backupDestination == "Cloud",
-                        onClick = { backupDestination = "Cloud" },
-                        label = { Text(stringResource(R.string.cloud)) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-                Button(
-                    enabled = backupPartNames.isNotEmpty(),
-                    onClick = {
-                        showBackupSelector = false
-                        mockupAction = context.getString(R.string.run_backup)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(28.dp),
-                    contentPadding = PaddingValues(vertical = 16.dp)
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.backup).uppercase())
-                }
-            }
-        }
     }
 
     Scaffold(
@@ -809,16 +718,19 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 AppActionMenuItem(stringResource(R.string.backup_to_device), Icons.Default.PhoneAndroid) {
                     selectedPart = null
                     backupPartNames = setOf(part)
+                    backupDestination = "Device"
                     showBackupSelector = true
                 }
                 AppActionMenuItem(stringResource(R.string.backup_to_cloud), Icons.Default.CloudUpload) {
                     selectedPart = null
                     backupPartNames = setOf(part)
+                    backupDestination = "Cloud"
                     showBackupSelector = true
                 }
                 AppActionMenuItem(stringResource(R.string.backup_to_device_cloud), Icons.Default.CloudQueue) {
                     selectedPart = null
                     backupPartNames = setOf(part)
+                    backupDestination = "Device + Cloud"
                     showBackupSelector = true
                 }
                 if (part == context.getString(R.string.apks_part)) {
@@ -830,6 +742,106 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 AppActionMenuItem(stringResource(R.string.delete), Icons.Default.Delete) {
                     selectedPart = null
                     mockupAction = context.getString(R.string.delete)
+                }
+            }
+        }
+    }
+
+    if (showBackupSelector && details != null) {
+        val availableParts = buildList {
+            add(context.getString(R.string.apks_part))
+            add(context.getString(R.string.data_part))
+            if ((details!!.externalDataSizeBytes ?: 0L) > 0L) {
+                add(context.getString(R.string.external_data_part))
+            }
+            if ((details!!.mediaSizeBytes ?: 0L) > 0L) {
+                add(context.getString(R.string.media_part))
+            }
+        }
+        ModalBottomSheet(
+            onDismissRequest = { showBackupSelector = false },
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        stringResource(R.string.user_app_parts),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(onClick = { backupPartNames = availableParts.toSet() }) {
+                        Icon(Icons.Default.CheckCircle, contentDescription = stringResource(R.string.select_all))
+                    }
+                }
+                availableParts.chunked(2).forEach { rowParts ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        rowParts.forEach { part ->
+                            AppStorageChip(
+                                title = part,
+                                subtitle = when (part) {
+                                    context.getString(R.string.apks_part) -> formatAppSize(details!!.apkSizeBytes)
+                                    context.getString(R.string.data_part) -> formatAppSize(details!!.dataSizeBytes ?: 0L)
+                                    context.getString(R.string.external_data_part) -> formatAppSize(details!!.externalDataSizeBytes ?: 0L)
+                                    else -> formatAppSize(details!!.mediaSizeBytes ?: 0L)
+                                },
+                                icon = when (part) {
+                                    context.getString(R.string.apks_part) -> Icons.Default.Android
+                                    context.getString(R.string.data_part) -> Icons.Default.Storage
+                                    context.getString(R.string.external_data_part) -> Icons.Default.Folder
+                                    else -> Icons.Default.PhotoLibrary
+                                },
+                                modifier = Modifier.weight(1f),
+                                selected = part in backupPartNames
+                            ) {
+                                backupPartNames = if (part in backupPartNames) {
+                                    backupPartNames - part
+                                } else {
+                                    backupPartNames + part
+                                }
+                            }
+                        }
+                        if (rowParts.size == 1) Spacer(Modifier.weight(1f))
+                    }
+                }
+                Text(
+                    stringResource(R.string.select_backup_locations),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = backupDestination == "Device",
+                        onClick = { backupDestination = "Device" },
+                        label = { Text(stringResource(R.string.device)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    FilterChip(
+                        selected = backupDestination == "Cloud",
+                        onClick = { backupDestination = "Cloud" },
+                        label = { Text(stringResource(R.string.cloud)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Button(
+                    enabled = backupPartNames.isNotEmpty(),
+                    onClick = {
+                        showBackupSelector = false
+                        mockupAction = context.getString(R.string.run_backup)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(28.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.backup).uppercase())
                 }
             }
         }
@@ -987,13 +999,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.SemiBold
                                 )
-                                if (cacheBytes > 0L) {
-                                    Text(
-                                        stringResource(R.string.cache) + ": " + formatAppSize(cacheBytes),
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
                                 if (parts.isNotEmpty()) {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         parts.chunked(2).forEach { rowParts ->
