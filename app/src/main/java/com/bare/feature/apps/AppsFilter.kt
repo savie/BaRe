@@ -126,6 +126,7 @@ fun AppsFilterScreen(
     val organizationStore = remember(context) { AppOrganizationStore(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
+    var appsLoading by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var usageAccess by remember { mutableStateOf(usageRepository.hasUsageAccess()) }
@@ -139,9 +140,11 @@ fun AppsFilterScreen(
             .onSuccess {
                 apps = it
                 error = null
+                appsLoading = false
             }
             .onFailure {
                 error = it.message ?: "Unable to discover installed apps"
+                appsLoading = false
             }
     }
 
@@ -264,6 +267,13 @@ fun AppsFilterScreen(
                     error!!,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(vertical = 12.dp),
+                )
+            }
+        } else if (appsLoading) {
+            item {
+                Text(
+                    "Loading installed apps…",
+                    modifier = Modifier.padding(vertical = 24.dp),
                 )
             }
         } else if (visibleApps.isEmpty()) {
