@@ -714,4 +714,18 @@
     <string name="export_recovery_description">Create an encrypted recovery copy of this identity. Tap to export it.</string>
     <string name="import_recovery_description">Restore an existing identity from an encrypted recovery copy. Tap to import it.</string>
     <string name="recovery_password_status_missing">Set a Recovery password to enable BaRe ID recovery.</string>
-</resources>
+
+    <string name="diagnostics_health_title">Health</string>
+    <string name="diagnostics_activity_title">Recent activity</string>
+    <string name="diagnostics_summary_title">BaRe health</string>
+    <string name="diagnostics_summary_ready">Everything currently available looks good.</string>
+    <string name="diagnostics_summary_attention">%1$d item needs attention.</string>
+    <string name="diagnostics_summary_unavailable">%1$d item is not available yet.</string>
+    <string name="diagnostics_status_ready">Ready</string>
+    <string name="diagnostics_status_attention">Needs attention</string>
+    <string name="diagnostics_status_not_available">Not available</string>
+    <string name="diagnostics_app_version">Version %1$s</string>
+    <string name="diagnostics_refresh">Refresh</string>
+    <string name="diagnostics_share">Share report</string>
+    <string name="diagnostics_report_subject">BaRe diagnostics report</string>
+    </resources>
