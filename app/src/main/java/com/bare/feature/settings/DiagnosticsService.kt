@@ -82,7 +82,7 @@ class DiagnosticsService(private val context: Context) {
             DiagnosticsCheck(
                 title = appContext.getString(R.string.diagnostics_check_identity),
                 status = if (identity != null) DiagnosticsStatus.READY else DiagnosticsStatus.ATTENTION,
-                detail = if (identity != null) appContext.getString(R.string.diagnostics_identity_ready)
+                detail = if (identity != null) appContext.getString(R.string.diagnostics_identity_ready, appContext.getString(R.string.app_text))
                 else appContext.getString(R.string.diagnostics_identity_missing),
             ),
             DiagnosticsCheck(
@@ -150,7 +150,7 @@ class DiagnosticsService(private val context: Context) {
         appendLine(appContext.getString(R.string.diagnostics_report_title, appContext.getString(R.string.app_text)))
         appendLine(appContext.getString(R.string.diagnostics_report_app_version, snapshot.appVersion))
         appendLine(appContext.getString(R.string.diagnostics_report_runtime, snapshot.runtime))
-        appendLine(appContext.getString(R.string.diagnostics_report_identity, snapshot.identity.take(8)))
+        appendLine(appContext.getString(R.string.diagnostics_report_identity, appContext.getString(R.string.app_text), snapshot.identity.take(8)))
         appendLine(appContext.getString(R.string.diagnostics_report_storage, snapshot.storage))
         appendLine(appContext.getString(R.string.diagnostics_report_recovery, snapshot.recovery))
         appendLine(appContext.getString(R.string.diagnostics_report_encryption, snapshot.encryption))
