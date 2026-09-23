@@ -4513,3 +4513,33 @@ Actual findings:
 - After inspection, a residual Apps implementation section was found at the tail of `docs/reference.md` and removed.
 - Final reference cleanup commit: `1f61d0f2bbcaccf34d381e6e138403f9daf47ea0`.
 - Final intent remains: reference records Swift Backup/reference evidence; actual BaRe implementation status for Apps is recorded in this worklog checkpoint.
+
+
+## 2026-09-23 — Perapihan Boundary Reference dan Worklog
+
+### Pekerjaan Saat Ini
+Merapikan kembali pemisahan `docs/reference.md` dan `docs/worklog.md` agar sesuai dengan README dan Governance yang berlaku.
+
+### Perubahan
+- `docs/reference.md` dipertahankan sebagai **Reference / Discovery Artifact** untuk evidence Swift Backup.
+- Bagian yang berisi current state BaRe, gap implementation, architecture proposal, implementation decision, dan status pekerjaan BaRe dihapus dari `reference.md`.
+- Capability inventory Apps **APP-01..APP-54** serta grouping **G1–G7 + APP-01 foundation** tetap dipertahankan karena merupakan hasil rekonsiliasi evidence reference.
+- `docs/worklog.md` menjadi tempat pencatatan audit actual BaRe, implementation state, verification, dan next action.
+- Tidak ada source implementation yang diubah oleh perapihan dokumentasi ini.
+
+### Verifikasi
+- Governance yang digunakan: `LANGUAGE.md`, `DOCUMENTATION_CONVENTION.md`, `NAMING_CONVENTION.md`, `CHANGE_POLICY.md`, dan `OPERATING_CONTRACT.md`.
+- Bahasa dokumen dikembalikan ke pola existing: Bahasa Indonesia sebagai default, English dipertahankan untuk technical/canonical terminology.
+- Struktur worklog mengikuti pola existing `Pekerjaan Saat Ini` / `Perubahan` / `Verifikasi` / `Berikutnya` bila relevan.
+- Reference tidak lagi menjadi tempat pencatatan current implementation state BaRe.
+- Perubahan reference terakhir: `0e786e571e5b25835dbcd37c95b7553d080a88f5`.
+
+### Belum Dikerjakan / Tidak Diubah
+- Tidak ada perubahan source Apps.
+- Tidak ada perubahan product scope atau architecture decision.
+- Tidak ada runtime verification baru.
+
+### Berikutnya
+- Gunakan `reference.md` hanya untuk reference evidence dan hasil audit terhadap artifact reference.
+- Catat pekerjaan actual BaRe, implementation state, verification, dan keputusan kerja di `worklog.md` atau dokumen canonical yang sesuai.
+- Jangan mencampurkan reference evidence dengan current project state pada perubahan dokumentasi berikutnya.
