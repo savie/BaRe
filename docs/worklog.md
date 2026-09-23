@@ -5650,3 +5650,55 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 3. Uji sort APK size ascending/descending.
 4. Pastikan card menampilkan ukuran nyata, bukan Unknown size.
 5. Setelah runtime terbukti, baru catat hasil verification.
+
+
+## 2026-09-23 — Implementasi formatter tanggal Apps dari audit #779
+
+### Authorization
+
+- **USER GO:** lanjutkan hasil audit #779.
+- Scope implementasi: format Install date, Update date, Date used agar tidak menampilkan ribuan hari; validasi timestamp invalid; audit jalur Usage root.
+
+### Implementasi
+
+- Formatter relative time di AppsFilter sekarang:
+  - timestamp <= 0 atau timestamp future → Date unavailable;
+  - < 1 menit → Just now;
+  - menit → minute/minutes;
+  - jam → hour/hours;
+  - hari → day/days;
+  - 7–29 hari → week/weeks;
+  - 30 hari–<1 tahun → month/months;
+  - >=1 tahun → year/years.
+- Install date, Update date, dan Date used memakai formatter baru.
+- Menambahkan resource string untuk semua satuan dan fallback unavailable.
+
+### Audit Usage root
+
+- AppUsageRepository saat ini hanya memakai UsageStatsManager + AppOpsManager.OPSTR_GET_USAGE_STATS.
+- RootCapabilityProvider dan RootAppActionExecutor memang menyediakan eksekusi su, tetapi belum ada capability yang membaca/menggantikan UsageStatsManager lewat root.
+- Karena belum ada jalur root usage yang terbukti dan parsing output sistem belum diverifikasi pada device, tidak membuat bypass root spekulatif pada langkah ini.
+- Status root Date used bypass: UNKNOWN / NOT IMPLEMENTED.
+- Non-root tanpa Usage Access tetap menampilkan Usage unavailable.
+
+### Source commits
+
+- a43e80717428f28113622d325396703cabcd34c8 — fix: format app dates by sensible time units
+- ebbb5184497f4ce7f6f49b2d34e66dc3d9af3f9c — i18n: add relative app date strings
+
+### Truth / Verification
+
+- Formatter source: IMPLEMENTED.
+- String resources: IMPLEMENTED.
+- CI/build untuk commit ini: PENDING.
+- Runtime date display: UNVERIFIED.
+- Runtime invalid timestamp behavior: UNVERIFIED.
+- Runtime root Usage bypass: UNVERIFIED / NOT IMPLEMENTED.
+- App Size total model tetap tidak diubah; #779 sudah memberi runtime evidence bahwa total app size menghasilkan angka.
+
+### Next
+
+1. Tunggu/cek CI.
+2. Jika hijau, uji Install date, Update date, Date used, terutama app yang sebelumnya tampil 20719 days ago.
+3. Uji Date used dengan Usage Access ON/OFF.
+4. Jangan mengklaim root bypass sampai ada capability + runtime evidence.
