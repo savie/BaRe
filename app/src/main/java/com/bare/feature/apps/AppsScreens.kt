@@ -1,6 +1,12 @@
 package com.bare.feature.apps
 
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -640,6 +646,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     val context = LocalContext.current
     val packageName = app?.packageName
     val repository = remember(context) { AppDetailsRepository(context) }
+    val organizationStore = remember(context) { AppOrganizationStore(context) }
     var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var showActions by remember { mutableStateOf(false) }
@@ -647,120 +654,185 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
-    var mockupAction by remember { mutableStateOf<String?>(null) }
+    var confirmAction by remember { mutableStateOf<String?>(null) }
+    var showLabelsEditor by remember { mutableStateOf(false) }
+    var labelsText by remember { mutableStateOf("") }
 
-    LaunchedEffect(repository, packageName) {
-        details = null
-        error = null
-        if (packageName.isNullOrBlank()) {
-            error = context.getString(R.string.app_detail_missing_package)
+    fun reloadDetails() {
+        val currentPackage = packageName ?: return
+        runCatching { repository.load(currentPackage) }
+            .onSuccess { details = it; error = null }
+            .onFailure { error = it.message ?: context.getString(R.string.app_detail_unavailable) }
+    }
+
+    fun toast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun runRootAction(action: (String) -> Boolean) {
+        val currentPackage = packageName ?: return
+        if (!RootAppActionExecutor.isRootAvailable()) {
+            toast(context.getString(R.string.root_required))
+            return
+        }
+        val success = runCatching { action(currentPackage) }.getOrDefault(false)
+        toast(
+            if (success) context.getString(R.string.action_completed)
+            else context.getString(R.string.action_failed)
+        )
+        if (success) reloadDetails()
+    }
+
+    fun launchApp() {
+        val currentPackage = packageName ?: return
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(currentPackage)
+        if (launchIntent != null) {
+            context.startActivity(launchIntent)
         } else {
-            runCatching { withContext(Dispatchers.IO) { repository.load(packageName) } }
-                .onSuccess { details = it }
-                .onFailure { details = null; error = it.message ?: context.getString(R.string.app_detail_unavailable) }
+            toast(context.getString(R.string.app_action_unavailable))
         }
     }
 
-    if (mockupAction != null) {
-        AppMockupActionDialog(
-            title = mockupAction!!,
-            appName = details?.name ?: app?.name ?: context.getString(R.string.unknown_value),
-            onDismiss = { mockupAction = null },
+    fun openAppInfo() {
+        val currentPackage = packageName ?: return
+        val intent = Intent(
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            Uri.parse("package:$currentPackage")
+        )
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            toast(context.getString(R.string.app_action_unavailable))
+        }
+    }
+
+    fun openPlayStore() {
+        val currentPackage = packageName ?: return
+        val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$currentPackage"))
+        val web = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$currentPackage"))
+        when {
+            market.resolveActivity(context.packageManager) != null -> context.startActivity(market)
+            web.resolveActivity(context.packageManager) != null -> context.startActivity(web)
+            else -> toast(context.getString(R.string.app_action_unavailable))
+        }
+    }
+
+    fun uninstallApp() {
+        val currentPackage = packageName ?: return
+        val intent = Intent(
+            Intent.ACTION_DELETE,
+            Uri.parse("package:$currentPackage")
+        ).apply {
+            putExtra(Intent.EXTRA_RETURN_RESULT, true)
+        }
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            toast(context.getString(R.string.app_action_unavailable))
+        }
+    }
+
+    fun requestBatteryOptimization(exempt: Boolean) {
+        val currentPackage = packageName ?: return
+        if (RootAppActionExecutor.isRootAvailable()) {
+            val success = RootAppActionExecutor.setBatteryOptimizationExempt(currentPackage, exempt)
+            toast(if (success) context.getString(R.string.action_completed) else context.getString(R.string.action_failed))
+            if (success) reloadDetails()
+            return
+        }
+        if (!exempt) {
+            toast(context.getString(R.string.battery_optimization_managed_by_system))
+            return
+        }
+        val intent = Intent(
+            Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+            Uri.parse("package:$currentPackage")
+        )
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            toast(context.getString(R.string.app_action_unavailable))
+        }
+    }
+
+    fun addToHomeScreen() {
+        val currentPackage = packageName ?: return
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val shortcutManager = context.getSystemService(android.content.pm.ShortcutManager::class.java)
+            if (shortcutManager?.isRequestPinShortcutSupported == true) {
+                val shortcut = android.content.pm.ShortcutInfo.Builder(context, "bare_$currentPackage")
+                    .setShortLabel(details?.name ?: currentPackage)
+                    .setLongLabel(details?.name ?: currentPackage)
+                    .setIntent(context.packageManager.getLaunchIntentForPackage(currentPackage) ?: Intent())
+                    .build()
+                shortcutManager.requestPinShortcut(shortcut, null)
+                return
+            }
+        }
+        toast(context.getString(R.string.app_action_unavailable))
+    }
+
+    if (showLabelsEditor && details != null) {
+        AlertDialog(
+            onDismissRequest = { showLabelsEditor = false },
+            title = { Text(stringResource(R.string.labels)) },
+            text = {
+                OutlinedTextField(
+                    value = labelsText,
+                    onValueChange = { labelsText = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.labels)) },
+                    placeholder = { Text("Work, Media") },
+                    minLines = 2,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    organizationStore.setLabels(
+                        details!!.packageName,
+                        labelsText.split(",").map { it.trim() }.filter { it.isNotBlank() }.toSet()
+                    )
+                    showLabelsEditor = false
+                    toast(context.getString(R.string.action_completed))
+                }) {
+                    Text(stringResource(R.string.save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showLabelsEditor = false }) {
+                    Text(stringResource(R.string.close))
+                }
+            }
         )
     }
 
-    if (showActions && details != null) {
-        var batteryOptimizationExempt by remember(packageName) {
-            mutableStateOf(
-                runCatching {
-                    val powerManager = context.getSystemService(android.os.PowerManager::class.java)
-                    packageName != null && powerManager?.isIgnoringBatteryOptimizations(packageName) == true
-                }.getOrDefault(false)
-            )
-        }
-        ModalBottomSheet(onDismissRequest = { showActions = false }) {
-            Column(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                Row(
-                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    AppActionPill(stringResource(R.string.disable), Icons.Default.VisibilityOff) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.confirm_disable_app, details!!.name)
+    if (confirmAction != null && details != null) {
+        val action = confirmAction!!
+        AlertDialog(
+            onDismissRequest = { confirmAction = null },
+            title = { Text(action) },
+            text = { Text(details!!.name) },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmAction = null
+                    when (action) {
+                        context.getString(R.string.disable) ->
+                            runRootAction { RootAppActionExecutor.disable(it) }
+                        context.getString(R.string.force_stop) ->
+                            runRootAction { RootAppActionExecutor.forceStop(it) }
+                        context.getString(R.string.clear_data) ->
+                            runRootAction { RootAppActionExecutor.clearData(it) }
                     }
-                    AppActionPill(stringResource(R.string.force_stop), Icons.Default.Stop) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.confirm_force_stop_app, details!!.name)
-                    }
-                    AppActionPill(stringResource(R.string.clear_data), Icons.Default.DeleteSweep) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.confirm_clear_data_app, details!!.name)
-                    }
-                    AppActionPill(stringResource(R.string.play_store), Icons.Default.ShoppingBag) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.play_store)
-                    }
-                    AppActionPill(stringResource(R.string.android_app_info), Icons.Default.Info) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.android_app_info)
-                    }
-                    AppActionPill(stringResource(R.string.share_apk), Icons.Default.Share) {
-                        showActions = false
-                        mockupAction = context.getString(R.string.share_apk)
-                    }
+                }) {
+                    Text(stringResource(R.string.confirm))
                 }
-                HorizontalDivider(Modifier.padding(vertical = 8.dp))
-                AppActionMenuItem(stringResource(R.string.favorites), Icons.Default.Star) {
-                    showActions = false
-                    onOpen(Screen.APP_MANAGEMENT)
-                }
-                AppActionMenuItem(stringResource(R.string.labels), Icons.Default.Label) {
-                    showActions = false
-                    onOpen(Screen.APP_MANAGEMENT)
-                }
-                AppActionMenuItem(stringResource(R.string.blacklist), Icons.Default.Block) {
-                    showActions = false
-                    onOpen(Screen.APP_BLACKLIST)
-                }
-                ListItem(
-                    headlineContent = { Text(stringResource(R.string.battery_optimization)) },
-                    supportingContent = {
-                        Text(
-                            if (batteryOptimizationExempt) {
-                                stringResource(R.string.battery_optimization_status_exempt)
-                            } else {
-                                stringResource(R.string.battery_optimization_status_optimizing)
-                            }
-                        )
-                    },
-                    leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
-                    trailingContent = {
-                        Switch(
-                            checked = batteryOptimizationExempt,
-                            onCheckedChange = {
-                                batteryOptimizationExempt = it
-                                showActions = false
-                                mockupAction = context.getString(R.string.battery_optimization)
-                            }
-                        )
-                    },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                HorizontalDivider()
-                AppActionMenuItem(stringResource(R.string.add_to_home_screen), Icons.Default.Home) {
-                    showActions = false
-                    mockupAction = context.getString(R.string.add_to_home_screen)
-                }
-                AppActionMenuItem(stringResource(R.string.settings), Icons.Default.Settings) {
-                    showActions = false
-                    onOpen(Screen.APP_BACKUP_SETTINGS)
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmAction = null }) {
+                    Text(stringResource(R.string.cancel))
                 }
             }
-        }
+        )
     }
 
     if (selectedPart != null) {
@@ -797,12 +869,12 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 if (part == context.getString(R.string.apks_part)) {
                     AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
                         selectedPart = null
-                        mockupAction = context.getString(R.string.share_apk)
+                        toast(context.getString(R.string.app_action_unavailable))
                     }
                 }
                 AppActionMenuItem(stringResource(R.string.delete), Icons.Default.Delete) {
                     selectedPart = null
-                    mockupAction = context.getString(R.string.delete)
+                    toast(context.getString(R.string.app_action_unavailable))
                 }
             }
         }
@@ -812,12 +884,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         val availableParts = buildList {
             add(context.getString(R.string.apks_part))
             add(context.getString(R.string.data_part))
-            if ((details!!.externalDataSizeBytes ?: 0L) > 0L) {
-                add(context.getString(R.string.external_data_part))
-            }
-            if ((details!!.mediaSizeBytes ?: 0L) > 0L) {
-                add(context.getString(R.string.media_part))
-            }
+            if ((details!!.externalDataSizeBytes ?: 0L) > 0L) add(context.getString(R.string.external_data_part))
+            if ((details!!.mediaSizeBytes ?: 0L) > 0L) add(context.getString(R.string.media_part))
         }
         ModalBottomSheet(
             onDismissRequest = { showBackupSelector = false },
@@ -827,10 +895,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         stringResource(R.string.user_app_parts),
                         style = MaterialTheme.typography.titleLarge,
@@ -861,21 +926,13 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 modifier = Modifier.weight(1f),
                                 selected = part in backupPartNames
                             ) {
-                                backupPartNames = if (part in backupPartNames) {
-                                    backupPartNames - part
-                                } else {
-                                    backupPartNames + part
-                                }
+                                backupPartNames = if (part in backupPartNames) backupPartNames - part else backupPartNames + part
                             }
                         }
                         if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                     }
                 }
-                Text(
-                    stringResource(R.string.select_backup_locations),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
+                Text(stringResource(R.string.select_backup_locations), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilterChip(
                         selected = backupDestination == "Device",
@@ -889,12 +946,18 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         label = { Text(stringResource(R.string.cloud)) },
                         modifier = Modifier.weight(1f)
                     )
+                    FilterChip(
+                        selected = backupDestination == "Device + Cloud",
+                        onClick = { backupDestination = "Device + Cloud" },
+                        label = { Text(stringResource(R.string.device_cloud)) },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
                 Button(
                     enabled = backupPartNames.isNotEmpty(),
                     onClick = {
                         showBackupSelector = false
-                        mockupAction = context.getString(R.string.run_backup)
+                        toast(context.getString(R.string.app_action_unavailable))
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(28.dp),
@@ -913,13 +976,106 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             TopAppBar(
                 title = { Text(details?.name ?: app?.name ?: stringResource(R.string.app_details)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
-                    }
+                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
                 },
                 actions = {
-                    IconButton(enabled = details != null, onClick = { showActions = true }) {
-                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
+                    Box {
+                        IconButton(enabled = details != null, onClick = { showActions = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
+                        }
+                        DropdownMenu(
+                            expanded = showActions,
+                            onDismissRequest = { showActions = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.favorites)) },
+                                leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    val currentPackage = details?.packageName ?: return@DropdownMenuItem
+                                    val next = !organizationStore.isFavorite(currentPackage)
+                                    organizationStore.setFavorite(currentPackage, next)
+                                    toast(context.getString(R.string.action_completed))
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.labels)) },
+                                leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    labelsText = organizationStore.labels(details!!.packageName).joinToString(", ")
+                                    showLabelsEditor = true
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.blacklist)) },
+                                leadingIcon = { Icon(Icons.Default.Block, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    val currentPackage = details?.packageName ?: return@DropdownMenuItem
+                                    val next = !organizationStore.isBlacklisted(currentPackage)
+                                    organizationStore.setBlacklisted(currentPackage, next)
+                                    toast(context.getString(R.string.action_completed))
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.disable)) },
+                                leadingIcon = { Icon(Icons.Default.VisibilityOff, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    confirmAction = if (details?.isEnabled == true) context.getString(R.string.disable) else context.getString(R.string.enable)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.force_stop)) },
+                                leadingIcon = { Icon(Icons.Default.Stop, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    confirmAction = context.getString(R.string.force_stop)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.clear_data)) },
+                                leadingIcon = { Icon(Icons.Default.DeleteSweep, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    confirmAction = context.getString(R.string.clear_data)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.play_store)) },
+                                leadingIcon = { Icon(Icons.Default.ShoppingBag, contentDescription = null) },
+                                onClick = { showActions = false; openPlayStore() }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.android_app_info)) },
+                                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                                onClick = { showActions = false; openAppInfo() }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.share_apk)) },
+                                leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                                onClick = { showActions = false; toast(context.getString(R.string.app_action_unavailable)) }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.battery_optimization)) },
+                                leadingIcon = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
+                                onClick = {
+                                    showActions = false
+                                    requestBatteryOptimization(true)
+                                }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.add_to_home_screen)) },
+                                leadingIcon = { Icon(Icons.Default.Home, contentDescription = null) },
+                                onClick = { showActions = false; addToHomeScreen() }
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.settings)) },
+                                leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                                onClick = { showActions = false; onOpen(Screen.APP_BACKUP_SETTINGS) }
+                            )
+                        }
                     }
                 }
             )
@@ -945,38 +1101,10 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     (item.externalDataSizeBytes ?: 0L) +
                     (item.mediaSizeBytes ?: 0L)
                 val parts = buildList {
-                    add(
-                        Triple(
-                            context.getString(R.string.apks_part),
-                            formatAppSize(item.apkSizeBytes),
-                            Icons.Default.Android
-                        )
-                    )
-                    add(
-                        Triple(
-                            context.getString(R.string.data_part),
-                            formatAppSize(item.dataSizeBytes ?: 0L),
-                            Icons.Default.Storage
-                        )
-                    )
-                    if ((item.externalDataSizeBytes ?: 0L) > 0L) {
-                        add(
-                            Triple(
-                                context.getString(R.string.external_data_part),
-                                formatAppSize(item.externalDataSizeBytes!!),
-                                Icons.Default.Folder
-                            )
-                        )
-                    }
-                    if ((item.mediaSizeBytes ?: 0L) > 0L) {
-                        add(
-                            Triple(
-                                context.getString(R.string.media_part),
-                                formatAppSize(item.mediaSizeBytes!!),
-                                Icons.Default.PhotoLibrary
-                            )
-                        )
-                    }
+                    add(Triple(context.getString(R.string.apks_part), formatAppSize(item.apkSizeBytes), Icons.Default.Android))
+                    add(Triple(context.getString(R.string.data_part), formatAppSize(item.dataSizeBytes ?: 0L), Icons.Default.Storage))
+                    if ((item.externalDataSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.external_data_part), formatAppSize(item.externalDataSizeBytes!!), Icons.Default.Folder))
+                    if ((item.mediaSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.media_part), formatAppSize(item.mediaSizeBytes!!), Icons.Default.PhotoLibrary))
                 }
 
                 LazyColumn(
@@ -994,52 +1122,49 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                             imageView.setImageDrawable(app?.icon)
                                             imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
                                         },
-                                        modifier = Modifier.size(48.dp)
+                                        modifier = Modifier.size(40.dp)
                                     )
                                     Spacer(Modifier.width(12.dp))
                                     Column(Modifier.weight(1f)) {
+                                        Text(item.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                        Text(item.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
                                         Text(
-                                            item.packageName,
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                            maxLines = 2,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                        Text(
-                                            item.name,
-                                            style = MaterialTheme.typography.titleLarge,
-                                            fontWeight = FontWeight.Bold,
-                                            maxLines = 2,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                        Text(
-                                            stringResource(
-                                                R.string.app_version_value,
-                                                item.versionName ?: stringResource(R.string.unknown_value),
-                                                item.versionCode?.toString() ?: stringResource(R.string.unknown_value)
-                                            ),
+                                            stringResource(R.string.app_version_value, item.versionName ?: stringResource(R.string.unknown_value), item.versionCode?.toString() ?: stringResource(R.string.unknown_value)),
                                             style = MaterialTheme.typography.bodyMedium,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
                                     }
                                 }
-                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Row(
+                                    Modifier.horizontalScroll(rememberScrollState()),
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
                                     if (item.canLaunch) {
-                                        OutlinedButton(
-                                            onClick = { mockupAction = context.getString(R.string.launch) },
-                                            modifier = Modifier.weight(1f)
+                                        FilledTonalButton(
+                                            onClick = { launchApp() },
+                                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                         ) {
-                                            Icon(Icons.Default.PlayArrow, contentDescription = null)
-                                            Spacer(Modifier.width(6.dp))
+                                            Icon(Icons.Default.PlayArrow, contentDescription = null, modifier = Modifier.size(18.dp))
+                                            Spacer(Modifier.width(4.dp))
                                             Text(stringResource(R.string.launch))
                                         }
                                     }
-                                    OutlinedButton(
-                                        onClick = { mockupAction = context.getString(R.string.uninstall) },
-                                        modifier = Modifier.weight(1f)
+                                    if (!item.isEnabled) {
+                                        FilledTonalButton(
+                                            onClick = { runRootAction { RootAppActionExecutor.enable(it) } },
+                                            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                                        ) {
+                                            Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(18.dp))
+                                            Spacer(Modifier.width(4.dp))
+                                            Text(stringResource(R.string.enable))
+                                        }
+                                    }
+                                    FilledTonalButton(
+                                        onClick = { uninstallApp() },
+                                        contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
-                                        Icon(Icons.Default.DeleteOutline, contentDescription = null)
-                                        Spacer(Modifier.width(6.dp))
+                                        Icon(Icons.Default.DeleteOutline, contentDescription = null, modifier = Modifier.size(18.dp))
+                                        Spacer(Modifier.width(4.dp))
                                         Text(stringResource(R.string.uninstall))
                                     }
                                 }
@@ -1063,23 +1188,11 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 if (parts.isNotEmpty()) {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         parts.chunked(2).forEach { rowParts ->
-                                            Row(
-                                                Modifier.fillMaxWidth(),
-                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                            ) {
+                                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                                 rowParts.forEach { (title, subtitle, icon) ->
-                                                    AppStorageChip(
-                                                        title = title,
-                                                        subtitle = subtitle,
-                                                        icon = icon,
-                                                        modifier = Modifier.weight(1f),
-                                                    ) {
-                                                        selectedPart = title
-                                                    }
+                                                    AppStorageChip(title, subtitle, icon, Modifier.weight(1f)) { selectedPart = title }
                                                 }
-                                                if (rowParts.size == 1) {
-                                                    Spacer(Modifier.weight(1f))
-                                                }
+                                                if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                                             }
                                         }
                                     }
@@ -1101,20 +1214,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         }
                     }
 
-                    item {
-                        AppBackupStateCard(
-                            title = stringResource(R.string.device),
-                            status = stringResource(R.string.device_no_verified_backup),
-                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) }
-                        )
-                    }
-                    item {
-                        AppBackupStateCard(
-                            title = stringResource(R.string.cloud),
-                            status = stringResource(R.string.cloud_not_synced),
-                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) }
-                        )
-                    }
+                    item { AppBackupStateCard(title = stringResource(R.string.device), status = stringResource(R.string.device_no_verified_backup), onOpenBackups = { onOpen(Screen.APP_BACKUPS) }) }
+                    item { AppBackupStateCard(title = stringResource(R.string.cloud), status = stringResource(R.string.cloud_not_synced), onOpenBackups = { onOpen(Screen.APP_BACKUPS) }) }
                 }
             }
         }
