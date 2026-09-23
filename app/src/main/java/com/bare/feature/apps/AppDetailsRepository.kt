@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Environment
 import com.bare.R
+import com.bare.capability.RootCapabilityProvider
 import android.app.usage.StorageStats
 import java.io.File
 
@@ -41,12 +42,13 @@ class AppDetailsRepository(private val context: Context) {
         }
         val apkSizeBytes = apkPaths.sumOf { path -> File(path).length().coerceAtLeast(0L) }
         val storage = storageStats(applicationInfo)
-        val externalDataSizeBytes = directorySizeOrNull(
-            File(Environment.getExternalStorageDirectory(), "Android/data/$packageName")
-        )
-        val mediaSizeBytes = directorySizeOrNull(
-            File(Environment.getExternalStorageDirectory(), "Android/media/$packageName")
-        )
+        val rootProvider = RootCapabilityProvider()
+        val externalDataPath = File(Environment.getExternalStorageDirectory(), "Android/data/$packageName")
+        val mediaPath = File(Environment.getExternalStorageDirectory(), "Android/media/$packageName")
+        val externalDataSizeBytes = directorySizeOrNull(externalDataPath)
+            ?: runCatching { rootProvider.directorySize(externalDataPath.absolutePath) }.getOrNull()
+        val mediaSizeBytes = directorySizeOrNull(mediaPath)
+            ?: runCatching { rootProvider.directorySize(mediaPath.absolutePath) }.getOrNull()
         val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
         val appInfoIntent = android.content.Intent(
             android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
