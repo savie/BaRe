@@ -5965,3 +5965,61 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 3. Buka App Detail app yang memiliki APK + Data + Ext. data + Media.
 4. Bandingkan lagi bentuk chip, border, spacing, icon, dan tombol Backup dengan Swift reference.
 5. Jika masih berbeda, lanjutkan visual refinement berdasarkan screenshot aktual.
+
+
+## 2026-09-24 — GO #791: App Detail UI + flow + update consistency
+
+### Authorization
+- **USER GO:** bereskan **halaman App Detail saja** mengikuti Swift reference sebelum mengerjakan action titik tiga/overflow lebih lanjut.
+- Scope yang ditegaskan user:
+  - UI dan flow mengikuti reference;
+  - `Last updated` harus memakai timestamp yang sama dengan **sort by update**;
+  - part APKs/Data/Ext. data/Media tetap terpisah dan hanya tampil jika tersedia;
+  - Backup flow memakai selector di halaman tersebut;
+  - action overflow level APK/app lain ditunda sampai halaman ini selesai.
+
+### Inspection / Reconcile
+- Runtime #791 menunjukkan BaRe sudah memiliki grid 2 kolom, tetapi Ext. data hilang dan Data masih tercampur dengan cache pada angka chip.
+- Source `AppDetailsRepository` memang membaca `dataBytes` dan `cacheBytes` terpisah, tetapi App Detail sebelumnya menjumlahkan keduanya untuk chip Data.
+- Swift reference menampilkan `Data` terpisah dari `Cache`, serta `Last updated` menggunakan waktu update aplikasi.
+- Source Apps inventory sebelumnya hanya sort berdasarkan nama; timestamp yang tersedia adalah `AppItem.lastUpdateTime`.
+- Android `StorageStats.getDataBytes()` mencakup data aplikasi dan beberapa lokasi external app-specific, sehingga tidak boleh dipakai sebagai pengganti `Ext. data` yang berdiri sendiri. Reference Swift juga memiliki size model terpisah untuk external data/media.
+- Android membatasi akses langsung aplikasi ke direktori app-specific milik aplikasi lain di `Android/data`; `MANAGE_EXTERNAL_STORAGE` tidak menghapus boundary tersebut pada Android modern. Reference Swift memakai jalur root/Shizuku ketika membutuhkan root size. Evidence external: Android Developers menjelaskan pembatasan `Android/data` dan fungsi `MANAGE_EXTERNAL_STORAGE`; reference decompilation menunjukkan Swift memakai root/shizuku `du` untuk size external-data pada mode tersebut.
+
+### Implementasi
+- Apps sort sekarang memiliki siklus Name ascending → Name descending → Update newest → Update oldest.
+- App Detail `Last updated` sekarang memakai `PackageInfo.lastUpdateTime`, yaitu timestamp yang sama dengan `AppItem.lastUpdateTime` yang dipakai sort Update.
+- App Detail total size sekarang **tidak memasukkan cache**; format mengikuti reference: `Last updated: ... (size + Cache ...)`.
+- Chip `Data` sekarang memakai `dataSizeBytes` tanpa menambahkan cache.
+- App icon di App Detail memakai icon `AppItem` yang sudah tersedia, bukan lagi huruf placeholder.
+- Tombol Backup di App Detail sekarang membuka **ModalBottomSheet selector** pada halaman yang sama.
+- Selector memuat hanya part yang tersedia, lalu pilihan lokasi Device/Cloud dan tombol Backup.
+- Tap action backup dari chip part membuka selector yang sama dengan part tersebut sudah dipilih dan destination mengikuti action Device/Cloud/Device + Cloud.
+- Selector menampilkan selected part dengan check icon seperti reference.
+- `RootCapabilityProvider` mendapat helper `directorySize()` untuk mengukur path menggunakan `toybox du` saat root tersedia.
+- `AppDetailsRepository` memakai direct file measurement terlebih dahulu dan root `du` sebagai fallback untuk Ext. data/Media.
+- Tidak mengubah implementasi backup engine; tombol execute tetap mockup/pending capability backend.
+
+### Source commits
+- `343a25c8666c6c95b77b846713e7307df6d9568e` — `ui: align App Detail page and backup flow`
+- `c030d6559934bd803ba49bb3904ae1a52e5756dc` — `capability: measure protected app external storage with root`
+- `d54cde45a7cbeca9f4ad526de8424f3077150bd3` — `fix: separate app data and external storage sizing`
+- `6cac501165dd03bef3d4b90acd7da998bb27cd87` — `i18n: add App Detail update labels`
+- `aeeeedc7b0b401c304f25fd85cd70bc16cfd756b` — `fix: place App Detail backup sheet in correct screen`
+- `bc324d1602662341065b9dd703c84dea5642c43a` — `ui: show selected parts like Swift flow`
+
+### Verification Truth
+- Source: **IMPLEMENTED**.
+- Static source review after correction: **DONE**; backup selector berada di `AppDetailScreen`, bukan `AppsSearchScreen`.
+- CI run **#798** untuk HEAD `bc324d1602662341065b9dd703c84dea5642c43a`: **IN PROGRESS** saat pencatatan ini dibuat.
+- Runtime: **UNVERIFIED** setelah perubahan ini.
+- Ext. data runtime: **UNVERIFIED**. Direct path tetap tunduk pada Android storage boundary; root fallback hanya berlaku bila root tersedia. Tidak mengklaim semua device non-root dapat membaca `Android/data`.
+- Backup execution: **NOT IMPLEMENTED / pending capability backend**.
+
+### Next
+1. Tunggu CI #798 selesai.
+2. Jika green, pasang APK hasil build dan uji App Detail.
+3. Uji app dengan APK + Data + Ext. data + Media.
+4. Pastikan `Last updated` sama dengan item yang muncul saat Apps sort = Update newest/oldest.
+5. Uji Backup → selector → part → Device/Cloud.
+6. Jangan lanjut implementasi action titik tiga lebih jauh sebelum halaman App Detail ini lolos visual/runtime review.
