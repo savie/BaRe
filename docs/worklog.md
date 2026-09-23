@@ -4313,3 +4313,35 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 - Pindah fokus implementation ke **Apps** sebagai core product area.
 - Prioritaskan shared foundation yang Apps butuhkan: identity lifecycle/recovery contract, app inventory/metadata, backup inventory, operation/result model, artifact/archive/security boundary, lalu Apps execution secara bertahap.
 - Account/Settings dipertahankan sebagai control-plane surface minimal sampai capability global tersebut benar-benar dibutuhkan dan memiliki implementation/verification path.
+
+
+## 2026-09-23 — Wiring Account ke Settings
+
+### Authorization
+- **USER GO:** Wiring item Account yang juga memiliki implementation di Settings agar ketika dipilih dari Account, hasil/action-nya menggunakan implementation yang sama dengan Settings.
+- Scope dibatasi pada wiring capability yang memang sudah memiliki implementation reusable. Tidak membuat implementation kedua dan tidak mengubah UI Account secara luas.
+
+### Implementation
+- **Contact:** Account sekarang memanggil implementation contact yang sama yang digunakan Settings melalui `openSettingsContact(context)`.
+- **About:** dialog About diekstrak menjadi `SettingsAboutDialog` dan digunakan oleh Settings maupun Account, sehingga versi/product information berasal dari implementation yang sama.
+- **Diagnostics:** routing Account → `Screen.DIAGNOSTICS` dipertahankan. Tidak membuat Diagnostics implementation kedua; capability Diagnostics tetap satu.
+- **Language / Help Center:** tidak diubah karena pada Settings saat ini belum tersedia implementation action yang dapat direuse.
+- Tidak mengubah behavior atau surface Settings selain mengekstrak action/dialog yang diperlukan untuk reuse.
+
+### Commit
+- `079a64287aea6d55d15742c820a2668fbfa5af43` — expose shared Settings actions.
+- `02485243a0be63579ca25614a1db90e7a80f8265` — wire Account actions to Settings.
+- **VERIFIED:** compare terhadap baseline Diagnostics `27e029b21e9a9bd30a33732b8c7a5beeb76c1c86` menunjukkan tepat 2 commit tambahan dan hanya mengubah `AccountScreen.kt` serta `SettingsScreen.kt`.
+
+### Verification Status
+- **IMPLEMENTED:** Account Contact dan About sudah diarahkan ke implementation Settings yang sama.
+- **IMPLEMENTED:** Account Diagnostics tetap menggunakan route Diagnostics yang sama; tidak ada duplicate implementation.
+- **UNVERIFIED:** CI untuk commit wiring terbaru belum tersedia/terdeteksi pada saat checkpoint ini.
+- **UNVERIFIED:** E2E device untuk klik Account → Contact/About/Diagnostics belum dilakukan.
+- **USER PLAN:** user akan mengunduh build untuk melakukan E2E sendiri. Hasil E2E belum tersedia pada checkpoint ini.
+
+### Boundary
+- Tidak ada perubahan Apps.
+- Tidak ada perubahan capability Diagnostics.
+- Tidak ada perubahan UI design atau behavior Settings yang tidak diperlukan untuk shared wiring.
+- Prinsip yang dipertahankan: **satu capability, satu implementation; multiple entry points boleh menggunakan implementation yang sama.**
