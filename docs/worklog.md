@@ -4850,3 +4850,30 @@ GO untuk implementasi Apps contextual sub-header dengan baseline tracking `b752b
 ### Berikutnya
 - Cek CI source terbaru.
 - Jika hijau, uji runtime: header global tetap, Apps sub-header compact, count inventory, dropdown source, Filter, hamburger, Back, dan regression tab lain.
+
+
+## 2026-09-23 — Apps search field menjadi bagian Context Header
+
+### Authorization
+GO untuk scope terbatas setelah baseline dikembalikan ke `a8bcc9dbef1c577a409882a7f2a606a61ce275f7`.
+
+### Implementasi
+- Kotak input `Search apps or package` dipindahkan dari area konten Apps menjadi state/surface di dalam Apps Context Header.
+- Global header `BAЯE / SAVE OUR DAY` tetap tidak berubah.
+- Saat search Apps dibuka dari tombol Search global, Context Header berubah menjadi kotak search penuh pada area sub-header.
+- Kotak search tetap mengubah query inventory Apps yang sama; filtering nama aplikasi/package tidak diganti.
+- Tombol `X` di dalam kotak sekarang menutup search mode sekaligus mengosongkan query.
+- Back saat search mode Apps juga menutup search mode dan mengosongkan query.
+- Saat search mode tertutup, Context Header kembali ke `LOCAL APPS`, jumlah inventory, Filter, dan hamburger.
+
+### Boundary
+- Tidak mengubah Apps drawer.
+- Tidak mengubah bottom navigation.
+- Tidak mengubah inventory discovery atau filter logic.
+- Tidak mengimplementasikan capability cloud/batch baru.
+
+### Verifikasi
+- Source committed pada branch `v1.0/rebaseline`.
+- Source inspection memastikan kotak search tidak lagi dirender di `AppsFilterScreen`; input berada di `AppsContextHeader`.
+- Device/runtime belum diverifikasi.
+- CI build masih menunggu hasil workflow commit terbaru.
