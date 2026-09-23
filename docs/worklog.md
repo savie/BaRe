@@ -4801,3 +4801,18 @@ Menyesuaikan hasil user test setelah CI #716 hijau.
 ### Berikutnya
 - Tunggu/cek CI commit terbaru.
 - Jika hijau, install/update APK dan verifikasi langsung: buka hamburger, posisi dua item bawah, Back dari drawer, dan Back dari setiap destination tanpa **No matching installed apps**.
+
+
+## 2026-09-23 — Penyelarasan warna Apps drawer
+
+### Pekerjaan Saat Ini
+Menindaklanjuti user runtime test: fungsi Back sudah normal; hanya warna right drawer belum sama dengan bottom navigation surface.
+
+### Perubahan
+- Warna surface right drawer Apps diubah dari `MaterialTheme.colorScheme.surface` menjadi `MaterialTheme.colorScheme.surfaceVariant`.
+- Tidak mengubah layout, posisi item, routing, atau Back behavior.
+
+### Verifikasi
+- Source change committed pada branch `v1.0/rebaseline`.
+- Device/runtime untuk commit ini: UNVERIFIED sampai APK terbaru diuji.
+- CI untuk commit ini: menunggu hasil workflow terbaru.
