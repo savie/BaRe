@@ -225,7 +225,7 @@ fun AppsFilterScreen(
                     }
                     .onFailure {
                         onInventoryCountChange(0)
-                        error = it.message ?: "Unable to discover installed apps"
+                        error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps)
                         appsLoading = false
                     }
             }
@@ -395,12 +395,12 @@ fun AppsFilterScreen(
         } else if (appsLoading) {
             item {
                 Text(
-                    "Loading installed apps…",
+                    stringResource(R.string.apps_loading),
                     modifier = Modifier.padding(vertical = 24.dp),
                 )
             }
         } else if (visibleApps.isEmpty()) {
-            item { Text("No matching installed apps.", modifier = Modifier.padding(vertical = 24.dp)) }
+            item { Text(stringResource(R.string.apps_no_matching_installed_apps), modifier = Modifier.padding(vertical = 24.dp)) }
         } else {
             items(visibleApps, key = { it.packageName }) { app ->
                 Card(
