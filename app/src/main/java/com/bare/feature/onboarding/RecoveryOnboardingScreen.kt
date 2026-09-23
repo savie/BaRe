@@ -65,6 +65,12 @@ fun RecoveryOnboardingScreen(
     var busy by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
     var selectionStep by remember { mutableStateOf(false) }
+    var restorePassword by remember { mutableStateOf<CharArray?>(null) }
+
+    fun clearRestorePassword() {
+        restorePassword?.fill('\u0000')
+        restorePassword = null
+    }
 
     fun restore(candidate: DecodedCandidate) {
         busy = true
@@ -75,15 +81,19 @@ fun RecoveryOnboardingScreen(
                     masterKeyStore.saveImported(candidate.decoded.masterKey)
                     val restoredIdentity = identityStore.restoreFromRecovery(candidate.decoded.payload)
                     if (!recoveryPasswordStore.hasPassword()) {
-                        recoveryPasswordStore.savePassword(password.toCharArray())
+                        val localRecoveryPassword = restorePassword?.copyOf()
+                            ?: error(context.getString(R.string.recovery_password_required))
+                        recoveryPasswordStore.savePassword(localRecoveryPassword)
                     }
                     restoredIdentity
                 }
             }.onSuccess { identity ->
                 busy = false
+                clearRestorePassword()
                 password = ""
                 onRecovered(identity)
             }.onFailure { error ->
+                clearRestorePassword()
                 busy = false
                 status = context.getString(
                     R.string.recovery_onboarding_failed,
@@ -130,12 +140,15 @@ fun RecoveryOnboardingScreen(
             }.onSuccess { matches ->
                 busy = false
                 if (matches.isEmpty()) {
+                    clearRestorePassword()
                     status = context.getString(R.string.recovery_onboarding_invalid_password)
                 } else if (matches.size == 1) {
+                    restorePassword = password.toCharArray()
                     decoded = matches
                     selectedIdentity = matches.single().decoded.payload.identityId
                     restore(matches.single())
                 } else {
+                    restorePassword = password.toCharArray()
                     decoded = matches
                     selectedIdentity = null
                     selectionStep = true
@@ -155,11 +168,17 @@ fun RecoveryOnboardingScreen(
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        WelcomeScreen(onSelectIdentity = { onStartFresh() })
+        WelcomeScreen(onSelectIdentity = {
+            clearRestorePassword()
+            onStartFresh()
+        })
 
         AlertDialog(
         onDismissRequest = {
-            if (!busy) onStartFresh()
+            if (!busy) {
+                clearRestorePassword()
+                onStartFresh()
+            }
         },
         title = {
             Text(stringResource(R.string.recovery_onboarding_title))
@@ -318,6 +337,7 @@ fun RecoveryOnboardingScreen(
                 TextButton(
                     onClick = {
                         if (!busy) {
+                            clearRestorePassword()
                             selectionStep = false
                             selectedIdentity = null
                             status = null
@@ -329,7 +349,10 @@ fun RecoveryOnboardingScreen(
                 }
             } else {
                 TextButton(
-                    onClick = onStartFresh,
+                    onClick = {
+                        clearRestorePassword()
+                        onStartFresh()
+                    },
                     enabled = !busy,
                 ) {
                     Text(stringResource(R.string.cancel))
