@@ -856,20 +856,31 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 )
                                 if (cacheBytes > 0L) {
                                     Text(
-                                        "Cache: ${formatAppSize(cacheBytes)}",
+                                        stringResource(R.string.cache) + ": " + formatAppSize(cacheBytes),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
                                 if (parts.isNotEmpty()) {
-                                    FlowRow(
-                                        maxItemsInEachRow = 2,
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                        verticalArrangement = Arrangement.spacedBy(8.dp)
-                                    ) {
-                                        parts.forEach { (title, subtitle, icon) ->
-                                            AppStorageChip(title, subtitle, icon) {
-                                                selectedPart = title
+                                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        parts.chunked(2).forEach { rowParts ->
+                                            Row(
+                                                Modifier.fillMaxWidth(),
+                                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                            ) {
+                                                rowParts.forEach { (title, subtitle, icon) ->
+                                                    AppStorageChip(
+                                                        title = title,
+                                                        subtitle = subtitle,
+                                                        icon = icon,
+                                                        modifier = Modifier.weight(1f),
+                                                    ) {
+                                                        selectedPart = title
+                                                    }
+                                                }
+                                                if (rowParts.size == 1) {
+                                                    Spacer(Modifier.weight(1f))
+                                                }
                                             }
                                         }
                                     }
@@ -909,11 +920,11 @@ private fun AppStorageChip(
     title: String,
     subtitle: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
 ) {
     Card(
-        Modifier
-            .fillMaxWidth(0.48f)
+        modifier
             .heightIn(min = 64.dp)
             .clickable(onClick = onClick)
     ) {
