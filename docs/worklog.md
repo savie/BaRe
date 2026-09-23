@@ -4227,3 +4227,27 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
   4. verify changed file and patch contain intended behavior;
   5. only then trigger/accept CI as evidence.
 - Existing bad/0-diff commits tidak boleh disebut sebagai implementation proof.
+
+
+## 2026-09-23 — #569 Recovery onboarding password handoff execution
+
+### Execution
+- **ROOT CAUSE:** `RecoveryOnboardingScreen.restore()` membaca Compose state `password` dari coroutine terpisah. Setelah recovery sukses, caller dapat mengosongkan `password` sebelum coroutine restore membaca nilainya. Ini membuat penyimpanan Recovery password lokal pada device baru berpotensi race.
+- **CHANGE:** Password yang sudah tervalidasi pada tahap onboarding sekarang ditangkap sebagai `CharArray` khusus untuk handoff restore.
+- **BEHAVIOR:** Jika device belum memiliki local Recovery password, password onboarding yang berhasil mendecode artifact dipakai untuk menginisialisasi local Recovery password. Jika local Recovery password sudah ada, tidak ditimpa.
+- **MULTI-IDENTITY:** Password handoff dipertahankan sampai user memilih identity lalu restore, tanpa mengubah UI/interaction model.
+- **CLEANUP:** Handoff password di-zeroize pada success, failure, invalid result, back/cancel, dan jalur start-fresh.
+- **UI:** Tidak ada redesign. Export/Import tetap tidak membuka password dialog dan tetap menggunakan stored Recovery password secara internal.
+
+### Implementation evidence
+- **COMMIT:** `d37cb9a3c31109df6de0e3b0ec207b3d077ca5e8`
+- **PARENT:** `51db058ac82486fd99db4f38696e120c1634805b`
+- **VERIFIED:** Parent → commit compare menunjukkan 1 commit, file `RecoveryOnboardingScreen.kt` modified, 27 additions / 4 deletions / 31 changes.
+- **VERIFIED:** Commit patch berisi perubahan handoff password yang dimaksud; bukan 0-diff commit.
+
+### CI / verification status
+- **OBSERVED:** GitHub Actions run #673 (`35803435388`) untuk commit `d37cb9a...` sudah berjalan.
+- **OBSERVED:** Job `build` sudah melewati Set up job, Checkout, dan Java 17; sedang menjalankan Setup Gradle.
+- **UNVERIFIED:** Build result belum selesai saat checkpoint worklog ini dibuat.
+- **UNVERIFIED:** Runtime onboarding cross-device, local password persistence setelah recovery, dan subsequent Export/Import.
+- **NEXT:** Tunggu hasil CI; jika build green, lanjutkan verification gap runtime sesuai evidence yang tersedia. Jika gagal, perbaiki dari error aktual lalu catat checkpoint baru.
