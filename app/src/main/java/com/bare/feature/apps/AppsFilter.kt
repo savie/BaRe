@@ -89,6 +89,8 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
 
@@ -114,6 +116,7 @@ private enum class EnabledFilter { ALL, ENABLED, DISABLED }
 private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
+private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA }
 private enum class LabelFilter { ALL, LABELLED, UNLABELLED }
 private enum class SortOption(val title: String, val icon: ImageVector, val available: Boolean) {
     NAME("Name", Icons.Default.Sort, true),
@@ -203,6 +206,7 @@ fun AppsFilterScreen(
     var labelDraft by remember { mutableStateOf<Set<String>>(emptySet()) }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var blacklistTarget by remember { mutableStateOf<AppItem?>(null) }
+    var destructiveAction by remember { mutableStateOf<DestructiveAppAction?>(null) }
     var blacklistMode by remember { mutableStateOf(BlacklistMode.HIDE) }
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
@@ -224,6 +228,59 @@ fun AppsFilterScreen(
     fun refreshUsageAccess() {
         usageAccess = usageRepository.hasUsageAccess()
         lastUsedTimes = if (usageAccess) usageRepository.loadLastUsed() else emptyMap()
+    }
+
+    fun openAppInfo(app: AppItem) {
+        runCatching {
+            context.startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:" + app.packageName),
+                )
+            )
+        }
+        selectedApp = null
+    }
+
+    fun runRootActionOrFallback(
+        app: AppItem,
+        action: () -> Boolean,
+        fallback: () -> Unit = { openAppInfo(app) },
+    ) {
+        Thread {
+            val success = runCatching { action() }.getOrDefault(false)
+            Handler(Looper.getMainLooper()).post {
+                if (success) {
+                    selectedApp = null
+                    reloadApps()
+                } else {
+                    fallback()
+                }
+            }
+        }.start()
+    }
+
+    fun requestBatteryOptimizationChange(app: AppItem) {
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+        val exempt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            powerManager?.isIgnoringBatteryOptimizations(app.packageName) == true
+        } else {
+            false
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !exempt) {
+            runCatching {
+                context.startActivity(
+                    Intent(
+                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
+                        Uri.parse("package:" + app.packageName),
+                    )
+                )
+            }.onFailure {
+                openAppInfo(app)
+            }
+        } else {
+            openAppInfo(app)
+        }
     }
 
     LaunchedEffect(repository) { reloadApps() }
@@ -424,9 +481,11 @@ fun AppsFilterScreen(
                     }
                     item {
                         AppActionChip(if (app.isEnabled) stringResource(R.string.disable) else stringResource(R.string.enable), Icons.Default.PowerSettingsNew) {
-                            selectedApp = null
-                            onOpenApp(app)
-                            onOpen(Screen.MANAGEMENT)
+                            if (app.isEnabled) {
+                                destructiveAction = DestructiveAppAction.DISABLE
+                            } else {
+                                runRootActionOrFallback(app, { RootAppActionExecutor.enable(app.packageName) })
+                            }
                         }
                     }
                     item {
@@ -437,16 +496,12 @@ fun AppsFilterScreen(
                     }
                     item {
                         AppActionChip(stringResource(R.string.force_stop), Icons.Default.Stop) {
-                            selectedApp = null
-                            onOpenApp(app)
-                            onOpen(Screen.MANAGEMENT)
+                            destructiveAction = DestructiveAppAction.FORCE_STOP
                         }
                     }
                     item {
                         AppActionChip(stringResource(R.string.clear_data), Icons.Default.DeleteSweep) {
-                            selectedApp = null
-                            onOpenApp(app)
-                            onOpen(Screen.MANAGEMENT)
+                            destructiveAction = DestructiveAppAction.CLEAR_DATA
                         }
                     }
                     item {
@@ -459,8 +514,7 @@ fun AppsFilterScreen(
                     }
                     item {
                         AppActionChip(stringResource(R.string.app_info), Icons.Default.Info) {
-                            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${app.packageName}")))
-                            selectedApp = null
+                            openAppInfo(app)
                         }
                     }
                     item {
@@ -531,21 +585,68 @@ fun AppsFilterScreen(
                     },
                     leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
                     modifier = Modifier.clickable {
-                        // Android does not expose a public intent that lets a normal app
-                        // directly change another app's Doze exemption. Open the selected
-                        // app's own Application Details page instead of the global list.
-                        runCatching {
-                            context.startActivity(
-                                Intent(
-                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                                    Uri.parse("package:" + app.packageName),
+                        Thread {
+                            val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+                            val optimizing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
+                            } else {
+                                false
+                            }
+                            val success = runCatching {
+                                RootAppActionExecutor.setBatteryOptimizationExempt(
+                                    app.packageName,
+                                    exempt = optimizing,
                                 )
-                            )
-                        }
+                            }.getOrDefault(false)
+                            Handler(Looper.getMainLooper()).post {
+                                if (success) {
+                                    selectedApp = null
+                                    reloadApps()
+                                } else {
+                                    requestBatteryOptimizationChange(app)
+                                }
+                            }
+                        }.start()
                     },
                 )
             }
         }
+    }
+
+    if (destructiveAction != null && selectedApp != null) {
+        val target = selectedApp!!
+        val action = destructiveAction!!
+        val title = when (action) {
+            DestructiveAppAction.DISABLE -> stringResource(R.string.disable)
+            DestructiveAppAction.FORCE_STOP -> stringResource(R.string.force_stop)
+            DestructiveAppAction.CLEAR_DATA -> stringResource(R.string.clear_data)
+        }
+        val message = when (action) {
+            DestructiveAppAction.DISABLE -> stringResource(R.string.confirm_disable_app, target.name)
+            DestructiveAppAction.FORCE_STOP -> stringResource(R.string.confirm_force_stop_app, target.name)
+            DestructiveAppAction.CLEAR_DATA -> stringResource(R.string.confirm_clear_data_app, target.name)
+        }
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { destructiveAction = null },
+            title = { Text(title) },
+            text = { Text(message) },
+            confirmButton = {
+                TextButton(onClick = {
+                    destructiveAction = null
+                    when (action) {
+                        DestructiveAppAction.DISABLE ->
+                            runRootActionOrFallback(target, { RootAppActionExecutor.disable(target.packageName) })
+                        DestructiveAppAction.FORCE_STOP ->
+                            runRootActionOrFallback(target, { RootAppActionExecutor.forceStop(target.packageName) })
+                        DestructiveAppAction.CLEAR_DATA ->
+                            runRootActionOrFallback(target, { RootAppActionExecutor.clearData(target.packageName) })
+                    }
+                }) { Text(stringResource(R.string.ok)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { destructiveAction = null }) { Text(stringResource(R.string.cancel)) }
+            },
+        )
     }
 
     if (blacklistTarget != null) {
