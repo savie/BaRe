@@ -4694,3 +4694,23 @@ Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence 
 
 ### Berikutnya
 - Lanjutkan verifikasi dan implementasi interaction per-app: detail, `⋮`, swipe, dan long-press sesuai reference.
+
+## 2026-09-23 — Koreksi Apps hamburger surface
+
+### Temuan
+- Implementasi sebelumnya salah menempatkan `AppsTools` / capability map sebagai satu-satunya item pada hamburger Apps.
+- Reference yang dijadikan acuan menunjukkan hamburger Apps sebagai menu destination langsung di sisi kanan `TopAppBar`, bukan capability map.
+
+### Perubahan
+- Menghapus `AppsToolsScreen` dan route `Screen.APPS_TOOLS`.
+- Menghapus model capability map Apps dari source serta resource `apps_cap_01` sampai `apps_cap_43` yang hanya dipakai oleh surface tersebut.
+- Hamburger Apps sekarang langsung menyediakan destination: Quick actions, App Labels, Custom configurations, Blacklist, App backup settings, dan Settings.
+- Struktur submenu mengikuti pola reference; behavior masing-masing destination tetap mengikuti capability BaRe.
+
+### Verifikasi
+- Source search tidak lagi menemukan `APPS_TOOLS`, `AppsToolsScreen`, `appsCapabilities`, `appsGroups`, atau `apps_cap_01`.
+- Build/runtime belum dinyatakan terverifikasi pada saat pencatatan ini; CI berikutnya menjadi verification gate.
+
+### Berikutnya
+- Verifikasi CI hasil koreksi ini.
+- Setelah build bersih, lanjutkan interaction Apps sesuai reference tanpa mengembalikan capability map ke UI.
