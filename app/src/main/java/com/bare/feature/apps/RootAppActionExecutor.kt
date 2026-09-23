@@ -25,6 +25,9 @@ object RootAppActionExecutor {
     fun clearData(packageName: String): Boolean =
         run("pm clear $packageName")?.contains("Success", ignoreCase = true) == true
 
+    fun uninstall(packageName: String): Boolean =
+        run("pm uninstall --user 0 $packageName")?.contains("Success", ignoreCase = true) == true
+
     fun setBatteryOptimizationExempt(packageName: String, exempt: Boolean): Boolean =
         run("cmd deviceidle whitelist ${if (exempt) "+" else "-"}$packageName") != null
 
