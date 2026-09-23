@@ -3,7 +3,6 @@ package com.bare.feature.apps
 import android.content.Context
 import android.app.usage.StorageStatsManager
 import android.content.pm.ApplicationInfo
-import android.graphics.drawable.Drawable
 import android.os.UserHandle
 import android.os.storage.StorageManager
 import com.bare.app.AppItem
