@@ -83,6 +83,17 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         })
     }
 
+    fun directorySize(path: String): Long? {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        val quoted = path.replace("'", "'\"'\"'")
+        val result = runSu("toybox du -sk '$quoted'")
+        if (result.exitCode != 0) return null
+        val kb = result.stdout.trim().lineSequence().firstOrNull()
+            ?.trim()?.split(Regex("\\s+"))?.firstOrNull()?.toLongOrNull()
+            ?: return null
+        return kb * 1024L
+    }
+
     private fun copyFile(remotePath: String, destination: File) {
         val quoted = remotePath.replace("'", "'\"'\"'")
         val process = ProcessBuilder("su", "-c", "cat '" + quoted + "'").redirectErrorStream(false).start()
