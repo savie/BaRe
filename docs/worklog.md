@@ -4920,3 +4920,11 @@ GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card diteka
 ### Berikutnya
 - Cek CI.
 - Jika hijau, runtime test titik tiga → bottom sheet → dismiss dan action yang tersedia.
+
+
+### Koreksi Verifikasi CI
+- CI #738 gagal karena import resource `R` dan `stringResource` pada `AppsFilter.kt` belum lengkap setelah penambahan bottom sheet.
+- Fix commit `056df9ee6ded551c1ddd84ffdf4b13ebc44fba1e` menambahkan import yang diperlukan.
+- CI #739 untuk commit tersebut: **SUCCESS**.
+- Assemble debug APK, artifact verification, signing verification, labeling, dan upload berhasil; in-place device update tetap skipped.
+- Device/runtime: **UNVERIFIED**.
