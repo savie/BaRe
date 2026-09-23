@@ -5010,3 +5010,32 @@ Android mendokumentasikan pm clear, pm enable, pm disable-user, dan perintah pac
 - RootAppActionExecutor dikoreksi agar command pm disable/enable yang sukses tanpa output tetap dianggap berhasil berdasarkan exit code, bukan keharusan output non-empty.
 - CI run 759 pada commit 51c03bb2815b215ecbff9bcc7ee49196f137091c terverifikasi completed/success.
 - Runtime device untuk jalur root/non-root tetap UNVERIFIED sampai action benar-benar dicoba pada device.
+
+
+## 2026-09-23 — Koreksi Apps uninstall, battery toggle, dan total storage size
+
+### Authorization
+- **USER GO:** Perbaiki Uninstall, pertahankan Clear data root/non-root yang sudah berfungsi, gunakan Battery optimization toggle ON/OFF dengan jalur root/non-root sesuai capability, pertahankan informasi dinamis berdasarkan sort, dan hapus hanya baris `User app <size>` yang redundant.
+
+### Implementasi
+- Uninstall sekarang menjadi destructive action dengan confirmation.
+- Jalur uninstall mencoba `pm uninstall --user 0 <package>` melalui root terlebih dahulu.
+- Jika root tidak tersedia/gagal, fallback ke Android `ACTION_UNINSTALL_PACKAGE` dengan `REQUEST_DELETE_PACKAGES`; tidak membuat success state palsu.
+- Battery optimization sekarang memiliki `Switch` ON/OFF di sisi kanan.
+- State switch merepresentasikan optimization aktif vs package berada pada battery-optimization exemption list.
+- Root mencoba mengubah kedua arah melalui `deviceidle whitelist`.
+- Non-root mempertahankan jalur public Android: request exemption per-package untuk OFF; untuk ON diarahkan ke App Info agar perubahan yang tidak tersedia secara programmatic tetap dilakukan oleh system UI.
+- Clear data root/non-root tidak diubah.
+- Sort `App size` sekarang menggunakan `totalSizeBytes`, bukan hanya ukuran APK.
+- Inventory AppItem sekarang membawa installed/app bytes, data bytes, cache bytes, dan total bytes sebagai model storage bersama untuk penggunaan list/detail berikutnya.
+- Total size diperoleh dari `StorageStatsManager`; query dijalankan di worker thread agar tidak memblokir UI.
+- Baris `User app • <size>` / `System app • <size>` dihapus dari supporting content. Baris dinamis terakhir berdasarkan sort tetap dipertahankan.
+
+### Truth / Verification
+- Source changes committed pada branch `v1.0/rebaseline`.
+- CI untuk commit perubahan ini: **PENDING**.
+- Runtime uninstall dan battery root/non-root: **UNVERIFIED** sampai diuji pada device.
+- Total storage size: implementation ada; runtime value dan sorting masih perlu diuji pada device.
+- Android reference: `StorageStats.getAppBytes()` mencakup APK, optimized compiler output, dan unpacked native libraries; `getDataBytes()` mencakup data termasuk cache; `StorageStatsManager.queryStatsForPackage()` membutuhkan PACKAGE_USAGE_STATS untuk package lain. citeturn1search0turn2search0
+- Android uninstall intent membutuhkan `REQUEST_DELETE_PACKAGES` untuk target API P+; Android juga menyediakan PackageInstaller uninstall untuk installer-of-record/device-owner scenarios. citeturn1search1turn3search0turn6search0
+- Battery optimization state dibaca dari `PowerManager.isIgnoringBatteryOptimizations()`; direct request exemption memerlukan `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`. citeturn7search0turn4search0
