@@ -650,14 +650,9 @@
     <string name="diagnostics_report_health">Health</string>
     <string name="diagnostics_report_activity">Recent activity</string>
     
-    <string name="play_store">Play Store</string>
     <string name="android_app_info">Android App Info</string>
-    <string name="share_apk">Share APK</string>
     <string name="favorite_labels_blacklist">Favorite / labels / blacklist</string>
-    <string name="battery_optimization">Battery optimization</string>
     <string name="add_to_home_screen">Add to Home screen</string>
-    <string name="force_stop">Force stop</string>
-    <string name="uninstall">Uninstall</string>
     <string name="delete">Delete</string>
     <string name="app_part_actions">Choose an action for this app part.</string>
     <string name="backup_to_device">Backup to Device</string>
@@ -669,9 +664,6 @@
     <string name="external_data_part">Ext. data</string>
     <string name="media_part">Media</string>
     <string name="tap_part_for_actions">Tap for actions</string>
-    <string name="launch">Launch</string>
-    <string name="backup">Backup</string>
-    <string name="device">Device</string>
     <string name="cloud">Cloud</string>
     <string name="device_cloud">Device + Cloud</string>
     <string name="user_app_parts">User app parts</string>
