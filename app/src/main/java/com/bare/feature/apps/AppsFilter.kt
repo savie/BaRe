@@ -31,6 +31,8 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -65,6 +67,7 @@ import java.util.concurrent.TimeUnit
 import com.bare.app.AppItem
 import com.bare.app.Screen
 import android.content.Intent
+import android.net.Uri
 import android.provider.Settings
 
 private fun formatRelativeTime(timestamp: Long): String {
@@ -132,6 +135,7 @@ fun AppsFilterScreen(
     var lastUsedTimes by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
     var showLabelPicker by remember { mutableStateOf(false) }
     var labelDraft by remember { mutableStateOf<Set<String>>(emptySet()) }
+    var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
     fun reloadApps() {
@@ -308,8 +312,8 @@ fun AppsFilterScreen(
                             }
                         },
                         trailingContent = {
-                            IconButton(onClick = { onOpenApp(app) }) {
-                                Icon(Icons.Default.MoreVert, contentDescription = "App actions")
+                            IconButton(onClick = { selectedApp = app }) {
+                                Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
                             }
                         },
                     )
