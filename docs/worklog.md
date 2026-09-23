@@ -5468,3 +5468,46 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 - Android StorageStats API reference: https://developer.android.com/reference/android/app/usage/StorageStats
 - Android Context cache directories: https://developer.android.com/reference/android/content/Context
 
+## 2026-09-23 — Implementasi pengurangan cache RAM dan ukuran cache BaRe
+
+### Authorization
+
+- **USER GO:** jalankan next step setelah audit API 35.
+- Scope: hapus cache icon berbasis RAM dan mulai mengukur cache storage milik BaRe sendiri.
+
+### Implementasi
+
+- Menghapus `LruCache<String, Drawable>(128)` dari `InstalledAppRepository`.
+- Pengambilan icon sekarang langsung melalui `PackageManager.getApplicationIcon()` saat inventory dibangun; tidak ada lagi bounded icon cache terpisah.
+- Menambahkan pengukuran cache milik BaRe pada Manage Space:
+  - `context.cacheDir`
+  - `context.codeCacheDir`
+  - `context.externalCacheDirs`
+- Pengukuran cache dilakukan di `Dispatchers.IO`, bukan main thread.
+- Direktori yang sama tidak dihitung dua kali berdasarkan absolute path.
+- Menambahkan informasi **BaRe cache** pada Manage Space.
+- Pengukuran cache BaRe tetap dipisahkan dari `StorageStats` inventory aplikasi lain.
+
+### Perubahan source
+
+- `db72ac369b2f41f4c105155412aed8374db698d0` — hapus RAM icon cache.
+- `8584dd16bab70dc9ef10779a377db7d4c67e1110` — pastikan measurement cache tetap berjalan walaupun local identity tidak tersedia.
+- `6834fd71f4c753c3a6f9ff1870b98deaa844ba48` — tampilkan ukuran cache BaRe di UI.
+- `953092e5088c9d85742c9daf8d2cfdfb90de14d9` — bersihkan import obsolete setelah cache dihapus.
+
+### Truth / Verification
+
+- Source perubahan: **IMPLEMENTED** pada branch `v1.0/rebaseline`.
+- Build CI setelah perubahan: **PENDING**.
+- Runtime device untuk penggunaan RAM: **UNVERIFIED**.
+- Runtime nilai cache BaRe: **UNVERIFIED**.
+- Belum ada bukti runtime bahwa penghapusan icon cache memberi peningkatan performa; trade-off reload icon masih perlu diuji.
+- Tidak ada perubahan pada rumus Total App Size aplikasi lain.
+
+### Berikutnya
+
+1. Tunggu/cek CI build untuk commit source terbaru.
+2. Jika build hijau, pasang APK terbaru ke device.
+3. Uji Apps reload/scroll dan amati apakah icon tetap benar tanpa cache.
+4. Buka Manage Space dan cek ukuran BaRe cache.
+5. Jika perlu, ukur penggunaan RAM/performa sebelum vs sesudah; jangan klaim improvement tanpa evidence.
