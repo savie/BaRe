@@ -38,7 +38,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
@@ -115,8 +114,8 @@ private data class AppsFilterState(
 fun AppsFilterScreen(
     onOpen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
-    searchOpen: Boolean,
-    onSearchOpenChange: (Boolean) -> Unit,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
     filterOpen: Boolean,
     onFilterOpenChange: (Boolean) -> Unit,
     onInventoryCountChange: (Int) -> Unit,
@@ -130,7 +129,6 @@ fun AppsFilterScreen(
     var apps by remember { mutableStateOf(cachedApps) }
     var appsLoading by remember { mutableStateOf(cachedApps.isEmpty()) }
     var error by remember { mutableStateOf<String?>(null) }
-    var searchQuery by remember { mutableStateOf("") }
     var usageAccess by remember { mutableStateOf(usageRepository.hasUsageAccess()) }
     var lastUsedTimes by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
     var showLabelPicker by remember { mutableStateOf(false) }
@@ -198,26 +196,6 @@ fun AppsFilterScreen(
     }
 
     Column(Modifier.fillMaxHeight()) {
-        if (searchOpen) {
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                singleLine = true,
-                maxLines = 1,
-                placeholder = { Text("Search apps or package") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                trailingIcon = {
-                    if (searchQuery.isNotBlank()) {
-                        IconButton(onClick = { searchQuery = "" }) {
-                            Icon(Icons.Default.Clear, contentDescription = "Clear search")
-                        }
-                    }
-                },
-            )
-        }
 
         LazyColumn(
             Modifier.weight(1f),
