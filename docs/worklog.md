@@ -4765,3 +4765,8 @@ Menutup scope Apps navigation berdasarkan hasil runtime user test dan reference 
 - Setelah inspeksi source, ditemukan import API Compose yang dibutuhkan drawer belum tercantum di BaReApp.kt.
 - Ditambahkan import background dan fillMaxHeight; tidak mengubah behavior.
 - CI untuk commit koreksi ini menjadi verification target terbaru.
+
+### Koreksi CI #710
+- CI #710 gagal pada compileDebugKotlin; evidence menunjukkan icon `LabelOutline` tidak tersedia dan struktur helper sempat terbaca sebagai local function akibat brace state pada commit tersebut.
+- Source saat ini menggunakan icon `Label` yang tersedia dan helper `AppsDrawerItem` berada di top-level composable.
+- Resource drawer sudah berada di branch sebelum verification target terbaru.
