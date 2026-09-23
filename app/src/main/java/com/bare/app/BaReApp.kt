@@ -60,7 +60,6 @@ import com.bare.feature.apps.AppDiagnosticsScreen
 import com.bare.feature.apps.AppRestoreScreen
 import com.bare.feature.apps.AppsFilterScreen
 import com.bare.feature.apps.AppsSearchScreen
-import com.bare.feature.apps.AppsToolsScreen
 import com.bare.feature.apps.AppsQuickActionsScreen
 import com.bare.feature.apps.AppLabelsScreen
 import com.bare.feature.apps.AppCustomConfigurationsScreen
@@ -425,7 +424,6 @@ private fun MainShell(
     if (screen != Screen.NONE) {
         when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
-            Screen.APPS_TOOLS -> AppsToolsScreen(onOpenScreen, onBack)
             Screen.APP_QUICK_ACTIONS -> AppsQuickActionsScreen(onOpenScreen, onBack)
             Screen.APP_LABELS -> AppLabelsScreen(onBack)
             Screen.APP_CUSTOM_CONFIG -> AppCustomConfigurationsScreen(onBack)
@@ -534,10 +532,46 @@ private fun MainShell(
                                 onDismissRequest = { appsMenuOpen = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.apps_tools_capability_map)) },
+                                    text = { Text("Quick actions") },
                                     onClick = {
                                         appsMenuOpen = false
-                                        onOpenScreen(Screen.APPS_TOOLS)
+                                        onOpenScreen(Screen.APP_QUICK_ACTIONS)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("App Labels") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.APP_LABELS)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Custom configurations") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.APP_CUSTOM_CONFIG)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Blacklist") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.APP_BLACKLIST)
+                                    }
+                                )
+                                HorizontalDivider()
+                                DropdownMenuItem(
+                                    text = { Text("App backup settings") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.APP_BACKUP_SETTINGS)
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("Settings") },
+                                    onClick = {
+                                        appsMenuOpen = false
+                                        onOpenScreen(Screen.SETTINGS)
                                     }
                                 )
                             }
