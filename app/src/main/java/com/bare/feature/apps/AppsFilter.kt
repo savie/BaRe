@@ -375,7 +375,7 @@ fun AppsFilterScreen(
                             AppIcon(
                                 app = app,
                                 size = 48.dp,
-                                showFavoriteBadge = organizationStore.isFavorite(app.packageName),
+                                showFavoriteBadge = favorite,
                             )
                         },
                         trailingContent = {
@@ -393,6 +393,9 @@ fun AppsFilterScreen(
 
     if (selectedApp != null) {
         val app = selectedApp!!
+        var favorite by remember(app.packageName) {
+            mutableStateOf(organizationStore.isFavorite(app.packageName))
+        }
         ModalBottomSheet(onDismissRequest = { selectedApp = null }) {
             Column(
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 28.dp),
@@ -468,10 +471,16 @@ fun AppsFilterScreen(
                 }
                 HorizontalDivider()
                 ListItem(
-                    headlineContent = { Text(stringResource(R.string.favorites)) },
+                    headlineContent = {
+                        Text(
+                            if (favorite) stringResource(R.string.remove_from_favorites)
+                            else stringResource(R.string.add_to_favorites),
+                        )
+                    },
                     leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
                     modifier = Modifier.clickable {
-                        organizationStore.setFavorite(app.packageName, !organizationStore.isFavorite(app.packageName))
+                        favorite = !favorite
+                        organizationStore.setFavorite(app.packageName, favorite)
                         reloadApps()
                     },
                 )
@@ -498,8 +507,11 @@ fun AppsFilterScreen(
                     leadingContent = { Icon(Icons.Default.Block, contentDescription = null) },
                     modifier = Modifier.clickable {
                         blacklistTarget = app
-                        blacklistMode = if (organizationStore.isApkOnlyInBatch(app.packageName)) BlacklistMode.APK_ONLY else BlacklistMode.HIDE
-                        selectedApp = null
+                        blacklistMode = when {
+                            organizationStore.isBlacklisted(app.packageName) -> BlacklistMode.HIDE
+                            organizationStore.isApkOnlyInBatch(app.packageName) -> BlacklistMode.APK_ONLY
+                            else -> BlacklistMode.HIDE
+                        }
                     },
                 )
                 ListItem(
@@ -509,18 +521,26 @@ fun AppsFilterScreen(
                         val optimizing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
                         } else false
-                        Text(if (optimizing) stringResource(R.string.battery_optimization_status_optimizing) else stringResource(R.string.battery_optimization_status_exempt))
+                        Text(
+                            if (optimizing) {
+                                stringResource(R.string.battery_optimization_status_optimizing)
+                            } else {
+                                stringResource(R.string.battery_optimization_status_exempt)
+                            }
+                        )
                     },
                     leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
                     modifier = Modifier.clickable {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            val request = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                                data = Uri.parse("package:${app.packageName}")
-                            }
-                            runCatching { context.startActivity(request) }
-                                .onFailure {
-                                    context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${app.packageName}")))
-                                }
+                        // Android does not expose a public intent that lets a normal app
+                        // directly change another app's Doze exemption. Open the selected
+                        // app's own Application Details page instead of the global list.
+                        runCatching {
+                            context.startActivity(
+                                Intent(
+                                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                    Uri.parse("package:" + app.packageName),
+                                )
+                            )
                         }
                     },
                 )
@@ -570,6 +590,7 @@ fun AppsFilterScreen(
                         }
                     }
                     blacklistTarget = null
+                    selectedApp = null
                     reloadApps()
                 }) { Text(stringResource(R.string.ok)) }
             },
