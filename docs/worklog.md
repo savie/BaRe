@@ -4507,3 +4507,9 @@ Actual findings:
 - Keep `docs/reference.md` reference-only.
 - Use this checkpoint as the current Apps implementation baseline.
 - Next implementation work must start from dependency/correctness priority, not from the reference UI order.
+
+
+### #571 follow-up documentation cleanup
+- After inspection, a residual Apps implementation section was found at the tail of `docs/reference.md` and removed.
+- Final reference cleanup commit: `1f61d0f2bbcaccf34d381e6e138403f9daf47ea0`.
+- Final intent remains: reference records Swift Backup/reference evidence; actual BaRe implementation status for Apps is recorded in this worklog checkpoint.
