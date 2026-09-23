@@ -323,6 +323,128 @@ fun AppsFilterScreen(
         }
     }
 
+
+    if (selectedApp != null) {
+        val app = selectedApp!!
+        ModalBottomSheet(onDismissRequest = { selectedApp = null }) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 28.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    androidx.compose.foundation.layout.Box(
+                        Modifier.size(52.dp).clip(CircleShape),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleLarge)
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(app.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(app.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    }
+                }
+                LazyRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    item {
+                        AppActionChip(stringResource(R.string.launch), Icons.Default.PlayArrow, app.isEnabled) {
+                            context.packageManager.getLaunchIntentForPackage(app.packageName)?.let {
+                                context.startActivity(it)
+                                selectedApp = null
+                            }
+                        }
+                    }
+                    item {
+                        AppActionChip(if (app.isEnabled) stringResource(R.string.disable) else stringResource(R.string.enable), Icons.Default.PowerSettingsNew) {
+                            selectedApp = null
+                            onOpenApp(app)
+                            onOpen(Screen.MANAGEMENT)
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.uninstall), Icons.Default.Delete) {
+                            runCatching { context.startActivity(Intent(Intent.ACTION_DELETE, Uri.parse("package:${app.packageName}"))) }
+                            selectedApp = null
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.force_stop), Icons.Default.Stop) {
+                            selectedApp = null
+                            onOpenApp(app)
+                            onOpen(Screen.MANAGEMENT)
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.clear_data), Icons.Default.DeleteSweep) {
+                            selectedApp = null
+                            onOpenApp(app)
+                            onOpen(Screen.MANAGEMENT)
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.play_store), Icons.Default.ShoppingBag) {
+                            val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${app.packageName}"))
+                            val fallback = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${app.packageName}"))
+                            runCatching { context.startActivity(market) }.onFailure { context.startActivity(fallback) }
+                            selectedApp = null
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.app_info), Icons.Default.Info) {
+                            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:${app.packageName}")))
+                            selectedApp = null
+                        }
+                    }
+                    item {
+                        AppActionChip(stringResource(R.string.share_apk), Icons.Default.Share) {
+                            selectedApp = null
+                            onOpenApp(app)
+                            onOpen(Screen.APP_BACKUP)
+                        }
+                    }
+                }
+                HorizontalDivider()
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.favorites)) },
+                    leadingContent = { Icon(Icons.Default.Star, contentDescription = null) },
+                    modifier = Modifier.clickable { organizationStore.setFavorite(app.packageName, !organizationStore.isFavorite(app.packageName)) },
+                    trailingContent = { Text(if (organizationStore.isFavorite(app.packageName)) stringResource(R.string.favorite) else stringResource(R.string.add_to_favorites)) },
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.backup_restore)) },
+                    leadingContent = { Icon(Icons.Default.Backup, contentDescription = null) },
+                    modifier = Modifier.clickable {
+                        selectedApp = null
+                        onOpenApp(app)
+                        onOpen(Screen.APP_BACKUP)
+                    },
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.set_app_labels)) },
+                    leadingContent = { Icon(Icons.Default.Label, contentDescription = null) },
+                    modifier = Modifier.clickable {
+                        selectedApp = null
+                        onOpenApp(app)
+                        onOpen(Screen.MANAGEMENT)
+                    },
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.add_to_blacklist)) },
+                    leadingContent = { Icon(Icons.Default.Block, contentDescription = null) },
+                    modifier = Modifier.clickable {
+                        organizationStore.setBlacklisted(app.packageName, true)
+                        selectedApp = null
+                    },
+                )
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.battery_optimization)) },
+                    supportingContent = { Text(stringResource(R.string.battery_optimization_description)) },
+                    leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
+                    modifier = Modifier.clickable { context.startActivity(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) },
+                )
+            }
+        }
+    }
+
     if (showLabelPicker) {
         androidx.compose.material3.AlertDialog(
             onDismissRequest = { showLabelPicker = false },
@@ -550,4 +672,18 @@ fun AppsFilterScreen(
             }
         }
     }
+}
+@Composable
+private fun AppActionChip(text: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
+    AssistChip(
+        onClick = onClick,
+        enabled = enabled,
+        label = { Text(text) },
+        leadingIcon = { Icon(icon, contentDescription = null) },
+        colors = AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            leadingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        ),
+    )
 }
