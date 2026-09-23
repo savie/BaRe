@@ -4543,3 +4543,92 @@ Merapikan kembali pemisahan `docs/reference.md` dan `docs/worklog.md` agar sesua
 - Gunakan `reference.md` hanya untuk reference evidence dan hasil audit terhadap artifact reference.
 - Catat pekerjaan actual BaRe, implementation state, verification, dan keputusan kerja di `worklog.md` atau dokumen canonical yang sesuai.
 - Jangan mencampurkan reference evidence dengan current project state pada perubahan dokumentasi berikutnya.
+
+
+## 2026-09-23 — Apps 54 capability quick index
+
+### Pekerjaan Saat Ini
+Menambahkan index ringkas APP-01..APP-54 agar status capability Apps dapat dibaca sekali jalan dari worklog tanpa membuka detail audit.
+
+### Status Ringkas
+
+```
+FOUNDATION
+APP-01                  PARTIAL
+
+G1 Discovery/Filtering
+APP-02                  IMPLEMENTED
+APP-03                  GAP
+APP-04                  IMPLEMENTED
+APP-05                  PARTIAL
+APP-06                  IMPLEMENTED
+APP-07                  GAP
+APP-10                  GAP
+APP-11                  GAP
+APP-12                  GAP
+APP-13                  IMPLEMENTED
+APP-14                  GAP
+APP-15                  GAP
+APP-16                  GAP
+APP-17                  GAP
+APP-18                  IMPLEMENTED
+
+G2 Action/Management
+APP-08                  IMPLEMENTED
+APP-09                  IMPLEMENTED
+APP-32                  PARTIAL
+APP-33                  GAP/MOCKUP
+APP-37                  GAP
+APP-38                  GAP
+APP-45                  GAP
+APP-46                  MOCKUP
+APP-47                  MOCKUP
+APP-48                  MOCKUP
+APP-49                  MOCKUP
+APP-50                  MOCKUP
+APP-51                  MOCKUP
+APP-52                  MOCKUP
+APP-53                  MOCKUP
+APP-54                  GAP
+
+G3 Backup
+APP-19                  GAP
+APP-20                  PARTIAL
+APP-21                  MOCKUP
+APP-23                  MOCKUP
+APP-24                  MOCKUP
+APP-25                  MOCKUP
+APP-26                  MOCKUP
+APP-27                  MOCKUP
+APP-28                  MOCKUP
+
+G4 Restore/Install
+APP-22                  MOCKUP
+APP-40                  MOCKUP
+APP-41                  MOCKUP
+APP-42                  MOCKUP
+APP-43                  MOCKUP
+APP-44                  MOCKUP
+
+G5 Batch
+APP-29                  GAP
+APP-30                  GAP
+APP-31                  GAP
+
+G6 Configuration
+APP-34                  MOCKUP
+APP-35                  MOCKUP
+APP-36                  MOCKUP
+
+G7 Diagnostics
+APP-39                  MOCKUP
+```
+
+### Verifikasi
+- Index mengikuti canonical APP-01..APP-54 dan grouping G1–G7 pada checkpoint audit Apps.
+- Tidak membuat file baru.
+- Tidak mengubah source Apps, capability state, atau hasil audit.
+- Detail capability tetap berada pada checkpoint **#571 Apps capability audit — 54 capability / 7 group reconciliation** di worklog ini.
+
+### Berikutnya
+Gunakan index ini untuk pembacaan cepat. Jika perlu detail, evidence source dan audit lengkap ditelusuri dari checkpoint #571.
