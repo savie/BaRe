@@ -4671,3 +4671,26 @@ Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence 
 - Quick Action `Enable/Disable apps` tidak lagi membuka `AppManagementScreen` tanpa app terpilih.
 - Saat ini action tersebut tetap membuka state informasi/pending UI sampai batch selection/execution capability tersedia.
 - Source correction: `f91f11e9c520b67840724a2d36ad24493b6a42eb`.
+
+## 2026-09-23 — Koreksi CI Apps submenu
+
+### Temuan
+- CI run #700 gagal pada `:app:compileDebugKotlin`.
+- Error yang terverifikasi: lima screen Apps submenu direferensikan dari `BaReApp.kt`, tetapi import top-level untuk screen tersebut belum ada.
+- Screen yang terdampak: `AppsQuickActionsScreen`, `AppLabelsScreen`, `AppCustomConfigurationsScreen`, `AppBlacklistScreen`, dan `AppBackupSettingsScreen`.
+
+### Perubahan
+- Menambahkan lima import yang hilang pada `BaReApp.kt`.
+- Tidak mengubah behavior atau scope Apps submenu pada koreksi ini.
+
+### Verifikasi
+- Commit koreksi: `7532121b8c2b80934469b6689ac85ec369fa1291`.
+- CI run #701 pada commit tersebut: **SUCCESS**.
+- `Assemble debug APK`: **SUCCESS**.
+- `Verify APK artifact`: **SUCCESS**.
+- `Verify APK signing certificate`: **SUCCESS**.
+- `Upload debug APK`: **SUCCESS**.
+- In-place device update: **SKIPPED**; runtime/device tetap belum terverifikasi.
+
+### Berikutnya
+- Lanjutkan verifikasi dan implementasi interaction per-app: detail, `⋮`, swipe, dan long-press sesuai reference.
