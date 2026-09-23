@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import android.os.UserHandle
 import android.os.storage.StorageManager
-import android.util.LruCache
 import com.bare.app.AppItem
 import java.io.File
 
@@ -42,12 +41,9 @@ class InstalledAppRepository(private val context: Context) {
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
-                    icon = loadIconCached(
-                        packageName = info.packageName,
-                        versionCode = runCatching {
-                            packageManager.getPackageInfo(info.packageName, 0).longVersionCode
-                        }.getOrDefault(0L),
-                    ),
+                    icon = runCatching {
+                        packageManager.getApplicationIcon(info.packageName)
+                    }.getOrNull(),
                 )
             }
             .sortedBy { it.name.lowercase() }
@@ -79,32 +75,12 @@ class InstalledAppRepository(private val context: Context) {
         }.getOrNull()
     }
 
-    private fun loadIconCached(packageName: String, versionCode: Long): Drawable? {
-        val key = "$packageName@$versionCode"
-        iconCache.get(key)?.let { return it }
-        return runCatching {
-            packageManager.getApplicationIcon(packageName)
-        }.getOrNull()?.also { icon ->
-            iconCache.put(key, icon)
-        }
-    }
 
     companion object {
         @Volatile
         private var cachedApps: List<AppItem> = emptyList()
 
-        private val iconCache = LruCache<String, Drawable>(128)
-
         fun cached(): List<AppItem> = cachedApps
-
-        fun clearIconCache(packageName: String? = null) {
-            if (packageName == null) {
-                iconCache.evictAll()
-            } else {
-                val snapshot = iconCache.snapshot()
-                snapshot.keys.filter { it.startsWith("$packageName@") }.forEach(iconCache::remove)
-            }
-        }
     }
 
     private fun formatSize(bytes: Long): String {
