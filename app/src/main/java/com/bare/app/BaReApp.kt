@@ -45,6 +45,7 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
@@ -745,6 +746,10 @@ private enum class AppsSource {
 private fun AppsContextHeader(
     source: AppsSource,
     appCount: Int,
+    searchOpen: Boolean,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    onCloseSearch: () -> Unit,
     sourceMenuOpen: Boolean,
     onSourceMenuOpenChange: (Boolean) -> Unit,
     onOpenFilter: () -> Unit,
@@ -762,70 +767,91 @@ private fun AppsContextHeader(
                 .padding(horizontal = 12.dp),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
         ) {
-            Box {
-                TextButton(
-                    onClick = { onSourceMenuOpenChange(true) },
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                ) {
-                    Column(
-                        horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                        verticalArrangement = Arrangement.Center,
+            if (searchOpen) {
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = onSearchQueryChange,
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(56.dp),
+                    singleLine = true,
+                    maxLines = 1,
+                    placeholder = { Text("Search apps or package") },
+                    leadingIcon = {
+                        Icon(Icons.Outlined.Search, contentDescription = null)
+                    },
+                    trailingIcon = {
+                        IconButton(onClick = onCloseSearch) {
+                            Icon(Icons.Default.Clear, contentDescription = "Close search")
+                        }
+                    },
+                )
+            } else {
+                Box {
+                    TextButton(
+                        onClick = { onSourceMenuOpenChange(true) },
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
                     ) {
-                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Column(
+                            horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                            verticalArrangement = Arrangement.Center,
+                        ) {
+                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                                Text(
+                                    text = if (source == AppsSource.LOCAL) "LOCAL APPS" else "CLOUD SYNCED APPS",
+                                    style = MaterialTheme.typography.titleSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    maxLines = 1,
+                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                )
+                                Icon(
+                                    Icons.Default.KeyboardArrowDown,
+                                    contentDescription = "Select app source",
+                                    modifier = Modifier.size(18.dp),
+                                )
+                            }
                             Text(
-                                text = if (source == AppsSource.LOCAL) "LOCAL APPS" else "CLOUD SYNCED APPS",
-                                style = MaterialTheme.typography.titleSmall,
-                                fontWeight = FontWeight.Bold,
+                                text = if (source == AppsSource.LOCAL) "$appCount apps" else "Cloud inventory unavailable",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
-                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                            )
-                            Icon(
-                                Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Select app source",
-                                modifier = Modifier.size(18.dp),
                             )
                         }
-                        Text(
-                            text = if (source == AppsSource.LOCAL) "$appCount apps" else "Cloud inventory unavailable",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
+                    }
+
+                    DropdownMenu(
+                        expanded = sourceMenuOpen,
+                        onDismissRequest = { onSourceMenuOpenChange(false) },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Local apps") },
+                            leadingIcon = if (source == AppsSource.LOCAL) {
+                                { Text("✓", fontWeight = FontWeight.Bold) }
+                            } else null,
+                            onClick = { onSourceMenuOpenChange(false) },
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Cloud synced apps — not wired yet") },
+                            enabled = false,
+                            onClick = {},
                         )
                     }
                 }
 
-                DropdownMenu(
-                    expanded = sourceMenuOpen,
-                    onDismissRequest = { onSourceMenuOpenChange(false) },
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Local apps") },
-                        leadingIcon = if (source == AppsSource.LOCAL) {
-                            { Text("✓", fontWeight = FontWeight.Bold) }
-                        } else null,
-                        onClick = { onSourceMenuOpenChange(false) },
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Cloud synced apps — not wired yet") },
-                        enabled = false,
-                        onClick = {},
+                Spacer(Modifier.weight(1f))
+
+                IconButton(onClick = onOpenFilter) {
+                    Icon(
+                        Icons.Default.Tune,
+                        contentDescription = stringResource(R.string.filter_and_search),
                     )
                 }
-            }
-
-            Spacer(Modifier.weight(1f))
-
-            IconButton(onClick = onOpenFilter) {
-                Icon(
-                    Icons.Default.Tune,
-                    contentDescription = stringResource(R.string.filter_and_search),
-                )
-            }
-            IconButton(onClick = onOpenMenu) {
-                Icon(
-                    Icons.Default.Menu,
-                    contentDescription = stringResource(R.string.apps_menu),
-                )
+                IconButton(onClick = onOpenMenu) {
+                    Icon(
+                        Icons.Default.Menu,
+                        contentDescription = stringResource(R.string.apps_menu),
+                    )
+                }
             }
         }
     }
