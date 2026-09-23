@@ -57,6 +57,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -116,7 +117,7 @@ private enum class EnabledFilter { ALL, ENABLED, DISABLED }
 private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
-private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA }
+private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
 private enum class LabelFilter { ALL, LABELLED, UNLABELLED }
 private enum class SortOption(val title: String, val icon: ImageVector, val available: Boolean) {
     NAME("Name", Icons.Default.Sort, true),
@@ -260,14 +261,8 @@ fun AppsFilterScreen(
         }.start()
     }
 
-    fun requestBatteryOptimizationChange(app: AppItem) {
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-        val exempt = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            powerManager?.isIgnoringBatteryOptimizations(app.packageName) == true
-        } else {
-            false
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !exempt) {
+    fun requestBatteryOptimizationChange(app: AppItem, enableOptimization: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !enableOptimization) {
             runCatching {
                 context.startActivity(
                     Intent(
@@ -280,6 +275,18 @@ fun AppsFilterScreen(
             }
         } else {
             openAppInfo(app)
+        }
+    }
+
+    fun launchSystemUninstall(app: AppItem) {
+        runCatching {
+            context.startActivity(
+                Intent(
+                    Intent.ACTION_UNINSTALL_PACKAGE,
+                    Uri.parse("package:" + app.packageName),
+                ).putExtra(Intent.EXTRA_RETURN_RESULT, true)
+            )
+            selectedApp = null
         }
     }
 
@@ -317,7 +324,7 @@ fun AppsFilterScreen(
             SortOption.NAME -> filtered.sortedWith(if (activeFilter.descending) compareByDescending<AppItem> { it.name.lowercase() } else compareBy<AppItem> { it.name.lowercase() })
             SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
-            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.totalSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.DATE_USED -> filtered.sortedWith(compareBy<AppItem> { lastUsedTimes[it.packageName] ?: Long.MIN_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE -> filtered.sortedBy { it.name.lowercase() }
         }
@@ -411,10 +418,6 @@ fun AppsFilterScreen(
                                     overflow = TextOverflow.Ellipsis,
                                 )
                                 Text(
-                                    if (app.isSystem) "System app • ${app.size}" else "User app • ${app.size}",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-                                Text(
                                     when (activeFilter.sort) {
                                         SortOption.NAME -> "No backup on device"
                                         SortOption.INSTALL_DATE -> app.firstInstallTime?.let { "Installed: ${formatRelativeTime(it)}" } ?: "Install date unavailable"
@@ -453,6 +456,16 @@ fun AppsFilterScreen(
         var favorite by remember(app.packageName) {
             mutableStateOf(organizationStore.isFavorite(app.packageName))
         }
+        var batteryOptimizing by remember(app.packageName) {
+            mutableStateOf(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
+                    powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
+                } else {
+                    false
+                }
+            )
+        }
         ModalBottomSheet(onDismissRequest = { selectedApp = null }) {
             Column(
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp).padding(bottom = 28.dp),
@@ -490,8 +503,7 @@ fun AppsFilterScreen(
                     }
                     item {
                         AppActionChip(stringResource(R.string.uninstall), Icons.Default.Delete) {
-                            runCatching { context.startActivity(Intent(Intent.ACTION_DELETE, Uri.parse("package:${app.packageName}"))) }
-                            selectedApp = null
+                            destructiveAction = DestructiveAppAction.UNINSTALL
                         }
                     }
                     item {
@@ -571,12 +583,8 @@ fun AppsFilterScreen(
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.battery_optimization)) },
                     supportingContent = {
-                        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-                        val optimizing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
-                        } else false
                         Text(
-                            if (optimizing) {
+                            if (batteryOptimizing) {
                                 stringResource(R.string.battery_optimization_status_optimizing)
                             } else {
                                 stringResource(R.string.battery_optimization_status_exempt)
@@ -584,29 +592,29 @@ fun AppsFilterScreen(
                         )
                     },
                     leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
-                    modifier = Modifier.clickable {
-                        Thread {
-                            val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
-                            val optimizing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                powerManager?.isIgnoringBatteryOptimizations(app.packageName) != true
-                            } else {
-                                false
-                            }
-                            val success = runCatching {
-                                RootAppActionExecutor.setBatteryOptimizationExempt(
-                                    app.packageName,
-                                    exempt = optimizing,
-                                )
-                            }.getOrDefault(false)
-                            Handler(Looper.getMainLooper()).post {
-                                if (success) {
-                                    selectedApp = null
-                                    reloadApps()
-                                } else {
-                                    requestBatteryOptimizationChange(app)
-                                }
-                            }
-                        }.start()
+                    trailingContent = {
+                        Switch(
+                            checked = batteryOptimizing,
+                            onCheckedChange = { enableOptimization ->
+                                Thread {
+                                    val success = runCatching {
+                                        RootAppActionExecutor.setBatteryOptimizationExempt(
+                                            app.packageName,
+                                            exempt = !enableOptimization,
+                                        )
+                                    }.getOrDefault(false)
+                                    Handler(Looper.getMainLooper()).post {
+                                        if (success) {
+                                            batteryOptimizing = enableOptimization
+                                            reloadApps()
+                                        } else {
+                                            selectedApp = null
+                                            requestBatteryOptimizationChange(app, enableOptimization)
+                                        }
+                                    }
+                                }.start()
+                            },
+                        )
                     },
                 )
             }
@@ -620,11 +628,13 @@ fun AppsFilterScreen(
             DestructiveAppAction.DISABLE -> stringResource(R.string.disable)
             DestructiveAppAction.FORCE_STOP -> stringResource(R.string.force_stop)
             DestructiveAppAction.CLEAR_DATA -> stringResource(R.string.clear_data)
+            DestructiveAppAction.UNINSTALL -> stringResource(R.string.uninstall)
         }
         val message = when (action) {
             DestructiveAppAction.DISABLE -> stringResource(R.string.confirm_disable_app, target.name)
             DestructiveAppAction.FORCE_STOP -> stringResource(R.string.confirm_force_stop_app, target.name)
             DestructiveAppAction.CLEAR_DATA -> stringResource(R.string.confirm_clear_data_app, target.name)
+            DestructiveAppAction.UNINSTALL -> stringResource(R.string.confirm_uninstall_app, target.name)
         }
         androidx.compose.material3.AlertDialog(
             onDismissRequest = { destructiveAction = null },
@@ -640,6 +650,10 @@ fun AppsFilterScreen(
                             runRootActionOrFallback(target, { RootAppActionExecutor.forceStop(target.packageName) })
                         DestructiveAppAction.CLEAR_DATA ->
                             runRootActionOrFallback(target, { RootAppActionExecutor.clearData(target.packageName) })
+                        DestructiveAppAction.UNINSTALL ->
+                            runRootActionOrFallback(target, { RootAppActionExecutor.uninstall(target.packageName) }) {
+                                launchSystemUninstall(target)
+                            }
                     }
                 }) { Text(stringResource(R.string.ok)) }
             },
