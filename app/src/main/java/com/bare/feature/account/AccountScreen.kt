@@ -11,14 +11,21 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.IdentityType
 import com.bare.app.Screen
+import com.bare.feature.settings.SettingsAboutDialog
+import com.bare.feature.settings.openSettingsContact
 
 @Composable
 fun AccountScreen(
@@ -26,6 +33,8 @@ fun AccountScreen(
     identityType: IdentityType = IdentityType.LOCAL,
     accountEmail: String = "",
 ) {
+    val context = LocalContext.current
+    var showAboutDialog by remember { mutableStateOf(false) }
     val isAccount = identityType == IdentityType.ACCOUNT
     val accountLabel = if (isAccount) stringResource(R.string.account) else stringResource(R.string.local)
     val accountDetail = if (isAccount && accountEmail.isNotBlank()) {
@@ -60,10 +69,14 @@ fun AccountScreen(
         item { AccountMenuRow(stringResource(R.string.diagnostics), Icons.Outlined.BugReport) { onOpen(Screen.DIAGNOSTICS) } }
         item { AccountMenuRow(stringResource(R.string.language), Icons.Outlined.Language) {} }
         item { AccountMenuRow(stringResource(R.string.help_center), Icons.Outlined.HelpOutline) {} }
-        item { AccountMenuRow(stringResource(R.string.contact), Icons.Outlined.MailOutline) {} }
+        item { AccountMenuRow(stringResource(R.string.contact), Icons.Outlined.MailOutline) { openSettingsContact(context) } }
         item { AccountMenuRow(stringResource(R.string.rate_bare), Icons.Outlined.StarBorder) {} }
         item { AccountMenuRow(stringResource(R.string.share_bare), Icons.Outlined.Share) {} }
-        item { AccountMenuRow(stringResource(R.string.about), Icons.Outlined.Info) {} }
+        item { AccountMenuRow(stringResource(R.string.about), Icons.Outlined.Info) { showAboutDialog = true } }
+    }
+
+    if (showAboutDialog) {
+        SettingsAboutDialog(onDismiss = { showAboutDialog = false })
     }
 }
 
