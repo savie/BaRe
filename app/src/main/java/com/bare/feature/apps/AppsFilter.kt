@@ -82,6 +82,7 @@ import java.util.concurrent.TimeUnit
 import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -133,6 +134,49 @@ private data class AppsFilterState(
     val label: LabelFilter = LabelFilter.ALL,
     val selectedLabels: Set<String> = emptySet(),
 )
+
+private fun Drawable.toAppImageBitmap(sizePx: Int = 96): androidx.compose.ui.graphics.ImageBitmap {
+    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    setBounds(0, 0, sizePx, sizePx)
+    draw(canvas)
+    return bitmap.asImageBitmap()
+}
+
+@Composable
+private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavoriteBadge: Boolean) {
+    androidx.compose.foundation.layout.Box(
+        Modifier.size(size),
+        contentAlignment = Alignment.Center,
+    ) {
+        app.icon?.let { icon ->
+            Image(
+                bitmap = remember(icon) { icon.toAppImageBitmap() },
+                contentDescription = app.name,
+                modifier = Modifier.size(size).clip(CircleShape),
+            )
+        } ?: androidx.compose.foundation.layout.Box(
+            Modifier.size(size).clip(CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold)
+        }
+        if (showFavoriteBadge) {
+            Surface(
+                modifier = Modifier.align(Alignment.BottomEnd).size(18.dp),
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.primaryContainer,
+            ) {
+                Icon(
+                    Icons.Default.Star,
+                    contentDescription = stringResource(R.string.favorite),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(2.dp),
+                )
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -534,49 +578,6 @@ fun AppsFilterScreen(
             },
         )
     }
-
-private fun Drawable.toAppImageBitmap(sizePx: Int = 96): androidx.compose.ui.graphics.ImageBitmap {
-    val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
-    val canvas = Canvas(bitmap)
-    setBounds(0, 0, sizePx, sizePx)
-    draw(canvas)
-    return bitmap.asImageBitmap()
-}
-
-@Composable
-private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavoriteBadge: Boolean) {
-    androidx.compose.foundation.layout.Box(
-        Modifier.size(size),
-        contentAlignment = Alignment.Center,
-    ) {
-        app.icon?.let { icon ->
-            Image(
-                bitmap = remember(icon) { icon.toAppImageBitmap() },
-                contentDescription = app.name,
-                modifier = Modifier.size(size).clip(CircleShape),
-            )
-        } ?: androidx.compose.foundation.layout.Box(
-            Modifier.size(size).clip(CircleShape),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(app.name.take(1).uppercase(), fontWeight = FontWeight.Bold)
-        }
-        if (showFavoriteBadge) {
-            Surface(
-                modifier = Modifier.align(Alignment.BottomEnd).size(18.dp),
-                shape = CircleShape,
-                color = MaterialTheme.colorScheme.primaryContainer,
-            ) {
-                Icon(
-                    Icons.Default.Star,
-                    contentDescription = stringResource(R.string.favorite),
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(2.dp),
-                )
-            }
-        }
-    }
-}
 
     if (showLabelPicker) {
         androidx.compose.material3.AlertDialog(
