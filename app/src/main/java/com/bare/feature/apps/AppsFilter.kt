@@ -125,8 +125,9 @@ fun AppsFilterScreen(
     val repository = remember(context) { InstalledAppRepository(context) }
     val organizationStore = remember(context) { AppOrganizationStore(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
-    var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
-    var appsLoading by remember { mutableStateOf(true) }
+    val cachedApps = remember { InstalledAppRepository.cached() }
+    var apps by remember { mutableStateOf(cachedApps) }
+    var appsLoading by remember { mutableStateOf(cachedApps.isEmpty()) }
     var error by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var usageAccess by remember { mutableStateOf(usageRepository.hasUsageAccess()) }
