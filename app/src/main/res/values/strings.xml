@@ -163,6 +163,7 @@
     <string name="per_app_mockup_settings">Mockup per-app settings. Values are not stored in the backend yet.</string>
     <string name="mockup">Mockup</string>
     <string name="favorite_star">★</string>
+    <string name="app_size">App size</string>
     <string name="apk">APK</string>
     <string name="split_apk">Split APK</string>
     <string name="app_data">App data</string>
