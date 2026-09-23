@@ -32,6 +32,7 @@ fun ManageSpaceScreen(
 
     var backupBytes by remember { mutableStateOf(0L) }
     var recoveryBytes by remember { mutableStateOf(0L) }
+    var bareCacheBytes by remember { mutableStateOf(0L) }
     var locations by remember { mutableStateOf(emptyList<String>()) }
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -41,15 +42,20 @@ fun ManageSpaceScreen(
         val id = identityId ?: return
         scope.launch {
             val result = withContext(Dispatchers.IO) {
-                Triple(
-                    repository.localBackupSize(id),
-                    repository.localRecoverySize(id),
-                    repository.localBackupLocations(id),
+                val backup = if (id != null) repository.localBackupSize(id) else 0L
+                val recovery = if (id != null) repository.localRecoverySize(id) else 0L
+                val backupLocations = if (id != null) repository.localBackupLocations(id) else emptyList()
+                Quad(
+                    backup,
+                    recovery,
+                    backupLocations,
+                    baReCacheSize(context),
                 )
             }
             backupBytes = result.first
             recoveryBytes = result.second
             locations = result.third
+            bareCacheBytes = result.fourth
         }
     }
 
@@ -126,6 +132,14 @@ fun ManageSpaceScreen(
             }
 
             item {
+                ManageSpaceCard(
+                    title = stringResource(R.string.manage_space_bare_cache_title),
+                    body = stringResource(R.string.manage_space_bare_cache_description, formatBytes(context, bareCacheBytes)),
+                    icon = Icons.Outlined.DeleteSweep,
+                )
+            }
+
+            item {
                 ManageSpaceActionCard(
                     title = stringResource(R.string.manage_space_reset_app_settings),
                     body = stringResource(R.string.manage_space_reset_description),
@@ -196,6 +210,31 @@ fun ManageSpaceScreen(
             },
         )
     }
+}
+
+private data class Quad(
+    val first: Long,
+    val second: Long,
+    val third: List<String>,
+    val fourth: Long,
+)
+
+private fun baReCacheSize(context: Context): Long {
+    val directories = buildList {
+        add(context.cacheDir)
+        add(context.codeCacheDir)
+        context.externalCacheDirs.filterNotNull().forEach(::add)
+    }
+    return directories
+        .distinctBy { it.absolutePath }
+        .sumOf { directory ->
+            runCatching {
+                if (!directory.exists()) 0L
+                else directory.walkTopDown()
+                    .filter { it.isFile }
+                    .sumOf { it.length().coerceAtLeast(0L) }
+            }.getOrDefault(0L)
+        }
 }
 
 private fun restartAfterDataWipe(context: Context) {
