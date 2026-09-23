@@ -3,7 +3,9 @@ package com.bare.feature.apps
 import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Environment
 import com.bare.R
+import android.app.usage.StorageStats
 import java.io.File
 
 data class AppDetails(
@@ -18,6 +20,10 @@ data class AppDetails(
     val isEnabled: Boolean,
     val apkCount: Int,
     val apkSizeBytes: Long,
+    val dataSizeBytes: Long?,
+    val cacheSizeBytes: Long?,
+    val externalDataSizeBytes: Long?,
+    val mediaSizeBytes: Long?,
     val canLaunch: Boolean,
     val canOpenAppInfo: Boolean,
 )
@@ -34,6 +40,13 @@ class AppDetailsRepository(private val context: Context) {
             applicationInfo.splitSourceDirs?.let(::addAll)
         }
         val apkSizeBytes = apkPaths.sumOf { path -> File(path).length().coerceAtLeast(0L) }
+        val storage = storageStats(applicationInfo)
+        val externalDataSizeBytes = directorySizeOrNull(
+            File(Environment.getExternalStorageDirectory(), "Android/data/$packageName")
+        )
+        val mediaSizeBytes = directorySizeOrNull(
+            File(Environment.getExternalStorageDirectory(), "Android/media/$packageName")
+        )
         val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
         val appInfoIntent = android.content.Intent(
             android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -58,8 +71,33 @@ class AppDetailsRepository(private val context: Context) {
             isEnabled = applicationInfo.enabled,
             apkCount = apkPaths.size,
             apkSizeBytes = apkSizeBytes,
+            dataSizeBytes = storage?.dataBytes,
+            cacheSizeBytes = storage?.cacheBytes,
+            externalDataSizeBytes = externalDataSizeBytes,
+            mediaSizeBytes = mediaSizeBytes,
             canLaunch = launchIntent != null,
             canOpenAppInfo = canOpenAppInfo,
         )
+    }
+
+    private fun storageStats(info: ApplicationInfo): StorageStats? {
+        return runCatching {
+            val manager = context.getSystemService(android.app.usage.StorageStatsManager::class.java)
+                ?: return null
+            manager.queryStatsForPackage(
+                info.storageUuid ?: android.os.storage.StorageManager.UUID_DEFAULT,
+                info.packageName,
+                android.os.UserHandle.getUserHandleForUid(info.uid),
+            )
+        }.getOrNull()
+    }
+
+    private fun directorySizeOrNull(directory: File): Long? {
+        return runCatching {
+            if (!directory.exists() || !directory.isDirectory) return@runCatching 0L
+            directory.walkTopDown()
+                .filter { it.isFile }
+                .sumOf { it.length().coerceAtLeast(0L) }
+        }.getOrNull()
     }
 }
