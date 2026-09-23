@@ -115,7 +115,7 @@ fun ManageSpaceScreen(
                 ManageSpaceCard(
                     title = if (identityId == null) stringResource(R.string.manage_space_local_identity) else stringResource(R.string.manage_space_local_backup_storage),
                     body = buildString {
-                        append(if (identityId == null) "No local identity is available." else "BaRe local backup data")
+                        append(if (identityId == null) stringResource(R.string.manage_space_no_local_identity) else "${stringResource(R.string.app_text)} local backup data")
                         append("\n")
                         append(stringResource(R.string.manage_space_backup_files, formatBytes(context, backupBytes)))
                         append("\n")
@@ -133,8 +133,8 @@ fun ManageSpaceScreen(
 
             item {
                 ManageSpaceCard(
-                    title = stringResource(R.string.manage_space_bare_cache_title),
-                    body = stringResource(R.string.manage_space_bare_cache_description, formatBytes(context, bareCacheBytes)),
+                    title = stringResource(R.string.manage_space_bare_cache_title, stringResource(R.string.app_text)),
+                    body = stringResource(R.string.manage_space_bare_cache_description, stringResource(R.string.app_text), formatBytes(context, bareCacheBytes)),
                     icon = Icons.Outlined.Delete,
                 )
             }
@@ -166,7 +166,7 @@ fun ManageSpaceScreen(
             item {
                 ManageSpaceActionCard(
                     title = stringResource(R.string.manage_space_delete_all_title),
-                    body = stringResource(R.string.manage_space_delete_all_description),
+                    body = stringResource(R.string.manage_space_delete_all_description, stringResource(R.string.app_text)),
                     button = stringResource(R.string.manage_space_delete_all_button),
                     icon = Icons.Outlined.Delete,
                     enabled = !busy && identityId != null,
@@ -192,7 +192,7 @@ fun ManageSpaceScreen(
         val message = when (action) {
             ManageSpaceAction.RESET_SETTINGS -> stringResource(R.string.manage_space_reset_confirm_message)
             ManageSpaceAction.DELETE_BACKUPS -> stringResource(R.string.manage_space_delete_backup_confirm_message)
-            ManageSpaceAction.DELETE_ALL_DATA -> stringResource(R.string.manage_space_delete_all_confirm_message)
+            ManageSpaceAction.DELETE_ALL_DATA -> stringResource(R.string.manage_space_delete_all_confirm_message, stringResource(R.string.app_text))
         }
         AlertDialog(
             onDismissRequest = { if (!busy) confirmAction = null },
