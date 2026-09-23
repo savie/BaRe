@@ -5,6 +5,8 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -668,35 +670,94 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     }
 
     if (showActions && details != null) {
+        var batteryOptimizationExempt by remember(packageName) {
+            mutableStateOf(
+                runCatching {
+                    val powerManager = context.getSystemService(android.os.PowerManager::class.java)
+                    packageName != null && powerManager?.isIgnoringBatteryOptimizations(packageName) == true
+                }.getOrDefault(false)
+            )
+        }
         ModalBottomSheet(onDismissRequest = { showActions = false }) {
             Column(
                 Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
-                Text(stringResource(R.string.app_actions), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                AppActionMenuItem(stringResource(R.string.play_store), Icons.Default.ShoppingBag) {
-                    showActions = false; mockupAction = context.getString(R.string.play_store)
+                Row(
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    AppActionPill(stringResource(R.string.disable), Icons.Default.VisibilityOff) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.confirm_disable_app, details!!.name)
+                    }
+                    AppActionPill(stringResource(R.string.force_stop), Icons.Default.Stop) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.confirm_force_stop_app, details!!.name)
+                    }
+                    AppActionPill(stringResource(R.string.clear_data), Icons.Default.DeleteSweep) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.confirm_clear_data_app, details!!.name)
+                    }
+                    AppActionPill(stringResource(R.string.play_store), Icons.Default.ShoppingBag) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.play_store)
+                    }
+                    AppActionPill(stringResource(R.string.android_app_info), Icons.Default.Info) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.android_app_info)
+                    }
+                    AppActionPill(stringResource(R.string.share_apk), Icons.Default.Share) {
+                        showActions = false
+                        mockupAction = context.getString(R.string.share_apk)
+                    }
                 }
-                AppActionMenuItem(stringResource(R.string.android_app_info), Icons.Default.Info) {
-                    showActions = false; mockupAction = context.getString(R.string.android_app_info)
+                HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                AppActionMenuItem(stringResource(R.string.favorites), Icons.Default.Star) {
+                    showActions = false
+                    onOpen(Screen.APP_MANAGEMENT)
                 }
-                AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
-                    showActions = false; mockupAction = context.getString(R.string.share_apk)
+                AppActionMenuItem(stringResource(R.string.labels), Icons.Default.Label) {
+                    showActions = false
+                    onOpen(Screen.APP_MANAGEMENT)
                 }
-                AppActionMenuItem(stringResource(R.string.favorite_labels_blacklist), Icons.Default.Star) {
-                    showActions = false; onOpen(Screen.APP_MANAGEMENT)
+                AppActionMenuItem(stringResource(R.string.blacklist), Icons.Default.Block) {
+                    showActions = false
+                    onOpen(Screen.APP_BLACKLIST)
                 }
-                AppActionMenuItem(stringResource(R.string.battery_optimization), Icons.Default.BatteryChargingFull) {
-                    showActions = false; mockupAction = context.getString(R.string.battery_optimization)
-                }
+                ListItem(
+                    headlineContent = { Text(stringResource(R.string.battery_optimization)) },
+                    supportingContent = {
+                        Text(
+                            if (batteryOptimizationExempt) {
+                                stringResource(R.string.battery_optimization_status_exempt)
+                            } else {
+                                stringResource(R.string.battery_optimization_status_optimizing)
+                            }
+                        )
+                    },
+                    leadingContent = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
+                    trailingContent = {
+                        Switch(
+                            checked = batteryOptimizationExempt,
+                            onCheckedChange = {
+                                batteryOptimizationExempt = it
+                                showActions = false
+                                mockupAction = context.getString(R.string.battery_optimization)
+                            }
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                HorizontalDivider()
                 AppActionMenuItem(stringResource(R.string.add_to_home_screen), Icons.Default.Home) {
-                    showActions = false; mockupAction = context.getString(R.string.add_to_home_screen)
+                    showActions = false
+                    mockupAction = context.getString(R.string.add_to_home_screen)
                 }
-                AppActionMenuItem(stringResource(R.string.force_stop), Icons.Default.Stop) {
-                    showActions = false; mockupAction = context.getString(R.string.force_stop)
-                }
-                AppActionMenuItem(stringResource(R.string.uninstall), Icons.Default.Delete) {
-                    showActions = false; mockupAction = context.getString(R.string.uninstall)
+                AppActionMenuItem(stringResource(R.string.settings), Icons.Default.Settings) {
+                    showActions = false
+                    onOpen(Screen.APP_BACKUP_SETTINGS)
                 }
             }
         }
@@ -1127,6 +1188,28 @@ private fun AppBackupStateCard(
             TextButton(onClick = onOpenBackups) {
                 Text(stringResource(R.string.view_backups))
             }
+        }
+    }
+}
+
+@Composable
+private fun AppActionPill(
+    title: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier.height(56.dp).clickable(onClick = onClick),
+        shape = RoundedCornerShape(28.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Row(
+            Modifier.padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(icon, contentDescription = null, modifier = Modifier.size(22.dp))
+            Spacer(Modifier.width(8.dp))
+            Text(title, fontWeight = FontWeight.SemiBold)
         }
     }
 }
