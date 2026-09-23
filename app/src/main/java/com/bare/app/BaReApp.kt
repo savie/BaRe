@@ -590,65 +590,7 @@ private fun MainShell(
                 }
             }
         },
-    ) { padding ->        Box(Modifier.fillMaxSize()) {
-            if (appsSelected && appsMenuOpen) {
-                Box(
-                    Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.48f))
-                        .clickable { appsMenuOpen = false },
-                )
-                AnimatedVisibility(
-                    visible = true,
-                    modifier = Modifier.align(androidx.compose.ui.Alignment.CenterEnd),
-                    enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn(),
-                    exit = slideOutHorizontally(targetOffsetX = { it }) + fadeOut(),
-                ) {
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(0.84f),
-                        color = MaterialTheme.colorScheme.surface,
-                        tonalElevation = 8.dp,
-                        shadowElevation = 8.dp,
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 20.dp, bottom = 20.dp),
-                        ) {
-                            AppsDrawerItem(Icons.Default.FlashOn, stringResource(R.string.quick_actions_label), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.APP_QUICK_ACTIONS)
-                            })
-                            AppsDrawerItem(Icons.Default.LabelOutline, stringResource(R.string.app_labels), stringResource(R.string.app_labels_description), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.APP_LABELS)
-                            })
-                            AppsDrawerItem(Icons.Default.Build, stringResource(R.string.custom_configurations), stringResource(R.string.custom_configurations_description), stringResource(R.string.advanced_rooted_users), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.APP_CUSTOM_CONFIG)
-                            })
-                            AppsDrawerItem(Icons.Default.Block, stringResource(R.string.blacklist), stringResource(R.string.blacklist_description), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.APP_BLACKLIST)
-                            })
-                            Spacer(Modifier.height(12.dp))
-                            HorizontalDivider()
-                            Spacer(Modifier.height(12.dp))
-                            AppsDrawerItem(Icons.Default.Android, stringResource(R.string.app_backup_settings), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.APP_BACKUP_SETTINGS)
-                            })
-                            AppsDrawerItem(Icons.Default.Settings, stringResource(R.string.settings), onClick = {
-                                appsMenuOpen = false
-                                onOpenScreen(Screen.SETTINGS)
-                            })
-                        }
-                    }
-                }
-            }
-        }
+    ) { padding ->
 
         HorizontalPager(
             state = pagerState,
@@ -680,7 +622,67 @@ private fun MainShell(
                 )
             }
         }
+        }
+    )
+
+    if (appsSelected && appsMenuOpen) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.48f))
+                .clickable { appsMenuOpen = false },
+        )
+        AnimatedVisibility(
+            visible = true,
+            modifier = Modifier.align(androidx.compose.ui.Alignment.CenterEnd),
+            enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn(),
+            exit = slideOutHorizontally(targetOffsetX = { it }) + fadeOut(),
+        ) {
+            Surface(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth(0.84f),
+                color = MaterialTheme.colorScheme.surface,
+                tonalElevation = 8.dp,
+                shadowElevation = 8.dp,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp, bottom = 20.dp),
+                ) {
+                    AppsDrawerItem(Icons.Default.FlashOn, stringResource(R.string.quick_actions_label), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.APP_QUICK_ACTIONS)
+                    })
+                    AppsDrawerItem(Icons.Default.LabelOutline, stringResource(R.string.app_labels), stringResource(R.string.app_labels_description), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.APP_LABELS)
+                    })
+                    AppsDrawerItem(Icons.Default.Build, stringResource(R.string.custom_configurations), stringResource(R.string.custom_configurations_description), stringResource(R.string.advanced_rooted_users), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.APP_CUSTOM_CONFIG)
+                    })
+                    AppsDrawerItem(Icons.Default.Block, stringResource(R.string.blacklist), stringResource(R.string.blacklist_description), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.APP_BLACKLIST)
+                    })
+                    Spacer(Modifier.height(12.dp))
+                    HorizontalDivider()
+                    Spacer(Modifier.height(12.dp))
+                    AppsDrawerItem(Icons.Default.Android, stringResource(R.string.app_backup_settings), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.APP_BACKUP_SETTINGS)
+                    })
+                    AppsDrawerItem(Icons.Default.Settings, stringResource(R.string.settings), onClick = {
+                        appsMenuOpen = false
+                        onOpenScreen(Screen.SETTINGS)
+                    })
+                }
+            }
+        }
     }
+}
 @Composable
 private fun AppsDrawerItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
