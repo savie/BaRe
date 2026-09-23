@@ -421,6 +421,11 @@ private fun MainShell(
         when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APPS_TOOLS -> AppsToolsScreen(onOpenScreen, onBack)
+            Screen.APP_QUICK_ACTIONS -> AppsQuickActionsScreen(onOpenScreen, onBack)
+            Screen.APP_LABELS -> AppLabelsScreen(onBack)
+            Screen.APP_CUSTOM_CONFIG -> AppCustomConfigurationsScreen(onBack)
+            Screen.APP_BLACKLIST -> AppBlacklistScreen(onBack)
+            Screen.APP_BACKUP_SETTINGS -> AppBackupSettingsScreen(onOpenScreen, onBack)
             Screen.APP_DETAIL -> AppDetailScreen(selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName), onOpenScreen, onBack)
             Screen.APP_BACKUP -> AppBackupScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) }, onOpenScreen)
             Screen.APP_BACKUPS -> AppBackupsScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
