@@ -4251,3 +4251,65 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 - **UNVERIFIED:** Build result belum selesai saat checkpoint worklog ini dibuat.
 - **UNVERIFIED:** Runtime onboarding cross-device, local password persistence setelah recovery, dan subsequent Export/Import.
 - **NEXT:** Tunggu hasil CI; jika build green, lanjutkan verification gap runtime sesuai evidence yang tersedia. Jika gagal, perbaiki dari error aktual lalu catat checkpoint baru.
+
+## 2026-09-23 — #570 Audit Account → Settings / Scope Rebalance
+
+### Authorization
+- **USER GO:** Audit aktual tab **Account → Settings**, bedakan yang sudah dikerjakan vs belum, lalu hanya pindahkan item ke **Apps** bila ownership-nya memang jelas merupakan capability inti Apps dan bukan sekadar utility/global setting.
+
+### Actual Source Audit
+
+#### Account
+- **Account identity surface — PARTIAL / UI_SHELL:** Local vs Account state dan email session dapat ditampilkan; device model juga ditampilkan.
+- **Connect account / Sign out — UI ONLY / NOT IMPLEMENTED:** action button pada AccountCard masih disabled; belum ada account backend/session persistence.
+- **Settings entry — IMPLEMENTED:** membuka Settings.
+- **Diagnostics — UI ROUTING ONLY / NOT IMPLEMENTED:** membuka generic Screen.DIAGNOSTICS; surface masih generic/mockup.
+- **Language — UI ONLY / NO ACTION:** row tersedia tetapi belum memiliki implementation handler.
+- **Help Center — UI ONLY / NO ACTION:** row tersedia tetapi disabled/no handler.
+- **Contact — PARTIAL / IMPLEMENTED:** membuka system mail intent bila tersedia.
+- **Rate — UI ONLY / NO ACTION.**
+- **Share BaRe — UI ONLY / NO ACTION.**
+- **About — PARTIAL / IMPLEMENTED:** membuka dialog versi/product info.
+
+#### Settings
+- **Appearance:** App Theme, Dynamic Colors, dan AMOLED Black memiliki state + persistence melalui settings store. **IMPLEMENTED**.
+- **Language:** hanya menampilkan English; belum ada locale switching. **UI ONLY / NOT IMPLEMENTED**.
+- **App backups:** sudah diarahkan ke **Apps**. Ini adalah ownership yang benar untuk per-app configuration; tidak perlu membuat duplicate implementation di Account/Settings.
+- **Messages / Call Logs / Folder backups:** row ada tetapi disabled dan eksplisit not implemented. **NOT IMPLEMENTED**.
+- **Local storage:** membaca storage configuration aktual dan menyediakan switch Internal/External melalui BackupStorageRepository + initializeLocalBackupStorage. Storage path/runtime sudah memiliki evidence sebelumnya; settings-specific UI tetap perlu runtime re-check bila visual verification dibutuhkan.
+- **Cloud backups:** routing ke Cloud sudah ada, tetapi provider connection/transfer belum implemented.
+- **Encryption strategy:** strategy STANDARD/ADVANCED dan verifier lifecycle tersedia. **IMPLEMENTED AS SECURITY SETTING**, tetapi backup encryption execution end-to-end belum verified.
+- **Manage Space:** actual backup/recovery size inspection serta reset/delete actions tersedia dengan confirmation. **IMPLEMENTED**, destructive runtime verification tetap terpisah.
+- **Notifications:** Manage notifications membuka Android system settings. **IMPLEMENTED**; notification sound toggle masih disabled.
+- **BaRe Labs:** routing/surface tersedia; belum merupakan core backup capability.
+- **Export/Import Settings:** disabled / not implemented.
+- **BaRe Logger:** surface tersedia; bukan core backup execution.
+- **Recovery:** routing masuk ke Recovery screen; recovery password lifecycle dan onboarding handoff sudah dikerjakan di source, dengan runtime Security E2E masih merupakan verification gap.
+- **Diagnostics:** disabled / not implemented pada Settings.
+- **Restart app:** implemented melalui relaunch package.
+- **Help Center:** disabled / not implemented.
+- **Contact:** implemented melalui mail intent.
+- **About:** implemented sebagai dialog versi/product info.
+
+### Scope Rebalance Result
+- **Tidak ada item Account/Settings yang aman untuk dipindahkan ke Apps hanya berdasarkan audit ini.**
+- App backups **sudah** benar diarahkan ke Apps.
+- Diagnostics di Account tidak dipindahkan ke Apps karena screen yang dirujuk saat ini adalah generic cross-product diagnostics, bukan capability Apps yang sudah memiliki implementation; memindahkannya sekarang hanya memindahkan placeholder, bukan menutup capability.
+- Language, Help, Contact, Rate, Share, About adalah global utility/product information dan bukan ownership Apps.
+- Recovery, encryption, storage, manage-space, dan notifications adalah cross-cutting/global concerns; tetap di Settings.
+- Fokus product tetap boleh bergeser ke **Apps** tanpa membawa utility Account/Settings yang belum penting ke dalam scope Apps.
+
+### Engineering Decision
+**DECISION:** Account/Settings tidak diperluas lagi untuk mengejar parity utility reference sebelum capability inti Apps memiliki implementation/evidence. Apps menjadi area capability utama berikutnya. Utility yang belum implemented tetap ditandai apa adanya, bukan dipindahkan hanya untuk membuat Account/Settings terlihat selesai.
+
+### Verification Truth
+- **OBSERVED:** current source AccountScreen.kt dan SettingsScreen.kt diperiksa langsung pada branch v1.0/rebaseline.
+- **OBSERVED:** beberapa row masih UI-only/disabled/no-op; tidak ada klaim bahwa screen presence berarti capability selesai.
+- **VERIFIED earlier:** storage runtime evidence #305 mencakup Internal/External storage behavior.
+- **UNVERIFIED:** account backend/session persistence, cloud provider execution, settings export/import, notification sounds, full diagnostics, and security E2E recovery.
+- **NO SOURCE CHANGE:** audit ini tidak memindahkan placeholder/utility secara artificial. Tidak ada perubahan source yang diperlukan untuk keputusan scope rebalance.
+
+### Next
+- Pindah fokus implementation ke **Apps** sebagai core product area.
+- Prioritaskan shared foundation yang Apps butuhkan: identity lifecycle/recovery contract, app inventory/metadata, backup inventory, operation/result model, artifact/archive/security boundary, lalu Apps execution secara bertahap.
+- Account/Settings dipertahankan sebagai control-plane surface minimal sampai capability global tersebut benar-benar dibutuhkan dan memiliki implementation/verification path.
