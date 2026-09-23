@@ -5036,6 +5036,6 @@ Android mendokumentasikan pm clear, pm enable, pm disable-user, dan perintah pac
 - CI untuk commit perubahan ini: **PENDING**.
 - Runtime uninstall dan battery root/non-root: **UNVERIFIED** sampai diuji pada device.
 - Total storage size: implementation ada; runtime value dan sorting masih perlu diuji pada device.
-- Android reference: `StorageStats.getAppBytes()` mencakup APK, optimized compiler output, dan unpacked native libraries; `getDataBytes()` mencakup data termasuk cache; `StorageStatsManager.queryStatsForPackage()` membutuhkan PACKAGE_USAGE_STATS untuk package lain. citeturn1search0turn2search0
-- Android uninstall intent membutuhkan `REQUEST_DELETE_PACKAGES` untuk target API P+; Android juga menyediakan PackageInstaller uninstall untuk installer-of-record/device-owner scenarios. citeturn1search1turn3search0turn6search0
-- Battery optimization state dibaca dari `PowerManager.isIgnoringBatteryOptimizations()`; direct request exemption memerlukan `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`. citeturn7search0turn4search0
+- Android reference: `StorageStats.getAppBytes()` mencakup APK, optimized compiler output, dan unpacked native libraries; `getDataBytes()` mencakup data termasuk cache; `StorageStatsManager.queryStatsForPackage()` membutuhkan PACKAGE_USAGE_STATS untuk package lain.
+- Android uninstall intent membutuhkan `REQUEST_DELETE_PACKAGES` untuk target API P+; Android juga menyediakan PackageInstaller uninstall untuk installer-of-record/device-owner scenarios.
+- Battery optimization state dibaca dari `PowerManager.isIgnoringBatteryOptimizations()`; direct request exemption memerlukan `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
