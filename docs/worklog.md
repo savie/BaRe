@@ -4633,3 +4633,35 @@ APP-39  App visibility diagnostics                             MOCKUP
 
 ### Berikutnya
 Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence source dari checkpoint #571.
+
+
+## 2026-09-23 — Apps hamburger / quick actions baseline implementation
+
+### Authorization
+- **USER GO:** Mulai pekerjaan Apps dari baseline `665ca627419306a1cc9ede21545ba0baea51529d`.
+- Reference digunakan sebagai acuan pola UI/interaction; capability dan behavior disesuaikan dengan boundary BaRe.
+
+### Implementasi
+- Hamburger Apps sekarang membuka menu Apps dengan Quick actions, App Labels, Custom configurations, Blacklist, App backup settings, dan Settings.
+- Menambahkan surface Quick Actions mengikuti pola reference untuk backup/restore/manage actions.
+- Menambahkan surface App Labels dengan persistence lokal untuk create, rename, dan delete label.
+- Menambahkan surface Blacklist dengan persistence lokal dan picker aplikasi; aplikasi yang masuk blacklist tidak ditampilkan pada inventory Apps.
+- Menambahkan surface Custom configurations sebagai UI flow; persistence/execution konfigurasi belum dihubungkan ke backup engine.
+- Menambahkan surface App backup settings dengan persistence lokal untuk opsi yang sudah dapat disimpan, sementara execution capability downstream belum di-wire.
+- Menambahkan routing baru pada `Screen` dan `BaReApp.kt`.
+
+### Boundary
+- Premium status pada reference tidak dipakai sebagai pembatas capability BaRe.
+- Backup/restore/cloud execution yang belum tersedia tidak dimock sebagai successful execution.
+- UI yang belum memiliki execution backend tetap dapat dibuka dengan state yang eksplisit.
+- Status capability 54 tetap mengikuti audit; implementasi UI ini tidak otomatis menaikkan status capability menjadi VERIFIED.
+
+### Verifikasi
+- **OBSERVED:** source baseline `665ca627419306a1cc9ede21545ba0baea51529d` diperiksa sebelum perubahan.
+- **IMPLEMENTED:** routing hamburger dan Apps submenu baru pada source.
+- **IMPLEMENTED:** local persistence label dan blacklist.
+- **UNVERIFIED:** Android build/CI dan device/runtime untuk commit ini belum dilakukan pada saat pencatatan.
+
+### Berikutnya
+- Verifikasi build/CI.
+- Lanjutkan behavior per-app: detail, `⋮`, swipe, dan long-press berdasarkan interaction reference yang sudah dikaji.
