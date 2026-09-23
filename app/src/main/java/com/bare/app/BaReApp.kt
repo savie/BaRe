@@ -622,7 +622,6 @@ private fun MainShell(
                 )
             }
         }
-        }
     )
 
     if (appsSelected && appsMenuOpen) {
@@ -719,6 +718,4 @@ private fun AppsDrawerItem(
             }
         }
     }
-}
-
 }
