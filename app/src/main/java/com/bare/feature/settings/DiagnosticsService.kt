@@ -1,9 +1,12 @@
 package com.bare.feature.settings
 
 import android.content.Context
+import android.os.Build
 import com.bare.R
 import com.bare.app.LocalIdentityStore
+import com.bare.storage.BackupStorage
 import com.bare.storage.BackupStorageRepository
+import java.util.Locale
 
 enum class DiagnosticsStatus {
     READY,
@@ -19,6 +22,7 @@ data class DiagnosticsCheck(
 
 data class DiagnosticsSnapshot(
     val appVersion: String,
+    val runtime: String,
     val identity: String,
     val storage: String,
     val recovery: String,
@@ -48,24 +52,46 @@ class DiagnosticsService(private val context: Context) {
         val encryptionReady = encryptionStrategy == EncryptionPasswordStrategy.STANDARD ||
             encryptionPasswordStore.hasActivePassword()
 
+        val storageStatus = when (selectedStorage) {
+            BackupStorage.Kind.EXTERNAL -> {
+                if (!internal.available) DiagnosticsStatus.NOT_AVAILABLE else DiagnosticsStatus.READY
+            }
+            BackupStorage.Kind.INTERNAL, null -> when {
+                !internal.available -> DiagnosticsStatus.NOT_AVAILABLE
+                !internal.writable -> DiagnosticsStatus.ATTENTION
+                else -> DiagnosticsStatus.READY
+            }
+        }
+
+        val storageDetail = when {
+            selectedStorage == BackupStorage.Kind.EXTERNAL && !internal.available ->
+                appContext.getString(R.string.diagnostics_storage_selected_unavailable)
+            !internal.available ->
+                appContext.getString(R.string.diagnostics_storage_unavailable)
+            !internal.writable ->
+                appContext.getString(R.string.diagnostics_storage_read_only)
+            selectedStorage == BackupStorage.Kind.EXTERNAL ->
+                appContext.getString(R.string.diagnostics_storage_external_ready)
+            else ->
+                appContext.getString(R.string.diagnostics_storage_internal_ready)
+        }
+
         val checks = listOf(
+            DiagnosticsCheck(
+                title = appContext.getString(R.string.diagnostics_check_runtime),
+                status = DiagnosticsStatus.READY,
+                detail = appContext.getString(R.string.diagnostics_runtime_ready, Build.VERSION.RELEASE),
+            ),
             DiagnosticsCheck(
                 title = appContext.getString(R.string.diagnostics_check_identity),
                 status = if (identity != null) DiagnosticsStatus.READY else DiagnosticsStatus.ATTENTION,
-                detail = if (identity != null) appContext.getString(R.string.diagnostics_identity_ready) else appContext.getString(R.string.diagnostics_identity_missing),
+                detail = if (identity != null) appContext.getString(R.string.diagnostics_identity_ready)
+                else appContext.getString(R.string.diagnostics_identity_missing),
             ),
             DiagnosticsCheck(
-                title = "Storage",
-                status = when {
-                    !internal.available -> DiagnosticsStatus.NOT_AVAILABLE
-                    !internal.writable -> DiagnosticsStatus.ATTENTION
-                    else -> DiagnosticsStatus.READY
-                },
-                detail = when {
-                    !internal.available -> "Local storage is not available"
-                    !internal.writable -> "Local storage is read-only"
-                    else -> "\${selectedStorage.name.lowercase().replace('_', ' ')} storage is available"
-                },
+                title = appContext.getString(R.string.diagnostics_check_storage),
+                status = storageStatus,
+                detail = storageDetail,
             ),
             DiagnosticsCheck(
                 title = appContext.getString(R.string.diagnostics_check_recovery),
@@ -107,9 +133,11 @@ class DiagnosticsService(private val context: Context) {
             appVersion = runCatching {
                 appContext.packageManager.getPackageInfo(appContext.packageName, 0).versionName ?: "Unknown"
             }.getOrDefault("Unknown"),
-            identity = identity?.identityId ?: "Not available",
-            storage = internal.displayName,
-            recovery = if (recoveryReady) "Ready" else "Not available",
+            runtime = appContext.getString(R.string.diagnostics_runtime_value, Build.MODEL, Build.VERSION.RELEASE),
+            identity = identity?.identityId ?: appContext.getString(R.string.not_available),
+            storage = storageDetail,
+            recovery = if (recoveryReady) appContext.getString(R.string.diagnostics_status_ready)
+            else appContext.getString(R.string.diagnostics_status_not_available),
             encryption = encryptionStrategy.name,
             backups = formatBytes(backupBytes),
             checks = checks,
@@ -118,34 +146,42 @@ class DiagnosticsService(private val context: Context) {
     }
 
     fun buildReport(snapshot: DiagnosticsSnapshot): String = buildString {
-        appendLine("BaRe Diagnostics")
-        appendLine("App version: \${snapshot.appVersion}")
-        appendLine("Identity: \${snapshot.identity.take(8)}")
-        appendLine("Storage: \${snapshot.storage}")
-        appendLine("Recovery: \${snapshot.recovery}")
-        appendLine("Encryption: \${snapshot.encryption}")
-        appendLine("Backups: \${snapshot.backups}")
+        appendLine(appContext.getString(R.string.diagnostics_report_title, appContext.getString(R.string.app_text)))
+        appendLine(appContext.getString(R.string.diagnostics_report_app_version, snapshot.appVersion))
+        appendLine(appContext.getString(R.string.diagnostics_report_runtime, snapshot.runtime))
+        appendLine(appContext.getString(R.string.diagnostics_report_identity, snapshot.identity.take(8)))
+        appendLine(appContext.getString(R.string.diagnostics_report_storage, snapshot.storage))
+        appendLine(appContext.getString(R.string.diagnostics_report_recovery, snapshot.recovery))
+        appendLine(appContext.getString(R.string.diagnostics_report_encryption, snapshot.encryption))
+        appendLine(appContext.getString(R.string.diagnostics_report_backups, snapshot.backups))
         appendLine()
-        appendLine("Health")
+        appendLine(appContext.getString(R.string.diagnostics_report_health))
         snapshot.checks.forEach { check ->
-            appendLine("\${check.title}: \${check.status.name} — \${check.detail}")
+            appendLine("${check.title}: ${check.detail}")
         }
         appendLine()
-        appendLine("Recent activity")
+        appendLine(appContext.getString(R.string.diagnostics_report_activity))
         snapshot.logs.takeLast(100).forEach { entry ->
             appendLine(logger.format(entry))
         }
     }
 
     private fun formatBytes(bytes: Long): String {
-        if (bytes < 1024L) return "\${bytes} B"
+        if (bytes < 1024L) return appContext.getString(R.string.size_bytes, bytes)
         var value = bytes.toDouble()
-        val units = arrayOf("KB", "MB", "GB", "TB")
-        var index = -1
-        while (value >= 1024.0 && index < units.lastIndex) {
-            value /= 1024.0
-            index++
+        val units = arrayOf(
+            R.string.size_kb to 1024.0,
+            R.string.size_mb to 1024.0 * 1024.0,
+            R.string.size_gb to 1024.0 * 1024.0 * 1024.0,
+            R.string.size_tb to 1024.0 * 1024.0 * 1024.0 * 1024.0,
+        )
+        val unit = when {
+            bytes < 1024L * 1024L -> units[0]
+            bytes < 1024L * 1024L * 1024L -> units[1]
+            bytes < 1024L * 1024L * 1024L * 1024L -> units[2]
+            else -> units[3]
         }
-        return "%.1f %s".format(java.util.Locale.getDefault(), value, units[index])
+        val divisor = unit.second
+        return appContext.getString(unit.first, value / divisor)
     }
 }
