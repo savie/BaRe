@@ -18,6 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
@@ -611,7 +613,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         if (packageName.isNullOrBlank()) {
             error = context.getString(R.string.app_detail_missing_package)
         } else {
-            runCatching { repository.load(packageName) }
+            runCatching { withContext(Dispatchers.IO) { repository.load(packageName) } }
                 .onSuccess { details = it }
                 .onFailure { details = null; error = it.message ?: context.getString(R.string.app_detail_unavailable) }
         }
