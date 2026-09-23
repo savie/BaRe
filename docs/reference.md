@@ -2299,17 +2299,16 @@ BARE CURRENT IMPLEMENTATION
 
 **Status:** REFERENCE EVIDENCE / BOUNDARY CLARIFIED.
 
-## 24 — Apps domain capability reconciliation: Swift Backup reference vs BaRe current state
+## 24 — Apps domain capability reconciliation: Swift Backup reference
 
 ### Scope
 
-Audit khusus **domain Apps** berdasarkan:
-- docs/reference.md existing audit;
-- decompiled artifact **Swift Backup 5.1.0 (620)** yang tersedia pada project;
-- visual reference screenshots yang diberikan pengguna;
-- source aktual BaRe branch v1.0/rebaseline.
+Audit khusus **domain Apps** berdasarkan evidence reference yang tersedia:
+- static/decompiled artifact **Swift Backup 5.1.0 (620)**;
+- visual reference screenshots;
+- public product documentation.
 
-Audit ini hanya membandingkan **capability/reference evidence**. Keberadaan class, string, layout, atau mockup tidak dianggap sebagai runtime proof.
+Bagian ini mencatat **reference evidence only**. Keberadaan class, string, layout, atau visual tidak dianggap sebagai runtime proof.
 
 ### 24.1 Swift Backup Apps — capability evidence
 
@@ -2587,7 +2586,7 @@ Interpretation: Quick Actions adalah **shortcut/access layer**, bukan functional
 
 ### 24.1E App configuration scope and placement
 
-Reference visual menunjukkan dua scope configuration yang perlu dibedakan:
+Reference visual menunjukkan dua scope configuration yang berbeda:
 
 ```text
 GLOBAL
@@ -2606,41 +2605,12 @@ Apps
             └── App settings
 ```
 
-Untuk BaRe saat ini ditetapkan sebagai **DECISION**:
+Evidence ini menunjukkan bahwa reference membedakan **global app-backup settings** dari **per-app configuration/settings**.
 
-- BaRe belum masuk fase Global Account/Settings implementation.
-- Karena itu, **per-app configuration/settings sementara ditempatkan di Apps / local App Workspace scope**.
-- Global configuration belum dipindahkan ke Account sebelum tab Account/global settings siap.
-- Ketika Account/global settings sudah memasuki implementation phase, scope global vs per-app akan direconcile kembali.
-- APP-34/35/36 tetap berada di **G6 — Configuration**; placement lokal saat ini adalah navigation/IA decision, bukan perubahan capability identity.
+Status: `OBSERVED_VISUAL`.
 
-Status reference structure: `OBSERVED_VISUAL`.
-Status BaRe placement: `DECISION`.
+Reference tidak menetapkan bagaimana BaRe harus menempatkan kedua scope tersebut. Product/IA placement BaRe harus ditentukan oleh dokumen canonical BaRe dan keputusan engineering yang terpisah.
 
-### 24.1F App Detail reference action coverage
-
-User-provided visual reference juga menunjukkan App Detail/context actions yang sekarang tercakup dalam inventory:
-
-```text
-App Detail / context
-├── Launch
-├── Uninstall
-├── App Info
-├── Play Store
-├── Share APK
-├── Favorites
-├── Set app labels
-├── Add to blacklist
-├── Battery optimization
-├── Add to Home screen
-├── Enable / Disable
-├── Force stop
-└── Clear data
-```
-
-`Clear data` adalah temuan baru yang menyebabkan rebaseline **53 → 54** dan dicatat sebagai **APP-54** pada G2 — Action & Management.
-
-Status: `OBSERVED_VISUAL`; tidak berarti BaRe sudah mampu mengeksekusi action tersebut.
 ### 24.2 Filter model reference — detail yang perlu dipertahankan
 
 Decompiled filter_bottom_dialog.xml memperlihatkan struktur filter yang lebih kaya daripada tiga pill pada BaRe saat ini:
@@ -2838,48 +2808,3 @@ Reference-derived conclusion:
 
 Karena BaRe saat ini baru memiliki discovery minimal, pekerjaan berikutnya sebaiknya tidak langsung menyalin seluruh surface reference. Capability perlu ditutup satu per satu berdasarkan dependency, product scope, dan verification evidence.
 
-### 24.8 Additional reference evidence from user-provided visual screenshots
-
-Screenshot reference yang diberikan menunjukkan beberapa surface Apps yang relevan:
-- LOCAL APPS dengan jumlah app, search, filter, dan batch-action entry;
-- context switch Local apps ↔ Cloud synced apps;
-- per-item card menampilkan package name, app name, backup state (No backup on device pada contoh);
-- filter surface yang memisahkan Sort dan Filter serta menyediakan kategori filter bertingkat;
-- quick/management surface berisi Quick actions, App Labels, Custom configurations, Blacklist, App backup settings.
-
-Status: OBSERVED_VISUAL dari reference screenshots pengguna.
-
-### 24.9 Audit conclusion
-
-Current BaRe Apps state:
-
-    Package discovery
-          ↓
-    RUNTIME USER-OBSERVED PASS
-          ↓
-    UI inventory
-          ↓
-    PARTIAL IMPLEMENTATION
-          ↓
-    backup / restore / management / filter / cloud / config
-          ↓
-    NOT IMPLEMENTED OR MOCKUP
-
-Jadi untuk domain Apps saja, gap reference masih material. Namun gap tersebut sekarang sudah terpetakan secara lebih granular sehingga implementasi berikutnya dapat dipilih berdasarkan dependency dan evidence, bukan berdasarkan tampilan mockup semata.
-
-Rebaseline ini juga mengoreksi inventory capability: **53 capability/workflow items dari reconciliation sebelumnya + APP-54 Clear app data yang ditegaskan oleh visual reference = 54 capability/workflow items**. Inventory 54 item tersebut adalah working discovery inventory, bukan scope commitment.
-
-**APP-01 App Workspace / App Detail foundation** tetap menjadi foundation utama untuk capability per-app. Mockup yang sudah dibuat dipertahankan sebagai FE contract/evidence; implementation boleh menutup beberapa capability ID sekaligus bila dependency dan implementation boundary memang sama.
-
-**Functional IA concept saat ini:** 7 functional groups + APP-01 foundation:
-1. Discovery & Filtering
-2. Action & Management
-3. Backup
-4. Restore / Install
-5. Batch Operations
-6. Configuration
-7. Diagnostics
-
-Quick Actions adalah access/shortcut layer, bukan group ke-8. Sort + Filter dapat dipresentasikan dalam satu Apps options surface. Per-app configuration sementara ditempatkan di Apps/local App Workspace; global settings ditunda sampai Account/global settings siap.
-
-**Status:** REFERENCE_RECONCILED / APPS_CAPABILITY_REBASELINED_54 / APPS_7_GROUPS_PLUS_FOUNDATION / SORT_FILTER_RECONCILED / QUICK_ACTIONS_RECONCILED / APP_CONFIGURATION_SCOPE_DECIDED_LOCAL / APPS_GAP_MATRIX_UPDATED / MOCKUP_FE_CONTRACT_PRESERVED / RUNTIME_REFERENCE_NOT_PERFORMED.
