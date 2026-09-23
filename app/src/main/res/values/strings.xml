@@ -354,6 +354,10 @@
     <string name="partial_implementation">Partial implementation</string>
     <string name="app_labels">App Labels</string>
     <string name="app_backup_settings">App backup settings</string>
+    <string name="app_labels_description">Create and edit custom labels</string>
+    <string name="custom_configurations_description">App-specific backup and restore rules</string>
+    <string name="blacklist_description">Hide apps or back up APKs only</string>
+    <string name="advanced_rooted_users">FOR ADVANCED ROOTED USERS</string>
     <string name="apps_menu">Apps menu</string>
     <string name="delete_backup">Delete backup</string>
     <string name="recovery">Recovery</string>
