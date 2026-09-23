@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +29,7 @@ import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
+private enum class AppSort { NAME, UPDATE }
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
@@ -37,6 +39,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
     var scope by remember { mutableStateOf(AppScope.ALL) }
+    var sort by remember { mutableStateOf(AppSort.NAME) }
     var descending by remember { mutableStateOf(false) }
     var showFilters by remember { mutableStateOf(false) }
     var showContext by remember { mutableStateOf(false) }
@@ -50,7 +53,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
             .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
     }
 
-    val visibleApps = remember(apps, scope, descending, searchQuery) {
+    val visibleApps = remember(apps, scope, sort, descending, searchQuery) {
         val query = searchQuery.trim().lowercase()
         val filtered = apps.filter { app ->
             val matchesScope = when (scope) {
@@ -63,7 +66,18 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                 app.packageName.lowercase().contains(query)
             matchesScope && matchesQuery
         }
-        if (descending) filtered.sortedByDescending { it.name.lowercase() } else filtered.sortedBy { it.name.lowercase() }
+        when (sort) {
+            AppSort.NAME -> if (descending) {
+                filtered.sortedByDescending { it.name.lowercase() }
+            } else {
+                filtered.sortedBy { it.name.lowercase() }
+            }
+            AppSort.UPDATE -> if (descending) {
+                filtered.sortedBy { it.lastUpdateTime ?: Long.MIN_VALUE }
+            } else {
+                filtered.sortedByDescending { it.lastUpdateTime ?: Long.MIN_VALUE }
+            }
+        }
     }
 
     if (showFilters) {
@@ -160,10 +174,31 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         }
         item {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                OutlinedButton(onClick = { descending = !descending }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
+                OutlinedButton(
+                    onClick = {
+                        if (sort == AppSort.NAME && !descending) {
+                            descending = true
+                        } else if (sort == AppSort.NAME && descending) {
+                            sort = AppSort.UPDATE
+                            descending = false
+                        } else if (sort == AppSort.UPDATE && !descending) {
+                            descending = true
+                        } else {
+                            sort = AppSort.NAME
+                            descending = false
+                        }
+                    },
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                ) {
                     Icon(Icons.Default.Sort, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
-                    Text(if (descending) stringResource(R.string.apps_name_descending) else stringResource(R.string.apps_name_ascending))
+                    Text(
+                        when (sort) {
+                            AppSort.NAME -> if (descending) stringResource(R.string.apps_name_descending) else stringResource(R.string.apps_name_ascending)
+                            AppSort.UPDATE -> if (descending) stringResource(R.string.apps_update_oldest) else stringResource(R.string.apps_update_newest)
+                        }
+                    )
                 }
                 OutlinedButton(onClick = { showFilters = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
                     Icon(Icons.Default.FilterList, contentDescription = null)
@@ -257,6 +292,98 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
         if (q.isBlank()) emptyList() else apps.filter {
             it.name.lowercase().contains(q) || it.packageName.lowercase().contains(q)
         }.take(30)
+    }
+
+    if (showBackupSelector && details != null) {
+        val availableParts = buildList {
+            add(context.getString(R.string.apks_part))
+            add(context.getString(R.string.data_part))
+            if ((details!!.externalDataSizeBytes ?: 0L) > 0L) add(context.getString(R.string.external_data_part))
+            if ((details!!.mediaSizeBytes ?: 0L) > 0L) add(context.getString(R.string.media_part))
+        }
+        ModalBottomSheet(
+            onDismissRequest = { showBackupSelector = false },
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(
+                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        stringResource(R.string.user_app_parts),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(onClick = { backupPartNames = availableParts.toSet() }) {
+                        Icon(Icons.Default.CheckCircle, contentDescription = stringResource(R.string.select_all))
+                    }
+                }
+                availableParts.chunked(2).forEach { rowParts ->
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        rowParts.forEach { part ->
+                            AppStorageChip(
+                                title = part,
+                                subtitle = when (part) {
+                                    context.getString(R.string.apks_part) -> formatAppSize(details!!.apkSizeBytes)
+                                    context.getString(R.string.data_part) -> formatAppSize(details!!.dataSizeBytes ?: 0L)
+                                    context.getString(R.string.external_data_part) -> formatAppSize(details!!.externalDataSizeBytes ?: 0L)
+                                    else -> formatAppSize(details!!.mediaSizeBytes ?: 0L)
+                                },
+                                icon = when (part) {
+                                    context.getString(R.string.apks_part) -> Icons.Default.Android
+                                    context.getString(R.string.data_part) -> Icons.Default.Storage
+                                    context.getString(R.string.external_data_part) -> Icons.Default.Folder
+                                    else -> Icons.Default.PhotoLibrary
+                                },
+                                modifier = Modifier.weight(1f),
+                                selected = part in backupPartNames
+                            ) {
+                                backupPartNames = if (part in backupPartNames) backupPartNames - part else backupPartNames + part
+                            }
+                        }
+                        if (rowParts.size == 1) Spacer(Modifier.weight(1f))
+                    }
+                }
+                Text(
+                    stringResource(R.string.select_backup_locations),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = backupDestination == "Device",
+                        onClick = { backupDestination = "Device" },
+                        label = { Text(stringResource(R.string.device)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    FilterChip(
+                        selected = backupDestination == "Cloud",
+                        onClick = { backupDestination = "Cloud" },
+                        label = { Text(stringResource(R.string.cloud)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Button(
+                    enabled = backupPartNames.isNotEmpty(),
+                    onClick = {
+                        showBackupSelector = false
+                        mockupAction = context.getString(R.string.run_backup)
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(28.dp),
+                    contentPadding = PaddingValues(vertical = 16.dp)
+                ) {
+                    Icon(Icons.Default.Add, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.backup).uppercase())
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -606,6 +733,9 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var showActions by remember { mutableStateOf(false) }
     var selectedPart by remember { mutableStateOf<String?>(null) }
+    var showBackupSelector by remember { mutableStateOf(false) }
+    var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
+    var backupDestination by remember { mutableStateOf("Device") }
     var mockupAction by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(repository, packageName) {
@@ -678,15 +808,18 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 )
                 AppActionMenuItem(stringResource(R.string.backup_to_device), Icons.Default.PhoneAndroid) {
                     selectedPart = null
-                    onOpen(Screen.APP_BACKUP)
+                    backupPartNames = setOf(part)
+                    showBackupSelector = true
                 }
                 AppActionMenuItem(stringResource(R.string.backup_to_cloud), Icons.Default.CloudUpload) {
                     selectedPart = null
-                    onOpen(Screen.APP_BACKUP)
+                    backupPartNames = setOf(part)
+                    showBackupSelector = true
                 }
                 AppActionMenuItem(stringResource(R.string.backup_to_device_cloud), Icons.Default.CloudQueue) {
                     selectedPart = null
-                    onOpen(Screen.APP_BACKUP)
+                    backupPartNames = setOf(part)
+                    showBackupSelector = true
                 }
                 if (part == context.getString(R.string.apks_part)) {
                     AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
@@ -736,7 +869,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 val cacheBytes = item.cacheSizeBytes ?: 0L
                 val appSizeBytes = item.apkSizeBytes +
                     (item.dataSizeBytes ?: 0L) +
-                    cacheBytes +
                     (item.externalDataSizeBytes ?: 0L) +
                     (item.mediaSizeBytes ?: 0L)
                 val parts = buildList {
@@ -750,7 +882,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     add(
                         Triple(
                             context.getString(R.string.data_part),
-                            formatAppSize((item.dataSizeBytes ?: 0L) + cacheBytes),
+                            formatAppSize(item.dataSizeBytes ?: 0L),
                             Icons.Default.Storage
                         )
                     )
@@ -783,16 +915,14 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Row(verticalAlignment = Alignment.Top) {
-                                    Box(
-                                        Modifier.size(48.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-                                        Alignment.Center
-                                    ) {
-                                        Text(
-                                            item.name.take(1),
-                                            style = MaterialTheme.typography.titleLarge,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
+                                    AndroidView(
+                                        factory = { android.widget.ImageView(it) },
+                                        update = { imageView ->
+                                            imageView.setImageDrawable(app?.icon)
+                                            imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                        },
+                                        modifier = Modifier.size(48.dp)
+                                    )
                                     Spacer(Modifier.width(12.dp))
                                     Column(Modifier.weight(1f)) {
                                         Text(
@@ -848,14 +978,14 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Text(
-                                    stringResource(R.string.app_size),
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
-                                Text(
-                                    formatAppSize(appSizeBytes),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontWeight = FontWeight.Bold
+                                    stringResource(
+                                        R.string.last_updated_value,
+                                        formatRelativeAppTime(context, item.lastUpdateTime),
+                                        formatAppSize(appSizeBytes),
+                                        formatAppSize(cacheBytes)
+                                    ),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.SemiBold
                                 )
                                 if (cacheBytes > 0L) {
                                     Text(
@@ -889,7 +1019,10 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     }
                                 }
                                 Button(
-                                    onClick = { onOpen(Screen.APP_BACKUP) },
+                                    onClick = {
+                                        backupPartNames = parts.map { it.first }.toSet()
+                                        showBackupSelector = true
+                                    },
                                     modifier = Modifier.align(Alignment.End),
                                     shape = RoundedCornerShape(24.dp),
                                     contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)
@@ -928,6 +1061,7 @@ private fun AppStorageChip(
     subtitle: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
+    selected: Boolean = false,
     onClick: () -> Unit,
 ) {
     Surface(
@@ -935,10 +1069,10 @@ private fun AppStorageChip(
             .height(64.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
         border = androidx.compose.foundation.BorderStroke(
             1.dp,
-            MaterialTheme.colorScheme.outline.copy(alpha = 0.55f)
+            if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.55f)
         ),
     ) {
         Row(
@@ -1281,6 +1415,41 @@ fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
             item { ListEntry("Special data", "Expose optional special-data restore choices", Icons.Default.Extension) { showMockup = "Special-data restore" } }
             item { ListEntry("SSAAD", "Explicit optional SSAID restore choice with warning", Icons.Default.Fingerprint) { showMockup = "SSAAD restore" } }
             item { ListEntry("Restore selected backup", "Choose a backup version and continue through preconditions", Icons.Default.Restore) { showMockup = "Restore selected backup" } }
+        }
+    }
+}
+
+private fun formatRelativeAppTime(context: Context, timestamp: Long): String {
+    if (timestamp <= 0L || timestamp > System.currentTimeMillis()) {
+        return context.getString(R.string.relative_time_unavailable)
+    }
+    val delta = System.currentTimeMillis() - timestamp
+    val minute = 60_000L
+    val hour = 60L * minute
+    val day = 24L * hour
+    val days = delta / day
+    return when {
+        delta < minute -> context.getString(R.string.relative_time_just_now)
+        delta < hour -> {
+            val value = delta / minute
+            context.getString(if (value == 1L) R.string.relative_time_minute else R.string.relative_time_minutes, value)
+        }
+        delta < day -> {
+            val value = delta / hour
+            context.getString(if (value == 1L) R.string.relative_time_hour else R.string.relative_time_hours, value)
+        }
+        days < 7 -> context.getString(if (days == 1L) R.string.relative_time_day else R.string.relative_time_days, days)
+        days < 30 -> {
+            val value = days / 7L
+            context.getString(if (value == 1L) R.string.relative_time_week else R.string.relative_time_weeks, value)
+        }
+        days < 365 -> {
+            val value = days / 30L
+            context.getString(if (value == 1L) R.string.relative_time_month else R.string.relative_time_months, value)
+        }
+        else -> {
+            val value = days / 365L
+            context.getString(if (value == 1L) R.string.relative_time_year else R.string.relative_time_years, value)
         }
     }
 }
