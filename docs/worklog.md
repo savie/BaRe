@@ -5860,3 +5860,67 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 - Re-read `strings.xml` after commit `bd4a2837516e19c3b7b1e8659771910b342615da`: **0 duplicate resource names**.
 - Attempted local Gradle build from the repository, but the execution environment could not resolve `github.com`; therefore local build result is **BLOCKED**, not failed by Gradle.
 - GitHub connector currently exposes no workflow run/status for the fix commit through the available commit-run endpoint, so CI green is **UNVERIFIED** from this session.
+
+
+## 2026-09-23 — Rebaseline App Detail UI to Swift reference structure
+
+### Authorization
+- **USER GO:** App Detail UI + flow harus mengikuti reference Swift, bukan hanya daftar fitur.
+- Part yang tidak tersedia tidak boleh ditampilkan; khususnya **Ext. data** dan **Media** harus hilang jika tidak ada.
+
+### Inspection
+- Reference static audit dan decompiled layout menunjukkan struktur App Detail Swift:
+  - app info card: icon/package/name/version + overflow;
+  - action buttons di area app info;
+  - storage/app-size card;
+  - storage chips dalam grid;
+  - backup action dari storage card;
+  - device backup card;
+  - cloud backup card.
+- Source BaRe sebelumnya menampilkan Package surface, daftar part besar, Backup inventory, Configuration, Diagnostics, Restore variants, dan Backup history sebagai blok terpisah sehingga secara visual tidak mengikuti struktur reference.
+
+### Implementation
+- App Detail direfactor mengikuti struktur reference:
+  - app info card menjadi area utama header;
+  - Launch/Uninstall dipindah ke area app info;
+  - Package surface card dihapus dari App Detail;
+  - Backup parts diubah menjadi storage chips/grid;
+  - tombol Backup berada di storage card;
+  - Device dan Cloud backup dipisah menjadi card;
+  - Configuration/Diagnostics/Restore variants/Backup history tidak lagi ditampilkan sebagai blok utama App Detail.
+- Part action sheet tetap dipertahankan:
+  - Backup to Device
+  - Backup to Cloud
+  - Backup to Device & Cloud
+  - Share APK untuk APKs
+  - Delete
+- App-level overflow tetap mengikuti action surface reference.
+
+### Dynamic part availability
+- `AppDetailsRepository` sekarang membaca:
+  - APK size;
+  - data size + cache size via `StorageStatsManager`;
+  - Ext. data dari `Android/data/<package>`;
+  - Media dari `Android/media/<package>`.
+- Ext. data dan Media hanya dimasukkan ke UI jika ukuran terukur **> 0**.
+- Jadi aplikasi tanpa Ext. data/Media tidak mendapat chip kosong.
+
+### Source commits
+- `c1f9e1b5a9fbcb5e6d8b8cc754148683fbe583c3` — expose storage part availability.
+- `617f353aad336cc64ea5cd1f58c3016490da9eb8` — align App Detail UI with reference structure.
+- `3a9b47b706a1a7420556f5d2ce96b83152b5f43a` — add App size resource.
+- `0bc1113fba6ca5230152ef3ef6e4449a5c37c828` — keep storage grid implementation compatible.
+
+### Verification Truth
+- strings.xml duplicate audit: **0 duplicate resource names**.
+- Reference structure: **IMPLEMENTED / SOURCE REVIEWED**.
+- Dynamic Ext. data / Media condition: **IMPLEMENTED IN SOURCE**.
+- Runtime visual result: **UNVERIFIED**.
+- Gradle/CI after this slice: **UNVERIFIED**; local clone/build is blocked because this environment cannot resolve github.com.
+- Backup execution: remains **NOT IMPLEMENTED / pending capability backend**.
+
+### Next
+1. CI/build result.
+2. Runtime open App Detail on apps with and without Ext. data/Media.
+3. Compare visual hierarchy against Swift reference.
+4. Check overflow, storage chip actions, Backup entry, Device card, Cloud card.
