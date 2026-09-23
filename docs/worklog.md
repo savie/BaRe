@@ -6023,3 +6023,18 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 4. Pastikan `Last updated` sama dengan item yang muncul saat Apps sort = Update newest/oldest.
 5. Uji Backup → selector → part → Device/Cloud.
 6. Jangan lanjut implementasi action titik tiga lebih jauh sebelum halaman App Detail ini lolos visual/runtime review.
+
+
+## App Detail overflow menu — 2026-09-24
+
+- USER GO: samakan titik tiga kanan atas App Detail dengan referensi Swift.
+- Reconcile: behavior yang sudah ada di tab Apps dipakai kembali sebagai jalur behavior BaRe; tidak membuat flow management/setting baru yang terpisah.
+- Implementasi UI:
+  - 6 action pill di bagian atas dalam satu baris horizontal yang bisa digeser: Disable, Force stop, Clear data, Play store, Android App Info, Share.
+  - Menu utama: Favorites, Set app labels, Add to blacklist, Battery optimization + status/toggle, Add to Home screen, Settings.
+  - Favorites/labels diarahkan ke App Management yang sudah ada; blacklist ke App Blacklist; Settings ke App Backup Settings.
+  - Action yang backend/runtime-nya belum terverifikasi tetap memakai jalur mockup yang sudah ada, tidak diklaim sebagai eksekusi nyata.
+  - Status Battery optimization dibaca dari PowerManager saat membuka menu; perubahan UI belum diklaim sebagai perubahan sistem karena execution path belum diverifikasi.
+- Source commit: 05c7d5de4dee05478240597c3027aedc0f3b4591 (ui: align App Detail overflow with Swift flow).
+- Verification: source change committed; CI/runtime screenshot belum diverifikasi pada saat log ini ditulis.
+- Next: cek CI commit ini. Jika green, lanjut runtime visual check overflow App Detail; setelah itu baru lanjut perbedaan Backup/Cloud.
