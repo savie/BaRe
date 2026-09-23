@@ -439,7 +439,7 @@ fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
             item { QuickActionCard("Restore new versions", "Restore backed up apps that have newer version APKs in the backups", "From device", "From cloud") { message = "Restore new versions" } }
             item { Spacer(Modifier.height(8.dp)); Text("OTHER QUICK ACTIONS", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
             item { QuickActionCard("Delete backups of missing apps", "Delete backups of all missing/uninstalled apps", "From device", "From cloud") { message = "Delete backups of missing apps" } }
-            item { QuickActionCard("Enable/Disable apps", "Change installed app enabled state") { onOpen(Screen.APP_MANAGEMENT) } }
+            item { QuickActionCard("Enable/Disable apps", "Change installed app enabled state") { message = "Enable/Disable apps" } }
         }
     }
 }
