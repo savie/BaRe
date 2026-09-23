@@ -212,18 +212,24 @@ fun AppsFilterScreen(
     var activeFilter by remember { mutableStateOf(AppsFilterState()) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
     fun reloadApps() {
-        runCatching { repository.load() }
-            .onSuccess {
-                apps = it
-                onInventoryCountChange(it.size)
-                error = null
-                appsLoading = false
+        if (apps.isEmpty()) appsLoading = true
+        Thread {
+            val result = runCatching { repository.load() }
+            Handler(Looper.getMainLooper()).post {
+                result
+                    .onSuccess {
+                        apps = it
+                        onInventoryCountChange(it.size)
+                        error = null
+                        appsLoading = false
+                    }
+                    .onFailure {
+                        onInventoryCountChange(0)
+                        error = it.message ?: "Unable to discover installed apps"
+                        appsLoading = false
+                    }
             }
-            .onFailure {
-                onInventoryCountChange(0)
-                error = it.message ?: "Unable to discover installed apps"
-                appsLoading = false
-            }
+        }.start()
     }
 
     fun refreshUsageAccess() {
