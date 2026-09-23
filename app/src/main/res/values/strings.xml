@@ -352,6 +352,8 @@
     <string name="functional">Functional</string>
     <string name="implemented_runtime_pending">Implemented • runtime pending</string>
     <string name="partial_implementation">Partial implementation</string>
+    <string name="app_labels">App Labels</string>
+    <string name="app_backup_settings">App backup settings</string>
     <string name="apps_menu">Apps menu</string>
     <string name="delete_backup">Delete backup</string>
     <string name="recovery">Recovery</string>
