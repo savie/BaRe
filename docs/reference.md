@@ -489,6 +489,104 @@ App detail tidak boleh menampilkan *path* sukses `Restore` yang generik tanpa me
 
 *Verification*: `OBSERVED_STATIC` + `DOCUMENTED_PUBLIC`; *runtime behavior* `UNKNOWN`.
 
+
+### S03-A — App detail interaction model (Swift Backup 5.1.0 reference)
+
+**Scope:** hasil audit decompile + screenshot yang dibaca pada 2026-09-23. Bagian ini menambah resolusi pada S03; tidak mengubah authority BaRe.
+
+**Evidence status:** OBSERVED_STATIC untuk alur yang terlihat dari decompiled reference; OBSERVED_VISUAL untuk state/menu yang terlihat pada screenshot reference; RUNTIME_VERIFIED tidak digunakan karena APK reference tidak dijalankan dalam audit ini.
+
+#### A. App-level overflow / titik tiga
+
+Pada App Detail reference, tombol titik tiga membuka action surface untuk operasi terhadap aplikasi. Evidence yang terlihat mencakup:
+
+- Play Store;
+- Android App Info;
+- Share APK;
+- Favorite / labels / blacklist;
+- Battery optimization;
+- Add to Home screen;
+- Force stop;
+- Uninstall.
+
+Static evidence menunjukkan action tersebut berada pada action/menu flow App Detail dan sebagian action diarahkan ke surface management/settings terpisah. Kehadiran action pada reference tidak berarti capability BaRe sudah tersedia.
+
+#### B. Part-level action flow
+
+Reference memisahkan app parts sebagai object/surface yang dapat dipilih, termasuk:
+
+- APK / APKs;
+- Data;
+- External data;
+- Media;
+- part lain yang tersedia pada backup configuration.
+
+Screenshot reference menunjukkan ketika part seperti APK/Data/Ext. data dipilih, action menu dapat berisi:
+
+- **Backup to Device**;
+- **Backup to Cloud**;
+- **Backup to Device & Cloud**;
+- **Delete**;
+- **Share APK** untuk context APK.
+
+Model interaction yang teramati:
+
+```
+APP DETAIL
+  ↓
+tap app-part
+  ↓
+part action menu
+  ├── Backup to Device
+  ├── Backup to Cloud
+  ├── Backup to Device & Cloud
+  ├── Share APK       (context APK)
+  └── Delete
+```
+
+Ini berbeda dari sekadar menampilkan daftar checkbox part. Part mempunyai **action surface sendiri**.
+
+#### C. Tombol Backup → selector, bukan direct execution
+
+Reference menunjukkan tombol **Backup** pada App Detail membuka bottom-sheet/selector yang berisi:
+
+1. **User app parts** — APKs, Data, Ext. data, Media, dan part lain yang tersedia;
+2. **Select backup locations** — Device dan Cloud;
+3. action utama **BACKUP**.
+
+Model flow:
+
+```
+Backup
+  ↓
+User app parts
+  ↓
+Select backup locations
+  ↓
+BACKUP
+```
+
+Dengan demikian, backup flow memiliki dua pilihan terpisah: **apa yang dibackup** dan **ke mana backup dikirim**.
+
+#### D. Reference-derived FE implication untuk BaRe
+
+Untuk kebutuhan discovery/design BaRe, model interaksi yang perlu dipertimbangkan adalah:
+
+```
+App Detail
+├── app header / package / version / launch / uninstall
+├── APKs / Data / Ext. data / Media
+│   └── tap part → part action menu
+├── Backup
+│   └── part selector → location selector → execute
+└── ⋮
+    └── app-level actions
+```
+
+**Boundary:** ini REFERENCE-DERIVED, bukan DECISION atau REQUIREMENT BaRe. Implementasi BaRe harus tetap ditentukan oleh docs/reference.md, docs/worklog.md, source BaRe, capability evidence, dan runtime verification.
+
+**Audit note:** alur ini menjadi template reference untuk pekerjaan App Detail berikutnya. Jika ada flow yang tidak dapat dibuktikan dari reference artifact/screenshot/decompile, baru diminta evidence tambahan sebelum implementation.
+
 ### S04 — App backup/restore configuration
 
 *Evidence*  
