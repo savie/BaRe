@@ -4777,3 +4777,27 @@ Menutup scope Apps navigation berdasarkan hasil runtime user test dan reference 
 - Brace hierarchy diperbaiki: content lambda `Scaffold` ditutup sebelum drawer overlay, kemudian outer shell `Box` ditutup setelah drawer.
 - `Row` juga ditambahkan ke import karena helper memakai Row.
 - Tidak ada perubahan capability/backend; koreksi hanya build correctness/navigation surface.
+
+
+## 2026-09-23 — Koreksi format Apps drawer dan state saat Back
+
+### Pekerjaan Saat Ini
+Menyesuaikan hasil user test setelah CI #716 hijau.
+
+### Perubahan
+- Apps hamburger tetap berupa right-side transient drawer, tetapi format surface diselaraskan dengan pola bottom-sheet: rounded edge pada sisi masuk, tonal/shadow surface yang sama, dan handle visual.
+- Empat item utama tetap di bagian atas: Quick actions, App Labels, Custom configurations, dan Blacklist.
+- App backup settings dan Settings dipindahkan ke group bawah yang dipin dengan Spacer(weight = 1f), sehingga selalu berada di bagian paling bawah drawer.
+- Menambahkan process-local cache inventory pada InstalledAppRepository.
+- AppsFilterScreen sekarang memulai dari cache inventory bila tersedia, lalu tetap melakukan reload aktual pada resume. Tujuannya menghilangkan state sementara **No matching installed apps** saat kembali dari submenu/drawer.
+
+### Verifikasi
+- Source changes committed pada branch v1.0/rebaseline.
+- Perubahan drawer hanya mengubah presentation/layout; routing destination tetap sama.
+- Cache tidak menggantikan reload aktual; cache hanya mencegah empty-state flash saat Apps surface dibuat ulang.
+- CI untuk perubahan baru: **UNVERIFIED** sampai workflow commit terbaru selesai.
+- Device/runtime setelah perubahan: **UNVERIFIED**.
+
+### Berikutnya
+- Tunggu/cek CI commit terbaru.
+- Jika hijau, install/update APK dan verifikasi langsung: buka hamburger, posisi dua item bawah, Back dari drawer, dan Back dari setiap destination tanpa **No matching installed apps**.
