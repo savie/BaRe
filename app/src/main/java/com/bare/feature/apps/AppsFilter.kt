@@ -119,6 +119,7 @@ fun AppsFilterScreen(
     onSearchOpenChange: (Boolean) -> Unit,
     filterOpen: Boolean,
     onFilterOpenChange: (Boolean) -> Unit,
+    onInventoryCountChange: (Int) -> Unit,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -140,10 +141,12 @@ fun AppsFilterScreen(
         runCatching { repository.load() }
             .onSuccess {
                 apps = it
+                onInventoryCountChange(it.size)
                 error = null
                 appsLoading = false
             }
             .onFailure {
+                onInventoryCountChange(0)
                 error = it.message ?: "Unable to discover installed apps"
                 appsLoading = false
             }
