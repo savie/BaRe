@@ -115,7 +115,6 @@ fun AppsFilterScreen(
     onOpen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
     searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
     filterOpen: Boolean,
     onFilterOpenChange: (Boolean) -> Unit,
     onInventoryCountChange: (Int) -> Unit,
