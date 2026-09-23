@@ -2178,3 +2178,273 @@ Configuration juga berkaitan dengan:
     └── local/cloud app-data size limits
 
 Cache memiliki warning khusus karena dapat menghasilkan backup berukuran sangat besar. Status seluruh model di atas adalah reference evidence; bukan requirement BaRe.
+
+---
+
+## 25. Swift Backup — Audit khusus ukuran storage per-app dan cache
+
+### Scope
+
+Audit ini khusus untuk menjawab pertanyaan:
+
+- bagaimana Swift menghitung **App size** pada app yang terpasang;
+- apakah **APK, Data, Ext. data, Media, OBB, split APK, dan shared libraries** ikut masuk;
+- apakah **Cache** ikut masuk ke total;
+- bagaimana Swift mendapatkan ukuran tersebut;
+- bagaimana Swift memisahkan ukuran cache;
+- apakah cache Swift berupa file cache biasa atau hanya cache di memory.
+
+Reference artifact yang dipakai:
+
+- Swift Backup 5.1.0 (620);
+- package org.swiftapps.swiftbackup;
+- decompiled APK SwiftBackup-5.1.0-620-decompiled.zip;
+- visual reference screenshot app list dan app detail yang tersedia pada project.
+
+Status audit: **OBSERVED_STATIC + OBSERVED_VISUAL**. Runtime reference APK tetap **NOT PERFORMED**.
+
+### 25.1 Model ukuran yang ditemukan
+
+Static evidence pada class qx dan qx$a menunjukkan Swift menyimpan komponen ukuran berikut:
+
+```text
+APK
+Split APKs
+Shared libraries
+Data
+Data cache
+DE data
+DE data cache
+External data
+External cache
+Media
+External OBB / expansion
+```
+
+Field yang terlihat langsung pada qx:
+
+```text
+apkSize
+splitApksSize
+sharedLibsSize
+dataSize
+cacheSize
+deDataSize
+deDataCacheSize
+externalDataSize
+externalCacheSize
+mediaSize
+externalObbSize
+```
+
+### 25.2 Rumus App size Swift
+
+Method total_delegate$lambda$0 pada qx menjumlahkan:
+
+```text
+Total
+= APK
++ Split APKs
++ Shared libraries
++ Data
++ DE data
++ External data
++ Media
++ External OBB
+```
+
+**Cache tidak ditambahkan lagi sebagai komponen terpisah ke rumus Total.**
+
+Hal penting: dataSize, deDataSize, dan externalDataSize adalah ukuran yang **masih mencakup cache masing-masing**. Evidence langsung:
+
+```text
+dataSizeNoCache     = dataSize - cacheSize
+deDataSizeNoCache   = deDataSize - deDataCacheSize
+externalDataNoCache = externalDataSize - externalCacheSize
+```
+
+Jadi pada model Swift:
+
+```text
+App size / Total
+    sudah termasuk cache yang berada di dalam Data / DE data / External data
+
+Cache
+    ditampilkan sebagai angka terpisah untuk informasi,
+    tetapi tidak boleh ditambahkan lagi ke Total.
+```
+
+Ini menjelaskan screenshot reference seperti:
+
+```text
+Last updated: ... (2.61 GB + Cache 31.97 MB)
+
+APKs       138.18 MB
+Data       451.05 MB
+Ext. data  11 KB
+Media      2.03 GB
+```
+
+Angka **2.61 GB** merepresentasikan total app storage menurut model Swift, sedangkan **Cache 31.97 MB** adalah informasi cache yang sudah berada di dalam komponen data terkait. Jadi jangan menghitung 2.61 GB + 31.97 MB sebagai ukuran app kedua kali.
+
+### 25.3 APKs pada Swift
+
+getTotalApkSize() pada qx:
+
+```text
+APKs
+= base APK
++ split APKs
++ shared libraries
+```
+
+Untuk base APK, Swift membaca ukuran sourceDir.
+
+Untuk split APKs, Swift menjumlahkan ukuran setiap path pada splitSourceDirs.
+
+Untuk shared libraries, Swift menjumlahkan ukuran APK path pada daftar shared-library info.
+
+### 25.4 Data dan cache
+
+Swift memisahkan:
+
+```text
+Data
+├── dataSize
+└── cacheSize
+
+DE data
+├── deDataSize
+└── deDataCacheSize
+
+External data
+├── externalDataSize
+└── externalCacheSize
+```
+
+Static evidence pada qx$a.create() menunjukkan path cache yang digunakan untuk perhitungan:
+
+```text
+<dataDir>/cache
+<deDataDir>/cache
+<externalDataDir>/cache
+```
+
+Total cache yang disediakan oleh qx.getTotalCacheSizes():
+
+```text
+cacheSize
++ deDataCacheSize
++ externalCacheSize
+```
+
+### 25.5 External data, Media, dan OBB
+
+Swift memang memasukkan komponen tersebut ke model total:
+
+```text
+External data → externalDataSize
+Media         → mediaSize
+OBB/Expansion → externalObbSize
+```
+
+Media dan expansion dihitung dari path yang diberikan oleh model app.
+
+Untuk External data dan Expansion, reference memiliki jalur pengukuran berbeda tergantung privilege/capability.
+
+### 25.6 Cara Swift mengukur ukuran file/folder
+
+Helper p93 menyediakan ukuran file/folder.
+
+Jika path dapat dibaca:
+
+- file → ukuran file;
+- directory → Swift berjalan rekursif menggunakan Files.walkFileTree() dan menjumlahkan ukuran file di dalamnya.
+
+Jika path tidak dapat dibaca langsung, helper dapat mengembalikan nilai gagal dan reference memiliki jalur root/Shizuku untuk pengukuran path yang membutuhkan privilege.
+
+### 25.7 Root / Shizuku path
+
+Pada qx$a.create(), untuk path yang membutuhkan root-size measurement Swift mengumpulkan beberapa path kemudian menjalankan:
+
+```text
+toybox du -sk <paths...>
+```
+
+Hasil du -sk kemudian dikonversi dari KiB ke byte.
+
+Jalur ini digunakan melalui mekanisme privilege reference, termasuk Shizuku/root sesuai capability yang tersedia.
+
+**Boundary:** ini adalah evidence mengenai cara Swift reference mengukur storage. Ini bukan requirement bahwa BaRe harus menyalin mekanisme root/Shizuku tersebut.
+
+### 25.8 App list dan sorting berdasarkan App size
+
+Static evidence pada iy menunjukkan ketika sort mode = AppSize:
+
+1. hanya app yang terpasang yang dihitung;
+2. Swift memanggil:
+
+```text
+calculateSize(true, true, true, true)
+```
+
+3. hasil getSizeInfo().getTotal() disimpan berdasarkan package name;
+4. map tersebut kemudian dipakai untuk sorting/list display.
+
+Jadi **App size di reference bukan sekadar ukuran APK**.
+
+### 25.9 Icon cache
+
+Static evidence pada app-list adapter tr menunjukkan Swift juga memiliki LruCache untuk kebutuhan list/icon-related state.
+
+Namun audit storage ini **tidak menemukan evidence bahwa icon list tersebut dihitung sebagai disk cache aplikasi**.
+
+Untuk BaRe, jangan menyamakan:
+
+```text
+icon cache di RAM
+```
+
+dengan:
+
+```text
+/data/.../com.bare/cache/
+```
+
+Keduanya berbeda.
+
+### 25.10 Kesimpulan reference
+
+```text
+Swift App size
+=
+APK
++ Split APK
++ Shared libraries
++ Data
++ DE data
++ External data
++ Media
++ OBB/Expansion
+
+Cache:
+- tetap berada di dalam ukuran Data/DE data/External data;
+- ditampilkan terpisah sebagai informasi;
+- tidak ditambahkan lagi ke Total.
+```
+
+**Status:** OBSERVED_STATIC + OBSERVED_VISUAL.
+
+**Belum diverifikasi:** runtime reference APK pada device. Angka screenshot adalah OBSERVED_VISUAL, sedangkan rumus dan mekanisme di atas berasal dari static decompilation.
+
+### 25.11 Reference-derived implication untuk BaRe
+
+Untuk BaRe, evidence ini membuat beberapa hal menjadi lebih jelas tetapi **belum menjadi DECISION**:
+
+- target konsep UI dapat mengikuti pola **Total App Size + Cache terpisah**;
+- APK tidak cukup untuk mewakili seluruh App size;
+- Data, External data, Media, dan bila relevan OBB perlu dipertimbangkan;
+- cache tidak boleh dihitung dua kali;
+- pengukuran folder dapat membutuhkan jalur privilege;
+- kemampuan Android API yang sekarang dipakai BaRe harus dicek dulu apakah sudah mencakup komponen yang sama.
+
