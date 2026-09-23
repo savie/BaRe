@@ -852,44 +852,113 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
+    val context = LocalContext.current
+    val parts = listOf(
+        context.getString(R.string.apks_part),
+        context.getString(R.string.data_part),
+        context.getString(R.string.external_data_part),
+        context.getString(R.string.media_part)
+    )
+    var selectedParts by remember { mutableStateOf(parts.toSet()) }
     var destination by remember { mutableStateOf("Device") }
     var showMockup by remember { mutableStateOf(false) }
-    if (showMockup) AppMockupActionDialog("Run backup", app?.name ?: "App") { showMockup = false }
+
+    if (showMockup) {
+        AppMockupActionDialog(
+            title = context.getString(R.string.run_backup),
+            appName = app?.name ?: context.getString(R.string.unknown_value),
+            onDismiss = { showMockup = false }
+        )
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Backup • " + (app?.name ?: "App")) },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
+                title = { Text(stringResource(R.string.backup_app_title, app?.name ?: stringResource(R.string.unknown_value))) },
+                navigationIcon = {
+                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+                }
             )
         }
     ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
             item {
-                Text("Backup destination", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("Device", "Cloud", "Device + Cloud").forEach { value ->
-                        FilterChip(selected = destination == value, onClick = { destination = value }, label = { Text(value) }, modifier = Modifier.weight(1f))
+                Text(stringResource(R.string.user_app_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.select_parts_to_backup), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            items(parts) { part ->
+                Card(Modifier.fillMaxWidth()) {
+                    Row(
+                        Modifier.fillMaxWidth().clickable {
+                            selectedParts = if (selectedParts.contains(part)) selectedParts - part else selectedParts + part
+                        }.padding(horizontal = 8.dp, vertical = 2.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = selectedParts.contains(part),
+                            onCheckedChange = { checked ->
+                                selectedParts = if (checked) selectedParts + part else selectedParts - part
+                            }
+                        )
+                        Text(part, modifier = Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
                     }
+                }
+            }
+            item {
+                Text(stringResource(R.string.select_backup_locations), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = destination == "Device",
+                        onClick = { destination = "Device" },
+                        label = { Text(stringResource(R.string.device)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    FilterChip(
+                        selected = destination == "Cloud",
+                        onClick = { destination = "Cloud" },
+                        label = { Text(stringResource(R.string.cloud)) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    FilterChip(
+                        selected = destination == "Device + Cloud",
+                        onClick = { destination = "Device + Cloud" },
+                        label = { Text(stringResource(R.string.device_cloud)) },
+                        modifier = Modifier.weight(1f)
+                    )
                 }
             }
             item {
                 Card(Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text("Selected backup parts", fontWeight = FontWeight.Bold)
-                        Text("APK • split APK • app data • external data • OBB • media • cache • shared libraries")
-                        Text("Part selection is represented in the App Detail workspace; persistent configuration is pending.")
+                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(stringResource(R.string.backup_summary), fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.selected_parts_count, selectedParts.size))
+                        Text(stringResource(R.string.selected_backup_location, destination))
+                        Text(stringResource(R.string.backup_execution_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
             item {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = { showMockup = true }, modifier = Modifier.weight(1f)) { Text("Run backup") }
-                    OutlinedButton(onClick = { showMockup = true }, modifier = Modifier.weight(1f)) { Text("Share APK") }
-                }
+                Button(
+                    enabled = selectedParts.isNotEmpty(),
+                    onClick = { showMockup = true },
+                    modifier = Modifier.fillMaxWidth()
+                ) { Text(stringResource(R.string.backup).uppercase()) }
             }
             item {
-                ListEntry("Device backups", "View backup versions and retention state", Icons.Default.History) { onOpen(Screen.APP_BACKUPS) }
+                OutlinedButton(
+                    onClick = { showMockup = true },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = selectedParts.contains(context.getString(R.string.apks_part))
+                ) { Text(stringResource(R.string.share_apk)) }
+            }
+            item {
+                ListEntry(stringResource(R.string.backup_history), stringResource(R.string.view_backup_versions), Icons.Default.History) {
+                    onOpen(Screen.APP_BACKUPS)
+                }
             }
         }
     }
