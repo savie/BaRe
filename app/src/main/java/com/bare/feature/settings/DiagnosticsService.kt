@@ -1,6 +1,7 @@
 package com.bare.feature.settings
 
 import android.content.Context
+import com.bare.R
 import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorageRepository
 
@@ -49,9 +50,9 @@ class DiagnosticsService(private val context: Context) {
 
         val checks = listOf(
             DiagnosticsCheck(
-                title = "Identity",
+                title = appContext.getString(R.string.diagnostics_check_identity),
                 status = if (identity != null) DiagnosticsStatus.READY else DiagnosticsStatus.ATTENTION,
-                detail = if (identity != null) "BaRe ID is available" else "Local identity is not available",
+                detail = if (identity != null) appContext.getString(R.string.diagnostics_identity_ready) else appContext.getString(R.string.diagnostics_identity_missing),
             ),
             DiagnosticsCheck(
                 title = "Storage",
@@ -67,37 +68,37 @@ class DiagnosticsService(private val context: Context) {
                 },
             ),
             DiagnosticsCheck(
-                title = "Recovery",
+                title = appContext.getString(R.string.diagnostics_check_recovery),
                 status = when {
                     recoveryReady -> DiagnosticsStatus.READY
                     recoveryPasswordStore.hasPassword() -> DiagnosticsStatus.ATTENTION
                     else -> DiagnosticsStatus.NOT_AVAILABLE
                 },
                 detail = when {
-                    recoveryReady -> "Recovery is configured"
-                    recoveryPasswordStore.hasPassword() -> "Recovery package is not available"
-                    else -> "Recovery is not configured"
+                    recoveryReady -> appContext.getString(R.string.diagnostics_recovery_ready)
+                    recoveryPasswordStore.hasPassword() -> appContext.getString(R.string.diagnostics_recovery_missing_package)
+                    else -> appContext.getString(R.string.diagnostics_recovery_not_configured)
                 },
             ),
             DiagnosticsCheck(
-                title = "Encryption",
+                title = appContext.getString(R.string.diagnostics_check_encryption),
                 status = if (encryptionReady) DiagnosticsStatus.READY else DiagnosticsStatus.ATTENTION,
                 detail = if (encryptionReady) {
                     when (encryptionStrategy) {
-                        EncryptionPasswordStrategy.STANDARD -> "Standard protection is selected"
-                        EncryptionPasswordStrategy.ADVANCED -> "Advanced protection is configured"
+                        EncryptionPasswordStrategy.STANDARD -> appContext.getString(R.string.diagnostics_encryption_standard)
+                        EncryptionPasswordStrategy.ADVANCED -> appContext.getString(R.string.diagnostics_encryption_advanced)
                     }
                 } else {
-                    "Advanced protection needs a password"
+                    appContext.getString(R.string.diagnostics_encryption_password_missing)
                 },
             ),
             DiagnosticsCheck(
-                title = "Backups",
+                title = appContext.getString(R.string.diagnostics_check_backups),
                 status = if (backupBytes > 0L) DiagnosticsStatus.READY else DiagnosticsStatus.NOT_AVAILABLE,
                 detail = if (backupBytes > 0L) {
-                    "Local backup data is available"
+                    appContext.getString(R.string.diagnostics_backups_ready)
                 } else {
-                    "No local backup data is available yet"
+                    appContext.getString(R.string.diagnostics_backups_not_available)
                 },
             ),
         )
