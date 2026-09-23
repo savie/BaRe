@@ -4770,3 +4770,10 @@ Menutup scope Apps navigation berdasarkan hasil runtime user test dan reference 
 - CI #710 gagal pada compileDebugKotlin; evidence menunjukkan icon `LabelOutline` tidak tersedia dan struktur helper sempat terbaca sebagai local function akibat brace state pada commit tersebut.
 - Source saat ini menggunakan icon `Label` yang tersedia dan helper `AppsDrawerItem` berada di top-level composable.
 - Resource drawer sudah berada di branch sebelum verification target terbaru.
+
+### Koreksi CI #714 — syntax/brace state
+- Evidence #714 menunjuk `BaReApp.kt:627` sebagai syntax error dan efek berantai pada `AppsDrawerItem`.
+- Root cause ditelusuri ke penutupan lambda `Scaffold`/outer `Box` yang salah setelah drawer dipindahkan ke overlay shell.
+- Brace hierarchy diperbaiki: content lambda `Scaffold` ditutup sebelum drawer overlay, kemudian outer shell `Box` ditutup setelah drawer.
+- `Row` juga ditambahkan ke import karena helper memakai Row.
+- Tidak ada perubahan capability/backend; koreksi hanya build correctness/navigation surface.
