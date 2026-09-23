@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bare.R
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,9 +22,41 @@ fun DiagnosticsScreen(onBack: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val service = remember(context) { DiagnosticsService(context) }
     var snapshot by remember { mutableStateOf(service.collect()) }
+    var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     fun refresh() {
         snapshot = service.collect()
+    }
+
+    LaunchedEffect(service) {
+        while (true) {
+            delay(2_000)
+            snapshot = service.collect()
+        }
+    }
+
+    if (showDeleteConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirmation = false },
+            title = { Text(stringResource(R.string.diagnostics_delete_logs_title)) },
+            text = { Text(stringResource(R.string.diagnostics_delete_logs_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        service.clearLogs()
+                        snapshot = service.collect()
+                        showDeleteConfirmation = false
+                    },
+                ) {
+                    Text(stringResource(R.string.delete))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteConfirmation = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
     }
 
     Scaffold(
@@ -59,12 +92,18 @@ fun DiagnosticsScreen(onBack: () -> Unit) {
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
-            item { DiagnosticsActivityCard(snapshot.logs, context) }
+            item {
+                DiagnosticsActivityCard(
+                    logs = snapshot.logs,
+                    context = context,
+                )
+            }
             item {
                 DiagnosticsActions(
                     context = context,
                     report = service.buildReport(snapshot),
                     onRefresh = ::refresh,
+                    onDeleteLogs = { showDeleteConfirmation = true },
                 )
             }
         }
@@ -133,11 +172,22 @@ private fun DiagnosticsActivityCard(logs: List<BaReLogEntry>, context: Context) 
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),
     ) {
-        Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (logs.isEmpty()) {
-                Text(stringResource(R.string.no_logs), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            } else {
-                logs.asReversed().take(6).forEach { entry ->
+        if (logs.isEmpty()) {
+            Text(
+                stringResource(R.string.no_logs),
+                modifier = Modifier.padding(16.dp),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        } else {
+            androidx.compose.foundation.lazy.LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 80.dp, max = 320.dp),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                userScrollEnabled = true,
+            ) {
+                items(logs.asReversed(), key = { it.timestamp to it.message }) { entry ->
                     Text(
                         BaReLogger(context).format(entry),
                         style = MaterialTheme.typography.bodySmall,
@@ -153,15 +203,29 @@ private fun DiagnosticsActions(
     context: Context,
     report: String,
     onRefresh: () -> Unit,
+    onDeleteLogs: () -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        OutlinedButton(
-            onClick = onRefresh,
+        Row(
             modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Icon(Icons.Outlined.Refresh, null)
-            Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.diagnostics_refresh))
+            OutlinedButton(
+                onClick = onRefresh,
+                modifier = Modifier.weight(1f),
+            ) {
+                Icon(Icons.Outlined.Refresh, null)
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.diagnostics_refresh))
+            }
+            OutlinedButton(
+                onClick = onDeleteLogs,
+                modifier = Modifier.weight(1f),
+            ) {
+                Icon(Icons.Outlined.DeleteOutline, null)
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.diagnostics_delete_logs))
+            }
         }
         Button(
             onClick = {
