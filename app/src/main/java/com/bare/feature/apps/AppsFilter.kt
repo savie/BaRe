@@ -409,10 +409,8 @@ fun AppsFilterScreen(
                         }
                     }
                     item {
-                        AppActionChip(stringResource(R.string.share_apk), Icons.Default.Share) {
-                            selectedApp = null
-                            onOpenApp(app)
-                            onOpen(Screen.APP_BACKUP)
+                        AppActionChip(stringResource(R.string.share_apk), Icons.Default.Share, enabled = false) {
+                            // APK sharing backend is not verified yet.
                         }
                     }
                 }
