@@ -4816,3 +4816,37 @@ Menindaklanjuti user runtime test: fungsi Back sudah normal; hanya warna right d
 - Source change committed pada branch `v1.0/rebaseline`.
 - Device/runtime untuk commit ini: UNVERIFIED sampai APK terbaru diuji.
 - CI untuk commit ini: menunggu hasil workflow terbaru.
+
+
+## 2026-09-23 — Implementasi Apps Context Header dari baseline b752b28
+
+### Authorization
+GO untuk implementasi Apps contextual sub-header dengan baseline tracking `b752b28ce0c834763cca883456297a25d1eb8815`.
+
+### Implementasi
+- Header global BAЯE / SAVE OUR DAY dipertahankan.
+- Apps mendapat sub-header compact setinggi 64dp di bawah header global.
+- Sub-header normal menampilkan `LOCAL APPS`, jumlah inventory, Filter, dan hamburger.
+- Search tetap berada di header global dan tetap membuka Apps Search saat Apps aktif.
+- Filter dan hamburger Apps dipindahkan ke sub-header agar action Apps terkonsentrasi di context bar.
+- Local/Cloud diperkenalkan sebagai source selector di sub-header.
+- Local tetap menjadi source aktif dan jumlah inventory diambil dari inventory aktual yang dimuat `AppsFilterScreen`.
+- Cloud ditampilkan sebagai opsi tetapi disabled dengan keterangan bahwa cloud inventory belum wired; tidak ada data cloud yang difabrikasi.
+- Implementasi dibuat sebagai Apps-specific surface sehingga header global dan tab lain tidak diubah.
+- Contextual header disiapkan sebagai fondasi untuk state batch/context berbeda di tahap berikutnya; screen batch yang belum ada di BaRe tidak dipalsukan.
+
+### Boundary
+- Tidak mengubah bottom navigation.
+- Tidak mengubah Apps right drawer yang sudah benar pada baseline.
+- Tidak mengimplementasikan APP-03 / cloud inventory backend.
+- Tidak mengklaim batch contextual state sudah terintegrasi karena capability/screen batch terkait belum ada di source saat ini.
+
+### Verifikasi
+- Baseline source diverifikasi pada commit `b752b28ce0c834763cca883456297a25d1eb8815`.
+- Source change committed pada branch `v1.0/rebaseline`.
+- CI untuk source terbaru masih menunggu hasil workflow.
+- Device/runtime belum diverifikasi.
+
+### Berikutnya
+- Cek CI source terbaru.
+- Jika hijau, uji runtime: header global tetap, Apps sub-header compact, count inventory, dropdown source, Filter, hamburger, Back, dan regression tab lain.
