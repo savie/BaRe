@@ -69,6 +69,15 @@ class AppOrganizationStore(context: Context) {
     fun isBlacklisted(packageName: String): Boolean =
         preferences.getStringSet(BLACKLIST_KEY, emptySet()).orEmpty().contains(packageName)
 
+    fun isApkOnlyInBatch(packageName: String): Boolean =
+        preferences.getStringSet(APK_ONLY_BATCH_KEY, emptySet()).orEmpty().contains(packageName)
+
+    fun setApkOnlyInBatch(packageName: String, enabled: Boolean) {
+        val values = preferences.getStringSet(APK_ONLY_BATCH_KEY, emptySet()).orEmpty().toMutableSet()
+        if (enabled) values.add(packageName) else values.remove(packageName)
+        preferences.edit().putStringSet(APK_ONLY_BATCH_KEY, values).apply()
+    }
+
     fun blacklistedPackages(): Set<String> =
         preferences.getStringSet(BLACKLIST_KEY, emptySet()).orEmpty().toSet()
 
@@ -88,5 +97,6 @@ class AppOrganizationStore(context: Context) {
         const val FAVORITES_KEY = "favorite_packages"
         const val CUSTOM_LABELS_KEY = "custom_labels"
         const val BLACKLIST_KEY = "blacklisted_packages"
+        const val APK_ONLY_BATCH_KEY = "apk_only_batch_packages"
     }
 }
