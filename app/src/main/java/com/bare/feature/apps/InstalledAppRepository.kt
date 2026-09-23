@@ -18,11 +18,12 @@ class InstalledAppRepository(private val context: Context) {
         val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                val storage = storageStats(info)
                 AppItem(
                     name = info.loadLabel(packageManager).toString().ifBlank { info.packageName },
                     packageName = info.packageName,
                     category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
-                    size = formatSize(storageStats(info)?.totalBytes ?: 0L),
+                    size = formatSize(storage?.totalBytes ?: 0L),
                     isSystem = isSystem,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
@@ -34,10 +35,10 @@ class InstalledAppRepository(private val context: Context) {
                             info.splitSourceDirs?.let(::addAll)
                         }.sumOf { path -> File(path).length().coerceAtLeast(0L) }
                     }.getOrNull(),
-                    installedSizeBytes = storageStats(info)?.appBytes,
-                    dataSizeBytes = storageStats(info)?.dataBytes,
-                    cacheSizeBytes = storageStats(info)?.cacheBytes,
-                    totalSizeBytes = storageStats(info)?.totalBytes,
+                    installedSizeBytes = storage?.appBytes,
+                    dataSizeBytes = storage?.dataBytes,
+                    cacheSizeBytes = storage?.cacheBytes,
+                    totalSizeBytes = storage?.totalBytes,
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
