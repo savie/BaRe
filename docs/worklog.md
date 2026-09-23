@@ -4714,3 +4714,26 @@ Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence 
 ### Berikutnya
 - Verifikasi CI hasil koreksi ini.
 - Setelah build bersih, lanjutkan interaction Apps sesuai reference tanpa mengembalikan capability map ke UI.
+
+
+## 2026-09-23 — Apps hamburger localization
+
+### Pekerjaan Saat Ini
+Menyelaraskan text pada hamburger Apps dengan convention repository setelah surface hamburger dikoreksi menjadi menu langsung pada TopAppBar.
+
+### Perubahan
+- Mempertahankan icon hamburger pada sisi kanan Apps TopAppBar.
+- Mempertahankan menu langsung ke Quick actions, App Labels, Custom configurations, Blacklist, App backup settings, dan Settings.
+- Mengganti literal text menu di `BaReApp.kt` menjadi `stringResource(...)`.
+- Menambahkan resource `app_labels` dan `app_backup_settings` pada `strings.xml`.
+- Tidak mengubah routing, behavior, atau capability backend pada pekerjaan ini.
+
+### Verifikasi
+- Source menu diperiksa pada branch `v1.0/rebaseline`.
+- CI #705 untuk koreksi surface sebelumnya: SUCCESS.
+- CI #706 dan #707 untuk perubahan localization ini masih IN_PROGRESS saat pencatatan.
+- Runtime/device verification belum dilakukan.
+
+### Berikutnya
+- Tunggu CI #706/#707 sampai selesai.
+- Jika hijau, lanjutkan visual/runtime test user terhadap Apps hamburger sebelum memperluas behavior Apps berikutnya.
