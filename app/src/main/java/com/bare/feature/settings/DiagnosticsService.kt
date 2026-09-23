@@ -52,25 +52,22 @@ class DiagnosticsService(private val context: Context) {
         val encryptionReady = encryptionStrategy == EncryptionPasswordStrategy.STANDARD ||
             encryptionPasswordStore.hasActivePassword()
 
-        val storageStatus = when (selectedStorage) {
-            BackupStorage.Kind.EXTERNAL -> {
-                if (!internal.available) DiagnosticsStatus.NOT_AVAILABLE else DiagnosticsStatus.READY
-            }
-            BackupStorage.Kind.INTERNAL, null -> when {
-                !internal.available -> DiagnosticsStatus.NOT_AVAILABLE
-                !internal.writable -> DiagnosticsStatus.ATTENTION
-                else -> DiagnosticsStatus.READY
-            }
+        val selectedStorageInfo = selectedStorage?.let { kind ->
+            storageRepository.inspect(identity?.identityId.orEmpty()).firstOrNull { it.kind == kind }
+        } ?: internal
+
+        val storageStatus = when {
+            !selectedStorageInfo.available -> DiagnosticsStatus.NOT_AVAILABLE
+            !selectedStorageInfo.writable -> DiagnosticsStatus.ATTENTION
+            else -> DiagnosticsStatus.READY
         }
 
         val storageDetail = when {
-            selectedStorage == BackupStorage.Kind.EXTERNAL && !internal.available ->
+            !selectedStorageInfo.available ->
                 appContext.getString(R.string.diagnostics_storage_selected_unavailable)
-            !internal.available ->
-                appContext.getString(R.string.diagnostics_storage_unavailable)
-            !internal.writable ->
+            !selectedStorageInfo.writable ->
                 appContext.getString(R.string.diagnostics_storage_read_only)
-            selectedStorage == BackupStorage.Kind.EXTERNAL ->
+            selectedStorageInfo.kind == BackupStorage.Kind.EXTERNAL ->
                 appContext.getString(R.string.diagnostics_storage_external_ready)
             else ->
                 appContext.getString(R.string.diagnostics_storage_internal_ready)
@@ -143,6 +140,10 @@ class DiagnosticsService(private val context: Context) {
             checks = checks,
             logs = logger.load(),
         )
+    }
+
+    fun clearLogs() {
+        logger.clear()
     }
 
     fun buildReport(snapshot: DiagnosticsSnapshot): String = buildString {
