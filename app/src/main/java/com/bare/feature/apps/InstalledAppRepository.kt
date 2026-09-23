@@ -17,22 +17,23 @@ class InstalledAppRepository(private val context: Context) {
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 val storage = storageStats(info)
+                val apkSizeBytes = runCatching {
+                    buildList {
+                        add(info.sourceDir)
+                        info.splitSourceDirs?.let(::addAll)
+                    }.sumOf { path -> File(path).length().coerceAtLeast(0L) }
+                }.getOrNull()
                 AppItem(
                     name = info.loadLabel(packageManager).toString().ifBlank { info.packageName },
                     packageName = info.packageName,
                     category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
-                    size = formatSize(storage?.totalBytes ?: 0L),
+                    size = formatSize(apkSizeBytes ?: 0L),
                     isSystem = isSystem,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
                     firstInstallTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).firstInstallTime }.getOrNull(),
                     lastUpdateTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime }.getOrNull(),
-                    apkSizeBytes = runCatching {
-                        buildList {
-                            add(info.sourceDir)
-                            info.splitSourceDirs?.let(::addAll)
-                        }.sumOf { path -> File(path).length().coerceAtLeast(0L) }
-                    }.getOrNull(),
+                    apkSizeBytes = apkSizeBytes,
                     installedSizeBytes = storage?.appBytes,
                     dataSizeBytes = storage?.dataBytes,
                     cacheSizeBytes = storage?.cacheBytes,
