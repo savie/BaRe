@@ -335,6 +335,7 @@
     <string name="share_apk">Share APK</string>
     <string name="favorite">Favorite</string>
     <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
     <string name="backup_restore">Backup / Restore</string>
     <string name="set_app_labels">Set app labels</string>
     <string name="add_to_blacklist">Add to blacklist</string>
