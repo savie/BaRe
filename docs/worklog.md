@@ -5761,3 +5761,56 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 
 ### Status
 REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / RUNTIME_UNCHANGED
+
+## 2026-09-23 — Implementasi UI/Flow App Detail mengikuti Reference
+
+### Authorization
+- **USER GO:** UI dan flow App Detail mengikuti reference Swift Backup agar arah implementasi sederhana dan konsisten.
+- Reference dipakai sebagai **acuan UI/flow**, bukan sebagai bukti capability runtime BaRe.
+
+### Implementasi
+- App Detail sekarang memodelkan app-level actions pada overflow/titik tiga.
+- Part backup utama dibuat sebagai surface yang bisa ditekan:
+  - APK
+  - Data
+  - Ext. data
+  - Media
+- Tap part membuka action surface sendiri.
+- Action part mengikuti reference:
+  - Backup to Device
+  - Backup to Cloud
+  - Backup to Device & Cloud
+  - Share APK untuk APK
+  - Delete
+- Tombol Backup sekarang membuka flow selector:
+  - User app parts
+  - Select backup locations
+  - Backup
+- Location selector memisahkan Device, Cloud, dan Device + Cloud.
+- Share APK tersedia dari context APK.
+- Action execution yang belum punya backend/capability nyata tetap ditahan sebagai mockup/pending; tidak diklaim sebagai backup runtime.
+
+### Source commits
+- e5798f99bda5851b53a789b7598dda0df3893355 — align App Detail dengan reference flow.
+- f4af6988b644a70540e42357ea44b0e90250695c — align App Backup selector dengan reference.
+- 610fb063ece83fff475486c42bbae5ebdfdac8d8 — tambah resource string flow.
+- 283359a9b6cf298faa656e87faa0a3892a669099 — fix APK Share action.
+
+### Verification Truth
+- Source implementation: **IMPLEMENTED**.
+- Reference alignment: **STATIC / SOURCE REVIEWED**.
+- GitHub Actions untuk commit terakhir saat pencatatan: **BELUM MUNCUL** (workflow_runs=[]; status checks=[]).
+- Build/compile setelah perubahan: **UNVERIFIED**.
+- Runtime App Detail: **UNVERIFIED**.
+- Backup execution: **NOT IMPLEMENTED / PENDING capability backend**.
+
+### Next
+1. Tunggu/cek CI.
+2. Jika build gagal, ambil error compile dan perbaiki.
+3. Jika build green, runtime test App Detail:
+   - overflow actions
+   - tap APK/Data/Ext. data/Media
+   - part action menu
+   - Backup → parts → location → Backup
+   - Share APK dari context APK
+4. Update worklog dengan evidence runtime.
