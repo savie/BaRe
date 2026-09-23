@@ -4976,3 +4976,28 @@ GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card diteka
 - Source changes committed pada branch v1.0/rebaseline.
 - CI/runtime untuk commit koreksi ini: PENDING.
 - Device behavior: perlu diuji ulang pada APK hasil build terbaru.
+
+
+## 2026-09-23 — Apps action execution dan icon cache
+
+### Intent
+Melanjutkan Apps per-app actions tanpa menghapus capability yang sudah ada. Implementasi dibedakan antara capability yang dapat dijalankan pada non-root dan capability tambahan yang dapat dicoba melalui root yang sudah tersedia.
+
+### Implementasi
+- Menambahkan RootAppActionExecutor untuk mencoba operasi pm/am melalui su dengan timeout dan hasil command sebagai bukti keberhasilan.
+- Disable/Enable, Force stop, dan Clear data sekarang mencoba jalur root terlebih dahulu.
+- Jika jalur root tidak tersedia atau gagal, action tidak dilaporkan berhasil; UI fallback ke Android App Info.
+- Disable, Force stop, dan Clear data diberi confirmation dialog sebelum eksekusi.
+- Battery optimization mencoba toggle per-app melalui root deviceidle whitelist; jika tidak tersedia, non-root menggunakan ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS untuk request per-app atau fallback ke App Info.
+- Menambahkan permission REQUEST_IGNORE_BATTERY_OPTIMIZATIONS untuk jalur request non-root.
+- Menambahkan cache icon berbasis package + version code dengan bounded LruCache, sehingga reload inventory tidak selalu memanggil PackageManager untuk mengambil icon yang sama.
+- Uninstall tetap memakai system confirmation dialog dan tidak diganti dengan custom success state.
+
+### Truth / Verification
+- CI run sebelumnya 35858405820 (commit 66ab932a870da4963fce9e1888ec8612022b8424) terverifikasi completed/success.
+- Perubahan pada entry ini baru dilakukan di repository dan menunggu CI baru.
+- Runtime root/non-root untuk Disable, Force stop, Clear data, dan Battery optimization belum terverifikasi pada device. Tidak diklaim berhasil sebelum ada evidence runtime.
+- Icon cache juga belum diukur secara runtime; implementasi ada, performa aktual masih perlu verifikasi.
+
+### Referensi Teknis
+Android mendokumentasikan pm clear, pm enable, pm disable-user, dan perintah package management melalui shell; public API PackageManager.setApplicationEnabledSetting juga mendefinisikan state enable/disable. ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS adalah jalur public untuk meminta exemption per package dan membutuhkan permission terkait. Evidence eksternal ini dipakai sebagai dasar feasibility, bukan bukti runtime device BaRe.
