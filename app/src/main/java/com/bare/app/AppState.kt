@@ -54,6 +54,10 @@ data class AppItem(
     val firstInstallTime: Long? = null,
     val lastUpdateTime: Long? = null,
     val apkSizeBytes: Long? = null,
+    val installedSizeBytes: Long? = null,
+    val dataSizeBytes: Long? = null,
+    val cacheSizeBytes: Long? = null,
+    val totalSizeBytes: Long? = null,
     val installedFromGooglePlay: Boolean? = null,
     val icon: Drawable? = null,
 )
