@@ -613,7 +613,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         } else {
             runCatching { repository.load(packageName) }
                 .onSuccess { details = it }
-                .onFailure { error = it.message ?: context.getString(R.string.app_detail_unavailable) }
+                .onFailure { details = null; error = it.message ?: context.getString(R.string.app_detail_unavailable) }
         }
     }
 
@@ -661,13 +661,18 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     }
 
     if (selectedPart != null) {
+        val part = selectedPart!!
         ModalBottomSheet(onDismissRequest = { selectedPart = null }) {
             Column(
                 Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 28.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text(selectedPart!!, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text(stringResource(R.string.app_part_actions), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(part, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(
+                    stringResource(R.string.app_part_actions),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
                 AppActionMenuItem(stringResource(R.string.backup_to_device), Icons.Default.PhoneAndroid) {
                     selectedPart = null
                     onOpen(Screen.APP_BACKUP)
@@ -680,15 +685,15 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     selectedPart = null
                     onOpen(Screen.APP_BACKUP)
                 }
-                if (selectedPart == context.getString(R.string.apk_part)) {
+                if (part == context.getString(R.string.apks_part)) {
                     AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
-                        val action = context.getString(R.string.share_apk)
                         selectedPart = null
-                        mockupAction = action
+                        mockupAction = context.getString(R.string.share_apk)
                     }
                 }
                 AppActionMenuItem(stringResource(R.string.delete), Icons.Default.Delete) {
-                    selectedPart = null; mockupAction = context.getString(R.string.delete)
+                    selectedPart = null
+                    mockupAction = context.getString(R.string.delete)
                 }
             }
         }
@@ -699,7 +704,9 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             TopAppBar(
                 title = { Text(details?.name ?: app?.name ?: stringResource(R.string.app_details)) },
                 navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.back))
+                    }
                 },
                 actions = {
                     IconButton(enabled = details != null, onClick = { showActions = true }) {
@@ -723,99 +730,225 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             ) { CircularProgressIndicator() }
             else -> {
                 val item = details!!
+                val cacheBytes = item.cacheSizeBytes ?: 0L
+                val appSizeBytes = item.apkSizeBytes +
+                    (item.dataSizeBytes ?: 0L) +
+                    cacheBytes +
+                    (item.externalDataSizeBytes ?: 0L) +
+                    (item.mediaSizeBytes ?: 0L)
+                val parts = buildList {
+                    add(
+                        Triple(
+                            context.getString(R.string.apks_part),
+                            formatAppSize(item.apkSizeBytes),
+                            Icons.Default.Android
+                        )
+                    )
+                    add(
+                        Triple(
+                            context.getString(R.string.data_part),
+                            formatAppSize((item.dataSizeBytes ?: 0L) + cacheBytes),
+                            Icons.Default.Storage
+                        )
+                    )
+                    if ((item.externalDataSizeBytes ?: 0L) > 0L) {
+                        add(
+                            Triple(
+                                context.getString(R.string.external_data_part),
+                                formatAppSize(item.externalDataSizeBytes!!),
+                                Icons.Default.Folder
+                            )
+                        )
+                    }
+                    if ((item.mediaSizeBytes ?: 0L) > 0L) {
+                        add(
+                            Triple(
+                                context.getString(R.string.media_part),
+                                formatAppSize(item.mediaSizeBytes!!),
+                                Icons.Default.PhotoLibrary
+                            )
+                        )
+                    }
+                }
+
                 LazyColumn(
                     Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(bottom = 16.dp)
                 ) {
                     item {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(
-                                Modifier.size(64.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-                                Alignment.Center
-                            ) { Text(item.name.take(1), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
-                            Spacer(Modifier.width(14.dp))
-                            Column(Modifier.weight(1f)) {
-                                Text(item.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                                Text(item.packageName, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                                Text(stringResource(R.string.app_version_value, item.versionName ?: stringResource(R.string.unknown_value), item.versionCode?.toString() ?: stringResource(R.string.unknown_value)))
-                            }
-                        }
-                    }
-                    item {
-                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Button(enabled = item.canLaunch, onClick = { mockupAction = context.getString(R.string.launch) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.launch)) }
-                            OutlinedButton(onClick = { onOpen(Screen.APP_BACKUP) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.backup)) }
-                        }
-                    }
-                    item {
                         Card(Modifier.fillMaxWidth()) {
-                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                                Text(stringResource(R.string.app_package_surface), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                                Text(stringResource(R.string.app_apk_count_value, item.apkCount))
-                                Text(stringResource(R.string.app_apk_size_value, formatAppSize(item.apkSizeBytes)))
-                                Text(if (item.canLaunch) stringResource(R.string.app_launch_capable) else stringResource(R.string.app_launch_unavailable))
-                                Text(if (item.canOpenAppInfo) stringResource(R.string.app_info_capable) else stringResource(R.string.app_info_unavailable))
-                            }
-                        }
-                    }
-                    item {
-                        Text(stringResource(R.string.backup_parts), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                    }
-                    item {
-                        val parts = listOf(
-                            context.getString(R.string.apk_part),
-                            context.getString(R.string.data_part),
-                            context.getString(R.string.external_data_part),
-                            context.getString(R.string.media_part)
-                        )
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            parts.forEach { part ->
-                                Card(
-                                    Modifier.fillMaxWidth().clickable { selectedPart = part }
-                                ) {
-                                    ListItem(
-                                        headlineContent = { Text(part, fontWeight = FontWeight.SemiBold) },
-                                        supportingContent = { Text(stringResource(R.string.tap_part_for_actions)) },
-                                        leadingContent = {
-                                            Icon(
-                                                when (part) {
-                                                    context.getString(R.string.apk_part) -> Icons.Default.Android
-                                                    context.getString(R.string.data_part) -> Icons.Default.Storage
-                                                    context.getString(R.string.external_data_part) -> Icons.Default.Folder
-                                                    else -> Icons.Default.PhotoLibrary
-                                                },
-                                                contentDescription = null
-                                            )
-                                        },
-                                        trailingContent = { Icon(Icons.Default.ChevronRight, contentDescription = null) }
-                                    )
+                            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Row(verticalAlignment = Alignment.Top) {
+                                    Box(
+                                        Modifier.size(48.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                                        Alignment.Center
+                                    ) {
+                                        Text(
+                                            item.name.take(1),
+                                            style = MaterialTheme.typography.titleLarge,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                    Spacer(Modifier.width(12.dp))
+                                    Column(Modifier.weight(1f)) {
+                                        Text(
+                                            item.packageName,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                            maxLines = 2,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Text(
+                                            item.name,
+                                            style = MaterialTheme.typography.titleLarge,
+                                            fontWeight = FontWeight.Bold,
+                                            maxLines = 2,
+                                            overflow = TextOverflow.Ellipsis
+                                        )
+                                        Text(
+                                            stringResource(
+                                                R.string.app_version_value,
+                                                item.versionName ?: stringResource(R.string.unknown_value),
+                                                item.versionCode?.toString() ?: stringResource(R.string.unknown_value)
+                                            ),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    if (item.canLaunch) {
+                                        OutlinedButton(
+                                            onClick = { mockupAction = context.getString(R.string.launch) },
+                                            modifier = Modifier.weight(1f)
+                                        ) {
+                                            Icon(Icons.Default.PlayArrow, contentDescription = null)
+                                            Spacer(Modifier.width(6.dp))
+                                            Text(stringResource(R.string.launch))
+                                        }
+                                    }
+                                    OutlinedButton(
+                                        onClick = { mockupAction = context.getString(R.string.uninstall) },
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Icon(Icons.Default.DeleteOutline, contentDescription = null)
+                                        Spacer(Modifier.width(6.dp))
+                                        Text(stringResource(R.string.uninstall))
+                                    }
                                 }
                             }
                         }
                     }
+
                     item {
                         Card(Modifier.fillMaxWidth()) {
-                            Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Text(stringResource(R.string.backup_inventory), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                                Text(stringResource(R.string.device_no_verified_backup))
-                                Text(stringResource(R.string.cloud_not_synced))
-                                TextButton(onClick = { onOpen(Screen.APP_BACKUPS) }) { Text(stringResource(R.string.view_backups)) }
+                            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Text(
+                                    stringResource(R.string.app_size),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    formatAppSize(appSizeBytes),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                if (cacheBytes > 0L) {
+                                    Text(
+                                        "Cache: ${formatAppSize(cacheBytes)}",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                                if (parts.isNotEmpty()) {
+                                    FlowRow(
+                                        maxItemsInEachRow = 2,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        parts.forEach { (title, subtitle, icon) ->
+                                            AppStorageChip(title, subtitle, icon) {
+                                                selectedPart = title
+                                            }
+                                        }
+                                    }
+                                }
+                                Button(
+                                    onClick = { onOpen(Screen.APP_BACKUP) },
+                                    modifier = Modifier.align(Alignment.End)
+                                ) {
+                                    Text(stringResource(R.string.backup))
+                                }
                             }
                         }
                     }
+
                     item {
-                        ListEntry(stringResource(R.string.configuration), "Parts • compression • encryption • limits • cache • notes • schedule", Icons.Default.Settings) { onOpen(Screen.APP_CONFIG) }
+                        AppBackupStateCard(
+                            title = stringResource(R.string.device),
+                            status = stringResource(R.string.device_no_verified_backup),
+                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) }
+                        )
                     }
                     item {
-                        ListEntry(stringResource(R.string.diagnostics), "Visibility • capability • preconditions • APK/APKS import", Icons.Default.BugReport) { onOpen(Screen.APP_DIAGNOSTICS) }
-                    }
-                    item {
-                        ListEntry(stringResource(R.string.restore_variants), "Missing app • newer version • special data • SSAID", Icons.Default.Restore) { onOpen(Screen.APP_RESTORE) }
-                    }
-                    item {
-                        ListEntry(stringResource(R.string.backup_history), "Device/cloud versions • protected state • notes • delete", Icons.Default.History) { onOpen(Screen.APP_BACKUPS) }
+                        AppBackupStateCard(
+                            title = stringResource(R.string.cloud),
+                            status = stringResource(R.string.cloud_not_synced),
+                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) }
+                        )
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppStorageChip(
+    title: String,
+    subtitle: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    onClick: () -> Unit,
+) {
+    Card(
+        Modifier
+            .fillMaxWidth(0.48f)
+            .heightIn(min = 64.dp)
+            .clickable(onClick = onClick)
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(icon, contentDescription = null)
+            Spacer(Modifier.width(8.dp))
+            Column(Modifier.weight(1f)) {
+                Text(title, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppBackupStateCard(
+    title: String,
+    status: String,
+    onOpenBackups: () -> Unit,
+) {
+    Card(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(status)
+            TextButton(onClick = onOpenBackups) {
+                Text(stringResource(R.string.view_backups))
             }
         }
     }
