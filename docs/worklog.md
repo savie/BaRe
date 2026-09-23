@@ -5702,3 +5702,62 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 2. Jika hijau, uji Install date, Update date, Date used, terutama app yang sebelumnya tampil 20719 days ago.
 3. Uji Date used dengan Usage Access ON/OFF.
 4. Jangan mengklaim root bypass sampai ada capability + runtime evidence.
+
+## 2026-09-23 — Plan App Detail mengikuti Reference Swift Backup
+
+### Authorization
+- **USER GO:** hasil audit Swift Backup dimasukkan ke docs/reference.md dan plan kerja dicatat di docs/worklog.md agar tidak hilang.
+- Scope saat ini **diskusi + audit + planning**; belum mengubah source App Detail.
+
+### Audit yang sudah dimasukkan ke Reference
+- App-level titik tiga membuka action surface untuk Play Store, Android App Info, Share APK, Favorite/labels/blacklist, Battery optimization, Add to Home screen, Force stop, dan Uninstall.
+- APK/Data/Ext. data/Media diperlakukan sebagai part yang dapat dipilih dan mempunyai action surface sendiri.
+- Part action reference mencakup Backup to Device, Backup to Cloud, Backup to Device & Cloud, Delete, dan Share APK pada context APK.
+- Tombol Backup membuka selector untuk **User app parts** lalu **Select backup locations** (Device/Cloud) sebelum execute.
+- Audit status tetap reference evidence; APK reference tidak dianggap runtime verified.
+
+### Kondisi BaRe saat ini
+- App Detail BaRe sudah memiliki Package Surface, Backup Inventory, part list, dan App Actions.
+- Namun part list saat ini masih berbentuk checkbox/mockup list dan App Actions masih berupa navigation surface generik.
+- Titik tiga sudah ada pada App Detail, tetapi action menu saat ini belum mengikuti grouping/reference flow di atas secara penuh.
+- AppBackupScreen saat ini masih merupakan surface mockup terpisah; belum menjadi flow selector part + lokasi seperti reference.
+
+### Plan implementasi — BELUM DIEKSEKUSI
+1. **Refactor App Detail part surface**
+   - APKs, Data, Ext. data, Media menjadi interactive part surfaces/card yang bisa ditekan.
+   - Tap part membuka action menu sesuai context part.
+   - Jangan membuat semua action menjadi satu daftar panjang di App Detail.
+
+2. **Refactor titik tiga / app actions**
+   - Kelompokkan action level aplikasi di overflow/titik tiga.
+   - Pertahankan navigation ke management/config/diagnostics bila memang masih sesuai arsitektur BaRe.
+   - Jangan mengklaim capability runtime hanya karena menu sudah tersedia.
+
+3. **Refactor Backup entry flow**
+   - Tombol Backup membuka selector.
+   - Selector memisahkan pilihan **parts** dan **backup location**.
+   - Device dan Cloud tetap menjadi pilihan terpisah; availability mengikuti capability state aktual.
+   - Execute belum boleh dianggap real backup sebelum engine/capability dan verification tersedia.
+
+4. **Reconcile dengan source BaRe yang sudah ada**
+   - Reuse AppDetailsRepository/AppItem dan storage evidence yang sudah tersedia.
+   - Jangan membuat ulang inventory/storage calculation hanya untuk perubahan UI.
+   - Pisahkan UI state dari runtime backup capability.
+
+5. **Setelah implementasi**
+   - Build/CI.
+   - Runtime test App Detail.
+   - Test titik tiga.
+   - Test tap APK/Data/Ext. data/Media.
+   - Test Backup → part selector → location selector.
+   - Catat evidence dan gap aktual kembali ke worklog.
+
+### Boundary
+- **Reference:** docs/reference.md adalah tempat audit Swift/reference evidence.
+- **Plan/decision/progress:** docs/worklog.md adalah sumber kerja BaRe.
+- **Source change:** BELUM ADA pada App Detail dari GO ini.
+- **Runtime:** belum berubah.
+- **Unknown:** detail flow reference yang belum dapat dibuktikan tidak akan ditebak; akan diminta evidence/template tambahan hanya jika dibutuhkan saat implementation.
+
+### Status
+REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / RUNTIME_UNCHANGED
