@@ -4931,3 +4931,26 @@ GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card diteka
 
 - Koreksi final commit `8e125d24c2e3ac337decccafb5be966608c976a6`: Share APK tetap terlihat pada action surface tetapi disabled karena backend APK-sharing belum verified; tidak diarahkan ke workflow yang tidak sesuai.
 - CI #740 untuk commit final: **SUCCESS**.
+
+
+## 2026-09-23 — Apps action refinement: icons, favorites, blacklist dialog, per-app battery optimization
+
+### Authorization
+- **USER GO:** Lanjut dari baseline `8e125d24c2e3ac337decccafb5be966608c976a6` yang sudah dinyatakan green pada CI sebelumnya.
+
+### Implementasi
+- Inventory Apps sekarang membawa actual installed application icon dari Android `PackageManager` dan menampilkannya pada app list serta app action sheet.
+- Favorite tidak lagi menampilkan text status di sisi kanan action row; status favorite divisualisasikan sebagai star badge pada app icon.
+- `Add to blacklist` tidak lagi langsung commit state. Action sekarang membuka dialog dengan dua mode sesuai reference: hide app dan APK-only untuk batch operations.
+- Mode hide memakai blacklist inventory yang sudah ada; mode APK-only disimpan sebagai organization state terpisah tanpa mengklaim batch backup/restore sudah dieksekusi.
+- Battery optimization diarahkan ke request Android yang spesifik untuk package app, dengan fallback ke Android App Info jika intent per-package tidak tersedia.
+- Share APK tetap tidak diaktifkan karena APK extraction/sharing backend belum terverifikasi.
+
+### Boundary
+- Tidak mengubah Apps Context Header atau Apps right drawer.
+- Tidak mengimplementasikan fake APK sharing.
+- Tidak mengklaim batch execution atau privileged app-management actions sebagai runtime-verified.
+
+### Verifikasi
+- Source changes committed setelah inspeksi baseline `8e125d24c2e3ac337decccafb5be966608c976a6`.
+- CI/device verification untuk commit baru: **PENDING**.
