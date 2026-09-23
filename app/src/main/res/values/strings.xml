@@ -430,7 +430,7 @@
     <string name="battery_optimization_status_optimizing">Optimizing battery use</string>
     <string name="battery_optimization_status_exempt">Battery optimization disabled for this app</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
+
 
     <string name="settings_appearance_language">Appearance and language</string>
     <string name="settings_backup_content">Backup content</string>
