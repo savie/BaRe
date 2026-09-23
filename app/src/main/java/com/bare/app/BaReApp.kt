@@ -532,28 +532,28 @@ private fun MainShell(
                                 onDismissRequest = { appsMenuOpen = false }
                             ) {
                                 DropdownMenuItem(
-                                    text = { Text("Quick actions") },
+                                    text = { Text(stringResource(R.string.quick_actions_label)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APP_QUICK_ACTIONS)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("App Labels") },
+                                    text = { Text(stringResource(R.string.app_labels)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APP_LABELS)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Custom configurations") },
+                                    text = { Text(stringResource(R.string.custom_configurations)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APP_CUSTOM_CONFIG)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Blacklist") },
+                                    text = { Text(stringResource(R.string.blacklist)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APP_BLACKLIST)
@@ -561,14 +561,14 @@ private fun MainShell(
                                 )
                                 HorizontalDivider()
                                 DropdownMenuItem(
-                                    text = { Text("App backup settings") },
+                                    text = { Text(stringResource(R.string.app_backup_settings)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.APP_BACKUP_SETTINGS)
                                     }
                                 )
                                 DropdownMenuItem(
-                                    text = { Text("Settings") },
+                                    text = { Text(stringResource(R.string.settings)) },
                                     onClick = {
                                         appsMenuOpen = false
                                         onOpenScreen(Screen.SETTINGS)
