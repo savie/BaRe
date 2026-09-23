@@ -4954,3 +4954,25 @@ GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card diteka
 ### Verifikasi
 - Source changes committed setelah inspeksi baseline `8e125d24c2e3ac337decccafb5be966608c976a6`.
 - CI/device verification untuk commit baru: **PENDING**.
+
+
+## 2026-09-23 — Koreksi runtime Apps: favorite, blacklist dialog, battery action
+
+### Observasi user
+- CI terakhir hijau, tetapi runtime pada device menunjukkan tiga masalah: Favorite tidak terlihat/berfungsi, Blacklist langsung berubah tanpa dialog yang diharapkan, dan Battery optimization membuka daftar/global surface.
+
+### Root cause / boundary
+- Favorite sebelumnya hanya bergantung pada pembacaan SharedPreferences saat composition; state UI tidak eksplisit. Action sekarang memakai state Compose lokal yang diikuti persistensi store dan reload inventory.
+- Blacklist action tidak lagi menutup bottom sheet saat dialog dibuka. Dialog mempertahankan pilihan Hide vs APK-only dan state baru ditulis hanya saat OK.
+- ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS bukan mekanisme publik untuk mengubah Doze exemption aplikasi pihak ketiga dari aplikasi pengelola. Implementasi sebelumnya dapat jatuh ke/global surface pada device tertentu. Action sekarang membuka Application Details untuk package yang dipilih, sehingga tidak lagi mengarahkan ke daftar battery optimization global. Status tetap dibaca dengan PowerManager.isIgnoringBatteryOptimizations(packageName).
+
+### Implementasi
+- Favorite row menjadi toggle eksplisit: Add to favorites / Remove from favorites, dengan star badge mengikuti state lokal dan persistence AppOrganizationStore.
+- Blacklist dialog tetap memiliki dua mode: hide app dan APK-only untuk batch operations; mutation hanya terjadi setelah konfirmasi.
+- Battery action diarahkan ke Settings.ACTION_APPLICATION_DETAILS_SETTINGS dengan package:<selected-package>.
+- Permission REQUEST_IGNORE_BATTERY_OPTIMIZATIONS dihapus karena action direct-request tersebut tidak lagi digunakan untuk aplikasi pihak ketiga.
+
+### Verifikasi
+- Source changes committed pada branch v1.0/rebaseline.
+- CI/runtime untuk commit koreksi ini: PENDING.
+- Device behavior: perlu diuji ulang pada APK hasil build terbaru.
