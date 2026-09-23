@@ -5039,3 +5039,175 @@ Android mendokumentasikan pm clear, pm enable, pm disable-user, dan perintah pac
 - Android reference: `StorageStats.getAppBytes()` mencakup APK, optimized compiler output, dan unpacked native libraries; `getDataBytes()` mencakup data termasuk cache; `StorageStatsManager.queryStatsForPackage()` membutuhkan PACKAGE_USAGE_STATS untuk package lain.
 - Android uninstall intent membutuhkan `REQUEST_DELETE_PACKAGES` untuk target API P+; Android juga menyediakan PackageInstaller uninstall untuk installer-of-record/device-owner scenarios.
 - Battery optimization state dibaca dari `PowerManager.isIgnoringBatteryOptimizations()`; direct request exemption memerlukan `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
+
+---
+
+## 2026-09-23 — Audit Swift storage size selesai, rencana BaRe
+
+### Authorization
+
+- **USER GO:** audit khusus Swift untuk ukuran storage per-app dan cache.
+- Hasil audit Swift dicatat di docs/reference.md.
+- Rencana untuk BaRe dicatat di worklog ini.
+- Tidak ada perubahan source BaRe pada langkah audit ini.
+
+### Hasil yang sudah terverifikasi dari reference
+
+Swift memakai model total yang lebih lengkap daripada ukuran APK saja:
+
+```text
+App size / Total
+= APK
++ Split APKs
++ Shared libraries
++ Data
++ DE data
++ External data
++ Media
++ OBB / Expansion
+
+Cache
+= cache pada Data
++ cache pada DE data
++ cache pada External data
+```
+
+Poin paling penting:
+
+- Cache **sudah termasuk** dalam komponen Data/DE data/External data pada Total Swift.
+- Cache kemudian **ditampilkan terpisah** sebagai informasi.
+- Jadi Total + Cache **tidak boleh dijumlahkan lagi**.
+- Swift memang menghitung External data dan Media.
+- Swift juga punya OBB/Expansion dan shared-library/split-APK size.
+- Pengukuran folder dilakukan secara rekursif; pada kondisi tertentu Swift memakai root/Shizuku untuk toybox du -sk.
+- Swift memakai hasil Total tersebut untuk sort App size.
+
+### Kondisi BaRe saat ini
+
+Source BaRe saat ini sudah memiliki:
+
+```text
+apkSizeBytes
+installedSizeBytes
+dataSizeBytes
+cacheSizeBytes
+totalSizeBytes
+```
+
+dan InstalledAppRepository memakai StorageStatsManager.
+
+Namun belum terbukti bahwa model tersebut menghasilkan pembagian yang sama dengan Swift untuk:
+
+- External data;
+- Media;
+- OBB/Expansion;
+- shared libraries / split APK;
+- cache yang ditampilkan terpisah tanpa double-counting.
+
+BaRe juga sudah punya jalur **hapus cache milik BaRe**, tetapi belum punya pengukuran + UI ukuran cache milik BaRe.
+
+### Plan BaRe — PROPOSAL, belum DECISION
+
+**Langkah 1 — Audit capability Android yang tersedia**
+
+Cek source BaRe dan Android API yang bisa dipakai untuk mendapatkan:
+
+```text
+APK / split APK
+Data
+External data
+Media
+OBB / expansion bila relevan
+Cache
+```
+
+Tujuannya supaya kita tidak menebak angka dari satu field StorageStats.
+
+**Langkah 2 — Tentukan model angka BaRe setelah evidence cukup**
+
+Target yang akan diuji:
+
+```text
+Total App Size
+= semua komponen storage app yang memang bisa dibuktikan
+
+Cache
+= cache app, ditampilkan terpisah
+```
+
+Dengan aturan penting:
+
+```text
+Total + Cache
+≠ ukuran app baru
+```
+
+Cache tidak boleh double-counted.
+
+**Langkah 3 — Cocokkan dengan screenshot reference**
+
+UI target yang akan dijadikan acuan visual:
+
+```text
+Last updated: ... (Total + Cache)
+
+APKs
+Data
+Ext. data
+Media
+[component lain bila memang dibutuhkan]
+```
+
+Ini masih **reference/PROPOSAL**, bukan keputusan final BaRe.
+
+**Langkah 4 — Audit cache milik BaRe sendiri**
+
+Ukur secara nyata:
+
+```text
+context.cacheDir
+context.codeCacheDir
+context.externalCacheDirs
+```
+
+Lalu tentukan angka total cache BaRe dari hasil pengukuran tersebut.
+
+Saat ini delete sudah ada; measurement + UI belum ada.
+
+**Langkah 5 — Icon cache**
+
+Jangan mencari icon cache di:
+
+```text
+/data/.../com.bare/cache/
+```
+
+sebelum ada evidence bahwa implementasinya memang disk-based.
+
+Implementasi BaRe saat ini menggunakan bounded LruCache<String, Drawable>, sehingga secara source bentuknya adalah cache di **RAM**, bukan file cache permanen.
+
+**Langkah 6 — Runtime verification**
+
+Setelah model storage selesai:
+
+- build APK;
+- pasang di device;
+- cek beberapa app dengan storage besar;
+- bandingkan angka APK/Data/External data/Media/Cache dengan Android system/reference yang tersedia;
+- cek sort App size;
+- cek bahwa cache tidak terhitung dua kali;
+- cek performa supaya pengukuran folder tidak memblokir UI.
+
+### Status sekarang
+
+```text
+Swift formula audit        = VERIFIED_STATIC
+Swift visual model         = OBSERVED_VISUAL
+BaRe current model         = OBSERVED_SOURCE
+BaRe external/media parity = UNKNOWN
+BaRe own-cache measurement = NOT IMPLEMENTED
+BaRe own-cache UI          = NOT IMPLEMENTED
+Runtime parity             = UNVERIFIED
+```
+
+**Next actionable:** audit capability Android/BaRe untuk memetakan komponen storage satu per satu sebelum mengubah InstalledAppRepository atau UI.
