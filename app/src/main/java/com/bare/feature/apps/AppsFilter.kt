@@ -375,7 +375,7 @@ fun AppsFilterScreen(
                             AppIcon(
                                 app = app,
                                 size = 48.dp,
-                                showFavoriteBadge = favorite,
+                                showFavoriteBadge = organizationStore.isFavorite(app.packageName),
                             )
                         },
                         trailingContent = {
