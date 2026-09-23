@@ -5375,3 +5375,96 @@ Untuk App size list, totalSizeBytes tetap kandidat sumber sort; jangan mengganti
 2. Audit apakah cacheBytes perlu ditampilkan langsung atau dipecah menjadi internal/external cache.
 3. Audit measurement cache milik BaRe sendiri (cacheDir, codeCacheDir, externalCacheDirs) tanpa mencampurnya dengan per-app inventory.
 4. Setelah evidence itu cukup, baru tentukan perubahan source/UI.
+
+## 2026-09-23 — Audit API 35 StorageStats dan keputusan kerja cache RAM
+
+### Authorization
+
+- **USER GO:** lanjut ke next actionable dari audit sebelumnya.
+- User juga menyatakan preferensi bahwa cache BaRe yang hanya berada di RAM sebaiknya tidak dipertahankan agar penggunaan RAM tidak terus bertambah selama aplikasi dipakai.
+- Langkah ini dibatasi pada **audit + penetapan status**, belum mengubah source aplikasi.
+
+### Hasil audit API 35
+
+Android API 35 menambahkan `StorageStats.getAppBytesByDataType(int)`.
+
+Data type yang tersedia:
+
+- `APP_DATA_TYPE_FILE_TYPE_APK` — semua file `.apk` pada application code path.
+- `APP_DATA_TYPE_FILE_TYPE_LIB` — direktori `lib/` pada application code path.
+- `APP_DATA_TYPE_FILE_TYPE_DEXOPT_ARTIFACT` — artifact dexopt/runtime yang masih valid.
+- `APP_DATA_TYPE_FILE_TYPE_REFERENCE_PROFILE` — reference profile.
+- `APP_DATA_TYPE_FILE_TYPE_CURRENT_PROFILE` — current profile.
+- `APP_DATA_TYPE_FILE_TYPE_DM` — file `.dm` pada application code path.
+
+API ini berguna untuk **breakdown code/app storage**, tetapi tidak boleh dijumlahkan sembarangan untuk membuat Total. Android secara eksplisit menyebut bahwa ukuran dexopt artifact dapat overlap dengan data yang sudah masuk ke `appBytes`, `dataBytes`, atau `cacheBytes`.
+
+### Dampak ke BaRe
+
+1. **Total App Size**
+   - Model saat ini `appBytes + dataBytes` tetap aman sebagai kandidat aggregate Total.
+   - Tidak ada alasan dari API 35 untuk mengganti Total menjadi penjumlahan semua data type.
+   - `getAppBytesByDataType(APK)` lebih cocok dipakai sebagai breakdown/validasi ukuran APK pada Android API 35+.
+
+2. **APK**
+   - Source BaRe saat ini menghitung base APK + split APK dari `sourceDir + splitSourceDirs`.
+   - API 35 menyediakan angka APK langsung dari StorageStats untuk seluruh `.apk` pada code path.
+   - Keduanya belum dibandingkan runtime pada device, jadi parity angka masih **UNVERIFIED**.
+
+3. **Shared libraries / native code**
+   - API 35 memberi `LIB` sebagai breakdown `lib/`.
+   - Ini membantu mendekati informasi shared/native library yang sebelumnya hanya **PARTIAL**.
+   - Tetap tidak berarti seluruh field Swift bisa dipetakan 1:1.
+
+4. **Dexopt/profile/`.dm`**
+   - API 35 menyediakan breakdown tambahan, tetapi sifatnya lebih teknis dan beberapa komponen dapat overlap dengan aggregate StorageStats.
+   - Belum ada alasan untuk menampilkannya di UI user-facing BaRe.
+
+5. **Cache**
+   - `getCacheBytes()` tetap merupakan angka cache aggregate.
+   - `getExternalCacheBytes()` tersedia sejak API 31 untuk cache pada primary external/shared storage.
+   - Split internal/external belum perlu dimasukkan ke UI sebelum ada kebutuhan yang jelas dan bukti multi-volume tidak menimbulkan salah hitung.
+
+### Cache RAM BaRe
+
+Source saat ini menggunakan:
+
+`LruCache<String, Drawable>(128)`
+
+untuk icon.
+
+Ini adalah **cache RAM**, bukan file cache di disk. Dari source yang diaudit tidak ada bukti cache icon tersebut ditulis ke `cacheDir`.
+
+Sesuai arahan user, cache RAM ini **ditandai untuk dihapus pada langkah implementasi berikutnya**. Belum dihapus pada audit ini supaya audit dan perubahan source tetap terpisah.
+
+Catatan: menghapus icon cache berarti PackageManager dapat dipanggil lagi ketika inventory reload. Trade-off performa vs RAM perlu diuji setelah perubahan.
+
+### Status setelah audit
+
+```
+API 35 storage breakdown       = AVAILABLE
+APK breakdown API 35           = AVAILABLE
+LIB breakdown API 35           = AVAILABLE
+Dexopt/profile breakdown       = AVAILABLE
+Cache aggregate                = AVAILABLE
+Cache internal/external split  = AVAILABLE PARTIAL
+Total model current            = KEEP AS CANDIDATE
+Swift-style full parity        = NOT PROVEN
+Runtime parity                 = UNVERIFIED
+BaRe icon RAM cache             = IMPLEMENTED, TARGET REMOVAL
+BaRe own disk-cache measurement = NOT IMPLEMENTED
+```
+
+### Keputusan kerja
+
+- **Tidak** menjumlahkan hasil `getAppBytesByDataType()` untuk membuat Total.
+- **Tidak** menambah recursive scanner/root `du` hanya untuk Total.
+- **Pertahankan kandidat Total** = `appBytes + dataBytes` sampai runtime comparison dilakukan.
+- **Target perubahan berikutnya:** hapus bounded icon `LruCache` RAM, lalu audit/implement pengukuran cache disk milik BaRe secara terpisah dari inventory app lain.
+- Setelah perubahan source, build dan runtime test diperlukan sebelum menyatakan hasil verified.
+
+### Referensi eksternal
+
+- Android StorageStats API reference: https://developer.android.com/reference/android/app/usage/StorageStats
+- Android Context cache directories: https://developer.android.com/reference/android/content/Context
+
