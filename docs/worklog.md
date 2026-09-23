@@ -4760,3 +4760,8 @@ Menutup scope Apps navigation berdasarkan hasil runtime user test dan reference 
 ### Berikutnya
 - Jalankan CI untuk perubahan ini sampai selesai.
 - Jika CI hijau, lanjutkan install/update APK dan uji navigation drawer + back hierarchy.
+
+### Koreksi Build Prasyarat
+- Setelah inspeksi source, ditemukan import API Compose yang dibutuhkan drawer belum tercantum di BaReApp.kt.
+- Ditambahkan import background dan fillMaxHeight; tidak mengubah behavior.
+- CI untuk commit koreksi ini menjadi verification target terbaru.
