@@ -4737,3 +4737,26 @@ Menyelaraskan text pada hamburger Apps dengan convention repository setelah surf
 ### Berikutnya
 - Tunggu CI #706/#707 sampai selesai.
 - Jika hijau, lanjutkan visual/runtime test user terhadap Apps hamburger sebelum memperluas behavior Apps berikutnya.
+
+## 2026-09-23 — Apps right drawer dan navigation hierarchy
+
+### Pekerjaan Saat Ini
+Menutup scope Apps navigation berdasarkan hasil runtime user test dan reference drawer.
+
+### Perubahan
+- Mengganti Apps hamburger DropdownMenu menjadi right-side drawer transient pada Apps surface.
+- Drawer menampilkan icon, title, description, badge, separator, dan dua destination bawah sesuai reference.
+- Android Back saat drawer terbuka menutup drawer terlebih dahulu.
+- Destination drawer tetap menggunakan screen yang sama; drawer tidak menjadi Screen.
+- Menambahkan loading state pada Apps inventory agar proses reload setelah kembali dari submenu tidak salah tampil sebagai No matching installed apps.
+- Menjaga Labels, Custom Configurations, dan Blacklist sebagai single destination/capability walaupun memiliki entry point dari App Backup Settings.
+- Settings tetap diarahkan ke canonical Settings dan tidak dibuat sebagai Apps Settings baru.
+
+### Verifikasi
+- Source implementation diperbarui pada branch v1.0/rebaseline.
+- CI sebelum pekerjaan ini (#707) terobservasi SUCCESS dari user report; perubahan baru ini belum memiliki hasil CI.
+- Device/runtime verification untuk perubahan baru: UNVERIFIED.
+
+### Berikutnya
+- Jalankan CI untuk perubahan ini sampai selesai.
+- Jika CI hijau, lanjutkan install/update APK dan uji navigation drawer + back hierarchy.
