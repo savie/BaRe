@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">B Λ R ☰</string>
+    <string name="app_text">BΛR☰</string>
     <string name="backup_restore_manager">Backup &amp; Restore</string>
     <string name="brand_tagline">SAVE OUR DAY</string>
     <string name="welcome_description">Back up, restore, manage\nyour apps and data</string>
@@ -717,7 +718,7 @@
 
     <string name="diagnostics_health_title">Health</string>
     <string name="diagnostics_activity_title">Recent activity</string>
-    <string name="diagnostics_summary_title">BaRe health</string>
+    <string name="diagnostics_summary_title">%1$s health</string>
     <string name="diagnostics_summary_ready">Everything currently available looks good.</string>
     <string name="diagnostics_summary_attention">%1$d item needs attention.</string>
     <string name="diagnostics_summary_unavailable">%1$d item is not available yet.</string>
@@ -726,16 +727,25 @@
     <string name="diagnostics_status_not_available">Not available</string>
     <string name="diagnostics_app_version">Version %1$s</string>
     <string name="diagnostics_refresh">Refresh</string>
+    <string name="diagnostics_delete_logs">Delete logs</string>
+    <string name="diagnostics_delete_logs_title">Delete activity logs?</string>
+    <string name="diagnostics_delete_logs_message">This will clear the saved activity history from this device.</string>
     <string name="diagnostics_share">Share report</string>
-    <string name="diagnostics_report_subject">BaRe diagnostics report</string>
+    <string name="diagnostics_report_subject">%1$s diagnostics report</string>
     
+    <string name="diagnostics_check_runtime">App and device</string>
     <string name="diagnostics_check_identity">Identity</string>
-    <string name="diagnostics_identity_ready">BaRe ID is available.</string>
+    <string name="diagnostics_runtime_ready">App is running on Android %1$s.</string>
+    <string name="diagnostics_runtime_value">%1$s · Android %2$s</string>
+    <string name="diagnostics_identity_ready">%1$s ID is available.</string>
     <string name="diagnostics_identity_missing">Local identity is not available.</string>
     <string name="diagnostics_check_storage">Storage</string>
     <string name="diagnostics_storage_unavailable">Local storage is not available.</string>
+    <string name="diagnostics_storage_selected_unavailable">The selected storage is not available.</string>
     <string name="diagnostics_storage_read_only">Local storage needs write access.</string>
     <string name="diagnostics_storage_ready">Local storage is available.</string>
+    <string name="diagnostics_storage_internal_ready">Internal storage is available.</string>
+    <string name="diagnostics_storage_external_ready">External storage is available.</string>
     <string name="diagnostics_check_recovery">Recovery</string>
     <string name="diagnostics_recovery_ready">Recovery is configured.</string>
     <string name="diagnostics_recovery_missing_package">Recovery is configured, but the recovery package is not available.</string>
@@ -747,9 +757,10 @@
     <string name="diagnostics_check_backups">Backups</string>
     <string name="diagnostics_backups_ready">Local backup data is available.</string>
     <string name="diagnostics_backups_not_available">No local backup data is available yet.</string>
-    <string name="diagnostics_report_title">BaRe diagnostics report</string>
+    <string name="diagnostics_report_title">%1$s diagnostics report</string>
     <string name="diagnostics_report_app_version">App version: %1$s</string>
-    <string name="diagnostics_report_identity">BaRe ID: %1$s</string>
+    <string name="diagnostics_report_runtime">App and device: %1$s</string>
+    <string name="diagnostics_report_identity">%1$s ID: %2$s</string>
     <string name="diagnostics_report_storage">Storage: %1$s</string>
     <string name="diagnostics_report_recovery">Recovery: %1$s</string>
     <string name="diagnostics_report_encryption">Encryption: %1$s</string>
