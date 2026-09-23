@@ -4548,87 +4548,88 @@ Merapikan kembali pemisahan `docs/reference.md` dan `docs/worklog.md` agar sesua
 ## 2026-09-23 — Apps 54 capability quick index
 
 ### Pekerjaan Saat Ini
-Menambahkan index ringkas APP-01..APP-54 agar status capability Apps dapat dibaca sekali jalan dari worklog tanpa membuka detail audit.
+Memperjelas index ringkas APP-01..APP-54 agar setiap ID langsung menunjukkan **nama capability + status**, sehingga worklog dapat dibaca sekali jalan tanpa membuka detail audit.
 
 ### Status Ringkas
 
 ```
 FOUNDATION
-APP-01                  PARTIAL
+APP-01  App Workspace / App Detail foundation                  PARTIAL
 
 G1 Discovery/Filtering
-APP-02                  IMPLEMENTED
-APP-03                  GAP
-APP-04                  IMPLEMENTED
-APP-05                  PARTIAL
-APP-06                  IMPLEMENTED
-APP-07                  GAP
-APP-10                  GAP
-APP-11                  GAP
-APP-12                  GAP
-APP-13                  IMPLEMENTED
-APP-14                  GAP
-APP-15                  GAP
-APP-16                  GAP
-APP-17                  GAP
-APP-18                  IMPLEMENTED
+APP-02  Local apps inventory                                   IMPLEMENTED
+APP-03  Cloud-synced apps inventory                            GAP
+APP-04  Search apps                                            IMPLEMENTED
+APP-05  Sort apps                                              PARTIAL
+APP-06  App-type filtering                                     IMPLEMENTED
+APP-07  System-app subfilters                                  GAP
+APP-10  On-device backup status filter                         GAP
+APP-11  Cloud-sync status filter                               GAP
+APP-12  Install-status filter                                  GAP
+APP-13  Enabled-status filter                                  IMPLEMENTED
+APP-14  Multiple-backup filter                                 GAP
+APP-15  Protected-backup filter                               GAP
+APP-16  Notes filter                                           GAP
+APP-17  Older/newer APK relation                               GAP
+APP-18  Google Play install-source filter                      IMPLEMENTED
 
 G2 Action/Management
-APP-08                  IMPLEMENTED
-APP-09                  IMPLEMENTED
-APP-32                  PARTIAL
-APP-33                  GAP/MOCKUP
-APP-37                  GAP
-APP-38                  GAP
-APP-45                  GAP
-APP-46                  MOCKUP
-APP-47                  MOCKUP
-APP-48                  MOCKUP
-APP-49                  MOCKUP
-APP-50                  MOCKUP
-APP-51                  MOCKUP
-APP-52                  MOCKUP
-APP-53                  MOCKUP
-APP-54                  GAP
+APP-08  Favorites                                              IMPLEMENTED
+APP-09  Labels                                                 IMPLEMENTED
+APP-32  Labels/favorites/blacklist management                  PARTIAL
+APP-33  Blacklist behavior                                     GAP/MOCKUP
+APP-37  Quick actions                                          GAP
+APP-38  App swipe actions                                      GAP
+APP-45  Launch installed app                                   GAP
+APP-46  Enable / disable app                                   MOCKUP
+APP-47  Force stop app                                         MOCKUP
+APP-48  Uninstall app                                          MOCKUP
+APP-49  Open Android App Info                                  MOCKUP
+APP-50  Open Play Store                                        MOCKUP
+APP-51  Share APK                                              MOCKUP
+APP-52  Battery optimization management                        MOCKUP
+APP-53  Add app to Home screen                                 MOCKUP
+APP-54  Clear app data                                         GAP
 
 G3 Backup
-APP-19                  GAP
-APP-20                  PARTIAL
-APP-21                  MOCKUP
-APP-23                  MOCKUP
-APP-24                  MOCKUP
-APP-25                  MOCKUP
-APP-26                  MOCKUP
-APP-27                  MOCKUP
-APP-28                  MOCKUP
+APP-19  Device/cloud backup state                              GAP
+APP-20  App backup parts                                       PARTIAL
+APP-21  App backup                                             MOCKUP
+APP-23  Delete local/device backups                            MOCKUP
+APP-24  Multiple-backup strategy                               MOCKUP
+APP-25  Protected backup                                      MOCKUP
+APP-26  Backup data size limits                                MOCKUP
+APP-27  Encryption of app data backups                         MOCKUP
+APP-28  Backup cache option                                    MOCKUP
 
 G4 Restore/Install
-APP-22                  MOCKUP
-APP-40                  MOCKUP
-APP-41                  MOCKUP
-APP-42                  MOCKUP
-APP-43                  MOCKUP
-APP-44                  MOCKUP
+APP-22  App restore                                            MOCKUP
+APP-40  APK/APKS import/install                                MOCKUP
+APP-41  Restore runtime/special data                           MOCKUP
+APP-42  App SSAID restore option                               MOCKUP
+APP-43  Missing-app restore                                    MOCKUP
+APP-44  Newer-version restore                                  MOCKUP
 
 G5 Batch
-APP-29                  GAP
-APP-30                  GAP
-APP-31                  GAP
+APP-29  Batch operations                                       GAP
+APP-30  Batch search/filter/select-all                         GAP
+APP-31  Batch app backup settings                              GAP
 
 G6 Configuration
-APP-34                  MOCKUP
-APP-35                  MOCKUP
-APP-36                  MOCKUP
+APP-34  Custom app configurations                              MOCKUP
+APP-35  Run configuration now                                  MOCKUP
+APP-36  Schedule configuration                                 MOCKUP
 
 G7 Diagnostics
-APP-39                  MOCKUP
+APP-39  App visibility diagnostics                             MOCKUP
 ```
 
 ### Verifikasi
-- Index mengikuti canonical APP-01..APP-54 dan grouping G1–G7 pada checkpoint audit Apps.
+- Nama capability mengikuti canonical APP-01..APP-54 pada checkpoint audit Apps.
+- Status tidak diubah; hanya index diperkaya agar ID tidak berdiri sendiri.
 - Tidak membuat file baru.
-- Tidak mengubah source Apps, capability state, atau hasil audit.
-- Detail capability tetap berada pada checkpoint **#571 Apps capability audit — 54 capability / 7 group reconciliation** di worklog ini.
+- Tidak mengubah source Apps atau hasil audit.
+- Detail evidence tetap berada pada checkpoint **#571 Apps capability audit — 54 capability / 7 group reconciliation**.
 
 ### Berikutnya
-Gunakan index ini untuk pembacaan cepat. Jika perlu detail, evidence source dan audit lengkap ditelusuri dari checkpoint #571.
+Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence source dari checkpoint #571.
