@@ -270,7 +270,7 @@ fun SettingsScreen(
                         title = stringResource(R.string.contact),
                         subtitle = stringResource(R.string.settings_contact_subtitle),
                         icon = Icons.Outlined.MailOutline,
-                        onClick = { openContact(context) },
+                        onClick = { openSettingsContact(context) },
                     )
                     SettingsRow(
                         title = stringResource(R.string.about),
@@ -430,29 +430,35 @@ fun SettingsScreen(
     }
 
     if (showAboutDialog) {
-        AlertDialog(
-            onDismissRequest = { showAboutDialog = false },
-            title = { Text(stringResource(R.string.about)) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold)
-                    Text(
-                        stringResource(
-                            R.string.settings_about_version,
-                            context.packageManager.getPackageInfo(context.packageName, 0).versionName
-                                ?: "unknown",
-                        ),
-                    )
-                    Text(stringResource(R.string.settings_about_product, stringResource(R.string.app_name)))
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { showAboutDialog = false }) {
-                    Text(stringResource(R.string.close))
-                }
-            },
-        )
+        SettingsAboutDialog(onDismiss = { showAboutDialog = false })
     }
+}
+
+@Composable
+fun SettingsAboutDialog(onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(stringResource(R.string.about)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(stringResource(R.string.app_name), fontWeight = FontWeight.Bold)
+                Text(
+                    stringResource(
+                        R.string.settings_about_version,
+                        context.packageManager.getPackageInfo(context.packageName, 0).versionName
+                            ?: "unknown",
+                    ),
+                )
+                Text(stringResource(R.string.settings_about_product, stringResource(R.string.app_name)))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(stringResource(R.string.close))
+            }
+        },
+    )
 }
 
 @Composable
@@ -636,7 +642,7 @@ private fun openSystemSettings(
     }
 }
 
-private fun openContact(context: Context) {
+fun openSettingsContact(context: Context) {
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:")
     }
