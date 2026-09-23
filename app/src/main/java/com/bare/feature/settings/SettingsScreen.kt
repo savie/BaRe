@@ -238,22 +238,16 @@ fun SettingsScreen(
                         enabled = false,
                     )
                     SettingsRow(
-                        title = stringResource(R.string.settings_bare_logger),
-                        subtitle = stringResource(R.string.settings_bare_logger_subtitle),
+                        title = stringResource(R.string.settings_diagnostics),
+                        subtitle = stringResource(R.string.diagnostics_summary),
                         icon = Icons.Outlined.BugReport,
-                        onClick = { onOpen(Screen.BARE_LOGGER) },
+                        onClick = { onOpen(Screen.DIAGNOSTICS) },
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_recovery),
                         subtitle = stringResource(R.string.recovery_description),
                         icon = Icons.Outlined.Restore,
                         onClick = { onOpen(Screen.IMPORT_EXPORT) },
-                    )
-                    SettingsRow(
-                        title = stringResource(R.string.settings_diagnostics),
-                        subtitle = stringResource(R.string.diagnostics_short) + " · " + stringResource(R.string.not_implemented),
-                        icon = Icons.Outlined.BugReport,
-                        enabled = false,
                     )
                     SettingsRow(
                         title = stringResource(R.string.settings_restart_app),
