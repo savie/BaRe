@@ -26,78 +26,6 @@ import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
 
-private data class AppsGroup(
-    val id: String,
-    val title: String,
-    val summary: String,
-    val primarySurface: String,
-)
-
-private val appsGroups = listOf(
-    AppsGroup("G1", "Discovery & Filtering", "Menemukan, mencari, mengurutkan, dan menyaring daftar aplikasi.", "Apps list / Options"),
-    AppsGroup("G2", "Action & Management", "Aksi per-app dan pengelolaan state/organisasi aplikasi.", "App Detail / ⋮"),
-    AppsGroup("G3", "Backup", "Destination, parts, retention, protection, dan backup workflow.", "App Detail → Backup"),
-    AppsGroup("G4", "Restore / Install", "Restore variants, import/install, dan precondition flow.", "App Detail → Restore"),
-    AppsGroup("G5", "Batch Operations", "Selection, batch search/filter, dan operasi multi-app.", "Apps list → Selection mode"),
-    AppsGroup("G6", "Configuration", "Konfigurasi per-app, run-now, dan scheduling.", "App Detail → Configuration"),
-    AppsGroup("G7", "Diagnostics", "Visibility, capability, precondition, dan diagnostic evidence.", "App Detail → Diagnostics"),
-)
-
-private data class AppsCapability(
-    val id: String,
-    val titleRes: Int,
-    val groupRes: Int,
-    val descriptionRes: Int,
-    val statusRes: Int,
-)
-
-private val appsCapabilities = listOf(
-    AppsCapability("01", R.string.apps_cap_01_title, R.string.apps_cap_01_group, R.string.apps_cap_01_description, R.string.apps_cap_01_status),
-    AppsCapability("02", R.string.apps_cap_02_title, R.string.apps_cap_02_group, R.string.apps_cap_02_description, R.string.apps_cap_02_status),
-    AppsCapability("03", R.string.apps_cap_03_title, R.string.apps_cap_03_group, R.string.apps_cap_03_description, R.string.apps_cap_03_status),
-    AppsCapability("04", R.string.apps_cap_04_title, R.string.apps_cap_04_group, R.string.apps_cap_04_description, R.string.apps_cap_04_status),
-    AppsCapability("05", R.string.apps_cap_05_title, R.string.apps_cap_05_group, R.string.apps_cap_05_description, R.string.apps_cap_05_status),
-    AppsCapability("06", R.string.apps_cap_06_title, R.string.apps_cap_06_group, R.string.apps_cap_06_description, R.string.apps_cap_06_status),
-    AppsCapability("07", R.string.apps_cap_07_title, R.string.apps_cap_07_group, R.string.apps_cap_07_description, R.string.apps_cap_07_status),
-    AppsCapability("08", R.string.apps_cap_08_title, R.string.apps_cap_08_group, R.string.apps_cap_08_description, R.string.apps_cap_08_status),
-    AppsCapability("09", R.string.apps_cap_09_title, R.string.apps_cap_09_group, R.string.apps_cap_09_description, R.string.apps_cap_09_status),
-    AppsCapability("10", R.string.apps_cap_10_title, R.string.apps_cap_10_group, R.string.apps_cap_10_description, R.string.apps_cap_10_status),
-    AppsCapability("11", R.string.apps_cap_11_title, R.string.apps_cap_11_group, R.string.apps_cap_11_description, R.string.apps_cap_11_status),
-    AppsCapability("12", R.string.apps_cap_12_title, R.string.apps_cap_12_group, R.string.apps_cap_12_description, R.string.apps_cap_12_status),
-    AppsCapability("13", R.string.apps_cap_13_title, R.string.apps_cap_13_group, R.string.apps_cap_13_description, R.string.apps_cap_13_status),
-    AppsCapability("14", R.string.apps_cap_14_title, R.string.apps_cap_14_group, R.string.apps_cap_14_description, R.string.apps_cap_14_status),
-    AppsCapability("15", R.string.apps_cap_15_title, R.string.apps_cap_15_group, R.string.apps_cap_15_description, R.string.apps_cap_15_status),
-    AppsCapability("16", R.string.apps_cap_16_title, R.string.apps_cap_16_group, R.string.apps_cap_16_description, R.string.apps_cap_16_status),
-    AppsCapability("17", R.string.apps_cap_17_title, R.string.apps_cap_17_group, R.string.apps_cap_17_description, R.string.apps_cap_17_status),
-    AppsCapability("18", R.string.apps_cap_18_title, R.string.apps_cap_18_group, R.string.apps_cap_18_description, R.string.apps_cap_18_status),
-    AppsCapability("19", R.string.apps_cap_19_title, R.string.apps_cap_19_group, R.string.apps_cap_19_description, R.string.apps_cap_19_status),
-    AppsCapability("20", R.string.apps_cap_20_title, R.string.apps_cap_20_group, R.string.apps_cap_20_description, R.string.apps_cap_20_status),
-    AppsCapability("21", R.string.apps_cap_21_title, R.string.apps_cap_21_group, R.string.apps_cap_21_description, R.string.apps_cap_21_status),
-    AppsCapability("22", R.string.apps_cap_22_title, R.string.apps_cap_22_group, R.string.apps_cap_22_description, R.string.apps_cap_22_status),
-    AppsCapability("23", R.string.apps_cap_23_title, R.string.apps_cap_23_group, R.string.apps_cap_23_description, R.string.apps_cap_23_status),
-    AppsCapability("24", R.string.apps_cap_24_title, R.string.apps_cap_24_group, R.string.apps_cap_24_description, R.string.apps_cap_24_status),
-    AppsCapability("25", R.string.apps_cap_25_title, R.string.apps_cap_25_group, R.string.apps_cap_25_description, R.string.apps_cap_25_status),
-    AppsCapability("26", R.string.apps_cap_26_title, R.string.apps_cap_26_group, R.string.apps_cap_26_description, R.string.apps_cap_26_status),
-    AppsCapability("27", R.string.apps_cap_27_title, R.string.apps_cap_27_group, R.string.apps_cap_27_description, R.string.apps_cap_27_status),
-    AppsCapability("28", R.string.apps_cap_28_title, R.string.apps_cap_28_group, R.string.apps_cap_28_description, R.string.apps_cap_28_status),
-    AppsCapability("29", R.string.apps_cap_29_title, R.string.apps_cap_29_group, R.string.apps_cap_29_description, R.string.apps_cap_29_status),
-    AppsCapability("30", R.string.apps_cap_30_title, R.string.apps_cap_30_group, R.string.apps_cap_30_description, R.string.apps_cap_30_status),
-    AppsCapability("31", R.string.apps_cap_31_title, R.string.apps_cap_31_group, R.string.apps_cap_31_description, R.string.apps_cap_31_status),
-    AppsCapability("32", R.string.apps_cap_32_title, R.string.apps_cap_32_group, R.string.apps_cap_32_description, R.string.apps_cap_32_status),
-    AppsCapability("33", R.string.apps_cap_33_title, R.string.apps_cap_33_group, R.string.apps_cap_33_description, R.string.apps_cap_33_status),
-    AppsCapability("34", R.string.apps_cap_34_title, R.string.apps_cap_34_group, R.string.apps_cap_34_description, R.string.apps_cap_34_status),
-    AppsCapability("35", R.string.apps_cap_35_title, R.string.apps_cap_35_group, R.string.apps_cap_35_description, R.string.apps_cap_35_status),
-    AppsCapability("36", R.string.apps_cap_36_title, R.string.apps_cap_36_group, R.string.apps_cap_36_description, R.string.apps_cap_36_status),
-    AppsCapability("37", R.string.apps_cap_37_title, R.string.apps_cap_37_group, R.string.apps_cap_37_description, R.string.apps_cap_37_status),
-    AppsCapability("38", R.string.apps_cap_38_title, R.string.apps_cap_38_group, R.string.apps_cap_38_description, R.string.apps_cap_38_status),
-    AppsCapability("39", R.string.apps_cap_39_title, R.string.apps_cap_39_group, R.string.apps_cap_39_description, R.string.apps_cap_39_status),
-    AppsCapability("40", R.string.apps_cap_40_title, R.string.apps_cap_40_group, R.string.apps_cap_40_description, R.string.apps_cap_40_status),
-    AppsCapability("41", R.string.apps_cap_41_title, R.string.apps_cap_41_group, R.string.apps_cap_41_description, R.string.apps_cap_41_status),
-    AppsCapability("42", R.string.apps_cap_42_title, R.string.apps_cap_42_group, R.string.apps_cap_42_description, R.string.apps_cap_42_status),
-    AppsCapability("43", R.string.apps_cap_43_title, R.string.apps_cap_43_group, R.string.apps_cap_43_description, R.string.apps_cap_43_status),
-)
-
-
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
     val context = LocalContext.current
@@ -366,44 +294,6 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppsToolsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Apps") },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
-            )
-        }
-    ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(bottom = 24.dp)) {
-            item { AppsMenuEntry("Quick actions", "Run common app backup, restore, and management actions", Icons.Default.FlashOn) { onOpen(Screen.APP_QUICK_ACTIONS) } }
-            item { AppsMenuEntry("App Labels", "Create and edit custom labels", Icons.Default.Label) { onOpen(Screen.APP_LABELS) } }
-            item { AppsMenuEntry("Custom configurations", "App-specific backup and restore rules", Icons.Default.Settings, "FOR ADVANCED USERS") { onOpen(Screen.APP_CUSTOM_CONFIG) } }
-            item { AppsMenuEntry("Blacklist", "Hide apps or keep APK-only backup policy", Icons.Default.Block) { onOpen(Screen.APP_BLACKLIST) } }
-            item { HorizontalDivider(Modifier.padding(top = 8.dp)) }
-            item { AppsMenuEntry("App backup settings", "App visibility, swipe actions, backup and restore options", Icons.Default.Android) { onOpen(Screen.APP_BACKUP_SETTINGS) } }
-            item { AppsMenuEntry("Settings", "BaRe application settings", Icons.Default.Settings) { onOpen(Screen.SETTINGS) } }
-        }
-    }
-}
-
-@Composable
-private fun AppsMenuEntry(title: String, subtitle: String, icon: androidx.compose.ui.graphics.vector.ImageVector, badge: String? = null, onClick: () -> Unit) {
-    ListItem(
-        headlineContent = { Text(title, fontWeight = FontWeight.SemiBold) },
-        supportingContent = {
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(subtitle)
-                if (badge != null) AssistChip(onClick = {}, label = { Text(badge) })
-            }
-        },
-        leadingContent = { Icon(icon, contentDescription = null) },
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
-    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
