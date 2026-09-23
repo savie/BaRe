@@ -135,7 +135,7 @@ fun ManageSpaceScreen(
                 ManageSpaceCard(
                     title = stringResource(R.string.manage_space_bare_cache_title),
                     body = stringResource(R.string.manage_space_bare_cache_description, formatBytes(context, bareCacheBytes)),
-                    icon = Icons.Outlined.DeleteSweep,
+                    icon = Icons.Outlined.Delete,
                 )
             }
 
