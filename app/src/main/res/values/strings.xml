@@ -649,4 +649,44 @@
     <string name="diagnostics_report_backups">Backups: %1$s</string>
     <string name="diagnostics_report_health">Health</string>
     <string name="diagnostics_report_activity">Recent activity</string>
-    </resources>
+    
+    <string name="play_store">Play Store</string>
+    <string name="android_app_info">Android App Info</string>
+    <string name="share_apk">Share APK</string>
+    <string name="favorite_labels_blacklist">Favorite / labels / blacklist</string>
+    <string name="battery_optimization">Battery optimization</string>
+    <string name="add_to_home_screen">Add to Home screen</string>
+    <string name="force_stop">Force stop</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="delete">Delete</string>
+    <string name="app_part_actions">Choose an action for this app part.</string>
+    <string name="backup_to_device">Backup to Device</string>
+    <string name="backup_to_cloud">Backup to Cloud</string>
+    <string name="backup_to_device_cloud">Backup to Device &amp; Cloud</string>
+    <string name="apk_part">APK</string>
+    <string name="apks_part">APKs</string>
+    <string name="data_part">Data</string>
+    <string name="external_data_part">Ext. data</string>
+    <string name="media_part">Media</string>
+    <string name="tap_part_for_actions">Tap for actions</string>
+    <string name="launch">Launch</string>
+    <string name="backup">Backup</string>
+    <string name="device">Device</string>
+    <string name="cloud">Cloud</string>
+    <string name="device_cloud">Device + Cloud</string>
+    <string name="user_app_parts">User app parts</string>
+    <string name="select_parts_to_backup">Select what should be included in this backup.</string>
+    <string name="select_backup_locations">Select backup locations</string>
+    <string name="backup_summary">Backup summary</string>
+    <string name="selected_parts_count">%1$d app parts selected</string>
+    <string name="selected_backup_location">Location: %1$s</string>
+    <string name="backup_execution_pending">Backup execution remains pending until the real backup capability is connected and verified.</string>
+    <string name="backup_app_title">Backup • %1$s</string>
+    <string name="run_backup">Run backup</string>
+    <string name="device_no_verified_backup">Device: no verified backup</string>
+    <string name="cloud_not_synced">Cloud: not synced</string>
+    <string name="view_backups">View backups</string>
+    <string name="backup_history">Backup history</string>
+    <string name="view_backup_versions">Device/cloud versions and backup state</string>
+
+</resources>
