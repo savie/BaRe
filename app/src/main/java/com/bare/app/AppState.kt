@@ -1,5 +1,6 @@
 package com.bare.app
 
+import android.graphics.drawable.Drawable
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.bare.R
@@ -54,6 +55,7 @@ data class AppItem(
     val lastUpdateTime: Long? = null,
     val apkSizeBytes: Long? = null,
     val installedFromGooglePlay: Boolean? = null,
+    val icon: Drawable? = null,
 )
 
 val demoApps = listOf(
