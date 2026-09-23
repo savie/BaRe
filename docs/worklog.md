@@ -4364,3 +4364,146 @@ Historical decisions are not deleted. When a later decision supersedes an earlie
 
 ### Next
 - Menentukan pekerjaan Apps berikutnya berdasarkan evidence audit aktual dan authorization berikutnya.
+
+
+## 2026-09-23 — #571 Apps capability audit — 54 capability / 7 group reconciliation
+
+### Authorization
+- **USER GO:** Revisi `docs/reference.md` agar tetap menjadi **reference-only**, lalu catat pekerjaan/audit Apps aktual di `docs/worklog.md`.
+- Boundary yang ditegaskan: **reference = evidence/reference baseline; worklog = actual project work, audit result, implementation state, verification, dan next work**.
+
+### Documentation boundary correction
+- `docs/reference.md` direvisi agar bagian Apps tidak lagi mencampur **current BaRe implementation state**, **gap matrix**, atau **BaRe placement decision** ke dalam reference artifact.
+- Capability inventory **APP-01..APP-54** dan grouping **G1–G7 + APP-01 foundation** tetap dipertahankan di reference sebagai **reference capability inventory**.
+- Detail actual BaRe implementation dan audit status dicatat sebagai worklog record.
+- Reference tidak boleh digunakan sebagai source of truth untuk status implementasi BaRe.
+
+### Canonical Apps capability grouping
+**Foundation**
+- APP-01 — App Workspace / App Detail foundation
+
+**G1 — Discovery & Filtering**
+- APP-02 Local apps inventory; APP-03 Cloud-synced apps inventory; APP-04 Search apps; APP-05 Sort apps; APP-06 App-type filtering; APP-07 System-app subfilters; APP-10 On-device backup status filter; APP-11 Cloud-sync status filter; APP-12 Install-status filter; APP-13 Enabled-status filter; APP-14 Multiple-backup filter; APP-15 Protected-backup filter; APP-16 Notes filter; APP-17 Older/newer APK relation; APP-18 Google Play install-source filter
+
+**G2 — Action & Management**
+- APP-08 Favorites; APP-09 Labels; APP-32 Labels/favorites/blacklist management; APP-33 Blacklist behavior; APP-37 Quick actions; APP-38 App swipe actions; APP-45 Launch installed app; APP-46 Enable / disable app; APP-47 Force stop app; APP-48 Uninstall app; APP-49 Open Android App Info; APP-50 Open Play Store; APP-51 Share APK; APP-52 Battery optimization management; APP-53 Add app to Home screen; APP-54 Clear app data
+
+**G3 — Backup**
+- APP-19 Device/cloud backup state; APP-20 App backup parts; APP-21 App backup; APP-23 Delete local/device backups; APP-24 Multiple-backup strategy; APP-25 Protected backup; APP-26 Backup data size limits; APP-27 Encryption of app data backups; APP-28 Backup cache option
+
+**G4 — Restore / Install**
+- APP-22 App restore; APP-40 APK/APKS import/install; APP-41 Restore runtime/special data; APP-42 App SSAID restore option; APP-43 Missing-app restore; APP-44 Newer-version restore
+
+**G5 — Batch Operations**
+- APP-29 Batch operations; APP-30 Batch search/filter/select-all; APP-31 Batch app backup settings
+
+**G6 — Configuration**
+- APP-34 Custom app configurations; APP-35 Run configuration now; APP-36 Schedule configuration
+
+**G7 — Diagnostics**
+- APP-39 App visibility diagnostics
+
+**Coverage:** APP-01 + G1 (15) + G2 (16) + G3 (9) + G4 (6) + G5 (3) + G6 (3) + G7 (1) = **54 capability IDs**.
+
+### Actual BaRe source audit
+Branch: `v1.0/rebaseline`
+
+Source inspected:
+- `app/src/main/java/com/bare/feature/apps/AppsFilter.kt`
+- `app/src/main/java/com/bare/feature/apps/AppsScreens.kt`
+- `app/src/main/java/com/bare/feature/apps/InstalledAppRepository.kt`
+- `app/src/main/java/com/bare/feature/apps/AppDetailsRepository.kt`
+- `app/src/main/java/com/bare/feature/apps/AppOrganizationStore.kt`
+- `app/src/main/java/com/bare/feature/apps/AppUsageRepository.kt`
+- `app/src/main/res/values/strings.xml`
+
+Actual findings:
+- Installed app inventory is real and backed by `InstalledAppRepository`.
+- Search is functional by display name/package.
+- Functional filters: User/System, Enabled/Disabled, Google Play/not Google Play, Favorites, Labels, selected labels.
+- Functional sort: Name, Install date, Update date, Date used, App size.
+- Backup date and Backup size sort options exist in the UI model but are explicitly unavailable and fall back to name sorting; therefore these are not implemented capabilities.
+- Favorites and labels have real local persistence through `AppOrganizationStore`.
+- App detail metadata is loaded from actual package/app state through `AppDetailsRepository`.
+- Backup/restore/configuration/management/diagnostics surfaces contain substantial UI contract/mockup state, but their execution paths are not implemented/verified as backup/restore capability.
+- No actual Apps batch selection implementation was found.
+- No actual Quick Actions execution or swipe-action implementation was found.
+- `canLaunch` is available in detail metadata, but no Launch action execution was found in the App Detail surface.
+
+### 54-cap audit status
+
+| ID | Capability | Actual BaRe status |
+| --- | --- | --- |
+| APP-01 | App Workspace / App Detail foundation | PARTIAL |
+| APP-02 | Local apps inventory | IMPLEMENTED |
+| APP-03 | Cloud-synced apps inventory | GAP |
+| APP-04 | Search apps | IMPLEMENTED |
+| APP-05 | Sort apps | PARTIAL |
+| APP-06 | App-type filtering | IMPLEMENTED |
+| APP-07 | System-app subfilters | GAP |
+| APP-08 | Favorites | IMPLEMENTED |
+| APP-09 | Labels | IMPLEMENTED |
+| APP-10 | On-device backup status filter | GAP |
+| APP-11 | Cloud-sync status filter | GAP |
+| APP-12 | Install-status filter | GAP |
+| APP-13 | Enabled-status filter | IMPLEMENTED |
+| APP-14 | Multiple-backup filter | GAP |
+| APP-15 | Protected-backup filter | GAP |
+| APP-16 | Notes filter | GAP |
+| APP-17 | Older/newer APK relation | GAP |
+| APP-18 | Google Play install-source filter | IMPLEMENTED |
+| APP-19 | Device/cloud backup state | GAP |
+| APP-20 | App backup parts | PARTIAL — UI/list contract only |
+| APP-21 | App backup | MOCKUP |
+| APP-22 | App restore | MOCKUP |
+| APP-23 | Delete local/device backups | MOCKUP |
+| APP-24 | Multiple-backup strategy | MOCKUP |
+| APP-25 | Protected backup | MOCKUP |
+| APP-26 | Backup data size limits | MOCKUP |
+| APP-27 | Encryption of app data backups | MOCKUP |
+| APP-28 | Backup cache option | MOCKUP |
+| APP-29 | Batch operations | GAP |
+| APP-30 | Batch search/filter/select-all | GAP |
+| APP-31 | Batch app backup settings | GAP |
+| APP-32 | Labels/favorites/blacklist management | PARTIAL |
+| APP-33 | Blacklist behavior | GAP / MOCKUP |
+| APP-34 | Custom app configurations | MOCKUP |
+| APP-35 | Run configuration now | MOCKUP |
+| APP-36 | Schedule configuration | MOCKUP |
+| APP-37 | Quick actions | GAP |
+| APP-38 | App swipe actions | GAP |
+| APP-39 | App visibility diagnostics | MOCKUP |
+| APP-40 | APK/APKS import/install | MOCKUP |
+| APP-41 | Restore runtime/special data | MOCKUP |
+| APP-42 | App SSAID restore option | MOCKUP |
+| APP-43 | Missing-app restore | MOCKUP |
+| APP-44 | Newer-version restore | MOCKUP |
+| APP-45 | Launch installed app | GAP |
+| APP-46 | Enable / disable app | MOCKUP |
+| APP-47 | Force stop app | MOCKUP |
+| APP-48 | Uninstall app | MOCKUP |
+| APP-49 | Open Android App Info | MOCKUP |
+| APP-50 | Open Play Store | MOCKUP |
+| APP-51 | Share APK | MOCKUP |
+| APP-52 | Battery optimization management | MOCKUP |
+| APP-53 | Add app to Home screen | MOCKUP |
+| APP-54 | Clear app data | GAP |
+
+### Implementation boundary
+- **Source implementation truth:** actual repository source above.
+- **Reference truth:** `docs/reference.md` records what Swift Backup reference evidence shows; it does not claim BaRe implementation.
+- **Worklog truth:** this checkpoint records the actual BaRe audit and work status.
+- Internal `AppsScreens.kt` list of 43 items is **not** the canonical 54-capability inventory. It is a UI-side/internal list and must not replace APP-01..APP-54 grouping.
+- Mockup presence does not equal execution capability.
+- Build/CI/runtime verification was not performed by this audit; this checkpoint is source inspection only.
+
+### Verification
+- **OBSERVED:** source files above were inspected on branch `v1.0/rebaseline`.
+- **OBSERVED:** 54 canonical capability IDs and 7-group grouping are present in reference baseline.
+- **VERIFIED:** documentation boundary correction was committed to `docs/reference.md` before this worklog update.
+- **UNVERIFIED:** Apps runtime behavior, backup/restore execution, batch execution, APK/APKS install execution, privileged actions, and end-to-end verification.
+
+### Next
+- Keep `docs/reference.md` reference-only.
+- Use this checkpoint as the current Apps implementation baseline.
+- Next implementation work must start from dependency/correctness priority, not from the reference UI order.
