@@ -625,6 +625,7 @@ private fun MainShell(
                 )
             }
         }
+    }
 
     if (appsSelected && appsMenuOpen) {
         Box(
@@ -682,6 +683,7 @@ private fun MainShell(
                 }
             }
         }
+    }
     }
 }
 @Composable
