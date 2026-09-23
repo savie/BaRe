@@ -131,7 +131,7 @@ class DiagnosticsService(private val context: Context) {
                 appContext.packageManager.getPackageInfo(appContext.packageName, 0).versionName ?: "Unknown"
             }.getOrDefault("Unknown"),
             runtime = appContext.getString(R.string.diagnostics_runtime_value, Build.MODEL, Build.VERSION.RELEASE),
-            identity = identity?.identityId ?: appContext.getString(R.string.not_available),
+            identity = identity?.identityId ?: appContext.getString(R.string.unknown_value),
             storage = storageDetail,
             recovery = if (recoveryReady) appContext.getString(R.string.diagnostics_status_ready)
             else appContext.getString(R.string.diagnostics_status_not_available),
