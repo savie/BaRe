@@ -4665,3 +4665,9 @@ Gunakan index ini sebagai pembacaan cepat. Jika perlu detail, telusuri evidence 
 ### Berikutnya
 - Verifikasi build/CI.
 - Lanjutkan behavior per-app: detail, `⋮`, swipe, dan long-press berdasarkan interaction reference yang sudah dikaji.
+
+
+### Koreksi kecil
+- Quick Action `Enable/Disable apps` tidak lagi membuka `AppManagementScreen` tanpa app terpilih.
+- Saat ini action tersebut tetap membuka state informasi/pending UI sampai batch selection/execution capability tersedia.
+- Source correction: `f91f11e9c520b67840724a2d36ad24493b6a42eb`.
