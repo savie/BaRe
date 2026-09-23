@@ -39,7 +39,7 @@ fun ManageSpaceScreen(
     var confirmAction by remember { mutableStateOf<ManageSpaceAction?>(null) }
 
     fun refresh() {
-        val id = identityId ?: return
+        val id = identityId
         scope.launch {
             val result = withContext(Dispatchers.IO) {
                 val backup = if (id != null) repository.localBackupSize(id) else 0L
