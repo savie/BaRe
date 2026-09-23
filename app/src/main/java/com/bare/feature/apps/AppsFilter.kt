@@ -171,6 +171,7 @@ fun AppsFilterScreen(
     val visibleApps = remember(apps, activeFilter, searchQuery, lastUsedTimes) {
         val query = searchQuery.trim().lowercase()
         val filtered = apps.asSequence()
+            .filter { app -> !organizationStore.isBlacklisted(app.packageName) }
             .filter { app -> when (activeFilter.appType) { AppTypeFilter.ALL -> true; AppTypeFilter.USER -> !app.isSystem; AppTypeFilter.SYSTEM -> app.isSystem } }
             .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
             .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
