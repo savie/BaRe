@@ -486,6 +486,8 @@
     <string name="filter_and_search">Filter &amp; Search</string>
     <string name="manage_space_local_identity">Local identity</string>
     <string name="manage_space_local_backup_storage">Local backup storage</string>
+    <string name="manage_space_bare_cache_title">BaRe cache</string>
+    <string name="manage_space_bare_cache_description">Cache BaRe yang tersimpan di storage: %1$s. Cache ini tidak dihitung sebagai ukuran aplikasi lain.</string>
     <string name="manage_space_no_local_identity">No local identity is available.</string>
     <string name="manage_space_local_backup_data">Local backup data</string>
     <string name="manage_space_backup_files">Backup files: %1$s</string>
