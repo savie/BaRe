@@ -128,7 +128,7 @@ private fun DiagnosticsSummaryCard(snapshot: DiagnosticsSnapshot) {
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Text(
-                stringResource(R.string.diagnostics_summary_title),
+                stringResource(R.string.diagnostics_summary_title, stringResource(R.string.app_text)),
                 style = MaterialTheme.typography.titleLarge,
             )
             Text(summary, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -231,7 +231,7 @@ private fun DiagnosticsActions(
             onClick = {
                 val intent = Intent(Intent.ACTION_SEND).apply {
                     type = "text/plain"
-                    putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.diagnostics_report_subject))
+                    putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.diagnostics_report_subject, context.getString(R.string.app_text)))
                     putExtra(Intent.EXTRA_TEXT, report)
                 }
                 context.startActivity(
