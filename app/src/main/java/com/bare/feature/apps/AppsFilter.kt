@@ -95,19 +95,54 @@ import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
 
-private fun formatRelativeTime(timestamp: Long): String {
-    val delta = (System.currentTimeMillis() - timestamp).coerceAtLeast(0L)
+private fun formatRelativeTime(context: Context, timestamp: Long): String {
+    val now = System.currentTimeMillis()
+    if (timestamp <= 0L || timestamp > now) {
+        return context.getString(R.string.relative_time_unavailable)
+    }
+
+    val delta = now - timestamp
     val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
     return when {
-        minutes < 1L -> "just now"
-        minutes < 60L -> "$minutes minute${if (minutes == 1L) "" else "s"} ago"
+        minutes < 1L -> context.getString(R.string.relative_time_just_now)
+        minutes < 60L -> context.getString(
+            if (minutes == 1L) R.string.relative_time_minute else R.string.relative_time_minutes,
+            minutes,
+        )
         minutes < 1440L -> {
             val hours = minutes / 60L
-            "$hours hour${if (hours == 1L) "" else "s"} ago"
+            context.getString(
+                if (hours == 1L) R.string.relative_time_hour else R.string.relative_time_hours,
+                hours,
+            )
+        }
+        minutes < 10080L -> {
+            val days = minutes / 1440L
+            context.getString(
+                if (days == 1L) R.string.relative_time_day else R.string.relative_time_days,
+                days,
+            )
+        }
+        minutes < 43200L -> {
+            val weeks = minutes / 10080L
+            context.getString(
+                if (weeks == 1L) R.string.relative_time_week else R.string.relative_time_weeks,
+                weeks,
+            )
+        }
+        minutes < 525600L -> {
+            val months = minutes / 43200L
+            context.getString(
+                if (months == 1L) R.string.relative_time_month else R.string.relative_time_months,
+                months,
+            )
         }
         else -> {
-            val days = minutes / 1440L
-            "$days day${if (days == 1L) "" else "s"} ago"
+            val years = minutes / 525600L
+            context.getString(
+                if (years == 1L) R.string.relative_time_year else R.string.relative_time_years,
+                years,
+            )
         }
     }
 }
@@ -426,11 +461,11 @@ fun AppsFilterScreen(
                                 Text(
                                     when (activeFilter.sort) {
                                         SortOption.NAME -> "No backup on device"
-                                        SortOption.INSTALL_DATE -> app.firstInstallTime?.let { "Installed: ${formatRelativeTime(it)}" } ?: "Install date unavailable"
-                                        SortOption.UPDATE_DATE -> app.lastUpdateTime?.let { "Last updated: ${formatRelativeTime(it)}" } ?: "Update date unavailable"
+                                        SortOption.INSTALL_DATE -> app.firstInstallTime?.let { "Installed: ${formatRelativeTime(context, it)}" } ?: context.getString(R.string.install_date_unavailable)
+                                        SortOption.UPDATE_DATE -> app.lastUpdateTime?.let { "Last updated: ${formatRelativeTime(context, it)}" } ?: context.getString(R.string.update_date_unavailable)
                                         SortOption.BACKUP_DATE -> "No backup on device"
                                         SortOption.BACKUP_SIZE -> "No backup on device"
-                                        SortOption.DATE_USED -> lastUsedTimes[app.packageName]?.let { "Last used: ${formatRelativeTime(it)}" } ?: "Usage unavailable"
+                                        SortOption.DATE_USED -> lastUsedTimes[app.packageName]?.let { "Last used: ${formatRelativeTime(context, it)}" } ?: context.getString(R.string.usage_unavailable)
                                         SortOption.APP_SIZE -> "App size: ${app.size}"
                                     },
                                     style = MaterialTheme.typography.labelSmall,
