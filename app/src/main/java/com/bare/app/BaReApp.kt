@@ -45,8 +45,8 @@ import com.bare.feature.settings.ManageSpaceScreen
 import com.bare.feature.settings.EncryptionPasswordStrategyScreen
 import com.bare.feature.settings.UserPasswordScreen
 import com.bare.feature.settings.BaReLabsScreen
-import com.bare.feature.settings.BaReLoggerScreen
 import com.bare.feature.settings.AppVisibilityDiagnosticsScreen
+import com.bare.feature.settings.DiagnosticsScreen
 import com.bare.feature.settings.LocalBackupScanScreen
 import com.bare.feature.settings.BaReLogger
 import com.bare.feature.account.RecoveryScreen
@@ -436,7 +436,7 @@ private fun MainShell(
             )
             Screen.USER_PASSWORD -> UserPasswordScreen(onBack = onBack)
             Screen.BARE_LABS -> BaReLabsScreen(onBack = onBack, onOpen = onOpenScreen)
-            Screen.BARE_LOGGER -> BaReLoggerScreen(onBack = onBack)
+            Screen.BARE_LOGGER -> DiagnosticsScreen(onBack = onBack)
             Screen.APP_VISIBILITY_DIAGNOSTICS -> AppVisibilityDiagnosticsScreen(onBack = onBack)
             Screen.LOCAL_BACKUP_SCAN -> LocalBackupScanScreen(identityId = identityId, onBack = onBack)
             else -> MiscScreen(
