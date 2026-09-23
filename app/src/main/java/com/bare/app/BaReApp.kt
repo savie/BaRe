@@ -5,6 +5,12 @@ import android.os.Environment
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
@@ -29,6 +35,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.FlashOn
+import androidx.compose.material.icons.filled.LabelOutline
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Android
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -488,98 +500,53 @@ private fun MainShell(
     LaunchedEffect(pagerState.currentPage) {
         bottomBarVisible = true
     }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                modifier = Modifier.height(96.dp),
-                title = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.app_name),
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = 5.sp,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                        Text(
-                            text = stringResource(R.string.brand_tagline),
-                            style = MaterialTheme.typography.labelSmall,
-                            letterSpacing = 3.5.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = {
-                        if (appsSelected) onOpenAppsSearch() else onOpenSearch()
-                    }) {
-                        Icon(Icons.Outlined.Search, stringResource(R.string.search))
-                    }
-                    if (appsSelected) {
-                        IconButton(onClick = onOpenAppsFilter) {
-                            Icon(Icons.Default.Tune, contentDescription = stringResource(R.string.filter_and_search))
+    BackHandler(enabled = appsSelected && appsMenuOpen) {
+        appsMenuOpen = false
+    }
+
+    Box(Modifier.fillMaxSize()) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    modifier = Modifier.height(96.dp),
+                    title = {
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.app_name),
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.Bold,
+                                letterSpacing = 5.sp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+                            Text(
+                                text = stringResource(R.string.brand_tagline),
+                                style = MaterialTheme.typography.labelSmall,
+                                letterSpacing = 3.5.sp,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
                         }
-                        Box {
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            if (appsSelected) onOpenAppsSearch() else onOpenSearch()
+                        }) {
+                            Icon(Icons.Outlined.Search, stringResource(R.string.search))
+                        }
+                        if (appsSelected) {
+                            IconButton(onClick = onOpenAppsFilter) {
+                                Icon(Icons.Default.Tune, contentDescription = stringResource(R.string.filter_and_search))
+                            }
                             IconButton(onClick = { appsMenuOpen = true }) {
                                 Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.apps_menu))
                             }
-                            DropdownMenu(
-                                expanded = appsMenuOpen,
-                                onDismissRequest = { appsMenuOpen = false }
-                            ) {
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.quick_actions_label)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APP_QUICK_ACTIONS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.app_labels)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APP_LABELS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.custom_configurations)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APP_CUSTOM_CONFIG)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.blacklist)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APP_BLACKLIST)
-                                    }
-                                )
-                                HorizontalDivider()
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.app_backup_settings)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.APP_BACKUP_SETTINGS)
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(R.string.settings)) },
-                                    onClick = {
-                                        appsMenuOpen = false
-                                        onOpenScreen(Screen.SETTINGS)
-                                    }
-                                )
-                            }
                         }
-                    }
-                },
-            )
-        },
+                    },
+                )
+            },
         bottomBar = {
             androidx.compose.animation.AnimatedVisibility(
                 visible = bottomBarVisible,
@@ -623,7 +590,66 @@ private fun MainShell(
                 }
             }
         },
-    ) { padding ->
+    ) { padding ->        Box(Modifier.fillMaxSize()) {
+            if (appsSelected && appsMenuOpen) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.48f))
+                        .clickable { appsMenuOpen = false },
+                )
+                AnimatedVisibility(
+                    visible = true,
+                    modifier = Modifier.align(androidx.compose.ui.Alignment.CenterEnd),
+                    enter = slideInHorizontally(initialOffsetX = { it }) + fadeIn(),
+                    exit = slideOutHorizontally(targetOffsetX = { it }) + fadeOut(),
+                ) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(0.84f),
+                        color = MaterialTheme.colorScheme.surface,
+                        tonalElevation = 8.dp,
+                        shadowElevation = 8.dp,
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 20.dp, bottom = 20.dp),
+                        ) {
+                            AppsDrawerItem(Icons.Default.FlashOn, stringResource(R.string.quick_actions_label), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.APP_QUICK_ACTIONS)
+                            })
+                            AppsDrawerItem(Icons.Default.LabelOutline, stringResource(R.string.app_labels), stringResource(R.string.app_labels_description), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.APP_LABELS)
+                            })
+                            AppsDrawerItem(Icons.Default.Build, stringResource(R.string.custom_configurations), stringResource(R.string.custom_configurations_description), stringResource(R.string.advanced_rooted_users), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.APP_CUSTOM_CONFIG)
+                            })
+                            AppsDrawerItem(Icons.Default.Block, stringResource(R.string.blacklist), stringResource(R.string.blacklist_description), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.APP_BLACKLIST)
+                            })
+                            Spacer(Modifier.height(12.dp))
+                            HorizontalDivider()
+                            Spacer(Modifier.height(12.dp))
+                            AppsDrawerItem(Icons.Default.Android, stringResource(R.string.app_backup_settings), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.APP_BACKUP_SETTINGS)
+                            })
+                            AppsDrawerItem(Icons.Default.Settings, stringResource(R.string.settings), onClick = {
+                                appsMenuOpen = false
+                                onOpenScreen(Screen.SETTINGS)
+                            })
+                        }
+                    }
+                }
+            }
+        }
+
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.fillMaxSize().padding(padding).nestedScroll(bottomBarScrollConnection),
@@ -655,4 +681,42 @@ private fun MainShell(
             }
         }
     }
+@Composable
+private fun AppsDrawerItem(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    description: String? = null,
+    badge: String? = null,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 14.dp),
+        verticalAlignment = androidx.compose.ui.Alignment.Top,
+    ) {
+        Icon(
+            icon,
+            contentDescription = null,
+            modifier = Modifier.size(28.dp),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.width(20.dp))
+        Column(Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            if (description != null) {
+                Spacer(Modifier.height(2.dp))
+                Text(description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            if (badge != null) {
+                Spacer(Modifier.height(8.dp))
+                Surface(shape = RoundedCornerShape(18.dp), color = MaterialTheme.colorScheme.primaryContainer) {
+                    Text(badge, modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
+}
+
 }
