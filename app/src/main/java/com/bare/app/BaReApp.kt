@@ -61,6 +61,11 @@ import com.bare.feature.apps.AppRestoreScreen
 import com.bare.feature.apps.AppsFilterScreen
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsToolsScreen
+import com.bare.feature.apps.AppsQuickActionsScreen
+import com.bare.feature.apps.AppLabelsScreen
+import com.bare.feature.apps.AppCustomConfigurationsScreen
+import com.bare.feature.apps.AppBlacklistScreen
+import com.bare.feature.apps.AppBackupSettingsScreen
 import com.bare.feature.home.HomeScreen
 import com.bare.feature.misc.CloudScreen
 import com.bare.feature.misc.GenericDomainScreen
