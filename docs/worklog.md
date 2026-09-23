@@ -5924,3 +5924,9 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 2. Runtime open App Detail on apps with and without Ext. data/Media.
 3. Compare visual hierarchy against Swift reference.
 4. Check overflow, storage chip actions, Backup entry, Device card, Cloud card.
+
+
+### Follow-up safety/performance fix
+- App Detail storage inspection now runs on `Dispatchers.IO` so recursive Ext. data / Media size measurement does not run on the Compose main thread.
+- Source commit: `5ba3d09d8eacd0eccdb36f20905a6b672bf90cde`.
+- Runtime performance: **UNVERIFIED** until device test.
