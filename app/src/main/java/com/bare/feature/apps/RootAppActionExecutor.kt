@@ -14,10 +14,10 @@ object RootAppActionExecutor {
     fun isRootAvailable(): Boolean = run("id -u")?.trim() == "0"
 
     fun disable(packageName: String): Boolean =
-        run("pm disable-user --user 0 $packageName")?.isNotBlank() == true
+        run("pm disable-user --user 0 $packageName") != null
 
     fun enable(packageName: String): Boolean =
-        run("pm enable $packageName")?.isNotBlank() == true
+        run("pm enable $packageName") != null
 
     fun forceStop(packageName: String): Boolean =
         run("am force-stop $packageName") != null
