@@ -5001,3 +5001,12 @@ Melanjutkan Apps per-app actions tanpa menghapus capability yang sudah ada. Impl
 
 ### Referensi Teknis
 Android mendokumentasikan pm clear, pm enable, pm disable-user, dan perintah package management melalui shell; public API PackageManager.setApplicationEnabledSetting juga mendefinisikan state enable/disable. ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS adalah jalur public untuk meminta exemption per package dan membutuhkan permission terkait. Evidence eksternal ini dipakai sebagai dasar feasibility, bukan bukti runtime device BaRe.
+
+
+## 2026-09-23 — Koreksi Root Action Executor
+
+- CI run 756 menemukan compile error karena string confirmation belum ada pada commit AppsFilter awal.
+- CI run 758 kemudian terverifikasi completed/success setelah string confirmation masuk.
+- RootAppActionExecutor dikoreksi agar command pm disable/enable yang sukses tanpa output tetap dianggap berhasil berdasarkan exit code, bukan keharusan output non-empty.
+- CI run 759 pada commit 51c03bb2815b215ecbff9bcc7ee49196f137091c terverifikasi completed/success.
+- Runtime device untuk jalur root/non-root tetap UNVERIFIED sampai action benar-benar dicoba pada device.
