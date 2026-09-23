@@ -306,6 +306,8 @@
     <string name="apps_system">System apps</string>
     <string name="apps_name_ascending">Name ↑</string>
     <string name="apps_name_descending">Name ↓</string>
+    <string name="apps_update_newest">Update ↓</string>
+    <string name="apps_update_oldest">Update ↑</string>
     <string name="apps_filter">Filter</string>
     <string name="apps_context">Context</string>
     <string name="apps_filters">Apps filters</string>
@@ -330,6 +332,8 @@
     <string name="relative_time_years">%1$d years ago</string>
     <string name="install_date_unavailable">Install date unavailable</string>
     <string name="update_date_unavailable">Update date unavailable</string>
+    <string name="last_updated_value">Last updated: %1$s (%2$s + Cache %3$s)</string>
+    <string name="select_all">Select all</string>
     <string name="usage_unavailable">Usage unavailable</string>
     <string name="close">Close</string>
     <string name="apps_local">Local apps</string>
