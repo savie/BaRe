@@ -426,6 +426,9 @@
     <string name="app_info_unavailable">Android App Info: unavailable</string>
     <string name="app_backup_surface_foundation_note">Backup inventory and backup execution remain separate downstream capabilities.</string>
     <string name="app_actions_foundation_note">Action availability is now exposed by the foundation; action execution is implemented only when its Android capability and verification path are established.</string>
+    <string name="confirm_disable_app">Disable %1$s?</string>
+    <string name="confirm_force_stop_app">Force stop %1$s?</string>
+    <string name="confirm_clear_data_app">Clear all app data for %1$s? This cannot be undone.</string>
     <string name="blacklist_hide_app">Hide the app (Do not backup/restore)</string>
     <string name="blacklist_apk_only_batch">Backup/Restore only APK in batch operations</string>
     <string name="battery_optimization_status_optimizing">Optimizing battery use</string>
