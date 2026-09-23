@@ -728,4 +728,32 @@
     <string name="diagnostics_refresh">Refresh</string>
     <string name="diagnostics_share">Share report</string>
     <string name="diagnostics_report_subject">BaRe diagnostics report</string>
+    
+    <string name="diagnostics_check_identity">Identity</string>
+    <string name="diagnostics_identity_ready">BaRe ID is available.</string>
+    <string name="diagnostics_identity_missing">Local identity is not available.</string>
+    <string name="diagnostics_check_storage">Storage</string>
+    <string name="diagnostics_storage_unavailable">Local storage is not available.</string>
+    <string name="diagnostics_storage_read_only">Local storage needs write access.</string>
+    <string name="diagnostics_storage_ready">Local storage is available.</string>
+    <string name="diagnostics_check_recovery">Recovery</string>
+    <string name="diagnostics_recovery_ready">Recovery is configured.</string>
+    <string name="diagnostics_recovery_missing_package">Recovery is configured, but the recovery package is not available.</string>
+    <string name="diagnostics_recovery_not_configured">Recovery is not configured.</string>
+    <string name="diagnostics_check_encryption">Encryption</string>
+    <string name="diagnostics_encryption_standard">Standard protection is selected.</string>
+    <string name="diagnostics_encryption_advanced">Advanced protection is configured.</string>
+    <string name="diagnostics_encryption_password_missing">Advanced protection needs a password.</string>
+    <string name="diagnostics_check_backups">Backups</string>
+    <string name="diagnostics_backups_ready">Local backup data is available.</string>
+    <string name="diagnostics_backups_not_available">No local backup data is available yet.</string>
+    <string name="diagnostics_report_title">BaRe diagnostics report</string>
+    <string name="diagnostics_report_app_version">App version: %1$s</string>
+    <string name="diagnostics_report_identity">BaRe ID: %1$s</string>
+    <string name="diagnostics_report_storage">Storage: %1$s</string>
+    <string name="diagnostics_report_recovery">Recovery: %1$s</string>
+    <string name="diagnostics_report_encryption">Encryption: %1$s</string>
+    <string name="diagnostics_report_backups">Backups: %1$s</string>
+    <string name="diagnostics_report_health">Health</string>
+    <string name="diagnostics_report_activity">Recent activity</string>
     </resources>
