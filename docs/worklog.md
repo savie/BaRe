@@ -5511,3 +5511,38 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 3. Uji Apps reload/scroll dan amati apakah icon tetap benar tanpa cache.
 4. Buka Manage Space dan cek ukuran BaRe cache.
 5. Jika perlu, ukur penggunaan RAM/performa sebelum vs sesudah; jangan klaim improvement tanpa evidence.
+
+
+## 2026-09-23 — Perbaikan build Manage Space
+
+### Authorization
+
+- **USER GO:** inspection, fix, dan lanjut sampai blocker build dibereskan.
+
+### Temuan
+
+- CI build gagal pada `ManageSpaceScreen.kt:138:43` dengan error `Unresolved reference 'DeleteSweep'`.
+- Inspection source memastikan `Icons.Outlined.DeleteSweep` memang dipakai pada card **BaRe cache**.
+- Search repository tidak menemukan penggunaan/reference `DeleteSweep` lain yang bisa dijadikan bukti bahwa icon tersebut tersedia di dependency saat ini.
+- Icon `Delete` sudah dipakai di file yang sama dan terbukti tersedia karena source sebelumnya menggunakannya.
+
+### Perubahan
+
+- Mengganti icon BaRe cache dari `Icons.Outlined.DeleteSweep` menjadi `Icons.Outlined.Delete`.
+- Tidak mengubah logic measurement cache, storage formula, atau perilaku lain.
+
+### Commit
+
+- `faefa55ee1349389004382d1e2d859ce7f4ba4de` — `fix: use available icon for BaRe cache card`
+
+### Truth / Verification
+
+- Source fix: **IMPLEMENTED**.
+- Compile/build setelah fix: **PENDING**.
+- Runtime UI: **UNVERIFIED**.
+
+### Berikutnya
+
+1. Cek hasil CI untuk commit fix.
+2. Jika masih gagal, ambil error compile terbaru dan perbaiki blocker berikutnya.
+3. Jika hijau, lanjut ke artifact/device test.
