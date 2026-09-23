@@ -38,7 +38,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.FlashOn
-import androidx.compose.material.icons.filled.LabelOutline
+import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Block
 import androidx.compose.material.icons.filled.Android
@@ -656,7 +656,7 @@ private fun MainShell(
                         appsMenuOpen = false
                         onOpenScreen(Screen.APP_QUICK_ACTIONS)
                     })
-                    AppsDrawerItem(Icons.Default.LabelOutline, stringResource(R.string.app_labels), stringResource(R.string.app_labels_description), onClick = {
+                    AppsDrawerItem(Icons.Default.Label, stringResource(R.string.app_labels), stringResource(R.string.app_labels_description), onClick = {
                         appsMenuOpen = false
                         onOpenScreen(Screen.APP_LABELS)
                     })
