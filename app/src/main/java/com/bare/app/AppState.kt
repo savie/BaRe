@@ -13,7 +13,7 @@ enum class Tab(@StringRes val titleRes: Int, val icon: ImageVector) {
 }
 
 enum class Screen(val title: String) {
-    NONE(""), SEARCH("Search"), APPS_SEARCH("Apps search"), APPS_TOOLS("Apps tools"), APP_DETAIL("App"), APP_BACKUP("App backup"), APP_BACKUPS("App backups"), APP_MANAGEMENT("App management"), APP_CONFIG("App configuration"), APP_DIAGNOSTICS("App diagnostics"), APP_RESTORE("App restore"), APP_QUICK_ACTIONS("Apps quick actions"), APP_LABELS("App labels"), APP_CUSTOM_CONFIG("Custom configurations"), APP_BLACKLIST("Blacklist apps"), APP_BACKUP_SETTINGS("App backups settings"),
+    NONE(""), SEARCH("Search"), APPS_SEARCH("Apps search"), APP_DETAIL("App"), APP_BACKUP("App backup"), APP_BACKUPS("App backups"), APP_MANAGEMENT("App management"), APP_CONFIG("App configuration"), APP_DIAGNOSTICS("App diagnostics"), APP_RESTORE("App restore"), APP_QUICK_ACTIONS("Apps quick actions"), APP_LABELS("App labels"), APP_CUSTOM_CONFIG("Custom configurations"), APP_BLACKLIST("Blacklist apps"), APP_BACKUP_SETTINGS("App backups settings"),
     FOLDERS("Folders"), MESSAGES("Messages"), CALL_LOGS("Call Logs"), WIFI("Wi-Fi"),
     WALLPAPERS("Wallpapers"), STORAGE("Storage"), CLOUD("Cloud sync"),
     MANAGEMENT("Management"), MANAGE_SPACE("Manage space"), DIAGNOSTICS("Diagnostics"), SETTINGS("Settings"), BARE_LABS("BaRe Labs"), BARE_LOGGER("BaRe Logger"), APP_VISIBILITY_DIAGNOSTICS("App visibility diagnostics"), LOCAL_BACKUP_SCAN("Scan local app backups"), ENCRYPTION_PASSWORD_STRATEGY("Encryption password strategy"), USER_PASSWORD("Set user password"),
