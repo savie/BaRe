@@ -32,6 +32,7 @@ class InstalledAppRepository(private val context: Context) {
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
+                    icon = runCatching { info.loadIcon(packageManager) }.getOrNull(),
                 )
             }
             .sortedBy { it.name.lowercase() }
