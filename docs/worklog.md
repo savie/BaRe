@@ -4928,3 +4928,6 @@ GO untuk implementasi bottom sheet saat tombol `⋮` pada setiap app card diteka
 - CI #739 untuk commit tersebut: **SUCCESS**.
 - Assemble debug APK, artifact verification, signing verification, labeling, dan upload berhasil; in-place device update tetap skipped.
 - Device/runtime: **UNVERIFIED**.
+
+- Koreksi final commit `8e125d24c2e3ac337decccafb5be966608c976a6`: Share APK tetap terlihat pada action surface tetapi disabled karena backend APK-sharing belum verified; tidak diarahkan ke workflow yang tidak sesuai.
+- CI #740 untuk commit final: **SUCCESS**.
