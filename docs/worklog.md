@@ -5854,3 +5854,9 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 1. Cek GitHub Actions untuk commit `bd4a2837516e19c3b7b1e8659771910b342615da`.
 2. Jika masih merah, ambil error pertama dan perbaiki.
 3. Jika green, lanjut runtime test App Detail sesuai entry sebelumnya.
+
+
+### Verification follow-up
+- Re-read `strings.xml` after commit `bd4a2837516e19c3b7b1e8659771910b342615da`: **0 duplicate resource names**.
+- Attempted local Gradle build from the repository, but the execution environment could not resolve `github.com`; therefore local build result is **BLOCKED**, not failed by Gradle.
+- GitHub connector currently exposes no workflow run/status for the fix commit through the available commit-run endpoint, so CI green is **UNVERIFIED** from this session.
