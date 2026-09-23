@@ -115,7 +115,7 @@ fun ManageSpaceScreen(
                 ManageSpaceCard(
                     title = if (identityId == null) stringResource(R.string.manage_space_local_identity) else stringResource(R.string.manage_space_local_backup_storage),
                     body = buildString {
-                        append(if (identityId == null) stringResource(R.string.manage_space_no_local_identity) else "${stringResource(R.string.app_text)} local backup data")
+                        append(if (identityId == null) context.getString(R.string.manage_space_no_local_identity) else "${context.getString(R.string.app_text)} local backup data")
                         append("\n")
                         append(stringResource(R.string.manage_space_backup_files, formatBytes(context, backupBytes)))
                         append("\n")
