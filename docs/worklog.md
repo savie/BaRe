@@ -5599,3 +5599,54 @@ BaRe own disk-cache measurement = NOT IMPLEMENTED
 1. Cek CI build commit source terakhir.
 2. Jika gagal, ambil error dan perbaiki.
 3. Jika hijau, lanjut runtime check text + Apps loading.
+
+
+## 2026-09-23 — Fix Apps sort ukuran APK (#777)
+
+### Authorization
+
+- USER GO: cek penyebab App size: Unknown size pada runtime #777 lalu perbaiki.
+
+### Observed
+
+- Runtime #777 dari user menunjukkan inventory berhasil membaca 494 apps.
+- Semua card menampilkan App size: Unknown size ketika memakai sort ukuran.
+- Source AppsFilter sebelumnya mengurutkan APP_SIZE memakai totalSizeBytes.
+- InstalledAppRepository mengisi field tampilan size dari StorageStats.appBytes + dataBytes.
+- storageStats() membungkus queryStatsForPackage() dengan runCatching(...).getOrNull(), sehingga kegagalan query berubah menjadi null dan akhirnya ditampilkan sebagai Unknown size.
+
+### Reconcile
+
+- AppItem sudah memiliki field apkSizeBytes.
+- Source juga sudah menghitung base APK + split APK dari ApplicationInfo.sourceDir dan splitSourceDirs.
+- AppDetailsRepository memakai model yang sama untuk menghitung ukuran APK.
+- Android mendokumentasikan bahwa akses statistik usage untuk app lain bergantung pada PACKAGE_USAGE_STATS, dan permission tersebut harus diberikan melalui Settings; deklarasi di manifest saja tidak berarti akses sudah granted.
+- Karena user secara spesifik meminta sort by size APK, jalur Apps list tidak perlu bergantung pada StorageStatsManager untuk nilai yang ditampilkan dan disortir.
+
+### Change
+
+- InstalledAppRepository sekarang menghitung apkSizeBytes sekali per app dan memakai angka tersebut untuk field size.
+- AppsFilter sekarang mengurutkan APP_SIZE memakai apkSizeBytes, bukan totalSizeBytes.
+- StorageStats tetap dipertahankan pada installedSizeBytes, dataSizeBytes, cacheSizeBytes, dan totalSizeBytes untuk kebutuhan storage aggregate/detail berikutnya.
+
+### Commits
+
+- 3ac633dffa6ee16e48a8383833c8cf65fcd7ce06 — fix: use APK size for Apps size sort
+- c931d8488979b139882c08a55ca052cdad2dc027 — fix: sort Apps by APK size
+
+### Truth / Verification
+
+- Source fix: IMPLEMENTED.
+- GitHub diff: VERIFIED STATIC.
+- CI untuk kedua commit: PENDING; connector belum mengembalikan workflow run untuk commit tersebut.
+- Runtime setelah fix: UNVERIFIED.
+- StorageStats aggregate belum dihapus; hanya tidak lagi menjadi sumber nilai sort/tampilan APK size pada Apps list.
+- Belum boleh menyatakan #777 runtime sudah fixed sebelum APK hasil build baru diuji pada device.
+
+### Next
+
+1. Tunggu/cek CI untuk commit terbaru.
+2. Jika build hijau, pasang APK baru.
+3. Uji sort APK size ascending/descending.
+4. Pastikan card menampilkan ukuran nyata, bukan Unknown size.
+5. Setelah runtime terbukti, baru catat hasil verification.
