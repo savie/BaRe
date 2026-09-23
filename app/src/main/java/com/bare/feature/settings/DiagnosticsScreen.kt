@@ -48,7 +48,7 @@ fun DiagnosticsScreen(onBack: () -> Unit) {
                         showDeleteConfirmation = false
                     },
                 ) {
-                    Text(stringResource(R.string.delete))
+                    Text(stringResource(R.string.diagnostics_delete_logs))
                 }
             },
             dismissButton = {
