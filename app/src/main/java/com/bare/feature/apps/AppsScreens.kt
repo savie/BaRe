@@ -534,7 +534,7 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
     var showPicker by remember { mutableStateOf(false) }
     var draft by remember { mutableStateOf<Set<String>>(emptySet()) }
     fun refresh() {
-        apps = runCatching { repository.load() }.getOrDefault(emptyList())
+        apps = runCatching { inventory.load() }.getOrDefault(emptyList())
         blacklisted = store.blacklistedPackages()
     }
     LaunchedEffect(inventory) { refresh() }
