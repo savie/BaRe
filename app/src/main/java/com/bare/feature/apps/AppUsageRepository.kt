@@ -16,18 +16,19 @@ class AppUsageRepository(private val context: Context) {
             context.packageName,
         ) == AppOpsManager.MODE_ALLOWED
 
-    fun loadLastUsed(): Map<String, Long> {
+    fun loadLastUsed(installedPackages: Set<String>): Map<String, Long> {
         if (!hasUsageAccess()) return emptyMap()
 
         val now = System.currentTimeMillis()
         val stats = usageStats.queryUsageStats(
             UsageStatsManager.INTERVAL_BEST,
-            now - 365L * 24L * 60L * 60L * 1000L,
+            now - 30L * 24L * 60L * 60L * 1000L,
             now,
         )
         return stats
             .asSequence()
-            .filter { it.lastTimeUsed > 0L }
+            .filter { it.lastTimeUsed > 0L && it.lastTimeUsed > now - 365L * 24L * 60L * 60L * 1000L }
+            .filter { it.packageName in installedPackages }
             .groupBy { it.packageName }
             .mapValues { (_, values) -> values.maxOf { it.lastTimeUsed } }
     }
