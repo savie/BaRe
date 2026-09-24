@@ -38,9 +38,6 @@ import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
-import com.bare.recovery.BaReMasterKeyStore
-import com.bare.recovery.RecoveryArtifactRepository
-import com.bare.storage.BackupStorageBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -54,10 +51,8 @@ fun RecoveryScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
-    val repository = remember(context) { RecoveryArtifactRepository(context) }
-    val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
-    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
-        val scope = rememberCoroutineScope()
+    val recoveryBehavior = remember(context) { RecoveryBehavior(context) }
+    val scope = rememberCoroutineScope()
 
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
@@ -76,14 +71,7 @@ fun RecoveryScreen(
                     val recoveryPassword = recoveryPasswordStore.loadPassword()
                         ?: error(context.getString(R.string.recovery_password_required))
                     try {
-                        val decoded = repository.import(uri, recoveryPassword)
-                        if (identityStore.hasConflictingIdentity(decoded.payload)) {
-                            error(context.getString(R.string.recovery_identity_conflict))
-                        }
-                        masterKeyStore.saveImported(decoded.masterKey)
-                        identityStore.restoreFromRecovery(decoded.payload)
-                        identityStore.load()
-                            ?: error(context.getString(R.string.storage_identity_unavailable))
+                        recoveryBehavior.import(uri, recoveryPassword)
                     } finally {
                         recoveryPassword.fill('\u0000')
                     }
@@ -115,18 +103,8 @@ fun RecoveryScreen(
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) {
-                    val payload = identityStore.toRecoveryPayload()
-                    val kind = storageBehavior.selectedKind()
-                    val recoveryDirectory = storageBehavior
-                        .initialize(payload.identityId, kind)
-                        .recoveryDirectory
                     try {
-                        repository.exportToFile(
-                            directory = recoveryDirectory,
-                            payload = payload,
-                            masterKey = masterKeyStore.getOrCreate(),
-                            password = recoveryPassword,
-                        )
+                        recoveryBehavior.export(recoveryPassword)
                     } finally {
                         recoveryPassword.fill('\u0000')
                     }
