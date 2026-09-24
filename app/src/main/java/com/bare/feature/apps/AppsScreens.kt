@@ -44,7 +44,7 @@ private enum class AppSort { NAME, UPDATE }
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
     val context = LocalContext.current
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
@@ -57,8 +57,8 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
 
     BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
 
-    LaunchedEffect(repository) {
-        runCatching { repository.load() }
+    LaunchedEffect(inventory) {
+        runCatching { inventory.load() }
             .onSuccess { apps = it; error = null }
             .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
     }
@@ -292,11 +292,11 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
 @Composable
 fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
     val context = LocalContext.current
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var query by remember { mutableStateOf("") }
 
-    LaunchedEffect(repository) { apps = runCatching { repository.load() }.getOrDefault(emptyList()) }
+    LaunchedEffect(inventory) { apps = runCatching { repository.load() }.getOrDefault(emptyList()) }
     val matches = remember(apps, query) {
         val q = query.trim().lowercase()
         if (q.isBlank()) emptyList() else apps.filter {
@@ -405,7 +405,7 @@ private fun QuickActionCard(title: String, subtitle: String, firstAction: String
 fun AppLabelsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val store = remember(context) { AppOrganizationBehavior(context) }
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var labels by remember { mutableStateOf<Set<String>>(emptySet()) }
     var newLabel by remember { mutableStateOf("") }
