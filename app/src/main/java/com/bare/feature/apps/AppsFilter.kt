@@ -985,15 +985,15 @@ fun AppsFilterScreen(
                     item {
                         Text(stringResource(R.string.miscellaneous), fontWeight = FontWeight.SemiBold)
                         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                            listOf(
-                                context.getString(R.string.apps_with_multiple_backups),
-                                context.getString(R.string.apps_with_protected_backups),
-                                context.getString(R.string.backups_with_notes),
-                                context.getString(R.string.backups_with_older_apks),
-                                context.getString(R.string.backups_with_newer_apks),
-                            ).forEach { label ->
-                                FilterChip(selected = pendingFilter.multipleBackups == MultipleBackupFilter.MULTIPLE, onClick = { pendingFilter = pendingFilter.copy(multipleBackups = if (pendingFilter.multipleBackups == MultipleBackupFilter.MULTIPLE) MultipleBackupFilter.ALL else MultipleBackupFilter.MULTIPLE) }, label = { Text(context.getString(R.string.apps_with_multiple_backups)) })
-                            }
+                            FilterChip(
+                                selected = pendingFilter.multipleBackups == MultipleBackupFilter.MULTIPLE,
+                                onClick = { pendingFilter = pendingFilter.copy(multipleBackups = if (pendingFilter.multipleBackups == MultipleBackupFilter.MULTIPLE) MultipleBackupFilter.ALL else MultipleBackupFilter.MULTIPLE) },
+                                label = { Text(context.getString(R.string.apps_with_multiple_backups)) },
+                            )
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.apps_with_protected_backups)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_notes)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_older_apks)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_newer_apks)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.installed_from_google_play)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_installed_from_google_play)) })
                         }
