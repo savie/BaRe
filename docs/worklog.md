@@ -3599,6 +3599,7 @@ User authorized continuing the Date issue and External Data investigation. User 
 
 ### Implementation
 - 278a0e57f35218e3b5831e76b01c62c8dfa1c705 — fix(apps): wire three-dot label action to editor
+- 12f917788ac55897faa7b7d9a786ccadddf58ac0 — fix(apps): qualify label editor material components
 - Apps three-dot "Set app labels" now opens a local Label editor directly instead of routing to the Management mockup.
 - Existing labels are prefilled.
 - Labels are saved through AppOrganizationBehavior.setLabels() using the same comma-separated semantics as App Detail.
@@ -3607,7 +3608,7 @@ User authorized continuing the Date issue and External Data investigation. User 
 
 ### Verification
 - Source update: **COMMITTED** on v1.0/rebaseline.
-- CI for this new commit: **PENDING / UNVERIFIED** at time of recording.
+- GitHub Actions run #963 for 12f917788 is **IN PROGRESS**; CI is not yet verified green.
 - Device/runtime E2E: **NOT RUN by intent**, deferred for combined retest with Date + External Data.
 
 ### Next
