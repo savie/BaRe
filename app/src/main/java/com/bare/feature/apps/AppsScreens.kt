@@ -1703,54 +1703,6 @@ fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
     }
 }
 
-private fun formatRelativeAppTime(context: Context, timestamp: Long): String {
-    if (timestamp <= 0L || timestamp > System.currentTimeMillis()) {
-        return context.getString(R.string.relative_time_unavailable)
-    }
-    val delta = System.currentTimeMillis() - timestamp
-    val minute = 60_000L
-    val hour = 60L * minute
-    val day = 24L * hour
-    val days = delta / day
-    return when {
-        delta < minute -> context.getString(R.string.relative_time_just_now)
-        delta < hour -> {
-            val value = delta / minute
-            context.getString(if (value == 1L) R.string.relative_time_minute else R.string.relative_time_minutes, value)
-        }
-        delta < day -> {
-            val value = delta / hour
-            context.getString(if (value == 1L) R.string.relative_time_hour else R.string.relative_time_hours, value)
-        }
-        days < 7 -> context.getString(if (days == 1L) R.string.relative_time_day else R.string.relative_time_days, days)
-        days < 30 -> {
-            val value = days / 7L
-            context.getString(if (value == 1L) R.string.relative_time_week else R.string.relative_time_weeks, value)
-        }
-        days < 365 -> {
-            val value = days / 30L
-            context.getString(if (value == 1L) R.string.relative_time_month else R.string.relative_time_months, value)
-        }
-        else -> {
-            val value = days / 365L
-            context.getString(if (value == 1L) R.string.relative_time_year else R.string.relative_time_years, value)
-        }
-    }
-}
-
-private fun formatAppSize(bytes: Long): String {
-    if (bytes <= 0L) return "0 B"
-    val units = arrayOf("B", "KB", "MB", "GB")
-    var value = bytes.toDouble()
-    var index = 0
-    while (value >= 1024 && index < units.lastIndex) {
-        value /= 1024
-        index++
-    }
-    return if (index == 0) "${bytes} ${units[index]}" else "%.1f %s".format(value, units[index])
-}
-
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
