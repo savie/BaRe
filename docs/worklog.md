@@ -2550,3 +2550,62 @@ Pengguna memberikan **GO** untuk melanjutkan implementation **Share APK** setela
 3. Verifikasi chooser muncul dan receiver dapat membaca URI APK.
 4. Verifikasi package split APK bila ada: semua URI dapat dibaca.
 5. Setelah evidence runtime, baru ubah status capability Share APK dari IMPLEMENTED menjadi RUNTIME_TESTED/VERIFIED sesuai hasil.
+
+
+## 2026-09-24 — GO: Pisahkan App Data Backup dan External Data Backup
+
+### Authorization
+Pengguna memberikan GO untuk melanjutkan refactor capability backup dengan batas eksplisit: **App Data backup harus menjadi behavior terpisah dari External Data backup**. Scope ini tidak memperluas ke Media atau Cloud.
+
+### Perubahan
+- Menambahkan AppBackupPart sebagai semantic part contract: APK, DATA, EXTERNAL_DATA, MEDIA.
+- AppBackupBehavior sekarang menjadi orchestrator untuk part backup, bukan lagi menerima arbitrary string part.
+- Menambahkan AppDataBackupBehavior untuk app-private data dari ApplicationInfo.dataDir.
+- Menambahkan AppExternalDataBackupBehavior untuk Android/data/<packageName> pada external storage.
+- Menambahkan AppBackupPartResult sebagai result contract bersama antar behavior part.
+- Menambahkan RootCapabilityProvider.copyDirectory() sebagai primitive rooted directory-copy; UI tidak menjalankan shell/copy logic langsung.
+- APK tetap dipertahankan sebagai jalur tersendiri dan menggunakan staging sebelum finalisasi agar kegagalan copy tidak menghapus directory part lain.
+- Data disimpan pada subtree backup version data/; external data disimpan terpisah pada external-data/.
+- UI AppBackupScreen sekarang memetakan pilihan APKs, Data, Ext. data, dan Media ke AppBackupPart; Media tetap ditolak explicit.
+- Ringkasan UI diperbarui agar tidak lagi menyatakan seluruh backup execution masih pending: Device mendukung APK, app data, dan external app data pada source; Media dan Cloud tetap unavailable.
+
+### Commit
+- b9530902506076f1778b34ba7503669a4002e7d5 — add backup part result contract.
+- b74c3abf11474c31365393bdc20cfc8953669eaa — add app data backup behavior.
+- bb182073541b901612d9cefba836ee3ba864ed56 — add external data backup behavior.
+- 5a7a53ef91af04a7c8af56f1390d0ab2f1051f95 — support rooted directory copy.
+- 79fc883fb436425722c6b3e9bb5539ca27dfac36 — separate app and external data backup orchestration.
+- 3735193cfd7dc80cddb854584d59d3d5e0a68b1b — keep external data behavior independent.
+- bc10f111c580df2d8672ce38e063b395f3a4f43c — wire separate backup parts into Apps UI.
+- 77e206b7038e11b74c66e7ef46f3bde9009d85f6 — update backup capability summary text.
+- a644d8660f00882516e047dbaeddedd2793c2a9a — replace app data backup directory before copy.
+- ad39ba4065786c7ae811cb84dbe3f1df59443d30 — replace external data backup directory before copy.
+- 846d35a5fccb29bc1070ec61dd1d3e9f82d8a2b2 — harden APK backup finalization.
+
+### Static Verification
+- AppBackupBehavior.kt terobservasi memakai enum part, AppDataBackupBehavior, dan AppExternalDataBackupBehavior.
+- AppDataBackupBehavior.kt dan AppExternalDataBackupBehavior.kt memiliki execution path terpisah.
+- RootCapabilityProvider.copyDirectory() menjadi shared rooted primitive; UI tetap tidak memiliki shell/copy implementation.
+- AppBackupScreen terobservasi memetakan empat pilihan UI ke semantic AppBackupPart.
+- Storage boundary terpisah: data/ dan external-data/.
+- Media dan Cloud tetap explicit Unsupported pada orchestrator.
+
+### Verification State
+- Source/static: **VERIFIED** pada re-fetch setelah perubahan.
+- CI/build setelah refactor: **UNVERIFIED**; workflow connector belum memberikan run/status untuk checkpoint code terbaru 846d35a5fccb29bc1070ec61dd1d3e9f82d8a2b2.
+- Runtime App Data backup: **UNVERIFIED**.
+- Runtime External Data backup: **UNVERIFIED**.
+- Runtime combined APK + Data + External Data: **UNVERIFIED**.
+- Permission/root prerequisite dan kemampuan device membaca private app data: **UNVERIFIED**.
+
+### Boundary
+- App Data dan External Data sengaja tidak digabung menjadi satu behavior.
+- Media belum diimplementasikan pada slice ini.
+- Cloud belum diimplementasikan.
+- Restore/history belum diubah.
+- Tidak mengklaim runtime success hanya karena source path sudah ada.
+
+### Berikutnya
+- Tunggu/observasi CI untuk checkpoint code terbaru.
+- Jika build green, runtime test terpisah: APK, App Data, External Data, lalu kombinasi part.
+- Setelah evidence runtime, lanjut residual refactor Apps sesuai priority; jangan memperluas ke Media/Cloud tanpa dependency dan authorization baru.
