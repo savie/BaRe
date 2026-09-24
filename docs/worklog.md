@@ -2855,3 +2855,16 @@ Home / Settings / Recovery / Apps / App shell
 
 ### Next Gate
 Observe CI for the latest P2 checkpoint. If green, P2 is source/build gated and P3 may proceed under the existing GO sequence. P4 strings remains separate and is not included in P2.
+
+
+## 2026-09-24 — P2 Build #862 Fix
+
+Build #862 pada `ff317607c04538be7b46e6b76f0f90c53d1d1ff7` dilaporkan gagal. Commit tersebut menghapus `LocalBackupStorageService.kt` ketika branch pada saat itu masih memiliki client yang merujuk helper lama; kemudian wiring P2 berikutnya memindahkan client-client tersebut ke `BackupStorageBehavior`.
+
+Pada state branch saat ini, targeted static inspection menunjukkan reference `initializeLocalBackupStorage`, direct `BackupStorageRepository`, dan direct `StorageConfigurationStore` pada client P2 sudah tidak ada.
+
+Ditemukan satu compile-risk pada state P2 setelah wiring: `BackupStorageBehavior.initialize()` sempat dibuat `suspend`, sementara `AppBackupBehavior.backup()` adalah synchronous dan memanggilnya langsung. Boundary tersebut dikembalikan menjadi synchronous karena `BackupStorageRepository.initialize()` sendiri synchronous; caller yang membutuhkan background execution tetap mengendalikan dispatcher di layer pemanggil.
+
+Fix commit: `1530a44e39f846683c6ed58d99565b764a115eba` — `fix(storage): keep initialization boundary synchronous`.
+
+Verification: source/static **VERIFIED**; CI untuk fix commit **PENDING/UNVERIFIED**; E2E **NOT RUN**.
