@@ -16,8 +16,15 @@ class AppUsageRepository(private val context: Context) {
             context.packageName,
         ) == AppOpsManager.MODE_ALLOWED
 
+    fun ensureUsageAccess(): Boolean {
+        if (hasUsageAccess()) return true
+        if (!RootAppActionExecutor.isRootAvailable()) return false
+        if (!RootAppActionExecutor.setUsageAccess(context.packageName)) return false
+        return hasUsageAccess()
+    }
+
     fun loadLastUsed(installedPackages: Set<String>): Map<String, Long> {
-        if (!hasUsageAccess()) return emptyMap()
+        if (!ensureUsageAccess()) return emptyMap()
 
         val now = System.currentTimeMillis()
         val stats = usageStats.queryUsageStats(
