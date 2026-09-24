@@ -2609,3 +2609,146 @@ Pengguna memberikan GO untuk melanjutkan refactor capability backup dengan batas
 - Tunggu/observasi CI untuk checkpoint code terbaru.
 - Jika build green, runtime test terpisah: APK, App Data, External Data, lalu kombinasi part.
 - Setelah evidence runtime, lanjut residual refactor Apps sesuai priority; jangan memperluas ke Media/Cloud tanpa dependency dan authorization baru.
+
+
+## 2026-09-24 — Audit Reconciliation: Recursive app/ vs Apps-Only Refactor
+
+### Tujuan
+Audit ulang dilakukan sebelum refactor lanjutan untuk memisahkan:
+- capability/domain yang memang layak memiliki satu entry point;
+- implementation yang hanya milik satu feature dan tidak perlu dipaksa menjadi behavior;
+- dependency yang beririsan antar-feature dan perlu boundary bersama;
+- residual direct access yang masih membuat UI menjadi implementation owner;
+- hardcoded user-facing text yang seharusnya menggunakan resource string.
+
+### Scope Aktual yang Terobservasi
+Source tree branch `v1.0/rebaseline` pada checkpoint audit memiliki **56 file Kotlin** di `app/src/main/java`:
+- `com/bare`: 1
+- `app`: 4
+- `capability`: 3
+- `feature/account`: 3
+- `feature/apps`: 16
+- `feature/home`: 1
+- `feature/misc`: 1
+- `feature/onboarding`: 2
+- `feature/schedules`: 1
+- `feature/settings`: 12
+- `recovery`: 5
+- `storage`: 3
+- `ui`: 2
+- `ui/components`: 1
+- `ui/theme`: 1
+
+Dengan demikian, audit ini bukan lagi menganggap Apps sebagai keseluruhan aplikasi. Apps memang memiliki jumlah source terbesar, tetapi dependency lintas-feature juga ditemukan.
+
+### Kesimpulan Audit
+**Refactor behavior tidak seharusnya dilakukan berdasarkan folder.** Boundary yang tepat adalah domain/capability/operation yang mempunyai owner dan contract jelas.
+
+Model yang dipakai:
+```
+UI
+ ↓
+Behavior / Use-case entry point
+ ↓
+Repository / Capability / Platform boundary
+```
+
+Tidak semua repository harus dibungkus behavior. Jika sebuah repository memang sudah menjadi single owner untuk satu operasi dan hanya dipakai sebagai data boundary, repository dapat tetap menjadi owner. Behavior diperlukan ketika beberapa UI/client perlu satu aturan/orchestrasi yang sama atau ketika UI saat ini menjalankan business/capability logic.
+
+### Apps — Status
+Apps sudah memiliki beberapa behavior yang benar dan layak dipertahankan:
+- `AppActionBehavior`
+- `AppOrganizationBehavior`
+- `AppInventoryBehavior`
+- `AppFormatters`
+- `AppBackupBehavior`
+- `AppShareBehavior`
+
+Tetapi Apps belum bersih:
+- `AppsFilter.kt` masih memiliki banyak hardcoded user-facing strings.
+- `AppsScreens.kt` masih sangat besar dan mencampur beberapa screen + presentation state + sebagian orchestration.
+- `AppDetailsRepository` dan `AppUsageRepository` tetap menjadi repository boundary; tidak otomatis perlu behavior baru jika belum ada cross-client orchestration.
+- `MiscScreens.kt` masih langsung membuat `InstalledAppRepository`; ini residual coupling yang seharusnya diarahkan ke `AppInventoryBehavior`.
+- `AppsScreens.kt` masih memiliki beberapa mockup action untuk restore/delete/enable/disable/force stop/protected backup. Mockup tersebut bukan bukti capability backend.
+- `AppsFilter.kt` masih langsung mengakses usage repository dan Settings intent untuk Usage Access. Ini perlu boundary audit terpisah; tidak otomatis dipindahkan ke Apps behavior jika capability tersebut memang merupakan platform/access boundary.
+- `AppDetailsRepository` masih membaca PackageManager/root/external paths; ini merupakan kandidat data/provider boundary, tetapi refactor harus mempertahankan owner repository dan tidak menduplikasi logic.
+
+### Cross-Feature — Kandidat Refactor Nyata
+1. **Installed app inventory**
+   - Owner: `InstalledAppRepository`
+   - Entry point yang sudah tersedia: `AppInventoryBehavior`
+   - Residual: `MiscScreens.kt` masih bypass behavior.
+   - Action candidate: route Misc ke existing behavior; tidak membuat behavior kedua.
+
+2. **Backup storage state**
+   - Direct usage ditemukan di `BaReApp.kt`, `HomeScreen.kt`, `RecoveryScreen.kt`, `SettingsScreen.kt`, `LocalBackupScanScreen.kt`, dan `ManageSpaceScreen.kt`.
+   - Owner saat ini: `BackupStorageRepository`.
+   - Ini adalah dependency lintas-feature yang nyata.
+   - Candidate: satu storage-facing behavior/read facade untuk operasi yang memang merupakan application use-case, sementara repository tetap menjadi persistence/storage owner.
+   - Jangan memindahkan seluruh `BackupStorageRepository` ke UI atau menggandakan storage logic per screen.
+
+3. **Local identity/setup**
+   - Direct usage ditemukan terutama pada app shell, onboarding, recovery.
+   - `LocalIdentityStore` tetap valid sebagai persistence owner.
+   - Candidate behavior hanya untuk workflow lintas-step seperti setup/recovery/session orchestration, bukan wrapper kosong untuk setiap getter/setter.
+
+4. **Recovery**
+   - `RecoveryScreen.kt` masih mengorkestrasi beberapa store/repository secara langsung.
+   - Ini kandidat kuat untuk behavior/use-case boundary karena import/export recovery merupakan workflow, bukan sekadar persistence read/write.
+   - Existing `RecoveryArtifactRepository`, `RecoveryPackageCodec`, dan `RecoveryStorageBoundary` tetap menjadi lower-level owners.
+
+5. **Settings / capability access**
+   - `SettingsScreen.kt` dan onboarding masih melakukan beberapa Android settings intents/platform checks langsung.
+   - Tidak semua direct platform call salah.
+   - Yang layak dipindah adalah capability decision/workflow yang digunakan lintas surface; intent navigation yang murni presentation dapat tetap berada di UI.
+
+### User-Facing Text — Finding
+Ditemukan hardcoded UI text pada beberapa source aktual, terutama:
+- `AppsFilter.kt`
+- `AppsScreens.kt`
+- `BaReApp.kt`
+- `OnboardingScreens.kt`
+- `HomeScreen.kt`
+
+Contoh aktual yang terobservasi:
+- `Text("Local apps")`
+- `Text("Cloud synced apps — not wired yet")`
+- `Text("SORT")`
+- `Text("FILTER")`
+- `Text("Favorites")`
+- `Text("APPLY")`
+- `Text("CANCEL")`
+- `Text("Runtime behavior is pending...")`
+
+Ini **finding**, bukan langsung diperbaiki pada audit ini. Refactor text harus dilakukan melalui `strings.xml` dan tetap mempertahankan semantics UI.
+
+### Prinsip Boundary yang Dipakai Selanjutnya
+- Jangan membuat satu behavior untuk satu folder.
+- Jangan membuat wrapper behavior kosong hanya untuk memanggil satu repository method.
+- Satu behavior boleh menangani beberapa operasi jika semuanya satu domain/capability dan memiliki policy yang sama.
+- Jika behavior sudah ada, client baru harus menggunakan behavior tersebut; jangan membuat behavior kedua.
+- Repository/store tetap menjadi owner persistence/data access.
+- Capability provider tetap menjadi owner platform/root primitive.
+- UI tidak menjadi owner business rule/copy/shell/storage policy.
+- Cross-feature shared capability mendapat satu boundary bersama hanya jika ada evidence penggunaan lintas-feature.
+
+### Verification State
+- Recursive source inventory: **VERIFIED STATIC** terhadap tree branch `v1.0/rebaseline`.
+- Apps scope: **VERIFIED STATIC**.
+- Cross-feature candidates: **OBSERVED** dari source yang diperiksa.
+- Exhaustive semantic audit setiap baris dari seluruh 56 file: **NOT CLAIMED**; audit ini adalah structural/dependency audit, bukan line-by-line proof of every implementation.
+- Hardcoded text findings: **OBSERVED**.
+- Runtime state: tidak berubah dan tidak diverifikasi ulang dalam audit ini.
+- CI: tidak digunakan sebagai bukti refactor karena audit ini belum melakukan build.
+
+### Decision Boundary
+Tidak ada code change pada audit ini. Audit hanya menghasilkan map refactor.
+
+Urutan kandidat setelah verification gate:
+1. route `MiscScreens` ke existing `AppInventoryBehavior`;
+2. audit dan rapikan shared backup-storage access lintas feature;
+3. refactor recovery workflow menjadi behavior/use-case boundary;
+4. rapikan hardcoded user-facing strings melalui `strings.xml`;
+5. baru lanjut residual Apps behavior yang memang terbukti memiliki shared policy.
+
+App Data / External Data implementation yang baru saja dibuat tetap berada pada Apps domain dan **tidak diperluas** ke Media/Cloud pada audit ini.
