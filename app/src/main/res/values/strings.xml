@@ -878,4 +878,5 @@
     <string name="schedule_configuration">Schedule configuration</string>
     <string name="backup_action">Backup action</string>
     <string name="app_fallback">App</string>
+    <string name="close_mark">✕</string>
 </resources>
