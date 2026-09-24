@@ -479,6 +479,7 @@ fun AppsFilterScreen(
                                     chip == context.getString(R.string.system_apps_labelled_or_favorites) || chip == context.getString(R.string.system_apps_launchable) || chip == context.getString(R.string.system_apps_updated) -> activeFilter.copy(systemAppFilter = SystemAppFilter.ALL)
                                     chip == context.getString(R.string.enabled) || chip == context.getString(R.string.disabled) -> activeFilter.copy(enabled = EnabledFilter.ALL)
                                     chip == context.getString(R.string.installed_from_google_play) || chip == context.getString(R.string.not_installed_from_google_play) -> activeFilter.copy(googlePlay = GooglePlayFilter.ALL)
+                                    chip == context.getString(R.string.installed) || chip == context.getString(R.string.not_installed) -> activeFilter.copy(installStatus = InstallStatusFilter.ALL)
                                     chip == context.getString(R.string.backed_up) || chip == context.getString(R.string.not_backed_up) -> activeFilter.copy(backupStatus = BackupStatusFilter.ALL)
                                     chip == context.getString(R.string.apps_with_multiple_backups) -> activeFilter.copy(multipleBackups = MultipleBackupFilter.ALL)
                                     chip == context.getString(R.string.backups_with_older_apks) || chip == context.getString(R.string.backups_with_newer_apks) -> activeFilter.copy(backupApkRelation = BackupApkRelationFilter.ALL)
