@@ -24,8 +24,7 @@ import com.bare.app.Screen
 import com.bare.app.Tab
 import com.bare.capability.AccessCapabilityResolver
 import com.bare.storage.BackupStorage
-import com.bare.storage.BackupStorageRepository
-import com.bare.storage.initializeLocalBackupStorage
+import com.bare.storage.BackupStorageBehavior
 import com.bare.ui.BareIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,9 +44,9 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val storageRepository = remember(context) { BackupStorageRepository(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     val accessResolver = remember(context) { AccessCapabilityResolver(context) }
-    val internal = remember(context) { storageRepository.internalStorageCapacity() }
+    val internal = remember(context) { storageBehavior.internalStorageCapacity() }
     val usedBytes = (internal.totalBytes - internal.freeBytes).coerceAtLeast(0L)
     val usage = if (internal.totalBytes > 0L) {
         (usedBytes.toDouble() / internal.totalBytes.toDouble()).coerceIn(0.0, 1.0)
@@ -70,7 +69,7 @@ fun HomeScreen(
     var storageError by remember { mutableStateOf<String?>(null) }
     var selectedStorageKind by remember(context) {
         mutableStateOf(
-            com.bare.storage.StorageConfigurationStore(context).loadKind()
+            storageBehavior.selectedKind()
                 ?: BackupStorage.Kind.INTERNAL
         )
     }
@@ -285,8 +284,8 @@ fun HomeScreen(
 
     if (storageSheetOpen) {
         val storages = remember(identityId, internal) {
-            if (identityId.isNullOrBlank()) storageRepository.inspectAvailable()
-            else storageRepository.inspect(identityId)
+            if (identityId.isNullOrBlank()) storageBehavior.inspectAvailable()
+            else storageBehavior.inspect(identityId)
         }
         val external = storages.firstOrNull { it.kind == BackupStorage.Kind.EXTERNAL }
         val cloud = storages.firstOrNull { it.kind == BackupStorage.Kind.REMOTE }
@@ -314,7 +313,7 @@ fun HomeScreen(
                         storageError = null
                         scope.launch {
                             runCatching {
-                                initializeLocalBackupStorage(context, identityId, BackupStorage.Kind.INTERNAL)
+                                storageBehavior.selectLocalStorage(identityId, BackupStorage.Kind.INTERNAL)
                             }.onSuccess {
                                 storageBusy = false
                                 selectedStorageKind = BackupStorage.Kind.INTERNAL
@@ -341,7 +340,7 @@ fun HomeScreen(
                         storageError = null
                         scope.launch {
                             runCatching {
-                                initializeLocalBackupStorage(context, identityId, BackupStorage.Kind.EXTERNAL)
+                                storageBehavior.selectLocalStorage(identityId, BackupStorage.Kind.EXTERNAL)
                             }.onSuccess {
                                 storageBusy = false
                                 selectedStorageKind = BackupStorage.Kind.EXTERNAL
