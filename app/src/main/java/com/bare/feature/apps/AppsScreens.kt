@@ -352,33 +352,33 @@ fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     if (message != null) {
         AlertDialog(
             onDismissRequest = { message = null },
-            title = { Text("Quick action") },
+            title = { Text(stringResource(R.string.quick_action)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(message!!)
-                    Text("The UI path is wired. Backup/restore execution remains pending until the corresponding capability backend is available.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.quick_action_backend_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             },
             confirmButton = { TextButton(onClick = { message = null }) { Text(stringResource(R.string.close)) } },
         )
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Apps quick actions") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.apps_quick_actions)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
-            item { Text("QUICK BACKUP APPS", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard("Backup all apps", "Backup installed apps from this device", "To device", "To cloud") { message = "Backup all apps" } }
-            item { QuickActionCard("Backup pending apps", "Backup apps that are not backed up yet", "To device", "To cloud") { message = "Backup pending apps" } }
-            item { QuickActionCard("Backup updated apps", "Backup apps that have newer version APKs installed on this device", "To device", "To cloud") { message = "Backup updated apps" } }
-            item { QuickActionCard("Redo existing backups", "Re-backup all currently backed up apps", "To device", "To cloud") { message = "Redo existing backups" } }
-            item { QuickActionCard("Sync latest device backups to cloud", "Sync all latest backups of apps from the device to cloud") { message = "Sync latest device backups to cloud" } }
-            item { Spacer(Modifier.height(8.dp)); Text("QUICK RESTORE APPS", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary); Text("Uses Root access or Shizuku when required.", style = MaterialTheme.typography.bodySmall) }
-            item { QuickActionCard("Restore all apps", "Restore all backed up apps", "From device", "From cloud") { message = "Restore all apps" } }
-            item { QuickActionCard("Restore missing apps", "Restore backed up apps that are not installed on this device", "From device", "From cloud") { message = "Restore missing apps" } }
-            item { QuickActionCard("Restore new versions", "Restore backed up apps that have newer version APKs in the backups", "From device", "From cloud") { message = "Restore new versions" } }
-            item { Spacer(Modifier.height(8.dp)); Text("OTHER QUICK ACTIONS", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard("Delete backups of missing apps", "Delete backups of all missing/uninstalled apps", "From device", "From cloud") { message = "Delete backups of missing apps" } }
-            item { QuickActionCard("Enable/Disable apps", "Change installed app enabled state") { message = "Enable/Disable apps" } }
+            item { Text(stringResource(R.string.quick_backup_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
+            item { QuickActionCard(stringResource(R.string.backup_all_apps), stringResource(R.string.backup_installed_apps_from_device), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_all_apps) } }
+            item { QuickActionCard(stringResource(R.string.backup_pending_apps), stringResource(R.string.backup_apps_not_backed_up_yet), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_pending_apps) } }
+            item { QuickActionCard(stringResource(R.string.backup_updated_apps), stringResource(R.string.backup_apps_newer_apks), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_updated_apps) } }
+            item { QuickActionCard(stringResource(R.string.redo_existing_backups), stringResource(R.string.redo_all_current_backups), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.redo_existing_backups) } }
+            item { QuickActionCard(stringResource(R.string.sync_latest_device_backups), stringResource(R.string.sync_latest_backups_to_cloud)) { message = stringResource(R.string.sync_latest_device_backups) } }
+            item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.quick_restore_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary); Text(stringResource(R.string.root_or_shizuku_required), style = MaterialTheme.typography.bodySmall) }
+            item { QuickActionCard(stringResource(R.string.restore_all_apps), stringResource(R.string.restore_all_backed_up_apps), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_all_apps) } }
+            item { QuickActionCard(stringResource(R.string.restore_missing_apps), stringResource(R.string.restore_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_missing_apps) } }
+            item { QuickActionCard(stringResource(R.string.restore_new_versions), stringResource(R.string.restore_new_versions_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_new_versions) } }
+            item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.other_quick_actions), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
+            item { QuickActionCard(stringResource(R.string.delete_backups_missing_apps), stringResource(R.string.delete_backups_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.delete_backups_missing_apps) } }
+            item { QuickActionCard(stringResource(R.string.enable_disable_apps), stringResource(R.string.change_app_enabled_state)) { message = stringResource(R.string.enable_disable_apps) } }
         }
     }
 }
@@ -395,7 +395,7 @@ private fun QuickActionCard(title: String, subtitle: String, firstAction: String
                     Button(onClick = onClick, modifier = Modifier.weight(1f)) { Text(secondAction) }
                 }
             } else {
-                OutlinedButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) { Text("OPEN") }
+                OutlinedButton(onClick = onClick, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.open)) }
             }
         }
     }
@@ -421,7 +421,7 @@ fun AppLabelsScreen(onBack: () -> Unit) {
     if (editingLabel != null) {
         AlertDialog(
             onDismissRequest = { editingLabel = null },
-            title = { Text("Rename label") },
+            title = { Text(stringResource(R.string.rename_label)) },
             text = { OutlinedTextField(value = editText, onValueChange = { editText = it }, singleLine = true) },
             confirmButton = {
                 TextButton(onClick = {
@@ -432,48 +432,48 @@ fun AppLabelsScreen(onBack: () -> Unit) {
                         refresh()
                     }
                     editingLabel = null
-                }) { Text("SAVE") }
+                }) { Text(stringResource(R.string.save)) }
             },
-            dismissButton = { TextButton(onClick = { editingLabel = null }) { Text("CANCEL") } },
+            dismissButton = { TextButton(onClick = { editingLabel = null }) { Text(stringResource(R.string.cancel)) } },
         )
     }
     if (confirmDelete != null) {
         AlertDialog(
             onDismissRequest = { confirmDelete = null },
-            title = { Text("Delete label?") },
-            text = { Text("The label will be removed from apps using it.") },
+            title = { Text(stringResource(R.string.delete_label_title)) },
+            text = { Text(stringResource(R.string.delete_label_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete?.let { store.deleteLabel(it, apps.map { app -> app.packageName }) }
                     confirmDelete = null
                     refresh()
-                }) { Text("DELETE") }
+                }) { Text(stringResource(R.string.delete)) }
             },
-            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text("CANCEL") } },
+            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(R.string.cancel)) } },
         )
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("App Labels") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_labels)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
                 Text("Create and edit custom labels", style = MaterialTheme.typography.bodyLarge)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    OutlinedTextField(value = newLabel, onValueChange = { newLabel = it }, modifier = Modifier.weight(1f), singleLine = true, label = { Text("New label") })
-                    Button(onClick = { val value = newLabel.trim(); if (value.isNotBlank()) { store.addLabel(value); newLabel = ""; refresh() } }) { Text("ADD") }
+                    OutlinedTextField(value = newLabel, onValueChange = { newLabel = it }, modifier = Modifier.weight(1f), singleLine = true, label = { Text(stringResource(R.string.new_label)) })
+                    Button(onClick = { val value = newLabel.trim(); if (value.isNotBlank()) { store.addLabel(value); newLabel = ""; refresh() } }) { Text(stringResource(R.string.add)) }
                 }
             }
-            if (labels.isEmpty()) item { Text("No labels yet.") }
+            if (labels.isEmpty()) item { Text(stringResource(R.string.no_labels_yet)) }
             else items(labels.toList(), key = { it }) { label ->
                 Card(Modifier.fillMaxWidth()) {
                     ListItem(
                         headlineContent = { Text(label) },
-                        supportingContent = { Text("Apps using this label: " + apps.count { label in store.labels(it.packageName) }) },
+                        supportingContent = { Text(context.getString(R.string.apps_using_label, apps.count { label in store.labels(it.packageName) })) },
                         leadingContent = { Icon(Icons.Default.Label, contentDescription = null) },
                         trailingContent = {
                             Row {
-                                IconButton(onClick = { editingLabel = label; editText = label }) { Icon(Icons.Default.Edit, contentDescription = "Rename") }
-                                IconButton(onClick = { confirmDelete = label }) { Icon(Icons.Default.Delete, contentDescription = "Delete") }
+                                IconButton(onClick = { editingLabel = label; editText = label }) { Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.rename)) }
+                                IconButton(onClick = { confirmDelete = label }) { Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete)) }
                             }
                         },
                     )
@@ -492,32 +492,32 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
     if (showCreate) {
         AlertDialog(
             onDismissRequest = { showCreate = false },
-            title = { Text("Create custom configuration") },
+            title = { Text(stringResource(R.string.create_custom_configuration)) },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Configurations can later bind backup/restore rules to app labels.")
-                    OutlinedTextField(value = draft, onValueChange = { draft = it }, singleLine = true, label = { Text("Configuration name") })
+                    Text(stringResource(R.string.configurations_bind_rules))
+                    OutlinedTextField(value = draft, onValueChange = { draft = it }, singleLine = true, label = { Text(stringResource(R.string.configuration_name)) })
                 }
             },
             confirmButton = {
-                TextButton(onClick = { val value = draft.trim(); if (value.isNotBlank()) configs = configs + value; draft = ""; showCreate = false }) { Text("CREATE") }
+                TextButton(onClick = { val value = draft.trim(); if (value.isNotBlank()) configs = configs + value; draft = ""; showCreate = false }) { Text(stringResource(R.string.create)) }
             },
-            dismissButton = { TextButton(onClick = { showCreate = false }) { Text("CANCEL") } },
+            dismissButton = { TextButton(onClick = { showCreate = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Custom configurations") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.custom_configurations)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
                 Text("App-specific backup and restore rules", style = MaterialTheme.typography.bodyLarge)
-                Text("UI is available now. Configuration persistence and execution are not wired to the backup engine yet.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.configuration_backend_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            item { Button(onClick = { showCreate = true }, modifier = Modifier.fillMaxWidth()) { Text("+ CREATE CONFIGURATION") } }
-            if (configs.isEmpty()) item { Text("No configurations yet.") }
+            item { Button(onClick = { showCreate = true }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_configuration)) } }
+            if (configs.isEmpty()) item { Text(stringResource(R.string.no_configurations_yet)) }
             else items(configs, key = { it }) { config ->
                 Card(Modifier.fillMaxWidth()) {
-                    ListItem(headlineContent = { Text(config) }, supportingContent = { Text("Label-based backup/restore rules • not executed yet") }, trailingContent = { Icon(Icons.Default.ChevronRight, contentDescription = null) })
+                    ListItem(headlineContent = { Text(config) }, supportingContent = { Text(stringResource(R.string.label_backup_restore_not_executed)) }, trailingContent = { Icon(Icons.Default.ChevronRight, contentDescription = null) })
                 }
             }
         }
@@ -560,14 +560,14 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { store.setBlacklistedPackages(draft); blacklisted = draft; showPicker = false }) { Text("ADD APPS") } },
-            dismissButton = { TextButton(onClick = { showPicker = false }) { Text("CANCEL") } },
+            confirmButton = { TextButton(onClick = { store.setBlacklistedPackages(draft); blacklisted = draft; showPicker = false }) { Text(stringResource(R.string.add_apps)) } },
+            dismissButton = { TextButton(onClick = { showPicker = false }) { Text(stringResource(R.string.cancel)) } },
         )
     }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Column { Text("Blacklist apps"); Text(blacklisted.size.toString() + " / 100", style = MaterialTheme.typography.bodySmall) } },
+                title = { Column { Text(stringResource(R.string.blacklist_apps)); Text(blacklisted.size.toString() + " / 100", style = MaterialTheme.typography.bodySmall) } },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
             )
         }
@@ -579,7 +579,7 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
                 Spacer(Modifier.height(20.dp))
                 Text("Hide apps or keep APK-only backup policy", style = MaterialTheme.typography.bodyLarge)
                 Spacer(Modifier.height(16.dp))
-                Button(onClick = { draft = blacklisted; showPicker = true }) { Text("+ Add apps") }
+                Button(onClick = { draft = blacklisted; showPicker = true }) { Text(stringResource(R.string.add_apps)) }
             }
         }
     }
@@ -598,27 +598,27 @@ fun AppBackupSettingsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     var allowDowngrade by remember { mutableStateOf(prefs.getBoolean("allow_downgrade", false)) }
     fun save(key: String, value: Boolean) { prefs.edit().putBoolean(key, value).apply() }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("App backups") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_backups)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            item { Text("General", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
-            item { SettingsSwitchEntry("Show System Apps", "Include system applications in the Apps inventory", showSystemApps) { showSystemApps = it; save("show_system_apps", it) } }
-            item { SettingsLinkEntry("Swipe actions", "Right: Launch • Left: Uninstall") { } }
-            item { SettingsLinkEntry("Manage app labels", "Create and edit custom labels") { onOpen(Screen.APP_LABELS) } }
-            item { SettingsLinkEntry("Custom configurations", "App-specific backup and restore rules") { onOpen(Screen.APP_CUSTOM_CONFIG) } }
-            item { SettingsLinkEntry("Blacklist", "Hide apps or keep APK-only backup policy") { onOpen(Screen.APP_BLACKLIST) } }
-            item { Text("Multiple backups", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
-            item { SettingsLinkEntry("Multiple backups strategy", "Single backup") { } }
-            item { Text("Encryption & compression", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
-            item { SettingsLinkEntry("Encrypt app data backups", "Encryption execution follows the shared encryption strategy") { onOpen(Screen.ENCRYPTION_PASSWORD_STRATEGY) } }
-            item { SettingsLinkEntry("Compression level", "Fastest") { } }
-            item { Text("App data", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
-            item { SettingsSwitchEntry("Restore runtime permissions", "Restore backed up permission choices", restorePermissions) { restorePermissions = it; save("restore_runtime_permissions", it) } }
-            item { SettingsSwitchEntry("Restore special data", "Enabled", restoreSpecialData) { restoreSpecialData = it; save("restore_special_data", it) } }
-            item { SettingsSwitchEntry("Restore app SSAIDs", "Restore per-app Android IDs. Reboot required.", restoreSsaid) { restoreSsaid = it; save("restore_ssaid", it) } }
-            item { SettingsLinkEntry("App data backup size limits", "No limit") { } }
-            item { SettingsSwitchEntry("Backup app cache", "Include app cache in backups", backupCache) { backupCache = it; save("backup_cache", it) } }
-            item { SettingsSwitchEntry("In-place app downgrades", "Use supported ROM or module support", allowDowngrade) { allowDowngrade = it; save("allow_downgrade", it) } }
+            item { Text(stringResource(R.string.general), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
+            item { SettingsSwitchEntry(stringResource(R.string.show_system_apps), stringResource(R.string.show_system_apps_desc), showSystemApps) { showSystemApps = it; save("show_system_apps", it) } }
+            item { SettingsLinkEntry(stringResource(R.string.swipe_actions), stringResource(R.string.swipe_actions_desc)) { } }
+            item { SettingsLinkEntry(stringResource(R.string.manage_app_labels), stringResource(R.string.create_edit_labels)) { onOpen(Screen.APP_LABELS) } }
+            item { SettingsLinkEntry(stringResource(R.string.custom_configurations), stringResource(R.string.app_specific_backup_restore_rules)) { onOpen(Screen.APP_CUSTOM_CONFIG) } }
+            item { SettingsLinkEntry(stringResource(R.string.blacklist), stringResource(R.string.blacklist_policy_description)) { onOpen(Screen.APP_BLACKLIST) } }
+            item { Text(stringResource(R.string.multiple_backups), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
+            item { SettingsLinkEntry(stringResource(R.string.multiple_backups_strategy), stringResource(R.string.single_backup)) { } }
+            item { Text(stringResource(R.string.encryption_compression), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
+            item { SettingsLinkEntry(stringResource(R.string.encrypt_app_data_backups), stringResource(R.string.encryption_strategy_shared)) { onOpen(Screen.ENCRYPTION_PASSWORD_STRATEGY) } }
+            item { SettingsLinkEntry(stringResource(R.string.compression_level), stringResource(R.string.fastest)) { } }
+            item { Text(stringResource(R.string.app_data), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
+            item { SettingsSwitchEntry(stringResource(R.string.restore_runtime_permissions), stringResource(R.string.restore_runtime_permissions_desc), restorePermissions) { restorePermissions = it; save("restore_runtime_permissions", it) } }
+            item { SettingsSwitchEntry(stringResource(R.string.restore_special_data), stringResource(R.string.enabled), restoreSpecialData) { restoreSpecialData = it; save("restore_special_data", it) } }
+            item { SettingsSwitchEntry(stringResource(R.string.restore_app_ssaids), stringResource(R.string.restore_app_ssaids_desc), restoreSsaid) { restoreSsaid = it; save("restore_ssaid", it) } }
+            item { SettingsLinkEntry(stringResource(R.string.app_data_backup_size_limits), stringResource(R.string.no_limit)) { } }
+            item { SettingsSwitchEntry(stringResource(R.string.backup_app_cache), stringResource(R.string.backup_app_cache_desc), backupCache) { backupCache = it; save("backup_cache", it) } }
+            item { SettingsSwitchEntry(stringResource(R.string.in_place_app_downgrades), stringResource(R.string.in_place_app_downgrades_desc), allowDowngrade) { allowDowngrade = it; save("allow_downgrade", it) } }
         }
     }
 }
@@ -758,7 +758,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     onValueChange = { labelsText = it },
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(stringResource(R.string.labels)) },
-                    placeholder = { Text("Work, Media") },
+                    placeholder = { Text(stringResource(R.string.labels_placeholder)) },
                     minLines = 2,
                 )
             },
@@ -1092,7 +1092,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 ) {
                                                     Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(18.dp))
                                                     Spacer(Modifier.width(6.dp))
-                                                    Text("App info", maxLines = 1)
+                                                    Text(stringResource(R.string.app_info), maxLines = 1)
                                                 }
                                                 FilledTonalButton(
                                                     onClick = {
@@ -1124,7 +1124,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 }
                                             )
                                             DropdownMenuItem(
-                                                text = { Text("Set app labels") },
+                                                text = { Text(stringResource(R.string.set_app_labels)) },
                                                 leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
                                                 onClick = {
                                                     showActions = false
@@ -1133,7 +1133,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 }
                                             )
                                             DropdownMenuItem(
-                                                text = { Text("Add to blacklist") },
+                                                text = { Text(stringResource(R.string.add_to_blacklist)) },
                                                 leadingIcon = { Icon(Icons.Default.Block, contentDescription = null) },
                                                 onClick = {
                                                     showActions = false
@@ -1150,7 +1150,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                     Column {
                                                         Text(stringResource(R.string.battery_optimization))
                                                         Text(
-                                                            if (batteryOptimized) "Optimized" else "Not optimized",
+                                                            if (batteryOptimized) stringResource(R.string.optimized) else stringResource(R.string.not_optimized),
                                                             style = MaterialTheme.typography.bodySmall,
                                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                                         )
@@ -1509,9 +1509,9 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(appName, fontWeight = FontWeight.Bold)
-                Text("This action is part of the BaRe Apps flow.")
-                Text("Runtime behavior is pending; this UI is intentionally available as a mockup so the workflow can be reviewed.")
-                Text("Capability execution will be connected after its Android capability and verification path are established.")
+                Text(stringResource(R.string.apps_action_flow))
+                Text(stringResource(R.string.apps_runtime_pending_mockup))
+                Text(stringResource(R.string.apps_capability_execution_pending))
             }
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.close)) } }
@@ -1689,35 +1689,35 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
 @Composable
 fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf(false) }
-    if (showMockup) AppMockupActionDialog("Backup action", app?.name ?: "App") { showMockup = false }
+    if (showMockup) AppMockupActionDialog(stringResource(R.string.backup_action), app?.name ?: stringResource(R.string.app_fallback)) { showMockup = false }
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Backups • " + (app?.name ?: "App")) },
+                title = { Text(stringResource(R.string.backups_title, app?.name ?: stringResource(R.string.app_fallback))) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("Device backups", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text("This surface is ready for real backup inventory; no verified backup is claimed yet.")
+                Text(stringResource(R.string.device_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.backup_inventory_unverified))
             }
             item {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text("No verified backup version", fontWeight = FontWeight.Bold)
-                        Text("Protected • notes • version comparison • size")
+                        Text(stringResource(R.string.no_verified_backup_version), fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.protected_notes_version_size))
                         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            OutlinedButton(onClick = { showMockup = true }) { Text("Restore") }
-                            OutlinedButton(onClick = { showMockup = true }) { Text("Delete") }
+                            OutlinedButton(onClick = { showMockup = true }) { Text(stringResource(R.string.restore)) }
+                            OutlinedButton(onClick = { showMockup = true }) { Text(stringResource(R.string.delete)) }
                         }
                     }
                 }
             }
             item {
-                Text("Cloud backups", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text("Cloud inventory and sync state are represented as a downstream workflow.")
+                Text(stringResource(R.string.cloud_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.cloud_inventory_downstream))
             }
         }
     }
@@ -1737,27 +1737,27 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Management • " + (app?.name ?: "App")) },
+                title = { Text(stringResource(R.string.management_title, app?.name ?: stringResource(R.string.app_fallback))) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("App management", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("Organization state is stored locally on this device.")
+                Text(stringResource(R.string.app_management), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.organization_local_device))
             }
             item {
-                ListEntry(if (app?.isEnabled == true) "Disable app" else "Enable app", "Change installed application enabled state", Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) "Disable app" else "Enable app" }
-                ListEntry("Force stop", "Stop the running application", Icons.Default.Stop) { showMockup = "Force stop" }
-                ListEntry("Uninstall", "Open uninstall workflow with confirmation", Icons.Default.Delete) { showMockup = "Uninstall" }
+                ListEntry(if (app?.isEnabled == true) stringResource(R.string.disable_app) else stringResource(R.string.enable_app), stringResource(R.string.change_app_enabled_state), Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) stringResource(R.string.disable_app) else stringResource(R.string.enable_app) }
+                ListEntry(stringResource(R.string.force_stop), stringResource(R.string.stop_running_app), Icons.Default.Stop) { showMockup = stringResource(R.string.force_stop) }
+                ListEntry(stringResource(R.string.uninstall), stringResource(R.string.uninstall_workflow_desc), Icons.Default.Delete) { showMockup = stringResource(R.string.uninstall) }
             }
             item {
-                Text("Favorites and labels", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.favorites_and_labels), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Row(Modifier.fillMaxWidth().clickable { favorite = !favorite }.padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Star, contentDescription = null)
                     Spacer(Modifier.width(12.dp))
-                    Text(if (favorite) "Favorite" else "Not favorite", Modifier.weight(1f))
+                    Text(if (favorite) stringResource(R.string.favorite) else stringResource(R.string.not_favorite), Modifier.weight(1f))
                     Switch(checked = favorite, onCheckedChange = { favorite = it })
                 }
                 OutlinedTextField(
@@ -1765,7 +1765,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
                     onValueChange = { labelsText = it },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    label = { Text("Labels") },
+                    label = { Text(stringResource(R.string.labels)) },
                     placeholder = { Text("e.g. Work, Media") },
                 )
                 Button(
@@ -1778,10 +1778,10 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
                     enabled = app?.packageName != null,
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text("Save organization")
+                    Text(stringResource(R.string.save_organization))
                 }
             }
-            item { ListEntry("Protected backup", "Protect retained backup versions from deletion", Icons.Default.Lock) { showMockup = "Protected backup" } }
+            item { ListEntry(stringResource(R.string.protected_backup), stringResource(R.string.protect_retained_backups), Icons.Default.Lock) { showMockup = stringResource(R.string.protected_backup) } }
         }
     }
 }
@@ -1794,17 +1794,17 @@ fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Diagnostics • " + (app?.name ?: "App")) },
+                title = { Text(stringResource(R.string.diagnostics_title, app?.name ?: stringResource(R.string.app_fallback))) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            item { Text("Capability diagnostics", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
-            item { ListEntry("App visibility", "Explain why a package may be unavailable", Icons.Default.Visibility) { showMockup = "App visibility diagnostics" } }
-            item { ListEntry("Execution capability", "Show available provider/access prerequisites", Icons.Default.Security) { showMockup = "Execution capability" } }
-            item { ListEntry("APK / APKS import", "Validate an APK artifact and expose install flow", Icons.Default.FileOpen) { showMockup = "APK / APKS import and install" } }
-            item { ListEntry("Storage / data preconditions", "Expose what can and cannot be measured", Icons.Default.Storage) { showMockup = "Storage preconditions" } }
+            item { Text(stringResource(R.string.capability_diagnostics), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
+            item { ListEntry(stringResource(R.string.app_visibility), stringResource(R.string.app_visibility_desc), Icons.Default.Visibility) { showMockup = stringResource(R.string.app_visibility_diagnostics) } }
+            item { ListEntry(stringResource(R.string.execution_capability), stringResource(R.string.execution_capability_desc), Icons.Default.Security) { showMockup = stringResource(R.string.execution_capability) } }
+            item { ListEntry(stringResource(R.string.apk_apks_import), stringResource(R.string.apk_apks_import_desc), Icons.Default.FileOpen) { showMockup = stringResource(R.string.apk_apks_import) } }
+            item { ListEntry(stringResource(R.string.storage_data_preconditions), stringResource(R.string.storage_data_preconditions_desc), Icons.Default.Storage) { showMockup = stringResource(R.string.storage_data_preconditions) } }
         }
     }
 }
@@ -1817,18 +1817,18 @@ fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Restore • " + (app?.name ?: "App")) },
+                title = { Text(stringResource(R.string.restore_title, app?.name ?: stringResource(R.string.app_fallback))) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            item { Text("Restore variants", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
-            item { ListEntry("Missing app", "Install/prepare the app before restoring its data", Icons.Default.Apps) { showMockup = "Missing-app restore" } }
-            item { ListEntry("Newer backup version", "Resolve installed-versus-backup version mismatch", Icons.Default.Update) { showMockup = "Newer-version restore" } }
-            item { ListEntry("Special data", "Expose optional special-data restore choices", Icons.Default.Extension) { showMockup = "Special-data restore" } }
-            item { ListEntry("SSAAD", "Explicit optional SSAID restore choice with warning", Icons.Default.Fingerprint) { showMockup = "SSAAD restore" } }
-            item { ListEntry("Restore selected backup", "Choose a backup version and continue through preconditions", Icons.Default.Restore) { showMockup = "Restore selected backup" } }
+            item { Text(stringResource(R.string.restore_variants), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
+            item { ListEntry(stringResource(R.string.missing_app), stringResource(R.string.missing_app_desc), Icons.Default.Apps) { showMockup = stringResource(R.string.missing_app) } }
+            item { ListEntry(stringResource(R.string.newer_backup_version), stringResource(R.string.newer_backup_version_desc), Icons.Default.Update) { showMockup = stringResource(R.string.newer_backup_version) } }
+            item { ListEntry(stringResource(R.string.special_data), stringResource(R.string.special_data_desc), Icons.Default.Extension) { showMockup = stringResource(R.string.special_data) } }
+            item { ListEntry(stringResource(R.string.ssaid), stringResource(R.string.ssaid_desc), Icons.Default.Fingerprint) { showMockup = stringResource(R.string.ssaid) } }
+            item { ListEntry(stringResource(R.string.restore_selected_backup), stringResource(R.string.restore_selected_backup_desc), Icons.Default.Restore) { showMockup = stringResource(R.string.restore_selected_backup) } }
         }
     }
 }
@@ -1842,7 +1842,7 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
     var protection by remember { mutableStateOf(false) }
     var notes by remember { mutableStateOf(false) }
     var schedule by remember { mutableStateOf(false) }
-    var strategy by remember { mutableStateOf("Single") }
+    var strategy by remember { mutableStateOf(stringResource(R.string.single)) }
     var showMockup by remember { mutableStateOf<String?>(null) }
 
     if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
@@ -1850,50 +1850,50 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Configuration • " + (app?.name ?: "App")) },
+                title = { Text(stringResource(R.string.configuration_title, app?.name ?: stringResource(R.string.app_fallback))) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
             )
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
             item {
-                Text("App configuration", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                Text("The configuration flow is present now. Persistence and execution are downstream behavior.")
+                Text(stringResource(R.string.app_configuration), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.configuration_downstream_behavior))
             }
             item {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(14.dp)) {
-                        Text("Backup parts", fontWeight = FontWeight.Bold)
-                        listOf("APK", "Split APK", "App data", "External data", "Expansion / OBB", "Media", "Cache", "Shared libraries").forEach { Text("✓ " + it) }
+                        Text(stringResource(R.string.backup_parts), fontWeight = FontWeight.Bold)
+                        listOf(stringResource(R.string.apk), stringResource(R.string.split_apk), stringResource(R.string.app_data), stringResource(R.string.external_data), stringResource(R.string.expansion_obb), stringResource(R.string.media), stringResource(R.string.cache), stringResource(R.string.shared_libraries)).forEach { Text(stringResource(R.string.selected_mark) + " " + it) }
                     }
                 }
             }
             item {
-                Text("Backup strategy", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.backup_strategy), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("Single", "Dated", "Conditional").forEach {
+                    listOf(stringResource(R.string.single), stringResource(R.string.dated), stringResource(R.string.conditional)).forEach {
                         FilterChip(selected = strategy == it, onClick = { strategy = it }, label = { Text(it) }, modifier = Modifier.weight(1f))
                     }
                 }
             }
             item {
-                AppSwitchRow("Compression", compression) { compression = it }
-                AppSwitchRow("Encryption", encryption) { encryption = it }
-                AppSwitchRow("Cache", cache) { cache = it }
-                AppSwitchRow("Protected backup", protection) { protection = it }
-                AppSwitchRow("Notes", notes) { notes = it }
-                AppSwitchRow("Schedule binding", schedule) { schedule = it }
+                AppSwitchRow(stringResource(R.string.compression), compression) { compression = it }
+                AppSwitchRow(stringResource(R.string.encryption), encryption) { encryption = it }
+                AppSwitchRow(stringResource(R.string.cache), cache) { cache = it }
+                AppSwitchRow(stringResource(R.string.protected_backup), protection) { protection = it }
+                AppSwitchRow(stringResource(R.string.notes), notes) { notes = it }
+                AppSwitchRow(stringResource(R.string.schedule_binding), schedule) { schedule = it }
             }
             item {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = { showMockup = "Run configuration now" }, modifier = Modifier.weight(1f)) { Text("Run now") }
-                    OutlinedButton(onClick = { showMockup = "Schedule configuration" }, modifier = Modifier.weight(1f)) { Text("Schedule") }
+                    Button(onClick = { showMockup = stringResource(R.string.run_configuration_now) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.run_now)) }
+                    OutlinedButton(onClick = { showMockup = stringResource(R.string.schedule_configuration) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.schedule)) }
                 }
             }
             item {
-                Text("Limits and retention", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                ListEntry("Backup limits", "Local/cloud size limits and warnings", Icons.Default.Tune) { showMockup = "Backup limits" }
-                ListEntry("Multiple backups", "Single / dated / conditional retention", Icons.Default.Sync) { showMockup = "Multiple-backup strategy" }
+                Text(stringResource(R.string.limits_retention), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                ListEntry(stringResource(R.string.backup_limits), stringResource(R.string.backup_limits_desc), Icons.Default.Tune) { showMockup = stringResource(R.string.backup_limits) }
+                ListEntry(stringResource(R.string.multiple_backups), stringResource(R.string.multiple_backups_retention_desc), Icons.Default.Sync) { showMockup = stringResource(R.string.multiple_backups_strategy) }
             }
         }
     }
