@@ -659,7 +659,7 @@ private fun MainShell(
             onClick = { onOpenScreen(Screen.APP_QUICK_ACTIONS) },
             modifier = Modifier
                 .align(androidx.compose.ui.Alignment.BottomEnd)
-                .padding(20.dp),
+                .padding(end = 20.dp, bottom = 88.dp),
             icon = { Icon(Icons.Default.FlashOn, contentDescription = null) },
             text = { Text(stringResource(R.string.batch_actions)) },
         )
