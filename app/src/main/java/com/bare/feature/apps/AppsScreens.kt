@@ -1018,30 +1018,47 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                         Card(Modifier.fillMaxWidth()) {
                             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 Box(Modifier.fillMaxWidth()) {
-                                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-                                Row(verticalAlignment = Alignment.Top) {
-                                    AndroidView(
-                                        factory = { android.widget.ImageView(it) },
-                                        update = { imageView ->
-                                            imageView.setImageDrawable(app?.icon)
-                                            imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
-                                        },
-                                        modifier = Modifier.size(40.dp)
-                                    )
-                                    Spacer(Modifier.width(12.dp))
-                                    Column(Modifier.weight(1f)) {
-                                        Text(item.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                        Text(item.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                        Text(
-                                            stringResource(R.string.app_version_value, item.versionName ?: stringResource(R.string.unknown_value), item.versionCode?.toString() ?: stringResource(R.string.unknown_value)),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    Row(
+                                        Modifier.fillMaxWidth().padding(end = 44.dp),
+                                        verticalAlignment = Alignment.Top
+                                    ) {
+                                        AndroidView(
+                                            factory = { android.widget.ImageView(it) },
+                                            update = { imageView ->
+                                                imageView.setImageDrawable(app?.icon)
+                                                imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                            },
+                                            modifier = Modifier.size(40.dp)
                                         )
+                                        Spacer(Modifier.width(12.dp))
+                                        Column(Modifier.weight(1f)) {
+                                            Text(
+                                                item.packageName,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Text(
+                                                item.name,
+                                                style = MaterialTheme.typography.titleLarge,
+                                                fontWeight = FontWeight.Bold,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Text(
+                                                stringResource(
+                                                    R.string.app_version_value,
+                                                    item.versionName ?: stringResource(R.string.unknown_value),
+                                                    item.versionCode?.toString() ?: stringResource(R.string.unknown_value)
+                                                ),
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
                                     }
-
-                                    }
-                                    Box(Modifier.align(Alignment.TopEnd)) {
-                                                            Box {
+Box(Modifier.align(Alignment.TopEnd)) {
+                        Box {
                         IconButton(enabled = details != null, onClick = { showActions = true }) {
                             Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
                         }
@@ -1053,59 +1070,59 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 text = { Text(stringResource(R.string.favorites)) },
                                 leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    val currentPackage = details?.packageName
-                                    if (currentPackage != null) {
-                                        val next = !organizationStore.isFavorite(currentPackage)
-                                        organizationStore.setFavorite(currentPackage, next)
-                                        toast(context.getString(R.string.action_completed))
-                                    }
+showActions = false
+val currentPackage = details?.packageName
+if (currentPackage != null) {
+    val next = !organizationStore.isFavorite(currentPackage)
+    organizationStore.setFavorite(currentPackage, next)
+    toast(context.getString(R.string.action_completed))
+}
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.labels)) },
                                 leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    labelsText = organizationStore.labels(details!!.packageName).joinToString(", ")
-                                    showLabelsEditor = true
+showActions = false
+labelsText = organizationStore.labels(details!!.packageName).joinToString(", ")
+showLabelsEditor = true
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.blacklist)) },
                                 leadingIcon = { Icon(Icons.Default.Block, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    val currentPackage = details?.packageName
-                                    if (currentPackage != null) {
-                                        val next = !organizationStore.isBlacklisted(currentPackage)
-                                        organizationStore.setBlacklisted(currentPackage, next)
-                                        toast(context.getString(R.string.action_completed))
-                                    }
+showActions = false
+val currentPackage = details?.packageName
+if (currentPackage != null) {
+    val next = !organizationStore.isBlacklisted(currentPackage)
+    organizationStore.setBlacklisted(currentPackage, next)
+    toast(context.getString(R.string.action_completed))
+}
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.disable)) },
                                 leadingIcon = { Icon(Icons.Default.VisibilityOff, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    confirmAction = if (details?.isEnabled == true) context.getString(R.string.disable) else context.getString(R.string.enable)
+showActions = false
+confirmAction = if (details?.isEnabled == true) context.getString(R.string.disable) else context.getString(R.string.enable)
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.force_stop)) },
                                 leadingIcon = { Icon(Icons.Default.Stop, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    confirmAction = context.getString(R.string.force_stop)
+showActions = false
+confirmAction = context.getString(R.string.force_stop)
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text(stringResource(R.string.clear_data)) },
                                 leadingIcon = { Icon(Icons.Default.DeleteSweep, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    confirmAction = context.getString(R.string.clear_data)
+showActions = false
+confirmAction = context.getString(R.string.clear_data)
                                 }
                             )
                             DropdownMenuItem(
@@ -1127,8 +1144,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 text = { Text(stringResource(R.string.battery_optimization)) },
                                 leadingIcon = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
                                 onClick = {
-                                    showActions = false
-                                    requestBatteryOptimization(true)
+showActions = false
+requestBatteryOptimization(true)
                                 }
                             )
                             DropdownMenuItem(
@@ -1143,8 +1160,9 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                             )
                         }
                     }
-                                    }
+}
                                 }
+
                                 }
                                 Row(
                                     Modifier.horizontalScroll(rememberScrollState()),
