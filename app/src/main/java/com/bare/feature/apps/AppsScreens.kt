@@ -1134,7 +1134,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 FilledTonalButton(
                                                     onClick = {
                                                         showActions = false
-                                                        val currentPackage = details?.packageName
+                                                        val currentPackage = packageName
                                                         if (currentPackage != null) {
                                                             when (val result = shareBehavior.shareApk(currentPackage)) {
                                                                 is AppShareResult.Ready -> context.startActivity(result.intent)
@@ -1144,7 +1144,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                             toast(context.getString(R.string.app_action_unavailable))
                                                         }
                                                     },
-                                                    enabled = details?.packageName != null,
+                                                    enabled = packageName != null,
                                                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
                                                     shape = RoundedCornerShape(24.dp)
                                                 ) {
