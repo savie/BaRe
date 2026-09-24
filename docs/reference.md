@@ -2546,3 +2546,164 @@ Untuk BaRe, evidence ini membuat beberapa hal menjadi lebih jelas tetapi **belum
 - pengukuran folder dapat membutuhkan jalur privilege;
 - kemampuan Android API yang sekarang dipakai BaRe harus dicek dulu apakah sudah mencakup komponen yang sama.
 
+
+## 26 — Apps reference UI anatomy: decompiled layout reconciliation (2026-09-25)
+
+Bagian ini menambahkan **reference evidence** yang diperoleh langsung dari APK/decompile `Swift Backup 5.1.0 (620)` yang digunakan untuk audit Apps subtree. Ini tetap **REFERENCE EVIDENCE ONLY**; bukan implementation specification BaRe dan bukan runtime verification reference.
+
+### 26.1 Apps list shell
+
+`app_list_activity.xml` memperlihatkan struktur berikut:
+
+- `DrawerLayout` sebagai shell Apps;
+- app bar khusus dengan search dan applied-filter surface melalui `appbar_with_filters.xml`;
+- `SwipeRefreshLayout` + `RecyclerView` untuk inventory;
+- fast scroller di sisi list;
+- `ExtendedFloatingActionButton` untuk **Batch actions**;
+- drawer content terpisah dari list.
+
+`menu_apps.xml` menunjukkan action utama pada app bar:
+- Search;
+- Filter;
+- Drawer.
+
+`menu_apps_switch.xml` menunjukkan **dua context eksplisit**:
+- `Local apps`;
+- `Cloud synced apps`.
+
+Jadi Local/Cloud pada Apps reference adalah **context switch inventory**, bukan sekadar filter chip.
+
+### 26.2 Apps item row
+
+`app_item.xml` menunjukkan row reference mempunyai lebih banyak surface daripada sekadar nama/package:
+
+- app icon;
+- app title;
+- beberapa subtitle/metadata rows;
+- labels row;
+- favorite indicator;
+- overflow/menu hit area;
+- swipe-action reveal di kiri dan kanan;
+- optional checkbox untuk batch selection.
+
+Dengan demikian, reference Apps row adalah gabungan **identity + metadata + organization + per-item actions + batch/swipe affordance**.
+
+### 26.3 Apps filter surface
+
+`filter_bottom_dialog.xml` memperlihatkan filter sebagai bottom-sheet/surface terpadu:
+
+```text
+SORT
+├── Name
+├── Install date
+├── Update date
+├── Backup date
+├── Backup size
+├── Date used
+└── App size
+
+FILTER
+├── App type
+│   └── System app filters
+├── Favorites
+├── App Labels
+├── On-device backup
+├── Cloud sync
+├── Install status
+├── Enabled status
+└── Miscellaneous
+    ├── Multiple backups
+    ├── Protected backups
+    ├── Backups with notes
+    ├── Older APKs
+    ├── Newer APKs
+    ├── Installed from Google Play
+    └── Not installed from Google Play
+```
+
+Surface header juga memiliki:
+- Close;
+- **Apply options**;
+- **Reset filters**.
+
+### 26.4 App Detail shell
+
+`detail_activity.xml` menunjukkan App Detail reference terdiri dari:
+
+1. App info card;
+2. Device backup card;
+3. Cloud backup card.
+
+`detail_card_app_info.xml` menunjukkan app info card memuat:
+- icon;
+- package name;
+- app name;
+- version info;
+- app labels;
+- app-level overflow menu;
+- contextual mini actions seperti Launch / Enable / Uninstall / Not installed;
+- storage card embedded pada app-info area.
+
+### 26.5 App Detail storage / part surface
+
+`detail_card_app_storage.xml` menunjukkan:
+- explanatory storage text;
+- grid chips untuk app storage parts;
+- **Backup** CTA.
+
+`detail_card_app_backup.xml` menunjukkan backup card mempunyai:
+- title;
+- loading state;
+- error state;
+- **TabLayout**;
+- backup metadata/info;
+- optional note;
+- part chips;
+- restore CTA;
+- backup-card overflow.
+
+Static menu resources memperjelas action boundary:
+
+`menu_detail_storage_chip_actions.xml`:
+- Backup to local/device;
+- Backup to cloud;
+- Backup to local + cloud;
+- Share APK;
+- Delete.
+
+`menu_detail_backup_chip_actions.xml`:
+- Restore;
+- Sync (provider-dependent/conditional);
+- Encryption (conditional);
+- Share APK (conditional);
+- Delete.
+
+`menu_detail_backup_card_actions.xml`:
+- Backup details;
+- Protect/unprotect backup;
+- Add/update note;
+- Sync in cloud (conditional);
+- Delete backup.
+
+Jadi reference membedakan **storage-part action**, **backup-version action**, dan **backup-card action**. Ketiganya bukan satu generic overflow menu.
+
+### 26.6 Batch, swipe, configuration, diagnostics
+
+Static reference layout inventory juga menunjukkan surface terpisah untuk:
+
+- `apps_batch_activity.xml` + `menu_apps_batch_activity.xml` — batch selection/action flow;
+- `apps_quick_actions_activity.xml` / `apps_quick_actions_fragment.xml` — quick actions;
+- `app_swipe_actions_fragment.xml` — konfigurasi swipe actions kiri/kanan;
+- `configs_list_activity.xml`, `config_edit_activity.xml`, `config_settings_activity.xml` — custom configuration domain;
+- `labels_activity.xml`, `label_edit_activity.xml` — label management;
+- `app_backup_limits_activity.xml` — per-part backup size limits;
+- `app_visibility_diagnostics_activity.xml` — app visibility diagnostics.
+
+### 26.7 Evidence boundary
+
+Semua temuan pada section ini berstatus **OBSERVED_STATIC** dari decompiled/reference artifact. Tidak ada perubahan terhadap boundary berikut:
+
+- reference APK tidak dijalankan;
+- static presence tidak membuktikan runtime success;
+- reference tidak menjadi implementation source BaRe;
+- feature parity tidak berarti implementation parity.
