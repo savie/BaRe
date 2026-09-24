@@ -3547,3 +3547,39 @@ Setelah CI hijau, runtime retest difokuskan pada:
 1. Install Date dan Update Date pada beberapa app.
 2. WhatsApp Ext. data pada App Detail.
 3. Jika Ext. data masih kosong, verifikasi apakah root capability benar-benar aktif dan apakah path dapat dibaca; jangan mengganti storage semantics lagi sebelum evidence tersebut ada.
+
+
+## 2026-09-24 — Date + External Data corrective pass — USER GO
+
+### Authorization / scope
+User authorized continuing the Date issue and External Data investigation. User clarified that the remaining Label mockup is specifically the **three-dot actions sheet from the Apps tab**; the Label action from App Detail is functional and is not the target of this pass.
+
+### Date
+- Runtime observation from Build #951: Install Date / Update Date rendered an approximately 56-year-relative value.
+- Source inspection confirmed `PackageManager.PackageInfo.firstInstallTime` / `lastUpdateTime` are the direct source in `InstalledAppRepository`.
+- Because the observed symptom is consistent with an epoch-seconds value being interpreted as milliseconds, a defensive repository-boundary normalization was added: positive timestamps below `100_000_000_000` are interpreted as epoch seconds and multiplied by 1000; normal millisecond timestamps remain unchanged.
+- This is a defensive compatibility measure; the underlying device/runtime representation is still **UNVERIFIED** until E2E confirms the displayed dates.
+
+### External Data
+- `AppDetailsRepository.directorySizeOrNull()` previously returned `0` when the app-side `File` view could not see the directory. That prevented the existing root fallback from being attempted.
+- Changed inaccessible/nonexistent app-side external-data directories to return `null`, allowing the existing root measurement fallback to execute.
+- `AppExternalDataBackupBehavior` previously returned empty immediately when `File.exists()` was false. Added a root-backed `directoryExists()` probe so a directory invisible to normal app filesystem access can still be detected and copied through the rooted capability boundary.
+- Root probe result is tri-state: exists, absent, or inspection failure. This avoids silently treating an access failure as "no external data".
+- Scope remains `Android/data/<packageName>` for External Data; Media is unchanged.
+
+### Label boundary
+- No Label implementation change in this pass.
+- Target is explicitly the Apps-tab three-dot action sheet path; App Detail Label behavior is considered separately and observed functional per user report.
+
+### Commits
+- `689bec689ac3d196f16b810244d0ab7610c2ef08` — normalize install/update timestamps.
+- `02a2608b58bad5c8fcd93f75ab96b1e357b0c62a` — add rooted directory-existence probe.
+- `dc9078b352b6bb4359cbc21c155c5cb794ec2073` — allow root fallback for inaccessible External Data measurement.
+- `86a3c478482694461dbce41320d0a2423ad9025c` — probe External Data through root before copy.
+
+### Verification
+- Source: **IMPLEMENTED**.
+- CI: **PENDING / UNVERIFIED** at record time.
+- Date runtime: **NOT VERIFIED**.
+- External Data runtime measurement: **NOT VERIFIED**.
+- External Data backup runtime: **NOT VERIFIED**.
