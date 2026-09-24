@@ -270,6 +270,13 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 - **CLOUD:** opens a dedicated Cloud context surface with the existing provider-boundary status; no cloud provider/backend is falsely claimed.
 - **VERIFICATION:** source structure/balance checked; APK build/device verification still pending.
 
+## 10.3 APPS LOCAL/CLOUD COMPOSITION FIX — 2026-09-25
+
+- **OBSERVED:** after the Local/Cloud header wiring, the Cloud branch in AppsFilterScreen used a non-local return from the Column content lambda.
+- **ROOT CAUSE:** the Cloud branch composition was structurally invalid for the Compose lambda and could present as a hang/blocking state rather than a clean context surface.
+- **FIX IMPLEMENTED:** replaced the early return with explicit if (CLOUD) ... else { existing Local LazyColumn } composition.
+- **VERIFICATION:** source was re-read after the change; CI Android build is queued for commit b96db02e3883b97173e9dbbb8bfd651bc1f34f67. Runtime/device verification remains pending until a built APK is available.
+
 ## 10. NEXT ACTION
 
 1. **Jangan ulang audit reference umum.** Section 26 + section 8 sekarang menjadi baseline Apps reference reconciliation.
