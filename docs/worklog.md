@@ -2776,3 +2776,82 @@ Pengguna memberikan GO untuk P1 saja. Scope dibatasi pada residual bypass invent
 
 ### Boundary
 P1 selesai pada source level. Tidak masuk P2 shared backup storage, P3 recovery workflow, atau P4 strings.
+
+
+## 2026-09-24 — P2: Shared Backup Storage Boundary
+
+### Authorization
+Pengguna memberikan GO untuk P2 setelah P1 green. Scope: audit dan refactor shared use-case di sekitar `BackupStorageRepository` menjadi satu boundary yang dipakai lintas Home / Settings / Recovery / Apps. E2E tidak diminta; build/CI menjadi gate sebelum lanjut.
+
+### Hasil Audit
+`BackupStorageRepository` bukan hanya dipakai oleh Apps. Ia menyediakan beberapa use-case yang memang lintas surface:
+- inspeksi storage tersedia / terpilih;
+- kapasitas internal;
+- inisialisasi storage lokal;
+- pemilihan storage lokal dan persistensi konfigurasi;
+- local backup/recovery size;
+- lokasi backup lokal;
+- penghapusan local backups;
+- pengecekan durable local state;
+- penyusunan path backup app.
+
+Sebelumnya beberapa screen membuat repository/store sendiri atau memakai helper `initializeLocalBackupStorage`.
+
+### Perubahan
+- Menambahkan `BackupStorageBehavior` sebagai application boundary bersama di package `com.bare.storage`.
+- Repository tetap menjadi owner persistence/storage implementation.
+- `HomeScreen` sekarang memakai `BackupStorageBehavior`.
+- `SettingsScreen` sekarang memakai `BackupStorageBehavior`.
+- `LocalBackupScanScreen` sekarang memakai `BackupStorageBehavior`.
+- `ManageSpaceScreen` sekarang memakai `BackupStorageBehavior`.
+- `RecoveryScreen` sekarang memakai `BackupStorageBehavior`.
+- `BaReApp` sekarang memakai `BackupStorageBehavior` untuk durable local state.
+- `AppBackupBehavior` sekarang memakai shared storage behavior dan tidak lagi menghitung path backup app sendiri.
+- Path app backup dipusatkan sebagai repository-owned path contract yang diekspos melalui behavior.
+- Helper `LocalBackupStorageService.kt` dihapus karena menjadi duplicate entry point setelah behavior bersama tersedia.
+- Tidak mengubah schema storage, format identity folder, atau lokasi backup yang sudah ada.
+
+### Boundary
+```
+Home / Settings / Recovery / Apps / App shell
+                    ↓
+         BackupStorageBehavior
+                    ↓
+        BackupStorageRepository
+                    ↓
+       Android storage / root capability
+```
+
+`StorageConfigurationStore` tetap menjadi persistence owner di bawah behavior; UI tidak lagi mengaksesnya langsung untuk storage selection.
+
+### Static Verification
+- Targeted re-fetch seluruh client P2: **VERIFIED STATIC**.
+- `BackupStorageRepository` direct reference pada client P2 yang diperiksa: **0**.
+- `StorageConfigurationStore` direct reference pada client P2 yang diperiksa: **0**.
+- `initializeLocalBackupStorage` reference pada client P2: **0**.
+- `AppBackupBehavior` menggunakan `BackupStorageBehavior`.
+- `BaReApp`, Home, Settings, Recovery, Local Backup Scan, dan Manage Space menggunakan shared behavior.
+- Duplicate `LocalBackupStorageService` entry point dihapus.
+- No E2E/runtime executed, sesuai authorization.
+
+### Verification State
+- Source/static: **VERIFIED**.
+- CI/build untuk checkpoint P2 terbaru: **UNVERIFIED** sampai workflow mengembalikan green.
+- Runtime/E2E: **NOT RUN**.
+- Tidak ada claim bahwa runtime behavior berubah menjadi verified.
+
+### Commits
+- `ecac9793d3c9b908bb60b9e44ee18446ab81a499` — add shared backup storage behavior.
+- `d6b2b24742569b982c838544188c08b2658d9b26` — centralize app backup path.
+- `7c5569061f4611d9b01e6304c8dc627d8fa41853` — route Apps backup through shared behavior.
+- `bd4d811b54160796c81ea4e820837349901a0f97` — route Home through shared behavior.
+- `9cb0cd56c19470690083c2511165061997eaa8b1` — initial Settings migration.
+- `21c27c2080d43c062e496b3390cbf8a4f808c5b4` — Local Backup Scan migration.
+- `22cfe744accc15ce8ade8367d54eea4fdd5cf967` — Manage Space migration.
+- `eb8641bb4481ad0e9f54b672880606747188f4f1` — Recovery migration.
+- `3273603fbec3d33d11fb99f906ec93c4591159a7` — expose shared storage state checks.
+- `41fc35190de1d968aa4671308f307b72398eeb61` + `fac8b6bc1c201bbaf7531c5913a2ffb0cee6a23f` — App shell migration.
+- `ff317607c04538be7b46e6b76f0f90c53d1d1ff7` — remove duplicate local storage service.
+
+### Next Gate
+Observe CI for the latest P2 checkpoint. If green, P2 is source/build gated and P3 may proceed under the existing GO sequence. P4 strings remains separate and is not included in P2.
