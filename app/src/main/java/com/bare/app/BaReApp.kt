@@ -810,7 +810,7 @@ private fun AppsContextHeader(
                                 )
                             }
                             Text(
-                                text = if (source == AppsSource.LOCAL) context.getString(R.string.apps_count, appCount) else stringResource(R.string.cloud_inventory_unavailable),
+                                text = if (source == AppsSource.LOCAL) stringResource(R.string.apps_count, appCount) else stringResource(R.string.cloud_inventory_unavailable),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
