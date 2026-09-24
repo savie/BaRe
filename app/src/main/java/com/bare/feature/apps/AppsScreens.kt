@@ -681,90 +681,53 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun runRootAction(action: (String) -> Boolean) {
-        val currentPackage = packageName ?: return
-        if (!RootAppActionExecutor.isRootAvailable()) {
-            toast(context.getString(R.string.root_required))
-            return
+    fun handleAction(result: AppActionBehavior.Result, reloadOnSuccess: Boolean = true) {
+        when (result) {
+            AppActionBehavior.Result.COMPLETED -> {
+                toast(context.getString(R.string.action_completed))
+                if (reloadOnSuccess) reloadDetails()
+            }
+            AppActionBehavior.Result.ROOT_REQUIRED ->
+                toast(context.getString(R.string.root_required))
+            AppActionBehavior.Result.FAILED ->
+                toast(context.getString(R.string.action_failed))
+            AppActionBehavior.Result.UNAVAILABLE ->
+                toast(context.getString(R.string.app_action_unavailable))
+            AppActionBehavior.Result.OPENED_SYSTEM -> Unit
         }
-        val success = runCatching { action(currentPackage) }.getOrDefault(false)
-        toast(
-            if (success) context.getString(R.string.action_completed)
-            else context.getString(R.string.action_failed)
-        )
-        if (success) reloadDetails()
+    }
+
+    fun runRootAction(action: (String) -> AppActionBehavior.Result) {
+        val currentPackage = packageName ?: return
+        handleAction(action(currentPackage))
     }
 
     fun launchApp() {
         val currentPackage = packageName ?: return
-        val launchIntent = context.packageManager.getLaunchIntentForPackage(currentPackage)
-        if (launchIntent != null) {
-            context.startActivity(launchIntent)
-        } else {
-            toast(context.getString(R.string.app_action_unavailable))
-        }
+        handleAction(AppActionBehavior.launch(context, currentPackage), reloadOnSuccess = false)
     }
 
     fun openAppInfo() {
         val currentPackage = packageName ?: return
-        val intent = Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            Uri.parse("package:$currentPackage")
-        )
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            toast(context.getString(R.string.app_action_unavailable))
-        }
+        handleAction(AppActionBehavior.openAppInfo(context, currentPackage), reloadOnSuccess = false)
     }
 
     fun openPlayStore() {
         val currentPackage = packageName ?: return
-        val market = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$currentPackage"))
-        val web = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$currentPackage"))
-        when {
-            market.resolveActivity(context.packageManager) != null -> context.startActivity(market)
-            web.resolveActivity(context.packageManager) != null -> context.startActivity(web)
-            else -> toast(context.getString(R.string.app_action_unavailable))
-        }
+        handleAction(AppActionBehavior.openPlayStore(context, currentPackage), reloadOnSuccess = false)
     }
 
     fun uninstallApp() {
         val currentPackage = packageName ?: return
-        val intent = Intent(
-            Intent.ACTION_DELETE,
-            Uri.parse("package:$currentPackage")
-        ).apply {
-            putExtra(Intent.EXTRA_RETURN_RESULT, true)
-        }
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            toast(context.getString(R.string.app_action_unavailable))
-        }
+        handleAction(AppActionBehavior.uninstallWithSystemFallback(context, currentPackage), reloadOnSuccess = false)
     }
 
     fun requestBatteryOptimization(exempt: Boolean) {
         val currentPackage = packageName ?: return
-        if (RootAppActionExecutor.isRootAvailable()) {
-            val success = RootAppActionExecutor.setBatteryOptimizationExempt(currentPackage, exempt)
-            toast(if (success) context.getString(R.string.action_completed) else context.getString(R.string.action_failed))
-            if (success) reloadDetails()
-            return
-        }
-        if (!exempt) {
-            toast(context.getString(R.string.battery_optimization_managed_by_system))
-            return
-        }
-        val intent = Intent(
-            Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-            Uri.parse("package:$currentPackage")
+        handleAction(
+            AppActionBehavior.setBatteryOptimization(context, currentPackage, exempt),
+            reloadOnSuccess = true,
         )
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            toast(context.getString(R.string.app_action_unavailable))
-        }
     }
 
     fun addToHomeScreen() {
@@ -829,13 +792,13 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     confirmAction = null
                     when (action) {
                         context.getString(R.string.disable) ->
-                            runRootAction { RootAppActionExecutor.disable(it) }
+                            AppActionBehavior.disable(it)
                         context.getString(R.string.enable) ->
-                            runRootAction { RootAppActionExecutor.enable(it) }
+                            AppActionBehavior.enable(it)
                         context.getString(R.string.force_stop) ->
-                            runRootAction { RootAppActionExecutor.forceStop(it) }
+                            AppActionBehavior.forceStop(it)
                         context.getString(R.string.clear_data) ->
-                            runRootAction { RootAppActionExecutor.clearData(it) }
+                            AppActionBehavior.clearData(it)
                     }
                 }) {
                     Text(stringResource(R.string.confirm))
