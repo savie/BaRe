@@ -14,6 +14,10 @@ import com.bare.storage.BackupStorageBehavior
  * UI owns presentation and recovery-password configuration; recovery artifact,
  * identity restoration, master-key, and storage orchestration remain here.
  */
+class RecoveryIdentityConflictException : IllegalStateException()
+
+class RecoveryIdentityUnavailableException : IllegalStateException()
+
 class RecoveryBehavior(context: Context) {
     private val identityStore = LocalIdentityStore(context)
     private val repository = RecoveryArtifactRepository(context)
@@ -26,12 +30,12 @@ class RecoveryBehavior(context: Context) {
     ): BaReIdentity {
         val decoded = repository.import(artifactUri, recoveryPassword)
         if (identityStore.hasConflictingIdentity(decoded.payload)) {
-            error("recovery identity conflict")
+            throw RecoveryIdentityConflictException()
         }
         masterKeyStore.saveImported(decoded.masterKey)
         identityStore.restoreFromRecovery(decoded.payload)
         return identityStore.load()
-            ?: error("storage identity unavailable")
+            ?: throw RecoveryIdentityUnavailableException()
     }
 
     fun export(
