@@ -296,7 +296,7 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var query by remember { mutableStateOf("") }
 
-    LaunchedEffect(inventory) { apps = runCatching { repository.load() }.getOrDefault(emptyList()) }
+    LaunchedEffect(inventory) { apps = runCatching { inventory.load() }.getOrDefault(emptyList()) }
     val matches = remember(apps, query) {
         val q = query.trim().lowercase()
         if (q.isBlank()) emptyList() else apps.filter {
@@ -413,10 +413,10 @@ fun AppLabelsScreen(onBack: () -> Unit) {
     var editText by remember { mutableStateOf("") }
     var confirmDelete by remember { mutableStateOf<String?>(null) }
     fun refresh() {
-        apps = runCatching { repository.load() }.getOrDefault(emptyList())
+        apps = runCatching { inventory.load() }.getOrDefault(emptyList())
         labels = store.allLabels(apps.map { it.packageName })
     }
-    LaunchedEffect(repository) { refresh() }
+    LaunchedEffect(inventory) { refresh() }
     if (editingLabel != null) {
         AlertDialog(
             onDismissRequest = { editingLabel = null },
@@ -528,7 +528,7 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
 fun AppBlacklistScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val store = remember(context) { AppOrganizationBehavior(context) }
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var blacklisted by remember { mutableStateOf<Set<String>>(emptySet()) }
     var showPicker by remember { mutableStateOf(false) }
@@ -537,7 +537,7 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
         apps = runCatching { repository.load() }.getOrDefault(emptyList())
         blacklisted = store.blacklistedPackages()
     }
-    LaunchedEffect(repository) { refresh() }
+    LaunchedEffect(inventory) { refresh() }
     if (showPicker) {
         AlertDialog(
             onDismissRequest = { showPicker = false },
