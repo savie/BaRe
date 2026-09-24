@@ -61,6 +61,9 @@ data class AppItem(
     val cacheSizeBytes: Long? = null,
     val totalSizeBytes: Long? = null,
     val installedFromGooglePlay: Boolean? = null,
+    val backupCount: Int = 0,
+    val backupSizeBytes: Long? = null,
+    val latestBackupTime: Long? = null,
     val icon: Drawable? = null,
 )
 
