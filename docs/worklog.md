@@ -3513,3 +3513,37 @@ These are runtime observations; root causes are not inferred from UI evidence al
 
 ### Next boundary
 Do not claim the two corrective fixes as runtime-verified until a new build is installed and the affected filters are retested. External Data should be investigated separately as **measurement/readability/backupability**, with root/access capability verified before changing storage semantics.
+
+
+## 2026-09-24 — GO: lanjut Date + External Data setelah E2E #951
+
+### Authorization
+Pengguna memberikan GO untuk melanjutkan investigasi/fix **Install/Update Date** dan **External Data**. User juga mengklarifikasi bahwa label mockup di menu titik tiga pada App list adalah minor; label di App Detail sudah berfungsi dan tidak diperluas pada slice ini.
+
+### Evidence / Inspect
+- User melaporkan Android Build **#953** dari commit `73b9bfc19f8b5d3dceba912128642bbb34f76da8` berstatus green; evidence tersebut berasal dari user dan belum dire-query melalui workflow connector.
+- Android `PackageInfo.firstInstallTime` dan `lastUpdateTime` secara API contract menggunakan unit yang sama dengan `System.currentTimeMillis()` (milliseconds). citeturn1search0
+- BaRe `InstalledAppRepository` memang mengambil kedua field langsung dari `PackageManager`.
+- E2E sebelumnya tetap menunjukkan nilai relatif sekitar 56 tahun. Karena source contract resmi memakai milliseconds, nilai tersebut konsisten dengan kemungkinan runtime/device mengembalikan nilai seconds-like sebelum formatting, tetapi raw runtime timestamp belum tersedia sebagai evidence. Ini tetap **runtime hypothesis**, bukan verified root cause.
+- BaRe `AppDetailsRepository.directorySizeOrNull()` sebelumnya mengembalikan `0` ketika traversal tidak menghasilkan file. Kondisi itu mencegah operator `?:` berpindah ke root fallback, sehingga unreadable `Android/data/<package>` dapat terlihat sama seperti directory kosong.
+- Android scoped-storage membatasi akses aplikasi ke app-specific directory milik aplikasi lain pada external storage; broad access sendiri tidak otomatis menghilangkan seluruh pembatasan tersebut. citeturn0search0turn0search1
+
+### Change
+- `f3363df8cfe76831bb7b7ab220ef936155f57152`: menambahkan package-date normalization helper yang hanya mengubah nilai yang jelas berada pada rentang Unix-seconds, lalu menerapkannya **khusus Install Date dan Update Date**. Date Used tetap memakai formatter millisecond biasa.
+- `95a3a4fd8a083e3a5fe16b62b954081af98bd935`: wiring Install/Update Date ke helper tersebut.
+- `a7996edec3de9449efae8d386ab8bf8655572887`: traversal External Data sekarang membedakan directory kosong dari directory yang tidak bisa di-list; kondisi unreadable menghasilkan `null` sehingga RootCapabilityProvider fallback dapat dicoba.
+- Tidak mengubah path semantic External Data: tetap `Android/data/<packageName>`.
+- Tidak mengubah Media, Cloud, atau backup orchestration pada slice ini.
+
+### Verification
+- Source/static: **IMPLEMENTED**.
+- CI untuk corrective commits terbaru: **PENDING / UNVERIFIED**; status connector saat inspeksi belum menyediakan status check untuk commit tersebut.
+- Runtime Install/Update Date: **NOT RUN** setelah patch.
+- Runtime WhatsApp External Data: **NOT RUN** setelah patch.
+- External Data backupability tetap terpisah dari measurement/readability; belum diklaim berhasil.
+
+### Next boundary
+Setelah CI hijau, runtime retest difokuskan pada:
+1. Install Date dan Update Date pada beberapa app.
+2. WhatsApp Ext. data pada App Detail.
+3. Jika Ext. data masih kosong, verifikasi apakah root capability benar-benar aktif dan apakah path dapat dibaca; jangan mengganti storage semantics lagi sebelum evidence tersebut ada.
