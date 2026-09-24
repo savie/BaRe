@@ -91,7 +91,7 @@ import com.bare.feature.misc.MiscScreen
 import com.bare.feature.misc.SearchScreen
 import com.bare.feature.onboarding.*
 import com.bare.storage.BackupStorage
-import com.bare.storage.StorageConfigurationStore
+import com.bare.storage.BackupStorageBehavior
 import com.bare.feature.schedules.SchedulesScreen
 import com.bare.ui.theme.BaReTheme
 import kotlinx.coroutines.Dispatchers
@@ -105,8 +105,7 @@ fun BaReApp() {
     val context = LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val restoredIdentity = remember(identityStore) { identityStore.loadOrRecover() }
-    val storageRepository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
-    val storageConfiguration = remember(context) { StorageConfigurationStore(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     val settingsStore = remember(context) { SettingsStore(context) }
     var themeMode by remember(settingsStore) { mutableStateOf(settingsStore.loadThemeMode()) }
     var dynamicColors by remember(settingsStore) { mutableStateOf(settingsStore.loadDynamicColors()) }
