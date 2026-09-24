@@ -459,8 +459,7 @@ fun AppsFilterScreen(
                     )
                 }
             }
-            return
-        }
+        } else {
 
         LazyColumn(
             Modifier.weight(1f),
