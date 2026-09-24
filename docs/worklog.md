@@ -1,3 +1,37 @@
+## 2026-09-24 — A3: Cloud Sync metadata boundary
+
+### USER AUTHORIZATION
+- User said **GO** to continue A3 from the verified Install Status checkpoint.
+
+### INSPECT / DESIGN
+- Actual Apps inventory currently has local installed/backup data only; Cloud Sync UI existed but was disabled.
+- Account implementation currently exposes only LOCAL identity storage; no verified authenticated Account/provider record exists yet.
+- v1.0 requirement remains: Account is a separate boundary, provider implementation is LOCAL, and cloud backend is not claimed as implemented.
+- Reference cloud semantics require a separate cloud data source; local backup directories must not be reclassified as cloud.
+
+### IMPLEMENTATION
+- Added `CloudSyncState` with `UNKNOWN`, `SYNCED`, and `NOT_SYNCED`.
+- Added `AccountLocalDatabase` as the v1.0 local Account persistence boundary using Android SQLite.
+- Added a provider-neutral `cloud_sync_metadata` table keyed by Account + package.
+- Added `CloudSyncMetadataStore` to read/replace verified provider metadata without performing network I/O.
+- Apps inventory now reads Cloud Sync state only through the Account-local database boundary.
+- When no authenticated Account/provider metadata exists, inventory remains `UNKNOWN`; it is **not** inferred as `NOT_SYNCED`.
+- Added persistent Cloud Sync filter state and enabled the `All` chip. `Synced` / `Not synced` become actionable only when verified source-backed states exist.
+- No cloud upload/download/network behavior was added.
+- No local backup record was converted into cloud state.
+
+### VERIFICATION STATE
+- Source changes: **IMPLEMENTED / NOT YET CI VERIFIED**.
+- Runtime Account sign-in: **NOT IMPLEMENTED / UNVERIFIED**.
+- Runtime cloud provider transfer: **NOT IMPLEMENTED / UNVERIFIED**.
+- Cloud Sync filter with real provider metadata: **UNVERIFIED** until an authenticated Account/provider produces records.
+
+### NEXT
+- Verify CI/build for this source change.
+- Then wire the existing Account sign-in lifecycle to the local Account database without storing plaintext credentials.
+- After an authenticated provider boundary exists, adapt the Reference cloud metadata model into `cloud_sync_metadata` and verify `Synced` / `Not synced` behavior.
+- Keep actual cloud transfer and integrity verification separate from this metadata/filter increment.
+
 ## 2026-09-24 — A3: Install Status
 
 ### IMPLEMENTATION
