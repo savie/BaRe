@@ -83,6 +83,25 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         })
     }
 
+    fun copyDirectory(sourcePath: String, destinationDir: File): RootCopyResult {
+        if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
+            return RootCopyResult.Failed("Invalid source path")
+        }
+        if (!destinationDir.exists() && !destinationDir.mkdirs()) {
+            return RootCopyResult.Failed("Unable to create staging directory")
+        }
+
+        val source = sourcePath.replace("'", "'\"'\"'")
+        val destination = destinationDir.absolutePath.replace("'", "'\"'\"'")
+        val result = runSu("test -d '$source' && cp -a '$source'/.' '$destination'/")
+        return if (result.exitCode == 0) {
+            RootCopyResult.Success(destinationDir.walkTopDown().filter { it.isFile }.toList())
+        } else {
+            destinationDir.deleteRecursively()
+            RootCopyResult.Failed(result.stderr.ifBlank { result.stdout }.trim())
+        }
+    }
+
     fun directorySize(path: String): Long? {
         if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
         val quoted = path.replace("'", "'\"'\"'")
