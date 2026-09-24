@@ -3,7 +3,7 @@ package com.bare.feature.apps
 import android.content.Context
 import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorage
-import com.bare.storage.BackupStorageRepository
+import com.bare.storage.BackupStorageBehavior
 import java.io.File
 
 enum class AppBackupPart {
@@ -36,7 +36,7 @@ sealed interface AppBackupResult {
 }
 
 class AppBackupBehavior(private val context: Context) {
-    private val storage = BackupStorageRepository(context)
+    private val storage = BackupStorageBehavior(context)
     private val identityStore = LocalIdentityStore(context)
     private val dataBackup = AppDataBackupBehavior(context)
     private val externalDataBackup = AppExternalDataBackupBehavior()
@@ -74,9 +74,11 @@ class AppBackupBehavior(private val context: Context) {
             @Suppress("DEPRECATION")
             packageInfo.versionCode.toString()
         }
-        val backupDirectory = File(
-            initialization.rootDirectory,
-            "BaRe/accounts/${storage.identityFolder(identity.identityId)}/backups/apps/${request.packageName}/$version"
+        val backupDirectory = storage.appBackupDirectory(
+            initialization,
+            identity.identityId,
+            request.packageName,
+            version,
         )
         if (!backupDirectory.exists() && !backupDirectory.mkdirs()) {
             return AppBackupResult.Failed("Unable to create backup directory")
