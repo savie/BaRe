@@ -23,14 +23,28 @@ class LocalAccountRepository(context: Context) {
         val salt = ByteArray(SALT_BYTES).also(random::nextBytes)
         val verifier = derive(password, salt)
         return runCatching {
-            database.writableDatabase.execSQL(
-                """
-                INSERT INTO accounts(account_id, email, provider, active, password_salt, password_verifier)
-                VALUES (?, ?, 'LOCAL', 1, ?, ?)
-                """.trimIndent(),
-                arrayOf(accountId, email.trim(), salt.toB64(), verifier.toB64()),
-            )
-            true
+            val db = database.writableDatabase
+            db.beginTransaction()
+            try {
+                db.rawQuery(
+                    "SELECT 1 FROM accounts WHERE lower(email) = lower(?) LIMIT 1",
+                    arrayOf(email.trim()),
+                ).use { cursor ->
+                    if (cursor.moveToFirst()) return@runCatching false
+                }
+                db.execSQL("UPDATE accounts SET active = 0")
+                db.execSQL(
+                    """
+                    INSERT INTO accounts(account_id, email, provider, active, password_salt, password_verifier)
+                    VALUES (?, ?, 'LOCAL', 1, ?, ?)
+                    """.trimIndent(),
+                    arrayOf(accountId, email.trim(), salt.toB64(), verifier.toB64()),
+                )
+                db.setTransactionSuccessful()
+                true
+            } finally {
+                db.endTransaction()
+            }
         }.getOrDefault(false).also {
             password.fill('\u0000')
         }
