@@ -879,4 +879,13 @@
     <string name="backup_action">Backup action</string>
     <string name="app_fallback">App</string>
     <string name="close_mark">✕</string>
+    <string name="sort_name">Name</string>
+    <string name="install_date">Install date</string>
+    <string name="update_date">Update date</string>
+    <string name="backup_date">Backup date</string>
+    <string name="backup_size">Backup size</string>
+    <string name="date_used">Date used</string>
+    <string name="sort_descending">↓</string>
+    <string name="sort_ascending">↑</string>
+    <string name="backup_completed">Backup completed for %1$s: %2$d file(s).</string>
 </resources>
