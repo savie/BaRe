@@ -6113,3 +6113,39 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 - Commit: `b87b521c65a333fe63abda4f24ef984a3ca53f4e`
 - Verification: source fix **APPLIED**; CI untuk commit ini **PENDING**.
 - Catatan: pesan `Unable to strip ... libandroidx.graphics.path.so` bukan penyebab build gagal; kegagalan aktual adalah Kotlin compile error.
+
+
+## 2026-09-24 — GO: App Detail stuck di loading
+
+### Observed
+- Runtime screenshot: App Detail berhasil dibuka, tetapi hanya menampilkan spinner dan tidak pernah masuk ke detail.
+- Build sebelumnya: GREEN dari user evidence.
+
+### Inspection
+- AppDetailScreen memiliki state details = null.
+- Source sebelumnya memiliki fungsi reloadDetails() yang hanya dipanggil setelah action tertentu.
+- Tidak ada initial load AppDetailsRepository.load(packageName) saat AppDetailScreen pertama dibuka.
+- Akibatnya details tetap null, sehingga branch UI terus berada di CircularProgressIndicator().
+- AppDetailsRepository.load() juga melakukan pengukuran Ext. data/Media secara sinkron; karena itu pemanggilan load harus dipindah ke Dispatchers.IO agar tidak mengunci UI.
+
+### Fix
+- Tambah trigger detailReloadToken untuk initial load dan reload setelah action.
+- Tambah LaunchedEffect(packageName, detailReloadToken) untuk memuat AppDetails saat halaman dibuka.
+- repository.load() dijalankan melalui withContext(Dispatchers.IO).
+- reloadDetails() sekarang hanya menaikkan token; load aktual dikerjakan oleh effect yang sama.
+
+### Source
+- 37deeb672d77923f57878307e8c4140eafb504b3 — fix: load App Detail off the main thread
+
+### Truth / Verification
+- Root cause spinner: VERIFIED dari source — tidak ada initial load yang mengisi details.
+- Fix source: APPLIED.
+- CI/build setelah fix: PENDING / UNVERIFIED.
+- Runtime setelah fix: UNVERIFIED.
+- Belum menyimpulkan pengukuran Ext. data/Media aman dari timeout; itu akan diverifikasi setelah build dan runtime berikutnya.
+
+### Next
+1. Cek CI commit 37deeb672d77923f57878307e8c4140eafb504b3.
+2. Jika green, install/update APK tanpa uninstall.
+3. Buka App Detail 1DM+ dan pastikan spinner berubah menjadi isi detail.
+4. Jika masih lama, lanjut pecah loading detail dasar vs pengukuran Ext. data/Media supaya card utama tidak menunggu scan folder besar.
