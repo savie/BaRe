@@ -6149,3 +6149,66 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 2. Jika green, install/update APK tanpa uninstall.
 3. Buka App Detail 1DM+ dan pastikan spinner berubah menjadi isi detail.
 4. Jika masih lama, lanjut pecah loading detail dasar vs pengukuran Ext. data/Media supaya card utama tidak menunggu scan folder besar.
+
+
+## 2026-09-24 — GO: Overflow App Detail tidak mengikuti reference
+
+### User evidence
+- Runtime screenshot BaRe sudah tidak stuck loading dan App Detail tampil.
+- User membandingkan langsung dengan screenshot reference Swift dan menyatakan surface overflow masih berbeda; user tidak meminta audit bagian lain.
+
+### Inspection
+Perbedaan yang terlihat:
+- BaRe sebelumnya menaruh semua action dalam satu daftar vertikal.
+- Reference menaruh quick actions sebagai row pill horizontal di bagian paling atas popup, lalu divider.
+- Reference main menu hanya berisi:
+  - Favorites
+  - Set app labels
+  - Add to blacklist
+  - Battery optimization + status + toggle
+  - Add to Home screen
+  - Settings
+- Disable / Force stop / Clear data bukan item vertikal utama; ketiganya berada di quick-action pill row.
+- Reference memakai wording Set app labels dan Add to blacklist.
+- Battery optimization pada reference punya secondary text Not optimized/status dan switch.
+
+### Implementation
+- Popup tetap anchored ke titik tiga di App Info card.
+- Popup diberi width 340dp.
+- Quick actions dipindah ke horizontal scroll row:
+  - Disable / Enable
+  - Force stop
+  - Clear data
+  - Play Store
+  - App info
+  - Share APK
+- Main menu vertikal sekarang hanya:
+  - Favorites
+  - Set app labels
+  - Add to blacklist
+  - Battery optimization + status + switch
+  - Add to Home screen
+  - Settings
+- Ditambahkan divider antara quick-action row dan main menu, serta divider sebelum Add to Home screen.
+- Status battery optimization dibaca dari PowerManager saat popup dibuka.
+- Behavior existing tetap dipakai; Share APK masih menunjukkan unavailable karena provider execution belum terverifikasi.
+
+### Source
+- a10a412f2976c48e3c295f47f77cbee5082631a1 — ui: match App Detail overflow popup layout
+
+### Truth / Verification
+- Reference comparison: SOURCE + USER SCREENSHOT REVIEWED.
+- Source fix: APPLIED.
+- CI/build setelah fix: PENDING / UNVERIFIED.
+- Runtime visual setelah fix: UNVERIFIED.
+- Bagian lain App Detail sengaja tidak diaudit karena user meminta fokus pada overflow ini.
+
+### Next
+1. Cek CI.
+2. Jika green, install/update APK tanpa uninstall.
+3. Buka titik tiga App Detail dan bandingkan hanya popup ini dengan reference:
+   - quick-action pills di atas;
+   - divider;
+   - 6 main items;
+   - battery subtitle + switch;
+   - posisi/ukuran popup.
