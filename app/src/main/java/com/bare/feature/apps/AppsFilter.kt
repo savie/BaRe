@@ -97,6 +97,7 @@ import android.provider.Settings
 private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
 private enum class GooglePlayFilter { ALL, GOOGLE_PLAY, NOT_GOOGLE_PLAY }
+private enum class SystemAppFilter { ALL, LABELLED_OR_FAVORITES, LAUNCHABLE, UPDATED }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
@@ -116,6 +117,7 @@ private data class AppsFilterState(
     val appType: AppTypeFilter = AppTypeFilter.ALL,
     val enabled: EnabledFilter = EnabledFilter.ALL,
     val googlePlay: GooglePlayFilter = GooglePlayFilter.ALL,
+    val systemAppFilter: SystemAppFilter = SystemAppFilter.ALL,
     val favorite: FavoriteFilter = FavoriteFilter.ALL,
     val label: LabelFilter = LabelFilter.ALL,
     val selectedLabels: Set<String> = emptySet(),
@@ -129,6 +131,7 @@ private fun loadPersistedFilterState(store: AppFilterStateStore): AppsFilterStat
         appType = runCatching { AppTypeFilter.valueOf(saved.appType) }.getOrDefault(AppTypeFilter.ALL),
         enabled = runCatching { EnabledFilter.valueOf(saved.enabled) }.getOrDefault(EnabledFilter.ALL),
         googlePlay = runCatching { GooglePlayFilter.valueOf(saved.googlePlay) }.getOrDefault(GooglePlayFilter.ALL),
+        systemAppFilter = runCatching { SystemAppFilter.valueOf(saved.systemAppFilter) }.getOrDefault(SystemAppFilter.ALL),
         favorite = runCatching { FavoriteFilter.valueOf(saved.favorite) }.getOrDefault(FavoriteFilter.ALL),
         label = runCatching { LabelFilter.valueOf(saved.label) }.getOrDefault(LabelFilter.ALL),
         selectedLabels = saved.selectedLabels.toSet(),
@@ -143,6 +146,7 @@ private fun persistFilterState(store: AppFilterStateStore, state: AppsFilterStat
             appType = state.appType.name,
             enabled = state.enabled.name,
             googlePlay = state.googlePlay.name,
+            systemAppFilter = state.systemAppFilter.name,
             favorite = state.favorite.name,
             label = state.label.name,
             selectedLabels = state.selectedLabels,
@@ -317,6 +321,15 @@ fun AppsFilterScreen(
         val filtered = apps.asSequence()
             .filter { app -> !organizationStore.isBlacklisted(app.packageName) }
             .filter { app -> when (activeFilter.appType) { AppTypeFilter.ALL -> true; AppTypeFilter.USER -> !app.isSystem; AppTypeFilter.SYSTEM -> app.isSystem } }
+            .filter { app ->
+                if (!app.isSystem) return@filter activeFilter.systemAppFilter == SystemAppFilter.ALL
+                when (activeFilter.systemAppFilter) {
+                    SystemAppFilter.ALL -> true
+                    SystemAppFilter.LABELLED_OR_FAVORITES -> organizationStore.labels(app.packageName).isNotEmpty() || organizationStore.isFavorite(app.packageName)
+                    SystemAppFilter.LAUNCHABLE -> app.canLaunch
+                    SystemAppFilter.UPDATED -> app.isUpdatedSystemApp
+                }
+            }
             .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
             .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
             .filter { app -> when (activeFilter.favorite) { FavoriteFilter.ALL -> true; FavoriteFilter.FAVORITES -> organizationStore.isFavorite(app.packageName); FavoriteFilter.NOT_FAVORITES -> !organizationStore.isFavorite(app.packageName) } }
@@ -348,6 +361,9 @@ fun AppsFilterScreen(
             if (activeFilter.label == LabelFilter.UNLABELLED) add(context.getString(R.string.unlabelled))
             if (activeFilter.selectedLabels.isNotEmpty()) add(context.getString(R.string.labels_prefix, activeFilter.selectedLabels.joinToString(", ")))
             if (activeFilter.appType == AppTypeFilter.USER) add(context.getString(R.string.user_apps))
+            if (activeFilter.systemAppFilter == SystemAppFilter.LABELLED_OR_FAVORITES) add(context.getString(R.string.system_apps_labelled_or_favorites))
+            if (activeFilter.systemAppFilter == SystemAppFilter.LAUNCHABLE) add(context.getString(R.string.system_apps_launchable))
+            if (activeFilter.systemAppFilter == SystemAppFilter.UPDATED) add(context.getString(R.string.system_apps_updated))
             if (activeFilter.appType == AppTypeFilter.SYSTEM) add(context.getString(R.string.system_apps))
             if (activeFilter.enabled == EnabledFilter.ENABLED) add(context.getString(R.string.enabled))
             if (activeFilter.enabled == EnabledFilter.DISABLED) add(context.getString(R.string.disabled))
@@ -369,6 +385,7 @@ fun AppsFilterScreen(
                                     chip == context.getString(R.string.favorite) || chip == context.getString(R.string.not_favorite) -> activeFilter.copy(favorite = FavoriteFilter.ALL)
                                     chip == context.getString(R.string.labelled) || chip == "Not labelled" || chip.startsWith("Labels:") -> activeFilter.copy(label = LabelFilter.ALL, selectedLabels = emptySet())
                                     chip == context.getString(R.string.user_apps) || chip == context.getString(R.string.system_apps) -> activeFilter.copy(appType = AppTypeFilter.ALL)
+                                    chip == context.getString(R.string.system_apps_labelled_or_favorites) || chip == context.getString(R.string.system_apps_launchable) || chip == context.getString(R.string.system_apps_updated) -> activeFilter.copy(systemAppFilter = SystemAppFilter.ALL)
                                     chip == context.getString(R.string.enabled) || chip == context.getString(R.string.disabled) -> activeFilter.copy(enabled = EnabledFilter.ALL)
                                     chip == context.getString(R.string.installed_from_google_play) || chip == context.getString(R.string.not_installed_from_google_play) -> activeFilter.copy(googlePlay = GooglePlayFilter.ALL)
                                     else -> activeFilter
@@ -871,9 +888,9 @@ fun AppsFilterScreen(
                     item {
                         Text(stringResource(R.string.system_app_filters), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Bold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_labelled_or_favorites)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_launchable)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_updated)) })
+                            FilterChip(selected = pendingFilter.systemAppFilter == SystemAppFilter.LABELLED_OR_FAVORITES, onClick = { pendingFilter = pendingFilter.copy(systemAppFilter = if (pendingFilter.systemAppFilter == SystemAppFilter.LABELLED_OR_FAVORITES) SystemAppFilter.ALL else SystemAppFilter.LABELLED_OR_FAVORITES) }, label = { Text(context.getString(R.string.system_apps_labelled_or_favorites)) })
+                            FilterChip(selected = pendingFilter.systemAppFilter == SystemAppFilter.LAUNCHABLE, onClick = { pendingFilter = pendingFilter.copy(systemAppFilter = if (pendingFilter.systemAppFilter == SystemAppFilter.LAUNCHABLE) SystemAppFilter.ALL else SystemAppFilter.LAUNCHABLE) }, label = { Text(context.getString(R.string.system_apps_launchable)) })
+                            FilterChip(selected = pendingFilter.systemAppFilter == SystemAppFilter.UPDATED, onClick = { pendingFilter = pendingFilter.copy(systemAppFilter = if (pendingFilter.systemAppFilter == SystemAppFilter.UPDATED) SystemAppFilter.ALL else SystemAppFilter.UPDATED) }, label = { Text(context.getString(R.string.system_apps_updated)) })
                         }
                     }
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
