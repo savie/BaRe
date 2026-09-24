@@ -397,8 +397,7 @@ Artinya jalur Welcome sampai Home **sudah jelas secara FE**, tetapi belum boleh 
 ### Cara Kerja Berikutnya
 Kita tutup scope terkecil satu per satu.
 
-Contoh:
-`Welcome`
+Contoh:`Welcome`
 → bentuk FE dibereskan  
 → state/flow jelas  
 → capability yang benar-benar dibutuhkan diidentifikasi  
@@ -797,8 +796,7 @@ Verifikasi runtime pengguna terhadap APK CI terakhir setelah full rename Android
 
 ### Observasi Pengguna
 - APK CI terakhir sudah di-install dan diverifikasi pada device.- Dari sisi behavior yang diperiksa, tidak ada perubahan yang terlihat selain nama aplikasi.
-- Password pada field authentication sudah dapat digunakan sesuai input yang diharapkan.
-- Form authentication menolak interaksi lanjut ketika format email tidak valid.
+- Password pada field authentication sudah dapat digunakan sesuai input yang diharapkan.- Form authentication menolak interaksi lanjut ketika format email tidak valid.
 - Password dengan panjang kurang dari 8 karakter tidak dapat melanjutkan authentication flow.
 
 ### Verifikasi
@@ -1198,7 +1196,6 @@ User menyetujui alur Cloud yang sudah dibahas dan memberikan arahan implementati
 ### Perbaikan- Memperbaiki syntax Kotlin yang masih menyisakan literal escaped newline pada `BaReApp.kt`.
 - Memperbaiki `RootCapabilityProvider.runSu()` agar menggunakan block body sehingga `return` tidak melanggar aturan Kotlin expression body.
 - Tidak mengubah scope Cloud atau membuat authentication screen baru.
-
 ### Evidence
 - CI run **#297** gagal pada `:app:compileDebugKotlin`; log menunjukkan syntax error di `BaReApp.kt`, unresolved `accessResolver`, serta error expression body pada `RootCapabilityProvider.kt`.
 - CI run **#298** masih gagal karena literal escaped newline di `BaReApp.kt` belum benar-benar terhapus dari source.
@@ -1597,8 +1594,7 @@ Pengguna meminta audit fondasi penentuan BaRe ID sebelum melanjutkan area Apps, 
 - Belum ada aturan eksplisit untuk uninstall → reinstall.- Belum ada aturan eksplisit untuk clear app data.
 - Belum ada aturan eksplisit untuk factory reset.
 - Belum ada aturan eksplisit untuk flash/ganti ROM pada device yang sama.
-- Belum ada aturan untuk mendeteksi identity baru yang menemukan backup folder lama dan meminta recovery/import, bukan membuat folder identity baru tanpa penjelasan.
-- Belum ada contract/versioning untuk identity metadata dan migration.
+- Belum ada aturan untuk mendeteksi identity baru yang menemukan backup folder lama dan meminta recovery/import, bukan membuat folder identity baru tanpa penjelasan.- Belum ada contract/versioning untuk identity metadata dan migration.
 - Mapping 16 karakter `identityId` ke folder backup masih tercatat sebagai implementation assumption dan belum menjadi format identity canonical yang diverifikasi.
 
 ### Status Truth
@@ -1997,8 +1993,7 @@ pilih LOCAL
 ### FOLLOW-UP
 
 - Final header wiring commit: `a420bacdcd842b8b84e061b98c095bdd23aaeebb`.
-- Workflow definition confirms push-triggered Android build for `v1.0/rebaseline`; no run is currently observable through the available workflow-run lookup.
-- Build and device verification therefore remain **PENDING / UNVERIFIED**.
+- Workflow definition confirms push-triggered Android build for `v1.0/rebaseline`; no run is currently observable through the available workflow-run lookup.- Build and device verification therefore remain **PENDING / UNVERIFIED**.
 
 
 ## 2026-09-21 — G1 Apps Filter Source Naming + CI #454 Fix
@@ -2397,8 +2392,7 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 ### Observed
 - User-provided debug build failed at `:app:compileDebugKotlin`.
 - Exact compiler error: `BaReApp.kt:387:26 Unresolved reference 'clip'`.
-- The new floating NavigationBar used `Modifier.clip(RoundedCornerShape(28.dp))`, but the required Compose extension import was missing.
-- No other compile error was reported in the supplied log.
+- The new floating NavigationBar used `Modifier.clip(RoundedCornerShape(28.dp))`, but the required Compose extension import was missing.- No other compile error was reported in the supplied log.
 
 ### Root Cause
 - Missing source import for `androidx.compose.ui.draw.clip`.
@@ -2513,3 +2507,46 @@ Usulan code boundary:
 3. Setelah gate tersebut, implementasikan Share APK behavior dengan contract artifact/share yang terpisah dari backup persistence.
 4. Setelah Share APK, audit residual inventory coupling di MiscScreens.kt dan remaining platform/UI boundary.
 5. Baru lanjut capability backup lain berdasarkan dependency/evidence, bukan berdasarkan jumlah menu.
+
+
+## 2026-09-24 — GO: Implement Share APK Behavior
+
+### Authorization
+Pengguna memberikan **GO** untuk melanjutkan implementation **Share APK** setelah menyatakan CI terakhir untuk commit `dba6627c841e6aa128e7fb97cea8d8754cd3e516` hijau dan runtime APK backup akan diverifikasi langsung oleh pengguna.
+
+### Change
+- Menambahkan `AppShareBehavior` sebagai behavior terpisah dari `AppBackupBehavior`.
+- Behavior melakukan staging APK installed package melalui `RootCapabilityProvider.copyPackageApks()` ke `cacheDir/apk-share/<uuid>`.
+- Staging diekspos melalui AndroidX `FileProvider` dengan `content://` URI.
+- Single APK menggunakan `ACTION_SEND`; package dengan base + split APK menggunakan `ACTION_SEND_MULTIPLE`.
+- Share intent membawa `FLAG_GRANT_READ_URI_PERMISSION` dan dibungkus Android chooser.
+- Menambahkan provider `com.bare.fileprovider` pada manifest dan `res/xml/file_paths.xml`.
+- App Detail action menu **Share APK** sekarang memanggil `AppShareBehavior`.
+- Storage chip APK **Share APK** sekarang memanggil `AppShareBehavior`.
+- App Backup screen **Share APK** sekarang memanggil `AppShareBehavior` dan tidak lagi membuka mockup dialog.
+
+### Commits
+- `4e8c88d1acf79cad1c8c96e1979ac3f8184a768c` — add Share behavior.
+- `770cf4c4854d04c9969f410981c7f8cfe2ff4e63` — register FileProvider.
+- `91a3625ca6ac890accf6dbd96a35d6dce440714e` — add FileProvider paths.
+- `c074563afd59d52c2ba209eb7ddc3313d130ee5c` — wire Share APK into Apps flows.
+
+### Static Verification
+- `AppShareBehavior.kt` terobservasi pada branch dan menggunakan `RootCapabilityProvider`, `FileProvider`, URI grant, serta SEND/SEND_MULTIPLE.
+- Manifest provider dan `file_paths.xml` terobservasi pada branch.
+- Tiga entry point Share APK pada App Detail, Storage APK chip, dan App Backup screen sudah diarahkan ke behavior.
+- Mockup Share APK pada App Backup screen sudah dihapus dari flow tersebut.
+- Runtime share dan post-change CI/build **UNVERIFIED** sampai evidence baru tersedia.
+
+### Boundary
+- Share APK bukan persistence backup.
+- Split APK dibagikan sebagai beberapa content URI; receiver yang tidak mendukung multiple APK streams dapat memiliki keterbatasan. Ini belum diverifikasi runtime.
+- Staging berada di cache dan dapat hilang mengikuti lifecycle cache Android.
+- Root tetap menjadi prerequisite implementation saat ini karena APK acquisition menggunakan `RootCapabilityProvider`.
+
+### Next Verification
+1. Build/CI setelah implementation Share APK.
+2. Runtime pada device: buka Share APK dari App Detail, APK storage chip, dan App Backup.
+3. Verifikasi chooser muncul dan receiver dapat membaca URI APK.
+4. Verifikasi package split APK bila ada: semua URI dapat dibaca.
+5. Setelah evidence runtime, baru ubah status capability Share APK dari IMPLEMENTED menjadi RUNTIME_TESTED/VERIFIED sesuai hasil.
