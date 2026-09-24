@@ -221,8 +221,6 @@ private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavorit
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
 enum class AppsContext { LOCAL, CLOUD }
 
 @Composable
@@ -1183,6 +1181,7 @@ fun AppsFilterScreen(
             }
         }
     }
+}
 }
 private fun formatSize(context: Context, bytes: Long): String {
     if (bytes <= 0L) return context.getString(R.string.unknown_size)
