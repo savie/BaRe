@@ -6475,3 +6475,45 @@ Contoh target:
 1. Tunggu/cek CI fase 2.
 2. Jika green, runtime test favorite/labels/blacklist dari App Detail dan Apps.
 3. Setelah organization path terbukti, lanjut inventory/reload centralization.
+
+
+
+## 2026-09-24 — GO: inventory/reload centralization
+
+### Authorization
+- User memberikan **GO** setelah menyatakan CI green dan E2E test sudah oke.
+- Scope mengikuti checkpoint fase 2: lanjut ke inventory/reload centralization.
+- Perubahan dibatasi pada jalur discovery/reload inventory Apps; tidak mengubah UI layout atau backup behavior.
+
+### Inspection
+- InstalledAppRepository tetap menjadi implementation owner untuk discovery installed apps dan cache.
+- AppsFilterScreen sebelumnya membuat repository langsung, membaca cache langsung, dan menjalankan repository.load() sendiri.
+- AppsScreen, AppsSearchScreen, AppLabelsScreen, dan AppBlacklistScreen juga membuat/memanggil InstalledAppRepository sendiri.
+- AppsScreen legacy tidak dihapus karena belum ada authorization/evidence bahwa screen tersebut unused; hanya dependency inventory-nya yang diarahkan ke shared behavior.
+
+### Implementation
+- Ditambahkan AppInventoryBehavior.kt sebagai shared entry point untuk:
+  - load();
+  - cached().
+- Persistence/discovery implementation tetap berada di InstalledAppRepository.
+- AppsFilter.kt diarahkan ke AppInventoryBehavior untuk cache, load, dan lifecycle reload.
+- AppsScreens.kt diarahkan ke AppInventoryBehavior untuk AppsScreen, AppsSearchScreen, AppLabelsScreen, dan AppBlacklistScreen.
+- Tidak mengubah InstalledAppRepository behavior, inventory model, filtering semantics, atau UI layout.
+
+### Verification
+- Direct InstalledAppRepository references pada AppsFilter.kt: **0 — VERIFIED dari source**.
+- Direct InstalledAppRepository references pada AppsScreens.kt: **0 — VERIFIED dari source**.
+- AppsFilter memakai AppInventoryBehavior untuk cached/load/reload: **VERIFIED dari source**.
+- AppsScreens inventory surfaces memakai AppInventoryBehavior: **VERIFIED dari source**.
+- User-provided evidence: CI **GREEN** dan E2E test **OK** sebelum fase ini.
+- CI/build setelah inventory refactor: **PENDING / UNVERIFIED**.
+- Runtime behavior setelah inventory refactor: **UNVERIFIED**.
+
+### Known limitation
+- AppInventoryBehavior saat ini adalah entry point bersama, bukan shared reactive inventory state. Screen tetap memiliki UI state masing-masing; ini disengaja agar scope refactor tetap kecil dan reversible.
+- InstalledAppRepository masih menjadi source implementation/cache owner.
+
+### Next
+1. Verifikasi CI/build untuk commit inventory refactor.
+2. Jika green, inspect remaining duplicate behavior/formatter/reload patterns.
+3. Prioritaskan jalur berikutnya berdasarkan actual dependency dan verification gap; jangan menghapus legacy AppsScreen tanpa call-site evidence.
