@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.textfield.TextInputLayout android:id="@id/til_folder_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:layout_marginBottom="@dimen/spacing_medium" android:hint="@string/folder_name" android:layout_marginStart="@dimen/spacing_normal_more" android:layout_marginEnd="@dimen/spacing_normal_more" android:importantForAutofill="no" app:boxBackgroundColor="?textInputBoxBackgroundColor" app:counterEnabled="true" app:counterMaxLength="255" app:startIconDrawable="@drawable/ic_edit_pencil" style="@style/M3TilOutlinedDense">
+        <com.google.android.material.textfield.TextInputEditText android:id="@id/et_folder_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="1" android:maxLength="255" android:inputType="text" android:fontFamily="@font/main_regular" />
+    </com.google.android.material.textfield.TextInputLayout>
+</FrameLayout>

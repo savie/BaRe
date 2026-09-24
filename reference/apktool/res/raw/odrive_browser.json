@@ -1,0 +1,17 @@
+{
+  "client_id": "211e5a3c-79d3-4be1-9f31-64b9b769d5b5",
+  "authorization_user_agent": "BROWSER",
+  "redirect_uri": "msauth://org.swiftapps.swiftbackup/a73Cd0Z4P4RkZQiyj1UX7%2FC56jo%3D",
+  "account_mode": "SINGLE",
+  "broker_redirect_uri_registered": false,
+  "authorities": [
+    {
+      "type": "AAD",
+      "audience": {
+        "type": "AzureADandPersonalMicrosoftAccount",
+        "tenant_id": "common"
+      }
+    }
+  ],
+  "power_opt_check_for_network_req_enabled": false
+}

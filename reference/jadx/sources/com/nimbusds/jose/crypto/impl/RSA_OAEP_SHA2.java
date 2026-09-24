@@ -1,0 +1,95 @@
+package com.nimbusds.jose.crypto.impl;
+
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.shaded.jcip.ThreadSafe;
+import defpackage.fz5;
+import defpackage.xs1;
+import java.security.AlgorithmParameters;
+import java.security.InvalidKeyException;
+import java.security.PrivateKey;
+import java.security.Provider;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.MGF1ParameterSpec;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.OAEPParameterSpec;
+import javax.crypto.spec.PSource;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+@ThreadSafe
+public class RSA_OAEP_SHA2 {
+    private static final String RSA_OEAP_256_JCA_ALG = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
+    private static final String RSA_OEAP_384_JCA_ALG = "RSA/ECB/OAEPWithSHA-384AndMGF1Padding";
+    private static final String RSA_OEAP_512_JCA_ALG = "RSA/ECB/OAEPWithSHA-512AndMGF1Padding";
+    private static final String SHA_256_JCA_ALG = "SHA-256";
+    private static final String SHA_384_JCA_ALG = "SHA-384";
+    private static final String SHA_512_JCA_ALG = "SHA-512";
+
+    private RSA_OAEP_SHA2() {
+    }
+
+    public static SecretKey decryptCEK(PrivateKey privateKey, byte[] bArr, int i, Provider provider) throws JOSEException {
+        MGF1ParameterSpec mGF1ParameterSpec;
+        String str;
+        String str2;
+        if (256 == i) {
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA256;
+            str = RSA_OEAP_256_JCA_ALG;
+            str2 = SHA_256_JCA_ALG;
+        } else if (384 == i) {
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA384;
+            str = RSA_OEAP_384_JCA_ALG;
+            str2 = SHA_384_JCA_ALG;
+        } else {
+            if (512 != i) {
+                throw new JOSEException(fz5.j(i, "Unsupported SHA-2 bit size: "));
+            }
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA512;
+            str = RSA_OEAP_512_JCA_ALG;
+            str2 = SHA_512_JCA_ALG;
+        }
+        try {
+            AlgorithmParameters algorithmParametersHelper = AlgorithmParametersHelper.getInstance("OAEP", provider);
+            algorithmParametersHelper.init(new OAEPParameterSpec(str2, "MGF1", mGF1ParameterSpec, PSource.PSpecified.DEFAULT));
+            Cipher cipherHelper = CipherHelper.getInstance(str, provider);
+            cipherHelper.init(4, privateKey, algorithmParametersHelper);
+            return (SecretKey) cipherHelper.unwrap(bArr, "AES", 3);
+        } catch (Exception e) {
+            throw new JOSEException(e.getMessage(), e);
+        }
+    }
+
+    public static byte[] encryptCEK(RSAPublicKey rSAPublicKey, SecretKey secretKey, int i, Provider provider) throws JOSEException {
+        MGF1ParameterSpec mGF1ParameterSpec;
+        String str;
+        String str2;
+        if (256 == i) {
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA256;
+            str = RSA_OEAP_256_JCA_ALG;
+            str2 = SHA_256_JCA_ALG;
+        } else if (384 == i) {
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA384;
+            str = RSA_OEAP_384_JCA_ALG;
+            str2 = SHA_384_JCA_ALG;
+        } else {
+            if (512 != i) {
+                throw new JOSEException(fz5.j(i, "Unsupported SHA-2 bit size: "));
+            }
+            mGF1ParameterSpec = MGF1ParameterSpec.SHA512;
+            str = RSA_OEAP_512_JCA_ALG;
+            str2 = SHA_512_JCA_ALG;
+        }
+        try {
+            AlgorithmParameters algorithmParametersHelper = AlgorithmParametersHelper.getInstance("OAEP", provider);
+            algorithmParametersHelper.init(new OAEPParameterSpec(str2, "MGF1", mGF1ParameterSpec, PSource.PSpecified.DEFAULT));
+            Cipher cipherHelper = CipherHelper.getInstance(str, provider);
+            cipherHelper.init(3, rSAPublicKey, algorithmParametersHelper);
+            return cipherHelper.wrap(secretKey);
+        } catch (InvalidKeyException e) {
+            throw new JOSEException(xs1.h(i, "Encryption failed due to invalid RSA key for SHA-", ": The RSA key may be too short, use a longer key"), e);
+        } catch (Exception e2) {
+            throw new JOSEException(e2.getMessage(), e2);
+        }
+    }
+}

@@ -1,0 +1,16 @@
+package defpackage;
+
+import java.util.HashMap;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public abstract class hf0 {
+    public static final HashMap a;
+
+    static {
+        HashMap map = new HashMap();
+        a = map;
+        map.put("AES/CCM/NoPadding", new df0(0));
+        map.put("AES/GCM/NoPadding", new ff0(0));
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="?attr/colorBackgroundActivated"/>
+            <size
+                android:height="40dp"
+                android:width="40dp"/>
+        </shape>
+    </item>
+    <item
+        android:gravity="center"
+        android:height="20dp"
+        android:width="20dp"
+        android:drawable="@drawable/ic_sd_selected"/>
+</layer-list>

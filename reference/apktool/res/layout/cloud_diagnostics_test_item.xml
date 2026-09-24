@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.listitem.ListItemLayout android:id="@id/container" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.swiftapps.swiftbackup.views.SwiftListItemCardView android:id="@id/item_card" android:duplicateParentState="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginHorizontal="@dimen/activity_horizontal_margin" app:contentPaddingBottom="0.0dp" app:contentPaddingLeft="0.0dp" app:contentPaddingRight="0.0dp" app:contentPaddingTop="0.0dp" app:swipeEnabled="false">
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/content_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="76.0dp" android:paddingStart="@dimen/spacing_normal_more" android:paddingEnd="@dimen/spacing_low" android:paddingVertical="@dimen/spacing_normal">
+            <LinearLayout android:orientation="vertical" android:id="@id/content" android:layout_width="0.0dp" android:layout_height="wrap_content" app:layout_constraintEnd_toStartOf="@id/status_container" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+                <TextView android:id="@id/tv_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:maxLines="2" style="@style/Title" />
+                <TextView android:id="@id/tv_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lowest" android:maxLines="3" style="@style/Subtitle" />
+                <TextView android:id="@id/tv_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_low" android:fontFamily="@font/main_medium" style="@style/Subtitle" />
+                <TextView android:id="@id/tv_detail" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_lowest" android:maxLines="3" style="@style/Subtitle" />
+            </LinearLayout>
+            <FrameLayout android:id="@id/status_container" android:layout_width="48.0dp" android:layout_height="48.0dp" app:layout_constraintBottom_toBottomOf="@id/content" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/content">
+                <org.swiftapps.swiftbackup.views.MCheckBox android:gravity="center" android:layout_gravity="center" android:id="@id/cb" android:layout_width="48.0dp" android:layout_height="48.0dp" android:layout_marginEnd="-8.0dp" />
+                <com.google.android.material.progressindicator.CircularProgressIndicator android:layout_gravity="center" android:id="@id/progress" android:visibility="gone" android:layout_width="18.0dp" android:layout_height="18.0dp" android:indeterminate="true" app:indicatorSize="18.0dp" app:trackThickness="3.0dp" style="@style/SwiftCircularProgressIndicator" />
+                <ImageView android:layout_gravity="center" android:id="@id/iv_status" android:visibility="gone" android:layout_width="24.0dp" android:layout_height="24.0dp" android:contentDescription="@null" />
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </org.swiftapps.swiftbackup.views.SwiftListItemCardView>
+</com.google.android.material.listitem.ListItemLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/appbar_layout"
+        layout="@layout/appbar"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/content"
+        android:paddingTop="0.5dp"
+        android:paddingBottom="0.5dp"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/spacing_largest"
+            android:focusableInTouchMode="true"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin">
+            <include
+                android:id="@+id/wall_card_system"
+                layout="@layout/walls_dash_card_system"/>
+            <include
+                android:id="@+id/wall_card_local"
+                layout="@layout/walls_dash_card_backed_up"/>
+            <include
+                android:id="@+id/wall_card_cloud"
+                layout="@layout/walls_dash_card_backed_up"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

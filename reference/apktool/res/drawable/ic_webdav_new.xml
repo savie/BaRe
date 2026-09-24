@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="2.0dp" />
+            <solid android:color="@color/bludark" />
+            <size android:height="16.0dp" android:width="24.0dp" />
+        </shape>
+    </item>
+    <item android:gravity="center" android:height="18.0dp" android:width="20.0dp" android:drawable="@drawable/ic_webdav_white" />
+</layer-list>

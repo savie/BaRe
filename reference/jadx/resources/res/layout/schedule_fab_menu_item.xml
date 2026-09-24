@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/schedule_fab_menu_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        style="@style/ScheduleFabMenuItem"/>
+    <ImageView
+        android:layout_gravity="end|center_vertical"
+        android:id="@+id/schedule_fab_menu_item_submenu_indicator"
+        android:visibility="gone"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_chevron_right"
+        android:contentDescription="@null"
+        android:layout_marginEnd="20dp"
+        app:tint="?attr/colorOnPrimaryContainer"/>
+</FrameLayout>

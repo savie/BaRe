@@ -1,0 +1,20 @@
+package defpackage;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public final enum g78 extends e88 {
+    public g78() {
+        super("CharacterReferenceInRcdata", 3);
+    }
+
+    @Override // defpackage.e88
+    public final void d(o58 o58Var, e51 e51Var) {
+        int[] iArrC = o58Var.c(null, false);
+        if (iArrC == null) {
+            o58Var.f('&');
+        } else {
+            o58Var.h(new String(iArrC, 0, iArrC.length));
+        }
+        o58Var.c = e88.c;
+    }
+}

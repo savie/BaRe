@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingHorizontal="@dimen/spacing_normal_more" android:paddingVertical="@dimen/spacing_large">
+        <ImageView android:layout_gravity="center_horizontal" android:id="@id/iv_icon" android:layout_width="48.0dp" android:layout_height="48.0dp" android:layout_marginTop="@dimen/spacing_medium" android:src="@drawable/googleg_standard_color_18" android:adjustViewBounds="true" />
+        <TextView android:textSize="@dimen/title_largest" android:textColor="?android:textColorPrimary" android:gravity="center" android:layout_gravity="center_horizontal" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:text="@string/common_signin_button_text_long" android:fontFamily="@font/main_medium" style="@style/Title" />
+        <TextView android:visibility="visible" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:text="@string/sign_in_required_for_full_features" android:lineSpacingExtra="6.0dp" style="@style/Subtitle" />
+        <TextView android:id="@id/tv_google_sign_in_description" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:lineSpacingExtra="6.0dp" style="@style/Subtitle" />
+        <include android:layout_gravity="center" android:id="@id/btn_google" android:layout_width="match_parent" android:layout_height="56.0dp" android:layout_marginTop="@dimen/spacing_normal" layout="@layout/google_sign_in_button" />
+        <LinearLayout android:orientation="vertical" android:id="@id/container_anonymous" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <View android:layout_marginTop="@dimen/spacing_normal_more" style="@style/DividerThinNoMargins" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:layout_marginBottom="@dimen/spacing_normal" android:text="@string/continue_without_an_account_description" android:lineSpacingExtra="6.0dp" style="@style/Subtitle" />
+            <include android:layout_gravity="center" android:id="@id/btn_anonymous" android:layout_width="match_parent" android:layout_height="56.0dp" layout="@layout/anonymous_sign_in_button" />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton android:textColor="?android:textColorSecondary" android:layout_gravity="center_horizontal" android:id="@id/btn_cancel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/cancel" android:backgroundTint="@color/trans" app:rippleColor="?dividerColor" style="@style/M3ButtonFilled" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

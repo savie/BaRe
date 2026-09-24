@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal_more"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:layout_marginStart="@dimen/spacing_normal_more"
+        android:layout_marginEnd="@dimen/spacing_normal_more"
+        app:counterEnabled="false"
+        app:startIconDrawable="@drawable/ic_security_permissions"
+        style="@style/M3TilFilledDense">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_low"
+            android:inputType="text"
+            android:fontFamily="@font/main_regular"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</FrameLayout>

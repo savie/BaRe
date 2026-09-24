@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_local_apps"
+        android:title="@string/local_apps"/>
+    <item
+        android:id="@+id/action_cloud_synced_apps"
+        android:title="@string/cloud_synced_apps"/>
+</menu>

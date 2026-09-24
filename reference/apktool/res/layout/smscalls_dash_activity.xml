@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/appbar_layout" layout="@layout/appbar" />
+    <ScrollView android:id="@id/scroll_view" android:paddingTop="0.5dp" android:paddingBottom="@dimen/spacing_larger" android:scrollbars="none" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout android:orientation="vertical" android:paddingTop="@dimen/activity_vertical_margin" android:paddingBottom="?listPreferredItemHeightLarge" android:focusableInTouchMode="true" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="@dimen/activity_horizontal_margin" android:paddingEnd="@dimen/activity_horizontal_margin">
+            <include android:id="@id/smscalls_dash_local_card" layout="@layout/smscalls_dash_local_card" />
+            <include android:id="@id/smscalls_dash_cloud_card" layout="@layout/smscalls_dash_cloud_card" />
+        </LinearLayout>
+    </ScrollView>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:layout_gravity="end|bottom" android:id="@id/btn_create_backup" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more" android:text="@string/create_backup" app:icon="@drawable/ic_plus" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

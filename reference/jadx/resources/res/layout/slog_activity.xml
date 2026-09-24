@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/cardBackgroundColor"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <org.swiftapps.swiftbackup.views.MAppBarLayout
+        android:id="@+id/appbar_layout"
+        android:background="?attr/toolbarColor"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/toolbar_mini"
+            layout="@layout/toolbar_mini"/>
+        <View style="@style/ToolbarDivider"/>
+    </org.swiftapps.swiftbackup.views.MAppBarLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_slog"
+        android:paddingBottom="@dimen/spacing_large"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/spacing_largest4"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.l4digital.fastscroll.FastScroller
+            android:layout_gravity="end"
+            android:id="@+id/fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:bubbleColor="?attr/colorPrimary"
+            app:bubbleTextColor="?attr/colorOnPrimary"
+            app:handleColor="?attr/handleColor"
+            app:trackColor="@color/trans"/>
+    </FrameLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_gravity="end|bottom"
+        android:id="@+id/btn_send_slogs"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_normal_more"
+        android:text="@string/share_logs"
+        app:icon="@drawable/ic_share"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,8 @@
+package defpackage;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public final class f25 {
+    public static final f25 b = new f25();
+    public final p35 a = new p35(20);
+}

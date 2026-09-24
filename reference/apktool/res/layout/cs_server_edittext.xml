@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textfield.TextInputLayout android:id="@id/til" android:layout_width="match_parent" android:layout_height="wrap_content" android:importantForAutofill="no" app:startIconDrawable="@drawable/ic_server_outline" style="@style/M3TilFilledDense"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.textfield.TextInputEditText android:id="@id/et" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_low" android:maxLines="1" android:inputType="text" android:fontFamily="@font/main_regular" />
+</com.google.android.material.textfield.TextInputLayout>

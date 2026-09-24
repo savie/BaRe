@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory
+        android:title="@string/encryption_and_compression"
+        app:layout="@layout/preference_category">
+        <androidx.preference.Preference
+            android:icon="@drawable/ic_settings_lock_filled"
+            android:enabled="false"
+            android:title="@string/encrypt_backups"
+            android:key="folders_encryption_on"
+            android:summary="@string/backups_encrypted_with_aegis_by_default_message"/>
+        <androidx.preference.Preference
+            android:icon="@drawable/ic_settings_archive_filled"
+            android:title="@string/compression_level"
+            android:key="compression_level_folders"/>
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

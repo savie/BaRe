@@ -1,0 +1,190 @@
+.class public final synthetic Lll3;
+.super Ljava/lang/Object;
+.source "r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0"
+
+# interfaces
+.implements Landroid/view/View$OnClickListener;
+
+
+# instance fields
+.field public final synthetic a:I
+
+.field public final synthetic b:Ljava/lang/Object;
+
+.field public final synthetic c:Ljava/lang/Object;
+
+
+# direct methods
+.method public synthetic constructor <init>(ILjava/lang/Object;Ljava/lang/Object;)V
+    .locals 0
+
+    .line 1
+    iput p1, p0, Lll3;->a:I
+
+    .line 2
+    .line 3
+    iput-object p2, p0, Lll3;->b:Ljava/lang/Object;
+
+    .line 4
+    .line 5
+    iput-object p3, p0, Lll3;->c:Ljava/lang/Object;
+
+    .line 6
+    .line 7
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    .line 8
+    .line 9
+    .line 10
+    return-void
+.end method
+
+
+# virtual methods
+.method public final onClick(Landroid/view/View;)V
+    .locals 2
+
+    .line 1
+    iget v0, p0, Lll3;->a:I
+
+    .line 2
+    .line 3
+    iget-object v1, p0, Lll3;->c:Ljava/lang/Object;
+
+    .line 4
+    .line 5
+    iget-object p0, p0, Lll3;->b:Ljava/lang/Object;
+
+    .line 6
+    .line 7
+    packed-switch v0, :pswitch_data_0
+
+    .line 8
+    .line 9
+    .line 10
+    check-cast p0, Ldd6;
+
+    .line 11
+    .line 12
+    check-cast v1, Lzc6;
+
+    .line 13
+    .line 14
+    iget-object p0, p0, Ldd6;->n:Lkd6;
+
+    .line 15
+    .line 16
+    if-eqz p0, :cond_0
+
+    .line 17
+    .line 18
+    invoke-virtual {p0, v1}, Lkd6;->invoke(Ljava/lang/Object;)Ljava/lang/Object;
+
+    .line 19
+    .line 20
+    .line 21
+    :cond_0
+    return-void
+
+    .line 22
+    :pswitch_0
+    check-cast p0, Landroid/widget/TextView;
+
+    .line 23
+    .line 24
+    check-cast v1, Ljava/lang/String;
+
+    .line 25
+    .line 26
+    invoke-virtual {p0}, Landroid/view/View;->getContext()Landroid/content/Context;
+
+    .line 27
+    .line 28
+    .line 29
+    move-result-object p0
+
+    .line 30
+    invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    .line 31
+    .line 32
+    .line 33
+    invoke-static {p0, v1}, Lorg/swiftapps/swiftbackup/common/Const;->B(Landroid/content/Context;Ljava/lang/String;)Z
+
+    .line 34
+    .line 35
+    .line 36
+    return-void
+
+    .line 37
+    :pswitch_1
+    check-cast p0, Lee5;
+
+    .line 38
+    .line 39
+    check-cast v1, Lvd5;
+
+    .line 40
+    .line 41
+    iget-object p0, p0, Lee5;->m:Ljava/lang/Object;
+
+    .line 42
+    .line 43
+    check-cast p0, Lqt3;
+
+    .line 44
+    .line 45
+    invoke-virtual {p1}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+
+    .line 46
+    .line 47
+    .line 48
+    invoke-interface {p0, p1, v1}, Lqt3;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+
+    .line 49
+    .line 50
+    .line 51
+    return-void
+
+    .line 52
+    :pswitch_2
+    check-cast p0, Lml3;
+
+    .line 53
+    .line 54
+    check-cast v1, Lul3;
+
+    .line 55
+    .line 56
+    iget-object p0, p0, Lml3;->a:Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;
+
+    .line 57
+    .line 58
+    iget-object p1, v1, Lul3;->a:Lkj3;
+
+    .line 59
+    .line 60
+    const/4 v0, 0x0
+
+    .line 61
+    const/4 v1, 0x2
+
+    .line 62
+    invoke-static {p0, p1, v0, v1}, Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;->a0(Lorg/swiftapps/swiftbackup/folders/ui/FolderDetailActivity;Lkj3;Lorg/swiftapps/swiftbackup/folders/data/FolderMetadata;I)V
+
+    .line 63
+    .line 64
+    .line 65
+    return-void
+
+    .line 66
+    nop
+
+    .line 67
+    :pswitch_data_0
+    .packed-switch 0x0
+        :pswitch_2
+        :pswitch_1
+        :pswitch_0
+    .end packed-switch
+.end method

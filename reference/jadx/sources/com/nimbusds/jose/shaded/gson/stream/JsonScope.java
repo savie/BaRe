@@ -1,0 +1,17 @@
+package com.nimbusds.jose.shaded.gson.stream;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+final class JsonScope {
+    static final int CLOSED = 8;
+    static final int DANGLING_NAME = 4;
+    static final int EMPTY_ARRAY = 1;
+    static final int EMPTY_DOCUMENT = 6;
+    static final int EMPTY_OBJECT = 3;
+    static final int NONEMPTY_ARRAY = 2;
+    static final int NONEMPTY_DOCUMENT = 7;
+    static final int NONEMPTY_OBJECT = 5;
+
+    private JsonScope() {
+    }
+}

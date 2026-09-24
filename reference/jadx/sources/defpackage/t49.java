@@ -1,0 +1,32 @@
+package defpackage;
+
+import com.google.android.gms.tasks.TaskCompletionSource;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public final class t49 extends h59 {
+    public final nh n;
+
+    public t49(xz5 xz5Var) {
+        super(2);
+        this.n = new nh(xz5Var, 25);
+    }
+
+    @Override // defpackage.h59
+    public final String a() {
+        return "signInWithPhoneNumber";
+    }
+
+    @Override // defpackage.h59
+    public final void c(TaskCompletionSource taskCompletionSource, w49 w49Var) {
+        this.g = new wc9(10, this, taskCompletionSource);
+        w49Var.a(this.n, this.b);
+    }
+
+    @Override // defpackage.h59
+    public final void e() {
+        p49 p49VarO = ix0.o(this.c, this.i);
+        ((lo9) this.e).b(this.h, p49VarO);
+        f(new f0a(p49VarO));
+    }
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory android:title="@string/appearance_and_language" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_dark_mode_filled" android:title="@string/app_theme" android:key="app_theme" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_palette_filled" android:title="@string/dynamic_colors" android:key="dynamic_colors" android:summary="@string/dynamic_colors_summary" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_invert_colors_filled" android:title="@string/amoled_black_backgrounds" android:key="amoled_black_theme" android:summary="@string/amoled_black_backgrounds_message" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_language_filled" android:title="@string/language" android:key="language" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/backup_content" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_app" android:title="@string/app_backups" android:key="app_backups" android:summary="@string/app_backups_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_message_full" android:title="@string/messages_backups" android:key="sms_backups" android:summary="@string/messages_backups_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_call_log" android:title="@string/call_logs_backups" android:key="call_backups" android:summary="@string/call_logs_backups_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_folder_full" android:title="@string/folder_backups" android:key="folder_backups" android:summary="@string/folder_backups_settings_summary" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/storage_and_security" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_storage_filled" android:title="@string/storage_for_local_backups" android:key="backup_storage_location" />
+        <androidx.preference.Preference android:icon="@drawable/ic_cloud_filled" android:title="@string/cloud_backups" android:key="cloud_backups" android:summary="@string/cloud_backups_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_key_filled" android:title="@string/encryption_password_strategy" android:key="encryption_password" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_data_usage_filled" android:title="@string/manage_space" android:key="manage_space" android:summary="@string/manage_space_settings_summary" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/doze_restrictions" android:key="battery_tweaks" app:isPreferenceVisible="false" app:layout="@layout/preference_category">
+        <androidx.preference.CheckBoxPreference android:icon="@drawable/ic_settings_doze_battery_charging_60" android:title="@string/whitelist_from_battery_optimizations" android:key="battery_opt" android:summary="@string/battery_optimization_message" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/notifications" android:key="notifications" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_notifications_filled" android:title="@string/manage_notifications" android:key="manage_notifications" android:summary="@string/manage_notifications_settings_summary" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_music_note_filled" android:title="@string/play_notification_sounds" android:key="play_notification_sounds" android:summary="@string/play_notification_sounds_msg" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/advanced_tools" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_science_filled" android:title="@string/swift_labs" android:key="labs" android:summary="@string/swift_labs_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_upload_file_filled" android:title="@string/export_settings" android:key="export_settings" android:summary="@string/export_settings_summary" app:isPreferenceVisible="false" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_download_filled" android:title="@string/import_settings" android:key="import_settings" android:summary="@string/import_settings_summary" app:isPreferenceVisible="false" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_bug_report_filled" android:title="@string/swiftlogger" android:key="swiftlogger" android:summary="@string/swiftlogger_info" />
+        <androidx.preference.Preference android:icon="@drawable/ic_restart" android:title="@string/restart_app" android:key="restart_app" android:summary="@string/restart_app_settings_summary" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/help_and_info" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_help_filled" android:title="@string/help_center" android:key="help_center" android:summary="@string/help_center_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_send_filled" android:title="@string/contact" android:key="contact" android:summary="@string/get_in_touch" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_translate_filled" android:title="@string/translation_project" android:key="translation" android:summary="@string/translation_project_summary" app:isPreferenceVisible="false" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_info_filled" android:title="@string/about" android:key="about" android:summary="@string/about_settings_summary" />
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

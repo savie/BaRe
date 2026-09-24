@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true" android:paddingHorizontal="@dimen/spacing_normal" android:paddingVertical="@dimen/spacing_medium_more"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_normal_more" android:text="@string/swipe_actions_description" style="@style/Subtitle" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/right_swipe" style="@style/Title.Large" />
+        <com.google.android.material.card.MaterialCardView android:id="@id/right_swipe_preview" android:layout_width="match_parent" android:layout_height="72.0dp" android:layout_marginTop="@dimen/spacing_medium_more" android:importantForAccessibility="noHideDescendants" android:layoutDirection="ltr" android:clipToOutline="true" style="@style/CardStyleStroked">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <LinearLayout android:layout_gravity="start" android:orientation="horizontal" android:background="?colorSurfaceVariant" android:layout_width="wrap_content" android:layout_height="match_parent">
+                    <com.google.android.material.button.MaterialButton android:id="@id/right_preview_primary" android:layout_width="@dimen/swipe_preview_action_width" android:layout_height="match_parent" style="@style/SwipeActionPreviewButton" />
+                    <com.google.android.material.button.MaterialButton android:id="@id/right_preview_secondary" android:layout_width="@dimen/swipe_preview_action_width" android:layout_height="match_parent" style="@style/SwipeActionPreviewButton" />
+                </LinearLayout>
+                <FrameLayout android:id="@id/right_preview_content" android:background="?cardBackgroundColor" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginStart="@dimen/swipe_preview_action_width">
+                    <include layout="@layout/app_swipe_preview_content" />
+                </FrameLayout>
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" style="@style/CardStyleNormal">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/right_primary_action" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="56.0dp" android:paddingHorizontal="@dimen/spacing_normal">
+                    <TextView android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/primary_action" android:layout_weight="1.0" style="@style/Title" />
+                    <TextView android:id="@id/right_primary_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/spacing_medium" style="@style/Subtitle.Large" />
+                    <ImageView android:layout_width="20.0dp" android:layout_height="20.0dp" android:src="@drawable/ic_chevron_right" android:importantForAccessibility="no" app:tint="?android:textColorSecondary" />
+                </LinearLayout>
+                <View style="@style/DividerThinNoMargins" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/right_secondary_action" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="56.0dp" android:paddingHorizontal="@dimen/spacing_normal">
+                    <TextView android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/secondary_action" android:layout_weight="1.0" style="@style/Title" />
+                    <TextView android:id="@id/right_secondary_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/spacing_medium" style="@style/Subtitle.Large" />
+                    <ImageView android:layout_width="20.0dp" android:layout_height="20.0dp" android:src="@drawable/ic_chevron_right" android:importantForAccessibility="no" app:tint="?android:textColorSecondary" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <View android:layout_marginVertical="@dimen/spacing_normal_more" style="@style/DividerThinNoMargins" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/left_swipe" style="@style/Title.Large" />
+        <com.google.android.material.card.MaterialCardView android:id="@id/left_swipe_preview" android:layout_width="match_parent" android:layout_height="72.0dp" android:layout_marginTop="@dimen/spacing_medium_more" android:importantForAccessibility="noHideDescendants" android:layoutDirection="ltr" android:clipToOutline="true" style="@style/CardStyleStroked">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                <LinearLayout android:layout_gravity="end" android:orientation="horizontal" android:background="?colorSurfaceVariant" android:layout_width="wrap_content" android:layout_height="match_parent">
+                    <com.google.android.material.button.MaterialButton android:id="@id/left_preview_secondary" android:layout_width="@dimen/swipe_preview_action_width" android:layout_height="match_parent" style="@style/SwipeActionPreviewButton" />
+                    <com.google.android.material.button.MaterialButton android:id="@id/left_preview_primary" android:layout_width="@dimen/swipe_preview_action_width" android:layout_height="match_parent" style="@style/SwipeActionPreviewButton" />
+                </LinearLayout>
+                <FrameLayout android:id="@id/left_preview_content" android:background="?cardBackgroundColor" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginEnd="@dimen/swipe_preview_action_width">
+                    <include layout="@layout/app_swipe_preview_content" />
+                </FrameLayout>
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" style="@style/CardStyleNormal">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/left_primary_action" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="56.0dp" android:paddingHorizontal="@dimen/spacing_normal">
+                    <TextView android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/primary_action" android:layout_weight="1.0" style="@style/Title" />
+                    <TextView android:id="@id/left_primary_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/spacing_medium" style="@style/Subtitle.Large" />
+                    <ImageView android:layout_width="20.0dp" android:layout_height="20.0dp" android:src="@drawable/ic_chevron_right" android:importantForAccessibility="no" app:tint="?android:textColorSecondary" />
+                </LinearLayout>
+                <View style="@style/DividerThinNoMargins" />
+                <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/left_secondary_action" android:background="?selectableItemBackground" android:focusable="true" android:clickable="true" android:layout_width="match_parent" android:layout_height="56.0dp" android:paddingHorizontal="@dimen/spacing_normal">
+                    <TextView android:layout_width="0.0dp" android:layout_height="wrap_content" android:text="@string/secondary_action" android:layout_weight="1.0" style="@style/Title" />
+                    <TextView android:id="@id/left_secondary_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginEnd="@dimen/spacing_medium" style="@style/Subtitle.Large" />
+                    <ImageView android:layout_width="20.0dp" android:layout_height="20.0dp" android:src="@drawable/ic_chevron_right" android:importantForAccessibility="no" app:tint="?android:textColorSecondary" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

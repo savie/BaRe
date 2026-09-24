@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <org.swiftapps.swiftbackup.views.MAppBarLayout android:id="@id/appbar_layout" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="0.0dp" app:elevation="0.0dp" app:liftOnScroll="false">
+        <include android:id="@id/toolbar" layout="@layout/toolbar" />
+        <com.google.android.material.tabs.TabLayout android:id="@id/tabLayout" android:background="@null" android:layout_width="match_parent" android:layout_height="wrap_content" app:tabGravity="fill" app:tabIndicatorFullWidth="false" app:tabIndicatorHeight="3.0dp" app:tabMode="fixed" app:tabTextAppearance="@style/CustomTabText" />
+    </org.swiftapps.swiftbackup.views.MAppBarLayout>
+    <androidx.viewpager.widget.ViewPager android:id="@id/viewPager" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.preference.PreferenceCategory android:title="@string/backup_and_restore" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/app_parts" android:key="config_app_parts" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/backup" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/select_backup_locations" android:key="config_backup_locations" />
+        <androidx.preference.Preference android:title="@string/sync_options" android:key="config_sync_options" />
+        <androidx.preference.Preference android:title="@string/multiple_backups_strategy" android:key="config_multiple_backups_strategy" />
+        <androidx.preference.Preference android:title="@string/compression_level" android:key="config_compression_level" />
+        <androidx.preference.Preference android:title="@string/app_backup_limits_title" android:key="config_app_backup_limits" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/backup_cache" android:key="config_backup_app_cache" android:summary="@string/backup_cache_summary" />
+    </androidx.preference.PreferenceCategory>
+    <androidx.preference.PreferenceCategory android:title="@string/restore" app:layout="@layout/preference_category">
+        <androidx.preference.Preference android:title="@string/restore_runtime_permissions" android:key="config_restore_runtime_permissions" />
+        <androidx.preference.Preference android:title="@string/restore_special_data_title" android:key="config_restore_special_permissions" />
+        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:title="@string/restore_app_ssaids" android:key="config_restore_ssaids" android:summary="@string/restore_app_ssaids_summary" />
+    </androidx.preference.PreferenceCategory>
+</androidx.preference.PreferenceScreen>

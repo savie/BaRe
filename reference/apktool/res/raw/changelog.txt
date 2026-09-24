@@ -1,0 +1,54 @@
+**v5.1.0**
+[release-summary] Swift Backup 5.1 introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
+
+**Android 17 Support**
+- Swift Backup now targets Android 17.
+- **Local network access:** Added support for Android 17's Local network permission so LAN/self-hosted backups continue to work with local servers via SMB, SFTP, FTP, WebDAV, etc.
+
+**New: Folder Backups**
+- Back up important folders to device storage or supported cloud services.
+- **Single or Incremental Backup:** Keep one up-to-date backup or save only files changed since the previous backup.
+- Restore folders to their original location or choose a custom restore location.
+
+**New Backup Format**
+- The new backup format improves backup and restore speed, provides smoother progress updates, and better handles complex Android app data used by apps like Termux and Android Virtualization Terminal.
+- **Lower storage requirement:** Each backup part now needs only enough free space for that part; previous versions needed at least twice as much.
+- **Important:** Backups created with v5.1.0 cannot be restored using older Swift Backup versions. Please update Swift Backup before restoring these backups on another device.
+- Existing backups created by older Swift Backup versions can still be restored in v5.1.0.
+
+**App Backups**
+- **Notification channels:** Added backup and restore support for notification channel settings.
+- **App permissions:** Backed-up permission choices now preserve both allowed and denied permissions.
+- **Play Store compatibility:** Apps restored by Swift Backup no longer complain that they must be installed from Google Play.
+- **Performance:** App backups and restores are now faster and show better task progress with the new backup format.
+- **Backup details:** Added a new view in the app detail screen under the backup’s 3-dot menu.
+- **APK sharing:** Export and import APKs from installed apps and app backups, including split APK sets, through Android’s share menu.
+- **Installed apps visibility:** Improved handling on Xiaomi/HyperOS, OPPO/ColorOS, and other devices that require a separate installed apps permission, with new diagnostics in Settings > Swift Labs.
+- **In-place downgrades:** Added optional support for compatible ROMs or modules such as CorePatch. Configure this in Settings > Apps > App data.
+
+**WiFi**
+- **Shizuku support:** You can now back up and restore WiFi networks on Android 11+.
+
+**Cloud**
+- **Filen** cloud support.
+- **Mega.nz** now uses Swift Backup’s lighter built-in implementation instead of the large Mega SDK, reducing app size while keeping Mega backup and restore support.
+- Added **Cloud diagnostics** to help identify cloud connection and transfer issues.
+- Added local server discovery for supported self-hosted and LAN cloud services.
+- Improved cloud setup with branded S3-compatible and WebDAV presets.
+- Improved reliability for Google Drive, Dropbox, Box, Yandex.Disk, WebDAV (including 123pan), FTP/FTPS, OneDrive, and Mega.nz.
+- Improved transfer progress, resume, and cancellation behavior.
+
+**Schedules**
+- Reorder schedules or run them manually even when they are turned off.
+- Improved handling when Android applies background time limits to backup and restore services. Root users can extend the time limit in Settings > Swift Labs.
+
+**Design and Usability**
+- Added search on the Home screen to quickly find apps, folder setups, shortcuts, and quick actions.
+- App lists now scroll more smoothly and support customizable swipe actions. Configure them in Settings > Apps > Swipe actions.
+- Refreshed onboarding, settings, dashboard, premium, and cloud setup.
+
+**Other Improvements**
+- Added Ukrainian language support.
+- **Storage troubleshooting:** Added guidance for storage utilities, Magisk/LSPosed modules, bind mounts, and similar configurations that can make backup storage unavailable.
+- **SwiftLogger:** Added text sharing, faster export preparation, and more reliable handling of large log histories.
+- Various layout and translation fixes.

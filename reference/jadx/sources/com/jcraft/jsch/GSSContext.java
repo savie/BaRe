@@ -1,0 +1,15 @@
+package com.jcraft.jsch;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public interface GSSContext {
+    void create(String str, String str2) throws JSchException;
+
+    void dispose();
+
+    byte[] getMIC(byte[] bArr, int i, int i2);
+
+    byte[] init(byte[] bArr, int i, int i2) throws JSchException;
+
+    boolean isEstablished();
+}

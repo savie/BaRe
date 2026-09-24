@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal" android:id="@id/chg_row" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10.0dp" android:layout_marginStart="22.0dp" android:layout_marginEnd="22.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView android:textSize="@dimen/subtitle" android:textColor="?android:textColorPrimary" android:id="@id/tv_bullet_point" android:layout_width="wrap_content" android:layout_height="match_parent" android:text=" • " android:alpha="0.8" />
+    <TextView android:textSize="@dimen/subtitle_large" android:textColor="?android:textColorPrimary" android:id="@id/tv_title" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginStart="1.0dp" style="@style/Subtitle" />
+</LinearLayout>

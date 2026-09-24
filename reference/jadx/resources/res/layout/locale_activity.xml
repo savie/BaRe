@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/appbar_layout"
+        layout="@layout/appbar"/>
+    <org.swiftapps.swiftbackup.views.QuickRecyclerView
+        android:orientation="vertical"
+        android:id="@+id/rv_locale"
+        android:paddingTop="@dimen/spacing_low"
+        android:paddingBottom="@dimen/spacing_larger"
+        android:fadingEdgeLength="@dimen/spacing_larger"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:requiresFadingEdge="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
