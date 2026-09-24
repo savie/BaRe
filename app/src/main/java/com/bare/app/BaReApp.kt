@@ -103,7 +103,9 @@ import java.io.File
 fun BaReApp() {
     val context = LocalContext.current
     val identityStore = remember(context) { LocalIdentityStore(context) }
+    val accountRepository = remember(context) { com.bare.feature.account.LocalAccountRepository(context) }
     val restoredIdentity = remember(identityStore) { identityStore.loadOrRecover() }
+    var activeAccount by remember(accountRepository) { mutableStateOf(accountRepository.activeAccount()) }
     val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     val settingsStore = remember(context) { SettingsStore(context) }
     var themeMode by remember(settingsStore) { mutableStateOf(settingsStore.loadThemeMode()) }
@@ -187,6 +189,7 @@ fun BaReApp() {
     var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
     var returnToCloudAfterAuth by remember { mutableStateOf(false) }
     var returnToAppAfterFlow by remember { mutableStateOf(false) }
+    var accountAuthError by remember { mutableStateOf<String?>(null) }
     var searchQuery by remember { mutableStateOf("") }
     var searchOpen by remember { mutableStateOf(false) }
     var appsSearchOpen by remember { mutableStateOf(false) }
@@ -303,11 +306,34 @@ fun BaReApp() {
                 }
                 StartScreen.LOGIN -> LoginScreen(
                     email = loginEmail,
-                    onEmailChange = { loginEmail = it },
+                    onEmailChange = { loginEmail = it; accountAuthError = null },
                     password = loginPassword,
-                    onPasswordChange = { loginPassword = it },
-                    onContinue = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; identityType = IdentityType.ACCOUNT; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.ACCESS_METHOD },
-                    onCreateAccount = { startScreen = StartScreen.SIGN_UP },
+                    onPasswordChange = { loginPassword = it; accountAuthError = null },
+                    errorMessage = accountAuthError,
+                    onContinue = {
+                        val password = loginPassword.toCharArray()
+                        val signedIn = runCatching { accountRepository.signIn(loginEmail, password) }.getOrDefault(false)
+                        if (signedIn) {
+                            activeAccount = accountRepository.activeAccount()
+                            identityType = IdentityType.ACCOUNT
+                            loginPassword = ""
+                            accountAuthError = null
+                            if (returnToCloudAfterAuth) {
+                                returnToCloudAfterAuth = false
+                                startScreen = StartScreen.APP
+                                screen = Screen.CLOUD
+                            } else if (returnToAppAfterFlow) {
+                                returnToAppAfterFlow = false
+                                startScreen = StartScreen.APP
+                            } else {
+                                startScreen = StartScreen.ACCESS_METHOD
+                            }
+                        } else {
+                            loginPassword = ""
+                            accountAuthError = getString(R.string.account_sign_in_failed)
+                        }
+                    },
+                    onCreateAccount = { accountAuthError = null; startScreen = StartScreen.SIGN_UP },
                     onForgotPassword = { resetEmail = loginEmail; startScreen = StartScreen.FORGOT_PASSWORD },
                     onBack = ::goBack,
                 )
@@ -318,12 +344,38 @@ fun BaReApp() {
                 )
                 StartScreen.SIGN_UP -> SignUpScreen(
                     email = signUpEmail,
-                    onEmailChange = { signUpEmail = it },
+                    onEmailChange = { signUpEmail = it; accountAuthError = null },
                     password = signUpPassword,
-                    onPasswordChange = { signUpPassword = it },
+                    onPasswordChange = { signUpPassword = it; accountAuthError = null },
                     confirmPassword = signUpConfirmPassword,
-                    onConfirmPasswordChange = { signUpConfirmPassword = it },
-                    onCreateAccount = { if (returnToCloudAfterAuth) { returnToCloudAfterAuth = false; startScreen = StartScreen.APP; screen = Screen.CLOUD } else startScreen = StartScreen.ACCESS_METHOD },
+                    onConfirmPasswordChange = { signUpConfirmPassword = it; accountAuthError = null },
+                    errorMessage = accountAuthError,
+                    onCreateAccount = {
+                        val password = signUpPassword.toCharArray()
+                        val accountId = java.util.UUID.randomUUID().toString()
+                        val created = runCatching { accountRepository.register(accountId, signUpEmail, password) }.getOrDefault(false)
+                        if (created) {
+                            activeAccount = accountRepository.activeAccount()
+                            identityType = IdentityType.ACCOUNT
+                            signUpPassword = ""
+                            signUpConfirmPassword = ""
+                            accountAuthError = null
+                            if (returnToCloudAfterAuth) {
+                                returnToCloudAfterAuth = false
+                                startScreen = StartScreen.APP
+                                screen = Screen.CLOUD
+                            } else if (returnToAppAfterFlow) {
+                                returnToAppAfterFlow = false
+                                startScreen = StartScreen.APP
+                            } else {
+                                startScreen = StartScreen.ACCESS_METHOD
+                            }
+                        } else {
+                            signUpPassword = ""
+                            signUpConfirmPassword = ""
+                            accountAuthError = getString(R.string.account_create_failed)
+                        }
+                    },
                     onBack = ::goBack,
                 )
                 StartScreen.ACCESS_METHOD -> AccessMethodScreen(
