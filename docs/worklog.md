@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `04f00ce61e4153a7bc98dba9a643976f87b84365` |
+| Current checkpoint | `25e0c8991269db2ec85796b000aa7f2ae19dcf34` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps — Install Date / Update Date + Date Used** |
@@ -20,17 +20,18 @@
 
 ### Install Date / Update Date
 - Implementasi source sudah ada.
-- Semantik Reference sudah diaudit.
-- Runtime masih menunjukkan masalah timestamp/date.
-- Raw runtime value belum terbukti.
+- Semantik Reference sudah diaudit dan sekarang source BaRe diselaraskan kembali ke implementasi Reference: raw `PackageInfo.firstInstallTime` / `lastUpdateTime`, serta `DateUtils.getRelativeTimeSpanString`.
+- Commit `95505717...` yang menambahkan normalization custom dan eager usage enrichment dinilai tidak selaras dengan Reference dan sudah dikoreksi.
+- Screenshot runtime dari build #968 tetap menunjukkan `56 years ago`; evidence tersebut dicatat sebagai runtime failure, bukan dianggap terselesaikan oleh source change baru.
 
 **Status:** `IMPLEMENTED / RUNTIME UNRESOLVED`
 
 ### Date Used
 - Implementasi menggunakan UsageStats + AppOps.
-- AppOps sudah diselaraskan dengan Reference.
-- Privileged/root access path sudah ditambahkan sebelum checkpoint ini.
-- CI dan device runtime setelah perubahan privileged path belum terverifikasi.
+- AppOps menggunakan `noteOpNoThrow`, sesuai Reference.
+- Query menggunakan interval BEST, window 30 hari, filter `lastTimeUsed` dalam 1 tahun, dan package match terhadap installed apps.
+- Usage data sekarang dipisahkan dari inventory dan dimuat ketika sort `Date Used` aktif, mengikuti pola Reference.
+- Privileged/root access path tetap digunakan untuk mencoba grant AppOps sebelum verifikasi ulang.
 
 **Status:** `IMPLEMENTED / VERIFICATION PENDING`
 
@@ -45,13 +46,13 @@
 ## 4. NEXT ACTION
 
 ### A. Install / Update Date
-1. Ambil raw `firstInstallTime` dan `lastUpdateTime`.
-2. Trace nilai dari raw source sampai formatter dan UI.
-3. Tentukan root cause dari evidence.
-4. Lakukan fix minimal hanya jika evidence mendukung.
+1. Build checkpoint `25e0c899...`.
+2. Runtime E2E pada device.
+3. Jika masih `56 years ago`, capture raw `PackageInfo` value dari checkpoint ini sebelum perubahan berikutnya.
+4. Jangan menambah normalization/fallback lagi tanpa evidence.
 
 ### B. Date Used
-1. Jalankan CI untuk checkpoint/source yang relevan.
+1. Build checkpoint `25e0c899...`.
 2. Uji fresh APK pada device dengan Usage Access ON.
 3. Capture actual AppOps state/result.
 4. Capture jumlah hasil `queryUsageStats()` dan package match.
