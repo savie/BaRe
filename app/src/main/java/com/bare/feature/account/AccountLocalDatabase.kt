@@ -40,6 +40,15 @@ class AccountLocalDatabase(context: Context) :
         )
     }
 
+    fun activeAccountId(): String? {
+        readableDatabase.rawQuery(
+            "SELECT account_id FROM accounts WHERE active = 1 LIMIT 1",
+            emptyArray(),
+        ).use { cursor ->
+            return if (cursor.moveToFirst()) cursor.getString(0) else null
+        }
+    }
+
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         // No destructive migration is needed yet. Future schema changes must
         // remain versioned and preserve existing account/recovery state.
