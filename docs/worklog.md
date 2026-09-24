@@ -3360,3 +3360,36 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 ### Next
 - Verify CI for `674b7a8`.
 - If green, continue Account/cloud dependency work without claiming cloud authentication.
+
+
+## 2026-09-24 — A3 Cloud metadata boundary adaptation
+
+### Authorization
+- User said **Lanjut GO** after Android Build #946 was reported **GREEN** for commit `674b7a8`.
+
+### Inspect / Reference
+- Reference `CloudMetadata` carries cloud-side package identity, version, backup/update dates, installer package, protected-backup flag, note, and component/backup metadata.
+- Reference `AppCloudBackup` validates its backup ID + metadata; `AppCloudBackups` derives backup collections from a separate cloud data source and validates metadata before exposing them.
+- BaRe already had a provider-neutral local `cloud_sync_metadata` boundary, but it persisted only sync state + timestamp.
+
+### Change
+- Extended local Account DB schema to version 3.
+- `cloud_sync_metadata` now reserves fields for provider-derived package/version, installer, backup count/time, protected flag, and note metadata.
+- Added migration from schema v2 without changing Account credential fields.
+- `CloudSyncMetadataStore.Record` now represents the provider-neutral metadata needed by the relevant Reference semantics.
+- Added `loadRecords()` and transactional `replaceRecords()`.
+- Kept `replaceStates()` as a compatibility convenience.
+- No network I/O, cloud transport, Firebase/Supabase integration, or local-backup-to-cloud inference was added.
+
+### Verification
+- Account Build #946 for preceding credential hardening: **VERIFIED GREEN** by user evidence.
+- Cloud metadata adaptation commits:
+  - `6d16214267ecd4a1d6a8807da06bc6d30e8e399e`
+  - `a434b048007fa31c1101d1fe28d9dde670f8c510`
+- CI for these new changes: **PENDING / UNVERIFIED**.
+- Runtime provider metadata ingestion: **NOT IMPLEMENTED / UNVERIFIED**.
+- Actual cloud transfer/integrity: **NOT IMPLEMENTED / NOT CLAIMED**.
+
+### Next
+- Verify CI for the cloud metadata adaptation.
+- If green, implement only the next provider/application boundary required to supply verified metadata; keep cloud transport and transfer integrity as separate capability work.
