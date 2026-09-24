@@ -3293,3 +3293,33 @@ Hasil re-validation menunjukkan bahwa beberapa audit lama terkonfirmasi langsung
 - App size semantics.
 
 Next implementation priority setelah audit ini adalah **Reference UI/flow parity pada gap yang sudah memiliki evidence**, bukan membuat audit Reference dari nol lagi.
+
+## 2026-09-24 — A3 Account local sign-in UI wiring — USER GO
+
+**USER SAID:** GO.
+
+**AUTHORIZATION:** Lanjutkan implementasi boundary Account lokal setelah repository credential layer tersedia.
+
+### Implementation
+- AccountScreen sekarang memiliki action callback nyata: Account aktif → Sign out; Local → Connect Account.
+- BaReApp menghubungkan UI Account ke LocalAccountRepository.
+- Sign in sekarang memanggil local credential verifier dan hanya mengaktifkan IdentityType.ACCOUNT setelah verifier berhasil.
+- Sign up membuat local Account ID baru dan menyimpan verifier credential melalui repository; tidak ada password plaintext persistence.
+- Active local Account dipulihkan dari AccountLocalDatabase saat startup.
+- Sign out menonaktifkan Account lokal tanpa menghapus Local device identity.
+- Login error ditampilkan pada flow.
+- Google sign-in tetap disabled karena provider v1.0 masih LOCAL; tidak ada cloud/provider session yang dipalsukan.
+- Register local account menjaga invariant satu active account dan menolak email yang sudah terdaftar.
+
+### Truth status
+- Account credential persistence: IMPLEMENTED.
+- Local sign-in/sign-up UI wiring: IMPLEMENTED.
+- Local Account active-state restoration: IMPLEMENTED.
+- Cloud authentication/provider session: NOT IMPLEMENTED / NOT CLAIMED.
+- Forgot-password email reset: NOT VERIFIED / NOT IMPLEMENTED as a real provider flow.
+- Build/CI for latest commits: PENDING; no green run evidence yet.
+
+### Next
+1. Verify latest CI/build result.
+2. If build is green, inspect Account runtime flow on device/emulator where available.
+3. Continue provider-neutral cloud metadata adaptation only after Account boundary is verified.
