@@ -857,12 +857,16 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     context.getString(R.string.external_data_part) -> Icons.Default.Folder
                                     else -> Icons.Default.PhotoLibrary
                                 },
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                backupPartNames = setOf(part)
-                                backupDestination = "Device"
-                                showBackupSelector = true
-                            }
+                                modifier = Modifier.weight(1f),
+                                onBackup = { destination ->
+                                    backupPartNames = setOf(part)
+                                    backupDestination = destination
+                                    showBackupSelector = true
+                                },
+                                onUnavailable = {
+                                    toast(context.getString(R.string.app_action_unavailable))
+                                }
+                            )
                         }
                         if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                     }
