@@ -3642,3 +3642,34 @@ User authorized continuing the Date issue and External Data investigation. User 
 - After CI green, retest Date Used on the device.
 - If it remains **Unknown**, the next diagnostic boundary is the actual UsageStats result count/package matching, not root permission discovery.
 
+## 2026-09-24 — GO: Reference parity audit — Date Used + Install/Update Date
+
+### Evidence
+- Decompiled Swift Backup 5.1.0-620 reference was inspected directly from the supplied artifact.
+- Reference Date Used (defpackage/iy.java):
+  - checks AppOpsManager.noteOpNoThrow("android:get_usage_stats", Process.myUid(), packageName);
+  - when privileged/root capability is available, attempts appops set PACKAGE android:get_usage_stats allow;
+  - queries UsageStatsManager.queryUsageStats(4, now - 30 days, now);
+  - keeps lastTimeUsed > 0 and within one year;
+  - matches installed package names;
+  - stores lastTimeUsed by package.
+- Reference Date Used UI (defpackage/fj2.java) opens android.settings.USAGE_ACCESS_SETTINGS when the AppOp is not granted.
+- Reference Install/Update source (defpackage/ji.java) assigns dateInstalled = packageInfo.firstInstallTime and dateUpdated = packageInfo.lastUpdateTime > packageInfo.firstInstallTime ? packageInfo.lastUpdateTime : null.
+- Reference relative-date formatter (org.swiftapps.swiftbackup.common.Const.s) uses DateUtils.getRelativeTimeSpanString(timestamp, System.currentTimeMillis(), 60000L).
+
+### BaRe parity status
+- BaRe Date Used query, one-year filter, package matching, and Usage Access settings route are already aligned with the reference behavior.
+- BaRe AppOp check has been aligned from checkOpNoThrow to noteOpNoThrow in commit 04fc4a2766124a87c8876377ed984bb5def9dc8b.
+- BaRe currently has an additional package-timestamp normalization boundary to handle the device-observed seconds-vs-milliseconds anomaly; this is intentionally retained until runtime evidence proves the source value on the device.
+- No additional Date Used fallback was added because the supplied Reference does not use queryEvents or another alternate source.
+- The supplied device screenshot proves Usage Access is ON and External Data is now readable. It does not expose the raw UsageStats result set.
+
+### Verification
+- External Data: RUNTIME OBSERVED WORKING in supplied screenshot (WhatsApp Ext. data 25.0 KB).
+- Date Used after commit 04fc4a27: RUNTIME PENDING; screenshot predates that commit.
+- Install/Update Date: current screenshot still shows 56 years; current source contains the defensive normalization boundary, so the exact runtime raw timestamp remains UNKNOWN.
+
+### Decision
+- Follow Reference for Date Used source/semantics; do not invent a second usage-data implementation.
+- Do not remove the package timestamp normalization without raw runtime evidence because the current device symptom is specifically a seconds-like timestamp.
+- Next verification is one fresh APK/device pass from commit 04fc4a27 (or its CI successor), then only change code if the fresh runtime result disproves the current source assumptions.
