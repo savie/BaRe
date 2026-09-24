@@ -52,12 +52,14 @@ class AccountLocalDatabase(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // No destructive migration is needed yet. Future schema changes must
-        // remain versioned and preserve existing account/recovery state.
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE accounts ADD COLUMN password_salt TEXT")
+            db.execSQL("ALTER TABLE accounts ADD COLUMN password_verifier TEXT")
+        }
     }
 
     companion object {
         private const val DATABASE_NAME = "bare_account.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
     }
 }
