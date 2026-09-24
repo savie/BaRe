@@ -18,7 +18,6 @@ class InstalledAppRepository(private val context: Context) {
     private val backupStorage = BackupStorageBehavior(context)
     private val accountDatabase = AccountLocalDatabase(context)
     private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
-    private val usageRepository = AppUsageRepository(context)
 
     fun load(): List<AppItem> {
         val identityId = identityStore.load()?.identityId
@@ -55,10 +54,11 @@ class InstalledAppRepository(private val context: Context) {
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
                     firstInstallTime = runCatching {
-                        normalizePackageTimestamp(packageManager.getPackageInfo(info.packageName, 0).firstInstallTime)
+                        packageManager.getPackageInfo(info.packageName, 0).firstInstallTime
                     }.getOrNull(),
                     lastUpdateTime = runCatching {
-                        normalizePackageTimestamp(packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime)
+                        val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
+                        packageInfo.lastUpdateTime.takeIf { it > packageInfo.firstInstallTime }
                     }.getOrNull(),
                     apkSizeBytes = apkSizeBytes,
                     installedSizeBytes = storage?.appBytes,
@@ -83,10 +83,8 @@ class InstalledAppRepository(private val context: Context) {
                 )
             }
         val installedPackages = loaded.asSequence().map { it.packageName }.toSet()
-        val lastUsedTimes = runCatching { usageRepository.loadLastUsed(installedPackages) }.getOrDefault(emptyMap())
-        val enrichedLoaded = loaded.map { it.copy(lastUsedTime = lastUsedTimes[it.packageName]) }
         val backupOnly = backupOnlyApps(backupLocations, installedPackages)
-        val result = (enrichedLoaded + backupOnly).sortedBy { it.name.lowercase() }
+        val result = (loaded + backupOnly).sortedBy { it.name.lowercase() }
         cachedApps = result
         return result
     }
@@ -213,16 +211,6 @@ class InstalledAppRepository(private val context: Context) {
         private var cachedApps: List<AppItem> = emptyList()
 
         fun cached(): List<AppItem> = cachedApps
-    }
-
-    /**
-     * PackageManager exposes install/update times in milliseconds. Keep a defensive
-     * compatibility boundary for devices/providers that surface epoch seconds;
-     * otherwise a seconds value is rendered as a date around 1970.
-     */
-    private fun normalizePackageTimestamp(timestamp: Long): Long? {
-        if (timestamp <= 0L) return null
-        return if (timestamp < 100_000_000_000L) timestamp * 1000L else timestamp
     }
 
     private fun formatSize(bytes: Long): String {
