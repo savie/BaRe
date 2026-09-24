@@ -6250,3 +6250,103 @@ Semua string tersebut dikembalikan ke English:
 ### Rule
 - UI/app strings: English.
 - docs/worklog.md: Bahasa Indonesia.
+
+
+## 2026-09-24 — GO: audit recursive seluruh `app/` sebelum refactor behavior
+
+### Scope
+- USER GO: audit bukan hanya tab Apps/App Detail, tetapi seluruh folder `app/` secara recursive.
+- Branch yang diaudit: `v1.0/rebaseline`.
+- Struktur aktual yang diverifikasi: **57 file** di bawah `app/`:
+  - 48 Kotlin
+  - 8 XML
+  - 1 file binary/resource
+  - 1 test Kotlin di `app/src/test`
+- Audit ini mencakup struktur seluruh tree dan deep inspection pada jalur pusat aplikasi, Apps, App Detail, storage, recovery, capability, settings, onboarding, account, home, dan misc.
+- Belum melakukan refactor/source change pada audit ini.
+
+### FACT / OBSERVED — struktur sekarang
+- Entry/navigation utama masih terpusat sangat besar di `BaReApp.kt` (897 lines). File ini memegang startup/recovery, identity, access method, storage setup, screen state/back stack, theme state, selected app, routing, dan MainShell.
+- `AppsScreens.kt` (102,954 bytes) menampung banyak screen sekaligus: AppsScreen lama, search, quick actions, labels, custom configuration, blacklist, backup settings, App Detail, backup selector/screen, backups, management, diagnostics, restore, config, dan helper UI.
+- `AppsFilter.kt` (54,437 bytes) juga memegang inventory Apps, filtering/sorting, context action sheet, destructive action confirmation, battery optimization, blacklist, dan filter UI.
+- `InstalledAppRepository.kt` sudah menjadi satu pintu discovery inventory + StorageStats, tetapi beberapa screen membuat instance repository sendiri dan memanggil `load()` lagi.
+- `AppDetailsRepository.kt` mengulang sebagian pekerjaan inventory/storage yang sudah ada di `InstalledAppRepository`: baca PackageInfo/ApplicationInfo, APK paths, StorageStats, dan format/detail data.
+- `RootAppActionExecutor.kt` sudah menjadi satu pintu command root untuk disable/enable/force-stop/clear-data/uninstall/battery optimization.
+- Walaupun executor sudah terpusat, orchestration UI masih diduplikasi: pengecekan root, threading/background execution, fallback ke Android App Info/uninstall, toast/status, dan reload inventory/detail masih ditulis di lebih dari satu screen.
+- `AppOrganizationStore.kt` sudah menjadi satu pintu persistence favorite/labels/blacklist/APK-only, tetapi flow UI untuk favorite/labels/blacklist muncul di AppsFilter, App Detail, App Management, App Labels, dan App Blacklist.
+- Storage sudah relatif terpisah: `BackupStorageRepository`, `StorageConfigurationStore`, dan `initializeLocalBackupStorage()`.
+- Recovery juga sudah relatif terpisah: `RecoveryPackageCodec`, `RecoveryArtifactRepository`, `RecoveryArtifactDiscovery`, `RecoveryStorageBoundary`, dan `BaReMasterKeyStore`.
+- Capability sudah dipisah menjadi resolver/provider: `AccessCapabilityResolver`, `NonRootCapabilityProvider`, `RootCapabilityProvider`.
+
+### TEMUAN utama — sumber masalah “tiap halaman bikin fungsi lagi”
+1. **Behavior Apps tersebar di UI.** AppsFilter dan App Detail sama-sama menjalankan behavior package action sendiri walaupun targetnya sama.
+2. **Action root sudah punya executor, tetapi belum punya satu jalur behavior.** Contoh: AppsFilter punya `runRootActionOrFallback()`, App Detail punya `runRootAction()`; keduanya mengatur hal yang mirip dengan cara berbeda.
+3. **Android App Info dibuka di lebih dari satu tempat.** AppsFilter dan App Detail membuat Intent yang sama sendiri.
+4. **Battery optimization punya dua jalur orchestration.** AppsFilter mencoba root lalu fallback system; App Detail punya logic sendiri untuk root/system request.
+5. **Uninstall punya dua jalur orchestration.** AppsFilter mencoba root lalu fallback system uninstall; App Detail langsung membuka system uninstall intent.
+6. **Organization behavior masih tersebar di UI.** Store sudah central, tetapi toggle/save/reload/editor behavior masih dibuat ulang di beberapa screen.
+7. **Formatting/detail logic berulang.** Contoh formatter ukuran dan relative-time muncul di lebih dari satu file.
+8. **Inventory reload berulang.** AppsFilter, AppsScreen, AppsSearchScreen, AppLabelsScreen, AppBlacklistScreen, dan area lain dapat membuat repository + reload sendiri.
+9. **Ada screen lama/duplikatif di AppsScreens.** `AppsScreen` memakai model inventory yang lebih sederhana, sementara MainShell saat ini memakai `AppsFilterScreen`. Ini perlu diverifikasi sebagai unused/legacy sebelum dihapus; jangan menghapus hanya berdasarkan nama.
+10. **Backup/restore belum punya backend nyata yang sama dengan UI.** Beberapa screen masih eksplisit mockup/pending. App Detail backup selector juga akhirnya masih berhenti pada `Action unavailable`; AppBackup/AppBackups/AppRestore masih banyak memakai mockup dialog.
+11. **Cloud inventory/backup belum menjadi capability nyata.** MainShell masih menampilkan cloud sebagai unavailable/not wired.
+12. **Test coverage sangat tipis.** Di tree yang diaudit hanya ada satu test Kotlin, yaitu `RecoveryPackageCodecTest.kt`; belum ada test untuk Apps behavior, root action orchestration, storage detail, navigation, atau backup execution.
+13. **Threading belum seragam.** Sebagian screen sudah memakai coroutines/Dispatchers.IO, tetapi AppsFilter masih memakai `Thread` + `Handler`. Ini membuat pola behavior berbeda walaupun pekerjaan yang dilakukan serupa.
+
+### VERIFIED dari source — App Detail saat ini
+- Initial detail loading sudah benar-benar dipicu melalui `LaunchedEffect` dan repository load dipindah ke `Dispatchers.IO`; ini menjelaskan fix spinner sebelumnya.
+- App Detail overflow sudah memakai anchored `DropdownMenu` dan quick-action row.
+- Action existing yang dipakai App Detail berasal dari executor/store yang nyata, sedangkan backup/share masih belum punya execution backend terverifikasi.
+- Storage chip action saat ini masih memakai `ModalBottomSheet`.
+
+### VERIFIED dari reference Swift yang tersedia
+- Reference memiliki menu action chip storage dengan 5 item: Backup to local, Backup to cloud, Backup to local and cloud, Share APK, Delete.
+- Reference backup chip memiliki Restore, Sync, Encryption, Share APK, Delete; beberapa item dapat invisible tergantung state.
+- Reference `DetailActivity` membuat popup anchored melalui `u45(this, view, 12)`, termasuk untuk storage chip dan backup chip. Jadi popup chip bukan bottom sheet pada reference.
+- Reference juga memiliki backup-card action menu terpisah: Backup details, Metadata (conditional), Protect backup, Add note, Sync (conditional), Delete backup.
+
+### INFERENCE — arah arsitektur yang paling masuk akal
+Masalah utama bukan “kurang class”. Masalahnya adalah **UI masih menjadi tempat behavior**.
+
+Target yang perlu dicapai setelah audit:
+
+```
+UI
+  ↓
+Action / Request
+  ↓
+Behavior / Coordinator
+  ↓
+Capability / Executor
+  ↓
+Android / Storage / Root / Cloud
+```
+
+Satu behavior boleh memakai beberapa file/class. “1 pintu” berarti semua halaman memanggil jalur behavior yang sama, bukan memaksa semuanya menjadi satu file.
+
+Contoh target:
+- Apps + App Detail + Management → satu App Action behavior untuk disable/enable/force-stop/clear-data/uninstall/battery optimization/launch/app-info.
+- Apps + App Detail + Labels/Blacklist → satu organization behavior di atas `AppOrganizationStore`.
+- App Detail + App Backup + Quick Actions → satu backup behavior/coordinator; UI hanya mengirim request.
+- Semua inventory/search/filter → satu sumber inventory dan query/filter behavior, bukan setiap screen memuat ulang sendiri.
+
+### DECISION
+- **Belum refactor pada GO audit ini.** Audit harus menjadi dasar sebelum memindahkan file/fungsi.
+- Jangan membuat “1 class raksasa” baru. Pisahkan berdasarkan behavior/action, sementara UI tetap di layer UI.
+- Jangan menghapus `AppsScreen` atau file lain hanya karena terlihat duplikat sebelum call-site diverifikasi.
+- Backup engine tidak boleh dibuat seolah-olah sudah ada hanya untuk menghilangkan mockup; capability backend dan verification tetap prerequisite.
+
+### STATUS
+- Recursive tree inspection: **VERIFIED**.
+- Architecture hotspots: **VERIFIED dari source**.
+- Duplicate behavior hotspots: **VERIFIED dari source**.
+- Reference storage/backup chip popup model: **VERIFIED dari decompiled Swift reference**.
+- Runtime behavior seluruh app: **UNVERIFIED**; audit source tidak sama dengan runtime verification.
+- Full behavior parity dengan Swift: **UNKNOWN / belum diverifikasi**.
+- Refactor: **NOT STARTED** pada audit ini.
+
+### Next
+1. Susun dependency/call map dari behavior yang sudah ada, terutama App actions, organization, inventory, storage detail, dan backup.
+2. Pilih jalur refactor pertama yang paling kecil risikonya: **App Action behavior** karena sudah punya `RootAppActionExecutor` sebagai capability dasar.
+3. Setelah jalur behavior stabil, pindahkan pemanggilan Apps/App Detail/Management ke satu pintu tanpa mengubah UI lebih dulu.
+4. Baru lanjut storage-chip popup dan backup behavior setelah action path tidak lagi terduplikasi.
