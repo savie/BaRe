@@ -1,3 +1,16 @@
+## 2026-09-24 — A3 continuation: local Account sign-in boundary
+
+- User said **Lanjut GO** after reporting Android Build #934 in progress for the Account database commit.
+- Added local Account credential persistence fields (`password_salt`, `password_verifier`) with schema version 2 and migration from version 1.
+- Added `LocalAccountRepository` for local register/sign-in/sign-out and active-account lookup.
+- Passwords are handled as `CharArray`, cleared after use, and only a PBKDF2-HMAC-SHA256 verifier plus random salt is persisted.
+- This remains LOCAL-only authentication. It does not create a cloud session or claim cloud authentication/provider connectivity.
+- Existing Account/cloud metadata boundary remains separate from local backup storage.
+
+### VERIFICATION
+- Implementation: **IMPLEMENTED / CI NOT YET VERIFIED**.
+- Android Build #934 supplied by user: **IN PROGRESS**, therefore not yet treated as green/verified.
+
 ## 2026-09-24 — A3: Cloud Sync metadata boundary
 
 ### USER AUTHORIZATION
