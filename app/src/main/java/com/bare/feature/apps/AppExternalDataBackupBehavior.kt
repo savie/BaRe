@@ -16,8 +16,15 @@ class AppExternalDataBackupBehavior {
             Environment.getExternalStorageDirectory(),
             "Android/data/$packageName"
         )
+
+        if (destinationDir.exists() && !destinationDir.deleteRecursively()) {
+            return AppBackupPartResult.Failed("Unable to replace external data backup")
+        }
         if (!externalDataDirectory.exists()) {
             return AppBackupPartResult.Completed(emptyList())
+        }
+        if (!destinationDir.mkdirs()) {
+            return AppBackupPartResult.Failed("Unable to create external data backup directory")
         }
 
         return when (val result = root.copyDirectory(externalDataDirectory.absolutePath, destinationDir)) {
