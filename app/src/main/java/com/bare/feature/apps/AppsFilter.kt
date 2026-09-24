@@ -101,14 +101,14 @@ private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
 private enum class LabelFilter { ALL, LABELLED, UNLABELLED }
-private enum class SortOption(val title: String, val icon: ImageVector, val available: Boolean) {
-    NAME("Name", Icons.Default.Sort, true),
-    INSTALL_DATE("Install date", Icons.Default.Event, true),
-    UPDATE_DATE("Update date", Icons.Default.Update, true),
-    BACKUP_DATE("Backup date", Icons.Default.Backup, false),
-    BACKUP_SIZE("Backup size", Icons.Default.Storage, false),
-    DATE_USED("Date used", Icons.Default.TouchApp, true),
-    APP_SIZE("App size", Icons.Default.Android, true),
+private enum class SortOption(val titleRes: Int, val icon: ImageVector, val available: Boolean) {
+    NAME(R.string.sort_name, Icons.Default.Sort, true),
+    INSTALL_DATE(R.string.install_date, Icons.Default.Event, true),
+    UPDATE_DATE(R.string.update_date, Icons.Default.Update, true),
+    BACKUP_DATE(R.string.backup_date, Icons.Default.Backup, false),
+    BACKUP_SIZE(R.string.backup_size, Icons.Default.Storage, false),
+    DATE_USED(R.string.date_used, Icons.Default.TouchApp, true),
+    APP_SIZE(R.string.app_size, Icons.Default.Android, true),
 }
 private data class AppsFilterState(
     val sort: SortOption = SortOption.NAME,
@@ -312,11 +312,11 @@ fun AppsFilterScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
         val activeChips = buildList {
-            if (activeFilter.favorite == FavoriteFilter.FAVORITES) add("Favorites")
-            if (activeFilter.favorite == FavoriteFilter.NOT_FAVORITES) add("Not favorites")
+            if (activeFilter.favorite == FavoriteFilter.FAVORITES) add(context.getString(R.string.favorite))
+            if (activeFilter.favorite == FavoriteFilter.NOT_FAVORITES) add(context.getString(R.string.not_favorite))
             if (activeFilter.label == LabelFilter.LABELLED) add(context.getString(R.string.labelled))
-            if (activeFilter.label == LabelFilter.UNLABELLED) add("Not labelled")
-            if (activeFilter.selectedLabels.isNotEmpty()) add("Labels: " + activeFilter.selectedLabels.joinToString(", "))
+            if (activeFilter.label == LabelFilter.UNLABELLED) add(context.getString(R.string.unlabelled))
+            if (activeFilter.selectedLabels.isNotEmpty()) add(context.getString(R.string.labels_prefix, activeFilter.selectedLabels.joinToString(", ")))
             if (activeFilter.appType == AppTypeFilter.USER) add(context.getString(R.string.user_apps))
             if (activeFilter.appType == AppTypeFilter.SYSTEM) add(context.getString(R.string.system_apps))
             if (activeFilter.enabled == EnabledFilter.ENABLED) add(context.getString(R.string.enabled))
@@ -336,7 +336,7 @@ fun AppsFilterScreen(
                             selected = true,
                             onClick = {
                                 activeFilter = when {
-                                    chip == "Favorites" || chip == "Not favorites" -> activeFilter.copy(favorite = FavoriteFilter.ALL)
+                                    chip == context.getString(R.string.favorite) || chip == context.getString(R.string.not_favorite) -> activeFilter.copy(favorite = FavoriteFilter.ALL)
                                     chip == context.getString(R.string.labelled) || chip == "Not labelled" || chip.startsWith("Labels:") -> activeFilter.copy(label = LabelFilter.ALL, selectedLabels = emptySet())
                                     chip == context.getString(R.string.user_apps) || chip == context.getString(R.string.system_apps) -> activeFilter.copy(appType = AppTypeFilter.ALL)
                                     chip == context.getString(R.string.enabled) || chip == context.getString(R.string.disabled) -> activeFilter.copy(enabled = EnabledFilter.ALL)
@@ -790,7 +790,7 @@ fun AppsFilterScreen(
                                         }
                                         if (selected) {
                                             Text(
-                                                if (pendingFilter.descending) "↓" else "↑",
+                                                if (pendingFilter.descending) stringResource(R.string.sort_descending) else stringResource(R.string.sort_ascending),
                                                 style = MaterialTheme.typography.labelSmall,
                                                 color = tint,
                                                 fontWeight = FontWeight.Bold,
@@ -799,7 +799,7 @@ fun AppsFilterScreen(
                                         }
                                     }
                                     Text(
-                                        option.title,
+                                        stringResource(option.titleRes),
                                         style = MaterialTheme.typography.labelMedium,
                                         color = tint,
                                         maxLines = 2,
