@@ -1246,7 +1246,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 Text(
                                     stringResource(
                                         R.string.last_updated_value,
-                                        formatRelativeTime(context, appDetails.lastUpdateTime),
+                                        appDetails.lastUpdateTime?.let { formatRelativeTime(context, it) }
+                                            ?: stringResource(R.string.update_date_unavailable),
                                         formatAppSize(appSizeBytes),
                                         formatAppSize(cacheBytes)
                                     ),

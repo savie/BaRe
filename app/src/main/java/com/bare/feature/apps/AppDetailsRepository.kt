@@ -16,7 +16,7 @@ data class AppDetails(
     val versionName: String?,
     val versionCode: Long?,
     val firstInstallTime: Long,
-    val lastUpdateTime: Long,
+    val lastUpdateTime: Long?,
     val isSystem: Boolean,
     val isEnabled: Boolean,
     val apkCount: Int,
