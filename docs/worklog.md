@@ -6517,3 +6517,42 @@ Contoh target:
 1. Verifikasi CI/build untuk commit inventory refactor.
 2. Jika green, inspect remaining duplicate behavior/formatter/reload patterns.
 3. Prioritaskan jalur berikutnya berdasarkan actual dependency dan verification gap; jangan menghapus legacy AppsScreen tanpa call-site evidence.
+
+
+## 2026-09-24 — GO: centralize duplicate app display formatters
+
+### Authorization
+- User menyatakan CI/build dan E2E setelah inventory fix **GREEN / OK**, lalu mengizinkan lanjut.
+- Scope berikutnya dipilih dari checkpoint inventory: inspeksi duplicate formatter/reload pattern sebelum masuk behavior yang lebih besar.
+
+### Inspection
+- `AppsFilter.kt` memiliki formatter relative-time lokal.
+- `AppsScreens.kt` memiliki formatter relative-time dengan implementasi berbeda dan formatter ukuran app sendiri.
+- Tidak ada kebutuhan untuk mengubah semantics inventory/action; duplication ini murni presentation formatting di feature Apps.
+
+### Implementation
+- Ditambahkan `AppFormatters.kt` sebagai shared formatter feature-level untuk:
+  - `formatRelativeTime(...)`;
+  - `formatAppSize(...)`.
+- `AppsFilter.kt` dan `AppsScreens.kt` diarahkan ke formatter bersama.
+- Tidak mengubah resource string, unit, rounding, atau layout.
+
+### Verification
+- Local formatter `formatRelativeTime` pada `AppsFilter.kt`: **0 — VERIFIED dari source**.
+- Local `formatRelativeAppTime` pada `AppsScreens.kt`: **0 — VERIFIED dari source**.
+- `formatAppSize` sekarang hanya berada pada `AppFormatters.kt` di feature Apps: **VERIFIED dari source**.
+- Formatter output setelah centralization: **VERIFIED dari source**.
+- CI/E2E setelah perubahan formatter ini: **PENDING / UNVERIFIED**.
+- Runtime: **UNVERIFIED**.
+
+### Source
+- `b05d3ac0b3bcd4574b0a1ef2766ecffc4cf2bb26` — add shared formatter.
+- `eedb472f01e4f9a3499c788db86b8137e66d688d` — route AppsFilter.
+- `1800d46f71fa8222b05bae866d7d175e2cb66ecc` — remove AppsScreens local formatter.
+- `8bcd709136eb4f73b45b19b7dadb65ee8d4d0e27` — preserve formatter output.
+- `5ab7b5fb5f7db6202ba46505cf70249efcbc717e` — route AppsScreens relative-time calls.
+
+### Next
+1. Verify CI/build untuk formatter centralization.
+2. Jika green, lanjut inspect remaining duplicate reload/behavior paths dan pilih perubahan berikutnya berdasarkan dependency + risk.
+3. Jangan masuk backup behavior atau menghapus legacy screen tanpa evidence/call-site requirement.
