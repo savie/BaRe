@@ -6097,3 +6097,8 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
    - Battery optimization;
    - Add to Home screen.
 4. Bandingkan visual App Info card dan storage surface dengan Swift reference.
+### Follow-up UI correction
+- Overflow titik tiga dipindah dari TopAppBar ke area App Info card, supaya posisi surface mengikuti reference Swift yang menempatkan `iv_menu` di kanan atas card.
+- Source commit: `ef827e5206938912ddfd86734933f2a2162373e4` lalu `5547b415c3ea89a78e49b370d53a0476c188086e` untuk koreksi struktur layout.
+- CI terbaru: **#804 IN PROGRESS** pada HEAD `5547b415c3ea89a78e49b370d53a0476c188086e`.
+- Runtime: **UNVERIFIED**.
