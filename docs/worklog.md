@@ -498,7 +498,6 @@ Status setiap bagian harus ditandai secara terpisah:
 | Home | Ada | Backup/restore dan capability lain belum diimplementasikan | FE ada, capability belum |
 
 Artinya jalur Welcome sampai Home **sudah jelas secara FE**, tetapi belum boleh dianggap selesai secara produk karena bagian di belakang FE masih belum diimplementasikan dan diverifikasi.
-
 ### Cara Kerja Berikutnya
 Kita tutup scope terkecil satu per satu.
 
@@ -997,8 +996,7 @@ User memberikan **GO** untuk merapikan asset logo yang tidak diperlukan, menggan
 ### Perubahan
 - BaReMark Canvas redraw dihapus dari OnboardingScreens.kt; Welcome sekarang memakai res/drawable-nodpi/bare_logo.png sebagai asset logo asli.
 - ContentScale.Fit digunakan agar PNG tidak dipaksa crop/stretch. PNG tidak diberi tint berbasis theme, sehingga switching Light/Dark tidak mengubah warna internal asset.
-- Import Compose yang hanya dibutuhkan oleh redraw lama dibersihkan.
-- bare_header.png dihapus karena tidak memiliki consumer yang teridentifikasi pada source/runtime path saat cleanup ini dilakukan.
+- Import Compose yang hanya dibutuhkan oleh redraw lama dibersihkan.- bare_header.png dihapus karena tidak memiliki consumer yang teridentifikasi pada source/runtime path saat cleanup ini dilakukan.
 - bare_logo_foreground.xml dipertahankan karena masih direferensikan oleh adaptive launcher icon; asset ini bukan kandidat aman untuk dihapus.
 - Preview LoginScreen diperbaiki dengan menambahkan onForgotPassword setelah signature berubah.
 
@@ -1498,7 +1496,6 @@ Pengguna memberikan **GO** setelah mengunci arah Home: header brand centered men
 - Last/next backup state harus direkonsiliasi lagi setelah backup/scheduler capability mempunyai runtime evidence nyata.
 
 ## 2026-09-19 — Implementasi Home Dashboard Compact
-
 ### Implementasi
 - Mengganti Home mockup lama yang panjang menjadi dashboard compact satu-viewport dengan satu dashboard surface dan empat Quick Actions.
 - Header main shell sekarang menampilkan `B Λ R E` + `SAVE OUR DAY` centered dan search tetap di kanan.
@@ -1998,7 +1995,6 @@ Test baru:
 - cleartext-header check agar identity tidak berada di header plaintext.
 
 app/build.gradle.kts menambahkan JUnit 4.13.2 untuk unit test.
-
 Identity reconciliation sekarang conflict-safe:
 - no current identity → restore;
 - same identity → idempotent;
@@ -2498,7 +2494,6 @@ Reference evidence about Swift Root/Shizuku permission UX is recorded in `docs/r
 - User-provided debug build failed at `:app:compileDebugKotlin`.
 - Exact compiler error: `BaReApp.kt:387:26 Unresolved reference 'clip'`.
 - The new floating NavigationBar used `Modifier.clip(RoundedCornerShape(28.dp))`, but the required Compose extension import was missing.- No other compile error was reported in the supplied log.
-
 ### Root Cause
 - Missing source import for `androidx.compose.ui.draw.clip`.
 - This is a compile-time source issue introduced by the navigation visual rework; it is not a runtime/navigation behavior failure.
@@ -2997,8 +2992,7 @@ Build terbaru kembali RED pada :app:compileDebugKotlin. Error yang diberikan use
 - E2E/runtime: NOT RUN, sesuai authorization sebelumnya.
 
 ### Commits
-- 7f2994655bdd8b22fdbfbdb38c05083876076596 — fix(onboarding): use shared backup storage behavior
-- 61555b138f2a5f84420a9b45aa8769b2a3c44a70 — fix(settings): use shared storage behavior consistently
+- 7f2994655bdd8b22fdbfbdb38c05083876076596 — fix(onboarding): use shared backup storage behavior- 61555b138f2a5f84420a9b45aa8769b2a3c44a70 — fix(settings): use shared storage behavior consistently
 - 0244690aafef5a467f8af9bd05b3000a88c07ea6 — fix(storage): restore coroutine imports
 
 
@@ -3498,7 +3492,6 @@ These are runtime observations; root causes are not inferred from UI evidence al
 - BaRe installed-app mapping returned nullable `installedFromGooglePlay` on repository exceptions, causing a filter that checks `== false` to exclude unknown/null values instead of treating them as non-Play under the current Reference semantic boundary.
 - Date formatter source was inspected: BaRe `formatRelativeTime` itself uses millisecond timestamps and does not explain a generic 56-year value by source inspection. Reference also uses relative date formatting. Runtime timestamp anomaly remains UNVERIFIED.
 - BaRe `AppDetailsRepository` has a separate External Data path at `Android/data/<package>` with normal File traversal first and Root fallback second. Therefore a missing WhatsApp Ext. data value is an access/capability observation, not proof that the storage component is absent.
-
 ### Change
 - `a801bb38b86025c40f56e95c67defa2982561c22`: active Install Status chips now clear back to `InstallStatusFilter.ALL`.
 - `73b9bfc19f8b5d3dceba912128642bbb34f76da8`: installed-app Google Play classification now falls back to non-Play (`false`) when install-source lookup throws, matching the existing inverse filter semantics and Reference installer-package equality boundary.
@@ -3617,3 +3610,35 @@ User authorized continuing the Date issue and External Data investigation. User 
   1. Install Date / Update Date;
   2. WhatsApp External Data;
   3. Apps-tab three-dot → Set app labels → edit/save/reopen/filter behavior.
+
+## 2026-09-24 — Date Used runtime diagnosis pass — USER GO
+
+### Authorization
+- User said **GO** after confirming Android's **App usage data / Permit access to app usage data** toggle is enabled on the BaRe device.
+- Scope: inspect the actual Date Used permission/data path and align only where Reference evidence shows a concrete mismatch.
+
+### Inspect / Evidence
+- BaRe manifest declares `android.permission.PACKAGE_USAGE_STATS`.
+- Device screenshot supplied by user shows the Android **App usage data** special-access toggle enabled for BaRe.
+- BaRe `AppUsageRepository` already uses the same Reference data source: `UsageStatsManager.queryUsageStats(INTERVAL_BEST, now - 30 days, now)`, filters positive `lastTimeUsed` within one year, and matches installed package names.
+- Decompiled Reference `defpackage/iy.java` uses `AppOpsManager.noteOpNoThrow("android:get_usage_stats", ...)` before querying UsageStatsManager. BaRe previously used `checkOpNoThrow` for the same AppOp.
+- Reference also has an optional privileged path that can set the usage AppOp when its privileged capability is available; this is not treated as a requirement for normal Date Used operation.
+- No evidence currently proves that the UsageStats query itself is empty on the user's device; runtime raw query output is still unavailable.
+
+### Change
+- Commit `04fc4a2766124a87c8876377ed984bb5def9dc8b` — `fix(apps): align usage access app-op check with reference`.
+- Changed BaRe `hasUsageAccess()` from `checkOpNoThrow` to `noteOpNoThrow`, matching the Reference AppOps access check.
+- No root requirement was introduced.
+- No UsageStats query window, package matching, sorting semantics, or Date Used UI semantics were changed.
+- No speculative fallback or duplicated root/AppOps capability path was added.
+
+### Verification State
+- Source: **IMPLEMENTED**.
+- CI for commit `04fc4a2766124a87c8876377ed984bb5def9dc8b`: **PENDING / UNVERIFIED**.
+- Device runtime after this change: **NOT RUN / UNVERIFIED**.
+- User-provided screenshot verifies the Android special-access toggle is ON, but does not prove that `queryUsageStats()` returns matching records.
+
+### Next
+- After CI green, retest Date Used on the device.
+- If it remains **Unknown**, the next diagnostic boundary is the actual UsageStats result count/package matching, not root permission discovery.
+
