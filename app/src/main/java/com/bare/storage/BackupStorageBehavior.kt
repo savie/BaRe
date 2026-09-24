@@ -2,9 +2,6 @@ package com.bare.storage
 
 import android.content.Context
 import java.io.File
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-
 /**
  * Shared application boundary for backup-storage use cases.
  *
@@ -57,10 +54,8 @@ class BackupStorageBehavior(context: Context) {
     ): File =
         repository.appBackupDirectory(initialization, identityId, packageName, version)
 
-    suspend fun initialize(identityId: String, kind: BackupStorage.Kind): StorageInitialization =
-        withContext(Dispatchers.IO) {
-            repository.initialize(identityId, kind)
-        }
+    fun initialize(identityId: String, kind: BackupStorage.Kind): StorageInitialization =
+        repository.initialize(identityId, kind)
 
     suspend fun selectLocalStorage(
         identityId: String,
