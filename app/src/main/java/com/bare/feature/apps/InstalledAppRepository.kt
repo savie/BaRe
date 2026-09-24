@@ -15,10 +15,14 @@ class InstalledAppRepository(private val context: Context) {
     private val organizationStore = AppOrganizationStore(context)
     private val identityStore = LocalIdentityStore(context)
     private val backupStorage = BackupStorageBehavior(context)
+    private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
 
     fun load(): List<AppItem> {
         val identityId = identityStore.load()?.identityId
         val backupLocations = identityId?.let { backupStorage.localBackupLocations(it) }.orEmpty()
+        // Local identity is not an Account. Until an authenticated Account/provider
+        // supplies verified metadata, cloud state remains UNKNOWN rather than NOT_SYNCED.
+        val cloudSyncStates = emptyMap<String, CloudSyncState>()
         val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
@@ -54,6 +58,7 @@ class InstalledAppRepository(private val context: Context) {
                     cacheSizeBytes = storage?.cacheBytes,
                     totalSizeBytes = storage?.totalBytes,
                     isInstalled = true,
+                    cloudSyncState = cloudSyncStates[info.packageName] ?: CloudSyncState.UNKNOWN,
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
@@ -114,6 +119,7 @@ class InstalledAppRepository(private val context: Context) {
                 category = context.getString(com.bare.R.string.user_app),
                 size = formatSize(size),
                 isInstalled = false,
+                cloudSyncState = CloudSyncState.UNKNOWN,
                 isEnabled = true,
                 installedFromGooglePlay = installerPackage == "com.android.vending",
                 backupCount = count,
