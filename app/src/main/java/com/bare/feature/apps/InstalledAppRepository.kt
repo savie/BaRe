@@ -16,6 +16,8 @@ class InstalledAppRepository(private val context: Context) {
         val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
+                val isUpdatedSystemApp = (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+                val canLaunch = packageManager.getLaunchIntentForPackage(info.packageName) != null
                 val storage = storageStats(info)
                 val apkSizeBytes = runCatching {
                     buildList {
@@ -29,6 +31,8 @@ class InstalledAppRepository(private val context: Context) {
                     category = context.getString(if (isSystem) com.bare.R.string.system_app else com.bare.R.string.user_app),
                     size = formatSize(apkSizeBytes ?: 0L),
                     isSystem = isSystem,
+                    isUpdatedSystemApp = isUpdatedSystemApp,
+                    canLaunch = canLaunch,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
                     firstInstallTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).firstInstallTime }.getOrNull(),
