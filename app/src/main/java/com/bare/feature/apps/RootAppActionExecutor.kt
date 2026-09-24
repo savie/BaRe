@@ -31,6 +31,9 @@ object RootAppActionExecutor {
     fun setBatteryOptimizationExempt(packageName: String, exempt: Boolean): Boolean =
         run("cmd deviceidle whitelist ${if (exempt) "+" else "-"}$packageName") != null
 
+    fun setUsageAccess(packageName: String): Boolean =
+        run("appops set $packageName android:get_usage_stats allow") != null
+
     private fun run(command: String): String? {
         return runCatching {
             val process = ProcessBuilder("su", "-c", command)
