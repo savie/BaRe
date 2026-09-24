@@ -3442,3 +3442,33 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 - Verify CI for 6eb9062.
 - If green, perform the A3 Date Used runtime verification where a device/emulator with Usage Access is available.
 - Then continue the remaining A3 gap review before entering A4 App Size semantics.
+
+
+## 2026-09-24 — A4 App size measurement alignment — USER GO
+
+### Authorization
+- User said **GO** to continue the next highest-priority Apps work after Android Build **#950 GREEN** for Date Used commit `6eb9062`.
+
+### Inspect / Evidence
+- Reference `docs/reference.md` records App size as a sort criterion and the static audit defines the Reference total as APK + split APK + shared libraries + Data + DE data + External data + Media + OBB/Expansion, with cache not double-counted.
+- Android `StorageStats.getAppBytes()` includes APK files, optimized compiler output, unpacked native libraries, and OBB when hosted on the relevant storage device. `getDataBytes()` includes app data and cache-related paths; therefore BaRe's existing `appBytes + dataBytes` total is a platform-provided aggregate rather than APK-only sizing. citeturn1search0
+- BaRe already persisted `totalSizeBytes` from this aggregate, but Apps sort/display still used the APK-only `apkSizeBytes` / formatted APK size.
+
+### Change
+- Apps `APP_SIZE` sort now uses `AppItem.totalSizeBytes` rather than APK-only size.
+- Installed apps are ordered before backup-only entries for this sort; missing total size is treated as zero within the same installed-state group.
+- App Size supporting text now displays the aggregate `totalSizeBytes` and reports unknown when no aggregate is available.
+- No root/Shizuku dependency, cloud dependency, or custom recursive storage scan was introduced.
+
+### Truth status
+- Reference semantics: **OBSERVED_STATIC** from `docs/reference.md`.
+- Android platform aggregate source: **VERIFIED_EXTERNAL_DOC**.
+- Source implementation: **IMPLEMENTED** in commit `a7844d341880fd48d8108dd91298938f6763914d`.
+- CI/build for `a7844d3`: **PENDING / UNVERIFIED**.
+- Runtime/device App Size sorting/display: **NOT RUN / UNVERIFIED**.
+- Exact one-to-one parity with every Reference storage component remains **NOT VERIFIED**; the implementation uses Android's aggregate `StorageStats` boundary rather than reproducing Reference's privileged per-component measurement path.
+
+### Next
+- Verify CI for `a7844d3`.
+- If green, runtime-test App Size on an available device/emulator and compare ordering/display against actual platform storage stats.
+- Keep exact privileged per-component parity as a separate verification question; do not claim it from source compilation alone.
