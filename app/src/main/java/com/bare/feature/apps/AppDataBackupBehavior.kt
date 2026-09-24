@@ -14,8 +14,14 @@ class AppDataBackupBehavior(private val context: Context) {
             return AppBackupPartResult.Failed(it.message ?: "Installed package was not found")
         }
 
-        val dataDirectory = applicationInfo.dataDir
-        return when (val result = root.copyDirectory(dataDirectory, destinationDir)) {
+        if (destinationDir.exists() && !destinationDir.deleteRecursively()) {
+            return AppBackupPartResult.Failed("Unable to replace app data backup")
+        }
+        if (!destinationDir.mkdirs()) {
+            return AppBackupPartResult.Failed("Unable to create app data backup directory")
+        }
+
+        return when (val result = root.copyDirectory(applicationInfo.dataDir, destinationDir)) {
             is com.bare.capability.RootCopyResult.Success ->
                 AppBackupPartResult.Completed(result.files)
             is com.bare.capability.RootCopyResult.Failed ->
