@@ -55,6 +55,7 @@ data class AppItem(
     val favorite: Boolean = false,
     val firstInstallTime: Long? = null,
     val lastUpdateTime: Long? = null,
+    val lastUsedTime: Long? = null,
     val apkSizeBytes: Long? = null,
     val installedSizeBytes: Long? = null,
     val dataSizeBytes: Long? = null,

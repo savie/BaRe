@@ -17,6 +17,7 @@ data class AppDetails(
     val versionCode: Long?,
     val firstInstallTime: Long,
     val lastUpdateTime: Long,
+    val lastUsedTime: Long?,
     val isSystem: Boolean,
     val isEnabled: Boolean,
     val apkCount: Int,
@@ -55,6 +56,9 @@ class AppDetailsRepository(private val context: Context) {
             android.net.Uri.parse("package:$packageName"),
         )
         val canOpenAppInfo = appInfoIntent.resolveActivity(packageManager) != null
+        val lastUsedTime = runCatching {
+            AppUsageRepository(context).loadLastUsed(setOf(packageName))[packageName]
+        }.getOrNull()
 
         return AppDetails(
             name = applicationInfo.loadLabel(packageManager).toString().ifBlank { packageName },
@@ -67,8 +71,9 @@ class AppDetailsRepository(private val context: Context) {
                 @Suppress("DEPRECATION")
                 packageInfo.versionCode.toLong()
             },
-            firstInstallTime = packageInfo.firstInstallTime,
-            lastUpdateTime = packageInfo.lastUpdateTime,
+            firstInstallTime = normalizePackageTimestamp(packageInfo.firstInstallTime) ?: 0L,
+            lastUpdateTime = normalizePackageTimestamp(packageInfo.lastUpdateTime) ?: 0L,
+            lastUsedTime = lastUsedTime,
             isSystem = isSystem,
             isEnabled = applicationInfo.enabled,
             apkCount = apkPaths.size,
@@ -80,6 +85,12 @@ class AppDetailsRepository(private val context: Context) {
             canLaunch = launchIntent != null,
             canOpenAppInfo = canOpenAppInfo,
         )
+    }
+
+    private fun normalizePackageTimestamp(timestamp: Long): Long? = when {
+        timestamp <= 0L -> null
+        timestamp < 100_000_000_000L -> timestamp * 1000L
+        else -> timestamp
     }
 
     private fun storageStats(info: ApplicationInfo): StorageStats? {

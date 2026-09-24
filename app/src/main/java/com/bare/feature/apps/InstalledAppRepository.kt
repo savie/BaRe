@@ -18,6 +18,7 @@ class InstalledAppRepository(private val context: Context) {
     private val backupStorage = BackupStorageBehavior(context)
     private val accountDatabase = AccountLocalDatabase(context)
     private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
+    private val usageRepository = AppUsageRepository(context)
 
     fun load(): List<AppItem> {
         val identityId = identityStore.load()?.identityId
@@ -82,8 +83,10 @@ class InstalledAppRepository(private val context: Context) {
                 )
             }
         val installedPackages = loaded.asSequence().map { it.packageName }.toSet()
+        val lastUsedTimes = runCatching { usageRepository.loadLastUsed(installedPackages) }.getOrDefault(emptyMap())
+        val enrichedLoaded = loaded.map { it.copy(lastUsedTime = lastUsedTimes[it.packageName]) }
         val backupOnly = backupOnlyApps(backupLocations, installedPackages)
-        val result = (loaded + backupOnly).sortedBy { it.name.lowercase() }
+        val result = (enrichedLoaded + backupOnly).sortedBy { it.name.lowercase() }
         cachedApps = result
         return result
     }

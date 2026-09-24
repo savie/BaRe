@@ -251,6 +251,30 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                                 overflow = TextOverflow.Ellipsis,
                             )
                             Text(
+                                stringResource(
+                                    R.string.installed_at,
+                                    app.firstInstallTime?.let { formatRelativeTime(context, it) }
+                                        ?: stringResource(R.string.install_date_unavailable),
+                                ),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                            Text(
+                                stringResource(
+                                    R.string.last_updated_at,
+                                    app.lastUpdateTime?.let { formatRelativeTime(context, it) }
+                                        ?: stringResource(R.string.update_date_unavailable),
+                                ),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                            Text(
+                                stringResource(
+                                    R.string.last_used_at,
+                                    app.lastUsedTime?.let { formatRelativeTime(context, it) }
+                                        ?: stringResource(R.string.usage_unavailable),
+                                ),
+                                style = MaterialTheme.typography.labelSmall,
+                            )
+                            Text(
                                 stringResource(R.string.backup_never),
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
@@ -1236,6 +1260,21 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     ),
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    stringResource(
+                                        R.string.installed_at,
+                                        formatRelativeTime(context, appDetails.firstInstallTime),
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                                Text(
+                                    stringResource(
+                                        R.string.last_used_at,
+                                        appDetails.lastUsedTime?.let { formatRelativeTime(context, it) }
+                                            ?: stringResource(R.string.usage_unavailable),
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
                                 )
                                 if (parts.isNotEmpty()) {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
