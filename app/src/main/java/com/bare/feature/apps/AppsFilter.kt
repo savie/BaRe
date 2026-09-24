@@ -734,7 +734,7 @@ fun AppsFilterScreen(
         ModalBottomSheet(onDismissRequest = { onFilterOpenChange(false) }) {
             Column(Modifier.fillMaxWidth().fillMaxHeight(0.88f)) {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    TextButton(onClick = { onFilterOpenChange(false) }) { Text(stringResource(R.string.close_mark) }
+                    TextButton(onClick = { onFilterOpenChange(false) }) { Text(stringResource(R.string.close_mark)) }
                     Spacer(Modifier.weight(1f))
                     Button(onClick = { activeFilter = pendingFilter; onFilterOpenChange(false) }) { Text(stringResource(R.string.apps_apply_options)) }
                 }
