@@ -43,8 +43,8 @@ fun ManageSpaceScreen(
         scope.launch {
             val result = withContext(Dispatchers.IO) {
                 val backup = if (id != null) storageBehavior.localBackupSize(id) else 0L
-                val recovery = if (id != null) repository.localRecoverySize(id) else 0L
-                val backupLocations = if (id != null) repository.localBackupLocations(id) else emptyList()
+                val recovery = if (id != null) storageBehavior.localRecoverySize(id) else 0L
+                val backupLocations = if (id != null) storageBehavior.localBackupLocations(id) else emptyList()
                 Quad(
                     backup,
                     recovery,
@@ -69,7 +69,7 @@ fun ManageSpaceScreen(
             runCatching {
                 withContext(Dispatchers.IO) {
                     when (action) {
-                        ManageSpaceAction.DELETE_BACKUPS -> repository.deleteLocalBackups(id)
+                        ManageSpaceAction.DELETE_BACKUPS -> storageBehavior.deleteLocalBackups(id)
                         ManageSpaceAction.DELETE_ALL_DATA -> {
                             clearBaReAppData(context)
                         }
