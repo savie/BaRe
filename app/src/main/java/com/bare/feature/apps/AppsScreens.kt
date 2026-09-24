@@ -41,6 +41,7 @@ import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
+private enum class AppsContext { LOCAL, CLOUD }
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
@@ -53,7 +54,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     var sort by remember { mutableStateOf(AppSort.NAME) }
     var descending by remember { mutableStateOf(false) }
     var showFilters by remember { mutableStateOf(false) }
-    var showContext by remember { mutableStateOf(false) }
+    var appsContext by remember { mutableStateOf(AppsContext.LOCAL) }
     var searchQuery by remember { mutableStateOf("") }
 
     BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
@@ -64,8 +65,9 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
             .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
     }
 
-    val visibleApps = remember(apps, scope, sort, descending, searchQuery) {
+    val visibleApps = remember(apps, appsContext, scope, sort, descending, searchQuery) {
         val query = searchQuery.trim().lowercase()
+        if (appsContext == AppsContext.CLOUD) return@remember emptyList()
         val filtered = apps.filter { app ->
             val matchesScope = when (scope) {
                 AppScope.ALL -> true
@@ -110,25 +112,6 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         )
     }
 
-    if (showContext) {
-        AlertDialog(
-            onDismissRequest = { showContext = false },
-            title = { Text(stringResource(R.string.apps_context)) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(stringResource(R.string.apps_local), fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.apps_local_description))
-                    Text(stringResource(R.string.apps_cloud_synced), fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.apps_cloud_description))
-                    Text(stringResource(R.string.apps_context_mockup_note))
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { showContext = false }) { Text(stringResource(R.string.close)) }
-            }
-        )
-    }
-
     LazyColumn(
         Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -162,13 +145,34 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
             }
         }
         item {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(
-                    selected = scope == AppScope.ALL,
-                    onClick = { scope = AppScope.ALL },
-                    label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.all_apps), maxLines = 1) } },
-                    modifier = Modifier.weight(1f).height(56.dp)
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = appsContext == AppsContext.LOCAL,
+                        onClick = { appsContext = AppsContext.LOCAL },
+                        label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.apps_local), maxLines = 1) } },
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    )
+                    FilterChip(
+                        selected = appsContext == AppsContext.CLOUD,
+                        onClick = { appsContext = AppsContext.CLOUD },
+                        label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.apps_cloud_synced), maxLines = 1) } },
+                        modifier = Modifier.weight(1f).height(48.dp)
+                    )
+                }
+                Text(
+                    if (appsContext == AppsContext.LOCAL) stringResource(R.string.apps_local_description)
+                    else stringResource(R.string.apps_cloud_description),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+                if (appsContext == AppsContext.LOCAL) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = scope == AppScope.ALL,
+                        onClick = { scope = AppScope.ALL },
+                        label = { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.all_apps), maxLines = 1) } },
+                        modifier = Modifier.weight(1f).height(56.dp)
+                    )
                 FilterChip(
                     selected = scope == AppScope.USER,
                     onClick = { scope = AppScope.USER },
@@ -211,22 +215,36 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                         }
                     )
                 }
-                OutlinedButton(onClick = { showFilters = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
+                OutlinedButton(
+                    onClick = { showFilters = true },
+                    enabled = appsContext == AppsContext.LOCAL,
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
+                ) {
                     Icon(Icons.Default.FilterList, contentDescription = null)
                     Spacer(Modifier.width(6.dp))
                     Text(stringResource(R.string.apps_filter))
                 }
-                OutlinedButton(onClick = { showContext = true }, modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)) {
-                    Icon(Icons.Default.Cloud, contentDescription = null)
-                    Spacer(Modifier.width(6.dp))
-                    Text(stringResource(R.string.apps_context))
-                }
             }
         }
         item {
-            Text(stringResource(R.string.installed_apps), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(
+                if (appsContext == AppsContext.LOCAL) stringResource(R.string.installed_apps)
+                else stringResource(R.string.apps_cloud_synced),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
         }
         when {
+            appsContext == AppsContext.CLOUD -> item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(stringResource(R.string.apps_cloud_synced), fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.apps_cloud_description))
+                        Text(stringResource(R.string.apps_context_mockup_note), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
             error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
             visibleApps.isEmpty() -> item { Text(stringResource(R.string.no_visible_installed_apps)) }
             else -> items(visibleApps, key = { it.packageName }) { app ->
