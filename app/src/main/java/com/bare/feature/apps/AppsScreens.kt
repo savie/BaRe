@@ -790,15 +790,18 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             confirmButton = {
                 TextButton(onClick = {
                     confirmAction = null
-                    when (action) {
-                        context.getString(R.string.disable) ->
-                            AppActionBehavior.disable(it)
-                        context.getString(R.string.enable) ->
-                            AppActionBehavior.enable(it)
-                        context.getString(R.string.force_stop) ->
-                            AppActionBehavior.forceStop(it)
-                        context.getString(R.string.clear_data) ->
-                            AppActionBehavior.clearData(it)
+                    val currentPackage = packageName
+                    if (currentPackage != null) {
+                        when (action) {
+                            context.getString(R.string.disable) ->
+                                handleAction(AppActionBehavior.disable(currentPackage))
+                            context.getString(R.string.enable) ->
+                                handleAction(AppActionBehavior.enable(currentPackage))
+                            context.getString(R.string.force_stop) ->
+                                handleAction(AppActionBehavior.forceStop(currentPackage))
+                            context.getString(R.string.clear_data) ->
+                                handleAction(AppActionBehavior.clearData(currentPackage))
+                        }
                     }
                 }) {
                     Text(stringResource(R.string.confirm))
@@ -1243,7 +1246,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     }
                                     if (!appDetails.isEnabled) {
                                         FilledTonalButton(
-                                            onClick = { runRootAction { RootAppActionExecutor.enable(it) } },
+                                            onClick = { runRootAction { AppActionBehavior.enable(it) } },
                                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                         ) {
                                             Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(18.dp))
