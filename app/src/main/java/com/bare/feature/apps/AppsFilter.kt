@@ -223,6 +223,7 @@ private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavorit
 
 enum class AppsContext { LOCAL, CLOUD }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppsFilterScreen(
     onOpen: (Screen) -> Unit,
