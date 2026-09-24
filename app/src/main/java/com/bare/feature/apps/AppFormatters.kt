@@ -65,5 +65,5 @@ internal fun formatAppSize(bytes: Long): String {
         value /= 1024
         index++
     }
-    return if (index == 0) "\${bytes} \${units[index]}" else "%.1f %s".format(value, units[index])
+    return if (index == 0) "${bytes} ${units[index]}" else "%.1f %s".format(value, units[index])
 }
