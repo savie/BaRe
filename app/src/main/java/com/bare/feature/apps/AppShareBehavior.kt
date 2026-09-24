@@ -3,6 +3,7 @@ package com.bare.feature.apps
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
+import com.bare.capability.NonRootCapabilityProvider
 import com.bare.capability.RootCapabilityProvider
 import java.io.File
 import java.util.UUID
@@ -13,6 +14,7 @@ sealed interface AppShareResult {
 }
 
 class AppShareBehavior(private val context: Context) {
+    private val nonRoot = NonRootCapabilityProvider(context)
     private val root = RootCapabilityProvider()
 
     fun shareApk(packageName: String): AppShareResult {
@@ -25,12 +27,21 @@ class AppShareBehavior(private val context: Context) {
             return AppShareResult.Failed("Unable to create APK share staging directory")
         }
 
-        val copied = root.copyPackageApks(packageName, shareDirectory)
-        val files = when (copied) {
-            is com.bare.capability.RootCopyResult.Success -> copied.files
-            is com.bare.capability.RootCopyResult.Failed -> {
+        val files = when (val copied = nonRoot.copyPackageApks(packageName, shareDirectory)) {
+            is com.bare.capability.NonRootCopyResult.Success -> copied.files
+            is com.bare.capability.NonRootCopyResult.Failed -> {
                 shareDirectory.deleteRecursively()
-                return AppShareResult.Failed(copied.reason)
+                val rootDirectory = File(context.cacheDir, "apk-share/${UUID.randomUUID()}")
+                if (!rootDirectory.mkdirs()) {
+                    return AppShareResult.Failed(copied.reason)
+                }
+                when (val rootCopied = root.copyPackageApks(packageName, rootDirectory)) {
+                    is com.bare.capability.RootCopyResult.Success -> rootCopied.files
+                    is com.bare.capability.RootCopyResult.Failed -> {
+                        rootDirectory.deleteRecursively()
+                        return AppShareResult.Failed(rootCopied.reason)
+                    }
+                }
             }
         }
 
