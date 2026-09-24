@@ -115,9 +115,9 @@ fun BaReApp() {
             if (!identityStore.isSetupComplete()) {
                 false
             } else {
-                storageConfiguration.loadKind()?.let { kind ->
-                    storageRepository.hasDurableLocalState(identity.identityId, kind)
-                } ?: false
+                storageBehavior.selectedKind().let { kind ->
+                    storageBehavior.hasDurableLocalState(identity.identityId, kind)
+                }
             }
         } ?: false
     }
