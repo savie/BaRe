@@ -404,7 +404,7 @@ private fun QuickActionCard(title: String, subtitle: String, firstAction: String
 @Composable
 fun AppLabelsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val store = remember(context) { AppOrganizationStore(context) }
+    val store = remember(context) { AppOrganizationBehavior(context) }
     val repository = remember(context) { InstalledAppRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var labels by remember { mutableStateOf<Set<String>>(emptySet()) }
@@ -527,7 +527,7 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
 @Composable
 fun AppBlacklistScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val store = remember(context) { AppOrganizationStore(context) }
+    val store = remember(context) { AppOrganizationBehavior(context) }
     val repository = remember(context) { InstalledAppRepository(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var blacklisted by remember { mutableStateOf<Set<String>>(emptySet()) }
@@ -647,7 +647,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     val context = LocalContext.current
     val packageName = app?.packageName
     val repository = remember(context) { AppDetailsRepository(context) }
-    val organizationStore = remember(context) { AppOrganizationStore(context) }
+    val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var detailReloadToken by remember(packageName) { mutableStateOf(0) }
@@ -1597,7 +1597,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     val context = LocalContext.current
-    val organizationStore = remember(context) { AppOrganizationStore(context) }
+    val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     var showMockup by remember { mutableStateOf<String?>(null) }
     var favorite by remember(app?.packageName) { mutableStateOf(app?.packageName?.let(organizationStore::isFavorite) == true) }
     var labelsText by remember(app?.packageName) { mutableStateOf(app?.packageName?.let { organizationStore.labels(it).joinToString(", ") }.orEmpty()) }
