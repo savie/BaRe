@@ -967,7 +967,7 @@ fun AppsFilterScreen(
                     item {
                         Text(stringResource(R.string.install_status), fontWeight = FontWeight.SemiBold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(stringResource(R.string.all)) })
+                            FilterChip(selected = true, onClick = { pendingFilter = pendingFilter.copy(appType = pendingFilter.appType) }, label = { Text(stringResource(R.string.all)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.installed)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_installed)) })
                         }
