@@ -47,7 +47,6 @@ import androidx.compose.material.icons.filled.Android
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
@@ -489,8 +488,6 @@ private fun MainShell(
         return
     }
     var appsMenuOpen by remember { mutableStateOf(false) }
-    var appsSourceMenuOpen by remember { mutableStateOf(false) }
-    var appsSource by remember { mutableStateOf(AppsSource.LOCAL) }
     var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
@@ -547,10 +544,10 @@ private fun MainShell(
                         }
                     },
                     actions = {
-                        IconButton(onClick = {
-                            if (appsSelected) onOpenAppsSearch() else onOpenSearch()
-                        }) {
-                            Icon(Icons.Outlined.Search, stringResource(R.string.search))
+                        if (!appsSelected) {
+                            IconButton(onClick = onOpenSearch) {
+                                Icon(Icons.Outlined.Search, stringResource(R.string.search))
+                            }
                         }
                     },
                 )
@@ -607,7 +604,6 @@ private fun MainShell(
         ) {
             if (appsSelected) {
                 AppsContextHeader(
-                    source = appsSource,
                     appCount = appsInventoryCount,
                     searchOpen = appsSearchOpen,
                     searchQuery = appsSearchQuery,
@@ -616,8 +612,7 @@ private fun MainShell(
                         onAppsSearchOpenChange(false)
                         onAppsSearchQueryChange("")
                     },
-                    sourceMenuOpen = appsSourceMenuOpen,
-                    onSourceMenuOpenChange = { appsSourceMenuOpen = it },
+                    onOpenSearch = onOpenAppsSearch,
                     onOpenFilter = onOpenAppsFilter,
                     onOpenMenu = { appsMenuOpen = true },
                 )
@@ -657,6 +652,17 @@ private fun MainShell(
                 }
             }
         }
+    }
+
+    if (appsSelected) {
+        ExtendedFloatingActionButton(
+            onClick = { onOpenScreen(Screen.APP_QUICK_ACTIONS) },
+            modifier = Modifier
+                .align(androidx.compose.ui.Alignment.BottomEnd)
+                .padding(20.dp),
+            icon = { Icon(Icons.Default.FlashOn, contentDescription = null) },
+            text = { Text(stringResource(R.string.batch_actions)) },
+        )
     }
 
     if (appsSelected && appsMenuOpen) {
@@ -736,37 +742,28 @@ private fun MainShell(
     }
     }
 }
-private enum class AppsSource {
-    LOCAL,
-    CLOUD,
-}
-
 @Composable
 private fun AppsContextHeader(
-    source: AppsSource,
     appCount: Int,
     searchOpen: Boolean,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onCloseSearch: () -> Unit,
-    sourceMenuOpen: Boolean,
-    onSourceMenuOpenChange: (Boolean) -> Unit,
+    onOpenSearch: () -> Unit,
     onOpenFilter: () -> Unit,
     onOpenMenu: () -> Unit,
 ) {
-    Surface(
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 0.dp,
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(64.dp)
-                .padding(horizontal = 12.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-        ) {
-            if (searchOpen) {
+        if (searchOpen) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .padding(horizontal = 12.dp),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            ) {
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = onSearchQueryChange,
@@ -781,64 +778,48 @@ private fun AppsContextHeader(
                     },
                     trailingIcon = {
                         IconButton(onClick = onCloseSearch) {
-                            Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.close_search))
+                            Icon(
+                                Icons.Default.Clear,
+                                contentDescription = stringResource(R.string.close_search),
+                            )
                         }
                     },
                 )
-            } else {
-                Box {
-                    TextButton(
-                        onClick = { onSourceMenuOpenChange(true) },
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp),
-                    ) {
-                        Column(
-                            horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                                Text(
-                                    text = if (source == AppsSource.LOCAL) stringResource(R.string.local_apps).uppercase() else stringResource(R.string.cloud_synced_apps).uppercase(),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    fontWeight = FontWeight.Bold,
-                                    maxLines = 1,
-                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                                )
-                                Icon(
-                                    Icons.Default.KeyboardArrowDown,
-                                    contentDescription = stringResource(R.string.select_app_source),
-                                    modifier = Modifier.size(18.dp),
-                                )
-                            }
-                            Text(
-                                text = if (source == AppsSource.LOCAL) stringResource(R.string.apps_count, appCount) else stringResource(R.string.cloud_inventory_unavailable),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 1,
-                            )
-                        }
-                    }
-
-                    DropdownMenu(
-                        expanded = sourceMenuOpen,
-                        onDismissRequest = { onSourceMenuOpenChange(false) },
-                    ) {
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.local_apps)) },
-                            leadingIcon = if (source == AppsSource.LOCAL) {
-                                { Text(stringResource(R.string.selected_mark), fontWeight = FontWeight.Bold) }
-                            } else null,
-                            onClick = { onSourceMenuOpenChange(false) },
-                        )
-                        DropdownMenuItem(
-                            text = { Text(stringResource(R.string.cloud_synced_apps_not_wired)) },
-                            enabled = false,
-                            onClick = {},
-                        )
-                    }
+            }
+        } else {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .padding(start = 12.dp, end = 4.dp),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            ) {
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp),
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.local_apps).uppercase(),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                    )
+                    Text(
+                        text = stringResource(R.string.apps_count, appCount),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                    )
                 }
 
-                Spacer(Modifier.weight(1f))
-
+                IconButton(onClick = onOpenSearch) {
+                    Icon(
+                        Icons.Outlined.Search,
+                        contentDescription = stringResource(R.string.search),
+                    )
+                }
                 IconButton(onClick = onOpenFilter) {
                     Icon(
                         Icons.Default.Tune,
@@ -853,6 +834,8 @@ private fun AppsContextHeader(
                 }
             }
         }
+
+        HorizontalDivider()
     }
 }
 
