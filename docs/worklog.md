@@ -6431,3 +6431,47 @@ Contoh target:
 1. Tunggu/cek CI untuk commit `83e471331466fb86b059337b15ed6bbd1ffe545a`.
 2. Jika compile/build green, lanjut runtime test Apps vs App Detail untuk action path fase 1.
 3. Jangan lanjut refactor behavior berikutnya sebelum build baseline ini kembali green.
+
+
+## 2026-09-24 — GO: fase 2 App Organization masuk satu pintu
+
+### Gate
+- User memberikan GO setelah CI fase 1 kembali **GREEN**.
+- Sesuai rencana worklog, jalur berikutnya adalah organization behavior: favorite, labels, blacklist, dan APK-only organization state.
+
+### Inspection
+- `AppOrganizationStore` sudah menjadi pemilik persistence SharedPreferences.
+- Namun UI masih langsung membuat dan memanggil store dari `AppsFilterScreen`, `App Detail`, dan screen organization/management yang berada di `AppsScreens.kt`.
+- Logic persistence tidak perlu dipindahkan; yang perlu dipusatkan adalah jalur behavior agar UI tidak bergantung langsung pada persistence implementation.
+
+### Implementation
+- Ditambahkan `AppOrganizationBehavior.kt` sebagai entry point behavior bersama.
+- Behavior mendelegasikan persistence ke `AppOrganizationStore`.
+- API behavior mencakup:
+  - favorite read/write;
+  - labels read/write/add/rename/delete/list;
+  - blacklist read/write/list;
+  - APK-only batch read/write.
+- `AppsScreens.kt` diarahkan dari `AppOrganizationStore(context)` ke `AppOrganizationBehavior(context)`.
+- `AppsFilter.kt` diarahkan ke behavior yang sama.
+- Tidak mengubah storage format SharedPreferences.
+- Tidak mengubah layout/UI strings.
+- Tidak membuat store baru atau menggandakan persistence.
+
+### Source
+- `70b2ef939f5c8b0b771f4f0a9b95b21ec283b4aa` — `refactor: add shared app organization behavior`
+- `99affef7b1c1fd1de9db1274fda4f4c6ec542b31` — `refactor: route app organization through behavior` untuk `AppsScreens.kt`
+- `776dfc5574fa739fab730cb0ae1ecd5802b2a68d` — `refactor: route app organization through behavior` untuk `AppsFilter.kt`
+
+### Truth / Verification
+- Behavior entry point: **APPLIED**.
+- Persistence owner tetap `AppOrganizationStore`: **VERIFIED dari source**.
+- AppsFilter + AppsScreens memakai behavior yang sama: **VERIFIED dari source**.
+- SharedPreferences schema: **UNCHANGED**.
+- Build/CI setelah fase 2: **PENDING / UNVERIFIED**.
+- Runtime organization actions: **UNVERIFIED**.
+
+### Next
+1. Tunggu/cek CI fase 2.
+2. Jika green, runtime test favorite/labels/blacklist dari App Detail dan Apps.
+3. Setelah organization path terbukti, lanjut inventory/reload centralization.
