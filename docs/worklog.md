@@ -1,6 +1,6 @@
 # BaRe v1.0 — Worklog
 
-> **Cara baca:** dokumen ini adalah **continuity checkpoint**, bukan transcript. Kronologi lama tetap tersedia utuh pada commit `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b`.
+> **Cara baca:** dokumen ini adalah **continuity checkpoint**, bukan transcript. History engineering yang sudah dirapikan tersedia di [`docs/worklog_history.md`](./worklog_history.md). Git commit tetap menjadi evidence perubahan repository, bukan pengganti worklog history.
 
 ## 1. CURRENT STATE
 
@@ -8,7 +8,8 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
+| Current checkpoint | `04f00ce61e4153a7bc98dba9a643976f87b84365` |
+| Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps — Install Date / Update Date + Date Used** |
 | Reference audit | **SELESAI** |
@@ -69,7 +70,7 @@
 - Jangan menambah fallback/source alternatif tanpa evidence.
 - Jangan menebak root cause.
 - Jangan menyamakan `IMPLEMENTED`, `CI VERIFIED`, `RUNTIME TESTED`, dan `VERIFIED`.
-- Jangan mengambil task lama dari history sebagai current task.
+- Jangan mengambil task lama dari history sebagai current task tanpa rekonsiliasi dengan current state.
 
 ## 6. STATUS DEFINITIONS
 
@@ -83,8 +84,7 @@
 
 ## 7. HISTORICAL RECORD
 
-Worklog sebelum dibersihkan **tidak dihapus**. Snapshot utuhnya tetap berada pada commit:
-
-`b3ce008b2229a6dd8d99cbd3b79058b54b26f83b`
-
-Jangan gunakan commit tersebut sebagai current checkpoint; gunakan isi dokumen ini.
+- History lengkap yang sudah dinormalisasi: `docs/worklog_history.md`.
+- Sumber history: snapshot `docs/worklog.md` pada `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b`.
+- Snapshot tersebut dipertahankan sebagai evidence; history tidak direkonstruksi dari commit message saja.
+- Current state di file ini tidak boleh dianggap sebagai pengganti chronology history.
