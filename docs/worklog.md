@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `ba5cf753998ff4c25eea9bdc01eceaaadb321975` |
+| Current checkpoint | `49ae91f13a8f3f6cb42be4c5810f1825f540aeea` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — Local/Cloud + App Detail + seluruh Apps subtree** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — Apps parity gaps mapped; Install/Update/Date Used tetap unresolved** |
-| Root cause | **UNKNOWN untuk Install/Update/Date Used; Apps UI parity gaps sudah teridentifikasi** |
+| Runtime status | **MIXED — Local/Cloud + Share APK implementation updated; runtime verification pending** |
+| Root cause | **Cloud provider/backend tetap belum tersedia; Share APK runtime capability path belum diverifikasi pada device** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -24,7 +24,7 @@
 - Commit `95505717...` yang menambahkan normalization custom dan eager usage enrichment dinilai tidak selaras dengan Reference dan sudah dikoreksi.
 - Screenshot runtime dari build #968 tetap menunjukkan `56 years ago`; evidence tersebut dicatat sebagai runtime failure, bukan dianggap terselesaikan oleh source change baru.
 
-**Status:** `IMPLEMENTED / RUNTIME UNRESOLVED`
+**Status:** `KELAR — sesuai Reference berdasarkan keputusan user; tidak dibuka ulang tanpa evidence baru.`
 
 ### Date Used
 - Implementasi menggunakan UsageStats + AppOps.
@@ -33,7 +33,7 @@
 - Usage data sekarang dipisahkan dari inventory dan dimuat ketika sort `Date Used` aktif, mengikuti pola Reference.
 - Privileged/root access path tetap digunakan untuk mencoba grant AppOps sebelum verifikasi ulang.
 
-**Status:** `IMPLEMENTED / VERIFICATION PENDING`
+**Status:** `KELAR — sesuai Reference berdasarkan keputusan user; tidak dibuka ulang tanpa evidence baru.`
 
 ## 3. YANG BELUM TERBUKTI
 
@@ -233,6 +233,26 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 - **A1-A4 bukan backlog kosong**. Source menunjukkan keempat slice tersebut sudah mempunyai implementation nyata; beberapa masih mempunyai parity/verification gap.
 - **A5 adalah Local/Cloud context wiring**, bukan otomatis App Detail/A5 sebelumnya. Ini sekarang menjadi gap eksplisit hasil audit reference.
 - App Detail dan seluruh anak-pinaknya sudah terpetakan sehingga implementation berikutnya tidak perlu menebak scope.
+
+## 10. IMPLEMENTATION UPDATE — 2026-09-25
+
+### Local / Cloud Apps context
+- **AUTHORIZED:** user memberi GO untuk menyelesaikan Local/Cloud Apps dan Share APK.
+- Apps shell sekarang memiliki **sub-header tabs** `Local apps` / `Cloud synced apps`.
+- Tab Local mempertahankan inventory/filter/sort yang sudah ada.
+- Tab Cloud sekarang menjadi context/surface tersendiri dan tidak lagi memakai dialog context lama.
+- Cloud provider/backend tetap **belum ada**; tab Cloud bukan bukti inventory cloud runtime.
+
+### Share APK
+- `AppDetailScreen` sudah memiliki Share APK pada storage-part action untuk APKs.
+- `AppShareBehavior` sekarang mencoba jalur **non-root PackageManager** terlebih dahulu, lalu fallback ke **root** bila jalur non-root gagal.
+- Staging + `FileProvider` + `ACTION_SEND` / `ACTION_SEND_MULTIPLE` tetap dipakai.
+- **Runtime verification:** belum dilakukan pada device setelah perubahan ini.
+
+### Verification boundary
+- Static source inspection setelah perubahan: file balances valid untuk braces/parentheses/brackets.
+- CI/workflow untuk commit `49ae91f...`: belum tersedia pada saat pencatatan ini.
+- **Status keseluruhan:** `IMPLEMENTED / RUNTIME VERIFICATION PENDING`.
 
 ## 10. NEXT ACTION
 
