@@ -10,7 +10,7 @@ class AppUsageRepository(private val context: Context) {
     private val usageStats = context.getSystemService(UsageStatsManager::class.java)
 
     fun hasUsageAccess(): Boolean =
-        appOps.checkOpNoThrow(
+        appOps.noteOpNoThrow(
             AppOpsManager.OPSTR_GET_USAGE_STATS,
             Process.myUid(),
             context.packageName,
