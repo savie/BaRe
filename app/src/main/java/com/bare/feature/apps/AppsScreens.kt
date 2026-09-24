@@ -41,7 +41,6 @@ import com.bare.ui.components.ListEntry
 
 private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
-private enum class AppsContext { LOCAL, CLOUD }
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
