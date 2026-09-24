@@ -83,6 +83,17 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         })
     }
 
+    fun directoryExists(path: String): Boolean? {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        val quoted = path.replace("'", "'\"'\"'")
+        val result = runSu("test -d '$quoted'")
+        return when (result.exitCode) {
+            0 -> true
+            1 -> false
+            else -> null
+        }
+    }
+
     fun copyDirectory(sourcePath: String, destinationDir: File): RootCopyResult {
         if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
             return RootCopyResult.Failed("Invalid source path")
