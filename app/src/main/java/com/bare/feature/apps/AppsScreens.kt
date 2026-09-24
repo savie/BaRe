@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.bare.R
 import com.bare.app.AppItem
@@ -1511,6 +1512,8 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val backupBehavior = remember(context) { AppBackupBehavior(context) }
     val parts = listOf(
         context.getString(R.string.apks_part),
         context.getString(R.string.data_part),
@@ -1519,13 +1522,17 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
     )
     var selectedParts by remember { mutableStateOf(parts.toSet()) }
     var destination by remember { mutableStateOf("Device") }
-    var showMockup by remember { mutableStateOf(false) }
+    var backupRunning by remember { mutableStateOf(false) }
+    var backupMessage by remember { mutableStateOf<String?>(null) }
 
-    if (showMockup) {
-        AppMockupActionDialog(
-            title = context.getString(R.string.run_backup),
-            appName = app?.name ?: context.getString(R.string.unknown_value),
-            onDismiss = { showMockup = false }
+    if (backupMessage != null) {
+        AlertDialog(
+            onDismissRequest = { backupMessage = null },
+            title = { Text(stringResource(R.string.run_backup)) },
+            text = { Text(backupMessage!!) },
+            confirmButton = {
+                TextButton(onClick = { backupMessage = null }) { Text(stringResource(R.string.close)) }
+            }
         )
     }
 
@@ -1601,10 +1608,43 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
             }
             item {
                 Button(
-                    enabled = selectedParts.isNotEmpty(),
-                    onClick = { showMockup = true },
+                    enabled = selectedParts.isNotEmpty() && !backupRunning && app?.packageName != null,
+                    onClick = {
+                        val packageName = app?.packageName ?: return@Button
+                        val destinationValue = when (destination) {
+                            "Cloud" -> BackupDestination.CLOUD
+                            "Device + Cloud" -> BackupDestination.DEVICE_AND_CLOUD
+                            else -> BackupDestination.DEVICE
+                        }
+                        val selectedPartKeys = selectedParts.map { part ->
+                            if (part == context.getString(R.string.apks_part)) "APK" else part
+                        }.toSet()
+                        backupRunning = true
+                        scope.launch {
+                            val result = withContext(Dispatchers.IO) {
+                                backupBehavior.backup(
+                                    AppBackupRequest(
+                                        packageName = packageName,
+                                        parts = selectedPartKeys,
+                                        destination = destinationValue,
+                                    )
+                                )
+                            }
+                            backupRunning = false
+                            backupMessage = when (result) {
+                                is AppBackupResult.Completed ->
+                                    "APK backup completed: ${result.files.size} file(s)."
+                                is AppBackupResult.Unsupported -> result.reason
+                                is AppBackupResult.Failed -> result.reason
+                            }
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth()
-                ) { Text(stringResource(R.string.backup).uppercase()) }
+                ) {
+                    Text(
+                        if (backupRunning) "BACKING UP…" else stringResource(R.string.backup).uppercase()
+                    )
+                }
             }
             item {
                 OutlinedButton(
