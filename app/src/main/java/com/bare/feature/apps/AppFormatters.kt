@@ -5,13 +5,12 @@ import com.bare.R
 import java.util.concurrent.TimeUnit
 
 internal fun formatRelativeTime(context: Context, timestamp: Long): String {
-    val normalizedTimestamp = normalizePackageTimestamp(timestamp)
     val now = System.currentTimeMillis()
-    if (normalizedTimestamp <= 0L || normalizedTimestamp > now) {
+    if (timestamp <= 0L || timestamp > now) {
         return context.getString(R.string.relative_time_unavailable)
     }
 
-    val delta = now - normalizedTimestamp
+    val delta = now - timestamp
     val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
     return when {
         minutes < 1L -> context.getString(R.string.relative_time_just_now)
@@ -65,6 +64,9 @@ internal fun formatRelativeTime(context: Context, timestamp: Long): String {
  * only values that are unambiguously in Unix-seconds range; normal Android
  * millisecond timestamps remain unchanged.
  */
+internal fun formatPackageRelativeTime(context: Context, timestamp: Long): String =
+    formatRelativeTime(context, normalizePackageTimestamp(timestamp))
+
 private fun normalizePackageTimestamp(timestamp: Long): Long {
     return if (timestamp in 946_684_800L..99_999_999_999L) {
         timestamp * 1000L
