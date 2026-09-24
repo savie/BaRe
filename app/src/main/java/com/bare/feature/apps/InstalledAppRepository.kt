@@ -6,17 +6,24 @@ import android.content.pm.ApplicationInfo
 import android.os.UserHandle
 import android.os.storage.StorageManager
 import com.bare.app.AppItem
+import com.bare.app.LocalIdentityStore
+import com.bare.storage.BackupStorageBehavior
 import java.io.File
 
 class InstalledAppRepository(private val context: Context) {
     private val packageManager = context.packageManager
     private val organizationStore = AppOrganizationStore(context)
+    private val identityStore = LocalIdentityStore(context)
+    private val backupStorage = BackupStorageBehavior(context)
 
     fun load(): List<AppItem> {
+        val identityId = identityStore.load()?.identityId
+        val backupLocations = identityId?.let { backupStorage.localBackupLocations(it) }.orEmpty()
         val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 val isUpdatedSystemApp = (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
+                val backupMetadata = backupMetadata(backupLocations, info.packageName)
                 val canLaunch = packageManager.getLaunchIntentForPackage(info.packageName) != null
                 val storage = storageStats(info)
                 val apkSizeBytes = runCatching {
@@ -45,6 +52,9 @@ class InstalledAppRepository(private val context: Context) {
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
+                    backupCount = backupMetadata.count,
+                    backupSizeBytes = backupMetadata.sizeBytes,
+                    latestBackupTime = backupMetadata.latestTime,
                     icon = runCatching {
                         packageManager.getApplicationIcon(info.packageName)
                     }.getOrNull(),
@@ -53,6 +63,29 @@ class InstalledAppRepository(private val context: Context) {
             .sortedBy { it.name.lowercase() }
         cachedApps = loaded
         return loaded
+    }
+
+    private data class BackupMetadata(
+        val count: Int,
+        val sizeBytes: Long,
+        val latestTime: Long?,
+    )
+
+    private fun backupMetadata(locations: List<String>, packageName: String): BackupMetadata {
+        val versionDirectories = locations
+            .map { File(it, "apps/$packageName") }
+            .flatMap { root -> root.listFiles()?.filter { it.isDirectory }.orEmpty() }
+        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null)
+        var size = 0L
+        var latest: Long? = null
+        versionDirectories.forEach { directory ->
+            directory.walkTopDown().forEach { file ->
+                if (file.isFile) size += file.length().coerceAtLeast(0L)
+                val modified = file.lastModified()
+                if (modified > 0L && (latest == null || modified > latest!!)) latest = modified
+            }
+        }
+        return BackupMetadata(versionDirectories.size, size, latest)
     }
 
     private data class AppStorageStats(
