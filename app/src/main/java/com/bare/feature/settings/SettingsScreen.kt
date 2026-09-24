@@ -31,8 +31,7 @@ import com.bare.app.AppThemeMode
 import com.bare.app.Screen
 import com.bare.storage.BackupStorage
 import com.bare.storage.StorageConfigurationStore
-import com.bare.storage.BackupStorageRepository
-import com.bare.storage.initializeLocalBackupStorage
+import com.bare.storage.BackupStorageBehavior
 import com.bare.feature.settings.EncryptionPasswordStore
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,7 +54,7 @@ fun SettingsScreen(
     var showStorageDialog by remember { mutableStateOf(false) }
     val storageStore = remember(context) { StorageConfigurationStore(context) }
     val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
-    val storageRepository = remember(context) { BackupStorageRepository(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     var storageKind by remember { mutableStateOf(storageStore.loadKind()) }
     var storageBusy by remember { mutableStateOf(false) }
     var storageError by remember { mutableStateOf<String?>(null) }
@@ -328,7 +327,7 @@ fun SettingsScreen(
             if (identityId.isNullOrBlank()) {
                 emptyList()
             } else {
-                storageRepository.inspect(identityId)
+                storageBehavior.inspect(identityId)
                     .filter { it.kind == BackupStorage.Kind.INTERNAL || it.kind == BackupStorage.Kind.EXTERNAL }
             }
         }
