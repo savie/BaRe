@@ -20,7 +20,9 @@ class AccountLocalDatabase(context: Context) :
                 account_id TEXT PRIMARY KEY,
                 email TEXT NOT NULL,
                 provider TEXT NOT NULL,
-                active INTEGER NOT NULL DEFAULT 0
+                active INTEGER NOT NULL DEFAULT 0,
+                password_salt TEXT,
+                password_verifier TEXT
             )
             """.trimIndent(),
         )
