@@ -347,8 +347,21 @@ fun AppsFilterScreen(
             SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.BACKUP_DATE -> filtered.sortedWith(Comparator { a, b ->
+                val aHas = a.latestBackupTime != null
+                val bHas = b.latestBackupTime != null
+                if (aHas != bHas) return@Comparator if (aHas) -1 else 1
+                val cmp = (a.latestBackupTime ?: 0L).compareTo(b.latestBackupTime ?: 0L)
+                if (activeFilter.descending) -cmp else cmp
+            })
+            SortOption.BACKUP_SIZE -> filtered.sortedWith(Comparator { a, b ->
+                val aHas = a.backupSizeBytes != null
+                val bHas = b.backupSizeBytes != null
+                if (aHas != bHas) return@Comparator if (aHas) -1 else 1
+                val cmp = (a.backupSizeBytes ?: 0L).compareTo(b.backupSizeBytes ?: 0L)
+                if (activeFilter.descending) -cmp else cmp
+            })
             SortOption.DATE_USED -> filtered.sortedWith(compareBy<AppItem> { lastUsedTimes[it.packageName] ?: Long.MIN_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
-            SortOption.BACKUP_DATE, SortOption.BACKUP_SIZE -> filtered.sortedBy { it.name.lowercase() }
         }
     }
 
