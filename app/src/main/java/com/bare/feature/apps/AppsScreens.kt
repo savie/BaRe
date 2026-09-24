@@ -1523,7 +1523,6 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
     val context = LocalContext.current
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
     val shareBehavior = remember(context) { AppShareBehavior(context) }
@@ -1729,7 +1728,6 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     val context = LocalContext.current
-    val context = LocalContext.current
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     var showMockup by remember { mutableStateOf<String?>(null) }
     var favorite by remember(app?.packageName) { mutableStateOf(app?.packageName?.let(organizationStore::isFavorite) == true) }
@@ -1878,7 +1876,7 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
             item {
                 Text(stringResource(R.string.backup_strategy), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf(stringResource(R.string.single), stringResource(R.string.dated), stringResource(R.string.conditional)).forEach {
+                    listOf(context.getString(R.string.single), context.getString(R.string.dated), context.getString(R.string.conditional)).forEach {
                         FilterChip(selected = strategy == it, onClick = { strategy = it }, label = { Text(it) }, modifier = Modifier.weight(1f))
                     }
                 }
