@@ -348,6 +348,7 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
+    val context = LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
     if (message != null) {
         AlertDialog(
@@ -367,18 +368,18 @@ fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
             item { Text(stringResource(R.string.quick_backup_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard(stringResource(R.string.backup_all_apps), stringResource(R.string.backup_installed_apps_from_device), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_all_apps) } }
-            item { QuickActionCard(stringResource(R.string.backup_pending_apps), stringResource(R.string.backup_apps_not_backed_up_yet), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_pending_apps) } }
-            item { QuickActionCard(stringResource(R.string.backup_updated_apps), stringResource(R.string.backup_apps_newer_apks), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.backup_updated_apps) } }
-            item { QuickActionCard(stringResource(R.string.redo_existing_backups), stringResource(R.string.redo_all_current_backups), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = stringResource(R.string.redo_existing_backups) } }
-            item { QuickActionCard(stringResource(R.string.sync_latest_device_backups), stringResource(R.string.sync_latest_backups_to_cloud)) { message = stringResource(R.string.sync_latest_device_backups) } }
+            item { QuickActionCard(stringResource(R.string.backup_all_apps), stringResource(R.string.backup_installed_apps_from_device), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_all_apps) } }
+            item { QuickActionCard(stringResource(R.string.backup_pending_apps), stringResource(R.string.backup_apps_not_backed_up_yet), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_pending_apps) } }
+            item { QuickActionCard(stringResource(R.string.backup_updated_apps), stringResource(R.string.backup_apps_newer_apks), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_updated_apps) } }
+            item { QuickActionCard(stringResource(R.string.redo_existing_backups), stringResource(R.string.redo_all_current_backups), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.redo_existing_backups) } }
+            item { QuickActionCard(stringResource(R.string.sync_latest_device_backups), stringResource(R.string.sync_latest_backups_to_cloud)) { message = context.getString(R.string.sync_latest_device_backups) } }
             item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.quick_restore_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary); Text(stringResource(R.string.root_or_shizuku_required), style = MaterialTheme.typography.bodySmall) }
-            item { QuickActionCard(stringResource(R.string.restore_all_apps), stringResource(R.string.restore_all_backed_up_apps), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_all_apps) } }
-            item { QuickActionCard(stringResource(R.string.restore_missing_apps), stringResource(R.string.restore_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_missing_apps) } }
-            item { QuickActionCard(stringResource(R.string.restore_new_versions), stringResource(R.string.restore_new_versions_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.restore_new_versions) } }
+            item { QuickActionCard(stringResource(R.string.restore_all_apps), stringResource(R.string.restore_all_backed_up_apps), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_all_apps) } }
+            item { QuickActionCard(stringResource(R.string.restore_missing_apps), stringResource(R.string.restore_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_missing_apps) } }
+            item { QuickActionCard(stringResource(R.string.restore_new_versions), stringResource(R.string.restore_new_versions_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_new_versions) } }
             item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.other_quick_actions), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard(stringResource(R.string.delete_backups_missing_apps), stringResource(R.string.delete_backups_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = stringResource(R.string.delete_backups_missing_apps) } }
-            item { QuickActionCard(stringResource(R.string.enable_disable_apps), stringResource(R.string.change_app_enabled_state)) { message = stringResource(R.string.enable_disable_apps) } }
+            item { QuickActionCard(stringResource(R.string.delete_backups_missing_apps), stringResource(R.string.delete_backups_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.delete_backups_missing_apps) } }
+            item { QuickActionCard(stringResource(R.string.enable_disable_apps), stringResource(R.string.change_app_enabled_state)) { message = context.getString(R.string.enable_disable_apps) } }
         }
     }
 }
@@ -1522,6 +1523,7 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
     val context = LocalContext.current
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
     val shareBehavior = remember(context) { AppShareBehavior(context) }
@@ -1650,7 +1652,7 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                             backupRunning = false
                             backupMessage = when (result) {
                                 is AppBackupResult.Completed ->
-                                    stringResource(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size)
+                                    context.getString(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size)
                                 is AppBackupResult.Unsupported -> result.reason
                                 is AppBackupResult.Failed -> result.reason
                             }
@@ -1727,6 +1729,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     val context = LocalContext.current
+    val context = LocalContext.current
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     var showMockup by remember { mutableStateOf<String?>(null) }
     var favorite by remember(app?.packageName) { mutableStateOf(app?.packageName?.let(organizationStore::isFavorite) == true) }
@@ -1748,9 +1751,9 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
                 Text(stringResource(R.string.organization_local_device))
             }
             item {
-                ListEntry(if (app?.isEnabled == true) stringResource(R.string.disable_app) else stringResource(R.string.enable_app), stringResource(R.string.change_app_enabled_state), Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) stringResource(R.string.disable_app) else stringResource(R.string.enable_app) }
-                ListEntry(stringResource(R.string.force_stop), stringResource(R.string.stop_running_app), Icons.Default.Stop) { showMockup = stringResource(R.string.force_stop) }
-                ListEntry(stringResource(R.string.uninstall), stringResource(R.string.uninstall_workflow_desc), Icons.Default.Delete) { showMockup = stringResource(R.string.uninstall) }
+                ListEntry(if (app?.isEnabled == true) stringResource(R.string.disable_app) else stringResource(R.string.enable_app), stringResource(R.string.change_app_enabled_state), Icons.Default.PowerSettingsNew) { showMockup = if (app?.isEnabled == true) context.getString(R.string.disable_app) else context.getString(R.string.enable_app) }
+                ListEntry(stringResource(R.string.force_stop), stringResource(R.string.stop_running_app), Icons.Default.Stop) { showMockup = context.getString(R.string.force_stop) }
+                ListEntry(stringResource(R.string.uninstall), stringResource(R.string.uninstall_workflow_desc), Icons.Default.Delete) { showMockup = context.getString(R.string.uninstall) }
             }
             item {
                 Text(stringResource(R.string.favorites_and_labels), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
@@ -1781,7 +1784,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
                     Text(stringResource(R.string.save_organization))
                 }
             }
-            item { ListEntry(stringResource(R.string.protected_backup), stringResource(R.string.protect_retained_backups), Icons.Default.Lock) { showMockup = stringResource(R.string.protected_backup) } }
+            item { ListEntry(stringResource(R.string.protected_backup), stringResource(R.string.protect_retained_backups), Icons.Default.Lock) { showMockup = context.getString(R.string.protected_backup) } }
         }
     }
 }
@@ -1789,6 +1792,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
+    val context = LocalContext.current
     var showMockup by remember { mutableStateOf<String?>(null) }
     if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
     Scaffold(
@@ -1801,10 +1805,10 @@ fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item { Text(stringResource(R.string.capability_diagnostics), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
-            item { ListEntry(stringResource(R.string.app_visibility), stringResource(R.string.app_visibility_desc), Icons.Default.Visibility) { showMockup = stringResource(R.string.app_visibility_diagnostics) } }
-            item { ListEntry(stringResource(R.string.execution_capability), stringResource(R.string.execution_capability_desc), Icons.Default.Security) { showMockup = stringResource(R.string.execution_capability) } }
-            item { ListEntry(stringResource(R.string.apk_apks_import), stringResource(R.string.apk_apks_import_desc), Icons.Default.FileOpen) { showMockup = stringResource(R.string.apk_apks_import) } }
-            item { ListEntry(stringResource(R.string.storage_data_preconditions), stringResource(R.string.storage_data_preconditions_desc), Icons.Default.Storage) { showMockup = stringResource(R.string.storage_data_preconditions) } }
+            item { ListEntry(stringResource(R.string.app_visibility), stringResource(R.string.app_visibility_desc), Icons.Default.Visibility) { showMockup = context.getString(R.string.app_visibility_diagnostics) } }
+            item { ListEntry(stringResource(R.string.execution_capability), stringResource(R.string.execution_capability_desc), Icons.Default.Security) { showMockup = context.getString(R.string.execution_capability) } }
+            item { ListEntry(stringResource(R.string.apk_apks_import), stringResource(R.string.apk_apks_import_desc), Icons.Default.FileOpen) { showMockup = context.getString(R.string.apk_apks_import) } }
+            item { ListEntry(stringResource(R.string.storage_data_preconditions), stringResource(R.string.storage_data_preconditions_desc), Icons.Default.Storage) { showMockup = context.getString(R.string.storage_data_preconditions) } }
         }
     }
 }
@@ -1812,6 +1816,7 @@ fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
+    val context = LocalContext.current
     var showMockup by remember { mutableStateOf<String?>(null) }
     if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
     Scaffold(
@@ -1824,11 +1829,11 @@ fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item { Text(stringResource(R.string.restore_variants), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold) }
-            item { ListEntry(stringResource(R.string.missing_app), stringResource(R.string.missing_app_desc), Icons.Default.Apps) { showMockup = stringResource(R.string.missing_app) } }
-            item { ListEntry(stringResource(R.string.newer_backup_version), stringResource(R.string.newer_backup_version_desc), Icons.Default.Update) { showMockup = stringResource(R.string.newer_backup_version) } }
-            item { ListEntry(stringResource(R.string.special_data), stringResource(R.string.special_data_desc), Icons.Default.Extension) { showMockup = stringResource(R.string.special_data) } }
-            item { ListEntry(stringResource(R.string.ssaid), stringResource(R.string.ssaid_desc), Icons.Default.Fingerprint) { showMockup = stringResource(R.string.ssaid) } }
-            item { ListEntry(stringResource(R.string.restore_selected_backup), stringResource(R.string.restore_selected_backup_desc), Icons.Default.Restore) { showMockup = stringResource(R.string.restore_selected_backup) } }
+            item { ListEntry(stringResource(R.string.missing_app), stringResource(R.string.missing_app_desc), Icons.Default.Apps) { showMockup = context.getString(R.string.missing_app) } }
+            item { ListEntry(stringResource(R.string.newer_backup_version), stringResource(R.string.newer_backup_version_desc), Icons.Default.Update) { showMockup = context.getString(R.string.newer_backup_version) } }
+            item { ListEntry(stringResource(R.string.special_data), stringResource(R.string.special_data_desc), Icons.Default.Extension) { showMockup = context.getString(R.string.special_data) } }
+            item { ListEntry(stringResource(R.string.ssaid), stringResource(R.string.ssaid_desc), Icons.Default.Fingerprint) { showMockup = context.getString(R.string.ssaid) } }
+            item { ListEntry(stringResource(R.string.restore_selected_backup), stringResource(R.string.restore_selected_backup_desc), Icons.Default.Restore) { showMockup = context.getString(R.string.restore_selected_backup) } }
         }
     }
 }
@@ -1836,13 +1841,15 @@ fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
+    val context = LocalContext.current
     var compression by remember { mutableStateOf(false) }
     var encryption by remember { mutableStateOf(false) }
     var cache by remember { mutableStateOf(false) }
     var protection by remember { mutableStateOf(false) }
     var notes by remember { mutableStateOf(false) }
     var schedule by remember { mutableStateOf(false) }
-    var strategy by remember { mutableStateOf(stringResource(R.string.single)) }
+    val defaultStrategy = stringResource(R.string.single)
+    var strategy by remember { mutableStateOf(defaultStrategy) }
     var showMockup by remember { mutableStateOf<String?>(null) }
 
     if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
@@ -1886,14 +1893,14 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
             }
             item {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(onClick = { showMockup = stringResource(R.string.run_configuration_now) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.run_now)) }
-                    OutlinedButton(onClick = { showMockup = stringResource(R.string.schedule_configuration) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.schedule)) }
+                    Button(onClick = { showMockup = context.getString(R.string.run_configuration_now) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.run_now)) }
+                    OutlinedButton(onClick = { showMockup = context.getString(R.string.schedule_configuration) }, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.schedule)) }
                 }
             }
             item {
                 Text(stringResource(R.string.limits_retention), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                ListEntry(stringResource(R.string.backup_limits), stringResource(R.string.backup_limits_desc), Icons.Default.Tune) { showMockup = stringResource(R.string.backup_limits) }
-                ListEntry(stringResource(R.string.multiple_backups), stringResource(R.string.multiple_backups_retention_desc), Icons.Default.Sync) { showMockup = stringResource(R.string.multiple_backups_strategy) }
+                ListEntry(stringResource(R.string.backup_limits), stringResource(R.string.backup_limits_desc), Icons.Default.Tune) { showMockup = context.getString(R.string.backup_limits) }
+                ListEntry(stringResource(R.string.multiple_backups), stringResource(R.string.multiple_backups_retention_desc), Icons.Default.Sync) { showMockup = context.getString(R.string.multiple_backups_strategy) }
             }
         }
     }
