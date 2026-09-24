@@ -511,7 +511,7 @@
     <string name="manage_space_local_identity">Local identity</string>
     <string name="manage_space_local_backup_storage">Local backup storage</string>
     <string name="manage_space_bare_cache_title">%1$s cache</string>
-    <string name="manage_space_bare_cache_description">Cache %1$s yang tersimpan di storage: %2$s. Cache ini tidak dihitung sebagai ukuran aplikasi lain.</string>
+    <string name="manage_space_bare_cache_description">Cache %1$s stored in storage: %2$s. This cache is not counted as part of other app sizes.</string>
     <string name="manage_space_no_local_identity">No local identity is available.</string>
     <string name="manage_space_local_backup_data">Local backup data</string>
     <string name="manage_space_backup_files">Backup files: %1$s</string>
@@ -686,10 +686,10 @@
     <string name="backup_history">Backup history</string>
     <string name="view_backup_versions">Device/cloud versions and backup state</string>
 
-    <string name="root_required">Root access diperlukan untuk aksi ini</string>
-    <string name="action_completed">Aksi berhasil</string>
-    <string name="action_failed">Aksi gagal</string>
-    <string name="app_action_unavailable">Aksi tidak tersedia</string>
-    <string name="battery_optimization_managed_by_system">Pengaturan ini dikelola oleh sistem</string>
+    <string name="root_required">Root access is required for this action</string>
+    <string name="action_completed">Action completed</string>
+    <string name="action_failed">Action failed</string>
+    <string name="app_action_unavailable">Action unavailable</string>
+    <string name="battery_optimization_managed_by_system">This setting is managed by the system</string>
     <string name="confirm">Konfirmasi</string>
 </resources>
