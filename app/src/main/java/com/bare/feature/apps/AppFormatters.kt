@@ -5,12 +5,13 @@ import com.bare.R
 import java.util.concurrent.TimeUnit
 
 internal fun formatRelativeTime(context: Context, timestamp: Long): String {
+    val normalizedTimestamp = normalizePackageTimestamp(timestamp)
     val now = System.currentTimeMillis()
-    if (timestamp <= 0L || timestamp > now) {
+    if (normalizedTimestamp <= 0L || normalizedTimestamp > now) {
         return context.getString(R.string.relative_time_unavailable)
     }
 
-    val delta = now - timestamp
+    val delta = now - normalizedTimestamp
     val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
     return when {
         minutes < 1L -> context.getString(R.string.relative_time_just_now)
@@ -53,6 +54,22 @@ internal fun formatRelativeTime(context: Context, timestamp: Long): String {
                 years,
             )
         }
+    }
+}
+
+
+/**
+ * PackageInfo timestamps are documented as System.currentTimeMillis() values.
+ * Some device/runtime observations exposed a seconds-based value, which renders
+ * as an approximately 56-year-old date when treated as milliseconds. Normalize
+ * only values that are unambiguously in Unix-seconds range; normal Android
+ * millisecond timestamps remain unchanged.
+ */
+private fun normalizePackageTimestamp(timestamp: Long): Long {
+    return if (timestamp in 946_684_800L..99_999_999_999L) {
+        timestamp * 1000L
+    } else {
+        timestamp
     }
 }
 
