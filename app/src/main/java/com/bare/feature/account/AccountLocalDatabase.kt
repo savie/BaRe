@@ -26,6 +26,10 @@ class AccountLocalDatabase(context: Context) :
             )
             """.trimIndent(),
         )
+        createCloudSyncMetadataTable(db)
+    }
+
+    private fun createCloudSyncMetadataTable(db: SQLiteDatabase) {
         db.execSQL(
             """
             CREATE TABLE cloud_sync_metadata (
@@ -33,6 +37,13 @@ class AccountLocalDatabase(context: Context) :
                 package_name TEXT NOT NULL,
                 sync_state TEXT NOT NULL,
                 updated_at INTEGER NOT NULL,
+                version_code INTEGER,
+                version_name TEXT,
+                installer_package TEXT,
+                backup_count INTEGER NOT NULL DEFAULT 0,
+                latest_backup_time INTEGER,
+                protected_backup INTEGER NOT NULL DEFAULT 0,
+                note TEXT,
                 PRIMARY KEY (account_id, package_name)
             )
             """.trimIndent(),
@@ -56,10 +67,19 @@ class AccountLocalDatabase(context: Context) :
             db.execSQL("ALTER TABLE accounts ADD COLUMN password_salt TEXT")
             db.execSQL("ALTER TABLE accounts ADD COLUMN password_verifier TEXT")
         }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN version_code INTEGER")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN version_name TEXT")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN installer_package TEXT")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN backup_count INTEGER NOT NULL DEFAULT 0")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN latest_backup_time INTEGER")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN protected_backup INTEGER NOT NULL DEFAULT 0")
+            db.execSQL("ALTER TABLE cloud_sync_metadata ADD COLUMN note TEXT")
+        }
     }
 
     companion object {
         private const val DATABASE_NAME = "bare_account.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
     }
 }
