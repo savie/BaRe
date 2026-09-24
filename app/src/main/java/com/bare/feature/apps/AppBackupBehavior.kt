@@ -128,16 +128,28 @@ class AppBackupBehavior(private val context: Context) {
         )
         return when (result) {
             is com.bare.capability.RootCopyResult.Success -> {
-                backupDirectory.listFiles()
-                    ?.filter { it.isFile && it.name.endsWith(".apk") }
-                    ?.forEach { it.delete() }
-                val moved = result.files.map { file ->
-                    val destination = File(backupDirectory, file.name)
-                    check(file.renameTo(destination)) { "Unable to finalize APK backup" }
-                    destination
-                }
-                stagingDirectory.deleteRecursively()
-                AppBackupPartResult.Completed(moved)
+                runCatching {
+                    backupDirectory.listFiles()
+                        ?.filter { it.isFile && it.name.endsWith(".apk") }
+                        ?.forEach { it.delete() }
+                    result.files.map { file ->
+                        val destination = File(backupDirectory, file.name)
+                        check(file.renameTo(destination)) { "Unable to finalize APK backup" }
+                        destination
+                    }
+                }.fold(
+                    onSuccess = {
+                        stagingDirectory.deleteRecursively()
+                        AppBackupPartResult.Completed(it)
+                    },
+                    onFailure = {
+                        stagingDirectory.deleteRecursively()
+                        backupDirectory.listFiles()
+                            ?.filter { file -> file.isFile && file.name.endsWith(".apk") }
+                            ?.forEach { file -> file.delete() }
+                        AppBackupPartResult.Failed(it.message ?: "Unable to finalize APK backup")
+                    }
+                )
             }
             is com.bare.capability.RootCopyResult.Failed ->
                 AppBackupPartResult.Failed(result.reason)
