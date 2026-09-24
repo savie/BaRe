@@ -6212,3 +6212,41 @@ Perbedaan yang terlihat:
    - 6 main items;
    - battery subtitle + switch;
    - posisi/ukuran popup.
+
+
+## 2026-09-24 — GO: restore English UI strings
+
+### Feedback / Authorization
+- User confirmed App Detail #807 is functionally acceptable and UI is close enough for current scope.
+- User explicitly flagged that some UI strings had been changed into Indonesian.
+- GO diberikan untuk memperbaiki language layer tersebut.
+
+### Inspection
+- strings.xml ditemukan beberapa string Indonesian yang memang tampil pada UI/action flow:
+  - Root access diperlukan untuk aksi ini
+  - Aksi berhasil
+  - Aksi gagal
+  - Aksi tidak tersedia
+  - Pengaturan ini dikelola oleh sistem
+  - Cache description juga masih mengandung Bahasa Indonesia.
+
+### Fix
+Semua string tersebut dikembalikan ke English:
+- Root access is required for this action
+- Action completed
+- Action failed
+- Action unavailable
+- This setting is managed by the system
+- Cache description diterjemahkan penuh ke English.
+
+### Source
+- db6b6653d23fb5bf2e6df73f806d381b416bffd5 — fix: keep App Detail UI strings in English
+
+### Truth / Verification
+- Source fix: APPLIED.
+- Runtime: UNVERIFIED sampai APK hasil build berikutnya dipasang.
+- CI: PENDING untuk commit source ini.
+
+### Rule
+- UI/app strings: English.
+- docs/worklog.md: Bahasa Indonesia.
