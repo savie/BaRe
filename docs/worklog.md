@@ -6102,3 +6102,14 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 - Source commit: `ef827e5206938912ddfd86734933f2a2162373e4` lalu `5547b415c3ea89a78e49b370d53a0476c188086e` untuk koreksi struktur layout.
 - CI terbaru: **#804 IN PROGRESS** pada HEAD `5547b415c3ea89a78e49b370d53a0476c188086e`.
 - Runtime: **UNVERIFIED**.
+
+### 2026-09-24 — CI merah #804: inspection + fix
+- Evidence dari CI: compile Kotlin gagal di `AppsScreens.kt` sekitar baris 1204–1252.
+- Root cause terverifikasi dari source: variable `item` dipakai sebagai data App Detail di dalam DSL `LazyColumn.item { ... }`, sehingga bentrok dengan nama builder `item`; selain itu refactor overflow sebelumnya meninggalkan struktur brace/layout yang rusak.
+- Fix:
+  - data detail diubah menjadi `appDetails` agar tidak bentrok dengan `LazyColumn.item`;
+  - blok App Info card + overflow + action row disusun ulang dengan brace yang benar;
+  - overflow tetap berada di kanan atas App Info card.
+- Commit: `b87b521c65a333fe63abda4f24ef984a3ca53f4e`
+- Verification: source fix **APPLIED**; CI untuk commit ini **PENDING**.
+- Catatan: pesan `Unable to strip ... libandroidx.graphics.path.so` bukan penyebab build gagal; kegagalan aktual adalah Kotlin compile error.
