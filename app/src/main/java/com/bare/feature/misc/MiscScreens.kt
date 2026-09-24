@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.bare.app.AppItem
 import com.bare.R
 import com.bare.app.Screen
-import com.bare.feature.apps.InstalledAppRepository
+import com.bare.feature.apps.AppInventoryBehavior
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -107,11 +107,11 @@ fun CloudScreen(
 @Composable
 fun SearchScreen(query: String, onQueryChange: (String) -> Unit, onOpenApp: (AppItem) -> Unit, onClose: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
 
-    LaunchedEffect(repository) {
-        apps = runCatching { repository.load() }.getOrDefault(emptyList())
+    LaunchedEffect(inventory) {
+        apps = runCatching { inventory.load() }.getOrDefault(emptyList())
     }
 
     val normalizedQuery = query.trim()
