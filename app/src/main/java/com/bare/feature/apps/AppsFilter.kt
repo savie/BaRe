@@ -79,7 +79,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import java.util.concurrent.TimeUnit
 import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.Screen
@@ -94,58 +93,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.PowerManager
 import android.provider.Settings
-
-private fun formatRelativeTime(context: Context, timestamp: Long): String {
-    val now = System.currentTimeMillis()
-    if (timestamp <= 0L || timestamp > now) {
-        return context.getString(R.string.relative_time_unavailable)
-    }
-
-    val delta = now - timestamp
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(delta)
-    return when {
-        minutes < 1L -> context.getString(R.string.relative_time_just_now)
-        minutes < 60L -> context.getString(
-            if (minutes == 1L) R.string.relative_time_minute else R.string.relative_time_minutes,
-            minutes,
-        )
-        minutes < 1440L -> {
-            val hours = minutes / 60L
-            context.getString(
-                if (hours == 1L) R.string.relative_time_hour else R.string.relative_time_hours,
-                hours,
-            )
-        }
-        minutes < 10080L -> {
-            val days = minutes / 1440L
-            context.getString(
-                if (days == 1L) R.string.relative_time_day else R.string.relative_time_days,
-                days,
-            )
-        }
-        minutes < 43200L -> {
-            val weeks = minutes / 10080L
-            context.getString(
-                if (weeks == 1L) R.string.relative_time_week else R.string.relative_time_weeks,
-                weeks,
-            )
-        }
-        minutes < 525600L -> {
-            val months = minutes / 43200L
-            context.getString(
-                if (months == 1L) R.string.relative_time_month else R.string.relative_time_months,
-                months,
-            )
-        }
-        else -> {
-            val years = minutes / 525600L
-            context.getString(
-                if (years == 1L) R.string.relative_time_year else R.string.relative_time_years,
-                years,
-            )
-        }
-    }
-}
 
 private enum class AppTypeFilter { ALL, USER, SYSTEM }
 private enum class EnabledFilter { ALL, ENABLED, DISABLED }
