@@ -48,6 +48,8 @@ data class AppItem(
     val category: String,
     val size: String,
     val isSystem: Boolean = false,
+    val isUpdatedSystemApp: Boolean = false,
+    val canLaunch: Boolean = false,
     val isEnabled: Boolean = true,
     val protected: Boolean = false,
     val favorite: Boolean = false,
