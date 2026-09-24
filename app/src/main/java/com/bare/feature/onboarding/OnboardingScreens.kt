@@ -672,14 +672,14 @@ fun AccessMethodScreen(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(stringResource(R.string.root_grant_dialog_description))
-                    Text("• " + stringResource(R.string.root_grant_storage))
-                    Text("• " + stringResource(R.string.root_grant_sms))
-                    Text("• " + stringResource(R.string.root_grant_call_logs))
-                    Text("• " + stringResource(R.string.root_grant_contacts))
+                    Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_storage)))
+                    Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_sms)))
+                    Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_call_logs)))
+                    Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_contacts)))
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                        Text("• " + stringResource(R.string.root_grant_notifications))
+                        Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_notifications)))
                     }
-                    Text("• " + stringResource(R.string.root_grant_installed_apps))
+                    Text(stringResource(R.string.bullet_item, stringResource(R.string.root_grant_installed_apps)))
                 }
             },
             confirmButton = {
@@ -746,7 +746,7 @@ private fun AccessCard(method: AccessMethod, selected: Boolean, onSelect: (Acces
                 Spacer(Modifier.height(4.dp))
                 Text(stringResource(method.descriptionRes), style = MaterialTheme.typography.bodySmall)
             }
-            if (selected) Text("✓")
+            if (selected) Text(stringResource(R.string.selected_mark))
         }
     }
 }
