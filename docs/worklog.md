@@ -2,6 +2,47 @@
 
 Worklog adalah catatan kesinambungan pekerjaan BaRe. **Setiap pekerjaan engineering yang berdampak harus dicatat di sini setelah pekerjaan tersebut dilakukan**, termasuk audit, rekonsiliasi, perubahan dokumentasi, implementasi, test, verifikasi, deployment, dan recovery.
 
+## 2026-09-24 — A3: Boundary Account Local dan Dependency Metadata
+
+### USER DECISION / REQUIREMENT
+- Untuk BaRe v1.0, **Account tetap menjadi boundary/concept tersendiri**, termasuk flow sign-in/account, tetapi provider implementation v1.0 bersifat **LOCAL**.
+- Data dan identity Account v1.0 berada pada **database/local persistence**; capability yang membutuhkan Account mengambil state/data dari local account store tersebut.
+- Bentuk provider dipertahankan agar evolusi berikutnya dapat menjadi:
+  `Account → Local / Cloud` tanpa mengubah seluruh application flow.
+- Recovery Account v1.0 menggunakan mekanisme recovery lokal yang sama.
+- **Supabase/cloud backend belum menjadi implementation v1.0** dan tidak boleh diklaim sudah cloud.
+- Implikasi untuk A3: **Cloud Sync bukan next dependency**. A3 menyelesaikan dependency metadata lokal untuk Protected backups dan Backups with notes terlebih dahulu. Cloud Sync dikerjakan setelah itu dengan model/data source cloud dari Reference, bukan dengan memalsukan local backup sebagai cloud.
+
+### A3 Progress
+- System app subfilters: IMPLEMENTED; CI #904 VERIFIED.
+- Backup status + backup-date/backup-size sorting: IMPLEMENTED; CI #908/#909 VERIFIED.
+- Multiple backups: IMPLEMENTED; CI #911/#912 VERIFIED.
+- Google Play install-source filters: IMPLEMENTED; CI #913 VERIFIED.
+- Older/newer backup APK relation: IMPLEMENTED; CI #918 VERIFIED.
+- Protected backups / backup notes: dependency metadata LOCAL sekarang diimplementasikan; **CI/runtime verification PENDING**.
+- Cloud Sync: **PENDING**, menunggu metadata/local dependency dan kemudian adaptasi Reference cloud model/data source.
+- Install Status: **PENDING**; Reference memiliki `isInstalled()`, sedangkan BaRe saat ini masih inventory installed-app oriented sehingga perlu adaptasi inventory terhadap backup/non-installed app records.
+- Date used: **PARTIAL**; menggunakan usage access/UsageStats dan belum dianggap parity penuh.
+- App size semantic: **PENDING A4**; belum diperlakukan sebagai selesai hanya karena sorting sudah tersedia.
+
+### Implementasi Metadata yang Baru
+- Menambahkan model metadata lokal BaRe-native `AppBackupMetadata` dengan schema version, package/version, backup time, installer package, protected flag, dan note.
+- Metadata disimpan sebagai `metadata.json` di setiap local app-backup version directory dan ditulis secara atomic melalui staging file.
+- Backup completion sekarang melakukan metadata commit sebelum mengembalikan `Completed`.
+- Inventory membaca metadata lokal untuk menyediakan predicate Protected backups dan Backups with notes.
+- Metadata Reference Swift Backup tidak disalin sebagai implementation format; Reference hanya menjadi evidence untuk semantic kebutuhan metadata.
+
+### Verification State
+- Source changes: IMPLEMENTED pada branch `v1.0/rebaseline`.
+- CI/build setelah perubahan metadata: **PENDING**.
+- Runtime behavior Protected/Notes: **UNVERIFIED**.
+- Existing green verification #918 tetap menjadi checkpoint terakhir sebelum perubahan metadata.
+
+### Berikutnya
+- Jalankan CI/build untuk perubahan metadata.
+- Jika green, lanjutkan verification predicate/filter behavior Protected + Notes.
+- Setelah dependency metadata terverifikasi, baru lanjut discovery/design/implementation Cloud Sync berdasarkan Reference cloud model/data source dan BaRe Account-local boundary.
+
 ## 2026-09-17 — Rekonsiliasi Batas Repository
 
 ### Pekerjaan Saat Ini
