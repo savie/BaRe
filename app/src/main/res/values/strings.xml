@@ -118,6 +118,7 @@
     <string name="backup_storage_mockup">Backups • mockup state</string>
     <string name="runtime_capability_not_verified">Runtime capability has not been verified.</string>
     <string name="quick_actions">Quick actions</string>
+    <string name="batch_actions">Batch actions</string>
     <string name="backup_apps">Backup apps</string>
     <string name="backup_folders">Backup folders</string>
     <string name="messages">Messages</string>
