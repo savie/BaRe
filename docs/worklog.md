@@ -6392,3 +6392,42 @@ Contoh target:
 2. Jika green, runtime test action dari Apps dan App Detail.
 3. Setelah behavior path terbukti, lanjutkan organization action (favorite/labels/blacklist) ke satu behavior.
 4. Baru kemudian rapikan inventory/reload agar tidak setiap screen memuat ulang repository sendiri.
+
+
+## 2026-09-24 — GO: inspection + fix CI compile error AppAction
+
+### User evidence
+- CI build menjalankan `gradle :app:assembleDebug --no-daemon`.
+- Build gagal pada `:app:compileDebugKotlin`.
+- Error yang dilaporkan:
+  - `AppsScreens.kt:795/797/799/801 — Unresolved reference 'it'`.
+  - `AppsScreens.kt:1246 — Boolean` diberikan ke `runRootAction` yang sekarang membutuhkan `AppActionBehavior.Result`.
+
+### Inspection
+- Pada confirmation dialog App Detail, callback `TextButton(onClick = { ... })` tidak mempunyai implicit lambda parameter `it`. Refactor sebelumnya masih memanggil:
+  - `AppActionBehavior.disable(it)`
+  - `AppActionBehavior.enable(it)`
+  - `AppActionBehavior.forceStop(it)`
+  - `AppActionBehavior.clearData(it)`
+- Package name yang benar sudah tersedia melalui state `packageName`, sehingga action harus mengambil `val currentPackage = packageName` lalu mengirimkannya ke `AppActionBehavior`.
+- Adapter `runRootAction` di App Detail sudah berubah dari boolean action menjadi `(String) -> AppActionBehavior.Result`. Satu call-site pada tombol Enable masih memakai `RootAppActionExecutor.enable(it)` yang mengembalikan `Boolean`, sehingga type mismatch terjadi.
+
+### Fix
+- Confirmation action sekarang mengambil `currentPackage` dari `packageName` dan mengirim hasil `AppActionBehavior` ke `handleAction(...)`.
+- Tombol Enable di App Detail sekarang memakai `AppActionBehavior.enable(it)`, sehingga return type cocok dengan `runRootAction`.
+- Tidak mengubah layout atau behavior contract fase 1 selain memperbaiki adapter yang tidak sinkron.
+
+### Source
+- `83e471331466fb86b059337b15ed6bbd1ffe545a` — `fix: resolve AppActionBehavior compile errors`
+
+### Truth / Verification
+- Root cause compile error: **VERIFIED dari source + CI log user**.
+- Source fix: **APPLIED**.
+- Static post-fix inspection pada area error: **VERIFIED**; empat call-site tidak lagi memakai unresolved `it`, dan Enable sudah mengembalikan `AppActionBehavior.Result`.
+- CI setelah fix: **PENDING / UNVERIFIED**; belum ada workflow run yang terasosiasi dengan commit fix saat record ini dibuat.
+- Runtime: **UNVERIFIED**.
+
+### Next
+1. Tunggu/cek CI untuk commit `83e471331466fb86b059337b15ed6bbd1ffe545a`.
+2. Jika compile/build green, lanjut runtime test Apps vs App Detail untuk action path fase 1.
+3. Jangan lanjut refactor behavior berikutnya sebelum build baseline ini kembali green.
