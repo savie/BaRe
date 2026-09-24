@@ -101,6 +101,7 @@ private enum class SystemAppFilter { ALL, LABELLED_OR_FAVORITES, LAUNCHABLE, UPD
 private enum class BackupStatusFilter { ALL, BACKED_UP, NOT_BACKED_UP }
 private enum class MultipleBackupFilter { ALL, MULTIPLE }
 private enum class BackupApkRelationFilter { ALL, OLDER, NEWER }
+private enum class BackupMetadataFilter { ALL, PROTECTED, WITH_NOTES }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
@@ -124,6 +125,7 @@ private data class AppsFilterState(
     val backupStatus: BackupStatusFilter = BackupStatusFilter.ALL,
     val multipleBackups: MultipleBackupFilter = MultipleBackupFilter.ALL,
     val backupApkRelation: BackupApkRelationFilter = BackupApkRelationFilter.ALL,
+    val backupMetadata: BackupMetadataFilter = BackupMetadataFilter.ALL,
     val favorite: FavoriteFilter = FavoriteFilter.ALL,
     val label: LabelFilter = LabelFilter.ALL,
     val selectedLabels: Set<String> = emptySet(),
@@ -141,6 +143,7 @@ private fun loadPersistedFilterState(store: AppFilterStateStore): AppsFilterStat
         backupStatus = runCatching { BackupStatusFilter.valueOf(saved.backupStatus) }.getOrDefault(BackupStatusFilter.ALL),
         multipleBackups = runCatching { MultipleBackupFilter.valueOf(saved.multipleBackups) }.getOrDefault(MultipleBackupFilter.ALL),
         backupApkRelation = runCatching { BackupApkRelationFilter.valueOf(saved.backupApkRelation) }.getOrDefault(BackupApkRelationFilter.ALL),
+        backupMetadata = runCatching { BackupMetadataFilter.valueOf(saved.backupMetadata) }.getOrDefault(BackupMetadataFilter.ALL),
         favorite = runCatching { FavoriteFilter.valueOf(saved.favorite) }.getOrDefault(FavoriteFilter.ALL),
         label = runCatching { LabelFilter.valueOf(saved.label) }.getOrDefault(LabelFilter.ALL),
         selectedLabels = saved.selectedLabels.toSet(),
@@ -159,6 +162,7 @@ private fun persistFilterState(store: AppFilterStateStore, state: AppsFilterStat
             backupStatus = state.backupStatus.name,
             multipleBackups = state.multipleBackups.name,
             backupApkRelation = state.backupApkRelation.name,
+            backupMetadata = state.backupMetadata.name,
             favorite = state.favorite.name,
             label = state.label.name,
             selectedLabels = state.selectedLabels,
@@ -347,6 +351,7 @@ fun AppsFilterScreen(
             .filter { app -> when (activeFilter.backupStatus) { BackupStatusFilter.ALL -> true; BackupStatusFilter.BACKED_UP -> app.backupCount > 0; BackupStatusFilter.NOT_BACKED_UP -> app.backupCount == 0 } }
             .filter { app -> when (activeFilter.multipleBackups) { MultipleBackupFilter.ALL -> true; MultipleBackupFilter.MULTIPLE -> app.backupCount > 1 } }
             .filter { app -> when (activeFilter.backupApkRelation) { BackupApkRelationFilter.ALL -> true; BackupApkRelationFilter.OLDER -> app.hasOlderBackupApk; BackupApkRelationFilter.NEWER -> app.hasNewerBackupApk } }
+            .filter { app -> when (activeFilter.backupMetadata) { BackupMetadataFilter.ALL -> true; BackupMetadataFilter.PROTECTED -> app.hasProtectedBackup; BackupMetadataFilter.WITH_NOTES -> app.hasBackupNotes } }
             .filter { app -> when (activeFilter.favorite) { FavoriteFilter.ALL -> true; FavoriteFilter.FAVORITES -> organizationStore.isFavorite(app.packageName); FavoriteFilter.NOT_FAVORITES -> !organizationStore.isFavorite(app.packageName) } }
             .filter { app -> when (activeFilter.label) { LabelFilter.ALL -> true; LabelFilter.LABELLED -> organizationStore.labels(app.packageName).isNotEmpty(); LabelFilter.UNLABELLED -> organizationStore.labels(app.packageName).isEmpty() } }
             .filter { app -> activeFilter.selectedLabels.isEmpty() || organizationStore.labels(app.packageName).intersect(activeFilter.selectedLabels).isNotEmpty() }
@@ -401,6 +406,8 @@ fun AppsFilterScreen(
             if (activeFilter.multipleBackups == MultipleBackupFilter.MULTIPLE) add(context.getString(R.string.apps_with_multiple_backups))
             if (activeFilter.backupApkRelation == BackupApkRelationFilter.OLDER) add(context.getString(R.string.backups_with_older_apks))
             if (activeFilter.backupApkRelation == BackupApkRelationFilter.NEWER) add(context.getString(R.string.backups_with_newer_apks))
+            if (activeFilter.backupMetadata == BackupMetadataFilter.PROTECTED) add(context.getString(R.string.apps_with_protected_backups))
+            if (activeFilter.backupMetadata == BackupMetadataFilter.WITH_NOTES) add(context.getString(R.string.backups_with_notes))
             if (activeFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY) add(context.getString(R.string.not_installed_from_google_play))
         }
 
@@ -424,6 +431,7 @@ fun AppsFilterScreen(
                                     chip == context.getString(R.string.backed_up) || chip == context.getString(R.string.not_backed_up) -> activeFilter.copy(backupStatus = BackupStatusFilter.ALL)
                                     chip == context.getString(R.string.apps_with_multiple_backups) -> activeFilter.copy(multipleBackups = MultipleBackupFilter.ALL)
                                     chip == context.getString(R.string.backups_with_older_apks) || chip == context.getString(R.string.backups_with_newer_apks) -> activeFilter.copy(backupApkRelation = BackupApkRelationFilter.ALL)
+                                    chip == context.getString(R.string.apps_with_protected_backups) || chip == context.getString(R.string.backups_with_notes) -> activeFilter.copy(backupMetadata = BackupMetadataFilter.ALL)
                                     else -> activeFilter
                                 }
                             },
@@ -998,8 +1006,16 @@ fun AppsFilterScreen(
                                 onClick = { pendingFilter = pendingFilter.copy(multipleBackups = if (pendingFilter.multipleBackups == MultipleBackupFilter.MULTIPLE) MultipleBackupFilter.ALL else MultipleBackupFilter.MULTIPLE) },
                                 label = { Text(context.getString(R.string.apps_with_multiple_backups)) },
                             )
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.apps_with_protected_backups)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_notes)) })
+                            FilterChip(
+                                selected = pendingFilter.backupMetadata == BackupMetadataFilter.PROTECTED,
+                                onClick = { pendingFilter = pendingFilter.copy(backupMetadata = if (pendingFilter.backupMetadata == BackupMetadataFilter.PROTECTED) BackupMetadataFilter.ALL else BackupMetadataFilter.PROTECTED) },
+                                label = { Text(context.getString(R.string.apps_with_protected_backups)) },
+                            )
+                            FilterChip(
+                                selected = pendingFilter.backupMetadata == BackupMetadataFilter.WITH_NOTES,
+                                onClick = { pendingFilter = pendingFilter.copy(backupMetadata = if (pendingFilter.backupMetadata == BackupMetadataFilter.WITH_NOTES) BackupMetadataFilter.ALL else BackupMetadataFilter.WITH_NOTES) },
+                                label = { Text(context.getString(R.string.backups_with_notes)) },
+                            )
                             FilterChip(
                                 selected = pendingFilter.backupApkRelation == BackupApkRelationFilter.OLDER,
                                 onClick = { pendingFilter = pendingFilter.copy(backupApkRelation = if (pendingFilter.backupApkRelation == BackupApkRelationFilter.OLDER) BackupApkRelationFilter.ALL else BackupApkRelationFilter.OLDER) },
