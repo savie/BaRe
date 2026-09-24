@@ -20,8 +20,10 @@ class AppExternalDataBackupBehavior {
         if (destinationDir.exists() && !destinationDir.deleteRecursively()) {
             return AppBackupPartResult.Failed("Unable to replace external data backup")
         }
-        if (!externalDataDirectory.exists()) {
-            return AppBackupPartResult.Completed(emptyList())
+        when (root.directoryExists(externalDataDirectory.absolutePath)) {
+            false -> return AppBackupPartResult.Completed(emptyList())
+            null -> return AppBackupPartResult.Failed("Unable to inspect external data directory")
+            true -> Unit
         }
         if (!destinationDir.mkdirs()) {
             return AppBackupPartResult.Failed("Unable to create external data backup directory")
