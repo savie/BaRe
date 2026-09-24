@@ -23,7 +23,11 @@ class InstalledAppRepository(private val context: Context) {
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 val isUpdatedSystemApp = (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
-                val backupMetadata = backupMetadata(backupLocations, info.packageName)
+                val versionCode = runCatching {
+                    val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
+                    if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong()
+                }.getOrNull()
+                val backupMetadata = backupMetadata(backupLocations, info.packageName, versionCode)
                 val canLaunch = packageManager.getLaunchIntentForPackage(info.packageName) != null
                 val storage = storageStats(info)
                 val apkSizeBytes = runCatching {
@@ -55,6 +59,8 @@ class InstalledAppRepository(private val context: Context) {
                     backupCount = backupMetadata.count,
                     backupSizeBytes = backupMetadata.sizeBytes,
                     latestBackupTime = backupMetadata.latestTime,
+                    hasOlderBackupApk = backupMetadata.hasOlderApk,
+                    hasNewerBackupApk = backupMetadata.hasNewerApk,
                     icon = runCatching {
                         packageManager.getApplicationIcon(info.packageName)
                     }.getOrNull(),
@@ -69,23 +75,33 @@ class InstalledAppRepository(private val context: Context) {
         val count: Int,
         val sizeBytes: Long,
         val latestTime: Long?,
+        val hasOlderApk: Boolean,
+        val hasNewerApk: Boolean,
     )
 
-    private fun backupMetadata(locations: List<String>, packageName: String): BackupMetadata {
+    private fun backupMetadata(locations: List<String>, packageName: String, installedVersionCode: Long?): BackupMetadata {
         val versionDirectories = locations
             .map { File(it, "apps/$packageName") }
             .flatMap { root -> root.listFiles()?.filter { it.isDirectory }.orEmpty() }
-        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null)
+        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null, false, false)
         var size = 0L
         var latest: Long? = null
+        var hasOlderApk = false
+        var hasNewerApk = false
         versionDirectories.forEach { directory ->
+            val versionCode = directory.name.toLongOrNull()
+            val containsApk = directory.walkTopDown().any { it.isFile && it.extension.equals("apk", ignoreCase = true) }
+            if (containsApk && installedVersionCode != null && versionCode != null) {
+                if (versionCode < installedVersionCode) hasOlderApk = true
+                if (versionCode > installedVersionCode) hasNewerApk = true
+            }
             directory.walkTopDown().forEach { file ->
                 if (file.isFile) size += file.length().coerceAtLeast(0L)
                 val modified = file.lastModified()
                 if (modified > 0L && (latest == null || modified > latest!!)) latest = modified
             }
         }
-        return BackupMetadata(versionDirectories.size, size, latest)
+        return BackupMetadata(versionDirectories.size, size, latest, hasOlderApk, hasNewerApk)
     }
 
     private data class AppStorageStats(
