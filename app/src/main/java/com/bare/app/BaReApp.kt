@@ -444,7 +444,9 @@ fun BaReApp() {
                     { selectedApp = it; selectedAppPackageName = it.packageName; screen = Screen.APP_DETAIL },
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
-                    screen, identityStore.load()?.identityId, selectedApp, selectedAppPackageName, ::goBack, identityType == IdentityType.ACCOUNT, loginEmail, selectedMethod,
+                    screen, identityStore.load()?.identityId, selectedApp, selectedAppPackageName, ::goBack,
+                    { if (identityType == IdentityType.ACCOUNT) { accountRepository.signOut(); activeAccount = null; identityType = IdentityType.LOCAL } else { returnToAppAfterFlow = true; accountAuthError = null; startScreen = StartScreen.LOGIN } },
+                    identityType == IdentityType.ACCOUNT, activeAccount?.email ?: loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsSearchQuery, { appsSearchQuery = it }, appsFilterOpen, { appsFilterOpen = it },
                     themeMode, dynamicColors, amoledBlack,
                     { value -> themeMode = value; settingsStore.saveThemeMode(value) },
@@ -477,6 +479,7 @@ private fun MainShell(
     selectedApp: AppItem?,
     selectedAppPackageName: String?,
     onBack: () -> Unit,
+    onAccountAction: () -> Unit,
     hasAccount: Boolean,
     accountEmail: String,
     accessMethod: AccessMethod?,
@@ -700,6 +703,7 @@ private fun MainShell(
                     onOpen = onOpenScreen,
                     identityType = if (hasAccount) IdentityType.ACCOUNT else IdentityType.LOCAL,
                     accountEmail = accountEmail,
+                    onAccountAction = onAccountAction,
                 )
                 }
             }
