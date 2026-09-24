@@ -273,26 +273,20 @@ fun AppsFilterScreen(
     }
 
     fun openAppInfo(app: AppItem) {
-        runCatching {
-            context.startActivity(
-                Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.parse("package:" + app.packageName),
-                )
-            )
-        }
+        AppActionBehavior.openAppInfo(context, app.packageName)
         selectedApp = null
     }
 
     fun runRootActionOrFallback(
         app: AppItem,
-        action: () -> Boolean,
+        action: (String) -> AppActionBehavior.Result,
         fallback: () -> Unit = { openAppInfo(app) },
     ) {
         Thread {
-            val success = runCatching { action() }.getOrDefault(false)
+            val result = runCatching { action(app.packageName) }
+                .getOrDefault(AppActionBehavior.Result.FAILED)
             Handler(Looper.getMainLooper()).post {
-                if (success) {
+                if (result == AppActionBehavior.Result.COMPLETED) {
                     selectedApp = null
                     reloadApps()
                 } else {
@@ -303,32 +297,24 @@ fun AppsFilterScreen(
     }
 
     fun requestBatteryOptimizationChange(app: AppItem, enableOptimization: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !enableOptimization) {
-            runCatching {
-                context.startActivity(
-                    Intent(
-                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS,
-                        Uri.parse("package:" + app.packageName),
-                    )
-                )
-            }.onFailure {
-                openAppInfo(app)
-            }
+        val result = AppActionBehavior.setBatteryOptimization(
+            context,
+            app.packageName,
+            exempt = !enableOptimization,
+        )
+        if (result == AppActionBehavior.Result.COMPLETED ||
+            result == AppActionBehavior.Result.OPENED_SYSTEM
+        ) {
+            selectedApp = null
+            if (result == AppActionBehavior.Result.COMPLETED) reloadApps()
         } else {
             openAppInfo(app)
         }
     }
 
     fun launchSystemUninstall(app: AppItem) {
-        runCatching {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_UNINSTALL_PACKAGE,
-                    Uri.parse("package:" + app.packageName),
-                ).putExtra(Intent.EXTRA_RETURN_RESULT, true)
-            )
-            selectedApp = null
-        }
+        val result = AppActionBehavior.uninstallWithSystemFallback(context, app.packageName)
+        if (result != AppActionBehavior.Result.UNAVAILABLE) selectedApp = null
     }
 
     LaunchedEffect(repository) { reloadApps() }
@@ -538,7 +524,7 @@ fun AppsFilterScreen(
                             if (app.isEnabled) {
                                 destructiveAction = DestructiveAppAction.DISABLE
                             } else {
-                                runRootActionOrFallback(app, { RootAppActionExecutor.enable(app.packageName) })
+                                runRootActionOrFallback(app, AppActionBehavior::enable)
                             }
                         }
                     }
@@ -686,13 +672,13 @@ fun AppsFilterScreen(
                     destructiveAction = null
                     when (action) {
                         DestructiveAppAction.DISABLE ->
-                            runRootActionOrFallback(target, { RootAppActionExecutor.disable(target.packageName) })
+                            runRootActionOrFallback(target, AppActionBehavior::disable)
                         DestructiveAppAction.FORCE_STOP ->
-                            runRootActionOrFallback(target, { RootAppActionExecutor.forceStop(target.packageName) })
+                            runRootActionOrFallback(target, AppActionBehavior::forceStop)
                         DestructiveAppAction.CLEAR_DATA ->
-                            runRootActionOrFallback(target, { RootAppActionExecutor.clearData(target.packageName) })
+                            runRootActionOrFallback(target, AppActionBehavior::clearData)
                         DestructiveAppAction.UNINSTALL ->
-                            runRootActionOrFallback(target, { RootAppActionExecutor.uninstall(target.packageName) }) {
+                            runRootActionOrFallback(target, AppActionBehavior::uninstallWithSystemFallback) {
                                 launchSystemUninstall(target)
                             }
                     }
