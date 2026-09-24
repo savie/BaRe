@@ -31,6 +31,12 @@ class BackupStorageBehavior(context: Context) {
     fun selectedKind(): BackupStorage.Kind =
         configuration.loadKind() ?: BackupStorage.Kind.INTERNAL
 
+    fun hasDurableLocalState(identityId: String, kind: BackupStorage.Kind): Boolean =
+        repository.hasDurableLocalState(identityId, kind)
+
+    fun canInitialize(kind: BackupStorage.Kind): Boolean =
+        repository.canInitialize(kind)
+
     fun localBackupSize(identityId: String): Long =
         repository.localBackupSize(identityId)
 
