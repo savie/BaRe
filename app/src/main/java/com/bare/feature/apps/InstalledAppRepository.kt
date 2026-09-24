@@ -7,6 +7,7 @@ import android.os.UserHandle
 import android.os.storage.StorageManager
 import com.bare.app.AppItem
 import com.bare.app.LocalIdentityStore
+import com.bare.feature.account.AccountLocalDatabase
 import com.bare.storage.BackupStorageBehavior
 import java.io.File
 
@@ -15,6 +16,7 @@ class InstalledAppRepository(private val context: Context) {
     private val organizationStore = AppOrganizationStore(context)
     private val identityStore = LocalIdentityStore(context)
     private val backupStorage = BackupStorageBehavior(context)
+    private val accountDatabase = AccountLocalDatabase(context)
     private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
 
     fun load(): List<AppItem> {
@@ -22,7 +24,8 @@ class InstalledAppRepository(private val context: Context) {
         val backupLocations = identityId?.let { backupStorage.localBackupLocations(it) }.orEmpty()
         // Local identity is not an Account. Until an authenticated Account/provider
         // supplies verified metadata, cloud state remains UNKNOWN rather than NOT_SYNCED.
-        val cloudSyncStates = emptyMap<String, CloudSyncState>()
+        val accountId = accountDatabase.activeAccountId()
+        val cloudSyncStates = cloudSyncMetadataStore.loadStates(accountId)
         val loaded = packageManager.getInstalledApplications(0)
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
