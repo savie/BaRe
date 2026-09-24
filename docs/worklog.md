@@ -3038,3 +3038,153 @@ Tidak ada code change pada audit ini dan tidak ada capability dinaikkan statusny
 
 ### Decision Boundary
 Belum ada keputusan implementasi P5. Audit ini menghasilkan map gap dan boundary. Perubahan berikutnya harus dipilih per capability berdasarkan owner, contract, dependency, risk, dan verification evidence; bukan berdasarkan folder.
+
+
+## 2026-09-24 — Re-validation Reference.md terhadap Reference Source
+
+### Scope
+Re-validation dilakukan terhadap:
+- `docs/reference.md) — audit/discovery baseline yang dibuat sebelum Reference Source masuk ke project.
+- branch `reference` — actual Reference Source hasil decompile.
+- BaRe v1.0 pada branch `v1.0/rebaseline) — comparison target saat ini.
+
+Reference Source berada di:
+```
+reference/
+├── apktool/
+└── jadx/
+```
+
+Tidak ada ZIP Reference yang dibongkar ulang. Evidence diambil langsung dari branch `reference`.
+
+### Evidence yang tervalidasi ulang
+
+1. **UI Reference memang tersedia sebagai source/resource evidence**
+   - `apktool/res/layout` memiliki layout Apps, App Detail, filter, backup, quick actions, Home, schedule, storage, dan domain lain.
+   - `apktool/res/menu` memiliki menu Apps, App Detail storage/backup actions, bottom navigation, schedule, dan domain actions.
+   - Contoh yang diverifikasi langsung:
+     - `app_list_activity.xml`
+     - `detail_activity.xml`
+     - `detail_card_app_storage.xml`
+     - `detail_card_app_backup.xml`
+     - `filter_bottom_dialog.xml`
+     - `menu_apps.xml`
+     - `menu_detail_storage_chip_actions.xml`
+     - `menu_detail_backup_chip_actions.xml`
+     - `menu_bottom_home.xml`
+
+2. **Root / Shizuku permission workflow**
+   - `defpackage/mf.java` mengonfirmasi dialog grant permission dan daftar capability.
+   - `defpackage/dz5.java` mengonfirmasi bahwa runtime permission, special access/AppOps, dan capability-specific handling bukan satu mekanisme yang sama.
+   - Status tetap `OBSERVED_STATIC`; reference APK tidak dieksekusi pada audit ini.
+
+3. **App size model**
+   - `defpackage/qx.java` mengonfirmasi komponen ukuran:
+     `APK + Split APKs + Shared libraries + Data + DE data + External data + Media + OBB/Expansion`.
+   - Cache disimpan sebagai komponen terpisah untuk informasi, tetapi total tidak menambahkan cache sekali lagi.
+   - Ini memperkuat bagian storage-size pada `docs/reference.md`.
+
+### Re-validation terhadap BaRe v1.0
+
+#### A. Apps list / shell — GAP
+Reference `app_list_activity.xml` memiliki:
+- appbar + filters;
+- SwipeRefresh;
+- RecyclerView;
+- FastScroller;
+- Extended FAB batch actions;
+- navigation drawer.
+
+BaRe `AppsFilter.kt` saat ini menggunakan Compose surface dan tidak memiliki evidence equivalent untuk FastScroller, Extended FAB, atau Drawer pada surface yang diperiksa.
+
+**Status:** MISSING / DIFFERENCE — perlu parity work. Bukan runtime bug.
+
+#### B. Apps filter — GAP
+Reference `filter_bottom_dialog.xml` memiliki:
+- SORT;
+- FILTER;
+- App type + System app filters;
+- Favorites;
+- App Labels;
+- On-device backup;
+- Cloud sync;
+- Install status;
+- Enabled status;
+- Miscellaneous;
+- Apply / Reset.
+
+BaRe sudah memiliki sebagian model/filter, tetapi:
+- Backup date dan Backup size masih ditandai unavailable;
+- On-device backup dan Cloud sync chips masih disabled;
+- filter Miscellaneous masih disabled;
+- context switch Local apps / Cloud synced apps belum terbukti tersedia pada AppsFilter saat re-validation.
+
+**Status:** PARTIAL / MISSING.
+
+#### C. App Detail / backup UI — GAP
+Reference memiliki dedicated storage/backup cards, TabLayout, chip grid, menu actions, Restore action, dan state loading/error.
+
+BaRe sudah memiliki App Detail, storage chips, backup selector, destination selector, dan action boundaries, tetapi selector backup saat ini masih berakhir pada `Action unavailable`.
+
+Selain itu model part BaRe yang diperiksa hanya:
+- APKs;
+- Data;
+- External data;
+- Media.
+
+Reference evidence mencakup model yang lebih luas, termasuk Split APKs, Shared libraries, OBB/Expansion, dan cache semantics.
+
+**Status:** PARTIAL; execution path masih NOT IMPLEMENTED / UNVERIFIED pada beberapa capability.
+
+#### D. Storage semantics — GAP
+BaRe `AppDetailsRepository` sudah menggunakan:
+- APK + split APK paths;
+- StorageStats untuk data/cache;
+- external data;
+- media;
+- root fallback untuk directory measurement.
+
+Namun belum ditemukan equivalent untuk OBB/Expansion dan Shared libraries pada model `AppDetails`, dan total App size UI belum terbukti mengikuti model Reference secara penuh.
+
+**Status:** PARTIAL / UNKNOWN untuk parity penuh.
+
+#### E. Bottom navigation — MATCH pada primary structure
+Reference `menu_bottom_home.xml` memiliki empat destination:
+`Home`, `Cloud sync`, `Schedules`, `Account`.
+
+BaRe `BaReApp.kt` juga memiliki empat NavigationBar destinations tersebut.
+
+**Status:** MATCH pada primary destination count/structure.
+
+#### F. BaRe-specific header exception
+BaRe memiliki Global Header + Local Sub-header sebagai keputusan target v1.0. Ini tetap diperlakukan sebagai **intentional design exception**, bukan GAP terhadap Reference.
+
+### Classification summary
+
+| Area | Status |
+|---|---|
+| Reference Source tersedia dan dapat diinspeksi langsung | VERIFIED STATIC |
+| Reference UI XML/menu evidence | VERIFIED STATIC |
+| Root/Shizuku workflow evidence | VERIFIED STATIC |
+| Reference App size formula | VERIFIED STATIC |
+| Bottom navigation 4 destination | MATCH |
+| Apps list structural parity | GAP |
+| Apps filter completeness | PARTIAL / GAP |
+| App Detail storage/backup parity | PARTIAL / GAP |
+| App size semantic parity | PARTIAL / UNKNOWN |
+| Runtime Reference APK | NOT PERFORMED |
+| BaRe runtime/E2E verification | NOT PERFORMED pada audit ini |
+| Code implementation change | NONE |
+
+### Conclusion
+`docs/reference.md` **tidak diganti** dan tidak dianggap obsolete. Dokumen tersebut tetap menjadi baseline audit/discovery.
+
+Reference Source sekarang menjadi evidence aktual untuk **re-validation**.
+
+Hasil re-validation menunjukkan bahwa beberapa audit lama terkonfirmasi langsung, sementara beberapa area sekarang memiliki resolusi lebih tinggi dan menghasilkan GAP/PARTIAL yang konkret, terutama pada:
+- Apps UI structure;
+- Apps filter;
+- App Detail storage/backup;
+- App size semantics.
+
+Next implementation priority setelah audit ini adalah **Reference UI/flow parity pada gap yang sudah memiliki evidence**, bukan membuat audit Reference dari nol lagi.
