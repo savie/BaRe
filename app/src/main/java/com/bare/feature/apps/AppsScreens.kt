@@ -1273,7 +1273,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 Text(
                                     stringResource(
                                         R.string.last_updated_value,
-                                        formatRelativeAppTime(context, appDetails.lastUpdateTime),
+                                        formatRelativeTime(context, appDetails.lastUpdateTime),
                                         formatAppSize(appSizeBytes),
                                         formatAppSize(cacheBytes)
                                     ),
