@@ -20,6 +20,7 @@ class AppFilterStateStore(context: Context) {
             googlePlay = preferences.getString(KEY_GOOGLE_PLAY, "ALL") ?: "ALL",
             systemAppFilter = preferences.getString(KEY_SYSTEM_APP_FILTER, "ALL") ?: "ALL",
             backupStatus = preferences.getString(KEY_BACKUP_STATUS, "ALL") ?: "ALL",
+            multipleBackups = preferences.getString(KEY_MULTIPLE_BACKUPS, "ALL") ?: "ALL",
             favorite = preferences.getString(KEY_FAVORITE, "ALL") ?: "ALL",
             label = preferences.getString(KEY_LABEL, "ALL") ?: "ALL",
             selectedLabels = preferences.getStringSet(KEY_LABELS, emptySet()).orEmpty(),
@@ -35,6 +36,7 @@ class AppFilterStateStore(context: Context) {
             .putString(KEY_GOOGLE_PLAY, state.googlePlay)
             .putString(KEY_SYSTEM_APP_FILTER, state.systemAppFilter)
             .putString(KEY_BACKUP_STATUS, state.backupStatus)
+            .putString(KEY_MULTIPLE_BACKUPS, state.multipleBackups)
             .putString(KEY_FAVORITE, state.favorite)
             .putString(KEY_LABEL, state.label)
             .putStringSet(KEY_LABELS, state.selectedLabels)
@@ -53,6 +55,7 @@ class AppFilterStateStore(context: Context) {
         val googlePlay: String,
         val systemAppFilter: String,
         val backupStatus: String,
+        val multipleBackups: String,
         val favorite: String,
         val label: String,
         val selectedLabels: Set<String>,
@@ -67,6 +70,7 @@ class AppFilterStateStore(context: Context) {
         const val KEY_GOOGLE_PLAY = "google_play"
         const val KEY_SYSTEM_APP_FILTER = "system_app_filter"
         const val KEY_BACKUP_STATUS = "backup_status"
+        const val KEY_MULTIPLE_BACKUPS = "multiple_backups"
         const val KEY_FAVORITE = "favorite"
         const val KEY_LABEL = "label"
         const val KEY_LABELS = "selected_labels"
