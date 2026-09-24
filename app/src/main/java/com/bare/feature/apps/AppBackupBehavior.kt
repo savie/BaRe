@@ -1,14 +1,21 @@
 package com.bare.feature.apps
 
 import android.content.Context
+import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorage
 import com.bare.storage.BackupStorageRepository
-import com.bare.app.LocalIdentityStore
 import java.io.File
+
+enum class AppBackupPart {
+    APK,
+    DATA,
+    EXTERNAL_DATA,
+    MEDIA,
+}
 
 data class AppBackupRequest(
     val packageName: String,
-    val parts: Set<String>,
+    val parts: Set<AppBackupPart>,
     val destination: BackupDestination,
 )
 
@@ -19,7 +26,11 @@ enum class BackupDestination {
 }
 
 sealed interface AppBackupResult {
-    data class Completed(val files: List<File>) : AppBackupResult
+    data class Completed(
+        val files: List<File>,
+        val parts: Set<AppBackupPart>,
+    ) : AppBackupResult
+
     data class Unsupported(val reason: String) : AppBackupResult
     data class Failed(val reason: String) : AppBackupResult
 }
@@ -27,17 +38,21 @@ sealed interface AppBackupResult {
 class AppBackupBehavior(private val context: Context) {
     private val storage = BackupStorageRepository(context)
     private val identityStore = LocalIdentityStore(context)
+    private val dataBackup = AppDataBackupBehavior(context)
+    private val externalDataBackup = AppExternalDataBackupBehavior()
 
     fun backup(request: AppBackupRequest): AppBackupResult {
-        if (request.packageName.isBlank()) return AppBackupResult.Failed("Package name is required")
-        if (request.parts.isEmpty()) return AppBackupResult.Failed("At least one backup part is required")
+        if (!request.packageName.matches(PACKAGE_REGEX)) {
+            return AppBackupResult.Failed("Invalid package name")
+        }
+        if (request.parts.isEmpty()) {
+            return AppBackupResult.Failed("At least one backup part is required")
+        }
         if (request.destination != BackupDestination.DEVICE) {
             return AppBackupResult.Unsupported("Cloud backup execution is not available")
         }
-
-        val apkPart = "APK"
-        if (request.parts.any { it != apkPart }) {
-            return AppBackupResult.Unsupported("Only APK backup execution is available")
+        if (AppBackupPart.MEDIA in request.parts) {
+            return AppBackupResult.Unsupported("Media backup execution is not available")
         }
 
         val identity = identityStore.load() ?: identityStore.createLocalIdentity()
@@ -63,23 +78,73 @@ class AppBackupBehavior(private val context: Context) {
             initialization.rootDirectory,
             "BaRe/accounts/${storage.identityFolder(identity.identityId)}/backups/apps/${request.packageName}/$version"
         )
-        if (backupDirectory.exists() && !backupDirectory.deleteRecursively()) {
-            return AppBackupResult.Failed("Unable to replace existing APK backup")
+        if (!backupDirectory.exists() && !backupDirectory.mkdirs()) {
+            return AppBackupResult.Failed("Unable to create backup directory")
         }
-        if (!backupDirectory.mkdirs()) {
-            return AppBackupResult.Failed("Unable to create APK backup directory")
+
+        val files = mutableListOf<File>()
+        val completedParts = linkedSetOf<AppBackupPart>()
+
+        for (part in request.parts) {
+            val result = when (part) {
+                AppBackupPart.APK -> backupApk(backupDirectory, request.packageName)
+                AppBackupPart.DATA -> dataBackup.backup(
+                    request.packageName,
+                    File(backupDirectory, "data"),
+                )
+                AppBackupPart.EXTERNAL_DATA -> externalDataBackup.backup(
+                    request.packageName,
+                    File(backupDirectory, "external-data"),
+                )
+                AppBackupPart.MEDIA -> error("media is rejected above")
+            }
+
+            when (result) {
+                is AppBackupPartResult.Completed -> {
+                    files += result.files
+                    completedParts += part
+                }
+                is AppBackupPartResult.Failed -> {
+                    return AppBackupResult.Failed("${part.name} backup failed: ${result.reason}")
+                }
+            }
+        }
+
+        return AppBackupResult.Completed(files, completedParts)
+    }
+
+    private fun backupApk(backupDirectory: File, packageName: String): AppBackupPartResult {
+        val stagingDirectory = File(backupDirectory, ".apk-staging")
+        if (stagingDirectory.exists()) {
+            stagingDirectory.deleteRecursively()
+        }
+        if (!stagingDirectory.mkdirs()) {
+            return AppBackupPartResult.Failed("Unable to create APK staging directory")
         }
 
         val result = com.bare.capability.RootCapabilityProvider().copyPackageApks(
-            request.packageName,
-            backupDirectory,
+            packageName,
+            stagingDirectory,
         )
         return when (result) {
-            is com.bare.capability.RootCopyResult.Success -> AppBackupResult.Completed(result.files)
-            is com.bare.capability.RootCopyResult.Failed -> {
-                backupDirectory.deleteRecursively()
-                AppBackupResult.Failed(result.reason)
+            is com.bare.capability.RootCopyResult.Success -> {
+                backupDirectory.listFiles()
+                    ?.filter { it.isFile && it.name.endsWith(".apk") }
+                    ?.forEach { it.delete() }
+                val moved = result.files.map { file ->
+                    val destination = File(backupDirectory, file.name)
+                    check(file.renameTo(destination)) { "Unable to finalize APK backup" }
+                    destination
+                }
+                stagingDirectory.deleteRecursively()
+                AppBackupPartResult.Completed(moved)
             }
+            is com.bare.capability.RootCopyResult.Failed ->
+                AppBackupPartResult.Failed(result.reason)
         }
+    }
+
+    companion object {
+        private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""")
     }
 }
