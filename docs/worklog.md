@@ -1,3 +1,20 @@
+## 2026-09-24 — A3: Install Status
+
+### IMPLEMENTATION
+- Menambahkan isInstalled pada AppItem.
+- Inventory sekarang menggabungkan installed apps dengan package yang hanya memiliki local backup records, sehingga Install Status memiliki source data nyata.
+- Backup-only apps menggunakan local backup metadata untuk count/size/time, protected/notes, dan installer package; tidak dibuat menjadi cloud data.
+- Filter All / Installed / Not installed diaktifkan dan dipersist.
+
+### VERIFICATION
+- Source implementation: COMMITTED, CI/runtime verification PENDING.
+- Fallback nama backup-only tanpa label metadata: package name; ini limitation yang eksplisit.
+
+### NEXT
+- Verify CI/build.
+- Verify runtime Install Status.
+- Setelah itu lanjut A3 Cloud Sync dengan Account sebagai boundary terpisah; Account provider v1.0 tetap local, bukan Supabase/cloud.
+
 # BaRe v1.0 — Worklog
 
 Worklog adalah catatan kesinambungan pekerjaan BaRe. **Setiap pekerjaan engineering yang berdampak harus dicatat di sini setelah pekerjaan tersebut dilakukan**, termasuk audit, rekonsiliasi, perubahan dokumentasi, implementasi, test, verifikasi, deployment, dan recovery.

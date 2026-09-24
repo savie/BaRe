@@ -53,6 +53,7 @@ class InstalledAppRepository(private val context: Context) {
                     dataSizeBytes = storage?.dataBytes,
                     cacheSizeBytes = storage?.cacheBytes,
                     totalSizeBytes = storage?.totalBytes,
+                    isInstalled = true,
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
                     }.getOrNull(),
@@ -68,9 +69,60 @@ class InstalledAppRepository(private val context: Context) {
                     }.getOrNull(),
                 )
             }
-            .sortedBy { it.name.lowercase() }
-        cachedApps = loaded
-        return loaded
+        val installedPackages = loaded.asSequence().map { it.packageName }.toSet()
+        val backupOnly = backupOnlyApps(backupLocations, installedPackages)
+        val result = (loaded + backupOnly).sortedBy { it.name.lowercase() }
+        cachedApps = result
+        return result
+    }
+
+    private fun backupOnlyApps(locations: List<String>, installedPackages: Set<String>): List<AppItem> {
+        val packageDirectories = locations
+            .flatMap { root -> File(root, "apps").listFiles()?.filter { it.isDirectory }.orEmpty() }
+            .filter { it.name !in installedPackages }
+            .groupBy { it.name }
+
+        return packageDirectories.mapNotNull { (packageName, roots) ->
+            val backupDirectories = roots.flatMap { it.listFiles()?.filter { child -> child.isDirectory }.orEmpty() }
+            if (backupDirectories.isEmpty()) return@mapNotNull null
+            var size = 0L
+            var latestTime: Long? = null
+            var count = 0
+            var hasProtectedBackup = false
+            var hasBackupNotes = false
+            var latestMetadata: AppBackupMetadata? = null
+            backupDirectories.forEach { directory ->
+                count++
+                directory.walkTopDown().forEach { file ->
+                    if (file.isFile) size += file.length().coerceAtLeast(0L)
+                    val modified = file.lastModified()
+                    if (modified > 0L && (latestTime == null || modified > latestTime!!)) latestTime = modified
+                }
+                AppBackupMetadata.read(directory)?.let { metadata ->
+                    if (metadata.protectedBackup) hasProtectedBackup = true
+                    if (metadata.hasNote()) hasBackupNotes = true
+                    if (metadata.backupTime > 0L && (latestMetadata == null || metadata.backupTime > latestMetadata!!.backupTime)) {
+                        latestMetadata = metadata
+                        latestTime = metadata.backupTime
+                    }
+                }
+            }
+            val installerPackage = latestMetadata?.installerPackage
+            AppItem(
+                name = packageName,
+                packageName = packageName,
+                category = context.getString(com.bare.R.string.user_app),
+                size = formatSize(size),
+                isInstalled = false,
+                isEnabled = true,
+                installedFromGooglePlay = installerPackage == "com.android.vending",
+                backupCount = count,
+                backupSizeBytes = size,
+                latestBackupTime = latestTime,
+                hasProtectedBackup = hasProtectedBackup,
+                hasBackupNotes = hasBackupNotes,
+            )
+        }
     }
 
     private data class BackupMetadata(

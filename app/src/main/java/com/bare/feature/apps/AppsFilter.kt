@@ -102,6 +102,7 @@ private enum class BackupStatusFilter { ALL, BACKED_UP, NOT_BACKED_UP }
 private enum class MultipleBackupFilter { ALL, MULTIPLE }
 private enum class BackupApkRelationFilter { ALL, OLDER, NEWER }
 private enum class BackupMetadataFilter { ALL, PROTECTED, WITH_NOTES }
+private enum class InstallStatusFilter { ALL, INSTALLED, NOT_INSTALLED }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
@@ -126,6 +127,7 @@ private data class AppsFilterState(
     val multipleBackups: MultipleBackupFilter = MultipleBackupFilter.ALL,
     val backupApkRelation: BackupApkRelationFilter = BackupApkRelationFilter.ALL,
     val backupMetadata: BackupMetadataFilter = BackupMetadataFilter.ALL,
+    val installStatus: InstallStatusFilter = InstallStatusFilter.ALL,
     val favorite: FavoriteFilter = FavoriteFilter.ALL,
     val label: LabelFilter = LabelFilter.ALL,
     val selectedLabels: Set<String> = emptySet(),
@@ -144,6 +146,7 @@ private fun loadPersistedFilterState(store: AppFilterStateStore): AppsFilterStat
         multipleBackups = runCatching { MultipleBackupFilter.valueOf(saved.multipleBackups) }.getOrDefault(MultipleBackupFilter.ALL),
         backupApkRelation = runCatching { BackupApkRelationFilter.valueOf(saved.backupApkRelation) }.getOrDefault(BackupApkRelationFilter.ALL),
         backupMetadata = runCatching { BackupMetadataFilter.valueOf(saved.backupMetadata) }.getOrDefault(BackupMetadataFilter.ALL),
+        installStatus = runCatching { InstallStatusFilter.valueOf(saved.installStatus) }.getOrDefault(InstallStatusFilter.ALL),
         favorite = runCatching { FavoriteFilter.valueOf(saved.favorite) }.getOrDefault(FavoriteFilter.ALL),
         label = runCatching { LabelFilter.valueOf(saved.label) }.getOrDefault(LabelFilter.ALL),
         selectedLabels = saved.selectedLabels.toSet(),
@@ -163,6 +166,7 @@ private fun persistFilterState(store: AppFilterStateStore, state: AppsFilterStat
             multipleBackups = state.multipleBackups.name,
             backupApkRelation = state.backupApkRelation.name,
             backupMetadata = state.backupMetadata.name,
+            installStatus = state.installStatus.name,
             favorite = state.favorite.name,
             label = state.label.name,
             selectedLabels = state.selectedLabels,
@@ -346,6 +350,7 @@ fun AppsFilterScreen(
                     SystemAppFilter.UPDATED -> app.isUpdatedSystemApp
                 }
             }
+            .filter { app -> when (activeFilter.installStatus) { InstallStatusFilter.ALL -> true; InstallStatusFilter.INSTALLED -> app.isInstalled; InstallStatusFilter.NOT_INSTALLED -> !app.isInstalled } }
             .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
             .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
             .filter { app -> when (activeFilter.backupStatus) { BackupStatusFilter.ALL -> true; BackupStatusFilter.BACKED_UP -> app.backupCount > 0; BackupStatusFilter.NOT_BACKED_UP -> app.backupCount == 0 } }
@@ -403,6 +408,8 @@ fun AppsFilterScreen(
             if (activeFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY) add(context.getString(R.string.installed_from_google_play))
             if (activeFilter.backupStatus == BackupStatusFilter.BACKED_UP) add(context.getString(R.string.backed_up))
             if (activeFilter.backupStatus == BackupStatusFilter.NOT_BACKED_UP) add(context.getString(R.string.not_backed_up))
+            if (activeFilter.installStatus == InstallStatusFilter.INSTALLED) add(context.getString(R.string.installed))
+            if (activeFilter.installStatus == InstallStatusFilter.NOT_INSTALLED) add(context.getString(R.string.not_installed))
             if (activeFilter.multipleBackups == MultipleBackupFilter.MULTIPLE) add(context.getString(R.string.apps_with_multiple_backups))
             if (activeFilter.backupApkRelation == BackupApkRelationFilter.OLDER) add(context.getString(R.string.backups_with_older_apks))
             if (activeFilter.backupApkRelation == BackupApkRelationFilter.NEWER) add(context.getString(R.string.backups_with_newer_apks))
@@ -983,9 +990,9 @@ fun AppsFilterScreen(
                     item {
                         Text(stringResource(R.string.install_status), fontWeight = FontWeight.SemiBold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(stringResource(R.string.all)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.installed)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_installed)) })
+                            FilterChip(selected = pendingFilter.installStatus == InstallStatusFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(installStatus = InstallStatusFilter.ALL) }, label = { Text(stringResource(R.string.all)) })
+                            FilterChip(selected = pendingFilter.installStatus == InstallStatusFilter.INSTALLED, onClick = { pendingFilter = pendingFilter.copy(installStatus = InstallStatusFilter.INSTALLED) }, label = { Text(context.getString(R.string.installed)) })
+                            FilterChip(selected = pendingFilter.installStatus == InstallStatusFilter.NOT_INSTALLED, onClick = { pendingFilter = pendingFilter.copy(installStatus = InstallStatusFilter.NOT_INSTALLED) }, label = { Text(context.getString(R.string.not_installed)) })
                         }
                     }
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
