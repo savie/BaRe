@@ -678,7 +678,7 @@ fun AppsFilterScreen(
                         DestructiveAppAction.CLEAR_DATA ->
                             runRootActionOrFallback(target, AppActionBehavior::clearData)
                         DestructiveAppAction.UNINSTALL ->
-                            runRootActionOrFallback(target, AppActionBehavior::uninstallWithSystemFallback) {
+                            runRootActionOrFallback(target, { packageName -> AppActionBehavior.uninstallWithSystemFallback(context, packageName) }) {
                                 launchSystemUninstall(target)
                             }
                     }
