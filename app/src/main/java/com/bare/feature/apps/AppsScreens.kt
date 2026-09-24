@@ -1514,6 +1514,11 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
+    var showMockup by remember { mutableStateOf(false) }
+
+    if (showMockup) {
+        AppMockupActionDialog("Share APK", app?.name ?: "App") { showMockup = false }
+    }
     val parts = listOf(
         context.getString(R.string.apks_part),
         context.getString(R.string.data_part),
