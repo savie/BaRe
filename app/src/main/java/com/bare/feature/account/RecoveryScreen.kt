@@ -40,9 +40,7 @@ import com.bare.app.BaReIdentity
 import com.bare.app.LocalIdentityStore
 import com.bare.recovery.BaReMasterKeyStore
 import com.bare.recovery.RecoveryArtifactRepository
-import com.bare.storage.BackupStorage
-import com.bare.storage.BackupStorageRepository
-import com.bare.storage.StorageConfigurationStore
+import com.bare.storage.BackupStorageBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,9 +56,8 @@ fun RecoveryScreen(
     val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val repository = remember(context) { RecoveryArtifactRepository(context) }
     val masterKeyStore = remember(context) { BaReMasterKeyStore(context) }
-    val storageRepository = remember(context) { BackupStorageRepository(context) }
-    val storageConfiguration = remember(context) { StorageConfigurationStore(context) }
-    val scope = rememberCoroutineScope()
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
+        val scope = rememberCoroutineScope()
 
     var status by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
@@ -119,8 +116,8 @@ fun RecoveryScreen(
             runCatching {
                 withContext(Dispatchers.IO) {
                     val payload = identityStore.toRecoveryPayload()
-                    val kind = storageConfiguration.loadKind() ?: BackupStorage.Kind.INTERNAL
-                    val recoveryDirectory = storageRepository
+                    val kind = storageBehavior.selectedKind()
+                    val recoveryDirectory = storageBehavior
                         .initialize(payload.identityId, kind)
                         .recoveryDirectory
                     try {
