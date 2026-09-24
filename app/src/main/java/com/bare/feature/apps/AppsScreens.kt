@@ -649,6 +649,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     val packageName = app?.packageName
     val repository = remember(context) { AppDetailsRepository(context) }
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
+    val shareBehavior = remember(context) { AppShareBehavior(context) }
     var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var detailReloadToken by remember(packageName) { mutableStateOf(0) }
@@ -1250,6 +1251,14 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                             backupDestination = destination
                                                             showBackupSelector = true
                                                         },
+                                                        onShare = {
+                                                            packageName?.let { currentPackage ->
+                                                                when (val result = shareBehavior.shareApk(currentPackage)) {
+                                                                    is AppShareResult.Ready -> context.startActivity(result.intent)
+                                                                    is AppShareResult.Failed -> toast(result.reason)
+                                                                }
+                                                            }
+                                                        },
                                                         onUnavailable = {
                                                             toast(context.getString(R.string.app_action_unavailable))
                                                         }
@@ -1292,6 +1301,7 @@ private fun AppStorageChip(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
     onBackup: (String) -> Unit,
+    onShare: () -> Unit,
     onUnavailable: () -> Unit,
 ) {
     var menuOpen by remember(title) { mutableStateOf(false) }
@@ -1375,7 +1385,7 @@ private fun AppStorageChip(
                     leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
                     onClick = {
                         menuOpen = false
-                        onUnavailable()
+                        onShare()
                     }
                 )
             }
@@ -1514,11 +1524,7 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
-    var showMockup by remember { mutableStateOf(false) }
-
-    if (showMockup) {
-        AppMockupActionDialog("Share APK", app?.name ?: "App") { showMockup = false }
-    }
+    val shareBehavior = remember(context) { AppShareBehavior(context) }
     val parts = listOf(
         context.getString(R.string.apks_part),
         context.getString(R.string.data_part),
@@ -1653,9 +1659,15 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
             }
             item {
                 OutlinedButton(
-                    onClick = { showMockup = true },
+                    onClick = {
+                        val packageName = app?.packageName ?: return@OutlinedButton
+                        when (val result = shareBehavior.shareApk(packageName)) {
+                            is AppShareResult.Ready -> context.startActivity(result.intent)
+                            is AppShareResult.Failed -> backupMessage = result.reason
+                        }
+                    },
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = selectedParts.contains(context.getString(R.string.apks_part))
+                    enabled = selectedParts.contains(context.getString(R.string.apks_part)) && !backupRunning
                 ) { Text(stringResource(R.string.share_apk)) }
             }
             item {
