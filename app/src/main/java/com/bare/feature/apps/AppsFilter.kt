@@ -741,11 +741,11 @@ fun AppsFilterScreen(
     }
 
     if (labelEditorApp != null) {
-        AlertDialog(
+        androidx.compose.material3.AlertDialog(
             onDismissRequest = { labelEditorApp = null },
             title = { Text(stringResource(R.string.labels)) },
             text = {
-                OutlinedTextField(
+                androidx.compose.material3.OutlinedTextField(
                     value = labelsText,
                     onValueChange = { labelsText = it },
                     modifier = Modifier.fillMaxWidth(),
