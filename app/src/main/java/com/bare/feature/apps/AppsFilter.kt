@@ -223,6 +223,9 @@ private fun AppIcon(app: AppItem, size: androidx.compose.ui.unit.Dp, showFavorit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+enum class AppsContext { LOCAL, CLOUD }
+
+@Composable
 fun AppsFilterScreen(
     onOpen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
@@ -230,6 +233,7 @@ fun AppsFilterScreen(
     filterOpen: Boolean,
     onFilterOpenChange: (Boolean) -> Unit,
     onInventoryCountChange: (Int) -> Unit,
+    appsContext: AppsContext,
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -348,7 +352,7 @@ fun AppsFilterScreen(
         if (result != AppActionBehavior.Result.UNAVAILABLE) selectedApp = null
     }
 
-    LaunchedEffect(inventory) { reloadApps() }
+    LaunchedEffect(inventory, appsContext) { if (appsContext == AppsContext.LOCAL) reloadApps() }
     LaunchedEffect(usageRepository, activeFilter.sort) { refreshUsageAccess() }
 
     DisposableEffect(lifecycleOwner, inventory, usageRepository) {
@@ -432,6 +436,31 @@ fun AppsFilterScreen(
     }
 
     Column(Modifier.fillMaxHeight()) {
+
+        if (appsContext == AppsContext.CLOUD) {
+            Card(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+            ) {
+                Column(
+                    Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.apps_cloud_synced),
+                        fontWeight = FontWeight.Bold,
+                    )
+                    Text(stringResource(R.string.apps_cloud_description))
+                    Text(
+                        stringResource(R.string.apps_context_mockup_note),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+            return
+        }
 
         LazyColumn(
             Modifier.weight(1f),
