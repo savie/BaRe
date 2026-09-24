@@ -229,6 +229,7 @@ fun LoginScreen(
     password: String,
     onPasswordChange: (String) -> Unit,
     onContinue: () -> Unit,
+    errorMessage: String? = null,
     onCreateAccount: () -> Unit,
     onForgotPassword: () -> Unit,
     onBack: () -> Unit,
@@ -242,6 +243,9 @@ fun LoginScreen(
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         FlowTopBar(title = stringResource(R.string.sign_in), onBack = onBack)
         FlowDescription(stringResource(R.string.sign_in_description))
+        if (errorMessage != null) {
+            Text(errorMessage, color = MaterialTheme.colorScheme.error)
+        }
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
@@ -283,12 +287,10 @@ fun LoginScreen(
         ) { Text(stringResource(R.string.sign_in)) }
         TextButton(onClick = onForgotPassword, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.forgot_password)) }
         OutlinedButton(
-            onClick = {
-                submitted = true
-                if (formValid) onContinue()
-            },
+            onClick = {},
             modifier = Modifier.fillMaxWidth(),
-        ) { Text(stringResource(R.string.continue_with_google)) }
+            enabled = false,
+        ) { Text(stringResource(R.string.continue_with_google_unavailable)) }
         TextButton(onClick = onCreateAccount, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_account)) }
     }
 }
@@ -336,6 +338,7 @@ fun SignUpScreen(
     onPasswordChange: (String) -> Unit,
     confirmPassword: String,
     onConfirmPasswordChange: (String) -> Unit,
+    errorMessage: String? = null,
     onCreateAccount: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -350,6 +353,9 @@ fun SignUpScreen(
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         FlowTopBar(title = stringResource(R.string.create_account), onBack = onBack)
         FlowDescription(stringResource(R.string.create_account_description))
+        if (errorMessage != null) {
+            Text(errorMessage, color = MaterialTheme.colorScheme.error)
+        }
         OutlinedTextField(
             value = email,
             onValueChange = onEmailChange,
