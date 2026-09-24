@@ -649,6 +649,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     val organizationStore = remember(context) { AppOrganizationStore(context) }
     var details by remember(packageName) { mutableStateOf<AppDetails?>(null) }
     var error by remember(packageName) { mutableStateOf<String?>(null) }
+    var detailReloadToken by remember(packageName) { mutableStateOf(0) }
     var showActions by remember { mutableStateOf(false) }
     var selectedPart by remember { mutableStateOf<String?>(null) }
     var showBackupSelector by remember { mutableStateOf(false) }
@@ -659,8 +660,17 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var labelsText by remember { mutableStateOf("") }
 
     fun reloadDetails() {
-        val currentPackage = packageName ?: return
-        runCatching { repository.load(currentPackage) }
+        detailReloadToken++
+    }
+
+    LaunchedEffect(packageName, detailReloadToken) {
+        val currentPackage = packageName ?: return@LaunchedEffect
+        val result = runCatching {
+            withContext(Dispatchers.IO) {
+                repository.load(currentPackage)
+            }
+        }
+        result
             .onSuccess { details = it; error = null }
             .onFailure { error = it.message ?: context.getString(R.string.app_detail_unavailable) }
     }
