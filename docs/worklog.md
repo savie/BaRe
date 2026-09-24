@@ -6350,3 +6350,45 @@ Contoh target:
 2. Pilih jalur refactor pertama yang paling kecil risikonya: **App Action behavior** karena sudah punya `RootAppActionExecutor` sebagai capability dasar.
 3. Setelah jalur behavior stabil, pindahkan pemanggilan Apps/App Detail/Management ke satu pintu tanpa mengubah UI lebih dulu.
 4. Baru lanjut storage-chip popup dan backup behavior setelah action path tidak lagi terduplikasi.
+
+
+## 2026-09-24 — GO: fase 1 App Action masuk satu pintu
+
+### Authorization
+- USER GO setelah audit recursive: mulai dari jalur **App Action behavior**.
+- Scope sengaja kecil: satukan jalur action Apps/App Detail tanpa mengubah layout UI.
+
+### Implementation
+- Ditambahkan `AppActionBehavior.kt` sebagai entry point behavior bersama untuk:
+  - Launch
+  - Android App Info
+  - Play Store
+  - Disable
+  - Enable
+  - Force stop
+  - Clear data
+  - Uninstall + system fallback
+  - Battery optimization
+- `RootAppActionExecutor` tetap menjadi capability root di bawah behavior layer. Tidak dipindahkan atau digandakan.
+- `AppDetailScreen` sekarang memanggil `AppActionBehavior` untuk action di atas dan hanya menangani presentasi hasil/reload UI.
+- `AppsFilterScreen` sekarang memakai `AppActionBehavior` untuk action package yang sama, termasuk uninstall/system fallback dan battery optimization.
+- UI/layout tidak dirombak pada fase ini.
+
+### Truth
+- Source change: **APPLIED**.
+- Shared behavior entry point: **VERIFIED dari source**.
+- Root capability tetap satu: **VERIFIED**.
+- Apps + App Detail sekarang melewati behavior yang sama untuk action package utama: **VERIFIED dari source**.
+- Runtime: **UNVERIFIED**.
+- CI/build setelah perubahan: **PENDING / UNVERIFIED**.
+
+### Catatan desain
+- Wrapper kecil di UI masih ada sebagai adapter untuk state seperti selectedApp/reload/toast. Ini belum dianggap final behavior layer.
+- Tidak memaksa semua UI callback masuk ke satu class besar.
+- App Management masih belum dipindahkan karena action di screen tersebut saat ini masih mockup; akan disentuh setelah behavior path nyata diverifikasi.
+
+### Next
+1. CI/build pada branch `v1.0/rebaseline`.
+2. Jika green, runtime test action dari Apps dan App Detail.
+3. Setelah behavior path terbukti, lanjutkan organization action (favorite/labels/blacklist) ke satu behavior.
+4. Baru kemudian rapikan inventory/reload agar tidak setiap screen memuat ulang repository sendiri.
