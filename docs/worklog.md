@@ -3583,3 +3583,36 @@ User authorized continuing the Date issue and External Data investigation. User 
 - Date runtime: **NOT VERIFIED**.
 - External Data runtime measurement: **NOT VERIFIED**.
 - External Data backup runtime: **NOT VERIFIED**.
+
+
+## 2026-09-24 — GO: Apps 3-dot Label action
+
+### Authorization / scope
+- User explicitly authorized continuing the remaining **Label mockup in the Apps-tab three-dot actions sheet**.
+- The E2E test itself was intentionally deferred so Date + External Data + Apps 3-dot Label can be retested together on the next build.
+- App Detail Label flow remains the existing functional reference for this behavior.
+
+### Inspect
+- AppsFilterScreen three-dot action "Set app labels" previously closed the actions sheet, opened the selected app, and routed to Screen.MANAGEMENT.
+- AppOrganizationBehavior already provides labels() and setLabels() backed by AppOrganizationStore.
+- AppDetailScreen already has a working Label editor using a comma-separated text field and the same organization store.
+
+### Implementation
+- 278a0e57f35218e3b5831e76b01c62c8dfa1c705 — fix(apps): wire three-dot label action to editor
+- Apps three-dot "Set app labels" now opens a local Label editor directly instead of routing to the Management mockup.
+- Existing labels are prefilled.
+- Labels are saved through AppOrganizationBehavior.setLabels() using the same comma-separated semantics as App Detail.
+- Saving reloads the Apps inventory so label-backed filters/badges can observe the updated state.
+- No new persistence model, backend, or provider was introduced.
+
+### Verification
+- Source update: **COMMITTED** on v1.0/rebaseline.
+- CI for this new commit: **PENDING / UNVERIFIED** at time of recording.
+- Device/runtime E2E: **NOT RUN by intent**, deferred for combined retest with Date + External Data.
+
+### Next
+- Verify CI/build for 278a0e57.
+- Then run one combined device E2E pass covering:
+  1. Install Date / Update Date;
+  2. WhatsApp External Data;
+  3. Apps-tab three-dot → Set app labels → edit/save/reopen/filter behavior.
