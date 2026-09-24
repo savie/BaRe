@@ -267,14 +267,6 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                                 style = MaterialTheme.typography.labelSmall,
                             )
                             Text(
-                                stringResource(
-                                    R.string.last_used_at,
-                                    app.lastUsedTime?.let { formatRelativeTime(context, it) }
-                                        ?: stringResource(R.string.usage_unavailable),
-                                ),
-                                style = MaterialTheme.typography.labelSmall,
-                            )
-                            Text(
                                 stringResource(R.string.backup_never),
                                 style = MaterialTheme.typography.labelSmall,
                                 maxLines = 1,
@@ -1265,14 +1257,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     stringResource(
                                         R.string.installed_at,
                                         formatRelativeTime(context, appDetails.firstInstallTime),
-                                    ),
-                                    style = MaterialTheme.typography.bodySmall,
-                                )
-                                Text(
-                                    stringResource(
-                                        R.string.last_used_at,
-                                        appDetails.lastUsedTime?.let { formatRelativeTime(context, it) }
-                                            ?: stringResource(R.string.usage_unavailable),
                                     ),
                                     style = MaterialTheme.typography.bodySmall,
                                 )
