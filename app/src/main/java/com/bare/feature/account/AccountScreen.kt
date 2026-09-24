@@ -32,6 +32,7 @@ fun AccountScreen(
     onOpen: (Screen) -> Unit,
     identityType: IdentityType = IdentityType.LOCAL,
     accountEmail: String = "",
+    onAccountAction: () -> Unit = {},
 ) {
     val context = LocalContext.current
     var showAboutDialog by remember { mutableStateOf(false) }
@@ -59,6 +60,7 @@ fun AccountScreen(
                 } else {
                     stringResource(R.string.connect_account)
                 },
+                onAction = onAccountAction,
             )
         }
         item {
@@ -97,6 +99,7 @@ private fun AccountCard(
     detail: String,
     device: String,
     actionLabel: String,
+    onAction: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -143,9 +146,8 @@ private fun AccountCard(
                 }
             }
             OutlinedButton(
-                onClick = {},
+                onClick = onAction,
                 shape = RoundedCornerShape(24.dp),
-                enabled = false,
             ) {
                 Text(actionLabel)
             }
