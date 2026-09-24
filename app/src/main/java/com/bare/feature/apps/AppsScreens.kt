@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -651,6 +652,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var detailReloadToken by remember(packageName) { mutableStateOf(0) }
     var showActions by remember { mutableStateOf(false) }
+    var batteryOptimized by remember(packageName) { mutableStateOf(false) }
     var selectedPart by remember { mutableStateOf<String?>(null) }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
@@ -1082,8 +1084,110 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                         }
                                         DropdownMenu(
                                             expanded = showActions,
-                                            onDismissRequest = { showActions = false }
+                                            onDismissRequest = { showActions = false },
+                                            modifier = Modifier.width(340.dp)
                                         ) {
+                                            LaunchedEffect(showActions, appDetails.packageName) {
+                                                if (showActions) {
+                                                    batteryOptimized = runCatching {
+                                                        context.getSystemService(PowerManager::class.java)
+                                                            ?.isIgnoringBatteryOptimizations(appDetails.packageName) == true
+                                                    }.getOrDefault(false)
+                                                }
+                                            }
+
+                                            Row(
+                                                Modifier
+                                                    .fillMaxWidth()
+                                                    .horizontalScroll(rememberScrollState())
+                                                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                            ) {
+                                                if (appDetails.isEnabled) {
+                                                    FilledTonalButton(
+                                                        onClick = {
+                                                            showActions = false
+                                                            confirmAction = context.getString(R.string.disable)
+                                                        },
+                                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                        shape = RoundedCornerShape(24.dp)
+                                                    ) {
+                                                        Icon(Icons.Default.VisibilityOff, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                        Spacer(Modifier.width(6.dp))
+                                                        Text(stringResource(R.string.disable), maxLines = 1)
+                                                    }
+                                                } else {
+                                                    FilledTonalButton(
+                                                        onClick = {
+                                                            showActions = false
+                                                            confirmAction = context.getString(R.string.enable)
+                                                        },
+                                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                        shape = RoundedCornerShape(24.dp)
+                                                    ) {
+                                                        Icon(Icons.Default.Visibility, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                        Spacer(Modifier.width(6.dp))
+                                                        Text(stringResource(R.string.enable), maxLines = 1)
+                                                    }
+                                                }
+                                                FilledTonalButton(
+                                                    onClick = {
+                                                        showActions = false
+                                                        confirmAction = context.getString(R.string.force_stop)
+                                                    },
+                                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                    shape = RoundedCornerShape(24.dp)
+                                                ) {
+                                                    Icon(Icons.Default.Stop, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                    Spacer(Modifier.width(6.dp))
+                                                    Text(stringResource(R.string.force_stop), maxLines = 1)
+                                                }
+                                                FilledTonalButton(
+                                                    onClick = {
+                                                        showActions = false
+                                                        confirmAction = context.getString(R.string.clear_data)
+                                                    },
+                                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                    shape = RoundedCornerShape(24.dp)
+                                                ) {
+                                                    Icon(Icons.Default.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                    Spacer(Modifier.width(6.dp))
+                                                    Text(stringResource(R.string.clear_data), maxLines = 1)
+                                                }
+                                                FilledTonalButton(
+                                                    onClick = { showActions = false; openPlayStore() },
+                                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                    shape = RoundedCornerShape(24.dp)
+                                                ) {
+                                                    Icon(Icons.Default.ShoppingBag, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                    Spacer(Modifier.width(6.dp))
+                                                    Text(stringResource(R.string.play_store), maxLines = 1)
+                                                }
+                                                FilledTonalButton(
+                                                    onClick = { showActions = false; openAppInfo() },
+                                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                    shape = RoundedCornerShape(24.dp)
+                                                ) {
+                                                    Icon(Icons.Default.Info, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                    Spacer(Modifier.width(6.dp))
+                                                    Text("App info", maxLines = 1)
+                                                }
+                                                FilledTonalButton(
+                                                    onClick = {
+                                                        showActions = false
+                                                        toast(context.getString(R.string.app_action_unavailable))
+                                                    },
+                                                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                                                    shape = RoundedCornerShape(24.dp)
+                                                ) {
+                                                    Icon(Icons.Default.Share, contentDescription = null, modifier = Modifier.size(18.dp))
+                                                    Spacer(Modifier.width(6.dp))
+                                                    Text(stringResource(R.string.share_apk), maxLines = 1)
+                                                }
+                                            }
+
+                                            HorizontalDivider()
+
                                             DropdownMenuItem(
                                                 text = { Text(stringResource(R.string.favorites)) },
                                                 leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) },
@@ -1098,7 +1202,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 }
                                             )
                                             DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.labels)) },
+                                                text = { Text("Set app labels") },
                                                 leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
                                                 onClick = {
                                                     showActions = false
@@ -1107,7 +1211,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 }
                                             )
                                             DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.blacklist)) },
+                                                text = { Text("Add to blacklist") },
                                                 leadingIcon = { Icon(Icons.Default.Block, contentDescription = null) },
                                                 onClick = {
                                                     showActions = false
@@ -1120,52 +1224,33 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 }
                                             )
                                             DropdownMenuItem(
-                                                text = { Text(if (appDetails.isEnabled) stringResource(R.string.disable) else stringResource(R.string.enable)) },
-                                                leadingIcon = { Icon(Icons.Default.VisibilityOff, contentDescription = null) },
-                                                onClick = {
-                                                    showActions = false
-                                                    confirmAction = if (appDetails.isEnabled) context.getString(R.string.disable) else context.getString(R.string.enable)
-                                                }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.force_stop)) },
-                                                leadingIcon = { Icon(Icons.Default.Stop, contentDescription = null) },
-                                                onClick = {
-                                                    showActions = false
-                                                    confirmAction = context.getString(R.string.force_stop)
-                                                }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.clear_data)) },
-                                                leadingIcon = { Icon(Icons.Default.DeleteSweep, contentDescription = null) },
-                                                onClick = {
-                                                    showActions = false
-                                                    confirmAction = context.getString(R.string.clear_data)
-                                                }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.play_store)) },
-                                                leadingIcon = { Icon(Icons.Default.ShoppingBag, contentDescription = null) },
-                                                onClick = { showActions = false; openPlayStore() }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.android_app_info)) },
-                                                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
-                                                onClick = { showActions = false; openAppInfo() }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.share_apk)) },
-                                                leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
-                                                onClick = { showActions = false; toast(context.getString(R.string.app_action_unavailable)) }
-                                            )
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.battery_optimization)) },
+                                                text = {
+                                                    Column {
+                                                        Text(stringResource(R.string.battery_optimization))
+                                                        Text(
+                                                            if (batteryOptimized) "Optimized" else "Not optimized",
+                                                            style = MaterialTheme.typography.bodySmall,
+                                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                        )
+                                                    }
+                                                },
                                                 leadingIcon = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
+                                                trailingIcon = {
+                                                    Switch(
+                                                        checked = batteryOptimized,
+                                                        onCheckedChange = { enabled ->
+                                                            batteryOptimized = enabled
+                                                            requestBatteryOptimization(enabled)
+                                                        }
+                                                    )
+                                                },
                                                 onClick = {
-                                                    showActions = false
-                                                    requestBatteryOptimization(true)
+                                                    val enabled = !batteryOptimized
+                                                    batteryOptimized = enabled
+                                                    requestBatteryOptimization(enabled)
                                                 }
                                             )
+                                            HorizontalDivider()
                                             DropdownMenuItem(
                                                 text = { Text(stringResource(R.string.add_to_home_screen)) },
                                                 leadingIcon = { Icon(Icons.Default.Home, contentDescription = null) },
