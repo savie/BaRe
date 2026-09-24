@@ -825,7 +825,7 @@ private fun AppsContextHeader(
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.local_apps)) },
                             leadingIcon = if (source == AppsSource.LOCAL) {
-                                { Text("✓", fontWeight = FontWeight.Bold) }
+                                { Text(stringResource(R.string.selected_mark), fontWeight = FontWeight.Bold) }
                             } else null,
                             onClick = { onSourceMenuOpenChange(false) },
                         )
