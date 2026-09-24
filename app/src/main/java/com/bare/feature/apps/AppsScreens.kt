@@ -1650,7 +1650,7 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                             backupRunning = false
                             backupMessage = when (result) {
                                 is AppBackupResult.Completed ->
-                                    "Backup completed for ${result.parts.joinToString { it.name }}: ${result.files.size} file(s)."
+                                    stringResource(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size)
                                 is AppBackupResult.Unsupported -> result.reason
                                 is AppBackupResult.Failed -> result.reason
                             }
@@ -1732,7 +1732,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
     var favorite by remember(app?.packageName) { mutableStateOf(app?.packageName?.let(organizationStore::isFavorite) == true) }
     var labelsText by remember(app?.packageName) { mutableStateOf(app?.packageName?.let { organizationStore.labels(it).joinToString(", ") }.orEmpty()) }
 
-    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
 
     Scaffold(
         topBar = {
@@ -1790,7 +1790,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
 @Composable
 fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf<String?>(null) }
-    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -1813,7 +1813,7 @@ fun AppDiagnosticsScreen(app: AppItem?, onBack: () -> Unit) {
 @Composable
 fun AppRestoreScreen(app: AppItem?, onBack: () -> Unit) {
     var showMockup by remember { mutableStateOf<String?>(null) }
-    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -1845,7 +1845,7 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
     var strategy by remember { mutableStateOf(stringResource(R.string.single)) }
     var showMockup by remember { mutableStateOf<String?>(null) }
 
-    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: "App") { showMockup = null }
+    if (showMockup != null) AppMockupActionDialog(showMockup!!, app?.name ?: stringResource(R.string.app_fallback)) { showMockup = null }
 
     Scaffold(
         topBar = {
