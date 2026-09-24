@@ -66,6 +66,8 @@ data class AppItem(
     val latestBackupTime: Long? = null,
     val hasOlderBackupApk: Boolean = false,
     val hasNewerBackupApk: Boolean = false,
+    val hasProtectedBackup: Boolean = false,
+    val hasBackupNotes: Boolean = false,
     val icon: Drawable? = null,
 )
 
