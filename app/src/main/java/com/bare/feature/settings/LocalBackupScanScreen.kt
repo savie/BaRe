@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bare.R
-import com.bare.storage.BackupStorageRepository
+import com.bare.storage.BackupStorageBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -19,10 +19,10 @@ import kotlinx.coroutines.withContext
 @Composable
 fun LocalBackupScanScreen(identityId: String?, onBack: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val repository = remember(context) { BackupStorageRepository(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     var locations by remember { mutableStateOf(emptyList<String>()) }
     LaunchedEffect(identityId) {
-        if (!identityId.isNullOrBlank()) locations = withContext(Dispatchers.IO) { repository.localBackupLocations(identityId) }
+        if (!identityId.isNullOrBlank()) locations = withContext(Dispatchers.IO) { storageBehavior.localBackupLocations(identityId) }
     }
     Scaffold(topBar = {
         TopAppBar(title = { Text(stringResource(R.string.settings_lab_scan_local_backups)) }, navigationIcon = {
