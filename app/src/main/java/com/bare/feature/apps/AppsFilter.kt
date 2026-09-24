@@ -537,8 +537,8 @@ fun AppsFilterScreen(
                                 Text(
                                     when (activeFilter.sort) {
                                         SortOption.NAME -> context.getString(R.string.no_backup_on_device)
-                                        SortOption.INSTALL_DATE -> app.firstInstallTime?.let { context.getString(R.string.installed_at, formatRelativeTime(context, it)) } ?: context.getString(R.string.install_date_unavailable)
-                                        SortOption.UPDATE_DATE -> app.lastUpdateTime?.let { context.getString(R.string.last_updated_at, formatRelativeTime(context, it)) } ?: context.getString(R.string.update_date_unavailable)
+                                        SortOption.INSTALL_DATE -> app.firstInstallTime?.let { context.getString(R.string.installed_at, formatPackageRelativeTime(context, it)) } ?: context.getString(R.string.install_date_unavailable)
+                                        SortOption.UPDATE_DATE -> app.lastUpdateTime?.let { context.getString(R.string.last_updated_at, formatPackageRelativeTime(context, it)) } ?: context.getString(R.string.update_date_unavailable)
                                         SortOption.BACKUP_DATE -> context.getString(R.string.no_backup_on_device)
                                         SortOption.BACKUP_SIZE -> context.getString(R.string.no_backup_on_device)
                                         SortOption.DATE_USED -> lastUsedTimes[app.packageName]?.let { context.getString(R.string.last_used_at, formatRelativeTime(context, it)) } ?: context.getString(R.string.usage_unavailable)
