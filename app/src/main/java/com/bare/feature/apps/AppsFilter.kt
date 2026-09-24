@@ -103,6 +103,7 @@ private enum class MultipleBackupFilter { ALL, MULTIPLE }
 private enum class BackupApkRelationFilter { ALL, OLDER, NEWER }
 private enum class BackupMetadataFilter { ALL, PROTECTED, WITH_NOTES }
 private enum class InstallStatusFilter { ALL, INSTALLED, NOT_INSTALLED }
+private enum class CloudSyncFilter { ALL, SYNCED, NOT_SYNCED }
 private enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
 private enum class BlacklistMode { HIDE, APK_ONLY }
 private enum class DestructiveAppAction { DISABLE, FORCE_STOP, CLEAR_DATA, UNINSTALL }
@@ -128,6 +129,7 @@ private data class AppsFilterState(
     val backupApkRelation: BackupApkRelationFilter = BackupApkRelationFilter.ALL,
     val backupMetadata: BackupMetadataFilter = BackupMetadataFilter.ALL,
     val installStatus: InstallStatusFilter = InstallStatusFilter.ALL,
+    val cloudSync: CloudSyncFilter = CloudSyncFilter.ALL,
     val favorite: FavoriteFilter = FavoriteFilter.ALL,
     val label: LabelFilter = LabelFilter.ALL,
     val selectedLabels: Set<String> = emptySet(),
@@ -147,6 +149,7 @@ private fun loadPersistedFilterState(store: AppFilterStateStore): AppsFilterStat
         backupApkRelation = runCatching { BackupApkRelationFilter.valueOf(saved.backupApkRelation) }.getOrDefault(BackupApkRelationFilter.ALL),
         backupMetadata = runCatching { BackupMetadataFilter.valueOf(saved.backupMetadata) }.getOrDefault(BackupMetadataFilter.ALL),
         installStatus = runCatching { InstallStatusFilter.valueOf(saved.installStatus) }.getOrDefault(InstallStatusFilter.ALL),
+        cloudSync = runCatching { CloudSyncFilter.valueOf(saved.cloudSync) }.getOrDefault(CloudSyncFilter.ALL),
         favorite = runCatching { FavoriteFilter.valueOf(saved.favorite) }.getOrDefault(FavoriteFilter.ALL),
         label = runCatching { LabelFilter.valueOf(saved.label) }.getOrDefault(LabelFilter.ALL),
         selectedLabels = saved.selectedLabels.toSet(),
@@ -167,6 +170,7 @@ private fun persistFilterState(store: AppFilterStateStore, state: AppsFilterStat
             backupApkRelation = state.backupApkRelation.name,
             backupMetadata = state.backupMetadata.name,
             installStatus = state.installStatus.name,
+            cloudSync = state.cloudSync.name,
             favorite = state.favorite.name,
             label = state.label.name,
             selectedLabels = state.selectedLabels,
@@ -351,6 +355,7 @@ fun AppsFilterScreen(
                 }
             }
             .filter { app -> when (activeFilter.installStatus) { InstallStatusFilter.ALL -> true; InstallStatusFilter.INSTALLED -> app.isInstalled; InstallStatusFilter.NOT_INSTALLED -> !app.isInstalled } }
+            .filter { app -> when (activeFilter.cloudSync) { CloudSyncFilter.ALL -> true; CloudSyncFilter.SYNCED -> app.cloudSyncState == CloudSyncState.SYNCED; CloudSyncFilter.NOT_SYNCED -> app.cloudSyncState == CloudSyncState.NOT_SYNCED } }
             .filter { app -> when (activeFilter.enabled) { EnabledFilter.ALL -> true; EnabledFilter.ENABLED -> app.isEnabled; EnabledFilter.DISABLED -> !app.isEnabled } }
             .filter { app -> when (activeFilter.googlePlay) { GooglePlayFilter.ALL -> true; GooglePlayFilter.GOOGLE_PLAY -> app.installedFromGooglePlay == true; GooglePlayFilter.NOT_GOOGLE_PLAY -> app.installedFromGooglePlay == false } }
             .filter { app -> when (activeFilter.backupStatus) { BackupStatusFilter.ALL -> true; BackupStatusFilter.BACKED_UP -> app.backupCount > 0; BackupStatusFilter.NOT_BACKED_UP -> app.backupCount == 0 } }
@@ -980,10 +985,25 @@ fun AppsFilterScreen(
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
                     item {
                         Text(stringResource(R.string.cloud_sync), fontWeight = FontWeight.SemiBold)
+                        val cloudStateAvailable = apps.any { it.cloudSyncState == CloudSyncState.SYNCED || it.cloudSyncState == CloudSyncState.NOT_SYNCED }
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(stringResource(R.string.all)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.synced)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_synced)) })
+                            FilterChip(
+                                selected = pendingFilter.cloudSync == CloudSyncFilter.ALL,
+                                onClick = { pendingFilter = pendingFilter.copy(cloudSync = CloudSyncFilter.ALL) },
+                                label = { Text(stringResource(R.string.all)) },
+                            )
+                            FilterChip(
+                                enabled = cloudStateAvailable,
+                                selected = pendingFilter.cloudSync == CloudSyncFilter.SYNCED,
+                                onClick = { pendingFilter = pendingFilter.copy(cloudSync = CloudSyncFilter.SYNCED) },
+                                label = { Text(context.getString(R.string.synced)) },
+                            )
+                            FilterChip(
+                                enabled = cloudStateAvailable,
+                                selected = pendingFilter.cloudSync == CloudSyncFilter.NOT_SYNCED,
+                                onClick = { pendingFilter = pendingFilter.copy(cloudSync = CloudSyncFilter.NOT_SYNCED) },
+                                label = { Text(context.getString(R.string.not_synced)) },
+                            )
                         }
                     }
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
