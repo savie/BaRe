@@ -61,6 +61,8 @@ class InstalledAppRepository(private val context: Context) {
                     latestBackupTime = backupMetadata.latestTime,
                     hasOlderBackupApk = backupMetadata.hasOlderApk,
                     hasNewerBackupApk = backupMetadata.hasNewerApk,
+                    hasProtectedBackup = backupMetadata.hasProtectedBackup,
+                    hasBackupNotes = backupMetadata.hasBackupNotes,
                     icon = runCatching {
                         packageManager.getApplicationIcon(info.packageName)
                     }.getOrNull(),
@@ -77,17 +79,21 @@ class InstalledAppRepository(private val context: Context) {
         val latestTime: Long?,
         val hasOlderApk: Boolean,
         val hasNewerApk: Boolean,
+        val hasProtectedBackup: Boolean,
+        val hasBackupNotes: Boolean,
     )
 
     private fun backupMetadata(locations: List<String>, packageName: String, installedVersionCode: Long?): BackupMetadata {
         val versionDirectories = locations
             .map { File(it, "apps/$packageName") }
             .flatMap { root -> root.listFiles()?.filter { it.isDirectory }.orEmpty() }
-        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null, false, false)
+        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null, false, false, false, false)
         var size = 0L
         var latest: Long? = null
         var hasOlderApk = false
         var hasNewerApk = false
+        var hasProtectedBackup = false
+        var hasBackupNotes = false
         versionDirectories.forEach { directory ->
             val versionCode = directory.name.toLongOrNull()
             val containsApk = directory.walkTopDown().any { it.isFile && it.extension.equals("apk", ignoreCase = true) }
@@ -95,13 +101,18 @@ class InstalledAppRepository(private val context: Context) {
                 if (versionCode < installedVersionCode) hasOlderApk = true
                 if (versionCode > installedVersionCode) hasNewerApk = true
             }
+            AppBackupMetadata.read(directory)?.let { metadata ->
+                if (metadata.protectedBackup) hasProtectedBackup = true
+                if (metadata.hasNote()) hasBackupNotes = true
+                if (metadata.backupTime > 0L && (latest == null || metadata.backupTime > latest!!)) latest = metadata.backupTime
+            }
             directory.walkTopDown().forEach { file ->
                 if (file.isFile) size += file.length().coerceAtLeast(0L)
                 val modified = file.lastModified()
                 if (modified > 0L && (latest == null || modified > latest!!)) latest = modified
             }
         }
-        return BackupMetadata(versionDirectories.size, size, latest, hasOlderApk, hasNewerApk)
+        return BackupMetadata(versionDirectories.size, size, latest, hasOlderApk, hasNewerApk, hasProtectedBackup, hasBackupNotes)
     }
 
     private data class AppStorageStats(
