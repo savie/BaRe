@@ -121,6 +121,35 @@ private data class AppsFilterState(
     val selectedLabels: Set<String> = emptySet(),
 )
 
+private fun loadPersistedFilterState(store: AppFilterStateStore): AppsFilterState {
+    val saved = store.load()
+    return AppsFilterState(
+        sort = runCatching { SortOption.valueOf(saved.sort) }.getOrDefault(SortOption.NAME),
+        descending = saved.descending,
+        appType = runCatching { AppTypeFilter.valueOf(saved.appType) }.getOrDefault(AppTypeFilter.ALL),
+        enabled = runCatching { EnabledFilter.valueOf(saved.enabled) }.getOrDefault(EnabledFilter.ALL),
+        googlePlay = runCatching { GooglePlayFilter.valueOf(saved.googlePlay) }.getOrDefault(GooglePlayFilter.ALL),
+        favorite = runCatching { FavoriteFilter.valueOf(saved.favorite) }.getOrDefault(FavoriteFilter.ALL),
+        label = runCatching { LabelFilter.valueOf(saved.label) }.getOrDefault(LabelFilter.ALL),
+        selectedLabels = saved.selectedLabels.toSet(),
+    )
+}
+
+private fun persistFilterState(store: AppFilterStateStore, state: AppsFilterState) {
+    store.save(
+        AppFilterStateStore.SavedState(
+            sort = state.sort.name,
+            descending = state.descending,
+            appType = state.appType.name,
+            enabled = state.enabled.name,
+            googlePlay = state.googlePlay.name,
+            favorite = state.favorite.name,
+            label = state.label.name,
+            selectedLabels = state.selectedLabels,
+        ),
+    )
+}
+
 private fun Drawable.toAppImageBitmap(sizePx: Int = 96): androidx.compose.ui.graphics.ImageBitmap {
     val bitmap = Bitmap.createBitmap(sizePx, sizePx, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
@@ -179,6 +208,7 @@ fun AppsFilterScreen(
     val inventory = remember(context) { AppInventoryBehavior(context) }
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
+    val filterStateStore = remember(context) { AppFilterStateStore(context) }
     val cachedApps = remember { inventory.cached() }
     var apps by remember { mutableStateOf(cachedApps) }
     var appsLoading by remember { mutableStateOf(cachedApps.isEmpty()) }
@@ -191,7 +221,7 @@ fun AppsFilterScreen(
     var blacklistTarget by remember { mutableStateOf<AppItem?>(null) }
     var destructiveAction by remember { mutableStateOf<DestructiveAppAction?>(null) }
     var blacklistMode by remember { mutableStateOf(BlacklistMode.HIDE) }
-    var activeFilter by remember { mutableStateOf(AppsFilterState()) }
+    var activeFilter by remember(filterStateStore) { mutableStateOf(loadPersistedFilterState(filterStateStore)) }
     var pendingFilter by remember(activeFilter, filterOpen) { mutableStateOf(activeFilter) }
     fun reloadApps() {
         if (apps.isEmpty()) appsLoading = true
@@ -736,7 +766,11 @@ fun AppsFilterScreen(
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                     TextButton(onClick = { onFilterOpenChange(false) }) { Text(stringResource(R.string.close_mark)) }
                     Spacer(Modifier.weight(1f))
-                    Button(onClick = { activeFilter = pendingFilter; onFilterOpenChange(false) }) { Text(stringResource(R.string.apps_apply_options)) }
+                    Button(onClick = {
+                        activeFilter = pendingFilter
+                        persistFilterState(filterStateStore, pendingFilter)
+                        onFilterOpenChange(false)
+                    }) { Text(stringResource(R.string.apps_apply_options)) }
                 }
                 HorizontalDivider()
                 LazyColumn(Modifier.fillMaxWidth(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
