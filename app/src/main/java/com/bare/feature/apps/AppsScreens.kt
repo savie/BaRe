@@ -980,8 +980,68 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 navigationIcon = {
                     IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
                 },
-                actions = {
-                    Box {
+            )
+        }
+    ) { padding ->
+        when {
+            error != null -> Column(
+                Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(stringResource(R.string.app_detail_unavailable), fontWeight = FontWeight.Bold)
+                Text(error!!, color = MaterialTheme.colorScheme.error)
+            }
+            details == null -> Box(
+                Modifier.fillMaxSize().padding(padding),
+                contentAlignment = Alignment.Center
+            ) { CircularProgressIndicator() }
+            else -> {
+                val item = details!!
+                val cacheBytes = item.cacheSizeBytes ?: 0L
+                val appSizeBytes = item.apkSizeBytes +
+                    (item.dataSizeBytes ?: 0L) +
+                    (item.externalDataSizeBytes ?: 0L) +
+                    (item.mediaSizeBytes ?: 0L)
+                val parts = buildList {
+                    add(Triple(context.getString(R.string.apks_part), formatAppSize(item.apkSizeBytes), Icons.Default.Android))
+                    add(Triple(context.getString(R.string.data_part), formatAppSize(item.dataSizeBytes ?: 0L), Icons.Default.Storage))
+                    if ((item.externalDataSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.external_data_part), formatAppSize(item.externalDataSizeBytes!!), Icons.Default.Folder))
+                    if ((item.mediaSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.media_part), formatAppSize(item.mediaSizeBytes!!), Icons.Default.PhotoLibrary))
+                }
+
+                LazyColumn(
+                    Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    contentPadding = PaddingValues(bottom = 16.dp)
+                ) {
+                    item {
+                        Card(Modifier.fillMaxWidth()) {
+                            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Box(Modifier.fillMaxWidth()) {
+                                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
+                                Row(verticalAlignment = Alignment.Top) {
+                                    AndroidView(
+                                        factory = { android.widget.ImageView(it) },
+                                        update = { imageView ->
+                                            imageView.setImageDrawable(app?.icon)
+                                            imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                        },
+                                        modifier = Modifier.size(40.dp)
+                                    )
+                                    Spacer(Modifier.width(12.dp))
+                                    Column(Modifier.weight(1f)) {
+                                        Text(item.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                        Text(item.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                                        Text(
+                                            stringResource(R.string.app_version_value, item.versionName ?: stringResource(R.string.unknown_value), item.versionCode?.toString() ?: stringResource(R.string.unknown_value)),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+
+                                    }
+                                    Box(Modifier.align(Alignment.TopEnd)) {
+                                                            Box {
                         IconButton(enabled = details != null, onClick = { showActions = true }) {
                             Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.app_actions))
                         }
@@ -1083,63 +1143,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                             )
                         }
                     }
-                }
-            )
-        }
-    ) { padding ->
-        when {
-            error != null -> Column(
-                Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                Text(stringResource(R.string.app_detail_unavailable), fontWeight = FontWeight.Bold)
-                Text(error!!, color = MaterialTheme.colorScheme.error)
-            }
-            details == null -> Box(
-                Modifier.fillMaxSize().padding(padding),
-                contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator() }
-            else -> {
-                val item = details!!
-                val cacheBytes = item.cacheSizeBytes ?: 0L
-                val appSizeBytes = item.apkSizeBytes +
-                    (item.dataSizeBytes ?: 0L) +
-                    (item.externalDataSizeBytes ?: 0L) +
-                    (item.mediaSizeBytes ?: 0L)
-                val parts = buildList {
-                    add(Triple(context.getString(R.string.apks_part), formatAppSize(item.apkSizeBytes), Icons.Default.Android))
-                    add(Triple(context.getString(R.string.data_part), formatAppSize(item.dataSizeBytes ?: 0L), Icons.Default.Storage))
-                    if ((item.externalDataSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.external_data_part), formatAppSize(item.externalDataSizeBytes!!), Icons.Default.Folder))
-                    if ((item.mediaSizeBytes ?: 0L) > 0L) add(Triple(context.getString(R.string.media_part), formatAppSize(item.mediaSizeBytes!!), Icons.Default.PhotoLibrary))
-                }
-
-                LazyColumn(
-                    Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp)
-                ) {
-                    item {
-                        Card(Modifier.fillMaxWidth()) {
-                            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                Row(verticalAlignment = Alignment.Top) {
-                                    AndroidView(
-                                        factory = { android.widget.ImageView(it) },
-                                        update = { imageView ->
-                                            imageView.setImageDrawable(app?.icon)
-                                            imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
-                                        },
-                                        modifier = Modifier.size(40.dp)
-                                    )
-                                    Spacer(Modifier.width(12.dp))
-                                    Column(Modifier.weight(1f)) {
-                                        Text(item.packageName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                        Text(item.name, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                                        Text(
-                                            stringResource(R.string.app_version_value, item.versionName ?: stringResource(R.string.unknown_value), item.versionCode?.toString() ?: stringResource(R.string.unknown_value)),
-                                            style = MaterialTheme.typography.bodyMedium,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
                                     }
+                                }
                                 }
                                 Row(
                                     Modifier.horizontalScroll(rememberScrollState()),
