@@ -1,6 +1,7 @@
 package com.bare.feature.apps
 
 import android.content.Context
+import android.content.ContentValues
 import com.bare.feature.account.AccountLocalDatabase
 
 /**
@@ -8,6 +9,10 @@ import com.bare.feature.account.AccountLocalDatabase
  *
  * The store is deliberately provider-neutral. A future cloud provider can
  * populate these records without changing Apps inventory/filter semantics.
+ *
+ * The metadata shape follows the relevant Reference CloudMetadata semantics
+ * (package/version/backup time/installer/protection/note) without copying the
+ * Reference storage format or transport implementation.
  */
 class CloudSyncMetadataStore(context: Context) {
     private val database = AccountLocalDatabase(context)
@@ -17,6 +22,13 @@ class CloudSyncMetadataStore(context: Context) {
         val packageName: String,
         val state: CloudSyncState,
         val updatedAt: Long,
+        val versionCode: Long? = null,
+        val versionName: String? = null,
+        val installerPackage: String? = null,
+        val backupCount: Int = 0,
+        val latestBackupTime: Long? = null,
+        val protectedBackup: Boolean = false,
+        val note: String? = null,
     )
 
     fun hasProviderMetadata(accountId: String?): Boolean {
@@ -30,17 +42,39 @@ class CloudSyncMetadataStore(context: Context) {
     }
 
     fun loadStates(accountId: String?): Map<String, CloudSyncState> {
-        if (accountId.isNullOrBlank()) return emptyMap()
-        val result = linkedMapOf<String, CloudSyncState>()
+        return loadRecords(accountId).associate { it.packageName to it.state }
+    }
+
+    fun loadRecords(accountId: String?): List<Record> {
+        if (accountId.isNullOrBlank()) return emptyList()
+        val result = mutableListOf<Record>()
         database.readableDatabase.rawQuery(
-            "SELECT package_name, sync_state FROM cloud_sync_metadata WHERE account_id = ?",
+            """
+            SELECT account_id, package_name, sync_state, updated_at,
+                   version_code, version_name, installer_package,
+                   backup_count, latest_backup_time, protected_backup, note
+            FROM cloud_sync_metadata
+            WHERE account_id = ?
+            """.trimIndent(),
             arrayOf(accountId),
         ).use { cursor ->
             while (cursor.moveToNext()) {
                 val state = runCatching {
-                    CloudSyncState.valueOf(cursor.getString(1))
+                    CloudSyncState.valueOf(cursor.getString(2))
                 }.getOrDefault(CloudSyncState.UNKNOWN)
-                result[cursor.getString(0)] = state
+                result += Record(
+                    accountId = cursor.getString(0),
+                    packageName = cursor.getString(1),
+                    state = state,
+                    updatedAt = cursor.getLong(3),
+                    versionCode = cursor.getLongOrNull(4),
+                    versionName = cursor.getStringOrNull(5),
+                    installerPackage = cursor.getStringOrNull(6),
+                    backupCount = cursor.getInt(7),
+                    latestBackupTime = cursor.getLongOrNull(8),
+                    protectedBackup = cursor.getInt(9) != 0,
+                    note = cursor.getStringOrNull(10),
+                )
             }
         }
         return result
@@ -51,27 +85,73 @@ class CloudSyncMetadataStore(context: Context) {
      * This method only records verified provider results; it does not perform
      * network I/O or infer a cloud state from local backup directories.
      */
-    fun replaceStates(accountId: String, states: Map<String, CloudSyncState>, updatedAt: Long = System.currentTimeMillis()) {
+    fun replaceRecords(
+        accountId: String,
+        records: Collection<Record>,
+    ) {
         require(accountId.isNotBlank()) { "accountId is required" }
-        database.writableDatabase.beginTransaction()
+        val db = database.writableDatabase
+        db.beginTransaction()
         try {
-            database.writableDatabase.delete(
+            db.delete(
                 "cloud_sync_metadata",
                 "account_id = ?",
                 arrayOf(accountId),
             )
-            states.forEach { (packageName, state) ->
-                database.writableDatabase.execSQL(
-                    """
-                    INSERT INTO cloud_sync_metadata(account_id, package_name, sync_state, updated_at)
-                    VALUES (?, ?, ?, ?)
-                    """.trimIndent(),
-                    arrayOf(accountId, packageName, state.name, updatedAt),
-                )
+            records.forEach { record ->
+                require(record.accountId == accountId) { "record account mismatch" }
+                val values = ContentValues().apply {
+                    put("account_id", accountId)
+                    put("package_name", record.packageName)
+                    put("sync_state", record.state.name)
+                    put("updated_at", record.updatedAt)
+                    putNullable("version_code", record.versionCode)
+                    putNullable("version_name", record.versionName)
+                    putNullable("installer_package", record.installerPackage)
+                    put("backup_count", record.backupCount)
+                    putNullable("latest_backup_time", record.latestBackupTime)
+                    put("protected_backup", if (record.protectedBackup) 1 else 0)
+                    putNullable("note", record.note)
+                }
+                db.insertOrThrow("cloud_sync_metadata", null, values)
             }
-            database.writableDatabase.setTransactionSuccessful()
+            db.setTransactionSuccessful()
         } finally {
-            database.writableDatabase.endTransaction()
+            db.endTransaction()
         }
+    }
+
+    fun replaceStates(
+        accountId: String,
+        states: Map<String, CloudSyncState>,
+        updatedAt: Long = System.currentTimeMillis(),
+    ) {
+        replaceRecords(
+            accountId,
+            states.map { (packageName, state) ->
+                Record(
+                    accountId = accountId,
+                    packageName = packageName,
+                    state = state,
+                    updatedAt = updatedAt,
+                )
+            },
+        )
+    }
+
+    private fun ContentValues.putNullable(key: String, value: Long?) {
+        if (value == null) putNull(key) else put(key, value)
+    }
+
+    private fun ContentValues.putNullable(key: String, value: String?) {
+        if (value == null) putNull(key) else put(key, value)
+    }
+
+    private fun android.database.Cursor.getLongOrNull(index: Int): Long? {
+        return if (isNull(index)) null else getLong(index)
+    }
+
+    private fun android.database.Cursor.getStringOrNull(index: Int): String? {
+        return if (isNull(index)) null else getString(index)
     }
 }
