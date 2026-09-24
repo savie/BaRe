@@ -686,4 +686,10 @@
     <string name="backup_history">Backup history</string>
     <string name="view_backup_versions">Device/cloud versions and backup state</string>
 
+    <string name="root_required">Root access diperlukan untuk aksi ini</string>
+    <string name="action_completed">Aksi berhasil</string>
+    <string name="action_failed">Aksi gagal</string>
+    <string name="app_action_unavailable">Aksi tidak tersedia</string>
+    <string name="battery_optimization_managed_by_system">Pengaturan ini dikelola oleh sistem</string>
+    <string name="confirm">Konfirmasi</string>
 </resources>
