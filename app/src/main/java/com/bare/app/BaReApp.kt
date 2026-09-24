@@ -186,7 +186,7 @@ fun BaReApp() {
     var resetEmail by remember { mutableStateOf("") }
     var showLocalConfirmation by remember { mutableStateOf(false) }
     var initialIdentityPending by remember(restoredIdentity) { mutableStateOf(restoredIdentity == null) }
-    var identityType by remember(restoredIdentity) { mutableStateOf(restoredIdentity?.type) }
+    var identityType by remember(restoredIdentity, activeAccount) { mutableStateOf(activeAccount?.let { IdentityType.ACCOUNT } ?: restoredIdentity?.type) }
     var returnToCloudAfterAuth by remember { mutableStateOf(false) }
     var returnToAppAfterFlow by remember { mutableStateOf(false) }
     var accountAuthError by remember { mutableStateOf<String?>(null) }
