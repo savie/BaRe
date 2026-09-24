@@ -775,13 +775,13 @@ private fun AppsContextHeader(
                         .height(56.dp),
                     singleLine = true,
                     maxLines = 1,
-                    placeholder = { Text("Search apps or package") },
+                    placeholder = { Text(stringResource(R.string.search_apps_or_package)) },
                     leadingIcon = {
                         Icon(Icons.Outlined.Search, contentDescription = null)
                     },
                     trailingIcon = {
                         IconButton(onClick = onCloseSearch) {
-                            Icon(Icons.Default.Clear, contentDescription = "Close search")
+                            Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.close_search))
                         }
                     },
                 )
@@ -797,7 +797,7 @@ private fun AppsContextHeader(
                         ) {
                             Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                                 Text(
-                                    text = if (source == AppsSource.LOCAL) "LOCAL APPS" else "CLOUD SYNCED APPS",
+                                    text = if (source == AppsSource.LOCAL) stringResource(R.string.local_apps).uppercase() else stringResource(R.string.cloud_synced_apps).uppercase(),
                                     style = MaterialTheme.typography.titleSmall,
                                     fontWeight = FontWeight.Bold,
                                     maxLines = 1,
@@ -805,12 +805,12 @@ private fun AppsContextHeader(
                                 )
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
-                                    contentDescription = "Select app source",
+                                    contentDescription = stringResource(R.string.select_app_source),
                                     modifier = Modifier.size(18.dp),
                                 )
                             }
                             Text(
-                                text = if (source == AppsSource.LOCAL) "$appCount apps" else "Cloud inventory unavailable",
+                                text = if (source == AppsSource.LOCAL) context.getString(R.string.apps_count, appCount) else stringResource(R.string.cloud_inventory_unavailable),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 maxLines = 1,
@@ -823,14 +823,14 @@ private fun AppsContextHeader(
                         onDismissRequest = { onSourceMenuOpenChange(false) },
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Local apps") },
+                            text = { Text(stringResource(R.string.local_apps)) },
                             leadingIcon = if (source == AppsSource.LOCAL) {
                                 { Text("✓", fontWeight = FontWeight.Bold) }
                             } else null,
                             onClick = { onSourceMenuOpenChange(false) },
                         )
                         DropdownMenuItem(
-                            text = { Text("Cloud synced apps — not wired yet") },
+                            text = { Text(stringResource(R.string.cloud_synced_apps_not_wired)) },
                             enabled = false,
                             onClick = {},
                         )
