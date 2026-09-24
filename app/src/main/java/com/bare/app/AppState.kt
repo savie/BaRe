@@ -62,6 +62,7 @@ data class AppItem(
     val totalSizeBytes: Long? = null,
     val installedFromGooglePlay: Boolean? = null,
     val isInstalled: Boolean = true,
+    val cloudSyncState: com.bare.feature.apps.CloudSyncState = com.bare.feature.apps.CloudSyncState.UNKNOWN,
     val backupCount: Int = 0,
     val backupSizeBytes: Long? = null,
     val latestBackupTime: Long? = null,
