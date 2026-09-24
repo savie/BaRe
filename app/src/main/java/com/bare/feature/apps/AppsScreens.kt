@@ -818,6 +818,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                     when (action) {
                         context.getString(R.string.disable) ->
                             runRootAction { RootAppActionExecutor.disable(it) }
+                        context.getString(R.string.enable) ->
+                            runRootAction { RootAppActionExecutor.enable(it) }
                         context.getString(R.string.force_stop) ->
                             runRootAction { RootAppActionExecutor.forceStop(it) }
                         context.getString(R.string.clear_data) ->
@@ -992,10 +994,12 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) },
                                 onClick = {
                                     showActions = false
-                                    val currentPackage = details?.packageName ?: return@DropdownMenuItem
-                                    val next = !organizationStore.isFavorite(currentPackage)
-                                    organizationStore.setFavorite(currentPackage, next)
-                                    toast(context.getString(R.string.action_completed))
+                                    val currentPackage = details?.packageName
+                                    if (currentPackage != null) {
+                                        val next = !organizationStore.isFavorite(currentPackage)
+                                        organizationStore.setFavorite(currentPackage, next)
+                                        toast(context.getString(R.string.action_completed))
+                                    }
                                 }
                             )
                             DropdownMenuItem(
@@ -1012,10 +1016,12 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                 leadingIcon = { Icon(Icons.Default.Block, contentDescription = null) },
                                 onClick = {
                                     showActions = false
-                                    val currentPackage = details?.packageName ?: return@DropdownMenuItem
-                                    val next = !organizationStore.isBlacklisted(currentPackage)
-                                    organizationStore.setBlacklisted(currentPackage, next)
-                                    toast(context.getString(R.string.action_completed))
+                                    val currentPackage = details?.packageName
+                                    if (currentPackage != null) {
+                                        val next = !organizationStore.isBlacklisted(currentPackage)
+                                        organizationStore.setBlacklisted(currentPackage, next)
+                                        toast(context.getString(R.string.action_completed))
+                                    }
                                 }
                             )
                             DropdownMenuItem(
