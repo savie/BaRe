@@ -395,7 +395,15 @@ fun AppsFilterScreen(
             SortOption.NAME -> filtered.sortedWith(if (activeFilter.descending) compareByDescending<AppItem> { it.name.lowercase() } else compareBy<AppItem> { it.name.lowercase() })
             SortOption.INSTALL_DATE -> filtered.sortedWith(compareBy<AppItem> { it.firstInstallTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
             SortOption.UPDATE_DATE -> filtered.sortedWith(compareBy<AppItem> { it.lastUpdateTime ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
-            SortOption.APP_SIZE -> filtered.sortedWith(compareBy<AppItem> { it.apkSizeBytes ?: Long.MAX_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.APP_SIZE -> filtered.sortedWith(Comparator { a, b ->
+                val aInstalled = a.isInstalled
+                val bInstalled = b.isInstalled
+                if (aInstalled != bInstalled) return@Comparator if (aInstalled) -1 else 1
+                val aSize = a.totalSizeBytes ?: 0L
+                val bSize = b.totalSizeBytes ?: 0L
+                val cmp = aSize.compareTo(bSize)
+                if (activeFilter.descending) -cmp else cmp
+            })
             SortOption.BACKUP_DATE -> filtered.sortedWith(Comparator { a, b ->
                 val aHas = a.latestBackupTime != null
                 val bHas = b.latestBackupTime != null
@@ -533,7 +541,7 @@ fun AppsFilterScreen(
                                         SortOption.BACKUP_DATE -> context.getString(R.string.no_backup_on_device)
                                         SortOption.BACKUP_SIZE -> context.getString(R.string.no_backup_on_device)
                                         SortOption.DATE_USED -> lastUsedTimes[app.packageName]?.let { context.getString(R.string.last_used_at, formatRelativeTime(context, it)) } ?: context.getString(R.string.usage_unavailable)
-                                        SortOption.APP_SIZE -> context.getString(R.string.app_size_value, app.size)
+                                        SortOption.APP_SIZE -> app.totalSizeBytes?.takeIf { it > 0L }?.let { context.getString(R.string.app_size_value, formatSize(context, it)) } ?: context.getString(R.string.unknown_size)
                                     },
                                     style = MaterialTheme.typography.labelSmall,
                                 )
@@ -1108,6 +1116,17 @@ fun AppsFilterScreen(
             }
         }
     }
+}
+private fun formatSize(context: Context, bytes: Long): String {
+    if (bytes <= 0L) return context.getString(R.string.unknown_size)
+    val units = arrayOf("B", "KB", "MB", "GB", "TB")
+    var value = bytes.toDouble()
+    var index = 0
+    while (value >= 1024 && index < units.lastIndex) {
+        value /= 1024
+        index++
+    }
+    return if (index == 0) bytes.toString() + " " + units[index] else "%.1f %s".format(value, units[index])
 }
 @Composable
 private fun AppActionChip(text: String, icon: ImageVector, enabled: Boolean = true, onClick: () -> Unit) {
