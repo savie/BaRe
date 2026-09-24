@@ -258,7 +258,7 @@ fun AppsFilterScreen(
         Thread {
             val result = runCatching {
                 val loadedApps = inventory.load()
-                val usage = if (usageRepository.hasUsageAccess()) {
+                val usage = if (usageRepository.ensureUsageAccess()) {
                     usageRepository.loadLastUsed(
                         loadedApps.asSequence()
                             .filter { it.isInstalled }
@@ -290,7 +290,7 @@ fun AppsFilterScreen(
     }
 
     fun refreshUsageAccess() {
-        usageAccess = usageRepository.hasUsageAccess()
+        usageAccess = usageRepository.ensureUsageAccess()
         lastUsedTimes = if (usageAccess) {
             usageRepository.loadLastUsed(
                 apps.asSequence()
