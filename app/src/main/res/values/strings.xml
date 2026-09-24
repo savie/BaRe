@@ -888,4 +888,6 @@
     <string name="sort_descending">↓</string>
     <string name="sort_ascending">↑</string>
     <string name="backup_completed">Backup completed for %1$s: %2$d file(s).</string>
+    <string name="labels_prefix">Labels: %1$s</string>
+    <string name="labels_prefix_plain">Labels:</string>
 </resources>
