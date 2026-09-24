@@ -261,6 +261,15 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 - **FIX IMPLEMENTED:** App Detail top action now calls `AppShareBehavior.shareApk(...)`, with failure surfaced as the actual reason; the action is enabled when package details are available.
 - **BUILD/DEVICE:** No new APK build/runtime verification was available in this environment after the fix. The screenshots therefore remain evidence of the pre-fix installed build/runtime state.
 
+## 10.2 APPS LOCAL/CLOUD HEADER FIX — 2026-09-25
+
+- **OBSERVED:** previous Local/Cloud implementation was placed in `AppsScreens.kt`, while the actual runtime Apps surface is `AppsFilterScreen` hosted by `BaReApp`.
+- **ROOT CAUSE:** the installed/runtime Apps header is rendered by `AppsContextHeader`; therefore the previous change could not affect the screenshoted Apps surface.
+- **FIX IMPLEMENTED:** Local/Cloud state is now owned by the Apps shell, rendered as tabs directly under the Apps header/sub-header, and passed into `AppsFilterScreen`.
+- **LOCAL:** existing inventory/filter flow remains active.
+- **CLOUD:** opens a dedicated Cloud context surface with the existing provider-boundary status; no cloud provider/backend is falsely claimed.
+- **VERIFICATION:** source structure/balance checked; APK build/device verification still pending.
+
 ## 10. NEXT ACTION
 
 1. **Jangan ulang audit reference umum.** Section 26 + section 8 sekarang menjadi baseline Apps reference reconciliation.
