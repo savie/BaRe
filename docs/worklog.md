@@ -2937,3 +2937,30 @@ RecoveryBehavior
 - `9090d053fa5590c71752c2798cd15c99fdd9b749` — `refactor(recovery): remove screen storage dependency`
 - `35b546cf3a0a7623ea807d2649018728bd21dbe3` — `refactor(recovery): preserve recovery failure semantics`
 - `48ec41b87ec4e5326e7fa1188cb281c9b6db71a1` — `refactor(recovery): map recovery behavior failures`
+
+
+## P4 — Hardcoded UI strings → strings.xml
+
+**Status:** Implemented; CI pending.
+
+- Input gate: Build #872 pada commit `48ec41b` dilaporkan user sebagai green dan P4 diotorisasi.
+- Scope: `AppsFilter`, `AppsScreens`, `BaReApp`, `HomeScreen`, `OnboardingScreens`.
+- Change: hardcoded UI strings dipindahkan ke `app/src/main/res/values/strings.xml`; string produk memakai bahasa produk dan tidak menambahkan nama produk ketika kalimat tidak membutuhkannya.
+- Product identity dipertahankan tepat: `app_name = B Λ R ☰`, `app_text = BΛR☰`.
+- Static verification: seluruh referensi `R.string.*` pada lima target tidak memiliki resource yang hilang; audit pola hardcoded UI pada lima target tidak menemukan literal UI tersisa.
+- CI: Build #886 untuk HEAD `21e144a` terdeteksi **in progress**; belum boleh diklaim green.
+- E2E/runtime: tidak dijalankan sesuai scope P4.
+
+Commits P4:
+- `05277c1` — refactor(i18n): move P4 app UI strings to resources
+- `679d69f` — refactor(i18n): extract hardcoded app UI strings
+- `fb0975e` — refactor(i18n): extract hardcoded app UI strings
+- `8cbfcde` — refactor(i18n): extract hardcoded app UI strings
+- `7c575cc` — refactor(i18n): extract hardcoded app UI strings
+- `0970ee2` — refactor(i18n): extract Apps screen UI strings
+- `9fc649d` — refactor(i18n): add shared UI marks
+- `454438e` — refactor(i18n): finish P4 UI string extraction
+- `2833502` — refactor(i18n): add app filter label resources
+- `244e417` — refactor(i18n): localize app filter labels and sort titles
+- `0edb0b2` — refactor(i18n): add backup completion message
+- `21e144a` — refactor(i18n): extract remaining Apps runtime strings
