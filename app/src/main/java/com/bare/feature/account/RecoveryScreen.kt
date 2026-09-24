@@ -37,7 +37,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.bare.R
 import com.bare.app.BaReIdentity
-import com.bare.app.LocalIdentityStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -49,7 +48,6 @@ fun RecoveryScreen(
     onBack: () -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val identityStore = remember(context) { LocalIdentityStore(context) }
     val recoveryPasswordStore = remember(context) { RecoveryPasswordStore(context) }
     val recoveryBehavior = remember(context) { RecoveryBehavior(context) }
     val scope = rememberCoroutineScope()
