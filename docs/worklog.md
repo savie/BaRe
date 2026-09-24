@@ -6601,3 +6601,47 @@ Contoh target:
 1. Tunggu/cek CI untuk commit terakhir.
 2. Jika green, runtime visual test App Detail storage chip: popup anchored dan 5 item.
 3. Jika popup sesuai, lanjut audit/implementasi backup behavior tanpa membuat mockup dianggap execution.
+
+
+## 2026-09-24 — GO: mulai backup behavior nyata pada jalur APK lokal
+
+### Authorization
+- User memberi GO setelah menyatakan CI/E2E green pada checkpoint sebelumnya.
+- Berdasarkan worklog, storage-chip popup sudah stabil secara source dan next scope adalah audit/implementasi backup behavior tanpa menganggap mockup sebagai execution.
+
+### Inspection
+- AppBackupScreen sebelumnya hanya membuka AppMockupActionDialog; tidak ada execution backend.
+- BackupStorageRepository sudah menyediakan initialization storage lokal berbasis identity.
+- RootCapabilityProvider sudah memiliki capability dari source untuk copyPackageApks(packageName, destinationDir).
+- Belum ada capability backend pada source untuk cloud backup, app-data backup, external-data backup, atau media backup.
+
+### Implementation
+- Ditambahkan AppBackupBehavior.kt sebagai entry point backup behavior.
+- Jalur nyata yang diaktifkan hanya:
+  - destination DEVICE;
+  - part APK;
+  - identity lokal;
+  - initialization storage internal;
+  - copy base/split APK melalui RootCapabilityProvider.copyPackageApks().
+- Cloud dan Device + Cloud tetap Unsupported.
+- Data/external data/media tetap Unsupported sampai capability backend tersedia.
+- AppBackupScreen sekarang memanggil behavior melalui coroutine IO dan menampilkan hasil execution/error; tombol Backup tidak lagi membuka mockup.
+- Share APK masih berada pada jalur mockup karena capability share artifact belum dibuat.
+
+### Truth / Verification
+- Shared backup behavior entry point: APPLIED / VERIFIED dari source.
+- APK local execution routing: VERIFIED dari source.
+- Existing root APK-copy capability reused; tidak digandakan: VERIFIED dari source.
+- Cloud/data/external/media execution: NOT IMPLEMENTED / explicit Unsupported.
+- Runtime backup execution: UNVERIFIED.
+- CI setelah backup behavior change: PENDING / UNVERIFIED.
+
+### Source
+- 129fd19e23fdfcb69c2423e4e729893bad26883b — add local APK backup behavior.
+- 49a2a70c83b9e36cf85b6b79e53276b49458c994 — fix APK backup path interpolation.
+- 0f3c5a2056d196adae1b119d1d11cd6a41d2ebc9 — route AppBackupScreen through behavior.
+
+### Next
+1. CI/build untuk backup behavior.
+2. Jika green, runtime test APK-only local backup pada device yang memenuhi root/storage prerequisite.
+3. Setelah APK path terbukti, audit capability data/external/media sebelum implementasi; jangan membuat fake executor.
