@@ -229,10 +229,10 @@ fun AppsFilterScreen(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val repository = remember(context) { InstalledAppRepository(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
-    val cachedApps = remember { InstalledAppRepository.cached() }
+    val cachedApps = remember { inventory.cached() }
     var apps by remember { mutableStateOf(cachedApps) }
     var appsLoading by remember { mutableStateOf(cachedApps.isEmpty()) }
     var error by remember { mutableStateOf<String?>(null) }
@@ -249,7 +249,7 @@ fun AppsFilterScreen(
     fun reloadApps() {
         if (apps.isEmpty()) appsLoading = true
         Thread {
-            val result = runCatching { repository.load() }
+            val result = runCatching { inventory.load() }
             Handler(Looper.getMainLooper()).post {
                 result
                     .onSuccess {
@@ -317,10 +317,10 @@ fun AppsFilterScreen(
         if (result != AppActionBehavior.Result.UNAVAILABLE) selectedApp = null
     }
 
-    LaunchedEffect(repository) { reloadApps() }
+    LaunchedEffect(inventory) { reloadApps() }
     LaunchedEffect(usageRepository) { refreshUsageAccess() }
 
-    DisposableEffect(lifecycleOwner, repository, usageRepository) {
+    DisposableEffect(lifecycleOwner, inventory, usageRepository) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 reloadApps()
