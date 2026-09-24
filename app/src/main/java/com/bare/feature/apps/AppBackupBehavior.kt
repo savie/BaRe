@@ -112,6 +112,24 @@ class AppBackupBehavior(private val context: Context) {
             }
         }
 
+        val metadataResult = runCatching {
+            val installerPackage = runCatching {
+                context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
+            }.getOrNull()
+            AppBackupMetadata(
+                packageName = request.packageName,
+                versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
+                versionName = packageInfo.versionName,
+                backupTime = System.currentTimeMillis(),
+                installerPackage = installerPackage,
+            ).writeAtomically(backupDirectory)
+        }
+        if (metadataResult.isFailure) {
+            return AppBackupResult.Failed(
+                "Backup metadata commit failed: ${metadataResult.exceptionOrNull()?.message ?: "unknown error"}"
+            )
+        }
+
         return AppBackupResult.Completed(files, completedParts)
     }
 
