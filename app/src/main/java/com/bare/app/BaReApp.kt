@@ -76,6 +76,7 @@ import com.bare.feature.apps.AppManagementScreen
 import com.bare.feature.apps.AppDiagnosticsScreen
 import com.bare.feature.apps.AppRestoreScreen
 import com.bare.feature.apps.AppsFilterScreen
+import com.bare.feature.apps.AppsContext
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsQuickActionsScreen
 import com.bare.feature.apps.AppLabelsScreen
@@ -544,6 +545,7 @@ private fun MainShell(
     }
     var appsMenuOpen by remember { mutableStateOf(false) }
     var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
+    var appsContext by remember { mutableStateOf(AppsContext.LOCAL) }
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     val bottomBarScrollConnection = remember {
@@ -660,6 +662,8 @@ private fun MainShell(
             if (appsSelected) {
                 AppsContextHeader(
                     appCount = appsInventoryCount,
+                    appsContext = appsContext,
+                    onAppsContextChange = { appsContext = it },
                     searchOpen = appsSearchOpen,
                     searchQuery = appsSearchQuery,
                     onSearchQueryChange = onAppsSearchQueryChange,
@@ -697,6 +701,7 @@ private fun MainShell(
                     filterOpen = appsFilterOpen,
                     onFilterOpenChange = onAppsFilterOpenChange,
                     onInventoryCountChange = { appsInventoryCount = it },
+                    appsContext = appsContext,
                 )
                 Tab.SCHEDULES -> SchedulesScreen(onOpenScreen)
                 Tab.ACCOUNT -> AccountScreen(
@@ -801,6 +806,8 @@ private fun MainShell(
 @Composable
 private fun AppsContextHeader(
     appCount: Int,
+    appsContext: AppsContext,
+    onAppsContextChange: (AppsContext) -> Unit,
     searchOpen: Boolean,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
@@ -857,13 +864,21 @@ private fun AppsContextHeader(
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = stringResource(R.string.local_apps).uppercase(),
+                        text = if (appsContext == AppsContext.LOCAL) {
+                            stringResource(R.string.local_apps).uppercase()
+                        } else {
+                            stringResource(R.string.apps_cloud_synced).uppercase()
+                        },
                         style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                     )
                     Text(
-                        text = stringResource(R.string.apps_count, appCount),
+                        text = if (appsContext == AppsContext.LOCAL) {
+                            stringResource(R.string.apps_count, appCount)
+                        } else {
+                            stringResource(R.string.apps_cloud_description)
+                        },
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
@@ -891,6 +906,28 @@ private fun AppsContextHeader(
             }
         }
 
+        HorizontalDivider()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(44.dp)
+                .padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+        ) {
+            FilterChip(
+                selected = appsContext == AppsContext.LOCAL,
+                onClick = { onAppsContextChange(AppsContext.LOCAL) },
+                label = { Text(stringResource(R.string.apps_local), maxLines = 1) },
+                modifier = Modifier.weight(1f),
+            )
+            FilterChip(
+                selected = appsContext == AppsContext.CLOUD,
+                onClick = { onAppsContextChange(AppsContext.CLOUD) },
+                label = { Text(stringResource(R.string.apps_cloud_synced), maxLines = 1) },
+                modifier = Modifier.weight(1f),
+            )
+        }
         HorizontalDivider()
     }
 }
