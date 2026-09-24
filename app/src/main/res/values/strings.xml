@@ -717,6 +717,7 @@
     <string name="labelled">Labelled</string>
     <string name="unlabelled">Unlabelled</string>
     <string name="system_apps">System apps</string>
+    <string name="system_app_filters">System app filters</string>
     <string name="installed_from_google_play">Installed from Google Play</string>
     <string name="not_installed_from_google_play">Not installed from Google Play</string>
     <string name="backed_up">Backed up</string>
