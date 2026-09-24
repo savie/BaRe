@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.bare.R
-import com.bare.storage.BackupStorageRepository
+import com.bare.storage.BackupStorageBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,7 +27,7 @@ fun ManageSpaceScreen(
     onBack: () -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val repository = remember(context) { BackupStorageRepository(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     val scope = rememberCoroutineScope()
 
     var backupBytes by remember { mutableStateOf(0L) }
@@ -42,7 +42,7 @@ fun ManageSpaceScreen(
         val id = identityId
         scope.launch {
             val result = withContext(Dispatchers.IO) {
-                val backup = if (id != null) repository.localBackupSize(id) else 0L
+                val backup = if (id != null) storageBehavior.localBackupSize(id) else 0L
                 val recovery = if (id != null) repository.localRecoverySize(id) else 0L
                 val backupLocations = if (id != null) repository.localBackupLocations(id) else emptyList()
                 Quad(
