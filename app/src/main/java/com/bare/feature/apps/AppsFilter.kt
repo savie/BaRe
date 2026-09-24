@@ -254,12 +254,27 @@ fun AppsFilterScreen(
     fun reloadApps() {
         if (apps.isEmpty()) appsLoading = true
         Thread {
-            val result = runCatching { inventory.load() }
+            val result = runCatching {
+                val loadedApps = inventory.load()
+                val usage = if (usageRepository.hasUsageAccess()) {
+                    usageRepository.loadLastUsed(
+                        loadedApps.asSequence()
+                            .filter { it.isInstalled }
+                            .map { it.packageName }
+                            .toSet(),
+                    )
+                } else {
+                    emptyMap()
+                }
+                loadedApps to usage
+            }
             Handler(Looper.getMainLooper()).post {
                 result
-                    .onSuccess {
-                        apps = it
-                        onInventoryCountChange(it.size)
+                    .onSuccess { (loadedApps, usage) ->
+                        apps = loadedApps
+                        usageAccess = usageRepository.hasUsageAccess()
+                        lastUsedTimes = usage
+                        onInventoryCountChange(loadedApps.size)
                         error = null
                         appsLoading = false
                     }
@@ -274,7 +289,16 @@ fun AppsFilterScreen(
 
     fun refreshUsageAccess() {
         usageAccess = usageRepository.hasUsageAccess()
-        lastUsedTimes = if (usageAccess) usageRepository.loadLastUsed() else emptyMap()
+        lastUsedTimes = if (usageAccess) {
+            usageRepository.loadLastUsed(
+                apps.asSequence()
+                    .filter { it.isInstalled }
+                    .map { it.packageName }
+                    .toSet(),
+            )
+        } else {
+            emptyMap()
+        }
     }
 
     fun openAppInfo(app: AppItem) {
@@ -386,7 +410,14 @@ fun AppsFilterScreen(
                 val cmp = (a.backupSizeBytes ?: 0L).compareTo(b.backupSizeBytes ?: 0L)
                 if (activeFilter.descending) -cmp else cmp
             })
-            SortOption.DATE_USED -> filtered.sortedWith(compareBy<AppItem> { lastUsedTimes[it.packageName] ?: Long.MIN_VALUE }.let { c -> if (activeFilter.descending) c.reversed() else c })
+            SortOption.DATE_USED -> {
+                val comparator = Comparator<AppItem> { a, b ->
+                    val installedCompare = b.isInstalled.compareTo(a.isInstalled)
+                    if (installedCompare != 0) return@Comparator installedCompare
+                    (lastUsedTimes[a.packageName] ?: 0L).compareTo(lastUsedTimes[b.packageName] ?: 0L)
+                }
+                filtered.sortedWith(if (activeFilter.descending) comparator.reversed() else comparator)
+            }
         }
     }
 
