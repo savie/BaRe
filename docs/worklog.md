@@ -3335,3 +3335,28 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 - context.getString(R.string.account_create_failed)
 
 **VERIFICATION:** Source fix committed as d2184e8. Latest build result after this fix is still PENDING / UNVERIFIED; CI #944 remains the failing evidence for the pre-fix commit.
+
+## 2026-09-24 — A3 Account credential lifecycle hardening
+
+### Authorization
+- User said **Lanjut GO** after Android Build #945 was reported **GREEN** for commit `d2184e8a3c6439c3cd9c6e6059b8f5bf41da7ace`.
+
+### Inspect
+- `LocalAccountRepository` clears the caller-provided password on normal register/sign-in completion.
+- Validation using `require(...)` occurred before the previous clearing path, so an invalid input path could leave the supplied `CharArray` uncleared.
+- Successful sign-in deactivated and activated accounts using separate SQL statements without one transaction.
+
+### Change
+- Wrapped register/sign-in credential handling in `try/finally` so the supplied password `CharArray` is cleared on validation/error paths as well.
+- Wrapped successful sign-in active-account transition in one SQLite transaction.
+- No change to the v1.0 LOCAL provider boundary, credential schema, or cloud/backend claims.
+
+### Verification
+- Source change committed as `674b7a849879eebf29ec2b407e5abb4026200772`.
+- CI/build for this new commit: **PENDING / UNVERIFIED**.
+- Runtime Account flow: **NOT RUN**; no device/runtime evidence was supplied for this iteration.
+- Android Build #945 remains **VERIFIED GREEN** evidence for the preceding `d2184e8` fix, not for this new hardening commit.
+
+### Next
+- Verify CI for `674b7a8`.
+- If green, continue Account/cloud dependency work without claiming cloud authentication.
