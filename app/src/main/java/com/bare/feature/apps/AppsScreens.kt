@@ -653,7 +653,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var detailReloadToken by remember(packageName) { mutableStateOf(0) }
     var showActions by remember { mutableStateOf(false) }
     var batteryOptimized by remember(packageName) { mutableStateOf(false) }
-    var selectedPart by remember { mutableStateOf<String?>(null) }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
@@ -815,51 +814,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
         )
     }
 
-    if (selectedPart != null) {
-        val part = selectedPart!!
-        ModalBottomSheet(onDismissRequest = { selectedPart = null }) {
-            Column(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 28.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Text(part, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text(
-                    stringResource(R.string.app_part_actions),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                AppActionMenuItem(stringResource(R.string.backup_to_device), Icons.Default.PhoneAndroid) {
-                    selectedPart = null
-                    backupPartNames = setOf(part)
-                    backupDestination = "Device"
-                    showBackupSelector = true
-                }
-                AppActionMenuItem(stringResource(R.string.backup_to_cloud), Icons.Default.CloudUpload) {
-                    selectedPart = null
-                    backupPartNames = setOf(part)
-                    backupDestination = "Cloud"
-                    showBackupSelector = true
-                }
-                AppActionMenuItem(stringResource(R.string.backup_to_device_cloud), Icons.Default.CloudQueue) {
-                    selectedPart = null
-                    backupPartNames = setOf(part)
-                    backupDestination = "Device + Cloud"
-                    showBackupSelector = true
-                }
-                if (part == context.getString(R.string.apks_part)) {
-                    AppActionMenuItem(stringResource(R.string.share_apk), Icons.Default.Share) {
-                        selectedPart = null
-                        toast(context.getString(R.string.app_action_unavailable))
-                    }
-                }
-                AppActionMenuItem(stringResource(R.string.delete), Icons.Default.Delete) {
-                    selectedPart = null
-                    toast(context.getString(R.string.app_action_unavailable))
-                }
-            }
-        }
-    }
-
     if (showBackupSelector && details != null) {
         val availableParts = buildList {
             add(context.getString(R.string.apks_part))
@@ -903,10 +857,11 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     context.getString(R.string.external_data_part) -> Icons.Default.Folder
                                     else -> Icons.Default.PhotoLibrary
                                 },
-                                modifier = Modifier.weight(1f),
-                                selected = part in backupPartNames
+                                modifier = Modifier.weight(1f)
                             ) {
-                                backupPartNames = if (part in backupPartNames) backupPartNames - part else backupPartNames + part
+                                backupPartNames = setOf(part)
+                                backupDestination = "Device"
+                                showBackupSelector = true
                             }
                         }
                         if (rowParts.size == 1) Spacer(Modifier.weight(1f))
@@ -1323,50 +1278,102 @@ private fun AppStorageChip(
     subtitle: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
-    selected: Boolean = false,
-    onClick: () -> Unit,
+    onBackup: (String) -> Unit,
+    onUnavailable: () -> Unit,
 ) {
-    Surface(
-        modifier
-            .height(64.dp)
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(24.dp),
-        color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-        border = androidx.compose.foundation.BorderStroke(
-            1.dp,
-            if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.55f)
-        ),
-    ) {
-        Row(
-            Modifier.fillMaxSize().padding(horizontal = 14.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+    var menuOpen by remember(title) { mutableStateOf(false) }
+
+    Box(modifier) {
+        Surface(
+            Modifier
+                .fillMaxWidth()
+                .height(64.dp)
+                .clickable { menuOpen = true },
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant,
+            border = androidx.compose.foundation.BorderStroke(
+                1.dp,
+                MaterialTheme.colorScheme.outline.copy(alpha = 0.55f)
+            ),
         ) {
-            Icon(
-                if (selected) Icons.Default.Check else icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(Modifier.width(10.dp))
-            Column(
-                Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
+            Row(
+                Modifier.fillMaxSize().padding(horizontal = 14.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    title,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(24.dp)
                 )
-                Text(
-                    subtitle,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.72f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                Spacer(Modifier.width(10.dp))
+                Column(
+                    Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        title,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.SemiBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Text(
+                        subtitle,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
+        DropdownMenu(
+            expanded = menuOpen,
+            onDismissRequest = { menuOpen = false }
+        ) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.backup_to_device)) },
+                leadingIcon = { Icon(Icons.Default.PhoneAndroid, contentDescription = null) },
+                onClick = {
+                    menuOpen = false
+                    onBackup("Device")
+                }
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.backup_to_cloud)) },
+                leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
+                onClick = {
+                    menuOpen = false
+                    onBackup("Cloud")
+                }
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.backup_to_device_cloud)) },
+                leadingIcon = { Icon(Icons.Default.CloudQueue, contentDescription = null) },
+                onClick = {
+                    menuOpen = false
+                    onBackup("Device + Cloud")
+                }
+            )
+            if (title == stringResource(R.string.apks_part)) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.share_apk)) },
+                    leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                    onClick = {
+                        menuOpen = false
+                        onUnavailable()
+                    }
                 )
             }
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.delete)) },
+                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
+                onClick = {
+                    menuOpen = false
+                    onUnavailable()
+                }
+            )
         }
     }
 }
