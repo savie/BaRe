@@ -96,7 +96,7 @@ class AppDetailsRepository(private val context: Context) {
 
     private fun directorySizeOrNull(directory: File): Long? {
         return runCatching {
-            if (!directory.exists()) return@runCatching 0L
+            if (!directory.exists()) return@runCatching null
             if (!directory.isDirectory) return@runCatching null
 
             fun sizeOf(node: File): Long? {
