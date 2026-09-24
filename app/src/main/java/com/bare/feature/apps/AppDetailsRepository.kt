@@ -96,10 +96,20 @@ class AppDetailsRepository(private val context: Context) {
 
     private fun directorySizeOrNull(directory: File): Long? {
         return runCatching {
-            if (!directory.exists() || !directory.isDirectory) return@runCatching 0L
-            directory.walkTopDown()
-                .filter { it.isFile }
-                .sumOf { it.length().coerceAtLeast(0L) }
+            if (!directory.exists()) return@runCatching 0L
+            if (!directory.isDirectory) return@runCatching null
+
+            fun sizeOf(node: File): Long? {
+                if (node.isFile) return node.length().coerceAtLeast(0L)
+                val children = node.listFiles() ?: return null
+                var total = 0L
+                for (child in children) {
+                    total += sizeOf(child) ?: return null
+                }
+                return total
+            }
+
+            sizeOf(directory)
         }.getOrNull()
     }
 }
