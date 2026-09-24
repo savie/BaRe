@@ -3411,3 +3411,34 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 ### Next
 - Runtime Account/cloud metadata ingestion requires a target provider/data source and runtime environment.
 - Until that prerequisite exists, do not fabricate a cloud provider or infer cloud state from local backups.
+
+## 2026-09-24 — A3 Date Used reference alignment — USER GO
+
+### Authorization
+- User said **GO** to inspect and implement the Reference Date used behavior.
+
+### Inspect / Reference evidence
+- docs/reference.md records **Date used** as an observed Reference sort criterion and previously marked BaRe feasibility/measurement as UNKNOWN / UNVERIFIED.
+- Decompiled Reference defpackage/iy.java uses Android UsageStatsManager for DateUsed.
+- Reference queries usage stats over the preceding **30 days**, keeps entries with lastTimeUsed > 0, and limits the result to installed apps represented by the current app list.
+- Reference DateUsed sorting compares installed state first, then the recorded lastTimeUsed; missing usage timestamps are effectively treated as zero by the Reference accessor. Descending mode reverses the resulting ordering.
+- Reference opens Android Usage Access settings when Date Used is selected without the required Usage Access capability.
+
+### Change
+- AppUsageRepository.loadLastUsed() now follows the Reference 30-day query window and accepts the installed-package set so usage data is associated only with installed apps.
+- AppsFilter now loads usage data together with inventory refresh on the background thread.
+- Date used sorting now orders installed state first and then last-use timestamp, with missing values treated as zero; descending reverses the complete comparator, matching the Reference ordering model.
+- Existing Usage Access settings routing remains in place when Date Used is selected without access.
+- No cloud/provider dependency was introduced.
+
+### Truth status
+- Reference semantics: **OBSERVED_STATIC / VERIFIED_FROM_DECOMPILED_SOURCE**.
+- Source implementation: **IMPLEMENTED** in commits 9e0642a and 6eb9062.
+- Branch HEAD: **6eb9062f1705272a876e699b64e824fa0d1f39fa**.
+- CI/build for the new commits: **PENDING / UNVERIFIED**; the GitHub connector did not return workflow runs for the commit.
+- Runtime/device behavior: **NOT RUN / UNVERIFIED**.
+
+### Next
+- Verify CI for 6eb9062.
+- If green, perform the A3 Date Used runtime verification where a device/emulator with Usage Access is available.
+- Then continue the remaining A3 gap review before entering A4 App Size semantics.
