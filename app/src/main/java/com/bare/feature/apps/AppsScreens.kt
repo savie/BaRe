@@ -367,19 +367,19 @@ fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
         topBar = { TopAppBar(title = { Text(stringResource(R.string.apps_quick_actions)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
-            item { Text(stringResource(R.string.quick_backup_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard(stringResource(R.string.backup_all_apps), stringResource(R.string.backup_installed_apps_from_device), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_all_apps) } }
-            item { QuickActionCard(stringResource(R.string.backup_pending_apps), stringResource(R.string.backup_apps_not_backed_up_yet), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_pending_apps) } }
-            item { QuickActionCard(stringResource(R.string.backup_updated_apps), stringResource(R.string.backup_apps_newer_apks), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.backup_updated_apps) } }
-            item { QuickActionCard(stringResource(R.string.redo_existing_backups), stringResource(R.string.redo_all_current_backups), stringResource(R.string.to_device), stringResource(R.string.to_cloud)) { message = context.getString(R.string.redo_existing_backups) } }
-            item { QuickActionCard(stringResource(R.string.sync_latest_device_backups), stringResource(R.string.sync_latest_backups_to_cloud)) { message = context.getString(R.string.sync_latest_device_backups) } }
-            item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.quick_restore_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary); Text(stringResource(R.string.root_or_shizuku_required), style = MaterialTheme.typography.bodySmall) }
-            item { QuickActionCard(stringResource(R.string.restore_all_apps), stringResource(R.string.restore_all_backed_up_apps), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_all_apps) } }
-            item { QuickActionCard(stringResource(R.string.restore_missing_apps), stringResource(R.string.restore_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_missing_apps) } }
-            item { QuickActionCard(stringResource(R.string.restore_new_versions), stringResource(R.string.restore_new_versions_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.restore_new_versions) } }
-            item { Spacer(Modifier.height(8.dp)); Text(stringResource(R.string.other_quick_actions), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
-            item { QuickActionCard(stringResource(R.string.delete_backups_missing_apps), stringResource(R.string.delete_backups_missing_apps_desc), stringResource(R.string.from_device), stringResource(R.string.from_cloud)) { message = context.getString(R.string.delete_backups_missing_apps) } }
-            item { QuickActionCard(stringResource(R.string.enable_disable_apps), stringResource(R.string.change_app_enabled_state)) { message = context.getString(R.string.enable_disable_apps) } }
+            item { Text(context.getString(R.string.quick_backup_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
+            item { QuickActionCard(context.getString(R.string.backup_all_apps), context.getString(R.string.backup_installed_apps_from_device), context.getString(R.string.to_device), context.getString(R.string.to_cloud)) { message = context.getString(R.string.backup_all_apps) } }
+            item { QuickActionCard(context.getString(R.string.backup_pending_apps), context.getString(R.string.backup_apps_not_backed_up_yet), context.getString(R.string.to_device), context.getString(R.string.to_cloud)) { message = context.getString(R.string.backup_pending_apps) } }
+            item { QuickActionCard(context.getString(R.string.backup_updated_apps), context.getString(R.string.backup_apps_newer_apks), context.getString(R.string.to_device), context.getString(R.string.to_cloud)) { message = context.getString(R.string.backup_updated_apps) } }
+            item { QuickActionCard(context.getString(R.string.redo_existing_backups), context.getString(R.string.redo_all_current_backups), context.getString(R.string.to_device), context.getString(R.string.to_cloud)) { message = context.getString(R.string.redo_existing_backups) } }
+            item { QuickActionCard(context.getString(R.string.sync_latest_device_backups), context.getString(R.string.sync_latest_backups_to_cloud)) { message = context.getString(R.string.sync_latest_device_backups) } }
+            item { Spacer(Modifier.height(8.dp)); Text(context.getString(R.string.quick_restore_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary); Text(context.getString(R.string.root_or_shizuku_required), style = MaterialTheme.typography.bodySmall) }
+            item { QuickActionCard(context.getString(R.string.restore_all_apps), context.getString(R.string.restore_all_backed_up_apps), context.getString(R.string.from_device), context.getString(R.string.from_cloud)) { message = context.getString(R.string.restore_all_apps) } }
+            item { QuickActionCard(context.getString(R.string.restore_missing_apps), context.getString(R.string.restore_missing_apps_desc), context.getString(R.string.from_device), context.getString(R.string.from_cloud)) { message = context.getString(R.string.restore_missing_apps) } }
+            item { QuickActionCard(context.getString(R.string.restore_new_versions), context.getString(R.string.restore_new_versions_desc), context.getString(R.string.from_device), context.getString(R.string.from_cloud)) { message = context.getString(R.string.restore_new_versions) } }
+            item { Spacer(Modifier.height(8.dp)); Text(context.getString(R.string.other_quick_actions), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
+            item { QuickActionCard(context.getString(R.string.delete_backups_missing_apps), context.getString(R.string.delete_backups_missing_apps_desc), context.getString(R.string.from_device), context.getString(R.string.from_cloud)) { message = context.getString(R.string.delete_backups_missing_apps) } }
+            item { QuickActionCard(context.getString(R.string.enable_disable_apps), context.getString(R.string.change_app_enabled_state)) { message = context.getString(R.string.enable_disable_apps) } }
         }
     }
 }
@@ -1871,7 +1871,7 @@ fun AppConfigScreen(app: AppItem?, onBack: () -> Unit) {
                 Card(Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(14.dp)) {
                         Text(stringResource(R.string.backup_parts), fontWeight = FontWeight.Bold)
-                        listOf(stringResource(R.string.apk), stringResource(R.string.split_apk), stringResource(R.string.app_data), stringResource(R.string.external_data), stringResource(R.string.expansion_obb), stringResource(R.string.media), stringResource(R.string.cache), stringResource(R.string.shared_libraries)).forEach { Text(stringResource(R.string.selected_mark) + " " + it) }
+                        listOf(context.getString(R.string.apk), context.getString(R.string.split_apk), context.getString(R.string.app_data), context.getString(R.string.external_data), context.getString(R.string.expansion_obb), context.getString(R.string.media), context.getString(R.string.cache), context.getString(R.string.shared_libraries)).forEach { Text(context.getString(R.string.selected_mark) + " " + it) }
                     }
                 }
             }
