@@ -61,7 +61,7 @@ class AppBackupBehavior(private val context: Context) {
         }
         val backupDirectory = File(
             initialization.rootDirectory,
-            "BaRe/accounts/\${storage.identityFolder(identity.identityId)}/backups/apps/\${request.packageName}/\$version"
+            "BaRe/accounts/${storage.identityFolder(identity.identityId)}/backups/apps/${request.packageName}/$version"
         )
         if (backupDirectory.exists() && !backupDirectory.deleteRecursively()) {
             return AppBackupResult.Failed("Unable to replace existing APK backup")
