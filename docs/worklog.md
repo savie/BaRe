@@ -254,6 +254,13 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 - CI/workflow untuk commit `49ae91f...`: belum tersedia pada saat pencatatan ini.
 - **Status keseluruhan:** `IMPLEMENTED / RUNTIME VERIFICATION PENDING`.
 
+## 10.1 RUNTIME FEEDBACK — 2026-09-25
+
+- **OBSERVED (user device screenshots):** App Detail action-menu `Share APK` was present but tapping it produced `Action unavailable`; the bottom-sheet `Share APK` action was also disabled. The Apps screen shown on-device did not show the newly implemented Local/Cloud sub-header tabs.
+- **ROOT CAUSE (verified in source):** the App Detail top action `Share APK` was still hard-coded to `app_action_unavailable` even though `AppShareBehavior` existed and storage-chip Share APK was wired.
+- **FIX IMPLEMENTED:** App Detail top action now calls `AppShareBehavior.shareApk(...)`, with failure surfaced as the actual reason; the action is enabled when package details are available.
+- **BUILD/DEVICE:** No new APK build/runtime verification was available in this environment after the fix. The screenshots therefore remain evidence of the pre-fix installed build/runtime state.
+
 ## 10. NEXT ACTION
 
 1. **Jangan ulang audit reference umum.** Section 26 + section 8 sekarang menjadi baseline Apps reference reconciliation.
