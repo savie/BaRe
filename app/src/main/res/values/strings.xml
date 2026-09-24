@@ -42,6 +42,9 @@
     <string name="create_account_description">Use an account to keep your setup connected across your experience.</string>
     <string name="confirm_password">Confirm password</string>
     <string name="continue_with_google">Continue with Google</string>
+    <string name="continue_with_google_unavailable">Google sign-in is not available in local Account mode.</string>
+    <string name="account_sign_in_failed">Account sign-in failed. Check the email and password.</string>
+    <string name="account_create_failed">Account could not be created. The email may already be registered.</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="no_account_prefix">Do not have an account?</string>
     <string name="already_have_account_prefix">Already have an account?</string>
