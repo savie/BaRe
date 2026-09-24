@@ -39,6 +39,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Label
 import androidx.compose.material.icons.filled.Build
@@ -816,6 +817,8 @@ private fun AppsContextHeader(
     onOpenFilter: () -> Unit,
     onOpenMenu: () -> Unit,
 ) {
+    var contextMenuOpen by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -857,32 +860,75 @@ private fun AppsContextHeader(
                     .padding(start = 12.dp, end = 4.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp),
-                    verticalArrangement = Arrangement.Center,
+                Box(
+                    modifier = Modifier.weight(1f),
                 ) {
-                    Text(
-                        text = if (appsContext == AppsContext.LOCAL) {
-                            stringResource(R.string.local_apps).uppercase()
-                        } else {
-                            stringResource(R.string.apps_cloud_synced).uppercase()
-                        },
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1,
-                    )
-                    Text(
-                        text = if (appsContext == AppsContext.LOCAL) {
-                            stringResource(R.string.apps_count, appCount)
-                        } else {
-                            stringResource(R.string.apps_cloud_description)
-                        },
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                    )
+                    Column(
+                        modifier = Modifier
+                            .clickable { contextMenuOpen = true }
+                            .padding(start = 8.dp, top = 8.dp, bottom = 8.dp),
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Row(
+                            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                        ) {
+                            Text(
+                                text = if (appsContext == AppsContext.LOCAL) {
+                                    stringResource(R.string.local_apps).uppercase()
+                                } else {
+                                    stringResource(R.string.apps_cloud_synced).uppercase()
+                                },
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                            )
+                            Icon(
+                                Icons.Default.KeyboardArrowDown,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp),
+                            )
+                        }
+                        Text(
+                            text = if (appsContext == AppsContext.LOCAL) {
+                                stringResource(R.string.apps_count, appCount)
+                            } else {
+                                stringResource(R.string.apps_cloud_description)
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = contextMenuOpen,
+                        onDismissRequest = { contextMenuOpen = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.apps_local)) },
+                            leadingIcon = {
+                                if (appsContext == AppsContext.LOCAL) {
+                                    Icon(Icons.Default.Check, contentDescription = null)
+                                }
+                            },
+                            onClick = {
+                                contextMenuOpen = false
+                                onAppsContextChange(AppsContext.LOCAL)
+                            },
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.apps_cloud_synced)) },
+                            leadingIcon = {
+                                if (appsContext == AppsContext.CLOUD) {
+                                    Icon(Icons.Default.Check, contentDescription = null)
+                                }
+                            },
+                            onClick = {
+                                contextMenuOpen = false
+                                onAppsContextChange(AppsContext.CLOUD)
+                            },
+                        )
+                    }
                 }
 
                 IconButton(onClick = onOpenSearch) {
@@ -906,28 +952,6 @@ private fun AppsContextHeader(
             }
         }
 
-        HorizontalDivider()
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(44.dp)
-                .padding(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-        ) {
-            FilterChip(
-                selected = appsContext == AppsContext.LOCAL,
-                onClick = { onAppsContextChange(AppsContext.LOCAL) },
-                label = { Text(stringResource(R.string.apps_local), maxLines = 1) },
-                modifier = Modifier.weight(1f),
-            )
-            FilterChip(
-                selected = appsContext == AppsContext.CLOUD,
-                onClick = { onAppsContextChange(AppsContext.CLOUD) },
-                label = { Text(stringResource(R.string.apps_cloud_synced), maxLines = 1) },
-                modifier = Modifier.weight(1f),
-            )
-        }
         HorizontalDivider()
     }
 }
