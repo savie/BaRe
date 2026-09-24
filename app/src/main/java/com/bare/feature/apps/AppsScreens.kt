@@ -843,7 +843,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                 availableParts.chunked(2).forEach { rowParts ->
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         rowParts.forEach { part ->
-                            AppStorageChip(
+                            AppStorageSelectionChip(
                                 title = part,
                                 subtitle = when (part) {
                                     context.getString(R.string.apks_part) -> formatAppSize(details!!.apkSizeBytes)
@@ -858,15 +858,10 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                     else -> Icons.Default.PhotoLibrary
                                 },
                                 modifier = Modifier.weight(1f),
-                                onBackup = { destination ->
-                                    backupPartNames = setOf(part)
-                                    backupDestination = destination
-                                    showBackupSelector = true
-                                },
-                                onUnavailable = {
-                                    toast(context.getString(R.string.app_action_unavailable))
-                                }
-                            )
+                                selected = part in backupPartNames
+                            ) {
+                                backupPartNames = if (part in backupPartNames) backupPartNames - part else backupPartNames + part
+                            }
                         }
                         if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                     }
@@ -1244,7 +1239,20 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                         parts.chunked(2).forEach { rowParts ->
                                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                                 rowParts.forEach { (title, subtitle, icon) ->
-                                                    AppStorageChip(title, subtitle, icon, Modifier.weight(1f)) { selectedPart = title }
+                                                    AppStorageChip(
+                                                        title = title,
+                                                        subtitle = subtitle,
+                                                        icon = icon,
+                                                        modifier = Modifier.weight(1f),
+                                                        onBackup = { destination ->
+                                                            backupPartNames = setOf(title)
+                                                            backupDestination = destination
+                                                            showBackupSelector = true
+                                                        },
+                                                        onUnavailable = {
+                                                            toast(context.getString(R.string.app_action_unavailable))
+                                                        }
+                                                    )
                                                 }
                                                 if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                                             }
@@ -1378,6 +1386,54 @@ private fun AppStorageChip(
                     onUnavailable()
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun AppStorageSelectionChip(
+    title: String,
+    subtitle: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    modifier: Modifier = Modifier,
+    selected: Boolean = false,
+    onClick: () -> Unit,
+) {
+    Surface(
+        modifier
+            .height(64.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(24.dp),
+        color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.55f)
+        ),
+    ) {
+        Row(
+            Modifier.fillMaxSize().padding(horizontal = 14.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                if (selected) Icons.Default.Check else icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(Modifier.width(10.dp))
+            Column(
+                Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(title, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         }
     }
 }
