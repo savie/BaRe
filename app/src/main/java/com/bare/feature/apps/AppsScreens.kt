@@ -457,7 +457,7 @@ fun AppLabelsScreen(onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("Create and edit custom labels", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.create_edit_labels), style = MaterialTheme.typography.bodyLarge)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     OutlinedTextField(value = newLabel, onValueChange = { newLabel = it }, modifier = Modifier.weight(1f), singleLine = true, label = { Text(stringResource(R.string.new_label)) })
                     Button(onClick = { val value = newLabel.trim(); if (value.isNotBlank()) { store.addLabel(value); newLabel = ""; refresh() } }) { Text(stringResource(R.string.add)) }
@@ -510,7 +510,7 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
-                Text("App-specific backup and restore rules", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.app_specific_backup_restore_rules), style = MaterialTheme.typography.bodyLarge)
                 Text(stringResource(R.string.configuration_backend_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             item { Button(onClick = { showCreate = true }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.create_configuration)) } }
@@ -577,7 +577,7 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
                 Spacer(Modifier.height(120.dp))
                 Icon(Icons.Default.Block, contentDescription = null, modifier = Modifier.size(72.dp), tint = MaterialTheme.colorScheme.primary)
                 Spacer(Modifier.height(20.dp))
-                Text("Hide apps or keep APK-only backup policy", style = MaterialTheme.typography.bodyLarge)
+                Text(stringResource(R.string.blacklist_policy_description), style = MaterialTheme.typography.bodyLarge)
                 Spacer(Modifier.height(16.dp))
                 Button(onClick = { draft = blacklisted; showPicker = true }) { Text(stringResource(R.string.add_apps)) }
             }
@@ -1766,7 +1766,7 @@ fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                     label = { Text(stringResource(R.string.labels)) },
-                    placeholder = { Text("e.g. Work, Media") },
+                    placeholder = { Text(stringResource(R.string.labels_placeholder)) },
                 )
                 Button(
                     onClick = {
