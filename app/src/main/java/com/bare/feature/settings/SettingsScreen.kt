@@ -30,7 +30,6 @@ import com.bare.R
 import com.bare.app.AppThemeMode
 import com.bare.app.Screen
 import com.bare.storage.BackupStorage
-import com.bare.storage.StorageConfigurationStore
 import com.bare.storage.BackupStorageBehavior
 import com.bare.feature.settings.EncryptionPasswordStore
 
@@ -52,10 +51,9 @@ fun SettingsScreen(
     var showThemeDialog by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
     var showStorageDialog by remember { mutableStateOf(false) }
-    val storageStore = remember(context) { StorageConfigurationStore(context) }
     val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
     val storageBehavior = remember(context) { BackupStorageBehavior(context) }
-    var storageKind by remember { mutableStateOf(storageStore.loadKind()) }
+    var storageKind by remember { mutableStateOf(storageBehavior.selectedKind()) }
     var storageBusy by remember { mutableStateOf(false) }
     var storageError by remember { mutableStateOf<String?>(null) }
     val scope = rememberCoroutineScope()
@@ -356,11 +354,7 @@ fun SettingsScreen(
                                 if (id != null) {
                                     scope.launch {
                                         runCatching {
-                                            initializeLocalBackupStorage(
-                                                context = context,
-                                                identityId = id,
-                                                selectedStorageKind = BackupStorage.Kind.INTERNAL,
-                                            )
+                                            storageBehavior.selectLocalStorage(id, BackupStorage.Kind.INTERNAL)
                                         }.onSuccess {
                                             storageKind = BackupStorage.Kind.INTERNAL
                                             storageBusy = false
@@ -384,11 +378,7 @@ fun SettingsScreen(
                                 if (id != null) {
                                     scope.launch {
                                         runCatching {
-                                            initializeLocalBackupStorage(
-                                                context = context,
-                                                identityId = id,
-                                                selectedStorageKind = BackupStorage.Kind.EXTERNAL,
-                                            )
+                                            storageBehavior.selectLocalStorage(id, BackupStorage.Kind.EXTERNAL)
                                         }.onSuccess {
                                             storageKind = BackupStorage.Kind.EXTERNAL
                                             storageBusy = false
