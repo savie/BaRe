@@ -6556,3 +6556,48 @@ Contoh target:
 1. Verify CI/build untuk formatter centralization.
 2. Jika green, lanjut inspect remaining duplicate reload/behavior paths dan pilih perubahan berikutnya berdasarkan dependency + risk.
 3. Jangan masuk backup behavior atau menghapus legacy screen tanpa evidence/call-site requirement.
+
+
+## 2026-09-24 — GO: lanjut storage chip action popup
+
+### Gate sebelumnya
+- USER memberi evidence bahwa CI setelah compile fix **GREEN**.
+- Fase App Action boleh dilanjutkan ke scope berikutnya.
+- Organization behavior juga diperiksa ulang: `AppOrganizationBehavior` sudah menjadi shared entry point di atas `AppOrganizationStore` dan dipakai oleh AppsFilter, App Detail, App Labels, App Blacklist, dan App Management. Tidak perlu membuat behavior kedua.
+
+### Inspection
+- App Detail storage chip sebelumnya membuka `ModalBottomSheet` saat chip ditekan.
+- Reference Swift yang sudah diaudit menggunakan anchored popup untuk storage chip action.
+- Reference storage chip action:
+  - Backup to local
+  - Backup to cloud
+  - Backup to local and cloud
+  - Share APK
+  - Delete
+- Backup selector internal BaRe tetap membutuhkan surface selection tersendiri, sehingga chip pada selector tidak boleh ikut berubah menjadi action popup.
+
+### Implementation
+- Storage chip pada App Detail sekarang memakai anchored `DropdownMenu` di posisi chip.
+- Menu menyediakan 5 action reference tersebut.
+- Backup actions meneruskan part + destination ke existing backup selector.
+- Share APK/Delete tetap memakai state unavailable; tidak mengklaim execution backend yang belum ada.
+- Chip yang berada di dalam backup selector dipisahkan menjadi `AppStorageSelectionChip` agar tetap berfungsi sebagai selector.
+- Tidak mengubah backup engine atau mengklaim backup execution sebagai implemented.
+
+### Source
+- `b0e57d0a65c26e220567d16db1ed304cfd59b7e7` — initial storage chip popup implementation.
+- `9f8d88ab326223c2ad1c7b428467534b44ae386c` — wire popup actions.
+- `d86cdb7f9cebe3a732283660d09bba615f54d7ec` — separate backup-selector chip from popup chip.
+
+### Truth / Verification
+- Reference menu structure: **VERIFIED dari reference evidence**.
+- Source implementation: **APPLIED**.
+- Static inspection call-site/function separation: **VERIFIED**.
+- CI setelah perubahan storage popup: **PENDING / UNVERIFIED**.
+- Runtime visual: **UNVERIFIED**.
+- Backup execution: tetap **NOT IMPLEMENTED / pending capability backend**.
+
+### Next
+1. Tunggu/cek CI untuk commit terakhir.
+2. Jika green, runtime visual test App Detail storage chip: popup anchored dan 5 item.
+3. Jika popup sesuai, lanjut audit/implementasi backup behavior tanpa membuat mockup dianggap execution.
