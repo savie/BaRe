@@ -64,7 +64,7 @@ class InstalledAppRepository(private val context: Context) {
                     cloudSyncState = cloudSyncStates[info.packageName] ?: CloudSyncState.UNKNOWN,
                     installedFromGooglePlay = runCatching {
                         packageManager.getInstallSourceInfo(info.packageName).installingPackageName == "com.android.vending"
-                    }.getOrNull(),
+                    }.getOrElse { false },
                     backupCount = backupMetadata.count,
                     backupSizeBytes = backupMetadata.sizeBytes,
                     latestBackupTime = backupMetadata.latestTime,
