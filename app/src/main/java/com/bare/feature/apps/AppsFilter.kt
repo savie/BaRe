@@ -871,9 +871,9 @@ fun AppsFilterScreen(
                     item {
                         Text(stringResource(R.string.system_app_filters), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Bold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.ALL, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.ALL) }, label = { Text(stringResource(R.string.all)) })
-                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.GOOGLE_PLAY) }, label = { Text(context.getString(R.string.installed_from_google_play)) })
-                            FilterChip(selected = pendingFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY, onClick = { pendingFilter = pendingFilter.copy(googlePlay = GooglePlayFilter.NOT_GOOGLE_PLAY) }, label = { Text(context.getString(R.string.not_installed_from_google_play)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_labelled_or_favorites)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_launchable)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.system_apps_updated)) })
                         }
                     }
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
@@ -902,7 +902,7 @@ fun AppsFilterScreen(
                     }
                     item { HorizontalDivider(Modifier.padding(top = 12.dp)) }
                     item {
-                        Text(stringResource(R.string.on_device_backup), fontWeight = FontWeight.SemiBold)
+                        Text(stringResource(R.string.backup_status), fontWeight = FontWeight.SemiBold)
                         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(stringResource(R.string.all)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backed_up)) })
@@ -949,6 +949,8 @@ fun AppsFilterScreen(
                             ).forEach { label ->
                                 FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(label) })
                             }
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.installed_from_google_play)) })
+                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_installed_from_google_play)) })
                         }
                     }
                     item {
