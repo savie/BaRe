@@ -304,7 +304,7 @@ fun HomeScreen(
                 )
                 StorageSwitchOption(
                     title = stringResource(R.string.internal_storage),
-                    subtitle = formatStorageSize(internal.freeBytes) + " free",
+                    subtitle = stringResource(R.string.free_storage, formatStorageSize(internal.freeBytes)),
                     selected = selectedStorageKind == BackupStorage.Kind.INTERNAL,
                     enabled = !storageBusy && internal.available,
                 ) {
@@ -328,7 +328,7 @@ fun HomeScreen(
                 StorageSwitchOption(
                     title = external?.displayName ?: stringResource(R.string.external_storage),
                     subtitle = if (external?.available == true) {
-                        formatStorageSize(external.freeBytes) + " free"
+                        stringResource(R.string.free_storage, formatStorageSize(external.freeBytes))
                     } else {
                         stringResource(R.string.external_storage_not_mounted)
                     },
@@ -397,7 +397,7 @@ private fun AccessSwitchOption(
             )
             Spacer(Modifier.width(14.dp))
             Text(title, Modifier.weight(1f), fontWeight = FontWeight.SemiBold)
-            if (selected) Text("✓", fontWeight = FontWeight.Bold)
+            if (selected) Text(stringResource(R.string.selected_mark), fontWeight = FontWeight.Bold)
         }
     }
 }
@@ -424,7 +424,7 @@ private fun StorageSwitchOption(
                 Text(title, fontWeight = FontWeight.SemiBold)
                 Text(subtitle, style = MaterialTheme.typography.bodySmall)
             }
-            if (selected) Text("✓", fontWeight = FontWeight.Bold)
+            if (selected) Text(stringResource(R.string.selected_mark), fontWeight = FontWeight.Bold)
         }
     }
 }
