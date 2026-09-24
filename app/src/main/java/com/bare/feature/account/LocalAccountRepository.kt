@@ -17,61 +17,73 @@ class LocalAccountRepository(context: Context) {
     private val random = SecureRandom()
 
     fun register(accountId: String, email: String, password: CharArray): Boolean {
-        require(accountId.isNotBlank())
-        require(email.isNotBlank())
-        require(password.isNotEmpty())
-        val salt = ByteArray(SALT_BYTES).also(random::nextBytes)
-        val verifier = derive(password, salt)
-        return runCatching {
-            val db = database.writableDatabase
-            db.beginTransaction()
-            try {
-                db.rawQuery(
-                    "SELECT 1 FROM accounts WHERE lower(email) = lower(?) LIMIT 1",
-                    arrayOf(email.trim()),
-                ).use { cursor ->
-                    if (cursor.moveToFirst()) return@runCatching false
+        try {
+            require(accountId.isNotBlank())
+            require(email.isNotBlank())
+            require(password.isNotEmpty())
+            val salt = ByteArray(SALT_BYTES).also(random::nextBytes)
+            val verifier = derive(password, salt)
+            return runCatching {
+                val db = database.writableDatabase
+                db.beginTransaction()
+                try {
+                    db.rawQuery(
+                        "SELECT 1 FROM accounts WHERE lower(email) = lower(?) LIMIT 1",
+                        arrayOf(email.trim()),
+                    ).use { cursor ->
+                        if (cursor.moveToFirst()) return@runCatching false
+                    }
+                    db.execSQL("UPDATE accounts SET active = 0")
+                    db.execSQL(
+                        """
+                        INSERT INTO accounts(account_id, email, provider, active, password_salt, password_verifier)
+                        VALUES (?, ?, 'LOCAL', 1, ?, ?)
+                        """.trimIndent(),
+                        arrayOf(accountId, email.trim(), salt.toB64(), verifier.toB64()),
+                    )
+                    db.setTransactionSuccessful()
+                    true
+                } finally {
+                    db.endTransaction()
                 }
-                db.execSQL("UPDATE accounts SET active = 0")
-                db.execSQL(
-                    """
-                    INSERT INTO accounts(account_id, email, provider, active, password_salt, password_verifier)
-                    VALUES (?, ?, 'LOCAL', 1, ?, ?)
-                    """.trimIndent(),
-                    arrayOf(accountId, email.trim(), salt.toB64(), verifier.toB64()),
-                )
-                db.setTransactionSuccessful()
-                true
-            } finally {
-                db.endTransaction()
-            }
-        }.getOrDefault(false).also {
+            }.getOrDefault(false)
+        } finally {
             password.fill('\u0000')
         }
     }
 
     fun signIn(email: String, password: CharArray): Boolean {
-        require(email.isNotBlank())
-        val result = runCatching {
-            database.readableDatabase.rawQuery(
-                "SELECT account_id, password_salt, password_verifier FROM accounts WHERE lower(email) = lower(?) LIMIT 1",
-                arrayOf(email.trim()),
-            ).use { cursor ->
-                if (!cursor.moveToFirst()) return@use false
-                val salt = cursor.getString(1).fromB64()
-                val expected = cursor.getString(2).fromB64()
-                MessageDigest.isEqual(derive(password, salt), expected)
+        try {
+            require(email.isNotBlank())
+            val result = runCatching {
+                database.readableDatabase.rawQuery(
+                    "SELECT password_salt, password_verifier FROM accounts WHERE lower(email) = lower(?) LIMIT 1",
+                    arrayOf(email.trim()),
+                ).use { cursor ->
+                    if (!cursor.moveToFirst()) return@use false
+                    val salt = cursor.getString(0).fromB64()
+                    val expected = cursor.getString(1).fromB64()
+                    MessageDigest.isEqual(derive(password, salt), expected)
+                }
+            }.getOrDefault(false)
+            if (result) {
+                val db = database.writableDatabase
+                db.beginTransaction()
+                try {
+                    db.execSQL("UPDATE accounts SET active = 0")
+                    db.execSQL(
+                        "UPDATE accounts SET active = 1 WHERE lower(email) = lower(?)",
+                        arrayOf(email.trim()),
+                    )
+                    db.setTransactionSuccessful()
+                } finally {
+                    db.endTransaction()
+                }
             }
-        }.getOrDefault(false)
-        password.fill('\u0000')
-        if (result) {
-            database.writableDatabase.execSQL("UPDATE accounts SET active = 0")
-            database.writableDatabase.execSQL(
-                "UPDATE accounts SET active = 1 WHERE lower(email) = lower(?)",
-                arrayOf(email.trim()),
-            )
+            return result
+        } finally {
+            password.fill('\u0000')
         }
-        return result
     }
 
     fun signOut() {
