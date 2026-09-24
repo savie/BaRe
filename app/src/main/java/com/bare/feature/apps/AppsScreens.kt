@@ -1627,8 +1627,14 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                             "Device + Cloud" -> BackupDestination.DEVICE_AND_CLOUD
                             else -> BackupDestination.DEVICE
                         }
-                        val selectedPartKeys = selectedParts.map { part ->
-                            if (part == context.getString(R.string.apks_part)) "APK" else part
+                        val selectedPartKeys = selectedParts.mapNotNull { part ->
+                            when (part) {
+                                context.getString(R.string.apks_part) -> AppBackupPart.APK
+                                context.getString(R.string.data_part) -> AppBackupPart.DATA
+                                context.getString(R.string.external_data_part) -> AppBackupPart.EXTERNAL_DATA
+                                context.getString(R.string.media_part) -> AppBackupPart.MEDIA
+                                else -> null
+                            }
                         }.toSet()
                         backupRunning = true
                         scope.launch {
@@ -1644,7 +1650,7 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                             backupRunning = false
                             backupMessage = when (result) {
                                 is AppBackupResult.Completed ->
-                                    "APK backup completed: ${result.files.size} file(s)."
+                                    "Backup completed for ${result.parts.joinToString { it.name }}: ${result.files.size} file(s)."
                                 is AppBackupResult.Unsupported -> result.reason
                                 is AppBackupResult.Failed -> result.reason
                             }
