@@ -3323,3 +3323,15 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 1. Verify latest CI/build result.
 2. If build is green, inspect Account runtime flow on device/emulator where available.
 3. Continue provider-neutral cloud metadata adaptation only after Account boundary is verified.
+
+## 2026-09-24 — A3 Account CI #944 failure — DEBUG/FIX
+
+**OBSERVED:** CI #944 failed at :app:compileDebugKotlin.
+
+**ROOT CAUSE:** BaReApp.kt used getString(...) directly inside the composable scope, but no such receiver/function was available there. Compiler errors were at lines 333 and 376.
+
+**FIX:** Both auth error resource lookups now use the existing Compose context:
+- context.getString(R.string.account_sign_in_failed)
+- context.getString(R.string.account_create_failed)
+
+**VERIFICATION:** Source fix committed as d2184e8. Latest build result after this fix is still PENDING / UNVERIFIED; CI #944 remains the failing evidence for the pre-fix commit.
