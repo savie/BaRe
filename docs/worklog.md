@@ -6038,3 +6038,62 @@ REFERENCE_AUDIT_RECORDED / APP_DETAIL_PLAN_RECORDED / IMPLEMENTATION_PENDING / R
 - Source commit: 05c7d5de4dee05478240597c3027aedc0f3b4591 (ui: align App Detail overflow with Swift flow).
 - Verification: source change committed; CI/runtime screenshot belum diverifikasi pada saat log ini ditulis.
 - Next: cek CI commit ini. Jika green, lanjut runtime visual check overflow App Detail; setelah itu baru lanjut perbedaan Backup/Cloud.
+
+## 2026-09-24 — GO: App Detail UI/behavior disambungkan
+
+### Authorization
+- USER GO: semua behavior yang sudah berjalan harus dipakai di App Detail; UI mengikuti Swift; termasuk tombol yang memang ada di App Detail, bukan hanya titik tiga.
+
+### Inspection
+- Reference Swift menunjukkan App Info card dengan icon, package/name/version, titik tiga, dan tombol mini Launch/Enable/Uninstall/Not installed.
+- Reference action surface menggunakan popup/box yang muncul dari titik aksi, bukan bottom sheet untuk overflow.
+- Source BaRe sudah memiliki:
+  - `RootAppActionExecutor`: disable, enable, force stop, clear data, uninstall, battery optimization.
+  - `AppOrganizationStore`: favorite, labels, blacklist.
+- Sebelumnya App Detail masih mengarahkan sebagian action ke `mockupAction`.
+
+### Implementation
+- Overflow App Detail sekarang memakai `DropdownMenu` yang ter-anchor ke tombol titik tiga.
+- Action yang sudah punya jalur nyata di BaRe disambungkan:
+  - Favorite → `AppOrganizationStore`
+  - Labels → editor yang menyimpan lewat `AppOrganizationStore`
+  - Blacklist → `AppOrganizationStore`
+  - Disable/Enable → `RootAppActionExecutor`
+  - Force stop → `RootAppActionExecutor`
+  - Clear data → `RootAppActionExecutor`
+  - Play Store → Android Intent dengan fallback web
+  - Android App Info → Android Settings Intent
+  - Battery optimization → root executor atau system request
+  - Add to Home screen → Android ShortcutManager
+- Tombol pada App Info card tidak lagi mockup:
+  - Launch → launch intent aplikasi
+  - Enable → root executor saat app disabled
+  - Uninstall → Android package uninstall intent
+- Action yang memang belum punya execution backend tetap tidak diklaim sebagai berhasil.
+- Backup execution dan share APK masih belum diklaim runtime karena backend/provider eksekusinya belum terverifikasi.
+
+### Source commits
+- `0b86fa29c40759d6e1c179a31f02d5ba192b03fb` — fix: wire App Detail actions to existing behavior
+- `cd10771aef9918947dfb70153cd9ec1da96fa83e` — i18n: add App Detail action status strings
+- `b871d101d703af760b6923d64252d1a75ebf287e` — fix: complete App Detail action wiring
+
+### Truth / Verification
+- Source implementation: **IMPLEMENTED**.
+- Static source review: **DONE** untuk jalur action di atas.
+- CI/build: **PENDING** setelah commit terakhir.
+- Runtime UI/behavior: **UNVERIFIED**.
+- Backup execution: **NOT IMPLEMENTED / pending capability backend**.
+- Share APK: **UNVERIFIED / belum ada FileProvider execution path di source ini**.
+
+### Next
+1. Cek CI untuk HEAD branch.
+2. Jika build gagal, perbaiki error compile pertama.
+3. Jika green, runtime test App Detail:
+   - titik tiga → popup anchored;
+   - Launch / Enable / Uninstall;
+   - Disable / Force stop / Clear data;
+   - Favorite / Labels / Blacklist;
+   - Play Store / Android App Info;
+   - Battery optimization;
+   - Add to Home screen.
+4. Bandingkan visual App Info card dan storage surface dengan Swift reference.
