@@ -2868,3 +2868,30 @@ Ditemukan satu compile-risk pada state P2 setelah wiring: `BackupStorageBehavior
 Fix commit: `1530a44e39f846683c6ed58d99565b764a115eba` — `fix(storage): keep initialization boundary synchronous`.
 
 Verification: source/static **VERIFIED**; CI untuk fix commit **PENDING/UNVERIFIED**; E2E **NOT RUN**.
+
+
+### 2026-09-24 — P2 Build Fix: onboarding / manage space / coroutine imports
+
+Build terbaru kembali RED pada :app:compileDebugKotlin. Error yang diberikan user mengidentifikasi tiga kelompok reference yang masih tertinggal setelah migrasi P2:
+
+- OnboardingScreens.kt masih mengimpor dan memanggil initializeLocalBackupStorage serta masih memiliki akses langsung ke storage repository/configuration.
+- ManageSpaceScreen.kt masih memakai identifier repository pada sebagian operasi setelah field repository diganti menjadi storageBehavior.
+- BackupStorageBehavior.kt memakai withContext(Dispatchers.IO) tetapi import coroutine tersebut sempat hilang.
+
+### Fix
+- StorageSetupScreen sekarang menggunakan BackupStorageBehavior untuk inspect storage, selected kind, capability check, dan selectLocalStorage.
+- ManageSpaceScreen seluruh operasi storage backup/recovery sekarang konsisten melalui BackupStorageBehavior.
+- BackupStorageBehavior mengembalikan import Dispatchers dan withContext yang dibutuhkan oleh selectLocalStorage.
+
+### Verification
+- Source re-fetch setelah perubahan: VERIFIED STATIC untuk tiga file yang diubah.
+- Error initializeLocalBackupStorage pada onboarding ditargetkan hilang dari flow tersebut.
+- Identifier repository yang tersisa pada ManageSpaceScreen untuk operasi storage ditargetkan hilang.
+- Import coroutine yang dibutuhkan pada BackupStorageBehavior tersedia kembali.
+- CI/build fix checkpoint: PENDING/UNVERIFIED sampai workflow berikutnya memberikan hasil.
+- E2E/runtime: NOT RUN, sesuai authorization sebelumnya.
+
+### Commits
+- 7f2994655bdd8b22fdbfbdb38c05083876076596 — fix(onboarding): use shared backup storage behavior
+- 61555b138f2a5f84420a9b45aa8769b2a3c44a70 — fix(settings): use shared storage behavior consistently
+- 0244690aafef5a467f8af9bd05b3000a88c07ea6 — fix(storage): restore coroutine imports
