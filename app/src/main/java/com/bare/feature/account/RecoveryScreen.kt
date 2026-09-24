@@ -81,10 +81,12 @@ fun RecoveryScreen(
                 onRecovered(identity)
             }.onFailure { error ->
                 busy = false
-                status = context.getString(
-                    R.string.recovery_failed,
-                    error.message ?: context.getString(R.string.invalid_package_or_password),
-                )
+                val message = when (error) {
+                    is RecoveryIdentityConflictException -> context.getString(R.string.recovery_identity_conflict)
+                    is RecoveryIdentityUnavailableException -> context.getString(R.string.storage_identity_unavailable)
+                    else -> error.message ?: context.getString(R.string.invalid_package_or_password)
+                }
+                status = context.getString(R.string.recovery_failed, message)
             }
         }
     }
