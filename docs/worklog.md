@@ -2895,3 +2895,45 @@ Build terbaru kembali RED pada :app:compileDebugKotlin. Error yang diberikan use
 - 7f2994655bdd8b22fdbfbdb38c05083876076596 — fix(onboarding): use shared backup storage behavior
 - 61555b138f2a5f84420a9b45aa8769b2a3c44a70 — fix(settings): use shared storage behavior consistently
 - 0244690aafef5a467f8af9bd05b3000a88c07ea6 — fix(storage): restore coroutine imports
+
+
+### 2026-09-24 — P3 Recovery use-case boundary
+
+Authorization: user memberi GO untuk P3 dengan boundary `RecoveryScreen ↓ RecoveryBehavior / recovery use-case boundary`. Build #867 pada commit `0244690aafef5a467f8af9bd05b3000a88c07ea6` dilaporkan green oleh user.
+
+### Audit
+`RecoveryScreen` sebelumnya mengorkestrasi langsung `RecoveryArtifactRepository`, `BaReMasterKeyStore`, `LocalIdentityStore`, dan `BackupStorageBehavior` untuk import/export recovery. Repository dan storage tetap menjadi implementation owners; screen menjadi orchestration client.
+
+### Perubahan
+- Menambahkan `RecoveryBehavior` sebagai application use-case boundary di `com.bare.feature.account`.
+- `RecoveryBehavior.import()` menangani decode artifact, conflict check, master-key restore, identity restore, dan hasil identity.
+- `RecoveryBehavior.export()` menangani payload identity, selected storage, recovery directory initialization, master-key acquisition, dan artifact export.
+- `RecoveryScreen` sekarang bergantung pada `RecoveryBehavior` untuk import/export.
+- Recovery password configuration tetap berada di `RecoveryPasswordStore` / UI karena merupakan concern konfigurasi kredensial/presentation.
+- Exception khusus mempertahankan pemetaan error recovery ke string UI yang sudah ada.
+
+### Boundary
+```text
+RecoveryScreen
+      ↓
+RecoveryBehavior
+      ├── RecoveryArtifactRepository
+      ├── BaReMasterKeyStore
+      ├── LocalIdentityStore
+      └── BackupStorageBehavior
+```
+
+### Verification
+- `RecoveryScreen` direct refs ke `RecoveryArtifactRepository`, `BaReMasterKeyStore`, `BackupStorageBehavior`, dan `LocalIdentityStore`: **0**.
+- `RecoveryScreen` memakai `RecoveryBehavior`: **VERIFIED STATIC**.
+- `RecoveryBehavior` memegang orchestration repository/master-key/identity/storage: **VERIFIED STATIC**.
+- Existing recovery password flow dipertahankan.
+- CI setelah P3 change: **PENDING/UNVERIFIED**.
+- Runtime/E2E: **NOT RUN**, sesuai authorization sebelumnya.
+
+### Commits
+- `44f5df212417b674a2eda480661c55ae280e1b00` — `feat(recovery): add recovery use-case boundary`
+- `1b09f86520f6351ae2684f2f1513749556e3378b` — `refactor(recovery): route screen through recovery behavior`
+- `9090d053fa5590c71752c2798cd15c99fdd9b749` — `refactor(recovery): remove screen storage dependency`
+- `35b546cf3a0a7623ea807d2649018728bd21dbe3` — `refactor(recovery): preserve recovery failure semantics`
+- `48ec41b87ec4e5326e7fa1188cb281c9b6db71a1` — `refactor(recovery): map recovery behavior failures`
