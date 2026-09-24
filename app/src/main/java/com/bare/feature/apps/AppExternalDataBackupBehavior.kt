@@ -1,11 +1,10 @@
 package com.bare.feature.apps
 
-import android.content.Context
 import android.os.Environment
 import com.bare.capability.RootCapabilityProvider
 import java.io.File
 
-class AppExternalDataBackupBehavior(private val context: Context) {
+class AppExternalDataBackupBehavior {
     private val root = RootCapabilityProvider()
 
     fun backup(packageName: String, destinationDir: File): AppBackupPartResult {
