@@ -330,7 +330,7 @@ fun BaReApp() {
                             }
                         } else {
                             loginPassword = ""
-                            accountAuthError = getString(R.string.account_sign_in_failed)
+                            accountAuthError = context.getString(R.string.account_sign_in_failed)
                         }
                     },
                     onCreateAccount = { accountAuthError = null; startScreen = StartScreen.SIGN_UP },
@@ -373,7 +373,7 @@ fun BaReApp() {
                         } else {
                             signUpPassword = ""
                             signUpConfirmPassword = ""
-                            accountAuthError = getString(R.string.account_create_failed)
+                            accountAuthError = context.getString(R.string.account_create_failed)
                         }
                     },
                     onBack = ::goBack,
