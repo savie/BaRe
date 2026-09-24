@@ -196,6 +196,21 @@ class BackupStorageRepository(private val context: Context) {
         return walkTopDown().filter { it.isFile }.sumOf { it.length() }
     }
 
+    fun appBackupDirectory(
+        initialization: StorageInitialization,
+        identityId: String,
+        packageName: String,
+        version: String,
+    ): File {
+        require(identityId.isNotBlank()) { "identityId is required" }
+        require(packageName.isNotBlank()) { "packageName is required" }
+        require(version.isNotBlank()) { "version is required" }
+        return File(
+            initialization.rootDirectory,
+            "BaRe/accounts/${identityFolder(identityId)}/backups/apps/$packageName/$version",
+        )
+    }
+
     fun identityFolder(identityId: String): String =
         identityId.filter(Char::isLetterOrDigit).take(16).padEnd(16, '0')
 
