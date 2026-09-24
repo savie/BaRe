@@ -3673,3 +3673,27 @@ User authorized continuing the Date issue and External Data investigation. User 
 - Follow Reference for Date Used source/semantics; do not invent a second usage-data implementation.
 - Do not remove the package timestamp normalization without raw runtime evidence because the current device symptom is specifically a seconds-like timestamp.
 - Next verification is one fresh APK/device pass from commit 04fc4a27 (or its CI successor), then only change code if the fresh runtime result disproves the current source assumptions.
+
+
+## 2026-09-24 — GO: fix Date Used privileged access path
+Authorization: ongoing GO for A3 Date Used after runtime parity remained unchanged on the available APK/build.
+Observed:
+- User runtime remained equivalent to build #964: Date Used still unavailable despite Usage Access enabled.
+- Commit `04fc4a27` only aligned the AppOps check with Reference; it did not add Reference's privileged access path.
+Reference parity:
+- Reference has a privileged path that can execute `appops set <package> android:get_usage_stats allow` when the required privileged capability is available.
+BaRe change:
+- `RootAppActionExecutor.setUsageAccess()` executes the same AppOps grant through the existing root shell capability.
+- `AppUsageRepository.ensureUsageAccess()` first checks normal AppOps, then attempts the root grant when root is available, then verifies the resulting AppOps mode.
+- Apps filter reload/refresh now uses `ensureUsageAccess()` before loading UsageStats.
+Commits:
+- `dc46b6d3` — add root usage access grant path
+- `62f751ed` — grant usage access through root when needed
+- `ab75ff0e` — use privileged usage access path
+Verification:
+- Source change committed.
+- CI/runtime verification PENDING.
+Next:
+- CI should trigger from the app-source commits.
+- Fresh APK/device E2E: Usage Access ON → open/use WhatsApp → BaRe Apps → Date Used.
+- If still unavailable, inspect actual root command result/AppOps mode before changing UsageStats query semantics.
