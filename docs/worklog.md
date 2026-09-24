@@ -2752,3 +2752,27 @@ Urutan kandidat setelah verification gate:
 5. baru lanjut residual Apps behavior yang memang terbukti memiliki shared policy.
 
 App Data / External Data implementation yang baru saja dibuat tetap berada pada Apps domain dan **tidak diperluas** ke Media/Cloud pada audit ini.
+
+
+## 2026-09-24 — P1: Route Misc App Search Through Existing Inventory Behavior
+
+### Authorization
+Pengguna memberikan GO untuk P1 saja. Scope dibatasi pada residual bypass inventory yang ditemukan audit: `MiscScreens.kt` tidak boleh langsung membuat `InstalledAppRepository` karena `AppInventoryBehavior` sudah menjadi entry point inventory yang disepakati.
+
+### Perubahan
+- Mengganti dependency langsung `InstalledAppRepository` pada `SearchScreen` menjadi `AppInventoryBehavior`.
+- Search tetap memanggil operasi inventory yang sama melalui `inventory.load()`; tidak mengubah filtering, UI, atau persistence.
+- Tidak membuat behavior baru dan tidak mengubah `InstalledAppRepository`.
+
+### Verification
+- Source re-fetch setelah perubahan: **VERIFIED STATIC**.
+- `MiscScreens.kt` tidak lagi memiliki direct reference ke `InstalledAppRepository`.
+- `AppInventoryBehavior` terobservasi sebagai dependency SearchScreen dan `inventory.load()` digunakan.
+- CI workflow/status untuk checkpoint `a48ece945e0799882f31dc1c528888901bbf40a5`: **UNVERIFIED / PENDING**; connector belum mengembalikan workflow run/status.
+- E2E/runtime: **NOT RUN** sesuai scope GO.
+
+### Commit
+- `a48ece945e0799882f31dc1c528888901bbf40a5` — `refactor(misc): route app search through inventory behavior`
+
+### Boundary
+P1 selesai pada source level. Tidak masuk P2 shared backup storage, P3 recovery workflow, atau P4 strings.
