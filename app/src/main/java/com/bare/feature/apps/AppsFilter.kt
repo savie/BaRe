@@ -230,7 +230,7 @@ fun AppsFilterScreen(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val repository = remember(context) { InstalledAppRepository(context) }
-    val organizationStore = remember(context) { AppOrganizationStore(context) }
+    val organizationStore = remember(context) { AppOrganizationBehavior(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
     val cachedApps = remember { InstalledAppRepository.cached() }
     var apps by remember { mutableStateOf(cachedApps) }
