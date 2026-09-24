@@ -2964,3 +2964,77 @@ Commits P4:
 - `244e417` — refactor(i18n): localize app filter labels and sort titles
 - `0edb0b2` — refactor(i18n): add backup completion message
 - `21e144a` — refactor(i18n): extract remaining Apps runtime strings
+
+
+## 2026-09-24 — Audit Ulang Seluruh app/src — Behavioral Integrity & Feature Contract
+
+### Authorization
+Pengguna memberikan GO untuk mengulang audit seluruh folder app/src, bukan hanya tab Apps. Audit ini bersifat inspect/discovery; tidak mengubah source implementation.
+
+### Scope
+Pemeriksaan difokuskan pada UI → routing → behavior/use-case → repository/capability boundary; semantic correctness; duplicate/direct boundary access lintas feature; action yang terlihat tersedia tetapi belum memiliki behavior nyata; mockup/façade/no-op; dan konsistensi state lintas Home / Apps / Settings / Onboarding / Recovery / Schedules / Account / Misc.
+
+### Temuan Utama
+1. **Apps — semantic/behavior gaps**
+   - Relative timestamp menerima timestamp positif yang secara semantik invalid sebagai tanggal valid, sehingga nilai sangat lama dapat tampil sebagai waktu historis yang menyesatkan.
+   - Sort lastUsed menggunakan sentinel ketika usage data tidak tersedia; contract available / no usage data / permission missing / valid data belum eksplisit.
+   - App size tidak konsisten: sorting menggunakan APK size, sedangkan App Detail menghitung APK + data + external data + media.
+   - Battery optimization masih memiliki lebih dari satu jalur capability/state access pada surface Apps.
+   - Share APK tidak konsisten antar entry point: storage chip memakai AppShareBehavior, sementara overflow action masih menampilkan unavailable.
+   - App Management / App Backup / App Configuration / App Diagnostics / App Restore masih memiliki action mockup/placeholder pada sebagian workflow.
+
+2. **Home — workflow/state mismatch**
+   - Quick action backup/restore apps belum memiliki target/context app yang jelas pada routing yang diperiksa.
+   - Backup/restore folders mengarah ke surface generic/façade yang belum memiliki behavior capability nyata.
+   - Last Backup / Next Backup masih tidak terhubung penuh ke canonical backup/schedule state.
+   - Pilihan cloud pada surface Home belum terbukti sebagai storage configuration/execution capability.
+
+3. **Misc — feature façade**
+   - Beberapa domain surface seperti Folders, Messages, Call Logs, Wi-Fi, Wallpapers, Storage, Management, dan Task/Schedule detail masih menggunakan generic/mockup surface dan belum memiliki application behavior nyata di belakang UI.
+   - Ini dicatat sebagai feature-contract gap, bukan diklaim sebagai runtime bug.
+
+4. **Schedules — UI tanpa execution contract lengkap**
+   - Surface scheduled backups/create schedule tersedia, tetapi persistence, scheduler execution, last-run state, failure/retry, dan recovery contract belum terbukti terhubung penuh.
+
+5. **Recovery — boundary duplication residual**
+   - RecoveryScreen sudah melalui RecoveryBehavior.
+   - RecoveryOnboardingScreen masih mengorkestrasi langsung LocalIdentityStore, BaReMasterKeyStore, dan recovery primitives.
+   - Ini residual direct orchestration yang perlu dievaluasi terhadap RecoveryBehavior, bukan membuat behavior kedua.
+
+6. **Account / Settings — action contract**
+   - Ditemukan action yang masih no-op/disabled pada surface Account/Settings.
+   - Beberapa Settings sudah secara eksplisit menandai capability belum tersedia; ini lebih jelas daripada silent no-op, tetapi tetap completeness gap.
+
+7. **Cross-feature backup/storage**
+   - BackupStorageBehavior sudah menjadi shared boundary untuk banyak client, tetapi capability yang ditawarkan UI masih lebih luas daripada implementation yang saat ini dapat dieksekusi pada beberapa path. Khusus App Backup, destination Cloud dan Device+Cloud belum didukung oleh AppBackupBehavior yang diperiksa.
+
+8. **Diagnostics / Labs**
+   - Diagnostics memiliki service boundary nyata sehingga tidak boleh dipukul rata sebagai mockup.
+   - BaRe Labs memiliki persisted flags; consumer/runtime effect dari flags tersebut masih perlu diverifikasi per setting.
+
+### Klasifikasi
+- **Semantic correctness:** timestamp, usage state, size semantics, backup/storage state.
+- **Behavior mismatch:** action yang sama memiliki behavior berbeda antar surface.
+- **UI façade/mockup:** surface sudah ada tetapi application behavior belum terbukti ada.
+- **Boundary duplication:** masih ada direct orchestration setelah behavior boundary tersedia.
+
+### Kandidat P5
+Audit ini membentuk scope kandidat **P5 — Behavioral Integrity & Feature Contract Audit**:
+1. semantic correctness;
+2. shared behavior consistency;
+3. UI → behavior mismatch;
+4. inventory mockup/façade/no-op secara eksplisit;
+5. routing/workflow integrity;
+6. verification contract untuk capability yang sudah real.
+
+Tidak ada code change pada audit ini dan tidak ada capability dinaikkan statusnya menjadi runtime verified hanya karena UI tersedia.
+
+### Verification State
+- Whole-app/src structural/behavioral audit: **OBSERVED / VERIFIED STATIC** untuk source yang diperiksa.
+- Exhaustive line-by-line proof seluruh source: **NOT CLAIMED**.
+- Runtime/device behavior: **NOT VERIFIED** pada audit ini.
+- E2E: **NOT RUN**.
+- Build: tidak dijalankan sebagai bagian audit ini; status build terakhir mengikuti evidence checkpoint terpisah dan tidak dipakai untuk menaikkan capability state.
+
+### Decision Boundary
+Belum ada keputusan implementasi P5. Audit ini menghasilkan map gap dan boundary. Perubahan berikutnya harus dipilih per capability berdasarkan owner, contract, dependency, risk, dan verification evidence; bukan berdasarkan folder.
