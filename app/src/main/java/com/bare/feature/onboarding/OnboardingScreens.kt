@@ -44,8 +44,7 @@ import com.bare.app.LocalIdentityStore
 import com.bare.recovery.RecoveryArtifactRepository
 import com.bare.app.IdentityType
 import com.bare.R
-import com.bare.storage.initializeLocalBackupStorage
-import com.bare.storage.StorageConfigurationStore
+import com.bare.storage.BackupStorageBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -423,21 +422,20 @@ fun StorageSetupScreen(
     onBack: () -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val repository = remember(context) { com.bare.storage.BackupStorageRepository(context) }
+    val storageBehavior = remember(context) { BackupStorageBehavior(context) }
     val identityStore = remember(context) { LocalIdentityStore(context) }
     val recoveryRepository = remember(context) { RecoveryArtifactRepository(context) }
-    val storageConfig = remember(context) { StorageConfigurationStore(context) }
     val scope = rememberCoroutineScope()
 
     val storages = remember(identityId) {
-        if (identityId.isNullOrBlank()) repository.inspectAvailable() else repository.inspect(identityId)
+        if (identityId.isNullOrBlank()) storageBehavior.inspectAvailable() else storageBehavior.inspect(identityId)
     }
     val internal = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.INTERNAL }
     val external = storages.firstOrNull { it.kind == com.bare.storage.BackupStorage.Kind.EXTERNAL }
 
     var selectedStorageKind by remember(identityId) {
         mutableStateOf(
-            storageConfig.loadKind()
+            storageBehavior.selectedKind()
                 ?.takeIf { kind -> storages.any { it.kind == kind && it.available } }
                 ?: com.bare.storage.BackupStorage.Kind.INTERNAL
         )
@@ -524,7 +522,6 @@ fun StorageSetupScreen(
             onClick = {
                 when {
                     identityId.isNullOrBlank() -> {
-                        storageConfig.saveKind(selectedStorageKind)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
                             !Environment.isExternalStorageManager()
                         ) {
@@ -533,7 +530,7 @@ fun StorageSetupScreen(
                             onContinue()
                         }
                     }
-                    !repository.canInitialize(selectedStorageKind) ->
+                    !storageBehavior.canInitialize(selectedStorageKind) ->
                         requestStorageAccess()
                     else -> {
                         busy = true
@@ -542,10 +539,9 @@ fun StorageSetupScreen(
                         val selectedKind = selectedStorageKind
                         scope.launch {
                             runCatching {
-                                initializeLocalBackupStorage(
-                                    context = context,
+                                storageBehavior.selectLocalStorage(
                                     identityId = identity,
-                                    selectedStorageKind = selectedKind,
+                                    kind = selectedKind,
                                 )
                             }.onSuccess {
                                 busy = false
