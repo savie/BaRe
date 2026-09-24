@@ -245,6 +245,8 @@ fun AppsFilterScreen(
     var lastUsedTimes by remember { mutableStateOf<Map<String, Long>>(emptyMap()) }
     var showLabelPicker by remember { mutableStateOf(false) }
     var labelDraft by remember { mutableStateOf<Set<String>>(emptySet()) }
+    var labelEditorApp by remember { mutableStateOf<AppItem?>(null) }
+    var labelsText by remember { mutableStateOf("") }
     var selectedApp by remember { mutableStateOf<AppItem?>(null) }
     var blacklistTarget by remember { mutableStateOf<AppItem?>(null) }
     var destructiveAction by remember { mutableStateOf<DestructiveAppAction?>(null) }
@@ -680,9 +682,9 @@ fun AppsFilterScreen(
                     headlineContent = { Text(stringResource(R.string.set_app_labels)) },
                     leadingContent = { Icon(Icons.Default.Label, contentDescription = null) },
                     modifier = Modifier.clickable {
+                        labelsText = organizationStore.labels(app.packageName).joinToString(", ")
+                        labelEditorApp = app
                         selectedApp = null
-                        onOpenApp(app)
-                        onOpen(Screen.MANAGEMENT)
                     },
                 )
                 ListItem(
@@ -736,6 +738,42 @@ fun AppsFilterScreen(
                 )
             }
         }
+    }
+
+    if (labelEditorApp != null) {
+        AlertDialog(
+            onDismissRequest = { labelEditorApp = null },
+            title = { Text(stringResource(R.string.labels)) },
+            text = {
+                OutlinedTextField(
+                    value = labelsText,
+                    onValueChange = { labelsText = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text(stringResource(R.string.labels)) },
+                    placeholder = { Text(stringResource(R.string.labels_placeholder)) },
+                    minLines = 2,
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    labelEditorApp?.let { target ->
+                        organizationStore.setLabels(
+                            target.packageName,
+                            labelsText.split(",").map { it.trim() }.filter { it.isNotBlank() }.toSet(),
+                        )
+                    }
+                    labelEditorApp = null
+                    reloadApps()
+                }) {
+                    Text(stringResource(R.string.save))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { labelEditorApp = null }) {
+                    Text(stringResource(R.string.close))
+                }
+            },
+        )
     }
 
     if (destructiveAction != null && selectedApp != null) {
