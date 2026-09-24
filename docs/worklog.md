@@ -3472,3 +3472,44 @@ Next implementation priority setelah audit ini adalah **Reference UI/flow parity
 - Verify CI for `a7844d3`.
 - If green, runtime-test App Size on an available device/emulator and compare ordering/display against actual platform storage stats.
 - Keep exact privileged per-component parity as a separate verification question; do not claim it from source compilation alone.
+
+## 2026-09-24 — E2E #951 findings + Apps filter corrective patch — USER GO
+
+### Runtime / device evidence
+User performed E2E on Android Build **#951** from commit `a7844d341880fd48d8108dd91298938f6763914d`.
+
+Observed:
+- Apps inventory loads after initial loading.
+- Search works.
+- Filter and sort surfaces open and operate.
+- App Size/APK sorting was observed as plausible/correct in the tested list.
+- Some Label actions still route to mockup/unimplemented surfaces.
+- Installed / Not installed active filter chips could not be removed from the chip row.
+- Not installed from Google Play did not produce the expected result.
+- Date Used remained Unknown in the tested environment.
+- Install Date and Update Date displayed an observed approximately 56-year-relative value rather than the expected meaningful current install/update age.
+- WhatsApp External Data was not observed/read by BaRe, while the Reference screen exposes an Ext. data component.
+
+These are runtime observations; root causes are not inferred from UI evidence alone.
+
+### Inspect
+- Install Status chip removal path in `AppsFilter.kt` handled Google Play, backup, metadata, etc., but omitted `InstallStatusFilter` from the active-chip clear mapping.
+- Reference Google Play semantics use installer package equality with `com.android.vending`; non-Play is the inverse, including null/non-Play installer metadata.
+- BaRe installed-app mapping returned nullable `installedFromGooglePlay` on repository exceptions, causing a filter that checks `== false` to exclude unknown/null values instead of treating them as non-Play under the current Reference semantic boundary.
+- Date formatter source was inspected: BaRe `formatRelativeTime` itself uses millisecond timestamps and does not explain a generic 56-year value by source inspection. Reference also uses relative date formatting. Runtime timestamp anomaly remains UNVERIFIED.
+- BaRe `AppDetailsRepository` has a separate External Data path at `Android/data/<package>` with normal File traversal first and Root fallback second. Therefore a missing WhatsApp Ext. data value is an access/capability observation, not proof that the storage component is absent.
+
+### Change
+- `a801bb38b86025c40f56e95c67defa2982561c22`: active Install Status chips now clear back to `InstallStatusFilter.ALL`.
+- `73b9bfc19f8b5d3dceba912128642bbb34f76da8`: installed-app Google Play classification now falls back to non-Play (`false`) when install-source lookup throws, matching the existing inverse filter semantics and Reference installer-package equality boundary.
+
+### Verification
+- Source changes: **IMPLEMENTED**.
+- CI for the corrective commits: **PENDING / UNVERIFIED**; GitHub workflow lookup returned no workflow run for the latest commit at inspection time.
+- Runtime verification of the corrective patch: **NOT RUN**.
+- Install/Update date 56-year observation: **UNRESOLVED / UNVERIFIED ROOT CAUSE**.
+- WhatsApp External Data: **OBSERVED MISSING/UNREADABLE in E2E; capability/access root cause not yet verified**.
+- Label mockup routing: **OBSERVED; implementation owner/path still requires further inspection**.
+
+### Next boundary
+Do not claim the two corrective fixes as runtime-verified until a new build is installed and the affected filters are retested. External Data should be investigated separately as **measurement/readability/backupability**, with root/access capability verified before changing storage semantics.
