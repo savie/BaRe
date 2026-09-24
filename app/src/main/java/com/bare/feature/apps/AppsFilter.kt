@@ -994,8 +994,16 @@ fun AppsFilterScreen(
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_notes)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_older_apks)) })
                             FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.backups_with_newer_apks)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.installed_from_google_play)) })
-                            FilterChip(enabled = false, selected = false, onClick = {}, label = { Text(context.getString(R.string.not_installed_from_google_play)) })
+                            FilterChip(
+                                selected = pendingFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY,
+                                onClick = { pendingFilter = pendingFilter.copy(googlePlay = if (pendingFilter.googlePlay == GooglePlayFilter.GOOGLE_PLAY) GooglePlayFilter.ALL else GooglePlayFilter.GOOGLE_PLAY) },
+                                label = { Text(context.getString(R.string.installed_from_google_play)) },
+                            )
+                            FilterChip(
+                                selected = pendingFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY,
+                                onClick = { pendingFilter = pendingFilter.copy(googlePlay = if (pendingFilter.googlePlay == GooglePlayFilter.NOT_GOOGLE_PLAY) GooglePlayFilter.ALL else GooglePlayFilter.NOT_GOOGLE_PLAY) },
+                                label = { Text(context.getString(R.string.not_installed_from_google_play)) },
+                            )
                         }
                     }
                     item {
