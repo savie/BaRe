@@ -22,6 +22,7 @@ class AppFilterStateStore(context: Context) {
             backupStatus = preferences.getString(KEY_BACKUP_STATUS, "ALL") ?: "ALL",
             multipleBackups = preferences.getString(KEY_MULTIPLE_BACKUPS, "ALL") ?: "ALL",
             backupApkRelation = preferences.getString(KEY_BACKUP_APK_RELATION, "ALL") ?: "ALL",
+            backupMetadata = preferences.getString(KEY_BACKUP_METADATA, "ALL") ?: "ALL",
             favorite = preferences.getString(KEY_FAVORITE, "ALL") ?: "ALL",
             label = preferences.getString(KEY_LABEL, "ALL") ?: "ALL",
             selectedLabels = preferences.getStringSet(KEY_LABELS, emptySet()).orEmpty(),
@@ -39,6 +40,7 @@ class AppFilterStateStore(context: Context) {
             .putString(KEY_BACKUP_STATUS, state.backupStatus)
             .putString(KEY_MULTIPLE_BACKUPS, state.multipleBackups)
             .putString(KEY_BACKUP_APK_RELATION, state.backupApkRelation)
+            .putString(KEY_BACKUP_METADATA, state.backupMetadata)
             .putString(KEY_FAVORITE, state.favorite)
             .putString(KEY_LABEL, state.label)
             .putStringSet(KEY_LABELS, state.selectedLabels)
@@ -59,6 +61,7 @@ class AppFilterStateStore(context: Context) {
         val backupStatus: String,
         val multipleBackups: String,
         val backupApkRelation: String,
+        val backupMetadata: String,
         val favorite: String,
         val label: String,
         val selectedLabels: Set<String>,
@@ -75,6 +78,7 @@ class AppFilterStateStore(context: Context) {
         const val KEY_BACKUP_STATUS = "backup_status"
         const val KEY_MULTIPLE_BACKUPS = "multiple_backups"
         const val KEY_BACKUP_APK_RELATION = "backup_apk_relation"
+        const val KEY_BACKUP_METADATA = "backup_metadata"
         const val KEY_FAVORITE = "favorite"
         const val KEY_LABEL = "label"
         const val KEY_LABELS = "selected_labels"
