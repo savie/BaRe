@@ -53,8 +53,12 @@ class InstalledAppRepository(private val context: Context) {
                     canLaunch = canLaunch,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
-                    firstInstallTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).firstInstallTime }.getOrNull(),
-                    lastUpdateTime = runCatching { packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime }.getOrNull(),
+                    firstInstallTime = runCatching {
+                        normalizePackageTimestamp(packageManager.getPackageInfo(info.packageName, 0).firstInstallTime)
+                    }.getOrNull(),
+                    lastUpdateTime = runCatching {
+                        normalizePackageTimestamp(packageManager.getPackageInfo(info.packageName, 0).lastUpdateTime)
+                    }.getOrNull(),
                     apkSizeBytes = apkSizeBytes,
                     installedSizeBytes = storage?.appBytes,
                     dataSizeBytes = storage?.dataBytes,
@@ -206,6 +210,16 @@ class InstalledAppRepository(private val context: Context) {
         private var cachedApps: List<AppItem> = emptyList()
 
         fun cached(): List<AppItem> = cachedApps
+    }
+
+    /**
+     * PackageManager exposes install/update times in milliseconds. Keep a defensive
+     * compatibility boundary for devices/providers that surface epoch seconds;
+     * otherwise a seconds value is rendered as a date around 1970.
+     */
+    private fun normalizePackageTimestamp(timestamp: Long): Long? {
+        if (timestamp <= 0L) return null
+        return if (timestamp < 100_000_000_000L) timestamp * 1000L else timestamp
     }
 
     private fun formatSize(bytes: Long): String {
