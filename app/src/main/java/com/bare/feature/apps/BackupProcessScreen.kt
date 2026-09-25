@@ -53,20 +53,18 @@ internal fun BackupProcessScreen(
 
     Column(Modifier.fillMaxSize()) {
         GlobalHeader()
-        Row(
-            Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            IconButton(onClick = onDone, enabled = !running) {
-                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
-            }
-            Column(Modifier.weight(1f)) {
-                Text(stringResource(R.string.backup_process), fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
-                Text(appName, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-            Icon(Icons.Default.BugReport, contentDescription = stringResource(R.string.backup_diagnostics))
-        }
-        HorizontalDivider()
+        BaReSubHeader(
+            title = stringResource(R.string.backup_process),
+            subtitle = appName,
+            onBack = onDone,
+            backEnabled = !running,
+            actions = {
+                Icon(
+                    Icons.Default.BugReport,
+                    contentDescription = stringResource(R.string.backup_diagnostics),
+                )
+            },
+        )
 
         Column(
             Modifier.fillMaxWidth().padding(20.dp),
