@@ -1035,6 +1035,34 @@ private fun SettingsLinkEntry(title: String, subtitle: String, onClick: () -> Un
 
 
 
+@Composable
+private fun AppDetailSubHeader(
+    appName: String,
+    onBack: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(64.dp)
+            .padding(horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                Icons.Default.ArrowBack,
+                contentDescription = stringResource(R.string.back),
+            )
+        }
+        Text(
+            text = appName,
+            style = MaterialTheme.typography.titleLarge,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+    HorizontalDivider()
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(
@@ -1044,9 +1072,6 @@ fun AppDetailScreen(
     appCount: Int,
     appsContext: AppsContext,
     onAppsContextChange: (AppsContext) -> Unit,
-    onOpenAppsSearch: () -> Unit,
-    onOpenAppsFilter: () -> Unit,
-    onOpenAppsMenu: () -> Unit,
 ) {
     val context = LocalContext.current
     val packageName = app?.packageName
@@ -1278,17 +1303,8 @@ fun AppDetailScreen(
         topBar = {
             Column(Modifier.fillMaxWidth()) {
                 GlobalHeader()
-                AppsSubHeader(
-                    appCount = appCount,
-                    appsContext = appsContext,
-                    onAppsContextChange = onAppsContextChange,
-                    searchOpen = false,
-                    searchQuery = "",
-                    onSearchQueryChange = {},
-                    onCloseSearch = {},
-                    onOpenSearch = { onOpenAppsSearch() },
-                    onOpenFilter = { onOpenAppsFilter() },
-                    onOpenMenu = { onOpenAppsMenu() },
+                AppDetailSubHeader(
+                    appName = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
                     onBack = onBack,
                 )
             }
