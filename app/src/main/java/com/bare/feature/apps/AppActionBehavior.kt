@@ -103,7 +103,8 @@ object AppActionBehavior {
     fun clearData(packageName: String): Result = rootAction(packageName) {
         RootAppActionExecutor.clearData(it)
     }
-\n    fun deleteExternalData(packageName: String): Result =
+
+    fun deleteExternalData(packageName: String): Result =
         rootPathAction(packageName) { "/sdcard/Android/data/$it" }
 
     fun deleteMedia(packageName: String): Result =
