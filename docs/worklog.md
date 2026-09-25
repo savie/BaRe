@@ -567,3 +567,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** run #1043 is currently `IN_PROGRESS`; compilation has not yet reached the APK assembly step.
 - **RUNTIME:** not re-tested.
 - **STATUS:** `ROOT CAUSE IDENTIFIED / REMEDIATED / CI PENDING / RUNTIME PENDING`.
+
+
+## 10.23 CI #1043 FAILURE — BRACE/COMPOSABLE SCOPE ROOT CAUSE — 2026-09-25
+
+- **OBSERVED:** CI #1043 reached `:app:compileDebugKotlin` but failed on unresolved `AppsSubHeader` / `AppsDrawerItem`, local-function modifier error, and missing `}`.
+- **ROOT CAUSE:** `MainShell` was still left one brace short after the refresh-container reconstruction. Consequently subsequent top-level composables were parsed as local functions inside `MainShell`, producing cascading unresolved-reference errors.
+- **VERIFICATION:** current source structural scan places `MainShell` boundary at line 820 and restores the top-level boundary before `AppsSubHeader`.
+- **FIX:** commit `770687a97d6ae47d214263bfa80da7a1d154df3c` adds the missing closing brace only; no behavioral refresh logic changed in this fix.
+- **CI:** run #1044 is queued for commit `770687a97d6ae47d214263bfa80da7a1d154df3c`.
+- **RUNTIME:** not tested.
+- **STATUS:** `ROOT CAUSE IDENTIFIED / FIX IMPLEMENTED / CI #1044 QUEUED / RUNTIME PENDING`.
