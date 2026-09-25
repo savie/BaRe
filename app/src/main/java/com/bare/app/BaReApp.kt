@@ -51,6 +51,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.*
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
@@ -173,6 +174,14 @@ fun BaReApp() {
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
     val screenBackStack = remember { mutableStateListOf<Screen>() }
+    var globalRefreshToken by remember { mutableIntStateOf(0) }
+    var globalRefreshing by remember { mutableStateOf(false) }
+    LaunchedEffect(globalRefreshToken) {
+        if (globalRefreshToken > 0) {
+            withFrameNanos { }
+            globalRefreshing = false
+        }
+    }
     val baReLogger = remember(context) { BaReLogger(context) }
 
     LaunchedEffect(screen) {
@@ -450,6 +459,12 @@ fun BaReApp() {
                     { selectedMethod = it; identityStore.saveAccessMethod(it) },
                     { identityType = it.type; screen = Screen.NONE; startScreen = StartScreen.APP },
                     screen, identityStore.load()?.identityId, selectedApp, selectedAppPackageName, ::goBack,
+                    globalRefreshToken,
+                    globalRefreshing,
+                    {
+                        globalRefreshing = true
+                        globalRefreshToken++
+                    },
                     { if (identityType == IdentityType.ACCOUNT) { accountRepository.signOut(); activeAccount = null; identityType = IdentityType.LOCAL } else { returnToAppAfterFlow = true; accountAuthError = null; startScreen = StartScreen.LOGIN } },
                     identityType == IdentityType.ACCOUNT, activeAccount?.email ?: loginEmail, selectedMethod,
                     appsSearchOpen, { appsSearchOpen = it }, appsSearchQuery, { appsSearchQuery = it }, appsFilterOpen, { appsFilterOpen = it },
@@ -484,6 +499,9 @@ private fun MainShell(
     selectedApp: AppItem?,
     selectedAppPackageName: String?,
     onBack: () -> Unit,
+    globalRefreshToken: Int,
+    isGlobalRefreshing: Boolean,
+    onGlobalRefresh: () -> Unit,
     onAccountAction: () -> Unit,
     hasAccount: Boolean,
     accountEmail: String,
@@ -505,8 +523,14 @@ private fun MainShell(
     var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
     var appsContext by remember { mutableStateOf(AppsContext.LOCAL) }
 
-    if (screen != Screen.NONE) {
-        when (screen) {
+    PullToRefreshBox(
+        isRefreshing = isGlobalRefreshing,
+        onRefresh = onGlobalRefresh,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        if (screen != Screen.NONE) {
+            key(globalRefreshToken) {
+                when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APP_QUICK_ACTIONS -> AppsQuickActionsScreen(onOpenScreen, onBack)
             Screen.APP_LABELS -> AppLabelsScreen(onBack)
@@ -552,12 +576,16 @@ private fun MainShell(
                 onDynamicColorsChanged = onDynamicColorsChanged,
                 onAmoledBlackChanged = onAmoledBlackChanged,
             )
+                }
+            }
         }
-        return
+        return@PullToRefreshBox
     }
     if (searchOpen) {
-        SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
-        return
+        key(globalRefreshToken) {
+            SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
+        }
+        return@PullToRefreshBox
     }
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
@@ -587,8 +615,9 @@ private fun MainShell(
         onAppsSearchQueryChange("")
     }
 
-    Box(Modifier.fillMaxSize()) {
-        Scaffold(
+    key(globalRefreshToken) {
+        Box(Modifier.fillMaxSize()) {
+            Scaffold(
             topBar = {
                 Column(Modifier.fillMaxWidth()) {
                     GlobalHeader(
@@ -788,6 +817,8 @@ private fun MainShell(
             }
         }
     }
+            }
+        }
     }
 }
 @Composable
