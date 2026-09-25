@@ -422,6 +422,33 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
 fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     val context = LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
+    if (pendingPartDelete != null) {
+        val pending = pendingPartDelete!!
+        val partLabel = when (pending.second) {
+            AppBackupPart.APK -> context.getString(R.string.apk_part)
+            AppBackupPart.DATA -> context.getString(R.string.data_part)
+            AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
+            AppBackupPart.MEDIA -> context.getString(R.string.media_part)
+        }
+        AlertDialog(
+            onDismissRequest = { pendingPartDelete = null },
+            title = { Text(stringResource(R.string.delete_backup_part_title)) },
+            text = { Text(stringResource(R.string.delete_backup_part_message) + " " + partLabel) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val (snapshot, part) = pendingPartDelete ?: return@TextButton
+                    pendingPartDelete = null
+                    runAction {
+                        actionBehavior.deletePart(packageName, snapshot.versionCode, part)
+                    }
+                }) { Text(stringResource(R.string.delete)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingPartDelete = null }) { Text(stringResource(R.string.cancel)) }
+            },
+        )
+    }
+
     if (message != null) {
         AlertDialog(
             onDismissRequest = { message = null },
@@ -2100,6 +2127,7 @@ private fun AppBackupStateCard(
     var noteOpen by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
     var deleteOpen by remember { mutableStateOf(false) }
+    var pendingPartDelete by remember { mutableStateOf<AppBackupPart?>(null) }
     var actionMessage by remember { mutableStateOf<String?>(null) }
 
     val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken, actionReloadToken) {
@@ -2190,6 +2218,33 @@ private fun AppBackupStateCard(
         )
     }
 
+    if (pendingPartDelete != null && latest != null) {
+        val part = pendingPartDelete!!
+        val partLabel = when (part) {
+            AppBackupPart.APK -> context.getString(R.string.apk_part)
+            AppBackupPart.DATA -> context.getString(R.string.data_part)
+            AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
+            AppBackupPart.MEDIA -> context.getString(R.string.media_part)
+        }
+        AlertDialog(
+            onDismissRequest = { pendingPartDelete = null },
+            title = { Text(stringResource(R.string.delete_backup_part_title)) },
+            text = { Text(stringResource(R.string.delete_backup_part_message) + " " + partLabel) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val selectedPart = pendingPartDelete ?: return@TextButton
+                    pendingPartDelete = null
+                    executeAction {
+                        actionBehavior.deletePart(packageName.orEmpty(), latest.versionCode, selectedPart)
+                    }
+                }) { Text(stringResource(R.string.delete)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingPartDelete = null }) { Text(stringResource(R.string.cancel)) }
+            },
+        )
+    }
+
     if (actionMessage != null) {
         AlertDialog(
             onDismissRequest = { actionMessage = null },
@@ -2272,8 +2327,54 @@ private fun AppBackupStateCard(
                 }
                 HorizontalDivider()
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    BackupPartChip(stringResource(R.string.apk_part), latest.apkBytes, Icons.Default.Android, Modifier.weight(1f))
-                    BackupPartChip(stringResource(R.string.data_part), latest.dataBytes, Icons.Default.Folder, Modifier.weight(1f), latest.protectedBackup)
+                    if (latest.apkBytes > 0) {
+                        BackupPartChip(
+                            part = AppBackupPart.APK,
+                            title = stringResource(R.string.apk_part),
+                            size = latest.apkBytes,
+                            icon = Icons.Default.Android,
+                            modifier = Modifier.weight(1f),
+                            protected = latest.protectedBackup,
+                            onDelete = { pendingPartDelete = AppBackupPart.APK },
+                        )
+                    }
+                    if (latest.dataBytes > 0) {
+                        BackupPartChip(
+                            part = AppBackupPart.DATA,
+                            title = stringResource(R.string.data_part),
+                            size = latest.dataBytes,
+                            icon = Icons.Default.Folder,
+                            modifier = Modifier.weight(1f),
+                            protected = latest.protectedBackup,
+                            onDelete = { pendingPartDelete = AppBackupPart.DATA },
+                        )
+                    }
+                }
+                if (latest.externalDataBytes > 0) {
+                    Row(Modifier.fillMaxWidth()) {
+                        BackupPartChip(
+                            part = AppBackupPart.EXTERNAL_DATA,
+                            title = stringResource(R.string.external_data_part),
+                            size = latest.externalDataBytes,
+                            icon = Icons.Default.Folder,
+                            modifier = Modifier.fillMaxWidth(),
+                            protected = latest.protectedBackup,
+                            onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
+                        )
+                    }
+                }
+                if (latest.mediaBytes > 0) {
+                    Row(Modifier.fillMaxWidth()) {
+                        BackupPartChip(
+                            part = AppBackupPart.MEDIA,
+                            title = stringResource(R.string.media_part),
+                            size = latest.mediaBytes,
+                            icon = Icons.Default.Folder,
+                            modifier = Modifier.fillMaxWidth(),
+                            protected = latest.protectedBackup,
+                            onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
+                        )
+                    }
                 }
                 Text(formatBackupSize(latest.totalBytes), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 if (!latest.note.isNullOrBlank()) Text(latest.note!!, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall)
@@ -2294,13 +2395,15 @@ private fun AppBackupStateCard(
 
 @Composable
 private fun BackupPartChip(
+    part: AppBackupPart,
     title: String,
     size: Long,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
     protected: Boolean = false,
+    onDelete: () -> Unit,
 ) {
-    var menuOpen by remember(title, size, protected) { mutableStateOf(false) }
+    var menuOpen by remember(part, title, size, protected) { mutableStateOf(false) }
 
     Box(modifier) {
         Surface(
@@ -2317,7 +2420,7 @@ private fun BackupPartChip(
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
                     Text(title, fontWeight = FontWeight.SemiBold)
                     Text(
-                        formatBackupSize(size) + if (protected && title == stringResource(R.string.data_part)) " 🔒" else "",
+                        formatBackupSize(size) + if (protected && part == AppBackupPart.DATA) " 🔒" else "",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -2338,26 +2441,30 @@ private fun BackupPartChip(
                 enabled = false,
                 onClick = {},
             )
-            if (title == stringResource(R.string.data_part)) {
-                DropdownMenuItem(
+            when (part) {
+                AppBackupPart.DATA -> DropdownMenuItem(
                     text = { Text(stringResource(R.string.encrypted)) },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     enabled = false,
                     onClick = {},
                 )
-            } else if (title == stringResource(R.string.apk_part)) {
-                DropdownMenuItem(
+                AppBackupPart.APK -> DropdownMenuItem(
                     text = { Text(stringResource(R.string.share_apk)) },
                     leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
                     enabled = false,
                     onClick = {},
                 )
+                AppBackupPart.EXTERNAL_DATA,
+                AppBackupPart.MEDIA -> Unit
             }
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.delete)) },
                 leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
-                enabled = false,
-                onClick = {},
+                enabled = !protected,
+                onClick = {
+                    menuOpen = false
+                    onDelete()
+                },
             )
         }
     }
@@ -2660,6 +2767,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
     var noteOpen by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
     var pendingDelete by remember { mutableStateOf<AppBackupSnapshot?>(null) }
+    var pendingPartDelete by remember { mutableStateOf<Pair<AppBackupSnapshot, AppBackupPart>?>(null) }
     var message by remember { mutableStateOf<String?>(null) }
 
     val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken) {
@@ -2767,8 +2875,54 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                 }
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                BackupPartChip(stringResource(R.string.apk_part), snapshot.apkBytes, Icons.Default.Android, Modifier.weight(1f))
-                                BackupPartChip(stringResource(R.string.data_part), snapshot.dataBytes, Icons.Default.Folder, Modifier.weight(1f), snapshot.protectedBackup)
+                                if (snapshot.apkBytes > 0) {
+                                    BackupPartChip(
+                                        part = AppBackupPart.APK,
+                                        title = stringResource(R.string.apk_part),
+                                        size = snapshot.apkBytes,
+                                        icon = Icons.Default.Android,
+                                        modifier = Modifier.weight(1f),
+                                        protected = snapshot.protectedBackup,
+                                        onDelete = { pendingPartDelete = snapshot to AppBackupPart.APK },
+                                    )
+                                }
+                                if (snapshot.dataBytes > 0) {
+                                    BackupPartChip(
+                                        part = AppBackupPart.DATA,
+                                        title = stringResource(R.string.data_part),
+                                        size = snapshot.dataBytes,
+                                        icon = Icons.Default.Folder,
+                                        modifier = Modifier.weight(1f),
+                                        protected = snapshot.protectedBackup,
+                                        onDelete = { pendingPartDelete = snapshot to AppBackupPart.DATA },
+                                    )
+                                }
+                            }
+                            if (snapshot.externalDataBytes > 0) {
+                                Row(Modifier.fillMaxWidth()) {
+                                    BackupPartChip(
+                                        part = AppBackupPart.EXTERNAL_DATA,
+                                        title = stringResource(R.string.external_data_part),
+                                        size = snapshot.externalDataBytes,
+                                        icon = Icons.Default.Folder,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        protected = snapshot.protectedBackup,
+                                        onDelete = { pendingPartDelete = snapshot to AppBackupPart.EXTERNAL_DATA },
+                                    )
+                                }
+                            }
+                            if (snapshot.mediaBytes > 0) {
+                                Row(Modifier.fillMaxWidth()) {
+                                    BackupPartChip(
+                                        part = AppBackupPart.MEDIA,
+                                        title = stringResource(R.string.media_part),
+                                        size = snapshot.mediaBytes,
+                                        icon = Icons.Default.Folder,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        protected = snapshot.protectedBackup,
+                                        onDelete = { pendingPartDelete = snapshot to AppBackupPart.MEDIA },
+                                    )
+                                }
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                                 Text(formatBackupSize(snapshot.totalBytes), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
