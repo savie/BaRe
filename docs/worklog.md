@@ -1492,3 +1492,18 @@ Pada halaman Backup, area di luar surface/card harus tetap menggunakan backgroun
 ### STATUS
 `IMPLEMENTED / RUNTIME VERIFICATION PENDING`
 
+## A17 — Koreksi background Backup Process — 2026-09-26
+
+### USER FEEDBACK
+Reference runtime menunjukkan area di luar surface/card harus tetap memakai background hitam BaRe. Hanya isi surface/card yang memakai warna surface.
+
+### IMPLEMENTASI
+- Root `BackupProcessScreen` dipastikan memakai `MaterialTheme.colorScheme.background`.
+- Progress card dipastikan memakai `MaterialTheme.colorScheme.surface`.
+- Diagnostics card dipastikan memakai `MaterialTheme.colorScheme.surface`.
+- Tidak mengubah isi, layout body, atau behavior backup.
+
+### VERIFICATION
+Source updated pada `990e2dce949ab70785460cd51497bf6a1080eac4`.
+Runtime verification masih pending.
+
