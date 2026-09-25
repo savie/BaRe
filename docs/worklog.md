@@ -351,3 +351,12 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **COMMIT FIX:** `2140ccbf517d53af5b70f353365a07966015b89b` — `fix(apps): opt in global header material api`.
 - **CI STATUS:** run #1016 **FAILED**; fix commit belum memiliki hasil CI baru pada saat checkpoint ini dicatat.
 - **VERIFICATION BOUNDARY:** build/runtime masih **UNVERIFIED**. Setelah fix, CI harus lulus terlebih dahulu; kemudian runtime visual A7 perlu diuji.
+
+
+## 10.10 GLOBAL HEADER FOUNDATION EXTRACTION — 2026-09-25
+
+- **USER DECISION:** Untuk sekarang cukup siapkan fondasi GlobalHeader yang reusable; refactor seluruh halaman dilakukan kemudian.
+- **IMPLEMENTED:** `GlobalHeader` dipindahkan dari `BaReApp.kt` menjadi shared component `app/src/main/java/com/bare/app/GlobalHeader.kt`.
+- **CONTRACT:** komponen mempertahankan identitas global `BARE / SAVE OUR DAY`, ukuran 96dp, typography dan letter-spacing yang sudah dipakai pada A7.
+- **BOUNDARY:** belum semua halaman direfactor untuk memakai komponen ini. Apps/App Detail tetap menjadi consumer yang sudah ada; audit dan migrasi seluruh halaman ditunda sesuai keputusan user.
+- **VERIFICATION:** source extraction committed. CI/runtime untuk commit extraction belum diverifikasi.
