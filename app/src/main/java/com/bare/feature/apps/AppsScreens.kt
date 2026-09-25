@@ -998,14 +998,31 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                         Modifier.fillMaxWidth().padding(end = 44.dp),
                                         verticalAlignment = Alignment.Top
                                     ) {
-                                        AndroidView(
-                                            factory = { android.widget.ImageView(it) },
-                                            update = { imageView ->
-                                                imageView.setImageDrawable(app?.icon)
-                                                imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
-                                            },
-                                            modifier = Modifier.size(40.dp)
-                                        )
+                                        Box(Modifier.size(40.dp)) {
+                                            AndroidView(
+                                                factory = { android.widget.ImageView(it) },
+                                                update = { imageView ->
+                                                    imageView.setImageDrawable(app?.icon)
+                                                    imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                                },
+                                                modifier = Modifier.fillMaxSize()
+                                            )
+                                            if (isFavorite) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .align(Alignment.BottomEnd)
+                                                        .size(16.dp)
+                                                        .background(MaterialTheme.colorScheme.surfaceVariant, CircleShape)
+                                                ) {
+                                                    Icon(
+                                                        Icons.Default.Star,
+                                                        contentDescription = stringResource(R.string.favorites),
+                                                        tint = MaterialTheme.colorScheme.onSurface,
+                                                        modifier = Modifier.fillMaxSize().padding(1.dp)
+                                                    )
+                                                }
+                                            }
+                                        }
                                         Spacer(Modifier.width(12.dp))
                                         Column(Modifier.weight(1f)) {
                                             Text(
@@ -1031,27 +1048,27 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                                             )
-                                            if (isFavorite || appLabels.isNotEmpty()) {
+                                            if (appLabels.isNotEmpty()) {
                                                 Row(
                                                     Modifier.horizontalScroll(rememberScrollState()),
                                                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                                                     verticalAlignment = Alignment.CenterVertically
                                                 ) {
-                                                    if (isFavorite) {
-                                                        AssistChip(
-                                                            onClick = {
-                                                                organizationStore.setFavorite(appDetails.packageName, false)
-                                                            },
-                                                            label = { Text(stringResource(R.string.favorites)) },
-                                                            leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) }
-                                                        )
-                                                    }
                                                     appLabels.forEach { label ->
-                                                        AssistChip(
-                                                            onClick = { },
-                                                            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                                                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) }
-                                                        )
+                                                        Surface(
+                                                            shape = RoundedCornerShape(11.dp),
+                                                            border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+                                                            tonalElevation = 0.dp
+                                                        ) {
+                                                            Text(
+                                                                label.uppercase(),
+                                                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+                                                                style = MaterialTheme.typography.labelSmall,
+                                                                fontWeight = FontWeight.Bold,
+                                                                maxLines = 1,
+                                                                overflow = TextOverflow.Ellipsis
+                                                            )
+                                                        }
                                                     }
                                                 }
                                             }
