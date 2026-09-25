@@ -1565,7 +1565,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
                                                 onClick = {
                                                     showActions = false
-                                                    labelsText = organizationStore.labels(appDetails.packageName).joinToString(", ")
+                                                    onOpen(Screen.APP_LABEL_SELECTION)
                                                     showLabelsEditor = true
                                                 }
                                             )
