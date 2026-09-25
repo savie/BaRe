@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `776803502fb681b85e65608eda0c997cb3e1a18a` |
+| Current checkpoint | `d18a11f5ab48a889ad9aff0658230ee206649ef7` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -385,3 +385,12 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **SCOPE:** hanya shell yang sudah digarap sampai A7. Tidak mengubah body, bottom navigation, atau capability A8.
 - **SOURCE VERIFICATION:** GlobalHeader, AppsSubHeader, dan AppDetailSubHeader dibaca ulang setelah perubahan. Bottom navigation dikembalikan ke ukuran sebelumnya setelah ditemukan perubahan tidak sengaja saat bulk replacement.
 - **VERIFICATION:** source state sudah terkonfirmasi; build/runtime setelah compacting masih **UNVERIFIED**.
+
+
+## 10.13 SHELL DENSITY CORRECTION — 2026-09-25
+
+- **USER DECISION:** Bottom Navigation juga dipadatkan menjadi **56dp** untuk konsistensi density shell yang sedang diuji pada scope UI saat ini.
+- **IMPLEMENTED:** NavigationBar height **64dp → 56dp**.
+- **CURRENT SHELL TARGET:** GlobalHeader 80dp, AppsSubHeader 56dp, DetailSubHeader 56dp, Bottom Navigation 56dp.
+- **SCOPE:** hanya ukuran shell; tidak mengubah body/capability.
+- **VERIFICATION:** source committed; build/runtime belum diverifikasi.
