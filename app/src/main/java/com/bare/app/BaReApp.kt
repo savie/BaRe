@@ -648,49 +648,7 @@ private fun MainShell(
                     }
                 }
             },
-        bottomBar = {
-            androidx.compose.animation.AnimatedVisibility(
-                visible = bottomBarVisible,
-                modifier = Modifier.fillMaxWidth(),
-                enter = androidx.compose.animation.slideInVertically { it } + androidx.compose.animation.fadeIn(),
-                exit = androidx.compose.animation.slideOutVertically { it } + androidx.compose.animation.fadeOut(),
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center,
-                ) {
-                    NavigationBar(
-                    modifier = Modifier
-                        .fillMaxWidth(0.62f)
-                        .height(56.dp)
-                        .offset(y = (-12).dp)
-                        .clip(RoundedCornerShape(24.dp)),
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    tonalElevation = 6.dp,
-                    windowInsets = WindowInsets(0, 0, 0, 0),
-                ) {
-                    tabs.forEachIndexed { index, tab ->
-                        NavigationBarItem(
-                            selected = pagerState.currentPage == index,
-                            onClick = { onTabSelected(index) },
-                            icon = {
-                                Icon(
-                                    tab.icon,
-                                    stringResource(tab.titleRes),
-                                    modifier = Modifier.size(28.dp),
-                                )
-                            },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            ),
-                        )
-                    }
-                }
-                }
-            }
-        },
+
     ) { padding ->
 
         Column(
@@ -731,6 +689,50 @@ private fun MainShell(
                     accountEmail = accountEmail,
                     onAccountAction = onAccountAction,
                 )
+                }
+            }
+        }
+    }
+
+    androidx.compose.animation.AnimatedVisibility(
+        visible = bottomBarVisible,
+        modifier = Modifier
+            .fillMaxWidth()
+            .align(androidx.compose.ui.Alignment.BottomCenter)
+            .padding(bottom = 12.dp),
+        enter = androidx.compose.animation.slideInVertically { it } + androidx.compose.animation.fadeIn(),
+        exit = androidx.compose.animation.slideOutVertically { it } + androidx.compose.animation.fadeOut(),
+    ) {
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = androidx.compose.ui.Alignment.Center,
+        ) {
+            NavigationBar(
+                modifier = Modifier
+                    .fillMaxWidth(0.62f)
+                    .height(56.dp)
+                    .clip(RoundedCornerShape(24.dp)),
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                tonalElevation = 6.dp,
+                windowInsets = WindowInsets(0, 0, 0, 0),
+            ) {
+                tabs.forEachIndexed { index, tab ->
+                    NavigationBarItem(
+                        selected = pagerState.currentPage == index,
+                        onClick = { onTabSelected(index) },
+                        icon = {
+                            Icon(
+                                tab.icon,
+                                stringResource(tab.titleRes),
+                                modifier = Modifier.size(28.dp),
+                            )
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                            selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        ),
+                    )
                 }
             }
         }
