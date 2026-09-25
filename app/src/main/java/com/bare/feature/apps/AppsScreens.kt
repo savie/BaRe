@@ -1286,6 +1286,7 @@ fun AppDetailScreen(
                 onOpenSearch = { onOpenAppsSearch() },
                 onOpenFilter = { onOpenAppsFilter() },
                 onOpenMenu = { onOpenAppsMenu() },
+                onBack = onBack,
             )
         }
     ) { padding ->
