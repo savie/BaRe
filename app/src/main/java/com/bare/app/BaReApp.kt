@@ -500,6 +500,10 @@ private fun MainShell(
     onDynamicColorsChanged: (Boolean) -> Unit,
     onAmoledBlackChanged: (Boolean) -> Unit,
 ) {
+    var appsMenuOpen by remember { mutableStateOf(false) }
+    var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
+    var appsContext by remember { mutableStateOf(AppsContext.LOCAL) }
+
     if (screen != Screen.NONE) {
         when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
@@ -557,9 +561,6 @@ private fun MainShell(
         SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
         return
     }
-    var appsMenuOpen by remember { mutableStateOf(false) }
-    var appsInventoryCount by remember { mutableIntStateOf(InstalledAppRepository.cached().size) }
-    var appsContext by remember { mutableStateOf(AppsContext.LOCAL) }
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     val bottomBarScrollConnection = remember {
