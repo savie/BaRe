@@ -1948,6 +1948,7 @@ private fun AppStorageSelectionChip(
 }
 
 @Composable
+// Backup empty-state UI and resources are validated together on the branch head.
 private fun AppBackupStateCard(
     packageName: String?,
     onOpenBackups: () -> Unit,
