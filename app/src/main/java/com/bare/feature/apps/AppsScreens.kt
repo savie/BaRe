@@ -1043,7 +1043,7 @@ private fun AppDetailSubHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(64.dp)
+            .height(56.dp)
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
