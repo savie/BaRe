@@ -31,9 +31,29 @@ sealed interface AppBackupResult {
         val parts: Set<AppBackupPart>,
     ) : AppBackupResult
 
+    data class Cancelled(
+        val completedParts: Set<AppBackupPart>,
+    ) : AppBackupResult
+
     data class Unsupported(val reason: String) : AppBackupResult
     data class Failed(val reason: String) : AppBackupResult
 }
+
+enum class AppBackupProgressStage {
+    PREPARING,
+    PART_STARTED,
+    PART_COMPLETED,
+    PART_FAILED,
+    METADATA,
+    COMPLETED,
+    CANCELLED,
+}
+
+data class AppBackupProgress(
+    val stage: AppBackupProgressStage,
+    val part: AppBackupPart? = null,
+    val message: String,
+)
 
 class AppBackupBehavior(private val context: Context) {
     private val storage = BackupStorageBehavior(context)
@@ -41,7 +61,11 @@ class AppBackupBehavior(private val context: Context) {
     private val dataBackup = AppDataBackupBehavior(context)
     private val externalDataBackup = AppExternalDataBackupBehavior()
 
-    fun backup(request: AppBackupRequest): AppBackupResult {
+    fun backup(
+        request: AppBackupRequest,
+        onProgress: (AppBackupProgress) -> Unit = {},
+        isCancelled: () -> Boolean = { false },
+    ): AppBackupResult {
         if (!request.packageName.matches(PACKAGE_REGEX)) {
             return AppBackupResult.Failed("Invalid package name")
         }
@@ -53,6 +77,12 @@ class AppBackupBehavior(private val context: Context) {
         }
         if (AppBackupPart.MEDIA in request.parts) {
             return AppBackupResult.Unsupported("Media backup execution is not available")
+        }
+
+        onProgress(AppBackupProgress(AppBackupProgressStage.PREPARING, message = "Preparing backup"))
+        if (isCancelled()) {
+            onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, message = "Backup cancelled"))
+            return AppBackupResult.Cancelled(emptySet())
         }
 
         val identity = identityStore.load() ?: identityStore.createLocalIdentity()
@@ -81,13 +111,24 @@ class AppBackupBehavior(private val context: Context) {
             version,
         )
         if (!backupDirectory.exists() && !backupDirectory.mkdirs()) {
-            return AppBackupResult.Failed("Unable to create backup directory")
+            val reason = "Unable to create backup directory"
+            onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = reason))
+            return AppBackupResult.Failed(reason)
         }
+
+        onProgress(AppBackupProgress(AppBackupProgressStage.PREPARING, message = "Backup storage ready"))
 
         val files = mutableListOf<File>()
         val completedParts = linkedSetOf<AppBackupPart>()
 
         for (part in request.parts) {
+            if (isCancelled()) {
+                onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, part, "Backup cancelled"))
+                return AppBackupResult.Cancelled(completedParts)
+            }
+
+            onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Backing up ${part.displayName()}"))
+
             val result = when (part) {
                 AppBackupPart.APK -> backupApk(backupDirectory, request.packageName)
                 AppBackupPart.DATA -> dataBackup.backup(
@@ -105,12 +146,23 @@ class AppBackupBehavior(private val context: Context) {
                 is AppBackupPartResult.Completed -> {
                     files += result.files
                     completedParts += part
+                    onProgress(
+                        AppBackupProgress(
+                            AppBackupProgressStage.PART_COMPLETED,
+                            part,
+                            "${part.displayName()} backup completed (${result.files.size} files)",
+                        )
+                    )
                 }
                 is AppBackupPartResult.Failed -> {
-                    return AppBackupResult.Failed("${part.name} backup failed: ${result.reason}")
+                    val reason = "${part.displayName()} backup failed: ${result.reason}"
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, reason))
+                    return AppBackupResult.Failed(reason)
                 }
             }
         }
+
+        onProgress(AppBackupProgress(AppBackupProgressStage.METADATA, message = "Saving backup metadata"))
 
         val metadataResult = runCatching {
             val installerPackage = runCatching {
@@ -128,12 +180,25 @@ class AppBackupBehavior(private val context: Context) {
             ).writeAtomically(backupDirectory)
         }
         if (metadataResult.isFailure) {
-            return AppBackupResult.Failed(
-                "Backup metadata commit failed: ${metadataResult.exceptionOrNull()?.message ?: "unknown error"}"
-            )
+            val reason = "Backup metadata commit failed: ${metadataResult.exceptionOrNull()?.message ?: "unknown error"}"
+            onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = reason))
+            return AppBackupResult.Failed(reason)
         }
 
+        onProgress(
+            AppBackupProgress(
+                AppBackupProgressStage.COMPLETED,
+                message = "Backup completed: ${completedParts.size}/${request.parts.size} parts",
+            )
+        )
         return AppBackupResult.Completed(files, completedParts)
+    }
+
+    private fun AppBackupPart.displayName(): String = when (this) {
+        AppBackupPart.APK -> "APK"
+        AppBackupPart.DATA -> "Data"
+        AppBackupPart.EXTERNAL_DATA -> "Ext. data"
+        AppBackupPart.MEDIA -> "Media"
     }
 
     private fun backupApk(backupDirectory: File, packageName: String): AppBackupPartResult {
