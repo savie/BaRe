@@ -1179,3 +1179,20 @@ User supplied reference screenshots confirming two distinct installed-app contex
 
 ### STATUS
 `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
+## A13 — Installed-card Delete async fix — 2026-09-25
+
+### OBSERVED
+- CI #1096 failed at `AppsScreens.kt:1273` because installed-card Delete confirmation called `withContext(Dispatchers.IO)` directly from a non-suspend Compose click callback.
+- This is a compile-time coroutine-context error; no runtime Delete verification can be inferred from this failed build.
+
+### FIX
+- Installed-card Delete now launches from the existing `backupScope` and performs `deleteAll(packageName)` inside `withContext(Dispatchers.IO)`.
+- Successful deletion increments both backup and detail reload tokens so installed-card/device-backup inventory is refreshed.
+- Failure remains surfaced through the existing action failure/toast path.
+
+### VERIFICATION
+- Source fix committed as `c9a392bfad2815e3d3bdeee7aefbe06b0c476855`.
+- CI verification for the fix is pending.
+- Runtime installed-card Delete verification is pending.
+- STATUS: `FIX IMPLEMENTED / CI PENDING / RUNTIME PENDING`
