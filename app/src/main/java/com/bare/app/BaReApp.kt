@@ -528,9 +528,9 @@ private fun MainShell(
         onRefresh = onGlobalRefresh,
         modifier = Modifier.fillMaxSize(),
     ) {
-        if (screen != Screen.NONE) {
-            key(globalRefreshToken) {
-                when (screen) {
+    if (screen != Screen.NONE) {
+        key(globalRefreshToken) {
+        when (screen) {
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APP_QUICK_ACTIONS -> AppsQuickActionsScreen(onOpenScreen, onBack)
             Screen.APP_LABELS -> AppLabelsScreen(onBack)
@@ -576,17 +576,14 @@ private fun MainShell(
                 onDynamicColorsChanged = onDynamicColorsChanged,
                 onAmoledBlackChanged = onAmoledBlackChanged,
             )
-                }
-            }
         }
-            return@PullToRefreshBox
         }
-    if (searchOpen) {
+    } else if (searchOpen) {
         key(globalRefreshToken) {
             SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
         }
-        return@PullToRefreshBox
-    }
+    } else {
+    key(globalRefreshToken) {
     var bottomBarVisible by remember { mutableStateOf(true) }
     val appsSelected = pagerState.currentPage == Tab.APPS.ordinal
     val bottomBarScrollConnection = remember {
@@ -615,9 +612,8 @@ private fun MainShell(
         onAppsSearchQueryChange("")
     }
 
-    key(globalRefreshToken) {
-        Box(Modifier.fillMaxSize()) {
-            Scaffold(
+    Box(Modifier.fillMaxSize()) {
+        Scaffold(
             topBar = {
                 Column(Modifier.fillMaxWidth()) {
                     GlobalHeader(
@@ -817,8 +813,8 @@ private fun MainShell(
             }
         }
     }
-            }
-        }
+    }
+    }
     }
 }
 @Composable
