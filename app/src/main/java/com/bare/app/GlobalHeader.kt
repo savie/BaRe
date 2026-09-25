@@ -32,7 +32,7 @@ fun GlobalHeader(
     onOpenSearch: (() -> Unit)? = null,
 ) {
     TopAppBar(
-        modifier = Modifier.height(96.dp),
+        modifier = Modifier.height(80.dp),
         title = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
