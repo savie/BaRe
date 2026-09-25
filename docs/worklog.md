@@ -1214,3 +1214,35 @@ Reference runtime screenshots 480800, 480801, 480802 memperjelas bahwa Delete ya
 
 ### STATUS
 AUTHORIZED / WORKLOG PRE-IMPLEMENTATION UPDATED / IMPLEMENTATION PENDING
+
+## A10/A13 — Installed-part Delete implementation completed — 2026-09-25
+
+### IMPLEMENTATION
+- Removed general app overflow `Delete` action below Settings. The existing whole-backup deletion path is no longer exposed from that general app menu.
+- Added installed Data / Ext. data / Media contextual `Delete` after `Backup to Device & Cloud`.
+- Installed APK contextual menu remains `Backup to Device`, `Backup to Cloud`, `Backup to Device & Cloud`, `Share APK`; no Delete.
+- Data Delete uses `pm clear <package>` through the existing root action boundary.
+- Ext. data Delete removes `/sdcard/Android/data/<package>` through a root-backed, shell-quoted path operation.
+- Media Delete removes `/sdcard/Android/media/<package>` through the same root-backed path operation.
+- Each installed-part Delete opens its own confirmation dialog and dispatches the part-specific behavior; result is handled through the existing action result surface.
+- Device backup card/part Delete behavior remains separate and unchanged by this contract correction.
+
+### IMPLEMENTATION COMMITS
+- `a31caf13e32b6edd0312536ae49a2e6ad62f5b41` — root path deletion capability.
+- `fa554f1f550b3dec938894bc49f87f93d262d7f0` — installed Ext. data / Media delete behaviors.
+- `b6ee44f9ecd2fd028e0d646c0827860d4c5f64c0` — installed-part delete strings.
+- `fe085e09b7f79e03dfa56714f8423d1ca5b2910a` — UI placement, confirmation, dispatch, and removal of general-menu Delete.
+
+### VERIFICATION STATE
+- **SOURCE:** latest source re-read after implementation; installed APK/Data/Ext. data/Media menu distinction is represented in code.
+- **CI:** pending on latest implementation commit.
+- **RUNTIME:** not yet re-tested on device; behavior remains UNVERIFIED until the installed Data / Ext. data / Media flows are exercised.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
+### NEXT VERIFICATION
+1. Confirm CI build passes on the latest branch head.
+2. Runtime: APK menu has Share APK and no Delete.
+3. Runtime: Data menu has Delete and Delete clears only app data.
+4. Runtime: Ext. data menu has Delete and removes only Android/data package content.
+5. Runtime: Media menu has Delete and removes only Android/media package content.
+6. Runtime: general app overflow menu no longer exposes Delete.
