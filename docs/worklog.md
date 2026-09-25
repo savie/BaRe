@@ -13,8 +13,8 @@
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — Local/Cloud + App Detail + seluruh Apps subtree** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — Local/Cloud + Share APK implementation updated; runtime verification pending** |
-| Root cause | **Cloud provider/backend tetap belum tersedia; Share APK runtime capability path belum diverifikasi pada device** |
+| Runtime status | **MIXED — Share APK Apps list verified by user device evidence; A7 implemented, runtime verification for A7 pending** |
+| Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum runtime-verified** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -46,22 +46,15 @@
 ## 4. NEXT ACTION
 
 ### A. Install / Update Date
-1. Build checkpoint `25e0c899...`.
-2. Runtime E2E pada device.
-3. Jika masih `56 years ago`, capture raw `PackageInfo` value dari checkpoint ini sebelum perubahan berikutnya.
-4. Jangan menambah normalization/fallback lagi tanpa evidence.
+- **KELAR — user-confirmed.** Jangan dibuka ulang hanya karena session reset.
 
 ### B. Date Used
-1. Build checkpoint `25e0c899...`.
-2. Uji fresh APK pada device dengan Usage Access ON.
-3. Capture actual AppOps state/result.
-4. Capture jumlah hasil `queryUsageStats()` dan package match.
-5. Tentukan root cause sebelum mengubah query/semantics.
+- **KELAR — user-confirmed.** Jangan dibuka ulang hanya karena session reset.
 
 ### C. Setelah perubahan
 1. Build.
-2. Install/update pada device.
-3. E2E.
+2. Install/update pada device bila diperlukan.
+3. Runtime E2E hanya untuk capability yang memang berubah atau belum memiliki evidence yang cukup.
 4. Cocokkan runtime dengan expected behavior.
 5. Hanya setelah evidence memenuhi acceptance, tandai **VERIFIED**.
 
@@ -286,3 +279,17 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 5. Install Date / Update Date / Date Used runtime issues tetap unresolved dan tidak boleh dianggap selesai oleh audit Apps ini.
 
 **Checkpoint audit:** branch `v1.0/rebaseline` @ `ba5cf753998ff4c25eea9bdc01eceaaadb321975`.
+
+## 10.4 A7 APP DETAIL FOUNDATION / HEADER — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk A7.
+- **INSPECTED:** actual App Detail implementation pada branch `v1.0/rebaseline` sebelum perubahan.
+- **GAP:** App Detail header sudah memiliki icon/package/name/version dan app-level actions, tetapi belum menampilkan organization state (favorite/labels) pada header card.
+- **IMPLEMENTED:** App Detail header sekarang membaca favorite state dan labels dari `AppOrganizationBehavior`, lalu menampilkannya sebagai contextual chips di bawah version info.
+- **SCOPE:** A7 foundation/header only. Device/Cloud backup cards dan storage-part restructuring tetap dipisahkan untuk A8/A11/A12.
+- **COMMIT:** `aef085728260b475eb5679f8f65b8f5eb243aeef` — `feat(apps): enrich app detail header`.
+- **SOURCE VERIFICATION:** updated file dibaca ulang dari branch dan perubahan terkonfirmasi ada.
+- **CI/RUNTIME:** workflow run belum tersedia untuk commit ini; runtime device verification belum dilakukan.
+
+### A7 NEXT
+Lanjut ke **A8 App Detail storage parts + total/cache presentation** setelah A7 checkpoint ini dipertahankan.
