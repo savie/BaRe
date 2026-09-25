@@ -113,6 +113,19 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
     }
 
+    fun deletePath(path: String): RootProbeResult {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) {
+            return RootProbeResult.Failed("Invalid storage path")
+        }
+        val quoted = shellQuote(path)
+        val result = runSu("rm -rf -- $quoted && test ! -e $quoted")
+        return if (result.exitCode == 0) {
+            RootProbeResult.Success(result.stdout.ifBlank { "path deleted" }.trim())
+        } else {
+            RootProbeResult.Failed(result.stderr.ifBlank { result.stdout }.trim())
+        }
+    }
+
     fun directorySize(path: String): Long? {
         if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
         val quoted = shellQuote(path)
