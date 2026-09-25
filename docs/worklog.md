@@ -1246,3 +1246,28 @@ AUTHORIZED / WORKLOG PRE-IMPLEMENTATION UPDATED / IMPLEMENTATION PENDING
 4. Runtime: Ext. data menu has Delete and removes only Android/data package content.
 5. Runtime: Media menu has Delete and removes only Android/media package content.
 6. Runtime: general app overflow menu no longer exposes Delete.
+
+## A13 — Perbaikan CI installed-part Delete — 2026-09-25
+
+### OBSERVED / VERIFIED FROM CI #1100
+- Build `:app:assembleDebug` gagal pada tahap `compileDebugKotlin`.
+- `AppActionBehavior.kt:106` dan `RootAppActionExecutor.kt:27` memiliki literal `\n` yang masuk sebagai teks source, sehingga Kotlin membaca token tersebut sebagai syntax yang tidak valid.
+- `AppsScreens.kt:1251` dan `1255` mereferensikan `delete_installed_part` dan `confirm_delete_installed_part`, tetapi kedua resource string belum tersedia pada `strings.xml`.
+- Tidak ada evidence runtime dari build #1100 karena compile gagal.
+
+### FIX IMPLEMENTED
+- Memperbaiki literal `\n` menjadi newline Kotlin normal pada `AppActionBehavior.kt`.
+- Memperbaiki literal `\n` menjadi newline Kotlin normal pada `RootAppActionExecutor.kt`.
+- Menambahkan resource `delete_installed_part` dan `confirm_delete_installed_part` ke `strings.xml`.
+- Tidak mengubah kontrak UI installed-part: APK tetap tanpa Delete; Data / Ext. data / Media tetap memiliki Delete; general app overflow tetap tanpa Delete.
+
+### COMMITS
+- `049e5ed046d1210bf93ce91ee15cb08d0d7d8978` — perbaikan syntax AppActionBehavior.
+- `91f94b00cb7b07c99b4920384137a72077e4e5c8` — perbaikan syntax RootAppActionExecutor.
+- `3ee3907badc342dea6ec68381536ea644a354e01` — resource string installed-part Delete.
+
+### VERIFICATION STATE
+- **SOURCE:** fix sudah diterapkan dan branch diperiksa ulang.
+- **CI:** menunggu run baru setelah fix.
+- **RUNTIME:** tetap UNVERIFIED sampai build berhasil dan installed Data / Ext. data / Media Delete diuji di device.
+- **STATUS:** `FIX IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
