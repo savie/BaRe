@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `d18a11f5ab48a889ad9aff0658230ee206649ef7` |
+| Current checkpoint | `40a0f0013071ea1fb25e0150d58b5d41663a8182` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -394,3 +394,12 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CURRENT SHELL TARGET:** GlobalHeader 80dp, AppsSubHeader 56dp, DetailSubHeader 56dp, Bottom Navigation 56dp.
 - **SCOPE:** hanya ukuran shell; tidak mengubah body/capability.
 - **VERIFICATION:** source committed; build/runtime belum diverifikasi.
+
+
+## 10.14 GLOBAL HEADER BRAND ALIGNMENT — 2026-09-25
+
+- **USER DECISION:** GlobalHeader tetap **80dp**, tetapi branding `BARE / SAVE OUR DAY` harus center horizontal dan center vertical.
+- **IMPLEMENTED:** GlobalHeader title column horizontal alignment **Start → CenterHorizontally**; vertical arrangement tetap Center.
+- **TYPOGRAPHY:** ukuran/font/letter spacing tidak diubah.
+- **SCOPE:** hanya alignment GlobalHeader; AppsSubHeader, DetailSubHeader, body, dan Bottom Navigation tidak diubah.
+- **VERIFICATION:** source change committed; build/runtime E2E masih **UNVERIFIED**.
