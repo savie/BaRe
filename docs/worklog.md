@@ -1058,3 +1058,27 @@ Source implementation is complete. CI and device runtime verification are pendin
 - whole-backup Delete regression
 
 Status: IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
+
+
+## A10/A13 — CI #1084 compile failure fix (2026-09-25)
+
+### Evidence
+
+CI #1084 failed during Kotlin compilation in `AppsScreens.kt` because the part-delete confirmation dialog for backup history was inserted into `AppsQuickActionsScreen` instead of `AppBackupsScreen`.
+
+The resulting scope errors included unresolved `pendingPartDelete`, `runAction`, `actionBehavior`, `packageName`, and `versionCode`, plus the resulting non-exhaustive/ambiguous destructuring errors.
+
+### Fix
+
+Commit: 9d57fea8b668df088ab372c7e870204ea44f6b57
+
+- Removed the misplaced part-delete dialog from `AppsQuickActionsScreen`.
+- Scoped the dialog to `AppBackupsScreen`, where `pendingPartDelete`, `runAction`, `actionBehavior`, and `packageName` are defined.
+- Kept the App Detail backup-card part-delete dialog in its existing correct scope.
+- Re-read the updated source after the change and confirmed the history dialog references are inside `AppBackupsScreen`.
+
+### Verification
+
+CI #1084 failure is understood from the supplied compiler output. The source correction is implemented, but a new CI run is required to prove compilation.
+
+Status: FIX IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
