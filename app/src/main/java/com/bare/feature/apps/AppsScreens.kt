@@ -1139,7 +1139,6 @@ fun AppDetailScreen(
     fun handleAction(result: AppActionBehavior.Result, reloadOnSuccess: Boolean = true) {
         when (result) {
             AppActionBehavior.Result.COMPLETED -> {
-                toast(context.getString(R.string.action_completed))
                 if (reloadOnSuccess) reloadDetails()
             }
             AppActionBehavior.Result.ROOT_REQUIRED ->
@@ -1221,6 +1220,8 @@ fun AppDetailScreen(
                                 handleAction(AppActionBehavior.forceStop(currentPackage))
                             context.getString(R.string.clear_data) ->
                                 handleAction(AppActionBehavior.clearData(currentPackage))
+                            context.getString(R.string.uninstall) ->
+                                uninstallApp()
                         }
                     }
                 }) {
@@ -1591,7 +1592,6 @@ fun AppDetailScreen(
                                                     if (currentPackage != null) {
                                                         val next = !organizationStore.isFavorite(currentPackage)
                                                         organizationStore.setFavorite(currentPackage, next)
-                                                        toast(context.getString(R.string.action_completed))
                                                     }
                                                 }
                                             )
@@ -1612,7 +1612,6 @@ fun AppDetailScreen(
                                                     if (currentPackage != null) {
                                                         val next = !organizationStore.isBlacklisted(currentPackage)
                                                         organizationStore.setBlacklisted(currentPackage, next)
-                                                        toast(context.getString(R.string.action_completed))
                                                     }
                                                 }
                                             )
