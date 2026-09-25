@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `609de75a315cbf4aefce660f8ac302df461b4937` |
+| Current checkpoint | `5be02159181f2bd75110e9308851a6f695c3185f` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
-| Fokus | **Apps reference parity — A9 shared app-level action behavior boundary** |
+| Fokus | **Global refresh + dangerous-action confirmation + action feedback cleanup** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — A7 header architecture implemented; CI/runtime verification pending** |
-| Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum CI/runtime-verified** |
+| Runtime status | **MIXED — A9 execution functions verified by user; new UX changes pending implementation/verification** |
+| Root cause | **New UX requirements are decided; implementation and verification are pending. Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -506,5 +506,20 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **SOURCE SCOPE:** hanya `app/src/main/res/values/strings.xml`; tidak mengubah behavior A9, header, navigation, atau capability lain.
 - **STATIC CHECK:** pencarian terhadap resource string dan literal AppsScreens untuk istilah Indonesia yang relevan tidak menemukan kandidat lain setelah perubahan ini.
 - **COMMIT:** `609de75a315cbf4aefce660f8ac302df461b4937` — `fix(i18n): keep APK strings in English`.
-- **CI:** run #1037 untuk commit ini sedang berjalan; belum boleh dinyatakan PASS sebelum selesai.
-- **RUNTIME:** perubahan bahasa APK belum diuji pada device. A9 uninstall reconciliation dan Battery Optimization juga tetap menunggu E2E retest.
+- **CI:** run #1037 untuk commit ini **PASS**.
+- **RUNTIME:** perubahan bahasa APK belum diuji pada device. A9 uninstall reconciliation dan Battery Optimization kemudian diuji user dan dilaporkan konsisten/berfungsi; confirmation UX untuk dangerous actions masih menjadi requirement baru.
+
+
+## 10.19 GLOBAL REFRESH + DANGEROUS ACTION CONFIRMATION + ACTION FEEDBACK — 2026-09-25
+
+- **USER DECISION:** pull-to-refresh saat tarik layar ke bawah harus menjadi **global/shared behavior** untuk seluruh screen yang memiliki content/state yang dapat direfresh.
+- **USER DECISION:** seluruh **dangerous/destructive action** wajib menampilkan confirmation dialog **sebelum execution**, berlaku sama untuk **root maupun non-root/system execution path**.
+- **USER DECISION:** success toast untuk action dihapus. Action tidak perlu toast sukses; UI harus mengandalkan reconciliation/actual state. Error/failure feedback tetap dipertahankan bila memang diperlukan.
+- **ARCHITECTURE INTENT:** refresh tidak boleh diimplementasikan berulang per screen. Gunakan satu shared/global refresh capability lalu wire ke screen yang relevan.
+- **ACTION FLOW CONTRACT:**
+  `UI action → confirmation → AppActionBehavior → root/non-root execution → actual-state reconciliation`.
+- **SCOPE BOUNDARY:** tidak membuka ulang Install Date, Update Date, atau Date Used. Tidak mengubah shell/header yang sudah ditetapkan. Tidak mengubah shared action boundary menjadi per-screen duplicate behavior.
+- **STATUS:** requirement **DECIDED**; implementation **PENDING**; verification **PENDING**.
+- **CURRENT CHECKPOINT:** branch `v1.0/rebaseline` pada commit `5be02159181f2bd75110e9308851a6f695c3185f`.
+- **CI BASELINE:** run #1037 untuk commit `609de75a315cbf4aefce660f8ac302df461b4937` **PASS**.
+- **A9 CONTINUITY:** user melaporkan Battery Optimization sudah konsisten/berfungsi dan uninstall berhasil secara fungsi, tetapi uninstall confirmation belum konsisten antara execution path. Perbedaan dialog tersebut sekarang superseded oleh requirement baru: dangerous action harus dikonfirmasi sebelum root maupun non-root execution.
