@@ -91,6 +91,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import android.os.PowerManager
 import android.provider.Settings
 
@@ -238,6 +239,7 @@ fun AppsFilterScreen(
     val lifecycleOwner = LocalLifecycleOwner.current
     val inventory = remember(context) { AppInventoryBehavior(context) }
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
+    val shareBehavior = remember(context) { AppShareBehavior(context) }
     val usageRepository = remember(context) { AppUsageRepository(context) }
     val filterStateStore = remember(context) { AppFilterStateStore(context) }
     val cachedApps = remember { inventory.cached() }
@@ -676,8 +678,16 @@ fun AppsFilterScreen(
                         }
                     }
                     item {
-                        AppActionChip(stringResource(R.string.share_apk), Icons.Default.Share, enabled = false) {
-                            // APK sharing backend is not verified yet.
+                        AppActionChip(stringResource(R.string.share_apk), Icons.Default.Share, enabled = true) {
+                            when (val result = shareBehavior.shareApk(app.packageName)) {
+                                is AppShareResult.Ready -> {
+                                    selectedApp = null
+                                    context.startActivity(result.intent)
+                                }
+                                is AppShareResult.Failed -> {
+                                    Toast.makeText(context, result.reason, Toast.LENGTH_SHORT).show()
+                                }
+                            }
                         }
                     }
                 }
