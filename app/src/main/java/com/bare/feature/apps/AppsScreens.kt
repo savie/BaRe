@@ -1030,7 +1030,31 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 ),
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )\n                                            if (isFavorite || appLabels.isNotEmpty()) {\n                                                Row(\n                                                    Modifier.horizontalScroll(rememberScrollState()),\n                                                    horizontalArrangement = Arrangement.spacedBy(6.dp),\n                                                    verticalAlignment = Alignment.CenterVertically\n                                                ) {\n                                                    if (isFavorite) {\n                                                        AssistChip(\n                                                            onClick = {\n                                                                organizationStore.setFavorite(appDetails.packageName, false)\n                                                            },\n                                                            label = { Text(stringResource(R.string.favorites)) },\n                                                            leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) }\n                                                        )\n                                                    }\n                                                    appLabels.forEach { label ->\n                                                        AssistChip(\n                                                            onClick = { },\n                                                            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },\n                                                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) }\n                                                        )\n                                                    }\n                                                }\n                                            }
+                                            )
+                                            if (isFavorite || appLabels.isNotEmpty()) {
+                                                Row(
+                                                    Modifier.horizontalScroll(rememberScrollState()),
+                                                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    if (isFavorite) {
+                                                        AssistChip(
+                                                            onClick = {
+                                                                organizationStore.setFavorite(appDetails.packageName, false)
+                                                            },
+                                                            label = { Text(stringResource(R.string.favorites)) },
+                                                            leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) }
+                                                        )
+                                                    }
+                                                    appLabels.forEach { label ->
+                                                        AssistChip(
+                                                            onClick = { },
+                                                            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                                                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) }
+                                                        )
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                     Box(Modifier.align(Alignment.TopEnd)) {
