@@ -824,7 +824,15 @@ fun AppLabelSelectionScreen(app: AppItem?, onBack: () -> Unit) {
         topBar = {
             Column {
                 GlobalHeader()
-                LabelSubHeader(title = "Set App Labels", onBack = onBack, onCreate = { creating = true })
+                BaReSubHeader(
+                    title = "Set App Labels",
+                    onBack = onBack,
+                    actions = {
+                        IconButton(onClick = { creating = true }) {
+                            Icon(Icons.Default.Add, contentDescription = "Create New Label")
+                        }
+                    },
+                )
             }
         },
         floatingActionButton = {
