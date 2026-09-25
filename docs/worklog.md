@@ -1344,3 +1344,61 @@ Obtain an Android runtime/device session and execute the verification target abo
 ### STATUS
 `IMPLEMENTED / CI VERIFIED / RUNTIME VERIFICATION BLOCKED`
 
+## A14 — Normalisasi Global Header 6 Halaman — 2026-09-25
+
+### USER SAID
+User meminta implementasi ulang setelah koreksi scope:
+- reset branch ke commit `7c3f9352d2ed9838c085eda9dd6c04df5a9d5dda`;
+- pada 6 halaman hanya tambahkan **Global Header** existing `BARE / SAVE OUR DAY`;
+- judul/header halaman yang sudah ada menjadi **Sub-header 56dp**;
+- body, isi, action, navigation, state, persistence, dan behavior **tidak diubah**.
+
+### RESET
+Branch `v1.0/rebaseline` di-reset secara force ke:
+`7c3f9352d2ed9838c085eda9dd6c04df5a9d5dda`.
+
+Commit/header experiment sebelumnya dibuang dari branch sehingga perubahan baru dimulai dari baseline tersebut.
+
+### IMPLEMENTATION
+Enam target:
+1. Backup complete / Backup process result.
+2. Set App Labels.
+3. App backups.
+4. App Labels.
+5. Custom configurations.
+6. Blacklist apps.
+
+Aturan implementasi:
+```
+GlobalHeader (existing)
+        ↓
+Existing page title/header — 56dp
+        ↓
+Existing body
+```
+
+Detail:
+- `GlobalHeader` existing dipakai apa adanya; **tidak ada perubahan pada implementasi GlobalHeader**.
+- Header khusus `LabelsGlobalHeader` yang menduplikasi identitas BARE di App Labels dihapus dan diganti dengan `GlobalHeader`.
+- `LabelSubHeader` existing hanya diberi tinggi `56dp`; title, back action, create action, dan delete action tetap sama.
+- Custom configurations, Blacklist apps, dan App backups mempertahankan `TopAppBar`/title/action yang sama, ditambahkan `GlobalHeader` di atasnya dan tinggi header page diset `56dp`.
+- Backup process mempertahankan row header existing setinggi `56dp`, hanya menambahkan `GlobalHeader` di atasnya. Back enabled-state dan Diagnostics behavior tidak diubah.
+- Body composable dan behavior tidak direstrukturisasi.
+
+### COMMITS
+- `8aecd103e8353ed4f6669abc68473d26a77b2b97` — `fix(ui): add global header to app pages`
+- `f2bc3a332b0aba6220762acb12cd1873da018125` — `fix(ui): add global header to backup process`
+
+### SOURCE VERIFICATION
+Compare terhadap baseline `7c3f9352...` menunjukkan hanya:
+- `AppsScreens.kt`
+- `BackupProcessScreen.kt`
+
+Tidak ada perubahan pada `GlobalHeader.kt`, database, behavior layer, backup engine, atau body data logic.
+
+### VERIFICATION STATE
+- **SOURCE:** perubahan sudah direview terhadap baseline dan scope sesuai requirement.
+- **CI:** belum diverifikasi untuk implementation baru.
+- **RUNTIME:** belum diverifikasi pada device setelah implementation baru.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
