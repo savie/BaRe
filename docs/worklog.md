@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `84e40a916f53117a55511c386134fb15d77dfa18` |
+| Current checkpoint | `609de75a315cbf4aefce660f8ac302df461b4937` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A9 shared app-level action behavior boundary** |
@@ -496,3 +496,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **TYPOGRAPHY / SHELL:** tidak diubah. GlobalHeader tetap 80dp; SubHeader 56dp; Bottom Navigation 56dp.
 - **SCOPE:** hanya posisi branding GlobalHeader.
 - **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
+
+
+## 10.18 APK USER-FACING STRING LANGUAGE — 2026-09-25
+
+- **USER DECISION:** seluruh string yang tampil kepada user di APK BaRe harus menggunakan **English**. Ini adalah kontrak bahasa **APK**, dan harus dibedakan dari bahasa dokumen/worklog engineering yang tetap mengikuti Governance.
+- **OBSERVED:** `app/src/main/res/values/strings.xml` memiliki satu string user-facing yang masih berbahasa Indonesia: `confirm = "Konfirmasi"`.
+- **FIX IMPLEMENTED:** `confirm` diubah menjadi **`Confirm`**.
+- **SOURCE SCOPE:** hanya `app/src/main/res/values/strings.xml`; tidak mengubah behavior A9, header, navigation, atau capability lain.
+- **STATIC CHECK:** pencarian terhadap resource string dan literal AppsScreens untuk istilah Indonesia yang relevan tidak menemukan kandidat lain setelah perubahan ini.
+- **COMMIT:** `609de75a315cbf4aefce660f8ac302df461b4937` — `fix(i18n): keep APK strings in English`.
+- **CI:** run #1037 untuk commit ini sedang berjalan; belum boleh dinyatakan PASS sebelum selesai.
+- **RUNTIME:** perubahan bahasa APK belum diuji pada device. A9 uninstall reconciliation dan Battery Optimization juga tetap menunggu E2E retest.
