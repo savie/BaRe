@@ -849,3 +849,82 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 8. Remove literal `null` from backup card/details presentation.
 9. Verify APK-only, Data-only, multi-part, failure, cancellation, and metadata commit/reload flows.
 10. Re-run device verification and only promote items to VERIFIED when acceptance evidence exists.
+
+## A10/A13 — Referensi UI Proses Backup dan Kontrak Interaksi (2026-09-25)
+
+### Dasar evidence
+
+Screenshot runtime/reference yang diberikan user menjadi acuan visual dan perilaku untuk alur backup. Evidence yang terlihat mencakup:
+
+- layar proses backup terpisah saat backup sedang berjalan;
+- progress keseluruhan dan progress item/app;
+- status operasi seperti `Backing up APK`, `Backing up Data`;
+- area diagnostic yang menampilkan urutan operasi dan hasil aktual;
+- terminal state `DONE`;
+- tombol `CANCEL` selama proses berjalan;
+- setelah backup selesai, user tetap berada pada konteks App Detail dan inventory backup diperbarui;
+- menu pada backup card;
+- menu contextual pada part `Data`;
+- menu contextual pada part `APK`.
+
+### Kontrak UI yang terobservasi
+
+**Proses backup**
+
+- Backup tidak hanya menampilkan Toast atau indikator loading.
+- Ada surface proses khusus dengan status yang dapat diamati.
+- Progress harus merepresentasikan proses aktual, bukan progress palsu.
+- Diagnostic harus menjelaskan operasi backup secara bermakna.
+- Proses memiliki terminal state yang jelas, termasuk `DONE`.
+- Saat proses masih berjalan tersedia `CANCEL`.
+
+**Backup card**
+
+Menu pada backup card yang terlihat pada reference:
+
+- `Backup details`
+- `Protect backup`
+- `Add note`
+- `Sync in cloud`
+- `Delete backup`
+
+**Backup part — Data**
+
+Menu yang terlihat:
+
+- `Restore`
+- `Sync in cloud`
+- `Encrypted`
+- `Delete`
+
+**Backup part — APK**
+
+Menu yang terlihat:
+
+- `Restore`
+- `Sync in cloud`
+- `Share APK`
+- `Delete`
+
+Menu bersifat contextual. Perbedaan action antara backup card, Data, dan APK tidak boleh digeneralisasi menjadi satu menu global.
+
+### Revisi TODO
+
+1. Implementasikan state dan surface proses backup yang terhubung ke execution state aktual.
+2. Tampilkan status per part/app dan progress yang berasal dari data execution aktual.
+3. Sediakan diagnostic terstruktur yang mencatat tahap operasi backup dan error aktual.
+4. Tampilkan terminal state `DONE` setelah seluruh pekerjaan yang relevan selesai dengan hasil yang sesuai.
+5. Sediakan `CANCEL` selama proses yang masih dapat dibatalkan.
+6. Pertahankan konteks App Detail setelah backup selesai dan refresh inventory secara in-place.
+7. Sinkronkan status backup pada Apps List dengan local backup inventory yang sama dengan App Detail.
+8. Implementasikan contextual action surface untuk backup part APK dan Data sesuai capability yang benar-benar tersedia.
+9. Pertahankan perbedaan menu backup card, Data, dan APK.
+10. Hapus literal `null` dari presentation metadata yang optional.
+11. Lanjutkan investigasi Data backup failure pada #1069 dengan diagnostic lengkap; screenshot terakhir membuktikan kegagalan Data tetapi belum cukup untuk menetapkan root cause baru.
+12. Verifikasi alur APK-only, Data-only, multi-part, failure, cancel, metadata commit, inventory refresh, dan contextual actions pada device.
+
+### Status
+
+`REFERENCE CONFIRMED / REQUIREMENTS REFINED / IMPLEMENTATION PENDING / VERIFICATION PENDING`
+
+Catatan: item di atas adalah kontrak yang diturunkan dari screenshot reference yang diberikan user. Action yang belum didukung oleh capability BaRe tetap harus mengikuti batas capability dan tidak boleh dianggap implemented hanya karena tersedia pada reference.
