@@ -1402,3 +1402,47 @@ Tidak ada perubahan pada `GlobalHeader.kt`, database, behavior layer, backup eng
 - **RUNTIME:** belum diverifikasi pada device setelah implementation baru.
 - **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
 
+## A15 — Perbaikan visual Sub-header 56dp + Quick Actions — 2026-09-25
+
+### TEMUAN
+Runtime screenshot menunjukkan implementasi sebelumnya masih salah:
+- `TopAppBar` dipaksa `56dp`, tetapi minimum-height/layout internal Material3 menyebabkan title terpotong.
+- Sub-header tidak memakai warna BaRe `surface`, sehingga secara visual terlihat menyatu/hitam.
+- `AppsQuickActionsScreen` ternyata berada di `AppsScreens.kt` dan belum ikut dinormalisasi.
+
+### IMPLEMENTASI
+Membuat satu primitive sub-header bersama di `AppsScreens.kt`:
+- `BaReSubHeader`
+- tinggi tepat `56dp`;
+- background `MaterialTheme.colorScheme.surface`;
+- title memakai typography BaRe `titleLarge`;
+- subtitle memakai `bodySmall` + `onSurfaceVariant`;
+- back button/action dipertahankan;
+- divider tetap ada;
+- bukan `TopAppBar`, sehingga tidak terkena minimum-height Material3.
+
+Global Header existing `GlobalHeader()` tetap tidak diubah.
+
+Target yang dinormalisasi:
+1. App detail / 1DM+
+2. Backup complete
+3. Set App Labels
+4. App backups
+5. App Labels
+6. Custom configurations
+7. Blacklist apps
+8. Apps quick actions
+
+Body dan behavior existing dipertahankan.
+
+### COMMITS
+- `6d0c89e8934be80000e0fcbfa1dcd01b1b0eb999`
+- `ccb05277683c837084726eb5a97692b110a816b3`
+- `c6d61e3e7b5d4a8eb4203214c9f929a976df7951`
+
+### VERIFICATION
+- **SOURCE:** reviewed; obsolete `LabelSubHeader` removed and target screens use `BaReSubHeader`.
+- **CI:** runs #1111–#1113 are currently `in_progress`; previous runs #1109/#1110 were successful for the prior implementation.
+- **RUNTIME:** pending new device verification.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
