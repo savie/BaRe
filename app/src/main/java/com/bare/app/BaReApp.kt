@@ -793,45 +793,6 @@ private fun MainShell(
     }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun GlobalHeader(
-    showSearchAction: Boolean = false,
-    onOpenSearch: (() -> Unit)? = null,
-) {
-    TopAppBar(
-        modifier = Modifier.height(96.dp),
-        title = {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = androidx.compose.ui.Alignment.Start,
-            ) {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 5.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = stringResource(R.string.brand_tagline),
-                    style = MaterialTheme.typography.labelSmall,
-                    letterSpacing = 3.5.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        },
-        actions = {
-            if (showSearchAction && onOpenSearch != null) {
-                IconButton(onClick = onOpenSearch) {
-                    Icon(Icons.Outlined.Search, stringResource(R.string.search))
-                }
-            }
-        },
-    )
-}
-
 @Composable
 fun AppsSubHeader(
     appCount: Int,
