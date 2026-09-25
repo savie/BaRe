@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `ed77af794f5f869365aafbc61c9cb82e0e970446` |
+| Current checkpoint | `c085b06f56ec728531b05fa3fe41b10468f1a3fa` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
