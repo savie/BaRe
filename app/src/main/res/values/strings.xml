@@ -687,6 +687,22 @@
     <string name="cloud_not_synced">Cloud: not synced</string>
     <string name="cloud_not_connected">Cloud service is not connected</string>
     <string name="view_backups">View backups</string>
+    <string name="backup_process">Backup</string>
+    <string name="backup_process_running">Backing up</string>
+    <string name="backup_process_done">Backup complete</string>
+    <string name="backup_process_failed">Backup failed</string>
+    <string name="backup_process_cancelled">Backup cancelled</string>
+    <string name="backup_process_apps">Apps</string>
+    <string name="backup_process_parts_progress">%1$d / %2$d parts</string>
+    <string name="backup_process_current_part">Backing up %1$s</string>
+    <string name="backup_process_all_done">All selected parts are complete</string>
+    <string name="backup_process_preparing">Preparing backup</string>
+    <string name="backup_process_completed_summary">%1$d / %2$d parts completed</string>
+    <string name="backup_process_cancelled_summary">Backup was cancelled before all selected parts completed.</string>
+    <string name="backup_process_cancelling">Cancellation requested. Finishing the current operation safely.</string>
+    <string name="backup_diagnostics">Diagnostics</string>
+    <string name="backup_cancel">Cancel</string>
+    <string name="backup_done">Done</string>
     <string name="backup_history">Backup history</string>
     <string name="view_backup_versions">Device/cloud versions and backup state</string>
 
