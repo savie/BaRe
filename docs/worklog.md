@@ -788,3 +788,21 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 4. Runtime test full `Backup` selector with multiple parts.
 5. Verify protected/note metadata survives re-execution of the same version.
 6. Verify failure/unsupported states are surfaced without leaving the UI stuck in `BACKING UP`.
+
+## A10/A13 RUNTIME FAILURE FOLLOW-UP — 2026-09-25
+
+- **RUNTIME EVIDENCE:** supplied runtime screenshot shows `DATA backup failed: /system/bin/sh: no closing quote` while executing the Data backup path.
+- **SCOPE:** failure is in the root-backed copy command path used by backup execution. Exact runtime root cause is **UNKNOWN** until the corrected build is exercised on device; no stronger root-cause claim is made from the screenshot alone.
+- **IMPLEMENTED FIX:** `RootCapabilityProvider` now uses one shared POSIX shell single-quote helper for root command path arguments instead of the previous nested quote construction. The helper is applied to directory creation, `pm path`, directory existence checks, directory copy, size inspection, and root file reads.
+- **UI CLEANUP:** removed the stale `backup_execution_pending` summary copy from the full backup selector and removed its unused string resource. The selector now reflects actual selected parts/location without claiming execution is pending.
+- **DELETE CONTRACT:** no global Delete removal was reintroduced. Delete remains context-dependent: installed storage-chip Delete is not executable in the current surface; real local backup-version Delete remains available subject to protection state, matching the current BaRe capability boundary and reference context.
+- **VERIFICATION:** source inspection after change confirms all targeted root command construction sites use the shared helper. CI and runtime verification are still pending.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING / VERIFICATION PENDING`.
+
+### Next verification
+1. CI build on the new code commits.
+2. Runtime `APK chip → Backup to Device`.
+3. Runtime `Data chip → Backup to Device` and confirm the prior shell-quote failure is gone.
+4. Runtime multi-part backup.
+5. Reconcile backup inventory and metadata after successful execution.
+6. If Data still fails, capture the new exact root command stderr and treat root cause as UNKNOWN until reproduced with evidence.
