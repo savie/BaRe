@@ -340,3 +340,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **LABEL:** Label foundation/reference-aligned shell sudah diimplementasikan pada source. Struktur header Label menjadi penerapan pola global/subheader di atas; capability lanjutan label tetap mengikuti boundary yang sudah dicatat.
 - **A7 CURRENT:** App Detail source sudah memakai GlobalHeader → AppsSubHeader → App Detail content; source verification sudah dilakukan. CI dan runtime belum diverifikasi, sehingga A7 belum ditutup sebagai VERIFIED.
 - **NEXT:** tetap fokus A7 sampai evidence CI/runtime cukup. Setelah A7 ditutup, baru lanjut A8. Jangan lompat karena worklog history lama.
+
+
+## 10.9 A7 BUILD FAILURE / MATERIAL API FIX — 2026-09-25
+
+- **OBSERVED:** GitHub Actions run #1016 untuk commit `a6181739c8d5708e078f2bdc45ab03a7184f7dc0` gagal pada `:app:compileDebugKotlin`.
+- **ERROR:** `BaReApp.kt:801:5 This material API is experimental and is likely to change or to be removed in the future.`
+- **ROOT CAUSE:** `GlobalHeader` memakai `TopAppBar` Material 3 experimental API tanpa opt-in pada scope composable.
+- **FIX IMPLEMENTED:** menambahkan `@OptIn(ExperimentalMaterial3Api::class)` pada `GlobalHeader`; tidak mengubah struktur header atau behavior A7.
+- **COMMIT FIX:** `2140ccbf517d53af5b70f353365a07966015b89b` — `fix(apps): opt in global header material api`.
+- **CI STATUS:** run #1016 **FAILED**; fix commit belum memiliki hasil CI baru pada saat checkpoint ini dicatat.
+- **VERIFICATION BOUNDARY:** build/runtime masih **UNVERIFIED**. Setelah fix, CI harus lulus terlebih dahulu; kemudian runtime visual A7 perlu diuji.
