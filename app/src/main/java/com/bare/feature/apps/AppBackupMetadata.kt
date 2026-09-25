@@ -49,11 +49,11 @@ data class AppBackupMetadata(
                     schemaVersion = json.optInt("schemaVersion", 1),
                     packageName = json.getString("packageName"),
                     versionCode = json.getLong("versionCode"),
-                    versionName = json.optString("versionName").takeUnless { it.isBlank() },
+                    versionName = json.opt("versionName")?.takeUnless { it == JSONObject.NULL }?.toString()?.takeUnless { it.isBlank() || it == "null" },
                     backupTime = json.getLong("backupTime"),
-                    installerPackage = json.optString("installerPackage").takeUnless { it.isBlank() },
+                    installerPackage = json.opt("installerPackage")?.takeUnless { it == JSONObject.NULL }?.toString()?.takeUnless { it.isBlank() || it == "null" },
                     protectedBackup = json.optBoolean("protectedBackup", false),
-                    note = json.optString("note").takeUnless { it.isBlank() },
+                    note = json.opt("note")?.takeUnless { it == JSONObject.NULL }?.toString()?.takeUnless { it.isBlank() || it == "null" },
                 )
             }.getOrNull()
         }
