@@ -753,14 +753,15 @@ fun AppsFilterScreen(
                             checked = batteryOptimizing,
                             onCheckedChange = { enableOptimization ->
                                 Thread {
-                                    val success = runCatching {
-                                        RootAppActionExecutor.setBatteryOptimizationExempt(
+                                    val result = runCatching {
+                                        AppActionBehavior.setBatteryOptimization(
+                                            context,
                                             app.packageName,
                                             exempt = !enableOptimization,
                                         )
-                                    }.getOrDefault(false)
+                                    }.getOrDefault(AppActionBehavior.Result.FAILED)
                                     Handler(Looper.getMainLooper()).post {
-                                        if (success) {
+                                        if (result == AppActionBehavior.Result.COMPLETED) {
                                             batteryOptimizing = enableOptimization
                                             reloadApps()
                                         } else {
