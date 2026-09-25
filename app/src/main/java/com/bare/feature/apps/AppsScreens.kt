@@ -2389,41 +2389,148 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
-    var showMockup by remember { mutableStateOf(false) }
-    if (showMockup) AppMockupActionDialog(stringResource(R.string.backup_action), app?.name ?: stringResource(R.string.app_fallback)) { showMockup = false }
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.backups_title, app?.name ?: stringResource(R.string.app_fallback))) },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }
-            )
+    val context = LocalContext.current
+    val packageName = app?.packageName.orEmpty()
+    val actionBehavior = remember(context) { AppBackupActionBehavior(context) }
+    var reloadToken by remember(packageName) { mutableStateOf(0) }
+    var selectedSnapshot by remember { mutableStateOf<AppBackupSnapshot?>(null) }
+    var actionMenuOpen by remember { mutableStateOf(false) }
+    var detailsOpen by remember { mutableStateOf(false) }
+    var noteOpen by remember { mutableStateOf(false) }
+    var noteText by remember { mutableStateOf("") }
+    var pendingDelete by remember { mutableStateOf<AppBackupSnapshot?>(null) }
+    var message by remember { mutableStateOf<String?>(null) }
+
+    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken) {
+        value = if (packageName.isBlank()) emptyList() else withContext(Dispatchers.IO) {
+            AppBackupInventoryBehavior(context).inspectLocal(packageName)
         }
-    ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            item {
-                Text(stringResource(R.string.device_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text(stringResource(R.string.backup_inventory_unverified))
+    }
+
+    fun runAction(action: () -> AppBackupActionBehavior.Result) {
+        actionMenuOpen = false
+        val result = runCatching { action() }.getOrElse {
+            AppBackupActionBehavior.Result.Failed(it.message ?: context.getString(R.string.action_failed))
+        }
+        when (result) {
+            AppBackupActionBehavior.Result.Completed -> { selectedSnapshot = null; reloadToken++ }
+            is AppBackupActionBehavior.Result.Failed -> message = result.reason
+        }
+    }
+
+    if (detailsOpen && selectedSnapshot != null) {
+        val snapshot = selectedSnapshot!!
+        AlertDialog(onDismissRequest = { detailsOpen = false }, title = { Text(stringResource(R.string.backup_details)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.backup_version_format, snapshot.versionName ?: snapshot.versionCode.toString()))
+                    Text(stringResource(R.string.backup_date_value, DateFormat.getDateTimeInstance().format(Date(snapshot.backupTime))))
+                    Text(stringResource(R.string.backup_size_value, formatBackupSize(snapshot.totalBytes)))
+                    Text(stringResource(R.string.backup_parts_value, buildList {
+                        if (snapshot.apkBytes > 0) add(context.getString(R.string.apk_part))
+                        if (snapshot.dataBytes > 0) add(context.getString(R.string.data_part))
+                        if (snapshot.externalDataBytes > 0) add(context.getString(R.string.external_data_part))
+                        if (snapshot.mediaBytes > 0) add(context.getString(R.string.media_part))
+                    }.joinToString(", ").ifBlank { "—" }))
+                    Text(if (snapshot.protectedBackup) stringResource(R.string.protected_backup) else stringResource(R.string.unprotected_backup))
+                    if (!snapshot.note.isNullOrBlank()) Text(snapshot.note!!)
+                }
+            },
+            confirmButton = { TextButton(onClick = { detailsOpen = false }) { Text(stringResource(R.string.close)) } }
+        )
+    }
+
+    if (noteOpen && selectedSnapshot != null) {
+        AlertDialog(onDismissRequest = { noteOpen = false }, title = { Text(stringResource(R.string.backup_note)) },
+            text = { OutlinedTextField(value = noteText, onValueChange = { noteText = it }, modifier = Modifier.fillMaxWidth(), minLines = 3, label = { Text(stringResource(R.string.note)) }) },
+            confirmButton = { TextButton(onClick = {
+                val snapshot = selectedSnapshot ?: return@TextButton
+                runAction { actionBehavior.setNote(packageName, snapshot.versionCode, noteText) }
+                noteOpen = false
+            }) { Text(stringResource(R.string.save)) } },
+            dismissButton = { TextButton(onClick = { noteOpen = false }) { Text(stringResource(R.string.cancel)) } }
+        )
+    }
+
+    if (pendingDelete != null) {
+        val snapshot = pendingDelete!!
+        AlertDialog(onDismissRequest = { pendingDelete = null }, title = { Text(stringResource(R.string.delete_backup_title)) }, text = { Text(stringResource(R.string.delete_backup_message)) },
+            confirmButton = { TextButton(onClick = { runAction { actionBehavior.delete(packageName, snapshot.versionCode) }; pendingDelete = null }) { Text(stringResource(R.string.delete)) } },
+            dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.cancel)) } }
+        )
+    }
+
+    if (message != null) {
+        AlertDialog(onDismissRequest = { message = null }, title = { Text(stringResource(R.string.action_failed)) }, text = { Text(message!!) }, confirmButton = { TextButton(onClick = { message = null }) { Text(stringResource(R.string.close)) } })
+    }
+
+    Column(Modifier.fillMaxSize()) {
+        Row(Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back)) }
+            Column(Modifier.weight(1f)) {
+                Text(app?.name ?: stringResource(R.string.app_fallback), style = MaterialTheme.typography.titleLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(stringResource(R.string.backup_restore_manager), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            item {
-                Card(Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                        Text(stringResource(R.string.no_verified_backup_version), fontWeight = FontWeight.Bold)
-                        Text(stringResource(R.string.protected_notes_version_size))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            OutlinedButton(onClick = { showMockup = true }) { Text(stringResource(R.string.restore)) }
-                            OutlinedButton(onClick = { showMockup = true }) { Text(stringResource(R.string.delete)) }
+        }
+        HorizontalDivider()
+        LazyColumn(Modifier.fillMaxSize().padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp), contentPadding = PaddingValues(vertical = 16.dp)) {
+            item { Text(stringResource(R.string.device_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+            if (inventory.isEmpty()) {
+                item {
+                    Card(Modifier.fillMaxWidth()) {
+                        Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Surface(Modifier.size(72.dp), shape = CircleShape, color = MaterialTheme.colorScheme.surfaceVariant) { Box(contentAlignment = Alignment.Center) { Icon(Icons.Default.FolderOpen, contentDescription = null, modifier = Modifier.size(44.dp)) } }
+                            Text(stringResource(R.string.no_backup_on_device))
+                        }
+                    }
+                }
+            } else {
+                items(inventory, key = { it.backupTime }) { snapshot ->
+                    Card(Modifier.fillMaxWidth()) {
+                        Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(snapshot.backupTime)), fontWeight = FontWeight.SemiBold)
+                                    Text(stringResource(R.string.backup_version_format, snapshot.versionName ?: snapshot.versionCode.toString()), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                                Box {
+                                    IconButton(onClick = { selectedSnapshot = snapshot; actionMenuOpen = true }) { Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.backup_actions)) }
+                                    DropdownMenu(expanded = actionMenuOpen && selectedSnapshot == snapshot, onDismissRequest = { actionMenuOpen = false }) {
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.backup_details)) }, leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) }, onClick = { actionMenuOpen = false; detailsOpen = true })
+                                        DropdownMenuItem(text = { Text(if (snapshot.protectedBackup) stringResource(R.string.unprotect_backup) else stringResource(R.string.protect_backup)) }, leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }, onClick = { runAction { actionBehavior.setProtected(packageName, snapshot.versionCode, !snapshot.protectedBackup) } })
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.add_update_note)) }, leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }, onClick = { actionMenuOpen = false; noteText = snapshot.note.orEmpty(); noteOpen = true })
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.restore)) }, leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) }, enabled = false, onClick = {})
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.delete)) }, leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) }, enabled = !snapshot.protectedBackup, onClick = { actionMenuOpen = false; pendingDelete = snapshot })
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.sync)) }, leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) }, enabled = false, onClick = {})
+                                    }
+                                }
+                            }
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                BackupPartChip(stringResource(R.string.apk_part), snapshot.apkBytes, Icons.Default.Android, Modifier.weight(1f))
+                                BackupPartChip(stringResource(R.string.data_part), snapshot.dataBytes, Icons.Default.Folder, Modifier.weight(1f), snapshot.protectedBackup)
+                            }
+                            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
+                                Text(formatBackupSize(snapshot.totalBytes), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                                Button(enabled = false, onClick = {}, shape = RoundedCornerShape(24.dp)) { Icon(Icons.Default.Restore, contentDescription = null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.restore)) }
+                            }
+                            if (!snapshot.note.isNullOrBlank()) Text(snapshot.note!!, style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
             }
+            item { Text(stringResource(R.string.cloud_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
             item {
-                Text(stringResource(R.string.cloud_backups), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text(stringResource(R.string.cloud_inventory_downstream))
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.fillMaxWidth().padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Surface(Modifier.size(72.dp), shape = CircleShape, color = MaterialTheme.colorScheme.surfaceVariant) { Box(contentAlignment = Alignment.Center) { Icon(Icons.Default.CloudOff, contentDescription = null, modifier = Modifier.size(44.dp)) } }
+                        Text(stringResource(R.string.cloud_not_connected))
+                        Button(onClick = {}, enabled = false, shape = RoundedCornerShape(24.dp)) { Text(stringResource(R.string.connect_account)) }
+                    }
+                }
             }
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppManagementScreen(app: AppItem?, onBack: () -> Unit) {
