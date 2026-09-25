@@ -62,6 +62,7 @@ internal fun BackupProcessScreen(
                 Icon(
                     Icons.Default.BugReport,
                     contentDescription = stringResource(R.string.backup_diagnostics),
+                    modifier = Modifier.size(28.dp),
                 )
             },
         )
