@@ -2617,6 +2617,11 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                             backupMessage = when (result) {
                                 is AppBackupResult.Completed ->
                                     context.getString(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size)
+                                is AppBackupResult.Cancelled ->
+                                    context.getString(
+                                        R.string.backup_process_cancelled_summary,
+                                        result.completedParts.joinToString { it.name }.ifBlank { "none" }
+                                    )
                                 is AppBackupResult.Unsupported -> result.reason
                                 is AppBackupResult.Failed -> result.reason
                             }
