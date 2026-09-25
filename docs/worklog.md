@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `2b4f6ce6ce24eda0a45e3b4e5dac8ded1c855dfb` |
+| Current checkpoint | `6dcf3ae188b125785af8787f6a5a7a53afd204dd` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **DISCOVERY / BUILD** |
 | Fokus | **A10 App Detail part-level actions; A15 reusable organization behavior refactor along the way** |
@@ -755,3 +755,36 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **NOT IMPLEMENTED:** backup payload encryption, Cloud execution, Restore execution, Sync execution, media execution, or a new backup execution engine.
 - **VERIFICATION:** source-level implementation completed. CI/runtime verification pending at this checkpoint.
 - **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
+
+## 9. A10/A13 BACKUP EXECUTION RECONCILIATION — 2026-09-25
+
+### Evidence baru
+- User runtime evidence from build **#1064** confirms the A10.2 UI build was installable, but storage-part actions still surfaced the unavailable path.
+- Reference decompile `Swift Backup 5.1.0 (620)` was inspected directly from the supplied decompiled artifact.
+- Reference `DetailActivity.d0(...)` wires the storage-chip action menu to `action_backup_local`, and handler `tj.onMenuItemClick(...)` invokes backup directly for the selected app part with `q05.DEVICE`.
+- Reference `menu_detail_storage_chip_actions.xml` confirms the chip menu contains `Backup to Device`, `Backup to Cloud`, `Backup to Device & Cloud`, `Share APK`, and `Delete`.
+- Therefore the interaction contract is: **storage part chip → Backup to Device → execute that selected part directly**. It does not open the full part-selection sheet for the chip action.
+- The full backup CTA remains a separate multi-part selection surface; the supplied runtime screenshot also demonstrates that selector.
+
+### Implementation checkpoint
+- `AppBackupBehavior` is now used from `AppDetailScreen` for actual device execution.
+- Tapping a storage-part chip and choosing `Backup to Device` now runs the selected part directly on `Dispatchers.IO`.
+- The full Backup selector now executes the selected parts instead of showing `Action unavailable`.
+- Successful execution refreshes the detail backup inventory surface.
+- Existing `protectedBackup` and `note` metadata are preserved when the same app version directory is rewritten by a subsequent backup execution.
+- Cloud and Device + Cloud remain capability-gated/unsupported; no cloud execution was invented.
+- Restore remains A14 scope.
+
+### Status
+- **IMPLEMENTED:** direct device backup execution wiring.
+- **CI:** pending for commits `d6ea6ef48cb4ff3a9aaac0b3e633b8a6b329ab78` and `6dcf3ae188b125785af8787f6a5a7a53afd204dd`.
+- **RUNTIME:** not yet re-tested after this change.
+- **VERIFIED:** not claimed.
+
+### Next verification
+1. CI must pass for the code checkpoint.
+2. Runtime test `APK chip → Backup to Device` and confirm an actual new/updated device backup appears.
+3. Runtime test `Data chip → Backup to Device`.
+4. Runtime test full `Backup` selector with multiple parts.
+5. Verify protected/note metadata survives re-execution of the same version.
+6. Verify failure/unsupported states are surfaced without leaving the UI stuck in `BACKING UP`.
