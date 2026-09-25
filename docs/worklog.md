@@ -1446,3 +1446,32 @@ Body dan behavior existing dipertahankan.
 - **RUNTIME:** pending new device verification.
 - **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
 
+## A16 — Koreksi visual sub-header mengikuti referensi runtime — 2026-09-25
+
+### USER FEEDBACK
+Referensi runtime menegaskan sub-header harus:
+- memakai hitam/background yang sama dengan Global Header, bukan `surface` yang lebih terang;
+- mempertahankan visual hierarchy yang sekelas dengan header referensi;
+- title sekitar 20sp bold;
+- subtitle sekitar 16sp;
+- navigation/action icon sekitar 28dp;
+- tidak terlihat kecil/tertekan dibanding header;
+- tetap 56dp sebagai page sub-header.
+
+### IMPLEMENTASI
+- `BaReSubHeader` background diubah dari `surface` menjadi `background`.
+- title dinormalisasi ke 20sp + Bold.
+- subtitle dinormalisasi ke 16sp.
+- back/add/delete/diagnostic icons dinormalisasi ke 28dp.
+- backup process diagnostic icon ikut disamakan.
+
+Reference image supplied by user digunakan sebagai visual source untuk koreksi ini.
+
+### COMMITS
+- `a3d504f58553bd21c2189749d9614f07cbfff20b`
+- `95f487a205f1a76fa6f090bfe7abdc65e62ac57f`
+- `29271f1b047f48a22fc82fcbace3ee468d57b557`
+
+### STATUS
+`IMPLEMENTED / RUNTIME VERIFICATION PENDING`
+
