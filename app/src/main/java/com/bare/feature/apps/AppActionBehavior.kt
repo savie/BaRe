@@ -104,6 +104,31 @@ object AppActionBehavior {
         RootAppActionExecutor.clearData(it)
     }
 
+    fun addToHomeScreen(context: Context, packageName: String, label: String): Result {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return Result.UNAVAILABLE
+
+        val shortcutManager = context.getSystemService(android.content.pm.ShortcutManager::class.java)
+            ?: return Result.UNAVAILABLE
+        if (!shortcutManager.isRequestPinShortcutSupported) return Result.UNAVAILABLE
+
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(packageName)
+            ?: return Result.UNAVAILABLE
+
+        val shortcut = android.content.pm.ShortcutInfo.Builder(
+            context,
+            "bare_$packageName",
+        )
+            .setShortLabel(label)
+            .setLongLabel(label)
+            .setIntent(launchIntent)
+            .build()
+
+        return runCatching {
+            shortcutManager.requestPinShortcut(shortcut, null)
+            Result.OPENED_SYSTEM
+        }.getOrElse { Result.UNAVAILABLE }
+    }
+
     fun setBatteryOptimization(context: Context, packageName: String, exempt: Boolean): Result {
         if (RootAppActionExecutor.isRootAvailable()) {
             return if (RootAppActionExecutor.setBatteryOptimizationExempt(packageName, exempt)) {
