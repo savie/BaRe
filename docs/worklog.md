@@ -1152,3 +1152,30 @@ User memberi GO untuk implementasi dengan ketentuan: UI dan behavior harus mengi
 4. Runtime whole-backup Delete and protected-backup blocking.
 5. Runtime backup process success/failure and confirm 56dp sub-header plus non-empty terminal failure context.
 6. Re-check Device backups card against reference screenshot and confirm no literal `null` appears.
+
+## A10/A13 — Installed-card Delete reference correction — 2026-09-25
+
+### USER SAID / EVIDENCE
+User supplied reference screenshots confirming two distinct installed-app contexts:
+- **Installed app card overflow (`⋮`)** includes `Backup to Device`, `Backup to Cloud`, `Backup to Device & Cloud`, and **`Delete`**.
+- **Installed APK chip menu** includes `Backup to Device`, `Backup to Cloud`, `Backup to Device & Cloud`, and **`Share APK`**; it does **not** include Delete.
+
+### IMPLEMENTATION
+- Added **Delete** to the installed-app card overflow menu.
+- Delete opens confirmation and executes installed-app backup deletion through `AppBackupActionBehavior.deleteAll()`.
+- `deleteAll()` refuses deletion when any local backup version is protected.
+- Existing APK chip menu remains unchanged and does **not** receive Delete; `Share APK` remains its APK-specific action.
+- Device-backup card/part Delete remains separate and contextual.
+
+### COMMITS
+- `2f64da7600a2f30228582f709853aa728f9b8390` — installed-card backup deletion behavior.
+- `0bbc3b4153032180c6c118a1cb6f87fc9e0e51dc` — installed-card Delete UI/action.
+- `f7a091e04893132efbc14d2ce2b3ab38ad59b50a` — Delete confirmation copy.
+
+### VERIFICATION
+- Source implementation applied.
+- CI pending for latest implementation.
+- Device runtime verification pending for installed-card Delete, protected-backup blocking, and inventory refresh.
+
+### STATUS
+`IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
