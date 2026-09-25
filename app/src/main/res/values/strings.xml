@@ -825,6 +825,9 @@
     <string name="apps_runtime_pending_mockup">Runtime behavior is pending; this UI is intentionally available as a mockup so the workflow can be reviewed.</string>
     <string name="apps_capability_execution_pending">Capability execution will be connected after its Android capability and verification path are established.</string>
     <string name="device_backups">Device backups</string>
+    <string name="device_backups_count">Device backups (%1$d)</string>
+    <string name="backup_version_format">Version %1$s</string>
+    <string name="backup_actions">Backup actions</string>
     <string name="backup_inventory_unverified">This surface is ready for real backup inventory; no verified backup is claimed yet.</string>
     <string name="no_verified_backup_version">No verified backup version</string>
     <string name="protected_notes_version_size">Protected • notes • version comparison • size</string>
