@@ -603,3 +603,11 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** #1045 SUCCESS (App Detail uninstall confirmation); #1046 SUCCESS (refresh presentation); #1047 queued for bottom navigation fix.
 - **RUNTIME:** pending #1047 APK/device verification.
 - **STATUS:** `IMPLEMENTED / STATIC CHECK PASS / CI #1047 QUEUED / RUNTIME PENDING`.
+
+
+## 10.26 #1047 RUNTIME VERIFICATION + NEXT DISCOVERY — 2026-09-25
+
+- **RUNTIME EVIDENCE:** user confirmed #1047 is green and device result is correct: bottom navigation remains visible when shown, can still hide/show, and the opaque black side leakage is resolved; refresh remains functional without a permanent refresh icon; App Detail uninstall confirmation is working.
+- **VERIFICATION:** the bottom-navigation transparency fix is now runtime-verified for the reported #1004 defect scope.
+- **STATUS:** `VERIFIED FOR CURRENT BUG SCOPE`.
+- **NEXT PHASE:** no new implementation is authorized by this checkpoint. Proceed with **DISCOVERY / GAP REVIEW** from current runtime rather than inventing a feature. Candidate next work should come from observed UX defects, incomplete requirements, or explicit product requirements, then be authorized separately.
