@@ -15,6 +15,7 @@ data class AppBackupSnapshot(
     val dataBytes: Long,
     val externalDataBytes: Long,
     val mediaBytes: Long,
+    val totalBytes: Long,
 )
 
 class AppBackupInventoryBehavior(context: Context) {
@@ -46,6 +47,9 @@ class AppBackupInventoryBehavior(context: Context) {
                     dataBytes = directorySize(File(directory, "data")),
                     externalDataBytes = directorySize(File(directory, "external-data")),
                     mediaBytes = directorySize(File(directory, "media")),
+                    totalBytes = directorySize(directory) { file ->
+                        file.isFile && file.name != AppBackupMetadata.FILE_NAME
+                    },
                 )
             }
             ?.sortedByDescending { it.backupTime }
