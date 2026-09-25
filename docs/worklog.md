@@ -666,3 +666,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** #1048/#1049 berjalan untuk perubahan AppsScreens dan inventory behavior; final post-threading commit `812fc5ec29c1632882f1df4d4c7e5a82b325a056` menambahkan IO-bound inspection. CI final untuk branch state masih pending.
 - **RUNTIME:** belum diverifikasi pada device setelah A10.1.
 - **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
+
+
+## A10.1 UI refinement — backup empty states
+- Baseline: `25307f4f6c11e89ca55b982fc023b3bf6bcb2fd7` (#1052 green).
+- Reference: user-provided Swift Backup empty-state screenshot; visual structure only, BaRe-native copy/behavior.
+- Device empty state: card composition aligned to cloud card height/spacing, centered header, folder empty-state icon, `No backup on device`.
+- Cloud empty state: centered header, cloud-off icon, BaRe-native `Cloud service is not connected` copy, `Connect account` CTA routed to existing cloud screen.
+- No backup execution, restore execution, or cloud provider capability was introduced.
+- Implementation commits: `3c6aa47b02f80ab9ef04b1a9a9ecee2ac0e216db`, `9b1757afe3eaa8cb7a9f6c1de9053e81966bb307`.
+- CI: #1053/#1054 pending at record time; runtime screenshot verification pending for refined layout.
+- Status: IMPLEMENTED / CI PENDING / RUNTIME PENDING.
