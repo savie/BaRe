@@ -52,7 +52,11 @@ internal fun BackupProcessScreen(
     val progress = (completed.toFloat() / total.toFloat()).coerceIn(0f, 1f)
     val running = status == BackupProcessStatus.RUNNING
 
-    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+    ) {
         GlobalHeader()
         BaReSubHeader(
             title = stringResource(R.string.backup_process),
@@ -104,7 +108,13 @@ internal fun BackupProcessScreen(
                 fontWeight = FontWeight.SemiBold,
             )
 
-            Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(24.dp)) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            ) {
                 Column(Modifier.fillMaxWidth().padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -137,7 +147,13 @@ internal fun BackupProcessScreen(
                 }
             }
 
-            Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(20.dp)) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                ),
+            ) {
                 Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Default.BugReport, contentDescription = null, modifier = Modifier.size(20.dp))
