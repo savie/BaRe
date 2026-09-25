@@ -2257,12 +2257,35 @@ private fun AppBackupStateCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else {
+                Text(
+                    stringResource(R.string.device_backups_count, inventory.size),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latest.backupTime)),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                HorizontalDivider()
                 Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.device_backups_count, inventory.size), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
-                        Text(DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latest.backupTime)), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        Text(stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
+                    Text(
+                        stringResource(
+                            R.string.backup_updated_value,
+                            formatRelativeTime(context, latest.backupTime),
+                            formatBackupSize(latest.totalBytes),
+                        ),
+                        modifier = Modifier.weight(1f),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
                     Box {
                         IconButton(onClick = { menuOpen = true }) {
                             Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.backup_actions))
@@ -2284,7 +2307,7 @@ private fun AppBackupStateCard(
                                 onClick = { menuOpen = false; noteText = latest.note.orEmpty(); noteOpen = true },
                             )
                             DropdownMenuItem(
-                                text = { Text(stringResource(R.string.sync)) },
+                                text = { Text(stringResource(R.string.sync_in_cloud)) },
                                 leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
                                 enabled = false,
                                 onClick = {},
@@ -2298,7 +2321,6 @@ private fun AppBackupStateCard(
                         }
                     }
                 }
-                HorizontalDivider()
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (latest.apkBytes > 0) {
                         BackupPartChip(
@@ -2349,8 +2371,6 @@ private fun AppBackupStateCard(
                         )
                     }
                 }
-                Text(formatBackupSize(latest.totalBytes), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (!latest.note.isNullOrBlank()) Text(latest.note!!, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall)
                 Button(
                     onClick = {},
                     enabled = false,
