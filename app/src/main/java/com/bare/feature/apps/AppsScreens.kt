@@ -44,13 +44,65 @@ import kotlinx.coroutines.withContext
 import java.util.concurrent.atomic.AtomicBoolean
 import com.bare.R
 import com.bare.app.AppItem
-import com.bare.app.AppsSubHeader
 import com.bare.app.GlobalHeader
 import com.bare.app.Screen
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
 import java.text.DateFormat
 import java.util.Date
+
+@Composable
+fun BaReSubHeader(
+    title: String,
+    subtitle: String? = null,
+    onBack: (() -> Unit)? = null,
+    backEnabled: Boolean = true,
+    actions: @Composable (() -> Unit)? = null,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface),
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            if (onBack != null) {
+                IconButton(onClick = onBack, enabled = backEnabled) {
+                    Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                }
+            } else {
+                Spacer(Modifier.width(48.dp))
+            }
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+            if (actions != null) actions()
+        }
+        HorizontalDivider()
+    }
+}
 
 private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
@@ -436,7 +488,12 @@ fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
         )
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.apps_quick_actions)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = {
+            Column {
+                GlobalHeader()
+                BaReSubHeader(title = stringResource(R.string.apps_quick_actions), onBack = onBack)
+            }
+        }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(vertical = 12.dp)) {
             item { Text(context.getString(R.string.quick_backup_apps), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary) }
@@ -516,31 +573,6 @@ private fun LabelSurface(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun LabelSubHeader(
-    title: String,
-    onBack: () -> Unit,
-    onCreate: (() -> Unit)? = null,
-    onDeleteAll: (() -> Unit)? = null,
-) {
-    TopAppBar(
-        modifier = Modifier.height(56.dp),
-        title = { Text(title) },
-        navigationIcon = {
-            IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back)) }
-        },
-        actions = {
-            if (onCreate != null) {
-                IconButton(onClick = onCreate) { Icon(Icons.Default.Add, contentDescription = "Create New Label") }
-            }
-            if (onDeleteAll != null) {
-                IconButton(onClick = onDeleteAll) { Icon(Icons.Default.Delete, contentDescription = "Delete All") }
-            }
-        }
-    )
-}
-
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun AppLabelEditorSurface(
@@ -561,7 +593,7 @@ private fun AppLabelEditorSurface(
         topBar = {
             Column {
                 GlobalHeader()
-                LabelSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack)
+                BaReSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack)
             }
         }
     ) { padding ->
@@ -691,14 +723,20 @@ fun AppLabelsScreen(onBack: () -> Unit) {
         topBar = {
             Column {
                 GlobalHeader()
-                LabelSubHeader(
+                BaReSubHeader(
                     title = "App Labels",
                     onBack = onBack,
-                    onCreate = { creating = true },
-                    onDeleteAll = {
-                        labels.forEach { store.deleteLabel(it.name, apps.map { app -> app.packageName }) }
-                        refresh()
-                    }
+                    actions = {
+                        IconButton(onClick = { creating = true }) {
+                            Icon(Icons.Default.Add, contentDescription = "Create New Label")
+                        }
+                        IconButton(onClick = {
+                            labels.forEach { store.deleteLabel(it.name, apps.map { app -> app.packageName }) }
+                            refresh()
+                        }) {
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
+                        }
+                    },
                 )
             }
         }
@@ -919,10 +957,9 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
         topBar = {
             Column {
                 GlobalHeader()
-                TopAppBar(
-                    modifier = Modifier.height(56.dp),
-                    title = { Text(stringResource(R.string.custom_configurations)) },
-                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                BaReSubHeader(
+                    title = stringResource(R.string.custom_configurations),
+                    onBack = onBack,
                 )
             }
         }
@@ -987,10 +1024,10 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
         topBar = {
             Column {
                 GlobalHeader()
-                TopAppBar(
-                    modifier = Modifier.height(56.dp),
-                    title = { Column { Text(stringResource(R.string.blacklist_apps)); Text(blacklisted.size.toString() + " / 100", style = MaterialTheme.typography.bodySmall) } },
-                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                BaReSubHeader(
+                    title = stringResource(R.string.blacklist_apps),
+                    subtitle = blacklisted.size.toString() + " / 100",
+                    onBack = onBack,
                 )
             }
         }
@@ -1024,10 +1061,9 @@ fun AppBackupSettingsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
         topBar = {
             Column {
                 GlobalHeader()
-                TopAppBar(
-                    modifier = Modifier.height(56.dp),
-                    title = { Text(stringResource(R.string.app_backups)) },
-                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                BaReSubHeader(
+                    title = stringResource(R.string.app_backups),
+                    onBack = onBack,
                 )
             }
         }
@@ -1073,34 +1109,6 @@ private fun SettingsLinkEntry(title: String, subtitle: String, onClick: () -> Un
 }
 
 
-
-@Composable
-private fun AppDetailSubHeader(
-    appName: String,
-    onBack: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBack) {
-            Icon(
-                Icons.Default.ArrowBack,
-                contentDescription = stringResource(R.string.back),
-            )
-        }
-        Text(
-            text = appName,
-            style = MaterialTheme.typography.titleLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-    HorizontalDivider()
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1549,8 +1557,8 @@ fun AppDetailScreen(
         topBar = {
             Column(Modifier.fillMaxWidth()) {
                 GlobalHeader()
-                AppDetailSubHeader(
-                    appName = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
+                BaReSubHeader(
+                    title = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
                     onBack = onBack,
                 )
             }
