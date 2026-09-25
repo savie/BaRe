@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `c085b06f56ec728531b05fa3fe41b10468f1a3fa` |
+| Current checkpoint | `a6181739c8d5708e078f2bdc45ab03a7184f7dc0` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — A7 global header implementation applied; build/runtime verification pending** |
-| Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum runtime-verified** |
+| Runtime status | **MIXED — A7 header architecture implemented; CI/runtime verification pending** |
+| Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum CI/runtime-verified** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -37,17 +37,17 @@
 
 ## 3. YANG BELUM TERBUKTI
 
-Install Date, Update Date, dan Date Used **tidak lagi menjadi open verification item untuk continuity sesi**. User mengonfirmasi ketiganya sudah selesai; worklog tidak boleh mengembalikan ketiganya menjadi task hanya karena session reset.
+Install Date, Update Date, dan Date Used **sudah KELAR** berdasarkan keputusan user. Ketiganya bukan backlog dan tidak boleh dibuka ulang hanya karena session reset atau worklog lama belum terbarui.
 
-Open verification items mengikuti current Apps checkpoint, terutama A7 runtime/build evidence dan capability A8-A12 yang belum dikerjakan.
+Open verification items mengikuti current Apps checkpoint: A7 masih menunggu CI/runtime evidence; A8 dan capability berikutnya belum menjadi pekerjaan aktif.
 
 ## 4. NEXT ACTION
 
-### A. Install / Update Date
-- **KELAR — user-confirmed.** Jangan dibuka ulang hanya karena session reset.
+### A. Install Date / Update Date
+- **KELAR.** Sudah selesai dan tidak boleh dimasukkan kembali sebagai task.
 
 ### B. Date Used
-- **KELAR — user-confirmed.** Jangan dibuka ulang hanya karena session reset.
+- **KELAR.** Sudah selesai dan tidak boleh dimasukkan kembali sebagai task.
 
 ### C. Setelah perubahan
 1. Build.
@@ -270,7 +270,7 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 
 ## 10. NEXT ACTION
 
-1. **A7:** selesaikan dan verifikasi App Detail global Apps shell/header + navigation continuity.
+1. **A7:** selesaikan dan verifikasi App Detail GlobalHeader → AppsSubHeader → content + navigation continuity.
 2. Setelah source change, **build** dan cek runtime visual App Detail pada device.
 3. Cocokkan header App Detail dengan header Apps: brand, context, search, filter, menu, dan back navigation.
 4. Jika A7 runtime evidence memenuhi acceptance, tandai A7 sesuai status verification yang benar.
@@ -329,3 +329,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **APP DETAIL ORDER:** GlobalHeader → AppsSubHeader → App Detail content.
 - **VERIFICATION BOUNDARY:** source change sudah committed, tetapi CI/runtime belum dianggap verified sampai evidence aktual tersedia.
 
+
+
+## 10.8 CONTINUITY CORRECTION — 2026-09-25
+
+- **USER DECISION:** Pola halaman baru mengikuti struktur header yang sama. Untuk surface baru seperti Label, prinsipnya tetap GlobalHeader → SubHeader dinamis → content. Dialog/bottom sheet yang masih berada di halaman yang sama tidak membuat halaman/header baru.
+- **GLOBAL HEADER CONTRACT:** BARE + SAVE OUR DAY adalah identitas global yang konsisten: ukuran, typography, dan spacing tidak berubah-ubah antar halaman.
+- **SUBHEADER CONTRACT:** SubHeader berubah sesuai konteks halaman. Apps memakai AppsSubHeader; halaman lain dapat memiliki subheader sesuai domainnya. Search ditempatkan di level yang sesuai konteks halaman, bukan dipaksakan ke GlobalHeader.
+- **COMPLETED DATE WORK:** Install Date, Update Date, dan Date Used ditandai KELAR dan dikeluarkan dari backlog aktif. Worklog lama yang menyiratkan ketiganya masih terbuka harus dianggap superseded oleh checkpoint ini.
+- **LABEL:** Label foundation/reference-aligned shell sudah diimplementasikan pada source. Struktur header Label menjadi penerapan pola global/subheader di atas; capability lanjutan label tetap mengikuti boundary yang sudah dicatat.
+- **A7 CURRENT:** App Detail source sudah memakai GlobalHeader → AppsSubHeader → App Detail content; source verification sudah dilakukan. CI dan runtime belum diverifikasi, sehingga A7 belum ditutup sebagai VERIFIED.
+- **NEXT:** tetap fokus A7 sampai evidence CI/runtime cukup. Setelah A7 ditutup, baru lanjut A8. Jangan lompat karena worklog history lama.
