@@ -1270,12 +1270,17 @@ fun AppDetailScreen(
                             context.getString(R.string.uninstall) ->
                                 uninstallApp()
                             context.getString(R.string.delete) -> {
-                                val result = withContext(Dispatchers.IO) {
-                                    backupActionBehavior.deleteAll(currentPackage)
-                                }
-                                when (result) {
-                                    AppBackupActionBehavior.Result.Completed -> backupReloadToken++
-                                    is AppBackupActionBehavior.Result.Failed -> toast(result.reason)
+                                backupScope.launch {
+                                    val result = withContext(Dispatchers.IO) {
+                                        backupActionBehavior.deleteAll(currentPackage)
+                                    }
+                                    when (result) {
+                                        AppBackupActionBehavior.Result.Completed -> {
+                                            backupReloadToken++
+                                            detailReloadToken++
+                                        }
+                                        is AppBackupActionBehavior.Result.Failed -> toast(result.reason)
+                                    }
                                 }
                             }
                         }
