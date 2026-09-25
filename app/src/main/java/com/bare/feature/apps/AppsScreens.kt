@@ -1204,7 +1204,15 @@ fun AppDetailScreen(
         AlertDialog(
             onDismissRequest = { confirmAction = null },
             title = { Text(action) },
-            text = { Text(details!!.name) },
+            text = {
+                Text(
+                    if (action == context.getString(R.string.uninstall)) {
+                        context.getString(R.string.confirm_uninstall_app, details!!.name)
+                    } else {
+                        details!!.name
+                    }
+                )
+            },
             confirmButton = {
                 TextButton(onClick = {
                     confirmAction = null
@@ -1681,7 +1689,7 @@ fun AppDetailScreen(
                                         }
                                     }
                                     FilledTonalButton(
-                                        onClick = { uninstallApp() },
+                                        onClick = { confirmAction = context.getString(R.string.uninstall) },
                                         contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                     ) {
                                         Icon(Icons.Default.DeleteOutline, contentDescription = null, modifier = Modifier.size(18.dp))
