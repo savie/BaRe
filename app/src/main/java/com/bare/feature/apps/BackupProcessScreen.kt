@@ -1,5 +1,6 @@
 package com.bare.feature.apps
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -51,7 +52,7 @@ internal fun BackupProcessScreen(
     val progress = (completed.toFloat() / total.toFloat()).coerceIn(0f, 1f)
     val running = status == BackupProcessStatus.RUNNING
 
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         GlobalHeader()
         BaReSubHeader(
             title = stringResource(R.string.backup_process),
