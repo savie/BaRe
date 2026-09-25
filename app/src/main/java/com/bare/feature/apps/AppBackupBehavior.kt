@@ -116,12 +116,15 @@ class AppBackupBehavior(private val context: Context) {
             val installerPackage = runCatching {
                 context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
             }.getOrNull()
+            val existingMetadata = AppBackupMetadata.read(backupDirectory)
             AppBackupMetadata(
                 packageName = request.packageName,
                 versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
                 versionName = packageInfo.versionName,
                 backupTime = System.currentTimeMillis(),
                 installerPackage = installerPackage,
+                protectedBackup = existingMetadata?.protectedBackup ?: false,
+                note = existingMetadata?.note,
             ).writeAtomically(backupDirectory)
         }
         if (metadataResult.isFailure) {
