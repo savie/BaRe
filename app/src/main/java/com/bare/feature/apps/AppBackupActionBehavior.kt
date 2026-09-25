@@ -3,11 +3,13 @@ package com.bare.feature.apps
 import android.content.Context
 import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorageBehavior
+import com.bare.capability.RootCapabilityProvider
 import java.io.File
 
 class AppBackupActionBehavior(context: Context) {
     private val identityStore = LocalIdentityStore(context)
     private val storage = BackupStorageBehavior(context)
+    private val root = RootCapabilityProvider()
 
     sealed interface Result {
         data object Completed : Result
@@ -32,7 +34,7 @@ class AppBackupActionBehavior(context: Context) {
         if (metadata.protectedBackup) {
             return Result.Failed("Protected backup cannot be deleted")
         }
-        return if (directory.deleteRecursively()) {
+        return if (deleteTarget(directory)) {
             Result.Completed
         } else {
             Result.Failed("Unable to delete backup")
@@ -65,13 +67,20 @@ class AppBackupActionBehavior(context: Context) {
             return Result.Failed("${part.displayName()} backup part was not found")
         }
 
-        val failed = targets.firstOrNull { target ->
-            if (target.isDirectory) target.deleteRecursively() else target.delete()
-        }
-        return if (failed == null) {
+        val allDeleted = targets.all(::deleteTarget)
+        return if (allDeleted) {
             Result.Completed
         } else {
             Result.Failed("Unable to delete ${part.displayName()} backup part")
+        }
+    }
+
+    private fun deleteTarget(target: File): Boolean {
+        if (!target.exists()) return true
+        if (target.deleteRecursively() && !target.exists()) return true
+        return when (val result = root.deletePath(target.absolutePath)) {
+            is com.bare.capability.RootProbeResult.Success -> !target.exists()
+            is com.bare.capability.RootProbeResult.Failed -> false
         }
     }
 
