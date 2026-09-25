@@ -371,12 +371,6 @@ fun AppsFilterScreen(
         if (filterOpen) pendingFilter = activeFilter
     }
 
-    LaunchedEffect(visibleApps.size, appsContext) {
-        if (appsContext == AppsContext.LOCAL) {
-            onInventoryCountChange(visibleApps.size)
-        }
-    }
-
     val visibleApps = remember(apps, activeFilter, searchQuery, lastUsedTimes) {
         val query = searchQuery.trim().lowercase()
         val filtered = apps.asSequence()
@@ -439,6 +433,12 @@ fun AppsFilterScreen(
                 }
                 filtered.sortedWith(if (activeFilter.descending) comparator.reversed() else comparator)
             }
+        }
+    }
+
+    LaunchedEffect(visibleApps.size, appsContext) {
+        if (appsContext == AppsContext.LOCAL) {
+            onInventoryCountChange(visibleApps.size)
         }
     }
 
