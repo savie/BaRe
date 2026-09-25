@@ -103,6 +103,12 @@ object AppActionBehavior {
     fun clearData(packageName: String): Result = rootAction(packageName) {
         RootAppActionExecutor.clearData(it)
     }
+\n    fun deleteExternalData(packageName: String): Result =
+        rootPathAction(packageName) { "/sdcard/Android/data/$it" }
+
+    fun deleteMedia(packageName: String): Result =
+        rootPathAction(packageName) { "/sdcard/Android/media/$it" }
+
 
     fun addToHomeScreen(context: Context, packageName: String, label: String): Result {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return Result.UNAVAILABLE
@@ -153,6 +159,18 @@ object AppActionBehavior {
             }.getOrElse { Result.UNAVAILABLE }
         } else {
             Result.UNAVAILABLE
+        }
+    }
+
+    private fun rootPathAction(
+        packageName: String,
+        pathProvider: (String) -> String,
+    ): Result {
+        if (!RootAppActionExecutor.isRootAvailable()) return Result.ROOT_REQUIRED
+        return if (runCatching { RootAppActionExecutor.deletePath(pathProvider(packageName)) }.getOrDefault(false)) {
+            Result.COMPLETED
+        } else {
+            Result.FAILED
         }
     }
 
