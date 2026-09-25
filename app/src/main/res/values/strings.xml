@@ -663,6 +663,7 @@
     <string name="favorite_labels_blacklist">Favorite / labels / blacklist</string>
     <string name="add_to_home_screen">Add to Home screen</string>
     <string name="delete">Delete</string>
+    <string name="encrypted">Encrypted</string>
     <string name="app_part_actions">Choose an action for this app part.</string>
     <string name="backup_to_device">Backup to Device</string>
     <string name="backup_to_cloud">Backup to Cloud</string>
