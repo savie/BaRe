@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -26,43 +25,43 @@ import com.bare.R
  * Page-specific navigation, context, search, filters, and actions belong in
  * the page's sub-header rather than changing this global identity.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalHeader(
     showSearchAction: Boolean = false,
     onOpenSearch: (() -> Unit)? = null,
 ) {
-    TopAppBar(
-        modifier = Modifier.height(80.dp),
-        title = {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = (-10).dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp),
+        contentAlignment = androidx.compose.ui.Alignment.Center,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+        ) {
+            androidx.compose.material3.Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 5.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            androidx.compose.material3.Text(
+                text = stringResource(R.string.brand_tagline),
+                style = MaterialTheme.typography.labelSmall,
+                letterSpacing = 3.5.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+
+        if (showSearchAction && onOpenSearch != null) {
+            IconButton(
+                onClick = onOpenSearch,
+                modifier = Modifier.align(androidx.compose.ui.Alignment.CenterEnd),
             ) {
-                androidx.compose.material3.Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 5.sp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                androidx.compose.material3.Text(
-                    text = stringResource(R.string.brand_tagline),
-                    style = MaterialTheme.typography.labelSmall,
-                    letterSpacing = 3.5.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                Icon(Icons.Outlined.Search, stringResource(R.string.search))
             }
-        },
-        actions = {
-            if (showSearchAction && onOpenSearch != null) {
-                IconButton(onClick = onOpenSearch) {
-                    Icon(Icons.Outlined.Search, stringResource(R.string.search))
-                }
-            }
-        },
-    )
+        }
+    }
 }
