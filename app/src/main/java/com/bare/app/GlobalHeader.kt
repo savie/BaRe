@@ -37,7 +37,7 @@ fun GlobalHeader(
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
             ) {
                 androidx.compose.material3.Text(
                     text = stringResource(R.string.app_name),
