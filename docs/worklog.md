@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `5be02159181f2bd75110e9308851a6f695c3185f` |
+| Current checkpoint | `987311da230788673e82afa8d4fa619ed93c7aa1` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Global refresh + dangerous-action confirmation + action feedback cleanup** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — A9 execution functions verified by user; new UX changes pending implementation/verification** |
-| Root cause | **New UX requirements are decided; implementation and verification are pending. Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
+| Runtime status | **MIXED — A9 execution functions verified by user; global refresh + dangerous-action confirmation + success-feedback cleanup implemented, CI/runtime verification pending** |
+| Root cause | **Current UX requirements are implemented at source; build/runtime evidence is pending. Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -523,3 +523,24 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CURRENT CHECKPOINT:** branch `v1.0/rebaseline` pada commit `5be02159181f2bd75110e9308851a6f695c3185f`.
 - **CI BASELINE:** run #1037 untuk commit `609de75a315cbf4aefce660f8ac302df461b4937` **PASS**.
 - **A9 CONTINUITY:** user melaporkan Battery Optimization sudah konsisten/berfungsi dan uninstall berhasil secara fungsi, tetapi uninstall confirmation belum konsisten antara execution path. Perbedaan dialog tersebut sekarang superseded oleh requirement baru: dangerous action harus dikonfirmasi sebelum root maupun non-root execution.
+
+
+## 10.20 GLOBAL REFRESH + DANGEROUS ACTION CONFIRMATION + ACTION FEEDBACK — IMPLEMENTATION — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk menjalankan requirement checkpoint 10.19.
+- **GLOBAL REFRESH:** BaRe shell sekarang memakai satu `PullToRefreshBox` pada `MainShell`, bukan implementasi pull-to-refresh per-screen. Refresh menaikkan shared refresh token dan me-remount surface aktif agar load/init state yang dimiliki screen dijalankan ulang. Boundary mencakup routed screens, global search, dan main pager shell.
+- **DANGEROUS ACTION CONFIRMATION:** App Detail uninstall sekarang masuk ke confirmation dialog yang sama dengan action destructive lain sebelum memanggil `AppActionBehavior.uninstallWithSystemFallback(...)`. Setelah confirmation barulah jalur root atau system/non-root execution berjalan. Apps List sudah memiliki destructive-action confirmation dan dipertahankan.
+- **SUCCESS FEEDBACK:** success toast untuk shared AppActionBehavior completion di App Detail dihapus. Success toast pada Favorite/Blacklist organization action juga dihapus. Error/root-required/unavailable feedback tetap dipertahankan.
+- **STATIC SOURCE VERIFICATION:** `BaReApp.kt` dan `AppsScreens.kt` setelah perubahan lolos structural delimiter/balance check. Ini bukan pengganti Kotlin compile.
+- **CURRENT CI:** GitHub Actions **run #1041** untuk commit `987311da230788673e82afa8d4fa619ed93c7aa1` masih **IN_PROGRESS** saat checkpoint ini dicatat.
+- **RUNTIME:** belum diverifikasi setelah implementation ini.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
+
+### 10.20 NEXT
+
+1. Tunggu CI run #1041 sampai terminal.
+2. Jika PASS, install/update APK pada device.
+3. E2E pull-to-refresh pada Home, Apps, App Detail, dan routed content yang relevan; acceptance: gesture memicu reload tanpa false success state.
+4. E2E uninstall dari App Detail; acceptance: confirmation muncul sebelum execution pada root maupun non-root/system path, lalu actual-state reconciliation terjadi setelah uninstall.
+5. Pastikan action success tidak menampilkan success toast; failure/blocked feedback tetap jelas.
+6. Jika evidence terpenuhi, baru promote status menjadi `VERIFIED` untuk scope ini.
