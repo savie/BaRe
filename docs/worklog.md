@@ -1010,3 +1010,51 @@ Changes:
 Source change is implemented. CI for commit a22838ffb94f83a71a2420e6ed3018e4f75b8d97 is pending; runtime re-test is pending.
 
 Status: IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
+
+
+## A10/A13 — Contextual Delete implementation for backup parts (2026-09-25)
+
+### Review result
+
+The previous reference-UI correction did not yet implement part-level Delete. The backup card menu had whole-backup Delete, while APK/Data part menus still exposed Delete as disabled. External Data and Media were not surfaced as part chips even when inventory reported bytes.
+
+Reference contract requires contextual Delete on backup parts. This is distinct from whole backup-version Delete.
+
+### Implementation
+
+Commits:
+
+- 284e616b9b699eb0d8393867ba6e0b7cbb633419 — backup behavior: part deletion.
+- 8e8ed2d099162c86e8ff922e6f1da49886200659 — confirmation strings.
+- 321961d78cd1415099481246271648166f275b2e — contextual part-delete UI.
+
+Implemented behavior:
+
+1. APK Delete removes APK backup files from the selected backup version.
+2. Data Delete removes the selected backup's data/ directory.
+3. Ext. data Delete removes the selected backup's external-data/ directory.
+4. Media Delete removes the selected backup's media/ directory when present.
+5. Part Delete is available from the contextual part menu and requires confirmation.
+6. Protected backup versions block part deletion, consistent with the existing protected whole-backup delete boundary.
+7. Part chips are now rendered for External Data and Media when their actual inventory size is greater than zero.
+8. After successful part deletion, local inventory is re-read so displayed sizes/parts update in-place.
+9. Whole backup-version Delete remains a separate action on the backup-card/version menu.
+
+### Capability boundary
+
+- This change does not add Restore, Cloud Sync, Encryption, Share APK, or Media backup creation.
+- Media deletion is supported for an existing media part even though new Media backup execution remains unsupported.
+- No backup payload encryption format or Swift Backup crypto implementation was introduced.
+
+### Verification status
+
+Source implementation is complete. CI and device runtime verification are pending for:
+- APK part Delete
+- Data part Delete
+- External Data part Delete
+- Media part Delete when present
+- protected-backup blocking
+- inventory refresh after part deletion
+- whole-backup Delete regression
+
+Status: IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
