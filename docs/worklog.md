@@ -8,10 +8,10 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `49ae91f13a8f3f6cb42be4c5810f1825f540aeea` |
+| Current checkpoint | `d457e7ded864108a4a838e8ee71cc04ef0f3a6df` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
-| Fokus | **Apps reference parity — Local/Cloud + App Detail + seluruh Apps subtree** |
+| Fokus | **Apps reference parity — App Detail A8-A12 + remaining Apps subtree** |
 | Reference audit | **SELESAI** |
 | Runtime status | **MIXED — Share APK Apps list verified by user device evidence; A7 implemented, runtime verification for A7 pending** |
 | Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum runtime-verified** |
