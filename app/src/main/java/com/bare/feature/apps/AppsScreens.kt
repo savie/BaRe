@@ -48,6 +48,8 @@ import com.bare.app.GlobalHeader
 import com.bare.app.Screen
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
+import java.text.DateFormat
+import java.util.Date
 
 private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
@@ -1772,8 +1774,18 @@ fun AppDetailScreen(
                         }
                     }
 
-                    item { AppBackupStateCard(title = stringResource(R.string.device), status = stringResource(R.string.device_no_verified_backup), onOpenBackups = { onOpen(Screen.APP_BACKUPS) }) }
-                    item { AppBackupStateCard(title = stringResource(R.string.cloud), status = stringResource(R.string.cloud_not_synced), onOpenBackups = { onOpen(Screen.APP_BACKUPS) }) }
+                    item {
+                        AppBackupStateCard(
+                            title = stringResource(R.string.device_backups),
+                            packageName = packageName,
+                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
+                        )
+                    }
+                    item {
+                        AppBackupCloudStateCard(
+                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
+                        )
+                    }
                 }
             }
         }
@@ -1938,18 +1950,176 @@ private fun AppStorageSelectionChip(
 @Composable
 private fun AppBackupStateCard(
     title: String,
-    status: String,
+    packageName: String?,
     onOpenBackups: () -> Unit,
 ) {
-    Card(Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-            Text(status)
-            TextButton(onClick = onOpenBackups) {
-                Text(stringResource(R.string.view_backups))
+    val context = LocalContext.current
+    val inventory = remember(context, packageName) {
+        packageName?.let { AppBackupInventoryBehavior(context).inspectLocal(it) }.orEmpty()
+    }
+    val latest = inventory.firstOrNull()
+
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onOpenBackups),
+    ) {
+        Column(
+            Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Text(
+                stringResource(R.string.device_backups_count, inventory.size),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+            if (latest == null) {
+                Text(
+                    stringResource(R.string.device_no_verified_backup),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                HorizontalDivider()
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text(
+                            DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latest.backupTime)),
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        Text(
+                            stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    IconButton(onClick = onOpenBackups) {
+                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.backup_actions))
+                    }
+                }
+                if (!latest.note.isNullOrBlank()) {
+                    Text(
+                        latest.note,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    BackupPartChip(
+                        title = stringResource(R.string.apk_part),
+                        size = latest.apkBytes,
+                        icon = Icons.Default.Android,
+                        modifier = Modifier.weight(1f),
+                    )
+                    BackupPartChip(
+                        title = stringResource(R.string.data_part),
+                        size = latest.dataBytes,
+                        icon = Icons.Default.Folder,
+                        modifier = Modifier.weight(1f),
+                        protected = latest.protectedBackup,
+                    )
+                }
+                Button(
+                    onClick = onOpenBackups,
+                    modifier = Modifier.align(Alignment.End),
+                    enabled = false,
+                    shape = RoundedCornerShape(24.dp),
+                ) {
+                    Icon(Icons.Default.Restore, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.restore))
+                }
             }
         }
     }
+}
+
+@Composable
+private fun BackupPartChip(
+    title: String,
+    size: Long,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    modifier: Modifier = Modifier,
+    protected: Boolean = false,
+) {
+    Surface(
+        modifier = modifier.height(64.dp),
+        shape = RoundedCornerShape(24.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+    ) {
+        Row(
+            Modifier.padding(horizontal = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(icon, contentDescription = null, modifier = Modifier.size(24.dp))
+            Spacer(Modifier.width(10.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+                Text(title, fontWeight = FontWeight.SemiBold)
+                Text(
+                    formatBackupSize(size) + if (protected) " 🔒" else "",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun AppBackupCloudStateCard(
+    onOpenBackups: () -> Unit,
+) {
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onOpenBackups),
+    ) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Text(
+                stringResource(R.string.cloud_backups),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold,
+            )
+            Icon(
+                Icons.Default.CloudOff,
+                contentDescription = null,
+                modifier = Modifier.size(72.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                stringResource(R.string.cloud_not_synced),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+private fun formatBackupSize(bytes: Long): String {
+    if (bytes <= 0L) return "0 B"
+    val units = listOf("B", "KB", "MB", "GB")
+    var value = bytes.toDouble()
+    var index = 0
+    while (value >= 1024 && index < units.lastIndex) {
+        value /= 1024
+        index++
+    }
+    return if (index == 0) value.toLong().toString() + " " + units[index]
+    else String.format("%.1f %s", value, units[index])
 }
 
 @Composable
