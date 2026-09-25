@@ -1271,3 +1271,21 @@ AUTHORIZED / WORKLOG PRE-IMPLEMENTATION UPDATED / IMPLEMENTATION PENDING
 - **CI:** menunggu run baru setelah fix.
 - **RUNTIME:** tetap UNVERIFIED sampai build berhasil dan installed Data / Ext. data / Media Delete diuji di device.
 - **STATUS:** `FIX IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
+## A10/A13 — Revisi UI Device backups — 2026-09-25
+
+### USER SAID
+User mengonfirmasi CI terakhir hijau dan Delete sudah benar. User meminta **UI card Device backups** disamakan dengan card Last updated di atas: satu card backup berisi empat kotak part **APK, Data, Ext. data, Media**.
+
+### REQUIREMENT
+- Perubahan ini **UI-only** untuk struktur card Device backups.
+- Jangan mengubah behavior backup/delete/restore/action yang sudah ada.
+- Satu backup card menggunakan grid 2x2 seperti card part di atas:
+  - APK | Data
+  - Ext. data | Media
+- Metadata ukuran setiap part tetap berasal dari inventory backup yang sudah ada.
+- Card empty-state `No backup on device` tetap dipertahankan ketika tidak ada backup.
+- Contextual menu card dan menu part tetap dipertahankan.
+
+### STATUS
+`AUTHORIZED / PRE-IMPLEMENTATION WORKLOG UPDATED / IMPLEMENTATION PENDING`
