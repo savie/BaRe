@@ -1122,6 +1122,7 @@ fun AppDetailScreen(
         )
     }
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
+    val backupActionBehavior = remember(context) { AppBackupActionBehavior(context) }
     val backupScope = rememberCoroutineScope()
     var backupRunning by remember { mutableStateOf(false) }
     var backupReloadToken by remember { mutableStateOf(0) }
@@ -1245,6 +1246,8 @@ fun AppDetailScreen(
                 Text(
                     if (action == context.getString(R.string.uninstall)) {
                         context.getString(R.string.confirm_uninstall_app, details!!.name)
+                    } else if (action == context.getString(R.string.delete)) {
+                        context.getString(R.string.confirm_delete_app_backups, details!!.name)
                     } else {
                         details!!.name
                     }
@@ -1266,6 +1269,15 @@ fun AppDetailScreen(
                                 handleAction(AppActionBehavior.clearData(currentPackage))
                             context.getString(R.string.uninstall) ->
                                 uninstallApp()
+                            context.getString(R.string.delete) -> {
+                                val result = withContext(Dispatchers.IO) {
+                                    backupActionBehavior.deleteAll(currentPackage)
+                                }
+                                when (result) {
+                                    AppBackupActionBehavior.Result.Completed -> backupReloadToken++
+                                    is AppBackupActionBehavior.Result.Failed -> toast(result.reason)
+                                }
+                            }
                         }
                     }
                 }) {
@@ -1814,6 +1826,15 @@ fun AppDetailScreen(
                                                 text = { Text(stringResource(R.string.settings)) },
                                                 leadingIcon = { Icon(Icons.Default.Settings, contentDescription = null) },
                                                 onClick = { showActions = false; onOpen(Screen.APP_BACKUP_SETTINGS) }
+                                            )
+                                            HorizontalDivider()
+                                            DropdownMenuItem(
+                                                text = { Text(stringResource(R.string.delete)) },
+                                                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
+                                                onClick = {
+                                                    showActions = false
+                                                    confirmAction = context.getString(R.string.delete)
+                                                }
                                             )
                                         }
                                     }
