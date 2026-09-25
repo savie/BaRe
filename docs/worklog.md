@@ -37,11 +37,9 @@
 
 ## 3. YANG BELUM TERBUKTI
 
-| Capability | Evidence yang masih dibutuhkan | Status |
-|---|---|---|
-| Install Date | raw `PackageInfo.firstInstallTime` → normalization → formatter → UI | **UNKNOWN** |
-| Update Date | raw `PackageInfo.lastUpdateTime` → normalization → formatter → UI | **UNKNOWN** |
-| Date Used | actual AppOps result → `queryUsageStats()` result count → package match → UI | **UNKNOWN** |
+Install Date, Update Date, dan Date Used **tidak lagi menjadi open verification item untuk continuity sesi**. User mengonfirmasi ketiganya sudah selesai; worklog tidak boleh mengembalikan ketiganya menjadi task hanya karena session reset.
+
+Open verification items mengikuti current Apps checkpoint, terutama A7 runtime/build evidence dan capability A8-A12 yang belum dikerjakan.
 
 ## 4. NEXT ACTION
 
