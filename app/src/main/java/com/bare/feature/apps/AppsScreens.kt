@@ -1949,13 +1949,18 @@ private fun AppStorageSelectionChip(
 
 @Composable
 private fun AppBackupStateCard(
-    title: String,
     packageName: String?,
     onOpenBackups: () -> Unit,
 ) {
     val context = LocalContext.current
-    val inventory = remember(context, packageName) {
-        packageName?.let { AppBackupInventoryBehavior(context).inspectLocal(it) }.orEmpty()
+    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName) {
+        value = if (packageName.isNullOrBlank()) {
+            emptyList()
+        } else {
+            withContext(Dispatchers.IO) {
+                AppBackupInventoryBehavior(context).inspectLocal(packageName)
+            }
+        }
     }
     val latest = inventory.firstOrNull()
 
