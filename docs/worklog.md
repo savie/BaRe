@@ -1114,3 +1114,41 @@ User memberi GO untuk implementasi dengan ketentuan: UI dan behavior harus mengi
 
 ### STATUS
 `AUTHORIZED / PRE-IMPLEMENTATION WORKLOG UPDATED / IMPLEMENTATION PENDING`
+
+## A10/A13 — Reference fidelity + Delete implementation — 2026-09-25
+
+### IMPLEMENTATION
+- `RootCapabilityProvider` mendapat root-backed `deletePath()` dengan shell quoting yang sama untuk path storage.
+- `AppBackupActionBehavior.delete()` dan `deletePart()` sekarang mencoba normal filesystem deletion lalu root-backed deletion bila artifact tidak dapat dihapus oleh app UID.
+- Part Delete memvalidasi seluruh target artifact; success tidak lagi bergantung pada satu file pertama saja.
+- Delete tetap contextual dan tersedia untuk APK, Data, Ext. data, dan Media bila part ada; Protected backup tetap memblokir mutation.
+- Optional metadata `versionName`, `installerPackage`, dan `note` dinormalisasi agar JSON null tidak muncul sebagai literal `null` di UI.
+- `BackupProcessScreen` sub-header diset **56dp** dan terminal FAILED/CANCELLED tidak lagi fallback ke `Preparing backup`.
+- Device backup card pada App Detail direkonsiliasi ke struktur reference: centered `Device backups (N)`, date/version, `Updated: <relative time> (<total>)`, contextual overflow, APK/Data parts, dan Restore CTA.
+- Contextual backup menus mempertahankan perbedaan surface: backup card (`Backup details`, `Protect backup`, `Add note`, `Sync in cloud`, `Delete backup`) dan part (`Restore`, `Sync in cloud`, part-specific action, `Delete`).
+- Installed-app storage chip tetap berbeda dari device-backup part menu; tidak ditambahkan Delete ke installed-app chip.
+
+### IMPLEMENTATION COMMITS
+- `f96fd06b939d9fe3a12cafccdde40e3db1b1c896` — root-backed deletion capability.
+- `9bcce67529f38e90508a331111b5c45544d56b10` — robust backup-part deletion.
+- `6b1605c93107c37fff22d13f46ff6bd0600bf0f7` — optional metadata null normalization.
+- `be5c06b4c6e9522f062d03b57337dc2230f0d2e7` — process sub-header/terminal copy.
+- `e7a605a3797c7350bd7bf7745562c5f7080d7413` — reference strings.
+- `62466c88f15936e451b383fecd080c85c7569b1b` — device backup card reference reconciliation.
+- `84966c9414323df2e41fcc7a146d9308ab541f8e` — contextual sync label.
+- `15f4138daad2f746370bde0a45e431039f16c9f0` — history sync label.
+
+### VERIFICATION STATE
+- **SOURCE:** changed source re-read from branch after implementation.
+- **CI:** new CI run has not yet been observed for the latest implementation commits.
+- **RUNTIME:** Delete APK/Data/Ext. data/Media has not yet been re-tested on device after the root-backed deletion change.
+- **VISUAL:** source-level reconciliation is implemented against the supplied reference screenshots; device screenshot verification is still pending.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
+### NEXT VERIFICATION
+1. CI build on latest branch head.
+2. Runtime APK part Delete and confirm APK artifact disappears and inventory refreshes.
+3. Runtime Data / Ext. data / Media Delete where parts exist.
+4. Runtime whole-backup Delete and protected-backup blocking.
+5. Runtime backup process success/failure and confirm 56dp sub-header plus non-empty terminal failure context.
+6. Re-check Device backups card against reference screenshot and confirm no literal `null` appears.
