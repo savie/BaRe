@@ -2091,29 +2091,120 @@ private fun AppStorageSelectionChip(
 }
 
 @Composable
-// Backup empty-state UI and resources are validated together on the branch head.
 private fun AppBackupStateCard(
     packageName: String?,
     reloadToken: Int,
     onOpenBackups: () -> Unit,
 ) {
     val context = LocalContext.current
-    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken) {
-        value = if (packageName.isNullOrBlank()) {
-            emptyList()
-        } else {
-            withContext(Dispatchers.IO) {
-                AppBackupInventoryBehavior(context).inspectLocal(packageName)
-            }
+    val actionBehavior = remember(context) { AppBackupActionBehavior(context) }
+    val actionScope = rememberCoroutineScope()
+    var actionReloadToken by remember { mutableStateOf(0) }
+    var menuOpen by remember { mutableStateOf(false) }
+    var detailsOpen by remember { mutableStateOf(false) }
+    var noteOpen by remember { mutableStateOf(false) }
+    var noteText by remember { mutableStateOf("") }
+    var deleteOpen by remember { mutableStateOf(false) }
+    var actionMessage by remember { mutableStateOf<String?>(null) }
+
+    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken, actionReloadToken) {
+        value = if (packageName.isNullOrBlank()) emptyList() else withContext(Dispatchers.IO) {
+            AppBackupInventoryBehavior(context).inspectLocal(packageName)
         }
     }
     val latest = inventory.firstOrNull()
 
-    Card(
-        Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onOpenBackups),
-    ) {
+    fun executeAction(action: () -> AppBackupActionBehavior.Result) {
+        menuOpen = false
+        actionScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching { action() }.getOrElse {
+                    AppBackupActionBehavior.Result.Failed(it.message ?: context.getString(R.string.action_failed))
+                }
+            }
+            when (result) {
+                AppBackupActionBehavior.Result.Completed -> actionReloadToken++
+                is AppBackupActionBehavior.Result.Failed -> actionMessage = result.reason
+            }
+        }
+    }
+
+    if (detailsOpen && latest != null) {
+        AlertDialog(
+            onDismissRequest = { detailsOpen = false },
+            title = { Text(stringResource(R.string.backup_details)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()))
+                    Text(stringResource(R.string.backup_date_value, DateFormat.getDateTimeInstance().format(Date(latest.backupTime))))
+                    Text(stringResource(R.string.backup_size_value, formatBackupSize(latest.totalBytes)))
+                    Text(
+                        stringResource(
+                            R.string.backup_parts_value,
+                            buildList {
+                                if (latest.apkBytes > 0) add(context.getString(R.string.apk_part))
+                                if (latest.dataBytes > 0) add(context.getString(R.string.data_part))
+                                if (latest.externalDataBytes > 0) add(context.getString(R.string.external_data_part))
+                                if (latest.mediaBytes > 0) add(context.getString(R.string.media_part))
+                            }.joinToString(", ").ifBlank { "—" },
+                        )
+                    )
+                    Text(if (latest.protectedBackup) stringResource(R.string.protected_backup) else stringResource(R.string.unprotected_backup))
+                    if (!latest.note.isNullOrBlank()) Text(latest.note!!)
+                }
+            },
+            confirmButton = { TextButton(onClick = { detailsOpen = false }) { Text(stringResource(R.string.close)) } },
+        )
+    }
+
+    if (noteOpen && latest != null) {
+        AlertDialog(
+            onDismissRequest = { noteOpen = false },
+            title = { Text(stringResource(R.string.backup_note)) },
+            text = {
+                OutlinedTextField(
+                    value = noteText,
+                    onValueChange = { noteText = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    minLines = 3,
+                    label = { Text(stringResource(R.string.note)) },
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    executeAction { actionBehavior.setNote(packageName.orEmpty(), latest.versionCode, noteText) }
+                    noteOpen = false
+                }) { Text(stringResource(R.string.save)) }
+            },
+            dismissButton = { TextButton(onClick = { noteOpen = false }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
+
+    if (deleteOpen && latest != null) {
+        AlertDialog(
+            onDismissRequest = { deleteOpen = false },
+            title = { Text(stringResource(R.string.delete_backup_title)) },
+            text = { Text(stringResource(R.string.delete_backup_message)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    deleteOpen = false
+                    executeAction { actionBehavior.delete(packageName.orEmpty(), latest.versionCode) }
+                }) { Text(stringResource(R.string.delete)) }
+            },
+            dismissButton = { TextButton(onClick = { deleteOpen = false }) { Text(stringResource(R.string.cancel)) } },
+        )
+    }
+
+    if (actionMessage != null) {
+        AlertDialog(
+            onDismissRequest = { actionMessage = null },
+            title = { Text(stringResource(R.string.action_failed)) },
+            text = { Text(actionMessage!!) },
+            confirmButton = { TextButton(onClick = { actionMessage = null }) { Text(stringResource(R.string.close)) } },
+        )
+    }
+
+    Card(Modifier.fillMaxWidth()) {
         Column(
             Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -2133,12 +2224,7 @@ private fun AppBackupStateCard(
                     color = MaterialTheme.colorScheme.surfaceVariant,
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(
-                            Icons.Default.FolderOpen,
-                            contentDescription = null,
-                            modifier = Modifier.size(44.dp),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Icon(Icons.Default.FolderOpen, contentDescription = null, modifier = Modifier.size(44.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
                 Text(
@@ -2148,62 +2234,58 @@ private fun AppBackupStateCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else {
-                Text(
-                    stringResource(R.string.device_backups_count, inventory.size),
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.SemiBold,
-                )
-                HorizontalDivider()
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Column(Modifier.weight(1f)) {
-                        Text(
-                            DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latest.backupTime)),
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                        Text(
-                            stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Text(stringResource(R.string.device_backups_count, inventory.size), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                        Text(DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latest.backupTime)), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.backup_version_format, latest.versionName ?: latest.versionCode.toString()), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    IconButton(onClick = onOpenBackups) {
-                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.backup_actions))
+                    Box {
+                        IconButton(onClick = { menuOpen = true }) {
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.backup_actions))
+                        }
+                        DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.backup_details)) },
+                                leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) },
+                                onClick = { menuOpen = false; detailsOpen = true },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(if (latest.protectedBackup) stringResource(R.string.unprotect_backup) else stringResource(R.string.protect_backup)) },
+                                leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                                onClick = { executeAction { actionBehavior.setProtected(packageName.orEmpty(), latest.versionCode, !latest.protectedBackup) } },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.add_update_note)) },
+                                leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) },
+                                onClick = { menuOpen = false; noteText = latest.note.orEmpty(); noteOpen = true },
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.sync)) },
+                                leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
+                                enabled = false,
+                                onClick = {},
+                            )
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.delete_backup)) },
+                                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
+                                enabled = !latest.protectedBackup,
+                                onClick = { menuOpen = false; deleteOpen = true },
+                            )
+                        }
                     }
                 }
-                if (!latest.note.isNullOrBlank()) {
-                    Text(
-                        latest.note,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                HorizontalDivider()
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BackupPartChip(stringResource(R.string.apk_part), latest.apkBytes, Icons.Default.Android, Modifier.weight(1f))
+                    BackupPartChip(stringResource(R.string.data_part), latest.dataBytes, Icons.Default.Folder, Modifier.weight(1f), latest.protectedBackup)
                 }
-                Row(
-                    Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    BackupPartChip(
-                        title = stringResource(R.string.apk_part),
-                        size = latest.apkBytes,
-                        icon = Icons.Default.Android,
-                        modifier = Modifier.weight(1f),
-                    )
-                    BackupPartChip(
-                        title = stringResource(R.string.data_part),
-                        size = latest.dataBytes,
-                        icon = Icons.Default.Folder,
-                        modifier = Modifier.weight(1f),
-                        protected = latest.protectedBackup,
-                    )
-                }
+                Text(formatBackupSize(latest.totalBytes), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if (!latest.note.isNullOrBlank()) Text(latest.note!!, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall)
                 Button(
                     onClick = onOpenBackups,
-                    modifier = Modifier.align(Alignment.End),
                     enabled = false,
+                    modifier = Modifier.align(Alignment.End),
                     shape = RoundedCornerShape(24.dp),
                 ) {
                     Icon(Icons.Default.Restore, contentDescription = null)
