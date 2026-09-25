@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `aba1fc5982a6d3cba799a8e40abb5358d8b41e0a` |
+| Current checkpoint | `84e40a916f53117a55511c386134fb15d77dfa18` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A9 shared app-level action behavior boundary** |
@@ -208,7 +208,7 @@ Open verification items mengikuti current Apps checkpoint: A7 masih menunggu CI/
 | A6 | Apps row identity/metadata/organization presentation | **PARTIAL** | **Reference parity:** row belum lengkap pada labels, favorite presentation, metadata richness, swipe actions, dan batch-selection affordance. |
 | A7 | App Detail foundation/header | **IMPLEMENTED / PARTIAL** | **Foundation implemented**, tetapi **runtime verification belum selesai**. Structural/card/state parity App Detail juga belum penuh; shell/header adalah bagian yang sedang diverifikasi. |
 | A8 | App Detail storage parts + total/cache presentation | **IMPLEMENTED / PARTIAL** | **Reference parity:** part model dan storage presentation belum mencakup seluruh reference parts. **Backend/execution:** sebagian destination/part belum executable. **Verification:** runtime belum lengkap. |
-| A9 | App Detail app-level actions | **IMPLEMENTED / PARTIAL** | **Architecture implemented:** shared AppActionBehavior sudah menjadi boundary. **Verification gap:** compile/CI dan runtime E2E untuk refactor A9 belum terbukti. |
+| A9 | App Detail app-level actions | **RUNTIME TESTED / UNRESOLVED** | **Shared behavior boundary terbukti E2E** untuk Launch, App Info, Play Store, Enable/Disable, Force Stop, Clear Data, Add to Home, dan Uninstall execution. **Open defects:** Battery Optimization state Apps List ↔ App Detail belum konsisten; system uninstall membutuhkan post-return state reconciliation. **Next:** build + runtime re-test dua defect tersebut. |
 | A10 | App Detail part-level actions | **PARTIAL** | **Execution/parity gap:** baru sebagian part actions yang executable; action layer reference untuk part/backup-version/backup-card belum seluruhnya terpisah dan wired. |
 | A11 | Device backup card/inventory | **PARTIAL / UNVERIFIED** | **Inventory/state gap:** card/surface ada, tetapi backup-version inventory, loading/error state, metadata, restore/action menu belum parity. **Verification:** runtime belum terbukti. |
 | A12 | Cloud backup card/inventory | **PARTIAL / BLOCKED BY PROVIDER** | **Dependency blocker:** cloud provider/backend belum tersedia. Surface bisa ada, tetapi inventory/state/execution Cloud tidak dapat diverifikasi end-to-end. |
@@ -320,11 +320,11 @@ Dengan format ini, PARTIAL menjadi **actionable audit scope**, bukan label perki
 
 ## 10. NEXT ACTION
 
-1. **A7:** selesaikan dan verifikasi App Detail GlobalHeader → AppsSubHeader → content + navigation continuity.
-2. Setelah source change, **build** dan cek runtime visual App Detail pada device.
-3. Cocokkan header App Detail dengan header Apps: brand, context, search, filter, menu, dan back navigation.
-4. Jika A7 runtime evidence memenuhi acceptance, tandai A7 sesuai status verification yang benar.
-5. Setelah A7 ditutup, lanjut ke **A8 App Detail storage parts + total/cache presentation**.
+1. **A9:** build/CI checkpoint 84e40a....
+2. Install/update APK pada device bila build tersedia.
+3. E2E ulang **Battery Optimization** dari Apps List dan App Detail pada package yang sama; acceptance: semantic status + switch konsisten dan perubahan state tercermin setelah kembali dari action/system settings.
+4. E2E ulang **Uninstall** dengan app test yang sudah memiliki backup; acceptance: setelah uninstall selesai dan kembali ke BaRe, App Detail tidak lagi menampilkan state/package stale atau "App not found", dan inventory kembali menampilkan state aktual.
+5. Jika dua acceptance A9 terpenuhi, tutup A9 sesuai evidence lalu lanjut **A10**.
 6. Install Date / Update Date / Date Used tetap **tidak dibuka ulang** tanpa evidence baru.
 
 ## 10.4 A7 APP DETAIL FOUNDATION / HEADER — 2026-09-25
@@ -344,6 +344,19 @@ Dengan format ini, PARTIAL menjadi **actionable audit scope**, bukan label perki
 ### A7 NEXT
 Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan menganggap parity label warna/custom sudah selesai sebelum data model dan behavior label BaRe dibandingkan lagi dengan reference decompile.
 
+
+## 10.6 A9 E2E FEEDBACK + CORRECTION — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk memperbaiki defect A9 berdasarkan E2E device evidence.
+- **E2E OBSERVED:** Launch berhasil membuka app; App Info membuka Android App Info; Play Store bekerja untuk app yang tersedia di Google Play; Enable/Disable, Force Stop, dan Clear Data bekerja; Add to Home menghasilkan shortcut nyata di Home screen.
+- **E2E OBSERVED:** Uninstall benar-benar menghapus 1DM+ dari inventory (count 494 → 493), tetapi App Detail tetap memegang state/package lama dan kemudian menampilkan "App not found".
+- **ROOT CAUSE SOURCE:** system uninstall mengembalikan OPENED_SYSTEM, sehingga BaRe tidak mengetahui completion langsung dari AppActionBehavior. App Detail sebelumnya tidak memiliki lifecycle reconciliation setelah kembali dari system uninstall. Root uninstall path juga tidak menutup detail setelah COMPLETED.
+- **FIX IMPLEMENTED:** App Detail sekarang mengamati ON_RESUME dengan lifecycle-aware DisposableEffect; bila package yang sedang dibuka sudah tidak ter-install, detail ditutup melalui onBack(). Root uninstall COMPLETED juga langsung menutup detail.
+- **E2E OBSERVED:** Battery Optimization memiliki semantic state berbeda antar-surface. Apps List menggunakan true = optimizing, sedangkan App Detail menggunakan true = exempt/not optimized. Ini membuat switch/status tampak tidak sinkron untuk package yang sama.
+- **FIX IMPLEMENTED:** App Detail sekarang menggunakan semantic state yang sama dengan Apps List: batteryOptimizing = !isIgnoringBatteryOptimizations(packageName), dan status/switch/action memakai semantic tersebut. AppActionBehavior.setBatteryOptimization() tetap menggunakan exempt = !enableOptimization sebagai contract Android/root.
+- **SOURCE VERIFICATION:** branch v1.0/rebaseline saat ini berada pada commit 84e40a916f53117a55511c386134fb15d77dfa18; perubahan source hanya menyentuh AppsScreens.kt untuk uninstall lifecycle reconciliation dan Battery Optimization state normalization.
+- **EXTERNAL BASIS:** Android Compose guidance mendukung penggunaan DisposableEffect untuk mendaftarkan dan membersihkan LifecycleEventObserver saat composable membutuhkan observasi lifecycle. citeturn0search0turn0search10
+- **NOT VERIFIED YET:** build/CI dan device E2E setelah fix belum tersedia. A9 belum boleh ditutup sebelum kedua defect diuji ulang.
 
 ## 10.5 LABEL FOUNDATION / REFERENCE-ALIGNED SHELL — 2026-09-25
 
