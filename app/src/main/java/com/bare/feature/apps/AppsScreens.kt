@@ -516,7 +516,7 @@ private fun LabelSubHeader(
                 IconButton(onClick = onCreate) { Icon(Icons.Default.Add, contentDescription = "Create New Label") }
             }
             if (onDeleteAll != null) {
-                IconButton(onClick = onDeleteAll) { Icon(Icons.Default.DeleteSweep, contentDescription = "Delete All") }
+                IconButton(onClick = onDeleteAll) { Icon(Icons.Default.Delete, contentDescription = "Delete All") }
             }
         }
     )
@@ -1050,8 +1050,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
     var confirmAction by remember { mutableStateOf<String?>(null) }
-    var showLabelsEditor by remember { mutableStateOf(false) }
-    var labelsText by remember { mutableStateOf("") }
 
     fun reloadDetails() {
         detailReloadToken++
@@ -1137,40 +1135,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             }
         }
         toast(context.getString(R.string.app_action_unavailable))
-    }
-
-    if (showLabelsEditor && details != null) {
-        AlertDialog(
-            onDismissRequest = { showLabelsEditor = false },
-            title = { Text(stringResource(R.string.labels)) },
-            text = {
-                OutlinedTextField(
-                    value = labelsText,
-                    onValueChange = { labelsText = it },
-                    modifier = Modifier.fillMaxWidth(),
-                    label = { Text(stringResource(R.string.labels)) },
-                    placeholder = { Text(stringResource(R.string.labels_placeholder)) },
-                    minLines = 2,
-                )
-            },
-            confirmButton = {
-                TextButton(onClick = {
-                    organizationStore.setLabels(
-                        details!!.packageName,
-                        labelsText.split(",").map { it.trim() }.filter { it.isNotBlank() }.toSet()
-                    )
-                    showLabelsEditor = false
-                    toast(context.getString(R.string.action_completed))
-                }) {
-                    Text(stringResource(R.string.save))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showLabelsEditor = false }) {
-                    Text(stringResource(R.string.close))
-                }
-            }
-        )
     }
 
     if (confirmAction != null && details != null) {
