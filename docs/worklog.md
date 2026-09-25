@@ -973,3 +973,40 @@ Yang masih harus dibuktikan:
 ### Status
 
 `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
+
+
+## A10/A13 — Reference UI correction after CI #1080 (2026-09-25)
+
+### Evidence
+
+Runtime screenshots supplied by user were compared against the reference interaction contract. The visible mismatch was confirmed on the App Detail surface:
+
+- Cloud backups card was clickable and navigated to the separate APP_BACKUPS screen.
+- Connect account on the App Detail cloud card could navigate to the Cloud screen even though Cloud backup execution is not currently available.
+- The reference contract treats the Cloud backup card as an inline state surface in the current App Detail context; navigation is not the card behavior.
+- Cloud capability remains unavailable, so the App Detail Connect account control must remain disabled until the corresponding capability is actually implemented.
+
+### Implementation
+
+Commit: a22838ffb94f83a71a2420e6ed3018e4f75b8d97
+
+Changes:
+
+1. Removed the click/navigation behavior from AppBackupCloudStateCard.
+2. Removed the onOpenBackups dependency from AppBackupCloudStateCard.
+3. Changed App Detail Connect account to a disabled control instead of navigating to Screen.CLOUD.
+4. Removed the unused onOpenBackups dependency from AppBackupStateCard.
+5. The disabled Restore action remains a capability-gated control and does not navigate to APP_BACKUPS.
+
+### Behavior contract
+
+- App Detail → Cloud backups card: inline, non-navigating state card.
+- App Detail → Connect account: disabled while Cloud capability is unavailable.
+- App Detail → backup card Restore: disabled while Restore execution is unavailable.
+- Backup completion remains in the current App Detail context and refreshes inventory in-place.
+
+### Verification status
+
+Source change is implemented. CI for commit a22838ffb94f83a71a2420e6ed3018e4f75b8d97 is pending; runtime re-test is pending.
+
+Status: IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
