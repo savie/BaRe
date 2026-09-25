@@ -476,19 +476,6 @@ private fun QuickActionCard(title: String, subtitle: String, firstAction: String
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-private fun LabelsGlobalHeader() {
-    Row(
-        modifier = Modifier.fillMaxWidth().height(72.dp).padding(horizontal = 28.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text("B A R E", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, letterSpacing = 5.sp)
-        Spacer(Modifier.width(10.dp))
-        Text("SAVE OUR DAY", style = MaterialTheme.typography.labelSmall, letterSpacing = 3.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
-@Composable
 private fun LabelSurface(
     label: String,
     color: Int?,
@@ -538,6 +525,7 @@ private fun LabelSubHeader(
     onDeleteAll: (() -> Unit)? = null,
 ) {
     TopAppBar(
+        modifier = Modifier.height(56.dp),
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back)) }
@@ -572,7 +560,7 @@ private fun AppLabelEditorSurface(
     Scaffold(
         topBar = {
             Column {
-                LabelsGlobalHeader()
+                GlobalHeader()
                 LabelSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack)
             }
         }
@@ -702,7 +690,7 @@ fun AppLabelsScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             Column {
-                LabelsGlobalHeader()
+                GlobalHeader()
                 LabelSubHeader(
                     title = "App Labels",
                     onBack = onBack,
@@ -797,7 +785,7 @@ fun AppLabelSelectionScreen(app: AppItem?, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             Column {
-                LabelsGlobalHeader()
+                GlobalHeader()
                 LabelSubHeader(title = "Set App Labels", onBack = onBack, onCreate = { creating = true })
             }
         },
@@ -928,7 +916,16 @@ fun AppCustomConfigurationsScreen(onBack: () -> Unit) {
         )
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.custom_configurations)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = {
+            Column {
+                GlobalHeader()
+                TopAppBar(
+                    modifier = Modifier.height(56.dp),
+                    title = { Text(stringResource(R.string.custom_configurations)) },
+                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                )
+            }
+        }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             item {
@@ -988,10 +985,14 @@ fun AppBlacklistScreen(onBack: () -> Unit) {
     }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Column { Text(stringResource(R.string.blacklist_apps)); Text(blacklisted.size.toString() + " / 100", style = MaterialTheme.typography.bodySmall) } },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
-            )
+            Column {
+                GlobalHeader()
+                TopAppBar(
+                    modifier = Modifier.height(56.dp),
+                    title = { Column { Text(stringResource(R.string.blacklist_apps)); Text(blacklisted.size.toString() + " / 100", style = MaterialTheme.typography.bodySmall) } },
+                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                )
+            }
         }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -1020,7 +1021,16 @@ fun AppBackupSettingsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     var allowDowngrade by remember { mutableStateOf(prefs.getBoolean("allow_downgrade", false)) }
     fun save(key: String, value: Boolean) { prefs.edit().putBoolean(key, value).apply() }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_backups)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = {
+            Column {
+                GlobalHeader()
+                TopAppBar(
+                    modifier = Modifier.height(56.dp),
+                    title = { Text(stringResource(R.string.app_backups)) },
+                    navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } },
+                )
+            }
+        }
     ) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             item { Text(stringResource(R.string.general), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(vertical = 10.dp)) }
