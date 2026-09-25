@@ -654,3 +654,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 5. Implementasi source baru dimulai setelah design checkpoint ini diterima.
 
 **STATUS:** `INSPECTED / GAPS DEFINED / NO SOURCE IMPLEMENTATION`.
+
+## 10.29 A10.1 IMPLEMENTASI — APP DETAIL BACKUP CARDS — 2026-09-25
+
+- **BASELINE PENANDA:** pekerjaan A10.1 dimulai setelah checkpoint `87118ecf2a960d457f0d76c450a888a4044bf5d3`.
+- **REFERENCE:** UI A10.1 mengikuti evidence screenshot/reference yang diberikan user dan struktur decompile Swift Backup 5.1.0 (620), khususnya `detail_card_app_backup.xml`.
+- **IMPLEMENTED:** Device backup card sekarang memiliki struktur backup-card: jumlah backup, latest backup metadata/version, overflow affordance, optional note, APK/Data part chips, dan Restore CTA. Cloud backup card sekarang memiliki dedicated empty-state presentation dengan Cloud-off visual dan sync state.
+- **DATA BASIS:** Device card tidak menggunakan fake backup. Inventory dibaca dari backup lokal BaRe dan metadata `AppBackupMetadata`; jika belum ada verified backup, card menampilkan empty state. Inventory inspection dijalankan pada IO dispatcher.
+- **SCOPE:** A10.1 hanya membangun/rebaseline **backup-card presentation + local inventory read boundary**. Restore execution, backup-version action execution, delete/protect/note action execution, dan Cloud execution belum diimplementasikan pada checkpoint ini.
+- **STRINGS:** UI text baru ditempatkan di `res/values/strings.xml`.
+- **CI:** #1048/#1049 berjalan untuk perubahan AppsScreens dan inventory behavior; final post-threading commit `812fc5ec29c1632882f1df4d4c7e5a82b325a056` menambahkan IO-bound inspection. CI final untuk branch state masih pending.
+- **RUNTIME:** belum diverifikasi pada device setelah A10.1.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
