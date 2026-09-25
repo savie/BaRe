@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `d2a30299421398989ee4e7cd4566cd623978b2d7` |
+| Current checkpoint | `776803502fb681b85e65608eda0c997cb3e1a18a` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -373,3 +373,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **NAVIGATION:** callback Apps search/filter/menu tidak lagi dipassing ke App Detail karena bukan bagian dari Detail SubHeader.
 - **COMMITS:** 7ba2aec13c456be11ae95e4a12fe7d93bb5279c7 dan d2a30299421398989ee4e7cd4566cd623978b2d7.
 - **VERIFICATION:** source change committed; build/runtime setelah fix masih **UNVERIFIED**.
+
+
+## 10.12 A7 HEADER DENSITY / SHELL SIZE CORRECTION — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk menguji ukuran shell yang lebih compact pada scope yang sudah dikerjakan: Apps List + App Detail.
+- **DECISION:** GlobalHeader **80dp**; seluruh SubHeader yang terkait flow ini **56dp**.
+- **APPS:** GlobalHeader 80dp → Apps SubHeader 56dp → Apps Body.
+- **APP DETAIL:** GlobalHeader 80dp → Detail SubHeader 56dp → App Detail Body.
+- **CONTRACT:** tinggi shell dibuat seragam antar flow agar perpindahan Apps → App Detail tidak menghasilkan gap/lompatan visual; isi SubHeader tetap context-specific.
+- **SCOPE:** hanya shell yang sudah digarap sampai A7. Tidak mengubah body, bottom navigation, atau capability A8.
+- **SOURCE VERIFICATION:** GlobalHeader, AppsSubHeader, dan AppDetailSubHeader dibaca ulang setelah perubahan. Bottom navigation dikembalikan ke ukuran sebelumnya setelah ditemukan perubahan tidak sengaja saat bulk replacement.
+- **VERIFICATION:** source state sudah terkonfirmasi; build/runtime setelah compacting masih **UNVERIFIED**.
