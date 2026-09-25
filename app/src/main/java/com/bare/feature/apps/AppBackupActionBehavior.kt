@@ -39,6 +39,49 @@ class AppBackupActionBehavior(context: Context) {
         }
     }
 
+    fun deletePart(
+        packageName: String,
+        versionCode: Long,
+        part: AppBackupPart,
+    ): Result {
+        val directory = findVersionDirectory(packageName, versionCode)
+            ?: return Result.Failed("Backup version was not found")
+        val metadata = AppBackupMetadata.read(directory)
+            ?: return Result.Failed("Backup metadata is unavailable")
+        if (metadata.protectedBackup) {
+            return Result.Failed("Protected backup cannot be modified")
+        }
+
+        val targets = when (part) {
+            AppBackupPart.APK -> directory.listFiles()
+                ?.filter { it.isFile && it.extension.equals("apk", ignoreCase = true) }
+                .orEmpty()
+            AppBackupPart.DATA -> listOf(File(directory, "data"))
+            AppBackupPart.EXTERNAL_DATA -> listOf(File(directory, "external-data"))
+            AppBackupPart.MEDIA -> listOf(File(directory, "media"))
+        }.filter { it.exists() }
+
+        if (targets.isEmpty()) {
+            return Result.Failed("${part.displayName()} backup part was not found")
+        }
+
+        val failed = targets.firstOrNull { target ->
+            if (target.isDirectory) target.deleteRecursively() else target.delete()
+        }
+        return if (failed == null) {
+            Result.Completed
+        } else {
+            Result.Failed("Unable to delete ${part.displayName()} backup part")
+        }
+    }
+
+    private fun AppBackupPart.displayName(): String = when (this) {
+        AppBackupPart.APK -> "APK"
+        AppBackupPart.DATA -> "Data"
+        AppBackupPart.EXTERNAL_DATA -> "Ext. data"
+        AppBackupPart.MEDIA -> "Media"
+    }
+
     private fun mutateMetadata(
         packageName: String,
         versionCode: Long,
