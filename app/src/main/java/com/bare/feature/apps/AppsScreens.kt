@@ -1864,18 +1864,14 @@ private fun AppStorageChip(
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.backup_to_cloud)) },
                 leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
-                onClick = {
-                    menuOpen = false
-                    onBackup("Cloud")
-                }
+                enabled = false,
+                onClick = {}
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.backup_to_device_cloud)) },
                 leadingIcon = { Icon(Icons.Default.CloudQueue, contentDescription = null) },
-                onClick = {
-                    menuOpen = false
-                    onBackup("Device + Cloud")
-                }
+                enabled = false,
+                onClick = {}
             )
             if (title == stringResource(R.string.apks_part)) {
                 DropdownMenuItem(
@@ -1887,14 +1883,6 @@ private fun AppStorageChip(
                     }
                 )
             }
-            DropdownMenuItem(
-                text = { Text(stringResource(R.string.delete)) },
-                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
-                onClick = {
-                    menuOpen = false
-                    onUnavailable()
-                }
-            )
         }
     }
 }
