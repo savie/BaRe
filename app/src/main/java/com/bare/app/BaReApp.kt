@@ -504,6 +504,7 @@ private fun MainShell(
             Screen.APPS_SEARCH -> AppsSearchScreen(onOpenApp, onBack)
             Screen.APP_QUICK_ACTIONS -> AppsQuickActionsScreen(onOpenScreen, onBack)
             Screen.APP_LABELS -> AppLabelsScreen(onBack)
+            Screen.APP_LABEL_SELECTION -> AppLabelSelectionScreen(selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName), onBack)
             Screen.APP_CUSTOM_CONFIG -> AppCustomConfigurationsScreen(onBack)
             Screen.APP_BLACKLIST -> AppBlacklistScreen(onBack)
             Screen.APP_BACKUP_SETTINGS -> AppBackupSettingsScreen(onOpenScreen, onBack)
