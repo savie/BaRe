@@ -25,6 +25,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
@@ -1082,11 +1085,36 @@ fun AppDetailScreen(
     var error by remember(packageName) { mutableStateOf<String?>(null) }
     var detailReloadToken by remember(packageName) { mutableStateOf(0) }
     var showActions by remember { mutableStateOf(false) }
-    var batteryOptimized by remember(packageName) { mutableStateOf(false) }
+    var batteryOptimizing by remember(packageName) {
+        mutableStateOf(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                context.getSystemService(PowerManager::class.java)
+                    ?.isIgnoringBatteryOptimizations(packageName) != true
+            } else {
+                false
+            }
+        )
+    }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
     var confirmAction by remember { mutableStateOf<String?>(null) }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, packageName) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                val currentPackage = packageName ?: return@LifecycleEventObserver
+                val stillInstalled = runCatching {
+                    context.packageManager.getApplicationInfo(currentPackage, 0)
+                    true
+                }.getOrDefault(false)
+                if (!stillInstalled) onBack()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
 
     fun reloadDetails() {
         detailReloadToken++
@@ -1146,7 +1174,14 @@ fun AppDetailScreen(
 
     fun uninstallApp() {
         val currentPackage = packageName ?: return
-        handleAction(AppActionBehavior.uninstallWithSystemFallback(context, currentPackage), reloadOnSuccess = false)
+        when (val result = AppActionBehavior.uninstallWithSystemFallback(context, currentPackage)) {
+            AppActionBehavior.Result.COMPLETED -> {
+                toast(context.getString(R.string.action_completed))
+                onBack()
+            }
+            AppActionBehavior.Result.OPENED_SYSTEM -> Unit
+            else -> handleAction(result, reloadOnSuccess = false)
+        }
     }
 
     fun requestBatteryOptimization(exempt: Boolean) {
@@ -1439,9 +1474,9 @@ fun AppDetailScreen(
                                         ) {
                                             LaunchedEffect(showActions, appDetails.packageName) {
                                                 if (showActions) {
-                                                    batteryOptimized = runCatching {
+                                                    batteryOptimizing = runCatching {
                                                         context.getSystemService(PowerManager::class.java)
-                                                            ?.isIgnoringBatteryOptimizations(appDetails.packageName) == true
+                                                            ?.isIgnoringBatteryOptimizations(appDetails.packageName) != true
                                                     }.getOrDefault(false)
                                                 }
                                             }
@@ -1586,7 +1621,8 @@ fun AppDetailScreen(
                                                     Column {
                                                         Text(stringResource(R.string.battery_optimization))
                                                         Text(
-                                                            if (batteryOptimized) stringResource(R.string.optimized) else stringResource(R.string.not_optimized),
+                                                            if (batteryOptimizing) stringResource(R.string.battery_optimization_status_optimizing)
+                                                            else stringResource(R.string.battery_optimization_status_exempt),
                                                             style = MaterialTheme.typography.bodySmall,
                                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                                         )
@@ -1595,16 +1631,16 @@ fun AppDetailScreen(
                                                 leadingIcon = { Icon(Icons.Default.BatteryChargingFull, contentDescription = null) },
                                                 trailingIcon = {
                                                     Switch(
-                                                        checked = batteryOptimized,
+                                                        checked = batteryOptimizing,
                                                         onCheckedChange = { enabled ->
-                                                            batteryOptimized = enabled
+                                                            batteryOptimizing = enabled
                                                             requestBatteryOptimization(enabled)
                                                         }
                                                     )
                                                 },
                                                 onClick = {
-                                                    val enabled = !batteryOptimized
-                                                    batteryOptimized = enabled
+                                                    val enabled = !batteryOptimizing
+                                                    batteryOptimizing = enabled
                                                     requestBatteryOptimization(enabled)
                                                 }
                                             )
