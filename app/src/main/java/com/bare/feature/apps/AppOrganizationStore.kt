@@ -2,7 +2,7 @@ package com.bare.feature.apps
 
 import android.content.Context
 
-class AppOrganizationStore(context: Context) {
+data class AppLabelDefinition(val name: String, val color: Int? = null)\n\nclass AppOrganizationStore(context: Context) {
     private val preferences = context.getSharedPreferences("apps_organization", Context.MODE_PRIVATE)
 
     fun isFavorite(packageName: String): Boolean =
@@ -27,7 +27,7 @@ class AppOrganizationStore(context: Context) {
             .apply()
     }
 
-    fun addLabel(label: String) {
+    fun labelColor(label: String): Int? =\n        preferences.getString(LABEL_COLORS_KEY, emptySet()).orEmpty().firstOrNull { it.substringBefore("=").equals(label.trim(), ignoreCase = true) }?.substringAfter("=")?.toIntOrNull()\n\n    fun setLabelColor(label: String, color: Int?) {\n        val name = label.trim()\n        if (name.isBlank()) return\n        val values = preferences.getStringSet(LABEL_COLORS_KEY, emptySet()).orEmpty().toMutableSet()\n        values.removeAll { it.substringBefore("=").equals(name, ignoreCase = true) }\n        if (color != null) values.add("$name=$color")\n        preferences.edit().putStringSet(LABEL_COLORS_KEY, values).apply()\n    }\n\n    fun labelDefinitions(packageNames: Collection<String>): List<AppLabelDefinition> =\n        allLabels(packageNames).map { AppLabelDefinition(it, labelColor(it)) }\n\n    fun addLabel(label: String, color: Int? = null) {
         val value = label.trim()
         if (value.isBlank()) return
         val labels = preferences.getStringSet(CUSTOM_LABELS_KEY, emptySet()).orEmpty().toMutableSet()
@@ -95,7 +95,7 @@ class AppOrganizationStore(context: Context) {
 
     private companion object {
         const val FAVORITES_KEY = "favorite_packages"
-        const val CUSTOM_LABELS_KEY = "custom_labels"
+        const val CUSTOM_LABELS_KEY = "custom_labels"\n        const val LABEL_COLORS_KEY = "label_colors"
         const val BLACKLIST_KEY = "blacklisted_packages"
         const val APK_ONLY_BATCH_KEY = "apk_only_batch_packages"
     }
