@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `6c10c7f7a4e17960b02a86a30ee23700c9ed748e` |
+| Current checkpoint | `1095930fb6c331ac64d870591dd5492a8410b8ca` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -422,4 +422,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **TARGET GEOMETRY:** blok brand diperlakukan sebagai konten wrap-content di tengah shell 80dp, sehingga ruang atas/bawah mengikuti geometri aktual teks.
 - **TYPOGRAPHY:** tetap sama; tidak mengubah font size atau letter spacing.
 - **SEARCH ACTION:** jika digunakan, tetap berada di sisi kanan tanpa menggeser center brand.
+- **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
+
+
+## 10.17 GLOBAL HEADER STATUS-BAR GEOMETRY CORRECTION — 2026-09-25
+
+- **OBSERVED (user E2E):** fixed 80dp Box berhasil menghilangkan perilaku offset arbitrer, tetapi pada device branding masih tampak terlalu tinggi terhadap area visual header karena shell berada di edge-to-edge dan status bar ikut berada di atas shell.
+- **ROOT CAUSE:** center geometris Box 80dp belum sama dengan center visual area aman setelah memperhitungkan status-bar inset.
+- **FIX:** brand column tetap center horizontal/vertical pada shell 80dp, lalu diposisikan turun sebesar **setengah status-bar inset aktual**, bukan angka hardcoded.
+- **TYPOGRAPHY / SHELL:** tidak diubah. GlobalHeader tetap 80dp; SubHeader 56dp; Bottom Navigation 56dp.
+- **SCOPE:** hanya posisi branding GlobalHeader.
 - **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
