@@ -23,9 +23,18 @@ class AppOrganizationBehavior(context: Context) {
         store.setLabels(packageName, labels)
     }
 
-    fun addLabel(label: String) {
-        store.addLabel(label)
+    fun addLabel(label: String, color: Int? = null) {
+        store.addLabel(label, color)
     }
+
+    fun labelColor(label: String): Int? = store.labelColor(label)
+
+    fun setLabelColor(label: String, color: Int?) {
+        store.setLabelColor(label, color)
+    }
+
+    fun labelDefinitions(packageNames: Collection<String>): List<AppLabelDefinition> =
+        store.labelDefinitions(packageNames)
 
     fun renameLabel(oldLabel: String, newLabel: String, packageNames: Collection<String>) {
         store.renameLabel(oldLabel, newLabel, packageNames)
