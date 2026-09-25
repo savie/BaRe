@@ -1776,7 +1776,6 @@ fun AppDetailScreen(
 
                     item {
                         AppBackupStateCard(
-                            title = stringResource(R.string.device_backups),
                             packageName = packageName,
                             onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
                         )
