@@ -683,6 +683,7 @@
     <string name="selected_backup_location">Location: %1$s</string>
     <string name="backup_app_title">Backup • %1$s</string>
     <string name="run_backup">Run backup</string>
+    <string name="backup_status_at">Backup: %1$s</string>
     <string name="device_no_verified_backup">Device: no verified backup</string>
     <string name="cloud_not_synced">Cloud: not synced</string>
     <string name="cloud_not_connected">Cloud service is not connected</string>
