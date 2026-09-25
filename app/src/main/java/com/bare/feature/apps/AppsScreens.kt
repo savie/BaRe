@@ -13,6 +13,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +26,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -439,47 +442,215 @@ private fun QuickActionCard(title: String, subtitle: String, firstAction: String
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun LabelsGlobalHeader() {
+    Row(
+        modifier = Modifier.fillMaxWidth().height(72.dp).padding(horizontal = 28.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("B A R E", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, letterSpacing = 5.sp)
+        Spacer(Modifier.width(10.dp))
+        Text("SAVE OUR DAY", style = MaterialTheme.typography.labelSmall, letterSpacing = 3.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun LabelSurface(
+    label: String,
+    color: Int?,
+    selected: Boolean = false,
+    showAdd: Boolean = false,
+    showEdit: Boolean = false,
+    onClick: () -> Unit,
+    onEdit: (() -> Unit)? = null,
+) {
+    val containerColor = color?.let { Color(it) } ?: MaterialTheme.colorScheme.surface
+    Surface(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        color = if (selected) MaterialTheme.colorScheme.secondaryContainer else containerColor,
+        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.outline),
+        modifier = Modifier.padding(end = 8.dp, bottom = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.defaultMinSize(minHeight = 36.dp).padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (showAdd) {
+                Icon(Icons.Default.Add, contentDescription = null, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(4.dp))
+            }
+            Text(label.uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+            if (showEdit && onEdit != null) {
+                Spacer(Modifier.width(4.dp))
+                IconButton(onClick = onEdit, modifier = Modifier.size(28.dp)) {
+                    Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.rename), modifier = Modifier.size(18.dp))
+                }
+            }
+            if (selected) {
+                Spacer(Modifier.width(4.dp))
+                Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp))
+            }
+        }
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LabelSubHeader(
+    title: String,
+    onBack: () -> Unit,
+    onCreate: (() -> Unit)? = null,
+    onDeleteAll: (() -> Unit)? = null,
+) {
+    TopAppBar(
+        title = { Text(title) },
+        navigationIcon = {
+            IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back)) }
+        },
+        actions = {
+            if (onCreate != null) {
+                IconButton(onClick = onCreate) { Icon(Icons.Default.Add, contentDescription = "Create New Label") }
+            }
+            if (onDeleteAll != null) {
+                IconButton(onClick = onDeleteAll) { Icon(Icons.Default.DeleteSweep, contentDescription = "Delete All") }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+private fun AppLabelEditorSurface(
+    initialLabel: String?,
+    initialColor: Int?,
+    appCount: Int,
+    onBack: () -> Unit,
+    onSaved: (String, Int?) -> Unit,
+) {
+    val palette = listOf(
+        0xFFE57373.toInt(), 0xFFFFB74D.toInt(), 0xFFFFD54F.toInt(),
+        0xFF81C784.toInt(), 0xFF64B5F6.toInt(), 0xFF9575CD.toInt(),
+        0xFFF06292.toInt(), 0xFF90A4AE.toInt()
+    )
+    var name by remember(initialLabel) { mutableStateOf(initialLabel.orEmpty()) }
+    var selectedColor by remember(initialColor) { mutableStateOf(initialColor) }
+    Scaffold(
+        topBar = { LabelSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack) }
+    ) { padding ->
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+        ) {
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("LABEL PREVIEW", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.5.sp)
+                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            LabelSurface(label = name.ifBlank { "NEW LABEL" }, color = selectedColor, onClick = {})
+                        }
+                    }
+                }
+            }
+            item {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { if (it.length <= 20) name = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    label = { Text("Label name") },
+                    leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) },
+                    supportingText = { Text("${name.length} / 20") }
+                )
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        Text("Label color", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                            palette.forEach { color ->
+                                Surface(
+                                    onClick = { selectedColor = color },
+                                    shape = CircleShape,
+                                    color = Color(color),
+                                    border = if (selectedColor == color) BorderStroke(3.dp, MaterialTheme.colorScheme.onSurface) else null,
+                                    modifier = Modifier.size(42.dp)
+                                ) {
+                                    if (selectedColor == color) Box(contentAlignment = Alignment.Center) {
+                                        Icon(Icons.Default.Check, contentDescription = null, tint = Color.White)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text("Apps using this label", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text("${appCount} apps", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+            item {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TextButton(onClick = onBack) { Text(stringResource(R.string.cancel)) }
+                    Spacer(Modifier.width(8.dp))
+                    Button(enabled = name.trim().isNotBlank(), onClick = { onSaved(name.trim(), selectedColor) }) { Text(stringResource(R.string.save)) }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AppLabelsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val store = remember(context) { AppOrganizationBehavior(context) }
     val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
-    var labels by remember { mutableStateOf<Set<String>>(emptySet()) }
-    var newLabel by remember { mutableStateOf("") }
-    var editingLabel by remember { mutableStateOf<String?>(null) }
-    var editText by remember { mutableStateOf("") }
+    var labels by remember { mutableStateOf<List<AppLabelDefinition>>(emptyList()) }
+    var editorLabel by remember { mutableStateOf<AppLabelDefinition?>(null) }
+    var creating by remember { mutableStateOf(false) }
     var confirmDelete by remember { mutableStateOf<String?>(null) }
+
     fun refresh() {
         apps = runCatching { inventory.load() }.getOrDefault(emptyList())
-        labels = store.allLabels(apps.map { it.packageName })
+        labels = store.labelDefinitions(apps.map { it.packageName })
     }
     LaunchedEffect(inventory) { refresh() }
-    if (editingLabel != null) {
-        AlertDialog(
-            onDismissRequest = { editingLabel = null },
-            title = { Text(stringResource(R.string.rename_label)) },
-            text = { OutlinedTextField(value = editText, onValueChange = { editText = it }, singleLine = true) },
-            confirmButton = {
-                TextButton(onClick = {
-                    val old = editingLabel
-                    val replacement = editText.trim()
-                    if (old != null && replacement.isNotBlank() && !replacement.equals(old, ignoreCase = true)) {
-                        store.renameLabel(old, replacement, apps.map { it.packageName })
-                        refresh()
-                    }
-                    editingLabel = null
-                }) { Text(stringResource(R.string.save)) }
-            },
-            dismissButton = { TextButton(onClick = { editingLabel = null }) { Text(stringResource(R.string.cancel)) } },
+
+    if (creating || editorLabel != null) {
+        AppLabelEditorSurface(
+            initialLabel = editorLabel?.name,
+            initialColor = editorLabel?.color,
+            appCount = editorLabel?.let { label -> apps.count { label.name in store.labels(it.packageName) } } ?: 0,
+            onBack = { creating = false; editorLabel = null },
+            onSaved = { name, color ->
+                val existing = editorLabel
+                if (existing == null) store.addLabel(name, color)
+                else {
+                    store.renameLabel(existing.name, name, apps.map { it.packageName })
+                    store.setLabelColor(name, color)
+                }
+                creating = false
+                editorLabel = null
+                refresh()
+            }
         )
+        return
     }
+
     if (confirmDelete != null) {
         AlertDialog(
             onDismissRequest = { confirmDelete = null },
-            title = { Text(stringResource(R.string.delete_label_title)) },
-            text = { Text(stringResource(R.string.delete_label_message)) },
+            title = { Text("Delete label") },
+            text = { Text("Remove this label from all apps and from the label list?") },
             confirmButton = {
                 TextButton(onClick = {
                     confirmDelete?.let { store.deleteLabel(it, apps.map { app -> app.packageName }) }
@@ -487,34 +658,210 @@ fun AppLabelsScreen(onBack: () -> Unit) {
                     refresh()
                 }) { Text(stringResource(R.string.delete)) }
             },
-            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(R.string.cancel)) } },
+            dismissButton = { TextButton(onClick = { confirmDelete = null }) { Text(stringResource(R.string.cancel)) } }
         )
     }
+
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_labels)) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) } }) }
+        topBar = {
+            Column {
+                LabelsGlobalHeader()
+                LabelSubHeader(
+                    title = "App Labels",
+                    onBack = onBack,
+                    onCreate = { creating = true },
+                    onDeleteAll = {
+                        labels.forEach { store.deleteLabel(it.name, apps.map { app -> app.packageName }) }
+                        refresh()
+                    }
+                )
+            }
+        }
     ) { padding ->
-        LazyColumn(Modifier.fillMaxSize().padding(padding).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            item {
-                Text(stringResource(R.string.create_edit_labels), style = MaterialTheme.typography.bodyLarge)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                    OutlinedTextField(value = newLabel, onValueChange = { newLabel = it }, modifier = Modifier.weight(1f), singleLine = true, label = { Text(stringResource(R.string.new_label)) })
-                    Button(onClick = { val value = newLabel.trim(); if (value.isNotBlank()) { store.addLabel(value); newLabel = ""; refresh() } }) { Text(stringResource(R.string.add)) }
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 24.dp)
+        ) {
+            item { Text("Create and edit custom labels", style = MaterialTheme.typography.bodyLarge) }
+            if (labels.isEmpty()) {
+                item {
+                    Card(Modifier.fillMaxWidth()) {
+                        Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                            Icon(Icons.Default.Label, contentDescription = null, modifier = Modifier.size(48.dp))
+                            Text("Create labels and use them to categorize your apps the way you want!")
+                            Button(onClick = { creating = true }) {
+                                Icon(Icons.Default.Add, contentDescription = null)
+                                Spacer(Modifier.width(8.dp))
+                                Text("Create New Label")
+                            }
+                        }
+                    }
+                }
+            } else {
+                items(labels, key = { it.name }) { label ->
+                    Card(Modifier.fillMaxWidth()) {
+                        ListItem(
+                            headlineContent = {
+                                LabelSurface(label = label.name, color = label.color, showEdit = true, onClick = { editorLabel = label }, onEdit = { editorLabel = label })
+                            },
+                            supportingContent = { Text("Apps using this label: ${apps.count { label.name in store.labels(it.packageName) }}") },
+                            leadingContent = { Icon(Icons.Default.Label, contentDescription = null) },
+                            trailingContent = {
+                                IconButton(onClick = { confirmDelete = label.name }) {
+                                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
+                                }
+                            }
+                        )
+                    }
                 }
             }
-            if (labels.isEmpty()) item { Text(stringResource(R.string.no_labels_yet)) }
-            else items(labels.toList(), key = { it }) { label ->
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun AppLabelSelectionScreen(app: AppItem?, onBack: () -> Unit) {
+    val context = LocalContext.current
+    val store = remember(context) { AppOrganizationBehavior(context) }
+    val inventory = remember(context) { AppInventoryBehavior(context) }
+    val packageName = app?.packageName
+    var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
+    var labels by remember { mutableStateOf<List<AppLabelDefinition>>(emptyList()) }
+    var selected by remember(packageName) { mutableStateOf<Set<String>>(emptySet()) }
+    var creating by remember { mutableStateOf(false) }
+
+    fun refresh() {
+        apps = runCatching { inventory.load() }.getOrDefault(emptyList())
+        labels = store.labelDefinitions(apps.map { it.packageName })
+    }
+    LaunchedEffect(inventory, packageName) {
+        refresh()
+        if (packageName != null) selected = store.labels(packageName)
+    }
+
+    if (creating) {
+        AppLabelEditorSurface(
+            initialLabel = null,
+            initialColor = null,
+            appCount = 0,
+            onBack = { creating = false },
+            onSaved = { name, color ->
+                store.addLabel(name, color)
+                selected = selected + name
+                creating = false
+                refresh()
+            }
+        )
+        return
+    }
+
+    Scaffold(
+        topBar = {
+            Column {
+                LabelsGlobalHeader()
+                LabelSubHeader(title = "Set App Labels", onBack = onBack, onCreate = { creating = true })
+            }
+        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = {
+                    if (packageName != null) store.setLabels(packageName, selected)
+                    onBack()
+                },
+                icon = { Icon(Icons.Default.Check, contentDescription = null) },
+                text = { Text("Apply") }
+            )
+        }
+    ) { padding ->
+        LazyColumn(
+            Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(top = 16.dp, bottom = 96.dp)
+        ) {
+            item {
                 Card(Modifier.fillMaxWidth()) {
-                    ListItem(
-                        headlineContent = { Text(label) },
-                        supportingContent = { Text(context.getString(R.string.apps_using_label, apps.count { label in store.labels(it.packageName) })) },
-                        leadingContent = { Icon(Icons.Default.Label, contentDescription = null) },
-                        trailingContent = {
-                            Row {
-                                IconButton(onClick = { editingLabel = label; editText = label }) { Icon(Icons.Default.Edit, contentDescription = stringResource(R.string.rename)) }
-                                IconButton(onClick = { confirmDelete = label }) { Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete)) }
+                    Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.Top) {
+                        Box(Modifier.size(40.dp)) {
+                            AndroidView(
+                                factory = { android.widget.ImageView(it) },
+                                update = { imageView ->
+                                    imageView.setImageDrawable(app?.icon)
+                                    imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                },
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(app?.packageName ?: "Unknown package", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(app?.name ?: "App", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                            Text("${selected.size} labels", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (selected.isNotEmpty()) {
+                                FlowRow(Modifier.padding(top = 6.dp)) {
+                                    selected.forEach { name ->
+                                        LabelSurface(label = name, color = labels.firstOrNull { it.name.equals(name, true) }?.color, selected = true, onClick = { selected = selected - name })
+                                    }
+                                }
                             }
-                        },
-                    )
+                        }
+                        IconButton(onClick = { selected = emptySet() }) {
+                            Icon(Icons.Default.Delete, contentDescription = "Clear labels")
+                        }
+                    }
+                }
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text("Selected Labels", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        if (selected.isEmpty()) {
+                            Text("No labels selected", color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+                        } else {
+                            FlowRow(Modifier.padding(top = 12.dp)) {
+                                selected.forEach { name ->
+                                    LabelSurface(label = name, color = labels.firstOrNull { it.name.equals(name, true) }?.color, selected = true, onClick = { selected = selected - name })
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            item {
+                Card(Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp)) {
+                        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                            Text("Existing Labels", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                            Text("${labels.size}", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        if (labels.isEmpty()) {
+                            Text("No labels yet", modifier = Modifier.padding(top = 8.dp))
+                            Button(onClick = { creating = true }, modifier = Modifier.padding(top = 8.dp)) {
+                                Icon(Icons.Default.Add, contentDescription = null)
+                                Spacer(Modifier.width(8.dp))
+                                Text("Create New Label")
+                            }
+                        } else {
+                            FlowRow(Modifier.padding(top = 12.dp)) {
+                                labels.forEach { label ->
+                                    val isSelected = selected.any { it.equals(label.name, true) }
+                                    LabelSurface(
+                                        label = label.name,
+                                        color = label.color,
+                                        selected = isSelected,
+                                        showAdd = !isSelected,
+                                        onClick = {
+                                            selected = if (isSelected) selected.filterNot { it.equals(label.name, true) }.toSet()
+                                            else if (selected.size < 5) selected + label.name
+                                            else selected
+                                        }
+                                    )
+                                }
+                            }
+                            if (selected.size >= 5) Text("Maximum 5 labels", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
                 }
             }
         }
