@@ -26,6 +26,23 @@ class AppBackupActionBehavior(context: Context) {
             metadata.copy(note = note?.trim()?.takeIf { it.isNotEmpty() })
         }
 
+    fun deleteAll(packageName: String): Result {
+        if (packageName.isBlank()) return Result.Failed("Package name is unavailable")
+        val identity = identityStore.load() ?: return Result.Failed("Backup identity is unavailable")
+        val root = File(storage.internalStorage(identity.identityId).path, "apps/$packageName")
+        if (!root.isDirectory) return Result.Failed("No local backups were found")
+        val versions = root.listFiles()?.filter { it.isDirectory }.orEmpty()
+        if (versions.isEmpty()) return Result.Failed("No local backups were found")
+        val protected = versions.mapNotNull { AppBackupMetadata.read(it) }
+            .firstOrNull { it.protectedBackup }
+        if (protected != null) return Result.Failed("Protected backup cannot be deleted")
+        return if (deleteTarget(root)) {
+            Result.Completed
+        } else {
+            Result.Failed("Unable to delete app backups")
+        }
+    }
+
     fun delete(packageName: String, versionCode: Long): Result {
         val directory = findVersionDirectory(packageName, versionCode)
             ?: return Result.Failed("Backup version was not found")
