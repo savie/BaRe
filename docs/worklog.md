@@ -806,3 +806,46 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 4. Runtime multi-part backup.
 5. Reconcile backup inventory and metadata after successful execution.
 6. If Data still fails, capture the new exact root command stderr and treat root cause as UNKNOWN until reproduced with evidence.
+
+## A10/A13 RUNTIME REVIEW + BACKUP PROCESS DIAGNOSTIC REQUIREMENT — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk merapikan TODO berdasarkan runtime evidence build **#1069** dan memperbarui worklog continuity.
+- **RUNTIME EVIDENCE — APK:** backup APK berhasil pada device. Artifact terobservasi di:
+  `/storage/emulated/0/BaRe/accounts/75650f43e4e54f76/backups/apps/idm.internet.download.manager.plus/30249/base.apk`
+  dengan ukuran sekitar 7.12 MB pada file manager. Ini membuktikan jalur APK → Device storage menghasilkan artifact nyata.
+- **RUNTIME EVIDENCE — DATA:** Data backup masih gagal pada #1069. Toast menunjukkan `DATA backup failed:`; error detail lengkap belum terekam pada screenshot terbaru. Prior shell-quote failure belum dapat dianggap terselesaikan tanpa evidence baru.
+- **RUNTIME EVIDENCE — INVENTORY:** App Detail membaca backup APK dan menampilkan Device backups (1), Version 18.2, APK 7.1 MB, Data 0 B. Backup Details membaca timestamp, total size, parts, protection state, dan note. Karena Data gagal, hasil backup version saat ini hanya memiliki APK.
+- **RUNTIME EVIDENCE — APPS LIST:** Apps List masih menampilkan `No backup on device` untuk 1DM+ walaupun artifact dan local backup inventory ada. Ini adalah implementation gap pada Apps List backup-status presentation/inventory lookup, bukan bukti bahwa artifact storage tidak ada.
+- **RUNTIME EVIDENCE — POST-BACKUP NAVIGATION:** user melaporkan flow backup membuka surface/halaman Backup & Restore baru, bukan mempertahankan App Detail context seperti expected reference behavior. Current source juga memiliki explicit navigation path dari backup-card View Backups menuju `Screen.APP_BACKUPS`; post-execution navigation harus dibedakan dari inventory refresh dan tidak boleh membuat backup success otomatis berarti route ke halaman baru.
+- **RUNTIME EVIDENCE — PART ACTIONS:** APK/Data chips pada backup-version surface belum menjadi clickable part-level action surface. Action contract masih perlu diwujudkan dari capability/state yang tersedia.
+- **RUNTIME EVIDENCE — NULL PRESENTATION:** backup card/details masih menampilkan literal `null` ketika note tidak tersedia. Null optional metadata harus tidak dirender sebagai user-facing text.
+- **RUNTIME EVIDENCE — PROTECTION:** user successfully exercised Protect/Unprotect and note state; screenshot menunjukkan protected marker and `Unprotect backup`. This confirms metadata-backed protection state is visible, but does not prove encryption.
+- **BACKUP PROCESS GAP:** current backup execution lacks a dedicated progress/result surface with per-part status and final `DONE` state. A simple loading/toast is insufficient for the required reference flow.
+- **DIAGNOSTIC GAP:** current diagnostic output is observed by user as low-detail `OPEN / OPENED / OPEN` style trace. This is not sufficient as a backup execution diagnostic. Backup diagnostics must expose structured execution steps and actual failure detail.
+- **NEW BACKUP PROCESS CONTRACT:**
+  1. `IDLE → PREPARING → BACKING_UP_<PART> → COMMITTING_METADATA → COMPLETED | FAILED | CANCELLED`.
+  2. Each selected part (APK/Data/External Data/Media when supported) reports state: `PENDING / RUNNING / DONE / FAILED / SKIPPED`.
+  3. Progress UI must bind to real execution state; no fake percentage/progress.
+  4. Diagnostic log must include meaningful operation stages, target part, source/destination context where safe, byte/size information where available, and exact stderr/error reason on failure.
+  5. Final result must explicitly summarize completed/failed/skipped parts and show `DONE` only when the execution reaches a terminal success state.
+  6. On completion, inventory refresh occurs in the current App Detail context; navigation to a separate Backup & Restore page is not an automatic success behavior.
+  7. Cancellation and partial-failure behavior must leave the UI in a recoverable terminal state rather than stuck in `BACKING UP`.
+- **APPS LIST INVENTORY CONTRACT:** Apps List backup status must derive from the same verified local backup inventory source used by App Detail, rather than a hardcoded `No backup on device` state.
+- **BACKUP-VERSION ACTION CONTRACT:** backup APK/Data part surfaces need capability-derived click/menu behavior. Unsupported actions remain disabled or explicitly unavailable; clickable does not imply execution exists.
+- **NULL SAFETY:** optional note and metadata fields must be conditionally rendered; literal `null` is never valid user-facing copy.
+- **DATA FAILURE INVESTIGATION:** next reproduction must capture the complete failure diagnostic, not only the toast prefix. Root cause remains **UNKNOWN** until reproduced with evidence.
+- **CI/RUNTIME:** #1069 is reported green by user. This does not make the DATA path, Apps List inventory parity, progress diagnostics, or action parity VERIFIED.
+- **STATUS:** `IMPLEMENTED PARTIAL / RUNTIME UNRESOLVED / TODO UPDATED / VERIFICATION PENDING`.
+
+### A10/A13 #1069 TODO
+
+1. Reproduce Data backup and capture structured/full stderr.
+2. Trace root copy invocation from `AppDataBackupBehavior` through `RootCapabilityProvider`; verify command construction and runtime shell semantics.
+3. Implement real backup progress/process surface with per-part state and terminal `DONE/FAILED/CANCELLED`.
+4. Replace low-detail OPEN/OPENED diagnostic trace with structured backup diagnostics.
+5. Preserve current App Detail context after backup; refresh inventory in-place.
+6. Make Apps List backup status derive from actual local inventory.
+7. Fix backup part interaction surface for APK/Data according to contextual action contract.
+8. Remove literal `null` from backup card/details presentation.
+9. Verify APK-only, Data-only, multi-part, failure, cancellation, and metadata commit/reload flows.
+10. Re-run device verification and only promote items to VERIFIED when acceptance evidence exists.
