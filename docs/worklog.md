@@ -294,3 +294,15 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 
 ### A7 NEXT
 Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan menganggap parity label warna/custom sudah selesai sebelum data model dan behavior label BaRe dibandingkan lagi dengan reference decompile.
+
+
+## 10.5 LABEL FOUNDATION / REFERENCE-ALIGNED SHELL — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk membangun rumah capability Label, bukan hanya dialog input manual.
+- **REFERENCE BASIS:** Swift Backup `LabelsActivity` memiliki 3 mode (Manage App Labels / Set App Labels / Select Labels), app-info card, selected-labels area, existing-label Flexbox label list, Apply action, Create New Label, dan LabelEditActivity dengan preview, name, color, apps using label, Save/Cancel.
+- **IMPLEMENTED:** BaRe sekarang memiliki global header + sub-global header untuk Label surfaces, halaman App Labels management, halaman Set App Labels dari App Detail, existing-label selection, selected-labels area, Apply, Create New Label, dan full Label editor surface.
+- **IMPLEMENTED:** label storage sekarang memiliki definition + optional color metadata, tetap backward-compatible dengan label string yang sudah ada.
+- **IMPLEMENTED:** App Detail `Set App Labels` sekarang membuka selection surface, bukan dialog textbox manual.
+- **BOUNDARY:** backend/wiring lanjutan seperti batch assignment, filtering, schedules, custom configurations, dan capability label lain belum dipaksakan selesai di checkpoint ini; rumah UI dan state dasar sudah disediakan.
+- **SOURCE VERIFICATION:** source branch dibaca ulang setelah perubahan dan route/surface terkonfirmasi.
+- **BUILD:** GitHub Actions build masih berjalan untuk rangkaian commit ini; belum boleh dinyatakan PASS sampai run terbaru selesai.
