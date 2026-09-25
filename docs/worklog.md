@@ -677,3 +677,16 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - Implementation commits: `3c6aa47b02f80ab9ef04b1a9a9ecee2ac0e216db`, `9b1757afe3eaa8cb7a9f6c1de9053e81966bb307`.
 - CI: #1053/#1054 pending at record time; runtime screenshot verification pending for refined layout.
 - Status: IMPLEMENTED / CI PENDING / RUNTIME PENDING.
+
+
+## A10.2 DISCOVERY — BACKUP ACTION LAYERS — 2026-09-25
+- **AUTHORIZATION:** user explicitly authorized action-by-action discovery only; implementation is not authorized by this checkpoint.
+- **REFERENCE BASIS:** Swift Backup 5.1.0 (620) decompile, specifically `DetailActivity.java`, `menu_detail_storage_chip_actions.xml`, `menu_detail_backup_chip_actions.xml`, `menu_detail_backup_card_actions.xml`, `detail_card_app_backup.xml`, and `detail_card_app_storage.xml`.
+- **BARE BASIS:** current `AppsScreens.kt`, `AppBackupBehavior.kt`, `AppBackupMetadata.kt`, and `AppBackupInventoryBehavior.kt` on `v1.0/rebaseline`.
+- **A10.2 LAYERS:** storage-part actions → backup-version/chip actions → backup-card actions.
+- **STORAGE-PART FINDINGS:** reference exposes Backup to Local, Backup to Cloud, Backup to Local+Cloud, Share APK, Delete; Delete is hidden for APK; Share is visible only for APK when installed. BaRe currently exposes the three backup destinations for every storage chip, Share APK only for APK, and Delete for every chip; Delete is currently unavailable at execution boundary. BaRe backup execution currently supports DEVICE only and rejects CLOUD/DEVICE_AND_CLOUD and MEDIA.
+- **BACKUP-VERSION FINDINGS:** reference exposes Restore conditionally, Delete, Sync conditionally, Encryption information conditionally, and Share APK conditionally. BaRe currently has a backup-history screen with placeholder Restore/Delete dialogs; the real local inventory exists in `AppBackupInventoryBehavior`, but version-level action state/execution boundary is not yet wired to the screen.
+- **BACKUP-CARD FINDINGS:** reference card overflow exposes Backup Details, Protect/Unprotect, Add/Update Note, Sync conditionally, Delete, with Metadata hidden by default in the observed decompile. BaRe metadata already models protectedBackup/note, but App Detail only presents latest inventory data and no executable card-action menu; protection/note/delete actions are not wired.
+- **DEPENDENCIES:** backup execution belongs to A13; restore execution belongs to A14; Cloud execution remains blocked by provider/backend; protection/note/delete require concrete local behavior and persistence boundaries before UI wiring.
+- **PROPOSED A10.2 ACCEPTANCE:** action visibility matches reference conditions without advertising unsupported execution; APK Delete is absent; non-APK Delete is visible; backup-version actions appear only when a real version exists and derive from its state; backup-card actions derive from real metadata/state; unsupported actions surface truthful unavailable/deferred behavior; CI green and device E2E for every implemented action boundary.
+- **STATUS:** DISCOVERY COMPLETE / IMPLEMENTATION NOT STARTED.
