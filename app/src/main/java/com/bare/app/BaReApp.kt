@@ -527,6 +527,15 @@ private fun MainShell(
         isRefreshing = isGlobalRefreshing,
         onRefresh = onGlobalRefresh,
         modifier = Modifier.fillMaxSize(),
+        indicator = {
+            if (isGlobalRefreshing) {
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(androidx.compose.ui.Alignment.TopCenter),
+                )
+            }
+        },
     ) {
     if (screen != Screen.NONE) {
         key(globalRefreshToken) {
