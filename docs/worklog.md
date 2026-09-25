@@ -1475,3 +1475,20 @@ Reference image supplied by user digunakan sebagai visual source untuk koreksi i
 ### STATUS
 `IMPLEMENTED / RUNTIME VERIFICATION PENDING`
 
+## A17 — Koreksi background Backup Process — 2026-09-26
+
+### USER FEEDBACK
+Pada halaman Backup, area di luar surface/card harus tetap menggunakan background global BaRe. Hanya surface/card yang boleh tampil sebagai bidang abu-abu.
+
+### IMPLEMENTASI
+- Root `BackupProcessScreen` sekarang eksplisit menggunakan `MaterialTheme.colorScheme.background`.
+- Card/surface existing tidak diubah.
+- Global Header dan sub-header tidak diubah.
+- Body dan behavior backup tidak diubah.
+
+### COMMIT
+- `ef6cbc98e05040b7044cbab82f586da3446ab652`
+
+### STATUS
+`IMPLEMENTED / RUNTIME VERIFICATION PENDING`
+
