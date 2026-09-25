@@ -1137,6 +1137,7 @@ fun AppDetailScreen(
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
     var confirmAction by remember { mutableStateOf<String?>(null) }
+    var pendingInstalledPartDelete by remember { mutableStateOf<AppBackupPart?>(null) }
 
     val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner, packageName) {
@@ -1237,6 +1238,51 @@ fun AppDetailScreen(
         )
     }
 
+    if (pendingInstalledPartDelete != null && details != null) {
+        val part = pendingInstalledPartDelete!!
+        val partName = when (part) {
+            AppBackupPart.APK -> context.getString(R.string.apks_part)
+            AppBackupPart.DATA -> context.getString(R.string.data_part)
+            AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
+            AppBackupPart.MEDIA -> context.getString(R.string.media_part)
+        }
+        AlertDialog(
+            onDismissRequest = { pendingInstalledPartDelete = null },
+            title = { Text(stringResource(R.string.delete_installed_part, partName)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.confirm_delete_installed_part,
+                        partName,
+                        details!!.name,
+                    )
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    pendingInstalledPartDelete = null
+                    val currentPackage = packageName
+                    if (currentPackage != null) {
+                        val result = when (part) {
+                            AppBackupPart.APK -> AppActionBehavior.Result.UNAVAILABLE
+                            AppBackupPart.DATA -> AppActionBehavior.clearData(currentPackage)
+                            AppBackupPart.EXTERNAL_DATA -> AppActionBehavior.deleteExternalData(currentPackage)
+                            AppBackupPart.MEDIA -> AppActionBehavior.deleteMedia(currentPackage)
+                        }
+                        handleAction(result)
+                    }
+                }) {
+                    Text(stringResource(R.string.confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingInstalledPartDelete = null }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+        )
+    }
+
     if (confirmAction != null && details != null) {
         val action = confirmAction!!
         AlertDialog(
@@ -1246,8 +1292,6 @@ fun AppDetailScreen(
                 Text(
                     if (action == context.getString(R.string.uninstall)) {
                         context.getString(R.string.confirm_uninstall_app, details!!.name)
-                    } else if (action == context.getString(R.string.delete)) {
-                        context.getString(R.string.confirm_delete_app_backups, details!!.name)
                     } else {
                         details!!.name
                     }
@@ -1269,20 +1313,6 @@ fun AppDetailScreen(
                                 handleAction(AppActionBehavior.clearData(currentPackage))
                             context.getString(R.string.uninstall) ->
                                 uninstallApp()
-                            context.getString(R.string.delete) -> {
-                                backupScope.launch {
-                                    val result = withContext(Dispatchers.IO) {
-                                        backupActionBehavior.deleteAll(currentPackage)
-                                    }
-                                    when (result) {
-                                        AppBackupActionBehavior.Result.Completed -> {
-                                            backupReloadToken++
-                                            detailReloadToken++
-                                        }
-                                        is AppBackupActionBehavior.Result.Failed -> toast(result.reason)
-                                    }
-                                }
-                            }
                         }
                     }
                 }) {
@@ -1833,14 +1863,6 @@ fun AppDetailScreen(
                                                 onClick = { showActions = false; onOpen(Screen.APP_BACKUP_SETTINGS) }
                                             )
                                             HorizontalDivider()
-                                            DropdownMenuItem(
-                                                text = { Text(stringResource(R.string.delete)) },
-                                                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
-                                                onClick = {
-                                                    showActions = false
-                                                    confirmAction = context.getString(R.string.delete)
-                                                }
-                                            )
                                         }
                                     }
                                 }
@@ -1927,6 +1949,9 @@ fun AppDetailScreen(
                                                                 }
                                                             }
                                                         },
+                                                        onDelete = {
+                                                            partForTitle(title)?.let { pendingInstalledPartDelete = it }
+                                                        },
                                                         onUnavailable = {
                                                             toast(context.getString(R.string.app_action_unavailable))
                                                         }
@@ -1977,6 +2002,7 @@ private fun AppStorageChip(
     modifier: Modifier = Modifier,
     onBackup: (String) -> Unit,
     onShare: () -> Unit,
+    onDelete: () -> Unit,
     onUnavailable: () -> Unit,
 ) {
     var menuOpen by remember(title) { mutableStateOf(false) }
@@ -2057,6 +2083,15 @@ private fun AppStorageChip(
                     onClick = {
                         menuOpen = false
                         onShare()
+                    }
+                )
+            } else {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.delete)) },
+                    leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
+                    onClick = {
+                        menuOpen = false
+                        onDelete()
                     }
                 )
             }
