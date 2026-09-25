@@ -730,3 +730,28 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **REMOVED AS A SEPARATE IMPLEMENTATION TASK:** a standalone backup execution state-machine implementation is not an A10.2 implementation task. A10.2 defines the UI/state contract; actual backup execution remains owned by the existing backup behavior/A13 sequence.
 - **GATE:** this review produces the implementation plan; it does **not** authorize source changes yet.
 - **STATUS:** `TODO REVIEWED / DEPENDENCIES CLARIFIED / DYNAMIC SUB-HEADER CONFIRMED / SECURITY BOUNDARY CONFIRMED / IMPLEMENTATION NOT AUTHORIZED`.
+
+
+## A10.2 IMPLEMENTATION CHECKPOINT 1 — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk implementasi setelah TODO A10.2 direview.
+- **IMPLEMENTED:** local backup action surface pada real verified inventory.
+- Added BaRe-native `AppBackupActionBehavior` for:
+  - Protect / Unprotect via existing `AppBackupMetadata.protectedBackup`.
+  - Add / Update Note via existing `AppBackupMetadata.note`.
+  - Delete local backup version, blocked when protected.
+- `AppBackupInventoryBehavior` now exposes verified total backup size.
+- `AppBackupsScreen` now reads real local inventory and exposes:
+  - Backup Details dialog.
+  - Protect / Unprotect.
+  - Add / Update Note.
+  - Delete with confirmation.
+  - Restore shown as disabled because A14 execution is not yet available.
+  - Sync shown disabled because Cloud execution is not available.
+  - Dynamic page-specific sub-header using the existing 56dp sub-header convention.
+  - Empty device state and cloud-not-connected state.
+- Storage-part action surface updated so unsupported Cloud / Device + Cloud actions are disabled, and the old non-executable Delete action on installed storage chips is removed.
+- **SECURITY:** no Swift Backup cryptographic format or implementation copied. Protection remains metadata/action-policy state, not encryption.
+- **NOT IMPLEMENTED:** backup payload encryption, Cloud execution, Restore execution, Sync execution, media execution, or a new backup execution engine.
+- **VERIFICATION:** source-level implementation completed. CI/runtime verification pending at this checkpoint.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
