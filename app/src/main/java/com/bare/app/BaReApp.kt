@@ -509,7 +509,17 @@ private fun MainShell(
             Screen.APP_CUSTOM_CONFIG -> AppCustomConfigurationsScreen(onBack)
             Screen.APP_BLACKLIST -> AppBlacklistScreen(onBack)
             Screen.APP_BACKUP_SETTINGS -> AppBackupSettingsScreen(onOpenScreen, onBack)
-            Screen.APP_DETAIL -> AppDetailScreen(selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName), onOpenScreen, onBack)
+            Screen.APP_DETAIL -> AppDetailScreen(
+                app = selectedApp?.copy(packageName = selectedAppPackageName ?: selectedApp.packageName),
+                onOpen = onOpenScreen,
+                onBack = onBack,
+                appCount = appsInventoryCount,
+                appsContext = appsContext,
+                onAppsContextChange = { appsContext = it },
+                onOpenAppsSearch = { onBack(); onOpenAppsSearch() },
+                onOpenAppsFilter = { onBack(); onOpenAppsFilter() },
+                onOpenAppsMenu = { onBack() },
+            )
             Screen.APP_BACKUP -> AppBackupScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) }, onOpenScreen)
             Screen.APP_BACKUPS -> AppBackupsScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
             Screen.APP_MANAGEMENT -> AppManagementScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
@@ -581,37 +591,53 @@ private fun MainShell(
     Box(Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                TopAppBar(
-                    modifier = Modifier.height(96.dp),
-                    title = {
-                        Column(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                        ) {
-                            Text(
-                                text = stringResource(R.string.app_name),
-                                style = MaterialTheme.typography.titleLarge,
-                                fontWeight = FontWeight.Bold,
-                                letterSpacing = 5.sp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            )
-                            Text(
-                                text = stringResource(R.string.brand_tagline),
-                                style = MaterialTheme.typography.labelSmall,
-                                letterSpacing = 3.5.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
-                        }
-                    },
-                    actions = {
-                        if (!appsSelected) {
+                if (appsSelected) {
+                    AppsGlobalHeader(
+                        appCount = appsInventoryCount,
+                        appsContext = appsContext,
+                        onAppsContextChange = { appsContext = it },
+                        searchOpen = appsSearchOpen,
+                        searchQuery = appsSearchQuery,
+                        onSearchQueryChange = onAppsSearchQueryChange,
+                        onCloseSearch = {
+                            onAppsSearchOpenChange(false)
+                            onAppsSearchQueryChange("")
+                        },
+                        onOpenSearch = onOpenAppsSearch,
+                        onOpenFilter = onOpenAppsFilter,
+                        onOpenMenu = { appsMenuOpen = true },
+                    )
+                } else {
+                    TopAppBar(
+                        modifier = Modifier.height(96.dp),
+                        title = {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.app_name),
+                                    style = MaterialTheme.typography.titleLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    letterSpacing = 5.sp,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                )
+                                Text(
+                                    text = stringResource(R.string.brand_tagline),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    letterSpacing = 3.5.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        },
+                        actions = {
                             IconButton(onClick = onOpenSearch) {
                                 Icon(Icons.Outlined.Search, stringResource(R.string.search))
                             }
-                        }
-                    },
-                )
+                        },
+                    )
+                }
             },
         bottomBar = {
             androidx.compose.animation.AnimatedVisibility(
@@ -663,24 +689,6 @@ private fun MainShell(
                 .fillMaxSize()
                 .padding(padding),
         ) {
-            if (appsSelected) {
-                AppsContextHeader(
-                    appCount = appsInventoryCount,
-                    appsContext = appsContext,
-                    onAppsContextChange = { appsContext = it },
-                    searchOpen = appsSearchOpen,
-                    searchQuery = appsSearchQuery,
-                    onSearchQueryChange = onAppsSearchQueryChange,
-                    onCloseSearch = {
-                        onAppsSearchOpenChange(false)
-                        onAppsSearchQueryChange("")
-                    },
-                    onOpenSearch = onOpenAppsSearch,
-                    onOpenFilter = onOpenAppsFilter,
-                    onOpenMenu = { appsMenuOpen = true },
-                )
-            }
-
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
@@ -807,6 +815,60 @@ private fun MainShell(
     }
     }
 }
+@Composable
+fun AppsGlobalHeader(
+    appCount: Int,
+    appsContext: AppsContext,
+    onAppsContextChange: (AppsContext) -> Unit,
+    searchOpen: Boolean,
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    onCloseSearch: () -> Unit,
+    onOpenSearch: () -> Unit,
+    onOpenFilter: () -> Unit,
+    onOpenMenu: () -> Unit,
+) {
+    Column(Modifier.fillMaxWidth()) {
+        TopAppBar(
+            modifier = Modifier.height(96.dp),
+            title = {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = androidx.compose.ui.Alignment.Start,
+                ) {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 5.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                    Text(
+                        text = stringResource(R.string.brand_tagline),
+                        style = MaterialTheme.typography.labelSmall,
+                        letterSpacing = 3.5.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            },
+            actions = {},
+        )
+        AppsContextHeader(
+            appCount = appCount,
+            appsContext = appsContext,
+            onAppsContextChange = onAppsContextChange,
+            searchOpen = searchOpen,
+            searchQuery = searchQuery,
+            onSearchQueryChange = onSearchQueryChange,
+            onCloseSearch = onCloseSearch,
+            onOpenSearch = onOpenSearch,
+            onOpenFilter = onOpenFilter,
+            onOpenMenu = onOpenMenu,
+        )
+    }
+}
+
 @Composable
 private fun AppsContextHeader(
     appCount: Int,
