@@ -1175,7 +1175,6 @@ fun AppDetailScreen(
         val currentPackage = packageName ?: return
         when (val result = AppActionBehavior.uninstallWithSystemFallback(context, currentPackage)) {
             AppActionBehavior.Result.COMPLETED -> {
-                toast(context.getString(R.string.action_completed))
                 onBack()
             }
             AppActionBehavior.Result.OPENED_SYSTEM -> Unit
