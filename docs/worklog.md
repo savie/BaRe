@@ -679,14 +679,36 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - Status: IMPLEMENTED / CI PENDING / RUNTIME PENDING.
 
 
-## A10.2 DISCOVERY — BACKUP ACTION LAYERS — 2026-09-25
-- **AUTHORIZATION:** user explicitly authorized action-by-action discovery only; implementation is not authorized by this checkpoint.
-- **REFERENCE BASIS:** Swift Backup 5.1.0 (620) decompile, specifically `DetailActivity.java`, `menu_detail_storage_chip_actions.xml`, `menu_detail_backup_chip_actions.xml`, `menu_detail_backup_card_actions.xml`, `detail_card_app_backup.xml`, and `detail_card_app_storage.xml`.
-- **BARE BASIS:** current `AppsScreens.kt`, `AppBackupBehavior.kt`, `AppBackupMetadata.kt`, and `AppBackupInventoryBehavior.kt` on `v1.0/rebaseline`.
-- **A10.2 LAYERS:** storage-part actions → backup-version/chip actions → backup-card actions.
-- **STORAGE-PART FINDINGS:** reference exposes Backup to Local, Backup to Cloud, Backup to Local+Cloud, Share APK, Delete; Delete is hidden for APK; Share is visible only for APK when installed. BaRe currently exposes the three backup destinations for every storage chip, Share APK only for APK, and Delete for every chip; Delete is currently unavailable at execution boundary. BaRe backup execution currently supports DEVICE only and rejects CLOUD/DEVICE_AND_CLOUD and MEDIA.
-- **BACKUP-VERSION FINDINGS:** reference exposes Restore conditionally, Delete, Sync conditionally, Encryption information conditionally, and Share APK conditionally. BaRe currently has a backup-history screen with placeholder Restore/Delete dialogs; the real local inventory exists in `AppBackupInventoryBehavior`, but version-level action state/execution boundary is not yet wired to the screen.
-- **BACKUP-CARD FINDINGS:** reference card overflow exposes Backup Details, Protect/Unprotect, Add/Update Note, Sync conditionally, Delete, with Metadata hidden by default in the observed decompile. BaRe metadata already models protectedBackup/note, but App Detail only presents latest inventory data and no executable card-action menu; protection/note/delete actions are not wired.
-- **DEPENDENCIES:** backup execution belongs to A13; restore execution belongs to A14; Cloud execution remains blocked by provider/backend; protection/note/delete require concrete local behavior and persistence boundaries before UI wiring.
-- **PROPOSED A10.2 ACCEPTANCE:** action visibility matches reference conditions without advertising unsupported execution; APK Delete is absent; non-APK Delete is visible; backup-version actions appear only when a real version exists and derive from its state; backup-card actions derive from real metadata/state; unsupported actions surface truthful unavailable/deferred behavior; CI green and device E2E for every implemented action boundary.
-- **STATUS:** DISCOVERY COMPLETE / IMPLEMENTATION NOT STARTED.
+## A10.2 DISCOVERY REVISION — BACKUP ACTION + SECURITY/ENCRYPTION BOUNDARY — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk **memperbarui/revisi worklog A10.2 berdasarkan reference visual tambahan dan masukan security/encryption**. Implementasi source **belum diotorisasi** pada checkpoint ini; keputusan implementasi dilakukan setelah discovery/worklog direview.
+- **REFERENCE VISUAL BARU:** user memberikan runtime screenshots untuk flow App Detail → Backup selector → Backup progress → completed backup/inventory. Screenshot menunjukkan:
+  - App Detail dengan installed app identity, Launch/Uninstall, APK/Data storage chips, dan Backup CTA.
+  - Backup selection sheet dengan **User app parts** (APK/Data), **Select backup locations** (Device/Cloud), dan primary **BACKUP** action.
+  - Backup progress screen dengan overall APPS progress, current app, current part/size, progress indicator, dan CANCEL.
+  - Completed state yang mengembalikan hasil ke **Device backups**, menampilkan backup count, timestamp/version, total size, APK/Data sizes, protected marker, dan Restore CTA.
+- **REFERENCE VISUAL STATUS:** screenshot di atas dianggap cukup sebagai visual basis untuk core A10.2 backup execution flow. Screenshot tambahan untuk overflow/action menus (APK/Data chip, backup version, backup card) masih bernilai sebagai visual-detail evidence sebelum final UI implementation.
+- **GLOBAL HEADER CONTRACT:** current BaRe GlobalHeader tetap menjadi global shell. Current source menetapkan GlobalHeader = 80dp, sedangkan page-specific sub-header seperti AppsSubHeader = 56dp. A10.2 wajib mempertahankan pola **GlobalHeader → 56dp sub-header → page content**; reference tidak boleh menyebabkan custom header height baru.
+- **ACTION LAYERS:** A10.2 tetap dibagi menjadi: 1) **Storage-part actions** — APK/Data/External Data action surface; 2) **Backup-version/chip actions** — action terhadap satu backup version; 3) **Backup-card actions** — action terhadap backup collection/card state.
+- **BACKUP EXECUTION FLOW:** reference evidence sekarang memperjelas A10.2 UX/state contract: SELECT → CONFIRM → STARTING → BACKING_UP_APK/DATA → COMMITTING_METADATA → COMPLETED/FAILED/CANCELLED → INVENTORY_REFRESH. Actual execution tidak boleh dipalsukan oleh UI; progress, current part, size, completion, dan inventory harus berasal dari real execution state.
+- **CURRENT BARE EXECUTION EVIDENCE:** existing BaRe backup behavior sudah memiliki boundary untuk DEVICE/APK/DATA/EXTERNAL_DATA dan metadata commit; CLOUD/DEVICE_AND_CLOUD belum executable pada current boundary. A10.2 tidak boleh mengiklankan Cloud execution sebagai capability yang sudah working.
+- **SECURITY/ENCRYPTION PRINCIPLE:** BaRe **tidak mengadopsi implementasi cryptography Swift Backup**. Reference hanya menjadi behavioral/UX reference. Security implementation harus tetap **BaRe-native** dan reuse primitive yang sudah ada jika sesuai.
+- **EXISTING BARE CRYPTO/KEY MATERIAL:** discovery confirms existing BaRe primitives: RecoveryPackageCodec menggunakan PBKDF2-HMAC-SHA256 + AES-256-GCM untuk portable recovery envelope; BaReMasterKeyStore menggunakan Android Keystore + AES-GCM untuk local protection of BaRe master key; RecoveryPasswordStore menggunakan PBKDF2 verifier + Android Keystore/AES-GCM protected local recovery-password copy; EncryptionPasswordStore menyimpan password verifier/strategy, bukan user password.
+- **SECURITY BOUNDARY:** **Recovery artifact encryption ≠ backup payload encryption**. Existing recovery encryption tidak boleh diasumsikan berarti APK/Data backup payload sudah encrypted. A10.2 harus eksplisit memisahkan recovery artifact, local secrets, backup payload, dan backup metadata sebelum implementasi backup encryption/protection.
+- **PROTECTION SEMANTICS:** protectedBackup adalah backup retention/action-policy state dan tidak otomatis berarti cryptographic encryption. **Protected ≠ Encrypted**. Jika backup payload encryption dibutuhkan, harus memakai BaRe-native encryption boundary dan existing BaRe key/recovery architecture jika teknisnya sesuai.
+- **NON-GOAL SECURITY:** no Swift Backup key format, KDF parameters, crypto envelope, storage format, atau proprietary encryption implementation disalin hanya demi parity.
+- **A10.2 TODO REVISION:**
+  1. Define explicit capability/action contract and state for storage-part, backup-version, and backup-card layers.
+  2. Define real backup execution state machine and progress contract tanpa fake progress.
+  3. Define backup-version action menu behavior dari actual version state.
+  4. Define backup-card action menu behavior untuk Backup Details, Protect/Unprotect, Add/Update Note, Sync/Delete where supported.
+  5. Reconcile existing AppBackupMetadata fields (protectedBackup, note) dengan executable local behavior dan persistence.
+  6. Define Backup Details data contract dari verified inventory/metadata only.
+  7. Define Cloud action visibility separately from Cloud execution dependency.
+  8. Define BaRe-native security/encryption boundary dan tentukan apakah A10.2 membutuhkan payload encryption sekarang atau hanya explicit encryption-state contract.
+  9. Lock visual shell ke GlobalHeader + 56dp sub-header dan apply reference visual evidence tanpa menyalin Swift-specific implementation.
+  10. Obtain/inspect overflow-menu screenshots untuk exact menu visual parity sebelum final UI implementation, jika tersedia.
+  11. Define regression/device verification matrix untuk selection, backup execution, cancellation/failure, metadata commit, inventory refresh, protection/note persistence, dan unsupported capability handling.
+- **DEPENDENCIES:** backup execution capability remains tied to A13 where already defined; restore execution remains an A14 boundary; Cloud execution remains blocked by provider/backend capability. A10.2 tidak boleh menyerap implementation tersebut hanya untuk melengkapi reference UI.
+- **IMPLEMENTATION GATE:** no source/UI implementation from this revision is implied by the GO. First checkpoint is **design/contract decision after A10.2 discovery**, then explicit implementation authorization.
+- **STATUS:** `DISCOVERY REVISED / VISUAL BASIS UPDATED / SECURITY BOUNDARY IDENTIFIED / IMPLEMENTATION NOT STARTED`.
