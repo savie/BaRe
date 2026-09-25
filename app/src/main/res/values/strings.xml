@@ -681,7 +681,6 @@
     <string name="backup_summary">Backup summary</string>
     <string name="selected_parts_count">%1$d app parts selected</string>
     <string name="selected_backup_location">Location: %1$s</string>
-    <string name="backup_execution_pending">Device backup supports APK, app data, and external app data. Media and cloud execution remain unavailable.</string>
     <string name="backup_app_title">Backup • %1$s</string>
     <string name="run_backup">Run backup</string>
     <string name="device_no_verified_backup">Device: no verified backup</string>
