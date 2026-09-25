@@ -928,3 +928,48 @@ Menu bersifat contextual. Perbedaan action antara backup card, Data, dan APK tid
 `REFERENCE CONFIRMED / REQUIREMENTS REFINED / IMPLEMENTATION PENDING / VERIFICATION PENDING`
 
 Catatan: item di atas adalah kontrak yang diturunkan dari screenshot reference yang diberikan user. Action yang belum didukung oleh capability BaRe tetap harus mengikuti batas capability dan tidak boleh dianggap implemented hanya karena tersedia pada reference.
+
+## A10/A13 — Implementasi Awal Proses Backup #1069 (2026-09-25)
+
+### Current State
+
+Berdasarkan evidence runtime #1069 dan UI reference yang diberikan user, implementasi proses backup diperluas tanpa memindahkan konteks App Detail ke route baru.
+
+### Perubahan yang sudah diimplementasikan
+
+1. `AppBackupBehavior` sekarang mengirim event progress untuk tahap persiapan, mulai/selesai tiap part, penyimpanan metadata, kegagalan, pembatalan, dan penyelesaian.
+2. `AppDetailScreen` sekarang menampilkan surface proses backup di dalam konteks screen yang sama.
+3. Surface proses menampilkan status per part, progress berdasarkan jumlah part yang benar-benar selesai, diagnostic terstruktur, `CANCEL` saat proses berjalan, dan `DONE` pada state terminal.
+4. Pembatalan menggunakan cancellation request yang diperiksa sebelum part berikutnya. Operasi blocking yang sedang berjalan belum dapat dihentikan secara paksa; kondisi ini sengaja tidak disamarkan sebagai pembatalan instan.
+5. Setelah hasil terminal, inventory App Detail direfresh. Tidak ada navigasi otomatis ke `APP_BACKUPS` sebagai konsekuensi keberhasilan backup.
+6. Apps List sekarang membaca local backup inventory untuk menampilkan status backup aktual, menggantikan status statis `No backup on device`.
+7. Backup part APK/Data pada App Detail sekarang membuka contextual menu. Action yang belum memiliki capability execution tetap disabled; UI tidak mengklaim action tersebut sudah berjalan.
+8. Menu backup card pada App Detail sekarang berada di konteks card yang sama untuk `Backup details`, protect/unprotect, note, sync (disabled), dan delete dengan aturan protected backup.
+9. Literal `null` tetap menjadi target cleanup pada seluruh surface backup yang masih ditemukan saat verifikasi berikutnya.
+
+### Evidence yang sudah ada
+
+- APK backup #1069 menghasilkan artifact nyata pada local storage.
+- App Detail sebelumnya sudah membaca backup APK melalui local inventory.
+- Data backup #1069 masih menghasilkan kegagalan runtime; implementasi diagnostic baru dimaksudkan untuk membuat error lengkap terlihat pada process surface.
+- Reference menunjukkan process screen dengan progress, diagnostic, `CANCEL`, dan terminal `DONE`.
+- Reference menunjukkan menu contextual berbeda untuk backup card, Data, dan APK.
+
+### Batas verifikasi
+
+Perubahan ini **belum VERIFIED** pada device.
+
+Yang masih harus dibuktikan:
+
+- Data backup berhasil pada device.
+- Diagnostic menampilkan error aktual secara lengkap ketika Data gagal.
+- Progress berubah berdasarkan execution aktual.
+- `CANCEL` menghasilkan state terminal yang konsisten.
+- Backup APK/Data/multi-part memperbarui inventory tanpa berpindah route.
+- Apps List konsisten dengan App Detail.
+- Contextual menu dan metadata protect/note/delete tetap berfungsi setelah perubahan.
+- Tidak ada regresi compile/CI.
+
+### Status
+
+`IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`
