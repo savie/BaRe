@@ -40,7 +40,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.bare.R
 import com.bare.app.AppItem
-import com.bare.app.AppsGlobalHeader
+import com.bare.app.AppsSubHeader
+import com.bare.app.GlobalHeader
 import com.bare.app.Screen
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
@@ -1275,19 +1276,22 @@ fun AppDetailScreen(
 
     Scaffold(
         topBar = {
-            AppsGlobalHeader(
-                appCount = appCount,
-                appsContext = appsContext,
-                onAppsContextChange = onAppsContextChange,
-                searchOpen = false,
-                searchQuery = "",
-                onSearchQueryChange = {},
-                onCloseSearch = {},
-                onOpenSearch = { onOpenAppsSearch() },
-                onOpenFilter = { onOpenAppsFilter() },
-                onOpenMenu = { onOpenAppsMenu() },
-                onBack = onBack,
-            )
+            Column(Modifier.fillMaxWidth()) {
+                GlobalHeader()
+                AppsSubHeader(
+                    appCount = appCount,
+                    appsContext = appsContext,
+                    onAppsContextChange = onAppsContextChange,
+                    searchOpen = false,
+                    searchQuery = "",
+                    onSearchQueryChange = {},
+                    onCloseSearch = {},
+                    onOpenSearch = { onOpenAppsSearch() },
+                    onOpenFilter = { onOpenAppsFilter() },
+                    onOpenMenu = { onOpenAppsMenu() },
+                    onBack = onBack,
+                )
+            }
         }
     ) { padding ->
         when {
