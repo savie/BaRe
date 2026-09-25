@@ -1082,3 +1082,35 @@ Commit: 9d57fea8b668df088ab372c7e870204ea44f6b57
 CI #1084 failure is understood from the supplied compiler output. The source correction is implemented, but a new CI run is required to prove compilation.
 
 Status: FIX IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING
+
+## A10/A13 — Reference fidelity + Delete contract correction — 2026-09-25
+
+### USER SAID
+User memberi GO untuk implementasi dengan ketentuan: UI dan behavior harus mengikuti reference yang diberikan, dengan pengecualian header reference dipetakan menjadi BaRe sub-header setinggi **56dp**. Delete **harus tersedia** pada contextual action surface yang memang memiliki Delete pada reference; Delete tidak boleh dihilangkan hanya karena implementasi sebelumnya belum berhasil.
+
+### DECISION / REQUIREMENT
+1. Reference screenshot menjadi source of truth untuk struktur, urutan, contextual menu, label, enabled/disabled state, dan behavior backup UI yang sedang direplikasi.
+2. BaRe boleh mempertahankan shell/navigation miliknya sendiri; header reference dipetakan menjadi sub-header BaRe **56dp**.
+3. Contextual Delete wajib dipertahankan dan harus executable pada backup part yang sesuai.
+4. Whole-backup Delete tetap berbeda dari part Delete.
+5. Part Delete berlaku untuk APK, Data, Ext. data, dan Media bila part tersebut benar-benar ada pada local backup inventory.
+6. Protected backup tetap memblokir Delete.
+7. Cloud/Restore/Encryption/Sync/Share tetap capability-gated; tersedia pada reference tidak berarti BaRe boleh mengklaim capability yang belum implemented.
+8. Perubahan harus memperbaiki behavior yang terbukti gagal pada runtime, bukan sekadar menambah menu visual.
+
+### CURRENT EVIDENCE
+- Runtime sebelumnya menunjukkan `Action failed / Unable to delete APK backup part`.
+- Source saat ini sudah memiliki menu Delete untuk backup parts, tetapi implementasi deletion dan parity visual masih perlu diperbaiki.
+- `BackupProcessScreen` masih memakai header 64dp; target BaRe sub-header adalah 56dp.
+- Device backup card masih berbeda struktur dari reference dan perlu direkonsiliasi tanpa mencampurkan installed-app card dengan device-backup card.
+
+### IMPLEMENTATION PLAN
+1. Reconcile App Detail/device-backup UI dengan reference sambil mempertahankan BaRe sub-header 56dp.
+2. Preserve contextual menus and Delete action exactly by surface/context.
+3. Harden part deletion so success is based on all targeted artifacts being removed and the inventory is refreshed.
+4. Remove user-facing `null` presentation if encountered in the affected backup surface.
+5. Fix process sub-header height to 56dp and preserve terminal/failure context.
+6. Run source/compile verification through CI and then device verification; do not claim runtime VERIFIED without new device evidence.
+
+### STATUS
+`AUTHORIZED / PRE-IMPLEMENTATION WORKLOG UPDATED / IMPLEMENTATION PENDING`
