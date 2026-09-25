@@ -1932,14 +1932,10 @@ fun AppDetailScreen(
                         AppBackupStateCard(
                             packageName = packageName,
                             reloadToken = backupReloadToken,
-                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
                         )
                     }
                     item {
-                        AppBackupCloudStateCard(
-                            onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
-                            onOpenCloud = { onOpen(Screen.CLOUD) },
-                        )
+                        AppBackupCloudStateCard()
                     }
                 }
             }
@@ -2094,7 +2090,6 @@ private fun AppStorageSelectionChip(
 private fun AppBackupStateCard(
     packageName: String?,
     reloadToken: Int,
-    onOpenBackups: () -> Unit,
 ) {
     val context = LocalContext.current
     val actionBehavior = remember(context) { AppBackupActionBehavior(context) }
@@ -2283,7 +2278,7 @@ private fun AppBackupStateCard(
                 Text(formatBackupSize(latest.totalBytes), modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 if (!latest.note.isNullOrBlank()) Text(latest.note!!, modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.bodySmall)
                 Button(
-                    onClick = onOpenBackups,
+                    onClick = {},
                     enabled = false,
                     modifier = Modifier.align(Alignment.End),
                     shape = RoundedCornerShape(24.dp),
@@ -2369,14 +2364,9 @@ private fun BackupPartChip(
 }
 
 @Composable
-private fun AppBackupCloudStateCard(
-    onOpenBackups: () -> Unit,
-    onOpenCloud: () -> Unit,
-) {
+private fun AppBackupCloudStateCard() {
     Card(
-        Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onOpenBackups),
+        Modifier.fillMaxWidth(),
     ) {
         Column(
             Modifier
@@ -2411,7 +2401,8 @@ private fun AppBackupCloudStateCard(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Button(
-                onClick = onOpenCloud,
+                onClick = {},
+                enabled = false,
                 shape = RoundedCornerShape(24.dp),
             ) {
                 Text(stringResource(R.string.connect_account))
