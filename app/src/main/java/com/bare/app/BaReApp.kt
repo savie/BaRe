@@ -82,6 +82,7 @@ import com.bare.feature.apps.AppsContext
 import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsQuickActionsScreen
 import com.bare.feature.apps.AppLabelsScreen
+import com.bare.feature.apps.AppLabelSelectionScreen
 import com.bare.feature.apps.AppCustomConfigurationsScreen
 import com.bare.feature.apps.AppBlacklistScreen
 import com.bare.feature.apps.AppBackupSettingsScreen
