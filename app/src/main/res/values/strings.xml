@@ -855,6 +855,8 @@
     <string name="note">Note</string>
     <string name="add_update_note">Add / update note</string>
     <string name="delete_backup_title">Delete backup?</string>
+    <string name="delete_installed_part">Delete %1$s?</string>
+    <string name="confirm_delete_installed_part">Delete %1$s from %2$s? This cannot be undone.</string>
     <string name="delete_backup_part_title">Delete backup part?</string>
     <string name="delete_backup_part_message">This backup part will be permanently removed from this device.</string>
     <string name="delete_backup_message">This backup version will be permanently removed from this device.</string>
