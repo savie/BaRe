@@ -521,9 +521,6 @@ private fun MainShell(
                 appCount = appsInventoryCount,
                 appsContext = appsContext,
                 onAppsContextChange = { appsContext = it },
-                onOpenAppsSearch = { onBack(); onOpenAppsSearch() },
-                onOpenAppsFilter = { onBack(); onOpenAppsFilter() },
-                onOpenAppsMenu = { onBack(); appsMenuOpen = true },
             )
             Screen.APP_BACKUP -> AppBackupScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) }, onOpenScreen)
             Screen.APP_BACKUPS -> AppBackupsScreen(selectedApp, { onOpenScreen(Screen.APP_DETAIL) })
