@@ -539,7 +539,12 @@ private fun AppLabelEditorSurface(
     var name by remember(initialLabel) { mutableStateOf(initialLabel.orEmpty()) }
     var selectedColor by remember(initialColor) { mutableStateOf(initialColor) }
     Scaffold(
-        topBar = { LabelSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack) }
+        topBar = {
+            Column {
+                LabelsGlobalHeader()
+                LabelSubHeader(title = if (initialLabel == null) "Create New Label" else "Edit Label", onBack = onBack)
+            }
+        }
     ) { padding ->
         LazyColumn(
             Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
