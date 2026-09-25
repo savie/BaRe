@@ -621,36 +621,36 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **NEXT:** A10 App Detail part-level actions. Fokusnya adalah execution/parity gap pada part actions, backup-version actions, dan backup-card actions. Jangan membuka ulang A9 tanpa evidence baru.
 - **A10 ACCEPTANCE START:** identify concrete part-level action surfaces from current BaRe source/reference, map each action to its intended execution boundary, then implement the reusable behavior boundary where appropriate; CI + device E2E required before closing A10.
 
-## 10.28 A10 INSPECTION / ACTION GAP DEFINITION ONLY — 2026-09-25
+## 10.28 A10 INSPEKSI / DEFINISI GAP ACTION — 2026-09-25
 
-- **AUTHORIZATION:** user memberi GO hanya sampai `A10 → inspect actual source/reference → define concrete action gaps`. **Tidak ada implementation source pada checkpoint ini.**
-- **REFERENCE INSPECTED:** Swift Backup 5.1.0 (620) decompile, terutama `detail/DetailActivity.java`, `menu_detail_storage_chip_actions.xml`, `menu_detail_backup_chip_actions.xml`, `menu_detail_backup_card_actions.xml`, `detail_card_app_storage.xml`, `detail_card_app_backup.xml`, dan `detail_card_custom_tab.xml`.
-- **BARE SOURCE INSPECTED:** `AppsScreens.kt`, `AppBackupBehavior.kt`, `AppBackupStateCard`, `AppStorageChip`, `AppBackupScreen`, dan `AppBackupsScreen` pada branch `v1.0/rebaseline`.
+- **OTORISASI:** user memberi GO hanya sampai `A10 → inspect actual source/reference → define concrete action gaps`. **Tidak ada implementasi source pada checkpoint ini.**
+- **REFERENCE YANG DIINSPEKSI:** Swift Backup 5.1.0 (620) decompile, terutama `detail/DetailActivity.java`, `menu_detail_storage_chip_actions.xml`, `menu_detail_backup_chip_actions.xml`, `menu_detail_backup_card_actions.xml`, `detail_card_app_storage.xml`, `detail_card_app_backup.xml`, dan `detail_card_custom_tab.xml`.
+- **SOURCE BARE YANG DIINSPEKSI:** `AppsScreens.kt`, `AppBackupBehavior.kt`, `AppBackupStateCard`, `AppStorageChip`, `AppBackupScreen`, dan `AppBackupsScreen` pada branch `v1.0/rebaseline`.
 
-### A10 concrete gaps — confirmed before implementation
+### Gap A10 yang terkonfirmasi sebelum implementasi
 
-1. **Storage-part action layer is not execution-complete.** BaRe `AppStorageChip` currently exposes Backup to Device, Backup to Cloud, Backup to Device + Cloud, Share APK for APK, and Delete; Delete currently routes to `onUnavailable()`. Reference storage-chip menu has the same conceptual action boundary, but Delete is a real action for non-APP storage parts and APK Share is conditional to the app/APK context. **Do not implement backup execution here; backup execution belongs to A13.**
-2. **APK chip action parity needs correction.** Current BaRe storage chip renders Delete for the APK part too, while the reference `DetailActivity.d0()` explicitly hides Delete for `iu.APP`. This is a concrete UI/action-contract mismatch independent of backup execution.
-3. **Backup-version action layer is currently mockup/unimplemented in BaRe.** `AppBackupsScreen` shows `no_verified_backup_version` and Restore/Delete buttons that both open `AppMockupActionDialog`. There is no real backup-version inventory/action model in this surface.
-4. **Reference backup-chip actions are defined and need a real BaRe boundary.** `menu_detail_backup_chip_actions.xml` defines Restore + Delete, with Sync/Encryption/Share conditional/hidden depending on state. BaRe currently has no equivalent executable backup-version chip action surface.
-5. **Backup-card action layer is missing in BaRe.** Reference `menu_detail_backup_card_actions.xml` defines Backup Details, Protect/Unprotect, Add/Update Note, Sync (conditional), Delete, plus Metadata handling. BaRe currently has no corresponding backup-card menu/action state model.
-6. **Backup-card presentation/state parity is missing.** Reference `detail_card_app_backup.xml` has loading, error, main content, Device/Cloud tabs, backup metadata/info, note area, backup-version chips, overflow menu, and Restore CTA. BaRe `AppBackupStateCard` only renders title, status text, and View Backups.
-7. **Backup-version metadata/protection/note state is not represented in current BaRe App Detail.** Reference action menus derive protected state and note from local/cloud backup metadata; BaRe current AppBackupsScreen has no such state model.
-8. **Cloud actions must remain dependency-bounded.** Reference has Cloud backup/sync actions, but BaRe's current `AppBackupBehavior` explicitly rejects Cloud execution as unavailable. Therefore A10 should define the action boundary/visibility semantics without falsely implementing Cloud execution. Cloud execution remains outside A10 and is constrained by the provider/backend blocker.
+1. **Action layer storage-part belum lengkap secara execution.** BaRe saat ini menyediakan Backup ke Device, Backup ke Cloud, Backup ke Device + Cloud, Share APK untuk APK, dan Delete; Delete masih diarahkan ke `onUnavailable()`. Reference memiliki batas action konseptual yang sama, tetapi Delete merupakan action nyata untuk part storage non-APK dan Share APK bersifat kondisional. **Execution backup tidak diimplementasikan di sini; execution backup berada pada A13.**
+2. **Parity action APK perlu dikoreksi.** `AppStorageChip` BaRe saat ini menampilkan Delete juga untuk part APK, sedangkan reference `DetailActivity.d0()` secara eksplisit menyembunyikan Delete untuk `iu.APP`. Ini merupakan mismatch contract action yang konkret dan terpisah dari execution backup.
+3. **Action layer backup-version saat ini masih mockup/unimplemented di BaRe.** `AppBackupsScreen` menampilkan Restore dan Delete yang keduanya membuka `AppMockupActionDialog`. Belum ada model inventory/version backup nyata pada surface tersebut.
+4. **Reference memiliki action backup-chip yang jelas dan BaRe belum memiliki boundary executable yang setara.** `menu_detail_backup_chip_actions.xml` mendefinisikan Restore dan Delete, dengan Sync/Encryption/Share yang kondisional/tersembunyi sesuai state. BaRe belum memiliki surface action backup-version yang executable.
+5. **Action layer backup-card belum ada di BaRe.** Reference `menu_detail_backup_card_actions.xml` mendefinisikan Backup Details, Protect/Unprotect, Add/Update Note, Sync yang kondisional, Delete, serta Metadata. BaRe belum memiliki model state/action yang setara.
+6. **Presentation/state backup-card belum parity.** Reference `detail_card_app_backup.xml` memiliki loading, error, konten utama, tab Device/Cloud, metadata backup, note, backup-version chips, overflow menu, dan Restore CTA. `AppBackupStateCard` BaRe saat ini hanya menampilkan title, status, dan View Backups.
+7. **State metadata/protection/note backup-version belum direpresentasikan pada App Detail BaRe.** Reference memperoleh state protected dan note dari metadata backup local/cloud; `AppBackupsScreen` BaRe saat ini belum memiliki model state tersebut.
+8. **Action Cloud harus tetap dibatasi dependency.** Reference memiliki action backup/sync Cloud, tetapi `AppBackupBehavior` BaRe saat ini secara eksplisit menolak execution Cloud sebagai unavailable. Karena itu A10 hanya boleh mendefinisikan boundary dan visibility action tanpa membuat seolah-olah Cloud execution sudah tersedia. Execution Cloud tetap berada di luar A10 dan masih bergantung pada blocker provider/backend.
 
-### A10 boundary / non-goals
+### Boundary / non-goal A10
 
-- **IN SCOPE:** identify and model the three action layers before implementation: **storage-part actions → backup-version/chip actions → backup-card actions**; define state/visibility contracts and reusable behavior boundaries needed by later execution.
-- **OUT OF SCOPE for this checkpoint:** writing source code, changing UI, backup execution, Cloud execution, restore backend, delete backend, or A13/A14 implementation.
-- **A13 dependency:** actual App backup execution remains the next planned capability after A10; A10 must not absorb A13 execution merely to make the UI appear complete.
-- **A15:** reusable organization behavior may be extracted only when an A10 action genuinely depends on Favorites/Labels/Blacklist domain behavior; no speculative refactor is authorized now.
+- **IN SCOPE:** mengidentifikasi dan memodelkan tiga action layer sebelum implementasi: **storage-part actions → backup-version/chip actions → backup-card actions**; lalu menetapkan contract state/visibility dan boundary reusable behavior yang memang dibutuhkan.
+- **OUT OF SCOPE pada checkpoint ini:** menulis source code, mengubah UI, execution backup, execution Cloud, backend restore, backend delete, atau implementasi A13/A14.
+- **Dependency A13:** execution App backup tetap menjadi capability berikutnya setelah A10; A10 tidak boleh menyerap execution A13 hanya agar UI terlihat lengkap.
+- **A15:** reusable organization behavior hanya boleh diekstrak jika action A10 benar-benar membutuhkan behavior Favorites/Labels/Blacklist; tidak ada refactor spekulatif pada checkpoint ini.
 
-### A10 acceptance before implementation
+### Acceptance sebelum implementasi A10
 
-1. Action-layer contracts are explicit for each of the three reference layers.
-2. Each action has a defined owner: UI intent vs reusable behavior vs execution backend.
-3. Visibility/availability rules are defined from actual reference evidence, not guessed.
-4. Dependencies and blockers are explicitly separated from A10.
-5. Only after this design checkpoint is accepted should source implementation begin.
+1. Contract action untuk ketiga layer sudah eksplisit.
+2. Owner setiap action sudah jelas: UI intent, reusable behavior, atau execution backend.
+3. Rule visibility/availability berasal dari evidence reference, bukan asumsi.
+4. Dependency dan blocker dipisahkan secara eksplisit dari A10.
+5. Implementasi source baru dimulai setelah design checkpoint ini diterima.
 
 **STATUS:** `INSPECTED / GAPS DEFINED / NO SOURCE IMPLEMENTATION`.
