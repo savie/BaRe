@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `987311da230788673e82afa8d4fa619ed93c7aa1` |
+| Current checkpoint | `2b4f6ce6ce24eda0a45e3b4e5dac8ded1c855dfb` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
-| Lifecycle | **VERIFY / DEBUG** |
-| Fokus | **Global refresh + dangerous-action confirmation + action feedback cleanup** |
+| Lifecycle | **DISCOVERY / BUILD** |
+| Fokus | **A10 App Detail part-level actions; A15 reusable organization behavior refactor along the way** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — A9 execution functions verified by user; global refresh + dangerous-action confirmation + success-feedback cleanup implemented, CI/runtime verification pending** |
-| Root cause | **Current UX requirements are implemented at source; build/runtime evidence is pending. Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
+| Runtime status | **A9 VERIFIED by user E2E; #1047 bottom-navigation bug scope VERIFIED. Next authorized sequence: A10 → A13 → A14 → A16, with A15 refactored into reusable behavior along the way.** |
+| Root cause | **No current blocker for A9. Remaining work is capability parity/execution gaps in A10/A13/A14/A16; Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -208,7 +208,7 @@ Open verification items mengikuti current Apps checkpoint: A7 masih menunggu CI/
 | A6 | Apps row identity/metadata/organization presentation | **PARTIAL** | **Reference parity:** row belum lengkap pada labels, favorite presentation, metadata richness, swipe actions, dan batch-selection affordance. |
 | A7 | App Detail foundation/header | **IMPLEMENTED / PARTIAL** | **Foundation implemented**, tetapi **runtime verification belum selesai**. Structural/card/state parity App Detail juga belum penuh; shell/header adalah bagian yang sedang diverifikasi. |
 | A8 | App Detail storage parts + total/cache presentation | **IMPLEMENTED / PARTIAL** | **Reference parity:** part model dan storage presentation belum mencakup seluruh reference parts. **Backend/execution:** sebagian destination/part belum executable. **Verification:** runtime belum lengkap. |
-| A9 | App Detail app-level actions | **RUNTIME TESTED / UNRESOLVED** | **Shared behavior boundary terbukti E2E** untuk Launch, App Info, Play Store, Enable/Disable, Force Stop, Clear Data, Add to Home, dan Uninstall execution. **Open defects:** Battery Optimization state Apps List ↔ App Detail belum konsisten; system uninstall membutuhkan post-return state reconciliation. **Next:** build + runtime re-test dua defect tersebut. |
+| A9 | App Detail app-level actions | **VERIFIED** | Shared behavior boundary terbukti E2E untuk Launch, App Info, Play Store, Enable/Disable, Force Stop, Clear Data, Add to Home, Battery Optimization, dan Uninstall. Uninstall reconciliation dan Battery Optimization consistency kemudian diuji user dan dilaporkan berfungsi/konsisten; destructive uninstall confirmation juga diverifikasi runtime pada App Detail. |
 | A10 | App Detail part-level actions | **PARTIAL** | **Execution/parity gap:** baru sebagian part actions yang executable; action layer reference untuk part/backup-version/backup-card belum seluruhnya terpisah dan wired. |
 | A11 | Device backup card/inventory | **PARTIAL / UNVERIFIED** | **Inventory/state gap:** card/surface ada, tetapi backup-version inventory, loading/error state, metadata, restore/action menu belum parity. **Verification:** runtime belum terbukti. |
 | A12 | Cloud backup card/inventory | **PARTIAL / BLOCKED BY PROVIDER** | **Dependency blocker:** cloud provider/backend belum tersedia. Surface bisa ada, tetapi inventory/state/execution Cloud tidak dapat diverifikasi end-to-end. |
@@ -611,3 +611,12 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **VERIFICATION:** the bottom-navigation transparency fix is now runtime-verified for the reported #1004 defect scope.
 - **STATUS:** `VERIFIED FOR CURRENT BUG SCOPE`.
 - **NEXT PHASE:** no new implementation is authorized by this checkpoint. Proceed with **DISCOVERY / GAP REVIEW** from current runtime rather than inventing a feature. Candidate next work should come from observed UX defects, incomplete requirements, or explicit product requirements, then be authorized separately.
+
+
+## 10.27 A9 CLOSED → SEQUENCE RESUMED — 2026-09-25
+
+- **RECONCILIATION:** worklog sebelumnya masih membawa status A9 `RUNTIME TESTED / UNRESOLVED`, tetapi subsequent runtime evidence dari user menutup dua defect A9: Battery Optimization sudah konsisten/berfungsi, dan uninstall berhasil secara fungsi dengan post-return reconciliation. #1046 juga memverifikasi confirmation dialog pada App Detail.
+- **A9 STATUS:** `VERIFIED / CLOSED` untuk scope A9 app-level actions.
+- **SEQUENCE DECISION (from prior session):** `A9 → A10 → A13 → A14 → A16`; **A15 tidak menjadi standalone gate**, tetapi direfactor menjadi reusable behavior/domain capability sepanjang sequence ketika dependency-nya muncul.
+- **NEXT:** A10 App Detail part-level actions. Fokusnya adalah execution/parity gap pada part actions, backup-version actions, dan backup-card actions. Jangan membuka ulang A9 tanpa evidence baru.
+- **A10 ACCEPTANCE START:** identify concrete part-level action surfaces from current BaRe source/reference, map each action to its intended execution boundary, then implement the reusable behavior boundary where appropriate; CI + device E2E required before closing A10.
