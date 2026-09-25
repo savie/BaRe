@@ -2429,7 +2429,7 @@ private fun BackupPartChip(
                 onClick = {},
             )
             DropdownMenuItem(
-                text = { Text(stringResource(R.string.sync)) },
+                text = { Text(stringResource(R.string.sync_in_cloud)) },
                 leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
                 enabled = false,
                 onClick = {},
