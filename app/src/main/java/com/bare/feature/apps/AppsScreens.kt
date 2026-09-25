@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicBoolean
 import com.bare.R
 import com.bare.app.AppItem
 import com.bare.app.AppsSubHeader
@@ -1101,6 +1102,13 @@ fun AppDetailScreen(
     val backupScope = rememberCoroutineScope()
     var backupRunning by remember { mutableStateOf(false) }
     var backupReloadToken by remember { mutableStateOf(0) }
+    var backupProcessVisible by remember { mutableStateOf(false) }
+    var backupProcessStatus by remember { mutableStateOf(BackupProcessStatus.RUNNING) }
+    var backupProcessParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
+    var backupProcessCurrentPart by remember { mutableStateOf<AppBackupPart?>(null) }
+    var backupProcessCompletedParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
+    var backupProcessLogs by remember { mutableStateOf<List<BackupProcessLog>>(emptyList()) }
+    val backupCancelRequested = remember { AtomicBoolean(false) }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
@@ -1252,7 +1260,16 @@ fun AppDetailScreen(
     fun runBackup(parts: Set<AppBackupPart>, destination: BackupDestination) {
         val currentPackage = packageName ?: return
         if (parts.isEmpty() || backupRunning) return
+
         backupRunning = true
+        backupCancelRequested.set(false)
+        backupProcessVisible = true
+        backupProcessStatus = BackupProcessStatus.RUNNING
+        backupProcessParts = parts
+        backupProcessCurrentPart = null
+        backupProcessCompletedParts = emptySet()
+        backupProcessLogs = emptyList()
+
         backupScope.launch {
             val result = withContext(Dispatchers.IO) {
                 backupBehavior.backup(
@@ -1260,18 +1277,58 @@ fun AppDetailScreen(
                         packageName = currentPackage,
                         parts = parts,
                         destination = destination,
-                    )
+                    ),
+                    onProgress = { progress ->
+                        backupScope.launch {
+                            backupProcessCurrentPart = progress.part
+                            backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                                progress.message,
+                                failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                            )).takeLast(80)
+                            if (progress.stage == AppBackupProgressStage.PART_COMPLETED && progress.part != null) {
+                                backupProcessCompletedParts = backupProcessCompletedParts + progress.part
+                            }
+                        }
+                    },
+                    isCancelled = { backupCancelRequested.get() },
                 )
             }
+
             backupRunning = false
             when (result) {
                 is AppBackupResult.Completed -> {
+                    backupProcessStatus = BackupProcessStatus.DONE
+                    backupProcessCurrentPart = null
+                    backupProcessCompletedParts = result.parts
                     backupReloadToken++
                     reloadDetails()
-                    toast(context.getString(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size))
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        context.getString(R.string.backup_process_completed_summary, result.parts.size, parts.size)
+                    )).takeLast(80)
                 }
-                is AppBackupResult.Unsupported -> toast(result.reason)
-                is AppBackupResult.Failed -> toast(result.reason)
+                is AppBackupResult.Cancelled -> {
+                    backupProcessStatus = BackupProcessStatus.CANCELLED
+                    backupProcessCurrentPart = null
+                    backupProcessCompletedParts = result.completedParts
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        context.getString(R.string.backup_process_cancelled_summary),
+                        failed = true,
+                    )).takeLast(80)
+                    backupReloadToken++
+                    reloadDetails()
+                }
+                is AppBackupResult.Unsupported -> {
+                    backupProcessStatus = BackupProcessStatus.FAILED
+                    backupProcessCurrentPart = null
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
+                }
+                is AppBackupResult.Failed -> {
+                    backupProcessStatus = BackupProcessStatus.FAILED
+                    backupProcessCurrentPart = null
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
+                    backupReloadToken++
+                    reloadDetails()
+                }
             }
         }
     }
@@ -1282,6 +1339,33 @@ fun AppDetailScreen(
         context.getString(R.string.external_data_part) -> AppBackupPart.EXTERNAL_DATA
         context.getString(R.string.media_part) -> AppBackupPart.MEDIA
         else -> null
+    }
+
+    if (backupProcessVisible) {
+        BackupProcessScreen(
+            appName = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
+            selectedParts = backupProcessParts,
+            currentPart = backupProcessCurrentPart,
+            completedParts = backupProcessCompletedParts,
+            status = backupProcessStatus,
+            logs = backupProcessLogs,
+            onCancel = {
+                if (backupRunning) {
+                    backupCancelRequested.set(true)
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        context.getString(R.string.backup_process_cancelling)
+                    )).takeLast(80)
+                }
+            },
+            onDone = {
+                if (!backupRunning) {
+                    backupProcessVisible = false
+                    backupProcessLogs = emptyList()
+                    backupProcessCurrentPart = null
+                }
+            },
+        )
+        return@AppDetailScreen
     }
 
     if (showBackupSelector && details != null) {
