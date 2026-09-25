@@ -695,7 +695,7 @@
     <string name="action_failed">Action failed</string>
     <string name="app_action_unavailable">Action unavailable</string>
     <string name="battery_optimization_managed_by_system">This setting is managed by the system</string>
-    <string name="confirm">Konfirmasi</string>
+    <string name="confirm">Confirm</string>
     <string name="apps_remove_filter">Remove %1$s</string>
     <string name="apps_no_labels_created">No labels have been created yet.</string>
     <string name="apps_apply_options">Apply options</string>
