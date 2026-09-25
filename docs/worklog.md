@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `6966946377cb8ed842ffe3acef84d6155189d656` |
+| Current checkpoint | `6c10c7f7a4e17960b02a86a30ee23700c9ed748e` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -411,4 +411,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **IMPLEMENTED:** brand column tetap centered horizontal/vertical, lalu diberi vertical offset **-10dp** untuk mengompensasi posisi visual TopAppBar yang terlalu rendah.
 - **TYPOGRAPHY:** tidak diubah.
 - **SCOPE:** hanya positioning branding GlobalHeader; SubHeader 56dp, Bottom Navigation 56dp, dan body tidak diubah.
+- **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
+
+
+## 10.16 GLOBAL HEADER GEOMETRY FIX — 2026-09-25
+
+- **OBSERVED (user E2E):** offset -10dp tidak menghasilkan geometri brand yang sesuai; bagian atas `BARE` menjadi terpotong/terlalu naik.
+- **ROOT CAUSE:** posisi brand sebelumnya bergantung pada title slot `TopAppBar`, sehingga `Center` + offset tidak sama dengan center terhadap shell 80dp.
+- **FIX:** GlobalHeader sekarang memakai fixed **80dp Box** sebagai shell; blok `BARE / SAVE OUR DAY` di-center langsung terhadap Box secara horizontal dan vertikal, tanpa offset.
+- **TARGET GEOMETRY:** blok brand diperlakukan sebagai konten wrap-content di tengah shell 80dp, sehingga ruang atas/bawah mengikuti geometri aktual teks.
+- **TYPOGRAPHY:** tetap sama; tidak mengubah font size atau letter spacing.
+- **SEARCH ACTION:** jika digunakan, tetap berada di sisi kanan tanpa menggeser center brand.
 - **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
