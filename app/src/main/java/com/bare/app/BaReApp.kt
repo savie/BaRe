@@ -816,6 +816,7 @@ private fun MainShell(
     }
     }
     }
+    }
 }
 @Composable
 fun AppsSubHeader(
