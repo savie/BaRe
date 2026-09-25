@@ -968,6 +968,8 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
             ) { CircularProgressIndicator() }
             else -> {
                 val appDetails = details!!
+                val isFavorite = organizationStore.isFavorite(appDetails.packageName)
+                val appLabels = organizationStore.labels(appDetails.packageName).toList()
                 val cacheBytes = appDetails.cacheSizeBytes ?: 0L
                 val appSizeBytes = appDetails.apkSizeBytes +
                     (appDetails.dataSizeBytes ?: 0L) +
@@ -1028,7 +1030,7 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 ),
                                                 style = MaterialTheme.typography.bodyMedium,
                                                 color = MaterialTheme.colorScheme.onSurfaceVariant
-                                            )
+                                            )\n                                            if (isFavorite || appLabels.isNotEmpty()) {\n                                                Row(\n                                                    Modifier.horizontalScroll(rememberScrollState()),\n                                                    horizontalArrangement = Arrangement.spacedBy(6.dp),\n                                                    verticalAlignment = Alignment.CenterVertically\n                                                ) {\n                                                    if (isFavorite) {\n                                                        AssistChip(\n                                                            onClick = {\n                                                                organizationStore.setFavorite(appDetails.packageName, false)\n                                                            },\n                                                            label = { Text(stringResource(R.string.favorites)) },\n                                                            leadingIcon = { Icon(Icons.Default.Star, contentDescription = null) }\n                                                        )\n                                                    }\n                                                    appLabels.forEach { label ->\n                                                        AssistChip(\n                                                            onClick = { },\n                                                            label = { Text(label, maxLines = 1, overflow = TextOverflow.Ellipsis) },\n                                                            leadingIcon = { Icon(Icons.Default.Label, contentDescription = null) }\n                                                        )\n                                                    }\n                                                }\n                                            }
                                         }
                                     }
                                     Box(Modifier.align(Alignment.TopEnd)) {
