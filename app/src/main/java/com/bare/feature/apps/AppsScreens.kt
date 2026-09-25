@@ -1783,6 +1783,7 @@ fun AppDetailScreen(
                     item {
                         AppBackupCloudStateCard(
                             onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
+                            onOpenCloud = { onOpen(Screen.CLOUD) },
                         )
                     }
                 }
@@ -1972,21 +1973,42 @@ private fun AppBackupStateCard(
             Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            Text(
-                stringResource(R.string.device_backups_count, inventory.size),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold,
-            )
             if (latest == null) {
                 Text(
-                    stringResource(R.string.device_no_verified_backup),
+                    stringResource(R.string.device_backups),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Surface(
+                    modifier = Modifier.size(72.dp),
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            Icons.Default.FolderOpen,
+                            contentDescription = null,
+                            modifier = Modifier.size(44.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+                Text(
+                    stringResource(R.string.no_backup_on_device),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             } else {
+                Text(
+                    stringResource(R.string.device_backups_count, inventory.size),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                )
                 HorizontalDivider()
                 Row(
                     Modifier.fillMaxWidth(),
@@ -2081,6 +2103,7 @@ private fun BackupPartChip(
 @Composable
 private fun AppBackupCloudStateCard(
     onOpenBackups: () -> Unit,
+    onOpenCloud: () -> Unit,
 ) {
     Card(
         Modifier
@@ -2099,16 +2122,32 @@ private fun AppBackupCloudStateCard(
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold,
             )
-            Icon(
-                Icons.Default.CloudOff,
-                contentDescription = null,
+            Surface(
                 modifier = Modifier.size(72.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surfaceVariant,
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        Icons.Default.CloudOff,
+                        contentDescription = null,
+                        modifier = Modifier.size(44.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
             Text(
-                stringResource(R.string.cloud_not_synced),
+                stringResource(R.string.cloud_not_connected),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            Button(
+                onClick = onOpenCloud,
+                shape = RoundedCornerShape(24.dp),
+            ) {
+                Text(stringResource(R.string.connect_account))
+            }
         }
     }
 }
