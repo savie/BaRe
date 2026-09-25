@@ -686,6 +686,7 @@
     <string name="run_backup">Run backup</string>
     <string name="device_no_verified_backup">Device: no verified backup</string>
     <string name="cloud_not_synced">Cloud: not synced</string>
+    <string name="cloud_not_connected">Cloud service is not connected</string>
     <string name="view_backups">View backups</string>
     <string name="backup_history">Backup history</string>
     <string name="view_backup_versions">Device/cloud versions and backup state</string>
