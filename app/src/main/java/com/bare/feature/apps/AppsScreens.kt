@@ -422,33 +422,6 @@ fun AppsSearchScreen(onOpenApp: (AppItem) -> Unit, onBack: () -> Unit) {
 fun AppsQuickActionsScreen(onOpen: (Screen) -> Unit, onBack: () -> Unit) {
     val context = LocalContext.current
     var message by remember { mutableStateOf<String?>(null) }
-    if (pendingPartDelete != null) {
-        val pending = pendingPartDelete!!
-        val partLabel = when (pending.second) {
-            AppBackupPart.APK -> context.getString(R.string.apk_part)
-            AppBackupPart.DATA -> context.getString(R.string.data_part)
-            AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
-            AppBackupPart.MEDIA -> context.getString(R.string.media_part)
-        }
-        AlertDialog(
-            onDismissRequest = { pendingPartDelete = null },
-            title = { Text(stringResource(R.string.delete_backup_part_title)) },
-            text = { Text(stringResource(R.string.delete_backup_part_message) + " " + partLabel) },
-            confirmButton = {
-                TextButton(onClick = {
-                    val (snapshot, part) = pendingPartDelete ?: return@TextButton
-                    pendingPartDelete = null
-                    runAction {
-                        actionBehavior.deletePart(packageName, snapshot.versionCode, part)
-                    }
-                }) { Text(stringResource(R.string.delete)) }
-            },
-            dismissButton = {
-                TextButton(onClick = { pendingPartDelete = null }) { Text(stringResource(R.string.cancel)) }
-            },
-        )
-    }
-
     if (message != null) {
         AlertDialog(
             onDismissRequest = { message = null },
@@ -2826,6 +2799,33 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
         AlertDialog(onDismissRequest = { pendingDelete = null }, title = { Text(stringResource(R.string.delete_backup_title)) }, text = { Text(stringResource(R.string.delete_backup_message)) },
             confirmButton = { TextButton(onClick = { runAction { actionBehavior.delete(packageName, snapshot.versionCode) }; pendingDelete = null }) { Text(stringResource(R.string.delete)) } },
             dismissButton = { TextButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.cancel)) } }
+        )
+    }
+
+    if (pendingPartDelete != null) {
+        val pending = pendingPartDelete!!
+        val partLabel = when (pending.second) {
+            AppBackupPart.APK -> context.getString(R.string.apk_part)
+            AppBackupPart.DATA -> context.getString(R.string.data_part)
+            AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
+            AppBackupPart.MEDIA -> context.getString(R.string.media_part)
+        }
+        AlertDialog(
+            onDismissRequest = { pendingPartDelete = null },
+            title = { Text(stringResource(R.string.delete_backup_part_title)) },
+            text = { Text(stringResource(R.string.delete_backup_part_message) + " " + partLabel) },
+            confirmButton = {
+                TextButton(onClick = {
+                    val pending = pendingPartDelete ?: return@TextButton
+                    pendingPartDelete = null
+                    runAction {
+                        actionBehavior.deletePart(packageName, pending.first.versionCode, pending.second)
+                    }
+                }) { Text(stringResource(R.string.delete)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingPartDelete = null }) { Text(stringResource(R.string.cancel)) }
+            },
         )
     }
 
