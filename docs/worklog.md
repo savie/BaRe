@@ -8,10 +8,10 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `1095930fb6c331ac64d870591dd5492a8410b8ca` |
+| Current checkpoint | `9c67e2e79b7c14bf8e8eefad06cc8662c6654a29` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
-| Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
+| Fokus | **Apps reference parity — A9 shared app-level action behavior boundary** |
 | Reference audit | **SELESAI** |
 | Runtime status | **MIXED — A7 header architecture implemented; CI/runtime verification pending** |
 | Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum CI/runtime-verified** |
@@ -204,11 +204,11 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 | A2 | Apps search | **IMPLEMENTED** |
 | A3 | Apps filter model + behavior | **IMPLEMENTED / PARTIAL** — reference filter set sebagian besar ada; Cloud metadata/runtime gaps tetap ada |
 | A4 | Apps storage/App Size model | **IMPLEMENTED / PARTIAL** — local StorageStats + App Size sort ada; reference component coverage belum penuh |
-| A5 | Apps Local/Cloud context wiring | **GAP / NEXT IMPLEMENTATION TARGET** — Cloud metadata boundary ada, UI context belum |
+| A5 | Apps Local/Cloud context wiring | **IMPLEMENTED / PARTIAL** — Local/Cloud context tabs sudah wired; cloud provider/inventory backend belum tersedia |
 | A6 | Apps row identity/metadata/organization presentation | **PARTIAL** |
 | A7 | App Detail foundation/header | **IMPLEMENTED / PARTIAL** |
 | A8 | App Detail storage parts + total/cache presentation | **IMPLEMENTED / PARTIAL** |
-| A9 | App Detail app-level actions | **IMPLEMENTED / PARTIAL** |
+| A9 | App Detail app-level actions | **IMPLEMENTED / PARTIAL — shared behavior boundary sudah dirapikan; runtime verification untuk perubahan ini pending** |
 | A10 | App Detail part-level actions | **PARTIAL** |
 | A11 | Device backup card/inventory | **PARTIAL / UNVERIFIED** |
 | A12 | Cloud backup card/inventory | **PARTIAL / BLOCKED by provider** |
@@ -245,6 +245,41 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 - CI/workflow untuk commit `49ae91f...`: belum tersedia pada saat pencatatan ini.
 - **Status keseluruhan:** `IMPLEMENTED / RUNTIME VERIFICATION PENDING`.
 
+## 10.2 A9 IMPLEMENTATION UPDATE — 2026-09-25
+
+### Shared app-level action boundary
+- **AUTHORIZED:** user memberi GO untuk mengerjakan gap A9 sambil memperbarui continuity matrix A1-A18.
+- AppActionBehavior sekarang juga menjadi owner untuk **Add to Home screen**.
+- App Detail tidak lagi membangun ShortcutManager / ShortcutInfo langsung di UI; screen hanya memanggil AppActionBehavior.addToHomeScreen(...).
+- Apps List battery-optimization path tidak lagi memanggil RootAppActionExecutor langsung dari UI. Jalur tersebut sekarang melalui AppActionBehavior.setBatteryOptimization(...), sementara fallback/system handling tetap dimiliki behavior layer.
+- AppActionBehavior tetap menjadi shared action boundary untuk Launch, App Info, Play Store, Uninstall, Enable/Disable, Force Stop, Clear Data, Battery Optimization, dan Add to Home.
+- AppShareBehavior tetap terpisah sebagai capability khusus Share APK; tidak diduplikasi ke AppActionBehavior.
+
+### Static verification
+- **OBSERVED:** AppsScreens.kt memiliki wiring AppActionBehavior.addToHomeScreen(...).
+- **OBSERVED:** AppsFilter.kt tidak lagi memiliki direct call ke RootAppActionExecutor.setBatteryOptimizationExempt(...).
+- **OBSERVED:** AppActionBehavior.kt memiliki implementation Add to Home dan tetap menjadi owner root/system fallback.
+- **NOT YET VERIFIED:** compile/CI dan runtime device untuk perubahan A9 ini.
+
+### A1-A18 matrix reconciliation
+- **A1:** IMPLEMENTED / PARTIAL.
+- **A2:** IMPLEMENTED.
+- **A3:** IMPLEMENTED / PARTIAL.
+- **A4:** IMPLEMENTED / PARTIAL.
+- **A5:** IMPLEMENTED / PARTIAL — Local/Cloud context tabs sudah ada; cloud provider/inventory backend belum tersedia.
+- **A6:** PARTIAL.
+- **A7:** IMPLEMENTED / PARTIAL.
+- **A8:** IMPLEMENTED / PARTIAL.
+- **A9:** IMPLEMENTED / PARTIAL — shared behavior boundary sudah dirapikan; verification perubahan pending.
+- **A10:** PARTIAL.
+- **A11:** PARTIAL / UNVERIFIED.
+- **A12:** PARTIAL / BLOCKED BY PROVIDER.
+- **A13:** PARTIAL.
+- **A14:** GAP / MOCKUP.
+- **A15:** IMPLEMENTED / PARTIAL.
+- **A16:** UI IMPLEMENTED / EXECUTION PENDING.
+- **A17:** PARTIAL.
+- **A18:** PARTIAL / GAP.
 ## 10.1 RUNTIME FEEDBACK — 2026-09-25
 
 - **OBSERVED (user device screenshots):** App Detail action-menu `Share APK` was present but tapping it produced `Action unavailable`; the bottom-sheet `Share APK` action was also disabled. The Apps screen shown on-device did not show the newly implemented Local/Cloud sub-header tabs.
