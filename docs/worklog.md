@@ -578,3 +578,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** run #1044 is queued for commit `770687a97d6ae47d214263bfa80da7a1d154df3c`.
 - **RUNTIME:** not tested.
 - **STATUS:** `ROOT CAUSE IDENTIFIED / FIX IMPLEMENTED / CI #1044 QUEUED / RUNTIME PENDING`.
+
+
+## 10.24 #1004 UX FOLLOW-UP — REFRESH PRESENTATION + APP DETAIL UNINSTALL CONFIRMATION — 2026-09-25
+
+- **USER DECISION / AUTHORIZATION:** refresh feature remains; permanent refresh icon is removed as the visual mechanism. Pull-to-refresh remains the interaction, with a thin top progress indicator during active refresh instead of the large default refresh indicator. App Detail Uninstall must use the same confirmation semantics as Apps List.
+- **RUNTIME EVIDENCE:** #1004 screenshots showed Apps List has destructive-action confirmation, while App Detail's visible Uninstall button executed without a confirmation dialog. This establishes a runtime consistency gap despite prior source changes.
+- **IMPLEMENTATION:** App Detail Uninstall button now sets the existing `confirmAction` state before execution. The confirmation message uses the same `confirm_uninstall_app` string as Apps List. Execution remains behind confirmation and then calls `AppActionBehavior.uninstallWithSystemFallback(...)`.
+- **REFRESH UX:** `PullToRefreshBox` now uses a thin `LinearProgressIndicator` while refreshing; the large default refresh indicator is no longer shown.
+- **STATIC SOURCE VERIFICATION:** `BaReApp.kt` and `AppsScreens.kt` delimiter/balance checks pass.
+- **CI:** #1044 is `SUCCESS` for the preceding structural fix. #1045 is `IN_PROGRESS` for App Detail uninstall confirmation. #1046 is `IN_PROGRESS` for the final refresh indicator change.
+- **RUNTIME:** not yet re-tested after these changes.
+- **STATUS:** `IMPLEMENTED / STATIC CHECK PASS / CI PENDING / RUNTIME PENDING`.
