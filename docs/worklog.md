@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `a6181739c8d5708e078f2bdc45ab03a7184f7dc0` |
+| Current checkpoint | `d2a30299421398989ee4e7cd4566cd623978b2d7` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -338,8 +338,9 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **SUBHEADER CONTRACT:** SubHeader berubah sesuai konteks halaman. Apps memakai AppsSubHeader; halaman lain dapat memiliki subheader sesuai domainnya. Search ditempatkan di level yang sesuai konteks halaman, bukan dipaksakan ke GlobalHeader.
 - **COMPLETED DATE WORK:** Install Date, Update Date, dan Date Used ditandai KELAR dan dikeluarkan dari backlog aktif. Worklog lama yang menyiratkan ketiganya masih terbuka harus dianggap superseded oleh checkpoint ini.
 - **LABEL:** Label foundation/reference-aligned shell sudah diimplementasikan pada source. Struktur header Label menjadi penerapan pola global/subheader di atas; capability lanjutan label tetap mengikuti boundary yang sudah dicatat.
-- **A7 CURRENT:** App Detail source sudah memakai GlobalHeader → AppsSubHeader → App Detail content; source verification sudah dilakukan. CI dan runtime belum diverifikasi, sehingga A7 belum ditutup sebagai VERIFIED.
-- **NEXT:** tetap fokus A7 sampai evidence CI/runtime cukup. Setelah A7 ditutup, baru lanjut A8. Jangan lompat karena worklog history lama.
+- **A7 CURRENT:** struktur shell dipertahankan sebagai GlobalHeader → SubHeader → App Detail content, tetapi **isi SubHeader App Detail berbeda dari Apps**. Apps memakai kontrol context/count/search/filter/menu; App Detail hanya **back + nama aplikasi**.
+- **SUBHEADER VISUAL CONTRACT:** slot/tinggi SubHeader tetap seragam **64dp** agar perpindahan flow tidak menghasilkan gap/lompatan visual. Yang berubah adalah isi sesuai konteks.
+- **NEXT:** build dan runtime E2E ulang untuk memastikan Apps → App Detail menunjukkan GlobalHeader yang sama, tinggi SubHeader yang sama, dan Detail SubHeader hanya back + nama aplikasi. Setelah evidence memenuhi acceptance, baru tutup A7 dan lanjut A8.
 
 
 ## 10.9 A7 BUILD FAILURE / MATERIAL API FIX — 2026-09-25
@@ -360,3 +361,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CONTRACT:** komponen mempertahankan identitas global `BARE / SAVE OUR DAY`, ukuran 96dp, typography dan letter-spacing yang sudah dipakai pada A7.
 - **BOUNDARY:** belum semua halaman direfactor untuk memakai komponen ini. Apps/App Detail tetap menjadi consumer yang sudah ada; audit dan migrasi seluruh halaman ditunda sesuai keputusan user.
 - **VERIFICATION:** source extraction committed. CI/runtime untuk commit extraction belum diverifikasi.
+
+
+## 10.11 A7 APP DETAIL SUBHEADER CONTEXT CORRECTION — 2026-09-25
+
+- **OBSERVED (user E2E):** hasil runtime setelah GlobalHeader extraction masih tidak sesuai pada App Detail karena App Detail mewarisi seluruh AppsSubHeader, termasuk search, filter, dan menu.
+- **USER DECISION:** flow Apps dan App Detail harus memakai shell visual yang konsisten, tetapi SubHeader bersifat context-specific.
+- **APPS:** GlobalHeader → Apps SubHeader **64dp** (back/context/count/search/filter/menu) → Apps Body.
+- **APP DETAIL:** GlobalHeader → Detail SubHeader **64dp** (back + nama aplikasi saja) → App Detail Body.
+- **FIX IMPLEMENTED:** menambahkan AppDetailSubHeader dengan tinggi 64dp dan divider yang sama; App Detail tidak lagi menampilkan search/filter/menu Apps pada SubHeader.
+- **NAVIGATION:** callback Apps search/filter/menu tidak lagi dipassing ke App Detail karena bukan bagian dari Detail SubHeader.
+- **COMMITS:** 7ba2aec13c456be11ae95e4a12fe7d93bb5279c7 dan d2a30299421398989ee4e7cd4566cd623978b2d7.
+- **VERIFICATION:** source change committed; build/runtime setelah fix masih **UNVERIFIED**.
