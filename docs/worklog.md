@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `40a0f0013071ea1fb25e0150d58b5d41663a8182` |
+| Current checkpoint | `6966946377cb8ed842ffe3acef84d6155189d656` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
@@ -403,3 +403,12 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **TYPOGRAPHY:** ukuran/font/letter spacing tidak diubah.
 - **SCOPE:** hanya alignment GlobalHeader; AppsSubHeader, DetailSubHeader, body, dan Bottom Navigation tidak diubah.
 - **VERIFICATION:** source change committed; build/runtime E2E masih **UNVERIFIED**.
+
+
+## 10.15 GLOBAL HEADER BRAND VERTICAL CORRECTION — 2026-09-25
+
+- **USER GO:** branding GlobalHeader harus tetap dalam header 80dp, center horizontal + center vertical secara visual, dengan ruang atas/bawah seimbang.
+- **IMPLEMENTED:** brand column tetap centered horizontal/vertical, lalu diberi vertical offset **-10dp** untuk mengompensasi posisi visual TopAppBar yang terlalu rendah.
+- **TYPOGRAPHY:** tidak diubah.
+- **SCOPE:** hanya positioning branding GlobalHeader; SubHeader 56dp, Bottom Navigation 56dp, dan body tidak diubah.
+- **VERIFICATION:** source committed; build/runtime E2E masih **UNVERIFIED**.
