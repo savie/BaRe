@@ -2223,25 +2223,65 @@ private fun BackupPartChip(
     modifier: Modifier = Modifier,
     protected: Boolean = false,
 ) {
-    Surface(
-        modifier = modifier.height(64.dp),
-        shape = RoundedCornerShape(24.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-    ) {
-        Row(
-            Modifier.padding(horizontal = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
+    var menuOpen by remember(title, size, protected) { mutableStateOf(false) }
+
+    Box(modifier) {
+        Surface(
+            Modifier.fillMaxWidth().height(64.dp).clickable { menuOpen = true },
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surfaceVariant,
         ) {
-            Icon(icon, contentDescription = null, modifier = Modifier.size(24.dp))
-            Spacer(Modifier.width(10.dp))
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
-                Text(title, fontWeight = FontWeight.SemiBold)
-                Text(
-                    formatBackupSize(size) + if (protected) " 🔒" else "",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+            Row(
+                Modifier.padding(horizontal = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(icon, contentDescription = null, modifier = Modifier.size(24.dp))
+                Spacer(Modifier.width(10.dp))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.Center) {
+                    Text(title, fontWeight = FontWeight.SemiBold)
+                    Text(
+                        formatBackupSize(size) + if (protected && title == stringResource(R.string.data_part)) " 🔒" else "",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+        }
+
+        DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.restore)) },
+                leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) },
+                enabled = false,
+                onClick = {},
+            )
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.sync)) },
+                leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) },
+                enabled = false,
+                onClick = {},
+            )
+            if (title == stringResource(R.string.data_part)) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.encrypted)) },
+                    leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                    enabled = false,
+                    onClick = {},
+                )
+            } else if (title == stringResource(R.string.apk_part)) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(R.string.share_apk)) },
+                    leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                    enabled = false,
+                    onClick = {},
                 )
             }
+            DropdownMenuItem(
+                text = { Text(stringResource(R.string.delete)) },
+                leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
+                enabled = false,
+                onClick = {},
+            )
         }
     }
 }
