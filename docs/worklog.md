@@ -8,12 +8,12 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `d457e7ded864108a4a838e8ee71cc04ef0f3a6df` |
+| Current checkpoint | `ed77af794f5f869365aafbc61c9cb82e0e970446` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
-| Fokus | **Apps reference parity — App Detail A8-A12 + remaining Apps subtree** |
+| Fokus | **Apps reference parity — A7 App Detail global header + foundation** |
 | Reference audit | **SELESAI** |
-| Runtime status | **MIXED — Share APK Apps list verified by user device evidence; A7 implemented, runtime verification for A7 pending** |
+| Runtime status | **MIXED — A7 global header implementation applied; build/runtime verification pending** |
 | Root cause | **Cloud provider/backend tetap belum tersedia; A7 source implementation belum runtime-verified** |
 
 ## 2. YANG SUDAH TERBUKTI
@@ -270,13 +270,12 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 
 ## 10. NEXT ACTION
 
-1. **Jangan ulang audit reference umum.** Section 26 + section 8 sekarang menjadi baseline Apps reference reconciliation.
-2. Jika dilanjutkan dengan implementation, mulai dari **A5 Local/Cloud context wiring** karena ini prerequisite IA untuk APP-03/APP-11/Cloud inventory.
-3. Setelah A5, lanjut **App Detail parity**: A7-A12, terutama three-card structure, part action layers, Device/Cloud backup inventory, dan storage model.
-4. Restore/batch/config/swipe/import child capabilities tetap dipisahkan dari UI shell dan tidak boleh dinyatakan selesai hanya karena screen ada.
-5. Install Date / Update Date / Date Used runtime issues tetap unresolved dan tidak boleh dianggap selesai oleh audit Apps ini.
-
-**Checkpoint audit:** branch `v1.0/rebaseline` @ `ba5cf753998ff4c25eea9bdc01eceaaadb321975`.
+1. **A7:** selesaikan dan verifikasi App Detail global Apps shell/header + navigation continuity.
+2. Setelah source change, **build** dan cek runtime visual App Detail pada device.
+3. Cocokkan header App Detail dengan header Apps: brand, context, search, filter, menu, dan back navigation.
+4. Jika A7 runtime evidence memenuhi acceptance, tandai A7 sesuai status verification yang benar.
+5. Setelah A7 ditutup, lanjut ke **A8 App Detail storage parts + total/cache presentation**.
+6. Install Date / Update Date / Date Used tetap **tidak dibuka ulang** tanpa evidence baru.
 
 ## 10.4 A7 APP DETAIL FOUNDATION / HEADER — 2026-09-25
 
@@ -306,3 +305,17 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **BOUNDARY:** backend/wiring lanjutan seperti batch assignment, filtering, schedules, custom configurations, dan capability label lain belum dipaksakan selesai di checkpoint ini; rumah UI dan state dasar sudah disediakan.
 - **SOURCE VERIFICATION:** source branch dibaca ulang setelah perubahan dan route/surface terkonfirmasi.
 - **BUILD:** GitHub Actions build masih berjalan untuk rangkaian commit ini; belum boleh dinyatakan PASS sampai run terbaru selesai.
+
+## 10.6 A7 APP DETAIL GLOBAL APPS HEADER — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO untuk menyelesaikan seluruh scope A7 sampai selesai.
+- **OBSERVED:** App Detail sebelumnya bypass Apps global shell dan hanya memakai standalone detail TopAppBar.
+- **DESIGN DECISION:** App Detail sekarang memakai komponen global Apps header yang sama dengan Apps shell; tidak dibuat header visual kedua yang berbeda.
+- **IMPLEMENTED:** shared AppsGlobalHeader dipakai oleh Apps shell dan App Detail.
+- **HEADER CONTINUITY:** App Detail mempertahankan context Local apps / Cloud synced apps, jumlah inventory, search, filter, dan Apps menu melalui state Apps shell yang dipertahankan saat masuk ke detail.
+- **NAVIGATION:** App Detail mempunyai back action pada shared header. Search/filter/menu dari header detail kembali ke Apps context lalu membuka surface yang sama.
+- **APP INFO:** identity/header App Detail yang sudah ada (icon, package, name, version, Favorite, labels, overflow/actions) dipertahankan; tidak direopen sebagai capability baru.
+- **SCOPE BOUNDARY:** storage-part restructuring, Device/Cloud backup inventory, dan part-level action parity tetap A8/A10/A11/A12; tidak dicampur ke A7.
+- **SOURCE VERIFICATION:** kedua file utama dibaca ulang dari branch; delimiter balance untuk (), {}, [] terkonfirmasi seimbang.
+- **BUILD/RUNTIME:** **BELUM VERIFIED**. Perubahan source sudah committed, tetapi build dan runtime device untuk checkpoint A7 ini belum tersedia.
+
