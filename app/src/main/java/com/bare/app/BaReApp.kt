@@ -793,6 +793,7 @@ private fun MainShell(
     }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GlobalHeader(
     showSearchAction: Boolean = false,
