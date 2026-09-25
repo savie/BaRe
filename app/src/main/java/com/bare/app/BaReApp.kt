@@ -628,7 +628,7 @@ private fun MainShell(
                     NavigationBar(
                     modifier = Modifier
                         .fillMaxWidth(0.62f)
-                        .height(56.dp)
+                        .height(64.dp)
                         .offset(y = (-12).dp)
                         .clip(RoundedCornerShape(24.dp)),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
