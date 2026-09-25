@@ -1566,7 +1566,6 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
                                                 onClick = {
                                                     showActions = false
                                                     onOpen(Screen.APP_LABEL_SELECTION)
-                                                    showLabelsEditor = true
                                                 }
                                             )
                                             DropdownMenuItem(
