@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bare.R
+import com.bare.app.GlobalHeader
 
 internal enum class BackupProcessStatus {
     RUNNING,
@@ -51,6 +52,7 @@ internal fun BackupProcessScreen(
     val running = status == BackupProcessStatus.RUNNING
 
     Column(Modifier.fillMaxSize()) {
+        GlobalHeader()
         Row(
             Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
