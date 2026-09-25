@@ -2890,7 +2890,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         DropdownMenuItem(text = { Text(stringResource(R.string.add_update_note)) }, leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }, onClick = { actionMenuOpen = false; noteText = snapshot.note.orEmpty(); noteOpen = true })
                                         DropdownMenuItem(text = { Text(stringResource(R.string.restore)) }, leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) }, enabled = false, onClick = {})
                                         DropdownMenuItem(text = { Text(stringResource(R.string.delete)) }, leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) }, enabled = !snapshot.protectedBackup, onClick = { actionMenuOpen = false; pendingDelete = snapshot })
-                                        DropdownMenuItem(text = { Text(stringResource(R.string.sync)) }, leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) }, enabled = false, onClick = {})
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.sync_in_cloud)) }, leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) }, enabled = false, onClick = {})
                                     }
                                 }
                             }
