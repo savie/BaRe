@@ -1196,3 +1196,21 @@ User supplied reference screenshots confirming two distinct installed-app contex
 - CI verification for the fix is pending.
 - Runtime installed-card Delete verification is pending.
 - STATUS: `FIX IMPLEMENTED / CI PENDING / RUNTIME PENDING`
+
+## A10/A13 — Installed-part Delete contract correction — 2026-09-25
+
+### USER SAID
+Reference runtime screenshots 480800, 480801, 480802 memperjelas bahwa Delete yang benar berada pada installed-app storage-part contextual menu untuk Data / Ext. data / Media, setelah Backup to Device & Cloud. Delete pada general app overflow menu di bawah Settings harus dihapus. APK menu tetap memakai Share APK dan tidak mendapat Delete.
+
+### DECISION / REQUIREMENT
+1. General app overflow menu: hapus Delete di bawah Settings.
+2. Installed APK chip menu: Backup to Device, Backup to Cloud, Backup to Device & Cloud, Share APK; tanpa Delete.
+3. Installed Data chip menu: Backup to Device, Backup to Cloud, Backup to Device & Cloud, Delete.
+4. Installed Ext. data chip menu: Backup to Device, Backup to Cloud, Backup to Device & Cloud, Delete.
+5. Installed Media chip menu: Backup to Device, Backup to Cloud, Backup to Device & Cloud, Delete.
+6. Delete behavior harus spesifik terhadap part: Data clear application data melalui root package action; Ext. data hapus /sdcard/Android/data/<package>; Media hapus /sdcard/Android/media/<package>.
+7. Delete harus memakai confirmation dan actual result handling; tidak boleh hanya UI.
+8. Device backup Delete dan whole-backup Delete tetap merupakan context yang berbeda.
+
+### STATUS
+AUTHORIZED / WORKLOG PRE-IMPLEMENTATION UPDATED / IMPLEMENTATION PENDING
