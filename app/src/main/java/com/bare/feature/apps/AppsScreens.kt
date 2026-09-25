@@ -1097,6 +1097,10 @@ fun AppDetailScreen(
             }
         )
     }
+    val backupBehavior = remember(context) { AppBackupBehavior(context) }
+    val backupScope = rememberCoroutineScope()
+    var backupRunning by remember { mutableStateOf(false) }
+    var backupReloadToken by remember { mutableStateOf(0) }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
@@ -1245,6 +1249,41 @@ fun AppDetailScreen(
         )
     }
 
+    fun runBackup(parts: Set<AppBackupPart>, destination: BackupDestination) {
+        val currentPackage = packageName ?: return
+        if (parts.isEmpty() || backupRunning) return
+        backupRunning = true
+        backupScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                backupBehavior.backup(
+                    AppBackupRequest(
+                        packageName = currentPackage,
+                        parts = parts,
+                        destination = destination,
+                    )
+                )
+            }
+            backupRunning = false
+            when (result) {
+                is AppBackupResult.Completed -> {
+                    backupReloadToken++
+                    reloadDetails()
+                    toast(context.getString(R.string.backup_completed, result.parts.joinToString { it.name }, result.files.size))
+                }
+                is AppBackupResult.Unsupported -> toast(result.reason)
+                is AppBackupResult.Failed -> toast(result.reason)
+            }
+        }
+    }
+
+    fun partForTitle(title: String): AppBackupPart? = when (title) {
+        context.getString(R.string.apks_part) -> AppBackupPart.APK
+        context.getString(R.string.data_part) -> AppBackupPart.DATA
+        context.getString(R.string.external_data_part) -> AppBackupPart.EXTERNAL_DATA
+        context.getString(R.string.media_part) -> AppBackupPart.MEDIA
+        else -> null
+    }
+
     if (showBackupSelector && details != null) {
         val availableParts = buildList {
             add(context.getString(R.string.apks_part))
@@ -1319,10 +1358,16 @@ fun AppDetailScreen(
                     )
                 }
                 Button(
-                    enabled = backupPartNames.isNotEmpty(),
+                    enabled = backupPartNames.isNotEmpty() && !backupRunning,
                     onClick = {
                         showBackupSelector = false
-                        toast(context.getString(R.string.app_action_unavailable))
+                        val selected = backupPartNames.mapNotNull(::partForTitle).toSet()
+                        val destination = when (backupDestination) {
+                            "Cloud" -> BackupDestination.CLOUD
+                            "Device + Cloud" -> BackupDestination.DEVICE_AND_CLOUD
+                            else -> BackupDestination.DEVICE
+                        }
+                        runBackup(selected, destination)
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(28.dp),
@@ -1735,9 +1780,11 @@ fun AppDetailScreen(
                                                         icon = icon,
                                                         modifier = Modifier.weight(1f),
                                                         onBackup = { destination ->
-                                                            backupPartNames = setOf(title)
-                                                            backupDestination = destination
-                                                            showBackupSelector = true
+                                                            when (destination) {
+                                                                "Device" -> partForTitle(title)?.let { runBackup(setOf(it), BackupDestination.DEVICE) }
+                                                                "Cloud" -> runBackup(setOfNotNull(partForTitle(title)), BackupDestination.CLOUD)
+                                                                "Device + Cloud" -> runBackup(setOfNotNull(partForTitle(title)), BackupDestination.DEVICE_AND_CLOUD)
+                                                            }
                                                         },
                                                         onShare = {
                                                             packageName?.let { currentPackage ->
@@ -1777,6 +1824,7 @@ fun AppDetailScreen(
                     item {
                         AppBackupStateCard(
                             packageName = packageName,
+                            reloadToken = backupReloadToken,
                             onOpenBackups = { onOpen(Screen.APP_BACKUPS) },
                         )
                     }
@@ -1939,10 +1987,11 @@ private fun AppStorageSelectionChip(
 // Backup empty-state UI and resources are validated together on the branch head.
 private fun AppBackupStateCard(
     packageName: String?,
+    reloadToken: Int,
     onOpenBackups: () -> Unit,
 ) {
     val context = LocalContext.current
-    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName) {
+    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken) {
         value = if (packageName.isNullOrBlank()) {
             emptyList()
         } else {
