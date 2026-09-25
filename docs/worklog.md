@@ -310,12 +310,22 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 
 - **AUTHORIZATION:** user memberi GO untuk menyelesaikan seluruh scope A7 sampai selesai.
 - **OBSERVED:** App Detail sebelumnya bypass Apps global shell dan hanya memakai standalone detail TopAppBar.
-- **DESIGN DECISION:** App Detail sekarang memakai komponen global Apps header yang sama dengan Apps shell; tidak dibuat header visual kedua yang berbeda.
-- **IMPLEMENTED:** shared AppsGlobalHeader dipakai oleh Apps shell dan App Detail.
-- **HEADER CONTINUITY:** App Detail mempertahankan context Local apps / Cloud synced apps, jumlah inventory, search, filter, dan Apps menu melalui state Apps shell yang dipertahankan saat masuk ke detail.
-- **NAVIGATION:** App Detail mempunyai back action pada shared header. Search/filter/menu dari header detail kembali ke Apps context lalu membuka surface yang sama.
+- **DESIGN CORRECTION:** user menegaskan bahwa GlobalHeader hanya berisi brand statis BARE + SAVE OUR DAY, dengan ukuran/typography yang konsisten. Context Apps (LOCAL APPS / CLOUD SYNCED APPS, jumlah apps, search, filter, menu) adalah AppsSubHeader yang lebih compact dan dinamis.
+- **IMPLEMENTED:** shell sekarang memisahkan GlobalHeader dan AppsSubHeader; keduanya tidak lagi digabung sebagai satu AppsGlobalHeader.
+- **GLOBAL HEADER RULE:** GlobalHeader tetap konsisten lintas halaman; search hanya menjadi action tambahan bila halaman tersebut memang menggunakan search pada global header. Untuk Apps, search tetap berada di AppsSubHeader.
+- **APP DETAIL:** App Detail sekarang tersusun GlobalHeader → AppsSubHeader → App Detail content. Back navigation ditempatkan pada AppsSubHeader karena merupakan bagian dari navigasi/context halaman, bukan identitas global.
+- **HEADER CONTINUITY:** AppsSubHeader mempertahankan Local/Cloud context, inventory count, search, filter, menu, dan state Apps saat masuk ke App Detail.
 - **APP INFO:** identity/header App Detail yang sudah ada (icon, package, name, version, Favorite, labels, overflow/actions) dipertahankan; tidak direopen sebagai capability baru.
 - **SCOPE BOUNDARY:** storage-part restructuring, Device/Cloud backup inventory, dan part-level action parity tetap A8/A10/A11/A12; tidak dicampur ke A7.
-- **SOURCE VERIFICATION:** kedua file utama dibaca ulang dari branch; delimiter balance untuk (), {}, [] terkonfirmasi seimbang.
-- **BUILD/RUNTIME:** **BELUM VERIFIED**. Perubahan source sudah committed, tetapi build dan runtime device untuk checkpoint A7 ini belum tersedia.
+- **SOURCE VERIFICATION:** BaReApp.kt dan AppsScreens.kt dibaca ulang dari branch setelah perubahan.
+- **BUILD/RUNTIME:** BELUM VERIFIED. Perubahan source sudah committed; build Android dan runtime device untuk struktur header yang dikoreksi masih harus diverifikasi.
+
+## 10.7 A7 HEADER ARCHITECTURE CORRECTION — 2026-09-25
+
+- **USER DECISION:** GlobalHeader = brand statis; AppsSubHeader = context/navigation Apps yang dinamis.
+- **IMPLEMENTATION:** GlobalHeader dan AppsSubHeader sekarang merupakan dua composable terpisah dan dipakai ulang oleh Apps shell + App Detail.
+- **VISUAL INTENT:** GlobalHeader mempertahankan tinggi 96dp dan typography/letter-spacing brand yang sama; AppsSubHeader tetap compact 64dp pada state normal/search.
+- **SEARCH RULE:** Apps search tetap di AppsSubHeader; global search action tetap tersedia untuk non-Apps pages yang memang sudah memilikinya.
+- **APP DETAIL ORDER:** GlobalHeader → AppsSubHeader → App Detail content.
+- **VERIFICATION BOUNDARY:** source change sudah committed, tetapi CI/runtime belum dianggap verified sampai evidence aktual tersedia.
 
