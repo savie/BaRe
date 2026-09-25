@@ -8,7 +8,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `9c67e2e79b7c14bf8e8eefad06cc8662c6654a29` |
+| Current checkpoint | `aba1fc5982a6d3cba799a8e40abb5358d8b41e0a` |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **VERIFY / DEBUG** |
 | Fokus | **Apps reference parity — A9 shared app-level action behavior boundary** |
@@ -196,34 +196,49 @@ Open verification items mengikuti current Apps checkpoint: A7 masih menunggu CI/
 
 ## 9. A1-A18 CONTINUITY MAP — Apps subtree
 
-Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk pekerjaan Apps. Ini adalah rekonsiliasi terhadap source/reference yang tersedia saat audit ini; bukan klaim bahwa wording lama dari percakapan sebelumnya masih dapat dipulihkan verbatim dari worklog history.
+**Aturan baru audit:** setiap status PARTIAL wajib menjelaskan **partial-nya di mana**. PARTIAL tanpa gap spesifik tidak dianggap cukup sebagai audit evidence. Jika gap berupa verification, dependency, parity, persistence, atau execution, jenis gap ditulis eksplisit.
 
-| A | Work slice | Current status |
-|---|---|---|
-| A1 | Apps shell + Local context | **IMPLEMENTED / PARTIAL** — Local Apps shell ada; Cloud context switch belum |
-| A2 | Apps search | **IMPLEMENTED** |
-| A3 | Apps filter model + behavior | **IMPLEMENTED / PARTIAL** — reference filter set sebagian besar ada; Cloud metadata/runtime gaps tetap ada |
-| A4 | Apps storage/App Size model | **IMPLEMENTED / PARTIAL** — local StorageStats + App Size sort ada; reference component coverage belum penuh |
-| A5 | Apps Local/Cloud context wiring | **IMPLEMENTED / PARTIAL** — Local/Cloud context tabs sudah wired; cloud provider/inventory backend belum tersedia |
-| A6 | Apps row identity/metadata/organization presentation | **PARTIAL** |
-| A7 | App Detail foundation/header | **IMPLEMENTED / PARTIAL** |
-| A8 | App Detail storage parts + total/cache presentation | **IMPLEMENTED / PARTIAL** |
-| A9 | App Detail app-level actions | **IMPLEMENTED / PARTIAL — shared behavior boundary sudah dirapikan; runtime verification untuk perubahan ini pending** |
-| A10 | App Detail part-level actions | **PARTIAL** |
-| A11 | Device backup card/inventory | **PARTIAL / UNVERIFIED** |
-| A12 | Cloud backup card/inventory | **PARTIAL / BLOCKED by provider** |
-| A13 | App backup execution | **PARTIAL** — Device subset works in source path; Cloud/Media unsupported |
-| A14 | App restore execution | **GAP / MOCKUP** |
-| A15 | Favorites/Labels/Blacklist organization | **IMPLEMENTED / PARTIAL** |
-| A16 | Quick Actions / Batch | **UI IMPLEMENTED / EXECUTION PENDING** |
-| A17 | Custom Config + App Backup Settings | **PARTIAL** |
-| A18 | Diagnostics / Swipe / Import-Install / remaining child flows | **PARTIAL / GAP** |
+| A | Work slice | Status | Partial / Gap spesifik |
+|---|---|---|---|
+| A1 | Apps shell + Local context | **IMPLEMENTED / PARTIAL** | **Reference parity:** shell Local sudah ada, tetapi context switch Local ↔ Cloud pada Apps shell belum lengkap pada checkpoint audit reference. |
+| A2 | Apps search | **IMPLEMENTED** | Tidak ada partial yang tercatat pada scope ini. Search yang dianggap implemented adalah Search pada Apps List. |
+| A3 | Apps filter model + behavior | **IMPLEMENTED / PARTIAL** | **Metadata/dependency:** sebagian besar filter reference sudah dimodelkan, tetapi Cloud Sync filter bergantung pada metadata provider yang belum tersedia. **Verification:** runtime coverage filter belum lengkap. |
+| A4 | Apps storage/App Size model | **IMPLEMENTED / PARTIAL** | **Reference parity:** local StorageStats/App Size sudah ada, tetapi model storage belum mencakup seluruh komponen reference. **Verification:** parity runtime belum lengkap. |
+| A5 | Apps Local/Cloud context wiring | **IMPLEMENTED / PARTIAL** | **FE wiring ada**, tetapi **Cloud inventory/provider backend belum tersedia**. Karena itu Cloud context belum dapat dibuktikan memiliki inventory runtime yang setara reference. |
+| A6 | Apps row identity/metadata/organization presentation | **PARTIAL** | **Reference parity:** row belum lengkap pada labels, favorite presentation, metadata richness, swipe actions, dan batch-selection affordance. |
+| A7 | App Detail foundation/header | **IMPLEMENTED / PARTIAL** | **Foundation implemented**, tetapi **runtime verification belum selesai**. Structural/card/state parity App Detail juga belum penuh; shell/header adalah bagian yang sedang diverifikasi. |
+| A8 | App Detail storage parts + total/cache presentation | **IMPLEMENTED / PARTIAL** | **Reference parity:** part model dan storage presentation belum mencakup seluruh reference parts. **Backend/execution:** sebagian destination/part belum executable. **Verification:** runtime belum lengkap. |
+| A9 | App Detail app-level actions | **IMPLEMENTED / PARTIAL** | **Architecture implemented:** shared AppActionBehavior sudah menjadi boundary. **Verification gap:** compile/CI dan runtime E2E untuk refactor A9 belum terbukti. |
+| A10 | App Detail part-level actions | **PARTIAL** | **Execution/parity gap:** baru sebagian part actions yang executable; action layer reference untuk part/backup-version/backup-card belum seluruhnya terpisah dan wired. |
+| A11 | Device backup card/inventory | **PARTIAL / UNVERIFIED** | **Inventory/state gap:** card/surface ada, tetapi backup-version inventory, loading/error state, metadata, restore/action menu belum parity. **Verification:** runtime belum terbukti. |
+| A12 | Cloud backup card/inventory | **PARTIAL / BLOCKED BY PROVIDER** | **Dependency blocker:** cloud provider/backend belum tersedia. Surface bisa ada, tetapi inventory/state/execution Cloud tidak dapat diverifikasi end-to-end. |
+| A13 | App backup execution | **PARTIAL** | **Execution coverage:** Device backup hanya subset yang tersedia; **Cloud destination dan Media belum supported**. Karena itu execution belum full parity reference. |
+| A14 | App restore execution | **GAP / MOCKUP** | **Execution gap:** restore surface ada, tetapi execution backend belum tersedia/terbukti. |
+| A15 | Favorites/Labels/Blacklist organization | **IMPLEMENTED / PARTIAL** | **Domain coverage/parity:** basic persistence dan UI sudah ada, tetapi workflow/reference coverage lebih luas; row presentation dan beberapa management behavior belum full parity. |
+| A16 | Quick Actions / Batch | **UI IMPLEMENTED / EXECUTION PENDING** | **Reference workflow gap:** Quick Actions UI bukan pengganti batch-selection activity. Selection mode, select-all, batch execution, dan equivalent batch flow belum lengkap. |
+| A17 | Custom Config + App Backup Settings | **PARTIAL** | **Execution/persistence gap:** beberapa settings/config surfaces ada, tetapi config engine, run-now, scheduling, limits/strategy integration belum terbukti sebagai behavior nyata end-to-end. |
+| A18 | Diagnostics / Swipe / Import-Install / remaining child flows | **PARTIAL / GAP** | **Coverage gap:** Diagnostics sebagian ada; Swipe Actions dan APK/APKS Import/Install belum implemented; beberapa restore/child flows masih mockup/pending. |
 
-### 9.1 Current implementation conclusion
+### 9.1 Cara membaca status
 
-- **A1-A4 bukan backlog kosong**. Source menunjukkan keempat slice tersebut sudah mempunyai implementation nyata; beberapa masih mempunyai parity/verification gap.
-- **A5 adalah Local/Cloud context wiring**, bukan otomatis App Detail/A5 sebelumnya. Ini sekarang menjadi gap eksplisit hasil audit reference.
-- App Detail dan seluruh anak-pinaknya sudah terpetakan sehingga implementation berikutnya tidak perlu menebak scope.
+- IMPLEMENTED = source implementation terobservasi.
+- IMPLEMENTED / PARTIAL = capability inti sudah ada, **tetapi kolom Partial / Gap spesifik di atas wajib dibaca sebagai bagian dari status**.
+- PARTIAL / UNVERIFIED = implementation ada sebagian, tetapi evidence runtime/acceptance belum cukup.
+- PARTIAL / BLOCKED = implementation/surface ada, tetapi dependency eksternal yang diperlukan belum tersedia.
+- GAP / MOCKUP = surface mungkin ada, tetapi capability behavior belum implemented sebagai execution nyata.
+- EXECUTION PENDING = UI/wiring ada, execution backend atau end-to-end proof belum ada.
+
+### 9.2 Audit rule
+
+Pada audit berikutnya jangan bertanya hanya **"A berapa statusnya?"**. Pertanyaan audit harus menjadi:
+
+1. **Apa yang sudah implemented?**
+2. **Partial-nya tepat di bagian mana?**
+3. **Jenis gap-nya apa:** parity / behavior / execution / persistence / dependency / verification?
+4. **Evidence apa yang sudah ada?**
+5. **Apa acceptance condition untuk menutup partial tersebut?**
+
+Dengan format ini, PARTIAL menjadi **actionable audit scope**, bukan label perkiraan.
 
 ## 10. IMPLEMENTATION UPDATE — 2026-09-25
 
