@@ -52,7 +52,7 @@ internal fun BackupProcessScreen(
 
     Column(Modifier.fillMaxSize()) {
         Row(
-            Modifier.fillMaxWidth().height(64.dp).padding(horizontal = 16.dp),
+            Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = onDone, enabled = !running) {
@@ -126,6 +126,8 @@ internal fun BackupProcessScreen(
                                 currentPart.displayNameForUi(),
                             )
                             status == BackupProcessStatus.DONE -> stringResource(R.string.backup_process_all_done)
+                            status == BackupProcessStatus.FAILED -> stringResource(R.string.backup_process_failed)
+                            status == BackupProcessStatus.CANCELLED -> stringResource(R.string.backup_process_cancelled)
                             else -> stringResource(R.string.backup_process_preparing)
                         },
                         style = MaterialTheme.typography.bodyMedium,
