@@ -555,3 +555,15 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** run #1041 for the previous source completed `success`. New corrective commit `8eac15a4a775d8b76558763df436623215f53a17` is running as **run #1042**, currently `IN_PROGRESS`.
 - **RUNTIME:** device/runtime re-test has not yet been performed after the fix.
 - **STATUS:** `ROOT CAUSE IDENTIFIED / FIX IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
+
+
+## 10.22 CI #1042 FAILURE — COMPILATION ROOT CAUSE + REBUILD — 2026-09-25
+
+- **OBSERVED:** CI run #1042 failed at `:app:compileDebugKotlin`.
+- **EVIDENCE:** `BaReApp.kt:588:9` reported `'return' is prohibited here`; `BaReApp.kt:823:1` reported `Syntax error: Expecting a top level declaration`.
+- **ROOT CAUSE:** previous corrective edit still left an invalid control-flow/bracing structure around `PullToRefreshBox`; the routed/search branches used a lambda return strategy that Kotlin rejected, and the resulting brace structure leaked beyond `MainShell`.
+- **REMEDIATION:** rebuilt the affected `MainShell` refresh structure from the last known-good pre-refresh checkpoint (`84e40a916f53117a55511c386134fb15d77dfa18`) and reapplied global refresh using explicit `if / else if / else` branches with no lambda return. Refresh token remounts the active routed/search/main surface.
+- **NEW COMMIT:** `40688d30845bd7b22cec069f3ba2967efea69794`.
+- **CI:** run #1043 is currently `IN_PROGRESS`; compilation has not yet reached the APK assembly step.
+- **RUNTIME:** not re-tested.
+- **STATUS:** `ROOT CAUSE IDENTIFIED / REMEDIATED / CI PENDING / RUNTIME PENDING`.
