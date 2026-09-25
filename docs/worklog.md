@@ -590,3 +590,16 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 - **CI:** #1044 is `SUCCESS` for the preceding structural fix. #1045 is `IN_PROGRESS` for App Detail uninstall confirmation. #1046 is `IN_PROGRESS` for the final refresh indicator change.
 - **RUNTIME:** not yet re-tested after these changes.
 - **STATUS:** `IMPLEMENTED / STATIC CHECK PASS / CI PENDING / RUNTIME PENDING`.
+
+
+## 10.25 BOTTOM NAV TRANSPARENCY FIX — 2026-09-25
+
+- **AUTHORIZATION:** user memberi GO dengan scope tunggal: perbaiki kebocoran/opaque black area di kiri-kanan bottom navigation saat 4 tab tampil.
+- **OBSERVED:** #1004/#1046 runtime screenshots menunjukkan pill bottom navigation benar, tetapi area slot di luar pill tetap menjadi area hitam/opaque sehingga content di belakang tidak terlihat.
+- **ROOT CAUSE:** bottom navigation ditempatkan sebagai `Scaffold.bottomBar`, sehingga content area tidak benar-benar berada di bawah navigation surface. Background root/Scaffold mengisi slot kiri-kanan navigation.
+- **FIX:** bottom navigation dipindahkan dari `Scaffold.bottomBar` menjadi overlay di dalam outer `Box`, sementara `Scaffold` sekarang membentangkan content tanpa reserved bottom-bar slot. Navigation pill tetap centered, 56dp high, 62% width, rounded, dan bottom offset dipertahankan secara visual melalui 12dp bottom padding.
+- **SCOPE:** hanya bottom navigation transparency/layout. Tidak mengubah refresh behavior atau uninstall behavior.
+- **STATIC SOURCE VERIFICATION:** `BaReApp.kt` delimiter/balance check PASS.
+- **CI:** #1045 SUCCESS (App Detail uninstall confirmation); #1046 SUCCESS (refresh presentation); #1047 queued for bottom navigation fix.
+- **RUNTIME:** pending #1047 APK/device verification.
+- **STATUS:** `IMPLEMENTED / STATIC CHECK PASS / CI #1047 QUEUED / RUNTIME PENDING`.
