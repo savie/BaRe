@@ -2351,7 +2351,6 @@ fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit)
                         Text(stringResource(R.string.backup_summary), fontWeight = FontWeight.Bold)
                         Text(stringResource(R.string.selected_parts_count, selectedParts.size))
                         Text(stringResource(R.string.selected_backup_location, destination))
-                        Text(stringResource(R.string.backup_execution_pending), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
