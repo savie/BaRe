@@ -24,7 +24,8 @@ object RootAppActionExecutor {
 
     fun clearData(packageName: String): Boolean =
         run("pm clear $packageName")?.contains("Success", ignoreCase = true) == true
-\n    fun deletePath(path: String): Boolean =
+
+    fun deletePath(path: String): Boolean =
         run("rm -rf -- ${shellQuote(path)} && test ! -e ${shellQuote(path)}") != null
 
     private fun shellQuote(value: String): String =
