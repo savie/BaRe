@@ -2383,54 +2383,44 @@ private fun AppBackupStateCard(
                     }
                 }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (latest.apkBytes > 0) {
-                        BackupPartChip(
-                            part = AppBackupPart.APK,
-                            title = stringResource(R.string.apk_part),
-                            size = latest.apkBytes,
-                            icon = Icons.Default.Android,
-                            modifier = Modifier.weight(1f),
-                            protected = latest.protectedBackup,
-                            onDelete = { pendingPartDelete = AppBackupPart.APK },
-                        )
-                    }
-                    if (latest.dataBytes > 0) {
-                        BackupPartChip(
-                            part = AppBackupPart.DATA,
-                            title = stringResource(R.string.data_part),
-                            size = latest.dataBytes,
-                            icon = Icons.Default.Folder,
-                            modifier = Modifier.weight(1f),
-                            protected = latest.protectedBackup,
-                            onDelete = { pendingPartDelete = AppBackupPart.DATA },
-                        )
-                    }
+                    BackupPartChip(
+                        part = AppBackupPart.APK,
+                        title = stringResource(R.string.apk_part),
+                        size = latest.apkBytes,
+                        icon = Icons.Default.Android,
+                        modifier = Modifier.weight(1f),
+                        protected = latest.protectedBackup,
+                        onDelete = { pendingPartDelete = AppBackupPart.APK },
+                    )
+                    BackupPartChip(
+                        part = AppBackupPart.DATA,
+                        title = stringResource(R.string.data_part),
+                        size = latest.dataBytes,
+                        icon = Icons.Default.Storage,
+                        modifier = Modifier.weight(1f),
+                        protected = latest.protectedBackup,
+                        onDelete = { pendingPartDelete = AppBackupPart.DATA },
+                    )
                 }
-                if (latest.externalDataBytes > 0) {
-                    Row(Modifier.fillMaxWidth()) {
-                        BackupPartChip(
-                            part = AppBackupPart.EXTERNAL_DATA,
-                            title = stringResource(R.string.external_data_part),
-                            size = latest.externalDataBytes,
-                            icon = Icons.Default.Folder,
-                            modifier = Modifier.fillMaxWidth(),
-                            protected = latest.protectedBackup,
-                            onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
-                        )
-                    }
-                }
-                if (latest.mediaBytes > 0) {
-                    Row(Modifier.fillMaxWidth()) {
-                        BackupPartChip(
-                            part = AppBackupPart.MEDIA,
-                            title = stringResource(R.string.media_part),
-                            size = latest.mediaBytes,
-                            icon = Icons.Default.Folder,
-                            modifier = Modifier.fillMaxWidth(),
-                            protected = latest.protectedBackup,
-                            onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
-                        )
-                    }
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BackupPartChip(
+                        part = AppBackupPart.EXTERNAL_DATA,
+                        title = stringResource(R.string.external_data_part),
+                        size = latest.externalDataBytes,
+                        icon = Icons.Default.Folder,
+                        modifier = Modifier.weight(1f),
+                        protected = latest.protectedBackup,
+                        onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
+                    )
+                    BackupPartChip(
+                        part = AppBackupPart.MEDIA,
+                        title = stringResource(R.string.media_part),
+                        size = latest.mediaBytes,
+                        icon = Icons.Default.PhotoLibrary,
+                        modifier = Modifier.weight(1f),
+                        protected = latest.protectedBackup,
+                        onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
+                    )
                 }
                 Button(
                     onClick = {},
