@@ -1289,3 +1289,22 @@ User mengonfirmasi CI terakhir hijau dan Delete sudah benar. User meminta **UI c
 
 ### STATUS
 `AUTHORIZED / PRE-IMPLEMENTATION WORKLOG UPDATED / IMPLEMENTATION PENDING`
+
+## A10/A13 — Revisi UI Device backups — IMPLEMENTED — 2026-09-25
+
+### IMPLEMENTATION
+- Card `Device backups` sekarang menampilkan empat part dalam grid 2x2 pada satu card, mengikuti struktur card `Last updated` di atas.
+- Urutan visual: `APK | Data`, lalu `Ext. data | Media`.
+- Icon Data direvisi ke representasi storage dan Media ke representasi media; ukuran tetap menggunakan inventory backup aktual.
+- Setiap part tetap memakai contextual action surface dan Delete behavior yang sudah ada.
+- Tidak ada perubahan pada execution/backup/delete/restore semantics; perubahan dibatasi pada layout card.
+- Empty-state `No backup on device` tetap dipertahankan.
+
+### COMMIT
+- `e2ca3df881947624dcb2a152e55aba00b523104a` — `fix(ui): match device backup four-part card layout`
+
+### VERIFICATION STATE
+- **SOURCE:** implementation committed and source re-read on branch.
+- **CI:** run triggered by latest commit; hasil final belum teramati pada saat worklog ini direvisi.
+- **RUNTIME:** belum ada screenshot runtime baru setelah perubahan UI ini.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME UI VERIFICATION PENDING`
