@@ -12,8 +12,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bare.R
@@ -36,6 +40,11 @@ fun GlobalHeader(
         contentAlignment = androidx.compose.ui.Alignment.Center,
     ) {
         Column(
+            modifier = Modifier.offset(
+                y = with(LocalDensity.current) {
+                    WindowInsets.statusBars.getTop(this).toDp() / 2
+                },
+            ),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
         ) {
