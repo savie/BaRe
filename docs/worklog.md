@@ -1308,3 +1308,39 @@ User mengonfirmasi CI terakhir hijau dan Delete sudah benar. User meminta **UI c
 - **CI:** run triggered by latest commit; hasil final belum teramati pada saat worklog ini direvisi.
 - **RUNTIME:** belum ada screenshot runtime baru setelah perubahan UI ini.
 - **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME UI VERIFICATION PENDING`
+
+## SESSION BOOTSTRAP / RECONCILIATION — 2026-09-25
+
+### ACTUAL STATE
+- Repository: `savie/BaRe`
+- Working branch: `v1.0/rebaseline`
+- Reference branch: `reference`
+- Branch HEAD: `42a8962370201f5ce18ae1da20e817ebe11ae062`
+- HEAD commit: `docs(worklog): record device backup four-part UI implementation`
+- Latest implementation commit for Device backups UI: `e2ca3df881947624dcb2a152e55aba00b523104a`
+- Latest CI run observed for that implementation commit: GitHub Actions run `#1104`, conclusion `success`.
+- HEAD `42a8962...` is documentation-only relative to the implementation checkpoint; no newer application-code change is observed from the branch state inspected.
+
+### RECONCILIATION
+- Source state: Device backups four-part 2x2 card implementation is present at `e2ca3df...`.
+- CI state: **VERIFIED** for `e2ca3df...` by run `#1104` (`:app:assembleDebug` workflow succeeded).
+- Runtime UI state: **UNVERIFIED**; no new device/runtime screenshot evidence is available for the post-`e2ca3df...` UI.
+- Local working-tree state: **UNKNOWN**; no local checkout/worktree is attached to this session, so uncommitted local changes cannot be inspected.
+- Device/runtime execution: **BLOCKED** in this session because no Android device/emulator session is available through the currently exposed automation capability.
+
+### CURRENT TASK
+Runtime verification of Device backups UI after the four-part card implementation.
+
+### VERIFICATION TARGET
+1. Device backup card shows APK | Data / Ext. data | Media in one 2x2 card.
+2. Part sizes remain sourced from actual backup inventory.
+3. Empty state remains `No backup on device`.
+4. Existing contextual card/part actions remain reachable.
+5. No backup/delete/restore execution semantics regress.
+
+### NEXT ACTION
+Obtain an Android runtime/device session and execute the verification target above. Do not claim runtime UI parity until direct runtime evidence is captured.
+
+### STATUS
+`IMPLEMENTED / CI VERIFIED / RUNTIME VERIFICATION BLOCKED`
+
