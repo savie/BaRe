@@ -628,7 +628,7 @@ private fun MainShell(
                     NavigationBar(
                     modifier = Modifier
                         .fillMaxWidth(0.62f)
-                        .height(64.dp)
+                        .height(56.dp)
                         .offset(y = (-12).dp)
                         .clip(RoundedCornerShape(24.dp)),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -813,7 +813,7 @@ fun AppsSubHeader(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp)
+                    .height(56.dp)
                     .padding(horizontal = 12.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
@@ -851,7 +851,7 @@ fun AppsSubHeader(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp)
+                    .height(56.dp)
                     .padding(start = 12.dp, end = 4.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
