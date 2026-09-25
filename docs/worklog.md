@@ -544,3 +544,14 @@ Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan men
 4. E2E uninstall dari App Detail; acceptance: confirmation muncul sebelum execution pada root maupun non-root/system path, lalu actual-state reconciliation terjadi setelah uninstall.
 5. Pastikan action success tidak menampilkan success toast; failure/blocked feedback tetap jelas.
 6. Jika evidence terpenuhi, baru promote status menjadi `VERIFIED` untuk scope ini.
+
+
+## 10.21 BLANK SCREEN REGRESSION — ROOT CAUSE + FIX — 2026-09-25
+
+- **OBSERVED:** device screenshot showed a completely blank app surface after the global refresh implementation.
+- **ROOT CAUSE:** `return@PullToRefreshBox` had been placed outside the `if (screen != Screen.NONE)` guard, so `MainShell` returned from the refresh wrapper before reaching the normal search/pager/Scaffold content on the default `Screen.NONE` path.
+- **FIX:** moved the routed-screen `return@PullToRefreshBox` inside the `if (screen != Screen.NONE)` block. Default shell execution now continues to the search/pager/Scaffold path.
+- **SOURCE VERIFICATION:** inspected the current source and compared the affected control-flow region with the pre-refresh checkpoint; the unconditional return was confirmed as the regression mechanism.
+- **CI:** run #1041 for the previous source completed `success`. New corrective commit `8eac15a4a775d8b76558763df436623215f53a17` is running as **run #1042**, currently `IN_PROGRESS`.
+- **RUNTIME:** device/runtime re-test has not yet been performed after the fix.
+- **STATUS:** `ROOT CAUSE IDENTIFIED / FIX IMPLEMENTED / CI PENDING / RUNTIME PENDING`.
