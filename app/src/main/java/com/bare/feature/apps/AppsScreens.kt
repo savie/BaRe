@@ -40,6 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.bare.R
 import com.bare.app.AppItem
+import com.bare.app.AppsGlobalHeader
 import com.bare.app.Screen
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
@@ -1035,7 +1036,17 @@ private fun SettingsLinkEntry(title: String, subtitle: String, onClick: () -> Un
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit) {
+fun AppDetailScreen(
+    app: AppItem?,
+    onOpen: (Screen) -> Unit,
+    onBack: () -> Unit,
+    appCount: Int,
+    appsContext: AppsContext,
+    onAppsContextChange: (AppsContext) -> Unit,
+    onOpenAppsSearch: () -> Unit,
+    onOpenAppsFilter: () -> Unit,
+    onOpenAppsMenu: () -> Unit,
+) {
     val context = LocalContext.current
     val packageName = app?.packageName
     val repository = remember(context) { AppDetailsRepository(context) }
@@ -1264,11 +1275,17 @@ fun AppDetailScreen(app: AppItem?, onOpen: (Screen) -> Unit, onBack: () -> Unit)
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(details?.name ?: app?.name ?: stringResource(R.string.app_details)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, stringResource(R.string.back)) }
-                },
+            AppsGlobalHeader(
+                appCount = appCount,
+                appsContext = appsContext,
+                onAppsContextChange = onAppsContextChange,
+                searchOpen = false,
+                searchQuery = "",
+                onSearchQueryChange = {},
+                onCloseSearch = {},
+                onOpenSearch = { onOpenAppsSearch() },
+                onOpenFilter = { onOpenAppsFilter() },
+                onOpenMenu = { onOpenAppsMenu() },
             )
         }
     ) { padding ->
