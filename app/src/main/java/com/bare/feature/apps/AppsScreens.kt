@@ -1972,6 +1972,7 @@ private fun AppBackupStateCard(
     ) {
         Column(
             Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             if (latest == null) {
