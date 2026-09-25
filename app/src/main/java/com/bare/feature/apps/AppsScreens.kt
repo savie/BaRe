@@ -62,7 +62,7 @@ fun BaReSubHeader(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         Row(
             modifier = Modifier
@@ -73,7 +73,11 @@ fun BaReSubHeader(
         ) {
             if (onBack != null) {
                 IconButton(onClick = onBack, enabled = backEnabled) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                    Icon(
+                        Icons.Default.ArrowBack,
+                        contentDescription = stringResource(R.string.back),
+                        modifier = Modifier.size(28.dp),
+                    )
                 }
             } else {
                 Spacer(Modifier.width(48.dp))
@@ -84,7 +88,8 @@ fun BaReSubHeader(
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                    fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -728,13 +733,21 @@ fun AppLabelsScreen(onBack: () -> Unit) {
                     onBack = onBack,
                     actions = {
                         IconButton(onClick = { creating = true }) {
-                            Icon(Icons.Default.Add, contentDescription = "Create New Label")
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = "Create New Label",
+                                modifier = Modifier.size(28.dp),
+                            )
                         }
                         IconButton(onClick = {
                             labels.forEach { store.deleteLabel(it.name, apps.map { app -> app.packageName }) }
                             refresh()
                         }) {
-                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.delete))
+                            Icon(
+                                Icons.Default.Delete,
+                                contentDescription = stringResource(R.string.delete),
+                                modifier = Modifier.size(28.dp),
+                            )
                         }
                     },
                 )
