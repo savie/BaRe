@@ -1159,19 +1159,11 @@ fun AppDetailScreen(
 
     fun addToHomeScreen() {
         val currentPackage = packageName ?: return
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val shortcutManager = context.getSystemService(android.content.pm.ShortcutManager::class.java)
-            if (shortcutManager?.isRequestPinShortcutSupported == true) {
-                val shortcut = android.content.pm.ShortcutInfo.Builder(context, "bare_$currentPackage")
-                    .setShortLabel(details?.name ?: currentPackage)
-                    .setLongLabel(details?.name ?: currentPackage)
-                    .setIntent(context.packageManager.getLaunchIntentForPackage(currentPackage) ?: Intent())
-                    .build()
-                shortcutManager.requestPinShortcut(shortcut, null)
-                return
-            }
-        }
-        toast(context.getString(R.string.app_action_unavailable))
+        val label = details?.name ?: currentPackage
+        handleAction(
+            AppActionBehavior.addToHomeScreen(context, currentPackage, label),
+            reloadOnSuccess = false,
+        )
     }
 
     if (confirmAction != null && details != null) {
