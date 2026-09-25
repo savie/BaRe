@@ -35,7 +35,9 @@ fun GlobalHeader(
         modifier = Modifier.height(80.dp),
         title = {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = (-2).dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
             ) {
