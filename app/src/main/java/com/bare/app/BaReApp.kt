@@ -593,52 +593,28 @@ private fun MainShell(
     Box(Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                if (appsSelected) {
-                    AppsGlobalHeader(
-                        appCount = appsInventoryCount,
-                        appsContext = appsContext,
-                        onAppsContextChange = { appsContext = it },
-                        searchOpen = appsSearchOpen,
-                        searchQuery = appsSearchQuery,
-                        onSearchQueryChange = onAppsSearchQueryChange,
-                        onCloseSearch = {
-                            onAppsSearchOpenChange(false)
-                            onAppsSearchQueryChange("")
-                        },
-                        onOpenSearch = onOpenAppsSearch,
-                        onOpenFilter = onOpenAppsFilter,
-                        onOpenMenu = { appsMenuOpen = true },
+                Column(Modifier.fillMaxWidth()) {
+                    GlobalHeader(
+                        showSearchAction = !appsSelected,
+                        onOpenSearch = onOpenSearch,
                     )
-                } else {
-                    TopAppBar(
-                        modifier = Modifier.height(96.dp),
-                        title = {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.app_name),
-                                    style = MaterialTheme.typography.titleLarge,
-                                    fontWeight = FontWeight.Bold,
-                                    letterSpacing = 5.sp,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                )
-                                Text(
-                                    text = stringResource(R.string.brand_tagline),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    letterSpacing = 3.5.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                )
-                            }
-                        },
-                        actions = {
-                            IconButton(onClick = onOpenSearch) {
-                                Icon(Icons.Outlined.Search, stringResource(R.string.search))
-                            }
-                        },
-                    )
+                    if (appsSelected) {
+                        AppsSubHeader(
+                            appCount = appsInventoryCount,
+                            appsContext = appsContext,
+                            onAppsContextChange = { appsContext = it },
+                            searchOpen = appsSearchOpen,
+                            searchQuery = appsSearchQuery,
+                            onSearchQueryChange = onAppsSearchQueryChange,
+                            onCloseSearch = {
+                                onAppsSearchOpenChange(false)
+                                onAppsSearchQueryChange("")
+                            },
+                            onOpenSearch = onOpenAppsSearch,
+                            onOpenFilter = onOpenAppsFilter,
+                            onOpenMenu = { appsMenuOpen = true },
+                        )
+                    }
                 }
             },
         bottomBar = {
@@ -818,61 +794,45 @@ private fun MainShell(
     }
 }
 @Composable
-fun AppsGlobalHeader(
-    appCount: Int,
-    appsContext: AppsContext,
-    onAppsContextChange: (AppsContext) -> Unit,
-    searchOpen: Boolean,
-    searchQuery: String,
-    onSearchQueryChange: (String) -> Unit,
-    onCloseSearch: () -> Unit,
-    onOpenSearch: () -> Unit,
-    onOpenFilter: () -> Unit,
-    onOpenMenu: () -> Unit,
+fun GlobalHeader(
+    showSearchAction: Boolean = false,
+    onOpenSearch: (() -> Unit)? = null,
 ) {
-    Column(Modifier.fillMaxWidth()) {
-        TopAppBar(
-            modifier = Modifier.height(96.dp),
-            title = {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = androidx.compose.ui.Alignment.Start,
-                ) {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        letterSpacing = 5.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                    Text(
-                        text = stringResource(R.string.brand_tagline),
-                        style = MaterialTheme.typography.labelSmall,
-                        letterSpacing = 3.5.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+    TopAppBar(
+        modifier = Modifier.height(96.dp),
+        title = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = androidx.compose.ui.Alignment.Start,
+            ) {
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 5.sp,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+                Text(
+                    text = stringResource(R.string.brand_tagline),
+                    style = MaterialTheme.typography.labelSmall,
+                    letterSpacing = 3.5.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        },
+        actions = {
+            if (showSearchAction && onOpenSearch != null) {
+                IconButton(onClick = onOpenSearch) {
+                    Icon(Icons.Outlined.Search, stringResource(R.string.search))
                 }
-            },
-            actions = {},
-        )
-        AppsContextHeader(
-            appCount = appCount,
-            appsContext = appsContext,
-            onAppsContextChange = onAppsContextChange,
-            searchOpen = searchOpen,
-            searchQuery = searchQuery,
-            onSearchQueryChange = onSearchQueryChange,
-            onCloseSearch = onCloseSearch,
-            onOpenSearch = onOpenSearch,
-            onOpenFilter = onOpenFilter,
-            onOpenMenu = onOpenMenu,
-        )
-    }
+            }
+        },
+    )
 }
 
 @Composable
-private fun AppsContextHeader(
+fun AppsSubHeader(
     appCount: Int,
     appsContext: AppsContext,
     onAppsContextChange: (AppsContext) -> Unit,
@@ -883,6 +843,7 @@ private fun AppsContextHeader(
     onOpenSearch: () -> Unit,
     onOpenFilter: () -> Unit,
     onOpenMenu: () -> Unit,
+    onBack: (() -> Unit)? = null,
 ) {
     var contextMenuOpen by remember { mutableStateOf(false) }
 
@@ -897,6 +858,14 @@ private fun AppsContextHeader(
                     .padding(horizontal = 12.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
+                if (onBack != null) {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                        )
+                    }
+                }
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = onSearchQueryChange,
@@ -927,6 +896,14 @@ private fun AppsContextHeader(
                     .padding(start = 12.dp, end = 4.dp),
                 verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
+                if (onBack != null) {
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            contentDescription = stringResource(R.string.back),
+                        )
+                    }
+                }
                 Box(
                     modifier = Modifier.weight(1f),
                 ) {
