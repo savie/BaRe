@@ -282,12 +282,15 @@ Catatan: mapping A1-A18 di bawah dipakai sebagai **continuity index** untuk peke
 
 - **AUTHORIZATION:** user memberi GO untuk A7.
 - **INSPECTED:** actual App Detail implementation pada branch `v1.0/rebaseline` sebelum perubahan.
-- **GAP:** App Detail header sudah memiliki icon/package/name/version dan app-level actions, tetapi belum menampilkan organization state (favorite/labels) pada header card.
-- **IMPLEMENTED:** App Detail header sekarang membaca favorite state dan labels dari `AppOrganizationBehavior`, lalu menampilkannya sebagai contextual chips di bawah version info.
+- **REFERENCE CHECK:** Swift Backup decompile menunjukkan Favorite pada App Detail sebagai overlay bintang kecil di pojok icon (`iv_favorite`), bukan chip/tombol teks. Area label menggunakan `rv_app_labels`; item label berbentuk compact rounded card dengan border, teks uppercase/bold, tanpa icon label di setiap item.
+- **CORRECTION:** implementasi awal Favorite/Label sebagai `AssistChip` dinyatakan tidak sesuai reference dan tidak dipertahankan.
+- **IMPLEMENTED:** Favorite pada App Detail sekarang ditampilkan sebagai bintang kecil yang menempel pada icon aplikasi, konsisten dengan konsep Favorite pada Apps List dan Swift Detail.
+- **IMPLEMENTED:** label pada App Detail sekarang menggunakan compact rounded outlined surface, teks uppercase/bold, tanpa icon tambahan. Geometri/typography mengikuti evidence `app_label_item.xml`.
+- **BOUNDARY:** BaRe saat ini menyimpan label sebagai string, bukan `LabelParams(id,name,color)` seperti Swift. Karena itu warna label premium/custom belum direkonstruksi tanpa evidence/data source yang sesuai.
 - **SCOPE:** A7 foundation/header only. Device/Cloud backup cards dan storage-part restructuring tetap dipisahkan untuk A8/A11/A12.
-- **COMMIT:** `aef085728260b475eb5679f8f65b8f5eb243aeef` — `feat(apps): enrich app detail header`.
-- **SOURCE VERIFICATION:** updated file dibaca ulang dari branch dan perubahan terkonfirmasi ada.
-- **CI/RUNTIME:** workflow run belum tersedia untuk commit ini; runtime device verification belum dilakukan.
+- **COMMIT:** `90b384554cd8d768332cea4cf2113dd459d0ba4e` — `fix(apps): align detail favorite and label presentation`.
+- **SOURCE VERIFICATION:** updated file dibaca ulang dari branch dan blok UI terkonfirmasi berubah sesuai reference.
+- **BUILD/RUNTIME:** belum ada build baru setelah commit ini; runtime device verification belum dilakukan.
 
 ### A7 NEXT
-Lanjut ke **A8 App Detail storage parts + total/cache presentation** setelah A7 checkpoint ini dipertahankan.
+Setelah build lolos, lanjut verifikasi visual App Detail pada device. Jangan menganggap parity label warna/custom sudah selesai sebelum data model dan behavior label BaRe dibandingkan lagi dengan reference decompile.
