@@ -579,7 +579,8 @@ private fun MainShell(
                 }
             }
         }
-        return@PullToRefreshBox
+            return@PullToRefreshBox
+        }
     if (searchOpen) {
         key(globalRefreshToken) {
             SearchScreen(searchQuery, onSearchQueryChange, onOpenApp, onCloseSearch)
