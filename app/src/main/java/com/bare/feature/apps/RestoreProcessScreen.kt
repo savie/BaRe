@@ -23,7 +23,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
-\nprivate fun AppBackupPart.restoreDisplayName(): String = when (this) {
+
+private fun AppBackupPart.restoreDisplayName(): String = when (this) {
     AppBackupPart.APK -> "APK"
     AppBackupPart.DATA -> "Data"
     AppBackupPart.EXTERNAL_DATA -> "Ext. data"
