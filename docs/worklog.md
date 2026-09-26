@@ -16,15 +16,24 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current code checkpoint | `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3` |
+| Current code checkpoint | `f548738c94c6502d4352638adc64d905bfd5d25e` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
 | Current focus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
 | Reference audit | **SELESAI** |
 | Latest CI | **#1156 PASS** untuk artifact pipeline |
-| Latest runtime | **#1156 masih menjadi runtime evidence terakhir; direct-root performance implementation belum diuji di device; Data/full backup UNVERIFIED** |
+| Latest runtime | **#1156 masih menjadi runtime evidence terakhir; #1164 build gagal compile; #1165 sedang membangun fix; direct-root runtime/Data/full backup UNVERIFIED** |
 | Current root-cause/status | **Old APK 138 GB measurement defect bypassed by new direct-root path; direct-root runtime behavior/performance UNKNOWN; Data filesystem boundary UNKNOWN** |
 
 ### Current evidence
+### CI #1164 — DIRECT ROOT COMPILE FAILURE + FIX
+
+- **OBSERVED:** Android Build #1164 pada commit `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a` gagal di `compileDebugKotlin`.
+- **ERROR 1:** `AppBackupArchiveWriter.kt:277:36 Unsupported escape sequence` pada tar path separator.
+- **ERROR 2:** `AppBackupEngine.kt:100:27 Too many arguments` karena trailing lambda Kotlin terikat ke parameter terakhir `isCancelled`, sementara `isCancelled` juga diberikan sebagai named argument.
+- **FIXED:** commit `f548738c94c6502d4352638adc64d905bfd5d25e` memperbaiki tar separator dan commit sebelumnya `0e93e8192571f538276e247feae8179b136fdbf9` memperbaiki binding `onProgress/isCancelled`.
+- **CURRENT:** Android Build #1165 sedang berjalan pada commit `0e93e8192571f538276e247feae8179b136fdbf9`; hasil compile/runtime belum VERIFIED.
+- **NOTE:** commit `f548738c...` sendiri akan memicu build berikutnya; acceptance tetap menunggu build terbaru dan runtime device.
+
 ### Current implementation / performance change
 
 - **DECISION:** lanjut dari diagnostic menuju perbaikan pipeline, bukan sekadar memperbaiki angka progress.
