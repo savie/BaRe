@@ -25,6 +25,17 @@
 | Current root-cause status | **APK progress measurement UNKNOWN; Data filesystem boundary UNKNOWN** |
 
 ### Current evidence
+### Source inspection — APK progress measurement
+
+- **OBSERVED:** `AppBackupEngine.execute()` membuat staging baru per operation: `backupDirectory/.staging/<UUID>`, lalu mengumpulkan APK ke `staging/apk` dan memberikan source tersebut ke `AppBackupArchiveWriter`.
+- **OBSERVED:** `AppBackupArchiveWriter.write()` menetapkan `totalBytes = sources.sumOf { sourceByteSize(it.file) }`.
+- **OBSERVED:** `sourceByteSize()` untuk directory menjumlahkan `File.walkTopDown().filter { it.isFile }.sumOf { it.length() }`.
+- **OBSERVED:** `BackupProcessScreen` tidak menghitung ulang progress; UI menampilkan `currentMessage` langsung. Dengan demikian string `Packaging APK: ... / 138 GB` berasal dari archive progress callback.
+- **OBSERVED:** ROOT APK collection sendiri mempunyai remote size probe melalui `stat -c %s`, tetapi archive phase tidak menggunakan remote size tersebut; archive phase menghitung ulang ukuran staging.
+- **VERIFIED BOUNDARY:** belum ditemukan unit conversion/formatting path yang dapat mengubah sekitar 138 MB menjadi 138 GB pada chain source → archive → UI.
+- **UNKNOWN:** mengapa ukuran logical files di staging pada runtime #1156 dapat menghasilkan total sekitar 138 GB. Belum ada runtime evidence per-file staging size/count untuk checkpoint tersebut.
+- **NO CHANGE:** belum ada source implementation change dari inspeksi ini.
+
 
 - CI #1156 berhasil untuk assemble debug APK, artifact verification, signing certificate verification, dan artifact upload.
 - Runtime APK menunjukkan `Packaging APK: 1.0 GB / 138 GB (120 MB/s)` untuk source sekitar **138.18 MB** berdasarkan evidence Swift (122.5 MB base APK + 15.68 MB splits). Angka 138 GB diperlakukan sebagai **defect measurement**, bukan ukuran source.
