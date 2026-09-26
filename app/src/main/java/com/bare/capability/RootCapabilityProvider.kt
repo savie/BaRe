@@ -270,7 +270,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
 
     private fun runSuCancellable(command: String, isCancelled: (() -> Boolean)?): Result {
         return try {
-            val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
+            val process = ProcessBuilder(*suArgs(command)).redirectErrorStream(false).start()
             val stdout = StringBuilder()
             val stderr = StringBuilder()
             val stdoutThread = Thread { process.inputStream.bufferedReader().use { stdout.append(it.readText()) } }.apply { start() }
@@ -360,7 +360,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
         val quoted = shellQuote(sourcePath)
         val command = "toybox tar -cf - " + quoted
-        val process = ProcessBuilder("su", "-c", command)
+        val process = ProcessBuilder(*suArgs(command))
             .redirectErrorStream(false)
             .start()
         val stderr = StringBuilder()
@@ -371,6 +371,9 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }.apply { start() }
         return RootTarStream(process, stderr, stderrThread)
     }
+
+    private fun suArgs(command: String): Array<String> =
+        arrayOf("su", "--mount-master", "-c", command)
 
     private data class Result(val exitCode: Int, val stdout: String, val stderr: String)
     companion object {
