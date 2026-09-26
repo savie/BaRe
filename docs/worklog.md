@@ -672,3 +672,67 @@ Commits:
 - Device runtime verification remains blocked until the new artifact is installed.
 - Next runtime gate: APK-only backup first; then Data / Ext. data / Media; then restore.
 
+
+
+## A18 — #1205 RUNTIME GATE / ROOT NAMESPACE + PERFORMANCE FOLLOW-UP — 2026-09-26
+
+### OBSERVED — CI
+
+- Android Build #1204 untuk commit `1d523362cf72bc888efc5d625a9a2b04d9c8f21d` selesai **PASS**.
+- Android Build #1205 untuk commit `b72caa61280588007db35a0455e51846925746cc` selesai **PASS**.
+- #1205 mengonfirmasi perubahan `su --mount-master` terkompilasi dan artifact berhasil dibuat.
+
+### OBSERVED — USER RUNTIME #1205
+
+- APK backup 1DM+ **completed**.
+- Ext. data backup 1DM+ **completed**.
+- Media backup 1DM+ **completed**.
+- Error native zstd sebelumnya tidak muncul pada evidence runtime #1205.
+- Data backup masih **FAILED** pada precondition:
+  - `/data/user/0/idm.internet.download.manager.plus`
+  - `source_exists=false`
+- Process UI memiliki dua representasi progress yang tidak konsisten:
+  - canonical byte metrics: `688.0 KB / 7.12 MB`;
+  - phase message: `Packaging APK: 688 MB / 7.1 GB (406 MB/s)`.
+- User juga melaporkan proses APK masih lambat.
+
+### ANALYSIS — VERIFIED FROM CURRENT SOURCE
+
+- Perubahan #1205 hanya memindahkan `runSuCancellable()` dan `openTarStream()` ke `su --mount-master`.
+- `directoryArchiveSource()`, `remoteFileSize()`, dan beberapa root file operations masih melalui `runSu()`, sementara `runSu()` pada checkpoint #1205 masih menggunakan plain `su -c`.
+- Karena Data gagal tepat pada `directoryArchiveSource()`, perubahan mount-master sebelumnya memang belum mencapai precondition yang gagal.
+- ROOT APK archive masih melalui jalur `toybox tar → TarArchiveInputStream → TarArchiveOutputStream`, sehingga satu file APK mengalami tar stream parse/repack sebelum Zstandard + BaRe encryption.
+- Byte metrics UI sudah tersedia sebagai state terpisah; phase message tidak perlu menduplikasi angka byte/rate dan berisiko menghasilkan representasi yang tidak konsisten.
+
+### CHANGE — AUTHORIZED BY USER “BENERIN LAGI GO”
+
+1. Terapkan `su --mount-master` ke `runSu()` dan root file-read operations yang masih plain `su -c`, sehingga Data source precondition dan size probe berada pada namespace root yang sama dengan root archive execution.
+2. Tambahkan root file stream langsung berbasis `cat` dan gunakan untuk ROOT file source, khususnya APK, sehingga tidak lagi melewati toybox TAR parse/repack untuk single-file APK.
+3. Jadikan phase message hanya phase (`Packaging APK`, dll.); byte progress, elapsed, dan rate tetap berasal dari canonical `processedBytes/totalBytes/elapsedMillis/bytesPerSecond` yang ditampilkan process UI.
+4. Pertahankan BaRe encryption, atomic artifact commit, SHA-256 verification, dan reference-aligned TAR + Zstandard level 1.
+
+### IMPLEMENTATION CHECKPOINT
+
+- `031bd231594d9ca8a1d0b9fba4a951967f34756d` — apply mount-master to root probes and file streams.
+- `7f608f79a64b868ec3422a70d951f6d288708b8e` — stream root APK files directly.
+- `dc5582504c1d72ca97d20e54377644ff39eaecfc` — use canonical progress metrics in backup status.
+- Worklog update is recorded in this checkpoint.
+
+### VERIFICATION STATUS
+
+- #1205 CI: **CI VERIFIED / PASS**.
+- User runtime #1205 APK: **RUNTIME TESTED / COMPLETED**, performance still unresolved.
+- User runtime #1205 Ext. data: **RUNTIME TESTED / COMPLETED**.
+- User runtime #1205 Media: **RUNTIME TESTED / COMPLETED**.
+- User runtime #1205 Data: **FAILED / UNRESOLVED**, source namespace/precondition remains the active blocker.
+- Progress scale: **OBSERVED DEFECT**, source fix implemented but runtime verification pending.
+- APK performance: **UNRESOLVED**, direct file-stream optimization implemented but runtime measurement pending.
+- Full A18 acceptance: **NOT VERIFIED**.
+
+### NEXT GATE
+
+1. CI build checkpoint setelah perubahan di atas.
+2. Runtime Data-only pada 1DM+ untuk membuktikan `/data/user/0/... ` terlihat melalui mount-master.
+3. Runtime APK-only untuk memastikan progress bawah tidak lagi menduplikasi angka dengan unit salah dan mengukur elapsed/rate setelah direct file stream.
+4. Regression Ext. data + Media.
+5. Setelah backup artifacts valid, lanjut restore runtime dan verification end-to-end.
