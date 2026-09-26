@@ -11,10 +11,13 @@ import java.io.File
  * reference evidence only and is not copied into the implementation.
  */
 data class AppBackupMetadata(
-    val schemaVersion: Int = 1,
+    val schemaVersion: Int = 2,
     val packageName: String,
     val versionCode: Long,
     val versionName: String?,
+    val apkSizeBytes: Long? = null,
+    val hasSplitApks: Boolean? = null,
+    val hasSharedLibraries: Boolean? = null,
     val backupTime: Long,
     val installerPackage: String?,
     val protectedBackup: Boolean = false,
@@ -31,6 +34,9 @@ data class AppBackupMetadata(
             .put("packageName", packageName)
             .put("versionCode", versionCode)
             .put("versionName", versionName ?: JSONObject.NULL)
+            .put("apkSizeBytes", apkSizeBytes ?: JSONObject.NULL)
+            .put("hasSplitApks", hasSplitApks ?: JSONObject.NULL)
+            .put("hasSharedLibraries", hasSharedLibraries ?: JSONObject.NULL)
             .put("backupTime", backupTime)
             .put("installerPackage", installerPackage ?: JSONObject.NULL)
             .put("protectedBackup", protectedBackup)
@@ -63,6 +69,9 @@ data class AppBackupMetadata(
                     packageName = json.getString("packageName"),
                     versionCode = json.getLong("versionCode"),
                     versionName = json.opt("versionName")?.takeUnless { it == JSONObject.NULL }?.toString()?.takeUnless { it.isBlank() || it == "null" },
+                    apkSizeBytes = json.opt("apkSizeBytes").takeUnless { it == JSONObject.NULL }?.let { json.optLong("apkSizeBytes") },
+                    hasSplitApks = json.opt("hasSplitApks").takeUnless { it == JSONObject.NULL }?.let { json.optBoolean("hasSplitApks") },
+                    hasSharedLibraries = json.opt("hasSharedLibraries").takeUnless { it == JSONObject.NULL }?.let { json.optBoolean("hasSharedLibraries") },
                     backupTime = json.getLong("backupTime"),
                     installerPackage = json.opt("installerPackage")?.takeUnless { it == JSONObject.NULL }?.toString()?.takeUnless { it.isBlank() || it == "null" },
                     protectedBackup = json.optBoolean("protectedBackup", false),
