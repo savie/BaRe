@@ -216,6 +216,22 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         return if (result.exitCode == 0) result.stdout else null
     }
 
+    fun directoryModifiedTime(path: String): Long? {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        val quoted = shellQuote(path)
+        val result = runSu(
+            "if ! test -e $quoted; then exit 1; fi; " +
+                "find $quoted -type f -exec stat -c %Y {} \\; 2>/dev/null | " +
+                "sort -nr | head -1",
+        )
+        if (result.exitCode != 0) {
+            val fallback = runSu("stat -c %Y $quoted")
+            if (fallback.exitCode != 0) return null
+            return fallback.stdout.trim().toLongOrNull()?.times(1000L)
+        }
+        return result.stdout.trim().toLongOrNull()?.times(1000L)
+    }
+
     fun directorySize(path: String): Long? {
         if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
         val quoted = shellQuote(path)
