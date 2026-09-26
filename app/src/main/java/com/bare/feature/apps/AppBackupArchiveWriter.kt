@@ -37,6 +37,7 @@ class AppBackupArchiveWriter(private val context: Context) {
         output: File,
         sources: List<AppBackupArchiveSource>,
         password: CharArray?,
+        onProgress: ((processedBytes: Long, totalBytes: Long) -> Unit)? = null,
     ): AppBackupArchiveResult {
         require(sources.isNotEmpty()) { "No backup files to archive" }
         output.parentFile?.mkdirs()
@@ -81,6 +82,10 @@ class AppBackupArchiveWriter(private val context: Context) {
 
         val digest = MessageDigest.getInstance("SHA-256")
         var fileCount = 0
+        val progress = ArchiveProgressCounter(
+            totalBytes = sources.sumOf { sourceByteSize(it.file) },
+            onProgress = onProgress,
+        )
         val stagedOutput = File(
             output.parentFile ?: throw IllegalStateException("Backup archive parent directory is missing"),
             ".${output.name}.${java.util.UUID.randomUUID()}.partial",
@@ -93,8 +98,9 @@ class AppBackupArchiveWriter(private val context: Context) {
                 CipherOutputStream(digesting, cipher).use { encrypted ->
                     ZipOutputStream(encrypted).use { zip ->
                         for (source in sources) {
-                            fileCount += addSource(zip, source)
+                            fileCount += addSource(zip, source, progress)
                         }
+                        progress.finish()
                     }
                 }
             }
@@ -130,28 +136,77 @@ class AppBackupArchiveWriter(private val context: Context) {
         }
     }
 
-    private fun addSource(zip: ZipOutputStream, source: AppBackupArchiveSource): Int {
+    private fun addSource(
+        zip: ZipOutputStream,
+        source: AppBackupArchiveSource,
+        progress: ArchiveProgressCounter,
+    ): Int {
         if (!source.file.exists()) return 0
         if (source.file.isFile) {
-            addFile(zip, source.file, source.entryName)
+            addFile(zip, source.file, source.entryName, progress)
             return 1
         }
         var count = 0
         source.file.walkTopDown().filter { it.isFile }.forEach { file ->
             val relative = file.relativeTo(source.file).invariantSeparatorsPath
             val entry = if (relative.isBlank()) source.entryName else source.entryName.trimEnd('/') + "/" + relative
-            addFile(zip, file, entry)
+            addFile(zip, file, entry, progress)
             count++
         }
         return count
     }
 
-    private fun addFile(zip: ZipOutputStream, file: File, entryName: String) {
+    private fun addFile(
+        zip: ZipOutputStream,
+        file: File,
+        entryName: String,
+        progress: ArchiveProgressCounter,
+    ) {
         ZipEntry(entryName.replace('\\', '/')).also { entry ->
             entry.time = file.lastModified()
             zip.putNextEntry(entry)
-            FileInputStream(file).use { input -> input.copyTo(zip) }
+            FileInputStream(file).use { input ->
+                val buffer = ByteArray(BUFFER_BYTES)
+                while (true) {
+                    val read = input.read(buffer)
+                    if (read < 0) break
+                    zip.write(buffer, 0, read)
+                    progress.add(read.toLong())
+                }
+            }
             zip.closeEntry()
+        }
+    }
+
+    private fun sourceByteSize(file: File): Long =
+        if (!file.exists()) 0L
+        else if (file.isFile) file.length().coerceAtLeast(0L)
+        else file.walkTopDown().filter { it.isFile }.sumOf { it.length().coerceAtLeast(0L) }
+
+    private class ArchiveProgressCounter(
+        private val totalBytes: Long,
+        private val onProgress: ((Long, Long) -> Unit)?,
+    ) {
+        private var processedBytes = 0L
+        private var lastReportNanos = 0L
+        private var lastReportBytes = -1L
+
+        fun add(bytes: Long) {
+            processedBytes += bytes
+            val callback = onProgress ?: return
+            val now = System.nanoTime()
+            if (lastReportNanos == 0L ||
+                now - lastReportNanos >= 500_000_000L ||
+                processedBytes - lastReportBytes >= 1_048_576L
+            ) {
+                callback(processedBytes, totalBytes)
+                lastReportNanos = now
+                lastReportBytes = processedBytes
+            }
+        }
+
+        fun finish() {
+            onProgress?.invoke(processedBytes, totalBytes)
         }
     }
 
@@ -224,6 +279,7 @@ class AppBackupArchiveWriter(private val context: Context) {
         private const val SALT_BYTES = 16
         private const val PBKDF2_ITERATIONS = 310_000
         private const val KEY_BITS = 256
+        private const val BUFFER_BYTES = 1024 * 1024
     }
 }
 
