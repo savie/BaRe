@@ -145,7 +145,7 @@ class AppBackupArchiveWriter(private val context: Context) {
                         .generateSecret(spec).encoded
                 } finally {
                     spec.clearPassword()
-                    password.fill('\\u0000')
+                    password.fill('\u0000')
                 }
                 EncryptionMaterial(EncryptionMode.ADVANCED, SecretKeySpec(key, "AES"), salt)
             }
