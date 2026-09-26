@@ -102,6 +102,18 @@ class AppBackupEngine(private val context: Context) {
                         collectionElapsed,
                     )
                 }
+                val sourceState = if (rootSources != null) {
+                    rootSources.firstOrNull()?.let { source ->
+                        if (source.directory) AppBackupPartStateReader.root(root, source.sourcePath) else null
+                    }
+                } else {
+                    val raw = File(staging ?: error("Backup staging is unavailable"), part.directoryName())
+                    null
+                }
+                val effectiveSourceState = sourceState ?: if (rootSources == null) {
+                    val raw = File(staging ?: error("Backup staging is unavailable"), part.directoryName())
+                    AppBackupPartStateReader.local(raw)
+                } else null
                 val archive = File(backupDirectory, "${part.archiveName()}.bare")
                 val packagingStartedAt = System.nanoTime()
                 val result = try {
@@ -160,6 +172,8 @@ class AppBackupEngine(private val context: Context) {
                     byteSize = result.byteSize,
                     sha256 = result.sha256,
                     encryption = result.encryption.name,
+                    sourceByteSize = effectiveSourceState?.byteSize,
+                    sourceModifiedAt = effectiveSourceState?.modifiedAt,
                 )
                 if (rootSources == null) {
                     File(staging ?: error("Backup staging is unavailable"), part.directoryName()).deleteRecursively()
