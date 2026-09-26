@@ -1501,7 +1501,7 @@ fun AppDetailScreen(
         }
     }
 
-    fun startRestore(parts: Set<AppBackupPart>, versionCode: Long) {
+    fun onRestore(parts: Set<AppBackupPart>, versionCode: Long) {
         if (parts.isEmpty()) return
         restoreProcessParts = parts
         restoreProcessVersionCode = versionCode
@@ -2122,7 +2122,7 @@ fun AppDetailScreen(
                         AppBackupStateCard(
                             packageName = packageName,
                             reloadToken = backupReloadToken,
-                            onRestore = { parts, versionCode -> startRestore(parts, versionCode) },
+                            onRestore = { parts, versionCode -> onRestore(parts, versionCode) },
                         )
                     }
                     item {
@@ -2551,7 +2551,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Android,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
-                        onRestore = { startRestore(setOf(AppBackupPart.APK), latest.versionCode) },
+                        onRestore = { onRestore(setOf(AppBackupPart.APK), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.APK },
                     )
                     BackupPartChip(
@@ -2561,7 +2561,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Storage,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
-                        onRestore = { startRestore(setOf(AppBackupPart.DATA), latest.versionCode) },
+                        onRestore = { onRestore(setOf(AppBackupPart.DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.DATA },
                     )
                 }
@@ -2573,7 +2573,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Folder,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
-                        onRestore = { startRestore(setOf(AppBackupPart.EXTERNAL_DATA), latest.versionCode) },
+                        onRestore = { onRestore(setOf(AppBackupPart.EXTERNAL_DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
                     )
                     BackupPartChip(
@@ -2583,13 +2583,13 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.PhotoLibrary,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
-                        onRestore = { startRestore(setOf(AppBackupPart.MEDIA), latest.versionCode) },
+                        onRestore = { onRestore(setOf(AppBackupPart.MEDIA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                     )
                 }
                 Button(
                     onClick = {
-                        startRestore(
+                        onRestore(
                             buildSet {
                                 if (latest.apkBytes > 0) add(AppBackupPart.APK)
                                 if (latest.dataBytes > 0) add(AppBackupPart.DATA)
@@ -3011,7 +3011,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
         }
     }
 
-    fun startRestore(parts: Set<AppBackupPart>, versionCode: Long) {
+    fun onRestore(parts: Set<AppBackupPart>, versionCode: Long) {
         if (parts.isEmpty()) return
         restoreProcessParts = parts
         restoreProcessVersionCode = versionCode
@@ -3145,7 +3145,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         DropdownMenuItem(text = { Text(stringResource(R.string.add_update_note)) }, leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }, onClick = { actionMenuOpen = false; noteText = snapshot.note.orEmpty(); noteOpen = true })
                                         DropdownMenuItem(text = { Text(stringResource(R.string.restore)) }, leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) }, onClick = {
                                             actionMenuOpen = false
-                                            startRestore(
+                                            onRestore(
                                                 buildSet {
                                                     if (snapshot.apkBytes > 0) add(AppBackupPart.APK)
                                                     if (snapshot.dataBytes > 0) add(AppBackupPart.DATA)
@@ -3169,7 +3169,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Android,
                                         modifier = Modifier.weight(1f),
                                         protected = snapshot.protectedBackup,
-                                        onRestore = { startRestore(setOf(AppBackupPart.APK), snapshot.versionCode) },
+                                        onRestore = { onRestore(setOf(AppBackupPart.APK), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.APK },
                                     )
                                 }
@@ -3181,7 +3181,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.weight(1f),
                                         protected = snapshot.protectedBackup,
-                                        onRestore = { startRestore(setOf(AppBackupPart.DATA), snapshot.versionCode) },
+                                        onRestore = { onRestore(setOf(AppBackupPart.DATA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.DATA },
                                     )
                                 }
@@ -3195,7 +3195,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.fillMaxWidth(),
                                         protected = snapshot.protectedBackup,
-                                        onRestore = { startRestore(setOf(AppBackupPart.EXTERNAL_DATA), snapshot.versionCode) },
+                                        onRestore = { onRestore(setOf(AppBackupPart.EXTERNAL_DATA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.EXTERNAL_DATA },
                                     )
                                 }
@@ -3209,7 +3209,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.fillMaxWidth(),
                                         protected = snapshot.protectedBackup,
-                                        onRestore = { startRestore(setOf(AppBackupPart.MEDIA), snapshot.versionCode) },
+                                        onRestore = { onRestore(setOf(AppBackupPart.MEDIA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.MEDIA },
                                     )
                                 }
@@ -3218,7 +3218,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                 Text(formatBackupSize(snapshot.totalBytes), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
                                 Button(
                                     onClick = {
-                                        startRestore(
+                                        onRestore(
                                             buildSet {
                                                 if (snapshot.apkBytes > 0) add(AppBackupPart.APK)
                                                 if (snapshot.dataBytes > 0) add(AppBackupPart.DATA)
