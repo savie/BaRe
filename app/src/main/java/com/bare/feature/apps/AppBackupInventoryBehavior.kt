@@ -43,18 +43,31 @@ class AppBackupInventoryBehavior(context: Context) {
                     backupTime = metadata.backupTime,
                     protectedBackup = metadata.protectedBackup,
                     note = metadata.note,
-                    apkBytes = directorySize(directory) { file -> file.isFile && file.extension.equals("apk", true) },
-                    dataBytes = directorySize(File(directory, "data")),
-                    externalDataBytes = directorySize(File(directory, "external-data")),
-                    mediaBytes = directorySize(File(directory, "media")),
-                    totalBytes = directorySize(directory) { file ->
-                        file.isFile && file.name != AppBackupMetadata.FILE_NAME
+                    apkBytes = metadata.artifactBytes(AppBackupPart.APK, directory, "apk"),
+                    dataBytes = metadata.artifactBytes(AppBackupPart.DATA, directory, "data"),
+                    externalDataBytes = metadata.artifactBytes(AppBackupPart.EXTERNAL_DATA, directory, "external-data"),
+                    mediaBytes = metadata.artifactBytes(AppBackupPart.MEDIA, directory, "media"),
+                    totalBytes = if (metadata.artifacts.isNotEmpty()) {
+                        metadata.artifacts.sumOf { it.byteSize }
+                    } else {
+                        directorySize(directory) { file ->
+                            file.isFile && file.name != AppBackupMetadata.FILE_NAME
+                        }
                     },
                 )
             }
             ?.sortedByDescending { it.backupTime }
             ?.toList()
             .orEmpty()
+    }
+
+    private fun AppBackupMetadata.artifactBytes(
+        part: AppBackupPart,
+        directory: File,
+        legacyDirectoryName: String,
+    ): Long {
+        val named = artifacts.firstOrNull { it.part == part.name }
+        return named?.byteSize ?: directorySize(File(directory, legacyDirectoryName))
     }
 
     private fun directorySize(directory: File, include: (File) -> Boolean = { true }): Long {
