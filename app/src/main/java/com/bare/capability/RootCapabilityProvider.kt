@@ -307,6 +307,59 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
     }
 
+    fun packageApkArchiveSources(packageName: String): List<RootArchiveSource> {
+        if (!packageName.matches(PACKAGE_REGEX)) error("Invalid package name")
+        val pathsResult = runSu("pm path ${shellQuote(packageName)}")
+        if (pathsResult.exitCode != 0) error(pathsResult.stderr.ifBlank { pathsResult.stdout })
+        val paths = pathsResult.stdout.lineSequence().map(String::trim)
+            .filter { it.startsWith("package:") }
+            .map { it.removePrefix("package:") }
+            .filter { it.startsWith("/") }
+            .toList()
+        if (paths.isEmpty()) error("Package APK path not found")
+        return paths.mapIndexed { index, source ->
+            val size = remoteFileSize(source)
+            RootArchiveSource(
+                sourcePath = source,
+                entryName = if (index == 0) "apk/base.apk" else "apk/split-${index}.apk",
+                byteSize = size,
+                directory = false,
+            )
+        }
+    }
+
+    fun directoryArchiveSource(sourcePath: String, entryName: String): RootArchiveSource {
+        if (sourcePath.isBlank() || sourcePath.contains("\\n") || sourcePath.contains("\\r")) {
+            error("Invalid source path")
+        }
+        return RootArchiveSource(
+            sourcePath = sourcePath,
+            entryName = entryName.trim('/'),
+            byteSize = directorySize(sourcePath) ?: 0L,
+            directory = true,
+        )
+    }
+
+    fun openTarStream(sourcePath: String): RootTarStream {
+        if (sourcePath.isBlank() || sourcePath.contains("\\n") || sourcePath.contains("\\r")) {
+            error("Invalid source path")
+        }
+        val source = File(sourcePath)
+        val parent = source.parentFile?.absolutePath ?: "/"
+        val name = source.name.ifBlank { "/" }
+        val command = "toybox tar -cf - -C ${shellQuote(parent)} ${shellQuote(name)}"
+        val process = ProcessBuilder("su", "-c", command)
+            .redirectErrorStream(false)
+            .start()
+        val stderr = StringBuilder()
+        val stderrThread = Thread {
+            process.errorStream.bufferedReader().use { reader ->
+                stderr.append(reader.readText())
+            }
+        }.apply { start() }
+        return RootTarStream(process, stderr, stderrThread)
+    }
+
     private data class Result(val exitCode: Int, val stdout: String, val stderr: String)
     companion object {
         private const val BUFFER_BYTES = 1024 * 1024
@@ -316,6 +369,39 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
 }
 
 data class RootGrantResult(val granted: List<String>, val failed: List<String>)
+
+data class RootArchiveSource(
+    val sourcePath: String,
+    val entryName: String,
+    val byteSize: Long,
+    val directory: Boolean,
+)
+
+class RootTarStream internal constructor(
+    private val process: Process,
+    private val stderr: StringBuilder,
+    private val stderrThread: Thread,
+) : java.io.Closeable {
+    val input: java.io.InputStream = process.inputStream
+
+    fun awaitSuccess() {
+        val finished = process.waitFor(30, TimeUnit.SECONDS)
+        stderrThread.join(1000)
+        if (!finished) {
+            process.destroyForcibly()
+            throw IllegalStateException("Root tar stream timed out")
+        }
+        if (process.exitValue() != 0) {
+            throw IllegalStateException(stderr.toString().ifBlank { "Root tar failed with exit=${process.exitValue()}" }.trim())
+        }
+    }
+
+    override fun close() {
+        runCatching { input.close() }
+        if (process.isAlive) process.destroyForcibly()
+        runCatching { stderrThread.join(1000) }
+    }
+}
 
 sealed interface RootProbeResult { data class Success(val identity: String) : RootProbeResult; data class Failed(val reason: String) : RootProbeResult }
 sealed interface RootCopyResult { data class Success(val files: List<File>) : RootCopyResult; data class Failed(val reason: String) : RootCopyResult }
