@@ -1899,6 +1899,37 @@ Target acceptance untuk scope ini:
 - Runtime device verification: **PENDING**
 - Therefore this checkpoint is **IMPLEMENTED / UNVERIFIED**, not DONE/VERIFIED.
 
+### CI COMPILE FAILURE + TARGETED FIX — 2026-09-27
+
+**OBSERVED — Gradle `:app:assembleDebug --no-daemon`**
+
+Build reached `:app:compileDebugKotlin` and failed on two source errors:
+
+1. `AppsScreens.kt:1440`
+   - `AppBackupPart.displayNameForUi()` was referenced from another file although the helper is private to its declaring file.
+2. `BackupProcessScreen.kt:67`
+   - `mutableStateOf<Boolean>` could not be used as a delegated property because the Compose `getValue/setValue` operator imports were missing after the diagnostics patch.
+
+**TARGETED FIX**
+
+- Backup Process: restored explicit `getValue` / `setValue` Compose imports.
+- Apps Screens: replaced the inaccessible private helper call with a local exhaustive `AppBackupPart` → UI-name mapping.
+- No engine, backup behavior, restore behavior, or protected correctness contract was changed.
+
+**FIX COMMITS**
+
+- `a74efd12a9874259f0e2f33ce704a3ee07331a1a` — fix(apps): restore Compose state delegates
+- `2b5316df30962a2539aaad335efe5fb38de3de20` — fix(apps): use local process part display mapping
+
+**VERIFICATION STATUS**
+
+- Branch HEAD: **OBSERVED** = `2b5316df30962a2539aaad335efe5fb38de3de20`
+- Source re-fetched from HEAD: **OBSERVED**
+- Both reported compile blockers are absent in current source: **OBSERVED**
+- New CI workflow run: **NOT YET OBSERVED**
+- Runtime verification: **PENDING**
+- Therefore: **FIX IMPLEMENTED / BUILD UNVERIFIED**.
+
 ### BASELINE GUARD
 
 Checkpoint ini menjadi baseline scope untuk pekerjaan berikutnya:
