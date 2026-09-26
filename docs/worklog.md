@@ -214,6 +214,26 @@ Next engineering decision harus berasal dari build/runtime evidence aktual.
 
 ### 2026-09-26 — A18 reference reconciliation + direct-root source-size diagnostic
 
+
+**Additional implementation alignment**
+
+- Targeted Swift evidence confirms APK sizing/source identity is based on `ApplicationInfo.sourceDir` plus `splitSourceDirs` for APK components.
+- BaRe direct-root APK source discovery was changed to use the same Android PackageManager source-path boundary instead of rediscovering APK paths through `pm path`.
+- Root archive source inventory remains explicit so runtime can prove base/split entries and their byte sizes.
+- This change is a reference-alignment correction, not a new backup mechanism.
+
+**Latest implementation commits**
+
+- `0ef097d0bba7c56caabd6e0006b765458298f499` — align APK source discovery with reference paths.
+- `3ee0f4eb30fd3e004e4d19e5e6514d5af48edb5c` — use PackageManager APK source paths for root archive.
+
+**Verification**
+
+- CI for the latest source checkpoint: PENDING / no workflow run observed yet.
+- Runtime: UNVERIFIED.
+- The previous `7.1 GB` progress defect is not declared fixed until the new source breakdown is observed on device.
+
+
 **Decision / boundary**
 
 - Reference baseline untuk backup/archive behavior tetap berasal dari `docs/reference.md`.
