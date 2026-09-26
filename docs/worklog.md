@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 33ee1f7a3d873d3b02950c9ea2deda47f940f45c |
-| Lifecycle | **DESIGN / ARCHITECTURE / BUILD PREPARATION** |
+| Current repository HEAD | c9365498e653458a5b4708ce0de53b289dfffce4 |
+| Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
 | Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
-| Current implementation status | **UNRESOLVED / SUPERSEDED AS BASELINE** |
+| Current implementation status | **REFERENCE RECONSTRUCTION COMPLETE / IMPLEMENTATION REBUILD NEXT** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -211,70 +211,40 @@ Direct-root/performance implementation yang sudah ada tetap merupakan historical
 
 ## 4. CURRENT NEXT ACTION
 
-### Phase A — Reference mechanism reconstruction
-
-1. Baca/reconcile BARE_INSTRUCTIONS.md, docs/worklog.md, dan docs/reference.md sebagai basis continuity + evidence.
-2. Petakan **backup reference end-to-end** per part:
-   - APK / split APK
-   - Data
-   - Ext. data
-   - Media
-   - source discovery
-   - source/path handling
-   - archive creation
-   - compression
-   - artifact commit
-   - metadata
-   - verification
-   - cancellation/failure cleanup
-3. Petakan **restore reference end-to-end** dengan boundary yang sama:
-   - artifact inspection
-   - validation
-   - extraction/read
-   - install/data handling
-   - post-restore validation
-   - result verification.
-4. Catat setiap mekanisme reference yang memiliki beberapa metode/variant. **Jangan memilih satu secara arbitrer**; tentukan bagaimana BaRe harus mengikuti evidence tersebut.
-
 ### Phase B — BaRe adaptation
 
-5. Bandingkan mapping reference dengan implementation A18 yang sekarang.
-6. Tentukan bagian yang harus **REBUILD / REPLACE**, bukan sekadar patch.
-7. Pertahankan hanya boundary BaRe yang memang explicit, terutama:
-   - encryption/decryption mechanism BaRe;
-   - product/security/storage contracts yang sudah menjadi requirement BaRe.
-8. ROOT mengikuti mekanisme reference.
-9. NON_ROOT memakai logical mechanism/flow yang sama dengan capability adaptation maksimal.
-10. Untuk capability NON_ROOT yang tidak tersedia:
-    - cari alternatif Android/BaRe;
-    - implementasi/test alternatif yang relevan;
-    - hanya setelah benar-benar mentok, catat limitation.
+1. Reconcile current app-module implementation against `docs/a18_reference_reconstruction.md`.
+2. Replace the current ROOT Data source handling so **source existence/type is a hard precondition before archive execution**; no archive attempt when the source boundary is invalid.
+3. Keep ROOT source entries direct at the archive boundary; keep NON_ROOT staging only where capability requires it.
+4. Preserve BaRe encryption as the explicit security boundary and preserve atomic artifact commit + metadata + integrity behavior.
+5. Introduce the missing restore backend boundary: artifact validation → hash verification → decryption → archive validation → restore plan → capability-specific mutation → post-restore validation.
+6. Do not claim restore support until the backend has a real mutation path and verification result.
 
 ### Phase C — Implementation
 
-11. Rebuild backup engine berdasarkan hasil mapping, bukan berdasarkan pipeline lama.
-12. Rebuild restore engine dengan mekanisme yang sama.
-13. Jangan membawa kembali staging/direct-root/performance choice lama kecuali mapping reference membuktikan mekanisme tersebut memang diperlukan.
-14. Integrasikan BaRe encryption tepat pada boundary yang telah ditentukan, tanpa mengubah mekanisme reference lain.
+7. Implement the smallest coherent backup/restore slice from the reconstructed mechanism, not another isolated patch to the old pipeline.
+8. ROOT and NON_ROOT must share the logical operation contract; only source/install/data execution differs by capability.
+9. Build after implementation changes.
 
-### Phase D — Verification
+### Phase D — Runtime / regression / verification
 
-15. Build.
-16. Runtime ROOT backup seluruh part.
-17. Runtime NON_ROOT backup seluruh part/capability yang tersedia.
-18. Runtime restore untuk artifact yang dihasilkan.
-19. Regression cancellation, partial failure, artifact retention/cleanup, metadata, dan protected behavior.
-20. Verify hasil backup dan restore terhadap actual state.
-21. Performance diukur **setelah correctness/mechanism baseline terbukti**, bukan sebelum.
-22. A18 tidak boleh dinyatakan VERIFIED sebelum backup + restore + relevant regression + acceptance evidence lengkap.
+10. Runtime ROOT backup APK + Data + Ext. data + Media.
+11. Runtime NON_ROOT backup for capabilities actually available on the target.
+12. Runtime restore of produced artifacts.
+13. Regression cancellation, partial failure, artifact retention/cleanup, metadata/hash consistency, and protected behavior.
+14. Only after correctness is proven, measure performance.
+15. A18 remains **NOT VERIFIED** until the complete required evidence chain exists.
 
-### OUT OF SCOPE UNTUK SEMENTARA
+### Reference reconstruction artifact
 
-- Melanjutkan patch incremental terhadap mekanisme backup lama.
-- Menganggap direct-root performance rework sebagai baseline hanya karena sudah implemented.
-- Menyalin teknik encryption Swift/reference.
-- Membuat mekanisme NON_ROOT yang berbeda hanya karena reference tidak memiliki non-root implementation.
-- Optimization sebelum mechanism/correctness baseline terbukti.
+`docs/a18_reference_reconstruction.md` — created at checkpoint `c9365498e653458a5b4708ce0de53b289dfffce4`.
+
+### OUT OF SCOPE UNTIL CORRECTNESS BASELINE
+
+- incremental patching of the superseded backup architecture;
+- copying Swift encryption;
+- declaring NON_ROOT unsupported merely because reference has no non-root path;
+- performance optimization before correctness.
 
 ## 5. HISTORY OWNERSHIP
 
@@ -355,3 +325,37 @@ Current conclusion:
 8. Keep BaRe encryption only at its explicit encryption boundary.
 9. Build → runtime backup → runtime restore → regression → verify.
 
+
+
+## 8. CURRENT CHECKPOINT — REFERENCE RECONSTRUCTION COMPLETE
+
+### 2026-09-26 — A18 reference reconstruction
+
+**OBSERVED / RECONSTRUCTED**
+
+- Reference backup workflow is explicitly modeled as discover/select → configure parts → capability → destination validation → preconditions → backup task → archive/compress/encrypt → commit → metadata → verify → result.
+- Reference restore workflow is explicitly modeled as select backup → inspect → select parts/options → validate package/artifact/target → resolve install/data capability → preconditions → restore/install → post-restore validation → result.
+- Targeted archive evidence confirms reference passes selected source entries as absolute paths into its native archive boundary, with tar/profile, compression, encryption, and progress as separate boundaries.
+- Canonical BaRe architecture already requires validation, atomic commit, metadata, integrity, and post-restore verification; reconstruction therefore maps to existing BaRe architecture rather than replacing it.
+- Current app source has backup implementation but **no restore backend**.
+- Current ROOT Data runtime failure (#1169) occurs during packaging/encryption after a tar source-path error; the new adaptation will make source precondition validation explicit before archive execution.
+
+**DECISION**
+
+- Reference reconstruction is now complete enough to start BaRe adaptation.
+- Do not continue the superseded backup architecture by isolated error patches.
+- Encryption remains the explicit BaRe-owned exception.
+- ROOT follows the reference source/archive semantic; NON_ROOT keeps the same logical operation and adapts execution capability.
+- Restore is a required implementation slice, not a later optional feature.
+
+**Artifact**
+
+- `docs/a18_reference_reconstruction.md` — commit `c9365498e653458a5b4708ce0de53b289dfffce4`.
+
+**STATUS**
+
+- Reference reconstruction: **COMPLETED / DOCUMENTED**.
+- BaRe adaptation: **NEXT / NOT IMPLEMENTED YET**.
+- Backup runtime: **UNVERIFIED**.
+- Restore runtime: **UNVERIFIED**.
+- A18: **NOT VERIFIED**.
