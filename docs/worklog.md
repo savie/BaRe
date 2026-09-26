@@ -20,24 +20,24 @@
 | Audit reference | **docs/reference.md Section 30** — audit statis penuh lifecycle App Backup / Restore terhadap Swift Backup 5.1.0 (620) |
 | Acceptance A18 | **NOT VERIFIED** — masih menunggu penyelesaian scope aktif di bawah |
 
-### ACTIVE GAPS / TODO — SCOPE DIPERSEMPIT
+### GAP / TODO AKTIF — SCOPE DIPERSEMPIT
 
 Hanya item berikut yang masih boleh dikerjakan. **Item yang sudah terbukti berhasil tidak boleh dibuka kembali kecuali ditemukan regresi baru yang nyata.**
 
-1. **LOCAL APPS canonical inventory — ACTIVE / CORRECTNESS**
+1. **LOCAL APPS canonical inventory — AKTIF / CORRECTNESS**
    - Evidence runtime: backup 1DM+ yang sudah ada terlihat pada App Detail, tetapi LOCAL APPS masih menampilkan "No backup on device".
    - Rekonsiliasi inventaris/association LOCAL APPS dengan discovery canonical local backup-container yang digunakan oleh detail/restore flow.
    - Verifikasi perilaku refresh/resume setelah backup sudah tersedia.
    - Acceptance: backup yang sudah ada harus tercermin dengan benar pada LOCAL APPS tanpa merusak discovery pada detail/restore.
 
-2. **RESTORE part-selection flow — ACTIVE / CORRECTNESS + UX**
+2. **RESTORE part-selection flow — AKTIF / CORRECTNESS + UX**
    - Evidence runtime: **Restore All berhasil dieksekusi**.
    - Gap yang tersisa adalah UX pemilihan restore: berbeda dengan Backup flow, Restore saat ini belum menampilkan bottom sheet pemilihan bagian yang diharapkan.
    - Pertahankan backend Restore All yang sudah bekerja.
    - Rekonsiliasi entry flow restore dengan contract pemilihan bagian sebelum mengubah backend.
    - Acceptance: Restore dapat menampilkan dan memilih bagian yang tersedia, sementara Restore All tetap bekerja.
 
-3. **LARGE-FILE PERFORMANCE — ACTIVE AUDIT / LATER OPTIMIZATION**
+3. **LARGE-FILE PERFORMANCE — AUDIT AKTIF / OPTIMASI NANTI**
    - Observasi runtime: proses backup masih lambat.
    - Hipotesis saat ini: reference mungkin melakukan staging/archive di data/cache lalu memindahkan hasil yang sudah selesai ke final storage.
    - Ini **HIPOTESIS, BUKAN FAKTA**.
@@ -45,11 +45,11 @@ Hanya item berikut yang masih boleh dikerjakan. **Item yang sudah terbukti berha
    - Bandingkan source traversal, staging, archive/compression, encryption, digest, final move/write, serta metadata/verification.
    - Jangan melakukan optimasi atau redesign hanya berdasarkan hipotesis.
 
-4. **LOCAL / CLOUD PART SYNC PARITY — LATER**
+4. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
    - Ditunda sampai scope correctness lokal di atas stabil.
    - Jangan memperluas scope saat ini.
 
-5. **FULL A18 ACCEPTANCE — NOT VERIFIED**
+5. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
    - Menjadi gate terakhir setelah #1 dan #9 selesai serta #15 memiliki audit performance berbasis evidence.
    - Acceptance harus tetap mencakup regresi pada seluruh item yang sudah terbukti berhasil, bukan mengerjakan ulang item tersebut.
 
@@ -75,7 +75,7 @@ Selain itu, tetap protected berdasarkan evidence/decision sebelumnya:
 - BaRe encryption boundary.
 - File-level delta/patch tetap **OUT OF SCOPE**.
 
-### CURRENT NEXT ACTION
+### NEXT ACTION
 
 1. Inspect implementation aktual LOCAL APPS inventory/association dan temukan mismatch yang konkret.
 2. Inspect implementation aktual Restore selection UI/entry flow dan implementasikan hanya surface/contract yang hilang tanpa mengganggu Restore All.
