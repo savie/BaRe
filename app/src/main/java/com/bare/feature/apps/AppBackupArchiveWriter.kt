@@ -131,6 +131,7 @@ class AppBackupArchiveWriter(private val context: Context) {
         sources: List<RootArchiveSource>,
         password: CharArray?,
         onProgress: ((processedBytes: Long, totalBytes: Long) -> Unit)? = null,
+        isCancelled: () -> Boolean = { false },
     ): AppBackupArchiveResult {
         require(sources.isNotEmpty()) { "No root backup sources to archive" }
         output.parentFile?.mkdirs()
@@ -190,7 +191,7 @@ class AppBackupArchiveWriter(private val context: Context) {
                     ZipOutputStream(encrypted).use { zip ->
                         zip.setLevel(Deflater.BEST_SPEED)
                         for (source in sources) {
-                            fileCount += addRootSource(zip, source, progress)
+                            fileCount += addRootSource(zip, source, progress, isCancelled)
                         }
                         progress.finish()
                     }
@@ -215,12 +216,14 @@ class AppBackupArchiveWriter(private val context: Context) {
         zip: ZipOutputStream,
         source: RootArchiveSource,
         progress: ArchiveProgressCounter,
+        isCancelled: () -> Boolean,
     ): Int {
         var count = 0
         var pendingPath: String? = null
         root.openTarStream(source.sourcePath).use { tar ->
             val input = BufferedInputStream(tar.input, BUFFER_BYTES)
             while (true) {
+                if (isCancelled()) throw AppBackupEngine.BackupCancelledException()
                 val header = ByteArray(TAR_BLOCK_BYTES)
                 val first = input.read()
                 if (first < 0) break
@@ -247,7 +250,7 @@ class AppBackupArchiveWriter(private val context: Context) {
                                 val mtime = parseTarOctal(header, 136, 12)
                                 if (mtime > 0L) entry.time = mtime * 1000L
                                 zip.putNextEntry(entry)
-                                copyTarPayload(input, zip, size, progress)
+                                copyTarPayload(input, zip, size, progress, isCancelled)
                                 zip.closeEntry()
                                 count++
                             }
@@ -307,10 +310,12 @@ class AppBackupArchiveWriter(private val context: Context) {
         output: java.io.OutputStream,
         size: Long,
         progress: ArchiveProgressCounter,
+        isCancelled: () -> Boolean,
     ) {
         var remaining = size
         val buffer = ByteArray(BUFFER_BYTES)
         while (remaining > 0L) {
+            if (isCancelled()) throw AppBackupEngine.BackupCancelledException()
             val wanted = minOf(buffer.size.toLong(), remaining).toInt()
             val read = input.read(buffer, 0, wanted)
             if (read < 0) throw IllegalStateException("Unexpected end of root tar stream")
