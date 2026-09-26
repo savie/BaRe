@@ -135,8 +135,8 @@ internal class AppReferenceTarZstdArchive {
                     val outputEntry = TarArchiveEntry(outputName, entry.linkFlag)
                     outputEntry.size = entry.size
                     outputEntry.mode = entry.mode
-                    outputEntry.userId = entry.longUserId
-                    outputEntry.groupId = entry.longGroupId
+                    outputEntry.userId = entry.longUserId.toInt()
+                    outputEntry.groupId = entry.longGroupId.toInt()
                     outputEntry.userName = entry.userName
                     outputEntry.groupName = entry.groupName
                     outputEntry.modTime = entry.modTime
