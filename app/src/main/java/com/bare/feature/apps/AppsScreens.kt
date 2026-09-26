@@ -131,10 +131,25 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
 
     BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
 
-    LaunchedEffect(inventory) {
+    fun refreshInventory() {
         runCatching { inventory.load() }
             .onSuccess { apps = it; error = null }
             .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
+    }
+
+    LaunchedEffect(inventory) {
+        refreshInventory()
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, inventory) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                refreshInventory()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     LaunchedEffect(apps, appsContext) {
