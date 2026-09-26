@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `6dcf3ae188b125785af8787f6a5a7a53afd204dd` |
+| Current checkpoint | `42a8962370201f5ce18ae1da20e817ebe11ae062` (pre-worklog update) |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
-| Lifecycle | **DISCOVERY / BUILD** |
-| Fokus | **A10 App Detail part-level actions; A15 reusable organization behavior refactor along the way** |
+| Lifecycle | **DISCOVERY / ARCHITECTURE / BUILD** |
+| Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media** |
 | Reference audit | **SELESAI** |
-| Runtime status | **A9 VERIFIED by user E2E; #1047 bottom-navigation bug scope VERIFIED. Next authorized sequence: A10 → A13 → A14 → A16, with A15 refactored into reusable behavior along the way.** |
-| Root cause | **No current blocker for A9. Remaining work is capability parity/execution gaps in A10/A13/A14/A16; Cloud provider/backend remains unavailable for cloud-specific capabilities.** |
+| Runtime status | **Existing prior runtime evidence remains valid per worklog; A18 full backup capability is UNVERIFIED. Next authorized sequence: inspect/reproduce Data failure → audit current providers/engine → design unified pipeline.** |
+| Root cause | **Current Data backup failure cause is UNKNOWN until source/runtime reproduction. Cloud provider/backend remains separate from the local backup-engine task.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -1507,3 +1507,79 @@ Reference runtime menunjukkan area di luar surface/card harus tetap memakai back
 Source updated pada `990e2dce949ab70785460cd51497bf6a1080eac4`.
 Runtime verification masih pending.
 
+
+## A18 — Unified App Backup Engine — APK / Data / Ext. data / Media — 2026-09-26
+
+### USER DECISION / REQUIREMENT
+Target capability BARE:
+- Satu unified backup engine harus mampu menangani **APK, Data, Ext. data, dan Media** sebagai backup parts.
+- Semantics/domain operation tetap sama lintas execution mode; perbedaan berada pada capability/provider mechanism.
+- **ROOT** ditargetkan untuk full private-app access yang memang dapat diperoleh pada device.
+- **NON_ROOT** tetap memakai engine yang sama tetapi hanya menghasilkan parts yang benar-benar accessible; keterbatasan harus dinyatakan sebagai `LIMITED`, `UNAVAILABLE`, `BLOCKED`, atau result `PARTIAL`, bukan dipalsukan sebagai full success.
+- Provider/mechanism yang dapat dipakai tetap mengikuti architecture BaRe: `NON_ROOT`, `ADB`, `SHIZUKU`, `ROOT`, Android APIs, SAF, dan local storage sesuai capability.
+- **Swift Backup 5.1.0 (620)** dipakai sebagai **functional/workflow reference** untuk audit dan pembandingan behavior. Reference implementation tidak disalin sebagai implementation BaRe.
+- Archive/manifest/metadata, staging, atomic commit, integrity verification, compression, diagnostics, dan operation result mengikuti boundary architecture BaRe.
+- **Encryption menggunakan implementation/security boundary BaRe sendiri**; kesamaan dengan Reference hanya pada backup semantics/flow yang memang sudah menjadi keputusan requirement.
+- Backup result harus mencerminkan parts yang benar-benar berhasil, termasuk partial/failed state dan diagnostic evidence.
+
+### ARCHITECTURE DIRECTION
+Model yang disetujui untuk dilanjutkan:
+```
+Backup Request
+  ↓
+Capability Discovery / Resolution
+  ↓
+Backup Plan
+  ↓
+Part Providers
+  ├─ APK
+  ├─ Data / data_de
+  ├─ Ext. data
+  └─ Media
+  ↓
+Collection / Filtering / Staging
+  ↓
+Archive + Manifest / Metadata
+  ↓
+Compression
+  ↓
+BARE Encryption
+  ↓
+Integrity / Verification
+  ↓
+Atomic Commit
+  ↓
+Operation Result + Diagnostics
+```
+
+Root/non-root **bukan dua backup engine**. Engine tetap unified; provider/capability menentukan apa yang dapat dikoleksi.
+
+### REQUIRED DISCOVERY / TODO
+1. Audit current BaRe backup implementation pada source branch untuk menentukan **actual failure boundary** untuk Data, dan membandingkan jalur APK/Data/Ext. data/Media.
+2. Audit Reference evidence yang relevan untuk **data collection, ext-data, media, archive/staging, result semantics**, tanpa menganggap static reference sebagai runtime proof.
+3. Map current provider/mechanism BaRe:
+   - NON_ROOT
+   - ADB
+   - SHIZUKU
+   - ROOT
+   terhadap setiap backup part.
+4. Tentukan capability matrix aktual per part dan execution mode, termasuk dependency/permission/privilege limitation.
+5. Audit archive/artifact/manifest/compression/integrity/encryption boundary yang sudah tersedia sebelum membuat implementation baru.
+6. Reproduce dan capture failure Data backup pada runtime/device; jangan menyimpulkan root cause dari UI error saja.
+7. Rancang **unified BackupPlan + part provider pipeline** yang kompatibel dengan architecture BaRe dan existing operation/result semantics.
+8. Implementasi bertahap: APK → Data/data_de → Ext. data → Media, dengan verification per part dan tanpa mengklaim full backup sebelum seluruh required parts terbukti.
+9. Tambahkan negative/partial tests untuk inaccessible Data pada NON_ROOT serta failure/corruption/interrupted-write paths.
+10. Setelah backup engine stabil, lanjutkan restore menggunakan artifact contract yang sama.
+
+### CURRENT STATUS
+- Requirement/architecture direction: **DECIDED / AUTHORIZED**.
+- Implementation of this new unified engine: **NOT STARTED**.
+- Current backup Data failure root cause: **UNKNOWN / NEEDS REPRODUCTION + SOURCE AUDIT**.
+- Runtime proof of full APK + Data + Ext. data + Media backup: **UNVERIFIED**.
+- Cloud is outside this task's required local backup proof; do not conflate cloud provider availability with local backup engine correctness.
+
+### NEXT ACTION
+**Inspect → reproduce Data failure → audit current backup providers/engine → reconcile with Reference → design minimal unified pipeline.**
+
+### VERIFICATION BOUNDARY
+No claim of `WORKING`, `FULL BACKUP`, or `VERIFIED` is allowed until runtime evidence proves the corresponding parts and result semantics.
