@@ -2707,3 +2707,144 @@ Semua temuan pada section ini berstatus **OBSERVED_STATIC** dari decompiled/refe
 - static presence tidak membuktikan runtime success;
 - reference tidak menjadi implementation source BaRe;
 - feature parity tidak berarti implementation parity.
+
+## 27 — Swift Backup SBA root archive creation mechanism (targeted audit)
+
+Bagian ini merupakan **targeted static audit** karena reference baseline sebelumnya belum mencatat detail mekanisme pembuatan SBA root archive secara eksplisit. Audit ini tidak mengulang full-tree scan.
+
+### 27.1 Archive engine boundary
+
+Static decompiled evidence menunjukkan Swift menggunakan native SBA archive engine:
+
+`com.swiftapps.sba.SbaArchiveNative`
+
+dengan native call:
+
+`createArchive(...)`
+
+Native archive call menerima secara eksplisit:
+
+- output archive path;
+- entry names;
+- source absolute paths;
+- per-entry flags;
+- include paths;
+- exclude paths;
+- tar/profile parameters;
+- compression parameters;
+- encryption parameters;
+- native progress listener.
+
+Reference source memodelkan entry sebagai:
+
+```
+SbaArchiveEntry
+├── name
+├── source
+├── includeRootDirectory
+├── includePaths
+└── excludePaths
+```
+
+Status: `OBSERVED_STATIC`.
+
+### 27.2 Source selection / staging boundary
+
+Pada root-create path yang diaudit:
+
+```
+selected source entry
+        ↓
+absolute source path
+        ↓
+SbaArchiveEntry
+        ↓
+native SbaArchiveNative.createArchive(...)
+```
+
+Evidence pada `defpackage/jd4.java` melakukan validasi source path sebagai absolute path dan memilih source/fallback source yang tersedia sebelum membentuk `SbaArchiveEntry`.
+
+**Observed:** native create call menerima source path secara langsung.
+
+**Tidak ditemukan pada targeted path ini:** kewajiban melakukan full copy seluruh source ke temporary staging directory sebelum native archive creation.
+
+Status: `OBSERVED_STATIC` untuk direct source-path handoff; tidak digunakan sebagai runtime proof.
+
+### 27.3 Tar / profile model
+
+Reference mempunyai profile:
+
+```
+Basic
+Fidelity
+RootFidelity
+```
+
+Root-create configuration memetakan tar profile ke `Basic` atau `Fidelity` pada jalur yang diaudit. `RootFidelity` juga ada sebagai reference enum dan tidak boleh diasumsikan aktif tanpa evidence configuration.
+
+Status: `OBSERVED_STATIC`.
+
+### 27.4 Compression boundary
+
+Root-create configuration memisahkan:
+
+```
+compression disabled
+        OR
+compression enabled + compression level
+```
+
+Native archive engine menerima compression configuration secara terpisah dari encryption.
+
+Status: `OBSERVED_STATIC`.
+
+### 27.5 Encryption boundary
+
+Reference memisahkan encryption dari archive/source pipeline:
+
+```
+source entries
+      ↓
+native archive creation
+      ├── tar/profile
+      ├── compression
+      └── encryption
+```
+
+Untuk encrypted SBA v2 artifact yang sudah diaudit sebelumnya, encryption method yang terobservasi adalah AEGIS-256 dengan Argon2id-derived key material.
+
+**Boundary untuk BaRe:** target perilaku backup/archive/source flow dapat direkonsiliasi terhadap reference tanpa menjadikan algoritma encryption Swift sebagai implementation requirement BaRe.
+
+### 27.6 Progress boundary
+
+Native archive engine menerima `SbaNativeProgressListener` dengan callback:
+
+```
+onProgress(processed, total)
+```
+
+Reference task layer memetakan callback tersebut ke phase/task progress. Dengan demikian progress merupakan bagian dari archive-engine contract, bukan angka yang harus direka dari hasil UI.
+
+Status: `OBSERVED_STATIC`.
+
+### 27.7 Targeted audit rule
+
+Section ini menjadi baseline tambahan untuk pekerjaan A18:
+
+```
+REFERENCE BASELINE
+    ↓
+selected part/source
+    ↓
+absolute source path / SbaArchiveEntry
+    ↓
+native archive engine
+    ↓
+tar/profile + compression
+    ↓
+encryption boundary
+    ↓
+progress callback
+```
+
+Audit decompile berikutnya hanya diperlukan jika ada pertanyaan material yang belum dijawab oleh `reference.md` atau evidence baru yang bertentangan. Tidak dilakukan full-tree re-audit untuk baseline yang sudah tercatat.
