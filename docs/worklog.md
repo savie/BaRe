@@ -14,9 +14,9 @@
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
 | Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
-| Fokus saat ini | **A18 — UI restore sudah berubah dan runtime sebagian terverifikasi; sisa correctness sekarang dipersempit ke LOCAL APPS, action parity Ext. data/Media, dan perlakuan khusus Data** |
-| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; build berikutnya untuk UI terakhir perlu diverifikasi terpisah |
-| Evidence runtime terbaru | **RUNTIME USER — #1254**: unchanged restore sudah berfungsi untuk per-part dan multi-select kecuali Data; UI Restore utama sudah berubah, tetapi action surface Ext. data/Media belum parity |
+| Fokus saat ini | **A18 — Data special behavior** untuk backup + restore (per-part dan multi-select); setelah itu LOCAL APPS |
+| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; UI action parity commit terbaru perlu CI terpisah |
+| Evidence runtime terbaru | **RUNTIME USER — #1255**: UI Device backups action untuk Ext. data/Media sudah sesuai setelah penambahan Encrypted di atas Delete; #1254 sebelumnya menunjukkan unchanged restore sudah bekerja kecuali Data |
 | Audit reference | **docs/reference.md Section 30/31** — audit statis lifecycle App Backup/Restore dan audit inventory/performance |
 | Acceptance A18 | **NOT VERIFIED** |
 
@@ -24,38 +24,39 @@
 
 Hanya item berikut yang aktif. **Jangan membuka kembali behavior yang sudah terbukti berhasil kecuali ada regresi nyata.**
 
-1. **LOCAL APPS canonical inventory — AKTIF / CORRECTNESS**
-   - Runtime #1254 belum menyatakan LOCAL APPS selesai.
-   - Discovery/association backup lokal masih harus ditutup dan diverifikasi.
-
-2. **EXT. DATA / MEDIA action parity — AKTIF / UI CORRECTNESS**
-   - UI utama Restore sudah berubah.
-   - Namun action surface untuk part Ext. data dan Media belum sama dengan contract yang diharapkan saat part/action ditekan.
-   - Target action parity: **Restore / Sync to cloud / Encrypted / Delete** sesuai state/availability yang berlaku.
-   - Jangan mengubah engine change-detection hanya untuk menyamakan action surface.
-
-3. **DATA BACKUP + RESTORE SPECIAL BEHAVIOR — AKTIF / CORRECTNESS**
-   - **Data adalah satu-satunya part yang mendapat perlakuan khusus pada checkpoint ini.**
+1. **DATA BACKUP + RESTORE SPECIAL BEHAVIOR — AKTIF / CORRECTNESS**
+   - Data adalah satu-satunya part yang mendapat perlakuan khusus pada checkpoint ini.
    - Berlaku untuk **backup Data** dan **restore Data**, baik **per-part** maupun **multi-select Restore**.
-   - APK, Ext. data, dan Media **tidak termasuk** dalam special behavior ini.
-   - Sebelum implementation: inspect actual Data path, current skip/change decision, artifact/metadata boundary, dan execution flow; jangan menggeneralisasi behavior Data ke part lain.
-   - Exact behavior/implementation contract belum ditetapkan pada checkpoint ini; user instruction baru menetapkan bahwa Data perlu perlakuan khusus.
+   - APK, Ext. data, dan Media **tidak termasuk** special behavior ini.
+   - Root cause dan exact contract masih harus diturunkan dari actual implementation sebelum change.
 
-4. **LARGE-FILE PERFORMANCE — AUDIT SELESAI / OPTIMIZATION LATER**
+2. **LOCAL APPS canonical inventory — AKTIF / CORRECTNESS**
+   - LOCAL APPS masih belum ditutup/verified.
+   - Discovery/association backup lokal harus diverifikasi tanpa merusak detail/restore flow.
+
+3. **LARGE-FILE PERFORMANCE — AUDIT SELESAI / OPTIMIZATION LATER**
    - Static audit sudah selesai.
-   - Optimization **ditunda**; jangan melebar ke redesign/performance sekarang.
+   - Optimization tetap ditunda; jangan melebar ke performance/redesign.
 
-5. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
-   - Tetap ditunda sampai correctness lokal dan Data selesai.
+4. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
+   - Ditunda sampai correctness lokal dan Data selesai.
 
-6. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
+5. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
    - Gate terakhir setelah active correctness scope selesai dan regression runtime tersedia.
+
+### UI ACTION PARITY — #1255
+
+**RUNTIME OBSERVED / USER VERIFIED:**
+- Device backups → Ext. data → action menu sekarang memiliki **Restore / Sync to cloud / Encrypted / Delete**.
+- Device backups → Media → action menu sekarang memiliki **Restore / Sync to cloud / Encrypted / Delete**.
+- Posisi **Encrypted** berada tepat di atas **Delete**, mengikuti Data.
+- Perubahan hanya pada UI action surface; tidak mengubah Data behavior, restore engine, LOCAL APPS, atau optimization.
 
 ### SCOPE GUARD — JANGAN REGRESI
 
-Tetap protected berdasarkan runtime evidence sebelumnya dan #1254:
+Tetap protected:
 - APK restore decision.
-- Unchanged restore behavior untuk part yang sudah terbukti: APK, Ext. data, Media.
+- Unchanged restore behavior untuk APK, Ext. data, dan Media yang sudah terbukti.
 - Data/Ext. data/Media backup change detection yang sebelumnya sudah berhasil.
 - PART-LEVEL INCREMENTAL UPDATE.
 - Backup/restore metadata contracts.
@@ -66,12 +67,13 @@ Tetap protected berdasarkan runtime evidence sebelumnya dan #1254:
 ### NEXT ACTION
 
 1. **Data-only scope:** inspect actual backup + restore Data behavior dan tentukan contract khusus sebelum change.
-2. **Ext. data/Media:** inspect action surface dan buat minimal UI parity tanpa menyentuh engine.
-3. **LOCAL APPS:** lanjutkan canonical inventory/association sampai runtime verified.
-4. CI/build targeted setelah perubahan.
-5. Satu regression/runtime cycle untuk Data, Ext. data/Media actions, LOCAL APPS, lalu smoke check behavior yang protected.
-6. Optimization tetap belakangan; jangan dikerjakan pada checkpoint ini.
-7. Tutup A18 hanya setelah acceptance evidence cukup.
+2. Implement minimal Data-specific change hanya setelah root cause/contract terverifikasi.
+3. CI targeted.
+4. Runtime verify Data per-part + multi-select.
+5. Regression smoke APK/Ext. data/Media dan action menu #1255.
+6. Lanjut LOCAL APPS.
+7. Optimization tetap belakangan.
+8. Tutup A18 hanya setelah acceptance evidence cukup.
 
 **Continuity rule:** checkpoint historis di bawah tetap menjadi historical truth. Section ini adalah satu-satunya active implementation scope saat ini.
 
@@ -397,8 +399,7 @@ Direct-root/performance implementation yang sudah ada tetap merupakan historical
 | Artifact | Fungsi | Boleh menjadi current state? |
 |---|---|---|
 | `docs/worklog.md` | **Current continuity / synthesis** | **YA** |
-| `docs/worklog_history.md` | **History 1 / chronology archive** | TIDAK |
-| `docs/worklog_history_2.md` | **History 2 / chronology archive** | TIDAK |
+| `docs/worklog_history.md` | **History 1 / chronology archive** | TIDAK || `docs/worklog_history_2.md` | **History 2 / chronology archive** | TIDAK |
 | Git commits / CI / runtime logs | Evidence | Bukan pengganti worklog |
 
 ### Aturan
@@ -797,8 +798,7 @@ Commits:
 
 **Task scope:**
 - Mencatat evidence runtime yang diberikan user.
-- Mereconcile kondisi inventory backup dengan source saat ini.
-- Mencatat gap yang diketahui untuk APK duplicate work, restore per-part UI, dan restore progress.
+- Mereconcile kondisi inventory backup dengan source saat ini.- Mencatat gap yang diketahui untuk APK duplicate work, restore per-part UI, dan restore progress.
 - Tidak ada implementation change yang diotorisasi pada checkpoint ini.
 
 ### USER SAID
@@ -1198,7 +1198,6 @@ User secara eksplisit memutuskan:
 - Enkripsi BaRe yang sudah ada tetap tidak berubah.
 
 ### TODO IMPLEMENTASI AKTIF
-
 1. Visibilitas inventaris LOCAL APPS kanonik.
 2. Metadata/contract state perubahan per bagian yang digunakan bersama.
 3. Deteksi perubahan backup Data: unchanged dipertahankan/di-skip; changed hanya membangun ulang Data.
@@ -1589,3 +1588,64 @@ Sebelum implementasi, wajib:
 ```
 
 No implementation change is implied by this worklog update alone beyond the user-authorized scope above. Root cause dan exact fix untuk Data masih **UNKNOWN / UNVERIFIED** sampai actual source flow diinspeksi.
+
+## A18 — RUNTIME #1255 / EXT. DATA + MEDIA ACTION PARITY — 2026-09-27
+
+### USER-PROVIDED RUNTIME EVIDENCE
+
+Status: **VERIFICATION — USER TESTED ON DEVICE**
+
+User melaporkan bahwa **#1255 sudah sesuai** setelah perubahan UI action menu.
+
+### VERIFIED AT USER RUNTIME
+
+Pada **Device backups**, ketika part berikut ditekan:
+
+- **Ext. data**
+- **Media**
+
+action menu sekarang memuat urutan:
+
+1. Restore
+2. Sync to cloud
+3. Encrypted
+4. Delete
+
+Encrypted ditempatkan **di atas Delete**, sama seperti part Data.
+
+### IMPLEMENTATION
+
+Commit:
+- 8a28bb66134654b5198a9d8728d28da87f9b246b — fix(apps): show encrypted action for external data and media
+
+Perubahan dibatasi pada BackupPartChip action surface:
+- Data mempertahankan Encrypted.
+- Ext. data ditambahkan Encrypted.
+- Media ditambahkan Encrypted.
+- APK tetap memakai action khusus APK.
+- Tidak ada perubahan pada backup/restore engine atau change-detection behavior.
+
+### STATUS
+
+- Ext. data action parity: **RUNTIME VERIFIED BY USER #1255**
+- Media action parity: **RUNTIME VERIFIED BY USER #1255**
+- Data special behavior: **ACTIVE / NOT IMPLEMENTED YET**
+- LOCAL APPS: **ACTIVE / NOT VERIFIED**
+- Large-file optimization: **LATER**
+
+### CURRENT ACTIVE ORDER
+
+1. DATA special behavior
+   - backup Data
+   - restore Data per-part
+   - restore Data multi-select
+
+2. LOCAL APPS
+
+3. CI + targeted runtime regression
+
+4. FULL A18 acceptance
+
+5. LARGE-FILE OPTIMIZATION → LATER
+
+Tidak ada perubahan pada scope Data yang diotorisasi hanya karena #1255 sudah hijau. Data tetap harus diinspeksi terlebih dahulu untuk menentukan root cause dan minimal contract/fix.
