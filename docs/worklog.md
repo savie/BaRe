@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 189d1dee3cec118f3f1e4c56e929ea3e4e2cc586 |
+| Current repository HEAD | 8783fea16f518380e311a00808233825edcc1bf9 |
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
-| Latest runtime evidence | **CI #1171 build supplied by user; post-#1171 functional runtime not yet supplied** |
-| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / UI WIRED / CI PENDING / RUNTIME UNVERIFIED** |
+| Latest build evidence | **CI #1181 for current rebuild is IN_PROGRESS** |
+| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / UI WIRED / CI #1181 IN_PROGRESS / RUNTIME UNVERIFIED** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
