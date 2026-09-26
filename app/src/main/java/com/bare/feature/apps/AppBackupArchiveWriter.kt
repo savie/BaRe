@@ -121,7 +121,7 @@ class AppBackupArchiveWriter(private val context: Context) {
             file = output,
             byteSize = output.length(),
             fileCount = fileCount,
-            sha256 = digest.digest().toHex(),
+            sha256 = sha256(output),
             encryption = material.mode,
         )
     }
@@ -207,7 +207,7 @@ class AppBackupArchiveWriter(private val context: Context) {
             file = output,
             byteSize = output.length(),
             fileCount = fileCount,
-            sha256 = digest.digest().toHex(),
+            sha256 = sha256(output),
             encryption = material.mode,
         )
     }
@@ -347,6 +347,19 @@ class AppBackupArchiveWriter(private val context: Context) {
             if (input.read() < 0) throw IllegalStateException("Unexpected end of root tar stream")
             remaining--
         }
+    }
+
+    private fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        FileInputStream(file).use { input ->
+            val buffer = ByteArray(BUFFER_BYTES)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        return digest.digest().toHex()
     }
 
     private fun moveIntoPlace(stagedOutput: File, output: File) {
