@@ -2588,8 +2588,17 @@ private fun AppBackupStateCard(
                     )
                 }
                 Button(
-                    onClick = {},
-                    enabled = false,
+                    onClick = {
+                        startRestore(
+                            buildSet {
+                                if (latest.apkBytes > 0) add(AppBackupPart.APK)
+                                if (latest.dataBytes > 0) add(AppBackupPart.DATA)
+                                if (latest.externalDataBytes > 0) add(AppBackupPart.EXTERNAL_DATA)
+                                if (latest.mediaBytes > 0) add(AppBackupPart.MEDIA)
+                            },
+                            latest.versionCode,
+                        )
+                    },
                     modifier = Modifier.align(Alignment.End),
                     shape = RoundedCornerShape(24.dp),
                 ) {
