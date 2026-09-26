@@ -18,10 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.res.stringResource
 import com.bare.R
 import com.bare.app.GlobalHeader
+import com.bare.feature.settings.EncryptionPasswordStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal enum class RestoreProcessStatus { RUNNING, DONE, FAILED }
+internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
 
 @Composable
 internal fun RestoreProcessScreen(
@@ -37,13 +38,16 @@ internal fun RestoreProcessScreen(
     var currentPart by remember { mutableStateOf<AppBackupPart?>(null) }
     var message by remember { mutableStateOf("Preparing restore") }
     var logs by remember { mutableStateOf<List<String>>(emptyList()) }
-    val scope = rememberCoroutineScope()
+    val advanced = remember(context) { EncryptionPasswordStore(context).loadStrategy() == com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED }
+    var started by remember { mutableStateOf(!advanced) }
+    var password by remember { mutableStateOf("") }
 
-    LaunchedEffect(packageName, versionCode, parts, accessMethod) {
+    LaunchedEffect(packageName, versionCode, parts, accessMethod, started) {
+        if (!started) return@LaunchedEffect
         val behavior = AppRestoreBehavior(context)
         val result = withContext(Dispatchers.IO) {
             behavior.restore(
-                AppRestoreRequest(packageName, versionCode, parts, accessMethod),
+                AppRestoreRequest(packageName, versionCode, parts, accessMethod, password.takeIf { it.isNotEmpty() }?.toCharArray()),
                 onProgress = { progress ->
                     currentPart = progress.part
                     message = progress.message
@@ -57,6 +61,11 @@ internal fun RestoreProcessScreen(
             is AppRestoreOutcome.Completed -> {
                 status = RestoreProcessStatus.DONE
                 message = "Restore completed"
+            }
+            is AppRestoreOutcome.PendingUserAction -> {
+                status = RestoreProcessStatus.WAITING
+                message = result.message
+                logs = (logs + result.message).takeLast(80)
             }
             is AppRestoreOutcome.Failed -> {
                 status = RestoreProcessStatus.FAILED
@@ -89,6 +98,7 @@ internal fun RestoreProcessScreen(
                 Icon(
                     when (status) {
                         RestoreProcessStatus.RUNNING -> Icons.Default.PlayArrow
+                        RestoreProcessStatus.WAITING -> Icons.Default.PlayArrow
                         RestoreProcessStatus.DONE -> Icons.Default.Check
                         RestoreProcessStatus.FAILED -> Icons.Default.Error
                     },
@@ -102,6 +112,26 @@ internal fun RestoreProcessScreen(
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold,
             )
+            if (!started && advanced) {
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Backup password") },
+                    singleLine = true,
+                    visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                )
+                Button(
+                    onClick = {
+                        if (password.isNotEmpty()) {
+                            started = true
+                            message = "Preparing restore"
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = password.isNotEmpty(),
+                ) { Text("START RESTORE") }
+            }
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
@@ -119,7 +149,7 @@ internal fun RestoreProcessScreen(
             }
         }
         Spacer(Modifier.weight(1f))
-        if (status != RestoreProcessStatus.RUNNING) {
+        if (status != RestoreProcessStatus.RUNNING && started) {
             Button(
                 onClick = onDone,
                 modifier = Modifier.fillMaxWidth().padding(20.dp).height(58.dp),
