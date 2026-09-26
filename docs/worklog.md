@@ -1,3 +1,50 @@
+## A18 — REVIEW RUNTIME #1156 + SWIFT BACKUP EVIDENCE — 2026-09-26
+
+### OBSERVED
+
+- CI run **#1156** untuk commit `b0a4d8cc157e38b9789b48598d834be385d16847` selesai dengan **success**:
+  - `Assemble debug APK`: success;
+  - `Verify APK artifact`: success;
+  - `Verify APK signing certificate`: success;
+  - `Upload debug APK`: success.
+- Runtime build #1156 memperlihatkan progress APK yang tidak masuk akal pada UI: `Packaging APK: 1.0 GB / 138 GB (120 MB/s)` untuk target WhatsApp yang pada evidence Swift sekitar 122.5 MB base APK + 15.68 MB splits.
+- Runtime Data pada `meWho? Lite` gagal dengan:
+  `Data source path '/data/user/0/in.mewho.meWhoLite': Root directory copy failed (exit=20): source_not_directory`, dan `source_exists=false`.
+- Evidence runtime Swift Backup 5.1.0-620 menunjukkan backup WhatsApp:
+  - base APK: **122.5 MB**;
+  - 3 split APKs: **15.68 MB**;
+  - Data: **457.74 MB**;
+  - Task selesai sekitar **3.59 s** menurut log.
+- Source decompile Swift yang diperiksa menunjukkan pembuatan backup menggunakan **native SBA archive engine** (`SbaArchiveNative.createArchive`), dengan mode enkripsi terpisah. Pada jalur tanpa password, archive tetap dibuat native; default compression source terdecompile adalah `FASTEST`, sedangkan `NO_COMPRESSION` tersedia terpisah.
+- Untuk APK, Swift menggunakan jalur archive `Basic`; untuk Data menggunakan `Fidelity`. Runtime log menunjukkan pemisahan APK, splits, dan Data sebagai task terpisah.
+
+### DIAGNOSIS
+
+1. **Progress total BaRe 138 GB adalah defect measurement, bukan ukuran APK yang valid.**
+   - Source saat ini menghitung total packaging dari `sourceByteSize(staging)`.
+   - Secara kontrak total tersebut seharusnya mendekati ukuran source APK/splits.
+   - Evidence runtime Swift memberi sanity bound sekitar **138.18 MB** untuk base+splits, bukan 138 GB.
+   - Sebelum optimasi lebih lanjut, perhitungan total harus dipisahkan dari throughput counter dan diberi diagnostic raw byte total agar sumber pembengkakan dapat dibuktikan.
+2. **BaRe saat ini melakukan dua fase I/O untuk APK:** ROOT `su cat` ke staging lalu membaca staging lagi untuk ZIP + AES-GCM. Ini menambah read/write amplification dibanding jalur archive native yang menerima source path secara langsung.
+3. **BaRe juga mengenkripsi artifact APK dengan AES-GCM secara default pada Standard strategy.** Source Swift yang diperiksa tidak menunjukkan encryption wajib pada jalur tanpa password; encryption dibangun sebagai jalur terpisah.
+4. **Swift menggunakan native archive path**, sehingga perbandingan performa tidak boleh dianggap hanya soal “enkripsi vs tidak”. Ada tiga variabel berbeda yang harus diisolasi: staging/copy amplification, archive/compression engine, dan encryption.
+5. **Data failure belum terdiagnosis sampai root cause filesystem.** `source_exists=false` hanya membuktikan path yang dipakai BaRe tidak ada pada runtime; belum membuktikan apakah `ApplicationInfo.dataDir` salah, app menggunakan CE/DE path berbeda, root namespace berbeda, atau provider root melihat filesystem namespace yang berbeda.
+
+### STATUS
+
+- **CI #1156:** VERIFIED PASS untuk build artifact pipeline.
+- **Runtime APK:** FAILED TO MEET PERFORMANCE/PROGRESS ACCEPTANCE; ukuran progress tidak valid dan runtime sangat lambat.
+- **Runtime Data:** FAILED; source directory masih UNKNOWN.
+- **Swift comparison:** source evidence tersedia; belum dijadikan implementasi BaRe.
+- **Behavior proven successful sebelumnya:** APK artifact lifecycle, Ext. data, dan Media tetap diperlakukan sebagai behavior yang tidak boleh diubah tanpa regression evidence.
+
+### NEXT ACTION
+
+- Jangan mengubah behavior part yang sudah terbukti berhasil secara semantic.
+- Prioritas berikutnya adalah **memperbaiki model backup APK**: ukur source path langsung, hindari staging penuh bila provider/archive boundary dapat menerima source path, dan jadikan encryption/compression policy eksplisit agar performa dapat diukur secara adil.
+- Untuk Data, tambahkan diagnosis path alternatif yang read-only (CE/DE/application info + root namespace check) sebelum memilih perubahan copy mechanism.
+- Acceptance berikutnya harus menggunakan angka raw bytes + elapsed time untuk collection, archive/compression, dan encryption secara terpisah.
+
 ## A18 — FIX CI #1155 COMPILE ERROR — 2026-09-26
 
 ### OBSERVED
