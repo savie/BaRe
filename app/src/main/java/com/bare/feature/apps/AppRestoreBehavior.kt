@@ -19,6 +19,8 @@ data class AppRestoreRequest(
 
 data class AppRestoreResult(
     val completedParts: Set<AppBackupPart>,
+    val skippedParts: Set<AppBackupPart> = emptySet(),
+    val failedParts: Map<AppBackupPart, String> = emptyMap(),
 )
 
 sealed interface AppRestoreOutcome {
@@ -59,6 +61,8 @@ class AppRestoreBehavior(private val context: Context) {
         }
 
         val completed = linkedSetOf<AppBackupPart>()
+        val skipped = linkedSetOf<AppBackupPart>()
+        val failed = linkedMapOf<AppBackupPart, String>()
         val staging = File(context.cacheDir, "restore/${System.currentTimeMillis()}").also {
             check(it.mkdirs()) { "Unable to create restore staging directory" }
         }
@@ -66,73 +70,80 @@ class AppRestoreBehavior(private val context: Context) {
         return try {
             for (part in request.parts) {
                 if (isCancelled()) return AppRestoreOutcome.Failed("Restore cancelled")
-                val partStartedAt = System.nanoTime()
                 val artifact = metadata.artifacts.firstOrNull { it.part == part.name }
-                    ?: return AppRestoreOutcome.Failed("${part.displayName()} backup artifact is missing")
-                val source = File(directory, artifact.fileName)
-                require(source.isFile) { "Backup artifact is missing: ${artifact.fileName}" }
-
-                onProgress(AppBackupProgress(
-                    AppBackupProgressStage.PART_STARTED,
-                    part,
-                    "Inspecting ${part.displayName()} backup",
-                ))
-
-                val partStage = File(staging, part.directoryName()).also {
-                    it.deleteRecursively()
-                    it.mkdirs()
-                }
-                reader.extract(
-                    archive = source,
-                    destination = partStage,
-                    expectedSha256 = artifact.sha256,
-                    password = request.password?.copyOf(),
-                    part = part,
-                ) { processed, total ->
-                    val elapsed = ((System.nanoTime() - partStartedAt) / 1_000_000L).coerceAtLeast(0L)
-                    val rate = if (elapsed > 0L) processed * 1000L / elapsed else null
-                    onProgress(AppBackupProgress(
-                        AppBackupProgressStage.PART_PROGRESS,
-                        part,
-                        "Extracting ${part.displayName()}",
-                        processed,
-                        total,
-                        elapsed,
-                        rate,
-                    ))
-                }
-
-                when (part) {
-                    AppBackupPart.APK -> {
-                        when (val install = restoreApks(partStage, method, request.packageName, isCancelled)) {
-                            is AppRestoreOutcome.PendingUserAction -> return install
-                            else -> Unit
-                        }
+                    ?: run {
+                        failed[part] = part.name + " backup artifact is missing"
+                        onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, failed[part]!!))
+                        continue
                     }
-                    AppBackupPart.DATA -> restoreData(partStage, request.packageName, isCancelled)
-                    AppBackupPart.EXTERNAL_DATA -> restoreExternal(partStage, request.packageName, method, isCancelled)
-                    AppBackupPart.MEDIA -> restoreMedia(partStage, request.packageName, method, isCancelled)
+
+                onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Inspecting " + part.name + " backup"))
+
+                if (shouldSkipRestore(part, metadata, artifact, request.packageName, method)) {
+                    skipped += part
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, part.name + " restore skipped: target is unchanged"))
+                    continue
                 }
-                onProgress(
-                    AppBackupProgress(
-                        AppBackupProgressStage.PART_PROGRESS,
-                        part,
-                        "Verifying ${part.displayName()} restore",
-                    ),
-                )
-                verifyRestoredPart(part, request.packageName)
-                completed += part
-                onProgress(AppBackupProgress(
-                    AppBackupProgressStage.PART_COMPLETED,
-                    part,
-                    "${part.displayName()} restore completed",
-                ))
+
+                val source = File(directory, artifact.fileName)
+                if (!source.isFile) {
+                    failed[part] = "Backup artifact is missing: " + artifact.fileName
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, failed[part]!!))
+                    continue
+                }
+
+                try {
+                    val partStartedAt = System.nanoTime()
+                    val partStage = File(staging, part.directoryName()).also {
+                        it.deleteRecursively()
+                        it.mkdirs()
+                    }
+                    reader.extract(
+                        archive = source,
+                        destination = partStage,
+                        expectedSha256 = artifact.sha256,
+                        password = request.password?.copyOf(),
+                        part = part,
+                    ) { processed, total ->
+                        val elapsed = ((System.nanoTime() - partStartedAt) / 1_000_000L).coerceAtLeast(0L)
+                        val rate = if (elapsed > 0L) processed * 1000L / elapsed else null
+                        onProgress(AppBackupProgress(
+                            AppBackupProgressStage.PART_PROGRESS,
+                            part,
+                            "Extracting " + part.name,
+                            processed,
+                            total,
+                            elapsed,
+                            rate,
+                        ))
+                    }
+
+                    when (part) {
+                        AppBackupPart.APK -> {
+                            when (val install = restoreApks(partStage, method, request.packageName, isCancelled)) {
+                                is AppRestoreOutcome.PendingUserAction -> return install
+                                else -> Unit
+                            }
+                        }
+                        AppBackupPart.DATA -> restoreData(partStage, request.packageName, isCancelled)
+                        AppBackupPart.EXTERNAL_DATA -> restoreExternal(partStage, request.packageName, method, isCancelled)
+                        AppBackupPart.MEDIA -> restoreMedia(partStage, request.packageName, method, isCancelled)
+                    }
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_PROGRESS, part, "Verifying " + part.name + " restore"))
+                    verifyRestoredPart(part, request.packageName)
+                    completed += part
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, part.name + " restore completed"))
+                } catch (t: Throwable) {
+                    failed[part] = t.message ?: t::class.java.simpleName
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, part.name + " restore failed: " + failed[part]!!))
+                }
             }
             onProgress(AppBackupProgress(
                 AppBackupProgressStage.COMPLETED,
-                message = "Restore completed: ${completed.size}/${request.parts.size} parts",
+                message = "Restore completed: " + (completed.size + skipped.size) + "/" + request.parts.size +
+                    " parts" + if (failed.isEmpty()) "" else " (" + failed.size + " failed)",
             ))
-            AppRestoreOutcome.Completed(AppRestoreResult(completed))
+            AppRestoreOutcome.Completed(AppRestoreResult(completed, skipped, failed))
         } catch (t: Throwable) {
             onProgress(AppBackupProgress(
                 AppBackupProgressStage.PART_FAILED,
@@ -142,6 +153,51 @@ class AppRestoreBehavior(private val context: Context) {
         } finally {
             staging.deleteRecursively()
         }
+    }
+
+    private fun shouldSkipRestore(
+        part: AppBackupPart,
+        metadata: AppBackupMetadata,
+        artifact: AppBackupArtifactMetadata,
+        packageName: String,
+        method: AccessMethod,
+    ): Boolean {
+        if (part == AppBackupPart.APK) {
+            val installed = runCatching { context.packageManager.getPackageInfo(packageName, 0) }.getOrNull()
+                ?: return false
+            val installedVersion = if (android.os.Build.VERSION.SDK_INT >= 28) installed.longVersionCode else @Suppress("DEPRECATION") installed.versionCode.toLong()
+            if (installedVersion > metadata.versionCode) return true
+            val info = installed.applicationInfo ?: return false
+            val apkSize = buildList {
+                add(info.sourceDir)
+                info.splitSourceDirs?.let(::addAll)
+            }.sumOf { File(it).length().coerceAtLeast(0L) }
+            return metadata.apkSizeBytes != null &&
+                metadata.hasSplitApks != null &&
+                metadata.hasSharedLibraries != null &&
+                metadata.apkSizeBytes == apkSize &&
+                metadata.versionCode == installedVersion &&
+                metadata.versionName == installed.versionName &&
+                metadata.hasSplitApks == !info.splitSourceDirs.isNullOrEmpty() &&
+                metadata.hasSharedLibraries == !info.sharedLibraryFiles.isNullOrEmpty()
+        }
+
+        val expectedSize = artifact.sourceByteSize ?: return false
+        val expectedModified = artifact.sourceModifiedAt ?: return false
+        val target = targetPath(packageName, part)
+        val state = if (method == AccessMethod.ROOT) {
+            AppBackupPartStateReader.root(root, target.absolutePath)
+        } else {
+            AppBackupPartStateReader.local(target)
+        }
+        return AppBackupPartState(expectedSize, expectedModified).matches(state)
+    }
+
+    private fun targetPath(packageName: String, part: AppBackupPart): File = when (part) {
+        AppBackupPart.APK -> File(context.cacheDir, "unused")
+        AppBackupPart.DATA -> File(context.packageManager.getApplicationInfo(packageName, 0).dataDir)
+        AppBackupPart.EXTERNAL_DATA -> File(Environment.getExternalStorageDirectory(), "Android/data/" + packageName)
+        AppBackupPart.MEDIA -> File(Environment.getExternalStorageDirectory(), "Android/media/" + packageName)
     }
 
     private fun restoreApks(stage: File, method: AccessMethod, packageName: String, isCancelled: () -> Boolean): AppRestoreOutcome? {
