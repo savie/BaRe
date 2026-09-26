@@ -527,3 +527,52 @@ Current conclusion:
 3. Exercise restore for the same parts and verify post-restore state, not merely file extraction.
 4. Specifically test split-APK restore for ROOT and NON_ROOT.
 5. Record runtime evidence and close only acceptance criteria actually demonstrated.
+
+
+## 11. CURRENT CHECKPOINT — #1184 RUNTIME FAILURE / HASH VERIFICATION REGRESSION
+
+### 2026-09-26 — First runtime of CI #1184
+
+**OBSERVED — user-provided runtime evidence**
+
+CI #1184 APK was exercised against 1DM+ / package `idm.internet.download.manager.plus`.
+
+Observed backup failures:
+
+- APK: backup reached packaging (example progress: `1.9 GB / 7.1 GB (156 MB/s)`) and then failed at artifact hash verification.
+- Ext. data: backup reached artifact verification and failed with `Backup artifact hash verification failed`.
+- Media: backup reached artifact verification and failed with `Backup artifact hash verification failed`.
+- Data: failed earlier at the new ROOT source precondition: `/data/user/0/idm.internet.download.manager.plus` → `source_exists=false`.
+
+**ANALYSIS**
+
+The runtime evidence separates the failure into two independent defects:
+
+1. **Artifact hash mismatch is systematic across multiple successfully packaged parts.** This is a verification/contract defect in the artifact hash result path, not evidence that APK/Ext. data/Media source collection itself failed.
+2. **ROOT Data has a distinct source namespace/path availability failure** before archive creation. This remains unresolved and requires device-specific source-path evidence; it must not be conflated with the hash defect.
+
+**IMPLEMENTED FIX**
+
+- `AppBackupArchiveWriter` now calculates the SHA-256 from the **committed final artifact file after move-into-place**, so the metadata/result hash is bound to the exact artifact that will be verified.
+- `AppBackupEngine` now reports expected and actual SHA-256 values when verification fails, to make any remaining mismatch directly diagnosable from runtime evidence.
+
+Commits:
+
+- `2658a48e5dfbbde3387693a416c0c4fb184f6278` — hash committed backup artifact.
+- `db0d8d712baeb868ec31e72c6e425c34d8f552cd` — expose backup artifact hash mismatch.
+
+**VERIFICATION STATUS**
+
+- CI #1184: **CI VERIFIED**.
+- #1184 runtime backup: **FAILED / UNVERIFIED**.
+- Hash fix above: **IMPLEMENTED / NOT YET CI-VERIFIED**.
+- ROOT Data source resolution: **UNRESOLVED / UNKNOWN ROOT CAUSE**.
+- Restore: **NOT STARTED FOR RUNTIME VERIFICATION** because backup artifact production is currently blocked.
+
+**NEXT**
+
+1. CI build the hash-fix checkpoint.
+2. Re-run one small backup part first (APK or Media) to verify the hash contract before spending time on large APK packaging.
+3. If hash passes, re-run Ext. data and Media, then APK.
+4. Separately diagnose ROOT Data source visibility using the exact runtime path and privileged namespace evidence; do not weaken the precondition.
+5. Only after backup artifacts are valid, proceed to restore runtime verification.
