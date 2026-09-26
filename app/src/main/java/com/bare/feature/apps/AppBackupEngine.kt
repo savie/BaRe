@@ -27,7 +27,7 @@ class AppBackupEngine(private val context: Context) {
         onProgress: (AppBackupProgress) -> Unit,
         isCancelled: () -> Boolean,
     ): AppBackupEngineResult {
-        val method = request.accessMethod
+        val method = request.accessMethod ?: com.bare.app.LocalIdentityStore(context).loadAccessMethod() ?: AccessMethod.ROOT
         val capability = resolver.resolve(method)
         if (!capability.available) error(capability.reason)
 
