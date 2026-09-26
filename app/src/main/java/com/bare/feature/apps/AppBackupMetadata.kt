@@ -94,7 +94,7 @@ data class AppBackupMetadata(
                     }
                 }.orEmpty(),
             )
-        }
+        }.getOrNull()
     }
 }
 
