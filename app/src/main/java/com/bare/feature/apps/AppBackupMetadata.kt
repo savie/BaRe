@@ -86,4 +86,12 @@ data class AppBackupMetadata(
         }
     }
 }
-\n\ndata class AppBackupArtifactMetadata(\n    val part: String,\n    val fileName: String,\n    val byteSize: Long,\n    val sha256: String,\n    val encryption: String,\n)\n
+
+
+data class AppBackupArtifactMetadata(
+    val part: String,
+    val fileName: String,
+    val byteSize: Long,
+    val sha256: String,
+    val encryption: String,
+)
