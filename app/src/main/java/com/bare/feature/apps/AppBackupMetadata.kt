@@ -49,6 +49,8 @@ data class AppBackupMetadata(
                         .put("byteSize", artifact.byteSize)
                         .put("sha256", artifact.sha256)
                         .put("encryption", artifact.encryption)
+                        .put("sourceByteSize", artifact.sourceByteSize ?: JSONObject.NULL)
+                        .put("sourceModifiedAt", artifact.sourceModifiedAt ?: JSONObject.NULL)
                     )
                 }
             })
@@ -89,6 +91,8 @@ data class AppBackupMetadata(
                                 byteSize = item.optLong("byteSize", 0L),
                                 sha256 = item.optString("sha256"),
                                 encryption = item.optString("encryption"),
+                                sourceByteSize = item.opt("sourceByteSize").takeUnless { it == JSONObject.NULL }?.let { item.optLong("sourceByteSize") },
+                                sourceModifiedAt = item.opt("sourceModifiedAt").takeUnless { it == JSONObject.NULL }?.let { item.optLong("sourceModifiedAt") },
                             ))
                         }
                     }
@@ -105,4 +109,6 @@ data class AppBackupArtifactMetadata(
     val byteSize: Long,
     val sha256: String,
     val encryption: String,
+    val sourceByteSize: Long? = null,
+    val sourceModifiedAt: Long? = null,
 )
