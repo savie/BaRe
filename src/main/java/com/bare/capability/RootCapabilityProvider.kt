@@ -58,7 +58,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun ensureDirectory(path: String, ownerUid: Int): RootProbeResult {
-        if (path.isBlank() || path.contains("\\n") || path.contains("\\r")) {
+        if (path.isBlank() || path.contains("\
+") || path.contains("\\r")) {
             return RootProbeResult.Failed("Invalid storage path")
         }
         val quoted = shellQuote(path)
@@ -87,7 +88,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun directoryExists(path: String): Boolean? {
-        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        if (path.isBlank() || path.contains("
+") || path.contains("\r")) return null
         val quoted = shellQuote(path)
         val result = runSu("test -d $quoted")
         return when (result.exitCode) {
@@ -106,7 +108,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         destinationDir: File,
         isCancelled: (() -> Boolean)?,
     ): RootCopyResult {
-        if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
+        if (sourcePath.isBlank() || sourcePath.contains("
+") || sourcePath.contains("\r")) {
             return RootCopyResult.Failed("Invalid source path")
         }
         if (!destinationDir.exists() && !destinationDir.mkdirs()) {
@@ -125,7 +128,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun deletePath(path: String): RootProbeResult {
-        if (path.isBlank() || path.contains("\n") || path.contains("\r")) {
+        if (path.isBlank() || path.contains("
+") || path.contains("\r")) {
             return RootProbeResult.Failed("Invalid storage path")
         }
         val quoted = shellQuote(path)
@@ -138,7 +142,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun directorySize(path: String): Long? {
-        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        if (path.isBlank() || path.contains("
+") || path.contains("\r")) return null
         val quoted = shellQuote(path)
         val result = runSu("toybox du -sk $quoted")
         if (result.exitCode != 0) return null
@@ -153,8 +158,15 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         val process = ProcessBuilder("su", "-c", "cat ${shellQuote(remotePath)}").redirectErrorStream(false).start()
         val stderr = StringBuilder()
         val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
-        process.inputStream.use { input -> FileOutputStream(destination).use { output ->\n            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-            while (true) {\n                if (isCancelled?.invoke() == true) { process.destroyForcibly(); throw InterruptedException("Root file copy cancelled") }\n                val read = input.read(buffer)\n                if (read < 0) break\n                output.write(buffer, 0, read)\n            }\n        } }
+        process.inputStream.use { input -> FileOutputStream(destination).use { output ->
+            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {
+                if (isCancelled?.invoke() == true) { process.destroyForcibly(); throw InterruptedException("Root file copy cancelled") }
+                val read = input.read(buffer)
+                if (read < 0) break
+                output.write(buffer, 0, read)
+            }
+        } }
         check(process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) { "Root file copy timed out" }
         stderrThread.join(1000)
         check(process.exitValue() == 0) { "Root read failed: " + remotePath + " " + stderr }
