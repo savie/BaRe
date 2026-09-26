@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 63d3a47b4d4a59bd72e26622020b8fd04f2ffa30 |
-| Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
-| Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
-| Latest build evidence | **CI #1181 for current rebuild is IN_PROGRESS** |
-| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / #1181 COMPILE FIX APPLIED / NEW CI PENDING / RUNTIME UNVERIFIED** |
+| Current repository HEAD | faa2eacc3dd0b81c20c31da3e8aeb714abda98ec |
+| Lifecycle | **VERIFICATION** |
+| Current focus | **A18 — POST-RUNTIME RECONCILIATION: INVENTORY REFRESH / APK IDENTITY SKIP / RESTORE PER-PART / PROGRESS VERIFICATION** |
+| Latest build evidence | **CI #1208 PASS; latest implementation commits #1207 and #1208 are CI VERIFIED** |
+| Current implementation status | **BACKUP + RESTORE REBUILD RUNTIME-TESTED FOR SELECTED 4/4 PARTS / FULL A18 ACCEPTANCE NOT VERIFIED / KNOWN UI-STATE GAPS REMAIN** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -143,14 +143,13 @@ RESTORE process screen
   └─ result or installer handoff
 ```
 
-**IMPORTANT STATUS**
+**IMPORTANT STATUS — SUPERSEDED BY LATER RUNTIME EVIDENCE**
 
-- This is **IMPLEMENTED**, not yet **VERIFIED**.
-- CI/build for the new commits is pending at the time of this checkpoint.
-- Runtime on ROOT and NON_ROOT devices is still **UNVERIFIED**.
-- Restore end-to-end is **UNVERIFIED**.
-- No claim is made that every reference UI/state is identical; the current work establishes the actual wired user path that can now be exercised and compared against reference behavior.
-- The next verification must use the generated APK from the new build, not infer behavior from source alone.
+- The implementation remains **IMPLEMENTED**.
+- The earlier pending-build state is historical; subsequent CI #1203/#1204/#1205/#1207/#1208 evidence supersedes it.
+- Runtime evidence later showed backup APK/Data/Ext. data/Media completed and restore all selected parts completed 4/4.
+- Full A18 acceptance remains **NOT VERIFIED**.
+- No claim is made that every reference UI/state is identical.
 
 ## 3. CURRENT CHECKPOINT — CI #1181 COMPILE FAILURE AND FIX
 
@@ -274,11 +273,14 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 ### VERIFIED / OBSERVED
 
 - Repository branch yang aktif adalah v1.0/rebaseline.
-- Latest repository HEAD yang terobservasi adalah c039dbad9984f9f90b8f89b74707b605417f3ef5.
-- User-provided CI #1169 runtime evidence menunjukkan APK backup completed tetapi Data backup gagal.
-- Failure terjadi pada packaging/encryption Data dengan error tar: idm.internet.download.manager.plus: No such file or directory dan tar: had errors.
-- Reference branch/evidence tersedia untuk dijadikan baseline mekanisme backup/restore.
-- Encryption BaRe adalah explicit exception dari parity reference.
+- Actual repository HEAD pada saat rekonsiliasi ini adalah faa2eacc3dd0b81c20c31da3e8aeb714abda98ec.
+- CI #1207 dan CI #1208 berstatus **PASS** pada actual GitHub Actions evidence.
+- User-provided runtime #1208 menunjukkan backup APK, Data, Ext. data, dan Media selesai; seluruh selected backup selesai **4/4 parts**.
+- User-provided runtime #1208 menunjukkan restore seluruh selected parts selesai **4/4 parts**.
+- Backup progress tidak lagi menunjukkan defect skala GB yang sebelumnya dilaporkan pada backup.
+- Reference branch/evidence tersedia sebagai baseline mekanisme backup/restore.
+- Encryption BaRe tetap menjadi explicit exception dari parity encryption reference.
+- APK identity-based skip, restore per-part UI, dan restore progress canonicalization belum selesai/terverifikasi.
 
 ### UNVERIFIED / UNKNOWN
 
@@ -304,29 +306,24 @@ Direct-root/performance implementation yang sudah ada tetap merupakan historical
 
 ## 4. CURRENT NEXT ACTION
 
-### Phase B — BaRe adaptation
+### Phase A — Post-runtime reconciliation
 
-1. Reconcile current app-module implementation against `docs/a18_reference_reconstruction.md`.
-2. Replace the current ROOT Data source handling so **source existence/type is a hard precondition before archive execution**; no archive attempt when the source boundary is invalid.
-3. Keep ROOT source entries direct at the archive boundary; keep NON_ROOT staging only where capability requires it.
-4. Preserve BaRe encryption as the explicit security boundary and preserve atomic artifact commit + metadata + integrity behavior.
-5. Introduce the missing restore backend boundary: artifact validation → hash verification → decryption → archive validation → restore plan → capability-specific mutation → post-restore validation.
-6. Do not claim restore support until the backend has a real mutation path and verification result.
+1. **ACTIVE / correctness:** reconcile and fix LOCAL APPS backup-inventory refresh so a newly completed backup is reflected without requiring stale state.
+2. **USER REQUIREMENT:** define the authoritative APK identity/integrity predicate for skip vs rebackup; identical APK/version must skip, changed APK/version must rebackup.
+3. **USER REQUIREMENT:** wire RESTORE action per part while retaining all-parts restore.
+4. **VERIFICATION:** reproduce and instrument restore progress using canonical `processedBytes / totalBytes / elapsedMillis / bytesPerSecond`; do not claim a fix for the reported GB display defect until reproduced.
+5. Runtime-test restore APK-only, Data-only, Ext. data-only, and Media-only after per-part wiring.
+6. Regression-test cancellation, partial failure, artifact retention/cleanup, metadata/hash consistency, and protected behavior.
+7. Measure large-file performance only after correctness/UI-state gaps are closed.
 
-### Phase C — Implementation
+### Phase B — Acceptance
 
-7. Implement the smallest coherent backup/restore slice from the reconstructed mechanism, not another isolated patch to the old pipeline.
-8. ROOT and NON_ROOT must share the logical operation contract; only source/install/data execution differs by capability.
-9. Build after implementation changes.
-
-### Phase D — Runtime / regression / verification
-
-10. Runtime ROOT backup APK + Data + Ext. data + Media.
-11. Runtime NON_ROOT backup for capabilities actually available on the target.
-12. Runtime restore of produced artifacts.
-13. Regression cancellation, partial failure, artifact retention/cleanup, metadata/hash consistency, and protected behavior.
-14. Only after correctness is proven, measure performance.
-15. A18 remains **NOT VERIFIED** until the complete required evidence chain exists.
+8. Verify backup inventory refresh after successful backup.
+9. Verify APK identical-skip and changed-version rebackup.
+10. Verify restore per-part and all-parts flows.
+11. Verify restore progress representation and result semantics.
+12. Complete ROOT/NON_ROOT capability evidence required by the acceptance criteria.
+13. A18 remains **NOT VERIFIED** until the complete required evidence chain exists.
 
 ### Reference reconstruction artifact
 
@@ -736,6 +733,36 @@ Commits:
 3. Runtime APK-only untuk memastikan progress bawah tidak lagi menduplikasi angka dengan unit salah dan mengukur elapsed/rate setelah direct file stream.
 4. Regression Ext. data + Media.
 5. Setelah backup artifacts valid, lanjut restore runtime dan verification end-to-end.
+## A18 — CURRENT STATE RECONCILIATION — 2026-09-26
+
+### ACTUAL REPOSITORY STATE
+
+- Branch: `v1.0/rebaseline`
+- HEAD: `faa2eacc3dd0b81c20c31da3e8aeb714abda98ec`
+- Reference branch HEAD: `b25b3bf306c37ec55e05ad26ed7084c9b605511f`
+- Latest relevant implementation CI observed: #1208 **PASS**.
+- CI #1207 also **PASS**.
+
+### RUNTIME EVIDENCE RECONCILIATION
+
+- Backup APK: **RUNTIME TESTED / COMPLETED**
+- Backup Data: **RUNTIME TESTED / COMPLETED**
+- Backup Ext. data: **RUNTIME TESTED / COMPLETED**
+- Backup Media: **RUNTIME TESTED / COMPLETED**
+- Backup selected parts: **4/4 COMPLETED**
+- Restore selected parts: **4/4 COMPLETED**
+- Backup progress GB-scale defect: **NOT OBSERVED in #1208 evidence**
+- Backup performance vs reference: **KNOWN GAP / NOT ACCEPTANCE-PROVEN**
+- Restore per-part UI: **NOT YET WIRED**
+- Restore progress GB-scale defect: **REPORTED / NOT REPRODUCED**
+- LOCAL APPS inventory refresh: **KNOWN UI-STATE GAP / ROOT CAUSE NOT VERIFIED**
+- APK identical-skip: **REQUIREMENT / NOT IMPLEMENTED**
+- Full A18 acceptance: **NOT VERIFIED**
+
+### CONTINUITY RULE
+
+Earlier entries that state CI pending, runtime unverified, or restore not started remain historical checkpoint truth. They are not current state once superseded by later CI/runtime evidence. Current state is governed by the latest verified/observed evidence above.
+
 ## A18 — #1208 RUNTIME CHECKPOINT — 2026-09-26
 
 ### CURRENT CHECKPOINT
