@@ -14,75 +14,64 @@
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
 | Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
-| Fokus saat ini | **A18 — mempersempit sisa gap runtime: inventaris LOCAL APPS, alur pemilihan bagian RESTORE, dan audit performa file besar** |
-| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract, berdasarkan evidence build yang tersedia |
-| Evidence runtime terbaru | **RUNTIME USER — 2026-09-26**: #1 LOCAL APPS gagal; #2–#8 berhasil; #9 eksekusi Restore All berhasil tetapi bottom sheet pemilihan bagian restore belum tersedia; #10 berhasil; #12–#13 berhasil; #15 masih lambat |
-| Audit reference | **docs/reference.md Section 30** — audit statis penuh lifecycle App Backup / Restore terhadap Swift Backup 5.1.0 (620) |
-| Acceptance A18 | **NOT VERIFIED** — masih menunggu penyelesaian scope aktif di bawah |
+| Fokus saat ini | **A18 — UI restore sudah berubah dan runtime sebagian terverifikasi; sisa correctness sekarang dipersempit ke LOCAL APPS, action parity Ext. data/Media, dan perlakuan khusus Data** |
+| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; build berikutnya untuk UI terakhir perlu diverifikasi terpisah |
+| Evidence runtime terbaru | **RUNTIME USER — #1254**: unchanged restore sudah berfungsi untuk per-part dan multi-select kecuali Data; UI Restore utama sudah berubah, tetapi action surface Ext. data/Media belum parity |
+| Audit reference | **docs/reference.md Section 30/31** — audit statis lifecycle App Backup/Restore dan audit inventory/performance |
+| Acceptance A18 | **NOT VERIFIED** |
 
 ### GAP / TODO AKTIF — SCOPE DIPERSEMPIT
 
-Hanya item berikut yang masih boleh dikerjakan. **Item yang sudah terbukti berhasil tidak boleh dibuka kembali kecuali ditemukan regresi baru yang nyata.**
+Hanya item berikut yang aktif. **Jangan membuka kembali behavior yang sudah terbukti berhasil kecuali ada regresi nyata.**
 
 1. **LOCAL APPS canonical inventory — AKTIF / CORRECTNESS**
-   - Evidence runtime: backup 1DM+ yang sudah ada terlihat pada App Detail, tetapi LOCAL APPS masih menampilkan "No backup on device".
-   - Rekonsiliasi inventaris/association LOCAL APPS dengan discovery canonical local backup-container yang digunakan oleh detail/restore flow.
-   - Verifikasi perilaku refresh/resume setelah backup sudah tersedia.
-   - Acceptance: backup yang sudah ada harus tercermin dengan benar pada LOCAL APPS tanpa merusak discovery pada detail/restore.
+   - Runtime #1254 belum menyatakan LOCAL APPS selesai.
+   - Discovery/association backup lokal masih harus ditutup dan diverifikasi.
 
-2. **RESTORE part-selection flow — AKTIF / CORRECTNESS + UX**
-   - Evidence runtime: **Restore All berhasil dieksekusi**.
-   - Gap yang tersisa adalah UX pemilihan restore: berbeda dengan Backup flow, Restore saat ini belum menampilkan bottom sheet pemilihan bagian yang diharapkan.
-   - Pertahankan backend Restore All yang sudah bekerja.
-   - Rekonsiliasi entry flow restore dengan contract pemilihan bagian sebelum mengubah backend.
-   - Acceptance: Restore dapat menampilkan dan memilih bagian yang tersedia, sementara Restore All tetap bekerja.
+2. **EXT. DATA / MEDIA action parity — AKTIF / UI CORRECTNESS**
+   - UI utama Restore sudah berubah.
+   - Namun action surface untuk part Ext. data dan Media belum sama dengan contract yang diharapkan saat part/action ditekan.
+   - Target action parity: **Restore / Sync to cloud / Encrypted / Delete** sesuai state/availability yang berlaku.
+   - Jangan mengubah engine change-detection hanya untuk menyamakan action surface.
 
-3. **LARGE-FILE PERFORMANCE — AUDIT AKTIF / OPTIMASI NANTI**
-   - Observasi runtime: proses backup masih lambat.
-   - Hipotesis saat ini: reference mungkin melakukan staging/archive di data/cache lalu memindahkan hasil yang sudah selesai ke final storage.
-   - Ini **HIPOTESIS, BUKAN FAKTA**.
-   - Audit pipeline BaRe yang aktual dan ukur waktu tiap tahap sebelum mengubah implementation.
-   - Bandingkan source traversal, staging, archive/compression, encryption, digest, final move/write, serta metadata/verification.
-   - Jangan melakukan optimasi atau redesign hanya berdasarkan hipotesis.
+3. **DATA BACKUP + RESTORE SPECIAL BEHAVIOR — AKTIF / CORRECTNESS**
+   - **Data adalah satu-satunya part yang mendapat perlakuan khusus pada checkpoint ini.**
+   - Berlaku untuk **backup Data** dan **restore Data**, baik **per-part** maupun **multi-select Restore**.
+   - APK, Ext. data, dan Media **tidak termasuk** dalam special behavior ini.
+   - Sebelum implementation: inspect actual Data path, current skip/change decision, artifact/metadata boundary, dan execution flow; jangan menggeneralisasi behavior Data ke part lain.
+   - Exact behavior/implementation contract belum ditetapkan pada checkpoint ini; user instruction baru menetapkan bahwa Data perlu perlakuan khusus.
 
-4. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
-   - Ditunda sampai scope correctness lokal di atas stabil.
-   - Jangan memperluas scope saat ini.
+4. **LARGE-FILE PERFORMANCE — AUDIT SELESAI / OPTIMIZATION LATER**
+   - Static audit sudah selesai.
+   - Optimization **ditunda**; jangan melebar ke redesign/performance sekarang.
 
-5. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
-   - Menjadi gate terakhir setelah #1 dan #9 selesai serta #15 memiliki audit performance berbasis evidence.
-   - Acceptance harus tetap mencakup regresi pada seluruh item yang sudah terbukti berhasil, bukan mengerjakan ulang item tersebut.
+5. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
+   - Tetap ditunda sampai correctness lokal dan Data selesai.
 
-### SCOPE GUARD — JANGAN REGRESI PADA YANG SUDAH VERIFIED
+6. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
+   - Gate terakhir setelah active correctness scope selesai dan regression runtime tersedia.
 
-Item berikut **sudah terbukti berhasil melalui test runtime user** dan sekarang menjadi protected scope:
+### SCOPE GUARD — JANGAN REGRESI
 
-- #2 DATA backup change detection
-- #3 EXT. DATA backup change detection
-- #4 MEDIA backup change detection
-- #5 APK restore decision
-- #6 DATA restore change detection
-- #7 EXT. DATA restore change detection
-- #8 MEDIA restore change detection
-- #10 PART-LEVEL INCREMENTAL UPDATE
-- #12 BACKUP CHANGE-DETECTION METADATA CONTRACT
-- #13 RESTORE CHANGE-DETECTION METADATA CONTRACT
-
-Selain itu, tetap protected berdasarkan evidence/decision sebelumnya:
-
-- APK identical-skip behavior.
-- SHA-256 artifact integrity verification.
+Tetap protected berdasarkan runtime evidence sebelumnya dan #1254:
+- APK restore decision.
+- Unchanged restore behavior untuk part yang sudah terbukti: APK, Ext. data, Media.
+- Data/Ext. data/Media backup change detection yang sebelumnya sudah berhasil.
+- PART-LEVEL INCREMENTAL UPDATE.
+- Backup/restore metadata contracts.
+- SHA-256 artifact integrity.
 - BaRe encryption boundary.
 - File-level delta/patch tetap **OUT OF SCOPE**.
 
 ### NEXT ACTION
 
-1. Inspect implementation aktual LOCAL APPS inventory/association dan temukan mismatch yang konkret.
-2. Inspect implementation aktual Restore selection UI/entry flow dan implementasikan hanya surface/contract yang hilang tanpa mengganggu Restore All.
-3. Audit timing backup file besar dan pipeline I/O/staging aktual; jangan optimasi sebelum evidence cukup.
-4. Jalankan targeted CI/build verification setelah perubahan.
-5. Jalankan satu final regression/runtime cycle untuk **#1, #9, #15**, ditambah smoke check pada item hijau yang protected.
-6. Tutup A18 hanya setelah acceptance gate memiliki evidence yang cukup.
+1. **Data-only scope:** inspect actual backup + restore Data behavior dan tentukan contract khusus sebelum change.
+2. **Ext. data/Media:** inspect action surface dan buat minimal UI parity tanpa menyentuh engine.
+3. **LOCAL APPS:** lanjutkan canonical inventory/association sampai runtime verified.
+4. CI/build targeted setelah perubahan.
+5. Satu regression/runtime cycle untuk Data, Ext. data/Media actions, LOCAL APPS, lalu smoke check behavior yang protected.
+6. Optimization tetap belakangan; jangan dikerjakan pada checkpoint ini.
+7. Tutup A18 hanya setelah acceptance evidence cukup.
 
 **Continuity rule:** checkpoint historis di bawah tetap menjadi historical truth. Section ini adalah satu-satunya active implementation scope saat ini.
 
@@ -248,7 +237,6 @@ Build reached Kotlin compilation and failed with three source errors:
 ## 3. HISTORICAL SYNTHESIS
 
 ### History 1 — Fondasi sampai capability progression
-
 History 1 mencatat perjalanan engineering dari **2026-09-17 sampai 2026-09-24**, termasuk:
 
 1. **Repository/documentation boundary**
@@ -497,7 +485,6 @@ Current conclusion:
 - Canonical BaRe architecture already requires validation, atomic commit, metadata, integrity, and post-restore verification; reconstruction therefore maps to existing BaRe architecture rather than replacing it.
 - Current app source has backup implementation but **no restore backend**.
 - Current ROOT Data runtime failure (#1169) occurs during packaging/encryption after a tar source-path error; the new adaptation will make source precondition validation explicit before archive execution.
-
 **DECISION**
 
 - Reference reconstruction is now complete enough to start BaRe adaptation.
@@ -748,7 +735,6 @@ Commits:
 - #1205 mengonfirmasi perubahan `su --mount-master` terkompilasi dan artifact berhasil dibuat.
 
 ### OBSERVED — USER RUNTIME #1205
-
 - APK backup 1DM+ **completed**.
 - Ext. data backup 1DM+ **completed**.
 - Media backup 1DM+ **completed**.
@@ -997,8 +983,7 @@ Requirement tersebut dicatat karena dinyatakan langsung oleh user; bukan hasil i
 - LOCAL APPS inventory fix: RUNTIME UNVERIFIED.
 - Restore all after integrity fix: RUNTIME UNVERIFIED.
 - Restore per-part after integrity fix: RUNTIME UNVERIFIED.
-- Restore Data after integrity fix: RUNTIME UNVERIFIED.
-- Large-file performance: UNKNOWN.
+- Restore Data after integrity fix: RUNTIME UNVERIFIED.- Large-file performance: UNKNOWN.
 - Full A18 acceptance: NOT VERIFIED.
 
 ### KNOWN LIMITATION
@@ -1247,8 +1232,7 @@ Mulai implementasi dari prasyarat correctness dengan prioritas tertinggi:
         ↓
     backup change decision
         ↓
-    part-level update
-        ↓
+    part-level update        ↓
     restore change decision
         ↓
     Restore All aggregation
@@ -1498,7 +1482,6 @@ Acceptance A18 tetap NOT VERIFIED sampai evidence runtime final tersedia.
 
 
 ## A18 — CHECKPOINT CI SETELAH PERUBAHAN #1/#9 — 2026-09-26
-
 Status verifikasi saat checkpoint ini:
 
 - CI #1249 — commit 7ffbf297c35c11cf0862c794c34aef5c3b28a14a — **IN PROGRESS**
@@ -1511,3 +1494,98 @@ CI #1251 merupakan build code terbaru yang sudah mencakup rangkaian perubahan so
 Runtime verification untuk #1 dan #9 tetap **PENDING**. Tidak ada claim bahwa perubahan source sudah memperbaiki runtime sebelum device test membuktikannya.
 
 Scope guard tetap berlaku: item runtime yang sebelumnya hijau tidak boleh diregresikan.
+
+## A18 — RUNTIME #1254 / SCOPE NARROWING — 2026-09-27
+
+### USER-PROVIDED RUNTIME EVIDENCE
+
+Status: **VERIFICATION — USER TESTED ON DEVICE**
+
+User melaporkan bahwa pada build/runtime **#1254**:
+
+- UI Restore **sudah berubah** dan surface utama sudah mengikuti perubahan yang dikerjakan.
+- Untuk kondisi **unchanged**, restore sudah berfungsi pada:
+  - restore per-part;
+  - restore multi-select;
+  - **kecuali Data**.
+- Artinya, pada checkpoint ini **Data menjadi pengecualian yang membutuhkan perlakuan khusus** untuk backup dan restore.
+- Perlakuan khusus tersebut berlaku untuk:
+  - **backup Data**;
+  - **restore Data**;
+  - per-part;
+  - multi-select.
+- **APK, Ext. data, dan Media tidak ikut dimasukkan ke special Data behavior.**
+
+### UI GAP YANG MASIH TERLIHAT
+
+UI belum dianggap selesai penuh.
+
+User mengidentifikasi bahwa action surface untuk **Ext. data** dan **Media** belum sama dengan yang diharapkan saat action dibuka.
+
+Target action surface yang dicatat:
+- Restore
+- Sync to cloud
+- Encrypted
+- Delete
+
+Status:
+- UI utama Restore: **RUNTIME OBSERVED CHANGED**
+- Ext. data action parity: **NOT COMPLETE**
+- Media action parity: **NOT COMPLETE**
+- Exact state-dependent enable/disable semantics: **BELUM DITETAPKAN / PERLU INSPEKSI ACTUAL IMPLEMENTATION**
+
+### LOCAL APPS
+
+**BELUM KELAR.**
+
+LOCAL APPS tetap menjadi active correctness scope. Tidak ada claim bahwa canonical inventory/association sudah verified hanya karena UI Restore sudah berubah.
+
+### LARGE-FILE PERFORMANCE
+
+Audit static yang sebelumnya dilakukan tetap dipertahankan sebagai evidence.
+
+- Audit: **SELESAI**
+- Optimization: **LATER**
+- Tidak ada pekerjaan optimasi yang dibuka dari checkpoint #1254.
+
+### SPECIAL DATA BEHAVIOR — ENGINEERING BOUNDARY
+
+Requirement baru pada checkpoint ini diperlakukan sebagai **user instruction**, bukan inference:
+
+```text
+DATA BACKUP
+  └─ special behavior
+
+DATA RESTORE
+  ├─ per-part
+  └─ multi-select
+
+APK / EXT. DATA / MEDIA
+  └─ keep existing behavior
+```
+
+Sebelum implementasi, wajib:
+1. Inspect actual Data backup decision/execution path.
+2. Inspect actual Data restore decision/execution path.
+3. Identify why unchanged Data differs from APK/Ext. data/Media.
+4. Define minimal Data-specific contract.
+5. Change only Data path.
+6. CI.
+7. Runtime verify per-part + multi-select.
+8. Regression smoke APK/Ext. data/Media.
+
+**Tidak boleh** menggeneralisasi special handling Data menjadi shared behavior untuk semua part.
+
+### CURRENT ACTIVE ORDER
+
+```text
+1. DATA special behavior
+2. EXT. DATA / MEDIA action parity
+3. LOCAL APPS
+4. CI
+5. Targeted runtime regression
+6. FULL A18 acceptance
+7. LARGE-FILE OPTIMIZATION → LATER
+```
+
+No implementation change is implied by this worklog update alone beyond the user-authorized scope above. Root cause dan exact fix untuk Data masih **UNKNOWN / UNVERIFIED** sampai actual source flow diinspeksi.
