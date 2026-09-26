@@ -14,48 +14,48 @@
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
 | Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
-| Current focus | **A18 — narrow remaining runtime gaps only: LOCAL APPS inventory, Restore part-selection flow, large-file performance audit** |
-| Latest CI evidence | **USER-REPORTED CI #1248 PASS** for restore metadata fallback contract |
-| Latest runtime evidence | **USER RUNTIME — 2026-09-26**: #1 LOCAL APPS association failed; #2–#8 passed; #9 Restore All execution passed but restore part-selection bottom sheet is missing; #10 passed; #12–#13 passed; #15 still slow |
-| Reference audit | **docs/reference.md Section 30** — static full App Backup / Restore lifecycle audit against Swift Backup 5.1.0 (620) |
-| A18 acceptance | **NOT VERIFIED** — blocked only by the remaining scope below |
+| Fokus saat ini | **A18 — mempersempit sisa gap runtime: inventaris LOCAL APPS, alur pemilihan bagian RESTORE, dan audit performa file besar** |
+| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract, berdasarkan evidence build yang tersedia |
+| Evidence runtime terbaru | **RUNTIME USER — 2026-09-26**: #1 LOCAL APPS gagal; #2–#8 berhasil; #9 eksekusi Restore All berhasil tetapi bottom sheet pemilihan bagian restore belum tersedia; #10 berhasil; #12–#13 berhasil; #15 masih lambat |
+| Audit reference | **docs/reference.md Section 30** — audit statis penuh lifecycle App Backup / Restore terhadap Swift Backup 5.1.0 (620) |
+| Acceptance A18 | **NOT VERIFIED** — masih menunggu penyelesaian scope aktif di bawah |
 
-### ACTIVE GAPS / TODO — NARROWED SCOPE
+### ACTIVE GAPS / TODO — SCOPE DIPERSEMPIT
 
-Only the following items remain actionable. **Do not reopen or modify the runtime-proven items below unless a new regression is demonstrated.**
+Hanya item berikut yang masih boleh dikerjakan. **Item yang sudah terbukti berhasil tidak boleh dibuka kembali kecuali ditemukan regresi baru yang nyata.**
 
 1. **LOCAL APPS canonical inventory — ACTIVE / CORRECTNESS**
-   - Runtime evidence: an existing 1DM+ device backup is visible in App Detail, while LOCAL APPS still shows "No backup on device".
-   - Reconcile LOCAL APPS inventory/association with the same canonical local backup-container discovery used by the detail/restore flow.
-   - Verify refresh/resume behavior after a backup already exists.
-   - Acceptance: existing backup is reflected correctly in LOCAL APPS without breaking the detail/restore discovery path.
+   - Evidence runtime: backup 1DM+ yang sudah ada terlihat pada App Detail, tetapi LOCAL APPS masih menampilkan "No backup on device".
+   - Rekonsiliasi inventaris/association LOCAL APPS dengan discovery canonical local backup-container yang digunakan oleh detail/restore flow.
+   - Verifikasi perilaku refresh/resume setelah backup sudah tersedia.
+   - Acceptance: backup yang sudah ada harus tercermin dengan benar pada LOCAL APPS tanpa merusak discovery pada detail/restore.
 
 2. **RESTORE part-selection flow — ACTIVE / CORRECTNESS + UX**
-   - Runtime evidence: **Restore All execution succeeds**.
-   - Remaining defect is the restore selection UX: unlike the Backup flow, Restore does not currently expose the expected bottom-sheet part selection.
-   - Preserve the already-working Restore All backend path.
-   - Reconcile the restore entry flow with the intended part-selection contract before changing backend behavior.
-   - Acceptance: Restore can expose/select available parts correctly while Restore All continues to work.
+   - Evidence runtime: **Restore All berhasil dieksekusi**.
+   - Gap yang tersisa adalah UX pemilihan restore: berbeda dengan Backup flow, Restore saat ini belum menampilkan bottom sheet pemilihan bagian yang diharapkan.
+   - Pertahankan backend Restore All yang sudah bekerja.
+   - Rekonsiliasi entry flow restore dengan contract pemilihan bagian sebelum mengubah backend.
+   - Acceptance: Restore dapat menampilkan dan memilih bagian yang tersedia, sementara Restore All tetap bekerja.
 
 3. **LARGE-FILE PERFORMANCE — ACTIVE AUDIT / LATER OPTIMIZATION**
-   - Runtime observation: backup is still slow.
-   - Current hypothesis: reference may stage/archive in data/cache and move the committed result to final storage afterward.
-   - This is **HYPOTHESIS, NOT FACT**.
-   - First audit the actual BaRe pipeline and measure stage timing before changing implementation.
-   - Compare source traversal, staging, archive/compression, encryption, digest, final move/write, and metadata/verification costs.
-   - Do not optimize or redesign based on the hypothesis alone.
+   - Observasi runtime: proses backup masih lambat.
+   - Hipotesis saat ini: reference mungkin melakukan staging/archive di data/cache lalu memindahkan hasil yang sudah selesai ke final storage.
+   - Ini **HIPOTESIS, BUKAN FAKTA**.
+   - Audit pipeline BaRe yang aktual dan ukur waktu tiap tahap sebelum mengubah implementation.
+   - Bandingkan source traversal, staging, archive/compression, encryption, digest, final move/write, serta metadata/verification.
+   - Jangan melakukan optimasi atau redesign hanya berdasarkan hipotesis.
 
 4. **LOCAL / CLOUD PART SYNC PARITY — LATER**
-   - Deferred until the local correctness scope above is stable.
-   - Do not expand the current implementation scope.
+   - Ditunda sampai scope correctness lokal di atas stabil.
+   - Jangan memperluas scope saat ini.
 
 5. **FULL A18 ACCEPTANCE — NOT VERIFIED**
-   - Final gate after #1 and #9 are resolved and #15 has an evidence-based performance audit.
-   - Must include regression confirmation for all runtime-proven items, not rework them.
+   - Menjadi gate terakhir setelah #1 dan #9 selesai serta #15 memiliki audit performance berbasis evidence.
+   - Acceptance harus tetap mencakup regresi pada seluruh item yang sudah terbukti berhasil, bukan mengerjakan ulang item tersebut.
 
-### SCOPE GUARD — DO NOT REGRESS VERIFIED WORK
+### SCOPE GUARD — JANGAN REGRESI PADA YANG SUDAH VERIFIED
 
-The following are **runtime-proven in the current user test** and are now treated as protected scope:
+Item berikut **sudah terbukti berhasil melalui test runtime user** dan sekarang menjadi protected scope:
 
 - #2 DATA backup change detection
 - #3 EXT. DATA backup change detection
@@ -68,24 +68,23 @@ The following are **runtime-proven in the current user test** and are now treate
 - #12 BACKUP CHANGE-DETECTION METADATA CONTRACT
 - #13 RESTORE CHANGE-DETECTION METADATA CONTRACT
 
-Also protected by prior evidence/decision:
+Selain itu, tetap protected berdasarkan evidence/decision sebelumnya:
 
 - APK identical-skip behavior.
 - SHA-256 artifact integrity verification.
 - BaRe encryption boundary.
-- File-level delta/patch remains **OUT OF SCOPE**.
+- File-level delta/patch tetap **OUT OF SCOPE**.
 
 ### CURRENT NEXT ACTION
 
-1. Inspect actual LOCAL APPS inventory/association flow and identify the concrete mismatch.
-2. Inspect actual Restore selection UI/entry flow and implement only the missing selection surface/contract without disturbing Restore All execution.
-3. Audit large-file backup timing and actual I/O/staging pipeline; no optimization before evidence.
-4. Run targeted CI/build verification after changes.
-5. Run one final regression/runtime cycle covering **#1, #9, #15 plus smoke checks for the protected green cases**.
-6. Close A18 only after the acceptance gate has sufficient evidence.
+1. Inspect implementation aktual LOCAL APPS inventory/association dan temukan mismatch yang konkret.
+2. Inspect implementation aktual Restore selection UI/entry flow dan implementasikan hanya surface/contract yang hilang tanpa mengganggu Restore All.
+3. Audit timing backup file besar dan pipeline I/O/staging aktual; jangan optimasi sebelum evidence cukup.
+4. Jalankan targeted CI/build verification setelah perubahan.
+5. Jalankan satu final regression/runtime cycle untuk **#1, #9, #15**, ditambah smoke check pada item hijau yang protected.
+6. Tutup A18 hanya setelah acceptance gate memiliki evidence yang cukup.
 
-**Continuity rule:** historical checkpoints below remain historical truth. The current section above is the only active implementation scope.
-
+**Continuity rule:** checkpoint historis di bawah tetap menjadi historical truth. Section ini adalah satu-satunya active implementation scope saat ini.
 
 ### CI #1169 — latest runtime evidence
 
@@ -1316,75 +1315,75 @@ Target **#13 — RESTORE CHANGE-DETECTION METADATA CONTRACT** ditutup pada level
 - #11 FILE-LEVEL DELTA/PATCH → **OUT OF SCOPE**, tidak dikerjakan.
 
 
-## A18 — RUNTIME TEST RESULT / SCOPE NARROWING — 2026-09-26
+## A18 — HASIL TEST RUNTIME / PENYEMPITAN SCOPE — 2026-09-26
 
-### USER RUNTIME EVIDENCE
+### EVIDENCE RUNTIME USER
 
-Status: **VERIFICATION — USER-PERFORMED DEVICE TEST**
+Status: **VERIFICATION — TEST DILAKUKAN USER PADA DEVICE**
 
-Hasil test terbaru dicatat sebagai runtime evidence. Tidak ada claim bahwa hasil ini sudah diverifikasi ulang oleh CI/runtime harness lain.
+Hasil berikut dicatat sebagai evidence runtime terbaru. Belum ada claim bahwa hasil ini diverifikasi ulang oleh runtime harness lain.
 
-| # | Area | Result | Engineering status |
+| # | Area | Hasil | Status engineering |
 |---|---|---|---|
-| 1 | LOCAL APPS canonical inventory | 🔴 Failed | **ACTIVE — must fix** |
-| 2 | DATA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 3 | EXT. DATA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 4 | MEDIA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 5 | APK restore decision | 🟢 Passed | **PROTECTED — do not modify** |
-| 6 | DATA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 7 | EXT. DATA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 8 | MEDIA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
-| 9 | RESTORE ALL mixed-result / part-selection flow | 🟡 Partial | **ACTIVE — fix selection UX/contract; preserve working Restore All execution** |
-| 10 | PART-LEVEL INCREMENTAL UPDATE | 🟢 Passed | **PROTECTED — do not modify** |
-| 11 | FILE-LEVEL DELTA/PATCH | ⏸️ Out of scope | **Do not implement** |
-| 12 | BACKUP CHANGE-DETECTION METADATA CONTRACT | 🟢 Passed | **PROTECTED — do not modify** |
-| 13 | RESTORE CHANGE-DETECTION METADATA CONTRACT | 🟢 Passed | **PROTECTED — do not modify** |
-| 14 | LOCAL / CLOUD PART SYNC PARITY | ⏸️ Later | **Deferred** |
-| 15 | LARGE-FILE PERFORMANCE | 🟡 Still slow | **Audit required before optimization** |
-| 16 | FULL A18 ACCEPTANCE | ⏳ Not closed | **Acceptance gate after remaining work** |
+| 1 | LOCAL APPS canonical inventory | 🔴 Gagal | **ACTIVE — harus diperbaiki** |
+| 2 | DATA backup change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 3 | EXT. DATA backup change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 4 | MEDIA backup change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 5 | APK restore decision | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 6 | DATA restore change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 7 | EXT. DATA restore change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 8 | MEDIA restore change detection | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 9 | RESTORE ALL mixed-result / part-selection flow | 🟡 Sebagian | **ACTIVE — perbaiki selection UX/contract; pertahankan Restore All yang sudah bekerja** |
+| 10 | PART-LEVEL INCREMENTAL UPDATE | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 11 | FILE-LEVEL DELTA/PATCH | ⏸️ Di luar scope | **Jangan diimplementasikan** |
+| 12 | BACKUP CHANGE-DETECTION METADATA CONTRACT | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 13 | RESTORE CHANGE-DETECTION METADATA CONTRACT | 🟢 Berhasil | **PROTECTED — jangan diubah** |
+| 14 | LOCAL / CLOUD PART SYNC PARITY | ⏸️ Later | **Ditunda** |
+| 15 | LARGE-FILE PERFORMANCE | 🟡 Masih lambat | **Perlu audit sebelum optimasi** |
+| 16 | FULL A18 ACCEPTANCE | ⏳ Belum ditutup | **Acceptance gate setelah scope tersisa selesai** |
 
 ### #1 — LOCAL APPS
 
-Observed behavior:
+Observed:
 
-- LOCAL APPS shows an installed app as "No backup on device".
-- The same app's detail screen shows an existing "Device backups (1)" entry.
-- Therefore the backup exists and is discoverable by the detail/restore path, while the LOCAL APPS association remains incorrect.
+- LOCAL APPS menampilkan app terpasang sebagai "No backup on device".
+- App Detail untuk app yang sama menampilkan "Device backups (1)".
+- Artinya backup tersedia dan dapat ditemukan oleh detail/restore flow, tetapi association pada LOCAL APPS masih salah.
 
-The user's suspicion that this belongs to the app_list/inventory layer is recorded as **INFERENCE**. Root cause is **NOT YET VERIFIED**.
+Dugaan user bahwa masalah berada pada layer app_list/inventory dicatat sebagai **INFERENCE**. Root cause masih **NOT VERIFIED**.
 
 ### #9 — RESTORE
 
-Observed behavior:
+Observed:
 
-- Restore All execution is successful.
-- The missing piece is the Restore part-selection bottom sheet/selection flow.
-- Backup already has the expected part-selection bottom sheet with APK, Data, Ext. data, Media and backup-location selection.
-- Restore currently does not expose the corresponding expected part-selection surface.
+- Restore All berhasil.
+- Bagian yang masih kurang adalah bottom sheet / selection flow untuk memilih part restore.
+- Backup sudah memiliki bottom sheet pemilihan part dengan APK, Data, Ext. data, Media serta pemilihan lokasi backup.
+- Restore saat ini belum menampilkan surface pemilihan part yang ekuivalen.
 
-This is treated as a **UI/entry-flow gap**, not evidence of a restore-engine failure.
+Ini diperlakukan sebagai **gap UI/entry flow**, bukan evidence bahwa restore engine gagal.
 
 ### #15 — LARGE-FILE PERFORMANCE
 
 Observed:
 
-- Backup remains slow.
+- Proses backup masih lambat.
 
-Hypothesis recorded for audit:
+Hipotesis yang akan diaudit:
 
-- Reference may perform archive/staging work outside final storage, potentially in data/cache, then move the completed result into final storage.
+- Reference mungkin melakukan archive/staging di luar final storage, kemungkinan pada data/cache, lalu memindahkan hasil yang sudah selesai ke final storage.
 
-Classification:
+Klasifikasi:
 
-- **HYPOTHESIS / UNKNOWN**, not established fact.
-- Required next step is source-level pipeline inspection plus timing evidence before optimization.
+- **HYPOTHESIS / UNKNOWN**, belum menjadi fakta.
+- Langkah berikutnya adalah inspect pipeline source dan timing evidence sebelum optimasi.
 
 ### REGRESSION PROTECTION
 
-The green runtime cases #2–#8, #10, #12, and #13 are explicitly preserved as protected scope.
+Kasus runtime hijau #2–#8, #10, #12, dan #13 secara eksplisit dipertahankan sebagai protected scope.
 
-Any future change must follow:
+Setiap perubahan berikutnya wajib mengikuti:
 
 **Inspect → Understand → Impact → Minimal Change → CI → Targeted Runtime Regression → Verify**
 
-No broad refactor is authorized merely to solve #1, #9, or #15.
+Tidak ada broad refactor yang diizinkan hanya untuk menyelesaikan #1, #9, atau #15.
