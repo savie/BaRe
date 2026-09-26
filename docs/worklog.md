@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 8783fea16f518380e311a00808233825edcc1bf9 |
+| Current repository HEAD | 63d3a47b4d4a59bd72e26622020b8fd04f2ffa30 |
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
 | Latest build evidence | **CI #1181 for current rebuild is IN_PROGRESS** |
-| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / UI WIRED / CI #1181 IN_PROGRESS / RUNTIME UNVERIFIED** |
+| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / #1181 COMPILE FIX APPLIED / NEW CI PENDING / RUNTIME UNVERIFIED** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -151,6 +151,34 @@ RESTORE process screen
 - Restore end-to-end is **UNVERIFIED**.
 - No claim is made that every reference UI/state is identical; the current work establishes the actual wired user path that can now be exercised and compared against reference behavior.
 - The next verification must use the generated APK from the new build, not infer behavior from source alone.
+
+## 3. CURRENT CHECKPOINT — CI #1181 COMPILE FAILURE AND FIX
+
+**OBSERVED — CI #1181**
+
+Build reached Kotlin compilation and failed with three source errors:
+
+1. `AppRestoreArchiveReader.kt:74`
+   - restore reader referenced unavailable `archiveName()`.
+   - consequence: following prefix expression also became invalid.
+2. `RestoreProcessScreen.kt:138`
+   - referenced `AppBackupPart.displayNameForUi()`, which is private/inaccessible from the new file.
+
+**FIX APPLIED**
+
+- Restore archive reader now derives the archive directory name locally from `AppBackupPart`, matching the BaRe artifact layout:
+  - APK → `apk`
+  - Data → `data`
+  - External data → `external-data`
+  - Media → `media`
+- Restore process UI now uses a local `restoreDisplayName()` mapping instead of depending on a private helper in another source file.
+
+**STATUS**
+
+- Fix is committed at current HEAD.
+- New CI has been triggered/pending.
+- Previous #1181 result remains **FAILED** and is not treated as verification.
+- Runtime remains **UNVERIFIED** until a build containing the fixes passes and the APK is exercised.
 
 ## 3. HISTORICAL SYNTHESIS
 
