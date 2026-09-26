@@ -135,10 +135,28 @@ class AppRestoreBehavior(private val context: Context) {
         val apks = stage.walkTopDown().filter { it.isFile && it.extension.equals("apk", true) }.sortedBy { it.name }.toList()
         require(apks.isNotEmpty()) { "No APK payload was found" }
         if (method == AccessMethod.ROOT) {
-            val paths = apks.joinToString(" ") { shellQuote(it.absolutePath) }
-            val result = runSu("pm install -r -d $paths")
-            require(result.exitCode == 0 && result.output.contains("Success", true)) {
-                "Root APK install failed: ${result.output}"
+            val create = runSu("pm install-create -r -d")
+            require(create.exitCode == 0) { "Root APK install session creation failed: ${create.output}" }
+            val sessionId = Regex("""[0-9]+""").find(create.output)?.value
+                ?: error("Root APK install session id was not returned")
+            try {
+                apks.forEachIndexed { index, apk ->
+                    if (isCancelled()) error("Restore cancelled")
+                    val splitName = if (index == 0) "base.apk" else apk.name
+                    val write = runSu(
+                        "pm install-write -S ${apk.length()} ${sessionId} ${shellQuote(splitName)} ${shellQuote(apk.absolutePath)}"
+                    )
+                    require(write.exitCode == 0) {
+                        "Root APK install write failed: ${write.output}"
+                    }
+                }
+                val commit = runSu("pm install-commit ${sessionId}")
+                require(commit.exitCode == 0 && commit.output.contains("Success", true)) {
+                    "Root APK install commit failed: ${commit.output}"
+                }
+            } catch (t: Throwable) {
+                runSu("pm install-abandon ${sessionId}")
+                throw t
             }
             return null
         } else {
