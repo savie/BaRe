@@ -120,6 +120,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var backupInventory by remember { mutableStateOf<Map<String, AppBackupSnapshot>>(emptyMap()) }
+    var backupInventoryRefreshToken by remember { mutableIntStateOf(0) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
     var scope by remember { mutableStateOf(AppScope.ALL) }
@@ -146,13 +147,14 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 refreshInventory()
+                backupInventoryRefreshToken++
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
-    LaunchedEffect(apps, appsContext) {
+    LaunchedEffect(apps, appsContext, backupInventoryRefreshToken) {
         if (appsContext == AppsContext.LOCAL && apps.isNotEmpty()) {
             backupInventory = withContext(Dispatchers.IO) {
                 apps.mapNotNull { item ->
