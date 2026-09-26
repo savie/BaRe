@@ -655,3 +655,20 @@ Commits:
 - Next runtime gate is APK-only backup on the 7.12 MB-class target.
 - Verify process UI reports source progress in the expected MB scale, elapsed time/rate, artifact commit/hash verification, then continue Data / Ext. data / Media and restore.
 
+## A18 — Runtime blocker correction: Android Zstd + ROOT mount namespace — 2026-09-26
+
+### OBSERVED
+- Build #1203 installed on device but backup failed before archive creation for APK / Ext. data / Media with `UnsatisfiedLinkError`: `libzstd-jni-1.5.7-4.so` was not available for Android `aarch64`.
+- Data backup independently failed because ROOT `su -c` could not see `/data/user/0/idm.internet.download.manager.plus` (`source_exists=false`).
+- Static Swift reference audit shows its ROOT shell path uses `su --mount-master` when available, with fallback to plain `su`.
+
+### CHANGE
+- Changed Zstandard dependency from the JVM JAR to the Android AAR variant so the Android native `arm64-v8a` library is packaged into the APK.
+- Changed BaRe ROOT command execution and root TAR streaming to use `su --mount-master -c`, aligning the observed Swift ROOT namespace mechanism.
+- Encryption remains BaRe-owned; no reference encryption was introduced.
+
+### VERIFICATION STATUS
+- CI verification for these two changes is pending.
+- Device runtime verification remains blocked until the new artifact is installed.
+- Next runtime gate: APK-only backup first; then Data / Ext. data / Media; then restore.
+
