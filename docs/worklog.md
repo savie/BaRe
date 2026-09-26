@@ -1495,3 +1495,19 @@ Setelah CI/build tersedia:
 7. Performance: ambil timing per tahap pada file besar sebelum optimization.
 
 Acceptance A18 tetap NOT VERIFIED sampai evidence runtime final tersedia.
+
+
+## A18 — CHECKPOINT CI SETELAH PERUBAHAN #1/#9 — 2026-09-26
+
+Status verifikasi saat checkpoint ini:
+
+- CI #1249 — commit 7ffbf297c35c11cf0862c794c34aef5c3b28a14a — **IN PROGRESS**
+- CI #1250 — commit 87d5f96581b82b54edd31f0160aca5deb143b1a1 — **IN PROGRESS**
+- CI #1251 — commit 5533bc64fff82f1cc05579bb187118aec8331de8 — **IN PROGRESS**
+- CI #1248 — restore metadata fallback contract — **PASS**
+
+CI #1251 merupakan build code terbaru yang sudah mencakup rangkaian perubahan source #1 dan #9 secara berurutan. Status akhir belum boleh dianggap PASS sebelum workflow selesai.
+
+Runtime verification untuk #1 dan #9 tetap **PENDING**. Tidak ada claim bahwa perubahan source sudah memperbaiki runtime sebelum device test membuktikannya.
+
+Scope guard tetap berlaku: item runtime yang sebelumnya hijau tidak boleh diregresikan.
