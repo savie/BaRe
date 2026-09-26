@@ -1986,6 +1986,39 @@ Reference SwiftLogger evidence shows:
 - Runtime verification: **PENDING**
 - Reference alignment: **IMPLEMENTED / NOT VERIFIED**
 
+### A18 — CI #1261 COMPILE BLOCKER FIX — 2026-09-27
+
+**OBSERVED**
+
+CI Android Build #1261 failed at `:app:compileDebugKotlin` with two source errors:
+
+- `AppsScreens.kt:1422:42` — unresolved reference `LocalIdentityStore`.
+- `ProcessDiagnosticsScreen.kt:89,95,102,110,126` — unresolved reference `stringResource`.
+
+**ROOT CAUSE**
+
+- The diagnostic Props log referenced a non-existent/unverified `LocalIdentityStore`; the actual Backup flow in this screen does not expose that store. The reference-style log therefore attempted to log a capability that was not backed by an actual repository symbol.
+- `ProcessDiagnosticsScreen.kt` used `stringResource()` without importing `androidx.compose.ui.res.stringResource`.
+
+**CORRECTION**
+
+- Removed the invalid `LocalIdentityStore` reference from the Backup diagnostic Props line while retaining actual supported fields: app parts, destination, and password-protection state.
+- Added the missing `stringResource` import.
+- No engine behavior or backup/restore contract was changed.
+
+**COMMIT**
+
+- `9cd528e5da20df593a0fa113428fb2e3faad9ca5` — `fix(apps): resolve diagnostics compile blockers`
+
+**VERIFICATION**
+
+- Source re-fetch at HEAD: **OBSERVED**
+- `LocalIdentityStore` reference in corrected Backup Props: **ABSENT**
+- `stringResource` import in diagnostics screen: **PRESENT**
+- CI #1262: **IN PROGRESS**
+- Runtime verification: **PENDING**
+- Build status: **NOT VERIFIED until CI completes**
+
 ### BASELINE GUARD
 
 Checkpoint ini menjadi baseline scope untuk pekerjaan berikutnya:
