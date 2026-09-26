@@ -28,6 +28,9 @@ internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
 internal data class RestoreProcessLog(
     val message: String,
     val failed: Boolean = false,
+    val timestampMillis: Long = System.currentTimeMillis(),
+    val level: ProcessDiagnosticLevel = if (failed) ProcessDiagnosticLevel.ERROR else ProcessDiagnosticLevel.INFO,
+    val tag: String = "AppRestoreBehavior",
     val stage: String? = null,
     val part: String? = null,
     val processedBytes: Long? = null,
@@ -72,7 +75,26 @@ internal fun RestoreProcessScreen(
     var totalBytes by remember { mutableStateOf<Long?>(null) }
     var elapsedMillis by remember { mutableStateOf<Long?>(null) }
     var bytesPerSecond by remember { mutableStateOf<Long?>(null) }
-    var logs by remember { mutableStateOf<List<RestoreProcessLog>>(emptyList()) }
+    var logs by remember {
+        mutableStateOf(
+            listOf(
+                RestoreProcessLog(
+                    message = "Started restore: " + appName + " (" + packageName + ")",
+                    tag = "AppRestoreBehavior",
+                ),
+                RestoreProcessLog(
+                    message = "Props=Restore(appParts=" + parts.map { it.name } +
+                        ", accessMethod=" + (accessMethod ?: "ROOT") +
+                        ", backupVersion=" + versionCode + ")",
+                    tag = "AppRestoreBehavior",
+                ),
+                RestoreProcessLog(
+                    message = "Tasks to perform = " + parts.joinToString(", ") { it.name },
+                    tag = "AppRestoreBehavior",
+                ),
+            )
+        )
+    }
     var showDetailedDiagnostics by remember { mutableStateOf(false) }
     val advanced = remember(context) { EncryptionPasswordStore(context).loadStrategy() == com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED }
     var started by remember { mutableStateOf(!advanced) }
@@ -92,6 +114,9 @@ internal fun RestoreProcessScreen(
             versionCode = versionCode,
             entries = logs.map { log ->
                 ProcessDiagnosticLogEntry(
+                    timestampMillis = log.timestampMillis,
+                    level = log.level,
+                    tag = log.tag,
                     stage = log.stage,
                     part = log.part,
                     message = log.message,
@@ -99,10 +124,10 @@ internal fun RestoreProcessScreen(
                     totalBytes = log.totalBytes,
                     elapsedMillis = log.elapsedMillis,
                     bytesPerSecond = log.bytesPerSecond,
-                    failed = log.failed,
                 )
             },
             onBack = { showDetailedDiagnostics = false },
+            onClearLogs = { logs = emptyList() },
         )
         return
     }
@@ -121,10 +146,35 @@ internal fun RestoreProcessScreen(
                     elapsedMillis = progress.elapsedMillis
                     bytesPerSecond = progress.bytesPerSecond
                     if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
-                        logs = (logs + RestoreProcessLog(
+                        val level = when (progress.stage) {
+                            AppBackupProgressStage.PART_FAILED -> ProcessDiagnosticLevel.ERROR
+                            AppBackupProgressStage.CANCELLED -> ProcessDiagnosticLevel.WARN
+                            else -> ProcessDiagnosticLevel.INFO
+                        }
+                        val tag = when (progress.stage) {
+                            AppBackupProgressStage.PREPARING,
+                            AppBackupProgressStage.COMPLETED,
+                            AppBackupProgressStage.CANCELLED -> "AppRestoreBehavior"
+                            else -> "AppRestoreArchiveReader"
+                        }
+                        val diagnostic = emitProcessDiagnostic(
+                            tag = tag,
                             message = progress.message,
-                            failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                            level = level,
                             stage = progress.stage.name,
+                            part = progress.part?.name,
+                            processedBytes = progress.processedBytes,
+                            totalBytes = progress.totalBytes,
+                            elapsedMillis = progress.elapsedMillis,
+                            bytesPerSecond = progress.bytesPerSecond,
+                        )
+                        logs = (logs + RestoreProcessLog(
+                            message = diagnostic.message,
+                            failed = diagnostic.level == ProcessDiagnosticLevel.ERROR,
+                            timestampMillis = diagnostic.timestampMillis,
+                            level = diagnostic.level,
+                            tag = diagnostic.tag,
+                            stage = diagnostic.stage,
                             part = progress.part?.restoreDisplayName(),
                             processedBytes = progress.processedBytes,
                             totalBytes = progress.totalBytes,
@@ -143,12 +193,25 @@ internal fun RestoreProcessScreen(
             is AppRestoreOutcome.PendingUserAction -> {
                 status = RestoreProcessStatus.WAITING
                 message = result.message
-                logs = (logs + RestoreProcessLog(result.message)).takeLast(80)
+                val diagnostic = emitProcessDiagnostic("AppRestoreBehavior", result.message, ProcessDiagnosticLevel.WARN)
+                logs = (logs + RestoreProcessLog(
+                    message = diagnostic.message,
+                    timestampMillis = diagnostic.timestampMillis,
+                    level = diagnostic.level,
+                    tag = diagnostic.tag,
+                )).takeLast(500)
             }
             is AppRestoreOutcome.Failed -> {
                 status = RestoreProcessStatus.FAILED
                 message = result.reason
-                logs = (logs + RestoreProcessLog(result.reason, failed = true)).takeLast(80)
+                val diagnostic = emitProcessDiagnostic("AppRestoreBehavior", result.reason, ProcessDiagnosticLevel.ERROR)
+                logs = (logs + RestoreProcessLog(
+                    message = diagnostic.message,
+                    failed = true,
+                    timestampMillis = diagnostic.timestampMillis,
+                    level = diagnostic.level,
+                    tag = diagnostic.tag,
+                )).takeLast(500)
             }
         }
     }

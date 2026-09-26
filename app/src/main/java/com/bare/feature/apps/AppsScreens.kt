@@ -1413,7 +1413,28 @@ fun AppDetailScreen(
         backupProcessCurrentElapsedMillis = null
         backupProcessCurrentBytesPerSecond = null
         backupProcessCompletedParts = emptySet()
-        backupProcessLogs = emptyList()
+        backupProcessLogs = listOf(
+            emitProcessDiagnostic("AppBackupBehavior", "Started backup: " + currentPackage),
+            emitProcessDiagnostic(
+                "AppBackupBehavior",
+                "Props=Backup(appParts=" + parts.map { it.name } +
+                    ", location=" + destination.name +
+                    ", accessMethod=" + (LocalIdentityStore(context).loadAccessMethod() ?: "ROOT") +
+                    ", passwordProtected=" + (encryptionAdvanced && backupPassword.isNotEmpty()) + ")",
+            ),
+            emitProcessDiagnostic(
+                "AppBackupBehavior",
+                "Tasks to perform = " + parts.joinToString(", ") { it.name },
+            ),
+        ).map { entry ->
+            BackupProcessLog(
+                message = entry.message,
+                timestampMillis = entry.timestampMillis,
+                level = entry.level,
+                tag = entry.tag,
+                stage = "STARTED",
+            )
+        }
 
         backupScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -1433,23 +1454,42 @@ fun AppDetailScreen(
                             backupProcessCurrentElapsedMillis = progress.elapsedMillis
                             backupProcessCurrentBytesPerSecond = progress.bytesPerSecond
                             if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
-                                backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                                val level = when (progress.stage) {
+                                    AppBackupProgressStage.PART_FAILED -> ProcessDiagnosticLevel.ERROR
+                                    AppBackupProgressStage.CANCELLED -> ProcessDiagnosticLevel.WARN
+                                    else -> ProcessDiagnosticLevel.INFO
+                                }
+                                val tag = when (progress.stage) {
+                                    AppBackupProgressStage.PREPARING,
+                                    AppBackupProgressStage.METADATA,
+                                    AppBackupProgressStage.COMPLETED,
+                                    AppBackupProgressStage.CANCELLED -> "AppBackupBehavior"
+                                    else -> "AppBackupEngine"
+                                }
+                                val diagnostic = emitProcessDiagnostic(
+                                    tag = tag,
                                     message = progress.message,
-                                    failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                                    level = level,
                                     stage = progress.stage.name,
-                                    part = progress.part?.let {
-                                        when (it) {
-                                            AppBackupPart.APK -> "APK"
-                                            AppBackupPart.DATA -> "Data"
-                                            AppBackupPart.EXTERNAL_DATA -> "Ext. data"
-                                            AppBackupPart.MEDIA -> "Media"
-                                        }
-                                    },
+                                    part = progress.part?.name,
                                     processedBytes = progress.processedBytes,
                                     totalBytes = progress.totalBytes,
                                     elapsedMillis = progress.elapsedMillis,
                                     bytesPerSecond = progress.bytesPerSecond,
-                                )).takeLast(80)
+                                )
+                                backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                                    message = diagnostic.message,
+                                    failed = diagnostic.level == ProcessDiagnosticLevel.ERROR,
+                                    timestampMillis = diagnostic.timestampMillis,
+                                    level = diagnostic.level,
+                                    tag = diagnostic.tag,
+                                    stage = diagnostic.stage,
+                                    part = diagnostic.part,
+                                    processedBytes = diagnostic.processedBytes,
+                                    totalBytes = diagnostic.totalBytes,
+                                    elapsedMillis = diagnostic.elapsedMillis,
+                                    bytesPerSecond = diagnostic.bytesPerSecond,
+                                )).takeLast(500)
                             }
                             if (progress.stage == AppBackupProgressStage.PART_COMPLETED && progress.part != null) {
                                 backupProcessCompletedParts = backupProcessCompletedParts + progress.part
@@ -1473,9 +1513,16 @@ fun AppDetailScreen(
                     backupProcessCompletedParts = result.parts
                     backupReloadToken++
                     reloadDetails()
+                    val diagnostic = emitProcessDiagnostic(
+                        "AppBackupBehavior",
+                        context.getString(R.string.backup_process_completed_summary, result.parts.size, parts.size),
+                    )
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(
-                        context.getString(R.string.backup_process_completed_summary, result.parts.size, parts.size)
-                    )).takeLast(80)
+                        message = diagnostic.message,
+                        timestampMillis = diagnostic.timestampMillis,
+                        level = diagnostic.level,
+                        tag = diagnostic.tag,
+                    )).takeLast(500)
                 }
                 is AppBackupResult.Cancelled -> {
                     backupProcessStatus = BackupProcessStatus.CANCELLED
@@ -1486,10 +1533,17 @@ fun AppDetailScreen(
                     backupProcessCurrentElapsedMillis = null
                     backupProcessCurrentBytesPerSecond = null
                     backupProcessCompletedParts = result.completedParts
-                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                    val diagnostic = emitProcessDiagnostic(
+                        "AppBackupBehavior",
                         context.getString(R.string.backup_process_cancelled_summary),
-                        failed = true,
-                    )).takeLast(80)
+                        ProcessDiagnosticLevel.WARN,
+                    )
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        message = diagnostic.message,
+                        timestampMillis = diagnostic.timestampMillis,
+                        level = diagnostic.level,
+                        tag = diagnostic.tag,
+                    )).takeLast(500)
                     backupReloadToken++
                     reloadDetails()
                 }
@@ -1501,7 +1555,14 @@ fun AppDetailScreen(
                     backupProcessCurrentTotalBytes = null
                     backupProcessCurrentElapsedMillis = null
                     backupProcessCurrentBytesPerSecond = null
-                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
+                    val diagnostic = emitProcessDiagnostic("AppBackupBehavior", result.reason, ProcessDiagnosticLevel.ERROR)
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        message = diagnostic.message,
+                        failed = true,
+                        timestampMillis = diagnostic.timestampMillis,
+                        level = diagnostic.level,
+                        tag = diagnostic.tag,
+                    )).takeLast(500)
                 }
                 is AppBackupResult.Failed -> {
                     backupProcessStatus = BackupProcessStatus.FAILED

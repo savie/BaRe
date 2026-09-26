@@ -38,6 +38,9 @@ internal enum class BackupProcessStatus {
 internal data class BackupProcessLog(
     val message: String,
     val failed: Boolean = false,
+    val timestampMillis: Long = System.currentTimeMillis(),
+    val level: ProcessDiagnosticLevel = if (failed) ProcessDiagnosticLevel.ERROR else ProcessDiagnosticLevel.INFO,
+    val tag: String = "AppBackupBehavior",
     val stage: String? = null,
     val part: String? = null,
     val processedBytes: Long? = null,
@@ -82,6 +85,9 @@ internal fun BackupProcessScreen(
             versionCode = null,
             entries = logs.map { log ->
                 ProcessDiagnosticLogEntry(
+                    timestampMillis = log.timestampMillis,
+                    level = log.level,
+                    tag = log.tag,
                     stage = log.stage,
                     part = log.part,
                     message = log.message,
@@ -89,10 +95,10 @@ internal fun BackupProcessScreen(
                     totalBytes = log.totalBytes,
                     elapsedMillis = log.elapsedMillis,
                     bytesPerSecond = log.bytesPerSecond,
-                    failed = log.failed,
                 )
             },
             onBack = { showDetailedDiagnostics = false },
+            onClearLogs = { },
         )
         return
     }
@@ -219,46 +225,7 @@ internal fun BackupProcessScreen(
                 }
             }
 
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                ),
-            ) {
-                Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.BugReport, contentDescription = null, modifier = Modifier.size(20.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.backup_diagnostics), fontWeight = FontWeight.Bold)
-                    }
-                    LazyColumn(
-                        Modifier.fillMaxWidth().heightIn(max = 300.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        items(logs) { log ->
-                            Row(verticalAlignment = Alignment.Top) {
-                                Box(
-                                    Modifier.padding(top = 5.dp).size(7.dp),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    Surface(
-                                        Modifier.fillMaxSize(),
-                                        shape = CircleShape,
-                                        color = if (log.failed) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
-                                    ) {}
-                                }
-                                Spacer(Modifier.width(8.dp))
-                                Text(
-                                    log.message,
-                                    color = if (log.failed) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface,
-                                    style = MaterialTheme.typography.bodySmall,
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            // Detailed diagnostics are opened from the BugReport action in the sub-header.
         }
 
         Spacer(Modifier.weight(1f))

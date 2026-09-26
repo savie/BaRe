@@ -704,6 +704,8 @@
     <string name="backup_process_cancelled_summary">Backup was cancelled before all selected parts completed.</string>
     <string name="backup_process_cancelling">Cancellation requested. Finishing the current operation safely.</string>
     <string name="backup_diagnostics">Diagnostics</string>
+    <string name="process_diagnostics_menu">Diagnostics menu</string>
+    <string name="process_diagnostics_clear_logs">Clear logs</string>
     <string name="process_diagnostics_summary">Process diagnostics</string>
     <string name="process_diagnostics_operation">Operation: %1$s</string>
     <string name="process_diagnostics_status">Status: %1$s</string>
