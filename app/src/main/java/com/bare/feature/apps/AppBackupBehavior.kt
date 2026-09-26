@@ -1,6 +1,7 @@
 package com.bare.feature.apps
 
 import android.content.Context
+import com.bare.app.AccessMethod
 import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorage
 import com.bare.storage.BackupStorageBehavior
@@ -17,6 +18,8 @@ data class AppBackupRequest(
     val packageName: String,
     val parts: Set<AppBackupPart>,
     val destination: BackupDestination,
+    val accessMethod: AccessMethod = AccessMethod.ROOT,
+    val password: CharArray? = null,
 )
 
 enum class BackupDestination {
@@ -58,25 +61,17 @@ data class AppBackupProgress(
 class AppBackupBehavior(private val context: Context) {
     private val storage = BackupStorageBehavior(context)
     private val identityStore = LocalIdentityStore(context)
-    private val dataBackup = AppDataBackupBehavior(context)
-    private val externalDataBackup = AppExternalDataBackupBehavior()
+    private val engine = AppBackupEngine(context)
 
     fun backup(
         request: AppBackupRequest,
         onProgress: (AppBackupProgress) -> Unit = {},
         isCancelled: () -> Boolean = { false },
     ): AppBackupResult {
-        if (!request.packageName.matches(PACKAGE_REGEX)) {
-            return AppBackupResult.Failed("Invalid package name")
-        }
-        if (request.parts.isEmpty()) {
-            return AppBackupResult.Failed("At least one backup part is required")
-        }
+        if (!request.packageName.matches(PACKAGE_REGEX)) return AppBackupResult.Failed("Invalid package name")
+        if (request.parts.isEmpty()) return AppBackupResult.Failed("At least one backup part is required")
         if (request.destination != BackupDestination.DEVICE) {
             return AppBackupResult.Unsupported("Cloud backup execution is not available")
-        }
-        if (AppBackupPart.MEDIA in request.parts) {
-            return AppBackupResult.Unsupported("Media backup execution is not available")
         }
 
         onProgress(AppBackupProgress(AppBackupProgressStage.PREPARING, message = "Preparing backup"))
@@ -110,137 +105,43 @@ class AppBackupBehavior(private val context: Context) {
             request.packageName,
             version,
         )
-        if (!backupDirectory.exists() && !backupDirectory.mkdirs()) {
-            val reason = "Unable to create backup directory"
-            onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = reason))
-            return AppBackupResult.Failed(reason)
+        if (backupDirectory.exists()) backupDirectory.deleteRecursively()
+        if (!backupDirectory.mkdirs()) {
+            return AppBackupResult.Failed("Unable to create backup directory")
         }
 
-        onProgress(AppBackupProgress(AppBackupProgressStage.PREPARING, message = "Backup storage ready"))
-
-        val files = mutableListOf<File>()
-        val completedParts = linkedSetOf<AppBackupPart>()
-
-        for (part in request.parts) {
-            if (isCancelled()) {
-                onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, part, "Backup cancelled"))
-                return AppBackupResult.Cancelled(completedParts)
-            }
-
-            onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Backing up ${part.displayName()}"))
-
-            val result = when (part) {
-                AppBackupPart.APK -> backupApk(backupDirectory, request.packageName)
-                AppBackupPart.DATA -> dataBackup.backup(
-                    request.packageName,
-                    File(backupDirectory, "data"),
-                )
-                AppBackupPart.EXTERNAL_DATA -> externalDataBackup.backup(
-                    request.packageName,
-                    File(backupDirectory, "external-data"),
-                )
-                AppBackupPart.MEDIA -> error("media is rejected above")
-            }
-
-            when (result) {
-                is AppBackupPartResult.Completed -> {
-                    files += result.files
-                    completedParts += part
-                    onProgress(
-                        AppBackupProgress(
-                            AppBackupProgressStage.PART_COMPLETED,
-                            part,
-                            "${part.displayName()} backup completed (${result.files.size} files)",
-                        )
-                    )
-                }
-                is AppBackupPartResult.Failed -> {
-                    val reason = "${part.displayName()} backup failed: ${result.reason}"
-                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, reason))
-                    return AppBackupResult.Failed(reason)
-                }
-            }
-        }
-
-        onProgress(AppBackupProgress(AppBackupProgressStage.METADATA, message = "Saving backup metadata"))
-
-        val metadataResult = runCatching {
+        return try {
+            val result = engine.execute(request, backupDirectory, onProgress, isCancelled)
+            onProgress(AppBackupProgress(AppBackupProgressStage.METADATA, message = "Saving backup metadata"))
             val installerPackage = runCatching {
                 context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
             }.getOrNull()
-            val existingMetadata = AppBackupMetadata.read(backupDirectory)
+            val existing = AppBackupMetadata.read(backupDirectory)
             AppBackupMetadata(
                 packageName = request.packageName,
                 versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
                 versionName = packageInfo.versionName,
                 backupTime = System.currentTimeMillis(),
                 installerPackage = installerPackage,
-                protectedBackup = existingMetadata?.protectedBackup ?: false,
-                note = existingMetadata?.note,
+                protectedBackup = existing?.protectedBackup ?: false,
+                note = existing?.note,
+                artifacts = result.artifactMetadata,
             ).writeAtomically(backupDirectory)
-        }
-        if (metadataResult.isFailure) {
-            val reason = "Backup metadata commit failed: ${metadataResult.exceptionOrNull()?.message ?: "unknown error"}"
-            onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = reason))
-            return AppBackupResult.Failed(reason)
-        }
 
-        onProgress(
-            AppBackupProgress(
+            onProgress(AppBackupProgress(
                 AppBackupProgressStage.COMPLETED,
-                message = "Backup completed: ${completedParts.size}/${request.parts.size} parts",
-            )
-        )
-        return AppBackupResult.Completed(files, completedParts)
-    }
-
-    private fun AppBackupPart.displayName(): String = when (this) {
-        AppBackupPart.APK -> "APK"
-        AppBackupPart.DATA -> "Data"
-        AppBackupPart.EXTERNAL_DATA -> "Ext. data"
-        AppBackupPart.MEDIA -> "Media"
-    }
-
-    private fun backupApk(backupDirectory: File, packageName: String): AppBackupPartResult {
-        val stagingDirectory = File(backupDirectory, ".apk-staging")
-        if (stagingDirectory.exists()) {
-            stagingDirectory.deleteRecursively()
-        }
-        if (!stagingDirectory.mkdirs()) {
-            return AppBackupPartResult.Failed("Unable to create APK staging directory")
-        }
-
-        val result = com.bare.capability.RootCapabilityProvider().copyPackageApks(
-            packageName,
-            stagingDirectory,
-        )
-        return when (result) {
-            is com.bare.capability.RootCopyResult.Success -> {
-                runCatching {
-                    backupDirectory.listFiles()
-                        ?.filter { it.isFile && it.name.endsWith(".apk") }
-                        ?.forEach { it.delete() }
-                    result.files.map { file ->
-                        val destination = File(backupDirectory, file.name)
-                        check(file.renameTo(destination)) { "Unable to finalize APK backup" }
-                        destination
-                    }
-                }.fold(
-                    onSuccess = {
-                        stagingDirectory.deleteRecursively()
-                        AppBackupPartResult.Completed(it)
-                    },
-                    onFailure = {
-                        stagingDirectory.deleteRecursively()
-                        backupDirectory.listFiles()
-                            ?.filter { file -> file.isFile && file.name.endsWith(".apk") }
-                            ?.forEach { file -> file.delete() }
-                        AppBackupPartResult.Failed(it.message ?: "Unable to finalize APK backup")
-                    }
-                )
-            }
-            is com.bare.capability.RootCopyResult.Failed ->
-                AppBackupPartResult.Failed(result.reason)
+                message = "Backup completed: ${result.completedParts.size}/${request.parts.size} parts",
+            ))
+            AppBackupResult.Completed(result.artifacts, result.completedParts)
+        } catch (_: AppBackupEngine.BackupCancelledException) {
+            onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, message = "Backup cancelled"))
+            backupDirectory.deleteRecursively()
+            AppBackupResult.Cancelled(emptySet())
+        } catch (t: Throwable) {
+            val reason = t.message ?: t::class.java.simpleName
+            onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = "Backup failed: $reason"))
+            backupDirectory.deleteRecursively()
+            AppBackupResult.Failed(reason)
         }
     }
 
