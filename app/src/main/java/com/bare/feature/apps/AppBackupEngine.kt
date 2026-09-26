@@ -335,13 +335,11 @@ class AppBackupEngine(private val context: Context) {
 
             val elapsed = ((now - startNanos) / 1_000_000L).coerceAtLeast(0L)
             val rate = if (elapsed > 0L) processed * 1000L / elapsed else null
-            val rateText = rate?.let { " (${formatBytes(it)}/s)" } ?: ""
-            val totalText = if (total > 0L) formatBytes(total) else "unknown"
             onProgress(
                 AppBackupProgress(
                     stage = AppBackupProgressStage.PART_PROGRESS,
                     part = part,
-                    message = "$phase: ${formatBytes(processed)} / $totalText$rateText",
+                    message = phase,
                     processedBytes = processed,
                     totalBytes = total,
                     elapsedMillis = elapsed,
