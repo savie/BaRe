@@ -12,111 +12,146 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | **will be this worklog reconciliation commit** |
 | Lifecycle | **VERIFICATION** |
-| Current focus | **A18 — REFERENCE CHANGE DETECTION / PER-PART SKIP / LOCAL INVENTORY / RESTORE DECISION** |
-| Latest confirmed build evidence | **CI #1234 PASS; later implementation commits require their own CI evidence before being called CI VERIFIED** |
-| Current implementation status | **APK skip implemented; Data/Ext. data/Media change-skip NOT IMPLEMENTED; restore change-skip NOT IMPLEMENTED; LOCAL APPS inventory still UNRESOLVED; full A18 acceptance NOT VERIFIED** |
-| Reference baseline | **docs/reference.md contains canonical reference audit evidence; reference is evidence, not automatic implementation authority** |
-| Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
-| NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
+| Current focus | **A18 — REFERENCE CHANGE DETECTION / LOCAL BACKUP INVENTORY / BACKUP-RESTORE SKIP DECISION** |
+| Latest confirmed build evidence | **CI #1234 PASS** untuk commit \`7a7e37fa3df04d2bb9db8257ac09b004fb1bdebd\` |
+| Latest runtime evidence | **USER RUNTIME #1244** — APK identical-skip terlihat; Data/Media hash mismatch masih terobservasi; LOCAL APPS masih menampilkan \`No backup on device\` |
+| Reference baseline | **Swift Backup 5.1.0 (620) decompile adalah evidence source; Section 29 sekarang menjadi baseline change-detection reconciliation** |
+| Current implementation status | **APK identical-skip IMPLEMENTED; Data/Ext. data/Media change-detection skip BELUM IMPLEMENTED; restore skip predicate BELUM IMPLEMENTED; LOCAL APPS inventory BELUM VERIFIED** |
+| A18 acceptance | **NOT VERIFIED** |
 
 ### CURRENT VERIFIED / OBSERVED
 
-- Backup APK/Data/Ext. data/Media: **RUNTIME TESTED / COMPLETED** pada #1208.
-- Backup selected parts: **4/4 COMPLETED** pada #1208.
-- Restore selected parts: **4/4 COMPLETED** pada #1208.
-- APK identical-skip: **IMPLEMENTED / CI VERIFIED pada checkpoint sebelumnya; runtime skip behavior belum diverifikasi pada evidence terbaru**.
-- Data/Ext. data/Media backup identical-skip: **NOT IMPLEMENTED**.
-- Data/Ext. data/Media restore change-skip: **NOT IMPLEMENTED**.
-- LOCAL APPS existing-backup visibility: **RUNTIME FAILED / UNRESOLVED** — user still observes No backup on device.
-- Full A18 acceptance: **NOT VERIFIED**.
-- Large-file performance: **UNKNOWN / NOT ACCEPTANCE-PROVEN**.
+- APK identical-skip: **RUNTIME OBSERVED** pada user runtime #1244.
+- Backup artifact hash verification: **INTEGRITY REGRESSION TEROBSERVASI pada #1244; fix code sudah ada, post-fix runtime belum verified**.
+- LOCAL APPS backup visibility: **ISSUE MASIH OBSERVED** pada #1244.
+- Restore APK / Ext. data / Media: **RUNTIME OBSERVED completed** pada #1244.
+- Restore Data: **FAILED pada #1244 karena artifact hash mismatch**; post-fix runtime belum verified.
+- CI #1234: **PASS**.
+- Reference Section 29: **STATIC SOURCE EVIDENCE verified against decompiled artifact**; reference runtime tetap NOT VERIFIED.
 
-### REFERENCE COMPARISON — CURRENT RECONCILIATION
+### REFERENCE COMPARISON — CURRENT FINDINGS
 
-1. **APK:** reference AppDataChangeChecker compares APK size, version code, version name, split APK presence, and shared-library presence. BaRe already has the corresponding composite identity boundary.
-2. **Data / External data / Media backup:** reference evidence shows per-part change detection using backup/current state including timestamp, size, and changed-file checks on the audited path. Unchanged part can be skipped; changed part is processed again.
-3. **Data / External data / Media restore:** reference evidence in xw.java performs change detection before scheduling restore work. If target state already matches the backup state, that part does not need to be restored.
-4. **Delta/patch:** reference audit does **not** establish that App Data/External data/Media backup always stores only changed files. Incremental/manifest changed-file behavior found for Folder backup must not be promoted to App backup parity without additional evidence.
-5. **Local inventory:** BaRe still has a discovery/state inconsistency: restore can locate and use backup version 30249, while LOCAL APPS can still display No backup on device. Root cause remains **UNVERIFIED**.
+1. **APK change predicate:** \`defpackage/eq.java\` membandingkan APK size, version code, version name, split APK presence, dan shared-library presence.
+2. **App Data / External Data / Expansion / Media backup change detection:** \`defpackage/nm6.java\` menggunakan size comparison dan modified-file detection melalui \`eq.c(...)\` / \`eq.b(...)\`; cache dapat dikecualikan sesuai reference preference.
+3. **Restore change detection:** \`defpackage/xw.java\` menggunakan APK identity predicate dan per-part change detection sebelum memasukkan Data / External Data / Expansion / Media ke restore task.
+4. **Delta/patch boundary:** reference audit belum membuktikan bahwa App Data / External Data / Media menggunakan delta archive yang hanya menyimpan file berubah. Jangan menjadikan patch/delta sebagai parity requirement tanpa evidence/decision tambahan.
+5. **Scope:** Expansion dan missing/newer-version workflows tetap reference evidence only dan tidak masuk A18 four-part scope tanpa keputusan baru.
 
 ### ACTIVE GAPS / TODO
 
-1. **LOCAL APPS inventory — TODO / ACTIVE:** unify inventory discovery with the canonical storage path used by backup/restore; verify root-readable metadata and package/version enumeration on the actual device. Do not add another UI-only refresh workaround until the discovery mismatch is understood.
-2. **APK identical-skip — TODO / VERIFICATION:** runtime-test identical APK → skip, changed APK identity → rebuild. Existing implementation must remain compatible with preserved non-APK artifacts.
-3. **Data backup change-skip — TODO / USER REQUIREMENT + REFERENCE:** implement authoritative per-part change detection for Data using reference-backed timestamp/size/changed-file evidence, then skip unchanged Data and rebuild changed Data.
-4. **External data backup change-skip — TODO / USER REQUIREMENT + REFERENCE:** implement the same reference-backed per-part change decision for External data.
-5. **Media backup change-skip — TODO / USER REQUIREMENT + REFERENCE:** implement the same reference-backed per-part change decision for Media.
-6. **Restore Data change-skip — TODO / USER REQUIREMENT + REFERENCE:** before extraction/restore, compare current target state with backup state and skip when already matching.
-7. **Restore External data change-skip — TODO / USER REQUIREMENT + REFERENCE:** same per-part restore decision.
-8. **Restore Media change-skip — TODO / USER REQUIREMENT + REFERENCE:** same per-part restore decision.
-9. **Restore all / mixed result semantics — TODO:** all-parts restore must remain available and correctly report a mixture of skipped + restored parts without falsely claiming extraction occurred for skipped parts.
-10. **Delta/patch App Data — NOT A REFERENCE-ESTABLISHED TODO:** do not implement a patch/delta engine as reference parity until additional evidence or explicit decision establishes it.
-11. **Regression / acceptance — TODO:** runtime-test unchanged/changed cases for all four parts, all-parts mixed skip/restore, artifact integrity, cancellation/partial failure, protected behavior, and post-restore state.
-12. **Large-file performance — TODO / LATER:** measure only after correctness gaps close.
+1. **LOCAL APPS inventory visibility — ACTIVE / CORRECTNESS**
+   - Backup yang berhasil masih dapat tampil sebagai \`No backup on device\`.
+   - Reconcile canonical storage/inventory source yang dipakai App List dengan source yang terbukti berhasil dipakai restore/detail.
+   - Runtime acceptance: backup existing harus terbaca pada LOCAL APPS tanpa stale/missing state.
 
-### CURRENT CHECKPOINT — REFERENCE CHANGE DETECTION RECONCILIATION
+2. **DATA backup change detection — TODO / REFERENCE-DERIVED**
+   - Tambahkan predicate perubahan berbasis evidence reference: backup state/date + current size + modified-file detection sesuai capability yang tersedia.
+   - Jika unchanged → skip Data backup.
+   - Jika changed → rebuild Data artifact.
+   - Persist metadata yang cukup agar keputusan berikutnya dapat dibuat tanpa false skip.
 
-**USER SAID**
+3. **EXT. DATA backup change detection — TODO / REFERENCE-DERIVED**
+   - Terapkan equivalent change predicate terhadap External data.
+   - Unchanged → skip.
+   - Changed → rebuild.
 
-- Data and Ext. data are still backed up again even when unchanged.
-- Restore Data and Ext. data are still restored again even when unchanged.
-- APK restore shows inspection but the user cannot yet distinguish from the UI whether it restored or skipped.
-- LOCAL APPS still shows No backup on device even though restore successfully used backup version 30249.
-- User asked to re-check the reference and update the canonical reference/worklog records.
+4. **MEDIA backup change detection — TODO / REFERENCE-DERIVED**
+   - Terapkan equivalent change predicate terhadap Media.
+   - Unchanged → skip.
+   - Changed → rebuild.
 
-**REFERENCE EVIDENCE**
+5. **RESTORE APK decision — TODO / CORRECTNESS**
+   - Jangan hanya \`Inspecting APK backup\` lalu selalu install.
+   - Evaluasi identity/current installed state terhadap backup.
+   - Jika restore tidak diperlukan, part harus di-skip dan result tetap menghitung outcome dengan benar.
+   - Jika backup relevan/target berbeda, lakukan restore.
 
-- defpackage/eq.java: composite APK identity/change predicate.
-- defpackage/nm6.java: App backup path applies change detection to Data, External data, Expansion, and Media.
-- defpackage/xw.java: App restore path performs change detection before scheduling Data/External data/Media restore.
-- Folder incremental behavior is a separate reference domain and is not evidence for App Data delta archives.
+6. **RESTORE DATA change detection — TODO / REFERENCE-DERIVED**
+   - Sebelum extraction/restore, evaluasi current target state terhadap backup metadata/state.
+   - Unchanged → skip Data restore.
+   - Changed → restore Data.
 
-**DECISION / SCOPE**
+7. **RESTORE EXT. DATA change detection — TODO / REFERENCE-DERIVED**
+   - Unchanged → skip.
+   - Changed → restore.
 
-- A18 now explicitly includes per-part change detection/skip for Data, External data, and Media on both backup and restore.
-- APK identical-skip remains in scope and requires runtime verification.
-- All-parts restore remains in scope; skip is evaluated per part.
-- Delta/patch for App Data/External data/Media is **not** added as a requirement from current reference evidence.
-- Expansion remains reference evidence only and stays outside the current four-part A18 scope.
+8. **RESTORE MEDIA change detection — TODO / REFERENCE-DERIVED**
+   - Unchanged → skip.
+   - Changed → restore.
 
-**VERIFICATION TARGET**
+9. **RESTORE ALL mixed-result semantics — TODO / CORRECTNESS**
+   - All-parts tetap satu operation.
+   - Per-part decision dapat menghasilkan kombinasi \`SKIPPED + RESTORED\`.
+   - Result harus membedakan completed/skipped/failed secara konsisten dan tidak melaporkan skipped sebagai actual restore work.
 
-The implementation checkpoint is not considered complete until runtime evidence demonstrates:
+10. **DELTA/PATCH APP DATA — NOT A CURRENT TODO**
+    - Reference evidence belum membuktikan App Data/Ext. data/Media delta archive.
+    - Tidak diimplementasikan sebagai parity claim sampai ada evidence/decision baru.
 
-1. unchanged APK → backup skipped;
-2. changed APK identity → backup rebuilt;
-3. unchanged Data → backup skipped;
-4. changed Data → backup rebuilt;
-5. unchanged External data → backup skipped;
-6. changed External data → backup rebuilt;
-7. unchanged Media → backup skipped;
-8. changed Media → backup rebuilt;
-9. unchanged Data/External data/Media on restore → restore skipped;
-10. changed target on restore → restore executed;
-11. all-parts restore with mixed skipped/restored parts → correct result;
-12. LOCAL APPS recognizes an existing backup that restore already recognizes.
+11. **LARGE-FILE PERFORMANCE — VERIFICATION / LATER**
+    - Tetap ukur setelah correctness gaps di atas selesai.
+    - Jangan mengoptimasi berdasarkan asumsi mekanisme reference native adalah satu-satunya penyebab.
 
-**STATUS**
+12. **FULL A18 ACCEPTANCE — NOT VERIFIED**
+    - Menunggu runtime evidence untuk skip/rebuild per-part, restore mixed-result, inventory visibility, integrity, regression, dan capability boundary.
 
-- Reference reconciliation: **IMPLEMENTED IN DOCS / EVIDENCE RECORDED**.
-- Code changes for the new Data/Ext. data/Media skip behavior: **NOT IMPLEMENTED YET**.
-- LOCAL APPS root cause: **UNKNOWN / UNRESOLVED**.
-- A18: **NOT VERIFIED**.
+### VERIFICATION MATRIX — REQUIRED RUNTIME CASES
+
+\`\`\`text
+BACKUP
+identical APK        → APK SKIP
+changed APK          → APK REBUILD
+
+unchanged Data       → Data SKIP
+changed Data         → Data REBUILD
+
+unchanged Ext. data  → Ext. data SKIP
+changed Ext. data    → Ext. data REBUILD
+
+unchanged Media      → Media SKIP
+changed Media        → Media REBUILD
+
+RESTORE
+unchanged APK target       → APK SKIP / no unnecessary install
+changed APK target         → APK RESTORE
+
+unchanged Data target      → Data SKIP
+changed Data target        → Data RESTORE
+
+unchanged Ext. data target → Ext. data SKIP
+changed Ext. data target   → Ext. data RESTORE
+
+unchanged Media target     → Media SKIP
+changed Media target       → Media RESTORE
+
+ALL
+mixed skipped + restored parts → correct final result
+\`\`\`
+
+### REFERENCE SCOPE BOUNDARY
+
+- \`docs/reference.md\` Section 29 adalah canonical record untuk change-detection evidence baru.
+- Reference findings tetap dibedakan dari BaRe implementation/verification.
+- Expansion tetap di luar A18 four-part scope.
+- Missing-app/newer-version workflows tetap reference evidence only.
+- Delta/patch App Data tidak boleh diasumsikan hanya karena reference memiliki incremental mechanisms pada domain lain.
+- Encryption boundary BaRe tetap dipertahankan.
 
 ### CURRENT NEXT ACTION
 
-1. Fix canonical LOCAL APPS inventory discovery/state mismatch.
-2. Implement one shared per-part change-decision boundary used by both backup and restore, with part-specific source/target state adapters.
-3. Implement Data / External data / Media backup skip/rebuild.
-4. Implement Data / External data / Media restore skip/restore.
-5. Make progress/result UI distinguish Skipped from Completed so APK/data/media restore outcomes are observable.
-6. Run CI/build after all code changes are complete.
-7. Perform one consolidated runtime test cycle covering unchanged + changed + mixed all-parts scenarios.
-8. Record evidence and only then close the corresponding TODOs.
+**Post-reference reconciliation implementation sequence:**
 
-**Continuity rule:** seluruh isi setelah checkpoint marker di bawah adalah historical record. **Jangan hapus history untuk memperbarui current state.**
+1. Fix canonical LOCAL APPS inventory visibility.
+2. Design and implement shared per-part change-state metadata for Data / Ext. data / Media.
+3. Implement backup skip/rebuild decision per part.
+4. Implement restore skip/rebuild decision per part, including APK decision.
+5. Implement all-parts mixed skipped/restored result semantics.
+6. CI/build verification.
+7. One final runtime cycle covering the verification matrix above.
+8. Only after correctness passes, measure large-file performance and close A18 acceptance.
+
+**Continuity rule:** seluruh historical checkpoint di bawah tetap dipertahankan sebagai historical truth. Current state tidak boleh diinterpretasikan sebagai bukti bahwa TODO di atas sudah implemented atau verified.
 
 ### CI #1169 — latest runtime evidence
 
@@ -1048,3 +1083,85 @@ CI PASS hanya membuktikan source dapat dibuild dan artifact checks CI berhasil. 
 7. Restore APK-only, Data-only, Ext. data-only, dan Media-only individually.
 8. Confirm each result and post-restore verification.
 9. Only after these pass, perform large-file/performance measurement and full A18 acceptance.
+
+## A18 — REFERENCE CHANGE-DETECTION RECONCILIATION — 2026-09-26
+
+### CHECKPOINT
+
+**Status:** VERIFICATION
+
+**Scope:** Memasukkan evidence targeted decompile tentang change detection ke canonical reference record dan memperbarui TODO A18 berdasarkan behavior yang benar-benar didukung source.
+
+### REFERENCE EVIDENCE
+
+Section 29 pada \`docs/reference.md\` mencatat:
+
+- \`defpackage/eq.java\`
+  - APK identity/change predicate;
+  - size-change predicate;
+  - modified-file predicate.
+- \`defpackage/nm6.java\`
+  - backup-side decision untuk Data / External data / Expansion / Media;
+  - size change atau modified files dapat membuat part dianggap berubah.
+- \`defpackage/xw.java\`
+  - restore task selection menggunakan APK predicate dan per-part change detection untuk Data / External data / Expansion / Media.
+- Reference tidak memberikan evidence cukup bahwa App Data / External data / Media selalu menggunakan delta archive yang hanya menyimpan file berubah.
+
+### CURRENT BARe INTERPRETATION
+
+Reference-backed behavior yang sekarang menjadi implementation target:
+
+\`\`\`text
+BACKUP
+unchanged part → SKIP
+changed part   → BACKUP
+
+RESTORE
+unchanged target → SKIP
+changed target   → RESTORE
+\`\`\`
+
+Untuk A18 current four-part scope:
+
+\`\`\`text
+APK
+Data
+External data
+Media
+\`\`\`
+
+Expansion tetap di luar scope tanpa keputusan baru.
+
+### TODO CREATED / UPDATED
+
+1. LOCAL APPS inventory visibility.
+2. Data backup change detection.
+3. External data backup change detection.
+4. Media backup change detection.
+5. APK restore decision / unnecessary install skip.
+6. Data restore change detection.
+7. External data restore change detection.
+8. Media restore change detection.
+9. All-parts mixed SKIP + RESTORE result semantics.
+10. Regression around artifact SHA-256 integrity.
+11. Runtime verification matrix untuk unchanged/changed state.
+12. Large-file performance setelah correctness selesai.
+13. Full A18 acceptance tetap NOT VERIFIED.
+
+### NOT A TODO
+
+**Delta/patch App Data** belum terbukti sebagai reference App backup mechanism. Tidak dimasukkan sebagai implementation TODO pada checkpoint ini.
+
+### CURRENT VERIFICATION STATUS
+
+- Reference static evidence: **VERIFIED AGAINST DECOMPILED ARTIFACT**.
+- BaRe APK identical-skip: **RUNTIME OBSERVED**.
+- BaRe Data/Ext. data/Media backup skip: **NOT IMPLEMENTED / UNVERIFIED**.
+- BaRe Data/Ext. data/Media restore skip: **NOT IMPLEMENTED / UNVERIFIED**.
+- BaRe LOCAL APPS visibility: **UNRESOLVED**.
+- BaRe artifact integrity post-fix: **RUNTIME UNVERIFIED**.
+- Full A18: **NOT VERIFIED**.
+
+### NEXT
+
+Implement TODO di atas sesuai urutan correctness, lalu lakukan satu final runtime verification cycle sesuai matrix. Jangan mengklaim parity atau DONE sebelum evidence runtime tersedia.
