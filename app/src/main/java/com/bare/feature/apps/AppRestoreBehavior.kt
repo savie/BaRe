@@ -108,6 +108,14 @@ class AppRestoreBehavior(private val context: Context) {
                     AppBackupPart.EXTERNAL_DATA -> restoreExternal(partStage, request.packageName, method, isCancelled)
                     AppBackupPart.MEDIA -> restoreMedia(partStage, request.packageName, method, isCancelled)
                 }
+                onProgress(
+                    AppBackupProgress(
+                        AppBackupProgressStage.PART_PROGRESS,
+                        part,
+                        "Verifying ${part.displayName()} restore",
+                    ),
+                )
+                verifyRestoredPart(part, request.packageName)
                 completed += part
                 onProgress(AppBackupProgress(
                     AppBackupProgressStage.PART_COMPLETED,
@@ -209,6 +217,31 @@ class AppRestoreBehavior(private val context: Context) {
         } else {
             runSuChecked("mkdir -p ${shellQuote(target.absolutePath)}")
             runSuChecked("cp -a ${shellQuote(stage.absolutePath)}/. ${shellQuote(target.absolutePath)}/")
+        }
+    }
+
+    private fun verifyRestoredPart(part: AppBackupPart, packageName: String) {
+        when (part) {
+            AppBackupPart.APK -> {
+                val installed = runCatching {
+                    context.packageManager.getApplicationInfo(packageName, 0)
+                }.getOrNull()
+                require(installed != null) { "Restored APK is not installed" }
+            }
+            AppBackupPart.DATA -> {
+                val target = context.packageManager.getApplicationInfo(packageName, 0).dataDir
+                require(rootAvailable() && runSu("test -d ${shellQuote(target)}").exitCode == 0) {
+                    "Restored data directory could not be verified"
+                }
+            }
+            AppBackupPart.EXTERNAL_DATA -> {
+                val target = File(Environment.getExternalStorageDirectory(), "Android/data/$packageName")
+                require(target.exists()) { "Restored external data target could not be verified" }
+            }
+            AppBackupPart.MEDIA -> {
+                val target = File(Environment.getExternalStorageDirectory(), "Android/media/$packageName")
+                require(target.exists()) { "Restored media target could not be verified" }
+            }
         }
     }
 
