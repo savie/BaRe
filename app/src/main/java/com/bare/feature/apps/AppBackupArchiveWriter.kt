@@ -57,7 +57,6 @@ class AppBackupArchiveWriter(private val context: Context) {
         val stagedOutput = stagedOutput(output)
         var fileCount = 0
 
-        val stagedSha256: String
         try {
             FileOutputStream(stagedOutput).use { raw ->
                 val digesting = DigestOutputStream(raw, digest)
@@ -70,7 +69,7 @@ class AppBackupArchiveWriter(private val context: Context) {
                     )
                 }
             }
-            stagedSha256 = digest.digest().toHex()
+            digest.digest()
             moveIntoPlace(stagedOutput, output)
         } catch (t: Throwable) {
             stagedOutput.delete()
@@ -81,7 +80,7 @@ class AppBackupArchiveWriter(private val context: Context) {
             file = output,
             byteSize = output.length(),
             fileCount = fileCount,
-            sha256 = stagedSha256,
+            sha256 = sha256(output),
             encryption = material.mode,
         )
     }
@@ -105,7 +104,6 @@ class AppBackupArchiveWriter(private val context: Context) {
         val stagedOutput = stagedOutput(output)
         var fileCount = 0
 
-        val stagedSha256: String
         try {
             FileOutputStream(stagedOutput).use { raw ->
                 val digesting = DigestOutputStream(raw, digest)
@@ -119,7 +117,7 @@ class AppBackupArchiveWriter(private val context: Context) {
                     )
                 }
             }
-            stagedSha256 = digest.digest().toHex()
+            digest.digest()
             moveIntoPlace(stagedOutput, output)
         } catch (t: Throwable) {
             stagedOutput.delete()
@@ -130,7 +128,7 @@ class AppBackupArchiveWriter(private val context: Context) {
             file = output,
             byteSize = output.length(),
             fileCount = fileCount,
-            sha256 = stagedSha256,
+            sha256 = sha256(output),
             encryption = material.mode,
         )
     }
