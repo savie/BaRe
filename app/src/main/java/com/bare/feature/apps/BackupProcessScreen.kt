@@ -41,6 +41,7 @@ internal fun BackupProcessScreen(
     appName: String,
     selectedParts: Set<AppBackupPart>,
     currentPart: AppBackupPart?,
+    currentMessage: String?,
     completedParts: Set<AppBackupPart>,
     status: BackupProcessStatus,
     logs: List<BackupProcessLog>,
@@ -133,6 +134,7 @@ internal fun BackupProcessScreen(
                     )
                     Text(
                         when {
+                            currentMessage != null -> currentMessage
                             currentPart != null -> stringResource(
                                 R.string.backup_process_current_part,
                                 currentPart.displayNameForUi(),
