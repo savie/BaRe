@@ -32,8 +32,13 @@ class AppBackupEngine(private val context: Context) {
         if (!capability.available) error(capability.reason)
 
         val operation = UUID.randomUUID().toString()
-        val staging = File(backupDirectory, ".staging/$operation")
-        check(staging.mkdirs()) { "Unable to create backup staging directory" }
+        val staging = if (method == AccessMethod.ROOT) {
+            null
+        } else {
+            File(backupDirectory, ".staging/$operation").also {
+                check(it.mkdirs()) { "Unable to create backup staging directory" }
+            }
+        }
         val completed = linkedSetOf<AppBackupPart>()
         val artifacts = mutableListOf<File>()
         val artifactMetadata = mutableListOf<AppBackupArtifactMetadata>()
@@ -44,48 +49,65 @@ class AppBackupEngine(private val context: Context) {
                 val partStartedAt = System.nanoTime()
                 val progress = PartProgressReporter(part, onProgress, partStartedAt)
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Backing up ${part.displayName()}"))
-                val raw = File(staging, part.directoryName())
-                val collectedBytes = try {
-                    collectPart(method, request.packageName, part, raw, isCancelled) { processed, total ->
-                        progress.report("Collecting ${part.displayName()}", processed, total)
-                    }
-                } catch (t: Throwable) {
-                    onProgress(
-                        AppBackupProgress(
-                            AppBackupProgressStage.PART_FAILED,
-                            part,
-                            "Collecting " + part.displayName() + " failed: " + describeFailure(t),
-                        ),
-                    )
-                    throw t
+                val rootSources = if (method == AccessMethod.ROOT) {
+                    rootArchiveSources(request.packageName, part)
+                } else {
+                    null
                 }
-                val collectionElapsed = elapsedMillis(partStartedAt)
-                progress.finish(
-                    "Collecting ${part.displayName()} completed in ${formatDuration(collectionElapsed)}",
-                    collectedBytes,
-                    collectedBytes,
-                    collectionElapsed,
-                )
-                val stagedFileCount = raw.walkTopDown().count { it.isFile }
-                val stagedBytes = raw.walkTopDown().filter { it.isFile }.sumOf { it.length().coerceAtLeast(0L) }
-                onProgress(
-                    AppBackupProgress(
-                        AppBackupProgressStage.PART_PROGRESS,
-                        part,
-                        "Staging ${part.displayName()}: $stagedFileCount files / ${formatBytesForDiagnostic(stagedBytes)} (collected ${formatBytesForDiagnostic(collectedBytes)})",
-                        processedBytes = stagedBytes,
-                        totalBytes = stagedBytes,
-                    ),
-                )
+                val collectedBytes: Long
+                if (rootSources != null) {
+                    collectedBytes = rootSources.sumOf { it.byteSize.coerceAtLeast(0L) }
+                    val collectionElapsed = elapsedMillis(partStartedAt)
+                    progress.finish(
+                        "Collecting ${part.displayName()} ready for direct root streaming in ${formatDuration(collectionElapsed)}",
+                        collectedBytes,
+                        collectedBytes,
+                        collectionElapsed,
+                    )
+                } else {
+                    val raw = File(staging ?: error("Backup staging is unavailable"), part.directoryName())
+                    collectedBytes = try {
+                        collectPart(method, request.packageName, part, raw, isCancelled) { processed, total ->
+                            progress.report("Collecting ${part.displayName()}", processed, total)
+                        }
+                    } catch (t: Throwable) {
+                        onProgress(
+                            AppBackupProgress(
+                                AppBackupProgressStage.PART_FAILED,
+                                part,
+                                "Collecting " + part.displayName() + " failed: " + describeFailure(t),
+                            ),
+                        )
+                        throw t
+                    }
+                    val collectionElapsed = elapsedMillis(partStartedAt)
+                    progress.finish(
+                        "Collecting ${part.displayName()} completed in ${formatDuration(collectionElapsed)}",
+                        collectedBytes,
+                        collectedBytes,
+                        collectionElapsed,
+                    )
+                }
                 val archive = File(backupDirectory, "${part.archiveName()}.bare")
                 val packagingStartedAt = System.nanoTime()
                 val result = try {
-                    archiveWriter.write(
-                        archive,
-                        listOf(AppBackupArchiveSource(raw, part.archiveName())),
-                        request.password?.copyOf(),
-                    ) { processed, total ->
-                        progress.report("Packaging ${part.displayName()}", processed, total, packagingStartedAt)
+                    if (rootSources != null) {
+                        archiveWriter.writeRoot(
+                            archive,
+                            rootSources,
+                            request.password?.copyOf(),
+                        ) { processed, total ->
+                            progress.report("Packaging ${part.displayName()}", processed, total, packagingStartedAt)
+                        }
+                    } else {
+                        val raw = File(staging ?: error("Backup staging is unavailable"), part.directoryName())
+                        archiveWriter.write(
+                            archive,
+                            listOf(AppBackupArchiveSource(raw, part.archiveName())),
+                            request.password?.copyOf(),
+                        ) { processed, total ->
+                            progress.report("Packaging ${part.displayName()}", processed, total, packagingStartedAt)
+                        }
                     }
                 } catch (t: Throwable) {
                     onProgress(
@@ -113,7 +135,9 @@ class AppBackupEngine(private val context: Context) {
                     sha256 = result.sha256,
                     encryption = result.encryption.name,
                 )
-                raw.deleteRecursively()
+                if (rootSources == null) {
+                    File(staging ?: error("Backup staging is unavailable"), part.directoryName()).deleteRecursively()
+                }
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, "${part.displayName()} backup completed"))
             }
             return AppBackupEngineResult(completed, artifacts, artifactMetadata)
@@ -124,8 +148,28 @@ class AppBackupEngine(private val context: Context) {
             artifacts.forEach { it.delete() }
             throw t
         } finally {
-            staging.deleteRecursively()
+            staging?.deleteRecursively()
         }
+    }
+
+    private fun rootArchiveSources(packageName: String, part: AppBackupPart): List<com.bare.capability.RootArchiveSource> = when (part) {
+        AppBackupPart.APK -> root.packageApkArchiveSources(packageName)
+        AppBackupPart.DATA -> {
+            val info = context.packageManager.getApplicationInfo(packageName, 0)
+            listOf(root.directoryArchiveSource(info.dataDir, "data"))
+        }
+        AppBackupPart.EXTERNAL_DATA -> listOf(
+            root.directoryArchiveSource(
+                File(Environment.getExternalStorageDirectory(), "Android/data/$packageName").absolutePath,
+                "external-data",
+            ),
+        )
+        AppBackupPart.MEDIA -> listOf(
+            root.directoryArchiveSource(
+                File(Environment.getExternalStorageDirectory(), "Android/media/$packageName").absolutePath,
+                "media",
+            ),
+        )
     }
 
     private fun collectPart(
