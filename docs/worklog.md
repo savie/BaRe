@@ -997,8 +997,7 @@ CI PASS hanya membuktikan source dapat dibuild dan artifact checks CI berhasil. 
 3. Confirm no artifact hash verification failure.
 4. Return to LOCAL APPS and confirm backup status is visible.
 5. Open app detail and confirm all available backup parts are visible.
-6. Restore all.
-7. Restore APK-only, Data-only, Ext. data-only, dan Media-only individually.
+6. Restore all.7. Restore APK-only, Data-only, Ext. data-only, dan Media-only individually.
 8. Confirm each result and post-restore verification.
 9. Only after these pass, perform large-file/performance measurement and full A18 acceptance.
 
@@ -1649,3 +1648,79 @@ Perubahan dibatasi pada BackupPartChip action surface:
 5. LARGE-FILE OPTIMIZATION → LATER
 
 Tidak ada perubahan pada scope Data yang diotorisasi hanya karena #1255 sudah hijau. Data tetap harus diinspeksi terlebih dahulu untuk menentukan root cause dan minimal contract/fix.
+
+## A18 — REKONSILIASI GAP DATA TERHADAP REFERENCE — 2026-09-27
+
+### HASIL AUDIT
+
+Audit terhadap implementasi BaRe dan docs/reference.md sudah dilakukan untuk scope **Data backup + restore**.
+
+Hasil penting: **special behavior Data yang menjadi gap saat ini bukan behavior baru yang belum ada di reference. Behavior tersebut sudah terdokumentasi pada reference dan implementasi BaRe saat ini belum mengikuti contract reference tersebut.**
+
+Dengan demikian, gap A18 Data diklasifikasikan sebagai **REFERENCE PARITY GAP / CORRECTNESS GAP**, bukan sebagai kebutuhan untuk menciptakan behavior baru dari asumsi.
+
+### REFERENCE EVIDENCE
+
+Audit docs/reference.md menunjukkan evidence berikut:
+
+- **Section 30.7**: reference memiliki mekanisme change/backup-needed decision untuk Data dan External Data yang tidak hanya bergantung pada satu metadata ukuran sederhana.
+- **Section 30.8**: source preparation Data/External Data memiliki perlakuan khusus, termasuk filtering terhadap path tertentu seperti `cache` secara kondisional, `code_cache`, `lib`, dan `shared_prefs/com.google.android.gms.*`.
+- **Section 30.19**: restore change decision untuk Data/External Data/Expansion/Media menggunakan kombinasi evidence backup date, current target size, backup/mirrored size, dan perubahan file sejak backup date; keputusan tersebut menentukan apakah bagian perlu masuk restore task.
+- **Section 30.20**: Data restore mendukung entry `data` dan `data_de` bila tersedia.
+- **Section 30.21**: reference memiliki validation dan extraction boundary khusus untuk restore, termasuk validasi archive/entry/target dan root-fidelity Data restore.
+
+Evidence tersebut adalah **reference contract/evidence**, bukan claim bahwa BaRe sudah mengimplementasikannya.
+
+### BARE CURRENT IMPLEMENTATION GAP
+
+Audit actual implementation menunjukkan:
+
+- Backup ROOT Data BaRe saat ini masih menggunakan generic source terhadap `applicationInfo.dataDir` melalui archive source umum.
+- Source handling tersebut belum merepresentasikan filtering Data khusus yang ditemukan pada reference.
+- Restore Data BaRe saat ini memiliki change decision berbasis `sourceByteSize` dan `sourceModifiedAt`, sedangkan reference memiliki decision evidence yang lebih luas sebagaimana Section 30.19.
+- Restore Data BaRe saat ini menggunakan target `dataDir` sebagai target restore; support terhadap entry `data` + `data_de` seperti evidence reference belum dinyatakan verified.
+
+### ENGINEERING CONCLUSION
+
+```text
+REFERENCE
+  └─ Data special behavior sudah ada dan sudah diaudit
+
+BARE CURRENT
+  └─ Data masih mengikuti sebagian generic mechanism
+
+GAP
+  └─ BaRe belum parity dengan Data behavior reference
+```
+
+Jadi **root cause pada level scope sudah dipersempit**: bukan karena reference tidak memiliki contract, melainkan karena implementasi BaRe saat ini **berbeda dari behavior Data yang sudah dibuktikan pada reference**.
+
+Exact code-level root cause dan minimal change tetap **BELUM VERIFIED** sampai actual backup/restore execution path diinspeksi lebih lanjut. Worklog ini tidak menganggap parity sebagai authorization untuk melakukan broad refactor.
+
+### SCOPE GUARD
+
+Tetap protected dan tidak boleh ikut diubah tanpa regression evidence:
+
+- APK backup/restore behavior.
+- External Data backup/restore behavior.
+- Media backup/restore behavior.
+- Part-level incremental update.
+- Backup/restore metadata contracts yang sudah verified.
+- SHA-256 artifact integrity.
+- BaRe encryption boundary.
+- File-level delta/patch tetap **OUT OF SCOPE**.
+
+Special handling hanya diterapkan pada **Data path** sesuai evidence reference; tidak boleh digeneralisasi ke semua part.
+
+### NEXT ACTION
+
+1. Inspect actual BaRe Data backup source/preparation path terhadap evidence Section 30.8.
+2. Inspect actual BaRe Data restore decision/extraction path terhadap evidence Section 30.19–30.21.
+3. Tentukan minimal contract yang benar-benar perlu direkonstruksi dari reference.
+4. Implement hanya Data-specific correction.
+5. CI targeted.
+6. Runtime verify Data per-part + multi-select.
+7. Regression smoke APK / Ext. data / Media.
+8. Setelah Data selesai, lanjut LOCAL APPS.
+
+**Status:** DATA SPECIAL BEHAVIOR = **ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**.
