@@ -95,7 +95,7 @@ class AppRestoreArchiveReader(private val context: Context) {
         val magic = readExact(MAGIC.size)
         require(magic.contentEquals(MAGIC)) { "Invalid BaRe backup artifact" }
         val version = DataInputStream(java.io.ByteArrayInputStream(readExact(4))).readInt()
-        require(version == FORMAT_VERSION) { "Unsupported BaRe backup version: $version" }
+        require(version == LEGACY_FORMAT_VERSION || version == FORMAT_VERSION) { "Unsupported BaRe backup version: $version" }
         val mode = when (readExact(1)[0].toInt()) {
             EncryptionMode.STANDARD.ordinal -> EncryptionMode.STANDARD
             EncryptionMode.ADVANCED.ordinal -> EncryptionMode.ADVANCED
