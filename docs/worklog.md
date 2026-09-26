@@ -1382,3 +1382,33 @@ Mulai implementasi dari prasyarat correctness dengan prioritas tertinggi:
     CI
         ↓
     one final runtime verification cycle
+
+
+## A18 — IMPLEMENTASI TODO SELARAS REFERENCE + CI CHECKPOINT — 2026-09-26
+
+### STATUS SAAT INI
+
+- Visibilitas inventaris LOCAL APPS menggunakan inventory backup lokal kanonik dengan fallback root untuk metadata yang tidak dapat dibaca langsung.
+- Contract metadata per bagian sekarang menyimpan state sumber (`sourceByteSize` dan `sourceModifiedAt`) bersama SHA-256 artifact dan boundary enkripsi BaRe.
+- Backup APK mempertahankan identical-skip; Data / External Data / Media sekarang memiliki keputusan unchanged-skip dan hanya bagian changed yang dieksekusi ulang.
+- Metadata backup mempertahankan artifact bagian yang unchanged dan hanya mengganti artifact bagian yang rebuilt.
+- Restore APK menangani unchanged-skip dan boundary installed APK yang lebih baru tanpa menghentikan restore bagian lain.
+- Restore Data / External Data / Media memiliki unchanged-skip berbasis state target terhadap metadata sumber.
+- Restore All sekarang mengagregasikan bagian completed, skipped, dan failed dalam satu hasil operasi, sehingga kegagalan satu bagian tidak otomatis menghapus hasil bagian lain.
+- Verifikasi SHA-256 artifact dan boundary enkripsi BaRe tetap dipertahankan.
+
+### CI EVIDENCE
+
+- CI #1243 — PASS: `feat(apps): persist per-part source state`.
+- CI #1244 — FAIL: referensi `displayName()` tidak tersedia di `AppBackupBehavior`; diperbaiki.
+- CI #1245 — PASS: `fix(apps): use local backup part labels`.
+- CI #1246 — FAIL: `continue` di inline lambda `run {}` pada restore; diperbaiki.
+- CI #1247 — PASS: `fix(apps): avoid experimental restore loop control flow`.
+
+### VERIFICATION BOUNDARY
+
+Implementasi source-level dan compile/build verification sudah PASS sampai CI #1247. Runtime device verification untuk perubahan incremental backup/restore belum dijalankan pada checkpoint ini dan tetap menjadi verification gap sebelum klaim runtime VERIFIED.
+
+### CATATAN SCOPE
+
+Daftar TODO kanonik A18 pada worklog ini berjumlah 12 poin implementasi aktif; file-level delta/patch archive tetap di luar cakupan sesuai keputusan reference reconciliation. Tidak ada perubahan pada encryption boundary BaRe.
