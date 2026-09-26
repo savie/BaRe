@@ -16,7 +16,7 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current code checkpoint | `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a` |
+| Current code checkpoint | `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
 | Current focus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
 | Reference audit | **SELESAI** |
@@ -35,7 +35,7 @@
 - **IMPLEMENTED:** cancellation check ditambahkan pada root tar streaming; partial archive tetap dibersihkan oleh archive failure path.
 - **SCOPE:** perubahan ini menargetkan throughput dan I/O amplification; NON_ROOT tetap memakai staging pipeline.
 - **REFERENCE EVIDENCE:** Swift Backup 5.1.0-620 menunjukkan root backup berbasis native SBA/tar/archive path, FASTEST compression, base APK 122.5 MB + splits 15.68 MB, Data 457.74 MB, dan task sekitar 3.59 s pada evidence screenshot/source yang tersedia. Ini dipakai sebagai comparison evidence, bukan implementation contract.
-- **CURRENT VERIFICATION:** source-level change terobservasi pada commit `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a`; GitHub Actions/combined status untuk commit ini tidak memiliki workflow run/status. Compile dan runtime **UNVERIFIED**.
+- **CURRENT VERIFICATION:** source-level change terobservasi pada commit `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3`; GitHub Actions/combined status untuk commit ini tidak memiliki workflow run/status. Compile dan runtime **UNVERIFIED**.
 - **IMPORTANT UNKNOWN:** direct-root Data memakai ROOT execution boundary yang sama secara konseptual dengan `su`; belum ada runtime evidence bahwa `/data/user/0/<package>` terlihat dari boundary tersebut. Root namespace/CE-DE/user-profile issue tetap UNKNOWN.
 - **IMPORTANT UNKNOWN:** behavior untuk hardlink/special tar entries dan kompatibilitas runtime parser belum diverifikasi.
 - **PROTECTED INTENT:** artifact lifecycle, encrypted `.bare` contract, Ext. data, Media, dan cancellation semantics harus tetap diregression-test setelah performance change.
@@ -132,7 +132,7 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 
 ### VERIFIED / OBSERVED
 
-- Repository branch `v1.0/rebaseline` dan latest source checkpoint `9e6ac0d...` teridentifikasi.
+- Repository branch `v1.0/rebaseline` dan latest source checkpoint `07a81ff5...` teridentifikasi.
 - CI #1156 artifact pipeline PASS pada checkpoint sebelumnya.
 - Runtime #1156 adalah evidence device terakhir: APK functional evidence, progress/performance defect, Data `source_not_directory`.
 - New direct-root archive/performance implementation exists in source.
@@ -155,7 +155,7 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 - Menghilangkan staging adalah **source-level implementation**, bukan bukti throughput runtime.
 - `Deflater.BEST_SPEED` adalah optimization ## 4. CURRENT NEXT ACTION
 
-1. **Build latest checkpoint `9e6ac0d...`** dan pastikan compile berhasil; jika build belum tersedia di execution boundary, status tetap UNVERIFIED.
+1. **Build latest checkpoint `07a81ff5...`** dan pastikan compile berhasil; jika build belum tersedia di execution boundary, status tetap UNVERIFIED.
 2. Jalankan runtime pada case kecil yang sama/semirip dengan evidence Swift: **APK + splits + Data**, dan ukur terpisah **source discovery / direct tar streaming / archive-compression / encryption / total**.
 3. Verifikasi progress: **logical source bytes → processed bytes → displayed bytes**, dan pastikan tidak lagi menghasilkan total absurd seperti `138 GB` untuk source ~`138 MB`.
 4. Verifikasi artifact correctness: **APK/Data archive exists, non-zero, metadata valid, previous protected artifacts retained, partial/cancel cleanup valid**.
@@ -199,6 +199,6 @@ Current conclusion:
 
 > **Source implementation sudah bergerak dari diagnostic-only menjadi direct-root streaming untuk menghilangkan staging I/O amplification dan memakai FASTEST-equivalent intent pada compression (`Deflater.BEST_SPEED`). Namun latest compile/runtime belum terverifikasi. Data filesystem boundary dan performance acceptance tetap UNKNOWN/UNVERIFIED.**
 
-Latest source checkpoint: `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a`.
+Latest source checkpoint: `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3`.
 
 Next engineering decision harus berasal dari build/runtime evidence aktual.
