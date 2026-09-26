@@ -48,6 +48,8 @@ import com.bare.app.GlobalHeader
 import com.bare.app.Screen
 import com.bare.ui.components.CheckRow
 import com.bare.ui.components.ListEntry
+import com.bare.feature.settings.EncryptionPasswordStore
+import com.bare.feature.settings.EncryptionPasswordStrategy
 import java.text.DateFormat
 import java.util.Date
 
@@ -1142,6 +1144,8 @@ fun AppDetailScreen(
     onAppsContextChange: (AppsContext) -> Unit,
 ) {
     val context = LocalContext.current
+    val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
+    val encryptionAdvanced = remember(context) { encryptionPasswordStore.loadStrategy() == EncryptionPasswordStrategy.ADVANCED }
     val packageName = app?.packageName
     val repository = remember(context) { AppDetailsRepository(context) }
     val organizationStore = remember(context) { AppOrganizationBehavior(context) }
@@ -1179,6 +1183,7 @@ fun AppDetailScreen(
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
     var backupDestination by remember { mutableStateOf("Device") }
+    var backupPassword by remember { mutableStateOf("") }
     var confirmAction by remember { mutableStateOf<String?>(null) }
     var pendingInstalledPartDelete by remember { mutableStateOf<AppBackupPart?>(null) }
 
@@ -1391,6 +1396,7 @@ fun AppDetailScreen(
                         packageName = currentPackage,
                         parts = parts,
                         destination = destination,
+                        password = backupPassword.takeIf { encryptionAdvanced && it.isNotEmpty() }?.toCharArray(),
                     ),
                     onProgress = { progress ->
                         backupScope.launch {
@@ -1567,6 +1573,16 @@ fun AppDetailScreen(
                         if (rowParts.size == 1) Spacer(Modifier.weight(1f))
                     }
                 }
+                if (encryptionAdvanced) {
+                    OutlinedTextField(
+                        value = backupPassword,
+                        onValueChange = { backupPassword = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Backup password") },
+                        singleLine = true,
+                        visualTransformation = androidx.compose.ui.text.input.PasswordVisualTransformation(),
+                    )
+                }
                 Text(stringResource(R.string.select_backup_locations), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilterChip(
@@ -1599,6 +1615,7 @@ fun AppDetailScreen(
                             else -> BackupDestination.DEVICE
                         }
                         runBackup(selected, destination)
+                        backupPassword = ""
                     },
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(28.dp),
