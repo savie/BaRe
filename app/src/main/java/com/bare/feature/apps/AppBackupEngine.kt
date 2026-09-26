@@ -134,7 +134,11 @@ class AppBackupEngine(private val context: Context) {
             AppBackupPart.DATA -> {
                 if (method != AccessMethod.ROOT) error("Private app data requires root access")
                 val info = context.packageManager.getApplicationInfo(packageName, 0)
-                root.copyDirectory(info.dataDir, destination, isCancelled)
+                when (val copy = root.copyDirectory(info.dataDir, destination, isCancelled)) {
+                    is com.bare.capability.RootCopyResult.Failed ->
+                        error("Data source path '${info.dataDir}': ${copy.reason}")
+                    is com.bare.capability.RootCopyResult.Success -> copy
+                }
             }
             AppBackupPart.EXTERNAL_DATA -> collectExternal(method, packageName, destination, isCancelled)
             AppBackupPart.MEDIA -> collectMedia(method, packageName, destination, isCancelled)
