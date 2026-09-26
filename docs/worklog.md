@@ -1508,21 +1508,21 @@ Source updated pada `990e2dce949ab70785460cd51497bf6a1080eac4`.
 Runtime verification masih pending.
 
 
-## A18 — Unified App Backup Engine — APK / Data / Ext. data / Media — 2026-09-26
+## A18 — Mesin Backup Aplikasi Terpadu — APK / Data / Ext. data / Media — 2026-09-26
 
-### USER DECISION / REQUIREMENT
-Target capability BARE:
-- Satu unified backup engine harus mampu menangani **APK, Data, Ext. data, dan Media** sebagai backup parts.
-- Semantics/domain operation tetap sama lintas execution mode; perbedaan berada pada capability/provider mechanism.
-- **ROOT** ditargetkan untuk full private-app access yang memang dapat diperoleh pada device.
-- **NON_ROOT** tetap memakai engine yang sama tetapi hanya menghasilkan parts yang benar-benar accessible; keterbatasan harus dinyatakan sebagai `LIMITED`, `UNAVAILABLE`, `BLOCKED`, atau result `PARTIAL`, bukan dipalsukan sebagai full success.
-- Provider/mechanism yang dapat dipakai tetap mengikuti architecture BaRe: `NON_ROOT`, `ADB`, `SHIZUKU`, `ROOT`, Android APIs, SAF, dan local storage sesuai capability.
-- **Swift Backup 5.1.0 (620)** dipakai sebagai **functional/workflow reference** untuk audit dan pembandingan behavior. Reference implementation tidak disalin sebagai implementation BaRe.
+### KEPUTUSAN / REQUIREMENT USER
+Target capability BaRe:
+- Satu unified backup engine harus menangani **APK, Data, Ext. data, dan Media** sebagai backup parts.
+- Semantics/domain operation tetap sama pada setiap execution mode; perbedaan berada pada capability/provider mechanism.
+- **ROOT** ditargetkan untuk full private-app access yang memang tersedia pada device.
+- **NON_ROOT** tetap memakai engine yang sama, tetapi hanya menghasilkan parts yang benar-benar accessible. Keterbatasan harus dinyatakan sebagai `LIMITED`, `UNAVAILABLE`, `BLOCKED`, atau result `PARTIAL`, bukan dianggap sebagai full success.
+- Provider/mechanism mengikuti architecture BaRe: `NON_ROOT`, `ADB`, `SHIZUKU`, `ROOT`, Android APIs, SAF, dan local storage sesuai capability.
+- **Swift Backup 5.1.0 (620)** digunakan sebagai **functional/workflow reference** untuk audit dan pembandingan behavior. Reference implementation tidak disalin menjadi implementation BaRe.
 - Archive/manifest/metadata, staging, atomic commit, integrity verification, compression, diagnostics, dan operation result mengikuti boundary architecture BaRe.
-- **Encryption menggunakan implementation/security boundary BaRe sendiri**; kesamaan dengan Reference hanya pada backup semantics/flow yang memang sudah menjadi keputusan requirement.
+- **Encryption menggunakan implementation/security boundary BaRe sendiri**; kesamaan dengan Reference hanya pada backup semantics/flow yang memang sudah menjadi requirement.
 - Backup result harus mencerminkan parts yang benar-benar berhasil, termasuk partial/failed state dan diagnostic evidence.
 
-### ARCHITECTURE DIRECTION
+### ARAH ARSITEKTUR
 Model yang disetujui untuk dilanjutkan:
 ```
 Backup Request
@@ -1552,12 +1552,12 @@ Atomic Commit
 Operation Result + Diagnostics
 ```
 
-Root/non-root **bukan dua backup engine**. Engine tetap unified; provider/capability menentukan apa yang dapat dikoleksi.
+ROOT/non-root **bukan dua backup engine**. Engine tetap unified; provider/capability menentukan apa yang dapat dikoleksi.
 
-### REQUIRED DISCOVERY / TODO
-1. Audit current BaRe backup implementation pada source branch untuk menentukan **actual failure boundary** untuk Data, dan membandingkan jalur APK/Data/Ext. data/Media.
+### DISCOVERY / TODO
+1. Audit current BaRe backup implementation pada source branch untuk menentukan **actual failure boundary** Data dan membandingkan jalur APK/Data/Ext. data/Media.
 2. Audit Reference evidence yang relevan untuk **data collection, ext-data, media, archive/staging, result semantics**, tanpa menganggap static reference sebagai runtime proof.
-3. Map current provider/mechanism BaRe:
+3. Petakan provider/mechanism BaRe saat ini:
    - NON_ROOT
    - ADB
    - SHIZUKU
@@ -1565,29 +1565,29 @@ Root/non-root **bukan dua backup engine**. Engine tetap unified; provider/capabi
    terhadap setiap backup part.
 4. Tentukan capability matrix aktual per part dan execution mode, termasuk dependency/permission/privilege limitation.
 5. Audit archive/artifact/manifest/compression/integrity/encryption boundary yang sudah tersedia sebelum membuat implementation baru.
-6. Reproduce dan capture failure Data backup pada runtime/device; jangan menyimpulkan root cause dari UI error saja.
+6. Reproduce dan capture failure Data backup pada runtime/device; jangan menyimpulkan root cause hanya dari UI error.
 7. Rancang **unified BackupPlan + part provider pipeline** yang kompatibel dengan architecture BaRe dan existing operation/result semantics.
 8. Implementasi bertahap: APK → Data/data_de → Ext. data → Media, dengan verification per part dan tanpa mengklaim full backup sebelum seluruh required parts terbukti.
 9. Tambahkan negative/partial tests untuk inaccessible Data pada NON_ROOT serta failure/corruption/interrupted-write paths.
 10. Setelah backup engine stabil, lanjutkan restore menggunakan artifact contract yang sama.
 
-### CURRENT STATUS
+### STATUS SAAT INI
 - Requirement/architecture direction: **DECIDED / AUTHORIZED**.
-- Implementation of this new unified engine: **NOT STARTED**.
-- Current backup Data failure root cause: **UNKNOWN / NEEDS REPRODUCTION + SOURCE AUDIT**.
-- Runtime proof of full APK + Data + Ext. data + Media backup: **UNVERIFIED**.
-- Cloud is outside this task's required local backup proof; do not conflate cloud provider availability with local backup engine correctness.
+- Implementation unified engine baru: **NOT STARTED**.
+- Root cause failure Data saat ini: **UNKNOWN / NEEDS REPRODUCTION + SOURCE AUDIT**.
+- Runtime proof untuk full APK + Data + Ext. data + Media backup: **UNVERIFIED**.
+- Cloud berada di luar pembuktian local backup engine pada task ini; jangan mencampurkan ketersediaan cloud provider dengan correctness local backup engine.
 
 ### NEXT ACTION
-**Inspect → reproduce Data failure → audit current backup providers/engine → reconcile with Reference → design minimal unified pipeline.**
+**Inspect → reproduce Data failure → audit current backup providers/engine → reconcile dengan Reference → design minimal unified pipeline.**
 
-### VERIFICATION BOUNDARY
-No claim of `WORKING`, `FULL BACKUP`, or `VERIFIED` is allowed until runtime evidence proves the corresponding parts and result semantics.
+### BATAS VERIFIKASI
+Tidak boleh ada claim `WORKING`, `FULL BACKUP`, atau `VERIFIED` sampai runtime evidence membuktikan parts dan result semantics yang terkait.
 
-## A18 — BACKUP SOURCE AUDIT + DATA FAILURE REPRODUCTION + MAXIMAL IMPLEMENTATION DESIGN — 2026-09-26
+## A18 — AUDIT SUMBER BACKUP + REPRODUKSI KEGAGALAN DATA + RANCANGAN IMPLEMENTASI MAKSIMAL — 2026-09-26
 
-### AUDIT SCOPE
-Actual current source inspected:
+### CAKUPAN AUDIT
+Actual current source yang diinspeksi:
 - AppBackupBehavior.kt
 - AppDataBackupBehavior.kt
 - AppExternalDataBackupBehavior.kt
@@ -1601,74 +1601,74 @@ Actual current source inspected:
 - BackupProcessScreen.kt
 - AndroidManifest.xml
 
-Reference evidence inspected from the supplied Swift Backup 5.1.0 (620) decompiled source, including app-data archive metadata and app-size/path modeling.
+Reference evidence yang diinspeksi berasal dari supplied Swift Backup 5.1.0 (620) decompiled source, termasuk app-data archive metadata serta app-size/path modeling.
 
-### ACTUAL CURRENT IMPLEMENTATION — FACT
-1. AppBackupBehavior is the current orchestration boundary, but it is not yet a complete archive backup engine.
+### IMPLEMENTASI SAAT INI — FACT
+1. AppBackupBehavior adalah current orchestration boundary, tetapi belum menjadi complete archive backup engine.
 2. Current local execution:
    - APK → RootCapabilityProvider.copyPackageApks()
    - Data → AppDataBackupBehavior → RootCapabilityProvider.copyDirectory(applicationInfo.dataDir, .../data)
    - Ext. data → AppExternalDataBackupBehavior → root copy of /Android/data/<package>
-   - Media → explicitly rejected as unsupported.
-3. Cloud and Device + Cloud are explicitly unsupported in the current execution path.
-4. Current app backup execution depends on ROOT. No ADB, Shizuku, or non-root provider is observed in this app-backup execution path.
-5. Current artifact is a live directory tree under BaRe/accounts/<identity>/backups/apps/<package>/<version>.
-6. Current metadata is metadata.json. The current App Backup path has no manifest for collected entries, no archive container, no integrity record, no payload encryption, and no compression.
-7. APK has a dedicated staging directory. Data and Ext. data are copied into the final version directory directly.
-8. Metadata is written only after every selected part succeeds. A part failure returns Failed immediately.
-9. Failed results do not carry completed parts. Cancelled results do carry completed parts.
-10. Cancellation is checked only between parts; an in-flight root copy cannot currently be interrupted.
-11. BackupProcessScreen is wired to actual per-part callbacks, but progress is part-level rather than byte-level.
-12. Inventory only recognizes a version when metadata.json is readable.
-13. Data currently collects only ApplicationInfo.dataDir. There is no current deviceProtectedDataDir / data_de collection.
-14. There is no explicit transactional commit state for a backup version.
+   - Media → secara eksplisit ditolak sebagai unsupported.
+3. Cloud dan Device + Cloud secara eksplisit unsupported pada current execution path.
+4. Current app backup execution bergantung pada ROOT. Tidak ditemukan ADB, Shizuku, atau non-root provider pada execution path app-backup yang diaudit.
+5. Current artifact berupa live directory tree pada BaRe/accounts/<identity>/backups/apps/<package>/<version>.
+6. Current metadata adalah metadata.json. Current App Backup path belum memiliki manifest untuk collected entries, archive container, integrity record, payload encryption, atau compression.
+7. APK memiliki dedicated staging directory. Data dan Ext. data langsung dicopy ke final version directory.
+8. Metadata hanya ditulis setelah semua selected parts berhasil. Jika satu part gagal, result langsung Failed.
+9. Failed result tidak membawa completed parts. Cancelled result membawa completed parts.
+10. Cancellation hanya diperiksa di antara parts; root copy yang sedang berjalan belum dapat dihentikan.
+11. BackupProcessScreen terhubung ke callback per-part aktual, tetapi progress masih per-part, bukan byte-level.
+12. Inventory hanya mengenali version jika metadata.json dapat dibaca.
+13. Data saat ini hanya mengumpulkan ApplicationInfo.dataDir. Belum ada pengumpulan deviceProtectedDataDir / data_de.
+14. Belum ada transactional commit state yang eksplisit untuk backup version.
 
-### DATA FAILURE — REPRODUCTION / EVIDENCE
-Historical runtime evidence from user build #1069:
-DATA backup failed: /system/bin/sh: no closing quote.
+### KEGAGALAN DATA — REPRODUKSI / EVIDENCE
+Historical runtime evidence dari user build #1069:
+`DATA backup failed: /system/bin/sh: no closing quote.`
 
-This confirms a runtime failure at the root-shell copy boundary.
+Ini mengonfirmasi runtime failure pada root-shell copy boundary.
 
-Current runtime reproduction is BLOCKED in this session because no Android device, emulator, or ADB runtime is attached. The supplied APK available here is the Swift Backup reference APK, not a current BaRe runtime build.
+Current runtime reproduction **BLOCKED** pada session ini karena tidak ada Android device, emulator, atau ADB runtime yang terhubung. APK yang tersedia di session ini adalah Swift Backup reference APK, bukan current BaRe runtime build.
 
 Static regression check:
-- Current RootCapabilityProvider uses one shared POSIX single-quote helper.
-- Representative Android paths and an apostrophe-containing path were executed through equivalent host /bin/sh quoting semantics without a shell parse error.
+- Current RootCapabilityProvider menggunakan satu shared POSIX single-quote helper.
+- Representative Android paths dan path yang mengandung apostrophe dijalankan melalui equivalent host /bin/sh quoting semantics tanpa shell parse error.
 
-Exact historical root cause remains UNKNOWN. The available historical source checkpoint immediately before the recorded failure contains a different nested-quote construction that parses correctly for representative paths. The exact intermediate buggy revision that produced the screenshot was not recoverable through the currently exposed GitHub history connector. Therefore the existing quote-helper fix remains an implementation checkpoint, not a fully runtime-verified root-cause proof.
+Exact historical root cause tetap **UNKNOWN**. Historical source checkpoint yang tersedia tepat sebelum failure tercatat masih menggunakan nested-quote construction yang dapat diparse pada representative paths. Exact intermediate buggy revision yang menghasilkan screenshot tidak dapat dipulihkan melalui GitHub history connector yang tersedia. Karena itu quote-helper fix yang ada tetap merupakan implementation checkpoint, bukan root-cause proof yang sudah diverifikasi runtime.
 
-### REFERENCE EVIDENCE — RELEVANT TO A18
-The supplied Swift Backup decompiled source confirms:
-- app Data and device-protected Data are modeled separately;
-- app-data archive metadata contains dataSize, deDataSize, includeDeviceProtectedData, compressionLevel, encrypted, and entries;
-- app-size modeling includes APK, split APKs, shared libraries, Data, device-protected Data, External data, Media, and expansion;
-- External data uses Android/data/<package>;
-- Media uses Android/media/<package>;
-- app-data backup is archive-oriented.
+### EVIDENCE REFERENCE — RELEVAN UNTUK A18
+Supplied Swift Backup decompiled source mengonfirmasi:
+- app Data dan device-protected Data dimodelkan terpisah;
+- app-data archive metadata memuat dataSize, deDataSize, includeDeviceProtectedData, compressionLevel, encrypted, dan entries;
+- app-size modeling mencakup APK, split APKs, shared libraries, Data, device-protected Data, External data, Media, dan expansion;
+- External data menggunakan Android/data/<package>;
+- Media menggunakan Android/media/<package>;
+- app-data backup berorientasi archive.
 
-These are REFERENCE EVIDENCE only and do not authorize copying Swift implementation or format.
+Semua poin di atas adalah **REFERENCE EVIDENCE**, bukan dasar untuk menyalin Swift implementation atau format.
 
-### CONFIRMED CURRENT FAILURE / ARCHITECTURE BOUNDARY
+### BATAS KEGAGALAN / ARSITEKTUR YANG TERKONFIRMASI
 Current Data path:
 AppDetail → AppBackupBehavior → AppDataBackupBehavior → ApplicationInfo.dataDir → RootCapabilityProvider.copyDirectory() → su -c → root filesystem.
 
-Historical shell failure is narrowed to the su -c command-construction boundary, but exact historical malformed command remains UNKNOWN.
+Historical shell failure menyempit pada su -c command-construction boundary, tetapi exact historical malformed command tetap **UNKNOWN**.
 
-Separate correctness gaps found in the actual current source:
-- Data excludes device-protected data.
-- Media is unsupported.
-- ROOT is the only observed app-backup mechanism.
-- No transactional artifact commit.
-- No manifest/integrity record.
-- No archive/compression/encryption in App Backup.
-- Partial failure semantics are incomplete.
-- In-flight copy cancellation is unavailable.
-- Metadata is committed only after all selected parts complete.
+Correctness gaps yang ditemukan pada actual current source:
+- Data tidak mencakup device-protected data.
+- Media unsupported.
+- ROOT adalah satu-satunya app-backup mechanism yang terobservasi.
+- Tidak ada transactional artifact commit.
+- Tidak ada manifest/integrity record.
+- Tidak ada archive/compression/encryption pada App Backup.
+- Partial failure semantics belum lengkap.
+- In-flight copy cancellation belum tersedia.
+- Metadata baru di-commit setelah semua selected parts selesai.
 
-### MAXIMAL IMPLEMENTABLE DESIGN — PROPOSAL
+### RANCANGAN IMPLEMENTASI MAKSIMAL — PROPOSAL
 
-#### 1. Unified domain
-Use one semantic pipeline:
+#### 1. Domain terpadu
+Gunakan satu semantic pipeline:
 BackupRequest → BackupPlan → PartPlan → PartResult → BackupResult.
 
 Part states:
@@ -1677,9 +1677,9 @@ PLANNED → RUNNING → SUCCESS | FAILED | SKIPPED | CANCELLED.
 Overall result:
 SUCCESS | PARTIAL | FAILED | CANCELLED.
 
-A Data failure must preserve evidence that APK succeeded.
+Data failure harus tetap menyimpan evidence bahwa APK berhasil.
 
-#### 2. Provider boundary
+#### 2. Batas provider
 BackupEngine → CapabilityResolver → PartProvider.
 
 Part providers:
@@ -1689,25 +1689,25 @@ Part providers:
 - EXT_DATA
 - MEDIA
 
-ROOT is the first implementation target because it is the only observed working mechanism. NON_ROOT, ADB, and SHIZUKU remain capability slots until actual providers are implemented and verified.
+ROOT menjadi target implementation pertama karena itu satu-satunya working mechanism yang terobservasi. NON_ROOT, ADB, dan SHIZUKU tetap sebagai capability slots sampai provider aktual diimplementasikan dan diverifikasi.
 
-#### 3. Data collection
+#### 3. Pengumpulan Data
 ROOT:
 - DATA = ApplicationInfo.dataDir.
-- DATA_DE = ApplicationInfo.deviceProtectedDataDir when available and distinct.
-- Preserve DATA and DATA_DE as separate manifest parts.
-- Capture source existence, size, file count, and result state.
-- Use the existing root force-stop capability as an explicit prerequisite where safe, so the source is not changing during collection. Restart behavior must be explicit.
+- DATA_DE = ApplicationInfo.deviceProtectedDataDir jika tersedia dan berbeda.
+- DATA dan DATA_DE dipertahankan sebagai manifest parts terpisah.
+- Catat source existence, size, file count, dan result state.
+- Gunakan existing root force-stop capability sebagai prerequisite eksplisit jika aman agar source tidak berubah selama collection. Restart behavior harus eksplisit.
 
-#### 4. External data and Media
-Use:
+#### 4. External data dan Media
+Gunakan:
 - Ext. data = external storage Android/data/<package>
 - Media = external storage Android/media/<package>
 
-Missing source directory is SKIPPED/EMPTY, not an engine failure.
+Jika source directory tidak ada, hasilnya SKIPPED/EMPTY, bukan engine failure.
 
-#### 5. Transactional artifact
-Never write the committed version directly.
+#### 5. Artifact transaksional
+Jangan pernah menulis committed version langsung.
 
 Staging:
 <version>.staging/<operation-id>/
@@ -1715,20 +1715,20 @@ Staging:
   manifest.partial.json
   metadata.partial.json
 
-Commit sequence:
-1. finalize parts;
-2. finalize manifest;
-3. finalize integrity data;
-4. finalize metadata;
-5. atomically rename staging to committed version;
-6. write a commit marker if required by filesystem semantics.
+Urutan commit:
+1. finalisasi parts;
+2. finalisasi manifest;
+3. finalisasi integrity data;
+4. finalisasi metadata;
+5. atomic rename staging menjadi committed version;
+6. tulis commit marker bila diperlukan oleh filesystem semantics.
 
-Failed/cancelled execution must not appear as a normal successful backup version.
+Execution yang gagal/dibatalkan tidak boleh terlihat sebagai backup version normal yang berhasil.
 
 #### 6. Archive
-Converge on a BaRe-native opaque part archive instead of exposing raw private-app directory structure as the long-term artifact contract.
+Gunakan opaque part archive native BaRe sebagai artifact contract jangka panjang, bukan raw private-app directory structure.
 
-Suggested layout:
+Usulan layout:
 version/
   metadata.json
   manifest.json
@@ -1739,61 +1739,61 @@ version/
     external_data.<format>
     media.<format>
 
-Exact archive format remains a design decision requiring implementation validation. Swift SBA format must not be copied.
+Exact archive format masih merupakan design decision dan harus divalidasi saat implementation. Swift SBA format tidak boleh disalin.
 
 #### 7. Compression
-Apply compression per part, streaming, and record algorithm plus level in the manifest. No compression capability is considered implemented until round-trip tests pass.
+Terapkan compression per part secara streaming dan catat algorithm serta level pada manifest. Compression belum dianggap implemented sampai round-trip tests lulus.
 
-#### 8. BARE encryption
-Keep payload encryption separate from metadata protection.
-- Encrypt part payload streams using a BaRe-native security boundary.
-- Reuse existing BaRe security primitives only after their actual current source location and suitability are verified.
-- Never copy Swift Backup key or envelope format.
-- Manifest records encryption state/method only.
+#### 8. Encryption BaRe
+Pisahkan payload encryption dari metadata protection.
+- Encrypt part payload streams menggunakan BaRe-native security boundary.
+- Reuse existing BaRe security primitives hanya setelah actual current source location dan suitability diverifikasi.
+- Jangan menyalin Swift Backup key atau envelope format.
+- Manifest hanya mencatat encryption state/method.
 
 #### 9. Integrity
-Record at minimum:
+Minimal catat:
 - part byte size;
 - entry/file count;
-- SHA-256 digest of finalized payload;
+- SHA-256 digest dari finalized payload;
 - manifest schema/version;
 - commit state.
 
-Verification must re-read the committed artifact and compare recorded integrity values before the backup can be called VERIFIED.
+Verification harus membaca ulang committed artifact dan membandingkan integrity values sebelum backup boleh disebut VERIFIED.
 
-#### 10. Progress and cancellation
-Keep the existing BackupProcessScreen and bind it to real engine events:
+#### 10. Progress dan cancellation
+Pertahankan BackupProcessScreen yang ada dan hubungkan ke real engine events:
 PREPARING → PART_STARTED → COLLECTING → PACKAGING → COMPRESSING → ENCRYPTING → VERIFYING → PART_COMPLETED → terminal result.
 
-Cancellation must terminate the active provider process/stream, clean staging, and return a terminal result.
+Cancellation harus menghentikan active provider process/stream, membersihkan staging, dan mengembalikan terminal result.
 
-#### 11. Inventory compatibility
-Extend metadata/inventory with:
+#### 11. Kompatibilitas inventory
+Perluas metadata/inventory dengan:
 - schema version;
 - committed/partial state;
 - selected parts;
 - part states;
-- Data/Data_DE/Ext. data/Media sizes;
+- ukuran Data/Data_DE/Ext. data/Media;
 - compression;
 - encryption state;
 - integrity status.
 
-Existing raw-directory backups should remain readable through a legacy adapter.
+Backup raw-directory existing tetap harus dapat dibaca melalui legacy adapter.
 
-#### 12. Implementation sequence
-A18.1 — Harden ROOT command/provider + reproduce Data on device.
+#### 12. Urutan implementasi
+A18.1 — Perkuat ROOT command/provider + reproduce Data pada device.
 A18.2 — Unified result/part-state contract.
-A18.3 — DATA + DATA_DE transactional collection.
-A18.4 — EXT_DATA + MEDIA providers.
+A18.3 — Pengumpulan DATA + DATA_DE secara transactional.
+A18.4 — Provider EXT_DATA + MEDIA.
 A18.5 — Manifest + atomic commit.
 A18.6 — Archive + streaming compression.
 A18.7 — BARE payload encryption.
 A18.8 — Integrity verification.
 A18.9 — Cancellation + structured diagnostics.
-A18.10 — Legacy inventory compatibility.
+A18.10 — Kompatibilitas inventory lama.
 A18.11 — Runtime verification matrix.
 
-### REQUIRED VERIFICATION MATRIX
+### MATRIKS VERIFIKASI YANG WAJIB
 - APK only
 - Data only
 - Data + Data_DE
@@ -1813,20 +1813,20 @@ A18.11 — Runtime verification matrix.
 - protected backup interaction
 - legacy backup inventory compatibility
 
-### CURRENT A18 STATE
-- Source audit: COMPLETED / OBSERVED.
-- Historical Data failure: RUNTIME EVIDENCE CONFIRMED.
-- Current corrected Data runtime re-test: BLOCKED — no Android runtime attached.
-- Exact historical shell-quote root cause: UNKNOWN.
-- Current architecture gap: CONFIRMED.
-- New A18 implementation: NOT STARTED.
-- Design: PROPOSED / READY FOR IMPLEMENTATION AUTHORIZATION.
+### STATUS A18 SAAT INI
+- Audit source: **SELESAI / OBSERVED**.
+- Historical Data failure: **RUNTIME EVIDENCE CONFIRMED**.
+- Current corrected Data runtime re-test: **BLOCKED** — tidak ada Android runtime terhubung.
+- Exact historical shell-quote root cause: **UNKNOWN**.
+- Current architecture gap: **CONFIRMED**.
+- Implementation A18 baru: **NOT STARTED**.
+- Design: **PROPOSED / READY FOR IMPLEMENTATION AUTHORIZATION**.
 
 ### NEXT ACTION
-Obtain a current BaRe runtime/device session and reproduce Data-only backup first with complete diagnostic/stderr. Then implement A18.1–A18.5 in small verified slices before compression/encryption.
+Dapatkan current BaRe runtime/device session dan reproduce Data-only backup terlebih dahulu dengan diagnostic/stderr lengkap. Setelah itu implement A18.1–A18.5 dalam slice kecil yang diverifikasi sebelum masuk ke compression/encryption.
 
-### OUT OF SCOPE
+### DI LUAR SCOPE
 - Cloud execution/provider.
 - Restore execution.
 - Full Swift Backup implementation cloning.
-- Claiming NON_ROOT/ADB/SHIZUKU support before provider evidence exists.
+- Claiming NON_ROOT/ADB/SHIZUKU support sebelum provider evidence tersedia.
