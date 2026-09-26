@@ -359,7 +359,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
             error("Invalid source path")
         }
         val quoted = shellQuote(sourcePath)
-        val command = "toybox tar -cf - -- " + quoted
+        val command = "toybox tar -cf - " + quoted
         val process = ProcessBuilder("su", "-c", command)
             .redirectErrorStream(false)
             .start()
