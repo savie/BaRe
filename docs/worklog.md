@@ -45,6 +45,48 @@
 - Untuk Data, tambahkan diagnosis path alternatif yang read-only (CE/DE/application info + root namespace check) sebelum memilih perubahan copy mechanism.
 - Acceptance berikutnya harus menggunakan angka raw bytes + elapsed time untuk collection, archive/compression, dan encryption secara terpisah.
 
+## A18 — GO RECONCILIATION: CI #1156 + RUNTIME EVIDENCE — 2026-09-26
+
+### USER-PROVIDED RUNTIME EVIDENCE
+
+- Build **#1156** sudah berhasil melewati pipeline CI; artifact APK dapat dipasang dan diuji pada device.
+- Runtime APK WhatsApp memperlihatkan:
+  - UI: `Packaging APK: 1.0 GB / 138 GB (120 MB/s)`;
+  - evidence Swift untuk source yang sama menunjukkan base APK **122.5 MB** + 3 split APK **15.68 MB**, total sekitar **138.18 MB**;
+  - angka `138 GB` dicatat sebagai **defect measurement yang belum terlokalisasi**, bukan ukuran source APK.
+- Runtime Data untuk meWho? Lite memperlihatkan:
+  - source path: `/data/user/0/in.mewho.meWhoLite`;
+  - ROOT copy: `exit=20: source_not_directory`;
+  - `source_exists=false`.
+- Log Swift yang diberikan menunjukkan task backup selesai sekitar **3.59 s**, dengan APK/splits sekitar 138.18 MB dan Data sekitar 457.74 MB. Angka ini dipakai sebagai evidence pembanding, bukan sebagai benchmark terkontrol.
+
+### REKONSILIASI TEKNIS
+
+1. **CI #1156 PASS** sudah terverifikasi pada artifact pipeline; compile-fix #1155 tidak lagi menjadi blocker.
+2. **APK performance/progress acceptance belum terpenuhi.** Belum boleh menyimpulkan optimasi berhasil karena raw byte accounting dan phase timing belum konsisten.
+3. **APK architecture saat ini masih mempunyai read/write amplification:** ROOT copy ke staging kemudian archive writer membaca staging kembali untuk ZIP + AES-GCM. Ini adalah target optimasi yang sah karena tidak mengubah semantic artifact yang sudah terbukti.
+4. **Progress total harus ditrace end-to-end** sebelum perubahan optimasi: pm path → source stat → ROOT copy progress → staging File.length() → sourceByteSize() → AppBackupProgress → UI format. Raw byte count dan unit conversion harus dibuktikan pada setiap boundary.
+5. **Data failure belum boleh diperbaiki dengan penggantian path secara tebakan.** Evidence saat ini hanya membuktikan path ApplicationInfo.dataDir yang dipakai tidak terlihat sebagai directory dari execution context ROOT. Diagnosis berikutnya harus read-only dan membedakan CE/DE, user/profile, alternate path, serta visibility dari ROOT namespace.
+6. **Behavior yang sudah terbukti berhasil tidak diubah semantic-nya:** APK artifact lifecycle, Ext. data, dan Media tetap menjadi regression-protected behavior.
+
+### STATUS
+
+- **CI #1156:** `VERIFIED PASS` untuk build artifact pipeline berdasarkan runtime artifact/test yang diberikan.
+- **APK:** `FUNCTIONAL EVIDENCE EXISTS / PERFORMANCE ACCEPTANCE FAILED / PROGRESS MEASUREMENT UNVERIFIED`.
+- **Data:** `FAILED / ROOT CAUSE UNKNOWN / DIAGNOSTIC EVIDENCE IMPROVED`.
+- **Ext. data:** sebelumnya proven; tidak dibuka ulang.
+- **Media:** sebelumnya proven; tidak dibuka ulang.
+- **Artifact lifecycle:** sebelumnya proven; tidak dibuka ulang tanpa regression evidence.
+- **Full backup:** `UNVERIFIED`.
+
+### NEXT AUTHORIZED ACTION
+
+- Inspeksi source aktual untuk menemukan boundary byte-accounting dan archive input.
+- Rancang perubahan minimal untuk **direct-source archive** pada APK tanpa mengubah artifact contract/lifecycle yang sudah terbukti.
+- Tambahkan diagnostic read-only untuk **CE/DE + user/profile + ROOT visibility** pada DATA sebelum memilih mekanisme copy baru.
+- Setelah perubahan code, build → runtime APK → runtime Data → regression Ext. data/Media → verify.
+- Semua timing/performance conclusion harus berbasis raw bytes + elapsed time per phase; jangan menggunakan throughput UI saja sebagai proof.
+
 ## A18 — FIX CI #1155 COMPILE ERROR — 2026-09-26
 
 ### OBSERVED
@@ -90,13 +132,13 @@ Build ulang melalui CI. Jika compile PASS, lanjutkan runtime instrumentation/per
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `05dafa39406dd2acdc42882067d4439a030fa919` — backup throughput instrumentation + root data diagnostics checkpoint |
+| Current checkpoint | `b0a4d8cc157e38b9789b48598d834be385d16847` — code checkpoint untuk CI #1156; runtime review #1156 sudah direkam di worklog |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
-| Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + artifact lifecycle correctness** |
+| Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
 | Reference audit | **SELESAI** |
-| Runtime status | **#1143 runtime evidence: APK, Ext. data, dan Media berhasil; Data gagal dengan `exit=20: source_not_directory`; artifact `apk.bare` terbukti tidak lagi terhapus setelah backup part lain. APK WhatsApp ~138 MB pada runtime teramati sangat lama dan belum menghasilkan timing evidence. Full backup tetap UNVERIFIED.** |
-| Root cause | **Data: boundary kegagalan tetap pada `RootCapabilityProvider.copyDirectory()`; source dilaporkan bukan directory. Instrumentasi berikutnya sekarang akan menyertakan data source path dan filesystem metadata saat failure. Penyebab lebih dalam masih UNKNOWN. Cloud provider/backend tetap terpisah dari local backup engine.** |
+| Runtime status | **#1156: CI PASS. Runtime menunjukkan progress APK tidak valid (`1.0 GB / 138 GB` untuk source sekitar 138.18 MB berdasarkan evidence Swift), APK runtime belum memenuhi acceptance performance, Data gagal dengan `exit=20: source_not_directory` dan `source_exists=false`. Behavior APK artifact lifecycle, Ext. data, dan Media yang sudah terbukti tetap diperlakukan sebagai protected behavior. Full backup tetap UNVERIFIED.** |
+| Root cause | **APK: defect measurement total masih belum terlokalisasi; architecture saat ini masih melakukan staging lalu read ulang untuk archive/encryption. Data: `/data/user/0/in.mewho.meWhoLite` tidak terlihat sebagai directory dari execution context ROOT; penyebab filesystem boundary/CE-DE/user/namespace masih UNKNOWN.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
