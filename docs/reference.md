@@ -3738,3 +3738,197 @@ Status: EVIDENCE REFERENCE STATIS VERIFIED TERHADAP ARTIFACT HASIL DEKOMPILASI.
 Runtime reference: NOT VERIFIED.
 
 Implementasi BaRe: TIDAK diubah oleh bagian audit ini.
+
+
+## 31 — A18 audit lanjutan: LOCAL APPS, Restore selection, dan large-file performance (2026-09-26)
+
+Bagian ini mencatat audit targeted lanjutan setelah evidence runtime BaRe menunjukkan dua gap correctness/UI dan satu pertanyaan performance. Temuan reference di bagian ini tetap berstatus REFERENCE EVIDENCE dan tidak menggantikan source/runtime authority BaRe.
+
+### 31.1 LOCAL APPS — rekonsiliasi inventory terhadap backup container
+
+Reference audit sebelumnya sudah menetapkan bahwa local backup discovery berpusat pada canonical backup container, metadata, dan minimal satu part yang dapat direstore.
+
+Static evidence pada fk.java / hk.java menunjukkan pola:
+
+    local backup storage
+        ↓
+    account namespace
+        ↓
+    apps/local
+        ↓
+    package
+        ↓
+    backup container
+        ↓
+    metadata + restorable part
+        ↓
+    app backup inventory
+
+Audit BaRe terhadap implementation aktual menemukan bahwa AppsScreen sebelumnya melakukan inspectLocal(package) untuk setiap app. Karena inspectLocal() menjalankan inspectLocalAll(), storage yang sama dipindai berulang kali untuk seluruh daftar app.
+
+Perubahan BaRe sekarang menggunakan:
+
+    AppsScreen
+        ↓
+    AppBackupInventoryBehavior.inspectLocalAll()
+        ↓
+    satu hasil canonical map
+        ↓
+    association packageName → latest backup snapshot
+
+AppBackupInventoryBehavior juga sekarang menggabungkan hasil directory listing biasa dan root listing, bukan hanya memakai root listing sebagai fallback ketika listing biasa kosong.
+
+Classification:
+- Static code finding: OBSERVED / VERIFIED AT SOURCE LEVEL.
+- Root cause runtime dari failure LOCAL APPS sebelumnya: NOT YET RUNTIME VERIFIED.
+- Perubahan runtime setelah fix: NOT YET VERIFIED.
+
+### 31.2 Restore card dan Restore part selection
+
+Static reference UI inventory menunjukkan pemisahan yang jelas:
+
+detail_card_app_storage.xml
+- app storage parts;
+- Backup CTA.
+
+detail_card_app_backup.xml
+- backup metadata;
+- part chips;
+- Restore CTA;
+- backup-card actions.
+
+Reference juga memiliki menu action terpisah untuk storage-part dan backup-card/backup-part:
+
+- menu_detail_storage_chip_actions.xml;
+- menu_detail_backup_chip_actions.xml;
+- menu_detail_backup_card_actions.xml.
+
+Static model xi0.java menunjukkan restore part diperlakukan sebagai selection independen untuk:
+
+- APK/APKs;
+- Data;
+- External data;
+- Expansion;
+- Media.
+
+Workflow reference yang relevan:
+
+    Device backup card
+        ↓
+    Restore / restore options
+        ↓
+    User app parts
+        ↓
+    select one or multiple available parts
+        ↓
+    RESTORE
+        ↓
+    restore task creation
+
+Reference evidence tidak mendukung model di mana tombol Restore langsung mengeksekusi seluruh part tanpa selection layer.
+
+BaRe sebelumnya langsung menjalankan semua part yang tersedia. Perubahan BaRe sekarang menjadi:
+
+    Device backup card
+        ↓
+    Restore
+        ↓
+    User app parts bottom sheet
+        ↓
+    APK / Data / Ext. data / Media selection
+        ↓
+    RESTORE
+        ↓
+    onRestore(selectedParts)
+        ↓
+    existing restore engine
+
+Selection hanya menampilkan part yang benar-benar tersedia pada backup.
+
+Protected-backup boundary: protection ditujukan untuk mencegah mutation/delete terhadap backup yang dilindungi. Restore tidak memodifikasi backup container. Oleh karena itu BaRe tidak lagi memblokir pembukaan Restore selector hanya karena backup berstatus protected.
+
+Classification:
+- Independent restore selection: OBSERVED_STATIC.
+- BaRe UI contract setelah perubahan: IMPLEMENTED AT SOURCE LEVEL.
+- Runtime visual/interaction verification: NOT YET VERIFIED.
+- Existing Restore All/backend execution: harus dipertahankan sebagai regression-protected behavior.
+
+### 31.3 Large-file performance — audit pipeline aktual BaRe
+
+Audit source BaRe menemukan pipeline ROOT saat ini:
+
+    source directory
+        ↓
+    RootCapabilityProvider.directoryArchiveSource()
+        ├── source validation
+        └── toybox du -sk
+        ↓
+    AppBackupPartStateReader.root()
+        ├── directorySize() → toybox du -sk
+        └── directoryModifiedTime() → find + stat + sort
+        ↓
+    AppBackupArchiveWriter.writeRoot()
+        ↓
+    same backup directory:
+        .<artifact>.<uuid>.partial
+        ↓
+    root source streamed through toybox tar
+        ↓
+    TAR/Zstandard archive pipeline
+        ↓
+    BaRe AES-GCM encryption
+        ↓
+    atomic move into final artifact
+        ↓
+    AppBackupEngine.verifyArtifact()
+        ↓
+    full SHA-256 reread of final artifact
+
+Temuan penting:
+
+1. BaRe ROOT tidak melakukan full source copy ke data/cache sebelum archive.
+2. Archive output sementara berada di directory backup yang sama dengan final artifact, menggunakan file .partial.
+3. Root source diarahkan langsung ke archive pipeline melalui toybox tar.
+4. Sebelum archive, source directory sudah diperiksa/diukur lebih dari sekali.
+5. Setelah archive selesai, artifact kembali dibaca penuh untuk SHA-256 verification, walaupun AppBackupArchiveWriter sudah menghitung digest saat proses write.
+
+Reference targeted audit pada defpackage/jd4.java + SbaArchiveNative.createArchive(...) menunjukkan source absolute path diteruskan langsung sebagai SbaArchiveEntry ke native archive engine.
+
+Reference audit tidak menemukan evidence bahwa seluruh source wajib disalin terlebih dahulu ke temporary data/cache sebelum archive creation.
+
+Karena itu hipotesis:
+
+    reference → data/cache staging → final storage
+
+BELUM TERBUKTI dan tidak boleh dipakai sebagai dasar redesign.
+
+Temuan yang lebih kuat dari source BaRe saat ini adalah adanya beberapa kemungkinan biaya I/O/traversal:
+
+    du
+    +
+    du/stat traversal
+    +
+    source tar traversal/read
+    +
+    archive/compression/encryption write
+    +
+    full artifact SHA-256 reread
+
+Ini merupakan performance investigation target, bukan bukti bahwa satu tahap tertentu adalah bottleneck runtime.
+
+Classification:
+- Pipeline BaRe: OBSERVED_STATIC.
+- Reference direct-source handoff: OBSERVED_STATIC.
+- Data/cache staging hypothesis: UNKNOWN / NOT PROVEN.
+- Runtime bottleneck: NOT VERIFIED.
+- Optimization decision: NOT YET MADE.
+
+### 31.4 Audit conclusion
+
+Audit ini menghasilkan tiga keputusan scope:
+
+1. LOCAL APPS harus diperbaiki pada canonical inventory/association layer, bukan dengan patch text/UI.
+2. Restore harus memakai selection layer sebelum execution, sementara existing restore engine tetap dipertahankan.
+3. Large-file performance belum boleh dioptimasi berdasarkan hipotesis staging. Pengukuran runtime per tahap masih diperlukan.
+
+Reference runtime tetap NOT PERFORMED. Seluruh reference finding di section ini berasal dari static/decompiled evidence dan visual/reference evidence yang tersedia.
