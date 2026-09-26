@@ -3122,7 +3122,7 @@ Primary decompiled sources audited:
 
 Reference runtime execution by this audit: NOT PERFORMED. Findings below are static/decompiled evidence unless explicitly marked otherwise.
 
-### 30.1 App part model
+### 30.1 Model bagian aplikasi
 
 Reference App Backup supports independent part selection:
 
@@ -3148,7 +3148,7 @@ Restore uses the same independent model through jz.c and xw.java:
 
 Finding: Backup All / Restore All is an orchestration that selects multiple app parts; each selected part is still independently planned and executed.
 
-### 30.2 Backup preconditions and early exits
+### 30.2 Prasyarat backup dan penghentian awal
 
 vl.java performs checks before backup planning:
 
@@ -3162,7 +3162,7 @@ If the source APK is invalid/missing, backup is skipped before archive work.
 
 If the app is blacklisted with NoData, Data parts are excluded from backup planning.
 
-### 30.3 Backup planning — critical reference behavior
+### 30.3 Perencanaan backup — perilaku reference yang kritis
 
 qk0.java produces a TakeBackup decision containing:
 
@@ -3187,7 +3187,7 @@ The reference does not simply run every selected part every time:
         ↓
     execute those parts
 
-### 30.4 Single / Dated / Conditional backup strategies
+### 30.4 Strategi backup Single / Dated / Conditional
 
 MultipleBackupStrategy.java defines:
 
@@ -3207,7 +3207,7 @@ Therefore the reference separates:
             +
     BACKUP VERSION / MULTIPLE-BACKUP STRATEGY
 
-### 30.5 Protected backup behavior
+### 30.5 Perilaku backup yang dilindungi
 
 Static smali/source evidence for qk0.f() confirms:
 
@@ -3219,7 +3219,7 @@ Static smali/source evidence for qk0.f() confirms:
 
 For a non-protected current backup, the plan can reuse the current backup container and update only the parts that need new work.
 
-### 30.6 APK identical-skip predicate
+### 30.6 Predicate skip APK identik
 
 eq.a(...) compares:
 
@@ -3239,7 +3239,7 @@ If a relevant value differs:
 
 The predicate is reused by local/cloud backup planning and restore decision paths.
 
-### 30.7 Data / Ext. Data / Expansion / Media backup change detection
+### 30.7 Deteksi perubahan backup Data / Ext. Data / Expansion / Media
 
 mk0.a(...) is the reference BackupNeededChecker used by qk0 for Data, External Data, Expansion, and Media.
 
@@ -3264,7 +3264,7 @@ mk0.a(...) additionally detects changed encryption/password hash and local archi
 
 Expansion uses the size/modified-file decision path but does not have the Data/ExtData password-hash parameters.
 
-### 30.8 Data cache and source filtering
+### 30.8 Cache Data dan penyaringan sumber
 
 During Data / Ext. Data backup, vl.java passes the cache preference into the source/archive request.
 
@@ -3277,7 +3277,7 @@ The source preparation also excludes specific paths for the relevant app-data ba
 
 This exact filtering is source evidence for the app-data path and must not be generalized to every reference backup domain.
 
-### 30.9 Critical delta / patch finding
+### 30.9 Temuan kritis tentang delta / patch
 
 The audit distinguishes three meanings of incremental.
 
@@ -3323,7 +3323,7 @@ Therefore:
 
 The reference proves part-level incremental backup/update, but this audit does not prove file-level delta storage for App Data / External Data / Media.
 
-### 30.10 Backup archive creation
+### 30.10 Pembuatan arsip backup
 
 vl.java creates independent archive work for each selected/changed part.
 
@@ -3347,7 +3347,7 @@ Data backup uses the higher-fidelity archive profile visible in the source; othe
 
 Progress is produced below the UI through the archive/task callback chain.
 
-### 30.11 Encryption
+### 30.11 Enkripsi
 
 Existing Section 19 records the detailed Swift app-backup encryption artifact audit.
 
@@ -3361,7 +3361,7 @@ The native SBA archive path uses the native SBA crypto backend. The previous art
 
 BaRe encryption remains outside reference implementation authority.
 
-### 30.12 Per-part metadata update
+### 30.12 Pembaruan metadata per bagian
 
 LocalMetadata stores independent metadata for:
 
@@ -3384,7 +3384,7 @@ For Data / External Data / Media the metadata includes, among other fields:
 
 vl.java updates metadata for the part that was actually backed up and then saves the backup metadata.
 
-### 30.13 Backup completion / cleanup
+### 30.13 Penyelesaian backup / cleanup
 
 After backup work:
 
@@ -3409,7 +3409,7 @@ The observed boundary is:
 
 Crash-consistency beyond these observed steps is not runtime-verified.
 
-### 30.14 Local backup inventory / visibility
+### 30.14 Inventaris / visibilitas backup lokal
 
 fk.b(packageName) is the canonical static local-backup discovery path observed in the reference.
 
@@ -3440,7 +3440,7 @@ ji.refreshBackupDetails() converts these hk entries into gm records used by App 
 
 Important A18 finding: reference does not derive “backup exists” solely from installed-app state. It discovers backup containers from the canonical backup storage namespace and validates their restorable content.
 
-### 30.15 Cloud upload / sync
+### 30.15 Upload / sinkronisasi cloud
 
 c40.java / related upload task logic evaluates each app part independently.
 
@@ -3456,7 +3456,7 @@ is emitted.
 
 Cloud synchronization is therefore per-part, not unconditional whole-app upload.
 
-### 30.16 Restore preconditions
+### 30.16 Prasyarat restore
 
 xw.java checks:
 
@@ -3470,7 +3470,7 @@ If no restore tasks remain:
 
     No tasks to perform with this app!
 
-### 30.17 Restore part selection
+### 30.17 Pemilihan bagian restore
 
 xi0.java provides independent restore selection for:
 
@@ -3495,7 +3495,7 @@ Therefore:
 
 The backend does not require all parts to be restored together.
 
-### 30.18 APK restore decision
+### 30.18 Keputusan restore APK
 
 Before adding the APK task, reference evaluates the installed APK against the backup using the same composite identity predicate:
 
@@ -3515,11 +3515,11 @@ If changed and restore is permitted:
 
 If backup APK is older than the installed version, reference applies downgrade policy. When downgrade is not allowed but the app remains installed, reference continues data restore and records that APK installation was skipped because the installed version is newer.
 
-### 30.19 Restore Data / External Data / Expansion / Media decision
+### 30.19 Keputusan restore Data / External Data / Expansion / Media
 
 nm6.b(...) is used before adding each selected data part to the restore task.
 
-Decision inputs include:
+Input keputusan mencakup:
 
     backup date
     current target size
@@ -3536,13 +3536,13 @@ Result:
         ↓
     part added to restore task
 
-This applies to Data, External data, Expansion, and Media on the corresponding selected/capable paths.
+Hal ini berlaku untuk Data, External data, Expansion, dan Media pada path yang dipilih dan didukung.
 
-The restore-side checker is a task-selection gate, not an after-the-fact UI message.
+Checker pada sisi restore merupakan gate pemilihan task, bukan sekadar pesan UI setelah proses selesai.
 
-### 30.20 Restore execution by part
+### 30.20 Eksekusi restore per bagian
 
-Observed restore task handlers include:
+Handler task restore yang teramati mencakup:
 
     APK / APKs / Shared libs
     Data
@@ -3554,11 +3554,11 @@ Observed restore task handlers include:
 
 Data restore supports data and data_de entries when present.
 
-Archive type is inspected before extraction. Unsupported formats enter an explicit failure path.
+Tipe arsip diperiksa sebelum ekstraksi. Format yang tidak didukung masuk ke jalur failure yang eksplisit.
 
-### 30.21 Restore password / archive validation
+### 30.21 Validasi password / arsip pada restore
 
-Restore validates:
+Restore memvalidasi:
 
 - archive format;
 - expected package entry;
@@ -3570,9 +3570,9 @@ Data restore uses root-fidelity extraction for its applicable path. Ext. Data / 
 
 Archive/package mismatch and password validation failures are surfaced as part-specific restore failures.
 
-### 30.22 Restore permissions / special data
+### 30.22 Permission / data khusus pada restore
 
-After app/data restore, reference can restore additional app state such as:
+Setelah restore aplikasi/data, reference dapat memulihkan state aplikasi tambahan seperti:
 
     runtime permission choices
     notification access
@@ -3581,13 +3581,13 @@ After app/data restore, reference can restore additional app state such as:
 
 These are separate from the main Data/Ext.Data/Media archive parts.
 
-### 30.23 Restore progress
+### 30.23 Progress restore
 
-Native archive operations expose:
+Operasi arsip native menyediakan:
 
     SbaNativeProgressListener.onProgress(processed, total)
 
-The task layer maps this into restore progress callbacks:
+Task layer memetakan nilai tersebut menjadi callback progress restore:
 
     native archive
         ↓
@@ -3597,11 +3597,11 @@ The task layer maps this into restore progress callbacks:
         ↓
     UI
 
-Static reference evidence does not establish the final UI unit/formatting convention.
+Evidence reference statis belum menetapkan konvensi unit/formatting UI final.
 
-### 30.24 Failure / skip semantics
+### 30.24 Semantik failure / skip
 
-Reference distinguishes:
+Reference membedakan:
 
     SKIPPED
     RESTORED
@@ -3613,9 +3613,9 @@ Reference distinguishes:
     INSUFFICIENT SPACE
     NEWER INSTALLED APK
 
-A skipped part is not equivalent to executing a restore archive operation.
+Bagian yang di-skip tidak sama dengan menjalankan operasi restore arsip.
 
-For an all-part request, the actual task set is the result of per-part selection plus per-part change detection, so a request can legitimately produce:
+Untuk request seluruh bagian, task set aktual merupakan hasil pemilihan per bagian ditambah deteksi perubahan per bagian, sehingga satu request dapat secara valid menghasilkan:
 
     some parts skipped
     +
@@ -3623,7 +3623,7 @@ For an all-part request, the actual task set is the result of per-part selection
     +
     some parts failed
 
-### 30.25 Complete reference truth model
+### 30.25 Model kebenaran reference secara lengkap
 
     BACKUP
 
@@ -3670,36 +3670,36 @@ For an all-part request, the actual task set is the result of per-part selection
         ↓
     aggregate result
 
-### 30.26 Final delta/patch classification
+### 30.26 Klasifikasi akhir delta/patch
 
-The audit resolves the earlier ambiguity.
+Audit ini menyelesaikan ambiguitas sebelumnya.
 
-Reference-proven:
+Terbukti oleh reference:
 
     whole-app incremental
     +
     part-level incremental update
 
-Reference NOT proven for App Backup:
+Belum terbukti dari reference untuk App Backup:
 
     file-level delta/patch archive
 
-Therefore the reference-backed behavior is:
+Dengan demikian perilaku yang didukung evidence reference adalah:
 
     unchanged parts → retain/skip
     changed part    → rebuild that part
 
-If BaRe specifically requires:
+Jika BaRe secara khusus memerlukan:
 
     changed Data
         ↓
     archive only changed files against previous Data archive
 
-that is a separate BaRe product/engineering requirement, not a claim of Swift Backup App Backup parity.
+itu merupakan requirement product/engineering BaRe yang terpisah, bukan klaim parity App Backup Swift Backup.
 
-### 30.27 A18 implementation implication
+### 30.27 Implikasi implementasi A18
 
-For BaRe, the reference-backed implementation target is:
+Untuk BaRe, target implementasi yang didukung reference adalah:
 
     BACKUP
     APK unchanged        → SKIP APK
@@ -3733,8 +3733,8 @@ For BaRe, the reference-backed implementation target is:
     Changed target
         → restore that part
 
-Status: REFERENCE STATIC EVIDENCE VERIFIED AGAINST DECOMPILED ARTIFACT.
+Status: EVIDENCE REFERENCE STATIS VERIFIED TERHADAP ARTIFACT HASIL DEKOMPILASI.
 
-Reference runtime: NOT VERIFIED.
+Runtime reference: NOT VERIFIED.
 
-BaRe implementation: NOT changed by this audit section.
+Implementasi BaRe: TIDAK diubah oleh bagian audit ini.
