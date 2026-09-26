@@ -54,6 +54,20 @@ class AppBackupEngine(private val context: Context) {
                 } else {
                     null
                 }
+                if (rootSources != null) {
+                    val sourceSummary = rootSources.joinToString(", ") { source ->
+                        "${source.entryName}=${formatBytes(source.byteSize)}"
+                    }
+                    onProgress(
+                        AppBackupProgress(
+                            AppBackupProgressStage.PART_PROGRESS,
+                            part,
+                            "Preparing ${part.displayName()} sources: ${rootSources.size} entries / ${formatBytes(rootSources.sumOf { it.byteSize.coerceAtLeast(0L) })} ($sourceSummary)",
+                            processedBytes = 0L,
+                            totalBytes = rootSources.sumOf { it.byteSize.coerceAtLeast(0L) },
+                        ),
+                    )
+                }
                 val collectedBytes: Long
                 if (rootSources != null) {
                     collectedBytes = rootSources.sumOf { it.byteSize.coerceAtLeast(0L) }
@@ -239,6 +253,19 @@ class AppBackupEngine(private val context: Context) {
     private fun describeFailure(t: Throwable): String {
         val root = generateSequence(t) { it.cause }.last()
         return root::class.java.simpleName + ": " + (root.message ?: "unknown error")
+    }
+
+    private fun formatBytes(bytes: Long): String {
+        if (bytes < 1024L) return "$bytes B"
+        val units = arrayOf("KB", "MB", "GB", "TB")
+        var value = bytes.toDouble()
+        var index = 0
+        while (value >= 1024.0 && index < units.lastIndex) {
+            value /= 1024.0
+            index++
+        }
+        return if (value >= 100.0) String.format("%.0f %s", value, units[index])
+        else String.format("%.1f %s", value, units[index])
     }
 
     private fun elapsedMillis(startNanos: Long): Long =
