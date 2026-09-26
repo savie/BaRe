@@ -11,8 +11,6 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
-import java.nio.file.Files
-import java.nio.file.LinkOption
 
 /**
  * BaRe archive payload implementation aligned with the audited Swift SBA mechanism:
@@ -90,7 +88,7 @@ internal class AppReferenceTarZstdArchive {
             }
             if (file.isDirectory) {
                 val entry = TarArchiveEntry(name)
-                entry.modTime = file.lastModified()
+                entry.modTime = java.util.Date(file.lastModified())
                 tar.putArchiveEntry(entry)
                 tar.closeArchiveEntry()
             } else if (file.isFile) {
@@ -148,23 +146,6 @@ internal class AppReferenceTarZstdArchive {
             rootTar.awaitSuccess()
         }
         return count
-    }
-
-    private fun copyEntry(source: TarArchiveEntry, name: String): TarArchiveEntry {
-        val entry = TarArchiveEntry(name, source.linkFlag)
-        entry.mode = source.mode
-        entry.userId = source.longUserId
-        entry.groupId = source.longGroupId
-        entry.userName = source.userName
-        entry.groupName = source.groupName
-        entry.modTime = source.modTime
-        if (source.isLink) {
-            entry.linkName = source.linkName
-        }
-        source.extraPaxHeaders.forEach { (key, value) ->
-            entry.addPaxHeader(key, value)
-        }
-        return entry
     }
 
     private fun rootEntryName(source: RootArchiveSource, tarName: String): String {
