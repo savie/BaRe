@@ -121,6 +121,19 @@ internal class AppReferenceTarZstdArchive {
         progress: Progress,
         isCancelled: () -> Boolean,
     ): Int {
+        if (!source.directory) {
+            if (isCancelled()) throw AppBackupEngine.BackupCancelledException()
+            val outputEntry = TarArchiveEntry(source.entryName)
+            outputEntry.size = source.byteSize.coerceAtLeast(0L)
+            tar.putArchiveEntry(outputEntry)
+            root.openFileStream(source.sourcePath).use { stream ->
+                copy(stream.input, tar, outputEntry.size, progress, isCancelled)
+                stream.awaitSuccess()
+            }
+            tar.closeArchiveEntry()
+            return 1
+        }
+
         var count = 0
         root.openTarStream(source.sourcePath).use { rootTar ->
             TarArchiveInputStream(rootTar.input).use { input ->
