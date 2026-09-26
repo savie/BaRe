@@ -105,8 +105,7 @@ class AppBackupBehavior(private val context: Context) {
             request.packageName,
             version,
         )
-        if (backupDirectory.exists()) backupDirectory.deleteRecursively()
-        if (!backupDirectory.mkdirs()) {
+        if (!backupDirectory.exists() && !backupDirectory.mkdirs()) {
             return AppBackupResult.Failed("Unable to create backup directory")
         }
 
@@ -117,6 +116,8 @@ class AppBackupBehavior(private val context: Context) {
                 context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
             }.getOrNull()
             val existing = AppBackupMetadata.read(backupDirectory)
+            val replacedParts = result.artifactMetadata.map { it.part }.toSet()
+            val preservedArtifacts = existing?.artifacts.orEmpty().filterNot { it.part in replacedParts }
             AppBackupMetadata(
                 packageName = request.packageName,
                 versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
@@ -125,7 +126,7 @@ class AppBackupBehavior(private val context: Context) {
                 installerPackage = installerPackage,
                 protectedBackup = existing?.protectedBackup ?: false,
                 note = existing?.note,
-                artifacts = result.artifactMetadata,
+                artifacts = preservedArtifacts + result.artifactMetadata,
             ).writeAtomically(backupDirectory)
 
             onProgress(AppBackupProgress(
@@ -135,12 +136,10 @@ class AppBackupBehavior(private val context: Context) {
             AppBackupResult.Completed(result.artifacts, result.completedParts)
         } catch (_: AppBackupEngine.BackupCancelledException) {
             onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, message = "Backup cancelled"))
-            backupDirectory.deleteRecursively()
             AppBackupResult.Cancelled(emptySet())
         } catch (t: Throwable) {
             val reason = t.message ?: t::class.java.simpleName
             onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, message = "Backup failed: $reason"))
-            backupDirectory.deleteRecursively()
             AppBackupResult.Failed(reason)
         }
     }
