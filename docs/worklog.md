@@ -15,7 +15,7 @@
 | Branch | v1.0/rebaseline |
 | Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
 | Fokus saat ini | **A18 — Data special behavior** untuk backup + restore (per-part dan multi-select); setelah itu LOCAL APPS |
-| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; UI action parity commit terbaru perlu CI terpisah |
+| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; detailed process diagnostics commits belum memiliki workflow run yang terobservasi |
 | Evidence runtime terbaru | **RUNTIME USER — #1255**: UI Device backups action untuk Ext. data/Media sudah sesuai setelah penambahan Encrypted di atas Delete; #1254 sebelumnya menunjukkan unchanged restore sudah bekerja kecuali Data |
 | Audit reference | **docs/reference.md Section 30/31** — audit statis lifecycle App Backup/Restore dan audit inventory/performance |
 | Acceptance A18 | **NOT VERIFIED** |
@@ -78,7 +78,7 @@ Urutan di bawah adalah **priority map**, bukan urutan wajib yang mengunci pekerj
 1. **DATA special behavior:** inspect actual backup + restore Data behavior, tentukan contract khusus, lalu implement minimal Data-specific change setelah root cause terverifikasi.
 2. **LOCAL APPS:** lanjutkan correctness canonical inventory/association sesuai evidence aktual.
 3. **LARGE-FILE PERFORMANCE:** tetap audit/timing-driven; optimization tidak boleh dimulai dari asumsi.
-4. **PROCESS UI + BARE DIAGNOSTIC LOG:** implement correction berdasarkan audit aktual dan reference presentation evidence; dapat dikerjakan lebih dahulu bila dependency lebih ringan.
+4. **PROCESS UI + BARE DIAGNOSTIC LOG:** implementation sudah dilakukan; next gate adalah CI lalu targeted runtime verification terhadap Backup/Restore process dan BugReport → detailed Diagnostics.
 5. **LOCAL / CLOUD PART SYNC PARITY:** tetap later sampai correctness prerequisite terpenuhi.
 6. **CI + targeted runtime regression:** jalankan terhadap perubahan yang relevan, termasuk regression smoke APK/Ext. data/Media dan behavior yang sudah protected.
 7. **FULL A18 acceptance:** tutup hanya setelah seluruh active scope yang relevan memiliki evidence acceptance.
