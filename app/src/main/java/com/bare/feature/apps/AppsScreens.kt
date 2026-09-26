@@ -2288,7 +2288,6 @@ private fun AppStorageSelectionChip(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppBackupStateCard(
     packageName: String?,
@@ -2301,8 +2300,6 @@ private fun AppBackupStateCard(
     var actionReloadToken by remember { mutableStateOf(0) }
     var menuOpen by remember { mutableStateOf(false) }
     var detailsOpen by remember { mutableStateOf(false) }
-    var showRestoreSelector by remember { mutableStateOf(false) }
-    var restorePartSelection by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var noteOpen by remember { mutableStateOf(false) }
     var noteText by remember { mutableStateOf("") }
     var deleteOpen by remember { mutableStateOf(false) }
@@ -2424,111 +2421,6 @@ private fun AppBackupStateCard(
         )
     }
 
-    if (showRestoreSelector && latest != null) {
-        val availableRestoreParts = buildList {
-            if (latest.apkBytes > 0L) add(AppBackupPart.APK)
-            if (latest.dataBytes > 0L) add(AppBackupPart.DATA)
-            if (latest.externalDataBytes > 0L) add(AppBackupPart.EXTERNAL_DATA)
-            if (latest.mediaBytes > 0L) add(AppBackupPart.MEDIA)
-        }
-
-        ModalBottomSheet(
-            onDismissRequest = {
-                showRestoreSelector = false
-                restorePartSelection = emptySet()
-            },
-            dragHandle = { BottomSheetDefaults.DragHandle() },
-        ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        stringResource(R.string.user_app_parts),
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f),
-                    )
-                    IconButton(
-                        onClick = {
-                            restorePartSelection = availableRestoreParts.toSet()
-                        },
-                    ) {
-                        Icon(
-                            Icons.Default.CheckCircle,
-                            contentDescription = stringResource(R.string.select_all),
-                        )
-                    }
-                }
-
-                availableRestoreParts.chunked(2).forEach { rowParts ->
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        rowParts.forEach { part ->
-                            val title = when (part) {
-                                AppBackupPart.APK -> context.getString(R.string.apks_part)
-                                AppBackupPart.DATA -> context.getString(R.string.data_part)
-                                AppBackupPart.EXTERNAL_DATA -> context.getString(R.string.external_data_part)
-                                AppBackupPart.MEDIA -> context.getString(R.string.media_part)
-                            }
-                            val size = when (part) {
-                                AppBackupPart.APK -> latest.apkBytes
-                                AppBackupPart.DATA -> latest.dataBytes
-                                AppBackupPart.EXTERNAL_DATA -> latest.externalDataBytes
-                                AppBackupPart.MEDIA -> latest.mediaBytes
-                            }
-                            AppStorageSelectionChip(
-                                title = title,
-                                subtitle = formatBackupSize(size),
-                                icon = when (part) {
-                                    AppBackupPart.APK -> Icons.Default.Android
-                                    AppBackupPart.DATA -> Icons.Default.Storage
-                                    AppBackupPart.EXTERNAL_DATA -> Icons.Default.Folder
-                                    AppBackupPart.MEDIA -> Icons.Default.PhotoLibrary
-                                },
-                                modifier = Modifier.weight(1f),
-                                selected = part in restorePartSelection,
-                            ) {
-                                restorePartSelection =
-                                    if (part in restorePartSelection) {
-                                        restorePartSelection - part
-                                    } else {
-                                        restorePartSelection + part
-                                    }
-                            }
-                        }
-                        if (rowParts.size == 1) Spacer(Modifier.weight(1f))
-                    }
-                }
-
-                Button(
-                    enabled = restorePartSelection.isNotEmpty(),
-                    onClick = {
-                        val selected = restorePartSelection
-                        showRestoreSelector = false
-                        restorePartSelection = emptySet()
-                        onRestore(selected, latest.versionCode)
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(28.dp),
-                    contentPadding = PaddingValues(vertical = 16.dp),
-                ) {
-                    Icon(Icons.Default.Restore, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.restore).uppercase())
-                }
-            }
-        }
-    }
 
     if (actionMessage != null) {
         AlertDialog(
@@ -2642,10 +2534,7 @@ private fun AppBackupStateCard(
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
                         enabled = latest.apkBytes > 0L,
-                        onRestore = {
-                            restorePartSelection = setOf(AppBackupPart.APK)
-                            showRestoreSelector = true
-                        },
+                        onRestore = { onRestore(setOf(AppBackupPart.APK), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.APK },
                     )
                     BackupPartChip(
@@ -2656,10 +2545,7 @@ private fun AppBackupStateCard(
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
                         enabled = latest.dataBytes > 0L,
-                        onRestore = {
-                            restorePartSelection = setOf(AppBackupPart.DATA)
-                            showRestoreSelector = true
-                        },
+                        onRestore = { onRestore(setOf(AppBackupPart.DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.DATA },
                     )
                 }
@@ -2672,10 +2558,7 @@ private fun AppBackupStateCard(
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
                         enabled = latest.externalDataBytes > 0L,
-                        onRestore = {
-                            restorePartSelection = setOf(AppBackupPart.EXTERNAL_DATA)
-                            showRestoreSelector = true
-                        },
+                        onRestore = { onRestore(setOf(AppBackupPart.EXTERNAL_DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
                     )
                     BackupPartChip(
@@ -2686,28 +2569,27 @@ private fun AppBackupStateCard(
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
                         enabled = latest.mediaBytes > 0L,
-                        onRestore = {
-                            restorePartSelection = setOf(AppBackupPart.MEDIA)
-                            showRestoreSelector = true
-                        },
+                        onRestore = { onRestore(setOf(AppBackupPart.MEDIA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                     )
                 }
                 Button(
                     onClick = {
-                        restorePartSelection = buildSet {
-                            if (latest.apkBytes > 0L) add(AppBackupPart.APK)
-                            if (latest.dataBytes > 0L) add(AppBackupPart.DATA)
-                            if (latest.externalDataBytes > 0L) add(AppBackupPart.EXTERNAL_DATA)
-                            if (latest.mediaBytes > 0L) add(AppBackupPart.MEDIA)
-                        }
-                        showRestoreSelector = true
+                        onRestore(
+                            buildSet {
+                                if (latest.apkBytes > 0L) add(AppBackupPart.APK)
+                                if (latest.dataBytes > 0L) add(AppBackupPart.DATA)
+                                if (latest.externalDataBytes > 0L) add(AppBackupPart.EXTERNAL_DATA)
+                                if (latest.mediaBytes > 0L) add(AppBackupPart.MEDIA)
+                            },
+                            latest.versionCode,
+                        )
                     },
                     enabled = latest.apkBytes > 0L ||
                         latest.dataBytes > 0L ||
                         latest.externalDataBytes > 0L ||
                         latest.mediaBytes > 0L,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.align(Alignment.End),
                     shape = RoundedCornerShape(24.dp),
                     contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp),
                 ) {
