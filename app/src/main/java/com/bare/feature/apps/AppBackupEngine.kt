@@ -12,7 +12,7 @@ import java.util.UUID
 data class AppBackupEngineResult(
     val completedParts: Set<AppBackupPart>,
     val artifacts: List<File>,
-    val partBytes: Map<AppBackupPart, Long>,
+    val artifactMetadata: List<AppBackupArtifactMetadata>,
 )
 
 class AppBackupEngine(private val context: Context) {
@@ -36,7 +36,7 @@ class AppBackupEngine(private val context: Context) {
         check(staging.mkdirs()) { "Unable to create backup staging directory" }
         val completed = linkedSetOf<AppBackupPart>()
         val artifacts = mutableListOf<File>()
-        val partBytes = linkedMapOf<AppBackupPart, Long>()
+        val artifactMetadata = mutableListOf<AppBackupArtifactMetadata>()
 
         try {
             for (part in request.parts) {
@@ -48,11 +48,11 @@ class AppBackupEngine(private val context: Context) {
                 val result = archiveWriter.write(archive, listOf(AppBackupArchiveSource(raw, part.archiveName())), request.password?.copyOf())
                 completed += part
                 artifacts += archive
-                partBytes[part] = result.byteSize
+                artifactMetadata += AppBackupArtifactMetadata(\n                    part = part.name,\n                    fileName = archive.name,\n                    byteSize = result.byteSize,\n                    sha256 = result.sha256,\n                    encryption = result.encryption.name,\n                )
                 raw.deleteRecursively()
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, "${part.displayName()} backup completed"))
             }
-            return AppBackupEngineResult(completed, artifacts, partBytes)
+            return AppBackupEngineResult(completed, artifacts, artifactMetadata)
         } catch (cancelled: BackupCancelledException) {
             artifacts.forEach { it.delete() }
             throw cancelled
