@@ -3063,3 +3063,678 @@ Implementasi baru tidak boleh ditutup hanya dengan CI/build. Required runtime ca
 - all-parts restore with a mixture of skipped + restored parts → correct completed result.
 
 **Acceptance status:** NOT VERIFIED until runtime evidence exists for the applicable cases.
+
+## 30 — Full App Backup / Restore lifecycle audit against Swift Backup 5.1.0 (620) (2026-09-26)
+
+Bagian ini adalah targeted full-lifecycle audit terhadap jalur App Backup dan App Restore pada decompile Swift Backup 5.1.0 (620). Audit dilakukan setelah gap A18 menunjukkan bahwa static evidence sebelumnya belum cukup untuk menjelaskan seluruh decision/update path.
+
+Scope audit:
+
+    App selection / part selection
+        ↓
+    Backup planning
+        ↓
+    Change detection
+        ↓
+    Single / Dated / Conditional backup strategy
+        ↓
+    Per-part backup execution
+        ↓
+    Archive / compression / encryption
+        ↓
+    Metadata update
+        ↓
+    Local backup inventory
+        ↓
+    Cloud upload / sync decision
+        ↓
+    Restore part selection
+        ↓
+    Restore change detection
+        ↓
+    APK restore decision
+        ↓
+    Data / Ext. Data / Expansion / Media restore
+        ↓
+    Permissions / special data
+        ↓
+    Result / diagnostics / cleanup
+
+Primary decompiled sources audited:
+
+- defpackage/vl.java — AppBackupTask
+- defpackage/qk0.java — BackupPlan / change decision
+- defpackage/mk0.java — BackupNeededChecker
+- defpackage/eq.java — AppDataChangeChecker
+- defpackage/xw.java — AppRestoreTask
+- defpackage/nm6.java — restore-side part change decision
+- defpackage/xi0.java — restore/backup part-selection UI model
+- defpackage/fk.java — local backup discovery
+- defpackage/hk.java — backup container / part paths
+- org/swiftapps/swiftbackup/model/app/LocalMetadata.java — per-part metadata
+- org/swiftapps/swiftbackup/settings/MultipleBackupStrategy.java — backup strategy model
+- org/swiftapps/swiftbackup/compress/Packer.java — archive inspection / legacy extraction
+- defpackage/tu0.java — native SBA archive creation/extraction integration
+- com/swiftapps/sba/SbaArchiveNative.java
+- com/swiftapps/sba/SbaSwiftTarNative.java
+- com/swiftapps/sba/SbaZstdNative.java
+- defpackage/c40.java — task orchestration / cloud upload decision path
+
+Reference runtime execution by this audit: NOT PERFORMED. Findings below are static/decompiled evidence unless explicitly marked otherwise.
+
+### 30.1 App part model
+
+Reference App Backup supports independent part selection:
+
+    APP / APK
+    ├── Base APK
+    ├── Split APKs
+    ├── Shared libraries
+
+    DATA
+    EXT. DATA
+    EXPANSION / OBB
+    MEDIA
+
+xi0.java exposes these as independent selection entries and capability states. vl.java converts the selected set into individual backup tasks.
+
+Restore uses the same independent model through jz.c and xw.java:
+
+    selected parts
+        ↓
+    per-part decision
+        ↓
+    only selected + required parts become restore tasks
+
+Finding: Backup All / Restore All is an orchestration that selects multiple app parts; each selected part is still independently planned and executed.
+
+### 30.2 Backup preconditions and early exits
+
+vl.java performs checks before backup planning:
+
+1. backup task lifecycle is still active;
+2. package exclusions such as Magisk are respected;
+3. Shizuku package is skipped while Swift is actively using Shizuku;
+4. installed app sourceDir must exist;
+5. base APK file must exist.
+
+If the source APK is invalid/missing, backup is skipped before archive work.
+
+If the app is blacklisted with NoData, Data parts are excluded from backup planning.
+
+### 30.3 Backup planning — critical reference behavior
+
+qk0.java produces a TakeBackup decision containing:
+
+    currentBackup
+    doApkBackup
+    doDataBackup
+    doExtDataBackup
+    doExpansionBackup
+    doMediaBackup
+    localMetadata
+    isBackupUpdate
+
+The reference does not simply run every selected part every time:
+
+    latest backup
+        ↓
+    backup strategy
+        ↓
+    per-part change decision
+        ↓
+    changed parts only
+        ↓
+    execute those parts
+
+### 30.4 Single / Dated / Conditional backup strategies
+
+MultipleBackupStrategy.java defines:
+
+    SingleBackup
+    DatedBackups
+    ConditionalBackup
+
+Conditional backup conditions:
+
+    ApkChanges
+    DataChanges
+    ApkOrDataChanges
+
+Therefore the reference separates:
+
+    PART CHANGE DETECTION
+            +
+    BACKUP VERSION / MULTIPLE-BACKUP STRATEGY
+
+### 30.5 Protected backup behavior
+
+Static smali/source evidence for qk0.f() confirms:
+
+    Latest backup protected
+            ↓
+    do not mutate protected backup
+            ↓
+    create a new backup only when a relevant change exists
+
+For a non-protected current backup, the plan can reuse the current backup container and update only the parts that need new work.
+
+### 30.6 APK identical-skip predicate
+
+eq.a(...) compares:
+
+- APK size;
+- version code;
+- version name;
+- split APK presence;
+- shared library presence.
+
+If all compared values are equal:
+
+    APK unchanged → no new APK backup task
+
+If a relevant value differs:
+
+    APK changed → APK backup task
+
+The predicate is reused by local/cloud backup planning and restore decision paths.
+
+### 30.7 Data / Ext. Data / Expansion / Media backup change detection
+
+mk0.a(...) is the reference BackupNeededChecker used by qk0 for Data, External Data, Expansion, and Media.
+
+For Data / External Data / Media the checker combines:
+
+    1. size comparison
+    2. files modified since backup timestamp
+    3. password-hash change where applicable
+    4. existing archive file-size integrity check
+
+The primary content-change predicate is:
+
+    backup/current size differs
+            OR
+    modified files detected since backup timestamp
+            ↓
+    part changed
+
+eq.b(...) searches modified files since the backup timestamp. Cache can be excluded according to KEY_BACKUP_APP_CACHE / backup_app_cache.
+
+mk0.a(...) additionally detects changed encryption/password hash and local archive size mismatch for the backup-update decision.
+
+Expansion uses the size/modified-file decision path but does not have the Data/ExtData password-hash parameters.
+
+### 30.8 Data cache and source filtering
+
+During Data / Ext. Data backup, vl.java passes the cache preference into the source/archive request.
+
+The source preparation also excludes specific paths for the relevant app-data backup path:
+
+    cache            — conditionally excluded
+    code_cache       — excluded
+    lib              — excluded
+    shared_prefs/com.google.android.gms.* — excluded
+
+This exact filtering is source evidence for the app-data path and must not be generalized to every reference backup domain.
+
+### 30.9 Critical delta / patch finding
+
+The audit distinguishes three meanings of incremental.
+
+A. Whole-app incremental:
+
+    APK unchanged
+    Data changed
+    Media unchanged
+            ↓
+    only Data backup task executes
+
+REFERENCE: VERIFIED_STATIC.
+
+B. Part-level backup update:
+
+For a non-protected current backup, qk0.f() can retain the current hk backup container while vl.java adds only the changed part task to its task set.
+
+Example:
+
+    existing backup
+    ├── APK        ← retained
+    ├── Data       ← rebuilt because changed
+    ├── Ext. data  ← retained
+    └── Media      ← retained
+
+Metadata is then updated for the part actually rebuilt.
+
+REFERENCE: VERIFIED_STATIC.
+
+C. File-level delta / patch inside App Data:
+
+The audit does not find evidence that eq.b(...) returns a changed-file set that is fed into the App Data archive writer.
+
+eq.b(...) returns only a boolean change decision.
+
+When Data is changed, vl.java calls the archive creation path against the Data source and creates a new Data part archive.
+
+Therefore:
+
+    changed Data
+        ≠
+    reference-proven file-level patch archive
+
+The reference proves part-level incremental backup/update, but this audit does not prove file-level delta storage for App Data / External Data / Media.
+
+### 30.10 Backup archive creation
+
+vl.java creates independent archive work for each selected/changed part.
+
+Observed execution boundaries include:
+
+    APK
+    Split APKs
+    Shared libraries
+    Data
+    External Data
+    Media
+    Expansion
+
+Native SBA integration is visible through:
+
+    SbaArchiveNative.createArchive(...)
+    SbaSwiftTarNative
+    SbaZstdNative
+
+Data backup uses the higher-fidelity archive profile visible in the source; other part paths use their corresponding archive profile.
+
+Progress is produced below the UI through the archive/task callback chain.
+
+### 30.11 Encryption
+
+Existing Section 19 records the detailed Swift app-backup encryption artifact audit.
+
+The app backup metadata and task code also record:
+
+    AEGIS-256
+    password hash
+    backup encryption state
+
+The native SBA archive path uses the native SBA crypto backend. The previous artifact audit identified Argon2id key derivation and AEGIS-256 archive encryption.
+
+BaRe encryption remains outside reference implementation authority.
+
+### 30.12 Per-part metadata update
+
+LocalMetadata stores independent metadata for:
+
+    APK
+    Splits
+    Shared libraries
+    Data
+    External data
+    Expansion
+    Media
+
+For Data / External Data / Media the metadata includes, among other fields:
+
+    backup date
+    backup size
+    mirrored/source size
+    encryption method
+    password hash
+    Swift Backup required version
+
+vl.java updates metadata for the part that was actually backed up and then saves the backup metadata.
+
+### 30.13 Backup completion / cleanup
+
+After backup work:
+
+1. metadata is saved;
+2. app backup details are refreshed;
+3. backup state is published to the app data layer;
+4. protected state is preserved;
+5. multiple-backup cleanup is evaluated;
+6. old normal backups can be deleted according to configured strategy;
+7. protected backups are excluded from the normal-backup deletion set;
+8. if no committed metadata/app parts remain, the base backup directory is deleted.
+
+The observed boundary is:
+
+    part work
+       ↓
+    metadata commit
+       ↓
+    backup becomes restorable/visible
+       ↓
+    cleanup
+
+Crash-consistency beyond these observed steps is not runtime-verified.
+
+### 30.14 Local backup inventory / visibility
+
+fk.b(packageName) is the canonical static local-backup discovery path observed in the reference.
+
+Storage namespace:
+
+    SwiftBackup/
+    └── accounts/<derived-account-namespace>/
+        └── backups/
+            └── apps/
+                ├── local/
+                │   └── <package>/
+                │       └── <backup-id>/
+                └── cloud/
+
+For local app backups, reference:
+
+    list backup directories
+        ↓
+    construct hk(backupId, packageName, local)
+        ↓
+    hk.E()
+        ↓
+    keep only if metadata exists and at least one restorable app part exists
+        ↓
+    sort backup list
+
+ji.refreshBackupDetails() converts these hk entries into gm records used by App List/detail state.
+
+Important A18 finding: reference does not derive “backup exists” solely from installed-app state. It discovers backup containers from the canonical backup storage namespace and validates their restorable content.
+
+### 30.15 Cloud upload / sync
+
+c40.java / related upload task logic evaluates each app part independently.
+
+For APK / splits / shared libraries, the composite APK predicate is reused.
+
+For Data / Ext. Data / Media, the same change-detection model is used to decide whether a cloud part needs upload.
+
+When a cloud copy is already equivalent:
+
+    Skipped uploading, already synced
+
+is emitted.
+
+Cloud synchronization is therefore per-part, not unconditional whole-app upload.
+
+### 30.16 Restore preconditions
+
+xw.java checks:
+
+- package/task state;
+- special package exclusions;
+- whether data parts can be restored when the app is not installed;
+- required Swift Backup version compatibility through nm6.a(...);
+- availability of selected backup parts.
+
+If no restore tasks remain:
+
+    No tasks to perform with this app!
+
+### 30.17 Restore part selection
+
+xi0.java provides independent restore selection for:
+
+    APK/APKs
+    Data
+    External data
+    Expansion
+    Media
+
+xw.java receives the selected set and builds the actual restore task set.
+
+Therefore:
+
+    Restore All
+        ≈ selected set contains all available parts
+
+    Restore Data
+        ≈ selected set contains Data
+
+    Restore Media
+        ≈ selected set contains Media
+
+The backend does not require all parts to be restored together.
+
+### 30.18 APK restore decision
+
+Before adding the APK task, reference evaluates the installed APK against the backup using the same composite identity predicate:
+
+    APK size
+    version code
+    version name
+    split APK state
+    shared library state
+
+If unchanged:
+
+    APK task is not added
+
+If changed and restore is permitted:
+
+    APK task is added
+
+If backup APK is older than the installed version, reference applies downgrade policy. When downgrade is not allowed but the app remains installed, reference continues data restore and records that APK installation was skipped because the installed version is newer.
+
+### 30.19 Restore Data / External Data / Expansion / Media decision
+
+nm6.b(...) is used before adding each selected data part to the restore task.
+
+Decision inputs include:
+
+    backup date
+    current target size
+    backup/mirrored size
+    modified files since backup date
+
+Result:
+
+    unchanged target
+        ↓
+    part NOT added to restore task
+
+    changed target
+        ↓
+    part added to restore task
+
+This applies to Data, External data, Expansion, and Media on the corresponding selected/capable paths.
+
+The restore-side checker is a task-selection gate, not an after-the-fact UI message.
+
+### 30.20 Restore execution by part
+
+Observed restore task handlers include:
+
+    APK / APKs / Shared libs
+    Data
+        ├── data
+        └── data_de when present
+    External data
+    Expansion
+    Media
+
+Data restore supports data and data_de entries when present.
+
+Archive type is inspected before extraction. Unsupported formats enter an explicit failure path.
+
+### 30.21 Restore password / archive validation
+
+Restore validates:
+
+- archive format;
+- expected package entry;
+- password/key material where encrypted;
+- archive extraction result;
+- required target path.
+
+Data restore uses root-fidelity extraction for its applicable path. Ext. Data / Media / Expansion have their own extraction handlers.
+
+Archive/package mismatch and password validation failures are surfaced as part-specific restore failures.
+
+### 30.22 Restore permissions / special data
+
+After app/data restore, reference can restore additional app state such as:
+
+    runtime permission choices
+    notification access
+    accessibility service state
+    SSaid where supported
+
+These are separate from the main Data/Ext.Data/Media archive parts.
+
+### 30.23 Restore progress
+
+Native archive operations expose:
+
+    SbaNativeProgressListener.onProgress(processed, total)
+
+The task layer maps this into restore progress callbacks:
+
+    native archive
+        ↓
+    task callback
+        ↓
+    restore process state
+        ↓
+    UI
+
+Static reference evidence does not establish the final UI unit/formatting convention.
+
+### 30.24 Failure / skip semantics
+
+Reference distinguishes:
+
+    SKIPPED
+    RESTORED
+    FAILED
+    NO BACKUP
+    TARGET UNAVAILABLE
+    PASSWORD ERROR
+    CORRUPTION / ARCHIVE ERROR
+    INSUFFICIENT SPACE
+    NEWER INSTALLED APK
+
+A skipped part is not equivalent to executing a restore archive operation.
+
+For an all-part request, the actual task set is the result of per-part selection plus per-part change detection, so a request can legitimately produce:
+
+    some parts skipped
+    +
+    some parts restored
+    +
+    some parts failed
+
+### 30.25 Complete reference truth model
+
+    BACKUP
+
+    selected app
+        ↓
+    preconditions
+        ↓
+    backup strategy
+        ↓
+    per-part change detection
+        ├── unchanged → retain/skip part
+        └── changed   → rebuild that part
+        ↓
+    archive + compression + encryption
+        ↓
+    per-part metadata update
+        ↓
+    metadata commit
+        ↓
+    local/cloud synchronization
+        ↓
+    cleanup
+
+
+    RESTORE
+
+    selected app + selected parts
+        ↓
+    preconditions
+        ↓
+    per-part availability
+        ↓
+    per-part change detection
+        ├── unchanged target → SKIP
+        └── changed target   → RESTORE
+        ↓
+    APK install/downgrade decision where applicable
+        ↓
+    part extraction/restore
+        ↓
+    permissions/special data
+        ↓
+    per-part result
+        ↓
+    aggregate result
+
+### 30.26 Final delta/patch classification
+
+The audit resolves the earlier ambiguity.
+
+Reference-proven:
+
+    whole-app incremental
+    +
+    part-level incremental update
+
+Reference NOT proven for App Backup:
+
+    file-level delta/patch archive
+
+Therefore the reference-backed behavior is:
+
+    unchanged parts → retain/skip
+    changed part    → rebuild that part
+
+If BaRe specifically requires:
+
+    changed Data
+        ↓
+    archive only changed files against previous Data archive
+
+that is a separate BaRe product/engineering requirement, not a claim of Swift Backup App Backup parity.
+
+### 30.27 A18 implementation implication
+
+For BaRe, the reference-backed implementation target is:
+
+    BACKUP
+    APK unchanged        → SKIP APK
+    Data unchanged       → RETAIN/SKIP Data
+    Ext. data unchanged  → RETAIN/SKIP Ext. data
+    Media unchanged      → RETAIN/SKIP Media
+
+    Data changed
+        → rebuild Data part only
+
+    Ext. data changed
+        → rebuild Ext. data part only
+
+    Media changed
+        → rebuild Media part only
+
+
+    RESTORE
+    APK unchanged target
+        → SKIP APK install
+
+    Data unchanged target
+        → SKIP Data restore
+
+    Ext. data unchanged target
+        → SKIP Ext. data restore
+
+    Media unchanged target
+        → SKIP Media restore
+
+    Changed target
+        → restore that part
+
+Status: REFERENCE STATIC EVIDENCE VERIFIED AGAINST DECOMPILED ARTIFACT.
+
+Reference runtime: NOT VERIFIED.
+
+BaRe implementation: NOT changed by this audit section.
