@@ -29,6 +29,71 @@ sealed interface AppRestoreOutcome {
     data class Failed(val reason: String) : AppRestoreOutcome
 }
 
+private enum class RestoreChangeDecision {
+    SKIP,
+    RESTORE,
+}
+
+private object RestoreChangeDecisionPolicy {
+    fun forApk(
+        metadata: AppBackupMetadata,
+        packageInfo: android.content.pm.PackageInfo?,
+    ): RestoreChangeDecision {
+        packageInfo ?: return RestoreChangeDecision.RESTORE
+
+        val installedVersion = if (android.os.Build.VERSION.SDK_INT >= 28) {
+            packageInfo.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            packageInfo.versionCode.toLong()
+        }
+
+        // A newer installed APK is never downgraded implicitly.
+        if (installedVersion > metadata.versionCode) return RestoreChangeDecision.SKIP
+
+        val info = packageInfo.applicationInfo ?: return RestoreChangeDecision.RESTORE
+        val apkSize = buildList {
+            add(info.sourceDir)
+            info.splitSourceDirs?.let(::addAll)
+        }.sumOf { File(it).length().coerceAtLeast(0L) }
+
+        val completeIdentity = metadata.apkSizeBytes != null &&
+            metadata.hasSplitApks != null &&
+            metadata.hasSharedLibraries != null
+
+        if (!completeIdentity) return RestoreChangeDecision.RESTORE
+
+        return if (
+            metadata.apkSizeBytes == apkSize &&
+            metadata.versionCode == installedVersion &&
+            metadata.versionName == packageInfo.versionName &&
+            metadata.hasSplitApks == !info.splitSourceDirs.isNullOrEmpty() &&
+            metadata.hasSharedLibraries == !info.sharedLibraryFiles.isNullOrEmpty()
+        ) {
+            RestoreChangeDecision.SKIP
+        } else {
+            RestoreChangeDecision.RESTORE
+        }
+    }
+
+    fun forDataLikePart(
+        artifact: AppBackupArtifactMetadata,
+        currentState: AppBackupPartState?,
+    ): RestoreChangeDecision {
+        // Legacy/incomplete metadata has no authoritative source state.
+        // Fail safe toward revalidation by restoring instead of false-skipping.
+        val expectedSize = artifact.sourceByteSize ?: return RestoreChangeDecision.RESTORE
+        val expectedModified = artifact.sourceModifiedAt ?: return RestoreChangeDecision.RESTORE
+        currentState ?: return RestoreChangeDecision.RESTORE
+
+        return if (AppBackupPartState(expectedSize, expectedModified).matches(currentState)) {
+            RestoreChangeDecision.SKIP
+        } else {
+            RestoreChangeDecision.RESTORE
+        }
+    }
+}
+
 class AppRestoreBehavior(private val context: Context) {
     private val identityStore = LocalIdentityStore(context)
     private val storage = BackupStorageBehavior(context)
@@ -162,35 +227,26 @@ class AppRestoreBehavior(private val context: Context) {
         packageName: String,
         method: AccessMethod,
     ): Boolean {
-        if (part == AppBackupPart.APK) {
-            val installed = runCatching { context.packageManager.getPackageInfo(packageName, 0) }.getOrNull()
-                ?: return false
-            val installedVersion = if (android.os.Build.VERSION.SDK_INT >= 28) installed.longVersionCode else @Suppress("DEPRECATION") installed.versionCode.toLong()
-            if (installedVersion > metadata.versionCode) return true
-            val info = installed.applicationInfo ?: return false
-            val apkSize = buildList {
-                add(info.sourceDir)
-                info.splitSourceDirs?.let(::addAll)
-            }.sumOf { File(it).length().coerceAtLeast(0L) }
-            return metadata.apkSizeBytes != null &&
-                metadata.hasSplitApks != null &&
-                metadata.hasSharedLibraries != null &&
-                metadata.apkSizeBytes == apkSize &&
-                metadata.versionCode == installedVersion &&
-                metadata.versionName == installed.versionName &&
-                metadata.hasSplitApks == !info.splitSourceDirs.isNullOrEmpty() &&
-                metadata.hasSharedLibraries == !info.sharedLibraryFiles.isNullOrEmpty()
+        val decision = when (part) {
+            AppBackupPart.APK -> {
+                val installed = runCatching {
+                    context.packageManager.getPackageInfo(packageName, 0)
+                }.getOrNull()
+                RestoreChangeDecisionPolicy.forApk(metadata, installed)
+            }
+            AppBackupPart.DATA,
+            AppBackupPart.EXTERNAL_DATA,
+            AppBackupPart.MEDIA -> {
+                val target = targetPath(packageName, part)
+                val state = if (method == AccessMethod.ROOT) {
+                    AppBackupPartStateReader.root(root, target.absolutePath)
+                } else {
+                    AppBackupPartStateReader.local(target)
+                }
+                RestoreChangeDecisionPolicy.forDataLikePart(artifact, state)
+            }
         }
-
-        val expectedSize = artifact.sourceByteSize ?: return false
-        val expectedModified = artifact.sourceModifiedAt ?: return false
-        val target = targetPath(packageName, part)
-        val state = if (method == AccessMethod.ROOT) {
-            AppBackupPartStateReader.root(root, target.absolutePath)
-        } else {
-            AppBackupPartStateReader.local(target)
-        }
-        return AppBackupPartState(expectedSize, expectedModified).matches(state)
+        return decision == RestoreChangeDecision.SKIP
     }
 
     private fun targetPath(packageName: String, part: AppBackupPart): File = when (part) {
