@@ -23,6 +23,7 @@ data class AppRestoreResult(
 
 sealed interface AppRestoreOutcome {
     data class Completed(val result: AppRestoreResult) : AppRestoreOutcome
+    data class PendingUserAction(val message: String) : AppRestoreOutcome
     data class Failed(val reason: String) : AppRestoreOutcome
 }
 
@@ -97,7 +98,12 @@ class AppRestoreBehavior(private val context: Context) {
                 }
 
                 when (part) {
-                    AppBackupPart.APK -> restoreApks(partStage, method, request.packageName, isCancelled)
+                    AppBackupPart.APK -> {
+                        when (val install = restoreApks(partStage, method, request.packageName, isCancelled)) {
+                            is AppRestoreOutcome.PendingUserAction -> return install
+                            else -> Unit
+                        }
+                    }
                     AppBackupPart.DATA -> restoreData(partStage, request.packageName, isCancelled)
                     AppBackupPart.EXTERNAL_DATA -> restoreExternal(partStage, request.packageName, method, isCancelled)
                     AppBackupPart.MEDIA -> restoreMedia(partStage, request.packageName, method, isCancelled)
@@ -125,7 +131,7 @@ class AppRestoreBehavior(private val context: Context) {
         }
     }
 
-    private fun restoreApks(stage: File, method: AccessMethod, packageName: String, isCancelled: () -> Boolean) {
+    private fun restoreApks(stage: File, method: AccessMethod, packageName: String, isCancelled: () -> Boolean): AppRestoreOutcome? {
         val apks = stage.walkTopDown().filter { it.isFile && it.extension.equals("apk", true) }.sortedBy { it.name }.toList()
         require(apks.isNotEmpty()) { "No APK payload was found" }
         if (method == AccessMethod.ROOT) {
@@ -134,22 +140,26 @@ class AppRestoreBehavior(private val context: Context) {
             require(result.exitCode == 0 && result.output.contains("Success", true)) {
                 "Root APK install failed: ${result.output}"
             }
+            return null
         } else {
             // Non-root keeps the reference logical flow but delegates final installation
             // to Android's package installer, which owns the privileged mutation boundary.
+            val shareDir = File(context.cacheDir, "apk-share").also { it.mkdirs() }
+            val installApk = File(shareDir, "restore-${System.currentTimeMillis()}.apk")
+            apks.first().copyTo(installApk, overwrite = true)
             val intent = android.content.Intent(android.content.Intent.ACTION_VIEW).apply {
                 setDataAndType(
                     androidx.core.content.FileProvider.getUriForFile(
                         context,
                         "com.bare.fileprovider",
-                        apks.first(),
+                        installApk,
                     ),
                     "application/vnd.android.package-archive",
                 )
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION or android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
             }
             context.startActivity(intent)
-            throw IllegalStateException("Android package installer confirmation is required")
+            return AppRestoreOutcome.PendingUserAction("Android package installer confirmation is required")
         }
     }
 
