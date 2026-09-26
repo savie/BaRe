@@ -48,67 +48,25 @@ class AppBackupArchiveWriter(private val context: Context) {
         require(sources.isNotEmpty()) { "No backup files to archive" }
         output.parentFile?.mkdirs()
 
-        val strategy = com.bare.feature.settings.EncryptionPasswordStore(context).loadStrategy()
-        val material = when (strategy) {
-            com.bare.feature.settings.EncryptionPasswordStrategy.STANDARD ->
-                EncryptionMaterial(EncryptionMode.STANDARD, standardKey(), ByteArray(0))
-            com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED -> {
-                require(password != null && password.isNotEmpty()) { "Advanced encryption password is required" }
-                val salt = ByteArray(SALT_BYTES).also(SecureRandom()::nextBytes)
-                val spec = PBEKeySpec(password, salt, PBKDF2_ITERATIONS, KEY_BITS)
-                val key = try {
-                    SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
-                        .generateSecret(spec).encoded
-                } finally {
-                    spec.clearPassword()
-                    password.fill('\u0000')
-                }
-                EncryptionMaterial(EncryptionMode.ADVANCED, SecretKeySpec(key, "AES"), salt)
-            }
-        }
-
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        val iv = if (material.mode == EncryptionMode.STANDARD) {
-            // AndroidKeyStore GCM keys generate the encryption IV internally.
-            // Supplying a caller IV is rejected by the Keystore provider.
-            cipher.init(Cipher.ENCRYPT_MODE, material.key)
-            cipher.iv
-        } else {
-            ByteArray(GCM_IV_BYTES).also(SecureRandom()::nextBytes).also { generatedIv ->
-                cipher.init(
-                    Cipher.ENCRYPT_MODE,
-                    material.key,
-                    GCMParameterSpec(GCM_TAG_BITS, generatedIv),
-                )
-            }
-        }
-        require(iv.size == GCM_IV_BYTES) { "Unsupported GCM IV length: " + iv.size }
-        val header = buildHeader(material.mode, material.salt, iv)
+        val material = encryptionMaterial(password)
+        val cipher = createCipher(material)
+        val header = buildHeader(material.mode, material.salt, cipher.iv)
         cipher.updateAAD(header)
 
         val digest = MessageDigest.getInstance("SHA-256")
+        val stagedOutput = stagedOutput(output)
         var fileCount = 0
-        val progress = ArchiveProgressCounter(
-            totalBytes = sources.sumOf { localSourceByteSize(it.file) },
-            onProgress = onProgress,
-        )
-        val stagedOutput = File(
-            output.parentFile ?: throw IllegalStateException("Backup archive parent directory is missing"),
-            ".${output.name}.${java.util.UUID.randomUUID()}.partial",
-        )
 
         try {
             FileOutputStream(stagedOutput).use { raw ->
                 val digesting = DigestOutputStream(raw, digest)
                 digesting.write(header)
                 CipherOutputStream(digesting, cipher).use { encrypted ->
-                    ZipOutputStream(encrypted).use { zip ->
-                        zip.setLevel(Deflater.BEST_SPEED)
-                        for (source in sources) {
-                            fileCount += addSource(zip, source, progress)
-                        }
-                        progress.finish()
-                    }
+                    fileCount = AppReferenceTarZstdArchive().writeLocal(
+                        encrypted,
+                        sources,
+                        onProgress,
+                    )
                 }
             }
             moveIntoPlace(stagedOutput, output)
@@ -136,65 +94,26 @@ class AppBackupArchiveWriter(private val context: Context) {
         require(sources.isNotEmpty()) { "No root backup sources to archive" }
         output.parentFile?.mkdirs()
 
-        val strategy = com.bare.feature.settings.EncryptionPasswordStore(context).loadStrategy()
-        val material = when (strategy) {
-            com.bare.feature.settings.EncryptionPasswordStrategy.STANDARD ->
-                EncryptionMaterial(EncryptionMode.STANDARD, standardKey(), ByteArray(0))
-            com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED -> {
-                require(password != null && password.isNotEmpty()) { "Advanced encryption password is required" }
-                val salt = ByteArray(SALT_BYTES).also(SecureRandom()::nextBytes)
-                val spec = PBEKeySpec(password, salt, PBKDF2_ITERATIONS, KEY_BITS)
-                val key = try {
-                    SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
-                        .generateSecret(spec).encoded
-                } finally {
-                    spec.clearPassword()
-                    password.fill('\u0000')
-                }
-                EncryptionMaterial(EncryptionMode.ADVANCED, SecretKeySpec(key, "AES"), salt)
-            }
-        }
-
-        val cipher = Cipher.getInstance(TRANSFORMATION)
-        val iv = if (material.mode == EncryptionMode.STANDARD) {
-            cipher.init(Cipher.ENCRYPT_MODE, material.key)
-            cipher.iv
-        } else {
-            ByteArray(GCM_IV_BYTES).also(SecureRandom()::nextBytes).also { generatedIv ->
-                cipher.init(
-                    Cipher.ENCRYPT_MODE,
-                    material.key,
-                    GCMParameterSpec(GCM_TAG_BITS, generatedIv),
-                )
-            }
-        }
-        require(iv.size == GCM_IV_BYTES) { "Unsupported GCM IV length: " + iv.size }
-        val header = buildHeader(material.mode, material.salt, iv)
+        val material = encryptionMaterial(password)
+        val cipher = createCipher(material)
+        val header = buildHeader(material.mode, material.salt, cipher.iv)
         cipher.updateAAD(header)
 
         val digest = MessageDigest.getInstance("SHA-256")
-        val progress = ArchiveProgressCounter(
-            totalBytes = sources.sumOf { it.byteSize.coerceAtLeast(0L) },
-            onProgress = onProgress,
-        )
+        val stagedOutput = stagedOutput(output)
         var fileCount = 0
-        val stagedOutput = File(
-            output.parentFile ?: throw IllegalStateException("Backup archive parent directory is missing"),
-            ".${output.name}.${java.util.UUID.randomUUID()}.partial",
-        )
 
         try {
             FileOutputStream(stagedOutput).use { raw ->
                 val digesting = DigestOutputStream(raw, digest)
                 digesting.write(header)
                 CipherOutputStream(digesting, cipher).use { encrypted ->
-                    ZipOutputStream(encrypted).use { zip ->
-                        zip.setLevel(Deflater.BEST_SPEED)
-                        for (source in sources) {
-                            fileCount += addRootSource(zip, source, progress, isCancelled)
-                        }
-                        progress.finish()
-                    }
+                    fileCount = AppReferenceTarZstdArchive().writeRoot(
+                        encrypted,
+                        sources,
+                        onProgress,
+                        isCancelled,
+                    )
                 }
             }
             moveIntoPlace(stagedOutput, output)
@@ -211,6 +130,49 @@ class AppBackupArchiveWriter(private val context: Context) {
             encryption = material.mode,
         )
     }
+
+    private fun encryptionMaterial(password: CharArray?): EncryptionMaterial {
+        val strategy = com.bare.feature.settings.EncryptionPasswordStore(context).loadStrategy()
+        return when (strategy) {
+            com.bare.feature.settings.EncryptionPasswordStrategy.STANDARD ->
+                EncryptionMaterial(EncryptionMode.STANDARD, standardKey(), ByteArray(0))
+            com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED -> {
+                require(password != null && password.isNotEmpty()) { "Advanced encryption password is required" }
+                val salt = ByteArray(SALT_BYTES).also(SecureRandom()::nextBytes)
+                val spec = PBEKeySpec(password, salt, PBKDF2_ITERATIONS, KEY_BITS)
+                val key = try {
+                    SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
+                        .generateSecret(spec).encoded
+                } finally {
+                    spec.clearPassword()
+                    password.fill('\\u0000')
+                }
+                EncryptionMaterial(EncryptionMode.ADVANCED, SecretKeySpec(key, "AES"), salt)
+            }
+        }
+    }
+
+    private fun createCipher(material: EncryptionMaterial): Cipher {
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        if (material.mode == EncryptionMode.STANDARD) {
+            cipher.init(Cipher.ENCRYPT_MODE, material.key)
+        } else {
+            val iv = ByteArray(GCM_IV_BYTES).also(SecureRandom()::nextBytes)
+            cipher.init(
+                Cipher.ENCRYPT_MODE,
+                material.key,
+                GCMParameterSpec(GCM_TAG_BITS, iv),
+            )
+        }
+        require(cipher.iv.size == GCM_IV_BYTES) { "Unsupported GCM IV length: " + cipher.iv.size }
+        return cipher
+    }
+
+    private fun stagedOutput(output: File): File =
+        File(
+            output.parentFile ?: throw IllegalStateException("Backup archive parent directory is missing"),
+            ".${output.name}.${java.util.UUID.randomUUID()}.partial",
+        )
 
     private fun addRootSource(
         zip: ZipOutputStream,
