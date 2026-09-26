@@ -576,3 +576,10 @@ Commits:
 3. If hash passes, re-run Ext. data and Media, then APK.
 4. Separately diagnose ROOT Data source visibility using the exact runtime path and privileged namespace evidence; do not weaken the precondition.
 5. Only after backup artifacts are valid, proceed to restore runtime verification.
+
+
+### CI follow-up observed — 2026-09-26
+
+- Android Build #1185 for `2658a48e5dfbbde3387693a416c0c4fb184f6278` is **IN_PROGRESS**.
+- Android Build #1186 for `db0d8d712baeb868ec31e72c6e425c34d8f552cd` is **IN_PROGRESS**.
+- No CI PASS is claimed yet for the hash-fix checkpoint.
