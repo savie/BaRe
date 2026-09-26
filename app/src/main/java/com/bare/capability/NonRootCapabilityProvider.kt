@@ -22,6 +22,34 @@ class NonRootCapabilityProvider(private val context: Context) {
             destinationDir.deleteRecursively(); NonRootCopyResult.Failed(it.message ?: it::class.java.simpleName)
         })
     }
+
+    fun copyDirectory(sourcePath: String, destinationDir: File): NonRootCopyResult {
+        if (sourcePath.isBlank() || sourcePath.contains('\n') || sourcePath.contains('\r')) {
+            return NonRootCopyResult.Failed("Invalid source path")
+        }
+        val source = File(sourcePath)
+        if (!source.isDirectory) return NonRootCopyResult.Failed("Source directory is not accessible: $sourcePath")
+        if (destinationDir.exists() && !destinationDir.deleteRecursively()) {
+            return NonRootCopyResult.Failed("Unable to replace staging directory")
+        }
+        if (!destinationDir.mkdirs()) return NonRootCopyResult.Failed("Unable to create staging directory")
+        return runCatching {
+            source.walkTopDown().filter { it.isFile }.forEach { file ->
+                val relative = file.relativeTo(source)
+                val destination = File(destinationDir, relative.path)
+                destination.parentFile?.mkdirs()
+                FileInputStream(file).use { input ->
+                    FileOutputStream(destination).use { output -> input.copyTo(output) }
+                }
+            }
+            NonRootCopyResult.Success(destinationDir.walkTopDown().filter { it.isFile }.toList())
+        }.fold({ it }, {
+            destinationDir.deleteRecursively()
+            NonRootCopyResult.Failed(it.message ?: "Non-root directory copy failed")
+        })
+    }
+
+    fun directoryExists(path: String): Boolean = File(path).isDirectory
     companion object { private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""") }
 }
 
