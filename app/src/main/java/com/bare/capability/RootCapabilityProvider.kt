@@ -67,6 +67,30 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         else RootProbeResult.Failed(result.stderr.ifBlank { result.stdout })
     }
 
+    fun copyPackageApks(
+        packageName: String,
+        destinationDir: File,
+        isCancelled: (() -> Boolean)?
+    ): RootCopyResult {
+        if (!packageName.matches(PACKAGE_REGEX)) return RootCopyResult.Failed("Invalid package name")
+        if (!destinationDir.exists() && !destinationDir.mkdirs()) return RootCopyResult.Failed("Unable to create staging directory")
+        val pathsResult = runSu("pm path ${shellQuote(packageName)}")
+        if (pathsResult.exitCode != 0) return RootCopyResult.Failed(pathsResult.stderr.ifBlank { pathsResult.stdout })
+        val paths = pathsResult.stdout.lineSequence().map(String::trim).filter { it.startsWith("package:") }
+            .map { it.removePrefix("package:") }.filter { it.startsWith("/") }.toList()
+        if (paths.isEmpty()) return RootCopyResult.Failed("Package APK path not found")
+        return runCatching {
+            paths.mapIndexed { index, remotePath ->
+                if (isCancelled?.invoke() == true) throw InterruptedException("Root APK copy cancelled")
+                val destination = File(destinationDir, if (index == 0) "base.apk" else "split-$index.apk")
+                copyFileCancellable(remotePath, destination, isCancelled)
+                destination
+            }
+        }.fold({ RootCopyResult.Success(it) }, {
+            destinationDir.deleteRecursively()
+            RootCopyResult.Failed(it.message ?: it::class.java.simpleName)
+        })
+    }
     fun copyPackageApks(packageName: String, destinationDir: File): RootCopyResult {
         if (!packageName.matches(PACKAGE_REGEX)) return RootCopyResult.Failed("Invalid package name")
         if (!destinationDir.exists() && !destinationDir.mkdirs()) return RootCopyResult.Failed("Unable to create staging directory")
@@ -148,6 +172,38 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         check(destination.isFile && destination.length() > 0) { "Root copy produced an empty file" }
     }
 
+    private fun copyFileCancellable(remotePath: String, destination: File, isCancelled: (() -> Boolean)?) {
+        if (isCancelled?.invoke() == true) throw InterruptedException("Root file copy cancelled")
+        val process = ProcessBuilder("su", "-c", "cat ${shellQuote(remotePath)}").redirectErrorStream(false).start()
+        val stderr = StringBuilder()
+        val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
+        try {
+            process.inputStream.use { input ->
+                FileOutputStream(destination).use { output ->
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    while (true) {
+                        if (isCancelled?.invoke() == true) {
+                            process.destroyForcibly()
+                            throw InterruptedException("Root file copy cancelled")
+                        }
+                        val read = input.read(buffer)
+                        if (read < 0) break
+                        output.write(buffer, 0, read)
+                    }
+                }
+            }
+            check(process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) { "Root file copy timed out" }
+            stderrThread.join(1000)
+            check(process.exitValue() == 0) { "Root read failed: " + remotePath + " " + stderr }
+            check(destination.isFile) { "Root copy did not produce a file" }
+        } catch (t: Throwable) {
+            if (process.isAlive) process.destroyForcibly()
+            destination.delete()
+            throw t
+        } finally {
+            stderrThread.join(1000)
+        }
+    }
     private fun shellQuote(value: String): String =
         "'" + value.replace("'", "'\\''") + "'"
 
