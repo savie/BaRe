@@ -12,7 +12,7 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 8b325d5710dfcd26b09781fc543f4e2d0c2f46e6 |
+| Current repository HEAD | **This worklog update / current branch HEAD** |
 | Lifecycle | **VERIFICATION** |
 | Current focus | **A18 — POST-RUNTIME RECONCILIATION: INVENTORY REFRESH / APK IDENTITY SKIP / RESTORE PER-PART / PROGRESS VERIFICATION** |
 | Latest build evidence | **CI #1208 PASS; implementation commits #1207 and #1208 are CI VERIFIED** |
