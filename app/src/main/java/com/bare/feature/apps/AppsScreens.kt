@@ -2551,6 +2551,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Android,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        onRestore = { startRestore(setOf(AppBackupPart.APK), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.APK },
                     )
                     BackupPartChip(
@@ -2560,6 +2561,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Storage,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        onRestore = { startRestore(setOf(AppBackupPart.DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.DATA },
                     )
                 }
@@ -2571,6 +2573,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Folder,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        onRestore = { startRestore(setOf(AppBackupPart.EXTERNAL_DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
                     )
                     BackupPartChip(
@@ -2580,6 +2583,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.PhotoLibrary,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        onRestore = { startRestore(setOf(AppBackupPart.MEDIA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                     )
                 }
