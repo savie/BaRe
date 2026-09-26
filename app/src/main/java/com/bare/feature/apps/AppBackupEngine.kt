@@ -148,6 +148,7 @@ class AppBackupEngine(private val context: Context) {
             is com.bare.capability.RootCopyResult.Success -> result.files
             is com.bare.capability.NonRootCopyResult.Failed -> error(result.reason)
             is com.bare.capability.NonRootCopyResult.Success -> result.files
+            else -> error("Unsupported backup copy result: ${result::class.java.name}")
         }
         val bytes = files.sumOf { it.length().coerceAtLeast(0L) }
         onProgress(bytes, bytes)
