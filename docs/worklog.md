@@ -643,3 +643,15 @@ Commits:
 4. Verify elapsed time/rate and artifact hash verification.
 5. Continue Data, Ext. data, Media, then restore.
 
+## A18 — CI verification gate — 2026-09-26
+
+### VERIFIED
+- Android Build #1203 passed all build, APK artifact, and signing verification steps for commit `9a6d61c441ba03c07a4301014f2eccf36b30440e`.
+- Artifact: `BaRe-v1.0-build-1203`, artifact id `10902252390`.
+- Artifact SHA-256: `c41a25c016e17850220066b547bf24beac691de42df7c43599b74186a8328385`.
+
+### REMAINING VERIFICATION
+- Runtime installation and backup execution are not yet verified.
+- Next runtime gate is APK-only backup on the 7.12 MB-class target.
+- Verify process UI reports source progress in the expected MB scale, elapsed time/rate, artifact commit/hash verification, then continue Data / Ext. data / Media and restore.
+
