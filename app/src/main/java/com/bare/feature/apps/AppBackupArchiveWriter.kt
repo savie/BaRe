@@ -274,7 +274,7 @@ class AppBackupArchiveWriter(private val context: Context) {
 
     private fun rootEntryName(source: RootArchiveSource, tarName: String): String {
         if (!source.directory) return source.entryName
-        var name = tarName.replace('\\\\', '/').removePrefix("./").trim('/')
+        var name = tarName.replace('\\', '/').removePrefix("./").trim('/')
         if (name.isBlank()) return ""
         val slash = name.indexOf('/')
         if (slash >= 0) name = name.substring(slash + 1)
