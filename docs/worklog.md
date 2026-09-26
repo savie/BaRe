@@ -1387,3 +1387,111 @@ Setiap perubahan berikutnya wajib mengikuti:
 **Inspect → Understand → Impact → Minimal Change → CI → Targeted Runtime Regression → Verify**
 
 Tidak ada broad refactor yang diizinkan hanya untuk menyelesaikan #1, #9, atau #15.
+
+
+## A18 — AUDIT IMPLEMENTASI LOCAL APPS, RESTORE SELECTION, DAN PERFORMANCE — 2026-09-26
+
+Status: TARGETED CORRECTION + STATIC AUDIT
+
+### 1. LOCAL APPS
+
+Audit source menemukan AppsScreen sebelumnya memanggil inspectLocal(packageName) untuk setiap installed app. Karena inspectLocal() menjalankan inspectLocalAll(), inventory storage yang sama dipindai berulang kali untuk seluruh daftar app.
+
+Perubahan yang dilakukan:
+- AppsScreen sekarang melakukan satu inspectLocalAll() lalu membentuk association berdasarkan packageName.
+- AppBackupInventoryBehavior sekarang menggabungkan direct directory listing dan root directory listing.
+- Discovery tidak lagi menganggap root listing hanya sebagai fallback ketika direct listing kosong.
+
+Tujuan perubahan:
+
+    installed apps
+        ↓
+    one canonical local backup inventory scan
+        ↓
+    packageName association
+        ↓
+    LOCAL APPS status
+
+Status:
+- Source implementation: CHANGED
+- Root cause runtime final: NOT YET VERIFIED
+- Runtime acceptance #1: PENDING
+
+### 2. RESTORE PART SELECTION
+
+Audit reference mengonfirmasi bahwa restore part selection adalah selection layer tersendiri dan part bersifat independen.
+
+Perubahan yang dilakukan:
+- Tombol Restore pada Device backup card dipindahkan ke bawah part chips.
+- Ukuran/shape CTA diselaraskan dengan pola CTA Backup.
+- Menekan Restore sekarang membuka User app parts bottom sheet.
+- Bottom sheet hanya menampilkan part yang tersedia pada backup.
+- APK/Data/Ext. data/Media dapat dipilih individual atau multi-selection.
+- Tombol RESTORE pada bottom sheet baru memanggil existing restore execution.
+- Restore dari protected backup tidak lagi diblokir hanya karena protection; protection tetap digunakan untuk mutation/delete.
+- Restore action pada part chip juga diarahkan ke selection sheet agar tidak ada jalur restore yang melewati selection layer.
+
+Status:
+- Source implementation: CHANGED
+- Existing restore engine: DIPERTAHANKAN
+- Restore All execution sebelumnya: PROTECTED
+- Runtime UI verification #9: PENDING
+
+### 3. LARGE-FILE PERFORMANCE AUDIT
+
+Audit source menghasilkan fakta berikut:
+- ROOT backup tidak melakukan full source copy ke data/cache.
+- RootCapabilityProvider.directoryArchiveSource() melakukan source validation + du.
+- AppBackupPartStateReader.root() kembali melakukan size + modified-time traversal.
+- AppBackupArchiveWriter.writeRoot() menulis ke .partial di directory backup yang sama, lalu melakukan atomic move ke artifact final.
+- Root source diarahkan langsung melalui toybox tar.
+- Setelah archive selesai, AppBackupEngine.verifyArtifact() membaca ulang artifact penuh untuk SHA-256.
+- AppBackupArchiveWriter sendiri sudah menghitung SHA-256 saat write.
+
+Kesimpulan:
+- Hipotesis bahwa reference pasti melakukan staging di data/cache belum terbukti.
+- Reference static evidence justru menunjukkan source absolute path diberikan langsung ke native archive engine.
+- Kandidat overhead BaRe yang nyata adalah multiple source traversals dan full artifact reread.
+- Belum ada keputusan optimasi sebelum runtime timing tersedia.
+
+Status:
+- Static audit: SELESAI
+- Runtime timing: BELUM DIVERIFIKASI
+- Optimization: DITUNDA
+
+### 4. IMPLEMENTATION COMMITS
+
+- 7ffbf297c35c11cf0862c794c34aef5c3b28a14a — fix(apps): align restore selection flow with reference
+- 87d5f96581b82b54edd31f0160aca5deb143b1a1 — fix(apps): reconcile local backup inventory discovery
+- 5533bc64fff82f1cc05579bb187118aec8331de8 — fix(apps): use one canonical local backup inventory scan
+
+### 5. REGRESSION GUARD
+
+Tidak ada perubahan yang disengaja pada:
+- Data backup change detection;
+- Ext. Data backup change detection;
+- Media backup change detection;
+- APK restore decision;
+- Data restore change detection;
+- Ext. Data restore change detection;
+- Media restore change detection;
+- part-level incremental update;
+- backup metadata contract;
+- restore metadata contract;
+- BaRe encryption boundary;
+- SHA-256 integrity contract.
+
+Semua item di atas tetap PROTECTED sampai runtime regression membuktikan sebaliknya.
+
+### 6. NEXT VERIFICATION
+
+Setelah CI/build tersedia:
+1. LOCAL APPS: backup existing harus terlihat pada list tanpa No backup on device.
+2. Restore card: Restore berada di bawah part chips dengan ukuran CTA sesuai Backup.
+3. Restore: klik Restore → bottom sheet → pilih APK saja → RESTORE → execution.
+4. Restore: pilih kombinasi part → RESTORE → existing engine menerima subset tersebut.
+5. Protected backup: selection sheet tetap dapat dibuka.
+6. Regression smoke: kasus hijau #2–#8, #10, #12, #13.
+7. Performance: ambil timing per tahap pada file besar sebelum optimization.
+
+Acceptance A18 tetap NOT VERIFIED sampai evidence runtime final tersedia.
