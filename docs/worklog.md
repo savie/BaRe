@@ -1583,3 +1583,250 @@ Root/non-root **bukan dua backup engine**. Engine tetap unified; provider/capabi
 
 ### VERIFICATION BOUNDARY
 No claim of `WORKING`, `FULL BACKUP`, or `VERIFIED` is allowed until runtime evidence proves the corresponding parts and result semantics.
+
+## A18 — BACKUP SOURCE AUDIT + DATA FAILURE REPRODUCTION + MAXIMAL IMPLEMENTATION DESIGN — 2026-09-26
+
+### AUDIT SCOPE
+Actual current source inspected:
+- AppBackupBehavior.kt
+- AppDataBackupBehavior.kt
+- AppExternalDataBackupBehavior.kt
+- RootCapabilityProvider.kt
+- BackupStorageBehavior.kt
+- BackupStorageRepository.kt
+- AppBackupMetadata.kt
+- AppBackupInventoryBehavior.kt
+- AppBackupActionBehavior.kt
+- AppsScreens.kt
+- BackupProcessScreen.kt
+- AndroidManifest.xml
+
+Reference evidence inspected from the supplied Swift Backup 5.1.0 (620) decompiled source, including app-data archive metadata and app-size/path modeling.
+
+### ACTUAL CURRENT IMPLEMENTATION — FACT
+1. AppBackupBehavior is the current orchestration boundary, but it is not yet a complete archive backup engine.
+2. Current local execution:
+   - APK → RootCapabilityProvider.copyPackageApks()
+   - Data → AppDataBackupBehavior → RootCapabilityProvider.copyDirectory(applicationInfo.dataDir, .../data)
+   - Ext. data → AppExternalDataBackupBehavior → root copy of /Android/data/<package>
+   - Media → explicitly rejected as unsupported.
+3. Cloud and Device + Cloud are explicitly unsupported in the current execution path.
+4. Current app backup execution depends on ROOT. No ADB, Shizuku, or non-root provider is observed in this app-backup execution path.
+5. Current artifact is a live directory tree under BaRe/accounts/<identity>/backups/apps/<package>/<version>.
+6. Current metadata is metadata.json. The current App Backup path has no manifest for collected entries, no archive container, no integrity record, no payload encryption, and no compression.
+7. APK has a dedicated staging directory. Data and Ext. data are copied into the final version directory directly.
+8. Metadata is written only after every selected part succeeds. A part failure returns Failed immediately.
+9. Failed results do not carry completed parts. Cancelled results do carry completed parts.
+10. Cancellation is checked only between parts; an in-flight root copy cannot currently be interrupted.
+11. BackupProcessScreen is wired to actual per-part callbacks, but progress is part-level rather than byte-level.
+12. Inventory only recognizes a version when metadata.json is readable.
+13. Data currently collects only ApplicationInfo.dataDir. There is no current deviceProtectedDataDir / data_de collection.
+14. There is no explicit transactional commit state for a backup version.
+
+### DATA FAILURE — REPRODUCTION / EVIDENCE
+Historical runtime evidence from user build #1069:
+DATA backup failed: /system/bin/sh: no closing quote.
+
+This confirms a runtime failure at the root-shell copy boundary.
+
+Current runtime reproduction is BLOCKED in this session because no Android device, emulator, or ADB runtime is attached. The supplied APK available here is the Swift Backup reference APK, not a current BaRe runtime build.
+
+Static regression check:
+- Current RootCapabilityProvider uses one shared POSIX single-quote helper.
+- Representative Android paths and an apostrophe-containing path were executed through equivalent host /bin/sh quoting semantics without a shell parse error.
+
+Exact historical root cause remains UNKNOWN. The available historical source checkpoint immediately before the recorded failure contains a different nested-quote construction that parses correctly for representative paths. The exact intermediate buggy revision that produced the screenshot was not recoverable through the currently exposed GitHub history connector. Therefore the existing quote-helper fix remains an implementation checkpoint, not a fully runtime-verified root-cause proof.
+
+### REFERENCE EVIDENCE — RELEVANT TO A18
+The supplied Swift Backup decompiled source confirms:
+- app Data and device-protected Data are modeled separately;
+- app-data archive metadata contains dataSize, deDataSize, includeDeviceProtectedData, compressionLevel, encrypted, and entries;
+- app-size modeling includes APK, split APKs, shared libraries, Data, device-protected Data, External data, Media, and expansion;
+- External data uses Android/data/<package>;
+- Media uses Android/media/<package>;
+- app-data backup is archive-oriented.
+
+These are REFERENCE EVIDENCE only and do not authorize copying Swift implementation or format.
+
+### CONFIRMED CURRENT FAILURE / ARCHITECTURE BOUNDARY
+Current Data path:
+AppDetail → AppBackupBehavior → AppDataBackupBehavior → ApplicationInfo.dataDir → RootCapabilityProvider.copyDirectory() → su -c → root filesystem.
+
+Historical shell failure is narrowed to the su -c command-construction boundary, but exact historical malformed command remains UNKNOWN.
+
+Separate correctness gaps found in the actual current source:
+- Data excludes device-protected data.
+- Media is unsupported.
+- ROOT is the only observed app-backup mechanism.
+- No transactional artifact commit.
+- No manifest/integrity record.
+- No archive/compression/encryption in App Backup.
+- Partial failure semantics are incomplete.
+- In-flight copy cancellation is unavailable.
+- Metadata is committed only after all selected parts complete.
+
+### MAXIMAL IMPLEMENTABLE DESIGN — PROPOSAL
+
+#### 1. Unified domain
+Use one semantic pipeline:
+BackupRequest → BackupPlan → PartPlan → PartResult → BackupResult.
+
+Part states:
+PLANNED → RUNNING → SUCCESS | FAILED | SKIPPED | CANCELLED.
+
+Overall result:
+SUCCESS | PARTIAL | FAILED | CANCELLED.
+
+A Data failure must preserve evidence that APK succeeded.
+
+#### 2. Provider boundary
+BackupEngine → CapabilityResolver → PartProvider.
+
+Part providers:
+- APK
+- DATA
+- DATA_DE
+- EXT_DATA
+- MEDIA
+
+ROOT is the first implementation target because it is the only observed working mechanism. NON_ROOT, ADB, and SHIZUKU remain capability slots until actual providers are implemented and verified.
+
+#### 3. Data collection
+ROOT:
+- DATA = ApplicationInfo.dataDir.
+- DATA_DE = ApplicationInfo.deviceProtectedDataDir when available and distinct.
+- Preserve DATA and DATA_DE as separate manifest parts.
+- Capture source existence, size, file count, and result state.
+- Use the existing root force-stop capability as an explicit prerequisite where safe, so the source is not changing during collection. Restart behavior must be explicit.
+
+#### 4. External data and Media
+Use:
+- Ext. data = external storage Android/data/<package>
+- Media = external storage Android/media/<package>
+
+Missing source directory is SKIPPED/EMPTY, not an engine failure.
+
+#### 5. Transactional artifact
+Never write the committed version directly.
+
+Staging:
+<version>.staging/<operation-id>/
+  parts/
+  manifest.partial.json
+  metadata.partial.json
+
+Commit sequence:
+1. finalize parts;
+2. finalize manifest;
+3. finalize integrity data;
+4. finalize metadata;
+5. atomically rename staging to committed version;
+6. write a commit marker if required by filesystem semantics.
+
+Failed/cancelled execution must not appear as a normal successful backup version.
+
+#### 6. Archive
+Converge on a BaRe-native opaque part archive instead of exposing raw private-app directory structure as the long-term artifact contract.
+
+Suggested layout:
+version/
+  metadata.json
+  manifest.json
+  parts/
+    apk.<format>
+    data.<format>
+    data_de.<format>
+    external_data.<format>
+    media.<format>
+
+Exact archive format remains a design decision requiring implementation validation. Swift SBA format must not be copied.
+
+#### 7. Compression
+Apply compression per part, streaming, and record algorithm plus level in the manifest. No compression capability is considered implemented until round-trip tests pass.
+
+#### 8. BARE encryption
+Keep payload encryption separate from metadata protection.
+- Encrypt part payload streams using a BaRe-native security boundary.
+- Reuse existing BaRe security primitives only after their actual current source location and suitability are verified.
+- Never copy Swift Backup key or envelope format.
+- Manifest records encryption state/method only.
+
+#### 9. Integrity
+Record at minimum:
+- part byte size;
+- entry/file count;
+- SHA-256 digest of finalized payload;
+- manifest schema/version;
+- commit state.
+
+Verification must re-read the committed artifact and compare recorded integrity values before the backup can be called VERIFIED.
+
+#### 10. Progress and cancellation
+Keep the existing BackupProcessScreen and bind it to real engine events:
+PREPARING → PART_STARTED → COLLECTING → PACKAGING → COMPRESSING → ENCRYPTING → VERIFYING → PART_COMPLETED → terminal result.
+
+Cancellation must terminate the active provider process/stream, clean staging, and return a terminal result.
+
+#### 11. Inventory compatibility
+Extend metadata/inventory with:
+- schema version;
+- committed/partial state;
+- selected parts;
+- part states;
+- Data/Data_DE/Ext. data/Media sizes;
+- compression;
+- encryption state;
+- integrity status.
+
+Existing raw-directory backups should remain readable through a legacy adapter.
+
+#### 12. Implementation sequence
+A18.1 — Harden ROOT command/provider + reproduce Data on device.
+A18.2 — Unified result/part-state contract.
+A18.3 — DATA + DATA_DE transactional collection.
+A18.4 — EXT_DATA + MEDIA providers.
+A18.5 — Manifest + atomic commit.
+A18.6 — Archive + streaming compression.
+A18.7 — BARE payload encryption.
+A18.8 — Integrity verification.
+A18.9 — Cancellation + structured diagnostics.
+A18.10 — Legacy inventory compatibility.
+A18.11 — Runtime verification matrix.
+
+### REQUIRED VERIFICATION MATRIX
+- APK only
+- Data only
+- Data + Data_DE
+- Ext. data only
+- Media only
+- APK + Data
+- APK + Data + Ext. data + Media
+- missing source directory
+- inaccessible source
+- root unavailable
+- shell/provider failure
+- cancellation
+- interrupted write
+- corrupted artifact
+- metadata/manifest mismatch
+- repeated backup of same version
+- protected backup interaction
+- legacy backup inventory compatibility
+
+### CURRENT A18 STATE
+- Source audit: COMPLETED / OBSERVED.
+- Historical Data failure: RUNTIME EVIDENCE CONFIRMED.
+- Current corrected Data runtime re-test: BLOCKED — no Android runtime attached.
+- Exact historical shell-quote root cause: UNKNOWN.
+- Current architecture gap: CONFIRMED.
+- New A18 implementation: NOT STARTED.
+- Design: PROPOSED / READY FOR IMPLEMENTATION AUTHORIZATION.
+
+### NEXT ACTION
+Obtain a current BaRe runtime/device session and reproduce Data-only backup first with complete diagnostic/stderr. Then implement A18.1–A18.5 in small verified slices before compression/encryption.
+
+### OUT OF SCOPE
+- Cloud execution/provider.
+- Restore execution.
+- Full Swift Backup implementation cloning.
+- Claiming NON_ROOT/ADB/SHIZUKU support before provider evidence exists.
