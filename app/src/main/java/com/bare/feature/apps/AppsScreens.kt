@@ -2606,6 +2606,7 @@ private fun BackupPartChip(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
     protected: Boolean = false,
+    onRestore: () -> Unit,
     onDelete: () -> Unit,
 ) {
     var menuOpen by remember(part, title, size, protected) { mutableStateOf(false) }
@@ -2637,8 +2638,10 @@ private fun BackupPartChip(
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.restore)) },
                 leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) },
-                enabled = false,
-                onClick = {},
+                onClick = {
+                    menuOpen = false
+                    onRestore()
+                },
             )
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.sync_in_cloud)) },
@@ -2974,6 +2977,9 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
     var pendingDelete by remember { mutableStateOf<AppBackupSnapshot?>(null) }
     var pendingPartDelete by remember { mutableStateOf<Pair<AppBackupSnapshot, AppBackupPart>?>(null) }
     var message by remember { mutableStateOf<String?>(null) }
+    var restoreProcessVisible by remember { mutableStateOf(false) }
+    var restoreProcessParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
+    var restoreProcessVersionCode by remember { mutableStateOf<Long?>(null) }
 
     val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken) {
         value = if (packageName.isBlank()) emptyList() else withContext(Dispatchers.IO) {
@@ -2990,6 +2996,30 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
             AppBackupActionBehavior.Result.Completed -> { selectedSnapshot = null; reloadToken++ }
             is AppBackupActionBehavior.Result.Failed -> message = result.reason
         }
+    }
+
+    fun startRestore(parts: Set<AppBackupPart>, versionCode: Long) {
+        if (parts.isEmpty()) return
+        restoreProcessParts = parts
+        restoreProcessVersionCode = versionCode
+        restoreProcessVisible = true
+    }
+
+    if (restoreProcessVisible && restoreProcessVersionCode != null) {
+        RestoreProcessScreen(
+            packageName = packageName,
+            appName = app?.name ?: context.getString(R.string.app_fallback),
+            versionCode = restoreProcessVersionCode!!,
+            parts = restoreProcessParts,
+            accessMethod = null,
+            onDone = {
+                restoreProcessVisible = false
+                restoreProcessParts = emptySet()
+                restoreProcessVersionCode = null
+                reloadToken++
+            },
+        )
+        return
     }
 
     if (detailsOpen && selectedSnapshot != null) {
@@ -3100,7 +3130,18 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         DropdownMenuItem(text = { Text(stringResource(R.string.backup_details)) }, leadingIcon = { Icon(Icons.Default.Info, contentDescription = null) }, onClick = { actionMenuOpen = false; detailsOpen = true })
                                         DropdownMenuItem(text = { Text(if (snapshot.protectedBackup) stringResource(R.string.unprotect_backup) else stringResource(R.string.protect_backup)) }, leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) }, onClick = { runAction { actionBehavior.setProtected(packageName, snapshot.versionCode, !snapshot.protectedBackup) } })
                                         DropdownMenuItem(text = { Text(stringResource(R.string.add_update_note)) }, leadingIcon = { Icon(Icons.Default.Edit, contentDescription = null) }, onClick = { actionMenuOpen = false; noteText = snapshot.note.orEmpty(); noteOpen = true })
-                                        DropdownMenuItem(text = { Text(stringResource(R.string.restore)) }, leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) }, enabled = false, onClick = {})
+                                        DropdownMenuItem(text = { Text(stringResource(R.string.restore)) }, leadingIcon = { Icon(Icons.Default.Restore, contentDescription = null) }, onClick = {
+                                            actionMenuOpen = false
+                                            startRestore(
+                                                buildSet {
+                                                    if (snapshot.apkBytes > 0) add(AppBackupPart.APK)
+                                                    if (snapshot.dataBytes > 0) add(AppBackupPart.DATA)
+                                                    if (snapshot.externalDataBytes > 0) add(AppBackupPart.EXTERNAL_DATA)
+                                                    if (snapshot.mediaBytes > 0) add(AppBackupPart.MEDIA)
+                                                },
+                                                snapshot.versionCode,
+                                            )
+                                        })
                                         DropdownMenuItem(text = { Text(stringResource(R.string.delete)) }, leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) }, enabled = !snapshot.protectedBackup, onClick = { actionMenuOpen = false; pendingDelete = snapshot })
                                         DropdownMenuItem(text = { Text(stringResource(R.string.sync_in_cloud)) }, leadingIcon = { Icon(Icons.Default.CloudUpload, contentDescription = null) }, enabled = false, onClick = {})
                                     }
@@ -3115,6 +3156,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Android,
                                         modifier = Modifier.weight(1f),
                                         protected = snapshot.protectedBackup,
+                                        onRestore = { startRestore(setOf(AppBackupPart.APK), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.APK },
                                     )
                                 }
@@ -3126,6 +3168,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.weight(1f),
                                         protected = snapshot.protectedBackup,
+                                        onRestore = { startRestore(setOf(AppBackupPart.DATA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.DATA },
                                     )
                                 }
@@ -3139,6 +3182,7 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.fillMaxWidth(),
                                         protected = snapshot.protectedBackup,
+                                        onRestore = { startRestore(setOf(AppBackupPart.EXTERNAL_DATA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.EXTERNAL_DATA },
                                     )
                                 }
@@ -3152,13 +3196,31 @@ fun AppBackupsScreen(app: AppItem?, onBack: () -> Unit) {
                                         icon = Icons.Default.Folder,
                                         modifier = Modifier.fillMaxWidth(),
                                         protected = snapshot.protectedBackup,
+                                        onRestore = { startRestore(setOf(AppBackupPart.MEDIA), snapshot.versionCode) },
                                         onDelete = { pendingPartDelete = snapshot to AppBackupPart.MEDIA },
                                     )
                                 }
                             }
                             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.CenterVertically) {
                                 Text(formatBackupSize(snapshot.totalBytes), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                                Button(enabled = false, onClick = {}, shape = RoundedCornerShape(24.dp)) { Icon(Icons.Default.Restore, contentDescription = null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.restore)) }
+                                Button(
+                                    onClick = {
+                                        startRestore(
+                                            buildSet {
+                                                if (snapshot.apkBytes > 0) add(AppBackupPart.APK)
+                                                if (snapshot.dataBytes > 0) add(AppBackupPart.DATA)
+                                                if (snapshot.externalDataBytes > 0) add(AppBackupPart.EXTERNAL_DATA)
+                                                if (snapshot.mediaBytes > 0) add(AppBackupPart.MEDIA)
+                                            },
+                                            snapshot.versionCode,
+                                        )
+                                    },
+                                    shape = RoundedCornerShape(24.dp),
+                                ) {
+                                    Icon(Icons.Default.Restore, contentDescription = null)
+                                    Spacer(Modifier.width(8.dp))
+                                    Text(stringResource(R.string.restore))
+                                }
                             }
                             if (!snapshot.note.isNullOrBlank()) Text(snapshot.note!!, style = MaterialTheme.typography.bodySmall)
                         }
