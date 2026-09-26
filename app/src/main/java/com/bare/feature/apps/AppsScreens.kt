@@ -1169,6 +1169,7 @@ fun AppDetailScreen(
     var backupProcessStatus by remember { mutableStateOf(BackupProcessStatus.RUNNING) }
     var backupProcessParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var backupProcessCurrentPart by remember { mutableStateOf<AppBackupPart?>(null) }
+    var backupProcessCurrentMessage by remember { mutableStateOf<String?>(null) }
     var backupProcessCompletedParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var backupProcessLogs by remember { mutableStateOf<List<BackupProcessLog>>(emptyList()) }
     val backupCancelRequested = remember { AtomicBoolean(false) }
@@ -1376,6 +1377,7 @@ fun AppDetailScreen(
         backupProcessStatus = BackupProcessStatus.RUNNING
         backupProcessParts = parts
         backupProcessCurrentPart = null
+        backupProcessCurrentMessage = null
         backupProcessCompletedParts = emptySet()
         backupProcessLogs = emptyList()
 
@@ -1390,10 +1392,13 @@ fun AppDetailScreen(
                     onProgress = { progress ->
                         backupScope.launch {
                             backupProcessCurrentPart = progress.part
-                            backupProcessLogs = (backupProcessLogs + BackupProcessLog(
-                                progress.message,
-                                failed = progress.stage == AppBackupProgressStage.PART_FAILED,
-                            )).takeLast(80)
+                            backupProcessCurrentMessage = progress.message
+                            if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
+                                backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                                    progress.message,
+                                    failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                                )).takeLast(80)
+                            }
                             if (progress.stage == AppBackupProgressStage.PART_COMPLETED && progress.part != null) {
                                 backupProcessCompletedParts = backupProcessCompletedParts + progress.part
                             }
@@ -1408,6 +1413,7 @@ fun AppDetailScreen(
                 is AppBackupResult.Completed -> {
                     backupProcessStatus = BackupProcessStatus.DONE
                     backupProcessCurrentPart = null
+                    backupProcessCurrentMessage = null
                     backupProcessCompletedParts = result.parts
                     backupReloadToken++
                     reloadDetails()
@@ -1418,6 +1424,7 @@ fun AppDetailScreen(
                 is AppBackupResult.Cancelled -> {
                     backupProcessStatus = BackupProcessStatus.CANCELLED
                     backupProcessCurrentPart = null
+                    backupProcessCurrentMessage = null
                     backupProcessCompletedParts = result.completedParts
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(
                         context.getString(R.string.backup_process_cancelled_summary),
@@ -1429,11 +1436,13 @@ fun AppDetailScreen(
                 is AppBackupResult.Unsupported -> {
                     backupProcessStatus = BackupProcessStatus.FAILED
                     backupProcessCurrentPart = null
+                    backupProcessCurrentMessage = null
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
                 }
                 is AppBackupResult.Failed -> {
                     backupProcessStatus = BackupProcessStatus.FAILED
                     backupProcessCurrentPart = null
+                    backupProcessCurrentMessage = null
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
                     backupReloadToken++
                     reloadDetails()
@@ -1455,6 +1464,7 @@ fun AppDetailScreen(
             appName = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
             selectedParts = backupProcessParts,
             currentPart = backupProcessCurrentPart,
+            currentMessage = backupProcessCurrentMessage,
             completedParts = backupProcessCompletedParts,
             status = backupProcessStatus,
             logs = backupProcessLogs,
@@ -1471,6 +1481,7 @@ fun AppDetailScreen(
                     backupProcessVisible = false
                     backupProcessLogs = emptyList()
                     backupProcessCurrentPart = null
+                    backupProcessCurrentMessage = null
                 }
             },
         )
