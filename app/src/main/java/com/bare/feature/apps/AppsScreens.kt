@@ -1172,6 +1172,9 @@ fun AppDetailScreen(
     var backupProcessCurrentMessage by remember { mutableStateOf<String?>(null) }
     var backupProcessCompletedParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var backupProcessLogs by remember { mutableStateOf<List<BackupProcessLog>>(emptyList()) }
+    var restoreProcessVisible by remember { mutableStateOf(false) }
+    var restoreProcessParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
+    var restoreProcessVersionCode by remember { mutableStateOf<Long?>(null) }
     val backupCancelRequested = remember { AtomicBoolean(false) }
     var showBackupSelector by remember { mutableStateOf(false) }
     var backupPartNames by remember { mutableStateOf<Set<String>>(emptySet()) }
@@ -1451,12 +1454,36 @@ fun AppDetailScreen(
         }
     }
 
+    fun startRestore(parts: Set<AppBackupPart>, versionCode: Long) {
+        if (parts.isEmpty()) return
+        restoreProcessParts = parts
+        restoreProcessVersionCode = versionCode
+        restoreProcessVisible = true
+    }
+
     fun partForTitle(title: String): AppBackupPart? = when (title) {
         context.getString(R.string.apks_part) -> AppBackupPart.APK
         context.getString(R.string.data_part) -> AppBackupPart.DATA
         context.getString(R.string.external_data_part) -> AppBackupPart.EXTERNAL_DATA
         context.getString(R.string.media_part) -> AppBackupPart.MEDIA
         else -> null
+    }
+
+    if (restoreProcessVisible && packageName != null && restoreProcessVersionCode != null) {
+        RestoreProcessScreen(
+            packageName = packageName,
+            appName = details?.name ?: app?.name ?: stringResource(R.string.app_fallback),
+            versionCode = restoreProcessVersionCode!!,
+            parts = restoreProcessParts,
+            accessMethod = null,
+            onDone = {
+                restoreProcessVisible = false
+                restoreProcessParts = emptySet()
+                restoreProcessVersionCode = null
+                reloadDetails()
+            },
+        )
+        return@AppDetailScreen
     }
 
     if (backupProcessVisible) {
@@ -2033,6 +2060,7 @@ fun AppDetailScreen(
                         AppBackupStateCard(
                             packageName = packageName,
                             reloadToken = backupReloadToken,
+                            onRestore = { parts, versionCode -> startRestore(parts, versionCode) },
                         )
                     }
                     item {
@@ -2201,6 +2229,7 @@ private fun AppStorageSelectionChip(
 private fun AppBackupStateCard(
     packageName: String?,
     reloadToken: Int,
+    onRestore: (Set<AppBackupPart>, Long) -> Unit,
 ) {
     val context = LocalContext.current
     val actionBehavior = remember(context) { AppBackupActionBehavior(context) }
@@ -2431,6 +2460,26 @@ private fun AppBackupStateCard(
                             )
                         }
                     }
+                }
+                Button(
+                    onClick = {
+                        onRestore(
+                            buildSet {
+                                if (latest.apkBytes > 0L) add(AppBackupPart.APK)
+                                if (latest.dataBytes > 0L) add(AppBackupPart.DATA)
+                                if (latest.externalDataBytes > 0L) add(AppBackupPart.EXTERNAL_DATA)
+                                if (latest.mediaBytes > 0L) add(AppBackupPart.MEDIA)
+                            },
+                            latest.versionCode,
+                        )
+                    },
+                    enabled = !latest.protectedBackup,
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(24.dp),
+                ) {
+                    Icon(Icons.Default.Restore, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("RESTORE")
                 }
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     BackupPartChip(
