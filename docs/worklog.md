@@ -1,3 +1,38 @@
+## A18 — FIX CI #1155 COMPILE ERROR — 2026-09-26
+
+### OBSERVED
+
+- CI run **#1155** gagal pada `app/src/main/java/com/bare/feature/apps/AppBackupEngine.kt:146:21`.
+- Compiler: `'when' expression must be exhaustive. Add an 'else' branch.`
+- Failure terjadi pada `when (result)` di `collectPart()`.
+- Task gagal: `app:compileDebugKotlin`.
+- Failure terjadi pada compile stage; belum ada evidence runtime regression dari error ini.
+
+### ROOT CAUSE
+
+Instrumentation menambahkan nested `when` pada DATA branch. Kotlin tidak mempertahankan exhaustiveness yang dapat dibuktikan compiler untuk inferred result type pada outer `when`, sehingga outer `when (result)` ditolak walaupun subtype yang diharapkan sudah dicantumkan.
+
+### FIX
+
+- Menambahkan fallback `else -> error("Unsupported backup copy result: ...")` pada outer `when (result)`.
+- Success/failure subtype yang sudah ada tidak diubah.
+- Tidak mengubah provider, part selection, encryption, artifact lifecycle, atau execution semantics yang sebelumnya terbukti.
+
+### COMMIT
+
+- `b0a4d8cc157e38b9789b48598d834be385d16847` — fix exhaustive backup copy result handling.
+
+### VERIFICATION STATUS
+
+- **SOURCE:** fix committed.
+- **CI:** belum diverifikasi setelah fix.
+- **RUNTIME:** tetap PENDING.
+- **STATUS:** `FIX IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`.
+
+### NEXT ACTION
+
+Build ulang melalui CI. Jika compile PASS, lanjutkan runtime instrumentation/performance verification; jangan menyimpulkan performance improvement sebelum ada timing/throughput evidence.
+
 # BaRe v1.0 — Worklog
 
 > **Cara baca:** dokumen ini adalah **continuity checkpoint**, bukan transcript. History engineering yang sudah dirapikan tersedia di [`docs/worklog_history.md`](./worklog_history.md). Git commit tetap menjadi evidence perubahan repository, bukan pengganti worklog history.
