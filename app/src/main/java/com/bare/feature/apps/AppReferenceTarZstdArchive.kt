@@ -107,7 +107,7 @@ internal class AppReferenceTarZstdArchive {
     ) {
         val entry = TarArchiveEntry(name.replace('\\', '/'))
         entry.size = file.length().coerceAtLeast(0L)
-        entry.modTime = file.lastModified()
+        entry.modTime = java.util.Date(file.lastModified())
         tar.putArchiveEntry(entry)
         FileInputStream(file).use { input ->
             copy(input, tar, entry.size, progress)
@@ -132,8 +132,20 @@ internal class AppReferenceTarZstdArchive {
                         continue
                     }
 
-                    val outputEntry = TarArchiveEntry(entry)
-                    outputEntry.name = outputName
+                    val outputEntry = TarArchiveEntry(outputName, entry.linkFlag)
+                    outputEntry.size = entry.size
+                    outputEntry.mode = entry.mode
+                    outputEntry.userId = entry.longUserId
+                    outputEntry.groupId = entry.longGroupId
+                    outputEntry.userName = entry.userName
+                    outputEntry.groupName = entry.groupName
+                    outputEntry.modTime = entry.modTime
+                    if (entry.isLink) {
+                        outputEntry.linkName = entry.linkName
+                    }
+                    entry.extraPaxHeaders.forEach { (key, value) ->
+                        outputEntry.addPaxHeader(key, value)
+                    }
                     tar.putArchiveEntry(outputEntry)
 
                     if (!entry.isDirectory && !entry.isSymbolicLink && !entry.isLink) {
