@@ -211,3 +211,46 @@ Current conclusion:
 Latest source checkpoint: `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3`.
 
 Next engineering decision harus berasal dari build/runtime evidence aktual.
+
+### 2026-09-26 — A18 reference reconciliation + direct-root source-size diagnostic
+
+**Decision / boundary**
+
+- Reference baseline untuk backup/archive behavior tetap berasal dari `docs/reference.md`.
+- Targeted audit terbaru hanya dilakukan karena reference sebelumnya belum mencatat secara eksplisit mekanisme SBA root archive creation.
+- Audit targeted mengonfirmasi reference membentuk `SbaArchiveEntry` dari absolute source path lalu menyerahkannya ke native `SbaArchiveNative.createArchive(...)`, dengan tar/profile, compression, encryption, dan progress sebagai boundary terpisah.
+- Tidak ada keputusan untuk menyalin algoritma encryption Swift; encryption BaRe tetap berada pada boundary implementasi BaRe.
+- Full-tree decompile re-audit tidak diperlukan untuk baseline yang sudah tercatat.
+
+**Implementation checkpoint**
+
+- Direct-root implementation tetap dipertahankan sebagai source-level direction karena menghindari full staging copy sebelum archive.
+- Belum ada perubahan terhadap archive algorithm/encryption pada checkpoint ini.
+- Ditambahkan diagnostic-only source-size breakdown pada `AppBackupEngine.kt`:
+  - jumlah root source entries;
+  - ukuran setiap entry;
+  - total byte yang akan dipakai sebagai archive progress total.
+- Diagnostic ini tidak mengubah source selection, archive output, encryption, atau artifact lifecycle.
+
+**Commits**
+
+- Reference reconciliation: `72aca21ce325b3633daddfda6ff217dd330ccc98`
+- Source-size diagnostic: `0bad84b5640e5e3bca764fd81e85dc51da07d3eb`
+
+**Verification status**
+
+- Source change: IMPLEMENTED.
+- CI: PENDING untuk checkpoint `0bad84b...`.
+- Runtime: UNVERIFIED.
+- Root cause angka total `7.1 GB`: UNKNOWN sampai source breakdown aktual pada device tersedia.
+- A18 overall: UNRESOLVED / NOT VERIFIED.
+
+**Next action**
+
+1. Build checkpoint `0bad84b...`.
+2. Runtime APK-only pada case yang sama.
+3. Baca source breakdown yang baru; jika total source sudah salah sebelum archive, perbaiki source-size boundary. Jika source total benar tetapi progress archive salah, perbaiki progress boundary.
+4. Setelah angka source/progress benar, ukur runtime duration/throughput.
+5. Regression Data / Ext. data / Media dan artifact lifecycle.
+6. Baru setelah baseline backup behavior stabil, reconcile Fast/Standard/other reference modes dan password strategy.
+
