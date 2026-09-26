@@ -612,3 +612,34 @@ Commits:
 - Verify progress reports MB rather than the previous erroneous GB scale.
 - Measure backup elapsed time and compare stage timing against Swift reference.
 - Then verify Data / Ext. data / Media and restore using the new artifact format.
+
+## A18 — Build correction + backup process progress UI — 2026-09-26
+
+### OBSERVED
+- CI build exposed compile blockers in the new reference TAR+Zstandard archive path:
+  - `AppReferenceTarZstdArchive.kt`: TAR timestamp API expected `Date`, link-entry constructor/API mismatch, and uid/gid type mismatch.
+  - `AppRestoreArchiveReader.kt`: literal escaped newline in the format-version declaration caused a Kotlin syntax error.
+- The previous runtime APK progress evidence showed an incorrect `GB` scale for a small APK payload. The new root APK source path already provides byte sizes from `stat`; the process UI was not exposing the raw byte metrics separately.
+
+### CHANGE
+- Corrected TAR metadata API usage and removed the invalid link-entry helper in `AppReferenceTarZstdArchive.kt`.
+- Corrected the restore reader format-version declaration syntax.
+- Extended backup process state/UI with processed bytes, total bytes, elapsed time, and transfer rate.
+- Process UI now renders byte progress explicitly in `MB` for normal APK-sized payloads, with elapsed time and rate, while retaining the phase message.
+
+### CURRENT STATUS
+- Implementation commits:
+  - `4461b366dd8bb59847072ce7db05ee24a294b6b4` — TAR metadata type correction.
+  - `25e2a1dc147ca6b15fcc4b2894ffa90751cd8c73` — restore reader syntax correction.
+  - `f89f60920bad9c48242e7bb933579dde3c0f4c4e` — backup progress UI metrics.
+  - `064ee667f0b96158ba1f52c0b3d4756b231cb33f` — wire progress metrics into the app detail process screen.
+- Android Build #1200 for `064ee667f0b96158ba1f52c0b3d4756b231cb33f` is currently `IN_PROGRESS` at the assemble-debug step.
+- Therefore build verification and runtime verification remain `UNVERIFIED` until the CI artifact is produced and installed.
+
+### NEXT GATE
+1. CI #1200 PASS.
+2. Install the resulting debug APK.
+3. Run APK-only backup for the 7.12 MB-class target and verify the process screen reports approximately `MB / MB`, not `GB`.
+4. Verify elapsed time/rate and artifact hash verification.
+5. Continue Data, Ext. data, Media, then restore.
+
