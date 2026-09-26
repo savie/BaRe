@@ -2551,6 +2551,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Android,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        enabled = latest.apkBytes > 0L && !latest.protectedBackup,
                         onRestore = { onRestore(setOf(AppBackupPart.APK), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.APK },
                     )
@@ -2561,6 +2562,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Storage,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        enabled = latest.dataBytes > 0L && !latest.protectedBackup,
                         onRestore = { onRestore(setOf(AppBackupPart.DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.DATA },
                     )
@@ -2573,6 +2575,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.Folder,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        enabled = latest.externalDataBytes > 0L && !latest.protectedBackup,
                         onRestore = { onRestore(setOf(AppBackupPart.EXTERNAL_DATA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.EXTERNAL_DATA },
                     )
@@ -2583,6 +2586,7 @@ private fun AppBackupStateCard(
                         icon = Icons.Default.PhotoLibrary,
                         modifier = Modifier.weight(1f),
                         protected = latest.protectedBackup,
+                        enabled = latest.mediaBytes > 0L && !latest.protectedBackup,
                         onRestore = { onRestore(setOf(AppBackupPart.MEDIA), latest.versionCode) },
                         onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                     )
@@ -2600,6 +2604,7 @@ private fun BackupPartChip(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     modifier: Modifier = Modifier,
     protected: Boolean = false,
+    enabled: Boolean = true,
     onRestore: () -> Unit,
     onDelete: () -> Unit,
 ) {
@@ -2607,7 +2612,7 @@ private fun BackupPartChip(
 
     Box(modifier) {
         Surface(
-            Modifier.fillMaxWidth().height(64.dp).clickable { menuOpen = true },
+            Modifier.fillMaxWidth().height(64.dp).clickable(enabled = enabled) { menuOpen = true },
             shape = RoundedCornerShape(24.dp),
             color = MaterialTheme.colorScheme.surfaceVariant,
         ) {
@@ -2662,7 +2667,7 @@ private fun BackupPartChip(
             DropdownMenuItem(
                 text = { Text(stringResource(R.string.delete)) },
                 leadingIcon = { Icon(Icons.Default.Delete, contentDescription = null) },
-                enabled = !protected,
+                enabled = enabled && !protected,
                 onClick = {
                     menuOpen = false
                     onDelete()
