@@ -18,7 +18,7 @@ data class AppBackupRequest(
     val packageName: String,
     val parts: Set<AppBackupPart>,
     val destination: BackupDestination,
-    val accessMethod: AccessMethod = AccessMethod.ROOT,
+    val accessMethod: AccessMethod? = null,
     val password: CharArray? = null,
 )
 
