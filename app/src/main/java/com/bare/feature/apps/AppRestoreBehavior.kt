@@ -71,11 +71,11 @@ class AppRestoreBehavior(private val context: Context) {
             for (part in request.parts) {
                 if (isCancelled()) return AppRestoreOutcome.Failed("Restore cancelled")
                 val artifact = metadata.artifacts.firstOrNull { it.part == part.name }
-                    ?: run {
-                        failed[part] = part.name + " backup artifact is missing"
-                        onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, failed[part]!!))
-                        continue
-                    }
+                if (artifact == null) {
+                    failed[part] = part.name + " backup artifact is missing"
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_FAILED, part, failed[part]!!))
+                    continue
+                }
 
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Inspecting " + part.name + " backup"))
 
