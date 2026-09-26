@@ -201,7 +201,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     fun listDirectoryNames(path: String): List<String> {
         if (path.isBlank() || path.contains("\n") || path.contains("\r")) return emptyList()
         val quoted = shellQuote(path)
-        val result = runSu("find $quoted -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'")
+        val result = runSu("find $quoted -mindepth 1 -maxdepth 1 -type d -exec basename {} \\;")
         if (result.exitCode != 0) return emptyList()
         return result.stdout.lineSequence()
             .map(String::trim)
