@@ -230,6 +230,7 @@ class AppRestoreArchiveReader(private val context: Context) {
 
     private data class Header(
         val raw: ByteArray,
+        val version: Int,
         val mode: EncryptionMode,
         val salt: ByteArray,
         val iv: ByteArray,
