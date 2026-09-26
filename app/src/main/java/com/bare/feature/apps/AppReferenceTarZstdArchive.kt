@@ -161,10 +161,6 @@ internal class AppReferenceTarZstdArchive {
         if (source.isLink) {
             entry.linkName = source.linkName
         }
-        if (source.isSparse) {
-            entry.setSparseHeaders(source.orderedSparseHeaders)
-            entry.realSize = source.realSize
-        }
         source.extraPaxHeaders.forEach { (key, value) ->
             entry.addPaxHeader(key, value)
         }
