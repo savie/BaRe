@@ -41,7 +41,17 @@ Hanya item berikut yang aktif. **Jangan membuka kembali behavior yang sudah terb
 4. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
    - Ditunda sampai correctness lokal dan Data selesai.
 
-5. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
+4. **PROCESS UI + BARE DIAGNOSTIC LOG — AKTIF / CORRECTNESS + DIAGNOSTICS**
+   - Audit aktual sudah selesai untuk Backup Process UI, Restore Process UI, dan diagnostic/log surface.
+   - Scope mencakup perbaikan UI proses dan penambahan/perbaikan **BaRe Diagnostic Log** berdasarkan actual execution event.
+   - Backup dan Restore harus memiliki process/diagnostic presentation yang konsisten.
+   - Reference dipakai sebagai baseline detail/presentation observability; event yang ditampilkan tetap harus berasal dari actual BaRe execution path.
+   - Scope ini **bukan OUT OF SCOPE**. Ia aktif dan dapat dikerjakan sebelum, sesudah, atau bersamaan dengan item correctness lain sesuai dependency dan risiko.
+
+5. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
+   - Ditunda sampai correctness lokal dan Data selesai.
+
+6. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
    - Gate terakhir setelah active correctness scope selesai dan regression runtime tersedia.
 
 ### UI ACTION PARITY — #1255
@@ -66,14 +76,19 @@ Tetap protected:
 
 ### NEXT ACTION
 
-1. **Data-only scope:** inspect actual backup + restore Data behavior dan tentukan contract khusus sebelum change.
-2. Implement minimal Data-specific change hanya setelah root cause/contract terverifikasi.
-3. CI targeted.
-4. Runtime verify Data per-part + multi-select.
-5. Regression smoke APK/Ext. data/Media dan action menu #1255.
-6. Lanjut LOCAL APPS.
-7. Optimization tetap belakangan.
-8. Tutup A18 hanya setelah acceptance evidence cukup.
+Urutan di bawah adalah **priority map**, bukan urutan wajib yang mengunci pekerjaan. Item dapat dikerjakan **langsung semua dalam satu rangkaian kerja**, atau execution order dapat diubah sesuai dependency, evidence, dan risiko.
+
+1. **DATA special behavior:** inspect actual backup + restore Data behavior, tentukan contract khusus, lalu implement minimal Data-specific change setelah root cause terverifikasi.
+2. **LOCAL APPS:** lanjutkan correctness canonical inventory/association sesuai evidence aktual.
+3. **LARGE-FILE PERFORMANCE:** tetap audit/timing-driven; optimization tidak boleh dimulai dari asumsi.
+4. **PROCESS UI + BARE DIAGNOSTIC LOG:** implement correction berdasarkan audit aktual dan reference presentation evidence; dapat dikerjakan lebih dahulu bila dependency lebih ringan.
+5. **LOCAL / CLOUD PART SYNC PARITY:** tetap later sampai correctness prerequisite terpenuhi.
+6. **CI + targeted runtime regression:** jalankan terhadap perubahan yang relevan, termasuk regression smoke APK/Ext. data/Media dan behavior yang sudah protected.
+7. **FULL A18 acceptance:** tutup hanya setelah seluruh active scope yang relevan memiliki evidence acceptance.
+
+**Execution rule:** tidak ada kewajiban menyelesaikan item 1 → 2 → 3 → 4 secara serial. Misalnya **#4 dapat dikerjakan lebih dahulu**, lalu kembali ke **#1**, atau beberapa item dapat dikerjakan dalam satu batch selama dependency, scope guard, dan verification tetap jelas.
+
+**Optimization tetap belakangan:** audit performance boleh berjalan sebagai evidence, tetapi perubahan optimasi tidak boleh mengganggu correctness scope.
 
 **Continuity rule:** checkpoint historis di bawah tetap menjadi historical truth. Section ini adalah satu-satunya active implementation scope saat ini.
 
@@ -1847,9 +1862,9 @@ Target acceptance untuk scope ini:
 
 - Audit actual UI proses: **SELESAI**
 - Audit actual BaRe Diagnostic Log surface: **SELESAI**
-- Process UI correction: **PENDING**
-- BaRe Diagnostic Log correction: **PENDING**
-- Backup/restore engine change: **OUT OF SCOPE UNTUK CHECKPOINT INI**
+- Process UI correction: **PENDING / ACTIVE**
+- BaRe Diagnostic Log correction: **PENDING / ACTIVE**
+- Backup/restore engine change: **TIDAK MENJADI SCOPE PERUBAHAN PADA AUDIT UI/LOG INI**, tetapi bukan berarti backup/restore engine menjadi global OUT OF SCOPE
 - Runtime verification: **PENDING**
 - Data special behavior: **TETAP ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**
 - LOCAL APPS: **TETAP ACTIVE / NOT VERIFIED**
