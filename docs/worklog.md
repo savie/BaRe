@@ -8,7 +8,6 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| HEAD | `b05b1c2855c02a4b70f301a07f20f1c1261ddcad` — docs-only worklog reconciliation |
 | Implementation checkpoint | `b0a4d8cc157e38b9789b48598d834be385d16847` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
 | Current area | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
