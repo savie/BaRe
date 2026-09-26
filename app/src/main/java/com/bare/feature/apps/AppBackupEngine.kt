@@ -43,9 +43,35 @@ class AppBackupEngine(private val context: Context) {
                 if (isCancelled()) throw BackupCancelledException()
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Backing up ${part.displayName()}"))
                 val raw = File(staging, part.directoryName())
-                val collected = collectPart(method, request.packageName, part, raw, isCancelled)
+                val collected = try {
+                    collectPart(method, request.packageName, part, raw, isCancelled)
+                } catch (t: Throwable) {
+                    onProgress(
+                        AppBackupProgress(
+                            AppBackupProgressStage.PART_FAILED,
+                            part,
+                            "Collecting " + part.displayName() + " failed: " + describeFailure(t),
+                        ),
+                    )
+                    throw t
+                }
                 val archive = File(backupDirectory, "${part.archiveName()}.bare")
-                val result = archiveWriter.write(archive, listOf(AppBackupArchiveSource(raw, part.archiveName())), request.password?.copyOf())
+                val result = try {
+                    archiveWriter.write(
+                        archive,
+                        listOf(AppBackupArchiveSource(raw, part.archiveName())),
+                        request.password?.copyOf(),
+                    )
+                } catch (t: Throwable) {
+                    onProgress(
+                        AppBackupProgress(
+                            AppBackupProgressStage.PART_FAILED,
+                            part,
+                            "Packaging/encryption for " + part.displayName() + " failed: " + describeFailure(t),
+                        ),
+                    )
+                    throw t
+                }
                 completed += part
                 artifacts += archive
                 artifactMetadata += AppBackupArtifactMetadata(
@@ -123,6 +149,10 @@ class AppBackupEngine(private val context: Context) {
         return nonRoot.copyDirectory(source.absolutePath, destination)
     }
 
+    private fun describeFailure(t: Throwable): String {
+        val root = generateSequence(t) { it.cause }.last()
+        return root::class.java.simpleName + ": " + (root.message ?: "unknown error")
+    }
     private fun AppBackupPart.directoryName(): String = when (this) {
         AppBackupPart.APK -> "apk"
         AppBackupPart.DATA -> "data"
