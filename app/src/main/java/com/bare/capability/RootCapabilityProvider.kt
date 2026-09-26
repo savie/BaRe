@@ -324,13 +324,32 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun directoryArchiveSource(sourcePath: String, entryName: String): RootArchiveSource {
-        if (sourcePath.isBlank() || sourcePath.contains("\\n") || sourcePath.contains("\\r")) {
+        if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
             error("Invalid source path")
         }
+        val quoted = shellQuote(sourcePath)
+        val probe = runSu(
+            "if ! test -e $quoted; then " +
+                "echo source_exists=false >&2; exit 20; " +
+            "fi; " +
+            "if ! test -d $quoted; then " +
+                "echo source_exists=true >&2; echo source_not_directory >&2; " +
+                "ls -ld $quoted 2>&1 >&2 || true; " +
+                "exit 21; " +
+            "fi; " +
+            "echo source_exists=true; " +
+            "ls -ld $quoted",
+        )
+        if (probe.exitCode != 0) {
+            val detail = probe.stderr.ifBlank { probe.stdout }.trim()
+            error("Root source precondition failed for '$sourcePath': " + detail.ifBlank { "exit=" + probe.exitCode })
+        }
+        val size = directorySize(sourcePath)
+            ?: error("Root source size unavailable for '$sourcePath'")
         return RootArchiveSource(
             sourcePath = sourcePath,
             entryName = entryName.trim('/'),
-            byteSize = directorySize(sourcePath) ?: 0L,
+            byteSize = size,
             directory = true,
         )
     }
@@ -339,10 +358,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         if (sourcePath.isBlank() || sourcePath.contains("\\n") || sourcePath.contains("\\r")) {
             error("Invalid source path")
         }
-        val source = File(sourcePath)
-        val parent = source.parentFile?.absolutePath ?: "/"
-        val name = source.name.ifBlank { "/" }
-        val command = "toybox tar -cf - -C ${shellQuote(parent)} ${shellQuote(name)}"
+        val quoted = shellQuote(sourcePath)
+        val command = "toybox tar -cf - -- " + quoted
         val process = ProcessBuilder("su", "-c", command)
             .redirectErrorStream(false)
             .start()
