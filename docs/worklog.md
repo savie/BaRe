@@ -12,7 +12,7 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | c039dbad9984f9f90b8f89b74707b605417f3ef5 |
+| Current repository HEAD | 33ee1f7a3d873d3b02950c9ea2deda47f940f45c |
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD PREPARATION** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
 | Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
@@ -60,30 +60,30 @@ Reference menjadi baseline untuk mekanisme/behavior yang memang tersedia di refe
 
 Rebuild mencakup **dua arah**:
 
-text
+```text
 BACKUP
-discover/select
-→ resolve capability
-→ validate source/destination
-→ collect/source handling
-→ archive/compress
-→ BaRe encryption boundary
-→ commit artifact
-→ persist metadata
-→ verify
-→ result
+  discover/select
+  → resolve capability
+  → validate source/destination
+  → collect/source handling
+  → archive/compress
+  → BaRe encryption boundary
+  → commit artifact
+  → persist metadata
+  → verify
+  → result
 
 RESTORE
-select backup
-→ inspect package/artifact
-→ validate target/capability
-→ extract/read artifact
-→ BaRe decryption boundary
-→ restore/install/data handling
-→ post-restore validation
-→ verify
-→ result
-text
+  select backup
+  → inspect package/artifact
+  → validate target/capability
+  → extract/read artifact
+  → BaRe decryption boundary
+  → restore/install/data handling
+  → post-restore validation
+  → verify
+  → result
+```
 
 Flow di atas adalah target kerja; detail mekanisme tiap tahap harus diturunkan dari reference evidence dan actual BaRe capability, bukan diisi dengan asumsi.
 
