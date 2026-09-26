@@ -169,7 +169,14 @@ class AppBackupEngine(private val context: Context) {
     }
 
     private fun rootArchiveSources(packageName: String, part: AppBackupPart): List<com.bare.capability.RootArchiveSource> = when (part) {
-        AppBackupPart.APK -> root.packageApkArchiveSources(packageName)
+        AppBackupPart.APK -> {
+            val info = context.packageManager.getApplicationInfo(packageName, 0)
+            val apkPaths = buildList {
+                info.sourceDir?.let(::add)
+                info.splitSourceDirs?.forEach(::add)
+            }
+            root.packageApkArchiveSources(packageName, apkPaths)
+        }
         AppBackupPart.DATA -> {
             val info = context.packageManager.getApplicationInfo(packageName, 0)
             listOf(root.directoryArchiveSource(info.dataDir, "data"))
