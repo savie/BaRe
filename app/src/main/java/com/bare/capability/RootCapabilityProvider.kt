@@ -57,7 +57,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     fun ensureDirectory(path: String, ownerUid: Int): RootProbeResult {
-        if (path.isBlank() || path.contains("\\n") || path.contains("\\r")) {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) {
             return RootProbeResult.Failed("Invalid storage path")
         }
         val quoted = shellQuote(path)
