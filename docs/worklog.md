@@ -2,11 +2,7 @@
 
 > **Role:** current continuity / synthesis checkpoint.
 >
-> Dokumen ini **bukan transcript dan bukan chronology lengkap**. Ia merangkum state, keputusan, evidence, unresolved item, dan next action yang berasal dari dua arsip history.
->
-> **History 1:** [docs/worklog_history.md](./worklog_history.md) — chronology engineering sebelumnya.
->
-> **History 2:** [docs/worklog_history_2.md](./worklog_history_2.md) — arsip worklog sebelum pembentukan continuity/synthesis baru, termasuk seluruh record A18 yang sebelumnya bercampur dengan current state.
+> Dokumen ini **bukan transcript dan bukan chronology lengkap**. Ia merangkum state, keputusan, evidence, unresolved item, dan next action yang berasal dari history dan checkpoint engineering.
 >
 > Git commit tetap menjadi evidence perubahan repository dan tidak digantikan oleh worklog.
 
@@ -14,40 +10,83 @@
 
 | Item | Status |
 |---|---|
-| Repository | `savie/BaRe` |
-| Branch | `v1.0/rebaseline` |
-| Current code checkpoint | `f548738c94c6502d4352638adc64d905bfd5d25e` |
-| Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
-| Current focus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
-| Reference audit | **SELESAI** |
-| Latest CI | **#1156 PASS** untuk artifact pipeline |
-| Latest runtime | **#1156 masih menjadi runtime evidence terakhir; #1164 build gagal compile; #1165 sedang membangun fix; direct-root runtime/Data/full backup UNVERIFIED** |
-| Current root-cause/status | **Old APK 138 GB measurement defect bypassed by new direct-root path; direct-root runtime behavior/performance UNKNOWN; Data filesystem boundary UNKNOWN** |
+| Repository | savie/BaRe |
+| Branch | v1.0/rebaseline |
+| Current repository HEAD | c039dbad9984f9f90b8f89b74707b605417f3ef5 |
+| Lifecycle | **DESIGN / ARCHITECTURE / BUILD PREPARATION** |
+| Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
+| Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
+| Current implementation status | **UNRESOLVED / SUPERSEDED AS BASELINE** |
+| Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
+| Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
+| NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
 
-### Current evidence
-### CI #1164 — DIRECT ROOT COMPILE FAILURE + FIX
+### CI #1169 — latest runtime evidence
 
-- **OBSERVED:** Android Build #1164 pada commit `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a` gagal di `compileDebugKotlin`.
-- **ERROR 1:** `AppBackupArchiveWriter.kt:277:36 Unsupported escape sequence` pada tar path separator.
-- **ERROR 2:** `AppBackupEngine.kt:100:27 Too many arguments` karena trailing lambda Kotlin terikat ke parameter terakhir `isCancelled`, sementara `isCancelled` juga diberikan sebagai named argument.
-- **FIXED:** commit `f548738c94c6502d4352638adc64d905bfd5d25e` memperbaiki tar separator dan commit sebelumnya `0e93e8192571f538276e247feae8179b136fdbf9` memperbaiki binding `onProgress/isCancelled`.
-- **CURRENT:** Android Build #1165 sedang berjalan pada commit `0e93e8192571f538276e247feae8179b136fdbf9`; hasil compile/runtime belum VERIFIED.
-- **NOTE:** commit `f548738c...` sendiri akan memicu build berikutnya; acceptance tetap menunggu build terbaru dan runtime device.
+**OBSERVED FROM USER-PROVIDED RUNTIME EVIDENCE:**
 
-### Current implementation / performance change
+- Backup result: **FAILED**.
+- APK: **completed**.
+- Data: **failed** saat Packaging/encryption for Data.
+- Error:
+  - tar: idm.internet.download.manager.plus: No such file or directory
+  - tar: had errors.
+- Result: current BaRe backup mechanism is **not accepted as the baseline to continue patching**.
 
-- **DECISION:** lanjut dari diagnostic menuju perbaikan pipeline, bukan sekadar memperbaiki angka progress.
-- **IMPLEMENTED:** pada `AccessMethod.ROOT`, A18 sekarang tidak lagi melakukan **ROOT copy → staging → reread untuk archive**. Source ROOT diarahkan langsung ke archive pipeline melalui `toybox tar` stream.
-- **IMPLEMENTED:** APK ROOT memakai source path hasil `pm path` + `stat -c %s`; Data/Ext. data/Media ROOT memakai direct directory source dan size probe `toybox du -sk`.
-- **IMPLEMENTED:** archive compression di `ZipOutputStream` diturunkan ke `Deflater.BEST_SPEED` untuk mengurangi CPU overhead pada backup cepat.
-- **IMPLEMENTED:** direct-root archive memiliki parser tar untuk regular files serta PAX/GNU long-path metadata yang relevan, lalu tetap menghasilkan `.bare` dengan encryption/artifact move atomic yang sama.
-- **IMPLEMENTED:** cancellation check ditambahkan pada root tar streaming; partial archive tetap dibersihkan oleh archive failure path.
-- **SCOPE:** perubahan ini menargetkan throughput dan I/O amplification; NON_ROOT tetap memakai staging pipeline.
-- **REFERENCE EVIDENCE:** Swift Backup 5.1.0-620 menunjukkan root backup berbasis native SBA/tar/archive path, FASTEST compression, base APK 122.5 MB + splits 15.68 MB, Data 457.74 MB, dan task sekitar 3.59 s pada evidence screenshot/source yang tersedia. Ini dipakai sebagai comparison evidence, bukan implementation contract.
-- **CURRENT VERIFICATION:** source-level change terobservasi pada commit `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3`; GitHub Actions/combined status untuk commit ini tidak memiliki workflow run/status. Compile dan runtime **UNVERIFIED**.
-- **IMPORTANT UNKNOWN:** direct-root Data memakai ROOT execution boundary yang sama secara konseptual dengan `su`; belum ada runtime evidence bahwa `/data/user/0/<package>` terlihat dari boundary tersebut. Root namespace/CE-DE/user-profile issue tetap UNKNOWN.
-- **IMPORTANT UNKNOWN:** behavior untuk hardlink/special tar entries dan kompatibilitas runtime parser belum diverifikasi.
-- **PROTECTED INTENT:** artifact lifecycle, encrypted `.bare` contract, Ext. data, Media, dan cancellation semantics harus tetap diregression-test setelah performance change.
+### Current decision
+
+**DECISION — REBASE BACKUP + RESTORE TO REFERENCE MECHANISM**
+
+Pekerjaan A18 backup/restore selanjutnya harus **dibangun ulang mengikuti mekanisme reference**, bukan meneruskan mekanisme backup yang sekarang dengan patch incremental.
+
+Reference menjadi baseline untuk mekanisme/behavior yang memang tersedia di reference, termasuk bila reference menyediakan lebih dari satu cara untuk suatu tahap. Mekanisme yang relevan harus direkonstruksi dan diikuti secara menyeluruh, bukan dipilih hanya pada bagian yang nyaman untuk implementation saat ini.
+
+**Explicit exception: encryption**
+
+- Teknik encryption reference **tidak diikuti**.
+- Encryption BaRe tetap dipakai sesuai boundary/keputusan BaRe.
+- Jika reference **tidak mengenkripsi** suatu artifact/path/component, BaRe tidak boleh menambahkan encryption hanya karena implementation lama BaRe melakukannya.
+
+**ROOT / NON_ROOT boundary**
+
+- Reference hanya menyediakan evidence/mechanism untuk **ROOT**.
+- ROOT menjadi baseline mekanisme reference.
+- NON_ROOT tidak boleh dibuat sebagai mekanisme backup yang berbeda hanya karena reference tidak memiliki non-root implementation.
+- NON_ROOT harus mempertahankan **logical mechanism/flow yang sama** lalu menyesuaikan execution boundary dengan capability Android/BaRe.
+- Jika suatu capability non-root tidak langsung tersedia, cari mekanisme alternatif yang paling maksimal untuk mencapai behavior yang sama.
+- Hanya setelah alternatif yang relevan benar-benar diuji dan tidak memungkinkan, capability boleh dicatat sebagai limitation/unsupported.
+
+**Backup + restore**
+
+Rebuild mencakup **dua arah**:
+
+text
+BACKUP
+discover/select
+→ resolve capability
+→ validate source/destination
+→ collect/source handling
+→ archive/compress
+→ BaRe encryption boundary
+→ commit artifact
+→ persist metadata
+→ verify
+→ result
+
+RESTORE
+select backup
+→ inspect package/artifact
+→ validate target/capability
+→ extract/read artifact
+→ BaRe decryption boundary
+→ restore/install/data handling
+→ post-restore validation
+→ verify
+→ result
+text
+
+Flow di atas adalah target kerja; detail mekanisme tiap tahap harus diturunkan dari reference evidence dan actual BaRe capability, bukan diisi dengan asumsi.
+
 ## 2. HISTORICAL SYNTHESIS
 
 ### History 1 — Fondasi sampai capability progression
@@ -141,36 +180,102 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 
 ### VERIFIED / OBSERVED
 
-- Repository branch `v1.0/rebaseline` dan latest source checkpoint `07a81ff5...` teridentifikasi.
-- CI #1156 artifact pipeline PASS pada checkpoint sebelumnya.
-- Runtime #1156 adalah evidence device terakhir: APK functional evidence, progress/performance defect, Data `source_not_directory`.
-- New direct-root archive/performance implementation exists in source.
-- Latest performance commits have **no GitHub Actions workflow run/status**, sehingga compile/runtime belum dapat dinaikkan menjadi VERIFIED.
-- Swift evidence tersedia sebagai comparison/reference evidence, bukan proof of BaRe behavior.
+- Repository branch yang aktif adalah v1.0/rebaseline.
+- Latest repository HEAD yang terobservasi adalah c039dbad9984f9f90b8f89b74707b605417f3ef5.
+- User-provided CI #1169 runtime evidence menunjukkan APK backup completed tetapi Data backup gagal.
+- Failure terjadi pada packaging/encryption Data dengan error tar: idm.internet.download.manager.plus: No such file or directory dan tar: had errors.
+- Reference branch/evidence tersedia untuk dijadikan baseline mekanisme backup/restore.
+- Encryption BaRe adalah explicit exception dari parity reference.
 
 ### UNVERIFIED / UNKNOWN
 
-- Compile of the latest direct-root implementation.
-- Runtime APK direct-root performance.
-- Runtime Data direct-root success.
-- End-to-end progress accuracy after removing staging.
-- Archive correctness for all tar entry types and long-path cases on target device.
-- Performance acceptance versus the user's small-backup target.
-- Full A18 multi-part acceptance.
-- Data filesystem namespace / CE-DE / user-profile root cause.
+- Complete reference-to-BaRe backup mechanism mapping untuk seluruh part dan seluruh restore path.
+- Exact reference behavior untuk setiap mode/variant yang relevan sebelum implementation rebuild.
+- Non-root capability path untuk setiap part setelah mekanisme reference direkonstruksi.
+- Runtime success backup Data setelah rebuild.
+- Runtime success restore untuk APK/Data/Ext. data/Media.
+- Full backup + restore acceptance.
+- Performance acceptance setelah mekanisme baru selesai.
+- Compatibility/edge cases pada source path, archive entry, destination, cancellation, partial artifact, metadata, dan restore target.
 
-### Batas interpretasi
+### SUPERSEDED DIRECTION
 
-- Menghilangkan staging adalah **source-level implementation**, bukan bukti throughput runtime.
-- `Deflater.BEST_SPEED` adalah optimization ## 4. CURRENT NEXT ACTION
+Mekanisme berikut **tidak lagi menjadi baseline kerja A18**:
 
-1. **Build latest checkpoint `07a81ff5...`** dan pastikan compile berhasil; jika build belum tersedia di execution boundary, status tetap UNVERIFIED.
-2. Jalankan runtime pada case kecil yang sama/semirip dengan evidence Swift: **APK + splits + Data**, dan ukur terpisah **source discovery / direct tar streaming / archive-compression / encryption / total**.
-3. Verifikasi progress: **logical source bytes → processed bytes → displayed bytes**, dan pastikan tidak lagi menghasilkan total absurd seperti `138 GB` untuk source ~`138 MB`.
-4. Verifikasi artifact correctness: **APK/Data archive exists, non-zero, metadata valid, previous protected artifacts retained, partial/cancel cleanup valid**.
-5. Jika Data masih gagal, lakukan **read-only namespace diagnostics** pada exact root execution boundary dan bandingkan dengan execution boundary Swift; jangan mengganti path secara spekulatif.
-6. Regression runtime **Ext. data + Media + APK artifact lifecycle**, lalu re-run performance measurement.
-7. Jangan menaikkan A18 menjadi **VERIFIED** sebelum compile + runtime + regression + acceptance performance terbukti.
+- mempertahankan pipeline backup lama lalu menambal error Data satu per satu;
+- menganggap direct-root implementation terbaru otomatis benar hanya karena menghilangkan staging;
+- menjadikan mekanisme non-root yang berbeda sebagai desain default;
+- mengejar parity encryption Swift/reference.
+
+Direct-root/performance implementation yang sudah ada tetap merupakan historical implementation/evidence, tetapi **bukan alasan untuk mempertahankan arsitektur lama** apabila bertentangan dengan mekanisme reference yang sekarang diputuskan sebagai baseline.
+
+## 4. CURRENT NEXT ACTION
+
+### Phase A — Reference mechanism reconstruction
+
+1. Baca/reconcile BARE_INSTRUCTIONS.md, docs/worklog.md, dan docs/reference.md sebagai basis continuity + evidence.
+2. Petakan **backup reference end-to-end** per part:
+   - APK / split APK
+   - Data
+   - Ext. data
+   - Media
+   - source discovery
+   - source/path handling
+   - archive creation
+   - compression
+   - artifact commit
+   - metadata
+   - verification
+   - cancellation/failure cleanup
+3. Petakan **restore reference end-to-end** dengan boundary yang sama:
+   - artifact inspection
+   - validation
+   - extraction/read
+   - install/data handling
+   - post-restore validation
+   - result verification.
+4. Catat setiap mekanisme reference yang memiliki beberapa metode/variant. **Jangan memilih satu secara arbitrer**; tentukan bagaimana BaRe harus mengikuti evidence tersebut.
+
+### Phase B — BaRe adaptation
+
+5. Bandingkan mapping reference dengan implementation A18 yang sekarang.
+6. Tentukan bagian yang harus **REBUILD / REPLACE**, bukan sekadar patch.
+7. Pertahankan hanya boundary BaRe yang memang explicit, terutama:
+   - encryption/decryption mechanism BaRe;
+   - product/security/storage contracts yang sudah menjadi requirement BaRe.
+8. ROOT mengikuti mekanisme reference.
+9. NON_ROOT memakai logical mechanism/flow yang sama dengan capability adaptation maksimal.
+10. Untuk capability NON_ROOT yang tidak tersedia:
+    - cari alternatif Android/BaRe;
+    - implementasi/test alternatif yang relevan;
+    - hanya setelah benar-benar mentok, catat limitation.
+
+### Phase C — Implementation
+
+11. Rebuild backup engine berdasarkan hasil mapping, bukan berdasarkan pipeline lama.
+12. Rebuild restore engine dengan mekanisme yang sama.
+13. Jangan membawa kembali staging/direct-root/performance choice lama kecuali mapping reference membuktikan mekanisme tersebut memang diperlukan.
+14. Integrasikan BaRe encryption tepat pada boundary yang telah ditentukan, tanpa mengubah mekanisme reference lain.
+
+### Phase D — Verification
+
+15. Build.
+16. Runtime ROOT backup seluruh part.
+17. Runtime NON_ROOT backup seluruh part/capability yang tersedia.
+18. Runtime restore untuk artifact yang dihasilkan.
+19. Regression cancellation, partial failure, artifact retention/cleanup, metadata, dan protected behavior.
+20. Verify hasil backup dan restore terhadap actual state.
+21. Performance diukur **setelah correctness/mechanism baseline terbukti**, bukan sebelum.
+22. A18 tidak boleh dinyatakan VERIFIED sebelum backup + restore + relevant regression + acceptance evidence lengkap.
+
+### OUT OF SCOPE UNTUK SEMENTARA
+
+- Melanjutkan patch incremental terhadap mekanisme backup lama.
+- Menganggap direct-root performance rework sebagai baseline hanya karena sudah implemented.
+- Menyalin teknik encryption Swift/reference.
+- Membuat mekanisme NON_ROOT yang berbeda hanya karena reference tidak memiliki non-root implementation.
+- Optimization sebelum mechanism/correctness baseline terbukti.
+
 ## 5. HISTORY OWNERSHIP
 
 | Artifact | Fungsi | Boleh menjadi current state? |
@@ -202,75 +307,51 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 
 ## 7. CURRENT CHECKPOINT
 
-**A18 — DIRECT ROOT STREAMING / PERFORMANCE REWORK**
+**A18 — BACKUP + RESTORE REBUILD / REFERENCE-ALIGNED MECHANISM**
 
 Current conclusion:
 
-> **Source implementation sudah bergerak dari diagnostic-only menjadi direct-root streaming untuk menghilangkan staging I/O amplification dan memakai FASTEST-equivalent intent pada compression (`Deflater.BEST_SPEED`). Namun latest compile/runtime belum terverifikasi. Data filesystem boundary dan performance acceptance tetap UNKNOWN/UNVERIFIED.**
+> **CI #1169 membuktikan mekanisme backup BaRe saat ini masih gagal pada Data. Scope sekarang berpindah dari patch mekanisme lama menjadi rebuild backup + restore berdasarkan mekanisme reference, dengan encryption BaRe sebagai explicit exception. ROOT mengikuti reference; NON_ROOT mempertahankan logical mechanism/flow yang sama dengan capability adaptation maksimal.**
 
-Latest source checkpoint: `07a81ff5d5ac89d4e5cebe811386b732a9dea1b3`.
+### 2026-09-26 — Decision: reference-aligned backup + restore rebuild
 
-Next engineering decision harus berasal dari build/runtime evidence aktual.
+**Trigger / evidence**
 
-### 2026-09-26 — A18 reference reconciliation + direct-root source-size diagnostic
+- User-provided CI #1169 runtime evidence:
+  - APK backup completed.
+  - Data backup failed.
+  - Failure: Packaging/encryption for Data failed: IllegalStateException.
+  - tar: idm.internet.download.manager.plus: No such file or directory.
+  - tar: had errors.
 
+**Decision**
 
-**Additional implementation alignment**
-
-- Targeted Swift evidence confirms APK sizing/source identity is based on `ApplicationInfo.sourceDir` plus `splitSourceDirs` for APK components.
-- BaRe direct-root APK source discovery was changed to use the same Android PackageManager source-path boundary instead of rediscovering APK paths through `pm path`.
-- Root archive source inventory remains explicit so runtime can prove base/split entries and their byte sizes.
-- This change is a reference-alignment correction, not a new backup mechanism.
-
-**Latest implementation commits**
-
-- `0ef097d0bba7c56caabd6e0006b765458298f499` — align APK source discovery with reference paths.
-- `3ee0f4eb30fd3e004e4d19e5e6514d5af48edb5c` — use PackageManager APK source paths for root archive.
-
-**Verification**
-
-- CI for the latest source checkpoint: PENDING / no workflow run observed yet.
-- Runtime: UNVERIFIED.
-- The previous `7.1 GB` progress defect is not declared fixed until the new source breakdown is observed on device.
-
-
-**Decision / boundary**
-
-- Reference baseline untuk backup/archive behavior tetap berasal dari `docs/reference.md`.
-- Targeted audit terbaru hanya dilakukan karena reference sebelumnya belum mencatat secara eksplisit mekanisme SBA root archive creation.
-- Audit targeted mengonfirmasi reference membentuk `SbaArchiveEntry` dari absolute source path lalu menyerahkannya ke native `SbaArchiveNative.createArchive(...)`, dengan tar/profile, compression, encryption, dan progress sebagai boundary terpisah.
-- Tidak ada keputusan untuk menyalin algoritma encryption Swift; encryption BaRe tetap berada pada boundary implementasi BaRe.
-- Full-tree decompile re-audit tidak diperlukan untuk baseline yang sudah tercatat.
-
-**Implementation checkpoint**
-
-- Direct-root implementation tetap dipertahankan sebagai source-level direction karena menghindari full staging copy sebelum archive.
-- Belum ada perubahan terhadap archive algorithm/encryption pada checkpoint ini.
-- Ditambahkan diagnostic-only source-size breakdown pada `AppBackupEngine.kt`:
-  - jumlah root source entries;
-  - ukuran setiap entry;
-  - total byte yang akan dipakai sebagai archive progress total.
-- Diagnostic ini tidak mengubah source selection, archive output, encryption, atau artifact lifecycle.
-
-**Commits**
-
-- Reference reconciliation: `72aca21ce325b3633daddfda6ff217dd330ccc98`
-- Source-size diagnostic: `0bad84b5640e5e3bca764fd81e85dc51da07d3eb`
+- Current backup mechanism is not continued as the implementation baseline.
+- Backup + restore will be rebuilt to follow the reference mechanism/behavior.
+- Reference behavior is to be followed broadly wherever it provides evidence/mechanism, including alternate mechanisms/modes that are actually present.
+- Encryption is the explicit exception: retain BaRe encryption/decryption mechanism.
+- If reference leaves an artifact/path/component unencrypted, BaRe must not add encryption merely because the old BaRe mechanism did so.
+- ROOT uses reference as the mechanism baseline.
+- NON_ROOT adapts execution capability while preserving the same logical backup/restore mechanism and flow.
+- NON_ROOT must be pursued as far as technically possible before declaring a capability unsupported.
 
 **Verification status**
 
-- Source change: IMPLEMENTED.
-- CI: PENDING untuk checkpoint `0bad84b...`.
-- Runtime: UNVERIFIED.
-- Root cause angka total `7.1 GB`: UNKNOWN sampai source breakdown aktual pada device tersedia.
-- A18 overall: UNRESOLVED / NOT VERIFIED.
+- Current old backup mechanism: **UNRESOLVED / SUPERSEDED AS BASELINE**.
+- New reference-aligned mechanism: **PLANNED / NOT IMPLEMENTED YET**.
+- Backup Data success: **UNVERIFIED**.
+- Restore end-to-end: **UNVERIFIED**.
+- Full A18 acceptance: **NOT VERIFIED**.
 
-**Next action**
+**Immediate next work**
 
-1. Build checkpoint `0bad84b...`.
-2. Runtime APK-only pada case yang sama.
-3. Baca source breakdown yang baru; jika total source sudah salah sebelum archive, perbaiki source-size boundary. Jika source total benar tetapi progress archive salah, perbaiki progress boundary.
-4. Setelah angka source/progress benar, ukur runtime duration/throughput.
-5. Regression Data / Ext. data / Media dan artifact lifecycle.
-6. Baru setelah baseline backup behavior stabil, reconcile Fast/Standard/other reference modes dan password strategy.
+1. Reconstruct reference backup flow per part.
+2. Reconstruct reference restore flow.
+3. Map source/path/archive/compression/commit/metadata/verification mechanisms.
+4. Map all reference variants rather than selecting arbitrarily.
+5. Compare against current BaRe implementation and define rebuild boundaries.
+6. Implement ROOT reference-aligned mechanism.
+7. Adapt the same mechanism for NON_ROOT.
+8. Keep BaRe encryption only at its explicit encryption boundary.
+9. Build → runtime backup → runtime restore → regression → verify.
 
