@@ -6,211 +6,86 @@
 >
 > Git commit tetap menjadi evidence perubahan repository dan tidak digantikan oleh worklog.
 
+
 ## 1. CURRENT STATE
 
 | Item | Status |
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Lifecycle | **VERIFICATION → REFERENCE RECONCILIATION** |
-| Current focus | **A18 — FULL REFERENCE BACKUP/RESTORE PARITY: PER-PART CHANGE DETECTION, PART-LEVEL INCREMENTAL UPDATE, RESTORE SKIP, LOCAL INVENTORY** |
-| Latest confirmed build evidence | **CI #1234 PASS** untuk commit 7a7e37fa3df04d2bb9db8257ac09b004fb1bdebd |
-| Latest runtime evidence | **USER RUNTIME #1244** — APK identical-skip terlihat; Data/Media artifact hash mismatch terobservasi; LOCAL APPS masih menampilkan No backup on device |
-| Latest reference audit | **docs/reference.md Section 30** — full App Backup / Restore lifecycle audit terhadap Swift Backup 5.1.0 (620) |
-| Reference audit status | **STATIC SOURCE EVIDENCE VERIFIED AGAINST DECOMPILED ARTIFACT; reference runtime NOT VERIFIED** |
-| Current implementation status | **APK identical-skip IMPLEMENTED; Data/Ext. data/Media per-part skip BELUM IMPLEMENTED; restore per-part change skip BELUM IMPLEMENTED; canonical LOCAL APPS inventory BELUM VERIFIED; file-level delta/patch BELUM IMPLEMENTED** |
-| A18 acceptance | **NOT VERIFIED** |
+| Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
+| Current focus | **A18 — narrow remaining runtime gaps only: LOCAL APPS inventory, Restore part-selection flow, large-file performance audit** |
+| Latest CI evidence | **USER-REPORTED CI #1248 PASS** for restore metadata fallback contract |
+| Latest runtime evidence | **USER RUNTIME — 2026-09-26**: #1 LOCAL APPS association failed; #2–#8 passed; #9 Restore All execution passed but restore part-selection bottom sheet is missing; #10 passed; #12–#13 passed; #15 still slow |
+| Reference audit | **docs/reference.md Section 30** — static full App Backup / Restore lifecycle audit against Swift Backup 5.1.0 (620) |
+| A18 acceptance | **NOT VERIFIED** — blocked only by the remaining scope below |
 
-### REFERENCE AUDIT — CURRENT TRUTH
+### ACTIVE GAPS / TODO — NARROWED SCOPE
 
-Section 30 establishes the following reference behavior:
-
-1. Backup and Restore use independent app-part selection.
-2. Backup planning computes per-part decisions before archive work.
-3. APK uses composite identity: size, version code, version name, split presence, shared-library presence.
-4. Data / External data / Expansion / Media backup change detection uses size and modified-file checks; applicable paths also consider password-hash/archive integrity conditions.
-5. A non-protected existing backup can be updated by rebuilding only changed parts while retaining unchanged parts in the same backup container.
-6. A protected latest backup is not mutated; a new backup is created only when a relevant change requires it.
-7. Restore independently evaluates APK, Data, External data, Expansion, and Media before building the actual task set.
-8. Unchanged restore targets are omitted from the restore task.
-9. APK restore has an additional newer-installed-version/downgrade decision.
-10. Local backup discovery uses the canonical account/backups/apps/local/package/backup-id namespace and validates that metadata plus at least one restorable part exists.
-11. Cloud sync/upload is also evaluated per part.
-12. Reference proves **part-level incremental update**, not file-level delta archive for App Data.
-
-### ACTIVE GAPS / TODO
+Only the following items remain actionable. **Do not reopen or modify the runtime-proven items below unless a new regression is demonstrated.**
 
 1. **LOCAL APPS canonical inventory — ACTIVE / CORRECTNESS**
-   - BaRe masih dapat menampilkan No backup on device walaupun backup dapat dipakai oleh detail/restore flow.
-   - Reconcile BaRe inventory terhadap canonical storage/backup-container semantics.
-   - Discovery harus menemukan existing backup container, membaca metadata, memvalidasi minimal satu restorable part, lalu memetakan status ke installed app.
-   - Runtime acceptance: backup existing terlihat di LOCAL APPS setelah backup selesai dan setelah app list refresh/resume.
+   - Runtime evidence: an existing 1DM+ device backup is visible in App Detail, while LOCAL APPS still shows "No backup on device".
+   - Reconcile LOCAL APPS inventory/association with the same canonical local backup-container discovery used by the detail/restore flow.
+   - Verify refresh/resume behavior after a backup already exists.
+   - Acceptance: existing backup is reflected correctly in LOCAL APPS without breaking the detail/restore discovery path.
 
-2. **DATA backup change detection — TODO / REFERENCE-DERIVED**
-   - Implementasikan authoritative BaRe predicate untuk Data.
-   - Minimal reference-backed inputs: backup timestamp/date, current size vs mirrored/backup size, modified-file detection.
-   - Preserve BaRe integrity checks and encryption boundary.
-   - Unchanged Data → retain/skip Data.
-   - Changed Data → rebuild Data part only.
-   - Metadata harus diperbarui hanya untuk part yang benar-benar rebuilt.
+2. **RESTORE part-selection flow — ACTIVE / CORRECTNESS + UX**
+   - Runtime evidence: **Restore All execution succeeds**.
+   - Remaining defect is the restore selection UX: unlike the Backup flow, Restore does not currently expose the expected bottom-sheet part selection.
+   - Preserve the already-working Restore All backend path.
+   - Reconcile the restore entry flow with the intended part-selection contract before changing backend behavior.
+   - Acceptance: Restore can expose/select available parts correctly while Restore All continues to work.
 
-3. **EXT. DATA backup change detection — TODO / REFERENCE-DERIVED**
-   - Unchanged → retain/skip.
-   - Changed → rebuild Ext. data part only.
-   - Jangan rebuild APK/Data/Media yang tidak berubah.
+3. **LARGE-FILE PERFORMANCE — ACTIVE AUDIT / LATER OPTIMIZATION**
+   - Runtime observation: backup is still slow.
+   - Current hypothesis: reference may stage/archive in data/cache and move the committed result to final storage afterward.
+   - This is **HYPOTHESIS, NOT FACT**.
+   - First audit the actual BaRe pipeline and measure stage timing before changing implementation.
+   - Compare source traversal, staging, archive/compression, encryption, digest, final move/write, and metadata/verification costs.
+   - Do not optimize or redesign based on the hypothesis alone.
 
-4. **MEDIA backup change detection — TODO / REFERENCE-DERIVED**
-   - Unchanged → retain/skip.
-   - Changed → rebuild Media part only.
-   - Jangan rebuild part lain yang tidak berubah.
+4. **LOCAL / CLOUD PART SYNC PARITY — LATER**
+   - Deferred until the local correctness scope above is stable.
+   - Do not expand the current implementation scope.
 
-5. **APK restore decision — TODO / REFERENCE-DERIVED**
-   - Bandingkan installed APK terhadap backup menggunakan composite identity.
-   - Identical → skip APK installation.
-   - Backup older/newer cases mengikuti explicit decision, termasuk newer installed APK tidak dipaksa downgrade.
+5. **FULL A18 ACCEPTANCE — NOT VERIFIED**
+   - Final gate after #1 and #9 are resolved and #15 has an evidence-based performance audit.
+   - Must include regression confirmation for all runtime-proven items, not rework them.
 
-6. **RESTORE DATA change detection — TODO / REFERENCE-DERIVED**
-   - Evaluate target state before extraction.
-   - Unchanged → skip Data restore.
-   - Changed → restore Data.
+### SCOPE GUARD — DO NOT REGRESS VERIFIED WORK
 
-7. **RESTORE EXT. DATA change detection — TODO / REFERENCE-DERIVED**
-   - Unchanged → skip.
-   - Changed → restore.
+The following are **runtime-proven in the current user test** and are now treated as protected scope:
 
-8. **RESTORE MEDIA change detection — TODO / REFERENCE-DERIVED**
-   - Unchanged → skip.
-   - Changed → restore.
+- #2 DATA backup change detection
+- #3 EXT. DATA backup change detection
+- #4 MEDIA backup change detection
+- #5 APK restore decision
+- #6 DATA restore change detection
+- #7 EXT. DATA restore change detection
+- #8 MEDIA restore change detection
+- #10 PART-LEVEL INCREMENTAL UPDATE
+- #12 BACKUP CHANGE-DETECTION METADATA CONTRACT
+- #13 RESTORE CHANGE-DETECTION METADATA CONTRACT
 
-9. **RESTORE ALL mixed-result semantics — TODO / CORRECTNESS**
-   - All-parts remains one user operation.
-   - Backend decides per part.
-   - Aggregate result must preserve SKIPPED / RESTORED / FAILED semantics and counts.
-   - Do not report skipped parts as actual extraction/restore work.
+Also protected by prior evidence/decision:
 
-10. **PART-LEVEL INCREMENTAL UPDATE — TODO / USER REQUIREMENT + REFERENCE-BACKED**
-    - Existing backup container must be reusable when policy permits.
-    - Changed Data/Ext. data/Media must replace/rebuild only the changed part.
-    - Unchanged parts must remain intact.
-    - This is the reference-supported interpretation of "jangan backup ulang semua part".
-
-11. **FILE-LEVEL DELTA/PATCH — OUT OF SCOPE**
-    - Reference audit does not establish file-level delta/patch for App Backup.
-    - User decision: follow reference behavior; do not implement file-level delta/patch.
-    - Do not reopen this scope unless a new explicit decision is made.
-
-12. **BACKUP CHANGE-DETECTION METADATA CONTRACT — TODO / CORRECTNESS**
-    - Persist enough per-part state for reliable future comparison.
-    - Avoid false skip when source state changed but aggregate size did not.
-    - Avoid false rebuild when source is unchanged.
-    - Include timestamp/size/modified-state evidence and integrity information required by BaRe implementation.
-
-13. **RESTORE CHANGE-DETECTION METADATA CONTRACT — TODO / CORRECTNESS**
-    - Restore decision must be based on target state versus backup state, not merely backup existence.
-    - Define exact fallback when metadata is incomplete or legacy.
-    - Missing/ambiguous state must fail safe toward restore/revalidation rather than false skip.
-
-14. **LOCAL / CLOUD PART SYNC PARITY — TODO / LATER**
-    - Reference evaluates upload/sync per part.
-    - BaRe must not assume whole-app cloud upload is equivalent to reference per-part behavior.
-    - Verify after local part-level update semantics are correct.
-
-15. **LARGE-FILE PERFORMANCE — VERIFICATION / LATER**
-    - Measure after correctness and incremental semantics close.
-    - Compare stage timing, not only total wall-clock time.
-
-16. **FULL A18 ACCEPTANCE — NOT VERIFIED**
-    - Requires runtime evidence for inventory visibility, unchanged/changed backup decisions, part-level update, restore skip, mixed Restore All, integrity, regression, and large-file behavior.
-
-### INCREMENTAL SCOPE CLARIFICATION
-
-Reference-backed incremental behavior:
-
-    unchanged parts → retain/skip
-    changed part    → rebuild changed part only
-
-Therefore the active implementation target is **part-level incremental update**.
-
-File-level delta/patch inside Data/Ext. data/Media is **OUT OF SCOPE** because it is not established by the audited reference and the current decision is to follow reference behavior.
-
-### REQUIRED RUNTIME MATRIX
-
-    BACKUP
-    identical APK
-        → APK SKIP
-
-    changed APK identity
-        → APK REBUILD
-
-    unchanged Data
-        → Data RETAIN/SKIP
-
-    changed Data
-        → Data REBUILD ONLY
-
-    unchanged Ext. data
-        → Ext. data RETAIN/SKIP
-
-    changed Ext. data
-        → Ext. data REBUILD ONLY
-
-    unchanged Media
-        → Media RETAIN/SKIP
-
-    changed Media
-        → Media REBUILD ONLY
-
-
-    RESTORE
-    unchanged APK target
-        → APK SKIP
-
-    changed APK target
-        → APK RESTORE
-
-    unchanged Data target
-        → Data SKIP
-
-    changed Data target
-        → Data RESTORE
-
-    unchanged Ext. data target
-        → Ext. data SKIP
-
-    changed Ext. data target
-        → Ext. data RESTORE
-
-    unchanged Media target
-        → Media SKIP
-
-    changed Media target
-        → Media RESTORE
-
-
-    ALL
-    mixed skipped + restored + failed parts
-        → correct aggregate result
-
-
-    INVENTORY
-    existing backup container
-        → LOCAL APPS visible
-        → backup metadata/parts consistent with detail/restore
+- APK identical-skip behavior.
+- SHA-256 artifact integrity verification.
+- BaRe encryption boundary.
+- File-level delta/patch remains **OUT OF SCOPE**.
 
 ### CURRENT NEXT ACTION
 
-1. Fix canonical LOCAL APPS inventory using reference storage semantics.
-2. Implement shared per-part change-state contract.
-3. Implement Data / Ext. data / Media backup retain/skip/rebuild.
-4. Implement APK/Data/Ext. data/Media restore skip/rebuild decisions.
-5. Implement Restore All mixed-result semantics.
-6. Implement part-level incremental update without rebuilding unchanged parts.
-7. Preserve BaRe encryption boundary and artifact integrity contract.
-8. Run CI/build verification.
-9. Perform one final runtime verification cycle across the matrix.
-10. Only after correctness passes, measure large-file performance and close A18.
+1. Inspect actual LOCAL APPS inventory/association flow and identify the concrete mismatch.
+2. Inspect actual Restore selection UI/entry flow and implement only the missing selection surface/contract without disturbing Restore All execution.
+3. Audit large-file backup timing and actual I/O/staging pipeline; no optimization before evidence.
+4. Run targeted CI/build verification after changes.
+5. Run one final regression/runtime cycle covering **#1, #9, #15 plus smoke checks for the protected green cases**.
+6. Close A18 only after the acceptance gate has sufficient evidence.
 
-**Continuity rule:** historical checkpoints below remain historical truth. Current state must not be interpreted as proof that the new TODOs are implemented or verified.
+**Continuity rule:** historical checkpoints below remain historical truth. The current section above is the only active implementation scope.
+
 
 ### CI #1169 — latest runtime evidence
 
@@ -1439,3 +1314,77 @@ Target **#13 — RESTORE CHANGE-DETECTION METADATA CONTRACT** ditutup pada level
 - #15 LARGE-FILE PERFORMANCE → **LATER**, dilakukan setelah correctness/runtime.
 - #16 FULL A18 ACCEPTANCE → **NOT VERIFIED**, membutuhkan runtime matrix.
 - #11 FILE-LEVEL DELTA/PATCH → **OUT OF SCOPE**, tidak dikerjakan.
+
+
+## A18 — RUNTIME TEST RESULT / SCOPE NARROWING — 2026-09-26
+
+### USER RUNTIME EVIDENCE
+
+Status: **VERIFICATION — USER-PERFORMED DEVICE TEST**
+
+Hasil test terbaru dicatat sebagai runtime evidence. Tidak ada claim bahwa hasil ini sudah diverifikasi ulang oleh CI/runtime harness lain.
+
+| # | Area | Result | Engineering status |
+|---|---|---|---|
+| 1 | LOCAL APPS canonical inventory | 🔴 Failed | **ACTIVE — must fix** |
+| 2 | DATA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 3 | EXT. DATA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 4 | MEDIA backup change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 5 | APK restore decision | 🟢 Passed | **PROTECTED — do not modify** |
+| 6 | DATA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 7 | EXT. DATA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 8 | MEDIA restore change detection | 🟢 Passed | **PROTECTED — do not modify** |
+| 9 | RESTORE ALL mixed-result / part-selection flow | 🟡 Partial | **ACTIVE — fix selection UX/contract; preserve working Restore All execution** |
+| 10 | PART-LEVEL INCREMENTAL UPDATE | 🟢 Passed | **PROTECTED — do not modify** |
+| 11 | FILE-LEVEL DELTA/PATCH | ⏸️ Out of scope | **Do not implement** |
+| 12 | BACKUP CHANGE-DETECTION METADATA CONTRACT | 🟢 Passed | **PROTECTED — do not modify** |
+| 13 | RESTORE CHANGE-DETECTION METADATA CONTRACT | 🟢 Passed | **PROTECTED — do not modify** |
+| 14 | LOCAL / CLOUD PART SYNC PARITY | ⏸️ Later | **Deferred** |
+| 15 | LARGE-FILE PERFORMANCE | 🟡 Still slow | **Audit required before optimization** |
+| 16 | FULL A18 ACCEPTANCE | ⏳ Not closed | **Acceptance gate after remaining work** |
+
+### #1 — LOCAL APPS
+
+Observed behavior:
+
+- LOCAL APPS shows an installed app as "No backup on device".
+- The same app's detail screen shows an existing "Device backups (1)" entry.
+- Therefore the backup exists and is discoverable by the detail/restore path, while the LOCAL APPS association remains incorrect.
+
+The user's suspicion that this belongs to the app_list/inventory layer is recorded as **INFERENCE**. Root cause is **NOT YET VERIFIED**.
+
+### #9 — RESTORE
+
+Observed behavior:
+
+- Restore All execution is successful.
+- The missing piece is the Restore part-selection bottom sheet/selection flow.
+- Backup already has the expected part-selection bottom sheet with APK, Data, Ext. data, Media and backup-location selection.
+- Restore currently does not expose the corresponding expected part-selection surface.
+
+This is treated as a **UI/entry-flow gap**, not evidence of a restore-engine failure.
+
+### #15 — LARGE-FILE PERFORMANCE
+
+Observed:
+
+- Backup remains slow.
+
+Hypothesis recorded for audit:
+
+- Reference may perform archive/staging work outside final storage, potentially in data/cache, then move the completed result into final storage.
+
+Classification:
+
+- **HYPOTHESIS / UNKNOWN**, not established fact.
+- Required next step is source-level pipeline inspection plus timing evidence before optimization.
+
+### REGRESSION PROTECTION
+
+The green runtime cases #2–#8, #10, #12, and #13 are explicitly preserved as protected scope.
+
+Any future change must follow:
+
+**Inspect → Understand → Impact → Minimal Change → CI → Targeted Runtime Regression → Verify**
+
+No broad refactor is authorized merely to solve #1, #9, or #15.
