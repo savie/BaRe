@@ -10,6 +10,8 @@ import java.io.FileOutputStream
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.util.zip.ZipInputStream
+import com.github.luben.zstd.ZstdInputStream
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.SecretKey
@@ -67,40 +69,10 @@ class AppRestoreArchiveReader(private val context: Context) {
             cipher.updateAAD(header.raw)
 
             CipherInputStream(input, cipher).use { decrypted ->
-                ZipInputStream(BufferedInputStream(decrypted, BUFFER_BYTES)).use { zip ->
-                    while (true) {
-                        val entry = zip.nextEntry ?: break
-                        val normalized = normalizeEntry(entry.name)
-                        val prefix = part.directoryNameForRestore() + "/"
-                        if (!normalized.startsWith(prefix)) {
-                            zip.closeEntry()
-                            continue
-                        }
-                        val relative = normalized.removePrefix(prefix)
-                        if (relative.isBlank()) {
-                            zip.closeEntry()
-                            continue
-                        }
-                        val target = safeChild(destination, relative)
-                        if (entry.isDirectory) {
-                            target.mkdirs()
-                        } else {
-                            target.parentFile?.mkdirs()
-                            FileOutputStream(target).use { output ->
-                                val buffer = ByteArray(BUFFER_BYTES)
-                                var processed = 0L
-                                while (true) {
-                                    val read = zip.read(buffer)
-                                    if (read < 0) break
-                                    output.write(buffer, 0, read)
-                                    processed += read
-                                    onProgress(processed, total)
-                                }
-                            }
-                            if (entry.time > 0L) target.setLastModified(entry.time)
-                        }
-                        zip.closeEntry()
-                    }
+                when (header.version) {
+                    LEGACY_FORMAT_VERSION -> extractZipPayload(decrypted, destination, part, total, onProgress)
+                    FORMAT_VERSION -> extractTarZstdPayload(decrypted, destination, part, total, onProgress)
+                    else -> error("Unsupported BaRe backup version: ${header.version}")
                 }
             }
         }
@@ -134,7 +106,85 @@ class AppRestoreArchiveReader(private val context: Context) {
         val ivSize = readExact(1)[0].toInt() and 0xff
         require(ivSize == GCM_IV_BYTES) { "Unsupported GCM IV length: $ivSize" }
         val iv = readExact(ivSize)
-        return Header(raw.toByteArray(), mode, salt, iv)
+        return Header(raw.toByteArray(), version, mode, salt, iv)
+    }
+
+    private fun extractZipPayload(
+        decrypted: java.io.InputStream,
+        destination: File,
+        part: AppBackupPart,
+        total: Long,
+        onProgress: (Long, Long) -> Unit,
+    ) {
+        ZipInputStream(BufferedInputStream(decrypted, BUFFER_BYTES)).use { zip ->
+            while (true) {
+                val entry = zip.nextEntry ?: break
+                extractEntry(entry.name, entry.isDirectory, entry.time, zip, destination, part, total, onProgress)
+                zip.closeEntry()
+            }
+        }
+    }
+
+    private fun extractTarZstdPayload(
+        decrypted: java.io.InputStream,
+        destination: File,
+        part: AppBackupPart,
+        total: Long,
+        onProgress: (Long, Long) -> Unit,
+    ) {
+        ZstdInputStream(BufferedInputStream(decrypted, BUFFER_BYTES)).use { zstd ->
+            TarArchiveInputStream(BufferedInputStream(zstd, BUFFER_BYTES)).use { tar ->
+                while (true) {
+                    val entry = tar.nextTarEntry ?: break
+                    extractEntry(
+                        entry.name,
+                        entry.isDirectory,
+                        entry.modTime.time,
+                        tar,
+                        destination,
+                        part,
+                        total,
+                        onProgress,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun extractEntry(
+        name: String,
+        directory: Boolean,
+        time: Long,
+        input: java.io.InputStream,
+        destination: File,
+        part: AppBackupPart,
+        total: Long,
+        onProgress: (Long, Long) -> Unit,
+    ) {
+        val normalized = normalizeEntry(name)
+        val prefix = part.directoryNameForRestore() + "/"
+        if (!normalized.startsWith(prefix)) return
+        val relative = normalized.removePrefix(prefix)
+        if (relative.isBlank()) return
+        val target = safeChild(destination, relative)
+        if (directory) {
+            target.mkdirs()
+            return
+        }
+
+        target.parentFile?.mkdirs()
+        FileOutputStream(target).use { output ->
+            val buffer = ByteArray(BUFFER_BYTES)
+            var processed = 0L
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                output.write(buffer, 0, read)
+                processed += read
+                onProgress(processed, total)
+            }
+        }
+        if (time > 0L) target.setLastModified(time)
     }
 
     private fun AppBackupPart.directoryNameForRestore(): String = when (this) {
@@ -190,7 +240,7 @@ class AppRestoreArchiveReader(private val context: Context) {
             'B'.code.toByte(), 'A'.code.toByte(), 'R'.code.toByte(), 'E'.code.toByte(),
             'E'.code.toByte(), 'N'.code.toByte(), 'C'.code.toByte(), '1'.code.toByte(),
         )
-        private const val FORMAT_VERSION = 1
+        private const val LEGACY_FORMAT_VERSION = 1\n        private const val FORMAT_VERSION = 2
         private const val ANDROID_KEYSTORE = "AndroidKeyStore"
         private const val KEY_ALIAS = "bare_backup_payload"
         private const val TRANSFORMATION = "AES/GCM/NoPadding"
