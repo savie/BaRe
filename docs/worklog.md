@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | 2098ee32a175852bae89a93c8f3d60e617d86f07 |
+| Current repository HEAD | 189d1dee3cec118f3f1e4c56e929ea3e4e2cc586 |
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
-| Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
-| Current implementation status | **BARE ADAPTATION ACTIVE / RESTORE BACKEND PENDING / CI PENDING** |
+| Latest runtime evidence | **CI #1171 build supplied by user; post-#1171 functional runtime not yet supplied** |
+| Current implementation status | **BACKUP + RESTORE REBUILD ACTIVE / UI WIRED / CI PENDING / RUNTIME UNVERIFIED** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -87,7 +87,72 @@ RESTORE
 
 Flow di atas adalah target kerja; detail mekanisme tiap tahap harus diturunkan dari reference evidence dan actual BaRe capability, bukan diisi dengan asumsi.
 
-## 2. HISTORICAL SYNTHESIS
+## 2. CURRENT CHECKPOINT — REBUILD WIRED FOR USER VERIFICATION
+
+**IMPLEMENTED / CODE STATE**
+
+- ROOT backup source boundary remains reference-aligned:
+  - privileged source precondition checks source existence and directory type before archive;
+  - archive reads the selected absolute source path directly;
+  - invalid source is rejected before packaging.
+- NON_ROOT backup continues through BaRe capability adaptation:
+  - APK collection uses Android-visible package sources;
+  - external/media collection uses app-visible filesystem where available;
+  - private app data remains a privileged capability boundary and is not falsely claimed as non-root capable.
+- Backup artifact lifecycle now includes an explicit post-commit verification step:
+  - artifact exists;
+  - artifact size matches produced size;
+  - SHA-256 matches the digest recorded for the committed artifact.
+- Backup process UI is already wired to the backup engine progress stream and now exposes collection, packaging, verification, completion, and failure messages.
+- Restore backend has been added:
+  - metadata/package/artifact lookup;
+  - artifact SHA-256 verification;
+  - BaRe decryption;
+  - archive extraction with path traversal protection;
+  - ROOT APK/data/external-data/media restore path;
+  - NON_ROOT APK handoff to Android package installer;
+  - NON_ROOT external/media restore attempted through Android-visible storage boundary;
+  - private data remains ROOT-only.
+- Restore process UI is wired from the existing device-backup card and exposes restore execution state to the user.
+- Advanced BaRe encryption password is now exposed in the backup process entry and restore process entry instead of silently sending a null password.
+- NON_ROOT is explicitly retained in the rebuild; it is not being dropped merely because the reference did not provide a non-root mechanism.
+
+**USER-VISIBLE CHECKPOINT**
+
+The APK should now have an actual user-visible path for:
+
+```
+App detail
+  ↓
+Device backup
+  ↓
+BACKUP process screen
+  ├─ current part
+  ├─ collection / packaging progress
+  ├─ artifact verification
+  └─ result
+  ↓
+Device backup card
+  ↓
+RESTORE
+  ↓
+RESTORE process screen
+  ├─ artifact inspection / hash verification
+  ├─ extraction
+  ├─ install / data / external data / media handling
+  └─ result or installer handoff
+```
+
+**IMPORTANT STATUS**
+
+- This is **IMPLEMENTED**, not yet **VERIFIED**.
+- CI/build for the new commits is pending at the time of this checkpoint.
+- Runtime on ROOT and NON_ROOT devices is still **UNVERIFIED**.
+- Restore end-to-end is **UNVERIFIED**.
+- No claim is made that every reference UI/state is identical; the current work establishes the actual wired user path that can now be exercised and compared against reference behavior.
+- The next verification must use the generated APK from the new build, not infer behavior from source alone.
+
+## 3. HISTORICAL SYNTHESIS
 
 ### History 1 — Fondasi sampai capability progression
 
