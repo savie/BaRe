@@ -109,7 +109,6 @@ internal fun BackupProcessScreen(
             actions = {
                 IconButton(
                     onClick = { showDetailedDiagnostics = true },
-                    enabled = logs.isNotEmpty(),
                 ) {
                     Icon(
                         Icons.Default.BugReport,
