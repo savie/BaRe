@@ -16,42 +16,29 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current code checkpoint | `b0a4d8cc157e38b9789b48598d834be385d16847` |
+| Current code checkpoint | `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
 | Current focus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + performance instrumentation + filesystem-boundary diagnosis** |
 | Reference audit | **SELESAI** |
 | Latest CI | **#1156 PASS** untuk artifact pipeline |
-| Latest runtime | **APK functional evidence exists tetapi performance/progress acceptance belum terpenuhi; Data gagal dengan `exit=20: source_not_directory`; full backup UNVERIFIED** |
-| Current root-cause status | **APK progress measurement UNKNOWN; Data filesystem boundary UNKNOWN** |
+| Latest runtime | **#1156 masih menjadi runtime evidence terakhir; direct-root performance implementation belum diuji di device; Data/full backup UNVERIFIED** |
+| Current root-cause/status | **Old APK 138 GB measurement defect bypassed by new direct-root path; direct-root runtime behavior/performance UNKNOWN; Data filesystem boundary UNKNOWN** |
 
 ### Current evidence
-### Source inspection — APK progress measurement
-### A18 — STAGING BYTE DIAGNOSTIC ADDED
+### Current implementation / performance change
 
-- **DECISION:** add a read-only diagnostic immediately before archive packaging to compare collected bytes with the actual staged file count/bytes.
-- **IMPLEMENTED:** `AppBackupEngine.kt` now emits `Staging <part>: <fileCount> files / <stagedBytes> (collected <collectedBytes>)` before `AppBackupArchiveWriter.write()`.
-- **SCOPE:** diagnostic only; no change to ROOT source selection, copy semantics, archive algorithm, encryption, artifact lifecycle, or cleanup.
-- **CHECKPOINT:** commit `9619ae6c69dc8f43eb288495542d4849d123e8ea`.
-- **VERIFICATION:** source-level inspection completed; GitHub Actions has not produced a workflow run for this commit, so compile/runtime verification is **UNVERIFIED**.
-- **NEXT:** build and runtime APK backup; compare collected vs staged bytes before making any root-cause fix.
-
-
-- **OBSERVED:** `AppBackupEngine.execute()` membuat staging baru per operation: `backupDirectory/.staging/<UUID>`, lalu mengumpulkan APK ke `staging/apk` dan memberikan source tersebut ke `AppBackupArchiveWriter`.
-- **OBSERVED:** `AppBackupArchiveWriter.write()` menetapkan `totalBytes = sources.sumOf { sourceByteSize(it.file) }`.
-- **OBSERVED:** `sourceByteSize()` untuk directory menjumlahkan `File.walkTopDown().filter { it.isFile }.sumOf { it.length() }`.
-- **OBSERVED:** `BackupProcessScreen` tidak menghitung ulang progress; UI menampilkan `currentMessage` langsung. Dengan demikian string `Packaging APK: ... / 138 GB` berasal dari archive progress callback.
-- **OBSERVED:** ROOT APK collection sendiri mempunyai remote size probe melalui `stat -c %s`, tetapi archive phase tidak menggunakan remote size tersebut; archive phase menghitung ulang ukuran staging.
-- **VERIFIED BOUNDARY:** belum ditemukan unit conversion/formatting path yang dapat mengubah sekitar 138 MB menjadi 138 GB pada chain source → archive → UI.
-- **UNKNOWN:** mengapa ukuran logical files di staging pada runtime #1156 dapat menghasilkan total sekitar 138 GB. Belum ada runtime evidence per-file staging size/count untuk checkpoint tersebut.
-- **NO CHANGE:** belum ada source implementation change dari inspeksi ini.
-
-
-- CI #1156 berhasil untuk assemble debug APK, artifact verification, signing certificate verification, dan artifact upload.
-- Runtime APK menunjukkan `Packaging APK: 1.0 GB / 138 GB (120 MB/s)` untuk source sekitar **138.18 MB** berdasarkan evidence Swift (122.5 MB base APK + 15.68 MB splits). Angka 138 GB diperlakukan sebagai **defect measurement**, bukan ukuran source.
-- Runtime Data untuk `meWho? Lite` gagal pada `/data/user/0/in.mewho.meWhoLite` dengan `exit=20: source_not_directory` dan `source_exists=false`.
-- Behavior yang sudah mempunyai evidence berhasil tetap menjadi **protected behavior**: APK artifact lifecycle, Ext. data, Media, dan repeated-part artifact retention.
-- Full multi-part A18 belum VERIFIED.
-
+- **DECISION:** lanjut dari diagnostic menuju perbaikan pipeline, bukan sekadar memperbaiki angka progress.
+- **IMPLEMENTED:** pada `AccessMethod.ROOT`, A18 sekarang tidak lagi melakukan **ROOT copy → staging → reread untuk archive**. Source ROOT diarahkan langsung ke archive pipeline melalui `toybox tar` stream.
+- **IMPLEMENTED:** APK ROOT memakai source path hasil `pm path` + `stat -c %s`; Data/Ext. data/Media ROOT memakai direct directory source dan size probe `toybox du -sk`.
+- **IMPLEMENTED:** archive compression di `ZipOutputStream` diturunkan ke `Deflater.BEST_SPEED` untuk mengurangi CPU overhead pada backup cepat.
+- **IMPLEMENTED:** direct-root archive memiliki parser tar untuk regular files serta PAX/GNU long-path metadata yang relevan, lalu tetap menghasilkan `.bare` dengan encryption/artifact move atomic yang sama.
+- **IMPLEMENTED:** cancellation check ditambahkan pada root tar streaming; partial archive tetap dibersihkan oleh archive failure path.
+- **SCOPE:** perubahan ini menargetkan throughput dan I/O amplification; NON_ROOT tetap memakai staging pipeline.
+- **REFERENCE EVIDENCE:** Swift Backup 5.1.0-620 menunjukkan root backup berbasis native SBA/tar/archive path, FASTEST compression, base APK 122.5 MB + splits 15.68 MB, Data 457.74 MB, dan task sekitar 3.59 s pada evidence screenshot/source yang tersedia. Ini dipakai sebagai comparison evidence, bukan implementation contract.
+- **CURRENT VERIFICATION:** source-level change terobservasi pada commit `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a`; GitHub Actions/combined status untuk commit ini tidak memiliki workflow run/status. Compile dan runtime **UNVERIFIED**.
+- **IMPORTANT UNKNOWN:** direct-root Data memakai ROOT execution boundary yang sama secara konseptual dengan `su`; belum ada runtime evidence bahwa `/data/user/0/<package>` terlihat dari boundary tersebut. Root namespace/CE-DE/user-profile issue tetap UNKNOWN.
+- **IMPORTANT UNKNOWN:** behavior untuk hardlink/special tar entries dan kompatibilitas runtime parser belum diverifikasi.
+- **PROTECTED INTENT:** artifact lifecycle, encrypted `.bare` contract, Ext. data, Media, dan cancellation semantics harus tetap diregression-test setelah performance change.
 ## 2. HISTORICAL SYNTHESIS
 
 ### History 1 — Fondasi sampai capability progression
@@ -145,45 +132,36 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 
 ### VERIFIED / OBSERVED
 
-- Repository branch dan current code checkpoint teridentifikasi.
-- CI #1156 artifact pipeline PASS.
-- Compile blocker #1155 diperbaiki pada checkpoint `b0a4d8cc...`.
-- APK artifact lifecycle sebelumnya memiliki evidence positif.
-- Ext. data dan Media memiliki runtime evidence positif.
-- Runtime APK #1156 menghasilkan functional evidence.
-- Runtime Data #1156 menghasilkan diagnostic failure evidence.
-- History 1 dan History 2 dipertahankan sebagai dua arsip terpisah.
+- Repository branch `v1.0/rebaseline` dan latest source checkpoint `9e6ac0d...` teridentifikasi.
+- CI #1156 artifact pipeline PASS pada checkpoint sebelumnya.
+- Runtime #1156 adalah evidence device terakhir: APK functional evidence, progress/performance defect, Data `source_not_directory`.
+- New direct-root archive/performance implementation exists in source.
+- Latest performance commits have **no GitHub Actions workflow run/status**, sehingga compile/runtime belum dapat dinaikkan menjadi VERIFIED.
+- Swift evidence tersedia sebagai comparison/reference evidence, bukan proof of BaRe behavior.
 
 ### UNVERIFIED / UNKNOWN
 
-- Root cause angka progress APK 138 GB.
-- Raw byte accounting end-to-end.
-- Phase timing collection vs packaging/compression vs encryption sebagai dasar performance acceptance.
-- Direct-source archive implementation.
-- Root cause filesystem Data: CE/DE, user/profile, namespace, atau boundary lain.
+- Compile of the latest direct-root implementation.
+- Runtime APK direct-root performance.
+- Runtime Data direct-root success.
+- End-to-end progress accuracy after removing staging.
+- Archive correctness for all tar entry types and long-path cases on target device.
+- Performance acceptance versus the user's small-backup target.
 - Full A18 multi-part acceptance.
-- Performance equivalence terhadap Swift.
+- Data filesystem namespace / CE-DE / user-profile root cause.
 
 ### Batas interpretasi
 
-- Swift Backup adalah **reference/evidence**, bukan source-of-truth implementation BaRe.
-- `CI PASS` bukan runtime acceptance.
-- Functional runtime evidence bukan performance verification.
-- Runtime failure tidak otomatis membuktikan root cause.
-- Source implementation tidak otomatis berarti deployed/running/correct.
+- Menghilangkan staging adalah **source-level implementation**, bukan bukti throughput runtime.
+- `Deflater.BEST_SPEED` adalah optimization ## 4. CURRENT NEXT ACTION
 
-## 4. CURRENT NEXT ACTION
-
-1. Trace byte-accounting APK end-to-end:
-   **source stat → ROOT copy → staging → archive input → progress model → UI formatting**.
-2. Pisahkan raw bytes dan elapsed time untuk:
-   **collection / archive-compression / encryption**.
-3. Lakukan diagnostic Data secara **read-only** untuk:
-   **CE/DE, user/profile, path existence/type, dan ROOT namespace visibility**.
-4. Setelah root cause terbukti dan perubahan diotorisasi, lakukan perubahan minimal/reversible.
-5. Build → runtime APK → runtime Data → regression Ext. data/Media → verify.
-6. Jangan menaikkan A18 menjadi **VERIFIED** sebelum acceptance yang relevan benar-benar terbukti.
-
+1. **Build latest checkpoint `9e6ac0d...`** dan pastikan compile berhasil; jika build belum tersedia di execution boundary, status tetap UNVERIFIED.
+2. Jalankan runtime pada case kecil yang sama/semirip dengan evidence Swift: **APK + splits + Data**, dan ukur terpisah **source discovery / direct tar streaming / archive-compression / encryption / total**.
+3. Verifikasi progress: **logical source bytes → processed bytes → displayed bytes**, dan pastikan tidak lagi menghasilkan total absurd seperti `138 GB` untuk source ~`138 MB`.
+4. Verifikasi artifact correctness: **APK/Data archive exists, non-zero, metadata valid, previous protected artifacts retained, partial/cancel cleanup valid**.
+5. Jika Data masih gagal, lakukan **read-only namespace diagnostics** pada exact root execution boundary dan bandingkan dengan execution boundary Swift; jangan mengganti path secara spekulatif.
+6. Regression runtime **Ext. data + Media + APK artifact lifecycle**, lalu re-run performance measurement.
+7. Jangan menaikkan A18 menjadi **VERIFIED** sebelum compile + runtime + regression + acceptance performance terbukti.
 ## 5. HISTORY OWNERSHIP
 
 | Artifact | Fungsi | Boleh menjadi current state? |
@@ -215,10 +193,12 @@ History 2 mempertahankan arsip worklog yang sebelumnya menjadi campuran antara c
 
 ## 7. CURRENT CHECKPOINT
 
-**A18 — CI #1156 + runtime evidence reconciliation**
+**A18 — DIRECT ROOT STREAMING / PERFORMANCE REWORK**
 
 Current conclusion:
 
-> **CI #1156 PASS, tetapi A18 belum VERIFIED. APK progress/performance acceptance belum terpenuhi dan Data masih gagal dengan root cause UNKNOWN.**
+> **Source implementation sudah bergerak dari diagnostic-only menjadi direct-root streaming untuk menghilangkan staging I/O amplification dan memakai FASTEST-equivalent intent pada compression (`Deflater.BEST_SPEED`). Namun latest compile/runtime belum terverifikasi. Data filesystem boundary dan performance acceptance tetap UNKNOWN/UNVERIFIED.**
 
-Next engineering decision harus berasal dari evidence aktual, bukan dari urutan historis #1155 yang berada di arsip History 2.
+Latest source checkpoint: `9e6ac0d7452395ca3400f9fbce16d4eb1f22757a`.
+
+Next engineering decision harus berasal dari build/runtime evidence aktual.
