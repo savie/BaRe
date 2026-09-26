@@ -1,5 +1,6 @@
 package com.bare.feature.apps
 
+import androidx.activity.compose.BackHandler
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -80,6 +81,7 @@ internal fun ProcessDiagnosticsScreen(
     onBack: () -> Unit,
     onClearLogs: () -> Unit,
 ) {
+    BackHandler(enabled = true, onBack = onBack)
     var menuExpanded by remember { mutableStateOf(false) }
 
     Column(
