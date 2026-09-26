@@ -142,8 +142,8 @@ class AppBackupBehavior(private val context: Context) {
                     currentState.matches(AppBackupPartState(artifact.sourceByteSize, artifact.sourceModifiedAt))
                 if (unchanged) {
                     skippedParts += part
-                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Checking " + part.displayName() + " backup"))
-                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, part.displayName() + " backup skipped: unchanged"))
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Checking " + part.name + " backup"))
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, part.name + " backup skipped: unchanged"))
                     false
                 } else true
             }.toSet()
