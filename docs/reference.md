@@ -2848,3 +2848,113 @@ progress callback
 ```
 
 Audit decompile berikutnya hanya diperlukan jika ada pertanyaan material yang belum dijawab oleh `reference.md` atau evidence baru yang bertentangan. Tidak dilakukan full-tree re-audit untuk baseline yang sudah tercatat.
+
+
+## 28 — A18 gap reconciliation against reference decompile (2026-09-26)
+
+Bagian ini mencatat hasil perbandingan langsung terhadap decompile lokal Swift Backup 5.1.0 (620). Temuan di sini adalah **REFERENCE EVIDENCE**. Dampak terhadap BaRe dipisahkan sebagai gap/TODO pada worklog dan tidak otomatis menjadi implementation requirement.
+
+### 28.1 APK identical-skip — reference predicate is now known
+
+Static evidence pada `defpackage/eq.java` menunjukkan `AppDataChangeChecker` membandingkan:
+
+- APK size;
+- APK version code;
+- APK version name;
+- split APK presence;
+- shared library presence.
+
+Jika seluruh nilai yang dibandingkan tetap sama, checker menyatakan tidak ada perubahan APK. Jika salah satu berubah, checker menyatakan perubahan dan caller dapat melewati pekerjaan yang sudah tersinkron.
+
+**Reference finding:** predicate tidak hanya version/versionCode.
+
+**BaRe TODO:** implementasikan predicate authoritative BaRe berdasarkan evidence ini, lalu runtime-test:
+1. identical APK → skip;
+2. changed version/metadata → backup;
+3. split/shared-library change → backup.
+
+### 28.2 Restore per-part — reference confirms independent selection
+
+Static evidence pada `defpackage/xi0.java` menunjukkan restore selection memiliki entry terpisah untuk:
+
+- APK/APKs;
+- Data;
+- External data;
+- Expansion;
+- Media.
+
+Setiap entry mempunyai capability/availability state sendiri.
+
+**Reference finding:** restore bukan hanya all-parts operation.
+
+**BaRe TODO:** wire per-part RESTORE UI terhadap backend subset-part yang sudah ada. Expansion tetap reference evidence dan tidak masuk scope A18 empat-part tanpa keputusan baru.
+
+### 28.3 LOCAL APPS inventory invalidation
+
+Reference memiliki package-scoped app-event mechanism:
+
+`g00.F(packageName)` → `w13.q(g00.class, packageName)` → publish `oq(packageName)`.
+
+Static evidence menunjukkan mechanism tersebut dipakai ketika local-app state berubah, misalnya protection/unprotection state.
+
+**Important evidence boundary:** decompile yang diaudit belum membuktikan bahwa event tersebut selalu dipicu tepat setelah setiap successful app-backup completion.
+
+**BaRe TODO:** gunakan temuan ini sebagai pattern untuk memperbaiki stale LOCAL APPS inventory, tetapi tetap verifikasi actual BaRe state transition dan trigger yang tepat. Jangan menyalin event mechanism secara buta.
+
+### 28.4 Restore/progress representation
+
+Reference native archive/TAR/Zstandard stack menerima `SbaNativeProgressListener.onProgress(long, long)`. Archive, TAR, dan Zstandard native paths menggunakan progress listener.
+
+**Reference finding:** progress mempunyai low-level producer boundary; bukan sekadar angka yang dibuat oleh screen.
+
+**BaRe TODO:** reproduce reported restore GB-scale defect dengan raw canonical metrics dan trace producer → process state → UI formatter. Reference static evidence tidak cukup untuk menetapkan unit UI final.
+
+### 28.5 Large-file performance
+
+Reference uses native SBA archive/TAR/Zstandard components:
+
+- `SbaArchiveNative`;
+- `SbaSwiftTarNative`;
+- `SbaZstdNative`.
+
+BaRe memakai reference-aligned TAR/Zstandard behavior tetapi bukan native SBA implementation yang sama.
+
+**Classification:** mechanism difference / performance investigation input, bukan automatic requirement to copy proprietary/native implementation.
+
+**BaRe TODO:** after correctness gaps close, measure large-file timing by stage and compare against available reference evidence. Do not claim causality from implementation difference alone.
+
+### 28.6 Restore capability scope visible in reference
+
+Reference restore selection also exposes Expansion in addition to APK/Data/External data/Media, and contains capability/warning states around restore targets.
+
+Reference audit also contains evidence for missing-app/newer-version restore workflows.
+
+**Scope rule:** these are reference findings. They become BaRe requirements only through an explicit product/engineering decision. A18 current four-part scope remains unchanged unless separately authorized.
+
+### 28.7 Reconciliation result
+
+| Topic | Reference evidence | BaRe status after comparison | Record |
+|---|---|---|---|
+| APK identical-skip | Composite APK change checker | Predicate now known; implementation pending | worklog TODO |
+| Restore per-part | Independent part selection | Backend subset exists; UI pending | worklog TODO |
+| LOCAL APPS refresh | Package-scoped app event exists | Exact backup-completion trigger not proven | worklog TODO |
+| Restore progress | Native two-value progress callback | GB display defect not reproduced | worklog TODO |
+| Large-file performance | Native archive/TAR/Zstd path | BaRe performance not acceptance-proven | worklog TODO |
+| Expansion restore | Reference supports separate part | Outside current A18 scope | reference.md only / no silent scope expansion |
+| Missing/newer-version restore | Reference workflow evidence | Requirement status for BaRe not established | reference.md only until decision |
+
+### 28.8 Evidence traceability
+
+Primary files used for this reconciliation:
+
+- `defpackage/eq.java`
+- `defpackage/xi0.java`
+- `defpackage/g00.java`
+- `defpackage/w13.java`
+- `defpackage/vq.java`
+- `com/swiftapps/sba/SbaArchiveNative.java`
+- `com/swiftapps/sba/SbaSwiftTarNative.java`
+- `com/swiftapps/sba/SbaZstdNative.java`
+
+Reference source artifact: `SwiftBackup-5.1.0-620-decompiled.zip`.
+
