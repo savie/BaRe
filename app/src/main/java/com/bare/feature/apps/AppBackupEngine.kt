@@ -66,6 +66,17 @@ class AppBackupEngine(private val context: Context) {
                     collectedBytes,
                     collectionElapsed,
                 )
+                val stagedFileCount = raw.walkTopDown().count { it.isFile }
+                val stagedBytes = raw.walkTopDown().filter { it.isFile }.sumOf { it.length().coerceAtLeast(0L) }
+                onProgress(
+                    AppBackupProgress(
+                        AppBackupProgressStage.PART_PROGRESS,
+                        part,
+                        "Staging ${part.displayName()}: $stagedFileCount files / ${formatBytesForDiagnostic(stagedBytes)} (collected ${formatBytesForDiagnostic(collectedBytes)})",
+                        processedBytes = stagedBytes,
+                        totalBytes = stagedBytes,
+                    ),
+                )
                 val archive = File(backupDirectory, "${part.archiveName()}.bare")
                 val packagingStartedAt = System.nanoTime()
                 val result = try {
@@ -186,6 +197,19 @@ class AppBackupEngine(private val context: Context) {
 
     private fun elapsedMillis(startNanos: Long): Long =
         ((System.nanoTime() - startNanos) / 1_000_000L).coerceAtLeast(0L)
+
+    private fun formatBytesForDiagnostic(bytes: Long): String {
+        if (bytes < 1024L) return "$bytes B"
+        val units = arrayOf("KB", "MB", "GB", "TB")
+        var value = bytes.toDouble()
+        var index = 0
+        while (value >= 1024.0 && index < units.lastIndex) {
+            value /= 1024.0
+            index++
+        }
+        return if (value >= 100.0) String.format("%.0f %s", value, units[index])
+        else String.format("%.1f %s", value, units[index])
+    }
 
     private fun formatDuration(millis: Long): String =
         if (millis < 1000L) "${millis} ms" else String.format("%.1f s", millis / 1000.0)
