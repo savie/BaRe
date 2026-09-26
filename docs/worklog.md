@@ -103,12 +103,6 @@ Angka reference dipakai sebagai **comparison evidence**, bukan benchmark terkont
 
 ## Completed
 
-### Worklog Reconciliation
-- Worklog current record dinormalisasi menjadi satu current checkpoint.
-- Detail historical engineering tidak diulang di current worklog.
-- Historical record tetap dipertahankan di `docs/worklog_history.md`.
-- Status lama tidak dipromosikan menjadi verified hanya karena ada checkpoint baru.
-
 ### Previously Protected / Verified Behavior
 - APK artifact lifecycle sebelumnya telah memiliki evidence keberlanjutan artifact antar part.
 - Ext. data sebelumnya memiliki runtime evidence berhasil.
