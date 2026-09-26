@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.BugReport
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
+
+internal data class RestoreProcessLog(
+    val message: String,
+    val failed: Boolean = false,
+    val stage: String? = null,
+    val part: String? = null,
+    val processedBytes: Long? = null,
+    val totalBytes: Long? = null,
+    val elapsedMillis: Long? = null,
+    val bytesPerSecond: Long? = null,
+)
 
 private fun formatRestoreBytes(bytes: Long): String {
     val value = bytes.coerceAtLeast(0L)
@@ -60,10 +72,40 @@ internal fun RestoreProcessScreen(
     var totalBytes by remember { mutableStateOf<Long?>(null) }
     var elapsedMillis by remember { mutableStateOf<Long?>(null) }
     var bytesPerSecond by remember { mutableStateOf<Long?>(null) }
-    var logs by remember { mutableStateOf<List<String>>(emptyList()) }
+    var logs by remember { mutableStateOf<List<RestoreProcessLog>>(emptyList()) }
+    var showDetailedDiagnostics by remember { mutableStateOf(false) }
     val advanced = remember(context) { EncryptionPasswordStore(context).loadStrategy() == com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED }
     var started by remember { mutableStateOf(!advanced) }
     var password by remember { mutableStateOf("") }
+
+    if (showDetailedDiagnostics) {
+        ProcessDiagnosticsScreen(
+            operation = "Restore",
+            appName = appName,
+            status = when (status) {
+                RestoreProcessStatus.RUNNING -> "Running"
+                RestoreProcessStatus.WAITING -> "Waiting"
+                RestoreProcessStatus.DONE -> "Done"
+                RestoreProcessStatus.FAILED -> "Failed"
+            },
+            packageName = packageName,
+            versionCode = versionCode,
+            entries = logs.map { log ->
+                ProcessDiagnosticLogEntry(
+                    stage = log.stage,
+                    part = log.part,
+                    message = log.message,
+                    processedBytes = log.processedBytes,
+                    totalBytes = log.totalBytes,
+                    elapsedMillis = log.elapsedMillis,
+                    bytesPerSecond = log.bytesPerSecond,
+                    failed = log.failed,
+                )
+            },
+            onBack = { showDetailedDiagnostics = false },
+        )
+        return
+    }
 
     LaunchedEffect(packageName, versionCode, parts, accessMethod, started) {
         if (!started) return@LaunchedEffect
@@ -79,7 +121,16 @@ internal fun RestoreProcessScreen(
                     elapsedMillis = progress.elapsedMillis
                     bytesPerSecond = progress.bytesPerSecond
                     if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
-                        logs = (logs + progress.message).takeLast(80)
+                        logs = (logs + RestoreProcessLog(
+                            message = progress.message,
+                            failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                            stage = progress.stage.name,
+                            part = progress.part?.restoreDisplayName(),
+                            processedBytes = progress.processedBytes,
+                            totalBytes = progress.totalBytes,
+                            elapsedMillis = progress.elapsedMillis,
+                            bytesPerSecond = progress.bytesPerSecond,
+                        )).takeLast(80)
                     }
                 },
             )
@@ -92,12 +143,12 @@ internal fun RestoreProcessScreen(
             is AppRestoreOutcome.PendingUserAction -> {
                 status = RestoreProcessStatus.WAITING
                 message = result.message
-                logs = (logs + result.message).takeLast(80)
+                logs = (logs + RestoreProcessLog(result.message)).takeLast(80)
             }
             is AppRestoreOutcome.Failed -> {
                 status = RestoreProcessStatus.FAILED
                 message = result.reason
-                logs = (logs + result.reason).takeLast(80)
+                logs = (logs + RestoreProcessLog(result.reason, failed = true)).takeLast(80)
             }
         }
     }
@@ -111,6 +162,17 @@ internal fun RestoreProcessScreen(
             subtitle = appName,
             onBack = if (status == RestoreProcessStatus.RUNNING) ({}) else onDone,
             backEnabled = status != RestoreProcessStatus.RUNNING,
+            actions = {
+                IconButton(
+                    onClick = { showDetailedDiagnostics = true },
+                    enabled = logs.isNotEmpty(),
+                ) {
+                    Icon(
+                        Icons.Default.BugReport,
+                        contentDescription = stringResource(R.string.backup_diagnostics),
+                    )
+                }
+            },
         )
         Column(
             Modifier.fillMaxWidth().padding(20.dp),
@@ -193,7 +255,7 @@ internal fun RestoreProcessScreen(
                     if (logs.isNotEmpty()) {
                         HorizontalDivider()
                         LazyColumn(Modifier.heightIn(max = 280.dp)) {
-                            items(logs) { Text(it, style = MaterialTheme.typography.bodySmall) }
+                            items(logs) { Text(it.message, style = MaterialTheme.typography.bodySmall) }
                         }
                     }
                 }

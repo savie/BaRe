@@ -1434,8 +1434,14 @@ fun AppDetailScreen(
                             backupProcessCurrentBytesPerSecond = progress.bytesPerSecond
                             if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
                                 backupProcessLogs = (backupProcessLogs + BackupProcessLog(
-                                    progress.message,
+                                    message = progress.message,
                                     failed = progress.stage == AppBackupProgressStage.PART_FAILED,
+                                    stage = progress.stage.name,
+                                    part = progress.part?.displayNameForUi(),
+                                    processedBytes = progress.processedBytes,
+                                    totalBytes = progress.totalBytes,
+                                    elapsedMillis = progress.elapsedMillis,
+                                    bytesPerSecond = progress.bytesPerSecond,
                                 )).takeLast(80)
                             }
                             if (progress.stage == AppBackupProgressStage.PART_COMPLETED && progress.part != null) {

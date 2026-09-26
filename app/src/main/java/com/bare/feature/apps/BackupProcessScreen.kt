@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -34,6 +36,12 @@ internal enum class BackupProcessStatus {
 internal data class BackupProcessLog(
     val message: String,
     val failed: Boolean = false,
+    val stage: String? = null,
+    val part: String? = null,
+    val processedBytes: Long? = null,
+    val totalBytes: Long? = null,
+    val elapsedMillis: Long? = null,
+    val bytesPerSecond: Long? = null,
 )
 
 @Composable
@@ -56,6 +64,36 @@ internal fun BackupProcessScreen(
     val completed = completedParts.count { it in selectedParts }
     val progress = (completed.toFloat() / total.toFloat()).coerceIn(0f, 1f)
     val running = status == BackupProcessStatus.RUNNING
+    var showDetailedDiagnostics by remember { mutableStateOf(false) }
+
+    if (showDetailedDiagnostics) {
+        ProcessDiagnosticsScreen(
+            operation = stringResource(R.string.backup_process),
+            appName = appName,
+            status = when (status) {
+                BackupProcessStatus.RUNNING -> stringResource(R.string.backup_process_running)
+                BackupProcessStatus.DONE -> stringResource(R.string.backup_process_done)
+                BackupProcessStatus.FAILED -> stringResource(R.string.backup_process_failed)
+                BackupProcessStatus.CANCELLED -> stringResource(R.string.backup_process_cancelled)
+            },
+            packageName = null,
+            versionCode = null,
+            entries = logs.map { log ->
+                ProcessDiagnosticLogEntry(
+                    stage = log.stage,
+                    part = log.part,
+                    message = log.message,
+                    processedBytes = log.processedBytes,
+                    totalBytes = log.totalBytes,
+                    elapsedMillis = log.elapsedMillis,
+                    bytesPerSecond = log.bytesPerSecond,
+                    failed = log.failed,
+                )
+            },
+            onBack = { showDetailedDiagnostics = false },
+        )
+        return
+    }
 
     Column(
         Modifier
@@ -69,11 +107,16 @@ internal fun BackupProcessScreen(
             onBack = onDone,
             backEnabled = !running,
             actions = {
-                Icon(
-                    Icons.Default.BugReport,
-                    contentDescription = stringResource(R.string.backup_diagnostics),
-                    modifier = Modifier.size(28.dp),
-                )
+                IconButton(
+                    onClick = { showDetailedDiagnostics = true },
+                    enabled = logs.isNotEmpty(),
+                ) {
+                    Icon(
+                        Icons.Default.BugReport,
+                        contentDescription = stringResource(R.string.backup_diagnostics),
+                        modifier = Modifier.size(28.dp),
+                    )
+                }
             },
         )
 
