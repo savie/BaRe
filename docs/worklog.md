@@ -94,11 +94,10 @@ Section 30 establishes the following reference behavior:
     - Unchanged parts must remain intact.
     - This is the reference-supported interpretation of "jangan backup ulang semua part".
 
-11. **FILE-LEVEL DELTA/PATCH — TODO / USER REQUIREMENT, NOT REFERENCE PARITY**
-    - User requirement remains: when a part changes, avoid rewriting every unchanged file inside that part if a safe delta mechanism can be implemented.
-    - Reference audit does NOT prove Swift App Backup uses file-level delta archive.
-    - Therefore this must be tracked as a separate BaRe engineering requirement, not described as Swift parity.
-    - Design must first define base artifact, changed-file manifest, deletion handling, integrity, encryption, rollback, migration, and restore reconstruction before implementation.
+11. **FILE-LEVEL DELTA/PATCH — OUT OF SCOPE**
+    - Reference audit does not establish file-level delta/patch for App Backup.
+    - User decision: follow reference behavior; do not implement file-level delta/patch.
+    - Do not reopen this scope unless a new explicit decision is made.
 
 12. **BACKUP CHANGE-DETECTION METADATA CONTRACT — TODO / CORRECTNESS**
     - Persist enough per-part state for reliable future comparison.
@@ -123,29 +122,16 @@ Section 30 establishes the following reference behavior:
 16. **FULL A18 ACCEPTANCE — NOT VERIFIED**
     - Requires runtime evidence for inventory visibility, unchanged/changed backup decisions, part-level update, restore skip, mixed Restore All, integrity, regression, and large-file behavior.
 
-### DELTA / PATCH CLARIFICATION
+### INCREMENTAL SCOPE CLARIFICATION
 
-Do not use the old wording:
-
-    DELTA/PATCH APP DATA — NOT A CURRENT TODO
-
-Correct classification:
-
-    PART-LEVEL INCREMENTAL UPDATE
-        → REFERENCE-BACKED TODO
-
-    FILE-LEVEL DELTA/PATCH
-        → USER REQUIREMENT / SEPARATE BARe DESIGN TODO
-        → NOT REFERENCE-PARITY CLAIM
-
-Reference evidence only proves:
+Reference-backed incremental behavior:
 
     unchanged parts → retain/skip
-    changed part    → rebuild that part
+    changed part    → rebuild changed part only
 
-It does not prove:
+Therefore the active implementation target is **part-level incremental update**.
 
-    changed part → archive only changed files
+File-level delta/patch inside Data/Ext. data/Media is **OUT OF SCOPE** because it is not established by the audited reference and the current decision is to follow reference behavior.
 
 ### REQUIRED RUNTIME MATRIX
 
@@ -219,7 +205,7 @@ It does not prove:
 4. Implement APK/Data/Ext. data/Media restore skip/rebuild decisions.
 5. Implement Restore All mixed-result semantics.
 6. Implement part-level incremental update without rebuilding unchanged parts.
-7. Define file-level delta/patch design separately; do not conflate it with reference parity.
+7. Preserve BaRe encryption boundary and artifact integrity contract.
 8. Run CI/build verification.
 9. Perform one final runtime verification cycle across the matrix.
 10. Only after correctness passes, measure large-file performance and close A18.
@@ -1340,3 +1326,59 @@ Reference artifact:
 ### NEXT
 
 Implement the corrected TODOs, then execute one final runtime cycle. Do not claim parity/DONE until runtime evidence proves the applicable cases.
+
+## A18 — IMPLEMENTATION AUTHORIZATION / REFERENCE-ALIGNED TODO BASELINE — 2026-09-26
+
+### DECISION
+
+User explicitly decided:
+
+- Follow the audited Swift Backup reference behavior for A18.
+- File-level delta/patch inside App Data / External Data / Media is not part of the current implementation scope because the reference audit did not establish it.
+- Reference-proven part-level incremental behavior is the target.
+- Existing BaRe encryption remains unchanged.
+
+### ACTIVE IMPLEMENTATION TODO
+
+1. Canonical LOCAL APPS inventory visibility.
+2. Shared per-part change-state metadata/contract.
+3. Data backup change detection: unchanged retain/skip; changed rebuild Data only.
+4. External Data backup change detection: unchanged retain/skip; changed rebuild Ext. Data only.
+5. Media backup change detection: unchanged retain/skip; changed rebuild Media only.
+6. APK restore decision: unchanged skip; changed restore; handle newer-installed-version boundary.
+7. Data restore change detection: unchanged skip; changed restore.
+8. External Data restore change detection: unchanged skip; changed restore.
+9. Media restore change detection: unchanged skip; changed restore.
+10. Restore All mixed SKIPPED + RESTORED + FAILED aggregation.
+11. Part-level incremental backup update: preserve unchanged parts and rebuild only changed parts.
+12. Preserve artifact SHA-256/integrity verification and BaRe encryption boundary.
+
+### OUT OF SCOPE
+
+File-level delta/patch archive for App Data / External Data / Media.
+
+### IMPLEMENTATION STATUS
+
+The above TODOs are authorized for implementation by the user's explicit instruction to proceed after reference reconciliation.
+
+They are not yet implemented or verified unless later evidence says so.
+
+### NEXT
+
+Start implementation from the highest-priority correctness prerequisite:
+
+    canonical inventory
+        +
+    shared per-part state contract
+        ↓
+    backup change decision
+        ↓
+    part-level update
+        ↓
+    restore change decision
+        ↓
+    Restore All aggregation
+        ↓
+    CI
+        ↓
+    one final runtime verification cycle
