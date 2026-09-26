@@ -142,6 +142,16 @@ class AppBackupEngine(private val context: Context) {
                     result.byteSize,
                     packagingElapsed,
                 )
+                onProgress(
+                    AppBackupProgress(
+                        AppBackupProgressStage.PART_PROGRESS,
+                        part,
+                        "Verifying ${part.displayName()} artifact",
+                        result.byteSize,
+                        result.byteSize,
+                    ),
+                )
+                verifyArtifact(result)
                 completed += part
                 artifacts += archive
                 artifactMetadata += AppBackupArtifactMetadata(
@@ -255,6 +265,26 @@ class AppBackupEngine(private val context: Context) {
         if (method == AccessMethod.ROOT) return root.copyDirectory(source.absolutePath, destination, isCancelled)
         if (!source.isDirectory) error("Media directory is not accessible")
         return nonRoot.copyDirectory(source.absolutePath, destination)
+    }
+
+    private fun verifyArtifact(result: AppBackupArchiveResult) {
+        require(result.file.isFile) { "Backup artifact was not committed" }
+        require(result.file.length() == result.byteSize) {
+            "Backup artifact size verification failed: ${result.file.length()} != ${result.byteSize}"
+        }
+        val digest = java.security.MessageDigest.getInstance("SHA-256")
+        java.io.FileInputStream(result.file).use { input ->
+            val buffer = ByteArray(1024 * 1024)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        val actual = digest.digest().joinToString("") { "%02x".format(it) }
+        require(actual.equals(result.sha256, ignoreCase = true)) {
+            "Backup artifact hash verification failed"
+        }
     }
 
     private fun describeFailure(t: Throwable): String {
