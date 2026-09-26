@@ -1174,6 +1174,10 @@ fun AppDetailScreen(
     var backupProcessParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var backupProcessCurrentPart by remember { mutableStateOf<AppBackupPart?>(null) }
     var backupProcessCurrentMessage by remember { mutableStateOf<String?>(null) }
+    var backupProcessCurrentProcessedBytes by remember { mutableStateOf<Long?>(null) }
+    var backupProcessCurrentTotalBytes by remember { mutableStateOf<Long?>(null) }
+    var backupProcessCurrentElapsedMillis by remember { mutableStateOf<Long?>(null) }
+    var backupProcessCurrentBytesPerSecond by remember { mutableStateOf<Long?>(null) }
     var backupProcessCompletedParts by remember { mutableStateOf<Set<AppBackupPart>>(emptySet()) }
     var backupProcessLogs by remember { mutableStateOf<List<BackupProcessLog>>(emptyList()) }
     var restoreProcessVisible by remember { mutableStateOf(false) }
@@ -1386,6 +1390,10 @@ fun AppDetailScreen(
         backupProcessParts = parts
         backupProcessCurrentPart = null
         backupProcessCurrentMessage = null
+        backupProcessCurrentProcessedBytes = null
+        backupProcessCurrentTotalBytes = null
+        backupProcessCurrentElapsedMillis = null
+        backupProcessCurrentBytesPerSecond = null
         backupProcessCompletedParts = emptySet()
         backupProcessLogs = emptyList()
 
@@ -1402,6 +1410,10 @@ fun AppDetailScreen(
                         backupScope.launch {
                             backupProcessCurrentPart = progress.part
                             backupProcessCurrentMessage = progress.message
+                            backupProcessCurrentProcessedBytes = progress.processedBytes
+                            backupProcessCurrentTotalBytes = progress.totalBytes
+                            backupProcessCurrentElapsedMillis = progress.elapsedMillis
+                            backupProcessCurrentBytesPerSecond = progress.bytesPerSecond
                             if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
                                 backupProcessLogs = (backupProcessLogs + BackupProcessLog(
                                     progress.message,
@@ -1423,6 +1435,10 @@ fun AppDetailScreen(
                     backupProcessStatus = BackupProcessStatus.DONE
                     backupProcessCurrentPart = null
                     backupProcessCurrentMessage = null
+                    backupProcessCurrentProcessedBytes = null
+                    backupProcessCurrentTotalBytes = null
+                    backupProcessCurrentElapsedMillis = null
+                    backupProcessCurrentBytesPerSecond = null
                     backupProcessCompletedParts = result.parts
                     backupReloadToken++
                     reloadDetails()
@@ -1434,6 +1450,10 @@ fun AppDetailScreen(
                     backupProcessStatus = BackupProcessStatus.CANCELLED
                     backupProcessCurrentPart = null
                     backupProcessCurrentMessage = null
+                    backupProcessCurrentProcessedBytes = null
+                    backupProcessCurrentTotalBytes = null
+                    backupProcessCurrentElapsedMillis = null
+                    backupProcessCurrentBytesPerSecond = null
                     backupProcessCompletedParts = result.completedParts
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(
                         context.getString(R.string.backup_process_cancelled_summary),
@@ -1446,6 +1466,10 @@ fun AppDetailScreen(
                     backupProcessStatus = BackupProcessStatus.FAILED
                     backupProcessCurrentPart = null
                     backupProcessCurrentMessage = null
+                    backupProcessCurrentProcessedBytes = null
+                    backupProcessCurrentTotalBytes = null
+                    backupProcessCurrentElapsedMillis = null
+                    backupProcessCurrentBytesPerSecond = null
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
                 }
                 is AppBackupResult.Failed -> {
@@ -1498,6 +1522,10 @@ fun AppDetailScreen(
             selectedParts = backupProcessParts,
             currentPart = backupProcessCurrentPart,
             currentMessage = backupProcessCurrentMessage,
+            currentProcessedBytes = backupProcessCurrentProcessedBytes,
+            currentTotalBytes = backupProcessCurrentTotalBytes,
+            currentElapsedMillis = backupProcessCurrentElapsedMillis,
+            currentBytesPerSecond = backupProcessCurrentBytesPerSecond,
             completedParts = backupProcessCompletedParts,
             status = backupProcessStatus,
             logs = backupProcessLogs,
