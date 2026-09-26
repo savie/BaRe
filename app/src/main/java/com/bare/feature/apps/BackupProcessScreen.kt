@@ -240,6 +240,19 @@ internal fun BackupProcessScreen(
     }
 }
 
+private fun formatProcessBytes(bytes: Long): String {
+    val value = bytes.coerceAtLeast(0L)
+    if (value < 1024L) return "$value B"
+    if (value < 1024L * 1024L) return String.format(java.util.Locale.US, "%.1f KB", value / 1024.0)
+    if (value < 1024L * 1024L * 1024L) return String.format(java.util.Locale.US, "%.2f MB", value / (1024.0 * 1024.0))
+    return String.format(java.util.Locale.US, "%.2f GB", value / (1024.0 * 1024.0 * 1024.0))
+}
+
+private fun formatProcessDuration(millis: Long): String {
+    val value = millis.coerceAtLeast(0L)
+    return if (value < 1000L) "$value ms" else String.format(java.util.Locale.US, "%.1f s", value / 1000.0)
+}
+
 private fun AppBackupPart.displayNameForUi(): String = when (this) {
     AppBackupPart.APK -> "APK"
     AppBackupPart.DATA -> "Data"
