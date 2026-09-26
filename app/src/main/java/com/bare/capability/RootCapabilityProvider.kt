@@ -210,7 +210,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
 
     private fun copyFile(remotePath: String, destination: File) {
-        val process = ProcessBuilder("su", "-c", "cat ${shellQuote(remotePath)}").redirectErrorStream(false).start()
+        val process = ProcessBuilder(*suArgs("cat ${shellQuote(remotePath)}")).redirectErrorStream(false).start()
         val stderr = StringBuilder()
         val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
         process.inputStream.use { input -> FileOutputStream(destination).use { output -> input.copyTo(output, BUFFER_BYTES) } }
@@ -227,7 +227,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         onProgress: ((copiedBytes: Long) -> Unit)? = null,
     ) {
         if (isCancelled?.invoke() == true) throw InterruptedException("Root file copy cancelled")
-        val process = ProcessBuilder("su", "-c", "cat ${shellQuote(remotePath)}").redirectErrorStream(false).start()
+        val process = ProcessBuilder(*suArgs("cat ${shellQuote(remotePath)}")).redirectErrorStream(false).start()
         val stderr = StringBuilder()
         val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
         try {
@@ -293,7 +293,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     }
     private fun runSu(command: String): Result {
         return try {
-            val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
+            val process = ProcessBuilder(*suArgs(command)).redirectErrorStream(false).start()
             val stdout = process.inputStream.bufferedReader().use { it.readText() }
             val stderr = process.errorStream.bufferedReader().use { it.readText() }
             if (!process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) {
@@ -372,6 +372,23 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         return RootTarStream(process, stderr, stderrThread)
     }
 
+    fun openFileStream(sourcePath: String): RootCommandStream {
+        if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
+            error("Invalid source path")
+        }
+        val quoted = shellQuote(sourcePath)
+        val process = ProcessBuilder(*suArgs("cat $quoted"))
+            .redirectErrorStream(false)
+            .start()
+        val stderr = StringBuilder()
+        val stderrThread = Thread {
+            process.errorStream.bufferedReader().use { reader ->
+                stderr.append(reader.readText())
+            }
+        }.apply { start() }
+        return RootCommandStream(process, stderr, stderrThread)
+    }
+
     private fun suArgs(command: String): Array<String> =
         arrayOf("su", "--mount-master", "-c", command)
 
@@ -391,6 +408,34 @@ data class RootArchiveSource(
     val byteSize: Long,
     val directory: Boolean,
 )
+
+class RootCommandStream internal constructor(
+    private val process: Process,
+    private val stderr: StringBuilder,
+    private val stderrThread: Thread,
+) : java.io.Closeable {
+    val input: java.io.InputStream = process.inputStream
+
+    fun awaitSuccess() {
+        val finished = process.waitFor(30, TimeUnit.SECONDS)
+        stderrThread.join(1000)
+        if (!finished) {
+            process.destroyForcibly()
+            throw IllegalStateException("Root command stream timed out")
+        }
+        if (process.exitValue() != 0) {
+            throw IllegalStateException(
+                stderr.toString().ifBlank { "Root command failed with exit=" + process.exitValue() }.trim()
+            )
+        }
+    }
+
+    override fun close() {
+        runCatching { input.close() }
+        if (process.isAlive) process.destroyForcibly()
+        runCatching { stderrThread.join(1000) }
+    }
+}
 
 class RootTarStream internal constructor(
     private val process: Process,
