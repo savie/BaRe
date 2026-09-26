@@ -157,8 +157,9 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     LaunchedEffect(apps, appsContext, backupInventoryRefreshToken) {
         if (appsContext == AppsContext.LOCAL && apps.isNotEmpty()) {
             backupInventory = withContext(Dispatchers.IO) {
+                val discovered = AppBackupInventoryBehavior(context).inspectLocalAll()
                 apps.mapNotNull { item ->
-                    AppBackupInventoryBehavior(context).inspectLocal(item.packageName).firstOrNull()?.let {
+                    discovered[item.packageName]?.firstOrNull()?.let {
                         item.packageName to it
                     }
                 }.toMap()
