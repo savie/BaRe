@@ -38,8 +38,9 @@ class AppRestoreArchiveReader(private val context: Context) {
         }
 
         val total = archive.length()
-        FileInputStream(archive).use { raw ->
-            val input = BufferedInputStream(raw, BUFFER_BYTES)
+        FileInputStream(archive).use { fileInput ->
+            val counted = CountingInputStream(fileInput)
+            val input = BufferedInputStream(counted, BUFFER_BYTES)
             val header = readHeader(input)
             val cipher = Cipher.getInstance(TRANSFORMATION)
             val key = when (header.mode) {
@@ -70,8 +71,8 @@ class AppRestoreArchiveReader(private val context: Context) {
 
             CipherInputStream(input, cipher).use { decrypted ->
                 when (header.version) {
-                    LEGACY_FORMAT_VERSION -> extractZipPayload(decrypted, destination, part, total, onProgress)
-                    FORMAT_VERSION -> extractTarZstdPayload(decrypted, destination, part, total, onProgress)
+                    LEGACY_FORMAT_VERSION -> extractZipPayload(decrypted, destination, part, total, counted, onProgress)
+                    FORMAT_VERSION -> extractTarZstdPayload(decrypted, destination, part, total, counted, onProgress)
                     else -> error("Unsupported BaRe backup version: ${header.version}")
                 }
             }
@@ -114,12 +115,13 @@ class AppRestoreArchiveReader(private val context: Context) {
         destination: File,
         part: AppBackupPart,
         total: Long,
+        counted: CountingInputStream,
         onProgress: (Long, Long) -> Unit,
     ) {
         ZipInputStream(BufferedInputStream(decrypted, BUFFER_BYTES)).use { zip ->
             while (true) {
                 val entry = zip.nextEntry ?: break
-                extractEntry(entry.name, entry.isDirectory, entry.time, zip, destination, part, total, onProgress)
+                extractEntry(entry.name, entry.isDirectory, entry.time, zip, destination, part, total, counted, onProgress)
                 zip.closeEntry()
             }
         }
@@ -130,6 +132,7 @@ class AppRestoreArchiveReader(private val context: Context) {
         destination: File,
         part: AppBackupPart,
         total: Long,
+        counted: CountingInputStream,
         onProgress: (Long, Long) -> Unit,
     ) {
         ZstdInputStream(BufferedInputStream(decrypted, BUFFER_BYTES)).use { zstd ->
@@ -144,6 +147,7 @@ class AppRestoreArchiveReader(private val context: Context) {
                         destination,
                         part,
                         total,
+                        counted,
                         onProgress,
                     )
                 }
@@ -159,6 +163,7 @@ class AppRestoreArchiveReader(private val context: Context) {
         destination: File,
         part: AppBackupPart,
         total: Long,
+        counted: CountingInputStream,
         onProgress: (Long, Long) -> Unit,
     ) {
         val normalized = normalizeEntry(name)
@@ -181,7 +186,7 @@ class AppRestoreArchiveReader(private val context: Context) {
                 if (read < 0) break
                 output.write(buffer, 0, read)
                 processed += read
-                onProgress(processed, total)
+                onProgress(counted.count.coerceAtMost(total), total)
             }
         }
         if (time > 0L) target.setLastModified(time)
@@ -207,6 +212,23 @@ class AppRestoreArchiveReader(private val context: Context) {
             "Unsafe restore destination"
         }
         return child
+    }
+
+    private class CountingInputStream(private val delegate: java.io.InputStream) : java.io.FilterInputStream(delegate) {
+        var count: Long = 0L
+            private set
+
+        override fun read(): Int {
+            val value = super.read()
+            if (value >= 0) count++
+            return value
+        }
+
+        override fun read(buffer: ByteArray, offset: Int, length: Int): Int {
+            val read = super.read(buffer, offset, length)
+            if (read > 0) count += read
+            return read
+        }
     }
 
     private fun sha256(file: File): String {
