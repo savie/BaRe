@@ -96,10 +96,10 @@ class AppBackupEngine(private val context: Context) {
                             archive,
                             rootSources,
                             request.password?.copyOf(),
+                            isCancelled = isCancelled,
                         ) { processed, total ->
                             progress.report("Packaging ${part.displayName()}", processed, total, packagingStartedAt)
-                        },
-                            isCancelled = isCancelled,
+                        }
                     } else {
                         val raw = File(staging ?: error("Backup staging is unavailable"), part.directoryName())
                         archiveWriter.write(
