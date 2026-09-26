@@ -26,6 +26,15 @@
 
 ### Current evidence
 ### Source inspection — APK progress measurement
+### A18 — STAGING BYTE DIAGNOSTIC ADDED
+
+- **DECISION:** add a read-only diagnostic immediately before archive packaging to compare collected bytes with the actual staged file count/bytes.
+- **IMPLEMENTED:** `AppBackupEngine.kt` now emits `Staging <part>: <fileCount> files / <stagedBytes> (collected <collectedBytes>)` before `AppBackupArchiveWriter.write()`.
+- **SCOPE:** diagnostic only; no change to ROOT source selection, copy semantics, archive algorithm, encryption, artifact lifecycle, or cleanup.
+- **CHECKPOINT:** commit `9619ae6c69dc8f43eb288495542d4849d123e8ea`.
+- **VERIFICATION:** source-level inspection completed; GitHub Actions has not produced a workflow run for this commit, so compile/runtime verification is **UNVERIFIED**.
+- **NEXT:** build and runtime APK backup; compare collected vs staged bytes before making any root-cause fix.
+
 
 - **OBSERVED:** `AppBackupEngine.execute()` membuat staging baru per operation: `backupDirectory/.staging/<UUID>`, lalu mengumpulkan APK ke `staging/apk` dan memberikan source tersebut ke `AppBackupArchiveWriter`.
 - **OBSERVED:** `AppBackupArchiveWriter.write()` menetapkan `totalBytes = sources.sumOf { sourceByteSize(it.file) }`.
