@@ -16,7 +16,7 @@
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
 | Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
-| Current implementation status | **BARE ADAPTATION ACTIVE / RESTORE BACKEND PENDING** |
+| Current implementation status | **BARE ADAPTATION ACTIVE / RESTORE BACKEND PENDING / CI PENDING** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -383,7 +383,9 @@ Current conclusion:
 **Verification**
 
 - Source implementation: **OBSERVED / IMPLEMENTED**.
-- CI: **PENDING / no workflow run observed yet for this latest code checkpoint**.
+- Code checkpoint: `2098ee32a175852bae89a93c8f3d60e617d86f07`.
+- Current repository HEAD after worklog recording: `cf6606a0f00ad7eb446f8d3f8638347559b8cf6e`.
+- GitHub commit status: **PENDING**, with no completed check result exposed yet.
 - Runtime: **UNVERIFIED**.
 - CI #1169 Data failure is not declared fixed until the same runtime case passes the new source precondition and archive path.
 
