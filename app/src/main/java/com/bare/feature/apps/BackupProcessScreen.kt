@@ -42,6 +42,10 @@ internal fun BackupProcessScreen(
     selectedParts: Set<AppBackupPart>,
     currentPart: AppBackupPart?,
     currentMessage: String?,
+    currentProcessedBytes: Long?,
+    currentTotalBytes: Long?,
+    currentElapsedMillis: Long?,
+    currentBytesPerSecond: Long?,
     completedParts: Set<AppBackupPart>,
     status: BackupProcessStatus,
     logs: List<BackupProcessLog>,
@@ -132,6 +136,28 @@ internal fun BackupProcessScreen(
                         progress = { progress },
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    if (currentTotalBytes != null && currentTotalBytes > 0L) {
+                        Text(
+                            "Progress: ${formatProcessBytes(currentProcessedBytes ?: 0L)} / ${formatProcessBytes(currentTotalBytes)}",
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        val elapsed = currentElapsedMillis ?: 0L
+                        val rate = currentBytesPerSecond
+                        Text(
+                            buildString {
+                                append("Elapsed: ")
+                                append(formatProcessDuration(elapsed))
+                                if (rate != null && rate > 0L) {
+                                    append("  •  ")
+                                    append(formatProcessBytes(rate))
+                                    append("/s")
+                                }
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+
                     Text(
                         when {
                             currentMessage != null -> currentMessage
