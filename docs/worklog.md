@@ -488,3 +488,42 @@ Current conclusion:
 2. Runtime ROOT APK + Data + Ext. data + Media.
 3. If Data still fails, use the new precondition diagnostics to distinguish source namespace/access failure from archive failure.
 4. Then implement the missing restore backend boundary.
+
+
+## 10. CURRENT CHECKPOINT — CI #1184 PASS / RUNTIME GATE
+
+### 2026-09-26 — Restore compile-fix verification
+
+**OBSERVED**
+
+- CI #1183 failed during Kotlin compilation in `RestoreProcessScreen.kt` at line 26 because the source contained literal `\\n` text rather than actual line breaks.
+- Commit `55c06fd9f47eb936b07133a68c100b186b8e25b4` normalized the affected source line breaks.
+- CI #1184 for commit `55c06fd9f47eb936b07133a68c100b186b8e25b4` completed **PASS**.
+- Build artifact `BaRe-v1.0-build-1184.apk` was produced by the CI run; artifact id `10900548889`.
+
+**VERIFIED**
+
+- `assembleDebug` build checkpoint for commit `55c06fd9f47eb936b07133a68c100b186b8e25b4`: **CI VERIFIED**.
+- APK artifact exists from the successful CI run: **OBSERVED**.
+
+**NOT VERIFIED**
+
+- Device/runtime installation: **UNVERIFIED**.
+- ROOT backup end-to-end: **UNVERIFIED**.
+- ROOT restore end-to-end: **UNVERIFIED**.
+- NON_ROOT backup/restore end-to-end: **UNVERIFIED**.
+- Full A18 acceptance: **NOT VERIFIED**.
+
+**SOURCE CONTRACT CHECK**
+
+- Backup writer and restore reader currently agree on the BaRe-owned artifact envelope: BAREENC1 header, format version 1, AES/GCM, ZIP payload, standard Android Keystore mode, and advanced PBKDF2 mode.
+- ROOT APK archive entries are emitted as `apk/base.apk` and `apk/split-N.apk`, matching the restore extraction boundary.
+- NON_ROOT APK restore currently hands only the first extracted APK to Android Package Installer; split-APK NON_ROOT restore remains a **known verification gap** and must not be treated as complete.
+
+**NEXT ACTION**
+
+1. Install CI #1184 APK on an authorized test device/runtime.
+2. Exercise backup for APK, Data, Ext. data, and Media.
+3. Exercise restore for the same parts and verify post-restore state, not merely file extraction.
+4. Specifically test split-APK restore for ROOT and NON_ROOT.
+5. Record runtime evidence and close only acceptance criteria actually demonstrated.
