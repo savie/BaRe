@@ -58,12 +58,24 @@ class AppBackupArchiveWriter(private val context: Context) {
             }
         }
 
-        val iv = ByteArray(GCM_IV_BYTES).also(SecureRandom()::nextBytes)
-        val header = buildHeader(material.mode, material.salt, iv)
-        val cipher = Cipher.getInstance(TRANSFORMATION).apply {
-            init(Cipher.ENCRYPT_MODE, material.key, GCMParameterSpec(GCM_TAG_BITS, iv))
-            updateAAD(header)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        val iv = if (material.mode == EncryptionMode.STANDARD) {
+            // AndroidKeyStore GCM keys generate the encryption IV internally.
+            // Supplying a caller IV is rejected by the Keystore provider.
+            cipher.init(Cipher.ENCRYPT_MODE, material.key)
+            cipher.iv
+        } else {
+            ByteArray(GCM_IV_BYTES).also(SecureRandom()::nextBytes).also { generatedIv ->
+                cipher.init(
+                    Cipher.ENCRYPT_MODE,
+                    material.key,
+                    GCMParameterSpec(GCM_TAG_BITS, generatedIv),
+                )
+            }
         }
+        require(iv.size == GCM_IV_BYTES) { "Unsupported GCM IV length: " + iv.size }
+        val header = buildHeader(material.mode, material.salt, iv)
+        cipher.updateAAD(header)
 
         val digest = MessageDigest.getInstance("SHA-256")
         var fileCount = 0
