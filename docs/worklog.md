@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `7c32d255345af416e9d48c023e643bd9c36bad0b` — artifact lifecycle + root copy diagnostics checkpoint |
+| Current checkpoint | `05dafa39406dd2acdc42882067d4439a030fa919` — backup throughput instrumentation + root data diagnostics checkpoint |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
 | Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
 | Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + artifact lifecycle correctness** |
 | Reference audit | **SELESAI** |
-| Runtime status | **#1138 runtime evidence: APK, Ext. data, dan Media berhasil menghasilkan artifact terenkripsi; Data masih gagal pada `Root directory copy failed`. Full backup tetap UNVERIFIED. Ditemukan defect lifecycle artifact: artifact part sebelumnya dapat hilang ketika backup part lain dijalankan.** |
-| Root cause | **Data: boundary kegagalan terobservasi pada `RootCapabilityProvider.copyDirectory()`; penyebab lebih dalam masih UNKNOWN. Artifact sebelumnya hilang setelah backup part lain: penyebab storage/lifecycle masih UNKNOWN dan harus diaudit sebelum perubahan. Cloud provider/backend tetap terpisah dari local backup engine.** |
+| Runtime status | **#1143 runtime evidence: APK, Ext. data, dan Media berhasil; Data gagal dengan `exit=20: source_not_directory`; artifact `apk.bare` terbukti tidak lagi terhapus setelah backup part lain. APK WhatsApp ~138 MB pada runtime teramati sangat lama dan belum menghasilkan timing evidence. Full backup tetap UNVERIFIED.** |
+| Root cause | **Data: boundary kegagalan tetap pada `RootCapabilityProvider.copyDirectory()`; source dilaporkan bukan directory. Instrumentasi berikutnya sekarang akan menyertakan data source path dan filesystem metadata saat failure. Penyebab lebih dalam masih UNKNOWN. Cloud provider/backend tetap terpisah dari local backup engine.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -38,6 +38,85 @@
 ## 3. YANG BELUM TERBUKTI
 
 Install Date, Update Date, dan Date Used **sudah KELAR** berdasarkan keputusan user. Ketiganya bukan backlog dan tidak boleh dibuka ulang hanya karena session reset atau worklog lama belum terbarui.
+
+
+## A18 — INSTRUMENTASI THROUGHPUT + DIAGNOSTIK DATA — 2026-09-26
+
+### USER RUNTIME EVIDENCE #1143
+
+- APK berhasil.
+- Ext. data berhasil.
+- Media berhasil.
+- Artifact lifecycle acceptance terobservasi: `apk.bare` tetap ada setelah operasi part lain.
+- Data gagal dengan diagnostic:
+  - `Root directory copy failed (exit=20): source_not_directory`.
+- APK WhatsApp sekitar 138 MB teramati sangat lama pada runtime. Belum ada measurement yang membuktikan apakah bottleneck berada pada collection, packaging/encryption, atau filesystem I/O.
+
+### INSPEKSI
+
+Source aktual Android berada pada module `app/src/main`; perubahan instrumentation diterapkan pada module tersebut. Duplicate source di root repository yang sempat tersentuh selama rekonsiliasi path sudah dikembalikan ke content sebelumnya dan tidak menjadi target build.
+
+Audit execution path menunjukkan dua full-I/O phase untuk APK:
+1. ROOT `su cat` menyalin APK ke staging.
+2. Archive writer membaca kembali staging untuk ZIP + AES-GCM ke artifact final.
+
+I/O buffer sebelumnya menggunakan default kecil pada jalur utama tersebut.
+
+### IMPLEMENTASI
+
+1. `AppBackupProgress` sekarang membawa:
+   - processed bytes;
+   - total bytes;
+   - elapsed time;
+   - bytes/second.
+2. Engine menambahkan phase instrumentation untuk:
+   - collection;
+   - packaging/encryption;
+   - elapsed time per phase.
+3. Runtime diagnostics UI menampilkan live throughput message tanpa memenuhi log history dengan setiap chunk.
+4. ROOT APK copy:
+   - callback byte progress;
+   - source size probe via `stat`;
+   - buffer I/O 1 MiB.
+5. Archive writer:
+   - callback byte progress;
+   - source byte total;
+   - buffer I/O 1 MiB.
+6. DATA root failure:
+   - error sekarang menyertakan `ApplicationInfo.dataDir`;
+   - ROOT directory probe pada `source_not_directory` mengumpulkan existence, `ls -ld`, dan `stat` metadata.
+7. Behavior yang sudah terbukti berhasil tidak diubah secara semantic: artifact lifecycle, encryption mode, part selection, dan provider boundary tetap dipertahankan.
+
+### COMMITS
+
+- `5351b97f4398e52c21cb469d5cfff26da1766d09` — progress model.
+- `fa57eed054f2b9007f317d664d3aea1fb87672fe` — engine phase instrumentation + data source path.
+- `98ff88d1cc9a4521dc46cd40cc4e0ba6c17ec498` — archive throughput instrumentation + 1 MiB buffer.
+- `7c246fb19ba3ec8817b4278fcf66dc60d0db82a4` — ROOT APK throughput + DATA diagnostics.
+- `e700d5d1e5c45d7398a03666769fb30c5f963d39` — explicit unknown progress total handling.
+- `2d593e2a51ad11e9955d4047ee87a3cfc990f7ea` — live progress UI surface.
+- `05dafa39406dd2acdc42882067d4439a030fa919` — runtime progress state wiring.
+
+### VERIFICATION STATUS
+
+- **SOURCE:** implementation sudah diterapkan pada Android module aktual.
+- **CI:** run #1155 untuk checkpoint `05dafa39406dd2acdc42882067d4439a030fa919` masih `IN_PROGRESS` pada checkpoint ini.
+- **RUNTIME:** instrumentation/performance implementation belum diuji ulang pada device.
+- **DATA:** source path + filesystem diagnostic belum mempunyai runtime evidence baru.
+- **STATUS:** `IMPLEMENTED / CI PENDING / RUNTIME VERIFICATION PENDING`.
+
+### ACCEPTANCE BERIKUTNYA
+
+1. APK backup besar menampilkan live byte progress dan throughput.
+2. Timing membedakan collection vs packaging/encryption.
+3. APK ~138 MB menyelesaikan backup tanpa mengubah artifact lifecycle yang sudah terbukti.
+4. Jika DATA kembali gagal, diagnostics harus memberikan source path + existence/type metadata.
+5. Tidak ada regression pada APK, Ext. data, Media, atau artifact retention.
+6. Full multi-part tetap UNVERIFIED sampai runtime membuktikan seluruh target part.
+
+### NEXT ACTION
+
+Tunggu CI checkpoint `05dafa39406dd2acdc42882067d4439a030fa919`. Jika CI PASS, gunakan build tersebut untuk runtime test APK besar terlebih dahulu, lalu DATA untuk menangkap diagnostic filesystem baru.
 
 ## A18 — PERBAIKAN LIFECYCLE ARTIFACT + DIAGNOSTIK ROOT — 2026-09-26
 
