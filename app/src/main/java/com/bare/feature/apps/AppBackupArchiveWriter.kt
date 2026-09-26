@@ -6,6 +6,8 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.FilterOutputStream
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.security.KeyStore
 import java.security.MessageDigest
 import java.security.SecureRandom
@@ -79,17 +81,27 @@ class AppBackupArchiveWriter(private val context: Context) {
 
         val digest = MessageDigest.getInstance("SHA-256")
         var fileCount = 0
+        val stagedOutput = File(
+            output.parentFile ?: throw IllegalStateException("Backup archive parent directory is missing"),
+            ".${output.name}.${java.util.UUID.randomUUID()}.partial",
+        )
 
-        FileOutputStream(output).use { raw ->
-            val digesting = DigestOutputStream(raw, digest)
-            digesting.write(header)
-            CipherOutputStream(digesting, cipher).use { encrypted ->
-                ZipOutputStream(encrypted).use { zip ->
-                    for (source in sources) {
-                        fileCount += addSource(zip, source)
+        try {
+            FileOutputStream(stagedOutput).use { raw ->
+                val digesting = DigestOutputStream(raw, digest)
+                digesting.write(header)
+                CipherOutputStream(digesting, cipher).use { encrypted ->
+                    ZipOutputStream(encrypted).use { zip ->
+                        for (source in sources) {
+                            fileCount += addSource(zip, source)
+                        }
                     }
                 }
             }
+            moveIntoPlace(stagedOutput, output)
+        } catch (t: Throwable) {
+            stagedOutput.delete()
+            throw t
         }
 
         return AppBackupArchiveResult(
@@ -99,6 +111,23 @@ class AppBackupArchiveWriter(private val context: Context) {
             sha256 = digest.digest().toHex(),
             encryption = material.mode,
         )
+    }
+
+    private fun moveIntoPlace(stagedOutput: File, output: File) {
+        runCatching {
+            Files.move(
+                stagedOutput.toPath(),
+                output.toPath(),
+                StandardCopyOption.REPLACE_EXISTING,
+                StandardCopyOption.ATOMIC_MOVE,
+            )
+        }.getOrElse {
+            Files.move(
+                stagedOutput.toPath(),
+                output.toPath(),
+                StandardCopyOption.REPLACE_EXISTING,
+            )
+        }
     }
 
     private fun addSource(zip: ZipOutputStream, source: AppBackupArchiveSource): Int {
