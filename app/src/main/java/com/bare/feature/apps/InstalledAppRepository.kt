@@ -22,6 +22,7 @@ class InstalledAppRepository(private val context: Context) {
     fun load(): List<AppItem> {
         val identityId = identityStore.load()?.identityId
         val backupLocations = identityId?.let { backupStorage.localBackupLocations(it) }.orEmpty()
+        val backupInventory = AppBackupInventoryBehavior(context).inspectLocalAll()
         // Local identity is not an Account. Until an authenticated Account/provider
         // supplies verified metadata, cloud state remains UNKNOWN rather than NOT_SYNCED.
         val accountId = accountDatabase.activeAccountId()
@@ -34,7 +35,7 @@ class InstalledAppRepository(private val context: Context) {
                     val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
                     if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong()
                 }.getOrNull()
-                val backupMetadata = backupMetadata(backupLocations, info.packageName, versionCode)
+                val backupMetadata = backupMetadata(backupInventory[info.packageName].orEmpty(), versionCode)
                 val canLaunch = packageManager.getLaunchIntentForPackage(info.packageName) != null
                 val storage = storageStats(info)
                 val apkSizeBytes = runCatching {
@@ -83,61 +84,38 @@ class InstalledAppRepository(private val context: Context) {
                 )
             }
         val installedPackages = loaded.asSequence().map { it.packageName }.toSet()
-        val backupOnly = backupOnlyApps(backupLocations, installedPackages)
+        val backupOnly = backupOnlyApps(backupInventory, installedPackages)
         val result = (loaded + backupOnly).sortedBy { it.name.lowercase() }
         cachedApps = result
         return result
     }
 
-    private fun backupOnlyApps(locations: List<String>, installedPackages: Set<String>): List<AppItem> {
-        val packageDirectories = locations
-            .flatMap { root -> File(root, "apps").listFiles()?.filter { it.isDirectory }.orEmpty() }
-            .filter { it.name !in installedPackages }
-            .groupBy { it.name }
-
-        return packageDirectories.mapNotNull { (packageName, roots) ->
-            val backupDirectories = roots.flatMap { it.listFiles()?.filter { child -> child.isDirectory }.orEmpty() }
-            if (backupDirectories.isEmpty()) return@mapNotNull null
-            var size = 0L
-            var latestTime: Long? = null
-            var count = 0
-            var hasProtectedBackup = false
-            var hasBackupNotes = false
-            var latestMetadata: AppBackupMetadata? = null
-            backupDirectories.forEach { directory ->
-                count++
-                directory.walkTopDown().forEach { file ->
-                    if (file.isFile) size += file.length().coerceAtLeast(0L)
-                    val modified = file.lastModified()
-                    if (modified > 0L && (latestTime == null || modified > latestTime!!)) latestTime = modified
-                }
-                AppBackupMetadata.read(directory)?.let { metadata ->
-                    if (metadata.protectedBackup) hasProtectedBackup = true
-                    if (metadata.hasNote()) hasBackupNotes = true
-                    if (metadata.backupTime > 0L && (latestMetadata == null || metadata.backupTime > latestMetadata!!.backupTime)) {
-                        latestMetadata = metadata
-                        latestTime = metadata.backupTime
-                    }
-                }
+    private fun backupOnlyApps(
+        backupInventory: Map<String, List<AppBackupSnapshot>>,
+        installedPackages: Set<String>,
+    ): List<AppItem> =
+        backupInventory.asSequence()
+            .filter { (packageName, snapshots) -> packageName !in installedPackages && snapshots.isNotEmpty() }
+            .map { (packageName, snapshots) ->
+                val latest = snapshots.maxByOrNull { it.backupTime }
+                val size = snapshots.sumOf { it.totalBytes }
+                AppItem(
+                    name = packageName,
+                    packageName = packageName,
+                    category = context.getString(com.bare.R.string.user_app),
+                    size = formatSize(size),
+                    isInstalled = false,
+                    cloudSyncState = CloudSyncState.UNKNOWN,
+                    isEnabled = true,
+                    installedFromGooglePlay = false,
+                    backupCount = snapshots.size,
+                    backupSizeBytes = size,
+                    latestBackupTime = latest?.backupTime,
+                    hasProtectedBackup = snapshots.any { it.protectedBackup },
+                    hasBackupNotes = snapshots.any { !it.note.isNullOrBlank() },
+                )
             }
-            val installerPackage = latestMetadata?.installerPackage
-            AppItem(
-                name = packageName,
-                packageName = packageName,
-                category = context.getString(com.bare.R.string.user_app),
-                size = formatSize(size),
-                isInstalled = false,
-                cloudSyncState = CloudSyncState.UNKNOWN,
-                isEnabled = true,
-                installedFromGooglePlay = installerPackage == "com.android.vending",
-                backupCount = count,
-                backupSizeBytes = size,
-                latestBackupTime = latestTime,
-                hasProtectedBackup = hasProtectedBackup,
-                hasBackupNotes = hasBackupNotes,
-            )
-        }
-    }
+            .toList()
 
     private data class BackupMetadata(
         val count: Int,
@@ -149,36 +127,20 @@ class InstalledAppRepository(private val context: Context) {
         val hasBackupNotes: Boolean,
     )
 
-    private fun backupMetadata(locations: List<String>, packageName: String, installedVersionCode: Long?): BackupMetadata {
-        val versionDirectories = locations
-            .map { File(it, "apps/$packageName") }
-            .flatMap { root -> root.listFiles()?.filter { it.isDirectory }.orEmpty() }
-        if (versionDirectories.isEmpty()) return BackupMetadata(0, 0L, null, false, false, false, false)
-        var size = 0L
-        var latest: Long? = null
-        var hasOlderApk = false
-        var hasNewerApk = false
-        var hasProtectedBackup = false
-        var hasBackupNotes = false
-        versionDirectories.forEach { directory ->
-            val versionCode = directory.name.toLongOrNull()
-            val containsApk = directory.walkTopDown().any { it.isFile && it.extension.equals("apk", ignoreCase = true) }
-            if (containsApk && installedVersionCode != null && versionCode != null) {
-                if (versionCode < installedVersionCode) hasOlderApk = true
-                if (versionCode > installedVersionCode) hasNewerApk = true
-            }
-            AppBackupMetadata.read(directory)?.let { metadata ->
-                if (metadata.protectedBackup) hasProtectedBackup = true
-                if (metadata.hasNote()) hasBackupNotes = true
-                if (metadata.backupTime > 0L && (latest == null || metadata.backupTime > latest!!)) latest = metadata.backupTime
-            }
-            directory.walkTopDown().forEach { file ->
-                if (file.isFile) size += file.length().coerceAtLeast(0L)
-                val modified = file.lastModified()
-                if (modified > 0L && (latest == null || modified > latest!!)) latest = modified
-            }
-        }
-        return BackupMetadata(versionDirectories.size, size, latest, hasOlderApk, hasNewerApk, hasProtectedBackup, hasBackupNotes)
+    private fun backupMetadata(
+        snapshots: List<AppBackupSnapshot>,
+        installedVersionCode: Long?,
+    ): BackupMetadata {
+        if (snapshots.isEmpty()) return BackupMetadata(0, 0L, null, false, false, false, false)
+        return BackupMetadata(
+            count = snapshots.size,
+            sizeBytes = snapshots.sumOf { it.totalBytes },
+            latestTime = snapshots.maxOfOrNull { it.backupTime },
+            hasOlderApk = installedVersionCode != null && snapshots.any { it.apkBytes > 0L && it.versionCode < installedVersionCode },
+            hasNewerApk = installedVersionCode != null && snapshots.any { it.apkBytes > 0L && it.versionCode > installedVersionCode },
+            hasProtectedBackup = snapshots.any { it.protectedBackup },
+            hasBackupNotes = snapshots.any { !it.note.isNullOrBlank() },
+        )
     }
 
     private data class AppStorageStats(
