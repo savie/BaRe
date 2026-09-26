@@ -90,7 +90,9 @@ class AppBackupInventoryBehavior(context: Context) {
             externalDataBytes = artifactBytes(AppBackupPart.EXTERNAL_DATA, directory, "external-data"),
             mediaBytes = artifactBytes(AppBackupPart.MEDIA, directory, "media"),
             totalBytes = if (artifacts.isNotEmpty()) {
-                artifacts.sumOf { it.byteSize }
+                artifacts.sumOf { artifact ->
+                    File(directory, artifact.fileName).takeIf { it.isFile }?.length() ?: 0L
+                }
             } else {
                 root.directorySize(directory.absolutePath)
                     ?: directorySize(directory) { file -> file.isFile && file.name != AppBackupMetadata.FILE_NAME }
@@ -103,8 +105,10 @@ class AppBackupInventoryBehavior(context: Context) {
         legacyDirectoryName: String,
     ): Long {
         val named = artifacts.firstOrNull { it.part == part.name }
-        return named?.byteSize
-            ?: root.directorySize(File(directory, legacyDirectoryName).absolutePath)
+        if (named != null) {
+            return File(directory, named.fileName).takeIf { it.isFile }?.length() ?: 0L
+        }
+        return root.directorySize(File(directory, legacyDirectoryName).absolutePath)
             ?: directorySize(File(directory, legacyDirectoryName))
     }
 
