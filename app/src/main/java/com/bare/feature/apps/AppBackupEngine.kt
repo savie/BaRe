@@ -283,7 +283,7 @@ class AppBackupEngine(private val context: Context) {
         }
         val actual = digest.digest().joinToString("") { "%02x".format(it) }
         require(actual.equals(result.sha256, ignoreCase = true)) {
-            "Backup artifact hash verification failed"
+            "Backup artifact hash verification failed: expected=" + result.sha256 + ", actual=" + actual
         }
     }
 
