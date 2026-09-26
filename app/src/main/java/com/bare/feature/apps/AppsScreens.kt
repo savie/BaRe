@@ -2750,7 +2750,7 @@ private fun AppBackupStateCard(
                                 onDelete = { pendingPartDelete = AppBackupPart.DATA },
                             )
                         }
-                        if (latest.apkBytes > 0L.xor(latest.dataBytes > 0L)) {
+                        if ((latest.apkBytes > 0L) xor (latest.dataBytes > 0L)) {
                             Spacer(Modifier.weight(1f))
                         }
                     }
@@ -2783,7 +2783,7 @@ private fun AppBackupStateCard(
                                 onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                             )
                         }
-                        if (latest.externalDataBytes > 0L.xor(latest.mediaBytes > 0L)) {
+                        if ((latest.externalDataBytes > 0L) xor (latest.mediaBytes > 0L)) {
                             Spacer(Modifier.weight(1f))
                         }
                     }
