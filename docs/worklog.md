@@ -523,7 +523,7 @@ Direct-root/performance implementation yang sudah ada tetap merupakan historical
 
 `docs/a18_reference_reconstruction.md` — created at checkpoint `c9365498e653458a5b4708ce0de53b289dfffce4`.
 
-### OUT OF SCOPE UNTIL CORRECTNESS BASELINE
+### DI LUAR CAKUPAN UNTIL CORRECTNESS BASELINE
 
 - incremental patching of the superseded backup architecture;
 - copying Swift encryption;
@@ -783,7 +783,7 @@ Commits:
 - Runtime evidence showed APK target size is 7.12 MB; the earlier 7.1 GB interpretation was incorrect.
 - Swift Backup 5.1.0 reference audit confirms the SBA archive path uses native TAR + Zstandard compression; FASTEST maps to Zstandard level 1. Encryption is a separate path.
 
-### DECISION / AUTHORIZATION
+### KEPUTUSAN / AUTHORIZATION
 - Backup and restore must follow the audited Swift reference mechanism for all applicable archive, compression, source, artifact, and restore behavior.
 - BaRe encryption/decryption remains the sole explicit mechanism exception.
 
@@ -793,11 +793,11 @@ Commits:
 - Switched BaRe backup payload generation from ZIP/Deflater to reference-aligned TAR/Zstandard while retaining BaRe AES-GCM encryption and final artifact SHA-256 verification.
 - Added BaRe archive payload format version 2 and restore dispatch for legacy ZIP payloads (v1) and reference TAR/Zstandard payloads (v2).
 
-### VERIFICATION STATUS
+### STATUS VERIFIKASI
 - CI for the latest reference-alignment changes: IN_PROGRESS / NOT YET VERIFIED at worklog update time.
 - Runtime verification of the new TAR/Zstandard build: NOT STARTED; blocked on CI artifact.
 
-### NEXT
+### BERIKUTNYA
 - Verify CI build.
 - Install the resulting artifact and run APK-only backup for the 7.12 MB 1DM+ APK.
 - Verify progress reports MB rather than the previous erroneous GB scale.
@@ -827,7 +827,7 @@ Commits:
 - Android Build #1200 for `064ee667f0b96158ba1f52c0b3d4756b231cb33f` is currently `IN_PROGRESS` at the assemble-debug step.
 - Therefore build verification and runtime verification remain `UNVERIFIED` until the CI artifact is produced and installed.
 
-### NEXT GATE
+### BERIKUTNYA GATE
 1. CI #1200 PASS.
 2. Install the resulting debug APK.
 3. Run APK-only backup for the 7.12 MB-class target and verify the process screen reports approximately `MB / MB`, not `GB`.
@@ -858,7 +858,7 @@ Commits:
 - Changed BaRe ROOT command execution and root TAR streaming to use `su --mount-master -c`, aligning the observed Swift ROOT namespace mechanism.
 - Encryption remains BaRe-owned; no reference encryption was introduced.
 
-### VERIFICATION STATUS
+### STATUS VERIFIKASI
 - CI verification for these two changes is pending.
 - Device runtime verification remains blocked until the new artifact is installed.
 - Next runtime gate: APK-only backup first; then Data / Ext. data / Media; then restore.
@@ -909,7 +909,7 @@ Commits:
 - `dc5582504c1d72ca97d20e54377644ff39eaecfc` — use canonical progress metrics in backup status.
 - Worklog update is recorded in this checkpoint.
 
-### VERIFICATION STATUS
+### STATUS VERIFIKASI
 
 - #1205 CI: **CI VERIFIED / PASS**.
 - User runtime #1205 APK: **RUNTIME TESTED / COMPLETED**, performance still unresolved.
@@ -920,7 +920,7 @@ Commits:
 - APK performance: **UNRESOLVED**, direct file-stream optimization implemented but runtime measurement pending.
 - Full A18 acceptance: **NOT VERIFIED**.
 
-### NEXT GATE
+### BERIKUTNYA GATE
 
 1. CI build checkpoint setelah perubahan di atas.
 2. Runtime Data-only pada 1DM+ untuk membuktikan `/data/user/0/... ` terlihat melalui mount-master.
@@ -1131,7 +1131,7 @@ Requirement tersebut dicatat karena dinyatakan langsung oleh user; bukan hasil i
 
 CI PASS hanya membuktikan source dapat dibuild dan artifact checks CI berhasil. CI belum membuktikan runtime device untuk artifact hash, inventory visibility, backup all, restore all, atau restore per-part.
 
-### NEXT RUNTIME GATE
+### BERIKUTNYA RUNTIME GATE
 
 1. Install artifact #1234.
 2. Backup 1DM+ all selected parts.
@@ -1143,32 +1143,32 @@ CI PASS hanya membuktikan source dapat dibuild dan artifact checks CI berhasil. 
 8. Confirm each result and post-restore verification.
 9. Only after these pass, perform large-file/performance measurement and full A18 acceptance.
 
-## A18 — REFERENCE CHANGE-DETECTION RECONCILIATION — 2026-09-26
+## A18 — REKONSILIASI DETEKSI PERUBAHAN REFERENCE — 2026-09-26
 
 ### CHECKPOINT
 
 **Status:** VERIFICATION
 
-**Scope:** Memasukkan evidence targeted decompile tentang change detection ke canonical reference record dan memperbarui TODO A18 berdasarkan behavior yang benar-benar didukung source.
+**Cakupan:** Memasukkan evidence dekompilasi terarah tentang deteksi perubahan ke catatan reference kanonik dan memperbarui TODO A18 berdasarkan perilaku yang benar-benar didukung source.
 
-### REFERENCE EVIDENCE
+### EVIDENCE REFERENCE
 
-Section 29 pada \`docs/reference.md\` mencatat:
+Section 29 pada `docs/reference.md` mencatat:
 
 - \`defpackage/eq.java\`
-  - APK identity/change predicate;
-  - size-change predicate;
-  - modified-file predicate.
+  - predicate identitas/perubahan APK;
+  - predicate perubahan ukuran;
+  - predicate file yang berubah.
 - \`defpackage/nm6.java\`
-  - backup-side decision untuk Data / External data / Expansion / Media;
-  - size change atau modified files dapat membuat part dianggap berubah.
+  - keputusan pada sisi backup untuk Data / External data / Expansion / Media;
+  - perubahan ukuran atau file yang berubah dapat membuat bagian dianggap berubah.
 - \`defpackage/xw.java\`
-  - restore task selection menggunakan APK predicate dan per-part change detection untuk Data / External data / Expansion / Media.
-- Reference tidak memberikan evidence cukup bahwa App Data / External data / Media selalu menggunakan delta archive yang hanya menyimpan file berubah.
+  - pemilihan task restore menggunakan predicate APK dan deteksi perubahan per bagian untuk Data / External data / Expansion / Media.
+- Reference tidak memberikan evidence yang cukup bahwa App Data / External data / Media selalu menggunakan delta archive yang hanya menyimpan file yang berubah.
 
-### CURRENT BARe INTERPRETATION
+### INTERPRETASI BARe SAAT INI
 
-Reference-backed behavior yang sekarang menjadi implementation target:
+Perilaku yang didukung reference dan sekarang menjadi target implementasi:
 
 \`\`\`text
 BACKUP
@@ -1180,7 +1180,7 @@ unchanged target → SKIP
 changed target   → RESTORE
 \`\`\`
 
-Untuk A18 current four-part scope:
+Untuk cakupan empat bagian A18 saat ini:
 
 \`\`\`text
 APK
@@ -1189,76 +1189,76 @@ External data
 Media
 \`\`\`
 
-Expansion tetap di luar scope tanpa keputusan baru.
+Expansion tetap di luar cakupan tanpa keputusan baru.
 
-### TODO CREATED / UPDATED
+### TODO DIBUAT / DIPERBARUI
 
-1. LOCAL APPS inventory visibility.
-2. Data backup change detection.
-3. External data backup change detection.
-4. Media backup change detection.
-5. APK restore decision / unnecessary install skip.
-6. Data restore change detection.
-7. External data restore change detection.
-8. Media restore change detection.
-9. All-parts mixed SKIP + RESTORE result semantics.
-10. Regression around artifact SHA-256 integrity.
-11. Runtime verification matrix untuk unchanged/changed state.
-12. Large-file performance setelah correctness selesai.
-13. Full A18 acceptance tetap NOT VERIFIED.
+1. Visibilitas inventaris LOCAL APPS.
+2. Deteksi perubahan backup Data.
+3. Deteksi perubahan backup External data.
+4. Deteksi perubahan backup Media.
+5. Keputusan restore APK / skip instalasi yang tidak diperlukan.
+6. Deteksi perubahan restore Data.
+7. Deteksi perubahan restore External data.
+8. Deteksi perubahan restore Media.
+9. Semantik hasil campuran SKIP + RESTORE untuk seluruh bagian.
+10. Regresi terkait integritas SHA-256 artifact.
+11. Matriks verifikasi runtime untuk state unchanged/changed.
+12. Performance file besar setelah correctness selesai.
+13. Acceptance penuh A18 tetap NOT VERIFIED.
 
-### NOT A TODO
+### BUKAN TODO
 
-**Delta/patch App Data** belum terbukti sebagai reference App backup mechanism. Tidak dimasukkan sebagai implementation TODO pada checkpoint ini.
+**Delta/patch App Data** belum terbukti sebagai mekanisme App Backup reference. Tidak dimasukkan sebagai TODO implementasi pada checkpoint ini.
 
-### CURRENT VERIFICATION STATUS
+### STATUS VERIFIKASI SAAT INI
 
-- Reference static evidence: **VERIFIED AGAINST DECOMPILED ARTIFACT**.
-- BaRe APK identical-skip: **RUNTIME OBSERVED**.
-- BaRe Data/Ext. data/Media backup skip: **NOT IMPLEMENTED / UNVERIFIED**.
-- BaRe Data/Ext. data/Media restore skip: **NOT IMPLEMENTED / UNVERIFIED**.
-- BaRe LOCAL APPS visibility: **UNRESOLVED**.
-- BaRe artifact integrity post-fix: **RUNTIME UNVERIFIED**.
+- Evidence reference statis: **VERIFIED TERHADAP ARTIFACT HASIL DEKOMIPLASI**.
+- APK identical-skip BaRe: **RUNTIME OBSERVED**.
+- Skip backup Data/Ext. data/Media BaRe: **NOT IMPLEMENTED / UNVERIFIED**.
+- Skip restore Data/Ext. data/Media BaRe: **NOT IMPLEMENTED / UNVERIFIED**.
+- Visibilitas LOCAL APPS BaRe: **UNRESOLVED**.
+- Integritas artifact BaRe pasca-fix: **RUNTIME UNVERIFIED**.
 - Full A18: **NOT VERIFIED**.
 
-### NEXT
+### BERIKUTNYA
 
-Implement TODO di atas sesuai urutan correctness, lalu lakukan satu final runtime verification cycle sesuai matrix. Jangan mengklaim parity atau DONE sebelum evidence runtime tersedia.
+Implementasikan TODO di atas sesuai urutan correctness, lalu lakukan satu siklus verifikasi runtime final sesuai matriks. Jangan mengklaim parity atau DONE sebelum evidence runtime tersedia.
 
-## A18 — FULL REFERENCE BACKUP / RESTORE AUDIT — 2026-09-26
+## A18 — AUDIT PENUH BACKUP / RESTORE REFERENCE — 2026-09-26
 
 ### CHECKPOINT
 
 **Status:** REFERENCE RECONCILIATION / VERIFICATION
 
-**Scope:** Audit ulang jalur App Backup dan App Restore reference secara end-to-end static, lalu memperbarui canonical reference dan TODO A18.
+**Cakupan:** Audit ulang jalur App Backup dan App Restore reference secara static end-to-end, lalu memperbarui reference kanonik dan TODO A18.
 
-### AUDITED
+### YANG DIAUDIT
 
-- App part selection.
-- Backup preconditions.
-- Single / Dated / Conditional backup strategy.
-- Protected vs non-protected backup update behavior.
-- APK identical/change predicate.
-- Data / Ext. data / Expansion / Media change detection.
-- Cache/source filtering.
-- Part-level backup update.
-- Archive creation/compression/encryption boundary.
-- Per-part metadata update.
-- Backup commit/cleanup.
-- Local backup inventory/discovery.
-- Cloud per-part sync decision.
-- Restore preconditions.
-- Restore per-part selection.
-- APK restore decision and downgrade/newer-version behavior.
-- Data / Ext. data / Expansion / Media restore change detection.
-- Part-specific extraction/restore.
-- Password/archive/package validation.
-- Permissions/special data restore.
-- Progress producer boundary.
-- Skip/failure/result semantics.
+- Pemilihan bagian aplikasi.
+- Prasyarat backup.
+- Strategi backup Single / Dated / Conditional.
+- Perilaku pembaruan backup protected vs non-protected.
+- Predicate APK identik/perubahan.
+- Deteksi perubahan Data / Ext. data / Expansion / Media.
+- Penyaringan cache/sumber.
+- Pembaruan backup pada tingkat bagian.
+- Batas pembuatan/compression/encryption arsip.
+- Pembaruan metadata per bagian.
+- Commit/cleanup backup.
+- Inventaris/discovery backup lokal.
+- Keputusan sinkronisasi cloud per bagian.
+- Prasyarat restore.
+- Pemilihan restore per bagian.
+- Keputusan restore APK dan perilaku downgrade/versi yang lebih baru.
+- Data / Ext. data / Expansion / Deteksi perubahan restore Media.
+- Ekstraksi/restore spesifik per bagian.
+- Validasi password/arsip/package.
+- Restore permission/data khusus.
+- Batas producer progress.
+- Semantik skip/failure/result.
 
-### KEY FINDING
+### TEMUAN UTAMA
 
 Reference tidak melakukan file-level patch yang terbukti untuk App Data.
 
@@ -1272,20 +1272,20 @@ Reference melakukan:
         +
     retain unchanged parts
 
-Jadi "incremental" reference untuk App Backup berada pada **part granularity**.
+Jadi "incremental" pada reference untuk App Backup berada pada **granularitas bagian**.
 
-### BARe REQUIREMENT CLASSIFICATION
+### KLASIFIKASI REQUIREMENT BARe
 
-1. Part-level incremental update = REFERENCE-BACKED TODO.
-2. File-level delta/patch inside Data/Ext. data/Media = USER REQUIREMENT / separate BaRe design TODO.
-3. Reference parity claim untuk file-level delta = NOT ESTABLISHED.
-4. Restore skip per part = REFERENCE-BACKED TODO.
-5. Local backup inventory canonical discovery = REFERENCE-BACKED implementation direction.
+1. Pembaruan incremental tingkat bagian = TODO yang didukung reference.
+2. File-level delta/patch di dalam Data/Ext. data/Media = USER REQUIREMENT / TODO desain BaRe terpisah.
+3. Klaim parity reference untuk file-level delta = NOT ESTABLISHED.
+4. Skip restore per bagian = TODO yang didukung reference.
+5. Discovery inventaris backup lokal kanonik = arah implementasi yang didukung reference.
 6. Full A18 = NOT VERIFIED.
 
 ### EVIDENCE
 
-Primary reference sources:
+Sumber reference utama:
 
 - vl.java
 - qk0.java
@@ -1305,67 +1305,67 @@ Primary reference sources:
 - SbaZstdNative.java
 - c40.java
 
-Reference artifact:
+Artifact reference:
 
 - SwiftBackup-5.1.0-620-decompiled.zip
 
-### VERIFICATION STATUS
+### STATUS VERIFIKASI
 
-    STATIC REFERENCE AUDIT
+    AUDIT REFERENCE STATIS
         → VERIFIED AGAINST DECOMPILED ARTIFACT
 
-    REFERENCE RUNTIME
+    RUNTIME REFERENCE
         → NOT VERIFIED
 
-    BaRe IMPLEMENTATION
+    IMPLEMENTASI BaRe
         → NOT CHANGED BY AUDIT
 
-    BaRe RUNTIME
-        → EXISTING #1244 EVIDENCE REMAINS VALID AS HISTORICAL RUNTIME EVIDENCE
+    RUNTIME BaRe
+        → EVIDENCE #1244 YANG SUDAH ADA TETAP BERLAKU SEBAGAI EVIDENCE RUNTIME HISTORIS
 
-### NEXT
+### BERIKUTNYA
 
-Implement the corrected TODOs, then execute one final runtime cycle. Do not claim parity/DONE until runtime evidence proves the applicable cases.
+Implementasikan TODO yang telah dikoreksi, lalu lakukan satu siklus runtime final. Jangan mengklaim parity/DONE sampai evidence runtime membuktikan kasus yang relevan.
 
-## A18 — IMPLEMENTATION AUTHORIZATION / REFERENCE-ALIGNED TODO BASELINE — 2026-09-26
+## A18 — OTORISASI IMPLEMENTASI / BASELINE TODO SELARAS REFERENCE — 2026-09-26
 
-### DECISION
+### KEPUTUSAN
 
-User explicitly decided:
+User secara eksplisit memutuskan:
 
-- Follow the audited Swift Backup reference behavior for A18.
-- File-level delta/patch inside App Data / External Data / Media is not part of the current implementation scope because the reference audit did not establish it.
-- Reference-proven part-level incremental behavior is the target.
-- Existing BaRe encryption remains unchanged.
+- Mengikuti perilaku Swift Backup reference yang telah diaudit untuk A18.
+- File-level delta/patch di dalam App Data / External Data / Media bukan bagian dari cakupan implementasi saat ini karena audit reference tidak membuktikannya.
+- Perilaku incremental tingkat bagian yang terbukti dari reference menjadi target.
+- Enkripsi BaRe yang sudah ada tetap tidak berubah.
 
-### ACTIVE IMPLEMENTATION TODO
+### TODO IMPLEMENTASI AKTIF
 
-1. Canonical LOCAL APPS inventory visibility.
-2. Shared per-part change-state metadata/contract.
-3. Data backup change detection: unchanged retain/skip; changed rebuild Data only.
-4. External Data backup change detection: unchanged retain/skip; changed rebuild Ext. Data only.
-5. Media backup change detection: unchanged retain/skip; changed rebuild Media only.
-6. APK restore decision: unchanged skip; changed restore; handle newer-installed-version boundary.
-7. Data restore change detection: unchanged skip; changed restore.
-8. External Data restore change detection: unchanged skip; changed restore.
-9. Media restore change detection: unchanged skip; changed restore.
-10. Restore All mixed SKIPPED + RESTORED + FAILED aggregation.
-11. Part-level incremental backup update: preserve unchanged parts and rebuild only changed parts.
-12. Preserve artifact SHA-256/integrity verification and BaRe encryption boundary.
+1. Canonical Visibilitas inventaris LOCAL APPS.
+2. Metadata/contract state perubahan per bagian yang digunakan bersama.
+3. Deteksi perubahan backup Data: unchanged dipertahankan/di-skip; changed hanya membangun ulang Data.
+4. Deteksi perubahan backup External Data: unchanged dipertahankan/di-skip; changed hanya membangun ulang Ext. Data.
+5. Deteksi perubahan backup Media: unchanged dipertahankan/di-skip; changed hanya membangun ulang Media.
+6. Keputusan restore APK: unchanged skip; changed restore; tangani boundary versi terpasang yang lebih baru.
+7. Deteksi perubahan restore Data: unchanged skip; changed restore.
+8. External Deteksi perubahan restore Data: unchanged skip; changed restore.
+9. Deteksi perubahan restore Media: unchanged skip; changed restore.
+10. Agregasi hasil campuran SKIPPED + RESTORED + FAILED untuk Restore All.
+11. Pembaruan incremental backup tingkat bagian: pertahankan bagian unchanged dan hanya bangun ulang bagian changed.
+12. Pertahankan verifikasi SHA-256/integritas artifact dan boundary enkripsi BaRe.
 
-### OUT OF SCOPE
+### DI LUAR CAKUPAN
 
-File-level delta/patch archive for App Data / External Data / Media.
+File-level delta/patch archive untuk App Data / External Data / Media.
 
-### IMPLEMENTATION STATUS
+### STATUS IMPLEMENTASI
 
-The above TODOs are authorized for implementation by the user's explicit instruction to proceed after reference reconciliation.
+TODO di atas diotorisasi untuk diimplementasikan berdasarkan instruksi eksplisit user untuk melanjutkan setelah rekonsiliasi reference.
 
-They are not yet implemented or verified unless later evidence says so.
+TODO tersebut belum diimplementasikan atau diverifikasi kecuali ada evidence berikutnya yang menyatakan sebaliknya.
 
-### NEXT
+### BERIKUTNYA
 
-Start implementation from the highest-priority correctness prerequisite:
+Mulai implementasi dari prasyarat correctness dengan prioritas tertinggi:
 
     canonical inventory
         +
