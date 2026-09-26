@@ -307,16 +307,11 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
     }
 
-    fun packageApkArchiveSources(packageName: String): List<RootArchiveSource> {
+    fun packageApkArchiveSources(packageName: String, apkPaths: List<String>): List<RootArchiveSource> {
         if (!packageName.matches(PACKAGE_REGEX)) error("Invalid package name")
-        val pathsResult = runSu("pm path ${shellQuote(packageName)}")
-        if (pathsResult.exitCode != 0) error(pathsResult.stderr.ifBlank { pathsResult.stdout })
-        val paths = pathsResult.stdout.lineSequence().map(String::trim)
-            .filter { it.startsWith("package:") }
-            .map { it.removePrefix("package:") }
-            .filter { it.startsWith("/") }
-            .toList()
-        if (paths.isEmpty()) error("Package APK path not found")
+        if (apkPaths.isEmpty()) error("Package APK source path not found")
+        val paths = apkPaths.map(String::trim).filter { it.startsWith("/") }.distinct()
+        if (paths.isEmpty()) error("Package APK source path not found")
         return paths.mapIndexed { index, source ->
             val size = remoteFileSize(source)
             RootArchiveSource(
