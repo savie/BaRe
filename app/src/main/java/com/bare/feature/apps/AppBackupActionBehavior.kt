@@ -91,10 +91,27 @@ class AppBackupActionBehavior(context: Context) {
         }
 
         val allDeleted = targets.all(::deleteTarget)
-        return if (allDeleted) {
+        if (!allDeleted) {
+            return Result.Failed("Unable to delete ${part.displayName()} backup part")
+        }
+
+        return runCatching {
+            val remainingArtifacts = metadata.artifacts.filterNot { it.part == part.name }
+            val hasRemainingBackupContent = directory.listFiles()
+                ?.any { it.name != AppBackupMetadata.FILE_NAME && it.exists() } == true
+
+            if (metadata.artifacts.isNotEmpty()) {
+                if (remainingArtifacts.isEmpty() && !hasRemainingBackupContent) {
+                    check(deleteTarget(directory)) { "Unable to remove empty backup version" }
+                } else {
+                    metadata.copy(artifacts = remainingArtifacts).writeAtomically(directory)
+                }
+            } else if (!hasRemainingBackupContent) {
+                check(deleteTarget(directory)) { "Unable to remove empty backup version" }
+            }
             Result.Completed
-        } else {
-            Result.Failed("Unable to delete ${part.displayName()} backup part")
+        }.getOrElse {
+            Result.Failed(it.message ?: "Unable to update backup metadata")
         }
     }
 
