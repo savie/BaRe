@@ -68,7 +68,9 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         else RootProbeResult.Failed(result.stderr.ifBlank { result.stdout })
     }
 
-    fun copyPackageApks(packageName: String, destinationDir: File): RootCopyResult {
+    fun copyPackageApks(packageName: String, destinationDir: File): RootCopyResult = copyPackageApks(packageName, destinationDir, null)
+
+    fun copyPackageApks(packageName: String, destinationDir: File, isCancelled: (() -> Boolean)?): RootCopyResult {
         if (!packageName.matches(PACKAGE_REGEX)) return RootCopyResult.Failed("Invalid package name")
         if (!destinationDir.exists() && !destinationDir.mkdirs()) return RootCopyResult.Failed("Unable to create staging directory")
         val pathsResult = runSu("pm path ${shellQuote(packageName)}")
@@ -78,7 +80,7 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         if (paths.isEmpty()) return RootCopyResult.Failed("Package APK path not found")
         return runCatching { paths.mapIndexed { index, remotePath ->
             val destination = File(destinationDir, if (index == 0) "base.apk" else "split-" + index + ".apk")
-            copyFile(remotePath, destination); destination
+            copyFile(remotePath, destination, isCancelled); destination
         } }.fold({ RootCopyResult.Success(it) }, {
             destinationDir.deleteRecursively(); RootCopyResult.Failed(it.message ?: it::class.java.simpleName)
         })
@@ -151,7 +153,8 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         val process = ProcessBuilder("su", "-c", "cat ${shellQuote(remotePath)}").redirectErrorStream(false).start()
         val stderr = StringBuilder()
         val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
-        process.inputStream.use { input -> FileOutputStream(destination).use { output ->\n            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)\n            while (true) {\n                if (isCancelled?.invoke() == true) { process.destroyForcibly(); throw InterruptedException("Root file copy cancelled") }\n                val read = input.read(buffer)\n                if (read < 0) break\n                output.write(buffer, 0, read)\n            }\n        } }
+        process.inputStream.use { input -> FileOutputStream(destination).use { output ->\n            val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+            while (true) {\n                if (isCancelled?.invoke() == true) { process.destroyForcibly(); throw InterruptedException("Root file copy cancelled") }\n                val read = input.read(buffer)\n                if (read < 0) break\n                output.write(buffer, 0, read)\n            }\n        } }
         check(process.waitFor(timeoutSeconds, TimeUnit.SECONDS)) { "Root file copy timed out" }
         stderrThread.join(1000)
         check(process.exitValue() == 0) { "Root read failed: " + remotePath + " " + stderr }
