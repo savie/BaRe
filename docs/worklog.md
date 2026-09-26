@@ -1830,3 +1830,31 @@ Dapatkan current BaRe runtime/device session dan reproduce Data-only backup terl
 - Restore execution.
 - Full Swift Backup implementation cloning.
 - Claiming NON_ROOT/ADB/SHIZUKU support sebelum provider evidence tersedia.
+
+## A18 — RUNTIME GATE / IMPLEMENTATION SEQUENCE — 2026-09-26
+
+### GO EXECUTION — CURRENT SESSION
+- Runtime/device gate: **BLOCKED**.
+- Actual environment check: `adb` tidak tersedia.
+- `emulator` tidak tersedia.
+- Tidak ada Android device/emulator yang dapat diakses dari session ini.
+- Current BaRe runtime APK juga tidak tersedia di session; APK yang tersedia adalah Swift Backup reference APK.
+- Karena runtime prerequisite belum tersedia, **Data-only backup tidak dapat direproduksi pada device dan full stderr/diagnostics tidak dapat ditangkap**.
+- Tidak ada claim bahwa Data failure saat ini sudah terverifikasi ulang.
+
+### A18.1–A18.5
+Urutan implementation tetap:
+1. A18.1 — Perkuat ROOT command/provider + reproduce Data pada device.
+2. A18.2 — Unified result/part-state contract.
+3. A18.3 — Pengumpulan DATA + DATA_DE secara transactional.
+4. A18.4 — Provider EXT_DATA + MEDIA.
+5. A18.5 — Manifest + atomic commit.
+
+**STATUS:** A18.1 **BLOCKED BY RUNTIME PREREQUISITE**. A18.2–A18.5 belum dimulai karena A18.1 harus didahulukan dan source/runtime evidence belum cukup untuk melakukan perubahan consequential dengan aman.
+
+### REQUIRED INPUT UNTUK LANJUT
+- Android device/emulator yang dapat diakses via ADB.
+- Current BaRe build/APK dari branch `v1.0/rebaseline`.
+- Jalankan Data-only backup pada device tersebut dan capture full stdout/stderr/logcat yang relevan.
+- Setelah evidence tersedia, lanjutkan A18.1 lalu A18.2–A18.5 secara incremental dengan build/test/verification pada setiap slice.
+
