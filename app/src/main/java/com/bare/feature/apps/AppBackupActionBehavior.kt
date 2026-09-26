@@ -71,13 +71,19 @@ class AppBackupActionBehavior(context: Context) {
             return Result.Failed("Protected backup cannot be modified")
         }
 
-        val targets = when (part) {
-            AppBackupPart.APK -> directory.listFiles()
-                ?.filter { it.isFile && it.extension.equals("apk", ignoreCase = true) }
-                .orEmpty()
-            AppBackupPart.DATA -> listOf(File(directory, "data"))
-            AppBackupPart.EXTERNAL_DATA -> listOf(File(directory, "external-data"))
-            AppBackupPart.MEDIA -> listOf(File(directory, "media"))
+        val targets = if (metadata.artifacts.isNotEmpty()) {
+            metadata.artifacts
+                .filter { it.part == part.name }
+                .map { File(directory, it.fileName) }
+        } else {
+            when (part) {
+                AppBackupPart.APK -> directory.listFiles()
+                    ?.filter { it.isFile && it.extension.equals("apk", ignoreCase = true) }
+                    .orEmpty()
+                AppBackupPart.DATA -> listOf(File(directory, "data"))
+                AppBackupPart.EXTERNAL_DATA -> listOf(File(directory, "external-data"))
+                AppBackupPart.MEDIA -> listOf(File(directory, "media"))
+            }
         }.filter { it.exists() }
 
         if (targets.isEmpty()) {
