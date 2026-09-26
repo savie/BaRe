@@ -12,11 +12,11 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | c9365498e653458a5b4708ce0de53b289dfffce4 |
+| Current repository HEAD | 2098ee32a175852bae89a93c8f3d60e617d86f07 |
 | Lifecycle | **DESIGN / ARCHITECTURE / BUILD** |
 | Current focus | **A18 — REBUILD BACKUP + RESTORE BERDASARKAN REFERENCE BEHAVIOR** |
 | Latest runtime evidence | **CI #1169 runtime evidence supplied by user** |
-| Current implementation status | **REFERENCE RECONSTRUCTION COMPLETE / IMPLEMENTATION REBUILD NEXT** |
+| Current implementation status | **BARE ADAPTATION ACTIVE / RESTORE BACKEND PENDING** |
 | Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
@@ -359,3 +359,37 @@ Current conclusion:
 - Backup runtime: **UNVERIFIED**.
 - Restore runtime: **UNVERIFIED**.
 - A18: **NOT VERIFIED**.
+
+
+## 9. CURRENT CHECKPOINT — BARE ADAPTATION STARTED
+
+### 2026-09-26 — ROOT source precondition / direct source boundary
+
+**IMPLEMENTED**
+
+- ROOT directory archive sources now perform an explicit privileged precondition check before archive execution:
+  - source exists;
+  - source is a directory;
+  - diagnostic mode/type is captured on failure;
+  - source byte size must be available before archive starts.
+- ROOT tar streaming now receives the **absolute source path directly** instead of changing to the parent directory and passing only the basename.
+- This aligns the BaRe provider boundary more closely with the reference evidence that selected sources are handed to the archive boundary as absolute source paths.
+- NON_ROOT staging behavior was not changed by this checkpoint.
+
+**Commit**
+
+- `2098ee32a175852bae89a93c8f3d60e617d86f07` — stream root source by absolute path.
+
+**Verification**
+
+- Source implementation: **OBSERVED / IMPLEMENTED**.
+- CI: **PENDING / no workflow run observed yet for this latest code checkpoint**.
+- Runtime: **UNVERIFIED**.
+- CI #1169 Data failure is not declared fixed until the same runtime case passes the new source precondition and archive path.
+
+**NEXT**
+
+1. Build/compile latest checkpoint.
+2. Runtime ROOT APK + Data + Ext. data + Media.
+3. If Data still fails, use the new precondition diagnostics to distinguish source namespace/access failure from archive failure.
+4. Then implement the missing restore backend boundary.
