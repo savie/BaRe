@@ -129,9 +129,9 @@ class AppBackupBehavior(private val context: Context) {
                 file
             } else null
 
-            val executableParts: Set<AppBackupPart> = request.parts - if (skippedApk != null) AppBackupPart.APK else emptySet<AppBackupPart>()
+            val executableParts: Set<AppBackupPart> = if (skippedApk != null) {\n                request.parts - AppBackupPart.APK\n            } else {\n                request.parts\n            }
             val result = engine.execute(request.copy(parts = executableParts), backupDirectory, onProgress, isCancelled)
-            val completedParts: Set<AppBackupPart> = result.completedParts + if (skippedApk != null) setOf(AppBackupPart.APK) else emptySet<AppBackupPart>()
+            val completedParts: Set<AppBackupPart> = if (skippedApk != null) {\n                result.completedParts + AppBackupPart.APK\n            } else {\n                result.completedParts\n            }
 
             if (executableParts.isEmpty()) {
                 onProgress(AppBackupProgress(AppBackupProgressStage.COMPLETED, message = "Backup completed: ${completedParts.size}/${request.parts.size} parts"))
