@@ -24,6 +24,17 @@ import kotlinx.coroutines.withContext
 
 internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
 
+private fun formatRestoreBytes(bytes: Long): String {
+    val value = bytes.coerceAtLeast(0L)
+    if (value < 1024L) return "$value B"
+    if (value < 1024L * 1024L) return String.format(java.util.Locale.US, "%.1f KB", value / 1024.0)
+    if (value < 1024L * 1024L * 1024L) return String.format(java.util.Locale.US, "%.2f MB", value / (1024.0 * 1024.0))
+    return String.format(java.util.Locale.US, "%.2f GB", value / (1024.0 * 1024.0 * 1024.0))
+}
+
+private fun formatRestoreDuration(millis: Long): String =
+    if (millis < 1000L) "$millis ms" else String.format(java.util.Locale.US, "%.1f s", millis / 1000.0)
+
 private fun AppBackupPart.restoreDisplayName(): String = when (this) {
     AppBackupPart.APK -> "APK"
     AppBackupPart.DATA -> "Data"
@@ -45,6 +56,10 @@ internal fun RestoreProcessScreen(
     var status by remember { mutableStateOf(RestoreProcessStatus.RUNNING) }
     var currentPart by remember { mutableStateOf<AppBackupPart?>(null) }
     var message by remember { mutableStateOf("Preparing restore") }
+    var processedBytes by remember { mutableStateOf<Long?>(null) }
+    var totalBytes by remember { mutableStateOf<Long?>(null) }
+    var elapsedMillis by remember { mutableStateOf<Long?>(null) }
+    var bytesPerSecond by remember { mutableStateOf<Long?>(null) }
     var logs by remember { mutableStateOf<List<String>>(emptyList()) }
     val advanced = remember(context) { EncryptionPasswordStore(context).loadStrategy() == com.bare.feature.settings.EncryptionPasswordStrategy.ADVANCED }
     var started by remember { mutableStateOf(!advanced) }
@@ -59,6 +74,10 @@ internal fun RestoreProcessScreen(
                 onProgress = { progress ->
                     currentPart = progress.part
                     message = progress.message
+                    processedBytes = progress.processedBytes
+                    totalBytes = progress.totalBytes
+                    elapsedMillis = progress.elapsedMillis
+                    bytesPerSecond = progress.bytesPerSecond
                     if (progress.stage != AppBackupProgressStage.PART_PROGRESS) {
                         logs = (logs + progress.message).takeLast(80)
                     }
@@ -142,6 +161,30 @@ internal fun RestoreProcessScreen(
             }
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (totalBytes != null && totalBytes!! > 0L) {
+                        val progressFraction = ((processedBytes ?: 0L).toDouble() / totalBytes!!.toDouble()).coerceIn(0.0, 1.0).toFloat()
+                        LinearProgressIndicator(
+                            progress = { progressFraction },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Text(
+                            "Progress: " + formatRestoreBytes(processedBytes ?: 0L) + " / " + formatRestoreBytes(totalBytes!!),
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        Text(
+                            buildString {
+                                append("Elapsed: ")
+                                append(formatRestoreDuration(elapsedMillis ?: 0L))
+                                if ((bytesPerSecond ?: 0L) > 0L) {
+                                    append("  •  ")
+                                    append(formatRestoreBytes(bytesPerSecond!!))
+                                    append("/s")
+                                }
+                            },
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
                     Text(
                         currentPart?.let { "Current part: ${it.restoreDisplayName()}" } ?: "Restore",
                         fontWeight = FontWeight.Bold,
