@@ -15,8 +15,8 @@
 | Branch | v1.0/rebaseline |
 | Lifecycle | **VERIFICATION → TARGETED CORRECTION** |
 | Fokus saat ini | **A18 — Data special behavior** untuk backup + restore (per-part dan multi-select); setelah itu LOCAL APPS |
-| Evidence CI terbaru | **CI #1248 PASS** untuk restore metadata fallback contract; detailed process diagnostics commits belum memiliki workflow run yang terobservasi |
-| Evidence runtime terbaru | **RUNTIME USER — #1255**: UI Device backups action untuk Ext. data/Media sudah sesuai setelah penambahan Encrypted di atas Delete; #1254 sebelumnya menunjukkan unchanged restore sudah bekerja kecuali Data |
+| Evidence CI terbaru | **CI #1267 🟢 PASS — USER CONFIRMED** untuk batch targeted correction UI/process diagnostics, delete-part metadata consistency, dan single-part inventory/card behavior |
+| Evidence runtime terbaru | **RUNTIME USER — #1267 🟢 VERIFIED**: ketiga targeted fixes sudah diuji dan dinyatakan sesuai; #1255 sebelumnya tetap menjadi evidence action parity Ext. data/Media |
 | Audit reference | **docs/reference.md Section 30/31** — audit statis lifecycle App Backup/Restore dan audit inventory/performance |
 | Acceptance A18 | **NOT VERIFIED** |
 
@@ -38,18 +38,35 @@ Hanya item berikut yang aktif. **Jangan membuka kembali behavior yang sudah terb
    - Static audit sudah selesai.
    - Optimization tetap ditunda; jangan melebar ke performance/redesign.
 
-4. **PROCESS UI + BARE DIAGNOSTIC LOG — AKTIF / CORRECTNESS + DIAGNOSTICS**
-   - Audit aktual sudah selesai untuk Backup Process UI, Restore Process UI, dan diagnostic/log surface.
-   - Scope mencakup perbaikan UI proses dan penambahan/perbaikan **BaRe Diagnostic Log** berdasarkan actual execution event.
-   - Backup dan Restore harus memiliki process/diagnostic presentation yang konsisten.
-   - Reference dipakai sebagai baseline detail/presentation observability; event yang ditampilkan tetap harus berasal dari actual BaRe execution path.
-   - Scope ini **bukan OUT OF SCOPE**. Ia aktif dan dapat dikerjakan sebelum, sesudah, atau bersamaan dengan item correctness lain sesuai dependency dan risiko.
-
 5. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
    - Ditunda sampai correctness lokal dan Data selesai.
 
 6. **FULL A18 ACCEPTANCE — BELUM VERIFIED**
    - Gate terakhir setelah active correctness scope selesai dan regression runtime tersedia.
+
+### CLOSED / PROTECTED — TARGETED CORRECTION #1267
+
+Scope berikut sudah **CLOSED / USER VERIFIED** berdasarkan evidence CI/runtime yang dikonfirmasi user:
+
+- **Diagnostics Back hierarchy**
+  - Android/system Back dari dedicated Diagnostics kembali ke Process screen.
+  - Header Back tetap menggunakan callback Process → previous screen.
+- **Delete part metadata/card consistency**
+  - Setelah part berhasil dihapus, metadata artifact untuk part tersebut ikut dibersihkan.
+  - Backup version yang sudah tidak memiliki artifact/content lagi ikut dibersihkan.
+  - Tidak ada perubahan pada backup engine contract.
+- **Single-part backup inventory/card**
+  - Inventory hanya menghitung artifact file yang benar-benar ada di storage.
+  - Device backups card hanya menampilkan part yang benar-benar memiliki artifact/bytes.
+  - Restore selector tetap menggunakan part yang benar-benar tersedia.
+- **Scope guard**
+  - Ketiga correction di atas tidak membuka kembali Data special behavior, LOCAL APPS, atau large-file optimization.
+  - Behavior yang sudah protected tidak diubah di luar scope targeted correction.
+
+**VERIFICATION**
+- CI **#1267 🟢 PASS** — user confirmed.
+- Runtime **#1267 🟢 VERIFIED BY USER** — user confirmed ketiga correction sesuai.
+- Status ketiga correction: **CLOSED / PROTECTED**.
 
 ### UI ACTION PARITY — #1255
 
@@ -78,12 +95,11 @@ Urutan di bawah adalah **priority map**, bukan urutan wajib yang mengunci pekerj
 1. **DATA special behavior:** inspect actual backup + restore Data behavior, tentukan contract khusus, lalu implement minimal Data-specific change setelah root cause terverifikasi.
 2. **LOCAL APPS:** lanjutkan correctness canonical inventory/association sesuai evidence aktual.
 3. **LARGE-FILE PERFORMANCE:** tetap audit/timing-driven; optimization tidak boleh dimulai dari asumsi.
-4. **PROCESS UI + BARE DIAGNOSTIC LOG:** implementation sudah dilakukan; next gate adalah CI lalu targeted runtime verification terhadap Backup/Restore process dan BugReport → detailed Diagnostics.
-5. **LOCAL / CLOUD PART SYNC PARITY:** tetap later sampai correctness prerequisite terpenuhi.
-6. **CI + targeted runtime regression:** jalankan terhadap perubahan yang relevan, termasuk regression smoke APK/Ext. data/Media dan behavior yang sudah protected.
-7. **FULL A18 acceptance:** tutup hanya setelah seluruh active scope yang relevan memiliki evidence acceptance.
+4. **LOCAL / CLOUD PART SYNC PARITY:** tetap later sampai correctness prerequisite terpenuhi.
+5. **CI + targeted runtime regression:** jalankan terhadap perubahan yang relevan, termasuk regression smoke APK/Ext. data/Media dan behavior yang sudah protected.
+6. **FULL A18 acceptance:** tutup hanya setelah seluruh active scope yang relevan memiliki evidence acceptance.
 
-**Execution rule:** tidak ada kewajiban menyelesaikan item 1 → 2 → 3 → 4 secara serial. Misalnya **#4 dapat dikerjakan lebih dahulu**, lalu kembali ke **#1**, atau beberapa item dapat dikerjakan dalam satu batch selama dependency, scope guard, dan verification tetap jelas.
+**Execution rule:** tidak ada kewajiban menyelesaikan active item secara serial. Execution order dapat diubah sesuai dependency, evidence, scope guard, dan risiko; beberapa item dapat dikerjakan dalam satu batch selama verification tetap jelas.
 
 **Optimization tetap belakangan:** audit performance boleh berjalan sebagai evidence, tetapi perubahan optimasi tidak boleh mengganggu correctness scope.
 
@@ -2018,6 +2034,66 @@ CI Android Build #1261 failed at `:app:compileDebugKotlin` with two source error
 - CI #1262: **IN PROGRESS**
 - Runtime verification: **PENDING**
 - Build status: **NOT VERIFIED until CI completes**
+
+### A18 — TARGETED CORRECTION #1267 — 2026-09-27
+
+### USER-PROVIDED VERIFICATION EVIDENCE
+
+User mengonfirmasi:
+
+> **#1267 🟢 Sudah fix semua 3 hal itu good**
+
+Evidence tersebut diperlakukan sebagai **USER-VERIFIED RUNTIME/CI CHECKPOINT** untuk tiga correction yang memang menjadi scope batch ini.
+
+### TARGETED CORRECTIONS
+
+1. **Diagnostics Back hierarchy**
+   - Dedicated Diagnostics screen sekarang menangani Android/system Back melalui BackHandler.
+   - Back kembali ke Process screen, bukan melewati hierarchy menuju App Detail.
+   - Header Back tetap mempertahankan callback yang sudah ada.
+
+2. **Delete part — stale metadata/card**
+   - deletePart() sekarang menghapus metadata artifact untuk part yang berhasil dihapus.
+   - Jika tidak ada artifact/content yang tersisa, backup version directory yang kosong ikut dihapus.
+   - Jika artifact lain masih ada, metadata ditulis ulang secara atomik dengan artifact part yang sudah dihapus dikeluarkan.
+   - Correction dibatasi pada konsistensi metadata/storage state; tidak mengubah backup engine contract.
+
+3. **Single-part backup card — actual part only**
+   - Inventory totalBytes dan named artifact size sekarang memeriksa file artifact aktual di storage.
+   - Device backups card hanya merender chip part yang benar-benar memiliki bytes/artifact.
+   - Restore selector tetap dibatasi pada part yang benar-benar tersedia.
+   - Correction tidak mengubah backup/restore engine mechanism.
+
+### IMPLEMENTATION COMMITS
+
+- 9b2a39c2f1e52b8bd59b69bf6908c33ec6da13d1 — fix(apps): restore diagnostics back hierarchy
+- 5145350cf98cd65ad6b6788b1bd1e144885faa7c — fix(apps): clean deleted backup part metadata
+- a104329a5f41e5916b2237266b78953f405279d5 — fix(apps): count only existing backup artifacts
+- 23020672b5d9cf1203d218b665119f77d447afb5 — fix(apps): show only available backup parts
+- 47fdc947a3a80e57ae00a3959ad00ecaef5842f4 — fix(apps): correct backup part chip layout
+
+### VERIFICATION STATUS
+
+- CI **#1267 🟢 PASS — USER CONFIRMED**.
+- Runtime **#1267 🟢 VERIFIED BY USER**.
+- Tiga correction: **CLOSED / PROTECTED**.
+- No regression was reported by the user for the already protected behavior in this batch.
+- Data special behavior remains **ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**.
+- LOCAL APPS remains **ACTIVE / NOT VERIFIED**.
+- Large-file optimization remains **LATER**.
+
+### NEXT ACTION AFTER #1267
+
+Priority kembali ke active correctness scope:
+
+1. Inspect actual BaRe Data backup source/preparation path against reference evidence.
+2. Inspect actual BaRe Data restore decision/extraction path against reference evidence.
+3. Define the minimal Data-specific contract supported by evidence.
+4. Implement only the Data-specific correction after root cause is verified.
+5. Run targeted CI.
+6. Runtime verify Data per-part + multi-select.
+7. Regression smoke APK / Ext. data / Media.
+8. Continue LOCAL APPS after Data correctness is closed.
 
 ### BASELINE GUARD
 
