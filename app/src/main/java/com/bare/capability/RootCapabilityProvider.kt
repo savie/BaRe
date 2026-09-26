@@ -198,6 +198,24 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
     }
 
+    fun listDirectoryNames(path: String): List<String> {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return emptyList()
+        val quoted = shellQuote(path)
+        val result = runSu("find $quoted -mindepth 1 -maxdepth 1 -type d -printf '%f\\n'")
+        if (result.exitCode != 0) return emptyList()
+        return result.stdout.lineSequence()
+            .map(String::trim)
+            .filter(String::isNotBlank)
+            .toList()
+    }
+
+    fun readTextFile(path: String): String? {
+        if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
+        val quoted = shellQuote(path)
+        val result = runSu("cat $quoted")
+        return if (result.exitCode == 0) result.stdout else null
+    }
+
     fun directorySize(path: String): Long? {
         if (path.isBlank() || path.contains("\n") || path.contains("\r")) return null
         val quoted = shellQuote(path)
