@@ -2761,7 +2761,9 @@ private fun BackupPartChip(
                 onClick = {},
             )
             when (part) {
-                AppBackupPart.DATA -> DropdownMenuItem(
+                AppBackupPart.DATA,
+                AppBackupPart.EXTERNAL_DATA,
+                AppBackupPart.MEDIA -> DropdownMenuItem(
                     text = { Text(stringResource(R.string.encrypted)) },
                     leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                     enabled = false,
