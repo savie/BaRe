@@ -66,6 +66,7 @@ class AppRestoreBehavior(private val context: Context) {
         return try {
             for (part in request.parts) {
                 if (isCancelled()) return AppRestoreOutcome.Failed("Restore cancelled")
+                val partStartedAt = System.nanoTime()
                 val artifact = metadata.artifacts.firstOrNull { it.part == part.name }
                     ?: return AppRestoreOutcome.Failed("${part.displayName()} backup artifact is missing")
                 val source = File(directory, artifact.fileName)
@@ -88,12 +89,16 @@ class AppRestoreBehavior(private val context: Context) {
                     password = request.password?.copyOf(),
                     part = part,
                 ) { processed, total ->
+                    val elapsed = ((System.nanoTime() - partStartedAt) / 1_000_000L).coerceAtLeast(0L)
+                    val rate = if (elapsed > 0L) processed * 1000L / elapsed else null
                     onProgress(AppBackupProgress(
                         AppBackupProgressStage.PART_PROGRESS,
                         part,
-                        "Extracting ${part.displayName()}: ${formatBytes(processed)} / ${formatBytes(total)}",
+                        "Extracting ${part.displayName()}",
                         processed,
                         total,
+                        elapsed,
+                        rate,
                     ))
                 }
 
@@ -250,7 +255,7 @@ class AppRestoreBehavior(private val context: Context) {
     private data class ShellResult(val exitCode: Int, val output: String)
 
     private fun runSu(command: String): ShellResult {
-        val process = ProcessBuilder("su", "-c", command).redirectErrorStream(true).start()
+        val process = ProcessBuilder("su", "--mount-master", "-c", command).redirectErrorStream(true).start()
         val completed = process.waitFor(60, TimeUnit.SECONDS)
         if (!completed) {
             process.destroyForcibly()
