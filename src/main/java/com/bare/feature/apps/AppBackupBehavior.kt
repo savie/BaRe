@@ -45,7 +45,6 @@ sealed interface AppBackupResult {
 enum class AppBackupProgressStage {
     PREPARING,
     PART_STARTED,
-    PART_PROGRESS,
     PART_COMPLETED,
     PART_FAILED,
     METADATA,
@@ -57,10 +56,6 @@ data class AppBackupProgress(
     val stage: AppBackupProgressStage,
     val part: AppBackupPart? = null,
     val message: String,
-    val processedBytes: Long? = null,
-    val totalBytes: Long? = null,
-    val elapsedMillis: Long? = null,
-    val bytesPerSecond: Long? = null,
 )
 
 class AppBackupBehavior(private val context: Context) {
