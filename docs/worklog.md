@@ -583,3 +583,32 @@ Commits:
 - Android Build #1185 for `2658a48e5dfbbde3387693a416c0c4fb184f6278` is **IN_PROGRESS**.
 - Android Build #1186 for `db0d8d712baeb868ec31e72c6e425c34d8f552cd` is **IN_PROGRESS**.
 - No CI PASS is claimed yet for the hash-fix checkpoint.
+
+
+## A18 — Reference Archive Mechanism Alignment — 2026-09-26
+
+### OBSERVED / VERIFIED
+- Runtime #1186 passed backup artifact hash verification after the prior hash contract fix.
+- Runtime evidence showed APK target size is 7.12 MB; the earlier 7.1 GB interpretation was incorrect.
+- Swift Backup 5.1.0 reference audit confirms the SBA archive path uses native TAR + Zstandard compression; FASTEST maps to Zstandard level 1. Encryption is a separate path.
+
+### DECISION / AUTHORIZATION
+- Backup and restore must follow the audited Swift reference mechanism for all applicable archive, compression, source, artifact, and restore behavior.
+- BaRe encryption/decryption remains the sole explicit mechanism exception.
+
+### IMPLEMENTATION
+- Added Apache Commons Compress TAR and zstd-jni dependencies.
+- Added `AppReferenceTarZstdArchive` for TAR + Zstandard level 1 payload creation.
+- Switched BaRe backup payload generation from ZIP/Deflater to reference-aligned TAR/Zstandard while retaining BaRe AES-GCM encryption and final artifact SHA-256 verification.
+- Added BaRe archive payload format version 2 and restore dispatch for legacy ZIP payloads (v1) and reference TAR/Zstandard payloads (v2).
+
+### VERIFICATION STATUS
+- CI for the latest reference-alignment changes: IN_PROGRESS / NOT YET VERIFIED at worklog update time.
+- Runtime verification of the new TAR/Zstandard build: NOT STARTED; blocked on CI artifact.
+
+### NEXT
+- Verify CI build.
+- Install the resulting artifact and run APK-only backup for the 7.12 MB 1DM+ APK.
+- Verify progress reports MB rather than the previous erroneous GB scale.
+- Measure backup elapsed time and compare stage timing against Swift reference.
+- Then verify Data / Ext. data / Media and restore using the new artifact format.
