@@ -1213,7 +1213,7 @@ Expansion tetap di luar cakupan tanpa keputusan baru.
 
 ### STATUS VERIFIKASI SAAT INI
 
-- Evidence reference statis: **VERIFIED TERHADAP ARTIFACT HASIL DEKOMIPLASI**.
+- Evidence reference statis: **VERIFIED TERHADAP ARTIFACT HASIL DEKOMPILASI**.
 - APK identical-skip BaRe: **RUNTIME OBSERVED**.
 - Skip backup Data/Ext. data/Media BaRe: **NOT IMPLEMENTED / UNVERIFIED**.
 - Skip restore Data/Ext. data/Media BaRe: **NOT IMPLEMENTED / UNVERIFIED**.
@@ -1251,7 +1251,7 @@ Implementasikan TODO di atas sesuai urutan correctness, lalu lakukan satu siklus
 - Prasyarat restore.
 - Pemilihan restore per bagian.
 - Keputusan restore APK dan perilaku downgrade/versi yang lebih baru.
-- Data / Ext. data / Expansion / Deteksi perubahan restore Media.
+- Deteksi perubahan restore Data / Ext. data / Expansion / Media.
 - Ekstraksi/restore spesifik per bagian.
 - Validasi password/arsip/package.
 - Restore permission/data khusus.
@@ -1340,14 +1340,14 @@ User secara eksplisit memutuskan:
 
 ### TODO IMPLEMENTASI AKTIF
 
-1. Canonical Visibilitas inventaris LOCAL APPS.
+1. Visibilitas inventaris LOCAL APPS kanonik.
 2. Metadata/contract state perubahan per bagian yang digunakan bersama.
 3. Deteksi perubahan backup Data: unchanged dipertahankan/di-skip; changed hanya membangun ulang Data.
 4. Deteksi perubahan backup External Data: unchanged dipertahankan/di-skip; changed hanya membangun ulang Ext. Data.
 5. Deteksi perubahan backup Media: unchanged dipertahankan/di-skip; changed hanya membangun ulang Media.
 6. Keputusan restore APK: unchanged skip; changed restore; tangani boundary versi terpasang yang lebih baru.
 7. Deteksi perubahan restore Data: unchanged skip; changed restore.
-8. External Deteksi perubahan restore Data: unchanged skip; changed restore.
+8. Deteksi perubahan restore External Data: unchanged skip; changed restore.
 9. Deteksi perubahan restore Media: unchanged skip; changed restore.
 10. Agregasi hasil campuran SKIPPED + RESTORED + FAILED untuk Restore All.
 11. Pembaruan incremental backup tingkat bagian: pertahankan bagian unchanged dan hanya bangun ulang bagian changed.
