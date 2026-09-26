@@ -1930,6 +1930,62 @@ Build reached `:app:compileDebugKotlin` and failed on two source errors:
 - Runtime verification: **PENDING**
 - Therefore: **FIX IMPLEMENTED / BUILD UNVERIFIED**.
 
+### A18 — REFERENCE-ALIGNED DIAGNOSTIC LOGGER — 2026-09-27
+
+**DECISION / AUTHORIZATION**
+
+User explicitly authorized GO to follow the reference diagnostic/log implementation as far as the reference evidence supports, including changing the diagnostic result presentation away from the previous event-card UI.
+
+**REFERENCE EVIDENCE AUDITED**
+
+Reference SwiftLogger evidence shows:
+
+- log record contains timestamp, message type/level, title/tag, message, and optional log color;
+- UI is a chronological plain log list, not per-event cards;
+- timestamp is rendered as `dd/MM/yy HH:mm:ss.SSS`;
+- log message uses a compact monospace presentation with a thin divider between rows;
+- info/warn/error severity affects log presentation/color;
+- SwiftLogger writes through Android logging and persists its own log records;
+- reference provides a separate **SwiftLogger + Device Logcat** export path when device capability allows it.
+
+**BARE IMPLEMENTATION**
+
+- Replaced the previous **Process diagnostics / Event N card** presentation with a reference-style chronological log stream.
+- Each BaRe process diagnostic entry now carries:
+  - timestamp;
+  - severity;
+  - actual BaRe component tag;
+  - actual message;
+  - stage/part/progress metadata where available.
+- Diagnostic emission also calls Android `Log.println()`, so the same diagnostic events are available in Logcat.
+- Backup and Restore now emit reference-style lifecycle entries such as start/props/tasks and actual progress/result events.
+- Severity mapping:
+  - INFO for normal execution;
+  - WARN for cancellation/non-fatal warning;
+  - ERROR for failure.
+- Detailed Diagnostics header now includes BugReport identity and a three-dot menu with **Clear logs**, matching the reference diagnostic control pattern.
+- Clear logs is wired to the actual process log state for Backup and Restore.
+- The main Backup/Restore process layout remains protected; this correction targets the diagnostic surface.
+
+**IMPORTANT BOUNDARY**
+
+- BaRe does **not** fabricate reference-only components such as Swift Backup's TaskService.
+- Tags shown by BaRe are based on actual BaRe code paths, e.g. `AppBackupBehavior`, `AppBackupEngine`, `AppRestoreBehavior`, and `AppRestoreArchiveReader`.
+- Device Logcat is not merged blindly into the visible process log. The reference evidence treats Device Logcat as an additional export component; current BaRe work establishes Logcat emission for BaRe diagnostics first.
+
+**IMPLEMENTATION COMMITS**
+
+- `da5094b5b63a2fc0f417db5ef5e9c70c77ec4ee4` — feat(apps): align diagnostics log with reference
+- `86f2f9a6072d0c7b935bdd826d4fbddc04f5d82d` — fix(apps): complete reference-style diagnostic controls
+
+**VERIFICATION STATUS**
+
+- Repository HEAD: **OBSERVED** = `86f2f9a6072d0c7b935bdd826d4fbddc04f5d82d`
+- Source re-fetch: **PENDING CI / runtime**
+- CI workflow run: **NOT YET OBSERVED**
+- Runtime verification: **PENDING**
+- Reference alignment: **IMPLEMENTED / NOT VERIFIED**
+
 ### BASELINE GUARD
 
 Checkpoint ini menjadi baseline scope untuk pekerjaan berikutnya:
