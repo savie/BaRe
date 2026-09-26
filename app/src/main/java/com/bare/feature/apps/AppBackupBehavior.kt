@@ -129,17 +129,26 @@ class AppBackupBehavior(private val context: Context) {
                 file
             } else null
 
-            val executableParts: Set<AppBackupPart> = if (skippedApk != null) {
-                request.parts - AppBackupPart.APK
-            } else {
-                request.parts
-            }
+            val skippedParts = linkedSetOf<AppBackupPart>()
+            if (skippedApk != null) skippedParts += AppBackupPart.APK
+            val executableParts: Set<AppBackupPart> = request.parts.filter { part ->
+                if (part == AppBackupPart.APK) return@filter skippedApk == null
+                val artifact = existing?.artifacts?.firstOrNull { it.part == part.name }
+                val currentState = currentPartState(packageInfo, part)
+                val unchanged = artifact != null &&
+                    currentState != null &&
+                    artifact.sourceByteSize != null &&
+                    artifact.sourceModifiedAt != null &&
+                    currentState.matches(AppBackupPartState(artifact.sourceByteSize, artifact.sourceModifiedAt))
+                if (unchanged) {
+                    skippedParts += part
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_STARTED, part, "Checking " + part.displayName() + " backup"))
+                    onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, part.displayName() + " backup skipped: unchanged"))
+                    false
+                } else true
+            }.toSet()
             val result = engine.execute(request.copy(parts = executableParts), backupDirectory, onProgress, isCancelled)
-            val completedParts: Set<AppBackupPart> = if (skippedApk != null) {
-                result.completedParts + AppBackupPart.APK
-            } else {
-                result.completedParts
-            }
+            val completedParts: Set<AppBackupPart> = result.completedParts + skippedParts
 
             if (executableParts.isEmpty()) {
                 onProgress(AppBackupProgress(AppBackupProgressStage.COMPLETED, message = "Backup completed: ${completedParts.size}/${request.parts.size} parts"))
@@ -227,6 +236,25 @@ class AppBackupBehavior(private val context: Context) {
         return actual.equals(artifact.sha256, ignoreCase = true)
     }
 
+    private fun currentPartState(
+        packageInfo: android.content.pm.PackageInfo,
+        part: AppBackupPart,
+    ): AppBackupPartState? {
+        val info = packageInfo.applicationInfo ?: return null
+        val rootProvider = com.bare.capability.RootCapabilityProvider()
+        return when (part) {
+            AppBackupPart.APK -> null
+            AppBackupPart.DATA -> AppBackupPartStateReader.root(rootProvider, info.dataDir)
+            AppBackupPart.EXTERNAL_DATA -> AppBackupPartStateReader.root(
+                rootProvider,
+                File(android.os.Environment.getExternalStorageDirectory(), "Android/data/" + packageInfo.packageName).absolutePath,
+            )
+            AppBackupPart.MEDIA -> AppBackupPartStateReader.root(
+                rootProvider,
+                File(android.os.Environment.getExternalStorageDirectory(), "Android/media/" + packageInfo.packageName).absolutePath,
+            )
+        }
+    }
     companion object {
         private val PACKAGE_REGEX = Regex("""[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+""")
     }
