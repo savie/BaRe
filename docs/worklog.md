@@ -920,3 +920,94 @@ Requirement tersebut dicatat karena dinyatakan langsung oleh user; bukan hasil i
 - Verification target: backup/restore behavior dan gap UI/state yang masih tersisa
 - Out of scope pada checkpoint ini: implementation changes
 - Next actionable work: inventory refresh reconciliation, dengan authorization code change tetap diperlukan
+
+
+## A18 — #1244 REGRESSION REPAIR / INVENTORY + RESTORE RECONCILIATION — 2026-09-26
+
+### CURRENT CHECKPOINT
+
+**Status:** VERIFICATION
+
+**Current task:** Memperbaiki regresi backup artifact integrity, membuat backup inventory terlihat konsisten pada LOCAL APPS, memastikan restore all/per-part memiliki jalur yang benar, dan menghasilkan artifact build terbaru tanpa menonaktifkan verification boundary.
+
+### OBSERVED — USER RUNTIME #1244
+
+- Backup 1DM+ gagal pada artifact hash verification untuk Data dan Media.
+- APK identical-skip berjalan dan tercatat sebagai:
+  APK backup skipped: identical backup already exists.
+- Restore APK, Ext. data, dan Media dapat mencapai restore completed.
+- Restore Data gagal pada Backup artifact hash mismatch: data.bare.
+- LOCAL APPS menampilkan No backup on device walaupun backup tersedia pada detail/restore flow.
+
+### ROOT CAUSE / EVIDENCE
+
+- AppBackupArchiveWriter sebelumnya mengembalikan SHA-256 dari staged output digest sebelum committed artifact dibaca ulang.
+- AppBackupEngine.verifyArtifact() membandingkan SHA-256 artifact final terhadap hash yang dikembalikan writer.
+- Runtime #1244 membuktikan contract tersebut tidak konsisten pada device.
+- Fix mengembalikan invariant: metadata/result SHA-256 berasal dari final committed artifact setelah moveIntoPlace().
+- Artifact hash verification tetap dipertahankan.
+
+### IMPLEMENTATION
+
+1. **Backup artifact integrity**
+   - Commit: e72b63bc5860f4e84b545cfdf8014ce6b39a4908
+   - Final artifact SHA-256 dihitung dari committed file.
+   - Tidak ada penghapusan integrity verification.
+
+2. **Backup metadata parsing**
+   - Commit: 7a7e37fa3df04d2bb9db8257ac09b004fb1bdebd
+   - Metadata dapat diparse dari text untuk inventory root-aware.
+
+3. **ROOT backup inventory**
+   - Commits: 936b0369457d984c31a1a46e38b33be0726c389f, 9dd7293eb34b73319a6526e631fd0581f5cefda6
+   - Menambahkan root-aware directory listing dan metadata read.
+   - Inventory fallback menggunakan root view ketika app namespace tidak melihat directory entries.
+
+4. **Shared backup inventory**
+   - Commit: 86ea4e109f9fd2455205088b394c21cae2b8f39c
+   - AppBackupInventoryBehavior menjadi sumber inventory local backup dan mendukung root-aware discovery.
+   - InstalledAppRepository menggunakan inventory yang sama untuk status backup pada LOCAL APPS.
+
+5. **Restore all / per-part**
+   - Existing backend contract tetap menggunakan Set<AppBackupPart>.
+   - RESTORE all menggunakan seluruh part yang tersedia.
+   - RESTORE per-part menggunakan subset satu part.
+   - Duplicate restore-all UI action dihapus agar hanya ada satu action utama.
+   - Part restore action digate berdasarkan artifact availability dan protected state.
+
+### CI / BUILD
+
+- **CI #1234: PASS**
+- Commit: 7a7e37fa3df04d2bb9db8257ac09b004fb1bdebd
+- Artifact: BaRe-v1.0-build-1234
+- Artifact SHA-256: 338cae2ce1eb1bb04fc724fb29cf628202de720483562395d2a2ba27f7dfb505
+- APK build/verification/signing/upload: PASS.
+
+### TESTED / VERIFIED STATUS
+
+- Code implementation: IMPLEMENTED.
+- CI/build: PASS / VERIFIED.
+- APK identical-skip: runtime evidence #1244 menunjukkan skip path berjalan.
+- Backup artifact integrity setelah fix: RUNTIME UNVERIFIED.
+- LOCAL APPS inventory fix: RUNTIME UNVERIFIED.
+- Restore all after integrity fix: RUNTIME UNVERIFIED.
+- Restore per-part after integrity fix: RUNTIME UNVERIFIED.
+- Restore Data after integrity fix: RUNTIME UNVERIFIED.
+- Large-file performance: UNKNOWN.
+- Full A18 acceptance: NOT VERIFIED.
+
+### KNOWN LIMITATION
+
+CI PASS hanya membuktikan source dapat dibuild dan artifact checks CI berhasil. CI belum membuktikan runtime device untuk artifact hash, inventory visibility, backup all, restore all, atau restore per-part.
+
+### NEXT RUNTIME GATE
+
+1. Install artifact #1234.
+2. Backup 1DM+ all selected parts.
+3. Confirm no artifact hash verification failure.
+4. Return to LOCAL APPS and confirm backup status is visible.
+5. Open app detail and confirm all available backup parts are visible.
+6. Restore all.
+7. Restore APK-only, Data-only, Ext. data-only, dan Media-only individually.
+8. Confirm each result and post-restore verification.
+9. Only after these pass, perform large-file/performance measurement and full A18 acceptance.
