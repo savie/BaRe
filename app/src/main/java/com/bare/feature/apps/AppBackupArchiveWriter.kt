@@ -476,7 +476,7 @@ class AppBackupArchiveWriter(private val context: Context) {
             'B'.code.toByte(), 'A'.code.toByte(), 'R'.code.toByte(), 'E'.code.toByte(),
             'E'.code.toByte(), 'N'.code.toByte(), 'C'.code.toByte(), '1'.code.toByte(),
         )
-        private const val FORMAT_VERSION = 1
+        private const val FORMAT_VERSION = 2
         private const val ANDROID_KEYSTORE = "AndroidKeyStore"
         private const val KEY_ALIAS = "bare_backup_payload"
         private const val TRANSFORMATION = "AES/GCM/NoPadding"
