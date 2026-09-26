@@ -34,27 +34,27 @@ class AppBackupInventoryBehavior(context: Context) {
 
         for (location in storage.localBackupLocations(identity.identityId)) {
             val appsRoot = File(location, "apps")
-            val directPackageNames = appsRoot.listFiles()
-                ?.asSequence()
-                ?.filter { it.isDirectory }
-                ?.map { it.name }
-                ?.toList()
-                .orEmpty()
-            val packageNames = directPackageNames.ifEmpty {
-                root.listDirectoryNames(appsRoot.absolutePath)
-            }
-
-            for (packageName in packageNames) {
-                val packageRoot = File(appsRoot, packageName)
-                val directVersionNames = packageRoot.listFiles()
+            val packageNames = (
+                appsRoot.listFiles()
                     ?.asSequence()
                     ?.filter { it.isDirectory }
                     ?.map { it.name }
                     ?.toList()
-                    .orEmpty()
-                val versionNames = directVersionNames.ifEmpty {
-                    root.listDirectoryNames(packageRoot.absolutePath)
-                }
+                    .orEmpty() +
+                    root.listDirectoryNames(appsRoot.absolutePath)
+            ).distinct()
+
+            for (packageName in packageNames) {
+                val packageRoot = File(appsRoot, packageName)
+                val versionNames = (
+                    packageRoot.listFiles()
+                        ?.asSequence()
+                        ?.filter { it.isDirectory }
+                        ?.map { it.name }
+                        ?.toList()
+                        .orEmpty() +
+                        root.listDirectoryNames(packageRoot.absolutePath)
+                ).distinct()
 
                 for (versionName in versionNames) {
                     val directory = File(packageRoot, versionName)
