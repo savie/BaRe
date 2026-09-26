@@ -1419,7 +1419,6 @@ fun AppDetailScreen(
                 "AppBackupBehavior",
                 "Props=Backup(appParts=" + parts.map { it.name } +
                     ", location=" + destination.name +
-                    ", accessMethod=" + (LocalIdentityStore(context).loadAccessMethod() ?: "ROOT") +
                     ", passwordProtected=" + (encryptionAdvanced && backupPassword.isNotEmpty()) + ")",
             ),
             emitProcessDiagnostic(
