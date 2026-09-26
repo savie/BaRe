@@ -736,86 +736,127 @@ Commits:
 3. Runtime APK-only untuk memastikan progress bawah tidak lagi menduplikasi angka dengan unit salah dan mengukur elapsed/rate setelah direct file stream.
 4. Regression Ext. data + Media.
 5. Setelah backup artifacts valid, lanjut restore runtime dan verification end-to-end.
+## A18 — #1208 RUNTIME CHECKPOINT — 2026-09-26
 
-## A18 — #1208 RUNTIME: BACKUP ALL PARTS + RESTORE ALL — 2026-09-26
+### CURRENT CHECKPOINT
 
-### CI / RUNTIME EVIDENCE
+**Status:** VERIFICATION
 
-- Android Build #1208 untuk commit `dc5582504c1d72ca97d20e54377644ff39eaecfc`: **CI VERIFIED / PASS**.
-- User runtime #1208 membuktikan backup 1DM+ untuk **APK + Data + Ext. data + Media** dapat selesai: **4/4 parts completed**.
-- Runtime #1208 tidak lagi menunjukkan defect skala `GB` pada backup progress. Contoh observed:
-  - Data: `10.94 MB / 10.94 MB`.
-  - APK: `656.0 KB / 7.12 MB`.
-- APK / Data / Ext. data / Media seluruhnya mencapai completion tanpa error runtime pada evidence yang diberikan.
-- Backup artifact terlihat pada detail aplikasi dengan total sekitar `10.5 MB` dan komponen Data sekitar `4.0 MB`.
-- Restore all pada backup tersebut juga mencapai **4/4 parts completed** dengan log APK, Data, Ext. data, dan Media restore completed.
+**Current task:** Record and reconcile #1208 runtime evidence for backup/restore, then identify the next actionable work without silently expanding scope.
 
-### OBSERVED DEFECTS / GAPS
+**Task scope:**
+- Record user-provided runtime evidence.
+- Reconcile the observed backup inventory state with current source.
+- Record known gaps for APK duplicate work, restore per-part UI, and restore progress.
+- No implementation change is authorized by this checkpoint.
 
-1. **Apps list inventory stale**
-   - Setelah backup berhasil, daftar LOCAL APPS masih menampilkan `No backup on device` untuk 1DM+.
-   - Detail 1DM+ pada layar berikutnya sudah menemukan backup yang sama.
-   - Source inspection menunjukkan `AppsScreen` hanya mengisi `backupInventory` pada `LaunchedEffect(apps, appsContext)`; tidak ada refresh trigger khusus setelah kembali dari detail/backup.
-   - Ini adalah **UI/state refresh defect**, bukan evidence bahwa backup artifact hilang.
+### USER SAID
 
-2. **APK duplicate work / no identity-based skip**
-   - Current `AppBackupBehavior` selalu menjalankan `engine.execute()` untuk part yang diminta.
-   - Belum ada preflight yang memutuskan bahwa APK existing masih identik dengan installed APK/version dan boleh dilewati.
-   - Requirement user: jika APK existing masih identik, **skip**; jika versi APK berubah, **backup ulang**.
-   - Metadata sudah menyimpan `versionCode`, `versionName`, artifact SHA-256, dan size, tetapi belum ada explicit APK skip decision.
+User reported #1208 with the following runtime results:
+- Backup APK succeeded.
+- Backup Data succeeded.
+- Backup Ext. data succeeded.
+- Backup Media succeeded.
+- Backup all selected parts completed 4/4.
+- Backup progress no longer showed the previous GB-scale display defect.
+- Backup is still slower than Swift, although behavior is now considered more normal.
+- Existing APK backup is currently processed again; user wants identical APK backup to be skipped, while a changed APK/version should be backed up again.
+- Restore all parts completed 4/4.
+- Restore per-part UI is not yet wired.
+- User observed a GB-scale UI defect during restore, but no screenshot of that defect was provided.
+- User requested the worklog be updated first and the next work identified.
 
-3. **APK performance**
-   - Direct root streaming membuat runtime jauh lebih normal dibanding baseline sebelumnya, tetapi proses masih lebih lambat dari Swift.
-   - Evidence target saat ini hanya sekitar 7.12 MB, sehingga performa APK ukuran GB masih **UNKNOWN**.
-   - Jangan melakukan optimization tambahan sebelum stage timing payload besar tersedia.
+### OBSERVED — USER-PROVIDED RUNTIME EVIDENCE
 
-4. **Restore per-part wiring**
-   - Backend `AppRestoreBehavior` sudah menerima `Set<AppBackupPart>` dan runtime all-parts berhasil 4/4.
-   - UI `AppBackupStateCard` saat ini hanya wires tombol utama RESTORE untuk seluruh part.
-   - `BackupPartChip` masih memiliki action RESTORE disabled.
-   - Jadi **restore per-part UI belum wired**, walaupun backend contract sudah mendukung subset part.
+- Data progress was displayed as 10.94 MB / 10.94 MB.
+- APK progress was displayed as 656.0 KB / 7.12 MB.
+- Backup completion displayed 4/4 parts completed.
+- Backup detail showed a device backup of approximately 10.5 MB.
+- Restore completion displayed APK, Data, Ext. data, and Media restore completed, followed by Restore completed: 4/4 parts.
+- These observations establish runtime execution/completion evidence for the tested scenario. They do not by themselves establish full acceptance, reliability, or large-file performance.
 
-5. **Restore progress scale**
-   - User observed a `GB`-scale UI defect during restore, tetapi screenshot defect tersebut tidak tersedia.
-   - Current source membentuk restore progress dari raw `processed/total` pada `AppRestoreArchiveReader.extract()`; exact runtime source of the reported GB display remains **UNKNOWN** sampai raw progress evidence diperoleh.
+### TESTED / VERIFICATION STATUS
 
-### CURRENT VERIFICATION STATUS
+- Backup APK: RUNTIME TESTED.
+- Backup Data: RUNTIME TESTED.
+- Backup Ext. data: RUNTIME TESTED.
+- Backup Media: RUNTIME TESTED.
+- Backup all selected parts: RUNTIME TESTED / 4 of 4 completed.
+- Restore all selected parts: RUNTIME TESTED / 4 of 4 completed.
+- Full A18 acceptance: NOT VERIFIED.
+- Large-file APK performance: UNKNOWN.
+- Restore post-state semantic verification beyond the current restore checks: UNKNOWN.
+- Restore progress GB defect root cause: UNKNOWN.
 
-- Backup APK: **RUNTIME TESTED / COMPLETED**.
-- Backup Data: **RUNTIME TESTED / COMPLETED**.
-- Backup Ext. data: **RUNTIME TESTED / COMPLETED**.
-- Backup Media: **RUNTIME TESTED / COMPLETED**.
-- Backup all parts: **RUNTIME TESTED / 4/4 COMPLETED**.
-- Restore all parts: **RUNTIME TESTED / 4/4 COMPLETED**.
-- Restore post-state semantic verification beyond current checks: **NOT YET CLOSED**.
-- Restore per-part UI: **IMPLEMENTATION GAP / NOT WIRED**.
-- Apps list backup indicator refresh: **UNRESOLVED UI DEFECT**.
-- APK identical-skip: **NOT IMPLEMENTED**.
-- Restore GB-scale UI defect: **UNKNOWN ROOT CAUSE / RUNTIME EVIDENCE REQUIRED**.
-- Large-file APK performance: **UNKNOWN**.
-- Full A18 acceptance: **NOT VERIFIED**.
+### CURRENT IMPLEMENTATION / SOURCE EVIDENCE
 
-### NEXT PRIORITY / PROPOSED SEQUENCE
+- AppBackupStateCard obtains local backup inventory through AppBackupInventoryBehavior.inspectLocal(packageName).
+- The LOCAL APPS inventory refresh is currently tied to the existing screen state/effect and does not have a dedicated refresh event for a newly completed backup.
+- Current backup execution does not contain an APK identity-based skip preflight before engine.execute().
+- Current restore backend accepts a Set<AppBackupPart>, so subset restore is supported at the behavior contract level.
+- Current BackupPartChip RESTORE action remains disabled; the main RESTORE action is the wired all-parts path.
+- Current restore extraction reports raw processed/total values, but the reported GB-scale UI defect has not been reproduced with raw runtime evidence.
 
-**P0 — Correctness / state**
-1. Fix Apps list backup inventory refresh so successful backup is reflected immediately after returning to LOCAL APPS.
-2. Define and implement APK identity preflight: existing artifact + matching installed `versionCode` + valid artifact integrity => skip APK; version change => backup APK again.
-3. Preserve explicit evidence/log that the part was skipped rather than silently reporting it as newly backed up.
+### REQUIREMENT — USER-DERIVED
 
-**P1 — Restore UI contract**
-4. Wire RESTORE action on each part chip to `startRestore(setOf(part), versionCode)`.
-5. Keep the main RESTORE action as all-selected-parts restore.
-6. Runtime test APK-only, Data-only, Ext. data-only, and Media-only restore.
+- If an existing APK backup is still identical to the installed APK/version, the backup operation should skip re-copying/reprocessing that APK.
+- If the installed APK/version has changed, APK backup should be performed again.
+- Restore should be operable per part, while retaining the all-parts restore path.
 
-**P1 — Restore progress**
-7. Instrument restore progress with canonical `processedBytes/totalBytes/elapsed/rate`, matching backup progress semantics.
-8. Reproduce the reported GB display defect and fix only after raw progress values are observed.
+These are recorded as requirements because the user explicitly stated them; they are not inferred from the reference implementation.
 
-**P2 — Performance evidence**
-9. Capture per-stage timing for APK: source read, TAR emission, Zstd, encryption, commit/hash.
-10. Only then evaluate further performance changes against the Swift reference baseline.
+### UNKNOWN / BLOCKED / LIMITATION
 
-### AUTHORIZATION STATE
+1. Apps list inventory refresh
+   - Status: ACTIVE issue.
+   - Observed: LOCAL APPS can show No backup on device while the app detail screen already shows the newly created backup.
+   - Current interpretation: likely stale UI inventory state.
+   - Root cause: NOT YET VERIFIED at runtime.
+   - Source inspection identifies the missing dedicated refresh trigger, but runtime causal proof is still pending.
 
-- User explicitly requested: **update worklog first and inspect what is next**.
-- This checkpoint records the runtime evidence and next work; no new implementation change is treated as authorized by this message beyond worklog recording.
+2. APK identical-skip
+   - Status: BACKLOG.
+   - Not implemented.
+   - Identity/integrity decision boundary still needs design before implementation.
+   - Existing metadata fields provide version/hash/size evidence, but the exact authoritative skip predicate must be defined and verified.
+
+3. Restore per-part
+   - Status: IMPLEMENTED backend / ACTIVE UI wiring gap.
+   - Backend accepts a subset of parts.
+   - Part-chip UI actions remain disabled.
+   - Runtime per-part restore has not been tested.
+
+4. Restore progress GB display
+   - Status: BLOCKED pending runtime evidence.
+   - User reported the defect but did not provide the affected screenshot/raw values.
+   - Root cause remains UNKNOWN.
+   - Do not claim a fix until reproduced and verified.
+
+5. Large-file performance
+   - Status: UNKNOWN.
+   - Current successful runtime evidence uses relatively small payloads.
+   - No evidence yet establishes performance for GB-scale APK/data.
+
+### PROPOSED NEXT ACTIONS
+
+1. ACTIVE / correctness: reconcile and fix the LOCAL APPS backup inventory refresh, then runtime-test that a newly completed backup is immediately reflected in the list.
+2. BACKLOG / user requirement: define the authoritative APK identity/integrity predicate for skip-vs-rebackup before implementation.
+3. BACKLOG / user requirement: wire per-part RESTORE actions through the existing restore behavior contract.
+4. VERIFICATION: instrument/reproduce restore progress with canonical processedBytes / totalBytes / elapsed / bytesPerSecond before diagnosing the reported GB display.
+5. VERIFICATION: runtime-test APK-only, Data-only, Ext. data-only, and Media-only restore after per-part wiring.
+6. PERFORMANCE / later: collect large-file stage timing before making further optimization changes.
+
+### AUTHORIZATION
+
+Authorized by current user message: update docs/worklog.md and reconcile the checkpoint.
+
+Not authorized by current user message: implementation changes for inventory refresh, APK skip, restore per-part wiring, restore progress, or performance optimization.
+
+### CURRENT STATE
+
+- Lifecycle phase: VERIFICATION
+- Current task: A18 runtime checkpoint reconciliation
+- Dependencies: valid backup artifacts, runtime/device testing, current source state
+- Verification target: backup/restore behavior and the remaining UI/state gaps
+- Out of scope for this checkpoint: implementation changes
+- Next actionable work: inventory refresh reconciliation, subject to authorization for code change
