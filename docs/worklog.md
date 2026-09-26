@@ -1,9 +1,9 @@
 # BaRe v1.0 — Worklog
 
 > **Role:** current continuity / synthesis checkpoint.
- >
+>
 > Dokumen ini **bukan transcript dan bukan chronology lengkap**. Ia merangkum state, keputusan, evidence, unresolved item, dan next action yang berasal dari history dan checkpoint engineering.
- >
+>
 > Git commit tetap menjadi evidence perubahan repository dan tidak digantikan oleh worklog.
 
 ## 1. CURRENT STATE
@@ -12,12 +12,12 @@
 |---|---|
 | Repository | savie/BaRe |
 | Branch | v1.0/rebaseline |
-| Current repository HEAD | **This worklog update / current branch HEAD** |
+| Current repository HEAD | **will be this worklog reconciliation commit** |
 | Lifecycle | **VERIFICATION** |
-| Current focus | **A18 — POST-RUNTIME RECONCILIATION: INVENTORY REFRESH / APK IDENTITY SKIP / RESTORE PER-PART / PROGRESS VERIFICATION** |
+| Current focus | **A18 — REFERENCE GAP RECONCILIATION / INVENTORY REFRESH / APK IDENTITY SKIP / RESTORE PER-PART / PROGRESS VERIFICATION** |
 | Latest build evidence | **CI #1208 PASS; implementation commits #1207 and #1208 are CI VERIFIED** |
-| Current implementation status | **BACKUP + RESTORE REBUILD RUNTIME-TESTED FOR SELECTED 4/4 PARTS / FULL A18 ACCEPTANCE NOT VERIFIED / KNOWN UI-STATE GAPS REMAIN** |
-| Reference baseline | **Dipakai sebagai behavioral/mechanism baseline untuk backup + restore** |
+| Current implementation status | **BACKUP + RESTORE REBUILD RUNTIME-TESTED FOR SELECTED 4/4 PARTS / FULL A18 ACCEPTANCE NOT VERIFIED / REFERENCE-IDENTIFIED GAPS REMAIN** |
+| Reference baseline | **Reference branch + local Swift Backup 5.1.0 (620) decompile are evidence sources; reference is not automatic implementation authority** |
 | Encryption boundary | **Tetap memakai mekanisme/encryption BaRe; bukan teknik encryption reference** |
 | NON_ROOT | **Mengikuti mekanisme/flow yang sama; capability harus diadaptasi semaksimal mungkin** |
 
@@ -33,37 +33,54 @@
 - CI #1207: **PASS**
 - CI #1208: **PASS**
 
-### ACTIVE GAPS
+### REFERENCE COMPARISON — NEW FINDINGS
 
-1. **LOCAL APPS inventory refresh** — newly completed backup can remain stale in the LOCAL APPS inventory; root cause not yet runtime-verified.
-2. **APK identical-skip** — user requirement; identical APK/version should skip, changed APK/version should rebackup; authoritative identity/integrity predicate not yet defined/implemented.
-3. **RESTORE per-part UI** — backend accepts `Set<AppBackupPart>`, but per-part RESTORE action is not yet wired; all-parts restore remains available.
-4. **RESTORE progress display** — GB-scale defect was reported but not reproduced with raw runtime evidence; root cause remains UNKNOWN.
-5. **Large-file performance** — current successful runtime evidence is not sufficient to prove acceptance at large-file scale.
-6. **Full A18 acceptance** — **NOT VERIFIED**.
+1. **APK identical-skip predicate is no longer UNKNOWN.** Reference AppDataChangeChecker compares APK size, version code, version name, split APK presence, and shared-library presence. BaRe implementation is still pending.
+2. **RESTORE per-part is reference-backed.** Reference independently models APK, Data, External data, Expansion, and Media restore selection. BaRe backend already accepts subset parts; UI wiring remains pending.
+3. **LOCAL APPS invalidation pattern exists in reference.** Reference has package-scoped app-event invalidation, but the audited static path does not prove the exact successful-backup completion trigger. BaRe refresh gap remains a real TODO.
+4. **RESTORE progress has a reference producer boundary.** Native archive/TAR/Zstd paths expose `onProgress(long, long)`. The reported BaRe GB display defect is still not reproduced; root cause remains UNKNOWN.
+5. **Large-file performance has a reference mechanism difference.** Reference uses native SBA archive/TAR/Zstd components; BaRe uses its own reference-aligned TAR/Zstd implementation. This is evidence for performance investigation, not proof of causality and not an instruction to copy proprietary/native code.
+6. **Reference-only scope findings:** Expansion and additional restore workflows such as missing-app/newer-version handling are documented as reference evidence, but they are **not automatically added to A18 scope**.
+
+### ACTIVE GAPS / TODO
+
+1. **LOCAL APPS inventory refresh — TODO / ACTIVE:** determine the authoritative BaRe package-scoped invalidation/refresh boundary and runtime-verify that a completed backup appears without stale state.
+2. **APK identical-skip — TODO / USER REQUIREMENT:** implement the reference-derived composite predicate (size + version code + version name + split/shared-library state), reconcile it with BaRe artifact integrity, then runtime-test identical-skip and changed-app rebackup.
+3. **RESTORE per-part UI — TODO / USER REQUIREMENT:** wire per-part RESTORE to the existing subset backend while retaining all-parts restore; runtime-test APK/Data/Ext. data/Media individually.
+4. **RESTORE progress display — TODO / VERIFICATION:** reproduce the reported GB-scale defect and trace canonical `processedBytes / totalBytes / elapsedMillis / bytesPerSecond` through the producer/state/UI formatter before changing code.
+5. **Large-file performance — TODO / VERIFICATION:** after correctness gaps close, measure large-file stage timing and compare against available reference evidence.
+6. **Full A18 acceptance — NOT VERIFIED:** ROOT/NON_ROOT capability evidence, per-part restore, progress semantics, regression, post-restore validation, and performance evidence remain incomplete.
+
+### REFERENCE SCOPE BOUNDARY
+
+- `docs/reference.md` is the canonical reference audit record for reference-derived findings.
+- `docs/a18_reference_reconstruction.md` remains the A18 mechanism reconstruction artifact.
+- Reference findings become BaRe requirements only through explicit decision/authorization.
+- Reference Expansion and other additional capabilities must not be silently added to A18.
+- Historical checkpoints below remain historical truth and are not deleted/re-written when current state changes.
 
 ### CURRENT NEXT ACTION
 
-**Phase A — Post-runtime reconciliation**
+**Phase A — Post-runtime/reference reconciliation**
 
-1. Fix and runtime-verify LOCAL APPS inventory refresh after successful backup.
-2. Define the authoritative APK identity/integrity predicate for skip vs rebackup.
-3. Wire RESTORE per-part while retaining all-parts restore.
-4. Reproduce/instrument restore progress using canonical `processedBytes / totalBytes / elapsedMillis / bytesPerSecond`; do not claim a fix before reproduction and verification.
-5. Runtime-test restore APK-only, Data-only, Ext. data-only, and Media-only after per-part wiring.
-6. Regression-test cancellation, partial failure, artifact retention/cleanup, metadata/hash consistency, and protected behavior.
-7. Measure large-file performance only after correctness/UI-state gaps are closed.
+1. Fix and runtime-verify LOCAL APPS inventory refresh.
+2. Implement and verify the reference-derived APK identical-skip predicate.
+3. Wire and runtime-test RESTORE per-part.
+4. Reproduce and verify RESTORE progress representation.
+5. Regression-test cancellation, partial failure, artifact retention/cleanup, metadata/hash consistency, and protected behavior.
+6. Measure large-file performance only after correctness/UI-state gaps are closed.
 
 **Phase B — Acceptance**
 
+7. Complete ROOT/NON_ROOT capability evidence required by acceptance criteria.
 8. Verify backup inventory refresh after successful backup.
-9. Verify APK identical-skip and changed-version rebackup.
+9. Verify APK identical-skip and changed-version/metadata rebackup.
 10. Verify restore per-part and all-parts flows.
 11. Verify restore progress representation and result semantics.
-12. Complete ROOT/NON_ROOT capability evidence required by acceptance criteria.
-13. Keep A18 **NOT VERIFIED** until the complete required evidence chain exists.
+12. Keep A18 **NOT VERIFIED** until the complete required evidence chain exists.
 
-**Important continuity rule:** bagian setelah checkpoint marker di bawah ini adalah historical record. Historical entries **tidak dihapus, tidak dipindahkan, dan tidak dianggap current state hanya karena label checkpoint lama**. Current state berada di blok paling atas ini.
+**Continuity rule:** seluruh isi setelah checkpoint marker di bawah adalah historical record. **Jangan hapus history untuk memperbarui current state.**
+
 ### CI #1169 — latest runtime evidence
 
 **OBSERVED FROM USER-PROVIDED RUNTIME EVIDENCE:**
