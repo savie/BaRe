@@ -2958,3 +2958,108 @@ Primary files used for this reconciliation:
 
 Reference source artifact: `SwiftBackup-5.1.0-620-decompiled.zip`.
 
+
+## 29 — App backup/restore change detection and skip behavior (2026-09-26)
+
+Bagian ini menambahkan hasil targeted static audit terhadap mekanisme change detection pada Swift Backup 5.1.0 (620). Temuan berstatus **REFERENCE EVIDENCE**. Temuan ini memperjelas mekanisme skip untuk App Data/External data/Media, tetapi tidak menjadi implementation authority BaRe tanpa keputusan/otorisasi.
+
+### 29.1 APK change predicate
+
+Static evidence pada `defpackage/eq.java` menunjukkan `AppDataChangeChecker` membandingkan:
+
+- APK size;
+- APK version code;
+- APK version name;
+- split APK presence;
+- shared library presence.
+
+Jika seluruh nilai tersebut sama, reference menganggap APK tidak berubah dan caller dapat melewati pekerjaan backup yang tidak diperlukan.
+
+**Status:** OBSERVED_STATIC.
+
+### 29.2 App Data / External data / Media backup change detection
+
+Targeted static evidence pada reference menunjukkan checker yang sama juga memiliki jalur untuk menentukan apakah komponen app-data perlu dibackup ulang. Untuk domain App backup, evidence mencakup:
+
+- backup timestamp;
+- current directory size;
+- backup-side size/state;
+- pemeriksaan file yang berubah sejak timestamp backup pada jalur yang relevan;
+- cache dapat diperlakukan sebagai excluded path pada change scan sesuai mekanisme reference.
+
+Caller backup (`nm6` pada jalur yang diaudit) menerapkan change detection terhadap part App Data, External data, Expansion, dan Media.
+
+**Reference behavior derived from the audited path:** jika part tidak berubah, pekerjaan backup untuk part tersebut dapat dilewati; jika perubahan terdeteksi, part diproses kembali.
+
+**Status:** OBSERVED_STATIC.
+
+### 29.3 Restore change detection
+
+Static evidence pada `xw.java` menunjukkan restore juga melakukan change detection sebelum memasukkan part ke restore task. Jalur yang diaudit mencakup:
+
+- Data;
+- External data;
+- Media;
+- Expansion pada reference.
+
+Checker membandingkan state backup terhadap state target/current device, termasuk backup date/size dan perubahan yang relevan. Jika target sudah sesuai dengan state backup, part tidak perlu dimasukkan ke restore task.
+
+**Status:** OBSERVED_STATIC.
+
+### 29.4 Delta / patch boundary
+
+Audit ini **tidak menemukan evidence yang cukup untuk menyatakan bahwa App Data/External data/Media backup pada reference selalu membuat delta archive yang hanya berisi file berubah**.
+
+Reference memang memiliki mekanisme incremental/manifest/changed-file pada domain **Folder backup**, tetapi evidence tersebut tidak boleh dipindahkan otomatis menjadi requirement untuk App Data backup.
+
+Dengan demikian:
+
+```text
+APP BACKUP
+unchanged part → SKIP
+changed part   → backup part
+```
+
+merupakan reference-backed finding.
+
+Sedangkan:
+
+```text
+changed part → patch only changed files
+```
+
+belum terbukti sebagai mekanisme App backup reference dari audit ini.
+
+**Status:** UNKNOWN / NOT ESTABLISHED for App backup.
+
+### 29.5 BaRe requirement boundary
+
+Temuan reference di atas menjadi input requirement A18:
+
+1. APK: pertahankan composite identical-skip predicate yang sudah direkonstruksi.
+2. Data: tambahkan change detection dan skip jika state target/source tidak berubah.
+3. External data: tambahkan change detection dan skip jika tidak berubah.
+4. Media: tambahkan change detection dan skip jika tidak berubah.
+5. Restore Data/External data/Media: sebelum extraction/restore, evaluasi apakah target sudah sesuai dengan backup; jika sesuai, skip part tersebut.
+6. All-parts restore tetap tersedia; skip dilakukan per-part, bukan menghapus kemampuan all-parts.
+7. Delta/patch App Data **bukan requirement reference yang sudah terbukti** dan tidak boleh diimplementasikan sebagai parity claim tanpa evidence/decision tambahan.
+
+**Scope:** Expansion tetap reference evidence only dan tidak masuk A18 four-part scope tanpa keputusan baru.
+
+### 29.6 Verification requirements for BaRe
+
+Implementasi baru tidak boleh ditutup hanya dengan CI/build. Required runtime cases:
+
+- backup identical APK → APK skipped;
+- changed APK identity → APK rebuilt;
+- unchanged Data → Data skipped;
+- changed Data → Data rebuilt;
+- unchanged External data → skipped;
+- changed External data → rebuilt;
+- unchanged Media → skipped;
+- changed Media → rebuilt;
+- restore unchanged Data/External data/Media → skipped;
+- restore changed target → restored;
+- all-parts restore with a mixture of skipped + restored parts → correct completed result.
+
+**Acceptance status:** NOT VERIFIED until runtime evidence exists for the applicable cases.
