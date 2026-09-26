@@ -150,6 +150,27 @@ internal class AppReferenceTarZstdArchive {
         return count
     }
 
+    private fun copyEntry(source: TarArchiveEntry, name: String): TarArchiveEntry {
+        val entry = TarArchiveEntry(name, source.linkFlag)
+        entry.mode = source.mode
+        entry.userId = source.longUserId
+        entry.groupId = source.longGroupId
+        entry.userName = source.userName
+        entry.groupName = source.groupName
+        entry.modTime = source.modTime
+        if (source.isLink) {
+            entry.linkName = source.linkName
+        }
+        if (source.isSparse) {
+            entry.setSparseHeaders(source.orderedSparseHeaders)
+            entry.realSize = source.realSize
+        }
+        source.extraPaxHeaders.forEach { (key, value) ->
+            entry.addPaxHeader(key, value)
+        }
+        return entry
+    }
+
     private fun rootEntryName(source: RootArchiveSource, tarName: String): String {
         var name = tarName.replace('\\', '/').removePrefix("./").trim('/')
         if (name.isBlank()) return ""
