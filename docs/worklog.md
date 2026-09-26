@@ -1412,3 +1412,30 @@ Implementasi source-level dan compile/build verification sudah PASS sampai CI #1
 ### CATATAN SCOPE
 
 Daftar TODO kanonik A18 pada worklog ini berjumlah 12 poin implementasi aktif; file-level delta/patch archive tetap di luar cakupan sesuai keputusan reference reconciliation. Tidak ada perubahan pada encryption boundary BaRe.
+
+
+## A18 — RESTORE METADATA FALLBACK CONTRACT — 2026-09-26
+
+### IMPLEMENTATION
+
+Target **#13 — RESTORE CHANGE-DETECTION METADATA CONTRACT** ditutup pada level source contract.
+
+- Restore change decision sekarang memiliki policy eksplisit dengan dua hasil: `SKIP` atau `RESTORE`.
+- APK restore dengan metadata identity yang tidak lengkap tidak boleh menghasilkan false-skip; fallback adalah `RESTORE`.
+- Data / External Data / Media dengan `sourceByteSize` atau `sourceModifiedAt` yang hilang/legacy tidak boleh di-skip; fallback adalah `RESTORE`.
+- Jika current target state tidak dapat dibaca/ditentukan, fallback juga `RESTORE`.
+- Installed APK yang lebih baru tetap mengikuti boundary sebelumnya: tidak dipaksa downgrade dan diputuskan sebagai `SKIP`.
+- Metadata lengkap + target/source state identik tetap menghasilkan `SKIP`.
+
+### EVIDENCE
+
+- Commit: `95c275aefdb238037d502811e2fa5ecfbf7372c0`
+- File: `app/src/main/java/com/bare/feature/apps/AppRestoreBehavior.kt`
+- CI runtime/build verification: **PENDING** pada checkpoint ini.
+
+### SCOPE REMAINING
+
+- #14 LOCAL / CLOUD PART SYNC PARITY → **LATER**, belum diimplementasikan.
+- #15 LARGE-FILE PERFORMANCE → **LATER**, dilakukan setelah correctness/runtime.
+- #16 FULL A18 ACCEPTANCE → **NOT VERIFIED**, membutuhkan runtime matrix.
+- #11 FILE-LEVEL DELTA/PATCH → **OUT OF SCOPE**, tidak dikerjakan.
