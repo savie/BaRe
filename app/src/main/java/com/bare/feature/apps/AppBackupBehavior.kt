@@ -135,33 +135,33 @@ class AppBackupBehavior(private val context: Context) {
 
             if (executableParts.isEmpty()) {
                 onProgress(AppBackupProgress(AppBackupProgressStage.COMPLETED, message = "Backup completed: ${completedParts.size}/${request.parts.size} parts"))
-                return@try AppBackupResult.Completed(listOfNotNull(skippedApk), completedParts)
+                AppBackupResult.Completed(listOfNotNull(skippedApk), completedParts)
+            } else {
+                onProgress(AppBackupProgress(AppBackupProgressStage.METADATA, message = "Saving backup metadata"))
+                val installerPackage = runCatching {
+                    context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
+                }.getOrNull()
+                val replacedParts = result.artifactMetadata.map { it.part }.toSet()
+                val preservedArtifacts = existing?.artifacts.orEmpty().filterNot { it.part in replacedParts }
+                val apkWasRebuilt = result.artifactMetadata.any { it.part == AppBackupPart.APK.name }
+                val metadataApkIdentity = if (apkWasRebuilt) currentApkIdentity else existing?.apkIdentity()
+                AppBackupMetadata(
+                    packageName = request.packageName,
+                    versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
+                    versionName = packageInfo.versionName,
+                    apkSizeBytes = metadataApkIdentity?.apkSizeBytes,
+                    hasSplitApks = metadataApkIdentity?.hasSplitApks,
+                    hasSharedLibraries = metadataApkIdentity?.hasSharedLibraries,
+                    backupTime = System.currentTimeMillis(),
+                    installerPackage = installerPackage,
+                    protectedBackup = existing?.protectedBackup ?: false,
+                    note = existing?.note,
+                    artifacts = preservedArtifacts + result.artifactMetadata,
+                ).writeAtomically(backupDirectory)
+
+                onProgress(AppBackupProgress(AppBackupProgressStage.COMPLETED, message = "Backup completed: ${completedParts.size}/${request.parts.size} parts"))
+                AppBackupResult.Completed(result.artifacts + listOfNotNull(skippedApk), completedParts)
             }
-
-            onProgress(AppBackupProgress(AppBackupProgressStage.METADATA, message = "Saving backup metadata"))
-            val installerPackage = runCatching {
-                context.packageManager.getInstallSourceInfo(request.packageName).installingPackageName
-            }.getOrNull()
-            val replacedParts = result.artifactMetadata.map { it.part }.toSet()
-            val preservedArtifacts = existing?.artifacts.orEmpty().filterNot { it.part in replacedParts }
-            val apkWasRebuilt = result.artifactMetadata.any { it.part == AppBackupPart.APK.name }
-            val metadataApkIdentity = if (apkWasRebuilt) currentApkIdentity else existing?.apkIdentity()
-            AppBackupMetadata(
-                packageName = request.packageName,
-                versionCode = if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong(),
-                versionName = packageInfo.versionName,
-                apkSizeBytes = metadataApkIdentity?.apkSizeBytes,
-                hasSplitApks = metadataApkIdentity?.hasSplitApks,
-                hasSharedLibraries = metadataApkIdentity?.hasSharedLibraries,
-                backupTime = System.currentTimeMillis(),
-                installerPackage = installerPackage,
-                protectedBackup = existing?.protectedBackup ?: false,
-                note = existing?.note,
-                artifacts = preservedArtifacts + result.artifactMetadata,
-            ).writeAtomically(backupDirectory)
-
-            onProgress(AppBackupProgress(AppBackupProgressStage.COMPLETED, message = "Backup completed: ${completedParts.size}/${request.parts.size} parts"))
-            AppBackupResult.Completed(result.artifacts + listOfNotNull(skippedApk), completedParts)
         } catch (_: AppBackupEngine.BackupCancelledException) {
             onProgress(AppBackupProgress(AppBackupProgressStage.CANCELLED, message = "Backup cancelled"))
             AppBackupResult.Cancelled(emptySet())
