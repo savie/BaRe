@@ -71,7 +71,7 @@ class AppRestoreArchiveReader(private val context: Context) {
                     while (true) {
                         val entry = zip.nextEntry ?: break
                         val normalized = normalizeEntry(entry.name)
-                        val prefix = part.archiveName() + "/"
+                        val prefix = part.directoryNameForRestore() + "/"
                         if (!normalized.startsWith(prefix)) {
                             zip.closeEntry()
                             continue
@@ -135,6 +135,13 @@ class AppRestoreArchiveReader(private val context: Context) {
         require(ivSize == GCM_IV_BYTES) { "Unsupported GCM IV length: $ivSize" }
         val iv = readExact(ivSize)
         return Header(raw.toByteArray(), mode, salt, iv)
+    }
+
+    private fun AppBackupPart.directoryNameForRestore(): String = when (this) {
+        AppBackupPart.APK -> "apk"
+        AppBackupPart.DATA -> "data"
+        AppBackupPart.EXTERNAL_DATA -> "external-data"
+        AppBackupPart.MEDIA -> "media"
     }
 
     private fun normalizeEntry(value: String): String {
