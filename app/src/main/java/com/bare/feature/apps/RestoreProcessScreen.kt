@@ -23,6 +23,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal enum class RestoreProcessStatus { RUNNING, WAITING, DONE, FAILED }
+\nprivate fun AppBackupPart.restoreDisplayName(): String = when (this) {
+    AppBackupPart.APK -> "APK"
+    AppBackupPart.DATA -> "Data"
+    AppBackupPart.EXTERNAL_DATA -> "Ext. data"
+    AppBackupPart.MEDIA -> "Media"
+}
+
 
 @Composable
 internal fun RestoreProcessScreen(
@@ -135,7 +142,7 @@ internal fun RestoreProcessScreen(
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
-                        currentPart?.let { "Current part: ${it.displayNameForUi()}" } ?: "Restore",
+                        currentPart?.let { "Current part: ${it.restoreDisplayName()}" } ?: "Restore",
                         fontWeight = FontWeight.Bold,
                     )
                     Text("Backup version: $versionCode")
