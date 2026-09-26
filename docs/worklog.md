@@ -1724,3 +1724,140 @@ Special handling hanya diterapkan pada **Data path** sesuai evidence reference; 
 8. Setelah Data selesai, lanjut LOCAL APPS.
 
 **Status:** DATA SPECIAL BEHAVIOR = **ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**.
+
+## A18 — AUDIT UI PROSES + BARE DIAGNOSTIC LOG — 2026-09-27
+
+### HASIL AUDIT AKTUAL
+
+Audit dilakukan terhadap **UI proses backup/restore dan surface log yang saat ini sudah ada di BaRe**. Scope audit ini **hanya UI proses dan log/diagnostic surface**. Tidak ada perubahan pada mekanisme backup/restore engine dari audit ini.
+
+### BACKUP PROCESS UI
+
+Implementasi aktual saat ini berada pada:
+
+- `app/src/main/java/com/bare/feature/apps/BackupProcessScreen.kt`
+- progress dan event berasal dari `AppBackupProgress` di `AppBackupBehavior.kt`.
+
+Surface yang sudah tersedia:
+
+- status proses: Running / Done / Failed / Cancelled;
+- current app;
+- jumlah part completed / total;
+- current part;
+- current message;
+- byte progress jika total tersedia;
+- elapsed time;
+- bytes/sec;
+- daftar log pada process screen.
+
+### DIAGNOSTIC / BUG LOG SURFACE
+
+Pada header **Backup process** sudah terdapat ikon **BugReport** dengan label accessibility **Diagnostics**.
+
+Namun hasil audit menunjukkan:
+
+- ikon BugReport saat ini **belum memiliki click action**;
+- surface log masih langsung ditampilkan sebagai card **Diagnostics** di dalam Backup process screen;
+- belum ada dedicated diagnostic/log surface yang dibuka melalui tombol BugReport;
+- event log yang ditampilkan masih merupakan turunan langsung dari message pada `AppBackupProgress`;
+- event `PART_PROGRESS` tidak dimasukkan ke daftar log, sedangkan event stage lain dimasukkan;
+- belum ada structured diagnostic detail yang memisahkan lifecycle event, part, stage, timing, dan result secara konsisten.
+
+Dengan demikian, ikon yang secara UI dimaksudkan sebagai **Diagnostics** saat ini belum menjadi entry point diagnostik yang benar-benar berfungsi.
+
+### RESTORE PROCESS UI
+
+Implementasi aktual berada pada:
+
+- `app/src/main/java/com/bare/feature/apps/RestoreProcessScreen.kt`
+- event proses berasal dari `AppRestoreBehavior.restore(..., onProgress = ...)`.
+
+Surface yang sudah tersedia:
+
+- current part;
+- current message;
+- byte progress;
+- elapsed time;
+- bytes/sec;
+- daftar message log;
+- status Running / Waiting / Done / Failed.
+
+Gap aktual:
+
+- Restore process **belum memiliki tombol BugReport / Diagnostics** pada header;
+- log masih berada langsung di process card;
+- tidak ada dedicated diagnostic/log entry point yang setara dengan target UI backup;
+- log tetap berbasis message event yang ada, bukan diagnostic event model yang lengkap.
+
+### REFERENCE COMPARISON BOUNDARY
+
+Reference runtime evidence yang diberikan user menunjukkan process presentation yang lebih detail, antara lain:
+
+- task start/completion;
+- task/part yang sedang dikerjakan;
+- daftar part yang diproses;
+- ukuran part;
+- stage seperti backup/create/restore;
+- metadata/permission stage;
+- cleanup;
+- completion duration.
+
+Evidence tersebut dipakai sebagai **target presentation dan observability**, bukan sebagai instruksi untuk mengganti mekanisme backup/restore BaRe.
+
+### ENGINEERING BOUNDARY
+
+Target pekerjaan berikutnya:
+
+```
+BARE CURRENT BACKUP/RESTORE ENGINE
+        ↓
+     tetap
+        ↓
+ACTUAL PROCESS EVENTS
+        ↓
+PROCESS UI + BARE DIAGNOSTIC LOG
+        ↓
+REFERENCE-ALIGNED DETAIL / PRESENTATION
+```
+
+Artinya:
+
+- **mekanisme backup/restore saat ini tetap dipakai**;
+- **tidak ada perubahan engine yang diotorisasi oleh checkpoint ini**;
+- UI proses diperbaiki agar detail proses lebih jelas dan konsisten;
+- tombol BugReport/Diagnostics dibuat menjadi entry point diagnostik yang benar;
+- Backup dan Restore mendapatkan diagnostic/log surface yang konsisten;
+- log harus tetap merepresentasikan **actual BaRe execution path**, bukan mencetak event Reference yang tidak benar-benar terjadi di BaRe;
+- istilah kerja sementara untuk surface tersebut adalah **BaRe Diagnostic Log**. Ini mencakup kebutuhan diagnostic/bug log tanpa mengklaim bahwa seluruh event sudah merupakan bug.
+
+### ACCEPTANCE TARGET
+
+Target acceptance untuk scope ini:
+
+1. Backup process menampilkan lifecycle dan part progress yang jelas.
+2. Restore process menampilkan lifecycle dan part progress yang jelas.
+3. Tombol BugReport/Diagnostics benar-benar membuka diagnostic/log surface.
+4. Backup dan Restore memiliki diagnostic/log presentation yang konsisten.
+5. Log menampilkan event aktual BaRe dengan detail yang cukup untuk membaca proses tanpa mengubah engine.
+6. Detail timing yang memang tersedia pada actual execution path dapat ditampilkan secara konsisten.
+7. Reference dipakai sebagai baseline **presentation/observability detail**, bukan sebagai alasan mengganti backup/restore mechanism.
+8. Tidak ada regresi terhadap backup/restore behavior yang sudah protected.
+
+### STATUS
+
+- Audit actual UI proses: **SELESAI**
+- Audit actual BaRe Diagnostic Log surface: **SELESAI**
+- Process UI correction: **PENDING**
+- BaRe Diagnostic Log correction: **PENDING**
+- Backup/restore engine change: **OUT OF SCOPE UNTUK CHECKPOINT INI**
+- Runtime verification: **PENDING**
+- Data special behavior: **TETAP ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**
+- LOCAL APPS: **TETAP ACTIVE / NOT VERIFIED**
+- Large-file optimization: **LATER**
+
+### BASELINE GUARD
+
+Checkpoint ini menjadi baseline scope untuk pekerjaan berikutnya:
+
+> **Perbaiki UI proses dan BaRe Diagnostic Log berdasarkan audit aktual dan reference presentation evidence. Jangan mengubah mekanisme backup/restore engine sebagai bagian dari pekerjaan ini.**
+
