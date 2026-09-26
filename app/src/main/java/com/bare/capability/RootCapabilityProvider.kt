@@ -118,6 +118,31 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         }
     }
 
+    fun copyDirectory(
+        sourcePath: String,
+        destinationDir: File,
+        isCancelled: (() -> Boolean)?
+    ): RootCopyResult {
+        if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
+            return RootCopyResult.Failed("Invalid source path")
+        }
+        if (isCancelled?.invoke() == true) return RootCopyResult.Failed("Root directory copy cancelled")
+        if (!destinationDir.exists() && !destinationDir.mkdirs()) {
+            return RootCopyResult.Failed("Unable to create staging directory")
+        }
+        val source = shellQuote(sourcePath)
+        val destination = shellQuote(destinationDir.absolutePath)
+        val result = runSuCancellable(
+            "test -d $source && cp -a ${shellQuote(sourcePath + "/.")} $destination/",
+            isCancelled,
+        )
+        return if (result.exitCode == 0) {
+            RootCopyResult.Success(destinationDir.walkTopDown().filter { it.isFile }.toList())
+        } else {
+            destinationDir.deleteRecursively()
+            RootCopyResult.Failed(result.stderr.ifBlank { result.stdout }.trim().ifBlank { "Root directory copy failed" })
+        }
+    }
     fun copyDirectory(sourcePath: String, destinationDir: File): RootCopyResult {
         if (sourcePath.isBlank() || sourcePath.contains("\n") || sourcePath.contains("\r")) {
             return RootCopyResult.Failed("Invalid source path")
@@ -207,6 +232,29 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
     private fun shellQuote(value: String): String =
         "'" + value.replace("'", "'\\''") + "'"
 
+    private fun runSuCancellable(command: String, isCancelled: (() -> Boolean)?): Result {
+        return try {
+            val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
+            val stdout = StringBuilder()
+            val stderr = StringBuilder()
+            val stdoutThread = Thread { process.inputStream.bufferedReader().use { stdout.append(it.readText()) } }.apply { start() }
+            val stderrThread = Thread { process.errorStream.bufferedReader().use { stderr.append(it.readText()) } }.apply { start() }
+            while (process.isAlive) {
+                if (isCancelled?.invoke() == true) {
+                    process.destroyForcibly()
+                    stdoutThread.join(500)
+                    stderrThread.join(500)
+                    return Result(-2, stdout.toString(), "Command cancelled")
+                }
+                if (process.waitFor(100, TimeUnit.MILLISECONDS)) break
+            }
+            stdoutThread.join(1000)
+            stderrThread.join(1000)
+            Result(process.exitValue(), stdout.toString(), stderr.toString())
+        } catch (t: Throwable) {
+            Result(-1, "", t.message ?: t::class.java.simpleName)
+        }
+    }
     private fun runSu(command: String): Result {
         return try {
             val process = ProcessBuilder("su", "-c", command).redirectErrorStream(false).start()
