@@ -2587,25 +2587,6 @@ private fun AppBackupStateCard(
                         onDelete = { pendingPartDelete = AppBackupPart.MEDIA },
                     )
                 }
-                Button(
-                    onClick = {
-                        onRestore(
-                            buildSet {
-                                if (latest.apkBytes > 0) add(AppBackupPart.APK)
-                                if (latest.dataBytes > 0) add(AppBackupPart.DATA)
-                                if (latest.externalDataBytes > 0) add(AppBackupPart.EXTERNAL_DATA)
-                                if (latest.mediaBytes > 0) add(AppBackupPart.MEDIA)
-                            },
-                            latest.versionCode,
-                        )
-                    },
-                    modifier = Modifier.align(Alignment.End),
-                    shape = RoundedCornerShape(24.dp),
-                ) {
-                    Icon(Icons.Default.Restore, contentDescription = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.restore))
-                }
             }
         }
     }
