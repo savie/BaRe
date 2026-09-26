@@ -3,9 +3,11 @@ package com.bare.feature.apps
 import android.content.Context
 import com.bare.app.LocalIdentityStore
 import com.bare.storage.BackupStorageBehavior
+import com.bare.capability.RootCapabilityProvider
 import java.io.File
 
 data class AppBackupSnapshot(
+    val packageName: String,
     val versionCode: Long,
     val versionName: String?,
     val backupTime: Long,
@@ -21,45 +23,73 @@ data class AppBackupSnapshot(
 class AppBackupInventoryBehavior(context: Context) {
     private val identityStore = LocalIdentityStore(context)
     private val storage = BackupStorageBehavior(context)
+    private val root = RootCapabilityProvider()
 
-    fun inspectLocal(packageName: String): List<AppBackupSnapshot> {
-        if (packageName.isBlank()) return emptyList()
-        val identity = identityStore.load() ?: return emptyList()
-        val backupRoot = File(
-            storage.internalStorage(identity.identityId).path,
-            "apps/$packageName",
-        )
-        if (!backupRoot.isDirectory) return emptyList()
+    fun inspectLocal(packageName: String): List<AppBackupSnapshot> =
+        inspectLocalAll()[packageName].orEmpty()
 
-        return backupRoot.listFiles()
-            ?.asSequence()
-            ?.filter { it.isDirectory }
-            ?.mapNotNull { directory ->
-                val metadata = AppBackupMetadata.read(directory) ?: return@mapNotNull null
-                if (metadata.packageName != packageName) return@mapNotNull null
-                AppBackupSnapshot(
-                    versionCode = metadata.versionCode,
-                    versionName = metadata.versionName,
-                    backupTime = metadata.backupTime,
-                    protectedBackup = metadata.protectedBackup,
-                    note = metadata.note,
-                    apkBytes = metadata.artifactBytes(AppBackupPart.APK, directory, "apk"),
-                    dataBytes = metadata.artifactBytes(AppBackupPart.DATA, directory, "data"),
-                    externalDataBytes = metadata.artifactBytes(AppBackupPart.EXTERNAL_DATA, directory, "external-data"),
-                    mediaBytes = metadata.artifactBytes(AppBackupPart.MEDIA, directory, "media"),
-                    totalBytes = if (metadata.artifacts.isNotEmpty()) {
-                        metadata.artifacts.sumOf { it.byteSize }
-                    } else {
-                        directorySize(directory) { file ->
-                            file.isFile && file.name != AppBackupMetadata.FILE_NAME
-                        }
-                    },
-                )
+    fun inspectLocalAll(): Map<String, List<AppBackupSnapshot>> {
+        val identity = identityStore.load() ?: return emptyMap()
+        val result = linkedMapOf<String, MutableList<AppBackupSnapshot>>()
+
+        for (location in storage.localBackupLocations(identity.identityId)) {
+            val appsRoot = File(location, "apps")
+            val packageNames = appsRoot.listFiles()
+                ?.asSequence()
+                ?.filter { it.isDirectory }
+                ?.map { it.name }
+                ?.toList()
+                ?: root.listDirectoryNames(appsRoot.absolutePath)
+
+            for (packageName in packageNames) {
+                val packageRoot = File(appsRoot, packageName)
+                val versionNames = packageRoot.listFiles()
+                    ?.asSequence()
+                    ?.filter { it.isDirectory }
+                    ?.map { it.name }
+                    ?.toList()
+                    ?: root.listDirectoryNames(packageRoot.absolutePath)
+
+                for (versionName in versionNames) {
+                    val directory = File(packageRoot, versionName)
+                    val metadata = readMetadata(directory) ?: continue
+                    if (metadata.packageName != packageName) continue
+                    result.getOrPut(packageName) { mutableListOf() } += metadata.toSnapshot(directory)
+                }
             }
-            ?.sortedByDescending { it.backupTime }
-            ?.toList()
-            .orEmpty()
+        }
+
+        return result.mapValues { (_, snapshots) ->
+            snapshots.distinctBy { Triple(it.packageName, it.versionCode, it.backupTime) }
+                .sortedByDescending { it.backupTime }
+        }
     }
+
+    private fun readMetadata(directory: File): AppBackupMetadata? {
+        AppBackupMetadata.read(directory)?.let { return it }
+        val text = root.readTextFile(File(directory, AppBackupMetadata.FILE_NAME).absolutePath) ?: return null
+        return AppBackupMetadata.parse(text)
+    }
+
+    private fun AppBackupMetadata.toSnapshot(directory: File): AppBackupSnapshot =
+        AppBackupSnapshot(
+            packageName = packageName,
+            versionCode = versionCode,
+            versionName = versionName,
+            backupTime = backupTime,
+            protectedBackup = protectedBackup,
+            note = note,
+            apkBytes = artifactBytes(AppBackupPart.APK, directory, "apk"),
+            dataBytes = artifactBytes(AppBackupPart.DATA, directory, "data"),
+            externalDataBytes = artifactBytes(AppBackupPart.EXTERNAL_DATA, directory, "external-data"),
+            mediaBytes = artifactBytes(AppBackupPart.MEDIA, directory, "media"),
+            totalBytes = if (artifacts.isNotEmpty()) {
+                artifacts.sumOf { it.byteSize }
+            } else {
+                root.directorySize(directory.absolutePath)
+                    ?: directorySize(directory) { file -> file.isFile && file.name != AppBackupMetadata.FILE_NAME }
+            },
+        )
 
     private fun AppBackupMetadata.artifactBytes(
         part: AppBackupPart,
@@ -67,10 +97,15 @@ class AppBackupInventoryBehavior(context: Context) {
         legacyDirectoryName: String,
     ): Long {
         val named = artifacts.firstOrNull { it.part == part.name }
-        return named?.byteSize ?: directorySize(File(directory, legacyDirectoryName))
+        return named?.byteSize
+            ?: root.directorySize(File(directory, legacyDirectoryName).absolutePath)
+            ?: directorySize(File(directory, legacyDirectoryName))
     }
 
-    private fun directorySize(directory: File, include: (File) -> Boolean = { true }): Long {
+    private fun directorySize(
+        directory: File,
+        include: (File) -> Boolean = { true },
+    ): Long {
         if (!directory.exists()) return 0L
         return directory.walkTopDown()
             .filter { it.isFile && include(it) }
