@@ -63,6 +63,7 @@ internal fun BackupProcessScreen(
     status: BackupProcessStatus,
     logs: List<BackupProcessLog>,
     onCancel: () -> Unit,
+    onClearLogs: () -> Unit,
     onDone: () -> Unit,
 ) {
     val total = selectedParts.size.coerceAtLeast(1)
@@ -98,7 +99,7 @@ internal fun BackupProcessScreen(
                 )
             },
             onBack = { showDetailedDiagnostics = false },
-            onClearLogs = { },
+            onClearLogs = onClearLogs,
         )
         return
     }

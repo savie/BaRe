@@ -1568,7 +1568,14 @@ fun AppDetailScreen(
                     backupProcessStatus = BackupProcessStatus.FAILED
                     backupProcessCurrentPart = null
                     backupProcessCurrentMessage = null
-                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(result.reason, failed = true)).takeLast(80)
+                    val diagnostic = emitProcessDiagnostic("AppBackupBehavior", result.reason, ProcessDiagnosticLevel.ERROR)
+                    backupProcessLogs = (backupProcessLogs + BackupProcessLog(
+                        message = diagnostic.message,
+                        failed = true,
+                        timestampMillis = diagnostic.timestampMillis,
+                        level = diagnostic.level,
+                        tag = diagnostic.tag,
+                    )).takeLast(500)
                     backupReloadToken++
                     reloadDetails()
                 }
@@ -1621,12 +1628,21 @@ fun AppDetailScreen(
             completedParts = backupProcessCompletedParts,
             status = backupProcessStatus,
             logs = backupProcessLogs,
+            onClearLogs = { backupProcessLogs = emptyList() },
             onCancel = {
                 if (backupRunning) {
                     backupCancelRequested.set(true)
+                    val diagnostic = emitProcessDiagnostic(
+                        "AppBackupBehavior",
+                        context.getString(R.string.backup_process_cancelling),
+                        ProcessDiagnosticLevel.WARN,
+                    )
                     backupProcessLogs = (backupProcessLogs + BackupProcessLog(
-                        context.getString(R.string.backup_process_cancelling)
-                    )).takeLast(80)
+                        message = diagnostic.message,
+                        timestampMillis = diagnostic.timestampMillis,
+                        level = diagnostic.level,
+                        tag = diagnostic.tag,
+                    )).takeLast(500)
                 }
             },
             onDone = {

@@ -78,21 +78,29 @@ internal fun RestoreProcessScreen(
     var logs by remember {
         mutableStateOf(
             listOf(
-                RestoreProcessLog(
-                    message = "Started restore: " + appName + " (" + packageName + ")",
-                    tag = "AppRestoreBehavior",
+                emitProcessDiagnostic(
+                    "AppRestoreBehavior",
+                    "Started restore: " + appName + " (" + packageName + ")",
                 ),
-                RestoreProcessLog(
-                    message = "Props=Restore(appParts=" + parts.map { it.name } +
+                emitProcessDiagnostic(
+                    "AppRestoreBehavior",
+                    "Props=Restore(appParts=" + parts.map { it.name } +
                         ", accessMethod=" + (accessMethod ?: "ROOT") +
                         ", backupVersion=" + versionCode + ")",
-                    tag = "AppRestoreBehavior",
                 ),
+                emitProcessDiagnostic(
+                    "AppRestoreBehavior",
+                    "Tasks to perform = " + parts.joinToString(", ") { it.name },
+                ),
+            ).map { entry ->
                 RestoreProcessLog(
-                    message = "Tasks to perform = " + parts.joinToString(", ") { it.name },
-                    tag = "AppRestoreBehavior",
-                ),
-            )
+                    message = entry.message,
+                    timestampMillis = entry.timestampMillis,
+                    level = entry.level,
+                    tag = entry.tag,
+                    stage = "STARTED",
+                )
+            }
         )
     }
     var showDetailedDiagnostics by remember { mutableStateOf(false) }
