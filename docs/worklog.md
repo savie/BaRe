@@ -8,13 +8,13 @@
 |---|---|
 | Repository | `savie/BaRe` |
 | Branch | `v1.0/rebaseline` |
-| Current checkpoint | `42a8962370201f5ce18ae1da20e817ebe11ae062` (pre-worklog update) |
+| Current checkpoint | `69a67b19fd4337a6b36aa441392c8fd62af0428c` — backup failure diagnostics checkpoint |
 | Historical source checkpoint | `b3ce008b2229a6dd8d99cbd3b79058b54b26f83b` |
-| Lifecycle | **DISCOVERY / ARCHITECTURE / BUILD** |
-| Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media** |
+| Lifecycle | **BUILD / RUNTIME VERIFICATION / DEBUGGING** |
+| Fokus | **A18 Unified App Backup Engine — APK / Data / Ext. data / Media + artifact lifecycle correctness** |
 | Reference audit | **SELESAI** |
-| Runtime status | **Existing prior runtime evidence remains valid per worklog; A18 full backup capability is UNVERIFIED. Next authorized sequence: inspect/reproduce Data failure → audit current providers/engine → design unified pipeline.** |
-| Root cause | **Current Data backup failure cause is UNKNOWN until source/runtime reproduction. Cloud provider/backend remains separate from the local backup-engine task.** |
+| Runtime status | **#1138 runtime evidence: APK, Ext. data, dan Media berhasil menghasilkan artifact terenkripsi; Data masih gagal pada `Root directory copy failed`. Full backup tetap UNVERIFIED. Ditemukan defect lifecycle artifact: artifact part sebelumnya dapat hilang ketika backup part lain dijalankan.** |
+| Root cause | **Data: boundary kegagalan terobservasi pada `RootCapabilityProvider.copyDirectory()`; penyebab lebih dalam masih UNKNOWN. Artifact sebelumnya hilang setelah backup part lain: penyebab storage/lifecycle masih UNKNOWN dan harus diaudit sebelum perubahan. Cloud provider/backend tetap terpisah dari local backup engine.** |
 
 ## 2. YANG SUDAH TERBUKTI
 
@@ -1858,3 +1858,94 @@ Urutan implementation tetap:
 - Jalankan Data-only backup pada device tersebut dan capture full stdout/stderr/logcat yang relevan.
 - Setelah evidence tersedia, lanjutkan A18.1 lalu A18.2–A18.5 secara incremental dengan build/test/verification pada setiap slice.
 
+
+## A18 — IMPLEMENTASI BACKUP TERENKRIPSI + RUNTIME #1138 — 2026-09-26
+
+### REKONSILIASI IMPLEMENTASI
+
+Checkpoint A18 yang sebelumnya masih mencatat implementation sebagai belum dimulai sekarang **superseded oleh implementation checkpoints berikutnya** pada branch `v1.0/rebaseline`.
+
+Implemented pada source saat ini:
+
+- Unified app-backup execution boundary untuk part:
+  - APK
+  - Data
+  - Ext. data
+  - Media
+- ROOT provider diperkuat untuk operasi copy yang dapat dibatalkan dan shell quoting.
+- NON_ROOT capability boundary diperluas untuk source directory yang memang dapat diakses; private app Data tetap tidak boleh dianggap tersedia tanpa capability yang sesuai.
+- Backup part sekarang dikemas sebagai artifact `.bare`.
+- BaRe-native payload encryption digunakan pada artifact backup.
+- Android Keystore GCM untuk mode Standard menggunakan IV yang dihasilkan oleh provider Keystore; caller tidak lagi memasok IV secara manual.
+- Mode Advanced menggunakan key material software dengan IV acak yang dibangkitkan BaRe.
+- Failure diagnostic sekarang membedakan kegagalan collection dengan kegagalan packaging/encryption dan menyertakan tipe exception serta root cause.
+- Inventory dan action deletion sudah disesuaikan dengan artifact terenkripsi.
+
+### CI EVIDENCE
+
+- Commit `c409d2ef500551b252ff33331dd968dc1f6f9d50` — perbaikan Android Keystore GCM IV handling.
+- GitHub Actions run **#1139** untuk commit tersebut: **SUCCESS**.
+- Commit `69a67b19fd4337a6b36aa441392c8fd62af0428c` — diagnostic kegagalan per fase backup.
+- GitHub Actions run **#1140** untuk commit tersebut: **SUCCESS**.
+- Dengan demikian source checkpoint terakhir pada `69a67b19...` memiliki bukti CI build berhasil. Ini **bukan** bukti runtime seluruh part sudah benar.
+
+### RUNTIME EVIDENCE — BUILD #1138
+
+Evidence runtime dari user pada device:
+
+| Part | Hasil runtime | Artifact terobservasi |
+|---|---|---|
+| APK only | **BERHASIL** | `apk.bare` + `metadata.json` |
+| Ext. data only | **BERHASIL** | `external-data.bare` + `metadata.json` |
+| Media only | **BERHASIL** | `media.bare` + `metadata.json` |
+| Data only | **GAGAL** | tidak menghasilkan artifact final |
+
+Diagnostic Data pada #1138:
+
+`Collecting Data failed: IllegalStateException: Root directory copy failed`
+
+Ini mempersempit boundary kegagalan ke tahap collection/copy Data. Penyebab internal setelah boundary tersebut **belum terverifikasi**.
+
+### TEMUAN BARU — LIFECYCLE ARTIFACT
+
+Runtime #1138 juga menunjukkan defect terpisah dari kegagalan Data:
+
+- Setelah `apk.bare` berhasil dibuat, menjalankan backup part lain seperti Media dapat menyebabkan `apk.bare` yang sudah ada **hilang**.
+- Artinya keberhasilan satu part belum aman terhadap eksekusi backup part berikutnya.
+- Ini merupakan **runtime evidence** tentang lifecycle/storage artifact, bukan asumsi tentang root cause.
+- Root cause saat ini **UNKNOWN**. Belum boleh disimpulkan apakah masalah berada pada version-directory lifecycle, cleanup, staging/commit, metadata rewrite, atau jalur lain sebelum source tersebut diaudit.
+- Acceptance yang diperlukan: backup part baru **tidak boleh menghapus atau merusak artifact part yang sudah berhasil dan masih valid**, kecuali user memang meminta deletion/replacement pada part tersebut.
+
+### STATUS A18 SAAT INI
+
+- Unified backup source implementation: **IMPLEMENTED**
+- BaRe-native backup payload encryption: **IMPLEMENTED**
+- APK runtime: **RUNTIME TESTED / SUCCESS**
+- Ext. data runtime: **RUNTIME TESTED / SUCCESS**
+- Media runtime: **RUNTIME TESTED / SUCCESS**
+- Data runtime: **RUNTIME TESTED / FAILED**
+- Full multi-part backup: **UNVERIFIED**
+- Artifact lifecycle / repeated-part backup correctness: **RUNTIME UNRESOLVED**
+- CI latest checkpoint: **VERIFIED** melalui run #1140
+- Full A18 acceptance: **UNVERIFIED**
+
+### NEXT ACTION
+
+1. **Jangan membuka ulang masalah encryption** sebagai root cause untuk APK/Ext. data/Media; #1138 membuktikan ketiga part tersebut dapat menghasilkan artifact.
+2. Audit actual storage lifecycle untuk repeated backup:
+   - destination/version directory creation;
+   - staging/cleanup;
+   - artifact naming;
+   - metadata rewrite;
+   - failure/cancel cleanup;
+   - interaction antara backup part yang baru dan artifact part yang sudah ada.
+3. Audit Data collection path dari `AppBackupEngine` sampai `RootCapabilityProvider.copyDirectory()` berdasarkan source aktual.
+4. Perbaiki lifecycle artifact secara minimal dan reversible setelah root cause terbukti.
+5. Setelah itu ulangi runtime matrix: APK → Ext. data → Media → Data → multi-part, termasuk verifikasi bahwa artifact part sebelumnya tetap ada.
+6. Jangan menandai A18 sebagai `VERIFIED` sebelum repeated-part behavior dan Data berhasil dibuktikan pada device.
+
+### BATAS
+
+- Cloud execution/provider tetap di luar scope local backup-engine correctness.
+- Swift Backup tetap reference functional/workflow; format, crypto, dan implementation Swift tidak disalin.
+- `#1138🟢` adalah bukti runtime dari device user, bukan bukti bahwa seluruh A18 sudah VERIFIED.
