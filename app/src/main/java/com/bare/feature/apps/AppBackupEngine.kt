@@ -48,7 +48,13 @@ class AppBackupEngine(private val context: Context) {
                 val result = archiveWriter.write(archive, listOf(AppBackupArchiveSource(raw, part.archiveName())), request.password?.copyOf())
                 completed += part
                 artifacts += archive
-                artifactMetadata += AppBackupArtifactMetadata(\n                    part = part.name,\n                    fileName = archive.name,\n                    byteSize = result.byteSize,\n                    sha256 = result.sha256,\n                    encryption = result.encryption.name,\n                )
+                artifactMetadata += AppBackupArtifactMetadata(
+                    part = part.name,
+                    fileName = archive.name,
+                    byteSize = result.byteSize,
+                    sha256 = result.sha256,
+                    encryption = result.encryption.name,
+                )
                 raw.deleteRecursively()
                 onProgress(AppBackupProgress(AppBackupProgressStage.PART_COMPLETED, part, "${part.displayName()} backup completed"))
             }
