@@ -1437,7 +1437,14 @@ fun AppDetailScreen(
                                     message = progress.message,
                                     failed = progress.stage == AppBackupProgressStage.PART_FAILED,
                                     stage = progress.stage.name,
-                                    part = progress.part?.displayNameForUi(),
+                                    part = progress.part?.let {
+                                        when (it) {
+                                            AppBackupPart.APK -> "APK"
+                                            AppBackupPart.DATA -> "Data"
+                                            AppBackupPart.EXTERNAL_DATA -> "Ext. data"
+                                            AppBackupPart.MEDIA -> "Media"
+                                        }
+                                    },
                                     processedBytes = progress.processedBytes,
                                     totalBytes = progress.totalBytes,
                                     elapsedMillis = progress.elapsedMillis,
