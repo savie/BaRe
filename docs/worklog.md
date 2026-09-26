@@ -38,9 +38,6 @@ Hanya item berikut yang aktif. **Jangan membuka kembali behavior yang sudah terb
    - Static audit sudah selesai.
    - Optimization tetap ditunda; jangan melebar ke performance/redesign.
 
-4. **LOCAL / CLOUD PART SYNC PARITY — NANTI**
-   - Ditunda sampai correctness lokal dan Data selesai.
-
 4. **PROCESS UI + BARE DIAGNOSTIC LOG — AKTIF / CORRECTNESS + DIAGNOSTICS**
    - Audit aktual sudah selesai untuk Backup Process UI, Restore Process UI, dan diagnostic/log surface.
    - Scope mencakup perbaikan UI proses dan penambahan/perbaikan **BaRe Diagnostic Log** berdasarkan actual execution event.
@@ -1862,13 +1859,45 @@ Target acceptance untuk scope ini:
 
 - Audit actual UI proses: **SELESAI**
 - Audit actual BaRe Diagnostic Log surface: **SELESAI**
-- Process UI correction: **PENDING / ACTIVE**
-- BaRe Diagnostic Log correction: **PENDING / ACTIVE**
+- Process UI correction: **IMPLEMENTED / CI PENDING / RUNTIME PENDING**
+- BaRe Diagnostic Log correction: **IMPLEMENTED / CI PENDING / RUNTIME PENDING**
 - Backup/restore engine change: **TIDAK MENJADI SCOPE PERUBAHAN PADA AUDIT UI/LOG INI**, tetapi bukan berarti backup/restore engine menjadi global OUT OF SCOPE
 - Runtime verification: **PENDING**
 - Data special behavior: **TETAP ACTIVE / REFERENCE PARITY GAP / NOT VERIFIED**
 - LOCAL APPS: **TETAP ACTIVE / NOT VERIFIED**
 - Large-file optimization: **LATER**
+
+### IMPLEMENTATION CHECKPOINT — DETAILED PROCESS DIAGNOSTICS — 2026-09-27
+
+**IMPLEMENTED**
+
+- BugReport pada Backup Process sekarang menjadi action yang membuka dedicated **Diagnostics** surface.
+- Restore Process sekarang memiliki BugReport action yang sama.
+- Global B Λ R ☰ header + 56dp page subheader tetap dipertahankan; process layout utama tidak dirombak.
+- Detailed diagnostic surface menggunakan actual BaRe process events yang sudah tersedia dari progress stream.
+- Event detail sekarang membawa:
+  - stage;
+  - part;
+  - message;
+  - processed bytes / total bytes bila tersedia;
+  - elapsed time bila tersedia;
+  - bytes/sec bila tersedia;
+  - failed state bila event gagal.
+- Inline Diagnostics card pada process screen tetap dipertahankan sebagai summary sederhana.
+- Tidak ada perubahan pada backup/restore engine mechanism atau protected correctness behavior.
+
+**COMMIT**
+
+- `297d75bf4b10f70d878c8ff4b47c7d93ad1d3e9c` — feat(apps): open detailed process diagnostics log
+- `51b34ed5c6ac54089d7667bb1e5b5622f7e4df81` — fix(apps): keep process diagnostics action available
+
+**VERIFICATION STATUS**
+
+- Repository branch HEAD: **OBSERVED** = `51b34ed5c6ac54089d7667bb1e5b5622f7e4df81`
+- Source content re-fetched from HEAD after commit: **OBSERVED**
+- GitHub Actions workflow runs for HEAD: **NONE RETURNED / CI NOT YET OBSERVED**
+- Runtime device verification: **PENDING**
+- Therefore this checkpoint is **IMPLEMENTED / UNVERIFIED**, not DONE/VERIFIED.
 
 ### BASELINE GUARD
 
