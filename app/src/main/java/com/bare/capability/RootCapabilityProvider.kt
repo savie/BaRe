@@ -133,14 +133,21 @@ class RootCapabilityProvider(private val timeoutSeconds: Long = 15) {
         val source = shellQuote(sourcePath)
         val destination = shellQuote(destinationDir.absolutePath)
         val result = runSuCancellable(
-            "test -d $source && cp -a ${shellQuote(sourcePath + "/.")} $destination/",
+            "test -d $source || { echo source_not_directory >&2; exit 20; }; " +
+                "cp -a ${shellQuote(sourcePath + "/.")} $destination/ || { status=\$?; echo cp_exit=\$status >&2; exit \$status; }",
             isCancelled,
         )
         return if (result.exitCode == 0) {
             RootCopyResult.Success(destinationDir.walkTopDown().filter { it.isFile }.toList())
         } else {
             destinationDir.deleteRecursively()
-            RootCopyResult.Failed(result.stderr.ifBlank { result.stdout }.trim().ifBlank { "Root directory copy failed" })
+            val detail = result.stderr.ifBlank { result.stdout }.trim()
+            val reason = when {
+                result.exitCode == -2 -> "Root directory copy cancelled"
+                detail.isBlank() -> "Root directory copy failed (exit=${result.exitCode})"
+                else -> "Root directory copy failed (exit=${result.exitCode}): $detail"
+            }
+            RootCopyResult.Failed(reason)
         }
     }
     fun copyDirectory(sourcePath: String, destinationDir: File): RootCopyResult {
