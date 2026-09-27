@@ -10,6 +10,9 @@ class AppOrganizationStore(context: Context) {
     fun isFavorite(packageName: String): Boolean =
         preferences.getStringSet(FAVORITES_KEY, emptySet()).orEmpty().contains(packageName)
 
+    fun favoritePackages(): Set<String> =
+        preferences.getStringSet(FAVORITES_KEY, emptySet()).orEmpty().toSet()
+
     fun setFavorite(packageName: String, favorite: Boolean) {
         val values = preferences.getStringSet(FAVORITES_KEY, emptySet()).orEmpty().toMutableSet()
         if (favorite) values.add(packageName) else values.remove(packageName)
