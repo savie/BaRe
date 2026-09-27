@@ -1902,3 +1902,142 @@ The complete final decision matrix for every Android-version/user combination is
 - exact Android-version behavior of `requireUserAction(2)` and package-source policy;
 - all secondary-user downgrade edge cases;
 - runtime verification with actual downgraded SwiftBackup archives and APK sets.
+## Checkpoint 12 — Metadata Lifecycle, Delete, and Cloud Sync Consistency
+
+### Local metadata read/write contract
+
+`hk.u()` reads the local metadata file only when the metadata path exists; `cu.b()` parses the versioned metadata and falls back to legacy parsing when the versioned parse fails. The versioned format is prefixed with `v1:::` and contains the signed-in user identifier plus serialized `LocalMetadata`.
+
+`cu.d()` rejects:
+- metadata larger than 102400 bytes;
+- known Titanium Backup metadata;
+- incompatible metadata version;
+- empty metadata identity;
+- metadata belonging to a different signed-in user.
+
+`cu.f()` is the concrete write boundary. It serializes the metadata as `v1:<user-id>:::<encoded LocalMetadata>` and writes it through `q63.K(...)`.
+
+### Local backup lifecycle
+
+`AppBackupTask` mutates `LocalMetadata` incrementally after successful artifact operations:
+- APK → `updateApkDetails(...)`;
+- split APKs → `updateSplitsDetails(...)`;
+- shared libraries → `updateSharedLibsDetails(...)`;
+- EXTDATA → `updateExtDataDetails(...)`;
+- EXPANSION → `updateExpansionDetails(...)`.
+
+Special-data/permission state is collected into the backup payload, then transient metadata fields are cleared before the final metadata save. When the backup is updating an existing backup, `dateBackupUpdated` is refreshed.
+
+Final local persistence is explicit:
+
+~~~text
+artifact operation
+  ↓
+LocalMetadata mutation
+  ↓
+special-data finalization
+  ↓
+dateBackupUpdated (existing-backup update)
+  ↓
+cu.f()
+  ↓
+metadata file
+~~~
+
+Therefore a failed intermediate artifact operation does not automatically imply that all metadata changes are committed; the inspected code commits the final metadata at the explicit save boundary.
+
+### Cloud metadata lifecycle
+
+`AppUploadTask` starts from `LocalMetadata` and `CloudMetadata`, then merges local state into the cloud representation before upload:
+- installer package;
+- key version;
+- date backup;
+- note;
+- protected state;
+- date backup updated.
+
+`CloudMetadata.prepareForFirebaseUpload()` is called before the cloud detail update through `cf3.c(cloudDetailNode, cloudMetadata)`.
+
+Cloud metadata is only uploaded to the database when `CloudMetadata.hasBackups()` is true. If it has no backups, the inspected path logs that it will not upload the database node.
+
+### Cloud backup index reconstruction
+
+`AppCloudBackups.fetchForPackage(packageName)` reads the package's cloud node, parses each child as `CloudMetadata`, validates `CloudMetadata.isValidCloudDetails()`, wraps valid entries as `AppCloudBackup`, validates the wrapper, then sorts by `dateBackedUpOrUpdated` descending.
+
+This means the cloud backup list is reconstructed from persisted cloud detail nodes rather than treated as an authoritative local cache.
+
+Invalid cloud metadata is omitted from the reconstructed list.
+
+### Cloud multiple-backup cleanup
+
+After a successful/eligible upload, `AppUploadTask` fetches the cloud backup list and separates:
+- protected backups → never selected for normal-backup cleanup;
+- normal backups → candidates for retention policy.
+
+`MultipleBackupStrategy.Representation.getMaxNumOfBackups()` determines the normal-backup retention count. Older normal backups beyond that count are passed to `AppBackupDeleteHelper` with cloud location.
+
+The cleanup therefore operates on backup IDs selected from the persisted cloud index, while protected backups remain outside the normal retention deletion set.
+
+### Delete consistency
+
+`AppBackupDeleteHelper` handles local and cloud deletion independently but aggregates their success state.
+
+Local deletion:
+- selects requested backup parts;
+- deletes each selected artifact for eligible local backups;
+- checks remaining local backups for the package;
+- if none remain, deletes the package backup directory.
+
+Cloud deletion:
+- resolves current cloud backups through `AppCloudBackups.fetchForPackage()` when selecting by retention/protection rules;
+- passes selected `AppCloudBackup` records into the cloud deletion task;
+- records database lookup errors separately from deletion results.
+
+Therefore the package's local backup directory is removed only after the local artifact list is empty, while cloud backup records are managed through their cloud backup IDs.
+
+### Protection / note consistency
+
+Local protection and note updates mutate `LocalMetadata` and immediately persist through `cu.f()`.
+
+Cloud protection and note updates mutate `CloudMetadata` and immediately call `cf3.c(re3.a(appId, backupId), metadata)`.
+
+The two paths are therefore intentionally separate persistence boundaries; changing a local note/protection flag does not by itself prove a cloud update, and vice versa.
+
+### Restore/delete/sync invariant
+
+The reconstructed lifecycle is:
+
+~~~text
+Local backup artifact
+  ↕
+LocalMetadata file
+  ↓ cloud upload
+CloudMetadata detail node
+  ↓ reconstruction
+AppCloudBackup / AppCloudBackups
+  ↓ retention/delete
+Cloud backup deletion
+~~~
+
+Restore reads the selected backup metadata/artifact but the inspected restore path still does not establish a symmetric metadata rewrite after successful restore.
+
+Delete removes artifacts and cloud records through task boundaries; it does not rely on merely deleting an in-memory `AppCloudBackups` entry.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- local metadata versioned read/write contract;
+- local metadata identity/version validation;
+- incremental LocalMetadata updates during backup;
+- explicit final local metadata save;
+- CloudMetadata merge/upload boundary;
+- cloud backup index reconstruction from persisted nodes;
+- protected-vs-normal retention selection;
+- local package-directory cleanup after all local backups are removed;
+- local/cloud note and protection persistence boundaries.
+
+**UNKNOWN / UNVERIFIED:**
+- atomicity across artifact write + metadata save;
+- exact cloud deletion transaction semantics inside the provider task;
+- whether every failed upload/delete path leaves a stale cloud node or is reconciled later;
+- runtime recovery behavior after process death between artifact and metadata commits.
