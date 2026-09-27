@@ -573,3 +573,24 @@ Prioritas berikutnya:
 5. Detail → backup/restore execution graph.
 
 Implementation Apps2 tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 4 — Item Actions / Batch Selection
+
+Audit Apps List dilanjutkan ke concrete action dan batch selection.
+
+Teramati:
+
+- Reference memiliki 8 concrete item actions: Launch, EnableDisable, Uninstall, ForceStop, PlayStore, ClearData, AppInfo, ShareApk.
+- Availability setiap action dihitung per app melalui `oy.isAvailable`; beberapa action memerlukan root/privileged capability, beberapa hanya memerlukan kondisi installed/enabled/launchable.
+- Action membawa ID, menu item ID, title, icon, tone, dan dynamic title/icon untuk EnableDisable.
+- `gm7` adalah selection base adapter: selected IDs terpisah dari visible list, toggle per item, select-all, clear-all, selected count, dan callback selection.
+- `AppsBatchActivity` memakai `l20` adapter dan `r20` state holder.
+- Batch menerima `batch_action_item` atau `quick_action_item`, memiliki Search/Filter/Select All, selected count, App Backup Settings, dan Settings.
+- Batch filter surface dikonfigurasi berdasarkan capability request.
+
+Dengan checkpoint ini, Apps List structural contract sudah mencakup discovery → repository state → search → filter → sort → item rendering → selection → item actions → batch entry.
+
+High-risk boundary berikutnya adalah Detail → Backup/Restore execution graph.
+
+Implementation Apps2 tetap BELUM DIMULAI.
