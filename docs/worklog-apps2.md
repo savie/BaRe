@@ -1295,3 +1295,69 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: remaining Apps task/precondition/capability collaborators + exact batch/config/quick-action task graph. After that inventory the uncovered source classes against the original 45-class Apps subsystem map before deciding whether audit can close.
+## Audit Checkpoint 21 — Apps Task Graph / Preconditions / Capability / 45-Class Ledger
+
+`c40` adalah Apps task provider. Operation types yang relevan:
+- `ky7` Backup;
+- `ry7` Restore + `isApkDowngradeAllowed`;
+- `oy7` DeleteBackups + selected parts/locations/delete type;
+- `py7` Enable/Disable;
+- `sy7` Uninstall.
+
+Sub-manager boundary:
+- Backup → `jl` / `vl` / upload chain;
+- Restore → `wv` / `mq` / `xw` / post-restore;
+- Delete → `jk` / `ik`;
+- Uninstall → `lz`;
+- Enable/Disable → `nq`.
+
+Setelah operation branch, `c40` melakukan local app reload/event reconciliation dan emits `d40` completion.
+
+Cancellation: TaskActivity → `hy7.d()` → TaskService cancellation state. `c40.a()` propagates cancellation to active backup upload/download/restore/delete/uninstall/enable-disable child managers. Multi-app delete (`jk`) juga mengecek cancellation antar-app.
+
+TaskService membedakan COMPLETE/CANCEL_COMPLETE/TIMEOUT. Jika task selesai dengan errors, `TaskManager$ErrorSummary` diserialisasi ke `TaskErrors.txt`. `TaskActivity` dapat membaca file ini setelah process/UI loss ketika in-memory task list kosong. Ini membuktikan persistence error summary, bukan resumable transaction.
+
+`PreconditionsActivity` request codes 2/3/589 menangani SMS/call-log permissions. Apps backup/restore biasa tidak melalui activity tersebut; Apps memakai root/Shizuku capability dan operation-specific prerequisites.
+
+Capability utama Apps: `mp6.f()/g()` root-or-Shizuku. Row action capability melalui `oy.isAvailable(ji)`.
+
+### 45-class source coverage ledger
+
+Original source cluster count tetap 45:
+- appslist 14;
+- appsquickactions 1;
+- appinfo 1;
+- detail 2;
+- appconfigs 11;
+- apptasks 8;
+- model/app 5;
+- settings/appbackuplimits 2;
+- settings/appvisibility 1.
+
+Ledger saat ini belum berarti 45/45 deep coverage.
+
+Focused remaining passes:
+- FavoriteAppsRepo lifecycle;
+- AppInfo deep behavior;
+- ShortcutPinnedReceiver;
+- ConfigEdit/List/Settings downstream effects;
+- AppBackupLimits downstream enforcement;
+- AppVisibilityDiagnostics source semantics;
+- remaining apptasks helper serialization/edge commands;
+- full quick-action/config option variants.
+
+### Status
+
+Apps task graph: VERIFIED STATICALLY.
+Cancellation propagation: VERIFIED STATICALLY.
+Task error persistence: VERIFIED STATICALLY.
+Generic PreconditionsActivity boundary: RECONSTRUCTED STATICALLY.
+Apps capability boundary: VERIFIED STATICALLY.
+45-class inventory: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: remaining 45-class ledger gaps, starting FavoriteAppsRepo + AppInfo + ShortcutPinnedReceiver, then Config UI/downstream, AppBackupLimits enforcement, AppVisibilityDiagnostics, and final apptasks helper edges.
