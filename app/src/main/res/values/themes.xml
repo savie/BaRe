@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="BaRePopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@color/bare_background</item>
+    </style>
+
     <style name="Theme.BaRe" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:statusBarColor">@color/bare_background</item>
@@ -8,5 +12,6 @@
         <item name="android:windowLightNavigationBar">false</item>
         <item name="colorPrimary">@color/bare_primary</item>
         <item name="colorSurface">@color/bare_surface</item>
+        <item name="popupMenuStyle">@style/BaRePopupMenu</item>
     </style>
 </resources>
