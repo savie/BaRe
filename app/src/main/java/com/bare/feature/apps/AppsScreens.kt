@@ -392,10 +392,19 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
             else -> items(visibleApps, key = { it.packageName }) { app ->
                 Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
                     Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Box(
-                            Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
-                            Alignment.Center
-                        ) { Text(app.name.take(1), fontWeight = FontWeight.Bold) }
+                        val resolvedIcon = rememberResolvedAppIcon(context, app)
+                        if (resolvedIcon != null) {
+                            androidx.compose.foundation.Image(
+                                bitmap = remember(resolvedIcon) { resolvedIcon.toAppImageBitmap() },
+                                contentDescription = app.name,
+                                modifier = Modifier.size(44.dp).clip(CircleShape),
+                            )
+                        } else {
+                            Box(
+                                Modifier.size(44.dp).background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                                Alignment.Center
+                            ) { Text(app.name.take(1), fontWeight = FontWeight.Bold) }
+                        }
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
                             Text(
