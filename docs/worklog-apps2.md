@@ -745,3 +745,47 @@ Remaining audit gaps:
 5. runtime verification.
 
 Apps2 implementation tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 9 — Rekonstruksi Awal Reference → Apps2
+
+Audit sudah cukup matang untuk membuat peta rekonstruksi statis tanpa memulai implementation.
+
+Artifact baru:
+- docs/reference_apps_reconstruction_map.md
+
+Peta tersebut menghubungkan Reference ke proposal Apps2 untuk:
+- shell/navigation;
+- list presentation;
+- repository/state/model;
+- search/filter/sort;
+- item actions;
+- selection/batch;
+- detail;
+- backup/restore request;
+- task;
+- archive/artifact;
+- capability;
+- EXPANSION;
+- resource boundary;
+- shared boundary.
+
+Status peta: DRAFT / PROPOSAL, bukan implementation.
+
+### Important engineering distinction
+
+Audit Reference static sudah cukup untuk memulai reconstruction design, tetapi belum cukup untuk menyatakan Reference runtime parity atau Apps2 readiness.
+
+Sebelum implementation, masih ada verification/design gaps:
+
+1. final namespace/package collision check terhadap actual BaRe;
+2. exact mv installer request mapping;
+3. permission/precondition request mapping;
+4. archive-format decompilation gaps;
+5. metadata persistence details;
+6. runtime verification Reference bila feasible.
+
+Architecture freeze: BELUM.
+Apps2 implementation: BELUM DIMULAI.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
