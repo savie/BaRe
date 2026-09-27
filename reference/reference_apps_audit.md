@@ -4451,3 +4451,148 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut ke remaining metadata/AppPart producer-consumer edges dan special-data artifact cloud lifecycle, sambil menutup resource-path audit untuk 112 uncovered Apps-like candidates.
+
+## Audit Checkpoint 30 — Metadata / AppPart Producer-Consumer Reconciliation
+
+### Scope
+
+Pass ini menelusuri model/data graph yang masih tersisa setelah special-data closure: AppPart artifact metadata, LocalMetadata mutation, CloudMetadata synchronization, AppCloudBackup selection, dan restore-time metadata consumption.
+
+### 1. AppPart → LocalMetadata artifact edges
+
+Reference AppsTask backup path mutates LocalMetadata incrementally after successful artifact operations.
+
+Verified artifact-specific producer → metadata edges:
+
+- APP → updateApkDetails(...)
+- split APKs → updateSplitsDetails(...)
+- shared libraries → updateSharedLibsDetails(...)
+- EXTDATA → updateExtDataDetails(...)
+- EXPANSION → updateExpansionDetails(...)
+- DATA → corresponding data metadata update
+- MEDIA → corresponding media metadata update
+
+The restore side reads the resulting LocalMetadata through the restore manager and uses part-specific metadata to decide availability, size/date/source and extraction targets.
+
+This means AppPart is not merely a UI selection enum. It is a data-routing discriminator across artifact production, metadata persistence, and restore resolution.
+
+### 2. LocalMetadata lifecycle
+
+The current backup graph is:
+
+AppPart operation
+→ artifact writer
+→ LocalMetadata mutation
+→ special-data finalization
+→ dateBackupUpdated refresh when updating an existing backup
+→ metadata repository/file save.
+
+The special-data fields are deliberately finalized separately:
+
+permissionIdsCsv / permissionStatesCsv / ntfAccessComponent / accessibilityComponent / ssaid
+→ AppSpecialDataPayload.write(...)
+→ legacy transient fields cleared
+→ LocalMetadata final save.
+
+Therefore LocalMetadata contains both durable artifact metadata and compatibility/transient special-data fields, but the latter are no longer the authoritative storage path after successful special-data serialization.
+
+### 3. CloudMetadata lifecycle
+
+Cloud backup preparation separates metadata from special-data artifact content.
+
+Verified model relationship:
+
+AppCloudBackup
+→ CloudMetadata
+→ prepareForFirebaseUpload()
+→ legacy special fields cleared before Firebase metadata persistence.
+
+Special-data artifact:
+
+AppSpecialDataPayload file
+→ cloud upload
+→ special-data artifact link/size
+→ CloudMetadata.updateSpecialDataDetails(link, size).
+
+Thus cloud metadata is a manifest/index for the artifact rather than the only container of special-data contents.
+
+Restore selection carries both:
+- AppCloudBackup identity/source;
+- selected AppPart list;
+- restore configuration.
+
+Cloud restore manager can resolve the cloud metadata/artifacts and then feed the resulting LocalMetadata-equivalent state into AppRestoreTask.
+
+### 4. AppCloudBackup as selection/identity boundary
+
+The restore request model jz carries:
+
+- canonical ji app;
+- selected AppPart list;
+- restore permission mode;
+- restore-special-permissions flag;
+- restore-SSAID flag;
+- local backup identity;
+- optional AppCloudBackup;
+- force-redo state.
+
+Therefore AppCloudBackup is not itself the special-data payload. It is the cloud backup identity/source used by the restore orchestration.
+
+The actual special-data content remains represented by AppSpecialDataPayload and its artifact metadata.
+
+### 5. AppPart graph
+
+The reconciled graph is:
+
+Config/UI AppPart selection
+        ↓
+Backup request / Restore request
+        ↓
+AppsTask (c40)
+        ↓
+part-specific producer/consumer
+        ↓
+artifact
+        ↓
+LocalMetadata / CloudMetadata
+        ↓
+local/cloud backup identity
+        ↓
+restore resolver
+        ↓
+AppPart-specific restore
+        ↓
+post-restore special-data / permission / SSAID processing
+
+This closes the previous ambiguity that AppPart was only a presentation-level selection.
+
+### 6. Remaining metadata gaps
+
+Still requiring direct audit:
+
+1. exact DATA/DE-DATA metadata writer and reader pairs;
+2. exact MEDIA metadata writer/reader pair;
+3. exact EXPANSION metadata writer/reader pair;
+4. exact split/shared-library metadata restore consumers;
+5. exact cloud special-data artifact upload/delete failure lifecycle;
+6. metadata migration/version compatibility paths;
+7. resource-path closure for the 112 uncovered Apps-like candidates.
+
+### Status
+
+AppPart → LocalMetadata artifact routing: VERIFIED STATICALLY.
+LocalMetadata special-data transition: VERIFIED STATICALLY.
+CloudMetadata special-data manifest relation: VERIFIED STATICALLY.
+AppCloudBackup restore identity relation: VERIFIED STATICALLY.
+AppPart task/data graph: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Bongkar exact DATA/DE-DATA, MEDIA, EXPANSION, split/shared-library metadata producer-consumer pairs, lalu lanjut cloud special-data failure lifecycle dan resource-path closure.
