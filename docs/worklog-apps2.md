@@ -965,3 +965,45 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit tetap mengikuti dependency path: restore result/state reconciliation → cloud/local delete edge cases → task failure/recovery semantics → remaining Apps collaborators.
+## Audit Checkpoint 13 — Restore Result / State Reconciliation / Failure Aggregation
+
+Audit dilanjutkan ke `xw`, `uw`, `sv`, `b40`, dan orchestration `c40`.
+
+### Hasil
+
+`uw` menjadi per-app restore result accumulator dengan kategori terpisah untuk skipped part, restore failure, invalid APK, no-APK, warning, critical/unexpected error, dan task-level error.
+
+APK downgrade failure tidak selalu terminal: bila app masih installed, Reference mencatat warning bahwa APK restore dilewati karena installed version lebih baru, lalu DATA restore dapat dilanjutkan.
+
+Part restore errors tetap diisolasi dan dikumpulkan sebelum menjadi task-level summary.
+
+`sv` mengagregasi:
+- `sv.a` → per-app restore result;
+- `sv.b` → download/cloud-transfer result.
+
+`b40` menjadi error summary yang membedakan insufficient space, skipped part, download error, failed restore, no APK, wrong password, data corruption, unexpected error, warning, dan critical error.
+
+Task state `COMPLETE` tetap dapat terjadi ketika error summary `b40` berisi per-app restore errors. Jadi task completion bukan sinonim dengan semua app berhasil direstore.
+
+Post-restore melakukan:
+- special-data/permission restore;
+- package state refresh/check;
+- local repository reload;
+- per-app event publication;
+- cloud cache cleanup untuk cloud restore.
+
+Restore membaca LocalMetadata/CloudMetadata tetapi tidak ditemukan symmetric metadata write melalui `cu.f()` atau CloudMetadata persistence setelah restore.
+
+### Status
+
+Restore result aggregation: RECONSTRUCTED STATICALLY.
+Failure/recovery semantics: RECONSTRUCTED STATICALLY pada orchestration level.
+Post-restore state reconciliation: RECONSTRUCTED STATICALLY.
+Process-death recovery: UNKNOWN.
+External UI state semantics: sebagian UNKNOWN.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: delete failure semantics + task cancellation/recovery + backup record consistency after delete.
