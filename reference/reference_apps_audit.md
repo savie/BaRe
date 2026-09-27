@@ -4051,3 +4051,140 @@ Legacy Apps: **TIDAK DIUBAH**.
 ### Next audit
 
 Resolve the 112 uncovered resource candidates against generated/base/shared classes, menu/navigation/theme references, and resource-loading paths; in parallel continue remaining direct apptasks edges.
+
+## Audit Checkpoint 28 — AppSpecialDataPayload Persistence / Security Boundary
+
+### Scope
+
+Model/data graph audit dilanjutkan pada AppSpecialDataPayload karena model ini menjadi penghubung antara special-data backup persistence dan restore-time privileged helpers.
+
+### Payload model
+
+AppSpecialDataPayload version 1 contains:
+
+- permissionStatesCsv;
+- ssaid;
+- ntfAccessComponent;
+- accessibilityComponent;
+- notificationPolicyXml.
+
+hasPayloads() returns true when at least one of these fields is non-empty.
+
+### On-disk format
+
+The persistence format is explicitly versioned:
+
+- VERSION_1 = v1;
+- separator = :::;
+- payload consists of version marker, user identity component, and encoded payload component;
+- serialized model uses Gson;
+- serialized bytes are compressed with native SbaZstdNative;
+- compressed bytes are Base64 encoded;
+- user identifier is encoded as a separate component.
+
+The reader:
+
+1. requires the target q63 to exist;
+2. rejects files larger than **1 MiB**;
+3. requires a logged-in Firebase user;
+4. reads the file;
+5. verifies the version prefix;
+6. accepts only format v1;
+7. decodes the user-bound component;
+8. rejects payload belonging to a different user;
+9. Base64 decodes the payload;
+10. decompresses using SbaZstdNative;
+11. deserializes Gson into AppSpecialDataPayload.
+
+Unsupported version, invalid structure, user mismatch, decompression failure, and read failure are explicitly logged and result in null/failure behavior.
+
+### Write semantics
+
+write(...) constructs the model from the five payload strings.
+
+If hasPayloads() is false:
+- target is deleted/cleared;
+- method returns false.
+
+Otherwise:
+
+- a temporary target is created using original path + .tmp- + System.nanoTime();
+- encrypted/versioned string is written to the temporary target;
+- replacement is performed only after successful temporary write;
+- failure logs the error;
+- temporary target is deleted;
+- method returns false.
+
+This is an atomic-ish temp-write/replace boundary, rather than direct in-place mutation.
+
+### Security/data-flow relation
+
+The special-data persistence boundary is now:
+
+special data sources
+  ↓
+AppSpecialDataPayload
+  ↓
+Gson serialization
+  ↓
+Zstd compression
+  ↓
+Base64
+  ↓
+user-bound versioned envelope
+  ↓
+atomic temporary-file replacement
+  ↓
+on-disk special-data payload
+
+Restore path:
+
+on-disk payload
+  ↓
+version/user validation
+  ↓
+Zstd decompression
+  ↓
+AppSpecialDataPayload
+  ↓
+notificationPolicyXml
+  ↓
+NotificationPolicyProxy privileged restore
+
+This establishes a complete static edge between persistent special-data storage and the notification-policy execution path.
+
+### Coverage impact
+
+Closed:
+
+- AppSpecialDataPayload persistence format;
+- user-binding validation;
+- 1 MiB file boundary;
+- v1 format validation;
+- compression/decompression boundary;
+- atomic temporary write/replace behavior;
+- model → privileged notification restore relation.
+
+Still open:
+
+1. other special-data fields' producer/consumer edges;
+2. exact permission/SSAID/accessibility/notification-access restore helper paths;
+3. remaining model fields across LocalMetadata/CloudMetadata/AppCloudBackup graph where not yet reconciled;
+4. complete 45-class/resource/task/data/model/UI ledger.
+
+### Status
+
+AppSpecialDataPayload persistence: VERIFIED STATICALLY.
+Notification policy persistence → restore edge: VERIFIED STATICALLY.
+Special-data model contract: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Trace the remaining AppSpecialDataPayload field producers/consumers (permissions, SSAID, notification access, accessibility), then reconcile the complete model/data graph.
