@@ -1559,3 +1559,102 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut ke direct Apps task/helper execution boundaries yang masih tersisa: installer-source preservation, Task composition/cancellation edges, archive/metadata helpers, dan transitive resource dependencies yang masih dapat dibuktikan dari decompile. Setelah pass selesai, update audit dan worklog lagi.
+
+## Audit Checkpoint 25 — Direct Task / Privileged Helper Execution Reconciliation
+
+Pass ini menutup beberapa execution edge yang sebelumnya masih terbuka.
+
+### Installer source-preserving path
+
+Caller nyata ditemukan pada nj7.a.
+
+Flow terverifikasi:
+
+App install task → nj7.a → installer validation → pm list packages -U --user → staging /data/local/tmp/swiftbackup-install-<nanoTime> → swiftbackup_install_proxy → InstallerSourceProxy → PackageInstaller → result verification → cleanup.
+
+Temuan penting:
+
+- source-preserving path dibatasi ke installer com.android.vending;
+- APK source dipassing sebagai name|path;
+- caller mensyaratkan success signal;
+- jika success signal tidak ada, caller menambahkan Failure [Source-preserving install did not report success];
+- staging directory dibersihkan setelah execution.
+
+InstallerSourceProxy terverifikasi:
+- PackageInstaller session;
+- install reason 4;
+- API 34+ installerPackageName;
+- API 33+ packageSource 2;
+- API 31+ requireUserAction 2;
+- total size;
+- fsync;
+- commit + IntentSender;
+- timeout 120000 ms;
+- installerPackageName verification;
+- API 30+ initiating/installing package verification;
+- abandonSession pada failure path.
+
+### Notification policy path
+
+Backup dan restore caller ditemukan.
+
+Backup:
+
+AppBackupTask → package/user validation → temp file → swiftbackup_notification_policy_proxy(backup, userId, package, file) → OK → read file → AppSpecialDataPayload.
+
+Restore:
+
+AppRestoreTask → AppSpecialDataPayload.notificationPolicyXml → validation → temp file → swiftbackup_notification_policy_proxy(restore, userId, package, file) → OK → cleanup.
+
+Proxy limits/contracts:
+- full payload max 4 MiB;
+- per-package payload max 512 KiB;
+- strict charset decoding;
+- target package XML extraction;
+- hidden notification service getBackupPayload/applyRestore;
+- output OK/MISSING/ERROR.
+
+### AppSpecialDataPayload
+
+Notification policy is an explicit field of AppSpecialDataPayload alongside permissions, SSAID, notification access, and accessibility state.
+
+### AppsWorkingDir
+
+Working directory is a real task-artifact boundary:
+- normal base: internal files/cache with external-cache/user-folder fallback;
+- Shizuku/ADB mode uses externally accessible path;
+- task directory: app_tasks;
+- getWorkingDir validates/creates child;
+- cleanup covers cache locations and catches public-boundary exceptions.
+
+### SBA metadata
+
+SBA app-data metadata is Gson serialized and includes:
+kind, version, packageName, appId, versionName, versionCode, backupCache, includeDeviceProtectedData, compressionLevel, encrypted, dataSize, deDataSize, entries.
+
+Defaults observed:
+kind swiftbackup.app-data, version 1, encrypted true.
+
+Entries are data and optionally data_de.
+
+### Coverage ledger delta
+
+Installer source-preserving caller/proxy: VERIFIED STATICALLY.
+Notification policy caller/proxy: VERIFIED STATICALLY.
+Special-data model relation: VERIFIED STATICALLY.
+Working-dir boundary: VERIFIED STATICALLY.
+SBA metadata boundary: VERIFIED STATICALLY.
+
+### Status
+
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Audit bv.a(...) transport/execution semantics and remaining direct apptasks edges, then reconcile task/data/model/resource coverage again.
