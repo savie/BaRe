@@ -514,3 +514,252 @@ Still unresolved:
 - app item action graph;
 - detail backup/restore graph;
 - task/archive/restore execution graph.
+
+
+## Checkpoint 3 — List State, Filtering, Search, and Item Actions
+
+### `dv` repository/state contract
+
+Static inspection of `dv` confirms it is a reusable repository state base, not a concrete local/cloud inventory.
+
+Observed responsibilities:
+
+- owns an item cache keyed by `itemId`;
+- exposes item lookup;
+- exposes current list;
+- loads/reloads through abstract `a()`;
+- publishes `ik6` state;
+- states observed: Loading, Success, Empty;
+- supports item insert/update/remove;
+- maintains observer/subscriber callbacks;
+- prevents the synchronous `a()` load from running on the main thread;
+- when a reload is requested, can publish Loading first and then replace the cache from `a()`;
+- can return cached data without reloading when appropriate.
+
+This confirms:
+
+```
+Repository implementation
+      ↓
+dv cache + result state
+      ↓
+tt list controller
+      ↓
+AppListActivity / ws
+```
+
+### Local repository `kz4`
+
+Observed:
+
+- checks root/capability state before loading;
+- reads `show_system_apps`;
+- obtains installed package inventory through `g00.l(showSystemApps)`;
+- builds local list from the returned grouped result;
+- package events update an existing `ji`, remove an uninstalled-without-backup app, or construct a new `ji` from PackageInfo;
+- updates are pushed through the `dv` cache/update path.
+
+### Cloud repository `ua1`
+
+Observed:
+
+- checks cloud/drive connectivity;
+- checks network availability;
+- reads cloud snapshot;
+- reconstructs `AppCloudBackups`;
+- converts valid cloud backup collections to `ji`;
+- package/app events update existing cloud inventory entries;
+- cloud load can return DriveNotConnected, NetworkError, Empty, Success, or CloudError result states.
+
+### Installed-app discovery `g00.l` / `g00.m`
+
+Two distinct discovery boundaries are now confirmed.
+
+`g00.m(showSystemApps)`:
+
+- uses PackageManager `getInstalledPackages(0)`;
+- if no packages are returned, attempts a Shizuku fallback command;
+- resolves package names back to PackageInfo;
+- applies `g00.z(packageInfo, showSystemApps)` filtering;
+- returns the filtered PackageInfo collection.
+
+`g00.l(showSystemApps)`:
+
+- is the heavier local Apps inventory path;
+- reads local account/archive directories;
+- scans local backup metadata XML locations;
+- reconstructs backup metadata and associates it with package/app identity;
+- combines inventory information with installed-package discovery;
+- returns a grouped `c00` result used by `kz4`.
+
+The exact full `c00` grouping semantics remain partially reconstructed because the decompiled method contains JADX type-inference failures and large generated regions.
+
+### Search
+
+`tt.m(query, list)` confirms search is applied after the repository/list inventory exists.
+
+Observed:
+
+- query is normalized;
+- search delegates to `ns0.k(query, list)`;
+- if no match exists, list state becomes a search-empty state;
+- otherwise the filtered list is published;
+- original/current list and search result are kept as separate state.
+
+`ns0.k` statically evaluates multiple app fields, including:
+
+- app name;
+- package name;
+- name token/prefix fragments;
+- package fragments;
+- additional normalized search tokens.
+
+The complete matching algorithm is more complex than a single `contains(name)` check.
+
+### Filter surface vs filter application
+
+`sc3` is the filter UI/state selection surface.
+
+It reads/writes persisted filter values through the individual filter helper objects.
+
+Observed persisted keys include:
+
+- `key_filter_favorites`
+- `key_filter_app_backup`
+- `key_filter_app_synced`
+- `key_filter_app_install`
+- `key_filter_app_enabled`
+- `key_filter_app_backup_age`
+- `key_filter_labels`
+- `selected_labels_filter`
+- temporary selected-label state
+- `show_system_apps`
+- `app_sort_mode`
+
+The filter surface builds the selected options but is not itself the complete filtering engine.
+
+The filtering engine boundary is `qq`.
+
+Observed signature:
+
+`qq.a(list, isCloudSection, systemAppFilter, appTypeFilter, labelFilter, backupFilter, favoriteFilter, syncFilter, enabledFilter, backupAgeFilter)`
+
+This confirms the list filter operation is a separate domain/helper boundary receiving the selected filter contracts together.
+
+Sync filtering has a separate path:
+
+`qq.b(list, ce3 syncFilter)`
+
+It obtains cloud inventory and compares each app against cloud backup collections before including/excluding it.
+
+### Filter selection state
+
+`nd3` is the common filter contract:
+
+- display string;
+- default state;
+- applied state;
+- reset.
+
+`od3` is the persisted selector contract:
+
+- read current selection;
+- read default selection;
+- persist selected value;
+- reset to default.
+
+Label filtering is special:
+
+- `ud3` handles persistent selected labels;
+- `xd3` handles temporary selected-label state used by the dialog;
+- selected-label mode falls back to All when no selected label IDs remain.
+
+### Sort
+
+`iy` owns persisted sort mode and derived calculations.
+
+Observed:
+
+- `app_sort_mode` is persisted;
+- Name is the default fallback;
+- available sort modes include Name, InstallDate, UpdateDate, BackupDate, AppSize, BackupSize, DateUsed;
+- size maps are calculated per package;
+- last-used maps are calculated for usage-date sorting;
+- usage sort can be reset when required usage-access capability is unavailable.
+
+`ws` uses the current `iy` sort mode to render the corresponding secondary text and section-index value.
+
+### App item action graph
+
+`tr` is the actual list-item presenter/view-holder.
+
+Observed item subviews:
+
+- app icon;
+- title;
+- subtitle(s);
+- backup status;
+- labels;
+- favorite icon;
+- item menu icon;
+- selection checkbox;
+- left/right swipe containers;
+- up to four swipe action buttons.
+
+Observed behavior:
+
+- app icon click delegates to an injected callback;
+- favorite icon click invokes the favorite callback and updates checked/favorite presentation;
+- selection state is driven by the selection callback/state;
+- item long-click invokes the injected selection/action callback;
+- overflow/menu click invokes the injected item-action callback;
+- swipe actions are resolved through `oy` action objects;
+- action availability is evaluated per app;
+- action icon, title, tone, click behavior, and swipe mode are configured dynamically;
+- swipe actions are disabled when no action is available.
+
+The exact concrete `oy` action inventory is still unresolved and must be audited before declaring the complete App Item action contract.
+
+### App List Activity action/state boundary
+
+`AppListActivity` confirms:
+
+- shell menu contains Search, Filter, Drawer;
+- Search opens inline search when list is populated;
+- Filter opens `sc3` when repository cache is not empty;
+- Drawer opens/closes the navigation drawer;
+- pull-to-refresh delegates to `tt.k`;
+- list updates are observed and forwarded to `ws`;
+- FastScroller is connected to the adapter;
+- batch FAB is a separate action entry;
+- empty/error/search states are rendered differently;
+- reset-filters action is exposed when the filter result is empty.
+
+### Checkpoint 3 conclusion
+
+The Apps List vertical slice is now sufficiently understood at the following contract level:
+
+```
+Local/Cloud Repository
+        ↓
+dv cache/result
+        ↓
+tt list state
+   ├── search → ns0
+   ├── filters → qq
+   └── sort → iy
+        ↓
+ws adapter/presenter
+        ↓
+tr app item
+        ↓
+item actions / selection / swipe
+```
+
+Still unresolved before implementation:
+
+1. complete `oy` concrete action inventory;
+2. exact `qq.a` predicate semantics for every filter enum;
+3. complete `g00.l` backup metadata reconstruction;
+4. batch selection/action graph;
+5. Detail → backup/restore execution graph.
