@@ -1257,3 +1257,41 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: detail surface + backup history + metadata/action cards, then remaining Apps task/precondition/capability collaborators. Do not close audit yet.
+## Audit Checkpoint 20 — Detail / Backup History / Action Cards
+
+Detail shell:
+- `detail_activity.xml` = app info + local/device backup card + cloud backup card;
+- `detail_card_app_info` = package/name/version/labels/favorite + conditional Launch/Enable/Disable/Uninstall/Not installed actions;
+- `detail_card_app_backup` = Loading/Error/Main + tabs + date/info + note + part chips + Restore + overflow.
+
+Local detail state direkonstruksi oleh `lx` menjadi `zj2` dari current local backup records. Part state mencakup APK/splits/shared libs/DATA/EXTDATA/EXPANSION/MEDIA, encryption, version, protection.
+
+Cloud detail state direkonstruksi oleh `lk2` dari `AppCloudBackups.fromSnapshot()` menjadi `wj2`; `ji.cloudBackups` diperbarui dengan reconstructed cloud index.
+
+Cloud detail state membedakan Loading, NoBackup, DriveNotConnected, NetworkError, dan BackedUp.
+
+Detail history bukan journal terpisah; local/cloud history berasal dari current backup records/metadata.
+
+Backup Details dialog (`kk`/`d11`) menampilkan Created, Updated jika berbeda, Backup tag, Protected, lalu detail per-part: APK, Split APKs, Shared libraries, DATA, EXTDATA, MEDIA, EXPANSION, Special data; dapat menampilkan version, original size, backup size, compression saved, files/folders, encryption.
+
+Backup-card actions: details, protect/unprotect, update note, sync, delete; metadata menu item hidden pada inspected path.
+
+Part-chip actions: restore, share, sync, delete, encryption info sesuai part/source. Restore detail entry memakai `restore_special_permissions=true` dan `restore_ssaids=false` defaults.
+
+Storage card memiliki backup/delete/share constraints berdasarkan selected `AppPart` dan install state.
+
+### Status
+
+Detail surface: RECONSTRUCTED STATICALLY.
+Local backup history: RECONSTRUCTED STATICALLY.
+Cloud backup history: RECONSTRUCTED STATICALLY.
+Backup details dialog: VERIFIED STATICALLY.
+Detail action cards: RECONSTRUCTED STATICALLY.
+Exact premium/capability visibility matrix: BELUM SELESAI.
+Runtime transition/performance: UNVERIFIED.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: remaining Apps task/precondition/capability collaborators + exact batch/config/quick-action task graph. After that inventory the uncovered source classes against the original 45-class Apps subsystem map before deciding whether audit can close.
