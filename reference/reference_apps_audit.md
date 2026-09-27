@@ -3344,3 +3344,227 @@ Tidak ada kesimpulan "cukup" dari main-flow understanding.
 ### Next audit
 
 Lanjut semantic audit terhadap uncovered/material collaborators, dimulai dari fan-out tinggi dan execution-boundary collaborators, lalu reconcile kembali terhadap 45-class ledger, resource surfaces, task graph, data/model graph, dan UI graph.
+
+## Audit Checkpoint 24 — Material Collaborator Semantic Pass
+
+### Scope
+
+Dilanjutkan pembongkaran collaborator yang sebelumnya masuk prioritas fan-out tinggi/material. Pass ini memeriksa source implementation aktual dan seluruh pemakaian langsung dari Apps subsystem, bukan hanya nama/import.
+
+### pe4
+
+pe4 adalah utility/foundation class dengan banyak method generik.
+
+Temuan yang material terhadap Apps:
+
+- pe4.w(ar, String, boolean) adalah installer failure-message mapper.
+- Input berupa PackageInstaller status + optional system message.
+- Memetakan kondisi seperti:
+  - INSTALL_FAILED_NO_MATCHING_ABIS;
+  - INSTALL_FAILED_MISSING_SPLIT;
+  - INSTALL_FAILED_UPDATE_INCOMPATIBLE;
+  - INSTALL_FAILED_VERSION_DOWNGRADE;
+  - INSTALL_FAILED_INSUFFICIENT_STORAGE;
+  - INSTALL_FAILED_INVALID_APK;
+  - blocked;
+  - aborted;
+  - generic failure.
+- Output membawa title "APK install failed" dan explanatory message; system message asli ditambahkan bila tersedia.
+- Ini menguatkan bahwa installer error presentation memiliki semantic mapping tersendiri dan bukan sekadar menampilkan raw PackageInstaller code.
+
+pe4.F(String) hanya melempar lateinit-property failure setelah logging.
+
+pe4.x(File) memilih XML parser berdasarkan magic header dan membuka input stream UTF-8. Ini merupakan generic XML boundary yang dipakai oleh metadata/resource consumers; bukan Apps business rule tersendiri.
+
+### sz8
+
+sz8 dominan merupakan UI/platform utility.
+
+Apps-relevant findings:
+
+- f0() memasang RecyclerView scroll listener untuk mengendalikan ExtendedFAB visibility/behavior.
+- F() menyembunyikan ExtendedFAB.
+- A()/z()/r()/x()/q() mengambil themed primary/secondary/error colors.
+- b0() melakukan guarded progress update pada progress component.
+- u(Context, Locale) dan utility lain berada pada presentation/platform boundary.
+
+Kesimpulan: sz8 bukan Apps domain model/repository/task engine. Ia menjadi shared UI utility dependency. Apps2 tidak boleh menganggapnya sebagai domain contract; behavior yang diperlukan harus direkonstruksi pada presentation layer Apps2 sesuai evidence.
+
+### io4
+
+io4.b(Throwable) membangun error string dari seluruh cause chain unik, menggabungkan non-null messages.
+
+io4.e(Context) membaca current Android night-mode state.
+
+io4.g(q63) memastikan parent directory tersedia; jika parent gagal dibuat atau bukan directory, helper melakukan logging/error path.
+
+io4.j(...) adalah generic try/catch execution boundary:
+- menjalankan callback;
+- menangkap Exception;
+- membentuk diagnostic menggunakan io4.b;
+- logging melalui Log.e atau vr6;
+- mengembalikan null pada failure.
+
+Ini penting sebagai error/logging boundary, tetapi bukan business policy Apps.
+
+### zn4
+
+zn4 adalah execution/threading helper.
+
+Terbukti:
+
+- c() menjalankan callback langsung jika caller bukan main thread; jika caller main thread, dispatch melalui coroutine/context helper.
+- d() dispatch ke executor.
+- e() post ke Android/main handler.
+- f() menjadwalkan callback setelah delay.
+- g() menjalankan suspend/coroutine boundary.
+
+Implikasi: Apps source memiliki explicit thread/dispatch infrastructure. Apps2 tidak boleh menyimpulkan bahwa repository/task operation aman synchronous hanya karena caller terlihat sederhana.
+
+### nq7
+
+nq7 adalah string/character utility.
+
+Apps-relevant:
+- Z() melakukan substring/contains matching dengan optional case-insensitivity.
+- j0() mendeteksi blank/whitespace-only character sequence.
+- H0() melakukan trim whitespace.
+
+Temuan ini mendukung bahwa beberapa search/filter/string validation behavior memakai helper standard Kotlin-like semantics, tetapi tidak membentuk domain filter contract sendiri.
+
+### el1
+
+el1 adalah collection utility.
+
+Apps-relevant:
+- Y0() melakukan join/string rendering dengan separator;
+- z1() membentuk set dari iterable;
+- n1() melakukan sorting collection dengan comparator.
+
+Tidak ditemukan Apps business policy pada helper ini.
+
+### fz5
+
+fz5 terutama hash/parcel/string-builder helpers.
+
+Apps model usage yang diperiksa konsisten dengan generated data-class hash/Parcelable support. Tidak ditemukan policy backup/restore baru pada helper ini.
+
+### eq3
+
+eq3 adalah string concatenation/runtime helper.
+
+i/j/k/l hanya membentuk concatenated strings. Tidak ada Apps business rule.
+
+### vr6
+
+vr6 adalah logging facade.
+
+e() membentuk diagnostic dari Throwable melalui io4.b, kemudian log error. i() meneruskan info log.
+
+Tidak ditemukan persistence/task state mutation pada helper logging ini.
+
+### ph6
+
+ph6.a(Class) membuat n81 wrapper untuk class. Pemakaian pada Apps hanya dependency construction/reflection-like boundary; tidak ditemukan Apps business rule.
+
+### xs1
+
+xs1 adalah string/request utility.
+
+Apps-relevant:
+- i(q63, String) membentuk diagnostic path text;
+- o(Headers.Builder, String, String, Request.Builder) menambahkan HTTP header lalu membangun request.
+
+Tidak ditemukan direct Apps state mutation.
+
+### nc8
+
+nc8 merupakan mixed utility class yang juga memiliki security/protocol helpers.
+
+Apps-relevant material finding:
+
+nc8.V(Task, Task) menggabungkan dua Firebase/Google Task completion path menjadi satu Task completion source menggunakan shared cancellation state.
+
+Ini adalah asynchronous composition primitive, bukan Apps-specific operation policy.
+
+Crypto/protocol methods seperti t0/u0 berada di security/protobuf boundary dan tidak terbukti sebagai Apps task contract pada pemakaian langsung yang diaudit.
+
+### gv7
+
+gv7 adalah lazy-value holder.
+
+- a() menunjukkan apakah value sudah initialized.
+- getValue() melakukan synchronized lazy initialization sekali lalu melepaskan initializer.
+
+Tidak ditemukan Apps-specific state mutation.
+
+### ix0
+
+ix0 adalah security/keyset infrastructure.
+
+Source menunjukkan validation terhadap keyset, enabled key, primary key, key type, private/public key semantics, dan primitive construction.
+
+Tidak ditemukan pemakaian langsung dari 45 Apps source class. Karena itu ia tidak dimasukkan sebagai Apps domain collaborator hanya berdasarkan global source presence/fan-out; hubungan Apps-specific belum terbukti.
+
+### Materiality result
+
+Collaborator pass ini membedakan:
+
+Material execution/presentation infrastructure:
+- pe4
+- io4
+- zn4
+- vr6
+- sz8
+- nc8
+
+Generic language/collection/string/runtime helpers:
+- eq3
+- nq7
+- el1
+- fz5
+- gv7
+- ph6
+- xs1
+
+Security infrastructure without direct Apps-domain evidence in this pass:
+- ix0
+
+Existence of a source file remains distinct from Apps-specific semantic dependency.
+
+### Coverage impact
+
+Pass ini menutup semantic inspection untuk collaborator subset yang sebelumnya belum dibongkar dan mengklasifikasikan materiality-nya.
+
+Tidak berarti seluruh 342 collaborator semantic coverage selesai.
+
+### Remaining gaps
+
+Masih perlu:
+
+1. collaborator lain yang memiliki direct Apps execution/state edges;
+2. exact installer-source preservation path around InstallerSourceProxy + pe4.w;
+3. async task composition/cancellation edges around nc8.V where reached by Apps tasks;
+4. all remaining app-task helper boundaries;
+5. transitive resource dependency;
+6. remaining 45-class/resource ledger reconciliation.
+
+### Status
+
+Material collaborator subset: RECONSTRUCTED / VERIFIED STATICALLY.
+pe4.w installer error mapping: VERIFIED STATICALLY.
+io4 error/thread-adjacent utility behavior: VERIFIED STATICALLY.
+zn4 dispatch semantics: VERIFIED STATICALLY.
+sz8 Apps UI utility behavior: VERIFIED STATICALLY.
+nc8.V task composition primitive: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut ke remaining direct Apps task/helper boundaries dan transitive execution edges yang masih dapat dibuktikan dari decompile, terutama installer-source preservation, task composition/cancellation, archive/metadata helpers, lalu update coverage ledger kembali.
