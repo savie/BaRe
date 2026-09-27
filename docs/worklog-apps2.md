@@ -482,3 +482,41 @@ Namun bagian yang mengarahkan penggunaan `AppsFilterScreen` Legacy tidak menjadi
 - Legacy Apps: TIDAK DIUBAH.
 - Runtime parity: UNKNOWN.
 - Reference runtime verification: BELUM DILAKUKAN.
+
+
+## Audit Checkpoint 2 — Model / Repository Producer Graph
+
+Audit dilanjutkan sampai producer dan repository boundary.
+
+Teramati:
+
+- `ji.Companion.fromPackageInfo` → canonical model dari PackageInfo → `setFromPackageInfo` + `refreshExtras`.
+- `ji.Companion.fromMetadataFile` → LocalMetadata → canonical `ji` → installation check + backup refresh.
+- `ji.Companion.fromCloudBackups` → latest CloudMetadata → installed PackageInfo bila tersedia atau metadata-only fallback → cloud backups + cloud flag + backup refresh.
+- `gm` membungkus backup identity + LocalMetadata.
+- `AppCloudBackup` membungkus backup ID + CloudMetadata.
+- `AppCloudBackups` menampung beberapa cloud backup, memilih latest, menghitung total size, dan membangun inventory dari cloud snapshot.
+- LocalMetadata/CloudMetadata adalah domain metadata besar dengan field per-part, ukuran, tanggal, encryption metadata, version requirements, special-data/permission metadata, protection/note, dan package/version identity.
+- `tt` adalah list-state coordinator: section/search/filter state, persisted sync filter, dan delegasi load ke repository.
+- `kz4` adalah local repository specialization dan menggunakan inventory package melalui `g00`.
+- `ua1` adalah cloud repository specialization dan membangun inventory dari cloud snapshot.
+
+Implikasi Apps2:
+
+```
+Apps2 App Discovery
+      ↓
+Apps2 Canonical App Model
+      ↓
+Apps2 Local/Cloud Inventory
+      ↓
+Apps2 List State
+      ↓
+Apps2 Search / Filter / Sort
+      ↓
+Apps2 UI
+```
+
+Legacy Apps repository tidak otomatis boleh dipakai sebagai middleman.
+
+Audit berikutnya tetap pada `dv` state/result contract, `g00.l` inventory reconstruction, filter application graph, app-item actions, lalu Detail/backup/restore execution graph.
