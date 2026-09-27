@@ -119,8 +119,6 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     val context = LocalContext.current
     val inventory = remember(context) { AppInventoryBehavior(context) }
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
-    var backupInventory by remember { mutableStateOf<Map<String, AppBackupSnapshot>>(emptyMap()) }
-    var backupInventoryRefreshToken by remember { mutableIntStateOf(0) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
     var scope by remember { mutableStateOf(AppScope.ALL) }
@@ -147,26 +145,10 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
                 refreshInventory()
-                backupInventoryRefreshToken++
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
-    }
-
-    LaunchedEffect(apps, appsContext, backupInventoryRefreshToken) {
-        if (appsContext == AppsContext.LOCAL && apps.isNotEmpty()) {
-            backupInventory = withContext(Dispatchers.IO) {
-                val discovered = AppBackupInventoryBehavior(context).inspectLocalAll()
-                apps.mapNotNull { item ->
-                    discovered[item.packageName]?.firstOrNull()?.let {
-                        item.packageName to it
-                    }
-                }.toMap()
-            }
-        } else {
-            backupInventory = emptyMap()
-        }
     }
 
     val visibleApps = remember(apps, appsContext, scope, sort, descending, searchQuery) {
@@ -391,14 +373,13 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                                 ),
                                 style = MaterialTheme.typography.labelSmall,
                             )
-                            val latestBackup = backupInventory[app.packageName]
                             Text(
-                                if (latestBackup == null) {
+                                if (app.latestBackupTime == null) {
                                     stringResource(R.string.no_backup_on_device)
                                 } else {
                                     stringResource(
                                         R.string.backup_status_at,
-                                        DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(latestBackup.backupTime)),
+                                        DateFormat.getDateInstance(DateFormat.MEDIUM).format(Date(app.latestBackupTime)),
                                     )
                                 },
                                 style = MaterialTheme.typography.labelSmall,
