@@ -16,4 +16,14 @@
         <attr name="introBenefitTitle" format="string"/>
         <attr name="introBenefitSubtitle" format="string"/>
     </declare-styleable>
+    <declare-styleable name="IntroPermissionCardView">
+        <attr name="introPermissionActionText" format="string"/>
+        <attr name="introPermissionBulletedSubtitle" format="boolean"/>
+        <attr name="introPermissionButtonId" format="reference"/>
+        <attr name="introPermissionIcon" format="reference"/>
+        <attr name="introPermissionIconBackgroundTint" format="color|reference"/>
+        <attr name="introPermissionSubtitle" format="string"/>
+        <attr name="introPermissionTint" format="color|reference"/>
+        <attr name="introPermissionTitle" format="string"/>
+    </declare-styleable>
 </resources>
