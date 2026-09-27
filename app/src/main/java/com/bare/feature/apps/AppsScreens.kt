@@ -2425,12 +2425,12 @@ private fun AppStorageSelectionChip(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 private data class BackupInventoryUiState(
     val snapshots: List<AppBackupSnapshot>,
     val loading: Boolean,
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppBackupStateCard(
     packageName: String?,
