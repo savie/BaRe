@@ -1361,3 +1361,75 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: remaining 45-class ledger gaps, starting FavoriteAppsRepo + AppInfo + ShortcutPinnedReceiver, then Config UI/downstream, AppBackupLimits enforcement, AppVisibilityDiagnostics, and final apptasks helper edges.
+## Audit Checkpoint 22 — Remaining Reference Surfaces
+
+FavoriteAppsRepo (`v53`):
+- local cache `files/favorites/cached_favorites`;
+- main-thread read rejected;
+- anonymous users local-only;
+- signed-in non-anonymous users fetch Firebase `favoriteApps`, rebuild map by package, persist local cache;
+- toggle writes/removes Firebase child when remote is available, otherwise local-only;
+- publishes app event and optional toast;
+- init guarded and started after user exists.
+
+AppInfo:
+- receives `ji.PARCEL_KEY`;
+- displays name/package/version/sourceDir/dataDir/split APK paths;
+- displays UID for installed apps via `g00.n()`;
+- no mutation observed.
+
+ShortcutPinnedReceiver:
+- offloads receive handling;
+- reads `ji.PARCEL_KEY`;
+- logs shortcut-added detail event;
+- calls `Const.x(context)`;
+- j32 creates/ registers this pin flow and detail shortcut carries `detail_launched_from_shortcut=true`;
+- no dedicated persistence store observed.
+
+Config UI/downstream:
+- ConfigList root/Shizuku + premium gated;
+- ConfigEdit creates/edits/deletes config, validates name, prevents duplicate names, maintains ordered ConfigSettings;
+- ConfigSettingsActivity exposes parts/locations/sync/limits/strategy/compression/restore options;
+- ConfigSettings defaults: APP+DATA with root else APP; DEVICE; WIFI; restore special permissions true; SSAID false; permissions Granted; compression DEFAULT;
+- `v10` maps ConfigSettings to `hz` task input;
+- `m30` consumes locations and restore permission/special permission/SSAID in restore selection.
+
+AppBackupLimits:
+- AppBackupLimitItem validates part + positive limit;
+- qk0.n() is actual enforcement;
+- FAT32 > 4GiB is skipped with warning;
+- special bypass mode skips user limit enforcement;
+- local/cloud operation uses corresponding limit;
+- over-limit part is skipped and recorded in local/cloud task message accumulator;
+- DATA/EXTDATA/EXPANSION/MEDIA eligibility properties route through this check.
+
+AppVisibilityDiagnostics:
+- raw source = PackageManager via `i6.i(packageManager, ownPackageName)`;
+- state tracks snapshot/search/loading/error;
+- snapshot tracks raw count, own package, package rows and diagnostic flags for own package/android/cts shim;
+- search matches package label/name case-insensitively;
+- UI supports querying, success, empty, failure and copy raw diagnostics;
+- diagnostic only, no visibility mutation.
+
+Remaining apptasks:
+- AppsWorkingDir app_tasks path/cleanup and Shizuku-accessible directory selection;
+- SBA app-data archive metadata serialization;
+- NotificationPolicyProxy privileged notification backup/restore, 4MiB full payload and 512KiB per-package payload limits;
+- InstallerSourceProxy already audited.
+
+### Status
+
+FavoriteAppsRepo: VERIFIED STATICALLY.
+AppInfo: VERIFIED STATICALLY.
+ShortcutPinnedReceiver: VERIFIED STATICALLY.
+Config UI/downstream: RECONSTRUCTED STATICALLY.
+AppBackupLimits enforcement: VERIFIED STATICALLY.
+AppVisibilityDiagnostics: VERIFIED STATICALLY.
+AppsWorkingDir/SBA/NotificationPolicy: VERIFIED STATICALLY.
+Deep 45-class coverage: STILL NOT CLAIMED COMPLETE.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: perform source-inventory reconciliation against all 45 classes and all known Apps resource surfaces, then inspect any remaining uncovered collaborators that materially affect behavior. Do not close or freeze architecture merely because the main flows are understood.
