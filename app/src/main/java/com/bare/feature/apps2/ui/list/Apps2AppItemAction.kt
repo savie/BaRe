@@ -54,7 +54,7 @@ object Apps2AppItemActions {
             )
         },
         Apps2AppItemAction(
-            Apps2AppItemActionId.SHARE_APK, "Share APK", app.isInstalled,
+            Apps2AppItemActionId.SHARE_APK, "Share APK", false,
         ) { _, _ -> },
         Apps2AppItemAction(
             Apps2AppItemActionId.ENABLE_DISABLE, "Enable / Disable", false,
