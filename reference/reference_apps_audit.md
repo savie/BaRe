@@ -3910,3 +3910,144 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Continue remaining direct apptasks helper edges and reconcile every verified edge back into the 45-class task/data/model/UI graph and resource coverage ledger.
+
+## Audit Checkpoint 27 — Resource Surface Closure / Uncovered Resource Reconciliation
+
+### Scope
+
+Resource audit dinaikkan dari direct R.* references menjadi transitive XML resource closure dan candidate Apps surface inventory. Tujuan pass ini adalah memastikan audit tidak berhenti pada resource yang kebetulan direferensikan langsung oleh 45 source class.
+
+### Direct source resource set
+
+45 source class menghasilkan:
+
+- 167 unique direct R.* resource symbols.
+
+### Transitive resource closure
+
+Dengan mengikuti resource references dari resource XML yang dapat dijangkau dari direct source resource set, diperoleh:
+
+- **243 unique logical resource symbols** pada closure.
+
+Per type:
+
+- string: 77
+- layout: 7
+- id: 70
+- menu: 12
+- dimen: 19
+- drawable: 36
+- color: 6
+- font: 3
+- style: 10
+- integer: 1
+- attr: 2
+
+Closure ini adalah static reachability graph, bukan proof bahwa seluruh runtime resource path sudah exercised.
+
+### Candidate Apps resource surface
+
+Resource tree juga menunjukkan **128 logical resource candidates** yang namanya/posisinya mengindikasikan Apps/task/detail/config/label/quick-action/backup/restore/visibility surface.
+
+Dari candidate tersebut:
+
+- 16 sudah berada di transitive closure;
+- **112 belum berada di closure direct-source → XML**.
+
+Important invariant:
+
+unreachable from current direct resource closure ≠ unused.
+
+Resource yang belum reachable harus diaudit terhadap:
+- generated/view-binding paths;
+- programmatic resource loading;
+- base/shared activity/adapter classes;
+- manifest/navigation/theme references;
+- menu inflation;
+- dynamic lookup;
+- indirect class/resource references yang tidak muncul sebagai direct R.* pada 45 source class.
+
+### Material uncovered resource families
+
+Uncovered candidate surface mencakup, antara lain:
+
+- app item/action layouts;
+- app batch action layouts;
+- app backup limits layouts;
+- app visibility diagnostics layouts;
+- app info layout;
+- app swipe layouts;
+- Apps batch/config/quick-action layouts;
+- Config edit/settings/item/notice layouts;
+- Detail activity/cards/chips/storage layouts;
+- Label edit/list/item/color layouts;
+- Quick actions dialog/item/card layouts;
+- task activity/card layouts;
+- restore-special-data detail layouts;
+- menu Apps/config/detail/task surfaces;
+- app/backup/restore/quick-action/visibility icons.
+
+Karena screenshot hanya merepresentasikan satu interface, resource family ini tidak boleh dianggap optional.
+
+### Reconciled resource graph
+
+Current resource graph is now:
+
+45 source classes
+      ↓
+167 direct R.* symbols
+      ↓
+243 logical transitive resource closure
+
+Reference resource tree
+      ↓
+Apps-like candidate surface
+      ↓
+128 logical candidates
+      ↓
+16 reachable
+112 uncovered
+      ↓
+resource audit queue
+
+### Audit consequence
+
+Tidak ada resource candidate yang ditandai unused hanya karena belum muncul pada direct closure.
+
+Status 112 candidate resources saat ini:
+
+**UNKNOWN / NEEDS RESOURCE-PATH AUDIT.**
+
+Ini merupakan coverage gap nyata dan menjadi blocker terhadap closure audit Apps UI/resource.
+
+### Coverage impact
+
+Closed:
+- direct resource inventory;
+- transitive XML closure inventory.
+
+Opened/confirmed:
+- 112 candidate Apps-like resource surfaces requiring path audit.
+
+Remaining:
+1. resolve 112 resource surfaces through class/base/generated/navigation/menu/theme references;
+2. remaining direct apptasks helper edges;
+3. complete collaborator materiality reconciliation;
+4. complete 45-class/resource/task/data/model/UI ledger.
+
+### Status
+
+Resource direct coverage: VERIFIED STATICALLY.
+Resource transitive closure: VERIFIED STATICALLY.
+Apps-like candidate inventory: VERIFIED STATICALLY.
+Resource semantic closure: **BELUM SELESAI**.
+Deep 45-class coverage: **BELUM SELESAI**.
+Collaborator semantic coverage: **BELUM SELESAI**.
+Apps2 implementation: **BELUM DIMULAI**.
+Architecture freeze: **BELUM**.
+Home cutover: **BELUM**.
+Legacy Apps: **TIDAK DIUBAH**.
+
+### Next audit
+
+Resolve the 112 uncovered resource candidates against generated/base/shared classes, menu/navigation/theme references, and resource-loading paths; in parallel continue remaining direct apptasks edges.
