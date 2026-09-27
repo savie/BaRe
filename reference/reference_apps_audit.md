@@ -2264,3 +2264,65 @@ That lower-level coupling remains an audit item rather than an assumption.
 - rollback after cloud metadata commit followed by file-delete failure;
 - post-failure orphan cloud-file reconciliation;
 - process-death behavior during the metadata/file deletion gap.
+## Checkpoint 15 — Lower-level Local Delete / Metadata Coupling
+
+### `q63` is a generic file abstraction, not a metadata reconciler
+
+Inspection of `defpackage/q63.java` shows its delete operations are filesystem-level:
+- `f()` deletes a file or directory using the available Java/root mechanism;
+- `g()` performs an atomic-delete/trash flow and ultimately removes the target;
+- `h()` calls `f()` defensively and returns whether the path no longer exists;
+- `i()` uses `rm -rf` through the shell/root path and returns whether the path no longer exists.
+
+No `LocalMetadata` mutation or `cu.f()` call exists inside these `q63` deletion methods.
+
+### Backup record layout explains the observed coupling
+
+`hk` maps a backup record to a backup directory and separate files:
+- `<backupId>.app`;
+- `<backupId>.xml`;
+- DATA / EXTDATA / MEDIA / EXPANSION and related artifact paths.
+
+`hk.v()` is the metadata path and `hk.u()` reads it through `cu.b()`.
+`hk.e()` is the backup directory root used to construct the `.app` and `.xml` files.
+
+`hk.E()` determines whether the backup still has meaningful local backup state by checking the metadata path plus the presence of one or more backup-part artifacts.
+
+### Partial local delete does not rewrite LocalMetadata
+
+`AppBackupDeleteHelper` calls lower-level `q63` deletion methods on selected artifact paths. Those methods do not rewrite the `.xml` metadata.
+
+Therefore a partial local delete can leave:
+
+~~~text
+backup directory
+├── <backupId>.xml       ← old LocalMetadata remains
+├── remaining artifact   ← still present
+└── deleted artifact     ← absent
+~~~
+
+This is not necessarily a bug: the metadata may intentionally remain as historical backup metadata while artifact presence is checked independently. However, the inspected code does **not** prove an automatic metadata field-clearing/rewrite after partial delete.
+
+When the final local backup is gone, `fk.c(package,false).g()` removes the package backup directory, which also removes its remaining metadata file as part of filesystem deletion.
+
+### Local consistency boundary
+
+The strongest static invariant now supported is:
+
+> Local artifact deletion and LocalMetadata persistence are separate boundaries.
+
+`LocalMetadata` is explicitly written by `cu.f()` in backup/update/note/protection flows, but no corresponding explicit write was found in the lower-level delete path.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- `q63` delete methods do not perform metadata mutation;
+- local metadata is stored as `<backupId>.xml` within the backup directory;
+- partial artifact deletion does not call `cu.f()`;
+- final package-directory deletion removes the remaining metadata file as filesystem content;
+- `hk.u()` reads metadata independently from artifact paths.
+
+**UNKNOWN / UNVERIFIED:**
+- whether any higher-level observer/event asynchronously rewrites LocalMetadata after partial local delete;
+- whether UI/history deliberately interprets stale part metadata against current artifact presence;
+- runtime behavior after process death during local delete.
