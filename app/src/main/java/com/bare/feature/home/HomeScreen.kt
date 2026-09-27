@@ -40,6 +40,7 @@ fun HomeScreen(
     accessMethod: AccessMethod?,
     onOpen: (Screen) -> Unit,
     onOpenTab: (Int) -> Unit,
+    onOpenApps2: () -> Unit,
     onAccessChanged: (AccessMethod) -> Unit,
 ) {
     val context = LocalContext.current
@@ -179,7 +180,7 @@ fun HomeScreen(
                 )
 
                 DashboardDivider()
-                BackupAreaGrid(onOpen = onOpen, onOpenTab = onOpenTab)
+                BackupAreaGrid(onOpen = onOpen, onOpenApps2 = onOpenApps2)
             }
         }
 
@@ -188,12 +189,12 @@ fun HomeScreen(
                 title = stringResource(R.string.backup_apps),
                 icon = BareIcons.Upload,
                 modifier = Modifier.weight(1f),
-            ) { onOpenTab(Tab.APPS.ordinal) }
+            ) { onOpen(Screen.APP_DETAIL) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
                 icon = BareIcons.Download,
                 modifier = Modifier.weight(1f),
-            ) { onOpenTab(Tab.APPS.ordinal) }
+            ) { onOpen(Screen.APP_DETAIL) }
         }
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -491,7 +492,7 @@ private fun CompactStatus(
 }
 
 @Composable
-private fun BackupAreaGrid(onOpen: (Screen) -> Unit, onOpenTab: (Int) -> Unit) {
+private fun BackupAreaGrid(onOpen: (Screen) -> Unit, onOpenApps2: () -> Unit) {
     val areas = listOf(
         Triple(stringResource(R.string.apps), BareIcons.Apps, Screen.APP_DETAIL),
         Triple(stringResource(R.string.messages), BareIcons.Messages, Screen.MESSAGES),
@@ -505,7 +506,7 @@ private fun BackupAreaGrid(onOpen: (Screen) -> Unit, onOpenTab: (Int) -> Unit) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 row.forEach { (label, icon, screen) ->
                     Column(
-                        modifier = Modifier.weight(1f).clickable { if (screen == Screen.APP_DETAIL) onOpenTab(Tab.APPS.ordinal) else onOpen(screen) },
+                        modifier = Modifier.weight(1f).clickable { if (screen == Screen.APP_DETAIL) onOpenApps2() else onOpen(screen) },
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
