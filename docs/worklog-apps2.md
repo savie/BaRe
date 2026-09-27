@@ -399,3 +399,90 @@ Lanjutkan ke **task precondition/artifact contract** secara isolated:
 3. pertahankan task executor sebagai Blocked sampai contract tersebut lengkap;
 4. setelah contract stabil, baru siapkan verification path melalui CI;
 5. Home cutover tetap ditahan.
+
+
+## Implementation Checkpoint 7 — Task Precondition dan Artifact Contract
+
+Boundary precondition dan artifact Apps2 sudah didefinisikan secara isolated berdasarkan evidence Reference.
+
+### Files baru
+
+- `app/src/main/java/com/bare/feature/apps2/task/Apps2TaskPrecondition.kt`
+- `app/src/main/java/com/bare/feature/apps2/task/Apps2Artifact.kt`
+- `app/src/test/java/com/bare/feature/apps2/task/Apps2TaskPreconditionTest.kt`
+- `app/src/test/java/com/bare/feature/apps2/task/Apps2ArtifactTest.kt`
+
+### Precondition contract
+
+Model precondition sekarang memisahkan:
+
+- installed-app target;
+- installed UID;
+- base APK availability/validity;
+- downgrade decision;
+- artifact availability/validity per `Apps2TaskPart`;
+- capability resolution per part;
+- permission precondition.
+
+Semantics penting yang dipertahankan dari Reference:
+
+- APP/APK restore tidak mengharuskan target sudah ter-install;
+- DATA/EXTDATA/EXPANSION/MEDIA restore memerlukan installed app pada observed path;
+- DATA memerlukan installed UID;
+- APP restore memerlukan base APK precondition dan downgrade policy;
+- capability diperiksa per part;
+- permission precondition tetap explicit tanpa mengklaim mapping `PreconditionsActivity` yang belum terbukti lengkap.
+
+### Artifact contract
+
+Artifact boundary memodelkan artifact yang teramati pada Reference:
+
+- BASE_APK;
+- SPLIT_APK;
+- SHARED_LIBRARY;
+- DATA;
+- EXTDATA;
+- EXPANSION;
+- MEDIA;
+- SPECIAL_DATA.
+
+`Apps2ArtifactSet` hanya mendeskripsikan dan memilih artifact berdasarkan part. Tidak ada download, extraction, installation, copy, deletion, atau privileged execution.
+
+### Verification
+
+**SOURCE VERIFIED:** contract berada pada namespace Apps2 dan tidak menggunakan Legacy Apps execution.
+
+**TEST SOURCE ADDED:** deterministic tests mencakup APP tanpa installed target, missing UID, blocked capability, uninstalled target untuk data restore, artifact validity, dan EXPANSION isolation.
+
+**TEST EXECUTION:** UNVERIFIED.
+
+**ANDROID BUILD:** UNVERIFIED / BLOCKED.
+
+**RUNTIME:** UNKNOWN.
+
+### Engineering State
+
+- First vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Detail boundary: IMPLEMENTED AT SOURCE LEVEL.
+- Batch boundary: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Capability contract: IMPLEMENTED AT SOURCE LEVEL.
+- Task contract: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Task precondition contract: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Artifact contract: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Unit test source: ADDED.
+- Unit test execution: UNVERIFIED.
+- Android build: UNVERIFIED / BLOCKED.
+- Runtime: UNKNOWN.
+- Home → Apps2: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+- Backup/restore executor: BELUM DIIMPLEMENTASIKAN.
+
+## Next Action
+
+Setelah contract ini stabil, lanjutkan **verification path melalui CI**:
+
+1. inspect actual workflow trigger dan build command;
+2. jalankan/observasi workflow yang benar untuk branch `v1.0/rebaseline`;
+3. gunakan hasil CI sebagai evidence compile/test;
+4. jika verification tersedia, lanjutkan batch UI/task presentation tanpa membuka executor;
+5. Home cutover tetap ditahan sampai acceptance gate terpenuhi.
