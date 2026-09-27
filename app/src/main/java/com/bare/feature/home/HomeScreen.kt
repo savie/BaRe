@@ -188,7 +188,7 @@ fun HomeScreen(
                 title = stringResource(R.string.backup_apps),
                 icon = BareIcons.Upload,
                 modifier = Modifier.weight(1f),
-            ) { onOpen(Screen.APP_DETAIL) }
+            ) { onOpenTab(Tab.APPS.ordinal) }
             QuickAction(
                 title = stringResource(R.string.restore_apps),
                 icon = BareIcons.Download,
@@ -491,7 +491,7 @@ private fun CompactStatus(
 }
 
 @Composable
-private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
+private fun BackupAreaGrid(onOpenTab: (Int) -> Unit) {
     val areas = listOf(
         Triple(stringResource(R.string.apps), BareIcons.Apps, Screen.APP_DETAIL),
         Triple(stringResource(R.string.messages), BareIcons.Messages, Screen.MESSAGES),
@@ -505,7 +505,7 @@ private fun BackupAreaGrid(onOpen: (Screen) -> Unit) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 row.forEach { (label, icon, screen) ->
                     Column(
-                        modifier = Modifier.weight(1f).clickable { onOpen(screen) },
+                        modifier = Modifier.weight(1f).clickable { if (screen == Screen.APP_DETAIL) onOpenTab(Tab.APPS.ordinal) else Unit },
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
