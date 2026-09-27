@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorSurfaceContainer">@color/surface_container</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/surface_container</item>
+        <item name="android:navigationBarColor">@color/surface_container</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+    <style name="Title">
+        <item name="android:textSize">@dimen/title</item>
+        <item name="android:textColor">@color/on_surface</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="Title.Large" parent="Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="Subtitle">
+        <item name="android:textSize">@dimen/subtitle</item>
+        <item name="android:textColor">@color/on_surface_variant</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="Subtitle.Large" parent="Subtitle">
+        <item name="android:textSize">@dimen/subtitle_large</item>
+    </style>
+    <style name="IntroBenefitCard">
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/IntroBenefitCardShape</item>
+    </style>
+    <style name="IntroBenefitCardShape">
+        <item name="cornerSize">24dp</item>
+    </style>
+    <style name="IntroBenefitIconCard">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="shapeAppearanceOverlay">@style/IntroBenefitIconShape</item>
+    </style>
+    <style name="IntroBenefitIconShape">
+        <item name="cornerSize">22dp</item>
+    </style>
+    <style name="GoogleSignInButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">@dimen/subtitle_large</item>
+        <item name="android:textColor">@color/google_sign_in_button_text</item>
+        <item name="android:fontFamily">sans-serif-bold</item>
+        <item name="backgroundTint">@color/google_sign_in_button_background</item>
+        <item name="strokeColor">@color/google_sign_in_button_stroke</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="rippleColor">@color/google_sign_in_button_ripple</item>
+    </style>
+</resources>
