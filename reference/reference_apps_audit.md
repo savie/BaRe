@@ -4188,3 +4188,266 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Trace the remaining AppSpecialDataPayload field producers/consumers (permissions, SSAID, notification access, accessibility), then reconcile the complete model/data graph.
+
+## Audit Checkpoint 29 — AppSpecialDataPayload Producer / Consumer Closure
+
+### Scope
+
+Producer/consumer edges untuk empat payload fields yang masih terbuka sekarang dibongkar langsung dari decompile:
+
+- permissionStatesCsv;
+- ssaid;
+- ntfAccessComponent;
+- accessibilityComponent.
+
+Pass ini sekaligus merekonsiliasi hubungan LocalMetadata, CloudMetadata, AppSpecialDataPayload, backup writer, restore task, dan special-data file.
+
+### 1. permissionStatesCsv
+
+#### Producer
+
+Backup task vl menjalankan phase "Backing up permissions and additional data".
+
+Observed source:
+
+1. membaca PackageInfo.requestedPermissions + requestedPermissionsFlags;
+2. hanya memproses permission yang dikenali oleh av.b mapping;
+3. menggunakan Android permission flags untuk membentuk state Granted / denied-user-fixed / denied-user-set;
+4. ketika privileged execution tersedia, membaca tambahan runtime/special permission state dari shell-backed helper;
+5. av.a(...) menambahkan special permission states seperti usage access, install unknown apps, DND access, overlay, battery optimization, unrestricted/background data, run-in-background state, write settings, VPN, app widgets, all-files, exact alarms, Magisk-hide dan beberapa platform-specific states;
+6. setiap state dipetakan dari permission string ke numeric ID melalui av.a map dan state token;
+7. hasil akhirnya diserialisasikan sebagai comma-separated id:token entries.
+
+Jadi permissionStatesCsv bukan sekadar snapshot dari requestedPermissionsFlags; ia merupakan compact state representation yang juga dapat membawa supported special-permission state.
+
+#### Persistence boundary
+
+Sebelum final LocalMetadata save:
+
+- permissionIdsCsv di-clear;
+- permissionStatesCsv di-clear;
+- nilai hasil state snapshot diteruskan ke AppSpecialDataPayload.Companion.write(...).
+
+Dengan demikian backup baru memindahkan permission-state snapshot dari metadata utama ke special-data payload file.
+
+#### Consumer
+
+Restore task xw.q(LocalMetadata):
+
+- hanya masuk bila yu.getRestoresAnyPermissions() true;
+- mengambil permissionStatesCsv dari AppSpecialDataPayload terlebih dahulu;
+- jika payload tidak menyediakan field tersebut, fallback ke CloudMetadata atau LocalMetadata;
+- parsing tiap id:token;
+- numeric ID dikembalikan ke permission string;
+- token dikembalikan ke enum permission state;
+- jika valid, permission choices direstore;
+- denied runtime states ikut diproses bila yu.getRestoresDeniedRuntimePermissionStates() true.
+
+Jika permissionStatesCsv tidak tersedia/invalid, restore fallback membangun permission target dari:
+
+- current package requested permissions + flags;
+- legacy permissionIdsCsv;
+- supported special-permission discovery.
+
+Kesimpulan: field ini mempunyai explicit producer → persistence → consumer chain.
+
+### 2. ntfAccessComponent
+
+#### Producer
+
+Backup task memperoleh map dari yo5.
+
+yo5 dibangun oleh helper cl yang:
+
+- menjalankan shell-backed notification-access query melalui g42.B;
+- mengambil output colon-separated;
+- membentuk map keyed by package name;
+- value adalah notification-access component string.
+
+Untuk package target:
+
+- bila map contains package;
+- value disimpan sebagai ntfAccessComponent;
+- backup log menyatakan "Special permission: Notification Access = Granted".
+
+Jika map tidak memiliki package, field menjadi null.
+
+#### Consumer
+
+Restore task xw.q:
+
+- hanya memproses field saat restoreSpecialPermissions aktif;
+- mengambil AppSpecialDataPayload terlebih dahulu;
+- fallback ke CloudMetadata/LocalMetadata bila field tidak ada;
+- jika non-empty, membaca current notification-access state melalui SHIZUKU shell;
+- bila component target belum ada, menyusun state baru dan menulis kembali melalui privileged shell command;
+- kemudian melaporkan Notification access restored.
+
+Jadi field adalah component identity, bukan boolean sederhana.
+
+### 3. accessibilityComponent
+
+#### Producer
+
+Backup task memperoleh map dari o6.
+
+o6 dibangun oleh helper el yang:
+
+- menjalankan shell-backed accessibility-service query melalui g42.C;
+- mem-parsing colon-separated component records;
+- membentuk map keyed by package name;
+- value adalah accessibility component string.
+
+Untuk package target, value disimpan sebagai accessibilityComponent.
+
+#### Consumer
+
+Restore task xw.q:
+
+- hanya berjalan di special-permission restore branch;
+- mengambil AppSpecialDataPayload terlebih dahulu;
+- fallback ke CloudMetadata/LocalMetadata;
+- membaca current accessibility-service state via SHIZUKU;
+- bila component belum aktif, menambahkan component target dan menulis state kembali;
+- melaporkan Accessibility service restored.
+
+Field ini juga merupakan component identity, bukan boolean.
+
+### 4. ssaid
+
+#### Producer
+
+Backup task mengambil SSAID map melalui dependency ek → mk7.
+
+Root-capable implementation ok7:
+
+- hanya aktif saat mp6.g;
+- membaca settings_ssaid.xml untuk current Android user;
+- menggunakan SettingsProvider-backed parser;
+- membentuk kk7(id, packageName, value);
+- hanya menerima entry dengan package name + SSAID non-empty dan lolos lk7.a.b(value) validation;
+- menghasilkan map keyed by package name.
+
+Backup task:
+
+- lookup target package;
+- bila valid, mengambil kk7.c;
+- memasukkannya sebagai ssaid;
+- bila tidak ada valid entry, field null.
+
+#### Consumer
+
+Restore task xw:
+
+- SSAID restore dipisahkan dari special-permission restore;
+- dijalankan hanya bila restore request flag jz.f / restore SSAID aktif;
+- membutuhkan mp6.g;
+- membaca AppSpecialDataPayload first, fallback CloudMetadata/LocalMetadata;
+- jika tidak ada value, log "restoreSsaid: No saved ssaid";
+- jika ada, memanggil mk7.b(packageName, ssaid).
+
+ok7.b:
+
+- membutuhkan root capability;
+- memvalidasi SSAID dengan lk7.a.b;
+- membuka current user's settings_ssaid.xml;
+- menggunakan SettingsProvider-backed access;
+- mencari package entry;
+- update/write dilakukan pada matched settings entry.
+
+SSAID restore therefore has an explicit source → validated model → privileged system-settings consumer chain.
+
+### 5. Unified producer/consumer graph
+
+Android package/system state
+        │
+        ├── requestedPermissions + flags
+        │       └── av permission/special-state helpers
+        │
+        ├── notification access shell state
+        │       └── yo5 / cl
+        │
+        ├── accessibility shell state
+        │       └── o6 / el
+        │
+        └── settings_ssaid.xml
+                └── mk7 / ok7 / kk7
+        │
+        ↓
+AppSpecialDataPayload.write(...)
+        │
+        ├── permissionStatesCsv
+        ├── ssaid
+        ├── ntfAccessComponent
+        ├── accessibilityComponent
+        └── notificationPolicyXml
+        │
+        ↓
+versioned user-bound special-data file
+        │
+        ├── Local backup / local restore
+        └── cloud SpecialData artifact
+                │
+                ↓
+AppSpecialDataPayload.read(...)
+                │
+                ↓
+Restore task xw.q(...)
+        │
+        ├── permission restore
+        ├── SSAID restore
+        ├── notification access restore
+        ├── accessibility restore
+        └── notification policy restore
+
+### 6. LocalMetadata / CloudMetadata reconciliation
+
+Current backup behavior is important:
+
+- LocalMetadata carries legacy/direct fields for permission IDs/states, notification access, accessibility, and SSAID.
+- During the new backup special-data finalization, these transient fields are cleared from LocalMetadata after writing AppSpecialDataPayload.
+- CloudMetadata also contains corresponding legacy fields plus specialDataLink / specialDataSize.
+- Cloud upload invokes prepareForFirebaseUpload(), which clears permissionIdsCsv, permissionStatesCsv, ntfAccessComponent, accessibilityComponent, and ssaid before Firebase metadata persistence.
+- Separately, the uploaded special-data artifact updates CloudMetadata through updateSpecialDataDetails(link, size).
+- Restore can still fallback to LocalMetadata/CloudMetadata fields when AppSpecialDataPayload does not provide a field. Therefore those fields remain part of the compatibility/fallback graph even though the current write/upload path deliberately moves the authoritative new payload into the special-data artifact.
+
+### 7. Data/model graph status
+
+Closed:
+
+- permission state producer → payload → restore;
+- notification access producer → payload → restore;
+- accessibility producer → payload → restore;
+- SSAID producer → payload → restore;
+- LocalMetadata transient-field clearing relation;
+- CloudMetadata specialDataLink/specialDataSize artifact relation;
+- CloudMetadata legacy-field fallback relation;
+- unified special-data model graph.
+
+Still open:
+
+1. complete producer/consumer audit for all remaining AppPart/metadata fields;
+2. exact cloud special-data artifact upload/delete lifecycle under every failure path;
+3. remaining uncovered resource paths;
+4. complete 45-class/resource/task/data/model/UI ledger.
+
+### Status
+
+permissionStatesCsv producer/consumer: VERIFIED STATICALLY.
+ntfAccessComponent producer/consumer: VERIFIED STATICALLY.
+accessibilityComponent producer/consumer: VERIFIED STATICALLY.
+ssaid producer/consumer: VERIFIED STATICALLY.
+AppSpecialDataPayload unified model graph: VERIFIED STATICALLY.
+LocalMetadata transient-field transition: VERIFIED STATICALLY.
+CloudMetadata special-data artifact relation: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut ke remaining metadata/AppPart producer-consumer edges dan special-data artifact cloud lifecycle, sambil menutup resource-path audit untuk 112 uncovered Apps-like candidates.
