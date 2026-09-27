@@ -385,3 +385,132 @@ Lanjut audit class-by-class pada unresolved collaborators dan execution graph.
 Belum membuat implementation Apps2.
 Belum mengubah Home → Apps.
 Belum mengubah Legacy Apps.
+
+
+## Checkpoint 2 — App Model / Repository Producers
+
+### `ji` producer graph
+
+Static inspection confirms three important construction paths:
+
+- `ji.Companion.fromPackageInfo(PackageInfo)`
+  - creates the canonical app model from Android package information;
+  - calls `setFromPackageInfo`;
+  - calls `refreshExtras`.
+
+- `ji.Companion.fromMetadataFile(q63)`
+  - reads `LocalMetadata` through `cu.b`;
+  - constructs a `ji` from persisted metadata;
+  - checks installation state;
+  - refreshes backup details.
+
+- `ji.Companion.fromCloudBackups(AppCloudBackups)`
+  - reads the latest cloud metadata;
+  - tries to resolve the installed PackageInfo;
+  - falls back to metadata-only app construction when the package is not installed;
+  - attaches cloud backups;
+  - marks the app as cloud app;
+  - refreshes backup details.
+
+This establishes that `ji` is a convergence model for installed-package discovery, local metadata, and cloud backup inventory.
+
+### Local / cloud backup representation
+
+Local:
+
+`defpackage.gm` = backup identity wrapper + `LocalMetadata`.
+
+Cloud:
+
+`AppCloudBackup` = backup ID + `CloudMetadata`.
+
+`AppCloudBackups`:
+
+- contains multiple `AppCloudBackup`;
+- exposes latest backup;
+- calculates total metadata size;
+- can reconstruct the list from a cloud snapshot;
+- sorts backups by backup/update date;
+- rejects empty/invalid backup collections.
+
+### Metadata boundary
+
+`LocalMetadata` and `CloudMetadata` are not minimal display records.
+
+Static fields show per-part backup metadata including APK, data, external data, expansion, media, split APK, shared-library, encryption metadata, version requirements, sizes, mirrored sizes, permissions/special-data fields, backup dates, installer/package/version information, and protection/note state.
+
+Exact serialization/storage schema beyond these model fields remains to be mapped.
+
+### Repository state
+
+`tt` confirms:
+
+- current section state is retained;
+- persisted sync filter is read from SharedPreferences;
+- local section resets applied sync filtering when required network/cloud capability is unavailable;
+- repository is selected externally as local `kz4` or cloud `ua1`;
+- repository load is delegated through `dv`;
+- search text is maintained separately from the full list;
+- search filtering produces a distinct list-state result;
+- list state exposes loading/result state through observable holders.
+
+### Local repository
+
+`kz4` statically:
+
+- checks root/capability state;
+- reads the `show_system_apps` preference;
+- obtains local installed app inventory through `g00.l(showSystemApps)`;
+- updates/removes apps on package events;
+- refreshes existing `ji` objects after package events;
+- constructs new `ji` from PackageInfo for newly observed packages.
+
+### Cloud repository
+
+`ua1` statically:
+
+- requires cloud/drive connectivity;
+- fetches cloud snapshot data;
+- reconstructs `AppCloudBackups`;
+- converts each valid cloud backup collection into `ji`;
+- marks the resulting app as cloud app;
+- reacts to app events for existing inventory.
+
+### Discovery implication
+
+The Apps2 first list slice therefore needs its own equivalent boundaries for:
+
+```
+Apps2 App Discovery
+      ↓
+Apps2 Canonical App Model
+      ↓
+Apps2 Local/Cloud Inventory
+      ↓
+Apps2 List State
+      ↓
+Apps2 Search / Filter / Sort
+      ↓
+Apps2 UI
+```
+
+This does not authorize reuse of Legacy Apps repositories merely because they already implement similar behavior.
+
+## Checkpoint 2 State
+
+Confirmed further:
+
+- `ji` has multiple producer paths;
+- local and cloud backup records have different model boundaries;
+- metadata is a substantial domain boundary, not only UI text;
+- `tt` is the list-state coordinator rather than the repository itself;
+- `kz4` and `ua1` are repository specializations.
+
+Still unresolved:
+
+- complete `g00.l` inventory reconstruction;
+- exact `dv` result/state contract;
+- complete filter application graph;
+- app item action graph;
+- detail backup/restore graph;
+- task/archive/restore execution graph.
