@@ -520,3 +520,56 @@ Apps2 UI
 Legacy Apps repository tidak otomatis boleh dipakai sebagai middleman.
 
 Audit berikutnya tetap pada `dv` state/result contract, `g00.l` inventory reconstruction, filter application graph, app-item actions, lalu Detail/backup/restore execution graph.
+
+
+## Audit Checkpoint 3 — List State / Filter / Search / Item Actions
+
+Audit dilanjutkan ke execution boundary Apps List.
+
+Teramati:
+
+- `dv` adalah repository-state base dengan cache `itemId`, Loading/Success/Empty result, reload, observer, insert/update/remove, dan main-thread guard.
+- `kz4` menggunakan `g00.l(showSystemApps)` untuk local inventory dan merespons package events.
+- `ua1` membangun cloud inventory dari cloud snapshot dan mempunyai result states DriveNotConnected, NetworkError, Empty, Success, dan CloudError.
+- `g00.m(showSystemApps)` adalah installed-package discovery langsung melalui PackageManager dengan Shizuku fallback ketika inventory kosong.
+- `g00.l(showSystemApps)` adalah local inventory yang lebih berat dan menggabungkan installed package information dengan local backup metadata/directories.
+- `tt.m(query,list)` menerapkan search melalui `ns0.k`, dengan search-empty state terpisah dari filtered-list state.
+- Filter UI/state berada di `sc3`, sedangkan filtering engine berada di `qq.a`.
+- Sync filter mempunyai path khusus `qq.b`.
+- Filter selection menggunakan `nd3/od3` contract; selected labels memiliki persistent dan temporary state melalui `ud3/xd3`.
+- Sort persistence dan derived size/usage data berada di `iy`.
+- `ws` mengubah secondary text dan section index berdasarkan sort mode.
+- `tr` adalah list-item presenter/view-holder dengan icon, title/subtitle, backup status, labels, favorite, selection, overflow, dan left/right swipe action containers.
+- Swipe actions memakai `oy` action objects dan availability per app; inventory konkret `oy` masih belum selesai diaudit.
+- AppListActivity mengikat shell Search/Filter/Drawer, pull-to-refresh, FastScroller, batch FAB, list state, dan empty/error/search state.
+
+Contract Apps2 App List sekarang:
+
+```
+Local/Cloud Repository
+        ↓
+dv cache/result
+        ↓
+tt list state
+   ├── search → ns0
+   ├── filters → qq
+   └── sort → iy
+        ↓
+ws adapter/presenter
+        ↓
+tr app item
+        ↓
+selection / item actions / swipe
+```
+
+Audit belum 100% selesai.
+
+Prioritas berikutnya:
+
+1. complete `oy` action inventory;
+2. exact `qq.a` predicate semantics;
+3. complete `g00.l` local backup metadata reconstruction;
+4. batch selection/action graph;
+5. Detail → backup/restore execution graph.
+
+Implementation Apps2 tetap BELUM DIMULAI.
