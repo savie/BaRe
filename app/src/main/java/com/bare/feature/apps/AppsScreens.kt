@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.PowerManager
+import android.os.SystemClock
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -114,6 +115,8 @@ fun BaReSubHeader(
 private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
 
+private const val APP_INVENTORY_REFRESH_INTERVAL_MS = 30_000L
+
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
     val context = LocalContext.current
@@ -121,6 +124,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     val refreshScope = rememberCoroutineScope()
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var isRefreshing by remember { mutableStateOf(false) }
+    var lastSuccessfulRefreshElapsedMs by remember { mutableLongStateOf(0L) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
     var scope by remember { mutableStateOf(AppScope.ALL) }
@@ -132,21 +136,32 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
 
     BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
 
-    fun refreshInventory() {
+    fun refreshInventory(force: Boolean = false) {
         refreshScope.launch {
+            if (isRefreshing) return@launch
+            val now = SystemClock.elapsedRealtime()
+            if (!force && now - lastSuccessfulRefreshElapsedMs < APP_INVENTORY_REFRESH_INTERVAL_MS) return@launch
+
             isRefreshing = true
-            val result = withContext(Dispatchers.IO) {
-                runCatching { inventory.load() }
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    runCatching { inventory.load() }
+                }
+                result
+                    .onSuccess {
+                        apps = it
+                        error = null
+                        lastSuccessfulRefreshElapsedMs = SystemClock.elapsedRealtime()
+                    }
+                    .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
+            } finally {
+                isRefreshing = false
             }
-            result
-                .onSuccess { apps = it; error = null }
-                .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
-            isRefreshing = false
         }
     }
 
     LaunchedEffect(inventory) {
-        refreshInventory()
+        refreshInventory(force = true)
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current
