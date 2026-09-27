@@ -2417,3 +2417,153 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Fokus berikutnya adalah resource-path closure 112 candidates dengan evidence dari generated/shared/base classes, XML/menu/theme/dynamic lookup; setelah itu lakukan final 45-class/task/data/model/UI reconciliation. Architecture freeze tetap ditahan sampai reconciliation tersebut memiliki evidence yang cukup.
+
+## Worklog Checkpoint 33 — Resource Path Closure via Full Decompiled Source / Generated Collaborator Boundaries
+
+Pass ini menjalankan resource-path audit terhadap **seluruh source decompile** yang tersedia, bukan hanya 45 source class Apps. Tujuannya menguji invariant pada Checkpoint 27 bahwa resource yang tidak muncul pada direct 45-class closure tidak otomatis unused.
+
+### 1. Evidence boundary
+
+Decompiled reference yang tersedia berisi:
+
+- 12,611 Java source files;
+- 1,508 resource files.
+
+Static scan terhadap seluruh Java source menunjukkan banyak Apps-like resource yang memang direferensikan di luar 45-class inventory. Ini membuktikan bahwa direct 45-class → R.* closure bukan boundary semantic untuk seluruh Apps UI/resource graph.
+
+### 2. Resource candidates resolved through collaborator/base/generated boundaries
+
+Representative direct resource edges yang sekarang terverifikasi:
+
+- app item/action:
+  - app_item → l20 / f30 / ws;
+  - app_action_item_advanced → wi;
+  - app_action_item_normal → wi;
+  - app_actions_dialog → xi;
+  - app_batch_actions_dialog → t10;
+  - app_batch_actions_dialog_item → r10;
+- Apps batch/config/quick actions:
+  - apps_batch_activity → ak;
+  - apps_config_actions_dialog → j30;
+  - apps_config_actions_dialog_item → i30;
+  - apps_config_run_activity → fj;
+  - apps_quick_actions_activity → dk;
+  - apps_quick_actions_fragment → y30;
+- config:
+  - config_edit_activity → ek;
+  - config_edit_item → pq1;
+  - config_item → yq1;
+  - config_settings_activity → ek;
+- detail:
+  - detail_activity → ak;
+  - detail_card_custom_tab → gm1;
+  - detail_chip → tj2;
+- labels:
+  - label_adapter_item → ur4;
+  - label_color_item → ql1 / pb7;
+  - label_edit_activity → xq4;
+- quick actions:
+  - quick_action_item → dd6;
+  - quick_action_more_item → dd6;
+  - quick_actions_dialog → id6;
+  - quick_actions_dialog_item → gd6;
+- restore-special-data:
+  - restore_special_data_details_activity → hs4;
+  - restore_special_data_detail_item → wm6;
+- task:
+  - task_activity → TaskActivity;
+  - task_card → iz7;
+- Apps/config/detail/task menus:
+  - menu_apps → AppListActivity;
+  - menu_apps_batch_activity → AppsBatchActivity;
+  - menu_apps_config_run_activity → AppsConfigRunActivity;
+  - menu_apps_dash → AppsQuickActionsActivity;
+  - menu_config_edit → ConfigEditActivity;
+  - menu_config_list → ConfigListActivity;
+  - menu_config_settings → ConfigSettingsActivity;
+  - menu_detail_* → DetailActivity;
+  - menu_task_activity → TaskActivity.
+
+These are concrete class/resource edges in the decompiled source and therefore are stronger evidence than filename-only matching.
+
+### 3. Important interpretation
+
+The scan resolves a significant class-boundary gap:
+
+45-class direct closure
+        ↓
+does NOT equal
+        ↓
+full decompiled Apps resource path
+
+Several resource consumers live in:
+
+- generated/decompiled binding-style collaborators;
+- obfuscated defpackage classes;
+- concrete Activities outside the original 45-source inventory;
+- shared/base UI collaborators.
+
+Therefore those candidates must not be classified as unused merely because they were absent from the original 45 direct-source graph.
+
+### 4. Remaining uncovered resource candidates
+
+The full-source scan does **not** yet prove semantic closure for all 112 candidates.
+
+There remain resource candidates with no direct Java R.* edge found by this scan, including examples such as:
+
+- app_backup_limits_edittext;
+- app_backup_limits_item;
+- app_swipe_preview_content;
+- app_visibility_diagnostics_activity;
+- appbar / appbar_with_filters;
+- config_notice_view / config_settings_view;
+- delete_app_backups_dialog_switch_item;
+- detail_card_app_backup / detail_card_app_info / detail_card_app_storage;
+- folder_* card/detail/restore layouts;
+- home_appbar;
+- label_edit_apps_view / label_edit_color_view;
+- multiple_backups_strategy_item;
+- quick_action_card;
+- task_activity_top;
+- selected Apps-related drawable/scrim candidates.
+
+These remain **UNKNOWN / NEEDS XML, generated-binding, include, theme, navigation, or dynamic-loading audit**. The absence of an R.* edge in full Java source is not treated as proof of unused.
+
+### 5. Resource graph update
+
+Current evidence now supports:
+
+45 Apps source classes
+        ↓
+167 direct R.* symbols
+        ↓
+243 transitive XML logical closure
+
+plus:
+
+full decompiled Java source
+        ↓
+additional collaborator/base/generated resource edges
+        ↓
+previously uncovered Apps-like candidates partially resolved
+
+The original 112 count remains an **audit queue count**, not a count of proven-unused resources.
+
+### Status
+
+Resource direct coverage: VERIFIED STATICALLY.
+Resource transitive XML closure: VERIFIED STATICALLY.
+Full-source collaborator resource-path evidence: VERIFIED STATICALLY for inspected edges.
+Previously uncovered candidate resolution: PARTIAL / VERIFIED FOR INSPECTED EDGES.
+All-112 resource semantic closure: BELUM SELESAI.
+Remaining no-direct-edge candidates: UNKNOWN / NEEDS XML/generated/theme/navigation/dynamic audit.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjutkan remaining no-direct-edge resource candidates melalui XML include/reference graph, generated binding patterns, manifest/navigation/theme references, dan dynamic resource loading. Setelah resource queue cukup tertutup, lakukan final 45-class/task/data/model/UI reconciliation sebelum architecture freeze.
