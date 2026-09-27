@@ -170,7 +170,6 @@ Product/app UI text menggunakan Bahasa Inggris.
 
 Technical identifiers, package/class names, code symbols, and source terminology remain unchanged where required.
 
-
 ## Implementation Checkpoint 3 — Apps2 Detail Boundary
 
 Detail boundary awal sudah diimplementasikan secara terisolasi.
@@ -221,8 +220,6 @@ Prioritas berikutnya adalah **verification opportunity** untuk source/test yang 
 
 Setelah verification gate tersedia, lanjutkan Detail decomposition dan kemudian batch/task boundary.
 
-
-
 ## Implementation Checkpoint 4 — Selection Semantics Correction
 
 Review terhadap first-slice selection menemukan satu semantic gap:
@@ -262,3 +259,55 @@ Perubahan:
 ## Next Action
 
 Lanjutkan ke batch boundary secara isolated, tanpa mengaktifkan destructive/privileged behavior yang belum mempunyai capability/task contract.
+
+## Implementation Checkpoint 5 — Isolated Batch Boundary
+
+Batch boundary pertama sudah dibuat tanpa mengaktifkan execution.
+
+### Files baru
+
+- `app/src/main/java/com/bare/feature/apps2/ui/batch/Apps2BatchAction.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/batch/Apps2BatchState.kt`
+- `app/src/test/java/com/bare/feature/apps2/ui/batch/Apps2BatchStateTest.kt`
+
+### Scope
+
+- action contract batch terisolasi berdasarkan boundary Apps Reference yang sudah diaudit;
+- selection disimpan sebagai package identities dan tidak bergantung pada visible/filter presentation;
+- `Apps2BatchRequest` menjadi immutable intent menuju task boundary berikutnya;
+- request tidak melakukan execution;
+- policy secara eksplisit mengembalikan status **Blocked** untuk seluruh batch action sampai task/capability/artifact contract tersedia;
+- tidak ada destructive, privileged, backup, restore, atau APK sharing behavior yang dipalsukan.
+
+### Verification
+
+**SOURCE VERIFIED:** tiga file baru berada di Apps2 batch package dan tidak mengubah Legacy Apps.
+
+**TEST SOURCE ADDED:** mencakup selection isolation, empty-selection guard, request capture, blocked policy, dan clear selection.
+
+**TEST EXECUTION:** UNVERIFIED.
+
+**ANDROID BUILD:** UNVERIFIED / BLOCKED.
+
+### Current Engineering State
+
+- First vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Detail boundary: IMPLEMENTED AT SOURCE LEVEL.
+- Batch boundary: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Unit test source: ADDED.
+- Unit test execution: UNVERIFIED.
+- Android build: UNVERIFIED / BLOCKED.
+- Runtime: UNKNOWN.
+- Home → Apps2: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+- Backup/restore: BELUM DIIMPLEMENTASIKAN.
+
+## Next Action
+
+Lanjutkan ke **task/capability contract** secara isolated. Fokus berikutnya:
+
+1. definisikan capability resolution Apps2 tanpa mengaktifkan privileged execution;
+2. definisikan task request/state boundary untuk batch;
+3. pertahankan backup/restore dan destructive actions sebagai Blocked sampai executor + verification contract tersedia;
+4. setelah contract stabil, baru hubungkan batch UI tanpa mengubah Legacy Apps;
+5. jangan melakukan Home cutover sebelum verification gate terpenuhi.
