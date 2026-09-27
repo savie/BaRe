@@ -818,3 +818,46 @@ Legacy Apps: TIDAK DIUBAH.
 Reference runtime verification: BELUM.
 
 Audit berikutnya diprioritaskan ke archive/extraction matrix dan restore execution collaborators karena masih menjadi high-risk boundary.
+
+## Audit Checkpoint 10A — Archive Format / Extraction Boundary
+
+Audit raw decompile dilanjutkan ke \`Packer\`, \`mz6\`, dan \`xw\` menggunakan JADX + smali karena \`xw.k()\` memiliki decompilation failure di JADX.
+
+### Hasil
+
+Archive detector sekarang terpetakan:
+
+- format 1 → ZIP biasa;
+- format 2 → ZIP berisi TAR;
+- format 3 → raw TAR;
+- format 4 → legacy 7-Zip;
+- format 5 → 7-Zip dengan compressed-entry structure;
+- format 6 → Swift Backup Archive (SBA).
+
+Encryption metadata juga terdeteksi untuk ZIP, 7-Zip, dan SBA.
+
+Restore DATA:
+
+- format 1 → unpack → DATA/DE-DATA;
+- format 2/4/5 → unpack → optional decompress → cari \`\${packageName}.tar\` → DATA/DE-DATA;
+- format 3 → raw TAR extraction dengan Local/Root/Shizuku execution boundary;
+- format 6 → SBA entry/password validation → \`mz6\` extraction → DATA/DE-DATA.
+
+JADX tidak mampu mendekompilasi \`xw.k()\` secara penuh, tetapi smali berhasil memperlihatkan control flow penting sehingga gap tersebut tidak lagi diperlakukan sebagai UNKNOWN total.
+
+### Status
+
+Archive boundary: RECONSTRUCTED STATICALLY dengan beberapa implementation-detail gaps.
+
+Masih UNKNOWN/UNVERIFIED:
+
+1. seluruh edge case internal ZIP/7Z extraction;
+2. password/encryption error matrix lengkap;
+3. detail penuh \`Fidelity\` vs \`RootFidelity\`;
+4. runtime behavior pada archive SwiftBackup 5.1.0-620 nyata;
+5. post-extraction byte/content verification.
+
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
