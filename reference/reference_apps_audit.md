@@ -2161,3 +2161,106 @@ Therefore the current evidence is:
 - exact external UI interpretation of every `b40.l()` state;
 - persistence/recovery if process dies after package mutation but before post-restore reconciliation;
 - whether any background sync later reconciles restore-induced package state into backup metadata.
+## Checkpoint 14 — Delete Edge Cases / Cloud Metadata Ordering / Cancellation Boundary
+
+### Local delete selection and completion
+
+`AppBackupDeleteHelper (ik)` first resolves eligible local backups from the current local backup list. For `ly7`, it can limit selection to the latest backup and/or exclude protected backups. It then deletes only the requested `AppPart` artifacts.
+
+Observed parts are `APP`, `DATA`, `EXTDATA`, `MEDIA`, and `EXPANSION`; the delete helper aggregates the boolean result of each selected artifact deletion.
+
+After deletion it re-reads the package local backup list. Only when no local backups remain does it remove the package backup directory.
+
+Therefore package-directory removal is a postcondition of an empty local backup set, not an unconditional first step.
+
+### Cloud delete is metadata-first
+
+`xh2.c()` is the concrete cloud implementation behind `id1`.
+
+For each selected `AppCloudBackup`, the flow is:
+
+~~~text
+CloudMetadata current state
+  ↓
+copy metadata
+  ↓
+remove selected part details
+  ↓
+hasBackups() ?
+  ├─ YES → persist reduced CloudMetadata
+  └─ NO  → remove cloud metadata node
+  ↓
+collect selected file links
+  ↓
+delete cloud files
+~~~
+
+Selected metadata fields are removed for APP, DATA, EXTDATA, MEDIA, and EXPANSION. If no backup parts remain, special-data details are also removed and the cloud metadata reference is deleted with `cf3.c(node, null)`.
+
+If some backup parts remain, the reduced `CloudMetadata` is written back before the corresponding cloud files are deleted.
+
+### Important partial-failure consequence
+
+The static ordering means cloud metadata can be committed before file deletion finishes.
+
+`xh2.a()` retries the cloud file-id deletion path. The inspected implementation retries up to 10 attempts and sleeps 30 seconds between later attempts. Connectivity is rechecked through `qb1.c().a(false)` before continuing.
+
+If the final file deletion still fails, the task records an exception in `jq6.b` and returns failure at the task boundary. The previously persisted reduced metadata is not automatically rolled back by the inspected `xh2` path.
+
+This creates a concrete recovery/consistency invariant for Apps2:
+
+> cloud metadata deletion/update and physical cloud-file deletion are separate failure boundaries.
+
+Potential result states therefore include:
+- metadata updated + files deleted;
+- metadata updated + some/all files not deleted;
+- metadata node removed + file deletion incomplete;
+- all requested files deleted after retries.
+
+The inspected source does not establish an automatic orphan-file reconciliation after the failure case.
+
+### Protected backup handling
+
+Retention/delete selection excludes protected backups when `ly7.a` is active. The same selection rule is applied before the cloud `id1` task is constructed.
+
+Thus protected status is a selection constraint, not a post-delete repair mechanism.
+
+### Task cancellation boundary
+
+`no2.b()` transitions the generic task object:
+
+~~~text
+WAITING → RUNNING → COMPLETE
+                     or
+                     CANCEL_COMPLETE
+~~~
+
+`no2.b()` decides the final state from `this.d.isCancelled()` after `g()` returns. The inspected `xh2` cloud-delete implementation does not expose a separate transactional rollback path for cancellation.
+
+Cancellation and process death therefore remain distinct from successful delete completion; exact persistence behavior when cancellation/process death occurs between cloud metadata persistence and file deletion is not established.
+
+### Local metadata consistency remains unresolved
+
+The inspected local delete path operates on `hk` artifact handles and checks the remaining local backup set after deletion. It does not, in the inspected `ik`/`hk` path, explicitly call `cu.f()` to rewrite `LocalMetadata` after removing selected parts.
+
+Therefore the evidence currently supports that local artifact existence and local metadata persistence are separate concerns, but it does not yet prove whether the lower-level `q63` deletion implementation updates or removes metadata as a side effect.
+
+That lower-level coupling remains an audit item rather than an assumption.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- local delete selection rules;
+- protected/latest filtering;
+- package-directory cleanup condition;
+- concrete cloud delete implementation;
+- cloud metadata mutation before file deletion;
+- cloud file-link deletion retry up to 10 attempts with 30-second waits;
+- cloud metadata removal when no backup parts remain;
+- task final-state distinction COMPLETE vs CANCEL_COMPLETE.
+
+**UNKNOWN / UNVERIFIED:**
+- automatic local metadata reconciliation inside lower-level `q63` deletion;
+- rollback after cloud metadata commit followed by file-delete failure;
+- post-failure orphan cloud-file reconciliation;
+- process-death behavior during the metadata/file deletion gap.
