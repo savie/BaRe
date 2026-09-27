@@ -8,21 +8,18 @@ import android.os.storage.StorageManager
 import com.bare.app.AppItem
 import com.bare.app.LocalIdentityStore
 import com.bare.feature.account.AccountLocalDatabase
-import com.bare.storage.BackupStorageBehavior
 import java.io.File
 
 class InstalledAppRepository(private val context: Context) {
     private val packageManager = context.packageManager
     private val organizationStore = AppOrganizationStore(context)
     private val identityStore = LocalIdentityStore(context)
-    private val backupStorage = BackupStorageBehavior(context)
     private val accountDatabase = AccountLocalDatabase(context)
     private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
 
     fun load(): List<AppItem> {
-        val identityId = identityStore.load()?.identityId
-        val backupLocations = identityId?.let { backupStorage.localBackupLocations(it) }.orEmpty()
         val backupInventory = AppBackupInventoryBehavior(context).inspectLocalAll()
+        val favoritePackages = organizationStore.favoritePackages()
         // Local identity is not an Account. Until an authenticated Account/provider
         // supplies verified metadata, cloud state remains UNKNOWN rather than NOT_SYNCED.
         val accountId = accountDatabase.activeAccountId()
@@ -55,7 +52,7 @@ class InstalledAppRepository(private val context: Context) {
                     isUpdatedSystemApp = isUpdatedSystemApp,
                     canLaunch = canLaunch,
                     isEnabled = info.enabled,
-                    favorite = organizationStore.isFavorite(info.packageName),
+                    favorite = info.packageName in favoritePackages,
                     firstInstallTime = packageInfo?.firstInstallTime,
                     lastUpdateTime = packageInfo?.lastUpdateTime?.takeIf { it > packageInfo.firstInstallTime },
                     apkSizeBytes = apkSizeBytes,
@@ -75,9 +72,7 @@ class InstalledAppRepository(private val context: Context) {
                     hasNewerBackupApk = backupMetadata.hasNewerApk,
                     hasProtectedBackup = backupMetadata.hasProtectedBackup,
                     hasBackupNotes = backupMetadata.hasBackupNotes,
-                    icon = runCatching {
-                        packageManager.getApplicationIcon(info.packageName)
-                    }.getOrNull(),
+                    icon = null,
                 )
             }
         val installedPackages = loaded.asSequence().map { it.packageName }.toSet()
