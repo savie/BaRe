@@ -1787,3 +1787,65 @@ Legacy Apps: **TIDAK DIUBAH**.
 ### Next audit
 
 Audit path untuk 112 uncovered resource candidates melalui generated/base/shared classes, menu/navigation/theme references, dynamic loading, lalu lanjut remaining direct apptasks edges.
+
+## Audit Checkpoint 28 — AppSpecialDataPayload Persistence / Security Boundary
+
+AppSpecialDataPayload dibongkar sampai persistence contract.
+
+### Verified
+
+Payload fields:
+- permissionStatesCsv
+- ssaid
+- ntfAccessComponent
+- accessibilityComponent
+- notificationPolicyXml
+
+Persistence:
+- version v1;
+- separator :::;
+- user-bound payload;
+- Gson serialization;
+- native Zstd compression;
+- Base64 encoding;
+- maximum file size 1 MiB;
+- logged-in user required;
+- user mismatch rejected;
+- unsupported version rejected;
+- decompression/deserialization failure handled as read failure.
+
+Write:
+- empty payload removes/clears target;
+- non-empty payload ditulis ke temporary path;
+- replacement dilakukan setelah write sukses;
+- temporary path dibersihkan saat failure.
+
+### Reconciled model/data graph
+
+special-data sources
+→ AppSpecialDataPayload
+→ versioned user-bound envelope
+→ compressed/base64 on-disk payload
+→ read/validate/decompress/deserialize
+→ notificationPolicyXml
+→ privileged notification restore.
+
+### Coverage ledger delta
+
+AppSpecialDataPayload persistence: VERIFIED STATICALLY.
+Special-data user binding: VERIFIED STATICALLY.
+Notification policy persistence edge: VERIFIED STATICALLY.
+
+### Status
+
+45-class deep semantic coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut producer/consumer edges untuk permission state, SSAID, notification access, dan accessibility special-data, lalu reconcile model/data graph.
