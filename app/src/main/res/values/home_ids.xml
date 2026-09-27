@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="home_appbar" type="id"/>
+    <item name="viewPager" type="id"/>
+    <item name="container_btn_new_schedule" type="id"/>
+    <item name="schedule_fab_menu" type="id"/>
+    <item name="primaryNavigation" type="id"/>
+</resources>
