@@ -546,3 +546,32 @@ Verification branch ini: compile/build terlebih dahulu, kemudian runtime test:
 6. No regression in unrelated Home areas.
 
 Home → Apps2 integration belum boleh dianggap VERIFIED sampai build dan runtime evidence tersedia.
+
+
+## Verification Checkpoint 9 — Android Build #1324 Failure
+
+**Observed:** GitHub Actions run #1324 failed during `:app:compileDebugKotlin`.
+
+**Evidence:** job `build`, step `Assemble debug APK` failed. The compiler reported:
+
+`PreviewScreens.kt:48:13 No value passed for parameter 'onOpenApps2'`
+
+### Root cause
+
+The HomeScreen contract was extended with the new `onOpenApps2` callback, but the existing `HomePreview` call site in `PreviewScreens.kt` was not updated.
+
+This is a compile-time integration gap caused by the targeted routing change; it is not an Apps2 runtime failure.
+
+### Correction
+
+`HomePreview` now supplies `onOpenApps2 = {}`.
+
+Commit: `e89a22f8cb5e3c58405edd21376445597cf0f118`.
+
+### Verification status
+
+- **Root cause:** VERIFIED from CI compiler output + source inspection.
+- **Correction:** IMPLEMENTED on `fix/home-app-entry`.
+- **Build after correction:** PENDING / UNVERIFIED.
+- **Runtime:** UNVERIFIED.
+- **Baseline:** `v1.0/rebaseline` remains untouched.
