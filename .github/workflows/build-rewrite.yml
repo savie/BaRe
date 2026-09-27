@@ -1,20 +1,6 @@
 name: BaRe Android Build
 
 on:
-  push:
-    branches:
-      - "rewrite"
-    paths-ignore:
-      - "docs/**"
-      - "reference/**"
-      - "README.md"
-  pull_request:
-    branches:
-      - "rewrite"
-    paths-ignore:
-      - "docs/**"
-      - "reference/**"
-      - "README.md"
   workflow_dispatch:
     inputs:
       install_apk:
@@ -154,4 +140,4 @@ jobs:
           path: ${{ env.BARE_VERSIONED_APK_PATH }}
           if-no-files-found: error
 
-# CI trigger: validate current v1.0/rebaseline source after build fixes.
+# CI trigger: manual only.
