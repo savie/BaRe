@@ -31,10 +31,12 @@ class InstalledAppRepository(private val context: Context) {
             .map { info ->
                 val isSystem = (info.flags and ApplicationInfo.FLAG_SYSTEM) != 0
                 val isUpdatedSystemApp = (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0
-                val versionCode = runCatching {
-                    val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
-                    if (android.os.Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else @Suppress("DEPRECATION") packageInfo.versionCode.toLong()
+                val packageInfo = runCatching {
+                    packageManager.getPackageInfo(info.packageName, 0)
                 }.getOrNull()
+                val versionCode = packageInfo?.let {
+                    if (android.os.Build.VERSION.SDK_INT >= 28) it.longVersionCode else @Suppress("DEPRECATION") it.versionCode.toLong()
+                }
                 val backupMetadata = backupMetadata(backupInventory[info.packageName].orEmpty(), versionCode)
                 val canLaunch = packageManager.getLaunchIntentForPackage(info.packageName) != null
                 val storage = storageStats(info)
@@ -54,13 +56,8 @@ class InstalledAppRepository(private val context: Context) {
                     canLaunch = canLaunch,
                     isEnabled = info.enabled,
                     favorite = organizationStore.isFavorite(info.packageName),
-                    firstInstallTime = runCatching {
-                        packageManager.getPackageInfo(info.packageName, 0).firstInstallTime
-                    }.getOrNull(),
-                    lastUpdateTime = runCatching {
-                        val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
-                        packageInfo.lastUpdateTime.takeIf { it > packageInfo.firstInstallTime }
-                    }.getOrNull(),
+                    firstInstallTime = packageInfo?.firstInstallTime,
+                    lastUpdateTime = packageInfo?.lastUpdateTime?.takeIf { it > packageInfo.firstInstallTime },
                     apkSizeBytes = apkSizeBytes,
                     installedSizeBytes = storage?.appBytes,
                     dataSizeBytes = storage?.dataBytes,
