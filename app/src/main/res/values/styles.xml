@@ -66,6 +66,15 @@
         <item name="strokeColor">@color/google_sign_in_button_stroke</item>
         <item name="strokeWidth">1dp</item>
     </style>
+    <style name="M3ButtonOutlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">@dimen/subtitle_large</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="backgroundTint">?colorBackgroundActivated</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="iconTint">?colorPrimary</item>
+        <item name="rippleColor">?colorBackgroundActivated</item>
+        <item name="strokeColor">@color/google_sign_in_button_stroke</item>
+    </style>
     <style name="Widget.Material3.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textSize">@dimen/subtitle_large</item>
         <item name="android:fontFamily">sans-serif-medium</item>
