@@ -702,3 +702,46 @@ Remaining audit gaps sebelum Apps2 architecture freeze:
 5. runtime verification of Reference behavior.
 
 Apps2 implementation tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 8 — Part Capability / Preconditions / Metadata Boundary
+
+Audit capability contract dan metadata boundary sudah diperdalam.
+
+Teramati dari Reference `iu.getBackupReq()` + `sk0.isPossible()`:
+
+- APP → NONE;
+- DATA → ROOT;
+- EXTDATA → ROOT_OR_SHIZUKU pada capability condition Reference;
+- EXPANSION → ROOT_OR_SHIZUKU pada capability condition Reference;
+- MEDIA → NONE.
+
+Capability resolution:
+
+- ROOT → `mp6.g`;
+- ROOT_OR_SHIZUKU → `mp6.f()`;
+- NONE → selalu possible.
+
+Restore menambahkan target preconditions: data-like parts memerlukan app installed; DATA memerlukan installed UID; APK memerlukan valid base artifact + PackageInstaller path; downgrade policy dapat mengubah hasil APK restore; permission mode dapat menambah special-data work.
+
+`PreconditionsActivity` memodelkan permission preconditions untuk request codes 2, 3, dan 589, tetapi mapping lengkap request code → AppsTask belum terbukti.
+
+Metadata update yang terbukti berada pada backup/cloud-upload path: APK, splits, DATA, EXTDATA, MEDIA, EXPANSION, special-data, note/protection/date-updated.
+
+Untuk restore, inspected `xw`/`c40` path **belum memberikan evidence** adanya symmetric metadata persistence commit setelah restore. Yang terbukti adalah package/app state update dan task result.
+
+Archive dispatch terbukti memiliki format 1, 2/4/5, format 3 untuk EXPANSION path, dan format 6; `mz6` menjadi common archive/extraction boundary, tetapi `xw.k()` masih mempunyai decompilation gap.
+
+Dengan checkpoint ini, capability model Apps2 dapat dirancang eksplisit:
+
+`AppPart → BackupRequirement → Capability State → Target Preconditions → Part Restore`
+
+Remaining audit gaps:
+
+1. permission/precondition request mapping;
+2. `mv` install request + downgrade workaround;
+3. archive internals di balik JADX gaps;
+4. complete metadata persistence implementation;
+5. runtime verification.
+
+Apps2 implementation tetap BELUM DIMULAI.
