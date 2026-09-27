@@ -862,3 +862,183 @@ Apps List now has a materially complete structural contract for:
 - batch entry.
 
 Remaining high-risk audit boundary is now the **Detail → Backup / Restore execution graph**, including task, archive, precondition, install, metadata, and verification collaborators.
+
+
+## Checkpoint 5 — Detail / Backup / Restore Execution Boundary
+
+### Detail backup-card actions
+
+`DetailActivity.b0()` configures backup-card actions for a local or cloud backup.
+
+Observed actions:
+
+- backup details;
+- protect/unprotect;
+- update note;
+- sync;
+- delete;
+- metadata is hidden on the card menu and handled through the detail surface.
+
+Protection state and note are read from the corresponding `LocalMetadata` or `CloudMetadata`.
+
+Protecting a backup can be gated by premium state and has a first-use help dialog.
+
+Deleting a backup uses an explicit confirmation dialog and has a different title for protected backups.
+
+### Detail backup-chip actions
+
+`DetailActivity.c0()` configures per-part backup actions.
+
+For a backup part:
+
+- restore visibility depends on the part's `BackupRequirement.isPossible()`;
+- non-APK restore additionally requires the app to be installed in the observed branch;
+- APK restore has a separate capability condition;
+- APK share is only visible when an APK artifact is available;
+- local backup sync is exposed when a local backup exists;
+- encryption information is shown when encryption metadata is present;
+- delete is confirmation-gated.
+
+Restore request construction is now confirmed:
+
+```
+DetailActivity
+  ↓
+selected backup identity
+  ↓
+selected AppPart list
+  ↓
+restore permission mode
+  ↓
+restore special permissions flag
+  ↓
+restore SSAID flag
+  ↓
+jz Restore request
+  ↓
+mk2 Detail restore/task coordinator
+  ↓
+AppsTask / c40 restore execution
+```
+
+### Restore request model `jz`
+
+Observed fields:
+
+- canonical `ji` app;
+- selected AppPart list;
+- `yu` restore-permission mode;
+- restore-special-permissions flag;
+- restore-SSAID flag;
+- local backup identity;
+- optional cloud backup;
+- force-redo currently false in the observed representation.
+
+The constructor rejects an empty AppPart list.
+
+### Restore task `c40`
+
+The Reference Apps task class is `c40` with task name `AppsTask`.
+
+Restore execution is selected through the `ry7` task mode.
+
+Observed restore phases:
+
+1. Create restore manager/task state.
+2. Perform pre-restore tasks.
+3. Inspect/adjust package verifier settings when privileged capability is available.
+4. Process each selected restore request.
+5. For cloud-backed restore, create download task state and resolve required cloud artifacts.
+6. Resolve required backup parts including EXPANSION where selected.
+7. Perform restore work.
+8. Perform post-restore tasks.
+9. Complete task state and publish app/task events.
+10. Cleanup/prepare extracted APK artifacts when required.
+
+The static source also shows progress/error/cancellation state throughout the task.
+
+Important:
+
+The source does not establish that file extraction alone equals successful app restore. Restore is a task-level operation with pre/post phases and capability conditions.
+
+### Restore special-data / permissions
+
+The Detail restore request passes:
+
+- `restore_special_permissions`, default true in the inspected path;
+- `restore_ssaids`, default false in the inspected path;
+- `yu` permission restore mode.
+
+The exact downstream behavior for every permission category remains to be mapped through the task collaborators.
+
+### Backup task `c40`
+
+The same `AppsTask` class handles backup mode through the `ky7` task branch.
+
+Observed backup request model `hz` contains:
+
+- canonical app;
+- selected AppParts;
+- target locations;
+- optional sync backup identity;
+- SyncOption;
+- backup-cache flag;
+- compression level;
+- MultipleBackupStrategy;
+- backup-limit items.
+
+The request rejects empty AppParts and empty locations.
+
+Backup task flow observed at the orchestration level:
+
+1. Create AppsTask.
+2. Process each app.
+3. Resolve backup strategy/locations.
+4. Create per-app backup task state.
+5. Execute backup through the per-app backup manager.
+6. Handle result/error.
+7. If cloud upload is requested, create upload task.
+8. Check cloud sync status and skip already-synced artifacts when applicable.
+9. Persist/update local/cloud metadata.
+10. Apply multiple-backup cleanup strategy.
+11. Publish task completion/app events.
+
+Cancellation is explicit: running upload/download/archive-related task components are marked cancelled and active connections are closed/aborted through their respective task objects.
+
+### Architecture implication
+
+Reference Detail is therefore not the backup/restore engine itself.
+
+It is:
+
+```
+Detail UI
+  ↓
+Backup/Restore request model
+  ↓
+AppsTask
+  ↓
+Per-app manager
+  ↓
+Archive / download / upload / install / restore collaborators
+  ↓
+Metadata + inventory update
+  ↓
+Task result / app event
+```
+
+The complete per-app archive/install implementation is still a separate audit boundary.
+
+## Checkpoint 5 conclusion
+
+Detail → Backup/Restore orchestration is now substantially mapped.
+
+Remaining high-risk collaborators:
+
+1. per-app backup manager / archive writer;
+2. per-app restore manager / install path;
+3. precondition task collaborators;
+4. local metadata commit/update;
+5. cloud metadata commit/update;
+6. exact cancellation/recovery behavior;
+7. complete `EXPANSION` execution semantics.
