@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IntroBenefitCardView">
+        <attr name="introBenefitIcon" format="reference"/>
+        <attr name="introBenefitIconBackgroundTint" format="color"/>
+        <attr name="introBenefitIconTint" format="color"/>
+        <attr name="introBenefitTitle" format="string"/>
+        <attr name="introBenefitSubtitle" format="string"/>
+    </declare-styleable>
+</resources>
