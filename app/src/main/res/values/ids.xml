@@ -27,4 +27,9 @@
     <item name="tv_permission_title" type="id"/>
     <item name="tv_permission_subtitle" type="id"/>
     <item name="btn_permission_action" type="id"/>
+    <item name="tv_header" type="id"/>
+    <item name="nav_home" type="id"/>
+    <item name="nav_cloud" type="id"/>
+    <item name="nav_schedule" type="id"/>
+    <item name="nav_account" type="id"/>
 </resources>
