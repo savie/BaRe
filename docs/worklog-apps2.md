@@ -594,3 +594,51 @@ Dengan checkpoint ini, Apps List structural contract sudah mencakup discovery �
 High-risk boundary berikutnya adalah Detail → Backup/Restore execution graph.
 
 Implementation Apps2 tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 5 — Detail / Backup / Restore Orchestration
+
+Audit dilanjutkan sampai boundary Detail → AppsTask.
+
+Teramati:
+
+- Detail backup-card mempunyai actions backup details, protect/unprotect, note, sync, delete.
+- Detail backup-chip restore visibility bergantung pada `BackupRequirement.isPossible()`; non-APK restore pada observed branch juga mensyaratkan app installed.
+- Restore request menggunakan selected backup identity + selected AppParts + `yu` permission mode + `restore_special_permissions` + `restore_ssaids`.
+- `jz` adalah restore request model dan menolak AppParts kosong.
+- `mk2` adalah Detail restore/task coordinator yang membangun restore task.
+- `c40` adalah `AppsTask` dan memiliki branch restore/backup.
+- Restore branch mempunyai pre-restore, per-app processing, cloud download bila diperlukan, restore work, post-restore, cleanup, progress/error/cancellation state.
+- Backup branch menerima `hz` request dengan AppParts, locations, sync identity/option, cache/compression, MultipleBackupStrategy, dan backup limits.
+- Backup branch memproses per-app task, archive/backup manager, cloud upload bila diminta, metadata update, dan multiple-backup cleanup.
+- Cancellation secara eksplisit membatalkan active upload/download/archive-related task components.
+
+Arsitektur Reference yang sekarang terbukti:
+
+```
+Detail UI
+  ↓
+Backup/Restore Request
+  ↓
+AppsTask
+  ↓
+Per-app Backup/Restore Manager
+  ↓
+Archive / Download / Upload / Install / Restore collaborators
+  ↓
+Metadata / Inventory Update
+  ↓
+Task Result / App Event
+```
+
+Remaining high-risk audit:
+
+1. per-app backup manager/archive;
+2. per-app restore manager/install;
+3. precondition collaborators;
+4. metadata commit/update;
+5. cloud metadata commit/update;
+6. cancellation/recovery details;
+7. EXPANSION execution semantics.
+
+Apps2 implementation tetap BELUM DIMULAI.
