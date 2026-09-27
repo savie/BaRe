@@ -45,6 +45,7 @@ private fun HomePreview() {
             accessMethod = null,
             onOpen = {},
             onOpenTab = {},
+            onOpenApps2 = {},
             onAccessChanged = {},
         )
     }
