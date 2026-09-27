@@ -221,3 +221,44 @@ Prioritas berikutnya adalah **verification opportunity** untuk source/test yang 
 
 Setelah verification gate tersedia, lanjutkan Detail decomposition dan kemudian batch/task boundary.
 
+
+
+## Implementation Checkpoint 4 — Selection Semantics Correction
+
+Review terhadap first-slice selection menemukan satu semantic gap:
+
+- Reference selection memisahkan selected IDs dari visible list.
+- Implementasi awal `selectAll(visibleApps)` mengganti seluruh selection dengan visible apps.
+- Ini dapat menghilangkan selection yang berada di luar current search/filter result.
+
+Perubahan:
+
+- `selectAll(visibleApps)` sekarang menambahkan visible package IDs ke selection yang sudah ada.
+- Existing selection di luar visible scope dipertahankan.
+- Test diperluas untuk membuktikan perilaku tersebut.
+
+### Verification
+
+**SOURCE VERIFIED:** perubahan hanya pada Apps2 state/test boundary.
+
+**TEST SOURCE UPDATED:** regression case untuk selection di luar visible scope sudah ditambahkan.
+
+**TEST EXECUTION:** UNVERIFIED.
+
+**ANDROID BUILD:** UNVERIFIED / BLOCKED.
+
+## Current State
+
+- First vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Detail boundary: IMPLEMENTED AT SOURCE LEVEL.
+- Selection semantics: CORRECTED AT SOURCE LEVEL berdasarkan Reference-derived contract.
+- Unit tests: SOURCE ADDED / EXECUTION UNVERIFIED.
+- Android build: UNVERIFIED / BLOCKED.
+- Runtime: UNKNOWN.
+- Home → Apps2: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+- Backup/restore: BELUM.
+
+## Next Action
+
+Lanjutkan ke batch boundary secara isolated, tanpa mengaktifkan destructive/privileged behavior yang belum mempunyai capability/task contract.
