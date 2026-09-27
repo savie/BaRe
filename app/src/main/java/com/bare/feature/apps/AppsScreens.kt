@@ -2426,6 +2426,11 @@ private fun AppStorageSelectionChip(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+private data class BackupInventoryUiState(
+    val snapshots: List<AppBackupSnapshot>,
+    val loading: Boolean,
+)
+
 @Composable
 private fun AppBackupStateCard(
     packageName: String?,
@@ -2446,11 +2451,30 @@ private fun AppBackupStateCard(
     var pendingPartDelete by remember { mutableStateOf<AppBackupPart?>(null) }
     var actionMessage by remember { mutableStateOf<String?>(null) }
 
-    val inventory by produceState<List<AppBackupSnapshot>>(emptyList(), context, packageName, reloadToken, actionReloadToken) {
-        value = if (packageName.isNullOrBlank()) emptyList() else withContext(Dispatchers.IO) {
-            AppBackupInventoryBehavior(context).inspectLocal(packageName)
+    val initialInventory = remember(packageName) {
+        if (packageName.isNullOrBlank()) emptyList()
+        else AppBackupInventoryBehavior.cachedLocal(packageName)
+    }
+    val inventoryState by produceState(
+        initialValue = BackupInventoryUiState(initialInventory, loading = initialInventory.isEmpty()),
+        context,
+        packageName,
+        reloadToken,
+        actionReloadToken,
+    ) {
+        if (packageName.isNullOrBlank()) {
+            value = BackupInventoryUiState(emptyList(), loading = false)
+        } else {
+            val cached = AppBackupInventoryBehavior.cachedLocal(packageName)
+            if (cached.isNotEmpty()) value = BackupInventoryUiState(cached, loading = false)
+            else value = BackupInventoryUiState(emptyList(), loading = true)
+            val fresh = withContext(Dispatchers.IO) {
+                AppBackupInventoryBehavior(context).inspectLocal(packageName)
+            }
+            value = BackupInventoryUiState(fresh, loading = false)
         }
     }
+    val inventory = inventoryState.snapshots
     val latest = inventory.firstOrNull()
 
     fun executeAction(action: () -> AppBackupActionBehavior.Result) {
@@ -2682,7 +2706,31 @@ private fun AppBackupStateCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            if (latest == null) {
+            if (inventoryState.loading && latest == null) {
+                Text(
+                    stringResource(R.string.device_backups),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Surface(
+                    modifier = Modifier.size(72.dp),
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(Icons.Default.FolderOpen, contentDescription = null, modifier = Modifier.size(44.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                CircularProgressIndicator(Modifier.size(28.dp))
+                Text(
+                    stringResource(R.string.apps_loading),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else if (latest == null) {
                 Text(
                     stringResource(R.string.device_backups),
                     modifier = Modifier.fillMaxWidth(),
