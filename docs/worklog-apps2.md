@@ -2280,3 +2280,140 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut metadata migration/version compatibility, exact split extraction helper coverage, dan resource-path closure untuk 112 uncovered Apps-like candidates. Setelah itu lakukan reconciliation penuh terhadap 45-class/task/data/model/UI ledger sebelum architecture freeze.
+
+## Worklog Checkpoint 32 — Metadata Version Compatibility + Exact Split Restore Coverage
+
+Pass ini membongkar compatibility contract metadata dan mempersempit gap split-restore berdasarkan source/model evidence langsung.
+
+### 1. CloudMetadata version-compatibility contract
+
+CloudMetadata menyimpan version requirements pada dua level:
+
+- global minSBVersionCodeRequired;
+- per-AppPart *SBVersionCodeRequired + *SBVersionNameRequired.
+
+getSBVersionCodesRequired() menggabungkan global requirement dengan requirement APP/DATA/EXTDATA/MEDIA/EXPANSION/SPLITS/SHARED-LIBS.
+
+Pada setiap update*Details(...) untuk artifact cloud, source menetapkan:
+
+- required version code = 580;
+- required version name = LocalMetadata.SB_VERSION_NAME_REQUIRED.
+
+prepareForFirebaseUpload() kemudian:
+
+- menetapkan minSBVersionCodeRequired = 580 bila metadata masih mempunyai backup;
+- menghapus legacy special-data fields;
+- menghapus seluruh per-part SB-version requirement lama melalui clearLegacyPerPartSBVersionFields().
+
+Ini menunjukkan adanya compatibility normalization saat metadata dipersiapkan untuk Firebase: per-part historical requirements dipadatkan menjadi minimum global requirement.
+
+### 2. Restore-side version gate
+
+Restore path xw mengambil LocalMetadata.getSBVersionCodesRequired() dan, bila menggunakan cloud metadata, CloudMetadata.getSBVersionCodesRequired() melalui mq/restore orchestration.
+
+Nilai tersebut diteruskan ke nm6.a(...) sebagai compatibility predicate sebelum melanjutkan restore/install flow.
+
+Jadi SB-version fields bukan sekadar metadata display; mereka ikut menjadi gate pada restore execution.
+
+Status: VERIFIED STATICALLY.
+
+### 3. Migration semantics — batas bukti
+
+Source yang diaudit menunjukkan:
+
+- default construction of LocalMetadata;
+- per-part version stamping;
+- Firebase normalization;
+- restore compatibility check;
+- removal/clearing of obsolete per-part fields.
+
+Namun tidak ditemukan pada inspected source sebuah migration engine yang melakukan schema-by-schema transformation dari metadata version lama ke schema baru.
+
+Karena itu:
+
+- metadata compatibility gate: VERIFIED STATICALLY;
+- metadata normalization at upload: VERIFIED STATICALLY;
+- explicit historical schema migration mechanism: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
+
+Tidak disimpulkan bahwa tidak ada migration mechanism di luar source yang telah diaudit.
+
+### 4. Exact split restore coverage
+
+Restore-side source memperlihatkan split state ikut divalidasi sebelum APK restore:
+
+- installed package version/versionName/versionCode dibandingkan dengan backup;
+- current split source presence diperiksa;
+- backup split metadata (splitsBackupSize local atau splitsSize cloud) menjadi bagian restore sizing/selection;
+- APK restore selection mempertimbangkan keberadaan split APK dan shared libraries.
+
+Cloud resolver mq membentuk explicit download descriptor:
+
+- splitsLink;
+- type SPLITS;
+- splitsSize;
+- cloud artifact source.
+
+AppRestoreTask kemudian menggunakan hasil descriptor tersebut dalam APK restore flow.
+
+Lower-level extraction/install implementation untuk split artifact tidak dipisahkan menjadi satu helper named "split restore"; source menunjukkan split handling terintegrasi dengan APK restore/install path. Karena itu split model/data graph sudah tertutup, tetapi helper-level semantic decomposition tetap dicatat sebagai implementation-detail coverage.
+
+Status:
+- split metadata producer → cloud descriptor: VERIFIED STATICALLY;
+- split descriptor → restore orchestration: VERIFIED STATICALLY;
+- split state/version integration in APK restore: VERIFIED STATICALLY;
+- dedicated split extraction helper identity: UNKNOWN / implementation-detail only.
+
+### 5. DATA format compatibility
+
+App Data restore memiliki explicit archive format discriminator i40.a.
+
+Observed supported restore branches:
+
+- format 1 → i(...);
+- formats 2/4/5 → k(...);
+- format 6 → j(...);
+- other formats → explicit Backup format not handled failure.
+
+For format 6, the archive is required to contain data; optional data_de is handled separately and restored into the DE-data target.
+
+This is a concrete artifact-format compatibility gate, distinct from Swift Backup application-version compatibility.
+
+Status: VERIFIED STATICALLY.
+
+### 6. Resource-path status
+
+The 112 previously identified Apps-like resource candidates remain open.
+
+This checkpoint does not promote them to reachable or unused merely because metadata/version coverage improved.
+
+Current status remains:
+
+UNKNOWN / NEEDS RESOURCE-PATH AUDIT
+
+Next resource pass must trace candidates through:
+
+- generated/shared/base classes;
+- menu/navigation/theme references;
+- dynamic resource lookup;
+- indirect XML inflation/reference chains.
+
+### Status
+
+Metadata SB-version compatibility gate: VERIFIED STATICALLY.
+CloudMetadata Firebase version normalization: VERIFIED STATICALLY.
+Explicit historical metadata schema migration engine: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
+Split metadata → cloud descriptor → restore: VERIFIED STATICALLY.
+Split dedicated helper identity: UNKNOWN / implementation-detail only.
+DATA archive format compatibility: VERIFIED STATICALLY.
+Resource semantic closure: BELUM SELESAI.
+112 uncovered Apps-like candidates: UNKNOWN / NEEDS RESOURCE-PATH AUDIT.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Fokus berikutnya adalah resource-path closure 112 candidates dengan evidence dari generated/shared/base classes, XML/menu/theme/dynamic lookup; setelah itu lakukan final 45-class/task/data/model/UI reconciliation. Architecture freeze tetap ditahan sampai reconciliation tersebut memiliki evidence yang cukup.
