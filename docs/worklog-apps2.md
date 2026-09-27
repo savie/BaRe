@@ -1214,3 +1214,46 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: labels data lifecycle + custom configurations + quick-action execution graph, then reassess remaining Apps surface before any closing decision.
+## Audit Checkpoint 19 — Labels / Custom Configurations / Quick Action Execution
+
+Labels:
+- `LabelsData` = label definitions + labelled-app map;
+- `LabelParams` mendukung user labels dan built-in/synthetic label IDs;
+- `LabelledApp` menyimpan package/name/labelIds;
+- load cloud `labelsData` → `lr4`, fallback ke local serialized cache saat offline;
+- save melakukan cleanup/filter, update in-memory state, persist local cache, lalu write Firebase `labelsData`;
+- delete label menghapus ID dari affected `LabelledApp`, persist, dan refresh affected apps;
+- batch Set/Add/Clear memiliki semantic berbeda.
+
+Custom configurations:
+- `Config` = version/id/name/ordered `ConfigSettings`/update date;
+- `ConfigSettings` memuat app parts, locations, sync option, backup limits, archive, multiple-backup strategy, restore permission settings, compression/cache/force-redo/enabled, dan ApplyData/labels;
+- `Config.getValidSettings()` memfilter invalid settings;
+- `br1` menjadi config repository dengan cloud/local cache lifecycle;
+- duplicate config name ditolak jika ID berbeda;
+- save/update memvalidasi, update timestamp, mutate ConfigsData, update repository, dan write Firebase `configs`;
+- `AppsConfigRunActivity` memvalidasi config lalu masuk ke Apps backup/restore task stack;
+- configuration bukan backup engine terpisah, melainkan reusable task-parameter layer.
+
+Quick Actions:
+- `zc6` membawa action ID + execution flags;
+- `ui0` menjadi expansion boundary ke backup/restore task parameters;
+- maintenance actions delete-uninstalled-backups dan enable/disable masuk dedicated flow;
+- pinned action IDs persist di `pinned_actions`.
+
+### Status
+
+Labels lifecycle: VERIFIED STATICALLY.
+Label assignment/removal: RECONSTRUCTED STATICALLY.
+Custom config lifecycle: RECONSTRUCTED STATICALLY.
+Config persistence: VERIFIED STATICALLY.
+Config execution boundary: RECONSTRUCTED STATICALLY.
+Quick-action expansion boundary: RECONSTRUCTED STATICALLY.
+Full quick-action option variants: BELUM SELESAI.
+Exact ConfigSettings downstream effect per field: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: detail surface + backup history + metadata/action cards, then remaining Apps task/precondition/capability collaborators. Do not close audit yet.
