@@ -1849,3 +1849,106 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut producer/consumer edges untuk permission state, SSAID, notification access, dan accessibility special-data, lalu reconcile model/data graph.
+
+## Audit Checkpoint 29 — AppSpecialDataPayload Producer / Consumer Closure
+
+Producer/consumer edges untuk permission state, SSAID, notification access, dan accessibility sudah dibongkar dari decompile.
+
+### permissionStatesCsv
+
+Backup:
+- membaca requestedPermissions + requestedPermissionsFlags;
+- menggunakan av permission/state mapping;
+- privileged path menambahkan supported special-permission states;
+- serialisasi menjadi comma-separated id:token entries;
+- dipindahkan ke AppSpecialDataPayload;
+- LocalMetadata permissionIdsCsv + permissionStatesCsv kemudian di-clear.
+
+Restore:
+- AppSpecialDataPayload menjadi sumber pertama;
+- fallback CloudMetadata/LocalMetadata;
+- parse id:token;
+- restore permission choices;
+- denied runtime states direstore bila restore mode mengizinkannya;
+- jika state snapshot tidak tersedia, fallback menggunakan permissionIdsCsv + current package permission discovery.
+
+### ntfAccessComponent
+
+Producer:
+- yo5 map;
+- cl builds package → notification component map from shell-backed notification-access state.
+
+Consumer:
+- xw.q;
+- AppSpecialDataPayload first, then CloudMetadata/LocalMetadata fallback;
+- SHIZUKU reads current state;
+- missing component is added through privileged command.
+
+### accessibilityComponent
+
+Producer:
+- o6 map;
+- el builds package → accessibility component map from shell-backed accessibility-service state.
+
+Consumer:
+- xw.q;
+- payload first, metadata fallback;
+- SHIZUKU reads current state;
+- missing component is added through privileged command.
+
+### ssaid
+
+Producer:
+- mk7/ok7 reads current-user settings_ssaid.xml under root capability;
+- validates package + SSAID;
+- stores valid value in kk7 map;
+- backup selects target package value.
+
+Consumer:
+- restore SSAID flag required;
+- root capability required;
+- payload first, metadata fallback;
+- missing value logs "restoreSsaid: No saved ssaid";
+- mk7.b / ok7.b writes matched package entry back to settings_ssaid.xml.
+
+### Unified graph
+
+Android package/system state
+→ special-data producers
+→ AppSpecialDataPayload
+→ versioned user-bound special-data file
+→ local/cloud artifact
+→ AppSpecialDataPayload.read
+→ xw restore consumers
+→ permission / SSAID / notification access / accessibility / notification policy.
+
+### Metadata reconciliation
+
+LocalMetadata still contains legacy/direct special fields but backup clears them after payload write.
+
+CloudMetadata contains legacy fields plus specialDataLink/specialDataSize. Firebase upload calls prepareForFirebaseUpload(), clearing the legacy permission/special fields while the separate special-data artifact is represented by specialDataLink/specialDataSize.
+
+Restore retains fallback reads from LocalMetadata/CloudMetadata for compatibility when payload fields are absent.
+
+### Coverage ledger delta
+
+permission state: VERIFIED STATICALLY.
+notification access: VERIFIED STATICALLY.
+accessibility: VERIFIED STATICALLY.
+SSAID: VERIFIED STATICALLY.
+Unified special-data model/data graph: VERIFIED STATICALLY.
+Cloud special-data artifact metadata relation: VERIFIED STATICALLY.
+
+### Status
+
+45-class deep semantic coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut remaining metadata/AppPart producer-consumer edges, special-data artifact cloud lifecycle, dan resource-path audit untuk 112 uncovered Apps-like candidates.
