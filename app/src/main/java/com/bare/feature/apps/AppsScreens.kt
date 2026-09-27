@@ -2,6 +2,7 @@ package com.bare.feature.apps
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -116,6 +117,23 @@ private enum class AppScope { ALL, USER, SYSTEM }
 private enum class AppSort { NAME, UPDATE }
 
 private const val APP_INVENTORY_REFRESH_INTERVAL_MS = 30_000L
+
+@Composable
+private fun rememberResolvedAppIcon(context: Context, app: AppItem?): Drawable? {
+    var icon by remember(app?.packageName, app?.icon) { mutableStateOf(app?.icon) }
+
+    LaunchedEffect(app?.packageName, app?.icon) {
+        if (icon == null) {
+            icon = withContext(Dispatchers.IO) {
+                app?.packageName?.let { packageName ->
+                    runCatching { context.packageManager.getApplicationIcon(packageName) }.getOrNull()
+                }
+            }
+        }
+    }
+
+    return icon
+}
 
 @Composable
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
@@ -907,7 +925,7 @@ fun AppLabelSelectionScreen(app: AppItem?, onBack: () -> Unit) {
                             AndroidView(
                                 factory = { android.widget.ImageView(it) },
                                 update = { imageView ->
-                                    imageView.setImageDrawable(app?.icon)
+                                    imageView.setImageDrawable(resolvedIcon)
                                     imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
                                 },
                                 modifier = Modifier.fillMaxSize()
@@ -1178,6 +1196,7 @@ fun AppDetailScreen(
     onAppsContextChange: (AppsContext) -> Unit,
 ) {
     val context = LocalContext.current
+    val resolvedIcon = rememberResolvedAppIcon(context, app)
     val encryptionPasswordStore = remember(context) { EncryptionPasswordStore(context) }
     val encryptionAdvanced = remember(context) { encryptionPasswordStore.loadStrategy() == EncryptionPasswordStrategy.ADVANCED }
     val packageName = app?.packageName
@@ -1839,7 +1858,7 @@ fun AppDetailScreen(
                                             AndroidView(
                                                 factory = { android.widget.ImageView(it) },
                                                 update = { imageView ->
-                                                    imageView.setImageDrawable(app?.icon)
+                                                    imageView.setImageDrawable(resolvedIcon)
                                                     imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
                                                 },
                                                 modifier = Modifier.fillMaxSize()
@@ -3031,6 +3050,7 @@ private fun AppMockupActionDialog(title: String, appName: String, onDismiss: () 
 @Composable
 fun AppBackupScreen(app: AppItem?, onBack: () -> Unit, onOpen: (Screen) -> Unit) {
     val context = LocalContext.current
+    val resolvedIcon = rememberResolvedAppIcon(context, app)
     val scope = rememberCoroutineScope()
     val backupBehavior = remember(context) { AppBackupBehavior(context) }
     val shareBehavior = remember(context) { AppShareBehavior(context) }
