@@ -14,7 +14,7 @@
     <string name="backups_tied_warning">Backups are linked to the BΛR☰ account used to create them. Use the same account to restore them later.</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="skip_for_now">Skip for now</string>
-    <string name="terms_notice">By continuing you agree with our &lt;a href=https://www.swiftapps.org/tos&gt;Terms of Service&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Privacy Policy&lt;/a&gt;.</string>
+    <string name="terms_notice">By continuing you agree with our &lt;a href="https://www.swiftapps.org/tos"&gt;Terms of Service&lt;/a&gt; &amp; &lt;a href="https://www.swiftapps.org/privacy-policy"&gt;Privacy Policy&lt;/a&gt;.</string>
     <string name="language">Language</string>
     <string name="bare_logger">BΛR☰Logger</string>
     <string name="restart_app">Restart app</string>
