@@ -295,6 +295,6 @@ Not frozen:
 - Audit static: SUBSTANTIAL / CHECKPOINT COMPLETE FOR ARCHITECTURE BASELINE.
 - Reconstruction map: BASELINE.
 - Architecture freeze: FROZEN WITH OPEN IMPLEMENTATION DETAILS.
-- Apps2 implementation: BELUM DIMULAI.
+- Apps2 implementation: STARTED / FIRST VERTICAL SLICE.
 - Home cutover: BELUM.
 - Legacy Apps changes: TIDAK ADA.
