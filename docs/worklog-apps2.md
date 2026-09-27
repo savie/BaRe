@@ -2,9 +2,9 @@
 
 ## Current State
 
-Status: PLANNED
+Status: ACTIVE / DISCOVERY
 
-Apps2 belum diimplementasikan.
+Apps2 belum diimplementasikan; discovery Reference sedang berlangsung.
 
 Legacy Apps tetap tidak diubah dan tetap berada di luar scope implementation Apps2.
 
@@ -97,9 +97,9 @@ Legacy Apps tidak menjadi jalur implementation Apps2.
 
 ## In Progress
 
-Belum ada implementation.
+Discovery dan rekonstruksi bagian Apps pada Swift Reference sedang berlangsung secara class-per-class.
 
-Tahap berikutnya adalah discovery dan rekonstruksi bagian Apps pada Swift Reference secara class-per-class sebelum implementation Apps2 dimulai.
+Implementation Apps2 belum dimulai.
 
 ## Verification
 
