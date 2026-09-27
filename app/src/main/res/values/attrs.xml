@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="cardBackgroundColor" format="color"/>
+    <attr name="cardStyle" format="reference"/>
+    <attr name="cardStyleNormal" format="reference"/>
+    <attr name="cardStyleStroked" format="reference"/>
+    <attr name="colorSurfaceContainer" format="color"/>
+    <attr name="colorSurfaceContainerHigh" format="color"/>
+    <attr name="colorSurfaceContainerHighest" format="color"/>
+    <attr name="colorSurfaceContainerLow" format="color"/>
+    <attr name="colorSurfaceContainerLowest" format="color"/>
     <declare-styleable name="IntroBenefitCardView">
         <attr name="introBenefitIcon" format="reference"/>
         <attr name="introBenefitIconBackgroundTint" format="color"/>
