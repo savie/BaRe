@@ -1688,3 +1688,71 @@ The archive boundary is now materially reconstructed, but the following remain u
 3. exact semantics of \`f27.Fidelity\` versus \`RootFidelity\` for every archive type;
 4. runtime verification against a real SwiftBackup 5.1.0-620 archive;
 5. device-side post-extraction verification beyond the task/result checks already observed.
+
+## Checkpoint 10B — Archive Profile / Legacy 7-Zip Extraction Details
+
+### Format 4 vs format 5
+
+The `Packer.b()` detector distinguishes legacy 7-Zip formats by archive entry names:
+
+- format 4 is the normal legacy 7-Zip classification;
+- format 5 is selected when at least one listed entry has the `compressed` suffix.
+
+Both formats use the same `Packer.a()` extraction boundary, which delegates to `nb7.a()`.
+
+### Legacy 7-Zip extraction
+
+`nb7.a()` provides concrete extraction behavior:
+
+1. validate/create destination directory;
+2. normalize the requested include/exclude entry list;
+3. open the 7-Zip archive through the legacy 7-Zip reader;
+4. pass the UTF-16LE password when supplied;
+5. enumerate archive entries;
+6. exclude requested paths;
+7. create directory entries;
+8. stream file entries into destination files;
+9. report extraction progress;
+10. close archive/channel resources.
+
+The extraction implementation therefore is not merely a metadata reader. It performs actual file materialization.
+
+### TAR restore profile mapping
+
+`z85.h()` maps `f27` to native SBA TAR extraction profiles:
+
+| `f27` | Native profile value |
+|---|---:|
+| `Basic` | 511 |
+| `Fidelity` | 468 |
+| `RootFidelity` | 384 |
+
+The native extraction call is `SbaSwiftTarNative.a(...)`.
+
+The exact semantic meaning of each native numeric profile is **not independently proven** from the Java/Kotlin source because the final interpretation occurs in the native TAR implementation. Therefore the audit records the mapping but does not assign a stronger behavioral meaning to those values.
+
+### Reference usage observed
+
+- normal DATA/DE-DATA restore through `xw` uses `RootFidelity` where privileged restore is required;
+- SBA generic extraction paths can use `Basic`;
+- `mv` downgrade-related DATA restore also explicitly constructs `RootFidelity`;
+- backup/archive paths use `Basic` and, in selected fidelity-sensitive paths, `Fidelity`.
+
+This establishes that `f27` is an actual extraction-profile contract, not a UI-only enum.
+
+### Current evidence status
+
+**VERIFIED STATICALLY:**
+
+- archive format detection;
+- ZIP/7-Zip/raw-TAR/SBA dispatch;
+- format 4/5 legacy 7-Zip extraction;
+- password forwarding to legacy 7-Zip;
+- TAR profile numeric mapping;
+- SBA native TAR extraction call boundary.
+
+**UNKNOWN / UNVERIFIED:**
+
+- exact behavioral semantics encoded by native profile values 511/468/384;
+- all native TAR edge cases;
+- runtime behavior against actual SwiftBackup-generated archives.
