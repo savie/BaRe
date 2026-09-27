@@ -211,6 +211,20 @@ jobs:
           echo "BARE_DEBUG_KEY_ALIAS=androiddebugkey" >> "$GITHUB_ENV"
           echo "BARE_DEBUG_KEY_PASSWORD=android" >> "$GITHUB_ENV"
 
+      - name: Enable KVM for Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node/kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+          sudo chmod 666 /dev/kvm
+
+      - name: Verify KVM access
+        run: |
+          test -e /dev/kvm
+          test -r /dev/kvm
+          test -w /dev/kvm
+          ls -l /dev/kvm
+
       - name: Run Apps2 runtime E2E on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
