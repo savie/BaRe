@@ -668,3 +668,37 @@ Remaining highest-risk boundary:
 - EXPANSION device-side restore semantics.
 
 Apps2 implementation tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 7 — Device Restore / Capability / Post-Restore
+
+Audit device-side restore dilanjutkan sampai `xw` / `AppRestoreTask`.
+
+Teramati:
+
+- `xw` adalah main per-app restore manager pada Reference task path.
+- Restore menolak restore package Shizuku ketika Shizuku sedang digunakan.
+- Data-only restore memerlukan app terpasang.
+- APK restore memvalidasi artifact/package state sebelum install.
+- Reference menggunakan `InstallerSourceProxy` + Android `PackageInstaller.Session`, menulis APK/split, `fsync`, commit, menunggu result, memverifikasi installer source, dan abandon session pada failure.
+- APK downgrade mempunyai policy berbeda untuk batch, bundled/system app, dan non-bundled app.
+- Data restore memerlukan installed UID dan mempunyai archive-format dispatch.
+- DATA/DE-DATA, EXPANSION, EXTDATA, dan MEDIA mempunyai restore method/boundary masing-masing.
+- EXPANSION benar-benar dipulihkan ke expansion/OBB target dan mempunyai final target/capability handling.
+- Permission/special-data/SSAID mempunyai restore path tersendiri.
+- Post-restore mencakup package/event update, temporary artifact cleanup, progress/task result, dan conditional cloud-cache cleanup.
+- Static evidence tidak membuktikan universal byte-for-byte verification untuk semua restored files; yang terbukti adalah part/task result handling dan target/package state checks.
+
+Invariant Reference yang sekarang kuat:
+
+`artifact available` ≠ `APK installed` ≠ `data restored` ≠ `app restore task successful`.
+
+Remaining audit gaps sebelum Apps2 architecture freeze:
+
+1. exact precondition/capability resolver per AppPart;
+2. complete local/cloud metadata commit/update path;
+3. concrete `mv` install request and downgrade workaround mapping;
+4. complete archive-format matrix behind `xw.k()`;
+5. runtime verification of Reference behavior.
+
+Apps2 implementation tetap BELUM DIMULAI.
