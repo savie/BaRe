@@ -834,3 +834,53 @@ Backup/restore belum menjadi fake implementation. Dependency yang belum tersedia
 - Runtime verification: BELUM.
 
 Artifact baseline: `docs/reference_apps_reconstruction_map.md`.
+
+
+## Implementation Checkpoint 1 — Apps2 First Vertical Slice Started
+
+Architecture freeze sudah diikuti implementation slice pertama.
+
+### Files baru
+
+- `app/src/main/java/com/bare/feature/apps2/domain/Apps2App.kt`
+- `app/src/main/java/com/bare/feature/apps2/data/Apps2AppDiscovery.kt`
+- `app/src/main/java/com/bare/feature/apps2/state/Apps2RepositoryState.kt`
+- `app/src/main/java/com/bare/feature/apps2/state/Apps2ListState.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/Apps2Screen.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/shell/Apps2Shell.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/list/Apps2ListScreen.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/list/Apps2AppItemAction.kt`
+
+### Slice scope yang sudah dibuat
+
+- Apps2 package boundary sendiri: `com.bare.feature.apps2`.
+- Canonical local app model awal: `Apps2App`.
+- Local installed-app discovery melalui PackageManager.
+- Repository result state: Loading / Success / Error.
+- List state: search, user/system filter, sort name/install/update, ascending/descending, selection.
+- Reference-like Apps2 header dengan identity subtitle **Swift on BaRe**.
+- Search, filter, sort, refresh actions pada Apps2 list.
+- App item dengan icon, name, package, type, selection, overflow action.
+- Concrete first-slice actions yang benar-benar mempunyai behavior: Launch, Play Store, App info.
+- Share APK dan privileged/destructive actions belum dipalsukan; action tersebut tidak ditawarkan pada slice saat capability/implementation belum tersedia.
+
+### Tidak dilakukan
+
+- Tidak menambah Apps2 state ke Legacy `Screen` enum.
+- Tidak mengubah `com.bare.feature.apps`.
+- Tidak mengubah Home cutover.
+- Tidak membuat fake backup/restore success.
+
+### Verification
+
+**UNVERIFIED / BLOCKED:** build belum dapat dijalankan pada environment saat ini karena repository remote tidak dapat di-clone dari container (network/DNS tidak tersedia).
+
+Static source review setelah write belum menggantikan build verification.
+
+### Current State
+
+Apps2 implementation: STARTED / FIRST VERTICAL SLICE.
+Apps2 runtime: UNKNOWN.
+Build: UNVERIFIED.
+Home → Apps2 integration: BELUM.
+Legacy Apps: TIDAK DIUBAH.
