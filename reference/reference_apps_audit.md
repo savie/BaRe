@@ -2660,3 +2660,180 @@ Quick-action and row-action availability depends on capability (`mp6.f()` / root
 - complete `zc6` flag semantic naming because some constructor flags are obfuscated;
 - runtime capability detection across Android/root/Shizuku environments;
 - full overflow/swipe action placement and ordering in every row state.
+## Checkpoint 19 — Labels Lifecycle / Custom Configurations / Quick Action Execution
+
+### Labels data model
+
+`LabelsData` contains two maps:
+- `labelParamsMap`: label definitions;
+- `labelledAppsMap`: package/app → label IDs.
+
+`LabelParams` supports user-defined labels plus built-in/synthetic label IDs for filter semantics, including favorite/system/user/backup-related labels.
+
+`LabelledApp` stores packageName, name, and labelIds.
+
+### Labels persistence lifecycle
+
+`lr4` is the label repository.
+
+Load path:
+
+~~~text
+Firebase `labelsData`
+  ↓
+LabelsData
+  ↓
+lr4.l()
+  ↓
+in-memory repository + observable state
+~~~
+
+When network is unavailable, `lr4.b()` falls back to the local serialized cache. Local cache is stored through `q63` and `w14`.
+
+Save/upload path:
+
+~~~text
+LabelsData mutation
+  ↓
+filter invalid/non-user entries
+  ↓
+lr4.l(labelsDataCopy)
+  ↓
+persist local cache
+  ↓
+write Firebase `labelsData` node
+~~~
+
+The inspected `bk` path performs the cleanup/filtering, updates `lr4`, schedules local persistence through `d76`, and writes the Firebase `labelsData` node through `re3.k().d("labelsData").i(...)`.
+
+Label assignment to apps is stored as `LabelledApp` entries keyed by app identity. `lr4.k()` rebuilds/updates these entries from selected `ji` + label sets, removes entries when no labels remain, refreshes both local/cloud repository app entries, and publishes an `lr4` event.
+
+Deleting a label removes that label ID from all affected `LabelledApp` records, updates `LabelsData`, persists the result, and refreshes affected apps.
+
+### Label application semantics
+
+Batch label UI has three operations:
+- Set labels — replace the selected apps' label set;
+- Add to existing labels — union/add labels;
+- Clear labels — remove labels.
+
+Add/Clear are disabled when none of the selected apps currently has labels. This is a UI guard; the underlying repository still treats an empty resulting label set as removal of the `LabelledApp` record.
+
+### Custom configuration data model
+
+`Config` contains:
+- version;
+- stable id;
+- name;
+- ordered `ConfigSettings` list;
+- update date.
+
+`ConfigSettings` contains the actual app backup/restore policy, including:
+- `ApplyData`/labels;
+- app parts;
+- backup locations;
+- sync option;
+- per-app backup limits;
+- archive-backup flag;
+- multiple-backup strategy;
+- restore permissions mode;
+- restore special permissions;
+- restore SSAID;
+- compression level;
+- cache-backup flag;
+- force-redo;
+- enabled state.
+
+`ConfigSettings` validity requires a valid `ApplyData`; `ApplyData.isValid(false)` requires at least one label ID. Invalid label IDs are logged and omitted when resolved through `getLabels()`.
+
+`Config.getValidSettings()` filters invalid settings before execution/use.
+
+### Configuration persistence
+
+`br1` is the configuration repository.
+
+Load path:
+
+~~~text
+Firebase `configs`
+  ↓
+ConfigsData
+  ↓
+br1.d()
+  ↓
+observable in-memory config state
+~~~
+
+When cloud/network is unavailable, `br1.a()` reads the local serialized config cache.
+
+Save/update path:
+
+~~~text
+Config mutation
+  ↓
+validate
+  ↓
+update timestamp
+  ↓
+ConfigsData.put()
+  ↓
+br1.d()
+  ↓
+persist/update Firebase `configs`
+~~~
+
+`br1.c(config)` rejects duplicate names (case-insensitive) when the IDs differ.
+
+`ah` case 17 validates `ConfigsData`, updates `br1`, emits repository state, and writes the Firebase `configs` node.
+
+### Configuration execution
+
+`AppsConfigRunActivity` receives `extra_config_run_item` (`k30`). It refuses to continue when the selected app set is empty.
+
+Before execution it checks `sq1.a(config, true)`. Invalid configuration produces the `invalid_config` state and aborts execution.
+
+`n30` stores the active `k30` and selected app/task properties. For an executed config, `n30.k()` creates the Apps task result wrapper (`c40`) and attaches configuration-derived task presentation through `ey7.a(config, false)`.
+
+The run surface then branches by operation:
+- `Backup` → selected app properties → backup task orchestration;
+- `Restore` → selected app properties → restore task orchestration;
+- Premium/config prerequisites are checked before execution.
+
+Configuration execution is therefore a reusable task-parameter layer above the Apps backup/restore task stack, not a separate backup implementation.
+
+### Quick Action execution boundary
+
+`zc6` carries action identity and execution flags. `ui0` is the expansion boundary used by the Apps batch/quick-action path.
+
+Backup-oriented quick actions expand through `xi0.c(...)` into backup configuration/task parameters. Restore-oriented actions expand through `xi0.a(...)` into restore configuration/task parameters.
+
+Special maintenance actions are handled directly by the Apps batch surface:
+- `ID_DELETE_BACKUPS_UNINSTALLED_APPS` → delete-backup flow;
+- `ID_ENABLE_DISABLE_APPS_APPS` → enable/disable flow.
+
+`ID_BACKUP_ALL_APPS` receives special expansion flags; cloud/local and sync behavior is carried in `zc6` flags.
+
+`yc6.g()` reads/writes pinned quick-action IDs through SharedPreferences key `pinned_actions`.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- LabelsData two-map model;
+- label local-cache/cloud load path;
+- label local + Firebase save/upload path;
+- label assignment/removal and app refresh;
+- batch Set/Add/Clear label semantics;
+- Config/ConfigSettings structure;
+- configuration validation and valid-settings filtering;
+- Config repository local/cloud lifecycle;
+- duplicate-name guard;
+- configuration execution enters the same Apps task stack;
+- quick-action expansion into backup/restore task parameters;
+- maintenance quick actions branch into dedicated flows.
+
+**UNKNOWN / UNVERIFIED:**
+- exact serialization format/version migration for LabelsData and ConfigsData beyond observed serializer boundary;
+- full `zc6` boolean flag naming/semantics;
+- every ConfigSettings field's exact downstream task effect;
+- complete Quick Action option UI for every action variant;
+- runtime behavior when cloud and local copies diverge simultaneously.
