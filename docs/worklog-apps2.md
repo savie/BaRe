@@ -311,3 +311,91 @@ Lanjutkan ke **task/capability contract** secara isolated. Fokus berikutnya:
 3. pertahankan backup/restore dan destructive actions sebagai Blocked sampai executor + verification contract tersedia;
 4. setelah contract stabil, baru hubungkan batch UI tanpa mengubah Legacy Apps;
 5. jangan melakukan Home cutover sebelum verification gate terpenuhi.
+
+
+## Implementation Checkpoint 6 — Task dan Capability Contract
+
+Boundary task/capability Apps2 sudah didefinisikan secara terisolasi.
+
+### Files baru
+
+- `app/src/main/java/com/bare/feature/apps2/capability/Apps2Capability.kt`
+- `app/src/main/java/com/bare/feature/apps2/task/Apps2Task.kt`
+- `app/src/test/java/com/bare/feature/apps2/capability/Apps2CapabilityResolverTest.kt`
+- `app/src/test/java/com/bare/feature/apps2/task/Apps2TaskPolicyTest.kt`
+
+### Capability contract
+
+Requirement capability mengikuti boundary Reference yang sudah diaudit:
+
+- APP → NONE
+- DATA → ROOT
+- EXTDATA → ROOT_OR_SHIZUKU
+- EXPANSION → ROOT_OR_SHIZUKU
+- MEDIA → NONE
+
+Resolver Apps2 menerima snapshot capability dan menghasilkan:
+
+- available / unavailable;
+- resolved access method;
+- reason.
+
+Resolver tidak melakukan probe, grant permission, atau privileged execution.
+
+### Task contract
+
+`Apps2TaskRequest` sekarang membawa:
+
+- batch action;
+- package identities;
+- selected task parts.
+
+`Apps2TaskState` mendefinisikan lifecycle:
+
+- BLOCKED
+- QUEUED
+- RUNNING
+- SUCCEEDED
+- FAILED
+- CANCELLED
+
+Task policy memetakan capability **per part**, bukan mengasumsikan seluruh backup/restore memiliki satu capability.
+
+Execution tetap **BLOCKED** karena executor, artifact, dan precondition contracts belum tersedia.
+
+### Verification
+
+**SOURCE VERIFIED:** capability/task files berada di Apps2 namespace dan tidak bergantung pada Legacy Apps execution.
+
+**TEST SOURCE ADDED:** resolver capability dan per-part capability mapping memiliki deterministic tests.
+
+**TEST EXECUTION:** UNVERIFIED.
+
+**ANDROID BUILD:** UNVERIFIED / BLOCKED.
+
+**RUNTIME:** UNKNOWN.
+
+### Current Engineering State
+
+- First vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Detail boundary: IMPLEMENTED AT SOURCE LEVEL.
+- Batch boundary: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Capability contract: IMPLEMENTED AT SOURCE LEVEL.
+- Task contract: IMPLEMENTED AT SOURCE LEVEL / EXECUTION BLOCKED.
+- Unit test source: ADDED.
+- Unit test execution: UNVERIFIED.
+- Android build: UNVERIFIED / BLOCKED.
+- Runtime: UNKNOWN.
+- Home → Apps2: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+- Backup/restore executor: BELUM DIIMPLEMENTASIKAN.
+
+## Next Action
+
+Lanjutkan ke **task precondition/artifact contract** secara isolated:
+
+1. definisikan precondition model untuk installed app, UID, APK/artifact, downgrade policy, dan capability;
+2. definisikan artifact/part boundary tanpa menyalin execution dari Legacy Apps;
+3. pertahankan task executor sebagai Blocked sampai contract tersebut lengkap;
+4. setelah contract stabil, baru siapkan verification path melalui CI;
+5. Home cutover tetap ditahan.
