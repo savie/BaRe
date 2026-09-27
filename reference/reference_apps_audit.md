@@ -2326,3 +2326,89 @@ The strongest static invariant now supported is:
 - whether any higher-level observer/event asynchronously rewrites LocalMetadata after partial local delete;
 - whether UI/history deliberately interprets stale part metadata against current artifact presence;
 - runtime behavior after process death during local delete.
+## Checkpoint 16 — Delete Observers / History Refresh / Cancellation Semantics
+
+### Delete UI path performs explicit refresh after helper completion
+
+`mk2` is the detail controller for an app. Its delete callback (`kk2` case 0) performs:
+
+~~~text
+show deleting_backup
+  ↓
+ik.a(packageName, oy7)
+  ↓
+increment local generation when local backups were selected
+  ↓
+delay 500 ms
+  ↓
+refresh controller
+  ↓
+g00.F(packageName)
+~~~
+
+`g00.F(packageName)` is therefore an explicit app-state/cache refresh request after delete. The inspected callback does not attempt to mutate a `LocalMetadata` object itself.
+
+### Repository observers consume the app event separately
+
+`kz4.onAppEvent()` handles the local app repository side:
+- if the app is marked `isUninstalledWithoutBackup`, remove it from repository state;
+- otherwise refresh the existing `ji` and replace/update the repository entry;
+- if no entry exists, query package manager and add a new app when eligible.
+
+`ua1.onAppEvent()` performs analogous cloud-side app entry refresh/removal.
+
+`w13.q(c40.class, packageName)` publishes the `oq` app event after the restore path, and the same event infrastructure is consumed by local/cloud repository observers.
+
+Therefore app list/detail consistency is achieved through explicit refresh/event invalidation rather than by assuming the delete helper mutates every in-memory model.
+
+### Backup history is reconstructed from persisted backup records
+
+`mk2` receives `AppCloudBackup` updates and local backup records through its controller flows; cloud backup lists are reconstructed by `AppCloudBackups.fetchForPackage()`, while local backup lists are refreshed through `ji.refreshBackupDetails()` / repository refresh paths.
+
+The delete UI path therefore has two layers of consistency:
+
+~~~text
+filesystem/cloud deletion
+        ↓
+delete helper result
+        ↓
+controller refresh / g00.F
+        ↓
+repository refresh/event
+        ↓
+detail/list/history reconstruction
+~~~
+
+No inspected path establishes an independent durable 'delete history record'. The visible backup history is derived from current persisted backup metadata/artifacts/cloud nodes.
+
+### Cancellation semantics differ by orchestration layer
+
+`no2.b()` is a generic task wrapper and converts a returned operation into `COMPLETE` or `CANCEL_COMPLETE` based on its cancellation flag.
+
+`jk` (multi-app delete orchestration) checks `this.c.isCancelled()` between apps and stops processing when cancellation is observed. Its own final assignment is `this.c = COMPLETE`, so cancellation state at the `jk` sub-orchestrator level is not represented by a distinct final enum in the inspected code.
+
+`xh2` cloud deletion does not expose a transactional rollback on cancellation. Its concrete cloud deletion loop can fail/retry independently and stores the exception in `jq6.b` at the task boundary.
+
+### Retry semantics are layered
+
+Cloud file deletion has two relevant retry layers:
+- connectivity/action execution loop: up to 10 attempts, with 30-second waits after the first attempt;
+- delete-file-id helper `xh2.a()`: catches failures from the batch file-id deletion call and recursively retries while `jh6.a < 5`, resulting in an additional bounded retry layer.
+
+Exact provider-side idempotency of repeated delete requests is not established by the inspected source.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- delete UI/controller explicitly refreshes app state after `ik.a()`;
+- `g00.F(packageName)` is invoked after delete;
+- local and cloud repository observers react to `oq` app events;
+- backup/history views are reconstructed from current local/cloud backup state;
+- generic task wrapper distinguishes COMPLETE and CANCEL_COMPLETE;
+- multi-app delete checks cancellation between apps;
+- cloud deletion has bounded retry layers.
+
+**UNKNOWN / UNVERIFIED:**
+- provider-side idempotency guarantees for repeated cloud deletion;
+- exact persistence semantics when cancellation occurs inside `xh2` after metadata mutation;
+- whether every UI surface refreshes immediately after every partial delete failure.
