@@ -431,3 +431,54 @@ Continue Referensi penemuan class-by-class for the unresolved collaborators and 
 7. lokal/cloud metadata models and backup history/version/part representation.
 
 Do not implement Apps2 or change Home → Apps until this penemuan boundary is sufficiently mapped and recorded.
+
+## Audit Checkpoint — Referensi Apps Inventory
+
+Status: AKTIF / AUDIT PENEMUAN
+
+Audit static/decompiled terhadap SwiftBackup 5.1.0-620 sudah dilanjutkan.
+
+Artifact audit:
+`docs/reference_apps_audit.md`
+
+Hasil teramati yang sekarang cukup kuat:
+
+- Apps Reference adalah subsystem multi-layer, bukan satu Activity/XML.
+- Cluster source Apps yang diaudit berjumlah 45 class pada kelompok appslist, appsquickactions, appinfo, detail, appconfigs, apptasks, model/app, appbackuplimits, dan appvisibility.
+- Cluster tersebut mengimpor 342 nama collaborator `defpackage.*` unik.
+- App List mempunyai LOCAL/CLOUD section, search, filter, drawer, refresh, RecyclerView, FastScroller, batch action, dan repository/state boundary.
+- Canonical app model adalah `defpackage.ji`.
+- Filter/sort surface dan persisted state sudah teridentifikasi.
+- Detail mempunyai backup history/card/chip actions untuk backup details, protect, note, sync, delete, restore, share, encryption, metadata, dan storage backup actions.
+- Backup part Reference terbukti: APP, DATA, EXTDATA, EXPANSION, MEDIA.
+- Restore path membaca `restore_special_permissions` dan `restore_ssaids` lalu meneruskan app/backup/parts ke restore orchestration.
+- Task/precondition infrastructure Reference sudah teridentifikasi.
+
+Audit belum 100% selesai.
+
+Remaining priority:
+
+1. `ji` producer/population graph.
+2. `tt → dv → kz4/ua1` full state/repository graph.
+3. filter state persistence/application graph.
+4. app item swipe/overflow action graph.
+5. DetailActivity backup/restore collaborator graph.
+6. backup task/archive/precondition graph.
+7. restore install/data/platform capability graph.
+8. local/cloud metadata/history representation.
+9. advanced Apps configuration dependencies.
+10. exact Apps2 class/resource mapping.
+
+### Clarification terhadap shell mapping lama
+
+`docs/reference_apps_shell_mapping.md` tetap dipakai sebagai evidence geometry/component Reference.
+
+Namun bagian yang mengarahkan penggunaan `AppsFilterScreen` Legacy tidak menjadi contract Apps2, karena keputusan Apps2 adalah isolated rewrite/port dan Legacy Apps bukan middleman.
+
+### Engineering State
+
+- Apps2 implementation: BELUM DIMULAI.
+- Home → Apps cutover: BELUM DIUBAH.
+- Legacy Apps: TIDAK DIUBAH.
+- Runtime parity: UNKNOWN.
+- Reference runtime verification: BELUM DILAKUKAN.
