@@ -4596,3 +4596,253 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Bongkar exact DATA/DE-DATA, MEDIA, EXPANSION, split/shared-library metadata producer-consumer pairs, lalu lanjut cloud special-data failure lifecycle dan resource-path closure.
+
+
+## Audit Checkpoint 31 — Exact DATA/DE-DATA, MEDIA, EXPANSION, Split/Shared-Library Consumers + Cloud Special-Data Lifecycle
+
+Pass ini menutup sebagian besar gap metadata yang disebut pada Checkpoint 30 dengan source evidence langsung dari decompile reference Apps.
+
+### 1. DATA / DE-DATA exact producer-consumer
+
+#### Producer
+
+Backup task `vl` memetakan AppPart DATA ke `yl`.
+
+`yl.c(...)` membentuk archive entries dari dua directory yang berbeda:
+
+- `data` → `ji.getDataDir()`;
+- `data_de` → `ji.getDeDataDir()`, hanya bila opsi device-protected data aktif dan directory tersedia.
+
+Kedua entry membawa filter cache/code_cache/lib/shared-prefs tertentu. Jadi DE-DATA bukan field metadata terpisah; ia merupakan entry kedua di dalam App Data artifact.
+
+#### LocalMetadata
+
+`LocalMetadata.updateDataDetails(...)` menyimpan:
+
+- dataSizeMirrored;
+- dataBackupSize;
+- encryption state/method/password hash;
+- dataBackupDate;
+- required Swift Backup version fields.
+
+Tidak ada `deDataBackupSize` field terpisah di LocalMetadata yang terisi oleh AppPart DATA path.
+
+#### Consumer
+
+Cloud restore metadata dibuat menjadi download descriptor oleh `mq`:
+
+- DATA → `dataLink`, `dataSize`;
+- EXT DATA → `extDataLink`, `extDataSize`;
+- MEDIA → `mediaLink`, `mediaSize`;
+- EXPANSION → `expLink`, `expSize`.
+
+Saat restore archive format, `xw` memproses App Data sebagai satu artifact:
+
+1. wajib ada entry `data`;
+2. extract `data` ke parent directory dari `ji.getDataDir()`;
+3. bila archive mempunyai `data_de`, extract entry tersebut ke parent directory dari `ji.getDeDataDir()`;
+4. masing-masing extraction memiliki progress/result state sendiri;
+5. setelah sukses, log `Restored Data` dan `Restored DE Data`.
+
+Kesimpulan: DATA dan DE-DATA mempunyai satu artifact/metadata contract, dengan dua logical archive entries dan dua restore targets.
+
+Status: VERIFIED STATICALLY.
+
+### 2. MEDIA exact producer-consumer
+
+Producer:
+
+- AppPart MEDIA → `bm`;
+- `LocalMetadata.updateMediaDetails(sizeMirrored, backupSize, encrypted, method, passwordHash, backupDate)`.
+
+Cloud manifest:
+
+- `CloudMetadata.updateMediaDetails(link, size, sizeMirrored, encrypted, method, passwordHash, backupDate)`.
+
+Cloud restore resolver:
+
+- `mq` membaca `mediaLink/mediaSize` dan membentuk download descriptor type MEDIA;
+- restore path menggunakan `ji.getMediaDir()` sebagai target;
+- `xw` memiliki explicit MEDIA restore path dan log `Unpacking Media` / `Restored Media`.
+
+Status: VERIFIED STATICALLY.
+
+### 3. EXPANSION exact producer-consumer
+
+Producer:
+
+- AppPart EXPANSION → `am`;
+- `LocalMetadata.updateExpansionDetails(sizeMirrored, backupSize, backupDate)`.
+
+Cloud manifest:
+
+- `CloudMetadata.updateExpansionDetails(link, size, sizeMirrored, backupDate)`.
+
+Cloud restore resolver:
+
+- `mq` membaca `expLink/expSize` dan membentuk download descriptor type EXPANSION;
+- restore path menggunakan expansion target derived from `ji.getExpansionDir()`;
+- `xw` mempunyai explicit EXPANSION restore path dan log `Restored Expansion`.
+
+Status: VERIFIED STATICALLY.
+
+### 4. Split APK / Shared Library metadata consumers
+
+Producer:
+
+- split APK → `LocalMetadata.updateSplitsDetails(backupSize, sizeMirrored)`;
+- shared libraries → `LocalMetadata.updateSharedLibsDetails(backupSize, sizeMirrored)`.
+
+Cloud manifest:
+
+- split APK → `CloudMetadata.updateSplitsDetails(link, size, sizeMirrored)`;
+- shared libraries → `CloudMetadata.updateSharedLibsDetails(link, size, sizeMirrored)`.
+
+Restore selection:
+
+- `mq` creates separate download descriptors for:
+  - split APKs (`splitsLink/splitsSize`);
+  - shared libraries (`sharedLibsLink/sharedLibsSize`).
+
+App restore consumes split metadata together with APK install validation/version checks. Shared-library restore has an explicit `xw` path that unpacks/decompresses the shared-library artifact and installs the resulting libraries.
+
+Status:
+- split metadata producer → cloud descriptor: VERIFIED STATICALLY;
+- shared-library metadata producer → cloud descriptor: VERIFIED STATICALLY;
+- shared-library restore consumer: VERIFIED STATICALLY;
+- split restore path: VERIFIED STATICALLY at APK restore/validation integration level; exact lower-level split extraction helper remains implementation-detail coverage, not a model-graph blocker.
+
+### 5. Cloud special-data artifact upload lifecycle
+
+Upload descriptor construction is explicit in `a00`:
+
+- SpecialData is rf8 type 8;
+- descriptor exists only when `hk.B().j()` is true;
+- upload uses the same `a00.b(...)` path as other cloud artifacts;
+- `a00.b` returns `zf8`;
+- only when `zf8.a()` is true does the caller invoke `CloudMetadata.updateSpecialDataDetails(link, size)`.
+
+Therefore the metadata link is success-gated by the artifact upload result. A failed special-data upload does not directly write a new link.
+
+Cloud metadata finalization then calls `prepareForFirebaseUpload()`, which clears legacy special-data fields but preserves `specialDataLink/specialDataSize`.
+
+Important failure-path nuance:
+
+- when no SpecialData upload descriptor exists (`mz.h == null`), the cloud metadata finalization explicitly calls `removeSpecialDataDetails()`;
+- when a descriptor exists but upload fails, the update method is not called in that upload pass. For an existing cloud metadata object, this means the previous `specialDataLink/specialDataSize` is not automatically cleared by that failure branch. This is an observed state transition from the source, not an assumption about backend behavior.
+
+Status:
+- upload descriptor → result → manifest update: VERIFIED STATICALLY;
+- explicit failure behavior in caller: VERIFIED STATICALLY;
+- backend transactional semantics after metadata write: UNKNOWN / OUTSIDE STATIC DECOMPILE EVIDENCE.
+
+### 6. Cloud special-data artifact delete lifecycle
+
+`xh2` handles cloud deletion.
+
+Observed sequence:
+
+1. resolve selected cloud backup metadata;
+2. create a mutable CloudMetadata copy;
+3. remove metadata details for selected artifact types;
+4. if no backups remain, remove special-data metadata too;
+5. if backups remain, persist the reduced CloudMetadata;
+6. if no backups remain, remove the cloud metadata reference;
+7. build cloud file-id deletion list from the original metadata links;
+8. when no backups remain, include `specialDataLink` in the deletion list;
+9. execute delete with retry logic;
+10. deletion retries can reach 10 attempts; failure is surfaced as an error.
+
+Important coupling:
+
+- SpecialData is not an independently selectable AppPart in this deletion path;
+- its metadata is cleared when the remaining artifact set becomes empty;
+- its physical cloud file link is queued for deletion only in that no-backups-remain path.
+
+Status:
+- metadata delete transition: VERIFIED STATICALLY;
+- specialDataLink physical deletion condition: VERIFIED STATICALLY;
+- retry/error handling: VERIFIED STATICALLY;
+- remote backend atomicity between metadata mutation and physical file deletion: UNKNOWN.
+
+### 7. Reconciled metadata/data graph
+
+```text
+AppPart
+  │
+  ├─ DATA
+  │   └─ yl → data + optional data_de archive entries
+  ├─ MEDIA
+  │   └─ bm
+  ├─ EXPANSION
+  │   └─ am
+  ├─ SPLITS
+  │   └─ dm
+  └─ SHARED LIBS
+      └─ cm
+        ↓
+artifact upload
+        ↓
+LocalMetadata update*
+        ↓
+CloudMetadata update* only after successful upload
+        ↓
+AppCloudBackup / CloudMetadata
+        ↓
+mq download descriptors
+        ↓
+AppRestoreTask / xw
+        ↓
+part-specific restore target
+
+SpecialData:
+AppSpecialDataPayload
+        ↓
+SpecialData rf8 type 8
+        ↓
+cloud upload
+        ↓
+success-gated specialDataLink/specialDataSize
+        ↓
+CloudMetadata manifest
+        ↓
+mq special-data download descriptor
+        ↓
+AppRestoreTask special-data consumers
+```
+
+`LocalMetadata` and `CloudMetadata` therefore have distinct but connected roles:
+
+- LocalMetadata = local artifact result/backup state;
+- CloudMetadata = remote manifest/index;
+- AppCloudBackup = cloud backup identity + metadata source for restore;
+- AppSpecialDataPayload = special-data content model;
+- `specialDataLink/specialDataSize` = remote artifact locator/size, not payload contents.
+
+### 8. Resource-path audit status
+
+The previously identified 112 uncovered Apps-like resource candidates remain **UNKNOWN / NEEDS RESOURCE-PATH AUDIT**.
+
+This checkpoint does not promote those candidates to verified usage merely because metadata/task coverage expanded. No unsupported "unused" conclusion is made.
+
+### Status
+
+DATA/DE-DATA producer/consumer: VERIFIED STATICALLY.
+MEDIA producer/consumer: VERIFIED STATICALLY.
+EXPANSION producer/consumer: VERIFIED STATICALLY.
+Split metadata/cloud descriptor: VERIFIED STATICALLY.
+Shared-library metadata/restore consumer: VERIFIED STATICALLY.
+Cloud special-data upload success gate: VERIFIED STATICALLY.
+Cloud special-data delete lifecycle: VERIFIED STATICALLY.
+Cloud backend transactional/atomic semantics: UNKNOWN.
+Resource semantic closure: BELUM SELESAI.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut metadata migration/version compatibility, exact split extraction helper coverage, dan resource-path closure untuk 112 uncovered Apps-like candidates. Setelah itu lakukan reconciliation penuh terhadap 45-class/task/data/model/UI ledger sebelum architecture freeze.
