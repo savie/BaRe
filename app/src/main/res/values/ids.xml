@@ -3,7 +3,9 @@
     <item name="intro_header" type="id"/>
     <item name="intro_logo" type="id"/>
     <item name="iv_menu" type="id"/>
+    <item name="firebase_connection_error_view" type="id"/>
     <item name="intro_activity_sign_in" type="id"/>
+    <item name="intro_activity_permissions" type="id"/>
     <item name="intro_bottom_actions" type="id"/>
     <item name="container_sign_in_actions" type="id"/>
     <item name="tv_sign_in_subtitle2" type="id"/>
@@ -12,4 +14,17 @@
     <item name="tv_privacy_policy" type="id"/>
     <item name="tv_sign_in_title" type="id"/>
     <item name="tv_sign_in_subtitle" type="id"/>
+    <item name="container_permissions" type="id"/>
+    <item name="container_storage_perm" type="id"/>
+    <item name="container_notifications_perm" type="id"/>
+    <item name="container_xiaomi_installed_apps_perm" type="id"/>
+    <item name="container_root_permissions" type="id"/>
+    <item name="btn_root_permissions" type="id"/>
+    <item name="btn_storage_perm" type="id"/>
+    <item name="btn_notifications_perm" type="id"/>
+    <item name="btn_xiaomi_installed_apps_perm" type="id"/>
+    <item name="iv_permission_icon" type="id"/>
+    <item name="tv_permission_title" type="id"/>
+    <item name="tv_permission_subtitle" type="id"/>
+    <item name="btn_permission_action" type="id"/>
 </resources>
