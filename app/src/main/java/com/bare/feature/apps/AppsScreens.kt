@@ -394,10 +394,13 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                     Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
                         val resolvedIcon = rememberResolvedAppIcon(context, app)
                         if (resolvedIcon != null) {
-                            androidx.compose.foundation.Image(
-                                bitmap = remember(resolvedIcon) { resolvedIcon.toAppImageBitmap() },
-                                contentDescription = app.name,
-                                modifier = Modifier.size(44.dp).clip(CircleShape),
+                            AndroidView(
+                                factory = { android.widget.ImageView(it) },
+                                update = { imageView ->
+                                    imageView.setImageDrawable(resolvedIcon)
+                                    imageView.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+                                },
+                                modifier = Modifier.size(44.dp),
                             )
                         } else {
                             Box(
