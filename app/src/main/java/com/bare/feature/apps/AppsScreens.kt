@@ -118,6 +118,7 @@ private enum class AppSort { NAME, UPDATE }
 fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpen: Boolean, onSearchOpenChange: (Boolean) -> Unit) {
     val context = LocalContext.current
     val inventory = remember(context) { AppInventoryBehavior(context) }
+    val refreshScope = rememberCoroutineScope()
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
@@ -131,9 +132,14 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     BackHandler(enabled = searchOpen) { onSearchOpenChange(false) }
 
     fun refreshInventory() {
-        runCatching { inventory.load() }
-            .onSuccess { apps = it; error = null }
-            .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
+        refreshScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                runCatching { inventory.load() }
+            }
+            result
+                .onSuccess { apps = it; error = null }
+                .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
+        }
     }
 
     LaunchedEffect(inventory) {
