@@ -1121,3 +1121,162 @@ Remaining highest-risk boundary:
 - preconditions and platform capability resolution;
 - metadata commit semantics;
 - complete EXPANSION device-side restore semantics.
+
+
+## Checkpoint 7 — Device Restore, Capability, and Post-Restore Verification
+
+### Per-app restore manager `xw`
+
+Static inspection resolves the main device-side restore manager as `xw` (`AppRestoreTask` logging).
+
+Observed restore gate and sequencing:
+
+1. Reject restore of the Shizuku package while Shizuku is actively used by Reference.
+2. If data-only parts are selected while the app is not installed, stop the data restore path.
+3. If restore is configured to reinstall APK/data, stop the installed app through privileged command when required.
+4. Resolve APK backup availability and compare the backup APK against the installed package metadata.
+5. Detect newer/older APK conditions and apply Reference downgrade policy.
+6. Build an install request through `mv` and wait for install result.
+7. Continue to data restore only when the package is installed/usable; otherwise record a data-restore skip/failure.
+8. Resolve installed UID before data mutation.
+9. Restore selected DATA / EXTDATA / EXPANSION / MEDIA parts through dedicated methods.
+10. Apply post-data restore operations, permission restoration, SSAID handling, and special-data restoration according to the restore request.
+11. Publish progress/result through the task callback.
+
+### APK installation boundary
+
+The Reference install path uses `InstallerSourceProxy` / Android `PackageInstaller`.
+
+Static evidence shows:
+
+- creates a `PackageInstaller.Session`;
+- sets package name, install reason, installer package metadata, package source, user-action policy, and expected size;
+- streams each APK/split artifact into the session;
+- calls `fsync` on each written stream;
+- commits the session;
+- waits up to 120 seconds for the install result;
+- interprets PackageInstaller status;
+- performs installer-source verification after a successful install;
+- abandons the session on failure.
+
+This is a stronger contract than `copy APK → assume installed`.
+
+### APK restore validation
+
+Before installation, Reference checks backup APK/artifact state against installed package state, including version code, version name, split APK presence, shared libraries, and mirrored APK size metadata.
+
+Observed policies include:
+
+- no APK backup → no APK restore;
+- older APK + batch restriction → skip downgrade;
+- older bundled/system app → skip downgrade in the observed path;
+- older non-bundled app → Reference can attempt downgrade workarounds;
+- failed APK install can still permit data restore when the app remains installed at a newer version.
+
+Invalid/empty base APK is an explicit failure condition.
+
+### DATA restore boundary
+
+Reference `xw.h()` dispatches by archive format.
+
+Observed format paths include:
+
+- format 1 → unpack archive to AppsWorkingDir, then privileged copy into actual app data and DE-data directories;
+- formats 2/4/5 → dedicated archive restore path with package-entry validation, password validation, and extraction;
+- format 6 → dedicated archive-entry restore path.
+
+After DATA restore, Reference calls a package/data state update path and records the restore progress.
+
+Data restore also requires an installed UID. Missing UID produces an explicit skip/error.
+
+### EXPANSION restore boundary
+
+Reference `xw.l()` confirms device-side EXPANSION restore.
+
+Observed behavior:
+
+- archive format 1: unpack to working directory and copy to the app expansion directory using privileged command;
+- archive format 3: prepare the expansion target and extract through the archive/root boundary;
+- archive format 6: validate archive entry against package identity and restore through the common archive extraction boundary;
+- after extraction, Reference checks the expansion directory and performs the final OBB-directory fetch/copy path when the platform capability requires it;
+- failures are surfaced as `Expansion cannot be restored (...)`.
+
+Therefore EXPANSION is a complete restore capability, not only metadata.
+
+### EXTDATA / MEDIA
+
+Dedicated restore methods exist for external data and media.
+
+Observed common characteristics:
+
+- archive type detection;
+- password validation where encrypted archive metadata requires it;
+- decompression/unpack path for older formats;
+- extraction target preparation;
+- explicit no-files/no-tar failure handling;
+- final target directory verification/preparation;
+- restore progress callbacks;
+- explicit success/failure result.
+
+### Special permissions / SSAID
+
+The restore manager reads stored permission and special-data metadata from LocalMetadata/CloudMetadata and applies permission restoration according to `yu` restore mode and request flags.
+
+Observed special-data operations include notification access and accessibility service restoration, with other special permission categories represented in the model/path.
+
+SSAID restoration has an explicit path and can report `No saved ssaid`; it is not an unconditional side effect.
+
+### Post-restore state
+
+Reference performs explicit post-restore tasks after the per-app restore loop.
+
+Static evidence includes:
+
+- permission/special-data restoration;
+- package/event updates;
+- cleanup of temporary extracted APK artifacts when required;
+- progress completion;
+- task result publication;
+- conditional cleanup of downloaded cloud cache.
+
+The inspected static path does **not** prove a universal byte-for-byte content verification of every restored data file. It proves task-level result/error handling and target/package state checks.
+
+### Engineering invariant extracted from Reference
+
+The Reference source supports the following distinction:
+
+`artifact available` ≠ `APK installed` ≠ `data restored` ≠ `app restore task successful`.
+
+The install boundary has its own PackageInstaller result; data parts have their own restore methods/result paths; the AppsTask has an outer task result.
+
+## Checkpoint 7 conclusion
+
+The highest-risk device restore boundary is now materially reconstructed:
+
+```text
+Restore Request
+    ↓
+AppsTask / xw AppRestoreTask
+    ↓
+Capability + target checks
+    ↓
+APK validation/install (PackageInstaller)
+    ↓
+DATA / DE-DATA restore
+    ↓
+EXPANSION / EXTDATA / MEDIA restore
+    ↓
+Permissions / special data / SSAID
+    ↓
+Post-restore cleanup + package state update
+    ↓
+Task result
+```
+
+Remaining audit gaps before Apps2 architecture freeze:
+
+1. exact precondition/capability resolver mapping for each AppPart;
+2. complete local/cloud metadata commit/update path after backup and restore;
+3. exact concrete `mv` install request model and downgrade workaround collaborators;
+4. complete archive-format matrix behind `xw.k()` and related extraction helpers;
+5. runtime verification of Reference behavior.
