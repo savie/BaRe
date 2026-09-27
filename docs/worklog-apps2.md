@@ -1720,3 +1720,70 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut remaining direct apptasks helper edges dan reconciliation penuh kembali terhadap task/data/model/UI graph serta resource ledger.
+
+## Audit Checkpoint 27 — Resource Surface Closure / Uncovered Resource Reconciliation
+
+Resource audit diperluas dari direct R.* refs menjadi transitive XML closure.
+
+### Hasil
+
+45 source class:
+- 167 direct R.* symbols.
+
+Transitive XML closure:
+- **243 unique logical resource symbols**.
+
+Per type:
+- string 77
+- layout 7
+- id 70
+- menu 12
+- dimen 19
+- drawable 36
+- color 6
+- font 3
+- style 10
+- integer 1
+- attr 2
+
+Reference resource tree juga menghasilkan **128 Apps-like logical resource candidates** berdasarkan naming/surface classification.
+
+Reconciliation:
+- 16 candidate sudah reachable dari direct source → XML closure;
+- **112 candidate belum reachable**.
+
+112 tersebut TIDAK dianggap unused. Statusnya **UNKNOWN / NEEDS RESOURCE-PATH AUDIT** karena bisa berada pada generated/base/shared class, menu/navigation/theme path, dynamic lookup, atau indirect resource path.
+
+### Resource audit queue
+
+Surface yang masih harus dibongkar mencakup:
+- app item/action/batch;
+- backup limits;
+- visibility diagnostics;
+- app info/swipe;
+- Apps batch/config/quick actions;
+- config edit/settings/item/notice;
+- detail/card/chip/storage;
+- labels;
+- quick actions;
+- task;
+- restore special data;
+- menu Apps/config/detail/task;
+- related icon/drawable surfaces.
+
+### Status
+
+Resource direct coverage: **VERIFIED STATICALLY**.
+Resource transitive closure: **VERIFIED STATICALLY**.
+Apps-like candidate inventory: **VERIFIED STATICALLY**.
+Resource semantic closure: **BELUM SELESAI**.
+Deep 45-class coverage: **BELUM SELESAI**.
+Collaborator semantic coverage: **BELUM SELESAI**.
+Apps2 implementation: **BELUM DIMULAI**.
+Architecture freeze: **BELUM**.
+Home cutover: **BELUM**.
+Legacy Apps: **TIDAK DIUBAH**.
+
+### Next audit
+
+Audit path untuk 112 uncovered resource candidates melalui generated/base/shared classes, menu/navigation/theme references, dynamic loading, lalu lanjut remaining direct apptasks edges.
