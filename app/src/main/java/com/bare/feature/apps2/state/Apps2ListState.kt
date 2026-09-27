@@ -22,7 +22,7 @@ class Apps2ListState {
     }
 
     fun selectAll(visibleApps: List<Apps2App>) {
-        selectedPackages = visibleApps.map { it.packageName }.toSet()
+        selectedPackages = selectedPackages + visibleApps.map { it.packageName }
     }
 
     fun clearSelection() { selectedPackages = emptySet() }
