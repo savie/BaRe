@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BaRe" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:statusBarColor">@color/bare_background</item>
+        <item name="android:navigationBarColor">@color/bare_sticky</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="colorPrimary">@color/bare_primary</item>
+        <item name="colorSurface">@color/bare_surface</item>
+    </style>
+</resources>

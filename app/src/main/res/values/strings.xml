@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BΛR☰</string>
+    <string name="signin_title">Setup your BΛR☰ account</string>
+    <string name="signin_intro_subtitle">Create your BΛR☰ account for cloud backups, Premium, and account-based encryption.</string>
+    <string name="intro_benefit_cloud_title">Cloud backups</string>
+    <string name="intro_benefit_cloud_subtitle">Connect cloud storage for backup and restore</string>
+    <string name="intro_benefit_premium_title">Premium features</string>
+    <string name="intro_benefit_premium_subtitle">Premium features are available in BΛR☰</string>
+    <string name="intro_benefit_keys_title">Encryption keys</string>
+    <string name="intro_benefit_keys_subtitle">Use account-based keys for encrypted backups</string>
+    <string name="intro_benefit_settings_title">App preferences</string>
+    <string name="intro_benefit_settings_subtitle">Sync BΛR☰ settings, schedules, app labels, app configs, etc.</string>
+    <string name="backups_tied_warning">Backups are linked to the BΛR☰ account used to create them. Use the same account to restore them later.</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="terms_notice">By continuing, you agree to the Terms of Service and Privacy Policy.</string>
+    <string name="language">Language</string>
+    <string name="bare_logger">BΛR☰Logger</string>
+    <string name="restart_app">Restart app</string>
+    <string name="language_pending">Language selection is the next implementation step.</string>
+    <string name="google_signin_pending">Google sign-in flow is the next implementation step.</string>
+    <string name="premium_title">BΛR☰ Premium</string>
+    <string name="premium_description">Premium access is available in this reconstruction. Billing and entitlement verification will be reconstructed from the reference flow.</string>
+    <string name="premium_access">Premium area is accessible</string>
+    <string name="home_title">BΛR☰</string>
+    <string name="home_subtitle">Home reconstruction is the next implementation step.</string>
+</resources>
