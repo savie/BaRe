@@ -120,6 +120,7 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
     val inventory = remember(context) { AppInventoryBehavior(context) }
     val refreshScope = rememberCoroutineScope()
     var apps by remember { mutableStateOf<List<AppItem>>(emptyList()) }
+    var isRefreshing by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var selectedMenuPackage by remember { mutableStateOf<String?>(null) }
     var scope by remember { mutableStateOf(AppScope.ALL) }
@@ -133,12 +134,14 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
 
     fun refreshInventory() {
         refreshScope.launch {
+            isRefreshing = true
             val result = withContext(Dispatchers.IO) {
                 runCatching { inventory.load() }
             }
             result
                 .onSuccess { apps = it; error = null }
                 .onFailure { error = it.message ?: context.getString(R.string.unable_to_discover_installed_apps) }
+            isRefreshing = false
         }
     }
 
@@ -340,7 +343,18 @@ fun AppsScreen(onOpen: (Screen) -> Unit, onOpenApp: (AppItem) -> Unit, searchOpe
                     }
                 }
             }
-            error != null -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
+            error != null && visibleApps.isEmpty() -> item { Text(error!!, color = MaterialTheme.colorScheme.error) }
+            visibleApps.isEmpty() && isRefreshing -> item {
+                Row(
+                    Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    CircularProgressIndicator(Modifier.size(20.dp))
+                    Spacer(Modifier.width(10.dp))
+                    Text(stringResource(R.string.apps_loading))
+                }
+            }
             visibleApps.isEmpty() -> item { Text(stringResource(R.string.no_visible_installed_apps)) }
             else -> items(visibleApps, key = { it.packageName }) { app ->
                 Card(Modifier.fillMaxWidth().clickable { onOpenApp(app) }) {
