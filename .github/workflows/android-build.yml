@@ -152,4 +152,83 @@ jobs:
           path: ${{ env.BARE_VERSIONED_APK_PATH }}
           if-no-files-found: error
 
+
+  e2e:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      BARE_VERSION_CODE: ${{ github.run_number }}
+      BARE_EXPECTED_DEBUG_CERT_SHA256: 1BAF08DCAC7AEE98E4769795A71E3F74070FDB56B03A44C3119D273A66722391
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "8.11"
+
+      - name: Prepare and verify stable debug signing key
+        env:
+          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
+        run: |
+          if [ -z "$BARE_DEBUG_KEYSTORE_B64" ]; then
+            echo "BARE_DEBUG_KEYSTORE_B64 is required for the CI APK channel."
+            exit 1
+          fi
+          mkdir -p "$HOME/.android"
+          clean_b64="$(printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | tr -cd 'A-Za-z0-9+/')"
+          remainder=$(( ${#clean_b64} % 4 ))
+          if [ "$remainder" -eq 1 ]; then
+            echo "BARE_DEBUG_KEYSTORE_B64 has an invalid Base64 length."
+            exit 1
+          fi
+          while [ "$remainder" -ne 0 ]; do
+            clean_b64="${clean_b64}="
+            remainder=$(( ${#clean_b64} % 4 ))
+          done
+          printf '%s' "$clean_b64" | base64 --decode > "$HOME/.android/debug.keystore"
+          chmod 600 "$HOME/.android/debug.keystore"
+
+          actual_cert_sha256="$(keytool -list -v -keystore "$HOME/.android/debug.keystore" -storepass android -alias androiddebugkey | awk -F': ' '/SHA256:/{print $2}' | tr -d ':' | tr '[:lower:]' '[:upper:]')"
+          if [ "$actual_cert_sha256" != "$BARE_EXPECTED_DEBUG_CERT_SHA256" ]; then
+            echo "Stable debug keystore certificate fingerprint mismatch."
+            echo "Expected: $BARE_EXPECTED_DEBUG_CERT_SHA256"
+            echo "Actual:   $actual_cert_sha256"
+            exit 1
+          fi
+
+          echo "BARE_DEBUG_KEYSTORE_PATH=$HOME/.android/debug.keystore" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEYSTORE_PASSWORD=android" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEY_ALIAS=androiddebugkey" >> "$GITHUB_ENV"
+          echo "BARE_DEBUG_KEY_PASSWORD=android" >> "$GITHUB_ENV"
+
+      - name: Run Apps2 runtime E2E on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: gradle :app:connectedDebugAndroidTest --no-daemon
+
+      - name: Upload Apps2 E2E reports
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BaRe-v${{ env.BARE_VERSION_NAME }}-e2e-${{ env.BARE_VERSION_CODE }}
+          path: |
+            app/build/outputs/androidTest-results
+            app/build/reports/androidTests
+          if-no-files-found: warn
+
 # CI trigger: validate current v1.0/rebaseline source after build fixes.
