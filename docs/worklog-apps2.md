@@ -1952,3 +1952,81 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut remaining metadata/AppPart producer-consumer edges, special-data artifact cloud lifecycle, dan resource-path audit untuk 112 uncovered Apps-like candidates.
+
+## Audit Checkpoint 30 — Metadata / AppPart Producer-Consumer Reconciliation
+
+Metadata/data graph diperluas setelah special-data closure.
+
+### Verified
+
+AppPart → LocalMetadata:
+- APP → updateApkDetails
+- split APKs → updateSplitsDetails
+- shared libraries → updateSharedLibsDetails
+- EXTDATA → updateExtDataDetails
+- EXPANSION → updateExpansionDetails
+- DATA/MEDIA → corresponding metadata update paths.
+
+Backup lifecycle:
+artifact writer
+→ LocalMetadata mutation
+→ special-data finalization
+→ dateBackupUpdated update when applicable
+→ metadata save.
+
+Cloud:
+AppCloudBackup
+→ CloudMetadata
+→ prepareForFirebaseUpload()
+→ legacy special fields cleared.
+
+Separate special-data artifact:
+AppSpecialDataPayload
+→ cloud upload
+→ specialDataLink/specialDataSize
+→ CloudMetadata manifest update.
+
+Restore request:
+jz
+→ canonical app + AppPart list + permission mode + special-permission flag + SSAID flag + local/cloud identity
+→ AppsTask restore orchestration.
+
+### Reconciled graph
+
+Config/UI AppPart
+→ AppsTask
+→ part-specific artifact producer/consumer
+→ artifact
+→ LocalMetadata / CloudMetadata
+→ backup identity
+→ restore resolver
+→ AppPart restore
+→ post-restore special-data/permission/SSAID.
+
+### Remaining
+
+- DATA/DE-DATA exact writer/reader;
+- MEDIA exact writer/reader;
+- EXPANSION exact writer/reader;
+- split/shared-library restore consumers;
+- cloud special-data artifact failure lifecycle;
+- metadata migration/version compatibility;
+- 112 uncovered resource candidates.
+
+### Status
+
+AppPart metadata routing: VERIFIED STATICALLY.
+LocalMetadata transition: VERIFIED STATICALLY.
+CloudMetadata manifest relation: VERIFIED STATICALLY.
+AppCloudBackup identity relation: VERIFIED STATICALLY.
+45-class deep coverage: BELUM SELESAI.
+Collaborator coverage: BELUM SELESAI.
+Resource coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Exact DATA/DE-DATA, MEDIA, EXPANSION, split/shared-library metadata producer-consumer edges, cloud special-data failure lifecycle, dan resource-path closure.
