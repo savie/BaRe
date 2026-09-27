@@ -789,3 +789,32 @@ Architecture freeze: BELUM.
 Apps2 implementation: BELUM DIMULAI.
 Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
+
+## Audit Checkpoint 10 — Apps Preconditions / Installer / Metadata Clarification
+
+Audit dilanjutkan langsung dari raw decompile Reference SwiftBackup 5.1.0-620.
+
+### Koreksi evidence
+
+- `PreconditionsActivity` tidak boleh dipakai sebagai Apps restore precondition contract. Request code yang terinspeksi terkait SMS/call-log permission dan dipakai oleh Messages/Calls/Quick Actions/scheduling.
+- Apps restore preconditions yang relevan ditemukan langsung di `xw` + `nm6` + `iu` + `sk0`.
+- Concrete installer request bukan `mv`; model request teridentifikasi sebagai `fd4` dengan item APK `ad4`.
+- `mv` diposisikan sebagai AppRestoreHelper/downgrade-workaround collaborator.
+
+### Evidence baru
+
+- Apps restore: installed-target check, backup existence, per-part change/size check, installed UID requirement untuk DATA, blacklist suppression, dan downgrade continuation condition.
+- PackageInstaller request: installer package, target package, APK name/path/length, SessionParams policy, fsync, commit, 120-second result wait, installer-source verification, dan abandon pada failure.
+- LocalMetadata: persistence boundary melalui `cu`, termasuk backup save, protection update, dan note update.
+- CloudMetadata: artifact detail update lalu cloud metadata upload/update pada AppUploadTask.
+- Restore metadata rewrite setelah successful restore masih NOT EVIDENCED.
+
+### Status
+
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+Reference runtime verification: BELUM.
+
+Audit berikutnya diprioritaskan ke archive/extraction matrix dan restore execution collaborators karena masih menjadi high-risk boundary.
