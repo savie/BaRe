@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing_low">4dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_medium_more">12dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_normal_more">20dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_largest2">72dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="title">16sp</dimen>
+    <dimen name="title_largest">20sp</dimen>
+    <dimen name="subtitle">14sp</dimen>
+    <dimen name="subtitle_large">15sp</dimen>
+    <dimen name="subtitle_small">13sp</dimen>
+    <dimen name="subtitle_smallest">11sp</dimen>
+</resources>
