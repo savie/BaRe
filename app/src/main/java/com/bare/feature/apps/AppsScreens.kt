@@ -854,6 +854,7 @@ fun AppLabelsScreen(onBack: () -> Unit) {
 @Composable
 fun AppLabelSelectionScreen(app: AppItem?, onBack: () -> Unit) {
     val context = LocalContext.current
+    val resolvedIcon = rememberResolvedAppIcon(context, app)
     val store = remember(context) { AppOrganizationBehavior(context) }
     val inventory = remember(context) { AppInventoryBehavior(context) }
     val packageName = app?.packageName
