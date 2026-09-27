@@ -1,36 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:background="@color/surface_container" android:clipChildren="false" android:clipToPadding="false"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-    <ScrollView android:paddingTop="@dimen/spacing_normal" android:scrollbars="none" android:fadingEdgeLength="48dp" android:requiresFadingEdge="vertical"
-        android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+    android:orientation="vertical"
+    android:background="?attr/colorSurfaceContainer"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:paddingTop="@dimen/spacing_normal"
+        android:scrollbars="none"
+        android:fadingEdgeLength="48dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:requiresFadingEdge="vertical"
         android:paddingHorizontal="@dimen/spacing_normal_more">
-        <LinearLayout android:orientation="vertical" android:paddingBottom="@dimen/spacing_normal_more" android:clipChildren="false" android:clipToPadding="false"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/intro_header" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_normal">
-                <TextView android:id="@id/intro_logo" android:layout_width="40dp" android:layout_height="40dp" android:gravity="center" android:text="BΛ" android:textSize="17sp" android:textStyle="bold"
-                    android:textColor="#FFFFFFFF" android:background="@drawable/bg_bare_logo" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
-                <ImageView android:id="@id/iv_menu" android:background="?attr/selectableItemBackgroundBorderless" android:padding="12dp" android:layout_width="48dp" android:layout_height="48dp"
-                    android:src="@drawable/ic_dots_vertical" app:tint="@color/on_surface_variant" android:layout_marginEnd="-4dp"
-                    app:layout_constraintBottom_toBottomOf="@id/intro_logo" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/intro_logo"/>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_normal_more"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/intro_header"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_normal">
+                <ImageView
+                    android:id="@+id/intro_logo"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_splash"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView
+                    android:id="@+id/iv_menu"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_dots_vertical"
+                    android:layout_marginEnd="-4dp"
+                    android:tintMode="src_in"
+                    app:layout_constraintBottom_toBottomOf="@+id/intro_logo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/intro_logo"
+                    app:tint="?android:attr/textColorSecondary"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <include android:id="@id/intro_activity_sign_in" layout="@layout/intro_activity_sign_in" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        </LinearLayout>
+            <include
+                android:id="@+id/intro_activity_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/intro_activity_sign_in"/>
+            <include
+                android:id="@+id/intro_activity_permissions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/intro_activity_permissions"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
-    <LinearLayout android:id="@id/intro_bottom_actions" android:orientation="vertical" android:background="@drawable/intro_sticky_bottom_background" android:backgroundTint="@color/card_background"
-        android:paddingTop="@dimen/spacing_normal_more" android:paddingBottom="@dimen/activity_vertical_margin" android:paddingHorizontal="@dimen/spacing_large"
-        android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content">
-        <LinearLayout android:id="@id/container_sign_in_actions" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView android:id="@id/tv_sign_in_subtitle2" style="@style/Subtitle" android:textSize="@dimen/subtitle_smallest" android:gravity="center"
-                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/spacing_medium" android:text="@string/backups_tied_warning"/>
-            <com.google.android.material.button.MaterialButton android:id="@id/btn_google" android:layout_width="match_parent" android:layout_height="56dp" android:minHeight="56dp"
-                android:text="@string/common_signin_button_text_long" android:layout_marginTop="@dimen/spacing_medium" style="@style/GoogleSignInButton"/>
-            <com.google.android.material.button.MaterialButton android:id="@id/btn_anonymous" android:layout_width="match_parent" android:layout_height="48dp" android:minHeight="48dp"
-                android:text="@string/skip_for_now" android:textColor="@color/on_surface_variant" android:backgroundTint="@color/trans" android:fontFamily="sans-serif-medium"
-                app:icon="@drawable/ic_arrow_forward" app:iconGravity="textEnd" app:iconPadding="@dimen/spacing_medium" app:iconSize="20dp" app:iconTint="@color/on_surface_variant"
-                style="@style/Widget.Material3.Button.TextButton"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/intro_bottom_actions"
+        android:background="@drawable/intro_sticky_bottom_background"
+        android:paddingTop="@dimen/spacing_normal_more"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:paddingHorizontal="@dimen/spacing_large">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/container_sign_in_actions"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="@dimen/subtitle_smallest"
+                android:textColor="?android:attr/textColorSecondary"
+                android:gravity="center"
+                android:id="@+id/tv_sign_in_subtitle2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_medium"
+                android:text="@string/backups_tied_warning"
+                android:lineSpacingExtra="2dp"
+                style="@style/Subtitle"/>
+            <include
+                android:id="@+id/btn_google"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="@dimen/spacing_medium"
+                layout="@layout/google_sign_in_button"/>
+            <include
+                android:id="@+id/btn_anonymous"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                layout="@layout/intro_skip_sign_in_button"/>
         </LinearLayout>
-        <TextView android:id="@id/tv_privacy_policy" style="@style/Subtitle" android:textSize="@dimen/subtitle_smallest" android:gravity="center"
-            android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:text="@string/tos_privacy_agreement"/>
+        <TextView
+            android:textSize="@dimen/subtitle_smallest"
+            android:textColor="?android:attr/textColorSecondary"
+            android:gravity="center"
+            android:id="@+id/tv_privacy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/tos_privacy_agreement"
+            android:lineSpacingExtra="2dp"
+            style="@style/Subtitle"/>
     </LinearLayout>
 </LinearLayout>
