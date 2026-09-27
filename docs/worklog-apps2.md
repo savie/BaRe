@@ -915,3 +915,53 @@ Apps2 implementation: BELUM DIMULAI.
 Architecture freeze: BELUM.
 Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
+## Audit Checkpoint 12 — Metadata Lifecycle / Delete / Cloud Sync
+
+Audit dilanjutkan ke `cu`, `hk`, `LocalMetadata`, `AppCloudBackups`, `AppUploadTask (c40)`, `AppBackupDeleteHelper (ik)`, serta update note/protection.
+
+### Hasil
+
+LocalMetadata:
+- versioned format `v1:::...`;
+- user identity validation;
+- metadata version validation;
+- max file size validation 102400 bytes;
+- explicit write boundary `cu.f()`;
+- artifact-level mutation lalu final metadata save.
+
+Backup update:
+- APK/splits/shared libs/EXTDATA/EXPANSION meng-update metadata setelah artifact operation;
+- special-data/permission fields difinalisasi sebelum final save;
+- existing-backup update memperbarui `dateBackupUpdated`.
+
+Cloud:
+- AppUploadTask merge local state ke CloudMetadata;
+- `prepareForFirebaseUpload()` lalu `cf3.c(...)`;
+- cloud index dibaca ulang melalui `AppCloudBackups.fetchForPackage()`;
+- invalid cloud metadata tidak dimasukkan ke `AppCloudBackups`;
+- list diurutkan berdasarkan `dateBackedUpOrUpdated` descending.
+
+Retention/delete:
+- protected cloud backups dikeluarkan dari normal retention deletion;
+- normal backups melewati `MultipleBackupStrategy` retention count;
+- selected cloud backups dikirim ke `AppBackupDeleteHelper`;
+- local package directory baru dihapus setelah tidak ada local backup tersisa.
+
+Note/protection:
+- local → mutate LocalMetadata → `cu.f()`;
+- cloud → mutate CloudMetadata → `cf3.c(appId, backupId, metadata)`;
+- kedua persistence boundary terpisah.
+
+### Status
+
+Metadata lifecycle: RECONSTRUCTED STATICALLY.
+Cloud index/retention: RECONSTRUCTED STATICALLY.
+Delete orchestration: RECONSTRUCTED STATICALLY.
+Atomicity/process-death recovery: UNKNOWN.
+Cloud provider transaction semantics: UNKNOWN.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit tetap mengikuti dependency path: restore result/state reconciliation → cloud/local delete edge cases → task failure/recovery semantics → remaining Apps collaborators.
