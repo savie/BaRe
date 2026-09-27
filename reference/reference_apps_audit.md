@@ -5241,3 +5241,95 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Selesaikan candidate-resource remainder yang belum terinspeksi, lalu pindah ke final 45-class/task/data/model/UI reconciliation ledger. Architecture freeze tetap ditahan sampai ledger tersebut mempunyai evidence producer/consumer yang cukup.
+
+
+## Audit Checkpoint 35 — Remaining Candidate Resource Parent/Include Closure
+
+Pass ini melakukan inspeksi langsung terhadap resource XML reference yang masih berada di queue dari Checkpoint 34. Evidence diambil dari full decompiled resource tree yang tersedia.
+
+### 1. Direct parent/include closure
+
+Inspected candidates berikut memiliki parent layout yang konkret:
+
+- app_backup_limits_edittext → app_backup_limits_item → app_backup_limits_activity;
+- app_swipe_preview_content → app_swipe_actions_fragment;
+- app_visibility_diagnostics_activity → appbar;
+- appbar_with_filters → app_list_activity / apps_config_run_activity / apps_batch_activity;
+- config_notice_view → config_edit_activity;
+- config_settings_view → config_settings_activity / config_edit_item;
+- delete_app_backups_dialog_switch_item → delete_app_backups_dialog;
+- detail_card_app_backup → detail_activity;
+- detail_card_app_info → detail_activity;
+- detail_card_app_storage → detail_card_app_info;
+- detail_card_storage_loading → detail_card_app_storage;
+- folder_backup_card_item → folder_detail_backup_card;
+- folder_detail_backup_card → folder_detail_activity;
+- folder_detail_card_loading_view → folder_detail_info_card;
+- folder_detail_info_card → folder_detail_activity;
+- folder_restore_location_item → folder_restore_dialog;
+- folder_strategy_item → folder_backup_dialog / folder_restore_dialog;
+- home_appbar → home_activity;
+- label_edit_apps_view / label_edit_color_view → label_edit_activity;
+- multiple_backups_strategy_item → multiple_backups_strategy_activity;
+- quick_action_card → dash_fragment / apps_quick_actions_fragment;
+- task_activity_top → task_activity.
+
+Untuk appbar, scan menemukan consumer layout yang luas, termasuk detail/config/folder/Apps/settings surfaces.
+
+Status: **VERIFIED STATICALLY** untuk parent/include edges yang diinspeksi.
+
+### 2. Internal XML reference closure
+
+Beberapa candidate juga membawa resource dependency internal yang sebelumnya tidak terlihat pada direct Java graph, misalnya:
+
+- app_backup_limits_edittext → ic_disk + M3TilFilledDense;
+- app_swipe_preview_content → ic_app + swipe_preview_skeleton_line;
+- detail_card_app_backup → error_layout + note_view + restore-related resources;
+- detail_card_app_info → detail_card_app_storage;
+- detail_card_app_storage → detail_card_storage_loading;
+- folder_detail_backup_card → folder_backup_card_item;
+- folder_detail_info_card → folder_detail_card_loading_view;
+- home_appbar → ic_search + premium_logo_background;
+- quick_action_card → ic_app_tinted.
+
+Status: **VERIFIED STATICALLY** dari XML content.
+
+### 3. Resource graph consequence
+
+Resource reachability sekarang memiliki tiga evidence classes yang konsisten:
+
+1. direct Java R.* reference;
+2. XML parent/include/reference;
+3. generated/decompiled binding or manifest/smali runtime boundary.
+
+Karena itu candidate yang tidak mempunyai direct Java R.* tetapi mempunyai XML parent/include path tidak lagi berada pada kategori UNKNOWN.
+
+### 4. Boundary yang masih dipertahankan
+
+Pass ini tidak menyatakan seluruh 112 candidate selesai. Angka 112 tetap historical audit queue dari Checkpoint 27; beberapa sudah resolved di Checkpoint 33–35 dan queue belum direduksi menjadi angka baru secara formal.
+
+Masih diperlukan final inventory reconciliation untuk memastikan tidak ada candidate yang terlewat dan untuk membedakan:
+
+- reachable;
+- transitively reachable;
+- runtime-only;
+- dynamically resolved;
+- genuinely unreferenced;
+- unknown karena evidence boundary.
+
+### Status
+
+Remaining candidates inspected in this pass: **VERIFIED STATICALLY**.
+XML parent/include closure for inspected candidates: **VERIFIED STATICALLY**.
+Internal XML dependencies for inspected candidates: **VERIFIED STATICALLY**.
+All-112 formal inventory reconciliation: **BELUM SELESAI**.
+Deep 45-class/task/data/model/UI reconciliation: **BELUM SELESAI**.
+Collaborator semantic coverage: **BELUM SELESAI**.
+Apps2 implementation: **BELUM DIMULAI**.
+Architecture freeze: **BELUM**.
+Home cutover: **BELUM**.
+Legacy Apps: **TIDAK DIUBAH**.
+
+### Next audit
+
+Resource pass berikutnya harus berupa **formal inventory reconciliation** terhadap candidate list, bukan lagi filename-by-filename discovery. Setelah inventory ditutup, lanjut ke final 45-class/task/data/model/UI producer-consumer ledger.
