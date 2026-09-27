@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="surface_container">#FF211F26</color>
+    <color name="card_background">#FF2B2930</color>
+    <color name="on_surface">#FFE6E0E9</color>
+    <color name="on_surface_variant">#FFCAC4D0</color>
+    <color name="primary">#FFD0BCFF</color>
+    <color name="apps">#FF03A9F4</color>
+    <color name="blu10">#1A4285F4</color>
+    <color name="ambr20">#33FFA000</color>
+    <color name="ppl">#FFA142F4</color>
+    <color name="ppl30">#4DA142F4</color>
+    <color name="grn">#FF4CAF50</color>
+    <color name="grn10">#1A4CAF50</color>
+    <color name="trans">#00000000</color>
+    <color name="google_sign_in_button_background">#124285F4</color>
+    <color name="google_sign_in_button_ripple">#334285F4</color>
+    <color name="google_sign_in_button_stroke">#994285F4</color>
+    <color name="google_sign_in_button_text">#FF6E83F7</color>
+</resources>
