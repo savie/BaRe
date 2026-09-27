@@ -26,8 +26,9 @@ jobs:
 
       - name: Install Android SDK 37
         run: |
-          yes | sdkmanager --licenses >/dev/null
-          sdkmanager "platforms;android-37" "build-tools;35.0.0"
+          SDKMANAGER="/usr/local/lib/android/sdk/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --licenses >/dev/null
+          "$SDKMANAGER" "platforms;android-37" "build-tools;35.0.0"
 
       - name: Build debug APK
         run: gradle :app:assembleDebug --stacktrace
