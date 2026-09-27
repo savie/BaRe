@@ -1658,3 +1658,65 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Audit bv.a(...) transport/execution semantics and remaining direct apptasks edges, then reconcile task/data/model/resource coverage again.
+
+## Audit Checkpoint 26 — Privileged Transport Boundary: bv / mp6 / ip6
+
+Transport layer yang dipakai proxy privileged sudah dibongkar sampai execution backend.
+
+### Verified
+
+bv.a:
+- mengambil APK sourceDir;
+- membentuk CLASSPATH + app_process command;
+- menjalankan target class main;
+- meng-escape argument;
+- optional su uid wrapping;
+- meneruskan command ke mp6.a.h(..., SU).
+
+mp6/ip6:
+- execution ditolak pada main thread;
+- SU path membutuhkan root state;
+- SU diarahkan ke ShellHelper.su;
+- SHIZUKU memiliki routing terpisah melalui qe7;
+- fallback shell menggunakan /system/bin/sh atau su;
+- output dinormalisasi menjadi List<String>;
+- segmentation fault memicu shell recreation/retry;
+- low-level interruption/basic execution failure menghasilkan empty result.
+
+### Reconciled execution graph
+
+Apps task
+→ task helper
+→ bv.a
+→ app_process self-class
+→ mp6.h
+→ mp6.m
+→ ip6.SU
+→ ShellHelper.su
+→ proxy main
+→ stdout result
+→ caller result parser
+→ task state/error handling
+
+Dengan ini bv.a tidak lagi menjadi UNKNOWN/opaque wrapper.
+
+### Coverage ledger delta
+
+Privileged transport: VERIFIED STATICALLY.
+Proxy invocation transport: VERIFIED STATICALLY.
+Root/SU routing: VERIFIED STATICALLY.
+Low-level shell recovery: VERIFIED STATICALLY.
+
+### Status
+
+45-class deep semantic coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut remaining direct apptasks helper edges dan reconciliation penuh kembali terhadap task/data/model/UI graph serta resource ledger.
