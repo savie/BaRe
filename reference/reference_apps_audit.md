@@ -3795,3 +3795,118 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut ke bv.a transport/execution boundary dan remaining direct apptasks edges, lalu reconcile hasilnya ke task graph + data/model graph + 45-class/resource coverage ledger.
+
+## Audit Checkpoint 26 — Privileged Transport Boundary: bv / mp6 / ip6
+
+### Scope
+
+Execution transport yang dipakai oleh InstallerSourceProxy dan NotificationPolicyProxy ditelusuri sampai command transport boundary. Tujuan pass ini adalah menghilangkan asumsi bahwa bv.a hanya wrapper command.
+
+### bv.a transport construction
+
+Verified static behavior:
+
+- mengambil ApplicationInfo.sourceDir dari SwiftApp;
+- membentuk command dengan CLASSPATH ke APK source;
+- menjalankan /system/bin/app_process /system/bin;
+- memakai --nice-name yang berasal dari helper name;
+- menjalankan target class dengan argument list;
+- argument list di-join memakai shell delimiter;
+- setiap path/command component di-quote oleh bv.b dengan single-quote escaping;
+- jika userId/root uid diberikan, command dibungkus sebagai su <uid> -c <quoted-command>;
+- execution diteruskan ke mp6.a.h(..., ip6.SU).
+
+Dengan demikian bv.a adalah privileged app-process transport boundary yang mengeksekusi class main() dari APK sendiri dalam app_process, bukan direct Java invocation.
+
+### mp6.h / mp6.m execution contract
+
+Verified:
+
+- mp6.h refuses execution on the main thread and delegates to mp6.m otherwise.
+- For ip6.SU, mp6.m requires mp6.g root state; otherwise returns an empty result.
+- Before execution, commands may pass through g00.x() path substitution/normalization.
+- ip6.SU routes to ShellHelper.su(...).
+- ip6.SHIZUKU routes to qe7.c(...) when Shizuku is available.
+- fallback path uses mp6.l(...) with /system/bin/sh or su depending on root state.
+- command output is normalized to a List<String>.
+- a segmentation-fault result triggers shell recreation/retry through ShellUtils.fastCmd.
+- interrupted/basic execution exceptions are logged and return an empty result at the low-level basic-shell boundary.
+
+### ip6 routing
+
+Current routing enum:
+
+- SH
+- SU
+- SHIZUKU
+- ANY
+
+The proxy calls in this Apps path use SU, therefore they require root state at mp6.m boundary. This is separate from the higher-level Shizuku/root gating in callers.
+
+### Consequence for task graph
+
+The direct execution chain is now:
+
+Apps task
+→ task-specific helper
+→ bv.a
+→ app_process self-class invocation
+→ mp6.h
+→ mp6.m
+→ ip6.SU
+→ ShellHelper.su
+→ target proxy main
+→ stdout result contract
+→ caller parses result
+→ task state/error handling
+
+This closes the previously open transport gap.
+
+### Cancellation / failure boundary
+
+The transport source proves:
+- main-thread invocation is refused;
+- low-level command exceptions can collapse to empty result;
+- target proxy can return explicit failure text;
+- caller must distinguish empty output from explicit success;
+- segmentation-fault handling can recreate the shell and retry once through fastCmd.
+
+Exact higher-level cancellation semantics around the caller task object are still separate and remain open where not directly visible in this chain.
+
+### Coverage impact
+
+Closed:
+
+- bv command construction;
+- root wrapping;
+- app_process invocation boundary;
+- mp6/ip6 transport routing;
+- stdout normalization;
+- low-level segmentation-fault recovery;
+- proxy invocation path for all three current bv callers.
+
+Remaining:
+
+1. caller-specific cancellation semantics;
+2. remaining direct apptasks helper edges;
+3. transitive resource dependencies;
+4. complete 45-class semantic/resource ledger reconciliation.
+
+### Status
+
+Privileged transport boundary: VERIFIED STATICALLY.
+bv.a: VERIFIED STATICALLY.
+mp6.h/m + ip6.SU routing: VERIFIED STATICALLY.
+InstallerSourceProxy transport edge: VERIFIED STATICALLY.
+NotificationPolicyProxy transport edge: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Continue remaining direct apptasks helper edges and reconcile every verified edge back into the 45-class task/data/model/UI graph and resource coverage ledger.
