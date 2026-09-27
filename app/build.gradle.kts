@@ -4,13 +4,13 @@ plugins {
 }
 android {
     namespace="com.bare"
-    compileSdk=35
+    compileSdk=37
     defaultConfig {
         applicationId="com.bare"
         minSdk=26
-        targetSdk=35
-        versionCode=1
-        versionName="1.0"
+        targetSdk=37
+        versionCode=620
+        versionName="5.1.0"
     }
     compileOptions {
         sourceCompatibility=JavaVersion.VERSION_17
