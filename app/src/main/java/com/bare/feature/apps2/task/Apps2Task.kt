@@ -3,6 +3,18 @@ package com.bare.feature.apps2.task
 import com.bare.feature.apps2.capability.Apps2CapabilityRequirement
 import com.bare.feature.apps2.ui.batch.Apps2BatchAction
 
+/**
+ * Reference-derived backup/restore parts. Capability is resolved per part,
+ * not inferred from the existence of a batch action.
+ */
+enum class Apps2TaskPart {
+    APP,
+    DATA,
+    EXTDATA,
+    EXPANSION,
+    MEDIA,
+}
+
 enum class Apps2TaskState {
     BLOCKED,
     QUEUED,
@@ -15,7 +27,7 @@ enum class Apps2TaskState {
 data class Apps2TaskRequest(
     val action: Apps2BatchAction,
     val packageNames: Set<String>,
-    val capabilityRequirement: Apps2CapabilityRequirement,
+    val parts: Set<Apps2TaskPart> = setOf(Apps2TaskPart.APP),
 )
 
 data class Apps2TaskStatus(
@@ -24,20 +36,24 @@ data class Apps2TaskStatus(
 )
 
 object Apps2TaskPolicy {
-    fun requirementFor(action: Apps2BatchAction): Apps2CapabilityRequirement =
-        when (action) {
-            Apps2BatchAction.BACKUP -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.RESTORE -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.APP_BACKUP_SETTINGS -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.UNINSTALL -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.FORCE_STOP -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.CLEAR_DATA -> Apps2CapabilityRequirement.ROOT
-            Apps2BatchAction.ENABLE_DISABLE -> Apps2CapabilityRequirement.NONE
-            Apps2BatchAction.SHARE_APK -> Apps2CapabilityRequirement.NONE
+    fun requirementForPart(part: Apps2TaskPart): Apps2CapabilityRequirement =
+        when (part) {
+            Apps2TaskPart.APP -> Apps2CapabilityRequirement.NONE
+            Apps2TaskPart.DATA -> Apps2CapabilityRequirement.ROOT
+            Apps2TaskPart.EXTDATA -> Apps2CapabilityRequirement.ROOT_OR_SHIZUKU
+            Apps2TaskPart.EXPANSION -> Apps2CapabilityRequirement.ROOT_OR_SHIZUKU
+            Apps2TaskPart.MEDIA -> Apps2CapabilityRequirement.NONE
         }
 
     /**
-     * Task execution remains blocked until an executor and artifact/precondition
+     * A batch action can span multiple parts. The executor must resolve every
+     * selected part before execution; this contract intentionally does not do so.
+     */
+    fun requirementsFor(parts: Set<Apps2TaskPart>): Map<Apps2TaskPart, Apps2CapabilityRequirement> =
+        parts.associateWith(::requirementForPart)
+
+    /**
+     * Task execution remains blocked until executor, artifact, and precondition
      * contracts are implemented.
      */
     fun initialStatus(request: Apps2TaskRequest): Apps2TaskStatus =
