@@ -52,6 +52,7 @@ fun Apps2ListScreen(
     apps: List<Apps2App>,
     state: Apps2ListState,
     onRefresh: () -> Unit,
+    onOpenDetail: (Apps2App) -> Unit,
     onBack: (() -> Unit)? = null,
 ) {
     val visibleApps = state.visibleApps(apps)
@@ -94,7 +95,10 @@ fun Apps2ListScreen(
                 Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(state.selectedPackages.size.toString() + " selected", style = MaterialTheme.typography.labelLarge)
+                Text(
+                    state.selectedPackages.size.toString() + " selected",
+                    style = MaterialTheme.typography.labelLarge,
+                )
                 Spacer(Modifier.weight(1f))
                 AssistChip(
                     onClick = { state.selectAll(visibleApps) },
@@ -105,16 +109,25 @@ fun Apps2ListScreen(
             }
         }
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
-        ) {
-            items(visibleApps, key = { it.packageName }) { app ->
-                Apps2AppListItem(
-                    app = app,
-                    selected = app.packageName in state.selectedPackages,
-                    onToggleSelection = { state.toggleSelection(app.packageName) },
-                )
+        if (visibleApps.isEmpty()) {
+            Text(
+                "No apps found",
+                modifier = Modifier.padding(24.dp),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
+            ) {
+                items(visibleApps, key = { it.packageName }) { app ->
+                    Apps2AppListItem(
+                        app = app,
+                        selected = app.packageName in state.selectedPackages,
+                        onToggleSelection = { state.toggleSelection(app.packageName) },
+                        onOpenDetail = { onOpenDetail(app) },
+                    )
+                }
             }
         }
     }
@@ -159,6 +172,7 @@ private fun Apps2AppListItem(
     app: Apps2App,
     selected: Boolean,
     onToggleSelection: () -> Unit,
+    onOpenDetail: () -> Unit,
 ) {
     var menuOpen by remember(app.packageName) { mutableStateOf(false) }
     val context = LocalContext.current
@@ -173,7 +187,11 @@ private fun Apps2AppListItem(
         ) {
             if (app.icon != null) {
                 val bitmap = remember(app.icon) {
-                    android.graphics.Bitmap.createBitmap(64, 64, android.graphics.Bitmap.Config.ARGB_8888).also { bitmap ->
+                    android.graphics.Bitmap.createBitmap(
+                        64,
+                        64,
+                        android.graphics.Bitmap.Config.ARGB_8888,
+                    ).also { bitmap ->
                         val canvas = android.graphics.Canvas(bitmap)
                         app.icon.setBounds(0, 0, canvas.width, canvas.height)
                         app.icon.draw(canvas)
@@ -206,6 +224,13 @@ private fun Apps2AppListItem(
                     Icon(Icons.Default.MoreVert, contentDescription = "App actions")
                 }
                 DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    DropdownMenuItem(
+                        text = { Text("Details") },
+                        onClick = {
+                            menuOpen = false
+                            onOpenDetail()
+                        },
+                    )
                     Apps2AppItemActions.forApp(app).forEach { action ->
                         DropdownMenuItem(
                             text = { Text(action.title) },
