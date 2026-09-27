@@ -1,228 +1,228 @@
 # Worklog Apps2
 
-## Current State
+## Kondisi Saat Ini
 
-Status: ACTIVE / DISCOVERY
+Status: AKTIF / PENEMUAN
 
-Apps2 belum diimplementasikan; discovery Reference sedang berlangsung.
+Apps2 belum diimplementasikan; penemuan Referensi sedang berlangsung.
 
-Legacy Apps tetap tidak diubah dan tetap berada di luar scope implementation Apps2.
+Legacy Apps tetap tidak diubah dan tetap berada di luar scope implementasi Apps2.
 
 Branch kerja: `v1.0/rebaseline`
 
 Baseline repository saat inisiatif ini dimulai:
 `4bc7387c04ddd9aec88603e311d6923eb7385f0e`
 
-## Current Task
+## Tugas Saat Ini
 
-Menyiapkan dan membangun subsystem Apps2 di BaRe sebagai port/rewrite bagian Apps dari Swift Reference, dengan seluruh jalur Apps baru diarahkan melalui Apps2 tanpa menjadikan implementation Apps lama sebagai dependency.
+Menyiapkan dan membangun subsystem Apps2 di BaRe sebagai port/penulisan ulang bagian Apps dari Swift Referensi, dengan seluruh jalur Apps baru diarahkan melalui Apps2 tanpa menjadikan implementasi Apps lama sebagai dependensi.
 
-## Task Scope
+## Cakupan Tugas
 
-Apps2 mencakup seluruh jalur Apps yang terbukti ada pada Reference, termasuk sesuai hasil discovery:
+Apps2 mencakup seluruh jalur Apps yang terbukti ada pada Referensi, termasuk sesuai hasil penemuan:
 
 - daftar aplikasi
 - tab/section Apps
 - pencarian
 - filter
-- sort
-- selection
+- pengurutan
+- pemilihan
 - detail aplikasi
 - backup
 - restore
-- backup history/version/parts
-- inventory
-- refresh/invalidation
-- navigation
-- state dan flow terkait Apps
+- riwayat/versi/bagian cadangan
+- inventaris
+- penyegaran/invalidation
+- navigasi
+- kondisi dan alur terkait Apps
 
-Scope final mengikuti hasil discovery terhadap Reference. Hal yang belum terbukti dari source Reference tidak boleh ditulis sebagai fact.
+Scope final mengikuti hasil penemuan terhadap Referensi. Hal yang belum terbukti dari sumber Referensi tidak boleh ditulis sebagai fakta.
 
-## Dependencies
+## Dependensi
 
-### Reference
+### Referensi
 
-Swift Reference/decompiled source menjadi sumber utama untuk merekonstruksi bagian Apps, termasuk:
+Swift Referensi/sumber hasil dekompilasi menjadi sumber utama untuk merekonstruksi bagian Apps, termasuk:
 
 - class
 - package/struktur
 - repository
 - model
-- state
+- kondisi
 - UI
-- navigation
-- flow
-- behavior
+- navigasi
+- alur
+- perilaku
 
-Apps2 akan menulis ulang struktur dan jalur tersebut ke BaRe, bukan menjadikan source Reference sebagai runtime dependency.
+Apps2 akan menulis ulang struktur dan jalur tersebut ke BaRe, bukan menjadikan sumber Referensi sebagai runtime dependensi.
 
 ### BaRe
 
-BaRe menjadi environment implementation dan sumber untuk capability yang memang berbeda atau tidak tersedia identik pada Reference, termasuk bila relevan:
+BaRe menjadi lingkungan implementasi dan sumber untuk kapabilitas yang memang berbeda atau tidak tersedia identik pada Referensi, termasuk bila relevan:
 
 - root
 - encryption
 - storage
-- backup/restore capability
-- platform integration
-- project-wide foundation
+- cadangan/pemulihan kapabilitas
+- integrasi platform
+- fondasi tingkat proyek
 
-Setiap dependency akan diverifikasi sebelum digunakan.
+Setiap dependensi akan diverifikasi sebelum digunakan.
 
-### Shared
+### Berbagi
 
-Default Apps2 adalah isolated.
+Default Apps2 adalah terisolasi.
 
-Yang dapat shared tanpa membuat coupling Apps lama adalah resource/foundation yang benar-benar global, seperti strings, theme, dan foundation UI/global resource yang memang tidak membawa Apps-specific behavior.
+Yang dapat dibagikan tanpa membuat keterikatan Apps lama adalah resumber/foundation yang benar-benar global, seperti strings, theme, dan foundation UI/global resumber yang memang tidak membawa Apps-specific perilaku.
 
-Implementation Apps-specific dari legacy Apps tidak otomatis shared.
+Implementation Apps-specific dari Apps lama tidak otomatis dibagikan.
 
-## Latest Checkpoint
+## Checkpoint Terakhir
 
-Inisiatif Apps2 disepakati sebagai subsystem baru yang terisolasi dari legacy Apps.
+Inisiatif Apps2 disepakati sebagai subsystem baru yang terisolasi dari Apps lama.
 
-Home → Apps akan menjadi entry point menuju Apps2 setelah implementation dan verification memenuhi acceptance criteria.
+Home → Apps akan menjadi titik masuk menuju Apps2 setelah implementasi dan verification memenuhi kriteria penerimaan.
 
-Legacy Apps tidak menjadi jalur implementation Apps2.
+Legacy Apps tidak menjadi jalur implementasi Apps2.
 
-## Completed
+## Selesai
 
-- Menetapkan kebutuhan subsystem Apps2 terpisah dari legacy Apps.
-- Menetapkan bahwa bagian Apps dari Swift Reference akan menjadi basis rewrite/port Apps2.
-- Menetapkan bahwa struktur/class Apps Reference dipertahankan sedekat mungkin; jika terjadi collision dengan implementation BaRe yang existing, Apps2 menggunakan class/namespace baru seperti suffix `2` sesuai kebutuhan.
-- Menetapkan bahwa shared dependency harus sangat terbatas dan tidak semua Common otomatis boleh masuk Apps2.
-- Menetapkan bahwa strings dan resource/foundation yang benar-benar global dapat tetap shared.
-- Menetapkan bahwa legacy Apps tidak boleh menjadi dependency Apps2 secara default.
+- Menetapkan kebutuhan subsystem Apps2 terpisah dari Apps lama.
+- Menetapkan bahwa bagian Apps dari Swift Referensi akan menjadi basis rewrite/port Apps2.
+- Menetapkan bahwa struktur/class Apps Referensi dipertahankan sedekat mungkin; jika terjadi collision dengan implementasi BaRe yang existing, Apps2 menggunakan class/namespace baru seperti suffix `2` sesuai kebutuhan.
+- Menetapkan bahwa dibagikan dependensi harus sangat terbatas dan tidak semua Common otomatis boleh masuk Apps2.
+- Menetapkan bahwa strings dan resumber/foundation yang benar-benar global dapat tetap dibagikan.
+- Menetapkan bahwa Apps lama tidak boleh menjadi dependensi Apps2 secara default.
 - Membuat worklog khusus Apps2 agar lifecycle ini tidak bercampur dengan `docs/worklog.md`.
 
-## In Progress
+## Sedang Berjalan
 
-Discovery dan rekonstruksi bagian Apps pada Swift Reference sedang berlangsung secara class-per-class.
+Discovery dan rekonstruksi bagian Apps pada Swift Referensi sedang berlangsung secara per kelas.
 
 Implementation Apps2 belum dimulai.
 
-## Verification
+## Verifikasi
 
-Status: PENDING
+Status: MENUNGGU
 
-Belum ada implementation atau runtime verification Apps2.
+Belum ada implementasi atau verifikasi runtime Apps2.
 
-Acceptance dan verification matrix akan ditetapkan setelah discovery Reference menghasilkan scope dan flow yang terverifikasi.
+Acceptance dan verification matrix akan ditetapkan setelah penemuan Referensi menghasilkan scope dan alur yang terverifikasi.
 
-## Blocked
+## Terblokir
 
 Tidak ada blocker teknis yang terverifikasi pada tahap planning.
 
-## Deferred
+## Ditunda
 
 - Perubahan Home → Apps ke Apps2.
 - Implementation Apps2.
-- Evaluasi final dependency backup/restore engine.
-- Cutover dari legacy Apps ke Apps2.
-- Penghapusan atau perubahan legacy Apps.
+- Evaluasi final dependensi cadangan/pemulihan engine.
+- Cutover dari Apps lama ke Apps2.
+- Penghapusan atau perubahan Apps lama.
 
-Semua item tersebut menunggu discovery, design/port, implementation, testing, dan verification yang sesuai.
+Semua item tersebut menunggu penemuan, desain/port, implementasi, pengujian, dan verification yang sesuai.
 
-## Known Limitations
+## Keterbatasan yang Diketahui
 
-- Struktur final Apps2 belum ditentukan seluruhnya karena discovery Reference belum dilakukan secara lengkap pada initiative ini.
-- Belum ada claim parity, implementation, build, runtime, atau verification.
-- Reference behavior yang belum terobservasi tetap UNKNOWN.
+- Struktur final Apps2 belum ditentukan seluruhnya karena penemuan Referensi belum dilakukan secara lengkap pada initiative ini.
+- Belum ada claim parity, implementasi, build, runtime, atau verification.
+- Referensi perilaku yang belum terobservasi tetap TIDAK DIKETAHUI.
 
-## Decisions
+## Keputusan
 
-### Apps2 sebagai rewrite/port Apps Reference
+### Apps2 sebagai rewrite/port Apps Referensi
 
-Apps2 bukan patch atau refactor lanjutan dari legacy Apps.
+Apps2 bukan patch atau refaktaor lanjutan dari Apps lama.
 
-Apps2 akan menjadi subsystem baru yang mengambil bagian Apps dari Swift Reference sebagai basis struktur, class, responsibility, flow, dan behavior, lalu menuliskannya ulang agar berjalan pada BaRe.
+Apps2 akan menjadi subsystem baru yang mengambil bagian Apps dari Swift Referensi sebagai basis struktur, class, tanggung jawab, alur, dan perilaku, lalu menuliskannya ulang agar berjalan pada BaRe.
 
-### Class dan struktur Reference dipertahankan
+### Class dan struktur Referensi dipertahankan
 
-Jika Reference memiliki class yang relevan untuk Apps, class tersebut menjadi blueprint langsung untuk Apps2.
+Jika Referensi memiliki class yang relevan untuk Apps, class tersebut menjadi blueprint langsung untuk Apps2.
 
-Jangan mengganti decomposition Reference dengan architecture baru hanya karena ingin membuat struktur sendiri.
+Jangan mengganti decomposition Referensi dengan arsitektur baru hanya karena ingin membuat struktur sendiri.
 
-Jika nama/class collision terjadi dengan BaRe atau legacy implementation, gunakan namespace/class baru seperti `*2` sesuai kebutuhan agar Apps2 tetap terisolasi.
+Jika nama/class collision terjadi dengan BaRe atau legacy implementasi, gunakan namespace/class baru seperti `*2` sesuai kebutuhan agar Apps2 tetap terisolasi.
 
-### Shared dependency dibatasi
+### Berbagi dependensi dibatasi
 
-Jangan menggunakan legacy Apps-specific implementation hanya karena sudah tersedia.
+Jangan menggunakan Apps lama-specific implementasi hanya karena sudah tersedia.
 
-Dependency hanya boleh masuk Apps2 setelah terbukti sesuai boundary dan tidak membawa coupling/behavior yang tidak diinginkan.
+Dependency hanya boleh masuk Apps2 setelah terbukti sesuai boundary dan tidak membawa keterikatan/perilaku yang tidak diinginkan.
 
 ### Entry point
 
-Target product flow:
+Target product alur:
 
 `Home → Apps → Apps2`
 
-Perubahan entry point belum dilakukan pada checkpoint ini.
+Perubahan titik masuk belum dilakukan pada checkpoint ini.
 
 ### Legacy Apps
 
-Legacy Apps dipertahankan sebagai implementation terpisah dan tidak diubah sebagai bagian dari initiative Apps2, kecuali terdapat authorization dan scope baru yang secara eksplisit membutuhkannya.
+Legacy Apps dipertahankan sebagai implementasi terpisah dan tidak diubah sebagai bagian dari initiative Apps2, kecuali terdapat authorization dan scope baru yang secara eksplisit membutuhkannya.
 
-## Next Action
+## Tindakan Berikutnya
 
-Lakukan discovery terhadap bagian Apps pada Swift Reference secara menyeluruh dan class-per-class.
+Lakukan penemuan terhadap bagian Apps pada Swift Referensi secara menyeluruh dan per kelas.
 
-Hasil discovery harus memisahkan:
+Hasil penemuan harus memisahkan:
 
-- OBSERVED
-- VERIFIED
-- INFERENCE
+- TERAMATI
+- TERVERIFIKASI
+- INFERENSI
 - ASSUMPTION
-- UNKNOWN
+- TIDAK DIKETAHUI
 
-Setelah scope dan structure Reference cukup terpetakan, lanjutkan ke design/port Apps2 sesuai dependency boundary yang telah ditetapkan.
-## Discovery Checkpoint — Reference Apps Structure
+Setelah scope dan struktur Referensi cukup terpetakan, lanjutkan ke desain/port Apps2 sesuai dependensi boundary yang telah ditetapkan.
+## Discovery Checkpoint — Referensi Apps Structure
 
-Status: ACTIVE / DISCOVERY
+Status: AKTIF / PENEMUAN
 
-Sumber discovery:
-- supplied SwiftBackup 5.1.0-620 decompiled source
+Sumber penemuan:
+- supplied SwiftBackup 5.1.0-620 sumber hasil dekompilasi
 - docs/reference_apps_shell_mapping.md
-- actual BaRe source pada branch v1.0/rebaseline
+- actual BaRe sumber pada branch v1.0/rebaseline
 
 Evidence boundary:
-- discovery ini adalah static/decompiled-source inspection;
-- runtime verification Reference belum dilakukan;
-- runtime verification Apps2 belum dilakukan;
-- Reference source menjadi blueprint/evidence, bukan runtime dependency.
+- penemuan ini adalah static/decompiled-sumber inspection;
+- verifikasi runtime Referensi belum dilakukan;
+- verifikasi runtime Apps2 belum dilakukan;
+- Referensi sumber menjadi blueprint/evidence, bukan runtime dependensi.
 
-### Reference class / responsibility map — observed
+### Referensi class / tanggung jawab map — observed
 
 #### 1. Apps shell / list
 
 - org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity
   - primary Apps list Activity;
-  - section selection melalui KEY_SECTION;
-  - local/cloud section;
+  - section pemilihan melalui KEY_SECTION;
+  - lokal/cloud section;
   - search, filter, drawer, pull-to-refresh;
   - RecyclerView + FastScroller;
   - batch-action entry;
   - quick actions, labels, custom configurations, blacklist;
   - app-backup settings dan settings;
-  - repository/view-state orchestration melalui tt, dv, dan ws.
+  - repository/view-kondisi orchestration melalui tt, dv, dan ws.
 
 - defpackage.ws
   - Apps list adapter/presenter;
   - app item binding;
   - section-index text;
   - toolbar subtitle/count;
-  - displays Name, Install Date, Update Date, Backup Date, App Size, Backup Size, Date Used berdasarkan current sort mode.
+  - displays Name, Install Date, Update Date, Backup Date, App Size, Backup Size, Date Used berdasarkan current pengurutan mode.
 
 - defpackage.tt
-  - Apps list state/controller;
-  - owns current section/search/filter result state;
+  - Apps list kondisi/controller;
+  - owns current section/search/filter result kondisi;
   - loads repository;
-  - restores persisted sync/filter state;
+  - restores persisted sync/filter kondisi;
   - dispatches list updates.
 
 - defpackage.dv
-  - repository/list state base;
-  - exposes list lookup, refresh/load, item update/remove, and state result handling.
+  - repository/list kondisi base;
+  - exposes list lookup, refresh/load, item update/remove, and kondisi result handling.
 
 - defpackage.kz4
   - local Apps repository specialization.
@@ -233,20 +233,20 @@ Evidence boundary:
 #### 2. Canonical app model
 
 - defpackage.ji
-  - central Reference app model;
+  - central Referensi app model;
   - package/name/appId, version name/code;
-  - source/data/de-data paths;
-  - split APKs and shared libraries;
+  - sumber/data/de-data paths;
+  - split APKs and dibagikan libraries;
   - install/update/backup timestamps;
   - installed/bundled/enabled/launchable/favorite/cloud flags;
   - local backups, cloud backups, labels, size information, installer package;
-  - restorable-backup state;
+  - restorable-backup kondisi;
   - external/media/expansion path and existence semantics.
 
 - defpackage.qx
   - app size model/calculation;
-  - APK, split APK, shared libs, data/de-data, external data, media, expansion, cache and aggregate size;
-  - can use privileged/root size sources depending on capability.
+  - APK, split APK, dibagikan libs, data/de-data, external data, media, expansion, cache and aggregate size;
+  - can use privileged/root size sumbers depending on kapabilitas.
 
 - defpackage.gm
   - local backup record pairing backup identity with LocalMetadata.
@@ -260,11 +260,11 @@ Evidence boundary:
   - backup metadata boundary.
 
 - org.swiftapps.swiftbackup.model.app.AppSpecialDataPayload
-  - special-data payload model exists in Reference.
+  - special-data payload model exists in Referensi.
 
-#### 3. Filter / sort contract — observed
+#### 3. Filter / pengurutan contract — observed
 
-Reference filter surface defpackage.sc3 exposes these groups:
+Referensi filter surface defpackage.sc3 exposes these groups:
 - System Apps: All / User / System.
 - Labels: All / Selected / Labelled / Not Labelled.
 - Backup: All / Backed Up / Not Backed Up.
@@ -272,7 +272,7 @@ Reference filter surface defpackage.sc3 exposes these groups:
 - Install status: All / Installed / Not Installed.
 - Sync status: All / Not Synced / Synced.
 - Enabled status: All / Enabled / Disabled.
-- Backup age/state: All, Multiple Backups, Protected Backups, Backups With Notes, Backup Old, Backup New, Installed From Google Play, Not Installed From Google Play.
+- Backup age/kondisi: All, Multiple Backups, Protected Backups, Backups With Notes, Backup Old, Backup New, Installed From Google Play, Not Installed From Google Play.
 
 Sort enum defpackage.sx:
 - Name
@@ -283,12 +283,12 @@ Sort enum defpackage.sx:
 - BackupSize
 - DateUsed
 
-defpackage.iy owns persisted sort mode/ascending state and supporting calculations for App Size, Backup Size, and Date Used.
+defpackage.iy owns persisted pengurutan mode/ascending kondisi and supporting calculations for App Size, Backup Size, and Date Used.
 
 #### 4. Selection / batch / configuration
 
-Observed Reference Activities:
-- AppsBatchActivity — multi-selection/batch Apps flow, filter/search, label selection/apply path, App backup settings access.
+Observed Referensi Activities:
+- AppsBatchActivity — multi-pemilihan/batch Apps alur, filter/search, label pemilihan/apply path, App backup settings access.
 - AppsConfigRunActivity — custom configuration execution/list path, search/list, App backup settings access.
 - AppsQuickActionsActivity — Apps quick-actions surface and App backup settings/settings entry.
 
@@ -301,7 +301,7 @@ Observed classes:
 - LabelledApp
 - LabelsData
 
-Observed responsibility includes label list/selection, create/edit/delete label, assign labels to apps, selected-label filtering, and label count/app association.
+Observed tanggung jawab includes label list/pemilihan, create/edit/delete label, assign labels to apps, selected-label filtering, and label count/app association.
 
 #### 6. App detail / backup history / restore
 
@@ -310,9 +310,9 @@ Observed responsibility includes label list/selection, create/edit/delete label,
   - app information entry surface.
 
 - org.swiftapps.swiftbackup.detail.DetailActivity
-  - canonical app detail/backup detail flow observed in source;
+  - canonical app detail/backup detail alur observed in sumber;
   - backup cards/chips;
-  - local/cloud backup distinction;
+  - lokal/cloud backup distinction;
   - protect/unprotect backup;
   - backup note;
   - sync;
@@ -323,17 +323,17 @@ Observed responsibility includes label list/selection, create/edit/delete label,
   - encryption information;
   - storage actions.
 
-- Reference app-part enum defpackage.iu contains APP, DATA, EXTDATA, EXPANSION, MEDIA.
+- Referensi app-part enum defpackage.iu contains APP, DATA, EXTDATA, EXPANSION, MEDIA.
 
-Important observed fact:
-- Reference Apps backup/restore part model includes EXPANSION in addition to APK/Data/External Data/Media.
-- Exact BaRe Apps2 support mapping for EXPANSION is still UNKNOWN and must not be inferred from current BaRe implementation.
+Important observed fakta:
+- Referensi Apps cadangan/pemulihan part model includes EXPANSION in addition to APK/Data/External Data/Media.
+- Exact BaRe Apps2 support mapping for EXPANSION is still TIDAK DIKETAHUI and must not be inferred from current BaRe implementasi.
 
-Restore action source also reads restore_special_permissions and restore_ssaids and passes the selected backup/app/parts into a restore orchestration object.
+Restore action sumber also reads restore_special_permissions and restore_ssaids and passes the selected backup/app/parts into a restore orchestration object.
 
 #### 7. Restore special-data / configuration surfaces
 
-Observed Reference component:
+Observed Referensi component:
 - RestoreSpecialDataDetailsActivity
   - special restore permissions configuration;
   - notification settings/access;
@@ -353,9 +353,9 @@ Observed setting:
 - restore_special_permissions defaults to enabled in the inspected path.
 - restore_ssaids defaults to disabled in the inspected restore path.
 
-#### 8. Backup/task infrastructure observed
+#### 8. Backup/task infrastruktur observed
 
-Reference Apps flow is not limited to UI Activities. The decompiled source also contains:
+Referensi Apps alur is not limited to UI Activities. The sumber hasil dekompilasi also contains:
 - org.swiftapps.swiftbackup.apptasks.AppsWorkingDir
 - org.swiftapps.swiftbackup.apptasks.sba.SbaAppDataRootRequestBuilder$SbaAppDataArchiveMetadata
 - org.swiftapps.swiftbackup.apptasks.sba.a
@@ -366,11 +366,11 @@ Reference Apps flow is not limited to UI Activities. The decompiled source also 
 - org.swiftapps.swiftbackup.tasks.ui.TaskActivity
 - notification/task support classes.
 
-These establish that Reference backup/restore execution is task-oriented and has explicit precondition/progress/error infrastructure.
+These establish that Referensi cadangan/pemulihan execution is task-oriented and has explicit precondition/progress/error infrastruktur.
 
-#### 9. Reference UI resource boundary — observed
+#### 9. Referensi UI resumber boundary — observed
 
-Apps-related Reference resources include:
+Apps-related Referensi resumbers include:
 - app_list_activity.xml
 - appbar_with_filters.xml
 - app_item.xml
@@ -392,42 +392,42 @@ Apps-related Reference resources include:
 - restore_special_data_detail_item.xml
 - multiple_backups_strategy_activity.xml
 - app_backup_limits_activity.xml
-- related Apps menus/action resources.
+- related Apps menus/action resumbers.
 
 ### Current Apps2 interpretation
 
-FACT / OBSERVED:
-- Reference Apps is a subsystem spanning list, state/repository, app model, filtering/sorting, selection/batch, labels, detail, backup/restore, metadata/history, special-data restore, and task infrastructure.
-- Reference uses a central ji app model and separate local/cloud backup models.
-- Reference backup part enumeration includes APP, DATA, EXTDATA, EXPANSION, MEDIA.
-- Reference list supports local/cloud sections and persisted filter/sort state.
+FACT / TERAMATI:
+- Referensi Apps is a subsystem spanning list, kondisi/repository, app model, filtering/pengurutaning, pemilihan/batch, labels, detail, cadangan/pemulihan, metadata/history, special-data restore, and task infrastruktur.
+- Referensi uses a central ji app model and separate lokal/cloud backup models.
+- Referensi backup part enumeration includes APP, DATA, EXTDATA, EXPANSION, MEDIA.
+- Referensi list supports lokal/cloud sections and persisted filter/pengurutan kondisi.
 
-INFERENCE:
+INFERENSI:
 - Apps2 needs a decomposition substantially broader than the current BaRe Apps screen-only surface.
-- A direct one-file rewrite is not consistent with the observed Reference decomposition.
+- A direct one-file rewrite is not consistent with the observed Referensi decomposition.
 
-UNKNOWN:
+TIDAK DIKETAHUI:
 - Exact class-to-class mapping for all obfuscated defpackage collaborators.
-- Complete backup/restore task class graph and exact execution semantics.
-- Full local/cloud metadata persistence implementation mapping.
-- Complete expansion backup/restore behavior.
-- Exact runtime behavior for all Reference branches/modes.
-- Visual/runtime parity of the decompiled Reference.
+- Complete cadangan/pemulihan task class graph and exact execution semantics.
+- Full lokal/cloud metadata persistence implementasi mapping.
+- Complete expansion cadangan/pemulihan perilaku.
+- Exact runtime perilaku for all Referensi branches/modes.
+- Visual/runtime parity of the decompiled Referensi.
 
-ASSUMPTION NOT AUTHORIZED:
-- Reusing legacy BaRe Apps-specific classes merely because they provide similar behavior.
-- Treating current BaRe A18 backup/restore implementation as the Apps2 architecture.
-- Treating Reference encryption implementation as a BaRe requirement.
+ASUMSI TIDAK DIOTORISASI:
+- Reusing legacy BaRe Apps-specific classes merely because they provide similar perilaku.
+- Treating current BaRe A18 cadangan/pemulihan implementasi as the Apps2 arsitektur.
+- Treating Referensi encryption implementasi as a BaRe requirement.
 
-### Next Action
+### Tindakan Berikutnya
 
-Continue Reference discovery class-by-class for the unresolved collaborators and execution graph, prioritizing:
-1. ji construction/population and its local/cloud repository producers.
-2. tt + dv + kz4 + ua1 state/repository graph.
-3. sc3 filter application path and persisted state.
+Continue Referensi penemuan class-by-class for the unresolved collaborators and execution graph, prioritizing:
+1. ji construction/population and its lokal/cloud repository producers.
+2. tt + dv + kz4 + ua1 kondisi/repository graph.
+3. sc3 filter application path and persisted kondisi.
 4. tr App item interaction/action graph.
-5. DetailActivity backup/restore orchestration collaborators.
-6. task/precondition/install/restore collaborators behind the Apps backup/restore path.
-7. local/cloud metadata models and backup history/version/part representation.
+5. DetailActivity cadangan/pemulihan orchestration collaborators.
+6. task/precondition/install/restore collaborators behind the Apps cadangan/pemulihan path.
+7. lokal/cloud metadata models and backup history/version/part representation.
 
-Do not implement Apps2 or change Home → Apps until this discovery boundary is sufficiently mapped and recorded.
+Do not implement Apps2 or change Home → Apps until this penemuan boundary is sufficiently mapped and recorded.
