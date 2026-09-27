@@ -30,7 +30,7 @@
             app:layout_constraintVertical_bias="1">
             <TextView
                 android:id="@+id/tv_benefit_title"
-                android:fontFamily="@font/main_medium"
+                android:fontFamily="sans-serif-medium"
                 style="@style/Title"/>
             <TextView
                 android:textSize="@dimen/subtitle_small"
