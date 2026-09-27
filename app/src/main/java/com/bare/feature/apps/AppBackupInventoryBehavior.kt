@@ -65,10 +65,20 @@ class AppBackupInventoryBehavior(context: Context) {
             }
         }
 
-        return result.mapValues { (_, snapshots) ->
+        val snapshot = result.mapValues { (_, snapshots) ->
             snapshots.distinctBy { Triple(it.packageName, it.versionCode, it.backupTime) }
                 .sortedByDescending { it.backupTime }
         }
+        cachedLocalInventory = snapshot
+        return snapshot
+    }
+
+    companion object {
+        @Volatile
+        private var cachedLocalInventory: Map<String, List<AppBackupSnapshot>> = emptyMap()
+
+        fun cachedLocal(packageName: String): List<AppBackupSnapshot> =
+            cachedLocalInventory[packageName].orEmpty()
     }
 
     private fun readMetadata(directory: File): AppBackupMetadata? {
