@@ -14,4 +14,5 @@
     <dimen name="subtitle_large">15sp</dimen>
     <dimen name="subtitle_small">13sp</dimen>
     <dimen name="subtitle_smallest">11sp</dimen>
+    <dimen name="title_large">20sp</dimen>
 </resources>
