@@ -1007,3 +1007,41 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: delete failure semantics + task cancellation/recovery + backup record consistency after delete.
+## Audit Checkpoint 14 — Delete Edge Cases / Cloud Consistency / Cancellation
+
+### Hasil
+
+Local delete:
+- selection dapat latest-only dan exclude protected;
+- hanya part yang dipilih yang dihapus;
+- package directory dihapus hanya setelah tidak ada local backup tersisa;
+- local metadata rewrite via `cu.f()` belum terbukti pada level `ik`/`hk`.
+
+Cloud delete:
+- `id1` diteruskan ke `xh2`;
+- `xh2` membuat copy CloudMetadata;
+- selected part details dihapus dari metadata;
+- reduced metadata dipersist lebih dulu jika masih ada backup;
+- jika tidak ada backup tersisa, metadata node dihapus;
+- setelah itu file links dikumpulkan dan physical cloud files dihapus.
+
+Physical cloud deletion memiliki retry sampai 10 kali dengan jeda 30 detik dan reconnect/access check melalui `qb1.c().a(false)`.
+
+Temuan penting: metadata cloud dapat sudah berubah/terhapus ketika physical file deletion kemudian gagal. Tidak ditemukan rollback otomatis atau orphan-file reconciliation di path yang diperiksa.
+
+Task state generic membedakan `COMPLETE` dan `CANCEL_COMPLETE`; cancellation/process death di antara metadata commit dan physical deletion belum terbukti recovery-nya.
+
+### Status
+
+Delete edge cases: RECONSTRUCTED STATICALLY.
+Cloud metadata/file ordering: VERIFIED STATICALLY.
+Cancellation boundary: RECONSTRUCTED STATICALLY.
+Local metadata lower-level reconciliation: UNKNOWN.
+Rollback/orphan recovery: UNKNOWN.
+Process-death recovery: UNKNOWN.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: lower-level local `q63` delete/metadata coupling → task cancellation/retry semantics → remaining backup/history collaborators only where dependency requires.
