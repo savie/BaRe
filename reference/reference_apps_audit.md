@@ -3225,3 +3225,122 @@ This screen therefore diagnoses Android package-visibility behavior from a raw `
 - exact shortcut refresh side effects inside `Const.x(context)`;
 - exact downstream behavior of every ConfigSettings field after `hz` construction beyond inspected consumers;
 - exact `i6.i()` implementation semantics beyond its observed raw-snapshot contract.
+
+## Audit Checkpoint 23 — Source / Collaborator / Resource Reconciliation
+
+### Scope
+
+Reconciliation dilakukan terhadap source decompile yang tersedia, source inventory 45-class Apps, collaborator imports, dan resource tree Reference. Screenshot/UI observation tidak dipakai sebagai batas surface; screenshot hanya corroboration.
+
+### 45-class source inventory
+
+Exact cluster inventory tetap:
+
+| Cluster | Source |
+|---|---:|
+| appslist | 14 |
+| appsquickactions | 1 |
+| appinfo | 1 |
+| detail | 2 |
+| appconfigs | 11 |
+| apptasks | 8 |
+| model/app | 5 |
+| settings/appbackuplimits | 2 |
+| settings/appvisibility | 1 |
+| **Total** | **45** |
+
+Seluruh 45 source file tersedia pada decompile yang diaudit. Availability ini terverifikasi secara static; availability tidak berarti seluruh semantic behavior sudah dipahami.
+
+### Collaborator inventory
+
+45 source class tersebut mengimpor **342 unique defpackage.* collaborator names**.
+
+Reconciliation terhadap decompile menunjukkan seluruh 342 nama collaborator tersebut memiliki source file pada reference/jadx/sources/defpackage/.
+
+Invariant:
+
+source file exists ≠ collaborator semantically audited.
+
+Karena itu 342/342 availability tidak boleh dicatat sebagai 342/342 deep coverage.
+
+Fan-out tinggi yang menjadi prioritas semantic audit berikutnya mencakup pe4, gv7, sz8, nc8, eq3, jz2, vr6, ph6, l90, fz5, zn4, nq7, el1, io4, xs1, dan ix0. Fan-out dipakai sebagai triage signal, bukan sebagai bukti behavior.
+
+### Resource reconciliation
+
+Reference resource tree berisi **1,580 resource files** pada reference/apktool/res/.
+
+Direct R.* references yang diekstrak dari 45 source class menghasilkan **167 unique resource symbols**, tersebar pada:
+
+- id: 58
+- string: 58
+- drawable: 17
+- dimen: 9
+- menu: 12
+- color: 3
+- font: 3
+- layout: 2
+- style: 2
+- attr: 2
+- integer: 1
+
+Selain direct references tersebut, resource tree menunjukkan Apps-related surfaces yang lebih luas, termasuk Apps List, item/action surfaces, batch, quick actions, configs, labels, detail, backup limits, visibility diagnostics, restore-special-data, multiple-backups, task surfaces, dan menu/action resources.
+
+Resource filename matching bukan semantic proof. Indirect resources, theme inheritance, generated/default Android resources, dan transitive UI dependencies masih harus direkonsiliasi berdasarkan source/resource references.
+
+### Reconciled graph
+
+Current evidence now supports this reconciliation boundary:
+
+45 source classes
+      +
+167 direct resource symbols
+      +
+342 collaborator source boundaries
+      +
+Apps-related resource surfaces
+      ↓
+coverage ledger
+      ↓
+deep semantic gaps
+      ↓
+material collaborators
+      ↓
+task/data/model/UI edge audit
+
+The reconciliation does **not** close the audit.
+
+### Current uncovered areas
+
+Masih terbuka:
+
+1. semantic audit collaborator yang tersedia tetapi belum dibongkar;
+2. indirect/transitive resource dependency;
+3. exact g00.h(packageName) stable-id algorithm;
+4. runtime Android package-visibility behavior;
+5. exact Const.x(context) shortcut refresh side effects;
+6. complete downstream effect of every ConfigSettings field after hz;
+7. complete quick-action option/flag semantics;
+8. exact task graph for every batch/config/quick-action variant;
+9. remaining restore/install/data/platform capability edges;
+10. process-death/recovery behavior yang belum memiliki runtime evidence.
+
+### Audit decision
+
+**Deep 45-class coverage: NOT COMPLETE.**
+
+**Collaborator semantic coverage: NOT COMPLETE.**
+
+**Resource semantic coverage: NOT COMPLETE.**
+
+Therefore:
+
+- Apps2 implementation remains **BELUM DIMULAI**;
+- architecture freeze remains **BELUM**;
+- Home → Apps cutover remains **BELUM**;
+- Legacy Apps remains **TIDAK DIUBAH**.
+
+Tidak ada kesimpulan "cukup" dari main-flow understanding.
+
+### Next audit
+
+Lanjut semantic audit terhadap uncovered/material collaborators, dimulai dari fan-out tinggi dan execution-boundary collaborators, lalu reconcile kembali terhadap 45-class ledger, resource surfaces, task graph, data/model graph, dan UI graph.
