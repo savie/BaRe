@@ -14,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import com.bare.feature.apps2.data.Apps2AppDiscovery
+import com.bare.feature.apps2.state.Apps2DetailState
 import com.bare.feature.apps2.state.Apps2ListState
 import com.bare.feature.apps2.state.Apps2RepositoryResult
 import com.bare.feature.apps2.state.Apps2RepositoryState
+import com.bare.feature.apps2.ui.detail.Apps2DetailScreen
 import com.bare.feature.apps2.ui.list.Apps2ListScreen
 import com.bare.feature.apps2.ui.shell.Apps2Header
 
@@ -26,6 +28,7 @@ fun Apps2Screen(onBack: (() -> Unit)? = null) {
     val discovery = remember(context) { Apps2AppDiscovery(context) }
     val repository = remember { Apps2RepositoryState() }
     val listState = remember { Apps2ListState() }
+    val detailState = remember { Apps2DetailState() }
     var reloadToken by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(discovery, reloadToken) {
@@ -38,12 +41,24 @@ fun Apps2Screen(onBack: (() -> Unit)? = null) {
     when (val result = repository.result) {
         Apps2RepositoryResult.Loading -> Apps2LoadingScreen(onBack)
         is Apps2RepositoryResult.Error -> Apps2ErrorScreen(result.message, onBack)
-        is Apps2RepositoryResult.Success -> Apps2ListScreen(
-            apps = result.apps,
-            state = listState,
-            onRefresh = { reloadToken++ },
-            onBack = onBack,
-        )
+        is Apps2RepositoryResult.Success -> {
+            val detailApp = detailState.resolve(result.apps)
+            if (detailApp != null) {
+                Apps2DetailScreen(
+                    app = detailApp,
+                    context = context,
+                    onBack = detailState::close,
+                )
+            } else {
+                Apps2ListScreen(
+                    apps = result.apps,
+                    state = listState,
+                    onRefresh = { reloadToken++ },
+                    onOpenDetail = detailState::open,
+                    onBack = onBack,
+                )
+            }
+        }
     }
 }
 
