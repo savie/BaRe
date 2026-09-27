@@ -2599,3 +2599,30 @@ The 112-count resource queue remains an audit queue, not a proven-unused count. 
 
 ### Next
 Finish the remaining resource candidates, then execute the final 45-class/task/data/model/UI reconciliation ledger before architecture freeze.
+
+
+## Audit Checkpoint 35 — Remaining Candidate Resource Parent/Include Closure
+
+### Evidence
+Full decompiled XML resource tree inspected against the remaining candidate list from Checkpoint 34.
+
+### Verified
+- Parent/include paths for the inspected candidate layouts: VERIFIED STATICALLY.
+- Internal XML resource dependencies for the inspected candidates: VERIFIED STATICALLY.
+- appbar has broad concrete layout consumers across Apps/detail/config/folder/settings surfaces.
+- quick_action_card, home_appbar, folder/detail cards, task_activity_top, config views, and app backup/swipe candidates all have concrete XML parent/reference paths.
+
+### Boundary
+The historical 112 candidate count is not yet recomputed as a formal inventory. Therefore it must not be reported as a current unresolved count. Final inventory reconciliation is still required to classify every original candidate as reachable, transitively reachable, runtime-only, dynamically resolved, genuinely unreferenced, or UNKNOWN.
+
+### Status
+- Resource parent/include closure for inspected candidates: VERIFIED STATICALLY.
+- Formal all-candidate inventory reconciliation: BELUM SELESAI.
+- Final 45-class/task/data/model/UI reconciliation: BELUM SELESAI.
+- Apps2 implementation: BELUM DIMULAI.
+- Architecture freeze: BELUM.
+- Home cutover: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+
+### Next
+Build the formal candidate inventory reconciliation, then proceed to the final producer-consumer ledger.
