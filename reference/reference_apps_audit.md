@@ -1556,3 +1556,135 @@ Remaining high-risk audit gaps:
 4. exact downgrade workaround decision matrix;
 5. runtime verification against SwiftBackup 5.1.0-620;
 6. final separation of pure Reference evidence from BaRe/Apps2 reconstruction analysis in repository documentation.
+
+## Checkpoint 10A — Archive Format Detection and Extraction Boundary
+
+### Archive format detection
+
+Further inspection of the actual SwiftBackup decompile resolves the archive-format detector in \`org.swiftapps.swiftbackup.compress.Packer\`.
+
+\`Packer.c(q63)\` delegates to \`Packer.b(q63)\` and returns \`ArchiveInfo\` (\`i40\`). The detector is evidence-backed by the decompiled source rather than inferred from restore call sites.
+
+Observed \`ArchiveInfo.format\` mapping:
+
+| Format | Detection / structure | Observed restore boundary |
+|---|---|---|
+| 1 | ZIP container whose entries are not all \`.tar\` | \`Packer.a(...)\` unpack path |
+| 2 | ZIP container whose entries are all \`.tar\` | unpack to working dir, then tar/decompression processing |
+| 3 | non-ZIP/non-7Z archive handled through raw TAR listing | privileged/local TAR extraction path |
+| 4 | legacy 7-Zip archive | \`Packer.a(...)\` seven-zip extraction path |
+| 5 | 7-Zip archive with compressed-entry structure detected | \`Packer.a(...)\` seven-zip extraction path |
+| 6 | Swift Backup Archive (SBA) | \`mz6\` SBA metadata/entry/extraction boundary |
+
+Encryption metadata is also detected:
+
+- ZIP formats carry an encrypted-entry flag when archive entries report encryption.
+- 7-Zip formats detect AES-256 encryption and label it \`7Z AES-256\`.
+- SBA format derives encryption state/label from SBA metadata, including \`AEGIS-256\` or \`AEGIS-128X2\`.
+
+### Format 1 / 2 / 4 / 5 data restore
+
+\`xw.h()\` dispatches by \`ArchiveInfo.format\`:
+
+- format 1 → \`xw.i()\`;
+- formats 2, 4, 5 → \`xw.k()\`;
+- format 6 → \`xw.j()\`.
+
+\`xw.i()\`:
+
+1. creates an \`AppsWorkingDir\`;
+2. calls \`Packer.a(...)\` to unpack the archive;
+3. updates task phase to \`UNPACK\`;
+4. copies restored DATA into the real app data directory through the privileged command boundary;
+5. restores DE-data when the archive contains \`data_de\`;
+6. cleans the working directory.
+
+\`xw.k()\` is not recoverable as Java from JADX because of a type-inference failure, but the APK smali is available and materially reconstructs its control flow:
+
+1. create an app working directory;
+2. call \`Packer.a(...)\` with the archive and data password hash;
+3. reject/report extraction failure;
+4. obtain unpacked files;
+5. if the archive is marked compressed, create a second working directory and decompress the unpacked content;
+6. locate the package-specific \`\${packageName}.tar\` artifact;
+7. require that artifact before continuing;
+8. extract DATA and then DE-DATA through the TAR/privileged restore boundary;
+9. clean temporary working directories.
+
+This resolves a major JADX gap: formats 2/4/5 are not a single direct data-copy operation; they have an unpack/decompress/TAR staging chain.
+
+### Format 3 raw TAR
+
+\`xw\` uses the TAR path directly for format 3.
+
+The common helper \`mz6.k(...)\`:
+
+- resolves \`Auto\` execution mode before execution;
+- chooses Local, Root, or Shizuku execution mode;
+- uses \`z85.h(...)\` for Local extraction;
+- uses privileged \`tar extract\` through \`z84\` for Root/Shizuku;
+- maps \`f27.Basic\`, \`Fidelity\`, and \`RootFidelity\` into TAR extraction behavior;
+- reports extraction progress and diagnostics.
+
+\`mz6.o(...)\` lists TAR entries for format detection/validation.
+
+### Format 6 SBA
+
+\`Packer.b(...)\` identifies SBA through \`mz6.m(...)\`.
+
+\`mz6.m(...)\` checks the SBA signature/metadata boundary and \`mz6.t(...)\` reads SBA entry metadata.
+
+\`xw.j()\` uses the SBA entry path with:
+
+- required \`data\` entry;
+- optional \`data_de\` entry;
+- package-name validation;
+- password validation;
+- \`mz6\` SBA extraction;
+- restore progress/result;
+- explicit failure when required entries are absent.
+
+The common \`xw.t()\` path constructs an \`mz6.f(jd0)\` extraction request. \`mz6.f()\` resolves \`Auto\` mode and dispatches:
+
+- Local → SBA extraction through \`mz6.h()\`;
+- Root/Shizuku → privileged SBA extraction through \`mz6.i()\`.
+
+### Important archive invariant
+
+The actual Reference flow is therefore:
+
+\`\`\`text
+Archive file
+  ↓
+Packer.c / ArchiveInfo
+  ↓
+format + entries + encryption
+  ↓
+format-specific staging
+  ├─ ZIP
+  ├─ 7Z
+  ├─ raw TAR
+  └─ SBA
+  ↓
+package/entry validation
+  ↓
+capability/execution mode
+  ↓
+DATA / DE-DATA extraction
+  ↓
+target mutation
+  ↓
+task result
+\`\`\`
+
+This confirms that **archive availability, archive recognition, extraction success, and app-data restore success are separate states**.
+
+### Remaining archive gaps
+
+The archive boundary is now materially reconstructed, but the following remain unresolved:
+
+1. exact internal implementation of \`Packer.a()\` / \`nb7.a()\` for every ZIP/7Z edge case;
+2. complete archive encryption/password error matrix across formats;
+3. exact semantics of \`f27.Fidelity\` versus \`RootFidelity\` for every archive type;
+4. runtime verification against a real SwiftBackup 5.1.0-620 archive;
+5. device-side post-extraction verification beyond the task/result checks already observed.
