@@ -642,3 +642,29 @@ Remaining high-risk audit:
 7. EXPANSION execution semantics.
 
 Apps2 implementation tetap BELUM DIMULAI.
+
+
+## Audit Checkpoint 6 — Per-App Archive / Cloud Artifact Boundary
+
+Audit dilanjutkan ke per-app backup manager dan cloud artifact construction.
+
+Teramati:
+
+- `vl` adalah per-app backup manager pada backup branch `AppsTask`.
+- `vl` membangun source/archive entry per AppPart dan meneruskan source, exclusion, compression, progress, dan archive boundary secara terpisah.
+- Data/de-data source menggunakan actual app paths dengan cache/code-cache/shared-preference exclusion sesuai backup-cache state.
+- Reference mempunyai handling terpisah untuk APK, split APK, shared libraries, DATA, EXTDATA, MEDIA, dan EXPANSION.
+- Special-data tidak diperlakukan sebagai AppPart archive biasa pada observed branch; metadata menjadi boundary khusus.
+- `mq` membangun cloud download artifacts dari CloudMetadata + selected AppParts, termasuk APK, splits, shared libs, DATA, EXTDATA, MEDIA, EXPANSION, dan special-data bila kondisi restore mengizinkan.
+- Artifact cloud mempunyai remote link, local target, expected size, dan type; local artifact dapat dipakai ulang jika state/size sesuai.
+- EXPANSION terbukti sampai boundary cloud artifact/source, bukan hanya enum UI.
+
+Remaining highest-risk boundary:
+
+- device-side restore/install/data mutation;
+- post-restore verification;
+- preconditions/platform capability;
+- metadata commit;
+- EXPANSION device-side restore semantics.
+
+Apps2 implementation tetap BELUM DIMULAI.
