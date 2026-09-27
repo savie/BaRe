@@ -47,22 +47,71 @@ data class Apps2PermissionPrecondition(
     val state: Apps2PreconditionState,
 )
 
+data class Apps2ArtifactPrecondition(
+    val state: Apps2PreconditionState,
+)
+
 /**
- * Aggregates target and capability conditions without performing execution.
+ * Aggregates target, artifact, permission, and capability conditions without
+ * performing execution.
+ *
+ * Installed-app/UID requirements are evaluated only for parts whose Reference
+ * restore path requires an installed target.
  */
 data class Apps2TaskPreconditions(
     val installedApp: Apps2InstalledAppPrecondition,
     val uid: Apps2UidPrecondition?,
     val apk: Apps2ApkPrecondition?,
     val downgrade: Apps2DowngradePrecondition?,
+    val artifactByPart: Map<Apps2TaskPart, Apps2ArtifactPrecondition>,
     val capabilityByPart: Map<Apps2TaskPart, Apps2CapabilityResolution>,
     val permission: Apps2PermissionPrecondition?,
 ) {
-    fun isSatisfied(): Boolean =
-        installedApp.state == Apps2PreconditionState.SATISFIED &&
-            (uid == null || uid.state == Apps2PreconditionState.SATISFIED) &&
-            (apk == null || apk.state == Apps2PreconditionState.SATISFIED) &&
-            (downgrade == null || downgrade.decision != Apps2DowngradeDecision.BLOCKED) &&
-            capabilityByPart.values.all { it.available } &&
-            (permission == null || permission.state == Apps2PreconditionState.SATISFIED)
+    fun isSatisfied(parts: Set<Apps2TaskPart>): Boolean {
+        val requiresInstalledTarget = parts.any {
+            it == Apps2TaskPart.DATA ||
+                it == Apps2TaskPart.EXTDATA ||
+                it == Apps2TaskPart.EXPANSION ||
+                it == Apps2TaskPart.MEDIA
+        }
+
+        if (requiresInstalledTarget &&
+            installedApp.state != Apps2PreconditionState.SATISFIED
+        ) {
+            return false
+        }
+
+        if (Apps2TaskPart.DATA in parts &&
+            uid?.state != Apps2PreconditionState.SATISFIED
+        ) {
+            return false
+        }
+
+        if (Apps2TaskPart.APP in parts &&
+            (apk?.state != Apps2PreconditionState.SATISFIED ||
+                downgrade?.decision == Apps2DowngradeDecision.BLOCKED)
+        ) {
+            return false
+        }
+
+        if (parts.any { artifactByPart[it]?.state != Apps2PreconditionState.SATISFIED }) {
+            return false
+        }
+
+        if (parts.any {
+                val resolution = capabilityByPart[it]
+                resolution == null || !resolution.available
+            }
+        ) {
+            return false
+        }
+
+        if (permission?.required == true &&
+            permission.state != Apps2PreconditionState.SATISFIED
+        ) {
+            return false
+        }
+
+        return true
+    }
 }
