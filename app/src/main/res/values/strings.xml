@@ -18,4 +18,15 @@
     <string name="language">Language</string>
     <string name="swiftlogger">BaReLogger</string>
     <string name="restart_app">Restart app</string>
+    <string name="required_permissions">Required permissions</string>
+    <string name="grant_storage_permission">Grant Storage permission</string>
+    <string name="storage_perm_title">Storage permission</string>
+    <string name="storage_perm_subtitle">Create, read, and restore local backup files on this device.</string>
+    <string name="grant_notifications_permission">Grant Notifications permission</string>
+    <string name="notifications_perm_title">Notifications permission</string>
+    <string name="notifications_perm_subtitle">Show backup, restore, schedule, and error notifications.</string>
+    <string name="grant_xiaomi_installed_apps_permission">Grant Installed apps access</string>
+    <string name="xiaomi_installed_apps_perm_title">Installed apps access</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">Read installed apps on this device so all apps appear for backup and restore.</string>
+    <string name="root_grant_permissions">Grant all with Root or Shizuku</string>
 </resources>
