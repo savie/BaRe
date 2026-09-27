@@ -169,3 +169,55 @@ Semua dokumentasi/worklog menggunakan Bahasa Indonesia.
 Product/app UI text menggunakan Bahasa Inggris.
 
 Technical identifiers, package/class names, code symbols, and source terminology remain unchanged where required.
+
+
+## Implementation Checkpoint 3 — Apps2 Detail Boundary
+
+Detail boundary awal sudah diimplementasikan secara terisolasi.
+
+### Files baru
+
+- `app/src/main/java/com/bare/feature/apps2/state/Apps2DetailState.kt`
+- `app/src/main/java/com/bare/feature/apps2/ui/detail/Apps2DetailScreen.kt`
+- `app/src/test/java/com/bare/feature/apps2/state/Apps2DetailStateTest.kt`
+
+### Scope
+
+- selected-app detail state berbasis package identity;
+- open / resolve / close transition;
+- detail surface terpisah di `ui/detail`;
+- list overflow sekarang menyediakan **Details**;
+- detail dapat kembali ke list tanpa memakai Legacy `Screen`;
+- detail menampilkan canonical Apps2 app information yang sudah tersedia;
+- Launch / Play Store / App info tetap menggunakan action behavior yang sudah nyata;
+- backup/restore belum dipalsukan dan ditampilkan sebagai belum tersedia pada slice ini.
+
+### Verification
+
+**OBSERVED:** perubahan source berada di package Apps2 dan tidak menambah Legacy Apps contract.
+
+**TEST SOURCE ADDED:** `Apps2DetailStateTest` mencakup open/resolve/close dan missing-package resolution.
+
+**UNVERIFIED:** unit tests belum dieksekusi.
+
+**UNVERIFIED / BLOCKED:** Android build belum dijalankan pada environment ini karena network/DNS sebelumnya tidak memungkinkan clone repository; tidak ada workflow run terkait implementation commit yang tersedia sebagai build evidence.
+
+## Current Engineering State
+
+- Apps2 architecture: FROZEN WITH OPEN IMPLEMENTATION DETAILS.
+- Apps2 first vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Apps2 detail boundary: STARTED.
+- Unit test source: ADDED.
+- Unit test execution: UNVERIFIED.
+- Android build: UNVERIFIED / BLOCKED.
+- Runtime: UNKNOWN.
+- Home → Apps2: BELUM.
+- Legacy Apps: TIDAK DIUBAH.
+- Backup/restore: BELUM DIIMPLEMENTASIKAN.
+
+## Next Authorized Action
+
+Prioritas berikutnya adalah **verification opportunity** untuk source/test yang sudah dibuat. Jika build runner tersedia, jalankan compile + unit tests sebelum memperluas backup/restore.
+
+Setelah verification gate tersedia, lanjutkan Detail decomposition dan kemudian batch/task boundary.
+
