@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">BΛR☰</string>
     <string name="signin_title">Setup your BΛR☰ account</string>
-    <string name="signin_intro_subtitle">Create your BΛR☰ account to sync backups, unlock Premium, and access account-based encryption.</string>
+    <string name="signin_intro_subtitle">Create your BΛR☰ account for cloud backups, Premium, and account-based encryption.</string>
     <string name="intro_benefit_cloud_title">Cloud backups</string>
     <string name="intro_benefit_cloud_subtitle">Connect cloud storage for backup and restore</string>
     <string name="intro_benefit_premium_title">Premium features</string>
-    <string name="intro_benefit_premium_subtitle">Premium features are included with your account</string>
+    <string name="intro_benefit_premium_subtitle">Use Premium with your account</string>
     <string name="intro_benefit_keys_title">Encryption keys</string>
     <string name="intro_benefit_keys_subtitle">Use account-based keys for encrypted backups</string>
     <string name="intro_benefit_settings_title">App preferences</string>
@@ -14,7 +14,7 @@
     <string name="backups_tied_warning">Backups are linked to the BΛR☰ account used to create them. Use the same account to restore them later.</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
     <string name="skip_for_now">Skip for now</string>
-    <string name="tos_privacy_agreement">By continuing you agree with our &lt;a href="https://bare.example/tos"&gt;Terms of Service&lt;/a&gt; &amp;amp; &lt;a href="https://bare.example/privacy"&gt;Privacy Policy&lt;/a&gt;.</string>
+    <string name="tos_privacy_agreement">By continuing you agree with our Terms of Service &amp; Privacy Policy.</string>
     <string name="language">Language</string>
     <string name="swiftlogger">BaReLogger</string>
     <string name="restart_app">Restart app</string>
