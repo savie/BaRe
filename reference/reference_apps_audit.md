@@ -2837,3 +2837,157 @@ Special maintenance actions are handled directly by the Apps batch surface:
 - every ConfigSettings field's exact downstream task effect;
 - complete Quick Action option UI for every action variant;
 - runtime behavior when cloud and local copies diverge simultaneously.
+## Checkpoint 20 — Detail Surface / Backup History / Metadata and Action Cards
+
+### Detail shell and card decomposition
+
+`DetailActivity` uses `detail_activity.xml` with:
+- app info card;
+- local/device backup card;
+- cloud backup card.
+
+The app info card (`detail_card_app_info.xml`) exposes package name, app name, version information, labels, favorite state, overflow menu, and conditional mini-actions: Launch, Enable/Disable, Uninstall, or Not installed.
+
+The backup card (`detail_card_app_backup.xml`) contains:
+- title;
+- loading/error/main states;
+- backup tabs;
+- backup date/info text;
+- note view;
+- part chips;
+- restore button;
+- overflow action menu.
+
+The local and cloud backup cards share the same layout contract but use separate state presenters (`qj2` and `pj2`).
+
+### Local backup history reconstruction
+
+`lx` rebuilds local detail backup state from the current local backup records. Each backup becomes a `zj2` state containing:
+- backup handle;
+- APK size / split APK / shared libs;
+- DATA / EXTDATA / MEDIA / EXPANSION sizes;
+- encryption state and encryption labels;
+- version information;
+- protection state.
+
+`qj2.a()` selects the current backup by backup ID and converts it into chip items. The chips expose:
+- APK/APKs;
+- DATA;
+- EXTDATA;
+- EXPANSION;
+- MEDIA.
+
+Absent local backup state produces `no_backup_on_device` rather than an empty generic card.
+
+### Cloud backup history reconstruction
+
+`lk2.onDataChange()` rebuilds cloud detail state directly from `AppCloudBackups.fromSnapshot()`.
+
+Before presentation, it updates the app's `ji.cloudBackups` reference with the reconstructed `AppCloudBackups` object.
+
+Each cloud backup becomes `wj2` and carries:
+- APK/split/shared-lib availability and sizes;
+- DATA/EXTDATA/MEDIA/EXPANSION sizes;
+- encryption flags/method labels;
+- total size;
+- date backup/date updated presentation;
+- version information;
+- protection state.
+
+If a cloud metadata entry reports `hasBackups()` false, the corresponding cloud node is removed through `re3` before presentation.
+
+Cloud card state explicitly distinguishes:
+- Loading;
+- NoBackup;
+- DriveNotConnected;
+- NetworkError;
+- BackedUp.
+
+### Backup history is not a separate journal
+
+Both local and cloud detail history are reconstructed from current persisted backup records/metadata. The detail UI does not load a separate immutable backup-history journal.
+
+Therefore the selected backup tabs/chips represent the current backup records available at observation time.
+
+### Backup details dialog
+
+`kk`/`d11` builds the Backup Details dialog from backup metadata and derived part descriptors.
+
+Top-level fields:
+- Created;
+- Updated (only when distinct from Created);
+- Backup tag;
+- Protected backup.
+
+Per-part detail can include:
+- APK;
+- Split APKs;
+- Shared libraries;
+- DATA;
+- EXTDATA;
+- MEDIA;
+- EXPANSION;
+- Special data.
+
+Per-part fields can include version, original size, backup size, compression saved, file count, folder count, and encryption state/method.
+
+This dialog is derived from metadata/state; it does not independently query or rebuild the artifact archive.
+
+### Detail backup-card actions
+
+Local/cloud backup-card overflow supports, depending on state:
+- Backup details;
+- Protect / Unprotect;
+- Update note;
+- Sync (device backup context);
+- Delete;
+- Metadata (explicitly hidden in the inspected backup-card menu path).
+
+Protection and note operations use the already established persistence boundaries:
+- local → mutate `LocalMetadata` → `cu.f()` → `g00.F(packageName)`;
+- cloud → mutate `CloudMetadata` → `cf3.c(appId, backupId, metadata)`.
+
+Delete is guarded by confirmation and protected-state presentation. Cloud delete additionally checks cloud/account availability before allowing the operation.
+
+### Part-chip actions
+
+`c0()` builds per-part chip menus.
+
+Restore is available for a selected backup and constructs the restore configuration with:
+- selected app parts;
+- backup identity;
+- `restore_special_permissions` default true;
+- `restore_ssaids` default false;
+- local/cloud backup source.
+
+Share chooses a local `hk` or cloud `AppCloudBackup` source and passes it to the share subsystem.
+
+Sync requires a local backup for the inspected local chip path.
+
+Delete is confirmation-gated and passes the selected local/cloud backup records and selected parts into the existing delete helper.
+
+Encryption chip/menu state can show the encryption method used by the selected part.
+
+### Storage card
+
+`detail_card_app_storage.xml` provides derived storage information and backup chips for the app's current storage state. Its action menu can expose backup-to-cloud/local-cloud and delete depending on selected `AppPart`; sharing is only exposed for `APP` when the app is installed.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- detail shell/card decomposition;
+- separate local/cloud backup state presenters;
+- local backup history reconstruction;
+- cloud backup history reconstruction;
+- explicit Loading/NoBackup/DriveNotConnected/NetworkError states;
+- backup part chips including APP/DATA/EXTDATA/EXPANSION/MEDIA;
+- backup details dialog fields and derived part details;
+- detail-card protection/note/sync/delete action paths;
+- restore special-permission/SSAID defaults at detail entry;
+- storage card action constraints.
+
+**UNKNOWN / UNVERIFIED:**
+- exact runtime ordering/animation of card state transitions;
+- whether every external cloud metadata cleanup path is eventually reconciled after transient provider failure;
+- complete action visibility matrix for all premium/capability states;
+- exact detail card performance characteristics with many backups.
