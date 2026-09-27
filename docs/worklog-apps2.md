@@ -1077,3 +1077,41 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: cancellation/retry semantics dan higher-level observers/history consistency setelah delete.
+## Audit Checkpoint 16 — Delete Observer / History Refresh / Cancellation
+
+### Hasil
+
+Delete dari detail controller (`mk2`/`kk2`) setelah `ik.a()` melakukan refresh controller dan memanggil `g00.F(packageName)`. Delete tidak mengubah `LocalMetadata` object secara langsung.
+
+Local repository `kz4` dan cloud repository `ua1` menerima `oq` app event dan melakukan refresh/remove/add sesuai kondisi app.
+
+Backup/history tidak ditemukan sebagai durable delete-history record terpisah; tampilan backup direkonstruksi dari current local backup records dan `AppCloudBackups`/cloud metadata.
+
+Sehingga konsistensi UI/state mengikuti pola:
+
+filesystem/cloud mutation → helper → controller refresh → repository/event refresh → history/list reconstruction.
+
+Cancellation:
+- `no2` generic wrapper menghasilkan `COMPLETE` atau `CANCEL_COMPLETE`;
+- `jk` multi-app delete mengecek cancellation di antara app;
+- `xh2` cloud delete tidak menunjukkan transactional rollback khusus cancellation.
+
+Retry:
+- cloud deletion loop sampai 10 attempt dengan 30 detik antar-attempt;
+- helper delete-file-ids memiliki retry layer tambahan dengan batas berdasarkan `jh6.a < 5`;
+- provider-side idempotency belum terbukti.
+
+### Status
+
+Delete observer refresh: VERIFIED STATICALLY.
+History reconstruction model: RECONSTRUCTED STATICALLY.
+Cancellation layering: RECONSTRUCTED STATICALLY.
+Retry layering: VERIFIED STATICALLY.
+Provider idempotency: UNKNOWN.
+Cancellation recovery after metadata mutation: UNKNOWN.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: close remaining delete/task edge gaps where evidence exists, then evaluate whether the reference audit has reached sufficient coverage for architecture freeze. Apps2 implementation remains blocked until explicit implementation plan is presented.
