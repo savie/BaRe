@@ -2041,3 +2041,123 @@ Delete removes artifacts and cloud records through task boundaries; it does not 
 - exact cloud deletion transaction semantics inside the provider task;
 - whether every failed upload/delete path leaves a stale cloud node or is reconciled later;
 - runtime recovery behavior after process death between artifact and metadata commits.
+## Checkpoint 13 — Restore Result, State Reconciliation, and Failure Aggregation
+
+### Per-app restore result is an aggregate, not a single boolean
+
+The inspected `xw` restore path uses `uw` as the per-app result accumulator. It separates outcomes into distinct fields:
+
+- `a` → skipped/failed AppPart messages;
+- `b` → generic restore failure messages;
+- `c` → invalid/empty base APK or related hard failure messages;
+- `d` → skipped AppPart because the part is unavailable/unsupported;
+- `e` → warnings/data-state messages;
+- `f` → critical/unexpected errors;
+- `g` → no-APK / no-base-APK condition;
+- `h` → explicit task-level/unexpected error text.
+
+`uw.f()` returns true when the per-app accumulator contains a restore-failure/error category in the observed fields.
+
+### APK downgrade failure is not always terminal
+
+The restore manager explicitly handles a downgrade failure as a non-terminal condition when the app remains installed:
+
+~~~text
+APK downgrade/install attempt
+  ↓
+failure
+  ↓
+check installed state
+  ├─ installed → record warning + continue DATA restore
+  └─ not installed → propagate APK restore failure
+~~~
+
+The inspected message is `APK downgrade failed, but app is installed; continuing data restore` and the result records that APK restore was skipped because the installed version is newer than the backup.
+
+This is a concrete example where `APK restore failed` does not equal `Apps restore task failed`.
+
+### Part failures remain isolated
+
+DATA, EXTDATA, EXPANSION, MEDIA, and APK operations write their own result/error state into `uw`. Extraction helpers can classify conditions such as:
+- insufficient space;
+- missing/invalid archive;
+- wrong password;
+- data corruption;
+- missing APK;
+- unexpected error;
+- warning.
+
+These results are later aggregated into the task-level `sv` structure rather than immediately collapsing the whole Apps restore operation.
+
+### Restore manager task-level aggregation
+
+`c40` constructs an `sv` result for the Apps restore flow:
+- `sv.a` contains per-app `uw` results;
+- `sv.b` contains download/cloud-transfer result records.
+
+After all restore operations and post-restore tasks complete, `c40` checks `sv.a()`.
+
+If errors exist, `sv` is attached to `b40.b` as the task result/error summary. If no restore/download errors exist, the normal post-restore package-state path continues without attaching that summary.
+
+`b40` then renders separate categories for:
+- skipped insufficient-space items;
+- skipped local/cloud parts;
+- download errors;
+- failed restores;
+- no APK;
+- wrong password;
+- data corruption;
+- unexpected errors;
+- warnings;
+- critical errors.
+
+### Task completion versus per-app failure
+
+The observed `c40` flow sets the restore manager task state to `COMPLETE` after the post-restore phase even when `b40` contains an error summary.
+
+Therefore the Reference distinguishes at least two states:
+
+~~~text
+Task lifecycle state = COMPLETE
+        ≠
+Per-app restore result = error/warning/skipped
+~~~
+
+This is important for Apps2: task completion must not be modeled as a boolean synonym for every selected app being restored successfully.
+
+### Post-restore state reconciliation
+
+After restore processing, the Reference performs post-restore work before final completion:
+- permission/special-data restore through `xw.q(...)` when enabled;
+- package-state refresh/check;
+- local app repository reload through `dv.i(kz4.g, true, ...)` for local operation;
+- per-app event publication through `w13.q(c40.class, packageName)` for single-app operation;
+- cleanup of cloud cache after cloud restore when applicable.
+
+These are state reconciliation/invalidation steps, not backup metadata rewrites.
+
+### Restore metadata boundary remains asymmetric
+
+Inspection of the complete `xw` source shows `LocalMetadata` and `CloudMetadata` are read during restore for passwords, installer identity, sizes, permissions, and special-data payloads. The restore flow does not call the local metadata writer `cu.f()` or establish a symmetric `CloudMetadata` persistence update after successful restore.
+
+Therefore the current evidence is:
+
+- restore **reads** backup metadata extensively;
+- restore **updates** package/device/task state;
+- restore **refreshes** local app repository/event state;
+- restore **does not evidence** a backup-record metadata rewrite.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- per-app restore accumulator structure;
+- downgrade failure continuation when package remains installed;
+- per-part error/warning isolation;
+- task-level aggregation through `sv` / `b40`;
+- post-restore package/repository/event refresh;
+- task completion can coexist with per-app restore errors.
+
+**UNKNOWN / UNVERIFIED:**
+- exact external UI interpretation of every `b40.l()` state;
+- persistence/recovery if process dies after package mutation but before post-restore reconciliation;
+- whether any background sync later reconciles restore-induced package state into backup metadata.
