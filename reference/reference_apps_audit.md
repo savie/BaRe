@@ -2991,3 +2991,106 @@ Encryption chip/menu state can show the encryption method used by the selected p
 - whether every external cloud metadata cleanup path is eventually reconciled after transient provider failure;
 - complete action visibility matrix for all premium/capability states;
 - exact detail card performance characteristics with many backups.
+## Checkpoint 21 — Apps Task Graph / Preconditions / Capability / 45-Class Coverage
+
+### Apps task provider graph
+
+`c40` is the Apps task provider (`pw6`) and is parameterized by `cz7` operation plus `dz7` result accumulator.
+
+Relevant Apps operation types observed:
+- `ky7` → Backup;
+- `ry7` → Restore, with `isApkDowngradeAllowed` flag;
+- `oy7` → DeleteBackups, carrying selected `AppPart`, locations, and delete type;
+- `py7` → Enable/Disable apps;
+- `sy7` → Uninstall.
+
+`c40` owns the operation-specific sub-managers:
+- backup → `jl` / `vl` / upload chain;
+- restore → `wv` / `mq` / `xw` / post-restore chain;
+- delete → `jk` / `ik`;
+- uninstall → `lz`;
+- enable/disable → `nq`.
+
+After the operation-specific branch, `c40` reloads local apps (`dv.i(kz4.g, true, ...)`) unless the task is already in the relevant multi-app context, then posts `w13.q(c40.class, packageName)` for single-app operation and emits `d40` completion.
+
+### Restore pre/post task boundary
+
+Restore performs pre-restore device preparation before iterating selected apps. When root/Shizuku capability is available, it temporarily disables Android package verification settings used by the restore path, then performs restore work and later executes post-restore tasks.
+
+After restore operations, the post-restore stage performs special-data/permission restoration, package/repository reconciliation, and cloud-cache cleanup where applicable. The previously audited result accumulator `sv` is attached to `b40` when non-empty.
+
+### Cancellation propagation
+
+`TaskActivity` cancellation confirmation calls `hy7.d()`.
+
+`hy7.d()` marks the task notification state and broadcasts cancellation while the global `TaskService` remains running.
+
+`TaskService` checks cancellation before final completion and emits `CANCEL_COMPLETE`; foreground-service timeout uses a separate `TIMEOUT` result path.
+
+`c40.a()` propagates cancellation into active backup upload/download sub-managers, restore/download managers, uninstall/delete/enable-disable sub-managers. Active upload/download child tasks are explicitly transitioned to `CANCELLED` and asked to stop.
+
+`jk` additionally checks cancellation between apps during multi-app delete.
+
+### Task failure persistence / process-death boundary
+
+On normal task completion, `TaskService` builds `TaskManager$ErrorSummary`. When errors exist it serializes the summary to `TaskErrors.txt` in the app cache.
+
+`TaskActivity.onCreate()` checks this persisted file when the in-memory task provider list is empty. If a persisted error summary exists, it reconstructs the error UI instead of assuming there are no tasks.
+
+This is concrete evidence of **error-summary persistence across process/UI loss**, but not evidence of resumable/transactional continuation of the underlying backup/restore/delete operation.
+
+`TaskManager$ErrorSummary.isOnlySafeErrors()` is derived from all task providers' safe-error state; UI differentiates note vs error presentation.
+
+### Preconditions
+
+`PreconditionsActivity` explicitly handles SMS and call-log permission prerequisites for request codes `2`, `3`, or combined `589`. It is used by Messages/Calls scheduling/task flows.
+
+The inspected Apps backup/restore path does not route through `PreconditionsActivity` for ordinary Apps operation. Apps-specific capability is checked through root/Shizuku (`mp6`) and operation-specific conditions instead.
+
+### Capability boundary
+
+`mp6.f()`/`mp6.g()` represent the root-or-Shizuku capability path used by Apps actions and restore/install operations.
+
+Row actions use `oy.isAvailable(ji)`; Apps task execution additionally checks capability before operations that need privileged filesystem/package access.
+
+`EXPANSION`, `DATA`, and other part capability requirements remain represented at the backup/restore collaborator level; exact runtime capability matrix across all Android/root/Shizuku combinations remains unverified.
+
+### Original 45-class source inventory cross-check
+
+The original Apps cluster contains exactly 45 source files across the nine documented clusters:
+
+| Cluster | Count | Coverage status |
+| --- | ---: | --- |
+| appslist | 14 | Deep audit substantially covered; Favorites repository still needs dedicated lifecycle pass |
+| appsquickactions | 1 | Catalog + expansion covered; full option UI still open |
+| appinfo | 1 | Surface identified; deep behavior still needs pass |
+| detail | 2 | Detail deeply covered; shortcut receiver still needs dedicated pass |
+| appconfigs | 11 | Data/repository/execution substantially covered; edit/list/settings UI field effects still open |
+| apptasks | 8 | Working dir/install/notification/SBA metadata boundaries covered; remaining helper serialization/command edge semantics open |
+| model/app | 5 | Deep metadata/cloud/backup payload audit covered |
+| settings/appbackuplimits | 2 | Data + UI behavior identified; downstream enforcement needs dedicated pass |
+| settings/appvisibility | 1 | Diagnostic UI identified; visibility-source/diagnostic semantics still need dedicated pass |
+
+Therefore the 45-class inventory is **not yet a claim of 45/45 deep behavioral coverage**. It is a coverage ledger showing where focused passes remain.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- Apps operation-type graph;
+- c40 sub-manager boundaries;
+- cancellation propagation across Apps task children;
+- TaskService completion/cancellation/timeout boundary;
+- persisted TaskErrors.txt recovery path;
+- Apps-specific capability boundary;
+- distinction between Apps operations and generic SMS/call PreconditionsActivity;
+- exact 45-source-file cluster count.
+
+**OPEN:**
+- AppInfo deep action/data path;
+- ShortcutPinnedReceiver behavior;
+- ConfigEdit/List/Settings downstream effects;
+- AppBackupLimits enforcement into task selection;
+- AppVisibilityDiagnostics data-source semantics;
+- FavoriteAppsRepo persistence/lifecycle;
+- remaining app task helper serialization/edge commands;
+- complete quick-action/config option variant graph.
