@@ -1511,3 +1511,51 @@ Legacy Apps: **TIDAK DIUBAH**.
 Lanjut bongkar semantic behavior collaborator yang masih uncovered/material, dengan prioritas fan-out tinggi dan execution boundaries. Setelah setiap audit pass, update reference/reference_apps_audit.md untuk evidence/finding dan docs/worklog-apps2.md untuk continuity/status/next action.
 
 Audit tidak ditutup hanya karena main flow sudah dipahami.
+
+## Audit Checkpoint 24 — Material Collaborator Semantic Pass
+
+Dilanjutkan semantic audit terhadap collaborator prioritas yang sebelumnya baru berstatus available/inventoried.
+
+### Findings
+
+- pe4.w(...) terverifikasi sebagai installer failure-message mapper, termasuk ABI mismatch, missing split, signature conflict, downgrade, storage, invalid APK, blocked, aborted, dan generic PackageInstaller failures.
+- pe4.x(...) adalah XML parser/file-input boundary.
+- sz8 terverifikasi sebagai shared UI/platform utility; Apps-relevant behavior mencakup ExtendedFAB/RecyclerView interaction, progress guard, dan themed colors.
+- io4.b/e/g/j terverifikasi sebagai error-chain formatting, night-mode read, parent-directory preparation, dan generic exception/logging boundary.
+- zn4.c/d/e/f/g terverifikasi sebagai thread/executor/main-handler/delay/coroutine dispatch utilities.
+- nq7, el1, fz5, eq3, gv7, ph6, xs1 diklasifikasikan sebagai generic string/collection/hash/lazy/reflection/request helpers; tidak ditemukan Apps business policy baru pada pass ini.
+- vr6 terverifikasi sebagai logging facade.
+- nc8.V(...) terverifikasi sebagai asynchronous Task composition primitive dengan shared cancellation state.
+- ix0 terverifikasi sebagai security/keyset infrastructure, tetapi direct Apps-domain use tidak terbukti pada pass ini.
+
+### Materiality
+
+Material execution/presentation infrastructure:
+pe4, io4, zn4, vr6, sz8, nc8.
+
+Generic helpers:
+eq3, nq7, el1, fz5, gv7, ph6, xs1.
+
+Security infrastructure without direct Apps-domain evidence in this pass:
+ix0.
+
+### Coverage ledger delta
+
+Material collaborator subset: RECONSTRUCTED / VERIFIED STATICALLY.
+Installer error mapping: VERIFIED STATICALLY.
+Async/thread utility boundaries: VERIFIED STATICALLY.
+Full collaborator semantic coverage: BELUM SELESAI.
+
+### Status
+
+45-class deep semantic coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut ke direct Apps task/helper execution boundaries yang masih tersisa: installer-source preservation, Task composition/cancellation edges, archive/metadata helpers, dan transitive resource dependencies yang masih dapat dibuktikan dari decompile. Setelah pass selesai, update audit dan worklog lagi.
