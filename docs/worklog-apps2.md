@@ -880,3 +880,38 @@ Untuk TAR/SBA, `f27` dipetakan ke native profile:
 Mapping numeric tersebut VERIFIED dari source, tetapi makna behavioral detail di native implementation masih UNKNOWN.
 
 Archive subsystem sekarang cukup kuat untuk menjadi reference contract tingkat orchestration. Runtime/native edge cases masih perlu diverifikasi sebelum architecture freeze.
+
+## Audit Checkpoint 11 — APK Install / Downgrade Boundary
+
+Audit dilanjutkan ke `mv`, `nj7`, `zm5`, `InstallerSourceProxy`, `sd7`, dan `gq`.
+
+### Hasil utama
+
+Concrete install chain sekarang terbukti:
+
+`mv` → `nj7`/`sd7` → `InstallerSourceProxy`/PackageInstaller atau shell install → result → verification.
+
+`fd4` adalah request installer dan `ad4` adalah APK file descriptor model.
+
+Source-preserving install aktif pada kondisi yang terinspeksi ketika `mp6.g` aktif dan installer package adalah `com.android.vending`. Hasil `SB_INSTALL:Success` menjadi bukti sukses pada jalur tersebut.
+
+Jika source-preserving install gagal:
+- package masih installed → verification failure dapat ditoleransi dan restore data dapat dilanjutkan;
+- package tidak installed → fallback ke shell APK installer.
+
+Shell installer menggunakan install session berbasis `pm install-create`, menulis APK, lalu `pm install-commit` melalui Shizuku.
+
+Split APK failure dapat menghasilkan exclusion set dan retry tanpa split yang gagal. Split dengan version mismatch terhadap base APK juga diabaikan.
+
+Downgrade preparation membuat backup sementara `<package>.downgrade.sba`, rename external/expansion/media menjadi `.bkp`, lalu uninstall package untuk memungkinkan downgrade ketika kondisi downgrade path aktif.
+
+Post-downgrade recovery mencoba restore backup tersebut jika app tetap installed; archive dipertahankan bila app hilang atau recovery gagal.
+
+### Status
+
+APK installer/downgrade boundary: RECONSTRUCTED STATICALLY.
+Runtime Android-version/user matrix: BELUM VERIFIED.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
