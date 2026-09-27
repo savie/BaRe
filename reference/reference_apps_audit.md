@@ -1756,3 +1756,149 @@ This establishes that `f27` is an actual extraction-profile contract, not a UI-o
 - exact behavioral semantics encoded by native profile values 511/468/384;
 - all native TAR edge cases;
 - runtime behavior against actual SwiftBackup-generated archives.
+## Checkpoint 11 — APK Install / Downgrade Decision Matrix
+
+### Concrete installer request
+
+The installer proxy boundary is now fully traced from restore helper to the PackageInstaller process:
+
+~~~text
+AppRestoreHelper (`mv`)
+  ↓
+source-preserving path (`nj7`) when its condition is active
+  ↓
+`InstallerSourceProxy`
+  ↓
+`zm5.w(String[])`
+  ↓
+`fd4(installerPackage, packageName, apkFiles)`
+  ├─ `ad4(name, path, length)`
+  ↓
+PackageInstaller.SessionParams
+  ↓
+stream APK → fsync → commit
+  ↓
+PackageInstaller result
+  ↓
+installer-source verification
+~~~
+
+`zm5.w()` validates every APK argument before creating the request:
+- at least installer package, target package, and one APK;
+- argument format `name|path`;
+- non-blank APK name;
+- file exists;
+- file length > 0.
+
+`InstallerSourceProxy` then:
+- creates the installer package context;
+- creates `PackageInstaller.SessionParams(1)`;
+- sets target package;
+- sets install reason `4`;
+- API 34+: installer package name;
+- API 33+: package source `2`;
+- API 31+: `requireUserAction(2)`;
+- sets total session size;
+- streams every APK;
+- calls `fsync()`;
+- commits the session;
+- waits up to 120 seconds;
+- verifies installer package and, API 30+, initiating/installing package;
+- abandons the session on exception.
+
+### Source-preserving install condition
+
+`mv.f()` selects the source-preserving install path only when the observed condition resolves to:
+
+- `mp6.g` is active; and
+- installer package equals `com.android.vending`.
+
+The source-preserving path stages APKs into a temporary shell-accessible directory through `nj7.e()`, invokes `InstallerSourceProxy` through `nj7.c()`, and requires an `SB_INSTALL:Success` result before considering the source-preserving install successful.
+
+After a source-preserving PackageInstaller failure, `mv.f()` distinguishes two cases:
+
+1. package is still installed → verification warning may be tolerated and data restore can continue;
+2. package is not installed → the helper falls back to the normal shell APK installer.
+
+The fallback shell installer is `sd7.d(qd7)` and uses `pm install-create`, writes APKs into the shell install session, then commits with `pm install-commit` through Shizuku.
+
+### Split APK failure handling
+
+Normal shell APK restore records split-install failures and extracts the split name/path from failure output. Failed temporary split artifacts are deleted.
+
+The helper tracks failing split names in a persistent in-memory exclusion set for that restore attempt. When the resulting failure set contains only splits already identified as failing, the restore is retried while excluding those splits.
+
+Split candidates are also filtered by base APK version: a split is ignored when its parsed version does not match the base APK version.
+
+### Downgrade preparation
+
+When the observed downgrade path is active, `mv.e()` checks the preference `in_place_apk_downgrades`.
+
+If in-place downgrade is not enabled, the package is not bundled, the app is installed, the data directory exists, and the required capability condition is satisfied, `mv.e()` creates an `AppDowngradeTask` backup context:
+
+- source data directory is archived to `<package>.downgrade.sba` in Swift Backup cache;
+- external data, expansion, and media directories are renamed to `.bkp` companions when present;
+- the package is uninstalled for the active user through Shizuku (`pm uninstall --user ...`) when it is not bundled.
+
+Only after this preparation succeeds does the normal APK restore path continue with the downgrade backup context.
+
+### Post-downgrade recovery
+
+`mv.b()` is the post-downgrade recovery path.
+
+Observed behavior:
+
+- check whether the app is installed after the downgrade attempt;
+- if installed, restore the preserved DATA archive with `RootFidelity`;
+- restore preserved external/expansion/media companions when applicable;
+- delete the preserved downgrade archive after successful recovery;
+- if recovery fails or the app is no longer installed, preserve the downgrade archive and report the corresponding failure state.
+
+Therefore the downgrade safety boundary is explicit:
+
+~~~text
+Current installed app
+  ↓
+prepare downgrade backup
+  ├─ DATA → `<package>.downgrade.sba`
+  └─ EXTDATA / EXPANSION / MEDIA → `.bkp` companions
+  ↓
+uninstall current package
+  ↓
+attempt older APK restore
+  ↓
+check installed state
+  ├─ installed → restore preserved data/media state
+  └─ not installed / recovery failure → preserve downgrade artifacts
+~~~
+
+### Secondary-user downgrade workaround
+
+If the normal APK restore result remains unsuccessful and the observed secondary-user condition is active, `mv.f()` enters a secondary-user workaround:
+
+- query `pm path <package>`;
+- locate the installed base APK;
+- enumerate base/split APKs;
+- require `base.apk`;
+- construct the downgrade/install retry through the existing helper path.
+
+The complete final decision matrix for every Android-version/user combination is still not runtime-verified.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- `fd4` / `ad4` request model;
+- `zm5.w()` input validation;
+- `InstallerSourceProxy` PackageInstaller session policy;
+- installer-source verification;
+- source-preserving `com.android.vending` path;
+- shell installer fallback;
+- split failure exclusion/retry;
+- downgrade backup preparation and post-downgrade recovery;
+- secondary-user workaround entry conditions.
+
+**UNKNOWN / UNVERIFIED:**
+- complete runtime behavior for all PackageInstaller status codes;
+- exact Android-version behavior of `requireUserAction(2)` and package-source policy;
+- all secondary-user downgrade edge cases;
+- runtime verification with actual downgraded SwiftBackup archives and APK sets.
