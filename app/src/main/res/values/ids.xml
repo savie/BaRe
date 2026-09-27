@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="intro_header" type="id"/>
+    <item name="intro_logo" type="id"/>
+    <item name="iv_menu" type="id"/>
+    <item name="intro_activity_sign_in" type="id"/>
+    <item name="intro_bottom_actions" type="id"/>
+    <item name="container_sign_in_actions" type="id"/>
+    <item name="tv_sign_in_subtitle2" type="id"/>
+    <item name="btn_google" type="id"/>
+    <item name="btn_anonymous" type="id"/>
+    <item name="tv_privacy_policy" type="id"/>
+    <item name="tv_sign_in_title" type="id"/>
+    <item name="tv_sign_in_subtitle" type="id"/>
+</resources>
