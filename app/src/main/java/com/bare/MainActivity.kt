@@ -6,6 +6,7 @@ import android.text.Html
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.ViewCompat
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
         ViewCompat.requestApplyInsets(root)
 
-        findViewById<View>(R.id.tv_privacy_policy).apply {
+        findViewById<TextView>(R.id.tv_privacy_policy).apply {
             text = Html.fromHtml(getString(R.string.terms_notice), Html.FROM_HTML_MODE_LEGACY)
         }
 
