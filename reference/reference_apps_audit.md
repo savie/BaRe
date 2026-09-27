@@ -3568,3 +3568,230 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjut ke remaining direct Apps task/helper boundaries dan transitive execution edges yang masih dapat dibuktikan dari decompile, terutama installer-source preservation, task composition/cancellation, archive/metadata helpers, lalu update coverage ledger kembali.
+
+## Audit Checkpoint 25 — Direct Task / Privileged Helper Execution Reconciliation
+
+### Scope
+
+Pass ini menelusuri direct execution edges yang sebelumnya masih terbuka, dengan source truth decompile Reference: InstallerSourceProxy, notification-policy proxy, AppsWorkingDir, SBA metadata builder, serta caller/helper boundaries yang benar-benar mengaktifkan proxy tersebut.
+
+### InstallerSourceProxy + caller chain
+
+Rekonsiliasi menemukan caller nyata pada helper nj7.
+
+Flow:
+
+App install task
+  ↓
+nj7.a(...)
+  ↓
+validate Shizuku/root capability
+  ↓
+validate installer source == com.android.vending
+  ↓
+pm list packages -U --user <user> <installer>
+  ↓
+derive installer user id
+  ↓
+stage APK files under /data/local/tmp/swiftbackup-install-<nanoTime>
+  ↓
+build source-preserving command args
+  ↓
+bv.a(
+  InstallerSourceProxy.class.name,
+  "swiftbackup_install_proxy",
+  args,
+  userId
+)
+  ↓
+parse returned lines
+  ↓
+require success / reject missing success
+  ↓
+cleanup staged directory
+
+Material details:
+
+- nj7.a only enters this path when mp6.g is enabled.
+- It explicitly restricts the installer package to com.android.vending.
+- It queries package/user information through pm list packages -U --user.
+- APK sources are staged under /data/local/tmp/swiftbackup-install-<System.nanoTime()>.
+- Each APK source is represented as name|path for the privileged proxy.
+- The proxy is invoked with key swiftbackup_install_proxy.
+- Caller treats an empty result or any result without a success signal as failure.
+- On no success signal it adds Failure [Source-preserving install did not report success].
+- After command execution, it issues rm -rf <staging-dir>.
+
+### InstallerSourceProxy execution semantics
+
+The proxy itself was inspected beyond its public result formatter.
+
+Verified:
+
+- Creates PackageInstaller context through hidden ActivityThread.systemMain().getSystemContext() and createPackageContext(installerPackage).
+- Creates PackageInstaller session with install reason 4.
+- On API 34+ sets installer package name to the supplied installer package.
+- On API 33+ sets package source 2.
+- On API 31+ sets require-user-action 2.
+- Sums all APK source sizes and calls SessionParams.setSize.
+- Streams every source into the PackageInstaller session and calls fsync.
+- Commits through a locally created IntentSender and waits up to 120000 ms.
+- Timeout maps to internal status 8.
+- Successful PackageInstaller result is not accepted blindly: verifyInstallSource checks installerPackageName.
+- On API 30+ it additionally checks both initiatingPackageName and installingPackageName.
+- Expected installer/source identity is the same supplied installer package.
+- Successful verified result returns bd4.PackageInstaller provenance.
+- Session is closed; failed open/commit paths attempt abandonSession.
+
+Therefore source-preserving install is a privileged installer-provenance preservation boundary, not merely an alternate APK installer.
+
+### NotificationPolicyProxy + caller chain
+
+Direct caller edges are present in both backup and restore task code.
+
+Backup:
+
+AppBackupTask
+  ↓
+validate package name
+  ↓
+resolve userId
+  ↓
+temporary backup payload file
+  ↓
+bv.a(
+  NotificationPolicyProxy.class.name,
+  "swiftbackup_notification_policy_proxy",
+  ["backup", userId, packageName, file],
+  null
+)
+  ↓
+require SB_NOTIFICATION_POLICY:OK
+  ↓
+read payload file
+  ↓
+reject empty / > 512 KiB package payload
+  ↓
+persist notification-policy XML into AppSpecialDataPayload
+
+Restore:
+
+AppRestoreTask
+  ↓
+AppSpecialDataPayload.notificationPolicyXml
+  ↓
+validate package name + Shizuku capability
+  ↓
+temporary restore file
+  ↓
+bv.a(
+  NotificationPolicyProxy.class.name,
+  "swiftbackup_notification_policy_proxy",
+  ["restore", userId, packageName, file],
+  null
+)
+  ↓
+require SB_NOTIFICATION_POLICY:OK
+  ↓
+delete temporary file
+
+Proxy semantics:
+
+- Full notification backup payload maximum: 4 MiB.
+- Extracted per-package payload maximum: 512 KiB.
+- Backup obtains raw notification service payload through hidden INotificationManager.getBackupPayload(userId).
+- It requires the XML to contain a <notification-policy root.
+- It extracts the ranking opening tag.
+- It locates the target <package name="..."> block using XML-escaped package name.
+- It reconstructs a minimal notification-policy XML containing the ranking header and only the target package block.
+- Restore accepts a payload file only when size is 1..524288 bytes.
+- It decodes using strict charset decoding (REPORT for malformed/unmappable input).
+- It extracts the target package block again before invoking hidden applyRestore(byte[], userId).
+- Output contract is SB_NOTIFICATION_POLICY:OK, MISSING, or ERROR [...].
+
+The caller-to-proxy relation is now verified statically; this closes the previous gap that the proxy was only a standalone helper.
+
+### AppSpecialDataPayload relation
+
+AppSpecialDataPayload explicitly contains:
+
+- permissionStatesCsv;
+- ssaid;
+- ntfAccessComponent;
+- accessibilityComponent;
+- notificationPolicyXml.
+
+The restore task reads notificationPolicyXml from this model and routes it through NotificationPolicyProxy. Thus notification policy is a concrete special-data payload channel, not an isolated utility.
+
+### AppsWorkingDir
+
+Verified execution semantics:
+
+- Normal working base begins at the app internal files/cache directory.
+- If creation is needed and mkdirs() fails, normal path resolution returns null.
+- Storage availability is inspected before selecting the working base.
+- When storage helper indicates an external-cache candidate, it selects an external cache directory whose path matches the expected storage-root prefix; otherwise falls back to the user-folder cache path or internal cache.
+- If Shizuku/ADB access is required, the working directory switches to external cache / user-folder path designed to be accessible by Shizuku/ADB.
+- The final task directory is <selected-base>/app_tasks.
+- getWorkingDir(name, size) creates/validates a child q63 working directory and returns null on creation failure.
+- Cleanup traverses the internal cache path and external cache directories and invokes recursive cleanup helper where applicable.
+- Cleanup is guarded by an isCleanupComplete state and catches exceptions at the public boundary.
+
+This confirms AppsWorkingDir is a task-artifact location boundary with a privilege/accessibility constraint, not simply a cache convenience class.
+
+### SBA metadata builder
+
+SbaAppDataRootRequestBuilder.a(...) constructs JSON using Gson from SbaAppDataArchiveMetadata.
+
+Verified defaults:
+
+- kind = swiftbackup.app-data
+- version = 1
+- encrypted = true
+- entries contains data when normal data directory exists;
+- entries additionally contains data_de when device-protected data is included and available;
+- dataSize/deDataSize are sourced from ji.getSizeInfo();
+- packageName, appId, versionName, versionCode come from ji;
+- compressionLevel is supplied from xp1.name();
+- backupCache and includeDeviceProtectedData are explicitly represented.
+
+This is a concrete archive metadata contract. It must remain part of the Apps data/model graph.
+
+### Coverage impact
+
+Closed in this pass:
+
+- direct installer-source-preserving caller edge;
+- installer provenance verification edge;
+- notification-policy backup caller edge;
+- notification-policy restore caller edge;
+- AppSpecialDataPayload → notification-policy proxy edge;
+- AppsWorkingDir task-artifact boundary;
+- SBA archive metadata construction boundary.
+
+Still open:
+
+1. exact bv.a(...) command execution/transport semantics and its result/cancellation behavior;
+2. exact nj7 cleanup/error behavior under partial source staging;
+3. remaining direct apptasks helper edges not yet traced;
+4. transitive resource dependencies;
+5. complete 45-class/resource ledger reconciliation.
+
+### Status
+
+InstallerSourceProxy caller + proxy chain: VERIFIED STATICALLY.
+NotificationPolicyProxy caller + proxy chain: VERIFIED STATICALLY.
+AppSpecialDataPayload notification-policy relation: VERIFIED STATICALLY.
+AppsWorkingDir task-artifact boundary: VERIFIED STATICALLY.
+SBA metadata contract: VERIFIED STATICALLY.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Resource semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Lanjut ke bv.a transport/execution boundary dan remaining direct apptasks edges, lalu reconcile hasilnya ke task graph + data/model graph + 45-class/resource coverage ledger.
