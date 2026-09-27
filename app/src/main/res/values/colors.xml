@@ -6,12 +6,16 @@
     <color name="on_surface_variant">#FFCAC4D0</color>
     <color name="primary">#FFD0BCFF</color>
     <color name="apps">#FF03A9F4</color>
+    <color name="apps30">#4D03A9F4</color>
     <color name="blu10">#1A4285F4</color>
     <color name="ambr20">#33FFA000</color>
+    <color name="org">#FFEE8100</color>
+    <color name="org30">#4DEE8100</color>
     <color name="ppl">#FFA142F4</color>
     <color name="ppl30">#4DA142F4</color>
     <color name="grn">#FF4CAF50</color>
     <color name="grn10">#1A4CAF50</color>
+    <color name="grn30">#4D4CAF50</color>
     <color name="trans">#00000000</color>
     <color name="google_sign_in_button_background">#124285F4</color>
     <color name="google_sign_in_button_ripple">#334285F4</color>
