@@ -3094,3 +3094,134 @@ Therefore the 45-class inventory is **not yet a claim of 45/45 deep behavioral c
 - FavoriteAppsRepo persistence/lifecycle;
 - remaining app task helper serialization/edge commands;
 - complete quick-action/config option variant graph.
+## Checkpoint 22 — Favorite Apps / AppInfo / Pinned Detail Shortcut / Config Downstream / Backup Limits / Visibility
+
+### FavoriteAppsRepo
+
+`v53` is the concrete FavoriteAppsRepo implementation.
+
+Persistent local cache:
+- path `files/favorites/cached_favorites`;
+- serialized `FavoriteAppsRepo$FavoritesWrapper`;
+- reads are rejected on main thread;
+- cache entries are keyed by package name in an in-memory `LinkedHashMap`.
+
+Remote load:
+- Firebase node `favoriteApps`;
+- anonymous users bypass remote and use local cache;
+- signed-in non-anonymous users fetch snapshot, deserialize `FavoriteApp`, rebuild map by package name, persist the resulting list to local cache, and replace in-memory map.
+
+Mutation:
+`v53.f(ji, showToast)` toggles based on package-name presence. For non-anonymous users it writes/removes the package-specific Firebase child; for anonymous users the Firebase reference is null and the mutation is local-only. It then updates the in-memory map, publishes `w13.q(v53.class, packageName)`, refreshes related state, and optionally shows add/remove toast.
+
+Initialization is guarded by `v53.b` and started from `g00.C()` only after a Firebase user exists.
+
+`FavoriteApp` itself stores only packageName + name. Its `getPackageId()` derives a stable cloud child id through `g00.h(packageName)`.
+
+### AppInfoActivity
+
+`AppInfoActivity` receives `ji` through `ji.PARCEL_KEY`, restores it across instance state, and aborts if the parcelable is absent.
+
+`sq` builds the displayed diagnostic information from the supplied `ji`: Name, Package, Version name/code, App location (`sourceDir`), Data location, Split APK source paths, and UID for installed apps. UID is obtained through `g00.n(packageName)`.
+
+Presentation is built as styled text asynchronously; this screen does not mutate backup metadata or package state in the inspected path.
+
+### ShortcutPinnedReceiver
+
+`ShortcutPinnedReceiver` is a `BroadcastReceiver`. On receive it dispatches work off the receiver thread through `io4.j(...)`.
+
+The worker reads `ji.PARCEL_KEY` from the pinning intent. If present it logs `Detail screen shortcut added for <app>` and calls `Const.x(context)`.
+
+`j32` is the source that registers the receiver during the detail shortcut-pinning flow and creates the pending intent containing `ji.PARCEL_KEY`.
+
+`detail_launched_from_shortcut=true` is attached to the resulting DetailActivity/shortcut intent path, so shortcut-launched detail has an explicit origin marker.
+
+No separate favorite/shortcut persistence store was found in `ShortcutPinnedReceiver`; its observed responsibility is pin-result handling and shortcut refresh.
+
+### Custom Config UI/downstream
+
+`ConfigListActivity` is root/Shizuku-gated and premium-gated. It renders loading/content/empty states, exposes sort/help/manage-labels/app-backup-settings/settings, and starts new/edit config flows.
+
+`ConfigEditActivity` accepts `extra_config`, creates or edits `Config`, manages an ordered `ConfigSettings` list, validates name, blocks duplicate names, and can delete the config. Settings are added/replaced through `plusSettings()` and removed through `minusSettings()`.
+
+Invalid config name blocks normal save; if a config has no valid settings, the UI offers invalid-config handling and delete/discard behavior.
+
+`ConfigSettingsActivity` delegates field editing to `lr1` and exposes app parts, backup locations, sync options, backup limits, multiple-backup strategy, compression, restore permission mode, restore special permissions, and restore SSAID.
+
+`ConfigSettings.getAppParts()` defaults to APP+DATA when root capability is available, otherwise APP. `getLocations()` defaults to DEVICE. `getSyncOption()` defaults to WIFI. Restore special permissions defaults true; restore SSAID defaults false; restore permissions mode defaults Granted; compression defaults `xp1.DEFAULT`.
+
+`v10` converts `ConfigSettings` directly into the Apps task parameter object `hz`, passing app parts, locations, sync option, cache-backup, compression, multiple-backup strategy, and backup limits.
+
+`m30` consumes config settings during Apps restore selection, including locations and restore permissions mode/special permissions/SSAID when constructing restore configuration.
+
+Thus ConfigSettings is not presentation-only; it is a direct task-input contract.
+
+### AppBackupLimits enforcement
+
+`AppBackupLimitItem` stores part + localLimitMBs + cloudLimitMBs and exposes byte conversions. A limit is valid only when its part resolves and at least one limit is > 0.
+
+`qk0.n(part, currentSize)` is the concrete enforcement point.
+
+Rules:
+- if current storage is FAT32 and the candidate size exceeds 4 GiB, the part is skipped and recorded in local/cloud warning state;
+- if the operation is in the special bypass mode (`qk0.g`), user backup limits are bypassed;
+- otherwise the matching `AppBackupLimitItem` is selected by `AppPart`;
+- local operation uses `localLimitBytes`, cloud operation uses `cloudLimitBytes`;
+- no positive limit or size <= limit → allowed;
+- size > limit → part is skipped and a warning is recorded in the corresponding local/cloud task message accumulator.
+
+This is actual enforcement, not merely a settings display.
+
+`qk0.a/c/b/d` call `qk0.n()` through the part-specific backup-plan eligibility properties, including DATA, EXTDATA, EXPANSION, MEDIA.
+
+### App Visibility Diagnostics
+
+`AppVisibilityDiagnosticsActivity` is a diagnostic tool, not the Apps list repository.
+
+`q00` state is:
+- `v00 snapshot`;
+- search query;
+- loading flag;
+- error message.
+
+`p00` obtains the raw package visibility snapshot from `PackageManager` through `i6.i(packageManager, ownPackageName)`.
+
+`v00` carries raw package count, own package name, and package rows (`r00`). It derives diagnostic flags for whether the own package is present, whether `android` is visible, and whether `com.android.cts.ctsshim` is present in the raw list.
+
+Search filters by package label or package name using case-insensitive matching. The UI can copy a raw diagnostic representation to clipboard.
+
+The diagnostic state has explicit querying, success, empty/no-package, and query-failed presentations.
+
+This screen therefore diagnoses Android package-visibility behavior from a raw `PackageManager` snapshot; it does not itself alter visibility configuration.
+
+### Remaining Apps task helper coverage
+
+`AppsWorkingDir` creates per-task working directories under `app_tasks`, selecting normal/internal/external cache or a Shizuku/ADB-accessible external cache path. It performs a one-time cleanup of stale `app_tasks` content across internal cache, app cache, user-folder cache, and external cache directories.
+
+`SbaAppDataRootRequestBuilder$SbaAppDataArchiveMetadata` serializes app-data archive metadata containing package/app id, version, cache/device-protected flags, compression level, encryption, data/de-data sizes, and archive entries.
+
+`NotificationPolicyProxy` is a privileged helper that backs up/restores Android notification policy through the notification system service. It validates request mode/userId/packageName, caps full payload at 4 MiB and per-package payload at 512 KiB, extracts only the target package XML block, writes/reads a package payload file, and returns `SB_NOTIFICATION_POLICY:OK`, `MISSING`, or `ERROR [...]` markers.
+
+`InstallerSourceProxy` is the previously audited PackageInstaller/source-preserving boundary and remains unchanged by this pass.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- FavoriteAppsRepo local/remote lifecycle and anonymous-user behavior;
+- FavoriteApp identity model;
+- AppInfo data source and presentation fields;
+- pinned-detail shortcut receiver behavior;
+- Config UI validation/edit/delete/ordered settings behavior;
+- ConfigSettings downstream task construction;
+- AppBackupLimits actual enforcement;
+- AppVisibilityDiagnostics raw PackageManager source and diagnostic state;
+- AppsWorkingDir cleanup/path selection;
+- SBA archive metadata serialization boundary;
+- notification-policy privileged helper validation and payload limits.
+
+**UNKNOWN / UNVERIFIED:**
+- exact `g00.h(packageName)` stable-id algorithm;
+- runtime Android package-visibility results on different target/OS configurations;
+- exact shortcut refresh side effects inside `Const.x(context)`;
+- exact downstream behavior of every ConfigSettings field after `hz` construction beyond inspected consumers;
+- exact `i6.i()` implementation semantics beyond its observed raw-snapshot contract.
