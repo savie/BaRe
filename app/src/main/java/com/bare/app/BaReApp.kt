@@ -85,6 +85,7 @@ import com.bare.feature.apps.AppsSearchScreen
 import com.bare.feature.apps.AppsQuickActionsScreen
 import com.bare.feature.apps.AppLabelsScreen
 import com.bare.feature.apps.AppLabelSelectionScreen
+import com.bare.feature.apps2.ui.Apps2Screen
 import com.bare.feature.apps.AppCustomConfigurationsScreen
 import com.bare.feature.apps.AppBlacklistScreen
 import com.bare.feature.apps.AppBackupSettingsScreen
@@ -173,6 +174,7 @@ fun BaReApp() {
     var accessError by remember { mutableStateOf<String?>(null) }
     val accessResolver = remember(context) { com.bare.capability.AccessCapabilityResolver(context) }
     var screen by remember { mutableStateOf(Screen.NONE) }
+    var apps2Open by remember { mutableStateOf(false) }
     val screenBackStack = remember { mutableStateListOf<Screen>() }
     var globalRefreshToken by remember { mutableIntStateOf(0) }
     var globalRefreshing by remember { mutableStateOf(false) }
@@ -214,6 +216,7 @@ fun BaReApp() {
 
     fun goBack() {
         when {
+            apps2Open -> apps2Open = false
             searchOpen -> searchOpen = false
             screen != Screen.NONE -> {
                 if (screenBackStack.isNotEmpty()) {
@@ -427,11 +430,14 @@ fun BaReApp() {
                     { if (identityType == IdentityType.ACCOUNT) { startScreen = StartScreen.APP; screen = Screen.CLOUD } else { returnToCloudAfterAuth = true; startScreen = StartScreen.LOGIN } },
                     ::goBack,
                 )
-                StartScreen.APP -> MainShell(
+                StartScreen.APP -> if (apps2Open) {
+                    Apps2Screen(onBack = { apps2Open = false })
+                } else MainShell(
                     pagerState, searchOpen, searchQuery, { searchQuery = it },
                     { searchOpen = true }, { searchOpen = false },
                     { appsSearchOpen = !appsSearchOpen }, { appsFilterOpen = true },
                     { index -> scope.launch { pagerState.animateScrollToPage(index) } },
+                    { apps2Open = true },
                     { target ->
                         if (target == Screen.CLOUD && identityType != IdentityType.ACCOUNT) {
                             returnToCloudAfterAuth = true
@@ -490,6 +496,7 @@ private fun MainShell(
     onOpenAppsSearch: () -> Unit,
     onOpenAppsFilter: () -> Unit,
     onTabSelected: (Int) -> Unit,
+    onOpenApps2: () -> Unit,
     onOpenScreen: (Screen) -> Unit,
     onOpenApp: (AppItem) -> Unit,
     onAccessChanged: (AccessMethod) -> Unit,
@@ -671,6 +678,7 @@ private fun MainShell(
                     accessMethod = accessMethod,
                     onOpen = onOpenScreen,
                     onOpenTab = onTabSelected,
+                    onOpenApps2 = onOpenApps2,
                     onAccessChanged = onAccessChanged,
                 )
                 Tab.APPS -> AppsFilterScreen(
