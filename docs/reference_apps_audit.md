@@ -1042,3 +1042,82 @@ Remaining high-risk collaborators:
 5. cloud metadata commit/update;
 6. exact cancellation/recovery behavior;
 7. complete `EXPANSION` execution semantics.
+
+
+## Checkpoint 6 — Per-App Archive / Cloud Artifact Boundary
+
+### Per-app backup manager `vl`
+
+Static inspection identifies `vl` as the per-app backup manager used by the `AppsTask` backup branch.
+
+Observed responsibilities:
+
+- receives `hz` backup request and canonical `ji`;
+- resolves selected AppParts;
+- builds source/archive entries for each selected part;
+- applies cache exclusion rules for data/code-cache/shared-preference patterns according to backup-cache state;
+- invokes the archive/compression boundary through `mz6.b(op3(...))`;
+- passes compression profile, progress callback, archive source, and related metadata/callback objects separately;
+- handles part-level failure and propagates a task error message;
+- updates per-app progress;
+- builds data/de-data source entries from the app's actual data paths;
+- includes APK, split APK, shared-library, DATA, EXTDATA, MEDIA, and EXPANSION-specific source handling through the AppPart switch;
+- special-data is not treated as a normal AppPart archive in the observed branch; the source explicitly states that special data is generated with app metadata.
+
+The source also contains cleanup of stale split/shared-library archive details when the currently installed APK no longer contains those artifacts.
+
+### Archive boundary
+
+Reference confirms a distinct archive engine boundary.
+
+Static contract:
+
+AppPart → source path + exclusion rules → archive entry/profile → compression → archive engine → part artifact → metadata/result.
+
+The exact internal archive format implementation is not copied into Apps2 automatically.
+
+### Cloud restore artifact boundary `mq`
+
+`mq` builds cloud download work from `AppCloudBackup + CloudMetadata + selected AppParts`.
+
+Observed cloud artifacts include:
+
+- APK;
+- split APKs;
+- shared libraries;
+- DATA;
+- EXTDATA;
+- MEDIA;
+- EXPANSION;
+- special-data when restore-permission/special-data flags and metadata allow it.
+
+Each artifact is represented with remote link, local target path, expected size, and artifact type.
+
+Existing local cloud artifact copies can be reused when size/state matches the expected cloud artifact, avoiding unnecessary download.
+
+### Restore execution implication
+
+Reference cloud restore is therefore: CloudMetadata → selected AppParts → artifact descriptors → download/reuse decision → local artifact availability → restore manager.
+
+The actual install/data mutation boundary remains downstream and still requires dedicated audit.
+
+### EXPANSION
+
+This checkpoint confirms `EXPANSION` is not only a UI enum.
+
+Reference cloud metadata and cloud restore artifact construction explicitly include expansion link, expansion size, expansion local target, and selected-part gating.
+
+Reference backup source construction also includes EXPANSION handling.
+
+Exact device-side mutation semantics for EXPANSION still require audit.
+
+## Checkpoint 6 conclusion
+
+Per-app backup/archive and cloud-artifact boundaries are now materially identified.
+
+Remaining highest-risk boundary:
+
+- device-side restore/install/data mutation and post-restore verification;
+- preconditions and platform capability resolution;
+- metadata commit semantics;
+- complete EXPANSION device-side restore semantics.
