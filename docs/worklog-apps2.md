@@ -1045,3 +1045,35 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: lower-level local `q63` delete/metadata coupling → task cancellation/retry semantics → remaining backup/history collaborators only where dependency requires.
+## Audit Checkpoint 15 — Lower-level Local Delete / Metadata Coupling
+
+### Hasil
+
+`q63` adalah filesystem abstraction. Method `f()`, `g()`, `h()`, dan `i()` menghapus file/directory melalui Java/root/trash/shell path, tetapi tidak memanggil `cu.f()` dan tidak memutasi `LocalMetadata`.
+
+`hk` memetakan backup record ke backup directory serta file `<backupId>.app`, `<backupId>.xml`, dan part DATA/EXTDATA/MEDIA/EXPANSION.
+
+`hk.v()` menunjuk metadata `.xml`; `hk.u()` membaca `LocalMetadata` dari path tersebut.
+
+Partial local delete menghapus artifact yang dipilih tetapi tidak menemukan metadata rewrite pada lower-level delete path. Karena itu metadata lama dapat tetap ada selama backup directory masih memiliki artifact/record.
+
+Jika tidak ada backup tersisa, `fk.c(package,false).g()` menghapus package backup directory sehingga metadata `.xml` yang tersisa ikut terhapus sebagai filesystem content.
+
+### Invariant
+
+Local artifact deletion dan LocalMetadata persistence adalah dua boundary terpisah.
+
+Ini tidak otomatis berarti metadata stale adalah bug; source belum membuktikan apakah higher-level observer sengaja merekonsiliasikan metadata atau history menggunakan metadata + artifact existence.
+
+### Status
+
+Lower-level local delete: VERIFIED STATICALLY.
+LocalMetadata coupling: VERIFIED STATICALLY sebagai separate boundary.
+Higher-level metadata reconciliation: UNKNOWN.
+Process-death behavior: UNKNOWN.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: cancellation/retry semantics dan higher-level observers/history consistency setelah delete.
