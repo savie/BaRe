@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
@@ -68,6 +69,9 @@ fun Apps2ListScreen(
                 }
                 IconButton(onClick = { filterOpen = true }) {
                     Icon(Icons.Default.FilterList, contentDescription = "Filter")
+                }
+                IconButton(onClick = onRefresh) {
+                    Icon(Icons.Default.Refresh, contentDescription = "Refresh")
                 }
                 IconButton(onClick = { sortOpen = true }) {
                     Icon(Icons.Default.Sort, contentDescription = "Sort")
