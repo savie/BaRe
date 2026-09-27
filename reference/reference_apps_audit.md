@@ -5133,3 +5133,111 @@ Legacy Apps: TIDAK DIUBAH.
 ### Next audit
 
 Lanjutkan remaining no-direct-edge resource candidates melalui XML include/reference graph, generated binding patterns, manifest/navigation/theme references, dan dynamic resource loading. Setelah resource queue cukup tertutup, lakukan final 45-class/task/data/model/UI reconciliation sebelum architecture freeze.
+
+
+## Audit Checkpoint 34 — XML Include Graph + Binding/Manifest Closure for Remaining Resource Candidates
+
+Pass ini melanjutkan Checkpoint 33 dengan evidence dari full XML resource tree, include/reference graph, generated/decompiled binding collaborators, dan manifest/smali boundary untuk kandidat yang sebelumnya tidak memiliki direct Java R.* edge.
+
+### 1. XML include/reference closure
+
+Beberapa kandidat yang sebelumnya UNKNOWN sekarang terbukti reachable melalui parent layout:
+
+- app_backup_limits_edittext → app_backup_limits_item → app_backup_limits_activity;
+- app_swipe_preview_content → app_swipe_actions_fragment;
+- app_visibility_diagnostics_activity → appbar;
+- appbar → banyak Activity layouts, termasuk detail/config/folder/Apps/settings surfaces;
+- appbar_with_filters → apps_config_run_activity / apps_batch_activity / app_list_activity;
+- config_notice_view → config_edit_activity;
+- config_settings_view → config_settings_activity / config_edit_item;
+- delete_app_backups_dialog_switch_item → delete_app_backups_dialog;
+- detail_card_app_backup → detail_activity;
+- detail_card_app_info → detail_activity;
+- detail_card_app_storage → detail_card_app_info;
+- detail_card_storage_loading → detail_card_app_storage;
+- folder_backup_card_item → folder_detail_backup_card;
+- folder_detail_backup_card → folder_detail_activity;
+- folder_detail_card_loading_view → folder_detail_info_card;
+- folder_detail_info_card → folder_detail_activity;
+- folder_restore_location_item → folder_restore_dialog;
+- folder_strategy_item → folder_backup_dialog / folder_restore_dialog;
+- home_appbar → home_activity + layout-w600dp/home_activity;
+- label_edit_apps_view / label_edit_color_view → label_edit_activity;
+- multiple_backups_strategy_item → multiple_backups_strategy_activity;
+- quick_action_card → apps_quick_actions_fragment / dash_fragment;
+- task_activity_top → task_activity.
+
+Status: XML parent/include reachability VERIFIED STATICALLY for inspected edges.
+
+### 2. Generated/decompiled binding boundary
+
+The decompiled Java source contains binding-style collaborators that consume several of these layouts despite the resource names not appearing as ordinary R.* references in the original 45-class inventory.
+
+Representative evidence:
+
+- defpackage/ek.java inflates config_edit_activity and resolves R.id.config_notice_view and R.id.config_settings_view; it also resolves appbar_layout.
+- defpackage/oq1.java resolves R.id.config_settings_view and its child IDs.
+- defpackage/ak.java inflates apps_batch_activity and resolves R.id.appbar_with_filters; the same collaborator also inflates detail_activity and resolves R.id.detail_card_app_info and related detail cards.
+- defpackage/fj.java resolves R.id.appbar_with_filters for apps_config_run_activity.
+- defpackage/xq4.java is the binding-style collaborator for label_edit_apps_view / label_edit_color_view.
+- FolderDetailActivity.java consumes the folder-detail binding graph.
+- TaskActivity.java consumes task_activity_top through binding-style lookup from task_activity.
+
+This is direct evidence that these layouts participate in runtime view binding/inflation paths.
+
+Status: binding/decompiled collaborator reachability VERIFIED STATICALLY for inspected edges.
+
+### 3. Resource candidates with no direct Java edge can still be manifest/runtime reachable
+
+app_visibility_diagnostics_activity has no direct Java R.* edge in the full-source scan, but the decompiled APK boundary contains:
+
+- AndroidManifest.xml declaration;
+- AppVisibilityDiagnosticsActivity.smali;
+- multiple smali collaborators referencing the Activity.
+
+The resource therefore cannot be classified unused from absence of Java R.* alone.
+
+Status: Activity/manifest reachability VERIFIED STATICALLY. Layout inflation edge remains implementation-detail evidence at smali/runtime boundary.
+
+### 4. Drawable/scrim closure through XML
+
+Selected drawable candidates previously lacking direct Java R.* edges are now resolved through XML references:
+
+- ic_app_tinted → quick_action_card.xml / menu_new_schedule.xml / ic_app_raster.xml;
+- ic_configs_filled → settings_apps.xml / menu_new_schedule.xml;
+- ic_settings_backup_restore → menu_cloud_service.xml;
+- ic_show_hide_visibility → menu_sms_dash.xml / menu_popup_wifi_item_backedup.xml;
+- swipe_preview_skeleton_line → app_swipe_preview_content.xml;
+- task_icon_progress_scrim → task_card.xml.
+
+Status: XML drawable reachability VERIFIED STATICALLY for inspected edges.
+
+### 5. Important boundary
+
+This pass materially reduces the remaining UNKNOWN queue, but it does not prove that every one of the original 112 candidates is semantically closed.
+
+The correct interpretation is now:
+
+- no direct Java R.* edge ≠ unused;
+- XML include/reference edge = concrete resource reachability evidence;
+- generated/decompiled binding edge = concrete runtime consumer evidence;
+- manifest/smali Activity evidence = runtime surface evidence, but does not by itself prove exact layout inflation call unless that edge is observed.
+
+### Status
+
+XML include/reference closure for inspected remaining candidates: VERIFIED STATICALLY.
+Generated/decompiled binding reachability for inspected candidates: VERIFIED STATICALLY.
+Manifest/runtime Activity reachability for app_visibility_diagnostics_activity: VERIFIED STATICALLY.
+Selected drawable/scrim XML reachability: VERIFIED STATICALLY.
+All-112 resource semantic closure: BELUM SELESAI.
+Remaining uninspected candidates: UNKNOWN.
+Deep 45-class coverage: BELUM SELESAI.
+Collaborator semantic coverage: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next audit
+
+Selesaikan candidate-resource remainder yang belum terinspeksi, lalu pindah ke final 45-class/task/data/model/UI reconciliation ledger. Architecture freeze tetap ditahan sampai ledger tersebut mempunyai evidence producer/consumer yang cukup.
