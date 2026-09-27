@@ -1314,7 +1314,7 @@ The restore path adds target-specific conditions on top of the part capability r
 - downgrade policy can alter whether APK restore proceeds;
 - restore permission mode can add permission/special-data work even when no normal file AppPart is being mutated.
 
-`PreconditionsActivity` separately models permission preconditions for request codes 2, 3, and 589 in the inspected activity. The complete mapping from every AppsTask request to that Activity is not yet proven.
+`PreconditionsActivity` is **not established as an Apps restore precondition contract**. Its inspected request codes 2, 3, and 589 are wired to SMS/call-log permission checks (`dz5.m()` / `dz5.g()`) and are also launched from Messages/Calls/Quick Actions/scheduling paths. Therefore it must not be used as evidence for Apps restore capability. Apps restore preconditions are instead evidenced directly in `xw` / `nm6` and the AppPart capability contract.
 
 ### Metadata update boundary
 
@@ -1369,3 +1369,190 @@ Remaining audit gaps are now primarily:
 3. archive format internals hidden by JADX gaps;
 4. complete cloud/local metadata persistence implementation;
 5. runtime verification.
+
+## Checkpoint 9 — Apps Restore Preconditions, Installer Request, and Metadata Persistence
+
+### Apps-specific preconditions
+
+The previous audit treated `PreconditionsActivity` as a possible generic Apps precondition boundary. Further inspection narrows this:
+
+- `PreconditionsActivity` request codes 2, 3, and 589 resolve to SMS/call-log permission checks.
+- Launch sites include Messages, Call Logs, Home Search, Quick Actions, and scheduling paths.
+- No inspected Apps restore path was found that establishes `PreconditionsActivity` as the Apps restore gate.
+
+Therefore the Apps restore precondition contract is reconstructed from `xw`, `nm6`, `iu`, and `sk0` instead.
+
+Observed Apps restore gates include:
+
+1. Do not restore the active Shizuku package when Swift Backup is using Shizuku.
+2. DATA/EXTDATA/EXPANSION/MEDIA restore is stopped when the target app is not installed.
+3. DATA/EXTDATA/EXPANSION/MEDIA task selection is further filtered through installed-target state and per-part backup availability.
+4. DATA/EXTDATA/EXPANSION/MEDIA use the `nm6.b()` change checker when the target is installed:
+   - compare current size against mirrored backup size;
+   - otherwise inspect changed files from the recorded backup date;
+   - cache exclusion follows the `backup_app_cache` preference.
+5. DATA restore requires an installed UID before mutation; missing UID produces an explicit skip.
+6. An Apps restore can continue DATA restore when APK downgrade fails but the app remains installed, as observed in the `xw` flow.
+7. Blacklisted-app state can suppress data restore in the observed path.
+
+This gives a more concrete Apps-specific precondition chain:
+
+~~~text
+AppPart
+  ↓
+BackupRequirement / capability
+  ↓
+Target installed-state
+  ↓
+Backup artifact exists
+  ↓
+Part-specific change/size check
+  ↓
+Additional target condition (e.g. UID)
+  ↓
+Restore operation
+~~~
+
+### Concrete APK installer request model
+
+The concrete installer request boundary is now identified as `fd4` + `ad4`, not `mv`.
+
+`fd4` represents:
+- `installerPackage`;
+- `packageName`;
+- list of APK files.
+
+`ad4` represents one APK artifact:
+- archive/session entry name;
+- local file path;
+- file length.
+
+`zm5.w()` parses the installer invocation arguments and validates:
+- at least installer package, target package, and one APK file;
+- APK argument format `name|path`;
+- non-blank APK name;
+- file existence;
+- non-zero file length.
+
+It then builds `ad4` entries and the `fd4` request.
+
+`InstallerSourceProxy.install()` maps that request into Android `PackageInstaller.SessionParams`:
+- install mode `1`;
+- target package name;
+- install reason `4`;
+- installer package name on API 34+;
+- package source `2` on API 33+;
+- `requireUserAction(2)` on API 31+;
+- expected total session size from all APK files.
+
+Each APK is streamed into the PackageInstaller session and `fsync()` is called before close. The session is committed and the result is awaited for up to 120 seconds.
+
+Successful installation is not accepted solely from the PackageInstaller status. Reference additionally verifies installer-source identity:
+- `getInstallerPackageName()`;
+- on API 30+, `getInstallSourceInfo()` initiating package;
+- installing package.
+
+Failed sessions are abandoned.
+
+### `mv` role clarification
+
+`mv` is the `AppRestoreHelper` / downgrade-workaround collaborator around APK restore.
+
+It is not the concrete PackageInstaller request model.
+
+Observed responsibilities include:
+- processing downgrade restore output;
+- preserving downgrade backup artifacts on failure;
+- retrying restore after excluding problematic split APKs;
+- `pm install-existing --user` fallback;
+- secondary-user downgrade workaround;
+- reusing the common APK install path.
+
+Therefore the concrete architecture boundary is:
+
+~~~text
+AppRestoreTask (`xw`)
+  ↓
+APK restore / downgrade helper (`mv`)
+  ↓
+installer request (`fd4`)
+  ├─ APK artifacts (`ad4`)
+  └─ installer/package identity
+  ↓
+InstallerSourceProxy
+  ↓
+PackageInstaller.Session
+  ↓
+install result + source verification
+~~~
+
+### Local metadata persistence
+
+The local metadata persistence boundary is now evidenced by `cu`.
+
+`cu`:
+- reads `LocalMetadata` from the metadata file;
+- validates metadata version/user identity;
+- serializes versioned metadata;
+- writes metadata through `saveMetadataFile`;
+- reports write failures explicitly.
+
+Observed callers include:
+- `vl` / `AppBackupTask`: after backup processing, saves the updated `LocalMetadata`;
+- `vi2`: protect/unprotect local backup updates `LocalMetadata` and persists it;
+- `oj`: note updates local backup metadata and persists it.
+
+Therefore local backup metadata persistence is **VERIFIED from static source evidence** as a separate write boundary.
+
+### Cloud metadata persistence
+
+The cloud upload path in `c40` updates `CloudMetadata` after artifact processing, including:
+- APK;
+- split APK;
+- shared libraries;
+- DATA;
+- EXTDATA;
+- MEDIA;
+- EXPANSION;
+- special data;
+- installer package;
+- backup date;
+- note;
+- protection;
+- backup-updated timestamp.
+
+Before cloud upload, the metadata is prepared for Firebase upload and then written through the cloud detail node update path (`cf3.c(...)` in the inspected branch).
+
+This establishes a distinct cloud metadata persistence path after artifact processing.
+
+### Restore metadata conclusion
+
+The distinction is now clearer:
+
+- **Backup → LocalMetadata:** concrete file persistence is evidenced.
+- **Backup/Cloud upload → CloudMetadata:** cloud metadata update/upload is evidenced.
+- **Restore → selected backup metadata record:** the inspected `xw` / `c40` restore path still does not establish a separate rewrite of the selected backup's metadata record after successful restore.
+
+Therefore the earlier statement remains:
+
+**Restore metadata commit after successful restore is NOT EVIDENCED as a separate persistence operation.**
+
+### Checkpoint 9 conclusion
+
+Newly verified/narrowed boundaries:
+
+1. Apps-specific restore preconditions are in `xw` / `nm6`, not `PreconditionsActivity`.
+2. Concrete APK install request is `fd4` + `ad4`.
+3. `mv` is downgrade/install orchestration, not the request DTO.
+4. Local backup metadata has an explicit file persistence boundary through `cu`.
+5. Cloud backup metadata has an explicit upload/update boundary through `c40`.
+6. Restore-side metadata rewrite remains unverified.
+
+Remaining high-risk audit gaps:
+
+1. complete archive-format semantics behind `xw.h/i/j/k/l/m/n`;
+2. exact restore manager → archive extractor contract;
+3. complete local/cloud metadata lifecycle for restore/delete/sync edge cases;
+4. exact downgrade workaround decision matrix;
+5. runtime verification against SwiftBackup 5.1.0-620;
+6. final separation of pure Reference evidence from BaRe/Apps2 reconstruction analysis in repository documentation.
