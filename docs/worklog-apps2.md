@@ -1158,3 +1158,59 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: batch actions + row swipe/overflow action capability matrix, lalu labels/config/quick-actions dependency path.
+## Audit Checkpoint 18 — Batch Actions / Row Capability / Quick Actions
+
+`s10` membentuk batch action berdasarkan selection `ji` dan local/cloud section:
+- Backup;
+- Restore;
+- Sync backups (local section);
+- Delete backups (local/cloud);
+- Export apps list;
+- Apply labels;
+- Enable/Disable apps;
+- Uninstall (local section, non-bundled installed apps).
+
+`n10` membawa action identity, title/subtitle, count, section flag, dan option/action resource metadata.
+
+`AppsBatchActivity` memakai `l20` sebagai selection adapter. Select-all mengubah selection; state selection disimpan lewat `onSaveInstanceState`. Action tidak dieksekusi jika selection kosong.
+
+Delete backup batch memeriksa selected local backups untuk protected backup sebelum dialog/flow. Apply labels memakai `n97` dengan Set/Add/Clear; Add/Clear disabled jika tidak ada selected app yang memiliki labels.
+
+`oy.isAvailable(ji)` menghasilkan capability matrix:
+- Launch: installed + enabled + launchable;
+- Enable/Disable: root/Shizuku + installed;
+- Uninstall: installed + not bundled;
+- ForceStop: root/Shizuku + installed + enabled;
+- PlayStore: installed + enabled;
+- ClearData: always available pada enum path yang diperiksa;
+- AppInfo: installed;
+- ShareApk: installed.
+
+Enable/Disable icon/title berubah berdasarkan `ji.enabled`. Uninstall dan ClearData bertone destructive.
+
+`yc6` quick-action catalog:
+- backup all/pending/updated/redo/sync;
+- restore all/missing/new versions;
+- optional calls, folders, messages backup/restore;
+- delete backups of uninstalled apps;
+- enable/disable apps.
+
+`pinned_actions` disimpan di SharedPreferences dengan default yang mencakup backup-all dan restore-all.
+
+`zc6` membawa flag untuk backup/restore, sync, local/cloud, dan expansion/execution behavior; sebagian semantic naming tetap obfuscated.
+
+### Status
+
+Batch action catalog: VERIFIED STATICALLY.
+Batch selection/state: RECONSTRUCTED STATICALLY.
+Row capability matrix: VERIFIED STATICALLY.
+Quick-action catalog: VERIFIED STATICALLY.
+Quick-action flag semantics: PARTIAL / OBFUSCATED.
+Overflow/swipe exact placement: UNKNOWN.
+Full task graph per batch variant: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: labels data lifecycle + custom configurations + quick-action execution graph, then reassess remaining Apps surface before any closing decision.
