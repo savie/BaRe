@@ -2556,3 +2556,107 @@ Ini memperkuat bahwa Apps2 architecture belum layak dianggap frozen hanya berdas
 - runtime performance of size/usage-derived sorting on large app sets;
 - every action capability matrix behind `oy` collaborators;
 - complete batch-action semantics.
+## Checkpoint 18 — Batch Actions / Row Capability Matrix / Quick Actions
+
+### Batch action catalog
+
+`s10` constructs the Apps batch action list from the current `ji` selection and local/cloud section:
+
+- `Backup` — count of installed apps;
+- `Restore` — count of apps with restorable backup; when backups exist but none has a restorable APK, the subtitle becomes `no_apk_backup`;
+- `Sync backups` — only exposed in local section;
+- `Delete backups` — local or cloud variant according to section;
+- `Export apps list`;
+- `Apply labels`;
+- `Enable/Disable apps` — count based on installed apps;
+- `Uninstall` — only exposed in local section and count based on non-bundled installed apps.
+
+`n10` carries action id, title/subtitle resources, count, local/cloud flag, destructive/selection flags, and action/options resources. `AppsBatchActivity` receives the item through `batch_action_item`.
+
+### Selection is explicit and persisted through activity state
+
+`AppsBatchActivity` uses `l20` selection adapter state. `Select all` toggles the adapter selection state; `onSaveInstanceState` persists the adapter's `fm7` selection state.
+
+Before executing an action, the activity refuses to continue when the selected set is empty and shows the `select_some_items` message.
+
+### Batch action execution branches
+
+The inspected executor branches by action id:
+- `Uninstall` → destructive confirmation then uninstall flow;
+- `Delete backups` → `b20`, which inspects selected apps for protected local backups before showing delete flow;
+- `Enable/Disable apps` → dedicated enable/disable flow;
+- `Apply labels` → `n97`, with Set/Add/Clear label operations;
+- `Export apps list` → export coroutine;
+- backup/restore/sync → task orchestration through the Apps task stack, with local/cloud target represented separately.
+
+`n97` disables Add/Clear labels when none of the selected apps currently has labels. Set labels remains available.
+
+### Row action capability matrix
+
+`oy.isAvailable(ji)` provides the concrete row action availability:
+
+| Action | Static availability condition |
+| --- | --- |
+| Launch | installed + enabled + launchable |
+| Enable/Disable | root/Shizuku capability + installed |
+| Uninstall | installed + not bundled |
+| ForceStop | root/Shizuku capability + installed + enabled |
+| PlayStore | installed + enabled |
+| ClearData | always available in the inspected enum path |
+| AppInfo | installed |
+| ShareApk | installed |
+
+`EnableDisable` dynamically changes icon/title from Enable to Disable according to `ji.enabled`.
+
+`oy.getTone()` marks `Uninstall` and `ClearData` as destructive; `Launch` is positive; the remaining actions use neutral tone.
+
+### Quick-action catalog
+
+`yc6` statically defines app quick actions in groups:
+
+Backup:
+- `ID_BACKUP_ALL_APPS`;
+- `ID_BACKUP_PENDING_APPS`;
+- `ID_BACKUP_UPDATED_APPS`;
+- `ID_BACKUP_REDO_APPS`;
+- `ID_BACKUP_SYNC_APPS`.
+
+Restore:
+- `ID_RESTORE_ALL_APPS`;
+- `ID_RESTORE_MISSING_APPS`;
+- `ID_RESTORE_NEW_VERSIONS_APPS`.
+
+Optional subsystem quick actions:
+- `ID_BACKUP_CALLS` / `ID_RESTORE_CALLS` when enabled;
+- `ID_BACKUP_FOLDERS` / `ID_RESTORE_FOLDERS`;
+- `ID_BACKUP_MESSAGES` / `ID_RESTORE_MESSAGES` when enabled.
+
+Maintenance:
+- `ID_DELETE_BACKUPS_UNINSTALLED_APPS`;
+- `ID_ENABLE_DISABLE_APPS_APPS`.
+
+`yc6.g()` reads pinned quick-action IDs from `pinned_actions`, with defaults including backup-all and restore-all.
+
+`zc6` determines whether a quick action is backup/restore oriented, local/cloud, sync-related, and whether expansion/execution is permitted. `AppsBatchActivity` expands a quick action into the appropriate Apps task configuration before execution.
+
+### Capability is prerequisite, not merely UI state
+
+Quick-action and row-action availability depends on capability (`mp6.f()` / root-or-Shizuku path), install/bundled state, cloud/local section, and selected-app properties. Therefore Apps2 must not encode these as unconditional buttons.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- complete batch action catalog for Apps list;
+- local/cloud-specific action exposure;
+- selection empty-state guard;
+- protected-backup inspection before batch delete;
+- label batch Set/Add/Clear semantics;
+- row action availability matrix;
+- dynamic Enable/Disable presentation;
+- quick-action catalog and pinned-action persistence.
+
+**UNKNOWN / UNVERIFIED:**
+- exact internal task graph for every batch backup/restore option variant;
+- complete `zc6` flag semantic naming because some constructor flags are obfuscated;
+- runtime capability detection across Android/root/Shizuku environments;
+- full overflow/swipe action placement and ordering in every row state.
