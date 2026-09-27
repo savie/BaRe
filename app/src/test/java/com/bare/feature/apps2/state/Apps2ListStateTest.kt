@@ -91,7 +91,7 @@ class Apps2ListStateTest {
         state.toggleSelection("com.example.a")
         assertTrue("com.example.a" !in state.selectedPackages)
 
-        state.selectAll(apps)
+        state.selectAll(listOf(apps[1]))
         assertEquals(setOf("com.example.a", "com.example.b"), state.selectedPackages)
 
         state.clearSelection()
