@@ -2,7 +2,7 @@
 
 ## Status
 
-Status: PROPOSAL / REKONSTRUKSI STATIS
+Status: BASELINE / ARCHITECTURE FROZEN
 
 Dokumen ini diturunkan dari audit Reference Apps sampai Checkpoint 8.
 
@@ -201,11 +201,100 @@ Tidak boleh otomatis shared: Legacy Apps repository, model, filter state, backup
 - map complete permission precondition request;
 - runtime verification Reference bila feasible.
 
+## Architecture Freeze
+
+### Namespace / module boundary
+
+Apps2 berada di bawah `com.bare.feature.apps2` dengan subpackage berdasarkan boundary:
+
+- domain
+- data
+- state
+- ui/shell
+- ui/list
+- ui/detail
+- ui/batch
+- task
+- capability
+
+Resource Apps2 memakai prefix `apps2_` untuk resource yang perlu global lookup.
+
+### Existing BaRe collision audit
+
+Pada branch `v1.0/rebaseline`:
+
+- belum ada directory `app/src/main/java/com/bare/feature/apps2`;
+- Legacy Apps berada di `com.bare.feature.apps`;
+- Legacy Apps mempunyai implementasi presentational utama di `AppsScreens.kt`;
+- Legacy Apps mempunyai `AppsFilter.kt`;
+- Legacy Apps mempunyai `InstalledAppRepository`, `AppFilterStateStore`, `AppOrganizationStore`, `AppBackupEngine`, `AppRestoreBehavior`, dan collaborator Apps-specific lain;
+- AndroidManifest saat ini hanya mendaftarkan `MainActivity`; Apps2 belum mempunyai Activity sendiri;
+- `Screen` enum Legacy mempunyai banyak Apps-related screen state, tetapi state tersebut bukan contract Apps2.
+
+Kesimpulan collision:
+
+**Apps2 tidak menambah class ke package `com.bare.feature.apps` dan tidak memperluas Legacy `Screen` sebagai Apps2 domain contract.**
+
+Apps2 navigation/state mempunyai boundary sendiri. Integrasi Home dilakukan melalui adapter/entry boundary minimal setelah Apps2 runtime siap.
+
+### UI technology
+
+BaRe saat ini menggunakan Jetpack Compose + Material 3 sebagai presentation foundation.
+
+Architecture baseline Apps2:
+
+- gunakan Compose untuk implementation UI;
+- pertahankan decomposition Reference sebagai class/file/resource-equivalent boundaries;
+- jangan membuat satu `AppsScreens.kt` monolith untuk Apps2;
+- visual geometry, hierarchy, actions, list item, drawer/filter behavior, dan state transitions mengikuti Reference evidence;
+- reusable BaRe Material/foundation hanya dipakai pada generic UI foundation;
+- Apps2 visual identity/header tetap khusus Apps2;
+- Legacy Apps composables bukan Apps2 presentation dependency.
+
+Reference XML diperlakukan sebagai blueprint geometry/component behavior, bukan kewajiban mempertahankan teknologi View/XML yang sama.
+
+### Navigation integration
+
+Integration boundary: BaRe Home → Apps entry adapter → Apps2 Shell.
+
+Home cutover final ditunda sampai Apps2 shell + first vertical slice build/runtime verified.
+
+### First vertical slice
+
+Slice pertama:
+
+Apps2 Shell → Local App Discovery → Canonical Apps2App → Repository State → List rendering → Search → Filter → Sort → App item selection/actions.
+
+Backup/restore execution tidak dipalsukan di slice pertama. Action yang dependency-nya belum implemented harus unavailable/blocked secara eksplisit, bukan fake success.
+
+### Architecture freeze boundaries
+
+Frozen:
+
+- Apps2 isolation;
+- Reference-derived decomposition;
+- Legacy Apps bukan middleman;
+- Compose presentation implementation;
+- Apps2-specific state/navigation;
+- explicit capability domain;
+- explicit task boundary;
+- EXPANSION first-class;
+- Reference encryption tidak otomatis reused;
+- UI + behavior implemented as vertical slices.
+
+Not frozen:
+
+- exact final class names where actual BaRe naming review is still useful;
+- exact cloud provider implementation;
+- archive implementation details hidden by decompilation gaps;
+- runtime parity details;
+- Home cutover mechanics after verification.
+
 ## Engineering Status
 
-- Audit static: AKTIF / substantial.
-- Reconstruction map: DRAFT.
-- Architecture freeze: BELUM.
+- Audit static: SUBSTANTIAL / CHECKPOINT COMPLETE FOR ARCHITECTURE BASELINE.
+- Reconstruction map: BASELINE.
+- Architecture freeze: FROZEN WITH OPEN IMPLEMENTATION DETAILS.
 - Apps2 implementation: BELUM DIMULAI.
 - Home cutover: BELUM.
 - Legacy Apps changes: TIDAK ADA.
