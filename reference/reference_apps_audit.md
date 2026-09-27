@@ -2412,3 +2412,147 @@ Exact provider-side idempotency of repeated delete requests is not established b
 - provider-side idempotency guarantees for repeated cloud deletion;
 - exact persistence semantics when cancellation occurs inside `xh2` after metadata mutation;
 - whether every UI surface refreshes immediately after every partial delete failure.
+## Checkpoint 17 — Apps List Filter / Sort / Row-State Semantics
+
+Audit belum masuk closing. Screenshot reference yang diberikan user konsisten dengan surface yang sudah terbukti statis: `LOCAL APPS`, jumlah app, search, filter, sort/drawer controls, row-level overflow/favorite/status, dan `Batch actions`. Screenshot hanya menjadi evidence visual user-side; perilaku di bawah tetap bersumber dari decompile.
+
+### Filter pipeline
+
+`AppListActivity` membuat `tt` sebagai state controller. `tt.k()` memuat persisted sync filter, memilih local/cloud repository, lalu memanggil repository load. `tt.m()` menerapkan search text terhadap current list dan mengirim state/result ke UI.
+
+`qq.a(...)` adalah filter pipeline utama. Signature-nya menerima:
+- app type `cd3`;
+- miscellaneous `fe3`;
+- labels `td3`;
+- backup status `fd3`;
+- favorites `ld3`;
+- install status `qd3`;
+- enabled status `id3`;
+- backup-age/misc `zd3`;
+- plus local/cloud context boolean.
+
+Filter diterapkan secara berurutan terhadap setiap `ji`. Jika sebuah predicate gagal, app tidak dimasukkan ke result.
+
+### Filter semantics yang terverifikasi
+
+`cd3` App type: `All`, `User`, `System`. System visibility juga dipengaruhi `show_system_apps`.
+
+`fe3` Miscellaneous: `All`, `Launchable`, `Updated`, `LabelledOrFavorites`.
+
+`td3` Labels: `All`, `Selected`, `Labelled`, `NotLabelled`. `Selected` menggunakan persisted `selected_labels_filter`; jika selected label set kosong, filter di-reset.
+
+`fd3` Backup status: `All`, `BackedUp`, `NotBackedUp`, berdasarkan local backup records untuk local context.
+
+`ld3` Favorites: `All`, `Favorites`, `NotFavorites`.
+
+`qd3` Install status: `All`, `Installed`, `NotInstalled`.
+
+`id3` Enabled status: `All`, `Enabled`, `Disabled`.
+
+`zd3` backup/miscellaneous: `All`, `MultipleBackups`, `ProtectedBackups`, `BackupsWithNotes`, `BackupOld`, `BackupNew`, `InstalledFromGooglePlay`, `NotInstalledFromGooglePlay`.
+
+Untuk cloud context, `ProtectedBackups`, `BackupsWithNotes`, dan beberapa backup comparisons membaca `AppCloudBackups`/`CloudMetadata`; untuk local context, sumbernya `LocalMetadata` melalui `gm`/local backups.
+
+`InstalledFromGooglePlay` / `NotInstalledFromGooglePlay` tidak menerima bundled apps sebagai kandidat; pemeriksaan juga menggunakan context boolean saat mengevaluasi `ji.isInstalledFromGooglePlay(...)`.
+
+### Sync filter adalah special case
+
+`ce3` memiliki `All`, `NotSynced`, `Synced` dan menggunakan cloud backup index. Ketika sync filter diterapkan tetapi drive/network/cloud availability tidak memenuhi syarat, Swift mereset filter sync ke `All` daripada mempertahankan filter yang tidak dapat dievaluasi.
+
+`qq.b()` mengambil cloud backup snapshots dan membentuk `AppCloudBackups`; hasilnya kemudian dipakai untuk menentukan apakah app synced atau not synced.
+
+### Filter persistence
+
+Filter state disimpan melalui `SharedPreferences`, bukan hanya state UI.
+
+Observed keys include:
+- `key_filter_app_synced`;
+- `selected_labels_filter`;
+- `key_filter_app_backup`;
+- `key_filter_favorites`;
+- `key_filter_app_install`;
+- `key_filter_app_enabled`;
+- `key_filter_app_backup_age`.
+
+Selected-label filter memiliki distinction temporary/applied: `selected_labels_filter_temp` dipakai selama dialog, lalu saat Apply dipindahkan menjadi `selected_labels_filter`.
+
+### Sort pipeline
+
+`sx` memiliki tujuh mode:
+- `Name`;
+- `InstallDate`;
+- `UpdateDate`;
+- `BackupDate`;
+- `AppSize`;
+- `BackupSize`;
+- `DateUsed`.
+
+Sort mode disimpan sebagai `app_sort_mode`; ascending/descending disimpan sebagai `app_sort_ascending`.
+
+`Name` menggunakan locale-aware collation.
+
+`AppSize` dan `BackupSize` dapat membutuhkan perhitungan/akumulasi size sebelum sorting. `iy.a(...)` melakukan pekerjaan ini off-main-thread dan melaporkan progress.
+
+`DateUsed` menggunakan `UsageStatsManager`. Jika usage-stats permission tidak tersedia, Swift mereset sort mode ke `Name` daripada mempertahankan mode yang tidak dapat dihitung.
+
+### Row presentation
+
+`ws`/`tr` menunjukkan bahwa row bukan hanya package/name:
+- app icon;
+- package/name/title;
+- last backup or last sync time;
+- secondary sort-dependent information;
+- labels;
+- favorite state;
+- selection checkbox;
+- overflow/menu target;
+- swipe actions.
+
+Last backup text berbeda antara local dan cloud section: local menggunakan app backup timestamp, cloud menggunakan latest cloud backup timestamp.
+
+Secondary row text dapat berubah mengikuti sort mode, misalnya install date, update date, app size, backup size, atau last used.
+
+Swipe actions hanya ditampilkan jika `oy.isAvailable(ji)` memenuhi capability/action condition. Primary/secondary action pada masing-masing arah ditentukan secara dinamis.
+
+### State implication for Apps2
+
+Apps list bukan sekadar `List<ji>` + search. Minimum state surface yang terbukti adalah:
+
+~~~text
+repository
+  ↓
+ji list
+  ↓
+sync filter
+  ↓
+multi-filter predicate
+  ↓
+search
+  ↓
+sort + derived size/usage data
+  ↓
+row capability/action state
+  ↓
+list UI
+~~~
+
+Ini memperkuat bahwa Apps2 architecture belum layak dianggap frozen hanya berdasarkan shell/list rendering.
+
+### Evidence status
+
+**VERIFIED STATICALLY:**
+- multi-dimensional filter pipeline;
+- persisted filter state;
+- temporary vs applied label selection;
+- sync filter reset when cloud/network prerequisite is unavailable;
+- seven sort modes;
+- persisted sort mode/direction;
+- usage-stat permission fallback;
+- row-level dynamic secondary information;
+- dynamic swipe action availability.
+
+**UNKNOWN / UNVERIFIED:**
+- exact visual timing/animation behavior for every filter transition;
+- runtime performance of size/usage-derived sorting on large app sets;
+- every action capability matrix behind `oy` collaborators;
+- complete batch-action semantics.
