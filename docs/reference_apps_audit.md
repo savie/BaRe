@@ -1280,3 +1280,92 @@ Remaining audit gaps before Apps2 architecture freeze:
 3. exact concrete `mv` install request model and downgrade workaround collaborators;
 4. complete archive-format matrix behind `xw.k()` and related extraction helpers;
 5. runtime verification of Reference behavior.
+
+
+## Checkpoint 8 — Part Capability Contract and Metadata Update Boundary
+
+### AppPart capability contract
+
+Reference `iu.getBackupReq()` maps part requirements as follows:
+
+| AppPart | Capability requirement |
+|---|---|
+| APP | NONE |
+| DATA | ROOT |
+| EXTDATA | ROOT_OR_SHIZUKU when the Reference capability condition is active, otherwise NONE |
+| EXPANSION | ROOT_OR_SHIZUKU when the Reference capability condition is active, otherwise NONE |
+| MEDIA | NONE |
+
+`sk0.isPossible()` then resolves the requirement against the active capability state:
+
+- ROOT → `mp6.g`;
+- ROOT_OR_SHIZUKU → `mp6.f()`;
+- NONE → always possible.
+
+This is the concrete Reference capability contract for the AppPart enum. It is stronger evidence than inferring capability from UI visibility alone.
+
+### Restore preconditions
+
+The restore path adds target-specific conditions on top of the part capability requirement:
+
+- DATA/EXTDATA/EXPANSION/MEDIA restore requires an installed app in the observed path;
+- DATA restore additionally requires an installed UID before mutation;
+- APK restore requires a valid base APK artifact and a valid PackageInstaller path;
+- downgrade policy can alter whether APK restore proceeds;
+- restore permission mode can add permission/special-data work even when no normal file AppPart is being mutated.
+
+`PreconditionsActivity` separately models permission preconditions for request codes 2, 3, and 589 in the inspected activity. The complete mapping from every AppsTask request to that Activity is not yet proven.
+
+### Metadata update boundary
+
+Backup/cloud-upload inspection confirms metadata is updated after artifact processing:
+
+- APK details;
+- split details;
+- DATA details;
+- EXTDATA details;
+- MEDIA details;
+- EXPANSION details;
+- special-data details;
+- note/protection/date-updated fields.
+
+These updates occur on `CloudMetadata` during the cloud-upload/database path.
+
+For restore, the inspected `xw` / `c40` path does not show a symmetric "rewrite LocalMetadata/CloudMetadata backup record" operation after successful restore. It updates package/app state and task result, while the backup metadata remains the record describing the selected artifact. Therefore **restore metadata commit is currently NOT EVIDENCED as a separate persistence operation** in the inspected Reference path.
+
+### Archive format matrix
+
+`xw` restore dispatch confirms at least these format families:
+
+- format 1;
+- formats 2, 4, 5;
+- format 3 for EXPANSION-specific extraction path;
+- format 6.
+
+The common encrypted/archive extraction boundary is `mz6`, with `xw.t()` performing password validation, archive extraction, diagnostics, and result mapping for the applicable formats.
+
+The exact internal implementation of each archive format is still not fully reconstructed from the decompiled source because JADX has explicit type-inference/decompilation gaps in `xw.k()` and related large methods.
+
+## Checkpoint 8 conclusion
+
+The Apps2 capability contract can now be modeled explicitly rather than inferred:
+
+```text
+AppPart
+  ↓
+BackupRequirement
+  ↓
+Capability state
+  ↓
+Target/package preconditions
+  ↓
+Part restore operation
+```
+
+Remaining audit gaps are now primarily:
+
+1. exact permission/precondition request mapping;
+2. exact `mv` install request structure and downgrade workaround details;
+3. archive format internals hidden by JADX gaps;
+4. complete cloud/local metadata persistence implementation;
+5. runtime verification.
