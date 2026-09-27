@@ -1115,3 +1115,46 @@ Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
 
 Next audit: close remaining delete/task edge gaps where evidence exists, then evaluate whether the reference audit has reached sufficient coverage for architecture freeze. Apps2 implementation remains blocked until explicit implementation plan is presented.
+## Audit Checkpoint 17 — Apps List Filter / Sort / Row State
+
+Audit belum masuk closing; surface Apps masih luas.
+
+Evidence visual user menunjukkan `LOCAL APPS`, app count, search, filter, sort/drawer controls, row overflow/status, dan `Batch actions`. Evidence visual ini dipakai sebagai corroboration surface, sedangkan behavior tetap direkonstruksi dari decompile.
+
+`qq.a(...)` terbukti sebagai multi-filter pipeline terhadap `ji` dengan dimensi:
+- app type;
+- miscellaneous;
+- labels;
+- backup status;
+- favorites;
+- install status;
+- enabled status;
+- backup age/miscellaneous;
+- local/cloud context.
+
+Filter detail yang terbukti mencakup User/System, Launchable/Updated/LabelledOrFavorites, Selected/Labelled/NotLabelled, BackedUp/NotBackedUp, Favorites/NotFavorites, Installed/NotInstalled, Enabled/Disabled, MultipleBackups/ProtectedBackups/BackupsWithNotes/BackupOld/BackupNew/InstalledFromGooglePlay/NotInstalledFromGooglePlay.
+
+Sync filter `ce3` menggunakan cloud snapshot/index dan dapat reset ke `All` ketika cloud/network prerequisite tidak tersedia.
+
+Filter persistence memakai SharedPreferences. Selected label memiliki temporary/applied state.
+
+Sort `sx`: Name, InstallDate, UpdateDate, BackupDate, AppSize, BackupSize, DateUsed. Mode dan direction dipersist. DateUsed bergantung UsageStats permission; jika tidak tersedia sort di-reset ke Name.
+
+Name sort menggunakan locale-aware collation. AppSize/BackupSize dapat memerlukan derived size calculation off-main-thread.
+
+Row `ws`/`tr` memuat icon, package/name, last backup/sync, sort-dependent secondary text, labels, favorite, selection, overflow, dan dynamic swipe actions.
+
+### Status
+
+Apps list filter pipeline: RECONSTRUCTED STATICALLY.
+Filter persistence: VERIFIED STATICALLY.
+Sort pipeline: RECONSTRUCTED STATICALLY.
+Row presentation/state: RECONSTRUCTED STATICALLY.
+Batch action semantics: BELUM SELESAI.
+Action capability matrix: BELUM SELESAI.
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM.
+Home cutover: BELUM.
+Legacy Apps: TIDAK DIUBAH.
+
+Next audit: batch actions + row swipe/overflow action capability matrix, lalu labels/config/quick-actions dependency path.
