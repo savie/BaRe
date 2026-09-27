@@ -486,3 +486,63 @@ Setelah contract ini stabil, lanjutkan **verification path melalui CI**:
 3. gunakan hasil CI sebagai evidence compile/test;
 4. jika verification tersedia, lanjutkan batch UI/task presentation tanpa membuka executor;
 5. Home cutover tetap ditahan sampai acceptance gate terpenuhi.
+
+
+## Implementation Checkpoint 8 — Home Apps → Apps2 Isolated Route
+
+Atas authorization eksplisit untuk mengintegrasikan jalur Home Apps, routing sekarang dipisahkan dari bottom-navigation Apps.
+
+### Perubahan
+
+- Home **Apps** area membuka Apps2 secara langsung.
+- Bottom-navigation **Apps** tetap menggunakan `Tab.APPS` dan Legacy Apps.
+- Home **Backup apps** dan **Restore apps** tidak ikut dialihkan ke Apps2.
+- Apps2 dibuka sebagai surface terpisah melalui `Apps2Screen`.
+- Tidak menambah Apps2 state ke Legacy `Screen`.
+- Back dari Apps2 kembali ke Home.
+
+### Scope boundary
+
+Perubahan berada pada:
+
+- `app/src/main/java/com/bare/feature/home/HomeScreen.kt`
+- `app/src/main/java/com/bare/app/BaReApp.kt`
+
+Legacy Apps inventory implementation tidak diubah. Branch E2E tidak diubah. Baseline `v1.0/rebaseline` tidak diubah.
+
+### Verification
+
+**IMPLEMENTED:** Home Apps direct route ke Apps2 pada branch `fix/home-app-entry`.
+
+**SOURCE VERIFIED:** diff hanya menyentuh Home routing dan app-shell integration yang diperlukan untuk membuka/menutup Apps2.
+
+**BUILD:** UNVERIFIED.
+
+**RUNTIME:** UNVERIFIED.
+
+**PR:** #4 masih draft dan belum merged.
+
+### Current State
+
+- Apps2 first vertical slice: IMPLEMENTED AT SOURCE LEVEL.
+- Apps2 detail/batch/task/precondition/artifact boundaries: IMPLEMENTED AT SOURCE LEVEL.
+- Home Apps → Apps2 route: IMPLEMENTED ON ISOLATED BRANCH.
+- Bottom-navigation Apps → Legacy Apps: PRESERVED.
+- Unit tests: SOURCE ADDED / EXECUTION UNVERIFIED.
+- Android build: UNVERIFIED.
+- Runtime: UNKNOWN.
+- Legacy Apps: NOT MODIFIED.
+- Backup/restore executor: NOT IMPLEMENTED.
+
+### Next Action
+
+Verification branch ini: compile/build terlebih dahulu, kemudian runtime test:
+
+1. Home → Apps icon opens Apps2.
+2. Apps2 list renders local apps.
+3. Back returns to Home.
+4. Bottom-navigation Apps still opens Legacy Apps.
+5. Home Backup apps / Restore apps retain their existing behavior.
+6. No regression in unrelated Home areas.
+
+Home → Apps2 integration belum boleh dianggap VERIFIED sampai build dan runtime evidence tersedia.
