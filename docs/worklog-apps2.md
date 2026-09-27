@@ -861,3 +861,22 @@ Apps2 implementation: BELUM DIMULAI.
 Architecture freeze: BELUM.
 Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
+
+## Audit Checkpoint 10B — Archive Profile / Legacy 7-Zip
+
+Audit memperjelas dua hal:
+
+- format 4 vs 5 dibedakan oleh struktur entry 7-Zip; format 5 dipilih bila ditemukan entry dengan suffix `compressed`;
+- keduanya memakai `Packer.a()` → `nb7.a()` untuk extraction nyata.
+
+`nb7.a()` terbukti melakukan materialisasi file: create destination, open 7-Zip, password UTF-16LE, filter entries, create directories, stream files, progress, cleanup.
+
+Untuk TAR/SBA, `f27` dipetakan ke native profile:
+
+- Basic → 511;
+- Fidelity → 468;
+- RootFidelity → 384.
+
+Mapping numeric tersebut VERIFIED dari source, tetapi makna behavioral detail di native implementation masih UNKNOWN.
+
+Archive subsystem sekarang cukup kuat untuk menjadi reference contract tingkat orchestration. Runtime/native edge cases masih perlu diverifikasi sebelum architecture freeze.
