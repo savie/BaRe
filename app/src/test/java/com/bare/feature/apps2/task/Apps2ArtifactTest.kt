@@ -43,6 +43,25 @@ class Apps2ArtifactTest {
     }
 
     @Test
+    fun specialDataIsNotImplicitlyTreatedAsANormalTaskPart() {
+        val artifacts = Apps2ArtifactSet(
+            packageName = "com.example.app",
+            artifacts = listOf(
+                Apps2ArtifactDescriptor(
+                    type = Apps2ArtifactType.SPECIAL_DATA,
+                    available = true,
+                    valid = true,
+                    sizeBytes = 512L,
+                    location = "special-data",
+                ),
+            ),
+        )
+
+        assertFalse(artifacts.hasAvailableValidArtifact(Apps2TaskPart.APP))
+        assertFalse(artifacts.hasAvailableValidArtifact(Apps2TaskPart.DATA))
+    }
+
+    @Test
     fun expansionRemainsItsOwnArtifactBoundary() {
         val artifacts = Apps2ArtifactSet(
             packageName = "com.example.app",
