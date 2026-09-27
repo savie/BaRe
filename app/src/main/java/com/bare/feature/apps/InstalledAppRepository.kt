@@ -6,14 +6,12 @@ import android.content.pm.ApplicationInfo
 import android.os.UserHandle
 import android.os.storage.StorageManager
 import com.bare.app.AppItem
-import com.bare.app.LocalIdentityStore
 import com.bare.feature.account.AccountLocalDatabase
 import java.io.File
 
 class InstalledAppRepository(private val context: Context) {
     private val packageManager = context.packageManager
     private val organizationStore = AppOrganizationStore(context)
-    private val identityStore = LocalIdentityStore(context)
     private val accountDatabase = AccountLocalDatabase(context)
     private val cloudSyncMetadataStore = CloudSyncMetadataStore(context)
 
