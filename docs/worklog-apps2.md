@@ -789,3 +789,48 @@ Architecture freeze: BELUM.
 Apps2 implementation: BELUM DIMULAI.
 Home cutover: BELUM.
 Legacy Apps: TIDAK DIUBAH.
+
+
+## Architecture Freeze Checkpoint
+
+Static audit + collision review terhadap branch `v1.0/rebaseline` sudah dilakukan.
+
+### Hasil collision review
+
+- Belum ada `com.bare.feature.apps2`.
+- Legacy Apps berada di `com.bare.feature.apps`.
+- Legacy Apps masih mempunyai `AppsScreens.kt`, `AppsFilter.kt`, `InstalledAppRepository`, `AppFilterStateStore`, `AppOrganizationStore`, `AppBackupEngine`, `AppRestoreBehavior`, dan collaborator Apps-specific lain.
+- AndroidManifest saat ini hanya mendaftarkan `MainActivity`; Apps2 belum mempunyai Activity.
+- Legacy `Screen` enum mempunyai banyak Apps-related state dan tidak dijadikan Apps2 contract.
+
+### Architecture decision
+
+Architecture Apps2 dibekukan sebagai isolated subsystem:
+
+- package root: `com.bare.feature.apps2`;
+- Compose + Material 3 sebagai presentation foundation BaRe;
+- Reference XML/layout digunakan sebagai blueprint geometry/component behavior;
+- Apps2 tidak membuat monolithic `AppsScreens.kt`;
+- Apps2 memiliki state/navigation/domain/task boundary sendiri;
+- Legacy Apps bukan middleman;
+- EXPANSION first-class;
+- capability explicit;
+- task execution dipisahkan dari UI;
+- Reference encryption tidak otomatis dipakai;
+- UI + behavior dikerjakan sebagai vertical slices.
+
+### First vertical slice
+
+Apps2 Shell → Local App Discovery → Apps2App → Repository State → List → Search → Filter → Sort → Selection/Item Actions.
+
+Backup/restore belum menjadi fake implementation. Dependency yang belum tersedia harus unavailable/blocked secara eksplisit.
+
+### Status
+
+- Architecture freeze: FROZEN WITH OPEN IMPLEMENTATION DETAILS.
+- Apps2 implementation: BELUM DIMULAI.
+- Home cutover: BELUM.
+- Legacy Apps changes: TIDAK ADA.
+- Runtime verification: BELUM.
+
+Artifact baseline: `docs/reference_apps_reconstruction_map.md`.
