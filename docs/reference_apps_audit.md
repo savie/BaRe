@@ -763,3 +763,102 @@ Still unresolved before implementation:
 3. complete `g00.l` backup metadata reconstruction;
 4. batch selection/action graph;
 5. Detail → backup/restore execution graph.
+
+
+## Checkpoint 4 — Item Action Inventory and Batch Selection
+
+### Concrete item actions `oy`
+
+The decompiled Reference action model resolves to eight concrete app-item actions:
+
+| Action | Availability observed |
+|---|---|
+| Launch | installed + enabled + launchable |
+| EnableDisable | root/privileged capability + installed |
+| Uninstall | installed + not bundled |
+| ForceStop | root/privileged capability + installed + enabled |
+| PlayStore | available without the root prerequisite used by ForceStop/EnableDisable |
+| ClearData | available without the root prerequisite in the observed `isAvailable` branch |
+| AppInfo | always available |
+| ShareApk | installed |
+
+Each action carries:
+
+- stable action ID;
+- menu/action item ID;
+- title resource;
+- icon;
+- tone (positive, neutral, destructive);
+- dynamic icon/title for EnableDisable.
+
+The exact side-effect implementation for each action is delegated through the injected action callback and remains outside `tr`; those implementations still need separate audit.
+
+### Item selection
+
+`gm7` is the shared list adapter selection base.
+
+Observed:
+
+- selected IDs are stored separately from the visible item list;
+- selection can be toggled per item;
+- select-all selects all visible item IDs;
+- clear-all removes all selected IDs;
+- selected item list can be derived from the current visible list;
+- selection state survives list-state replacement through the adapter model;
+- adapter exposes selected count and whether all visible items are selected;
+- selection changes trigger callbacks used by the batch Activity/FAB.
+
+`tr` renders the selection state through the card/checkbox when selection mode is active.
+
+### Batch Activity
+
+`AppsBatchActivity` receives either:
+
+- `batch_action_item`, or
+- `quick_action_item`.
+
+Observed setup:
+
+- local/cloud section is derived from the incoming request;
+- adapter is `l20`;
+- `l20` reuses the Reference `app_item` layout;
+- selection is handled through the shared `gm7` model;
+- Search and Filter are available;
+- Select All is an explicit toolbar action;
+- selected count is rendered as `selected / total`;
+- filter surface is configured according to the batch capability;
+- App Backup Settings and Settings remain reachable.
+
+The batch state holder `r20` keeps:
+
+- current list;
+- selected state;
+- search query;
+- action request;
+- loading/data state;
+- filter/configuration context.
+
+The batch Activity therefore has a real state/selection layer; it is not merely a UI dialog around the normal list.
+
+### Batch implication for Apps2
+
+Apps2 needs a dedicated batch state/adapter boundary derived from Reference rather than turning normal list selection into an ad-hoc feature.
+
+The implementation can share truly global UI foundation, but Apps-specific selection state and action contracts remain inside Apps2.
+
+## Checkpoint 4 Conclusion
+
+Apps List now has a materially complete structural contract for:
+
+- discovery;
+- repository state;
+- search;
+- filter selection;
+- filter engine boundary;
+- sort;
+- item rendering;
+- item selection;
+- item actions;
+- batch entry.
+
+Remaining high-risk audit boundary is now the **Detail → Backup / Restore execution graph**, including task, archive, precondition, install, metadata, and verification collaborators.
