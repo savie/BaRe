@@ -106,36 +106,58 @@ class IntroActivity : AppCompatActivity() {
 
     private fun refreshState() {
         if (!::state.isInitialized || isFinishing) return
+
+        val signedIn = auth.currentSession() != null
         val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
         } else {
-            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         }
         val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+        val installedAppsSupported =
+            RootPermissionManager.isInstalledAppsPermissionSupported(this)
+        val installedAppsGranted =
+            RootPermissionManager.isInstalledAppsPermissionGranted(this)
+
+        val permissionsNeeded =
+            signedIn && (
+                !storageGranted ||
+                    !notificationsGranted ||
+                    (installedAppsSupported && !installedAppsGranted)
+                )
+
+        findViewById<View>(R.id.intro_activity_sign_in).visibility =
+            if (signedIn) View.GONE else View.VISIBLE
+        findViewById<View>(R.id.container_sign_in_actions).visibility =
+            if (signedIn) View.GONE else View.VISIBLE
 
         findViewById<MaterialButton>(R.id.btn_storage_perm).isEnabled = !storageGranted
         findViewById<View>(R.id.container_storage_perm).visibility =
             if (storageGranted) View.GONE else View.VISIBLE
 
-        val notificationCard = findViewById<View>(R.id.container_notifications_perm)
-        notificationCard.visibility =
+        findViewById<View>(R.id.container_notifications_perm).visibility =
             if (notificationsGranted) View.GONE else View.VISIBLE
-        findViewById<MaterialButton>(R.id.btn_notifications_perm).isEnabled = !notificationsGranted
+        findViewById<MaterialButton>(R.id.btn_notifications_perm).isEnabled =
+            !notificationsGranted
 
-        val installedAppsSupported = isInstalledAppsPermissionSupported()
-        val installedAppsGranted = isInstalledAppsPermissionGranted()
-        val xiaomiCard = findViewById<View>(R.id.container_xiaomi_installed_apps_perm)
-        xiaomiCard.visibility = if (installedAppsSupported) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.container_xiaomi_installed_apps_perm).visibility =
+            if (installedAppsSupported) View.VISIBLE else View.GONE
         findViewById<MaterialButton>(R.id.btn_xiaomi_installed_apps_perm).isEnabled =
             installedAppsSupported && !installedAppsGranted
 
-        val root = findViewById<View>(R.id.container_root_permissions)
-        root.visibility = if (statePrefsShowRoot()) View.VISIBLE else View.GONE
+        findViewById<View>(R.id.container_root_permissions).visibility =
+            if (permissionsNeeded && statePrefsShowRoot()) View.VISIBLE else View.GONE
 
         findViewById<View>(R.id.intro_activity_permissions).visibility =
-            if (!storageGranted || !notificationsGranted || (installedAppsSupported && !installedAppsGranted) || statePrefsShowRoot())
-                View.VISIBLE else View.GONE
+            if (permissionsNeeded) View.VISIBLE else View.GONE
     }
 
     private fun statePrefsShowRoot(): Boolean =
