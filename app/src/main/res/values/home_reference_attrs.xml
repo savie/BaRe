@@ -2,6 +2,7 @@
 <resources>
     <attr name="colorError2" format="color"/>
     <attr name="colorErrorContainer2" format="color"/>
+    <attr name="colorOnErrorContainer2" format="color"/>
     <attr name="listItemCardViewStyle" format="reference"/>
     <attr name="segmentedListItemBottomMargin" format="dimension"/>
 </resources>
