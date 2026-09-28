@@ -117,7 +117,7 @@ class AppListActivity:AppCompatActivity(){
    "Favorites only","Not favorites","All favorites","Launchable","Updated","Labelled or favorites",
    "Backup: last 7 days","Backup: last 30 days","Backup: older",
    "Sort: Name","Sort: Install date","Sort: Update date","Sort: Backup date",
-   "Sort: App size","Sort: Backup size","Sort: Date used"
+   "Sort: App size","Sort: Backup size","Sort: Date used","Labels..."
   )
   androidx.appcompat.app.AlertDialog.Builder(this)
    .setTitle(R.string.apps_filter)
@@ -150,12 +150,20 @@ class AppListActivity:AppCompatActivity(){
      24->AppSortState(this).mode=AppSortMode.AppSize
      25->AppSortState(this).mode=AppSortMode.BackupSize
      26->AppSortState(this).mode=AppSortMode.DateUsed
+     27->{showLabelFilterDialog(state)}
     }
     AppFilterStore(this).save(state)
     loadApps()
    }.show()
  }
 
+ private fun showLabelFilterDialog(state:AppFilterState){
+  val labels=com.bare.apps.labels.LabelsData(this).labels().toList()
+  if(labels.isEmpty()){android.widget.Toast.makeText(this,"No labels available",android.widget.Toast.LENGTH_SHORT).show();return}
+  val checked=BooleanArray(labels.size){labels[it] in state.labels}
+  androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Labels").setMultiChoiceItems(labels.toTypedArray(),checked){_,which,value->checked[which]=value}
+   .setNegativeButton("Cancel",null).setPositiveButton("Apply"){_,_->state.labels=labels.filterIndexed{index,_->checked[index]}.toSet();AppFilterStore(this).save(state);loadApps()}.show()
+ }
  private fun loadApps(){
   val swipe=findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.apps_swipe_refresh)
   val empty=findViewById<android.view.View>(R.id.apps_empty)
