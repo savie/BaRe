@@ -14,49 +14,33 @@ public final class FolderMetadata {
         if (folderItem == null) throw new IllegalArgumentException("folderItem");
         this.folderItem = folderItem;
         this.baseBackup = baseBackup;
-        this.incrementalBackups = incrementalBackups == null
-                ? null : new LinkedHashMap<>(incrementalBackups);
+        this.incrementalBackups = incrementalBackups == null ? null : new LinkedHashMap<>(incrementalBackups);
     }
 
     public boolean hasBaseBackup() { return baseBackup != null && baseBackup.isValid(); }
-
     public boolean hasIncrementalBackups() {
-        if (incrementalBackups == null) return false;
-        for (IncrementalBackup backup : incrementalBackups.values()) {
-            if (backup != null && backup.isValid()) return true;
-        }
+        if (incrementalBackups == null || incrementalBackups.isEmpty()) return false;
+        for (IncrementalBackup backup : incrementalBackups.values()) if (backup != null && backup.isValid()) return true;
         return false;
     }
-
     public boolean hasAnyBackup() { return hasBaseBackup() || hasIncrementalBackups(); }
-
     /** Reference hasBackups() returns base-backup presence, not merely incremental presence. */
     public boolean hasBackups() { return hasBaseBackup(); }
-
     public long getBaseBackupSize() { return baseBackup == null ? 0L : baseBackup.getSize(); }
-
     public long getIncrementalBackupsSize() {
         long total = 0L;
-        if (incrementalBackups != null) {
-            for (IncrementalBackup backup : incrementalBackups.values()) {
-                if (backup != null) total += backup.getSize();
-            }
-        }
+        if (incrementalBackups != null) for (IncrementalBackup backup : incrementalBackups.values()) if (backup != null) total += backup.getSize();
         return total;
     }
-
     public long getTotalSize() { return getBaseBackupSize() + getIncrementalBackupsSize(); }
     public String getItemId() { return folderItem.id; }
 
-    public boolean isValid() {
-        return folderItem.isValid() && hasBaseBackup() &&
-                (incrementalBackups == null || allIncrementalBackupsValid());
-    }
+    /** Reference isValid() only validates FolderItem. Cloud-write validity is stricter. */
+    public boolean isValid() { return folderItem.isValid(); }
 
-    private boolean allIncrementalBackupsValid() {
-        for (IncrementalBackup backup : incrementalBackups.values()) {
-            if (backup == null || !backup.isValid()) return false;
-        }
+    public boolean isValidForCloudWrite() {
+        if (!isValid() || !hasBaseBackup()) return false;
+        if (incrementalBackups != null) for (IncrementalBackup backup : incrementalBackups.values()) if (backup == null || !backup.isValid()) return false;
         return true;
     }
 
@@ -68,11 +52,8 @@ public final class FolderMetadata {
         public Long manifestSize;
         public String timestamp;
         public boolean isBaseBackup = true;
-
         public boolean isValid() {
-            return backupLink != null && !backupLink.isEmpty() &&
-                    manifestLink != null && !manifestLink.isEmpty() &&
-                    backupSize != null && backupSize >= 0;
+            return backupLink != null && !backupLink.isEmpty() && manifestLink != null && !manifestLink.isEmpty();
         }
         public long getSize() { return backupSize == null ? 0L : backupSize; }
     }
@@ -85,12 +66,8 @@ public final class FolderMetadata {
         public Long manifestSize;
         public String timestamp;
         public boolean isBaseBackup;
-
         public boolean isValid() {
-            return backupLink != null && !backupLink.isEmpty() &&
-                    manifestLink != null && !manifestLink.isEmpty() &&
-                    backupSize != null && backupSize >= 0 &&
-                    timestamp != null && !timestamp.isEmpty();
+            return backupLink != null && !backupLink.isEmpty() && manifestLink != null && !manifestLink.isEmpty() && timestamp != null && !timestamp.isEmpty();
         }
         public long getSize() { return backupSize == null ? 0L : backupSize; }
     }
