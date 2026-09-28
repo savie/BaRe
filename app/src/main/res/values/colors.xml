@@ -1,3 +1,4 @@
 <resources>
     <color name="intro_surface">#FAFAFA</color>
+    <color name="bottom_nav_icon_tint">#666666</color>
 </resources>
