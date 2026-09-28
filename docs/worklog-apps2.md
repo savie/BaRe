@@ -2653,3 +2653,32 @@ The historical 112 candidate count is not treated as a current unresolved count 
 
 ### Next
 Close consequential unresolved collaborator/execution boundaries, then review the ledger against the 45-class source inventory before architecture freeze.
+
+
+## Worklog Checkpoint 37 — Filter State + EXPANSION Restore Closure
+
+### Evidence
+- Inspected `sx`, `iy`, `sc3`, `sr`, `wx` and relevant `xw` restore paths.
+- Verified sort persistence, comparator execution, DateUsed capability handling, and EXPANSION restore target/capability/archive branches.
+
+### Verified
+- Sort enum and persisted state: VERIFIED STATICALLY.
+- Persisted state to sorting execution: VERIFIED STATICALLY.
+- DateUsed capability/error fallback: VERIFIED STATICALLY.
+- EXPANSION capability/metadata/target/archive handling: VERIFIED STATICALLY.
+
+### Remaining
+- Exact full filter predicate collaborator decomposition.
+- Low-level split extraction helper identity.
+- Historical metadata migration engine.
+- Cloud backend transaction/atomicity semantics.
+- Runtime verification.
+
+### Status
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM / NOT AUTHORIZED.
+Home cutover: BELUM / NOT AUTHORIZED.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next
+Audit split restore low-level execution and metadata migration boundary, then review the final ledger against all 45 classes.
