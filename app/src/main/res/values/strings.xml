@@ -230,4 +230,12 @@
     <string name="apps_task_cancelled">Task cancelled</string>
     <string name="apps_task_running">Task running</string>
     <string name="apps_task_pending">Task pending</string>
+    <string name="apps_filter_multiple_backups">Multiple backups</string>
+    <string name="apps_filter_protected_backups">Protected backups</string>
+    <string name="apps_filter_backups_with_notes">Backups with notes</string>
+    <string name="apps_filter_backup_old">Backup older than installed</string>
+    <string name="apps_filter_backup_new">Backup newer than installed</string>
+    <string name="apps_filter_installed_from_google_play">Installed from Google Play</string>
+    <string name="apps_filter_not_installed_from_google_play">Not installed from Google Play</string>
+    <string name="apps_filter_labels">Labels</string>
 </resources>
