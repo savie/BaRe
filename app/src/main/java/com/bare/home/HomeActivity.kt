@@ -122,7 +122,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val KEY_SAVED_FRAGMENT = "saved_fragment"\n        private const val PREFS_NAME = "bare_preferences"\n        private const val KEY_COMPACT_STORAGE_INFO = "compact_storage_info"
+        private const val KEY_SAVED_FRAGMENT = "saved_fragment"
+        private const val PREFS_NAME = "bare_preferences"
+        private const val KEY_COMPACT_STORAGE_INFO = "compact_storage_info"
         private val INDEX = mapOf(
             R.id.nav_home to 0,
             R.id.nav_cloud to 1,
