@@ -8,7 +8,7 @@
 <TextView android:id="@+id/app_item_labels" style="@style/TextCaption" android:maxLines="1" android:ellipsize="end" android:layout_width="match_parent" android:layout_height="wrap_content"/>
 <TextView android:id="@+id/app_item_status" style="@style/TextCaption" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 </LinearLayout>
-<ImageView android:id="@+id/app_item_favorite" android:src="@drawable/ic_star" android:contentDescription="@string/favorite" android:layout_width="40dp" android:layout_height="40dp"/>
+<ImageView android:id="@+id/app_item_favorite" android:src="@drawable/ic_pin" android:contentDescription="@string/favorite" android:layout_width="40dp" android:layout_height="40dp"/>
 <CheckBox android:id="@+id/app_item_selection" android:layout_width="48dp" android:layout_height="48dp"/>
 <ImageButton android:id="@+id/app_item_menu" android:background="?attr/selectableItemBackgroundBorderless" android:src="@drawable/ic_dots_vertical" android:contentDescription="@string/more" android:layout_width="48dp" android:layout_height="48dp"/>
 </LinearLayout>
