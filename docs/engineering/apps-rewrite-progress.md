@@ -160,3 +160,27 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - No external handoff required. Current work remains within the authorized Apps implementation scope.
 
 - Follow-up verification hardening: InstallerSourceProxy now verifies expected versionCode and expected split names after PackageInstaller commit; split restore retries the APK-set session once on failure. Runtime behavior remains UNVERIFIED.
+
+## Apps task update — special-data restore boundary
+
+- Reference evidence re-checked from JADX:
+  - restore_special_permissions defaults true;
+  - restore_ssaids defaults false;
+  - special payload contains permissionStatesCsv, ssaid, ntfAccessComponent, accessibilityComponent, notificationPolicyXml;
+  - notification-policy restore uses the notification system service and validates package-scoped XML/payload size before applyRestore;
+  - notification access and accessibility are restored through privileged settings operations;
+  - SSAID is delegated to a dedicated helper in Reference.
+- Rewrite changes:
+  - special-data payload now has an explicit version field;
+  - local metadata persists special-data fields;
+  - backup captures permission-state, notification-access, accessibility, and notification-policy metadata where the platform exposes them;
+  - notification-policy restore now uses the Android notification service reflection boundary with Reference-aligned payload/package validation;
+  - special permission restore is wired into AppRestoreManager;
+  - SSAID remains explicitly incomplete because the Reference per-app mutation helper has not been reproduced/verified; no fake success is claimed.
+- Verification:
+  - Static Reference reconciliation: UPDATED.
+  - Source syntax/brace sanity: PASSED for touched Kotlin files.
+  - Runtime hidden-system API behavior: UNVERIFIED.
+  - Gradle/build verification: BLOCKED in this environment.
+- Handoff:
+  - No external handoff required; SSAID is recorded as a verification/implementation gap, not handed off.
