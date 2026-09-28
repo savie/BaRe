@@ -78,9 +78,26 @@
   - cancels scheduled alarms;
   - re-runs account initialization.
 - Reference Google account email-change migration compares sanitized old/new cloud directories.
-- If metadata exists in the old cloud directory and migration is allowed, it writes the migrated metadata to the new cloud directory, then deletes the old metadata.
-- BaRe now has provider-neutral `AccountMigrationRepository` and expanded `AccountLifecyclePolicy`.
+- Migration is conditional: destination is checked first; source metadata must exist and pass the migration predicate.
+- The metadata object is written to the new `users/{uid}/cloud_v1/{sanitized-new-dir}` node, then the old `users/{uid}/cloud_v1/{sanitized-old-dir}` node is conditionally cleaned up.
+- If the source changes during cleanup, the Reference skips unsafe cleanup and attempts rollback of the destination; rollback is also conditional on the destination remaining unchanged.
+- `AccountMigrationRepository.MigrationResult` now preserves these observed outcomes: `MIGRATED`, `NOT_NEEDED`, `NOT_FOUND`, `SOURCE_CHANGED`, `DESTINATION_CHANGED`, `ROLLED_BACK`, `FAILED`, `UNKNOWN`.
+- Reference account initialization reads `users/{uid}/userInfo` for non-anonymous users. Anonymous users receive a local user record without a database read/write.
+- Reference `userInfo` model fields are uid, anonymous, displayName, email, photoUrl, latestAppVersion, currentAppVersion; current Reference version is 620.
+- Existing user profile fields are refreshed when provider identity changes, and non-anonymous userInfo is persisted back to `users/{uid}/userInfo`.
+- Crashlytics UID/custom-key updates are telemetry side effects, not backend user-state contract.
 - Exact provider execution remains behind repository boundaries.
+
+### App / folder cloud cleanup
+- Folder cloud deletion is explicit in Reference `al3.a(FolderMetadata)`: remove the folder metadata node first, collect base + incremental backup and manifest links, then delete those cloud files through the active cloud provider.
+- App cloud cleanup is handled by Reference `ik.a(...)` / `AppBackupDeleteHelper`: it fetches `tags/{cloudTag}/apps/{packageKey}`, filters protected backups out of automatic cleanup, selects old normal backups according to the configured multiple-backup representation, and sends selected backup records to the cloud deletion operation.
+- Exact app metadata-node mutation after file deletion is not fully resolved from the decompiled graph; keep this part `UNKNOWN` until the provider task payload is audited.
+
+### Account initialization
+- `d45.b()` initializes account state for registered listeners.
+- When an authenticated user exists, Reference loads `userInfo` through `ah8.Companion.fromDatabase(...)` and updates telemetry identity.
+- When no authenticated user exists, Reference resets first-start/cloud-restore state, cancels scheduled alarms, and signals the intro/account initialization state.
+- `d45.c()` performs sign-out lifecycle cleanup and re-enters initialization via `b()`.
 
 ## Contracts added/updated in this audit batch
 - `CloudAppRepository`
@@ -95,6 +112,7 @@
 - `PremiumTransactionRepository`
 - `AccountMigrationRepository`
 - `AccountLifecyclePolicy`
+- `AccountMigrationRepository` migration outcome semantics
 
 ## Explicitly not executed
 - No Supabase schema/table/RLS/auth implementation.
@@ -105,10 +123,10 @@
 - No invented purchase-verification writer.
 
 ## Remaining audit before backend freeze
-1. Finish app-cloud delete/cleanup consumers outside the already audited upload/summary paths.
-2. Finish exact Google migration metadata write/delete payload path.
-3. Audit remaining account initialization/migration consumers.
-4. Freeze evidence-backed backend contract.
+1. Audit the concrete cloud provider deletion payload used by app backup cleanup; keep app metadata-node post-delete mutation `UNKNOWN` until proven.
+2. Audit the concrete conditional-write/delete payload helper used by Google migration; provider-neutral outcome semantics are now frozen, but the serialized payload remains provider-specific.
+3. Audit remaining account initialization consumers that depend on `userInfo` and migration flags.
+4. Freeze the evidence-backed backend contract after those checks.
 5. Stop and request user permission before any Supabase implementation.
 6. Stop and request user permission before any APK build.
 
