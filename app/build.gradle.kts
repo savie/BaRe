@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.viewpager:viewpager:1.1.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.documentfile:documentfile:1.0.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("org.apache.commons:commons-compress:1.27.1")
     implementation("com.github.luben:zstd-jni:1.5.7-4@aar")
     implementation("dev.rikka.shizuku:api:13.1.5")
