@@ -18,6 +18,14 @@ class LocalMetadataStore(private val context:Context){
   m.dateBackupUpdated=props.getProperty("dateBackupUpdated")?.toLongOrNull()
   m.note=props.getProperty("note")
   m.protectedBackup=props.getProperty("protectedBackup","false").toBoolean()
+  m.specialData=AppSpecialDataPayload(
+   version=props.getProperty("specialDataVersion","1").toIntOrNull()?:1,
+   permissionStatesCsv=props.getProperty("permissionStatesCsv")?.takeIf{it.isNotBlank()},
+   ssaid=props.getProperty("ssaid")?.takeIf{it.isNotBlank()},
+   ntfAccessComponent=props.getProperty("ntfAccessComponent")?.takeIf{it.isNotBlank()},
+   accessibilityComponent=props.getProperty("accessibilityComponent")?.takeIf{it.isNotBlank()},
+   notificationPolicyXml=props.getProperty("notificationPolicyXml")?.takeIf{it.isNotBlank()}
+  )
   props.getProperty("parts","").split(",").filter{it.isNotBlank()}.forEach{runCatching{m.backupParts+=AppPart.valueOf(it)}}
   return m
  }
@@ -36,6 +44,12 @@ class LocalMetadataStore(private val context:Context){
     "dateBackupUpdated="+(metadata.dateBackupUpdated?:0)+"\n"+
     "note="+(metadata.note?:"")+"\n"+
     "protectedBackup="+metadata.protectedBackup+"\n"+
+   "specialDataVersion="+(metadata.specialData?.version?:1)+"\n"+
+   "permissionStatesCsv="+(metadata.specialData?.permissionStatesCsv?:"")+"\n"+
+   "ssaid="+(metadata.specialData?.ssaid?:"")+"\n"+
+   "ntfAccessComponent="+(metadata.specialData?.ntfAccessComponent?:"")+"\n"+
+   "accessibilityComponent="+(metadata.specialData?.accessibilityComponent?:"")+"\n"+
+   "notificationPolicyXml="+(metadata.specialData?.notificationPolicyXml?:"")+"\n"+
     "parts="+metadata.backupParts.joinToString(","){it.id}
    )
    true
