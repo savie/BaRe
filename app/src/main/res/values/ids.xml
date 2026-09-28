@@ -122,4 +122,8 @@
     <item name="primaryNavigation" type="id"/>
     <item name="viewPager" type="id"/>
     <item name="container_btn_new_schedule" type="id"/>
+    <item name="container" type="id"/>
+    <item name="item_card" type="id"/>
+    <item name="content_container" type="id"/>
+    <item name="iv_root_needed" type="id"/>
 </resources>
