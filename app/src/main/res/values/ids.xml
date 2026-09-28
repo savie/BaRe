@@ -44,6 +44,12 @@
     <item name="cloud_info_card_warning" type="id"/>
     <item name="cloud_info_card_active_folder" type="id"/>
     <item name="error_layout" type="id"/>
+    <item name="error_view" type="id"/>
+    <item name="iv_error_image" type="id"/>
+    <item name="tv_error_title" type="id"/>
+    <item name="tv_error_subtitle" type="id"/>
+    <item name="btn_error" type="id"/>
+    <item name="btn_error2" type="id"/>
     <item name="cloud_fragment_progress_bar" type="id"/>
     <item name="cloud_storage_segment" type="id"/>
     <item name="storage_view" type="id"/>
