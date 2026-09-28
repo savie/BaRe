@@ -68,7 +68,6 @@ public final class CloudAppMetadata {
     public String apkSBVersionNameRequired;
     public Long apkSBVersionCodeRequired;
 
-    /** Mirrors Reference prepareForFirebaseUpload: volatile permission/device fields are omitted. */
     public void prepareForUpload() {
         minSBVersionCodeRequired = hasBackups() ? 580L : null;
         permissionIdsCsv = null;
@@ -92,8 +91,13 @@ public final class CloudAppMetadata {
         expSBVersionNameRequired = null;
     }
 
+    /** Reference hasBackups(): APK, data, external data, media, or expansion. */
     public boolean hasBackups() {
-        return apkLink != null || splitsLink != null || sharedLibsLink != null ||
-                dataLink != null || extDataLink != null || mediaLink != null || expLink != null;
+        return hasLink(apkLink) || hasLink(dataLink) || hasLink(extDataLink) ||
+                hasLink(mediaLink) || hasLink(expLink);
+    }
+
+    private static boolean hasLink(String value) {
+        return value != null && !value.isEmpty();
     }
 }
