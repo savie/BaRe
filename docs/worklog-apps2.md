@@ -2682,3 +2682,36 @@ Legacy Apps: TIDAK DIUBAH.
 
 ### Next
 Audit split restore low-level execution and metadata migration boundary, then review the final ledger against all 45 classes.
+
+
+## Worklog Checkpoint 38 — Split Restore + Metadata Version Boundary
+
+### Evidence
+- `defpackage/mq.java`
+- `defpackage/xw.java`
+- `defpackage/mv.java`
+- `defpackage/zg.java`
+- `org.swiftapps.swiftbackup.model.app.LocalMetadata`
+- `org.swiftapps.swiftbackup.model.app.CloudMetadata`
+
+### Verified
+- Cloud split descriptor `splitsLink/splitsSize → fo2(type=2) → hk.C()` VERIFIED STATICALLY.
+- `xw → yw → mv.c/f` split restore path VERIFIED STATICALLY.
+- `mv.c` split extraction ke `workingDir/splits` dan `mv.g` base-version filtering VERIFIED STATICALLY.
+- split install fallback/retry/error handling VERIFIED STATICALLY.
+- Local/Cloud metadata version stamping dan normalization VERIFIED STATICALLY.
+- Explicit historical schema migration engine NOT FOUND IN INSPECTED SOURCE; tetap UNKNOWN, bukan disimpulkan tidak ada.
+
+### Boundary
+- Runtime Reference/Apps2 belum dijalankan.
+- Cloud backend transaction/atomicity tetap UNKNOWN.
+- Deep closure seluruh 342 collaborator belum selesai.
+
+### Status
+Apps2 implementation: BELUM DIMULAI.
+Architecture freeze: BELUM / NOT AUTHORIZED.
+Home cutover: BELUM / NOT AUTHORIZED.
+Legacy Apps: TIDAK DIUBAH.
+
+### Next
+Review ledger terhadap seluruh 45 source class dan bersihkan stale UNKNOWN yang sudah tertutup oleh evidence Checkpoint 37–38.
