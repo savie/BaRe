@@ -42,7 +42,10 @@ class HomeActivity : AppCompatActivity() {
         }
         title.text = brand
 
-        findViewById<TextView>(R.id.tv_premium).visibility = View.GONE
+        findViewById<TextView>(R.id.tv_premium).apply {
+            text = getString(R.string.premium).uppercase(java.util.Locale.ENGLISH)
+            visibility = View.VISIBLE
+        }
 
         findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
