@@ -12,7 +12,7 @@
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
 ## Current phase
-**PHASE 4 — NON-SUPABASE DOMAIN RECONSTRUCTION**
+**PHASE 4 — CORE FOUNDATION + REFERENCE SKELETON RECONSTRUCTION**
 
 ## Latest verified Reference behavior
 
@@ -138,8 +138,19 @@
 - No invented contributor mutation contract.
 - No invented purchase-verification writer.
 
+## Roadmap alignment
+- PHASE 1 — Foundation: Android/Gradle/Java/resources/manifest baseline exists; runtime/build verification remains gated.
+- PHASE 2 — Reference Skeleton: Reference Activity/Service/Receiver component boundaries are now registered in the BaRe manifest.
+- PHASE 3 — UI + Navigation: Intro/Home navigation exists but remains partial visual parity; exact resource port continues.
+- PHASE 4 — Core Behavior: account/schedule/cloud/messages-calls contracts are being reconstructed without Supabase.
+- PHASE 5 — Features: feature-domain implementation continues after skeleton stabilization.
+- PHASE 6 — Authorized Deviations: branding/premium/Supabase remain explicit deviations; Supabase is permission-gated.
+- PHASE 7 — Runtime: build/install remains permission-gated.
+- PHASE 8/9 — Parity/deviation audit: blocked until runtime verification is authorized and executable.
+
 ## Phase 4 progress
-- SMS/call domain reconstruction has started without backend dependency.
+- Reference component skeleton now covers the audited 71 internal activities plus the 3 audited services and 8 audited receivers; these are boundaries only and intentionally contain no invented behavior.
+- Placeholder Home fragment was removed; Home now maps to the four explicit Reference-shaped fragments already present.
 - Reference `CallLogItem` fields and call-type constants are now represented in BaRe.
 - Reference SMS default-handler persistence key and backup-file-path/highlight intent keys are represented in `MessagesCallsPolicy`.
 - Capability access remains behind `MessagesCallsCapabilityRepository`; no device provider implementation has been invented.
