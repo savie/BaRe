@@ -236,7 +236,7 @@ class IntroActivity : AppCompatActivity() {
         executeRootGrant()
     }
 
-    private fun showRootPermissionDialog {
+    private fun showRootPermissionDialog() {
         val permissions = buildString {
             append(getString(R.string.root_grant_permissions_dialog_msg_prefix))
             append("\n\n    • ").append(getString(R.string.android_permission_name_storage))
