@@ -2,6 +2,7 @@ package com.bare.apps
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import com.bare.apps.domain.*
 import com.bare.apps.model.CanonicalApp
 import androidx.activity.OnBackPressedCallback
