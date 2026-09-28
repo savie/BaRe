@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bare.views.QuickRecyclerView
 import androidx.fragment.app.Fragment
 import com.bare.R
 import com.bare.auth.SupabaseAuth
@@ -42,6 +45,22 @@ class AccountFragment : Fragment() {
         view.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_sign_out)
             .setOnClickListener { signOut() }
 
+        val settings = listOf(
+            getString(R.string.settings),
+            getString(R.string.swiftlogger),
+            getString(R.string.language),
+            getString(R.string.help_center),
+            getString(R.string.contact),
+            getString(R.string.rate),
+            getString(R.string.share_bare),
+            getString(R.string.about)
+        )
+        view.findViewById<RecyclerView>(R.id.rv_more_items).apply {
+            isNestedScrollingEnabled = false
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = SettingsAdapter(settings)
+        }
+
         loadUser()
     }
 
@@ -50,6 +69,17 @@ class AccountFragment : Fragment() {
         email = null
         super.onDestroyView()
     }
+
+    private class SettingsAdapter(private val items: List<String>) : RecyclerView.Adapter<SettingsHolder>() {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsHolder =
+            SettingsHolder(LayoutInflater.from(parent.context).inflate(R.layout.more_list_item, parent, false))
+        override fun onBindViewHolder(holder: SettingsHolder, position: Int) {
+            holder.itemView.findViewById<TextView>(R.id.tv_more_list_item).text = items[position]
+        }
+        override fun getItemCount(): Int = items.size
+    }
+
+    private class SettingsHolder(view: View) : RecyclerView.ViewHolder(view)
 
     private fun loadUser() {
         val session = auth.currentSession()
