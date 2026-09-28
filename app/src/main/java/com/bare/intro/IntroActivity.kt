@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bare.R
+import rikka.shizuku.Shizuku
 import com.bare.auth.SupabaseAuth
 import com.bare.premium.PremiumEntitlement
 import com.google.android.material.button.MaterialButton
@@ -27,10 +28,22 @@ class IntroActivity : AppCompatActivity() {
     private lateinit var state: IntroStateStore
     private lateinit var auth: SupabaseAuth
 
+    private val shizukuPermissionListener =
+        Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+            if (requestCode == RootPermissionManager.SHIZUKU_REQUEST_CODE &&
+                grantResult == PackageManager.PERMISSION_GRANTED
+            ) {
+                executeRootGrant()
+            } else if (requestCode == RootPermissionManager.SHIZUKU_REQUEST_CODE) {
+                Toast.makeText(this, R.string.root_provider_unavailable, Toast.LENGTH_LONG).show()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         state = IntroStateStore(this)
         auth = SupabaseAuth(this)
+        Shizuku.addRequestPermissionResultListener(shizukuPermissionListener)
 
         if (!state.firstStart && auth.currentSession() != null) {
             openHome()
@@ -188,7 +201,42 @@ class IntroActivity : AppCompatActivity() {
         ContextCompat.checkSelfPermission(this, XIAOMI_INSTALLED_APPS_PERMISSION) ==
             PackageManager.PERMISSION_GRANTED
 
-    private fun showRootPermissionDialog() {
+    private fun executeRootGrant() {
+        Toast.makeText(this, R.string.root_grant_in_progress, Toast.LENGTH_SHORT).show()
+        RootPermissionManager.grantAll(this) { result ->
+            runOnUiThread {
+                if (result.success) {
+                    getSharedPreferences(IntroStateStore.PREFS_NAME, MODE_PRIVATE)
+                        .edit()
+                        .putBoolean(IntroStateStore.KEY_SHOW_ROOT_GRANT_PERMISSIONS_BUTTON, false)
+                        .apply()
+                    Toast.makeText(this, R.string.root_grant_success, Toast.LENGTH_LONG).show()
+                    refreshState()
+                    maybeCompleteFirstRun()
+                } else {
+                    Toast.makeText(this, R.string.root_provider_unavailable, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun startRootOrShizukuGrant() {
+        if (RootPermissionManager.shizukuAvailable() && RootPermissionManager.shizukuPermissionGranted()) {
+            executeRootGrant()
+            return
+        }
+        if (RootPermissionManager.shizukuAvailable()) {
+            runCatching {
+                RootPermissionManager.requestShizukuPermission()
+            }.onFailure {
+                Toast.makeText(this, R.string.root_provider_unavailable, Toast.LENGTH_LONG).show()
+            }
+            return
+        }
+        executeRootGrant()
+    }
+
+    private fun showRootPermissionDialog {
         val permissions = buildString {
             append(getString(R.string.root_grant_permissions_dialog_msg_prefix))
             append("\n\n    • ").append(getString(R.string.android_permission_name_storage))
@@ -206,11 +254,7 @@ class IntroActivity : AppCompatActivity() {
             .setTitle(R.string.root_grant_permissions_dialog_title)
             .setMessage(permissions)
             .setPositiveButton(R.string.grant_permissions) { _, _ ->
-                Toast.makeText(
-                    this,
-                    R.string.root_provider_unavailable,
-                    Toast.LENGTH_LONG
-                ).show()
+                startRootOrShizukuGrant()
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -281,6 +325,11 @@ class IntroActivity : AppCompatActivity() {
             }
             show()
         }
+    }
+
+    override fun onDestroy() {
+        Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener)
+        super.onDestroy()
     }
 
     override fun onResume() {
