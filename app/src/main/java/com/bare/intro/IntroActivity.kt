@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
+import android.widget.Toast
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -83,10 +84,10 @@ class IntroActivity : AppCompatActivity() {
             requestNotifications()
         }
         findViewById<MaterialButton>(R.id.btn_xiaomi_installed_apps_perm).setOnClickListener {
-            refreshState()
+            requestXiaomiInstalledAppsPermission()
         }
         findViewById<MaterialButton>(R.id.btn_root_permissions).setOnClickListener {
-            refreshState()
+            showRootPermissionDialog()
         }
     }
 
@@ -101,14 +102,27 @@ class IntroActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
 
         findViewById<MaterialButton>(R.id.btn_storage_perm).isEnabled = !storageGranted
+        findViewById<View>(R.id.container_storage_perm).visibility =
+            if (storageGranted) View.GONE else View.VISIBLE
+
+        val notificationCard = findViewById<View>(R.id.container_notifications_perm)
+        notificationCard.visibility =
+            if (notificationsGranted) View.GONE else View.VISIBLE
         findViewById<MaterialButton>(R.id.btn_notifications_perm).isEnabled = !notificationsGranted
-        findViewById<MaterialButton>(R.id.btn_xiaomi_installed_apps_perm).isEnabled = false
+
+        val xiaomi = isXiaomiDevice()
+        val xiaomiGranted = isXiaomiInstalledAppsPermissionGranted()
+        val xiaomiCard = findViewById<View>(R.id.container_xiaomi_installed_apps_perm)
+        xiaomiCard.visibility = if (xiaomi) View.VISIBLE else View.GONE
+        findViewById<MaterialButton>(R.id.btn_xiaomi_installed_apps_perm).isEnabled =
+            xiaomi && !xiaomiGranted
 
         val root = findViewById<View>(R.id.container_root_permissions)
         root.visibility = if (statePrefsShowRoot()) View.VISIBLE else View.GONE
-        findViewById<MaterialButton>(R.id.btn_root_permissions).isEnabled = false
 
-        findViewById<View>(R.id.intro_activity_permissions).visibility = View.VISIBLE
+        findViewById<View>(R.id.intro_activity_permissions).visibility =
+            if (!storageGranted || !notificationsGranted || (xiaomi && !xiaomiGranted) || statePrefsShowRoot())
+                View.VISIBLE else View.GONE
     }
 
     private fun statePrefsShowRoot(): Boolean =
@@ -136,6 +150,51 @@ class IntroActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQUEST_NOTIFICATIONS)
         }
+    }
+
+    private fun requestXiaomiInstalledAppsPermission() {
+        if (!isXiaomiDevice()) return
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(XIAOMI_INSTALLED_APPS_PERMISSION),
+                    REQUEST_XIAOMI_INSTALLED_APPS
+                )
+            }
+        } catch (_: SecurityException) {
+            Toast.makeText(
+                this,
+                R.string.xiaomi_installed_apps_permission_not_supported,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun isXiaomiDevice(): Boolean =
+        Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) ||
+            Build.BRAND.equals("Xiaomi", ignoreCase = true) ||
+            Build.BRAND.equals("Redmi", ignoreCase = true) ||
+            Build.BRAND.equals("POCO", ignoreCase = true)
+
+    private fun isXiaomiInstalledAppsPermissionGranted(): Boolean =
+        if (!isXiaomiDevice() || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
+        else ContextCompat.checkSelfPermission(this, XIAOMI_INSTALLED_APPS_PERMISSION) ==
+            PackageManager.PERMISSION_GRANTED
+
+    private fun showRootPermissionDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.root_grant_permissions_dialog_title)
+            .setMessage(R.string.root_grant_permissions_dialog_msg)
+            .setPositiveButton(R.string.grant_permissions) { _, _ ->
+                Toast.makeText(
+                    this,
+                    R.string.root_grant_permissions_dialog_msg,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     private fun handleIntent(intent: Intent?) {
@@ -216,5 +275,7 @@ class IntroActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_STORAGE = 4101
         private const val REQUEST_NOTIFICATIONS = 4102
+        private const val REQUEST_XIAOMI_INSTALLED_APPS = 4103
+        private const val XIAOMI_INSTALLED_APPS_PERMISSION = "com.android.permission.GET_INSTALLED_APPS"
     }
 }
