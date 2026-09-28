@@ -9,6 +9,11 @@
     <attr name="colorSurfaceContainerHighest" format="color"/>
     <attr name="colorSurfaceContainerLow" format="color"/>
     <attr name="colorSurfaceContainerLowest" format="color"/>
+    <attr name="contentPaddingBottom" format="dimension"/>
+    <attr name="contentPaddingLeft" format="dimension"/>
+    <attr name="contentPaddingRight" format="dimension"/>
+    <attr name="contentPaddingTop" format="dimension"/>
+    <attr name="swipeEnabled" format="boolean"/>
     <declare-styleable name="IntroBenefitCardView">
         <attr name="introBenefitIcon" format="reference"/>
         <attr name="introBenefitIconBackgroundTint" format="color"/>
