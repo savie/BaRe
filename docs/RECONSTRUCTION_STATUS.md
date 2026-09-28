@@ -3,6 +3,7 @@
 ## Baseline
 
 - Reference: Swift Backup 5.1.0, version code 620
+- Reference artifact: supplied `SwiftBackup-5.1.0-620-decompiled.zip`
 - Reconstruction branch: `rewrite`
 - Canonical handoff: `docs/bare.md`
 - Target: 1:1 Reference fidelity except explicitly Authorized Deviations
@@ -17,37 +18,63 @@
 - Kotlin source: NOT USED
 - Kotlin JVM target: NOT CONFIGURED
 - Compose: NOT ENABLED
-- Namespace/applicationId: `com.bare`
-- minSdk: 23
-- compileSdk: 35
-- targetSdk: 35
+- Namespace: `com.bare`
+- Application ID: `com.bare`
+- minSdk: 23 (project requirement)
+- compileSdk: 35 (project requirement)
+- targetSdk: 35 (project requirement)
 - versionName: `1.0`
 - versionCode: `BARE_VERSION_CODE`, fallback `1`
 - Stable debug signing: CONFIGURED as optional environment-driven signing
 - Packaging exclusions: CONFIGURED
 
-### Baseline documentation
-
-- Canonical `docs/bare.md`: COMPLETE
-- Reference inventory document: COMPLETE as a blocked/evidence-aware inventory
-- Parity matrix: COMPLETE as an initial evidence-aware matrix
-
 ### Reference audit
 
-- Reference source/class inventory: BLOCKED
-- Reference resource inventory: BLOCKED
-- Reference component inventory: BLOCKED
-- Reference workflow/navigation inventory: BLOCKED
-- Reference dependency inventory: BLOCKED
-- Reference runtime behavior inventory: BLOCKED
+**STATUS: COMPLETE**
 
-The Reference JADX/APKTool snapshot is not currently accessible in the GitHub `rewrite` tree through the available repository interface. These areas therefore remain BLOCKED rather than being inferred.
+The supplied Reference artifact is now directly accessible and has been audited.
 
-## Phase 1 Gate
+Verified:
+
+- Reference package: `org.swiftapps.swiftbackup`
+- Application class: `org.swiftapps.swiftbackup.SwiftApp`
+- Version: `5.1.0`
+- Version code: `620`
+- JADX Java sources: 12,611 total
+- Reference-package Java sources: 259
+- APKTool smali: 11,752
+- Activities: 95 total / 71 Reference-package
+- Services: 10 total / 3 Reference-package
+- Receivers: 10 total / 8 Reference-package
+- Providers: 4 total / 0 Reference-package
+- Layouts: 341
+- Drawables: 445
+- Menus: 44
+- XML resources: 18
+- Raw resources: 12
+- Fonts: 7
+
+Detailed evidence is recorded in `docs/REFERENCE_AUDIT.md`.
+
+### Phase 1 mapping
 
 **STATUS: IN PROGRESS**
 
-Phase 1 is not complete until the Reference source/resource snapshot is accessible and the evidence-backed inventory/mapping can be completed.
+Still being completed:
+
+1. Manifest component → source mapping
+2. Screen/layout → Activity/Fragment mapping
+3. Resource → feature mapping
+4. Navigation/workflow mapping
+5. Dependency/integration mapping
+6. Explicit Authorized Deviation register
+7. Reconstruction sequencing
+
+## Important package rule
+
+Reference internal package is `org.swiftapps.swiftbackup`.
+
+The handoff explicitly prohibits global renaming of internal identifiers merely because they contain Swift. Internal package/class identifiers must therefore be preserved where technically feasible and only changed when an explicit Authorized Deviation or technical necessity is evidenced.
 
 ## Verification policy
 
@@ -61,8 +88,12 @@ Every reconstructed capability must be classified as:
 
 Build success alone does not establish parity. Runtime success alone does not establish feature parity.
 
-## Next gate
+## Current gate
 
-Make the Reference JADX/APKTool source/resource snapshot accessible to the reconstruction workflow, then complete:
+**PHASE 1 — AUDIT COMPLETE / MAPPING IN PROGRESS**
 
-Reference → inventory → mapping → reconstruction planning → verification baseline.
+The Reference-access blocker is resolved.
+
+Next execution gate:
+
+`Reference inventory → mapping → reconstruction sequence → first real feature implementation`.
