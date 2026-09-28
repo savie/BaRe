@@ -74,4 +74,7 @@
     <string name="backup_folders_summary">Create backups for folder setups on this device</string>
     <string name="restore_folders">Restore folders</string>
     <string name="restore_folders_summary">Restore folders from the most recent backups</string>
+    <string name="no_cloud_connected">Cloud account not connected</string>
+    <string name="connect_cloud_subtitle">Connect a cloud service account to back up your files to cloud.</string>
+    <string name="connect_cloud">Connect cloud</string>
 </resources>
