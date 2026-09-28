@@ -12,6 +12,7 @@ class AppBackupManager(private val context: Context) {
     private val catalog = BackupCatalog(context)
     private val limits = AppBackupLimitsStore(context)
     private val privileged = PrivilegedCommandExecutor(context)
+    private val specialDataManager = AppSpecialDataManager(context)
 
     fun backup(request: BackupRequest, onProgress: (Long) -> Unit = {}): LocalMetadata {
         require(request.locations.all { it == BackupLocation.LOCAL }) {
@@ -93,7 +94,7 @@ class AppBackupManager(private val context: Context) {
             metadata.updatePart(part, target.length())
         }
 
-        metadata.specialData = AppSpecialDataPayload()
+        metadata.specialData = specialDataManager.capture(app.packageName)
         saveMetadata(metadata, backupDir)
         app.localMetadata = metadata
         return metadata
@@ -172,6 +173,12 @@ class AppBackupManager(private val context: Context) {
                 "dateBackupUpdated=" + (m.dateBackupUpdated ?: 0) + "\n" +
                 "note=" + (m.note ?: "") + "\n" +
                 "protectedBackup=" + m.protectedBackup + "\n" +
+                "specialDataVersion=" + (m.specialData?.version ?: 1) + "\n" +
+                "permissionStatesCsv=" + (m.specialData?.permissionStatesCsv ?: "") + "\n" +
+                "ssaid=" + (m.specialData?.ssaid ?: "") + "\n" +
+                "ntfAccessComponent=" + (m.specialData?.ntfAccessComponent ?: "") + "\n" +
+                "accessibilityComponent=" + (m.specialData?.accessibilityComponent ?: "") + "\n" +
+                "notificationPolicyXml=" + (m.specialData?.notificationPolicyXml ?: "") + "\n" +
                 "parts=" + m.backupParts.joinToString(",") { it.id }
         )
     }
