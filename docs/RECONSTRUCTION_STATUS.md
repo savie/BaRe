@@ -14,19 +14,29 @@
 
 - Android project skeleton: COMPLETE
 - Java source implementation: COMPLETE (bootstrap)
-- Android Views/XML: COMPLETE (bootstrap)
+- Android Views/XML: COMPLETE (bootstrap foundation)
 - Kotlin source: NOT USED
 - Kotlin JVM target: NOT CONFIGURED
 - Compose: NOT ENABLED
 - Namespace: `com.bare`
 - Application ID: `com.bare`
-- minSdk: 23 (project requirement)
-- compileSdk: 35 (project requirement)
-- targetSdk: 35 (project requirement)
+- minSdk: 26 (aligned with Reference)
+- compileSdk: 37 (aligned with Reference)
+- targetSdk: 37 (aligned with Reference)
 - versionName: `1.0`
 - versionCode: `BARE_VERSION_CODE`, fallback `1`
 - Stable debug signing: CONFIGURED as optional environment-driven signing
 - Packaging exclusions: CONFIGURED
+
+### Identity / naming alignment
+
+- Application class: `com.bare.BaReApp`
+- Launcher Activity: `com.bare.intro.IntroActivity`
+- Theme resource: `BaReTheme`
+- User-facing branding: `BΛR☰`
+- Bootstrap `MainActivity`: REMOVED
+- Reference `SwiftApp` naming: replaced at the BaRe application identity layer; internal Reference identifiers will be renamed selectively, not by unsafe global replacement.
+- Android resource identifiers cannot safely use `BΛR☰` as a resource name, so valid `BaRe` identifiers are used where canonical BΛR☰ characters are not valid.
 
 ### Reference audit
 
