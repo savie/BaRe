@@ -105,4 +105,15 @@
     <item name="progressBarStorage" type="id"/>
     <item name="tvUsedPercent" type="id"/>
     <item name="tv_value" type="id"/>
+    <item name="iv_icon" type="id"/>
+    <item name="tv_card_title" type="id"/>
+    <item name="tv_root_needed" type="id"/>
+    <item name="iv_pin" type="id"/>
+    <item name="tv_subtitle1" type="id"/>
+    <item name="btn_from_local" type="id"/>
+    <item name="btn_from_cloud" type="id"/>
+    <item name="bottom_view" type="id"/>
+    <item name="barrier_for_buttons" type="id"/>
+    <item name="barrier_bottom" type="id"/>
+    <item name="space_bottom" type="id"/>
 </resources>
