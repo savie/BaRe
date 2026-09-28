@@ -197,12 +197,43 @@ class IntroActivity : AppCompatActivity() {
 
     private fun requestXiaomiInstalledAppsPermission() {
         if (!RootPermissionManager.isInstalledAppsPermissionSupported(this)) return
+
+        val permission = XIAOMI_INSTALLED_APPS_PERMISSION
+        val previouslyRequested = getSharedPreferences(
+            IntroStateStore.PREFS_NAME,
+            MODE_PRIVATE
+        ).getBoolean(KEY_INSTALLED_APPS_PERMISSION_REQUESTED, false)
+
+        if (previouslyRequested &&
+            ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
+        ) {
+            runCatching {
+                startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:$packageName")
+                    )
+                )
+            }.onFailure {
+                Toast.makeText(
+                    this,
+                    R.string.xiaomi_installed_apps_permission_not_supported,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            return
+        }
+
         try {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(XIAOMI_INSTALLED_APPS_PERMISSION),
+                arrayOf(permission),
                 REQUEST_XIAOMI_INSTALLED_APPS
             )
+            getSharedPreferences(IntroStateStore.PREFS_NAME, MODE_PRIVATE)
+                .edit()
+                .putBoolean(KEY_INSTALLED_APPS_PERMISSION_REQUESTED, true)
+                .apply()
         } catch (_: SecurityException) {
             Toast.makeText(
                 this,
@@ -360,5 +391,6 @@ class IntroActivity : AppCompatActivity() {
         private const val REQUEST_NOTIFICATIONS = 4102
         private const val REQUEST_XIAOMI_INSTALLED_APPS = 4103
         private const val XIAOMI_INSTALLED_APPS_PERMISSION = "com.android.permission.GET_INSTALLED_APPS"
+        private const val KEY_INSTALLED_APPS_PERMISSION_REQUESTED = "intro_installed_apps_permission_requested"
     }
 }
