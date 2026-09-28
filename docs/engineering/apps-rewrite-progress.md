@@ -140,3 +140,21 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
 - Do not create an artificial engineering handoff merely because work crosses capability boundaries.
 - A real handoff is allowed only when an external specialist, different authority, unavailable capability, out-of-scope decision, or required external dependency makes it necessary.
 - When a real handoff is required, record: current state, evidence, question, blocker, impact, required decision, and expected output.
+
+## Apps task update — split/shared-library artifact path
+
+- Reference evidence re-checked from APK/JADX:
+  - ji retains the full splitSourceDirs collection.
+  - g00.v(packageName) derives shared-library APK paths from ApplicationInfo.sharedLibraryFiles and resolves their package metadata.
+  - Reference uses a PackageInstaller session that accepts a list of APK files, rather than a single APK-only write path.
+- Rewrite changes:
+  - AppBackupManager now stages the complete SPLITS and SHARED_LIBS collections into distinct archive payload directories.
+  - AppRestoreManager now routes SPLITS and SHARED_LIBS archives into APK-set restore.
+  - InstallerSourceProxy now has multi-APK installation paths, split version/package filtering, and shared-library package installation.
+  - New task messages are resource-backed through strings.xml; no new user-facing hardcoded text was introduced.
+- Verification:
+  - Static source reconciliation: UPDATED.
+  - Runtime PackageInstaller behavior: UNVERIFIED.
+  - Gradle/build verification: still BLOCKED in this environment.
+- Handoff:
+  - No external handoff required. Current work remains within the authorized Apps implementation scope.
