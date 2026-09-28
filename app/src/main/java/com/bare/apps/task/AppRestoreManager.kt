@@ -10,6 +10,7 @@ class AppRestoreManager(private val context: Context) {
     private val backup = AppBackupManager(context)
     private val privileged = PrivilegedCommandExecutor(context)
     private val notificationPolicy = NotificationPolicyProxy(context)
+    private val ssaidHelper = SsaidHelper(context, privileged)
 
     fun restore(request: RestoreRequest, onProgress: (Long) -> Unit = {}): RestoreResult {
         val pre = RestorePreconditions.check(request)
@@ -199,8 +200,7 @@ class AppRestoreManager(private val context: Context) {
 
     private fun restoreSsaid(packageName: String, ssaid: String?) {
         if (ssaid.isNullOrBlank()) return
-        // Reference delegates per-app SSAID mutation to a dedicated helper.
-        // No equivalent verified API exists in rewrite, so do not claim this is complete.
+        ssaidHelper.restore(packageName, ssaid)
     }
 
     private fun restoreDirectoryArchive(
