@@ -80,4 +80,12 @@
     <string name="barelogger_info">BaReLogger records application diagnostics and logs for troubleshooting.</string>
     <string name="barelogger_empty">No log entries are available yet.</string>
     <string name="locale_credits_unavailable">Translation credits are not available yet.</string>
+    <string name="swiftlogger_info">Logs for bug reports</string>
+    <string name="share_logs">Share logs</string>
+    <string name="clear_logs">Clear logs</string>
+    <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_all">Delete all</string>
+    <string name="barelogger_share_subject">BaReLogger Logs (text only)</string>
 </resources>
