@@ -24,7 +24,7 @@ class NotificationPolicyProxy(private val context: android.content.Context) {
             val method = service.javaClass.getMethod(
                 "applyRestore",
                 ByteArray::class.java,
-                Int::class.javaPrimitiveType
+                Int::class.javaPrimitiveType!!
             )
             method.invoke(service, bytes, userId)
             true
