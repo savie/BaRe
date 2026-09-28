@@ -32,4 +32,11 @@
     <item name="nav_cloud" type="id"/>
     <item name="nav_schedule" type="id"/>
     <item name="nav_account" type="id"/>
+    <item name="toolbar" type="id"/>
+    <item name="toolbar_content" type="id"/>
+    <item name="app_logo_container" type="id"/>
+    <item name="tv_swiftbackup" type="id"/>
+    <item name="tv_premium" type="id"/>
+    <item name="search_button" type="id"/>
+    <item name="iv_user" type="id"/>
 </resources>
