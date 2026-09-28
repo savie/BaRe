@@ -9,6 +9,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.bare.R
@@ -76,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
         navigation.setOnItemReselectedListener { item ->
             val index = INDEX[item.itemId] ?: 0
             pager.currentItem = index
-            pager.post { findViewById<View>(R.id.viewPager)?.scrollTo(0, 0) }
+            pager.post { scrollSelectedPageToTop(index) }
         }
         pager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageSelected(position: Int) {
@@ -87,6 +89,24 @@ class HomeActivity : AppCompatActivity() {
         navigation.selectedItemId = saved
 
         findViewById<View>(R.id.container_btn_new_schedule).visibility = View.GONE
+    }
+
+
+    private fun scrollSelectedPageToTop(index: Int) {
+        val page = pager.getChildAt(index)
+        if (page is NestedScrollView) {
+            page.smoothScrollTo(0, 0)
+            return
+        }
+        if (page is ViewGroup) {
+            for (i in 0 until page.childCount) {
+                val child = page.getChildAt(i)
+                if (child is NestedScrollView) {
+                    child.smoothScrollTo(0, 0)
+                    break
+                }
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
