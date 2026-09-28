@@ -45,4 +45,23 @@
     <string name="schedule_charging_any">Charging: Any state</string>
     <string name="start_time">Start time</string>
     <string name="charging_requirements">Charging requirements</string>
+    <string name="quick_actions_apps">Apps quick actions</string>
+    <string name="quick_actions_calls">Call logs quick actions</string>
+    <string name="quick_actions_folders">Folders quick actions</string>
+    <string name="quick_actions_messages">Messages quick actions</string>
+    <string name="quick_backup_apps">Quick backup apps</string>
+    <string name="quick_restore_apps">Quick restore apps</string>
+    <string name="backup_all_apps_summary">Backup installed apps from this device</string>
+    <string name="restore_all_apps_summary">Restore all backed up apps</string>
+    <string name="backup_messages">Backup messages</string>
+    <string name="backup_messages_summary">Create a new backup of all messages on this device</string>
+    <string name="restore_messages">Restore messages</string>
+    <string name="restore_messages_summary">Restore messages from the most recent backup</string>
+    <string name="call_logs_backup">Call logs backup</string>
+    <string name="call_logs_backups">Call logs backups</string>
+    <string name="call_logs_backups_settings_summary">Backup limits, encryption</string>
+    <string name="backup_folders">Backup folders</string>
+    <string name="backup_folders_summary">Create backups for folder setups on this device</string>
+    <string name="restore_folders">Restore folders</string>
+    <string name="restore_folders_summary">Restore folders from the most recent backups</string>
 </resources>
