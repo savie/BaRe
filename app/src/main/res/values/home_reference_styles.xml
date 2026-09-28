@@ -24,10 +24,6 @@
         <item name="iconTint">?attr/colorPrimary</item>
         <item name="rippleColor">?attr/colorBackgroundActivated</item>
     </style>
-    <style name="M3ButtonFilled.Error" parent="Widget.Material3.Button.FilledButton">
-        <item name="android:textColor">?attr/colorError2</item>
-        <item name="backgroundTint">?attr/colorErrorContainer2</item>
-    </style>
     <style name="Widget.Material3.ListItemCardView" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">?attr/cardBackgroundColor</item>
         <item name="cardElevation">0dp</item>
