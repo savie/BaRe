@@ -45,7 +45,7 @@ class CloudFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.cloud_settings_local_only), Toast.LENGTH_SHORT).show()
         }
 
-        view.findViewById<View>(R.id.cloud_info_card_warning).visibility = View.GONE
+        view.findViewById<View>(R.id.cloud_info_card_warning).visibility = View.VISIBLE
         view.findViewById<View>(R.id.cloud_info_card_active_tag).visibility = View.GONE
         view.findViewById<View>(R.id.cloud_fragment_progress_bar).visibility = View.GONE
     }
