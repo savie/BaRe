@@ -27,6 +27,7 @@
                 <data android:scheme="bare" android:host="auth" android:path="/callback"/>
             </intent-filter>
         </activity>
+        <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
         <activity
             android:name=".home.HomeActivity"
             android:launchMode="singleTop"/>
