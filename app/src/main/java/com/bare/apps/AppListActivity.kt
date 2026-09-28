@@ -115,6 +115,8 @@ class AppListActivity:AppCompatActivity(){
    "Backed up","Not backed up","Synced","Not synced",
    "Installed","Not installed","Enabled","Disabled",
    "Favorites only","Not favorites","All favorites","Launchable","Updated","Labelled or favorites",
+   getString(R.string.apps_filter_multiple_backups),getString(R.string.apps_filter_protected_backups),getString(R.string.apps_filter_backups_with_notes),
+   getString(R.string.apps_filter_backup_old),getString(R.string.apps_filter_backup_new),getString(R.string.apps_filter_installed_from_google_play),getString(R.string.apps_filter_not_installed_from_google_play),
    "Backup: last 7 days","Backup: last 30 days","Backup: older",
    "Sort: Name","Sort: Install date","Sort: Update date","Sort: Backup date",
    "Sort: App size","Sort: Backup size","Sort: Date used","Labels..."
@@ -140,10 +142,17 @@ class AppListActivity:AppCompatActivity(){
      14->state.misc=MiscFilter.LAUNCHABLE
      15->state.misc=MiscFilter.UPDATED
      16->state.misc=MiscFilter.LABELLED_OR_FAVORITES
-     17->state.age=BackupAgeFilter.LAST_7_DAYS
-     18->state.age=BackupAgeFilter.LAST_30_DAYS
-     19->state.age=BackupAgeFilter.OLDER
-     20->AppSortState(this).mode=AppSortMode.Name
+     17->state.misc=MiscFilter.MULTIPLE_BACKUPS
+     18->state.misc=MiscFilter.PROTECTED_BACKUPS
+     19->state.misc=MiscFilter.BACKUPS_WITH_NOTES
+     20->state.misc=MiscFilter.BACKUP_OLD
+     21->state.misc=MiscFilter.BACKUP_NEW
+     22->state.misc=MiscFilter.INSTALLED_FROM_GOOGLE_PLAY
+     23->state.misc=MiscFilter.NOT_INSTALLED_FROM_GOOGLE_PLAY
+     24->state.age=BackupAgeFilter.LAST_7_DAYS
+     25->state.age=BackupAgeFilter.LAST_30_DAYS
+     26->state.age=BackupAgeFilter.OLDER
+     27->AppSortState(this).mode=AppSortMode.Name
      21->AppSortState(this).mode=AppSortMode.InstallDate
      22->AppSortState(this).mode=AppSortMode.UpdateDate
      23->AppSortState(this).mode=AppSortMode.BackupDate
