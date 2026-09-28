@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BΛR☰</string>
+    <string name="premium">Premium</string>
     <string name="signin_title">Setup your BΛR☰ account</string>
     <string name="signin_intro_subtitle">Create your BΛR☰ account for cloud backups, Premium, and account-based encryption.</string>
     <string name="intro_benefit_cloud_title">Cloud backups</string>
