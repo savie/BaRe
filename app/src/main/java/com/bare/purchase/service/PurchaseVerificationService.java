@@ -2,7 +2,7 @@ package com.bare.purchase.service;
 
 import com.bare.purchase.repository.PurchaseVerificationRepository;
 
-/** Purchase verification orchestration. Payload semantics remain UNKNOWN until audited. */
+/** Purchase verification orchestration for the Reference boolean verification node. */
 public final class PurchaseVerificationService {
     private final PurchaseVerificationRepository repository;
 
@@ -14,7 +14,7 @@ public final class PurchaseVerificationService {
         PurchaseVerificationRepository.VerificationResult result = repository.load(uid);
         return result == null
                 ? new PurchaseVerificationRepository.VerificationResult(
-                        PurchaseVerificationRepository.VerificationResult.State.UNKNOWN, null)
+                        PurchaseVerificationRepository.VerificationResult.State.UNKNOWN)
                 : result;
     }
 }
