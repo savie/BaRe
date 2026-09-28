@@ -1,0 +1,3 @@
+package com.bare.apps
+import android.content.Context
+class BlacklistStore(context:Context){private val p=context.getSharedPreferences("bare_apps_blacklist",Context.MODE_PRIVATE);fun all():Set<String>=p.getStringSet("packages",emptySet())?:emptySet();fun set(packageName:String,blocked:Boolean){p.edit().putStringSet("packages",if(blocked)all()+packageName else all()-packageName).apply()};fun isBlocked(packageName:String)=packageName in all()}
