@@ -6,5 +6,25 @@ public interface AccountMigrationRepository {
     void setMigratingToGoogleSignIn(boolean migrating);
     MigrationResult migrateCloudDirectory(String oldCloudDirectory, String newCloudDirectory);
 
-    enum MigrationResult { MIGRATED, NOT_NEEDED, NOT_FOUND, FAILED, UNKNOWN }
+    /**
+     * Reference migration outcomes observed in fu3:
+     * - MIGRATED: destination metadata write succeeded and source cleanup succeeded.
+     * - NOT_NEEDED: source/destination already equivalent or no migration required.
+     * - NOT_FOUND: source metadata was absent.
+     * - SOURCE_CHANGED: source changed while migration/cleanup was in progress.
+     * - DESTINATION_CHANGED: rollback was not performed because destination changed.
+     * - ROLLED_BACK: destination write was rolled back after source-change detection.
+     * - FAILED: provider operation failed.
+     * - UNKNOWN: provider returned an unclassified state.
+     */
+    enum MigrationResult {
+        MIGRATED,
+        NOT_NEEDED,
+        NOT_FOUND,
+        SOURCE_CHANGED,
+        DESTINATION_CHANGED,
+        ROLLED_BACK,
+        FAILED,
+        UNKNOWN
+    }
 }
