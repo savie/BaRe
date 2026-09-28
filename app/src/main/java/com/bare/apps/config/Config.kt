@@ -1,2 +1,9 @@
 package com.bare.apps.config
-data class Config(val id:String,val name:String,val packageNames:Set<String>=emptySet(),val parts:Set<String>=emptySet())
+import com.bare.apps.model.*
+data class Config(
+ val id:String,
+ var name:String,
+ var settings:ConfigSettings=ConfigSettings()
+){
+ fun isValid()=name.isNotBlank()&&settings.parts.isNotEmpty()&&settings.locations.isNotEmpty()
+}
