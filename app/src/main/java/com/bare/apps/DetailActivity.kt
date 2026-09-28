@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bare.R
 import com.bare.apps.domain.AppDiscovery
 import com.bare.apps.model.*
+import com.bare.apps.task.AppsTaskState
 import com.bare.apps.task.BackupCatalog
 import com.bare.apps.task.TaskManager
 
@@ -29,17 +30,12 @@ class DetailActivity:AppCompatActivity(){
   findViewById<TextView>(R.id.detail_restore).setOnClickListener{
    val latest=history.firstOrNull()
    if(latest==null){toast("No local backup available");return@setOnClickListener}
-   val parts=latest.parts
-   val result=TaskManager(this).executeRestore(
-    RestoreRequest(app,parts,localBackupId=latest.backupId)
-   )
+   val result=TaskManager(this).executeRestore(RestoreRequest(app,latest.parts,localBackupId=latest.backupId))
    toast(resultMessage(result))
   }
 
   findViewById<TextView>(R.id.detail_backup).setOnClickListener{
-   val result=TaskManager(this).executeBackup(
-    BackupRequest(app,setOf(AppPart.APP),setOf(BackupLocation.LOCAL))
-   )
+   val result=TaskManager(this).executeBackup(BackupRequest(app,setOf(AppPart.APP),setOf(BackupLocation.LOCAL)))
    toast(resultMessage(result))
    refreshHistory()
   }
@@ -52,8 +48,10 @@ class DetailActivity:AppCompatActivity(){
   }
 
   findViewById<TextView>(R.id.detail_note).setOnClickListener{
-   app.localMetadata?.let{it.note=if(it.note.isNullOrBlank())"Note" else null;toast(if(it.note==null)"Note cleared" else "Note added")}
-     ?:toast("No local backup available")
+   app.localMetadata?.let{
+    it.note=if(it.note.isNullOrBlank())"Note" else null
+    toast(if(it.note==null)"Note cleared" else "Note added")
+   }?:toast("No local backup available")
   }
 
   findViewById<TextView>(R.id.detail_delete).setOnClickListener{
@@ -81,6 +79,13 @@ class DetailActivity:AppCompatActivity(){
   }
  }
 
- private fun resultMessage(result:Any)=result.toString()
+ private fun resultMessage(result:AppsTaskState)=when(result){
+  is AppsTaskState.Success->result.message
+  is AppsTaskState.Error->result.message
+  AppsTaskState.Cancelled->"Task cancelled"
+  is AppsTaskState.Running->"Task running"
+  AppsTaskState.Pending->"Task pending"
+ }
+
  private fun toast(message:String)=Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
 }
