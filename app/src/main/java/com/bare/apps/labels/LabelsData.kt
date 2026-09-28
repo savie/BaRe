@@ -1,0 +1,3 @@
+package com.bare.apps.labels
+import android.content.Context
+class LabelsData(context:Context){private val p=context.getSharedPreferences("bare_app_labels",Context.MODE_PRIVATE);fun labels():Set<String>=p.getStringSet("labels",emptySet())?:emptySet();fun add(label:String){p.edit().putStringSet("labels",(labels()+label).toMutableSet()).apply()};fun remove(label:String){p.edit().putStringSet("labels",(labels()-label).toMutableSet()).apply()}}
