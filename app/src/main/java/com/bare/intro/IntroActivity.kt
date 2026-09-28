@@ -153,7 +153,7 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun requestXiaomiInstalledAppsPermission() {
-        if (!isXiaomiDevice()) return
+        if (!isInstalledAppsPermissionSupported()) return
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ActivityCompat.requestPermissions(
