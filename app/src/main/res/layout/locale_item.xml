@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="?listPreferredItemHeightLarge" android:foreground="?selectableItemBackground">
+    <RadioButton android:id="@+id/rb" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="@dimen/spacing_normal_more"
+        app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView android:id="@+id/tv_subtitle" style="@style/TextOverline" android:layout_width="0dp" android:layout_height="wrap_content"
+        android:alpha="0.6" android:textColor="?android:textColorSecondary" android:letterSpacing="0.08" app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintEnd_toEndOf="@id/tv_title" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@id/tv_title"/>
+    <TextView android:id="@+id/tv_title" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/title_large"
+        android:textColor="?android:textColorPrimary" android:layout_marginEnd="@dimen/spacing_normal"
+        app:layout_constraintStart_toEndOf="@id/rb" app:layout_constraintEnd_toStartOf="@id/tv_beta_indicator"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle" app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView android:id="@+id/tv_beta_indicator" android:layout_width="wrap_content" android:layout_height="24dp" android:gravity="center"
+        android:textAllCaps="true" android:textSize="@dimen/subtitle_smallest" android:textColor="@color/wht" android:background="@drawable/button_rounded"
+        android:backgroundTint="@color/ambrdark" android:paddingStart="@dimen/spacing_medium" android:paddingEnd="@dimen/spacing_medium"
+        android:layout_marginEnd="@dimen/spacing_normal_more" android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+    <View style="@style/DividerThinNoMargins" android:layout_width="0dp" android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_title" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
