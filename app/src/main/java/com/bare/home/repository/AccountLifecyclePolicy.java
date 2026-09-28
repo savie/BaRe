@@ -8,15 +8,11 @@ public final class AccountLifecyclePolicy {
         return identity != null && !identity.anonymous;
     }
 
-    public static boolean shouldResetFirstStartAfterSignOut() {
-        return true;
-    }
-
-    public static boolean shouldResetCloudRestoreAfterSignOut() {
-        return true;
-    }
-
-    public static boolean shouldCancelScheduledAlarmsAfterSignOut() {
-        return true;
-    }
+    public static boolean shouldResetFirstStartAfterSignOut() { return true; }
+    public static boolean shouldResetCloudRestoreAfterSignOut() { return true; }
+    public static boolean shouldCancelScheduledAlarmsAfterSignOut() { return true; }
+    public static boolean shouldClearAnonymousIdentity() { return true; }
+    public static boolean shouldResetAnonymousStateStore() { return true; }
+    public static boolean shouldReinitializeAccountAfterSignOut() { return true; }
+    public static boolean wasGoogleMigrationInProgress(boolean storedFlag) { return storedFlag; }
 }
