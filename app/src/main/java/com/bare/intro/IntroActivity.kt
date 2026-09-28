@@ -188,15 +188,13 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun requestXiaomiInstalledAppsPermission() {
-        if (!isInstalledAppsPermissionSupported()) return
+        if (!RootPermissionManager.isInstalledAppsPermissionSupported(this)) return
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(XIAOMI_INSTALLED_APPS_PERMISSION),
-                    REQUEST_XIAOMI_INSTALLED_APPS
-                )
-            }
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(XIAOMI_INSTALLED_APPS_PERMISSION),
+                REQUEST_XIAOMI_INSTALLED_APPS
+            )
         } catch (_: SecurityException) {
             Toast.makeText(
                 this,
@@ -205,23 +203,6 @@ class IntroActivity : AppCompatActivity() {
             ).show()
         }
     }
-
-    private fun isInstalledAppsPermissionSupported(): Boolean {
-        val info = runCatching {
-            packageManager.getPermissionInfo(XIAOMI_INSTALLED_APPS_PERMISSION, 0)
-        }.getOrNull() ?: return false
-        if (info.packageName == "com.lbe.security.miui") return true
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            (info.protectionLevel and PackageManager.PROTECTION_MASK_BASE) ==
-                PackageManager.PROTECTION_NORMAL
-        } else {
-            true
-        }
-    }
-
-    private fun isInstalledAppsPermissionGranted(): Boolean =
-        ContextCompat.checkSelfPermission(this, XIAOMI_INSTALLED_APPS_PERMISSION) ==
-            PackageManager.PERMISSION_GRANTED
 
     private fun executeRootGrant() {
         Toast.makeText(this, R.string.root_grant_in_progress, Toast.LENGTH_SHORT).show()
@@ -268,7 +249,7 @@ class IntroActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 append("\n    • ").append(getString(R.string.notifications))
             }
-            if (isInstalledAppsPermissionSupported()) {
+            if (RootPermissionManager.isInstalledAppsPermissionSupported(this)) {
                 append("\n    • ").append(getString(R.string.android_permission_name_installed_apps))
             }
         }
@@ -293,15 +274,10 @@ class IntroActivity : AppCompatActivity() {
 
     private fun maybeCompleteFirstRun() {
         if (auth.currentSession() == null) return
-        val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Environment.isExternalStorageManager()
-        else ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        val notificationsGranted = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        if (!RootPermissionManager.onboardingPermissionsGranted(this)) return
 
-        if (storageGranted && notificationsGranted && PremiumEntitlement.isGranted()) {
-            state.markCloudRestoreCompleted()
-            openHome()
-        }
+        state.markCloudRestoreCompleted()
+        openHome()
     }
 
     private fun setBusy(busy: Boolean) {
