@@ -25,7 +25,7 @@ on:
 
 env:
   BARE_APPLICATION_ID: "com.bare"
-  BARE_VERSION_NAME: "5.1.0"
+  BARE_VERSION_NAME: "1.0"
   BARE_APK_PATH: "app/build/outputs/apk/debug/app-debug.apk"
   BARE_APK_UPDATE_MODE: "IN_PLACE"
 
