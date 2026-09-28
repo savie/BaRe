@@ -11,8 +11,8 @@
         app:layout_constraintStart_toEndOf="@id/rb" app:layout_constraintEnd_toStartOf="@id/tv_beta_indicator"
         app:layout_constraintTop_toBottomOf="@id/tv_subtitle" app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView android:id="@+id/tv_beta_indicator" android:layout_width="wrap_content" android:layout_height="24dp" android:gravity="center"
-        android:textAllCaps="true" android:textSize="@dimen/subtitle_smallest" android:textColor="@color/wht" android:background="@drawable/button_rounded"
-        android:backgroundTint="@color/ambrdark" android:paddingStart="@dimen/spacing_medium" android:paddingEnd="@dimen/spacing_medium"
+        android:textAllCaps="true" android:textSize="@dimen/subtitle_smallest" android:textColor="@color/wht" android:background="@drawable/circle"
+        android:backgroundTint="?attr/colorPrimaryContainer" android:paddingStart="@dimen/spacing_medium" android:paddingEnd="@dimen/spacing_medium"
         android:layout_marginEnd="@dimen/spacing_normal_more" android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
     <View style="@style/DividerThinNoMargins" android:layout_width="0dp" android:layout_height="wrap_content"
