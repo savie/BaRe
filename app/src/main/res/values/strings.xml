@@ -29,4 +29,9 @@
     <string name="xiaomi_installed_apps_perm_title">Installed apps access</string>
     <string name="xiaomi_installed_apps_perm_subtitle">Read installed apps on this device so all apps appear for backup and restore.</string>
     <string name="root_grant_permissions">Grant all with Root or Shizuku</string>
+    <string name="home_search">Search</string>
+    <string name="home">Home</string>
+    <string name="cloud_sync">Cloud sync</string>
+    <string name="schedules">Schedules</string>
+    <string name="account">Account</string>
 </resources>
