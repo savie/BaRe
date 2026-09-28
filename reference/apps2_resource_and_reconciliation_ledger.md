@@ -1,0 +1,235 @@
+# Apps Reference Resource Inventory & Producer-Consumer Reconciliation Ledger
+
+Status: AUDIT / STATIC EVIDENCE ONLY
+
+## Evidence boundary
+
+Sumber:
+- SwiftBackup 5.1.0-620 decompiled JADX source/resource tree.
+- AndroidManifest dan smali pada decompile.
+- Audit checkpoints 1–35 pada `reference/reference_apps_audit.md`.
+
+Tidak ada runtime Reference/Apps2 yang dijalankan pada pass ini. Karena itu seluruh status VERIFIED di dokumen ini berarti VERIFIED STATICALLY, bukan runtime-verified.
+
+## A. Formal inventory — remaining candidate set inspected in Checkpoint 34–35
+
+| Candidate | Evidence | Classification | Confidence |
+|---|---|---|---|
+| app_backup_limits_edittext | included by app_backup_limits_item | TRANSITIVE | VERIFIED STATICALLY |
+| app_backup_limits_item | referenced by app_backup_limits_activity | TRANSITIVE | VERIFIED STATICALLY |
+| app_swipe_preview_content | referenced by app_swipe_actions_fragment | TRANSITIVE | VERIFIED STATICALLY |
+| app_visibility_diagnostics_activity | included by appbar; Activity also present at manifest/smali boundary | RUNTIME + TRANSITIVE | VERIFIED STATICALLY |
+| appbar | referenced by multiple detail/config/folder/Apps/settings layouts | TRANSITIVE | VERIFIED STATICALLY |
+| appbar_with_filters | referenced by app_list_activity/apps_batch_activity/apps_config_run_activity | TRANSITIVE | VERIFIED STATICALLY |
+| config_notice_view | referenced by config_edit_activity | TRANSITIVE | VERIFIED STATICALLY |
+| config_settings_view | referenced by config_settings_activity/config_edit_item | TRANSITIVE | VERIFIED STATICALLY |
+| delete_app_backups_dialog_switch_item | referenced by delete_app_backups_dialog | TRANSITIVE | VERIFIED STATICALLY |
+| detail_card_app_backup | referenced by detail_activity | TRANSITIVE | VERIFIED STATICALLY |
+| detail_card_app_info | referenced by detail_activity | TRANSITIVE | VERIFIED STATICALLY |
+| detail_card_app_storage | referenced by detail_card_app_info | TRANSITIVE | VERIFIED STATICALLY |
+| detail_card_storage_loading | referenced by detail_card_app_storage | TRANSITIVE | VERIFIED STATICALLY |
+| folder_backup_card_item | referenced by folder_detail_backup_card | TRANSITIVE | VERIFIED STATICALLY |
+| folder_detail_backup_card | referenced by folder_detail_activity | TRANSITIVE | VERIFIED STATICALLY |
+| folder_detail_card_loading_view | referenced by folder_detail_info_card | TRANSITIVE | VERIFIED STATICALLY |
+| folder_detail_info_card | referenced by folder_detail_activity | TRANSITIVE | VERIFIED STATICALLY |
+| folder_restore_location_item | referenced by folder_restore_dialog | TRANSITIVE | VERIFIED STATICALLY |
+| folder_strategy_item | referenced by folder_backup_dialog/folder_restore_dialog | TRANSITIVE | VERIFIED STATICALLY |
+| home_appbar | referenced by home_activity and layout-w600dp/home_activity | TRANSITIVE | VERIFIED STATICALLY |
+| label_edit_apps_view | referenced by label_edit_activity / binding collaborator | TRANSITIVE | VERIFIED STATICALLY |
+| label_edit_color_view | referenced by label_edit_activity / binding collaborator | TRANSITIVE | VERIFIED STATICALLY |
+| multiple_backups_strategy_item | referenced by multiple_backups_strategy_activity | TRANSITIVE | VERIFIED STATICALLY |
+| quick_action_card | referenced by dash_fragment/apps_quick_actions_fragment | TRANSITIVE | VERIFIED STATICALLY |
+| task_activity_top | referenced by task_activity / TaskActivity binding path | TRANSITIVE | VERIFIED STATICALLY |
+
+### Inventory boundary
+
+This is the **formalized set actually inspected in Checkpoints 34–35**. The historical "112 candidates" was generated before the formal inventory existed; this ledger does not fabricate the other candidate names. Therefore the historical 112 count is not treated as a current unresolved count.
+
+## B. Producer-consumer ledger — core Apps subsystem
+
+### 1. Apps list / navigation
+
+`AppListActivity`
+→ local/cloud repository selection
+→ app collection/state
+→ `ws` list presenter/adapter
+→ app item rendering
+→ selection/swipe/overflow actions
+→ Detail / Batch / Quick Actions / Labels / Config navigation.
+
+Status: VERIFIED STATICALLY at subsystem level.
+
+### 2. Canonical app model
+
+Producers:
+- PackageInfo → `ji.Companion.fromPackageInfo`
+- LocalMetadata → `ji.Companion.fromMetadataFile`
+- AppCloudBackups → `ji.Companion.fromCloudBackups`
+
+Consumers:
+- Apps list/filter/sort
+- Detail
+- Backup/restore selection
+- labels
+- local/cloud backup state.
+
+Status: producer convergence VERIFIED STATICALLY.
+
+### 3. Size model
+
+`qx`
+→ APK / split APK / shared libraries / data / DE-data / external data / media / expansion / cache / aggregate sizes.
+
+Consumers include metadata display, backup sizing/selection, and restore sizing paths.
+
+Status: VERIFIED STATICALLY.
+
+### 4. AppPart routing
+
+`iu`
+→ APP / DATA / EXTDATA / EXPANSION / MEDIA
+→ part-specific backup artifact
+→ LocalMetadata / CloudMetadata
+→ restore descriptor / selected restore parts.
+
+Additional split/shared-library metadata is covered by the artifact graph.
+
+Status: VERIFIED STATICALLY for observed producer/consumer graph.
+
+Boundary: exact EXPANSION capability mapping remains UNKNOWN at implementation-detail level.
+
+### 5. Special-data boundary
+
+Sources:
+- requested permissions + permission flags
+- notification-access component state
+- accessibility component state
+- SSAID
+- notification policy XML
+
+→ `AppSpecialDataPayload.write()`
+→ versioned user-bound compressed/base64 artifact
+→ Local/cloud special-data artifact
+→ `AppSpecialDataPayload.read()`
+→ restore consumers.
+
+Status: VERIFIED STATICALLY.
+
+### 6. Local metadata transition
+
+Artifact writers:
+- APP
+- SPLITS
+- SHARED-LIBS
+- DATA/DE-DATA
+- MEDIA
+- EXPANSION
+- special-data.
+
+→ LocalMetadata mutation
+→ transient special-data legacy fields cleared after payload finalization
+→ metadata persistence.
+
+Status: VERIFIED STATICALLY.
+
+### 7. Cloud metadata transition
+
+Part upload descriptors
+→ CloudMetadata update methods
+→ version requirement stamping
+→ `prepareForFirebaseUpload()`
+→ legacy special-data fields cleared
+→ Firebase metadata persistence.
+
+Special-data:
+→ upload artifact
+→ success gate
+→ `updateSpecialDataDetails(link,size)`.
+
+Delete:
+→ metadata mutation
+→ special-data link deletion when applicable
+→ remote delete retry.
+
+Status: VERIFIED STATICALLY.
+
+Boundary: remote/backend transaction atomicity UNKNOWN.
+
+### 8. Restore orchestration
+
+Restore request:
+- canonical `ji`
+- selected `AppPart`
+- permission mode
+- restore-special-permissions flag
+- restore-SSAID flag
+- local/cloud backup identity
+- force-redo.
+
+→ restore task
+→ version compatibility predicate
+→ artifact resolution
+→ APK/data/platform restore
+→ special-data/permission/SSAID post-processing.
+
+Status: VERIFIED STATICALLY at orchestration/data-contract level.
+
+Boundary:
+- exact low-level split extraction helper identity UNKNOWN;
+- historical metadata schema migration engine UNKNOWN.
+
+### 9. Task/precondition boundary
+
+Apps backup/restore execution
+→ task infrastructure
+→ preconditions
+→ progress/error summary
+→ TaskActivity/task support.
+
+Status: VERIFIED STATICALLY.
+
+### 10. UI resource boundary
+
+Evidence classes:
+1. direct Java `R.*`;
+2. XML include/reference;
+3. binding/decompiled collaborator;
+4. manifest/smali runtime surface.
+
+Therefore absence of direct Java `R.*` is not an unused-resource proof.
+
+Status: VERIFIED STATICALLY for inspected candidate set.
+
+## C. 45-class cluster reconciliation
+
+| Cluster | Source count | Current producer/consumer status |
+|---|---:|---|
+| appslist | 14 | list/navigation/filter/model/resource graph substantially reconciled; exact obfuscated filter collaborators partly UNKNOWN |
+| appsquickactions | 1 | Activity/fragment/card/dialog/resource graph reconciled at static level |
+| appinfo | 1 | detail→AppInfo navigation and model/metadata relationship reconciled |
+| detail | 2 | detail cards/chips/storage/backup-history graph reconciled |
+| appconfigs | 11 | config list/edit/settings/run surfaces and resource/binding edges substantially reconciled |
+| apptasks | 8 | task/precondition/execution boundary reconciled; exact low-level execution collaborators partly UNKNOWN |
+| model/app | 5 | `ji`, `qx`, backup/model convergence substantially reconciled |
+| settings/appbackuplimits | 2 | backup-limits resource path reconciled; deeper settings behavior remains separate scope |
+| settings/appvisibility | 1 | Activity/resource/manifest boundary reconciled; exact runtime layout behavior remains static-only |
+
+Total source inventory: 45.
+
+## D. Explicit unresolved boundaries
+
+- Exact mapping of all 342 imported `defpackage.*` collaborators is not complete.
+- Exact filter collaborator decomposition remains partly UNKNOWN.
+- Exact EXPANSION capability/behavior mapping remains UNKNOWN.
+- Exact low-level split extraction helper identity remains UNKNOWN.
+- Explicit historical metadata schema migration engine was not found in inspected source.
+- Cloud backend transactional/atomic semantics remain UNKNOWN.
+- Runtime visual parity and runtime branch behavior remain UNVERIFIED.
+- Full formal reconciliation of the historical 112-candidate universe is blocked by the absence of its original complete candidate-name list in the committed audit text; this ledger therefore records only the candidates actually inspected and evidenced rather than inventing missing entries.
+
+## Gate
+
+Apps2 implementation: NOT STARTED.
+Architecture freeze: NOT AUTHORIZED.
+Home cutover: NOT AUTHORIZED.
+Legacy Apps: UNCHANGED.
