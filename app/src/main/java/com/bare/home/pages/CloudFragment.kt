@@ -33,15 +33,4 @@ class CloudFragment : Fragment() {
         }
     }
 
-    private fun formatBytes(bytes: Long): String {
-        if (bytes < 1024L) return bytes.toString() + " B"
-        val units = arrayOf("KB", "MB", "GB", "TB")
-        var value = bytes.toDouble()
-        var index = -1
-        while (value >= 1024.0 && index < units.lastIndex) {
-            value /= 1024.0
-            index++
-        }
-        return String.format(Locale.ENGLISH, "%.1f %s", value, units[index])
-    }
 }
