@@ -5333,3 +5333,94 @@ Legacy Apps: **TIDAK DIUBAH**.
 ### Next audit
 
 Resource pass berikutnya harus berupa **formal inventory reconciliation** terhadap candidate list, bukan lagi filename-by-filename discovery. Setelah inventory ditutup, lanjut ke final 45-class/task/data/model/UI producer-consumer ledger.
+
+
+## Audit Checkpoint 36 — Formal Resource Inventory + Final Producer-Consumer Reconciliation Ledger
+
+Pass ini mengubah resource audit dari discovery filename-by-filename menjadi inventory yang memiliki classification/evidence boundary, lalu langsung menyusun producer-consumer reconciliation ledger untuk subsystem Apps.
+
+### 1. Formal resource inventory
+
+25 candidate resource yang benar-benar diinspeksi pada Checkpoints 34–35 sekarang diformalisasi dengan classification:
+
+- TRANSITIVE: 24 candidate;
+- RUNTIME + TRANSITIVE: app_visibility_diagnostics_activity;
+- tidak ada candidate yang diklasifikasikan UNREFERENCED pada pass ini;
+- tidak ada candidate yang dipromosikan menjadi runtime-verified.
+
+Evidence berasal dari XML parent/include/reference, binding/decompiled collaborators, dan manifest/smali boundary.
+
+Formal ledger:
+`reference/apps2_resource_and_reconciliation_ledger.md`
+
+### 2. Historical 112 boundary
+
+Angka 112 tetap dicatat sebagai historical audit queue dari Checkpoint 27, tetapi **tidak** dipakai sebagai current unresolved count.
+
+Complete original 112-name candidate list tidak tersimpan secara eksplisit pada committed audit text yang tersedia saat pass ini. Karena itu tidak dibuat nama/resource classification fiktif untuk entry yang tidak dapat direkonstruksi secara evidence.
+
+Ini adalah evidence boundary, bukan claim bahwa candidate yang tidak tercantum pasti unresolved.
+
+### 3. Producer-consumer reconciliation
+
+Ledger sekarang mencakup:
+
+- AppListActivity/navigation;
+- canonical app model `ji`;
+- size model `qx`;
+- AppPart routing;
+- special-data producer → artifact → restore consumer;
+- LocalMetadata transition;
+- CloudMetadata normalization/upload/delete;
+- restore orchestration;
+- task/precondition boundary;
+- UI resource evidence classes.
+
+Core graph sudah mempunyai producer/consumer evidence pada static level.
+
+### 4. 45-class cluster reconciliation
+
+45 source classes direkonsiliasi per cluster:
+
+- appslist: 14;
+- appsquickactions: 1;
+- appinfo: 1;
+- detail: 2;
+- appconfigs: 11;
+- apptasks: 8;
+- model/app: 5;
+- settings/appbackuplimits: 2;
+- settings/appvisibility: 1.
+
+Total: 45.
+
+Cluster-level reconciliation sudah tersedia, tetapi tidak dinaikkan menjadi runtime verification.
+
+### 5. Remaining blockers
+
+- 342 imported `defpackage.*` collaborators belum seluruhnya direkonstruksi;
+- exact filter collaborator decomposition sebagian UNKNOWN;
+- exact EXPANSION capability mapping UNKNOWN;
+- exact low-level split extraction helper UNKNOWN;
+- historical metadata schema migration engine UNKNOWN / NOT FOUND IN INSPECTED SOURCE;
+- cloud backend transactional atomicity UNKNOWN;
+- runtime visual/branch behavior UNVERIFIED;
+- complete historical 112-name inventory tidak tersedia secara eksplisit pada audit text yang committed.
+
+### Status
+
+Formal inspected resource inventory: **VERIFIED STATICALLY**.
+25 inspected candidate classifications: **VERIFIED STATICALLY**.
+Historical 112 count as current unresolved count: **NOT USED**.
+Producer-consumer ledger: **VERIFIED STATICALLY at observed graph level**.
+45-class cluster reconciliation: **VERIFIED STATICALLY at cluster level**.
+Deep collaborator closure: **BELUM SELESAI**.
+Runtime verification: **BELUM ADA**.
+Apps2 implementation: **BELUM DIMULAI**.
+Architecture freeze: **BELUM / NOT AUTHORIZED**.
+Home cutover: **BELUM / NOT AUTHORIZED**.
+Legacy Apps: **TIDAK DIUBAH**.
+
+### Next audit
+
+Prioritas berikutnya adalah menutup unresolved collaborator/execution boundaries yang paling consequential, lalu review ledger terhadap 45-class source inventory sebelum architecture freeze. Implementation Apps2 tetap ditahan.
