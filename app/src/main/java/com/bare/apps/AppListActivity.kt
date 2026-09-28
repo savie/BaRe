@@ -2,7 +2,8 @@ package com.bare.apps
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
+import com.bare.apps.domain.*
+import com.bare.apps.model.CanonicalApp
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,7 @@ import com.google.android.material.tabs.TabLayout
 class AppListActivity:AppCompatActivity(){
  private lateinit var adapter:AppListAdapter
  private lateinit var drawer:androidx.drawerlayout.widget.DrawerLayout
- private var allItems:List<AppItem>=emptyList()
+ private var allItems:List<CanonicalApp>=emptyList()
  private var showSystemApps=false
  private var section="LOCAL"
  override fun onCreate(state:Bundle?){
@@ -38,8 +39,8 @@ class AppListActivity:AppCompatActivity(){
  }
  override fun onCreateOptionsMenu(menu:android.view.Menu):Boolean{menuInflater.inflate(R.menu.menu_apps,menu);val search=menu.findItem(R.id.menu_apps_search).actionView as SearchView;search.queryHint=getString(R.string.apps_search);search.setOnQueryTextListener(object:SearchView.OnQueryTextListener{override fun onQueryTextSubmit(q:String)=true;override fun onQueryTextChange(q:String):Boolean{applyFilter(q);return true}});return true}
  override fun onOptionsItemSelected(item:android.view.MenuItem):Boolean{if(item.itemId==R.id.menu_apps_filter){PopupMenu(this,findViewById(R.id.apps_filter_anchor)).apply{menu.add(R.string.apps_filter_user);menu.add(R.string.apps_filter_system);menu.add(R.string.apps_filter_all);setOnMenuItemClickListener{x->showSystemApps=x.title==getString(R.string.apps_filter_system)||x.title==getString(R.string.apps_filter_all);loadApps();true};show()};return true};return super.onOptionsItemSelected(item)}
- private fun loadApps(){val swipe=findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.apps_swipe_refresh);val empty=findViewById<android.view.View>(R.id.apps_empty);val error=findViewById<android.view.View>(R.id.apps_error);if(section=="CLOUD"){allItems=emptyList();adapter.submitList(emptyList());swipe.isRefreshing=false;error.visibility=android.view.View.GONE;empty.visibility=android.view.View.VISIBLE;findViewById<android.widget.TextView>(R.id.apps_empty_title).setText(R.string.apps_cloud_empty_title);findViewById<android.widget.TextView>(R.id.apps_empty_message).setText(R.string.apps_cloud_empty_message);return};swipe.isRefreshing=true;error.visibility=android.view.View.GONE;Thread{runCatching{AppInventory.load(this,showSystemApps)}.onSuccess{result->runOnUiThread{allItems=result;adapter.submitList(result);swipe.isRefreshing=false;empty.visibility=if(result.isEmpty())android.view.View.VISIBLE else android.view.View.GONE}}.onFailure{runOnUiThread{swipe.isRefreshing=false;error.visibility=android.view.View.VISIBLE;empty.visibility=android.view.View.GONE}}}.start()}
+ private fun loadApps(){val swipe=findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.apps_swipe_refresh);val empty=findViewById<android.view.View>(R.id.apps_empty);val error=findViewById<android.view.View>(R.id.apps_error);if(section=="CLOUD"){allItems=emptyList();adapter.submitList(emptyList());swipe.isRefreshing=false;error.visibility=android.view.View.GONE;empty.visibility=android.view.View.VISIBLE;findViewById<android.widget.TextView>(R.id.apps_empty_title).setText(R.string.apps_cloud_empty_title);findViewById<android.widget.TextView>(R.id.apps_empty_message).setText(R.string.apps_cloud_empty_message);return};swipe.isRefreshing=true;error.visibility=android.view.View.GONE;Thread{runCatching{AppDiscovery.installed(this,showSystemApps)}.onSuccess{result->runOnUiThread{allItems=result;adapter.submitList(result);swipe.isRefreshing=false;empty.visibility=if(result.isEmpty())android.view.View.VISIBLE else android.view.View.GONE}}.onFailure{runOnUiThread{swipe.isRefreshing=false;error.visibility=android.view.View.VISIBLE;empty.visibility=android.view.View.GONE}}}.start()}
  private fun applyFilter(q:String){val x=q.trim();adapter.submitList(if(x.isEmpty())allItems else allItems.filter{it.label.contains(x,true)||it.packageName.contains(x,true)})}
- private fun openApp(x:AppItem){startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply{data=android.net.Uri.parse("package:"+x.packageName)})}
+ private fun openApp(x:CanonicalApp){startActivity(Intent(this,DetailActivity::class.java).putExtra("package_name",x.packageName))}
  companion object{const val KEY_SECTION="KEY_SECTION"}
 }
