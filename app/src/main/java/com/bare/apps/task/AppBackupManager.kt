@@ -42,7 +42,20 @@ class AppBackupManager(private val context:Context){
   return metadata
  }
 
- private fun stageForArchive(source:File,target:File):Boolean{if(source.canRead()){target.mkdirs();source.walkTopDown().filter{it.isFile}.forEach{file->val rel=source.toPath().relativize(file.toPath()).toString();val out=File(target,rel);out.parentFile?.mkdirs();file.inputStream().use{input->out.outputStream().use{output->input.copyTo(output)}}};return true};target.mkdirs();return privileged.run("cp -a '"+source.absolutePath+"/.' '"+target.absolutePath+"/'").code==0}
+ private fun stageForArchive(source:File,target:File):Boolean{
+  val readable=runCatching{source.listFiles()!=null}.getOrDefault(false)
+  if(readable){
+   target.mkdirs()
+   source.walkTopDown().filter{it.isFile}.forEach{file->
+    val rel=source.toPath().relativize(file.toPath()).toString()
+    val out=File(target,rel);out.parentFile?.mkdirs()
+    file.inputStream().use{input->out.outputStream().use{output->input.copyTo(output)}}
+   }
+   return true
+  }
+  target.mkdirs()
+  return privileged.run("cp -a '"+source.absolutePath+"/.' '"+target.absolutePath+"/'").code==0
+ }
  private fun sourceFor(app:CanonicalApp,part:AppPart):File?=when(part){
   AppPart.APP->app.sourceDir?.let(::File)
   AppPart.SPLITS->app.splitSourceDirs.firstOrNull()?.let(::File)
