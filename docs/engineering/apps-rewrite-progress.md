@@ -131,3 +131,12 @@ Implemented in `rewrite`:
 Reference reconciliation artifact: `docs/engineering/apps-reference-implementation-reconciliation.md`.
 
 Remaining evidence-bound boundaries are explicitly blocked/unknown there; no cloud backend or SBA implementation is invented.
+
+
+## Branding / Handoff Guardrail
+
+- Product-facing branding on `rewrite` must use **BΛR☰**; legacy product naming is not allowed in UI text, resource identifiers, product documentation, filenames, or product-facing classes.
+- The `reference/` tree is audit evidence and may retain original decompiled package/class/resource names so the evidence remains traceable to the Reference APK.
+- Do not create an artificial engineering handoff merely because work crosses capability boundaries.
+- A real handoff is allowed only when an external specialist, different authority, unavailable capability, out-of-scope decision, or required external dependency makes it necessary.
+- When a real handoff is required, record: current state, evidence, question, blocker, impact, required decision, and expected output.
