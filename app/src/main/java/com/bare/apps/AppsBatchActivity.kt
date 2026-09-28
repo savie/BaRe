@@ -76,8 +76,8 @@ class AppsBatchActivity:AppCompatActivity(){
   val apps=requireSelection();if(apps.isEmpty())return
   AlertDialog.Builder(this).setTitle("Delete backups").setMessage("Delete the latest local backup for "+apps.size+" selected apps?")
    .setNegativeButton("Cancel",null).setPositiveButton("Delete"){_,_->
-    var ok=0;apps.forEach{recordOrNull(it)?.let{record->if(AppBackupDeleteManager(this).delete(it.packageName,record.backupId,record.parts).success)ok++}}
-    Toast.makeText(this,"Deleted "+ok+" / "+apps.size,Toast.LENGTH_SHORT).show()
+    var ok=0;var protected=0;apps.forEach{recordOrNull(it)?.let{record->val metadata=it.localMetadata;if(metadata?.protectedBackup==true){protected++;return@let};if(AppBackupDeleteManager(this).delete(it.packageName,record.backupId,record.parts).success)ok++}}
+    Toast.makeText(this,"Deleted "+ok+" / "+apps.size+"; protected skipped: "+protected,Toast.LENGTH_SHORT).show()
    }.show()
  }
  private fun applyLabels(){
