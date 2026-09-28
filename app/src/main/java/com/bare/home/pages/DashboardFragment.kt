@@ -12,6 +12,9 @@ import java.util.Locale
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bare.R
+import com.bare.apps.AppListActivity
+import android.content.Intent
+import com.google.android.material.button.MaterialButton
 import com.bare.views.QuickRecyclerView
 
 class DashboardFragment : Fragment() {
@@ -35,6 +38,16 @@ class DashboardFragment : Fragment() {
         }
         view.findViewById<TextView>(R.id.tvRootAccess).text = getString(R.string.root_access_not_available)
         view.findViewById<TextView>(R.id.tvRootProvider).text = getString(R.string.root_status)
+
+        view.findViewById<View>(R.id.summary_shortcuts_segment).apply {
+            visibility = View.VISIBLE
+            val apps = MaterialButton(requireContext())
+            apps.text = getString(R.string.apps)
+            apps.setOnClickListener {
+                startActivity(Intent(requireContext(), AppListActivity::class.java).putExtra(AppListActivity.KEY_SECTION, "LOCAL"))
+            }
+            (this as android.view.ViewGroup).addView(apps)
+        }
 
         bindQuickCard(
             view.findViewById(R.id.dash_card_quick_actions_apps),
