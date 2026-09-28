@@ -110,3 +110,24 @@ Manifest menambahkan `android.permission.PACKAGE_USAGE_STATS` untuk capability D
 - GitHub workflow runs for latest commits: none reported.
 - Local build/test: BLOCKED in this session because the environment cannot resolve GitHub for cloning and no local Gradle checkout is available.
 - Runtime Reference/Apps2 parity: UNVERIFIED.
+
+
+## Update — Reference-supported Apps surface implementation pass
+
+Implemented in `rewrite`:
+- Reference item-action matrix and persisted swipe defaults;
+- expanded filter predicates including Favorites/NotFavorites, Miscellaneous, labels;
+- persistent label associations and selected-label filtering;
+- batch action surface and quick-action mode routing;
+- custom configuration model, settings persistence, and execution bridge;
+- backup limits and local deletion with protected-backup handling;
+- AppInfo and package-visibility diagnostics;
+- multiple-backup and restore-special-data detail surfaces;
+- PackageInstaller wait/source verification;
+- privileged archive staging and restore copy boundary;
+- ZIP/TAR/7-Zip archive detection/extraction with explicit SBA unsupported boundary;
+- task-state persistence for UI recovery.
+
+Reference reconciliation artifact: `docs/engineering/apps-reference-implementation-reconciliation.md`.
+
+Remaining evidence-bound boundaries are explicitly blocked/unknown there; no cloud backend or SBA implementation is invented.
