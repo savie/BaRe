@@ -5,9 +5,13 @@ import java.io.File
 
 class LocalMetadataStore(private val context:Context){
  private val root=File(context.filesDir,"apps-backups")
- fun load(packageName:String):LocalMetadata?{
+ fun load(packageName:String):LocalMetadata? = load(packageName, null)
+
+ fun load(packageName:String, backupId:String?):LocalMetadata?{
   val f=File(root,packageName)
-  val dirs=f.listFiles()?.filter{it.isDirectory}?.sortedByDescending{it.name.toLongOrNull()?:0L}.orEmpty()
+  val dirs=f.listFiles()?.filter{it.isDirectory}
+   ?.let{all->if(backupId!=null) all.filter{it.name==backupId} else all.sortedByDescending{it.name.toLongOrNull()?:0L}}
+   .orEmpty()
   if(dirs.isEmpty())return null
   val props=java.util.Properties()
   val meta=File(dirs.first(),"metadata.properties")
