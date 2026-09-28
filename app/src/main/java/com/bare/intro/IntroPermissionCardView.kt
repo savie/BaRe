@@ -34,11 +34,16 @@ class IntroPermissionCardView @JvmOverloads constructor(
                 icon.backgroundTintList = it
             }
             a.getColorStateList(R.styleable.IntroPermissionCardView_introPermissionTint)?.let {
+                val color = it.defaultColor
                 icon.imageTintList = it
                 actionButton.setTextColor(it)
                 actionButton.iconTint = it
-                actionButton.strokeColor = android.content.res.ColorStateList.valueOf(it.defaultColor)
-                actionButton.backgroundTintList = android.content.res.ColorStateList.valueOf(it.defaultColor and 0x14FFFFFF)
+                actionButton.strokeColor = ColorStateList.valueOf(withAlpha(color, 50))
+                actionButton.backgroundTintList = ColorStateList.valueOf(withAlpha(color, 8))
+                actionButton.rippleColor = ColorStateList.valueOf(withAlpha(color, 20))
+            }
+            if (a.getBoolean(R.styleable.IntroPermissionCardView_introPermissionBulletedSubtitle, false)) {
+                subtitle.text = "• ${subtitle.text}"
             }
             val buttonId = a.getResourceId(R.styleable.IntroPermissionCardView_introPermissionButtonId, ViewId.INVALID)
             if (buttonId != ViewId.INVALID) actionButton.id = buttonId
@@ -46,6 +51,14 @@ class IntroPermissionCardView @JvmOverloads constructor(
     }
 
     fun getActionButton(): MaterialButton = actionButton
+
+    private fun withAlpha(color: Int, percent: Int): Int =
+        Color.argb(
+            (percent.coerceIn(0, 100) * 255) / 100,
+            Color.red(color),
+            Color.green(color),
+            Color.blue(color)
+        )
 
     private object ViewId { const val INVALID = -1 }
 }
