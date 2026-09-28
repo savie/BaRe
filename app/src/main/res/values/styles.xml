@@ -5,4 +5,15 @@
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="colorSurface">#FAFAFA</item>
     </style>
+    <style name="SegmentCategoryCaption" parent="Widget.Material3.TextView">
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="CardTitle" parent="Widget.Material3.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>
