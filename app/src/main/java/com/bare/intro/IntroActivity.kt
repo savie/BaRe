@@ -110,12 +110,12 @@ class IntroActivity : AppCompatActivity() {
             if (notificationsGranted) View.GONE else View.VISIBLE
         findViewById<MaterialButton>(R.id.btn_notifications_perm).isEnabled = !notificationsGranted
 
-        val xiaomi = isXiaomiDevice()
-        val xiaomiGranted = isXiaomiInstalledAppsPermissionGranted()
+        val installedAppsSupported = isInstalledAppsPermissionSupported()
+        val installedAppsGranted = isInstalledAppsPermissionGranted()
         val xiaomiCard = findViewById<View>(R.id.container_xiaomi_installed_apps_perm)
-        xiaomiCard.visibility = if (xiaomi) View.VISIBLE else View.GONE
+        xiaomiCard.visibility = if (installedAppsSupported) View.VISIBLE else View.GONE
         findViewById<MaterialButton>(R.id.btn_xiaomi_installed_apps_perm).isEnabled =
-            xiaomi && !xiaomiGranted
+            installedAppsSupported && !installedAppsGranted
 
         val root = findViewById<View>(R.id.container_root_permissions)
         root.visibility = if (statePrefsShowRoot()) View.VISIBLE else View.GONE
@@ -171,15 +171,21 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
-    private fun isXiaomiDevice(): Boolean =
-        Build.MANUFACTURER.equals("Xiaomi", ignoreCase = true) ||
-            Build.BRAND.equals("Xiaomi", ignoreCase = true) ||
-            Build.BRAND.equals("Redmi", ignoreCase = true) ||
-            Build.BRAND.equals("POCO", ignoreCase = true)
+    private fun isInstalledAppsPermissionSupported(): Boolean {
+        val info = runCatching {
+            packageManager.getPermissionInfo(XIAOMI_INSTALLED_APPS_PERMISSION, 0)
+        }.getOrNull() ?: return false
+        if (info.packageName == "com.lbe.security.miui") return true
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            (info.protectionLevel and PackageManager.PROTECTION_MASK_BASE) ==
+                PackageManager.PROTECTION_NORMAL
+        } else {
+            true
+        }
+    }
 
-    private fun isXiaomiInstalledAppsPermissionGranted(): Boolean =
-        if (!isXiaomiDevice() || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) false
-        else ContextCompat.checkSelfPermission(this, XIAOMI_INSTALLED_APPS_PERMISSION) ==
+    private fun isInstalledAppsPermissionGranted(): Boolean =
+        ContextCompat.checkSelfPermission(this, XIAOMI_INSTALLED_APPS_PERMISSION) ==
             PackageManager.PERMISSION_GRANTED
 
     private fun showRootPermissionDialog() {
