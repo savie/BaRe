@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.bare.R
 import com.bare.home.search.HomeSearchActivity
-import com.bare.home.pages.DashboardFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.card.MaterialCardView
@@ -52,15 +51,6 @@ class HomeActivity : AppCompatActivity() {
 
         findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
-        }
-
-        findViewById<View>(R.id.app_logo_container).setOnLongClickListener {
-            val prefs = getSharedPreferences("bare_home", MODE_PRIVATE)
-            val compact = !prefs.getBoolean("compact_storage_info", false)
-            prefs.edit().putBoolean("compact_storage_info", compact).apply()
-            val dashboard = supportFragmentManager.findFragmentByTag("android:switcher:" + R.id.viewPager + ":0") as? DashboardFragment
-            dashboard?.refreshCompactStoragePresentation()
-            true
         }
 
         findViewById<MaterialCardView>(R.id.search_button).setOnClickListener {
