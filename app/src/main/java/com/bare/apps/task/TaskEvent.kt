@@ -1,0 +1,2 @@
+package com.bare.apps.task
+sealed class TaskEvent{data class Started(val task:String):TaskEvent();data class Progress(val task:String,val percent:Int):TaskEvent();data class Completed(val task:String):TaskEvent();data class Failed(val task:String,val error:String):TaskEvent()}
