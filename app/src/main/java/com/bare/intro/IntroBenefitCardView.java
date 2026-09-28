@@ -6,12 +6,11 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bare.R;
 import com.google.android.material.card.MaterialCardView;
 
 public final class IntroBenefitCardView extends MaterialCardView {
-    public IntroBenefitCardView(Context context) {
-        this(context, null);
-    }
+    public IntroBenefitCardView(Context context) { this(context, null); }
 
     public IntroBenefitCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +37,13 @@ public final class IntroBenefitCardView extends MaterialCardView {
         content.addView(title, new LinearLayout.LayoutParams(-1, -2));
         content.addView(subtitle, new LinearLayout.LayoutParams(-1, -2));
         addView(content);
+
+        if (attrs != null) {
+            android.content.res.TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IntroBenefitCardView);
+            title.setText(a.getString(R.styleable.IntroBenefitCardView_introBenefitTitle));
+            subtitle.setText(a.getString(R.styleable.IntroBenefitCardView_introBenefitSubtitle));
+            a.recycle();
+        }
     }
 
     private int dp(int value) {
