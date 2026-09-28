@@ -12,7 +12,7 @@
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
 ## Current phase
-**PHASE 3 — EVIDENCE-BACKED BACKEND CONTRACT FROZEN (PRE-SUPABASE)**
+**PHASE 4 — NON-SUPABASE DOMAIN RECONSTRUCTION**
 
 ## Latest verified Reference behavior
 
@@ -126,6 +126,9 @@
 - `AccountMigrationRepository` migration outcome semantics
 - `CloudFileDeletionRepository`
 - `UserInfo` + `UserInfoRepository`
+- `CallLogItem`
+- `MessagesCallsCapabilityRepository`
+- `MessagesCallsPolicy`
 
 ## Explicitly not executed
 - No Supabase schema/table/RLS/auth implementation.
@@ -134,6 +137,12 @@
 - No install/runtime verification.
 - No invented contributor mutation contract.
 - No invented purchase-verification writer.
+
+## Phase 4 progress
+- SMS/call domain reconstruction has started without backend dependency.
+- Reference `CallLogItem` fields and call-type constants are now represented in BaRe.
+- Reference SMS default-handler persistence key and backup-file-path/highlight intent keys are represented in `MessagesCallsPolicy`.
+- Capability access remains behind `MessagesCallsCapabilityRepository`; no device provider implementation has been invented.
 
 ## Open evidence boundaries after contract freeze
 1. The exact provider SDK serialization behind the conditional migration transaction is provider-specific and remains outside the backend-neutral contract.
