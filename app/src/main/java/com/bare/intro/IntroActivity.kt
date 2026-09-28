@@ -225,7 +225,16 @@ class IntroActivity : AppCompatActivity() {
                     refreshState()
                     maybeCompleteFirstRun()
                 } else {
-                    Toast.makeText(this, R.string.root_provider_unavailable, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this,
+                        if (result.mechanism == "none") {
+                            R.string.root_provider_unavailable
+                        } else {
+                            R.string.root_grant_partial
+                        },
+                        Toast.LENGTH_LONG
+                    ).show()
+                    refreshState()
                 }
             }
         }
