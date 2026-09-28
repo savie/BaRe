@@ -43,4 +43,6 @@
     <string name="no_schedules_to_run">No backup schedules are configured.</string>
     <string name="schedule_time_when_ready">Time: Configure when schedules are added</string>
     <string name="schedule_charging_any">Charging: Any state</string>
+    <string name="start_time">Start time</string>
+    <string name="charging_requirements">Charging requirements</string>
 </resources>
