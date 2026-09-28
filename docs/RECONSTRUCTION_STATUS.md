@@ -148,6 +148,11 @@
 - PHASE 7 — Runtime: build/install remains permission-gated.
 - PHASE 8/9 — Parity/deviation audit: blocked until runtime verification is authorized and executable.
 
+## Phase 2–5 progress
+- Reference Activity skeleton coverage: 71 internal Reference activities represented in `rewrite`.
+- Reference Service/Receiver coverage: 10 internal services/receivers represented in `rewrite` with existing concrete boundaries where already implemented; no placeholder behavior is being treated as parity.
+- Activity skeletons intentionally contain no invented UI or behavior; they establish component presence before feature implementation.
+
 ## Phase 4 progress
 - Reference component skeleton now covers the audited 71 internal activities plus the 3 audited services and 8 audited receivers; these are boundaries only and intentionally contain no invented behavior.
 - Placeholder Home fragment was removed; Home now maps to the four explicit Reference-shaped fragments already present.
