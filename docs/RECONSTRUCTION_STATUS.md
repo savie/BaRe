@@ -1,7 +1,6 @@
 # BΛR☰ Reconstruction Status
 
 ## Baseline
-
 - Reference: Swift Backup 5.1.0, version code 620
 - Reference artifact: supplied `SwiftBackup-5.1.0-620-decompiled.zip`
 - Reconstruction branch: `rewrite`
@@ -9,70 +8,42 @@
 - Target: 1:1 Reference fidelity except explicitly Authorized Deviations
 
 ## Foundation
-
-- Android project skeleton: COMPLETE
-- Java source implementation: ACTIVE
+- Android skeleton: COMPLETE
+- Java source: ACTIVE
 - Android Views/XML: ACTIVE
-- Kotlin source: NOT USED
+- Kotlin: NOT USED
 - Compose: NOT ENABLED
-- Namespace/applicationId: `com.bare`
+- namespace/applicationId: `com.bare`
 - minSdk/compileSdk/targetSdk: 26/37/37
 - versionName: `1.0`
-- versionCode: `BARE_VERSION_CODE`, fallback `1`
-- Application class: `com.bare.BaReApp`
+- versionCode: `BARE_VERSION_CODE`, fallback 1
+- Application: `com.bare.BaReApp`
 - Launcher: `com.bare.intro.IntroActivity`
 - Theme: `BaReTheme`
-- User-facing branding: BΛR☰
-- Reference logo `bare_logo.png`: NOT YET PORTED; source exists on `v1.0/rebaseline` and is intentionally deferred until asset/visual parity phase.
+- Branding: BΛR☰
+- `bare_logo.png`: NOT YET PORTED; deferred to visual/asset parity phase
 
 ## Reference audit
+**COMPLETE** — inventory/evidence in `docs/REFERENCE_AUDIT.md`.
 
-**COMPLETE**
-
-Verified Reference inventory is recorded in `docs/REFERENCE_AUDIT.md`.
-
-- Reference package: `org.swiftapps.swiftbackup`
-- Version: 5.1.0 / 620
-- JADX Java sources: 12,611
-- Reference-package Java sources: 259
-- APKTool smali: 11,752
-- Activities: 95 / 71 Reference-package
-- Services: 10 / 3 Reference-package
-- Receivers: 10 / 8 Reference-package
-- Providers: 4 / 0 Reference-package
-- Layouts: 341
-- Drawables: 445
-- Menus: 44
-- XML resources: 18
-- Raw resources: 12
-- Fonts: 7
-
-## Home reconstruction — data/domain layer
-
-**STATUS: PORTED CONTRACTS / NOT YET RUNTIME-VERIFIED**
+## Home reconstruction
+**STATUS: CONTRACTS PORTED / RUNTIME NOT VERIFIED**
 
 Implemented:
-
-- Reference-shaped Home pager with four pages
-- Dashboard, Cloud, Schedule, Account ViewModels
-- Reference quick-action ordering and Home action IDs
-- Reference ScheduleItem.Type constants
-- Reference ScheduleData defaults and legacy ordering
-- Backend-neutral identity model
-- Dashboard repository/action boundary
-- Cloud repository/service boundary
-- Schedule repository/service boundary
-- Account/identity/contributor repository/service boundaries
-- Storage service boundary
-- Cloud-provider boundary separated from backend
-- Telemetry boundary separated from domain
+- four-page Home pager/data models
+- Dashboard/Cloud/Schedule/Account ViewModels
+- Reference quick-action ordering/action IDs
+- ScheduleData/ScheduleItem contracts
+- repository/service/action boundaries
+- identity/contributor boundaries
+- storage boundary
+- cloud-provider boundary separate from backend
+- telemetry boundary
 
 ## Firebase/backend audit checkpoint
+**STATUS: CONTRACT BATCH PORTED; PAYLOAD AUDIT PARTIAL**
 
-**STATUS: PARTIAL AUDIT — CONTRACTS PORTED**
-
-Confirmed Reference Firebase paths/contracts:
-
+Confirmed paths:
 - `appData`
 - `users/{uid}`
 - `users/{uid}/userInfo`
@@ -84,113 +55,81 @@ Confirmed Reference Firebase paths/contracts:
 - `purchase_verifications/{uid}/{obfuscated-key}`
 - `contributorDetails/{uid-prefix}`
 
-Ported domain/repository contracts:
-
+### Ported
 - `ReferenceBackendContract`
 - `BaReBackendRepository`
-- `CloudAppMetadata` field shape + Reference upload sanitization behavior
-- `FolderRepository` + `BaReFolderItem`
-- `BackupCountsRepository`
+- `BackendResult`
+- `CloudAppMetadata`
+- `CloudMetadataRepository`
+- `BaReFolderItem`
+- `FolderRepository`
+- `CloudFolderRepository`
+- `BackupCountsRepository` + `BackupCountsService`
 - `ContributorRegistrationData`
-- `ContributorRegistrationRepository`
-- `PurchaseVerificationRepository` boundary
+- `ContributorRegistrationRepository` + service
+- `PurchaseVerificationRepository` + service
 - `CloudProviderRepository` + `CloudAccessService`
 - `TelemetryService`
 
+### What remains UNKNOWN / IN PROGRESS
+- Full purchase verification payload/schema: UNKNOWN
+- Full appData consumer graph: UNKNOWN
+- Complete cloud_v1/apps writer/reader call graph: IN PROGRESS
+- Complete cloud_v1/folders lifecycle: IN PROGRESS
+- All SMS/call count writers: IN PROGRESS
+- Contributor mutation/update lifecycle: IN PROGRESS
+- Anonymous/account migration lifecycle: IN PROGRESS
+- Full re3 call graph across remaining features: NOT COMPLETE
+
 ### Firebase → Supabase rule
+No mechanical rename. No invented Supabase schema/RLS/auth claims.
 
-Do NOT mechanically rename Firebase to Supabase.
-
-The audited architecture separates:
-
+Separation is:
 1. BaRe backend/account metadata → future Supabase adapter
-2. Cloud backup providers (Drive/etc.) → CloudProviderRepository
+2. Drive/etc. backup providers → CloudProviderRepository
 3. Local Android state/scheduler → local repositories
-4. Crash/diagnostics telemetry → TelemetryService
-
-No Supabase schema, RLS, table relation, or auth claim has been invented yet.
-
-### Known UNKNOWN / incomplete backend areas
-
-- Full payload/schema of `purchase_verifications`: UNKNOWN
-- Full `appData` consumers outside audited Home slice: UNKNOWN
-- Complete `cloud_v1/apps` read/write call graph: IN PROGRESS
-- Complete `cloud_v1/folders` metadata lifecycle: IN PROGRESS
-- All SMS/call count writers and consumers: IN PROGRESS
-- Complete contributor registration mutation lifecycle: IN PROGRESS
-- Complete account migration/anonymous lifecycle: IN PROGRESS
-- Full `re3` call graph across all 95 activities: NOT YET COMPLETE
+4. Crash/diagnostics → TelemetryService
 
 ## Intro
-
-**IN PROGRESS**
-
-Implemented:
-
-- BaReApp notification channels
-- IntroActivity launcher
-- Reference-derived intro structure
-- Storage permission entry
-- Android 13+ notification permission entry
-- Intro completion persistence
-- Home transition
-
-Not parity-complete:
-
-- full Reference Intro ViewModel/state machine
-- cloud sign-in flow
-- first-run restore
-- password strategy
-- Shizuku
-- exact custom view styling/resources
-- complete application initialization
+**IN PROGRESS** — launcher/permission/transition reconstructed, but full Reference state machine and dependency flows remain.
 
 ## Verification
-
-No parity claim is made from build status alone.
-
-Each capability must eventually be classified:
-
-- MATCH
-- AUTHORIZED DEVIATION
-- UNAUTHORIZED DEVIATION
-- UNKNOWN
-- BLOCKED
-
-Required verification sequence:
-
-`build → install → runtime → visual → behavior → feature → deviation audit → verification`
+No parity claim from build alone.
+Required classification: MATCH / AUTHORIZED DEVIATION / UNAUTHORIZED DEVIATION / UNKNOWN / BLOCKED.
+Required sequence: build → install → runtime → visual → behavior → feature → deviation audit → verification.
 
 ## Session handoff checkpoint
+**CURRENT PHASE: PHASE 2 DOMAIN RECONSTRUCTION — BACKEND CONTRACT LAYER**
 
-**CURRENT PHASE: PHASE 1 AUDIT/MAPPING → PHASE 2 DOMAIN RECONSTRUCTION**
+### Completed in latest batch
+- Cloud app metadata domain DTO
+- cloud_v1/apps repository boundary
+- cloud_v1/folders repository boundary
+- SMS/call backup count service
+- contributor registration service
+- purchase verification service with explicit UNKNOWN state
+- common BackendResult error boundary
+- persistent status/checkpoint update
 
-Completed this session batch:
+### Exact next work — do not restart
+1. Complete concrete `re3` call-site audit for apps/folders/counts/contributor/purchase.
+2. Implement only the proven repository methods/payloads.
+3. Audit account anonymous/migration/sign-out behavior.
+4. Determine exact Supabase adapter contract from completed evidence.
+5. Implement Supabase adapter/schema only after evidence is sufficient; otherwise leave UNKNOWN.
+6. Wire Home services to real repositories instead of temporary ViewModel mutations.
+7. Then proceed to the next Reference feature slice.
 
-- Home repository/service/action boundaries
-- Reference backend path contract
-- Cloud provider vs backend separation
-- CloudMetadata domain field port
-- Folder domain/repository contract
-- SMS/call backup count contract
-- Contributor registration model/repository contract
-- Purchase verification UNKNOWN boundary
-- Persistent reconstruction status checkpoint
-
-### Exact next work
-
-1. Finish the `re3` call graph for `cloud_v1/apps`, folders, counts, contributor, and purchase.
-2. Port remaining concrete repositories/services/actions from those call sites.
-3. Implement actual BaRe/Supabase adapter only after payload/schema evidence is complete.
-4. Port Reference Home Activity/Fragment behavior against those real services.
-5. Continue outward from Home into the next Reference feature slice.
-6. Only then begin full visual/resource parity and runtime verification.
-
-Do not restart the audit from the beginning in a new session. Start from this checkpoint and the files under `app/src/main/java/com/bare/backend`, `com/bare/cloud`, `com/bare/folders`, `com/bare/messagescalls`, `com/bare/contributor`, and `com/bare/purchase`.
+Start next session from these directories:
+- `app/src/main/java/com/bare/backend`
+- `app/src/main/java/com/bare/cloud`
+- `app/src/main/java/com/bare/folders`
+- `app/src/main/java/com/bare/messagescalls`
+- `app/src/main/java/com/bare/contributor`
+- `app/src/main/java/com/bare/purchase`
 
 ## Documentation policy
-
-- Root documentation file: `README.md` only.
-- Project documentation belongs under `docs/`.
-- `docs/REFERENCE_BACKEND_CONTRACT.md` records backend evidence.
-- This file records implementation checkpoint and exact next steps.
+- Root documentation: `README.md` only.
+- All project docs under `docs/`.
+- `docs/REFERENCE_BACKEND_CONTRACT.md`: backend evidence.
+- `docs/RECONSTRUCTION_STATUS.md`: session checkpoint and next steps.
