@@ -176,7 +176,10 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - backup captures permission-state, notification-access, accessibility, and notification-policy metadata where the platform exposes them;
   - notification-policy restore now uses the Android notification service reflection boundary with Reference-aligned payload/package validation;
   - special permission restore is wired into AppRestoreManager;
-  - SSAID remains explicitly incomplete because the Reference per-app mutation helper has not been reproduced/verified; no fake success is claimed.
+  - SSAID sekarang sudah mempunyai boundary capture/restore dan validasi 16-hex.
+- Write SSAID sekarang menggunakan temporary same-file replacement lalu rename, sehingga tidak lagi melakukan direct overwrite terhadap file aktif.
+- Implementasi ini tetap **belum 1:1 Reference** karena Reference menggunakan state-object/SettingsState-style mutation dan commit/reload semantics yang belum direproduksi.
+- Runtime effect dan kebutuhan reboot tetap UNVERIFIED; tidak ada fake success yang diklaim.
 - Verification:
   - Static Reference reconciliation: UPDATED.
   - Source syntax/brace sanity: PASSED for touched Kotlin files.
@@ -197,3 +200,19 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - LIMIT retains the requested number of newest records.
 - Build/test execution remains intentionally deferred.
 - Runtime parity remains UNVERIFIED.
+
+
+## Update — Apps correctness follow-up
+
+- AppListActivity filter/sort menu index mapping telah diperbaiki:
+  - miscellaneous/backup-age tetap pada indeks 17–26;
+  - sort Name sampai DateUsed pada 27–33;
+  - label filter pada 34.
+- AppRestoreManager sekarang mengambil LocalMetadata berdasarkan localBackupId saat restore backup tertentu, sehingga special-data restore tidak lagi bergantung pada metadata backup yang kebetulan sedang terpasang pada model.
+- Cakupan special-data yang mengikuti backup terpilih mencakup permission states, notification access, accessibility, notification policy, dan SSAID.
+- SSAID file update telah diperkeras menjadi temporary copy + replace pada path yang sama, kemudian dilakukan read-back verification.
+- Verification status:
+  - Static source inspection: UPDATED.
+  - Runtime SSAID behavior: UNVERIFIED.
+  - Runtime restore terhadap backup selain latest: UNVERIFIED.
+  - Gradle/build verification: belum tersedia pada sesi ini.
