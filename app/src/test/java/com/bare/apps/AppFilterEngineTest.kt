@@ -11,4 +11,6 @@ class AppFilterEngineTest{
  @Test fun backup_version_filters(){val old=CanonicalApp("old","Old",versionCode=5,localMetadata=com.bare.apps.model.LocalMetadata("old").apply{versionCode=4});val newer=CanonicalApp("new","New",versionCode=5,localMetadata=com.bare.apps.model.LocalMetadata("new").apply{versionCode=6});assertEquals(listOf(old),AppFilterEngine.apply(listOf(old,newer),false,AppFilterState(misc=MiscFilter.BACKUP_OLD)));assertEquals(listOf(newer),AppFilterEngine.apply(listOf(old,newer),false,AppFilterState(misc=MiscFilter.BACKUP_NEW)))}
  @Test fun google_play_installer_filter(){val gp=CanonicalApp("gp","GP",installerPackage="com.android.vending");val other=CanonicalApp("other","Other",installerPackage="other.installer");assertEquals(listOf(gp),AppFilterEngine.apply(listOf(gp,other),false,AppFilterState(misc=MiscFilter.INSTALLED_FROM_GOOGLE_PLAY)));assertEquals(listOf(other),AppFilterEngine.apply(listOf(gp,other),false,AppFilterState(misc=MiscFilter.NOT_INSTALLED_FROM_GOOGLE_PLAY)))}
 
+ @Test fun multiple_backup_count_is_independent_of_metadata_parts(){val a=CanonicalApp("a","A",localBackupCount=3);assertEquals(listOf(a),AppFilterEngine.apply(listOf(a),false,AppFilterState(misc=MiscFilter.MULTIPLE_BACKUPS)))}
+
 }
