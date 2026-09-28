@@ -121,7 +121,7 @@ class IntroActivity : AppCompatActivity() {
         root.visibility = if (statePrefsShowRoot()) View.VISIBLE else View.GONE
 
         findViewById<View>(R.id.intro_activity_permissions).visibility =
-            if (!storageGranted || !notificationsGranted || (xiaomi && !xiaomiGranted) || statePrefsShowRoot())
+            if (!storageGranted || !notificationsGranted || (installedAppsSupported && !installedAppsGranted) || statePrefsShowRoot())
                 View.VISIBLE else View.GONE
     }
 
@@ -189,9 +189,22 @@ class IntroActivity : AppCompatActivity() {
             PackageManager.PERMISSION_GRANTED
 
     private fun showRootPermissionDialog() {
+        val permissions = buildString {
+            append(getString(R.string.root_grant_permissions_dialog_msg_prefix))
+            append("\n\n    • ").append(getString(R.string.android_permission_name_storage))
+            append("\n    • ").append(getString(R.string.android_permission_name_sms))
+            append("\n    • ").append(getString(R.string.android_permission_name_call_logs))
+            append("\n    • ").append(getString(R.string.android_permission_name_contacts))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                append("\n    • ").append(getString(R.string.notifications))
+            }
+            if (isInstalledAppsPermissionSupported()) {
+                append("\n    • ").append(getString(R.string.android_permission_name_installed_apps))
+            }
+        }
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.root_grant_permissions_dialog_title)
-            .setMessage(R.string.root_grant_permissions_dialog_msg)
+            .setMessage(permissions)
             .setPositiveButton(R.string.grant_permissions) { _, _ ->
                 Toast.makeText(
                     this,
