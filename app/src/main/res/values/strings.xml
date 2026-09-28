@@ -98,5 +98,8 @@
     <string name="notifications">Notifications</string>
     <string name="android_permission_name_installed_apps">Installed apps</string>
     <string name="grant_permissions">Grant permissions</string>
-    <string name="root_provider_unavailable">Root or Shizuku provider is not available in this build.</string>
+    <string name="root_provider_unavailable">Root or Shizuku is not available, or the required permissions could not be granted.</string>
+    <string name="root_grant_in_progress">Granting permissions with Root or Shizuku…</string>
+    <string name="root_grant_success">Required permissions were granted. Rechecking permissions…</string>
+    <string name="root_grant_partial">Some permissions could not be granted. Recheck the permission list.</string>
 </resources>
