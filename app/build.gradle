@@ -4,14 +4,13 @@ plugins {
 
 android {
     namespace = "com.bare"
-    compileSdk = 35
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.bare"
-        minSdk = 23
-        targetSdk = 35
+        minSdk = 26
+        targetSdk = 37
 
-        // CI build number; falls back to 1 for local builds.
         versionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
         versionName = "1.0"
     }
@@ -37,7 +36,6 @@ android {
         }
     }
 
-    // Compose is intentionally not enabled.
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
