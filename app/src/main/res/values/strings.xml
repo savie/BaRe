@@ -177,4 +177,21 @@
     <string name="protect_backup">Protect backup</string>
     <string name="add_note">Add note</string>
     <string name="delete_backup">Delete backup</string>
+
+    <string name="apps_backup_cloud_unavailable">Cloud backup transport is not configured.</string>
+    <string name="apps_backup_capability_unavailable">Backup capability is unavailable for %1$s.</string>
+    <string name="apps_backup_limit_exceeded">Backup limit exceeded for %1$s.</string>
+    <string name="apps_backup_stage_failed">Unable to stage %1$s for backup.</string>
+    <string name="apps_restore_precondition_failed">Restore precondition failed.</string>
+    <string name="apps_restore_not_installed">App is not installed; data restore was skipped.</string>
+    <string name="apps_restore_missing_artifact">Backup artifact is missing for %1$s.</string>
+    <string name="apps_restore_install_failed">APK installation failed.</string>
+    <string name="apps_restore_data_failed">DATA restore failed.</string>
+    <string name="apps_restore_extdata_failed">EXTDATA restore failed.</string>
+    <string name="apps_restore_expansion_failed">EXPANSION restore failed.</string>
+    <string name="apps_restore_media_failed">MEDIA restore failed.</string>
+    <string name="apps_restore_splits_failed">SPLITS restore failed.</string>
+    <string name="apps_restore_shared_libs_failed">SHARED LIBS restore failed.</string>
+    <string name="apps_restore_completed">Restore task completed.</string>
+
 </resources>
