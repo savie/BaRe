@@ -28,12 +28,14 @@ public final class ScheduleFragment extends Fragment {
         model.getSchedules().observe(getViewLifecycleOwner(), items -> {
             list.removeAllViews();
             if (items.isEmpty()) {
-                TextView empty = (TextView) getLayoutInflater().inflate(R.layout.home_schedule_item, list, false);
+                TextView empty = (TextView) getLayoutInflater().inflate(
+                        R.layout.home_schedule_item, list, false);
                 empty.setText(R.string.no_schedules_added_message);
                 list.addView(empty);
             } else {
                 for (ScheduleViewModel.ScheduleItem item : items) {
-                    TextView row = (TextView) getLayoutInflater().inflate(R.layout.home_schedule_item, list, false);
+                    TextView row = (TextView) getLayoutInflater().inflate(
+                            R.layout.home_schedule_item, list, false);
                     row.setText(item.title + "\n" + item.summary);
                     list.addView(row);
                 }
