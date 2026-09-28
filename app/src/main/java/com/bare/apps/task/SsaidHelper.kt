@@ -1,0 +1,96 @@
+package com.bare.apps.task
+
+import android.content.Context
+import android.os.UserHandle
+import java.util.Base64
+
+class SsaidHelper(
+    private val context: Context,
+    private val privileged: PrivilegedCommandExecutor
+) {
+    fun restore(packageName: String, ssaid: String): Boolean {
+        if (!HEX_16.matches(ssaid)) return false
+
+        val userId = UserHandle.myUserId()
+        val path = "/data/system/users/$userId/settings_ssaid.xml"
+        val read = privileged.run("cat '$path'")
+        if (read.code != 0 || read.output.isBlank()) return false
+
+        val current = read.output
+        val packagePattern = Regex(
+            """<setting\b[^>]*\bpackage=["']\$\{Regex.escape(packageName)\}["'][^>]*/?>""",
+            setOf(RegexOption.IGNORE_CASE)
+        )
+        val existing = packagePattern.find(current)
+
+        val updated = if (existing != null) {
+            val line = existing.value
+            val replaced = replaceAttribute(
+                replaceAttribute(line, "value", ssaid),
+                "defaultValue",
+                ssaid
+            )
+            current.replaceRange(existing.range, replaced)
+        } else {
+            val ids = Regex("""\bid=["'](\d+)["']""")
+                .findAll(current)
+                .mapNotNull { it.groupValues[1].toIntOrNull() }
+                .toList()
+            val nextId = (ids.maxOrNull() ?: 0) + 1
+            val uid = context.packageManager
+                .getPackageInfo(packageName, 0)
+                .applicationInfo?.uid ?: return false
+
+            val entry =
+                """    <setting id="$nextId" name="$uid" package="$packageName" value="$ssaid" defaultValue="$ssaid" />"""
+            val close = Regex("""</settings>\s*$""", RegexOption.IGNORE_CASE)
+                .find(current) ?: return false
+            current.substring(0, close.range.first) + entry + "\n" +
+                current.substring(close.range.first)
+        }
+
+        if (updated == current) return verify(path, packageName, ssaid)
+
+        val encoded = Base64.getEncoder()
+            .encodeToString(updated.toByteArray(Charsets.UTF_8))
+        val command =
+            "printf '%s' '$encoded' | base64 -d > '$path'"
+        val write = privileged.run(command)
+        if (write.code != 0) return false
+
+        return verify(path, packageName, ssaid)
+    }
+
+    private fun verify(path: String, packageName: String, ssaid: String): Boolean {
+        val read = privileged.run("cat '$path'")
+        if (read.code != 0) return false
+        val line = Regex(
+            """<setting\b[^>]*\bpackage=["']\$\{Regex.escape(packageName)\}["'][^>]*/?>""",
+            setOf(RegexOption.IGNORE_CASE)
+        ).find(read.output)?.value ?: return false
+        return attribute(line, "value") == ssaid &&
+            attribute(line, "defaultValue") == ssaid
+    }
+
+    private fun replaceAttribute(line: String, name: String, value: String): String {
+        val pattern = Regex(
+            """(\b\$\{Regex.escape(name)\}\s*=\s*["'])[^"']*(["'])""",
+            RegexOption.IGNORE_CASE
+        )
+        return if (pattern.containsMatchIn(line)) {
+            line.replace(pattern, "$1$value$2")
+        } else {
+            line
+        }
+    }
+
+    private fun attribute(line: String, name: String): String? =
+        Regex(
+            """\b\$\{Regex.escape(name)\}\s*=\s*["']([^"']*)["']""",
+            RegexOption.IGNORE_CASE
+        ).find(line)?.groupValues?.getOrNull(1)
+
+    companion object {
+        private val HEX_16 = Regex("^[0-9a-fA-F]{16}$")
+    }
+}
