@@ -47,7 +47,5 @@ class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClic
   }
  }
  private fun runShell(command:String){runCatching{ProcessBuilder("su","-c",command).redirectErrorStream(true).start().waitFor()}}
-  }
- }
  override fun getItemCount()=items.size
 }
