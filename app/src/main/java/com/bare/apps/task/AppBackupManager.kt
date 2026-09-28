@@ -21,7 +21,7 @@ class AppBackupManager(private val context:Context){
   metadata.specialData=AppSpecialDataPayload();saveMetadata(metadata);app.localMetadata=metadata;return metadata
  }
  private fun sourceFor(app:CanonicalApp,part:AppPart):File?=when(part){
-  AppPart.APP->app.sourceDir?.let(::File);AppPart.DATA->app.dataDir?.let(::File);AppPart.EXTDATA->app.externalDataDir?.let(::File);AppPart.EXPANSION->app.expansionDir?.let(::File);AppPart.MEDIA->app.mediaDir?.let(::File);else->null
+  AppPart.APP->app.sourceDir?.let(::File);AppPart.SPLITS->app.splitSourceDirs.firstOrNull()?.let(::File);AppPart.DATA->app.dataDir?.let(::File);AppPart.EXTDATA->app.externalDataDir?.let(::File);AppPart.EXPANSION->app.expansionDir?.let(::File);AppPart.MEDIA->app.mediaDir?.let(::File);else->null
  }
  fun artifact(app:CanonicalApp,part:AppPart):File?{val dir=catalog.latest(app.packageName)?.let{File(root,app.packageName,it.backupId)}?:return null;return if(part==AppPart.APP)File(dir,"base.apk").takeIf{it.exists()} else File(dir,part.id.lowercase()+".zip").takeIf{it.exists()}}
  private fun saveMetadata(m:LocalMetadata){val dir=catalog.latest(m.packageName)?.let{File(root,m.packageName,it.backupId)}?:return;val f=File(dir,"metadata.properties");f.parentFile?.mkdirs();f.writeText("packageName="+m.packageName+"\nname="+m.name+"\nversionCode="+m.versionCode+"\nversionName="+m.versionName+"\ndateBackup="+(m.dateBackup?:0)+"\nparts="+m.backupParts.joinToString(","){it.id})}
