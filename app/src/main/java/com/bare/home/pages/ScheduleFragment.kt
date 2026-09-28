@@ -30,7 +30,7 @@ class ScheduleFragment : Fragment() {
                 if (checked) getString(R.string.schedule_enabled_local) else getString(R.string.schedule_disabled_local)
         }
 
-        view.findViewById<View>(R.id.schedule_header_click_target).setOnClickListener {
+        view.findViewById<View>(R.id.schedule_header_segment).setOnClickListener {
             enabled.isChecked = !enabled.isChecked
         }
         view.findViewById<MaterialButton>(R.id.btn_run_all).setOnClickListener {
