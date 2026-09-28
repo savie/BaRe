@@ -27,11 +27,11 @@ object ArchiveEngine{
   }
  }
  private fun detect(file:File):ArchiveFormat{
-  val h=ByteArray(8);file.inputStream().use{it.read(h)}
+  val h=ByteArray(265);file.inputStream().use{it.read(h)}
   return when{
    h.copyOfRange(0,4).contentEquals(byteArrayOf(0x50,0x4b,0x03,0x04))->ArchiveFormat.ZIP
    h.copyOfRange(0,6).contentEquals(byteArrayOf(0x37,0x7a,0xbc,0xaf,0x27,0x1c))->ArchiveFormat.SEVEN_ZIP
-   h.copyOfRange(0,5).toString(Charsets.US_ASCII)=="ustar"->ArchiveFormat.TAR
+   h.copyOfRange(257,262).toString(Charsets.US_ASCII)=="ustar"->ArchiveFormat.TAR
    else->ArchiveFormat.SBA
   }
  }
