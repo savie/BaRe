@@ -131,8 +131,7 @@ object RootPermissionManager {
             "pm grant $packageName android.permission.READ_CALL_LOG || true",
             "pm grant $packageName android.permission.WRITE_CALL_LOG || true",
             "pm grant $packageName android.permission.READ_SMS || true",
-            "pm grant $packageName android.permission.RECEIVE_SMS || true",
-            "pm grant $packageName android.permission.SEND_SMS || true"
+            "pm grant $packageName android.permission.WRITE_SMS || true"
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             commands += "pm grant $packageName android.permission.POST_NOTIFICATIONS || true"
