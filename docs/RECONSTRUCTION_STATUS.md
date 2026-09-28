@@ -66,6 +66,39 @@ Verified:
 
 Detailed evidence is recorded in `docs/REFERENCE_AUDIT.md`.
 
+### Reconstruction slice — Intro
+
+**STATUS: IN PROGRESS**
+
+Implemented from Reference evidence:
+
+- `BaReApp` application class
+- Reference notification channel IDs/categories
+- `IntroActivity` launcher
+- Reference-derived intro screen structure
+- Sign-in/benefit presentation structure
+- Storage permission entry
+- Android 13+ notification permission entry
+- Intro completion persistence
+- Transition to `HomeActivity`
+
+Not yet parity-complete:
+
+- Reference Intro ViewModel/state machine
+- Cloud sign-in flow
+- first-run restore flow
+- password strategy flow
+- Shizuku flow
+- Firebase diagnostics/error dialog behavior
+- exact Reference custom view styling/resources
+- exact dependency versions
+- exact Reference application initialization beyond the currently reconstructed notification-channel slice
+
+Temporary reconstruction gate:
+
+- `HomeActivity` is currently a shell so the launcher flow has a valid target.
+- This shell is **not MATCH** and must be replaced by the Reference `HomeActivity` reconstruction.
+
 ### Phase 1 mapping
 
 **STATUS: IN PROGRESS**
