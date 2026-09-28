@@ -25,13 +25,17 @@ public final class CloudFragment extends Fragment {
         model = new ViewModelProvider(this).get(CloudViewModel.class);
         TextView status = view.findViewById(R.id.cloud_status);
         model.getState().observe(getViewLifecycleOwner(), value -> {
+            if (value == null) return;
             switch (value) {
-                case READY: status.setText(R.string.cloud_ready); break;
-                case NO_INTERNET: status.setText(R.string.cloud_no_internet); break;
-                case CONNECTION_FAILED: status.setText(R.string.cloud_connection_failed); break;
+                case DRIVE_CONNECTED: status.setText(R.string.cloud_ready); break;
+                case DRIVE_NOT_CONNECTED: status.setText(R.string.no_cloud_connected); break;
+                case NETWORK_ERROR: status.setText(R.string.no_internet_connection); break;
+                case TEMP_CONNECTION_ERROR: status.setText(R.string.cloud_connection_failed); break;
                 default: status.setText(R.string.cloud_loading); break;
             }
         });
-        model.setState(CloudViewModel.State.READY);
+        // Reference delegates the actual cloud state to re3/tb1. Until the
+        // Supabase adapter is ported, keep this state at the explicit boundary.
+        model.setState(CloudViewModel.State.DRIVE_NOT_CONNECTED);
     }
 }
