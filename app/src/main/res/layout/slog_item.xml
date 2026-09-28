@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:id="@+id/text_views" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="18dp">
+        <TextView android:id="@+id/tv_time" android:textSize="8sp" android:textStyle="bold" android:textColor="?android:textColorSecondary" android:gravity="end|center"
+            android:layout_width="48dp" android:layout_height="20dp"/>
+        <TextView android:id="@+id/tv_message" android:textSize="@dimen/subtitle_smallest" android:textColor="?android:textColorPrimary"
+            android:layout_gravity="center_vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginStart="@dimen/spacing_medium"/>
+    </LinearLayout>
+    <View style="@style/DividerThinNoMargins" android:layout_marginTop="1dp"/>
+</LinearLayout>
