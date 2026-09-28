@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import com.bare.R
 import rikka.shizuku.Shizuku
 import com.bare.auth.SupabaseAuth
-import com.bare.premium.PremiumEntitlement
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.popupmenu.PopupMenu
@@ -45,7 +44,10 @@ class IntroActivity : AppCompatActivity() {
         auth = SupabaseAuth(this)
         Shizuku.addRequestPermissionResultListener(shizukuPermissionListener)
 
-        if (!state.firstStart && auth.currentSession() != null) {
+        if (!state.firstStart &&
+            auth.currentSession() != null &&
+            RootPermissionManager.onboardingPermissionsGranted(this)
+        ) {
             openHome()
             return
         }
@@ -64,6 +66,12 @@ class IntroActivity : AppCompatActivity() {
 
     private fun bindUi() {
         findViewById<ImageView>(R.id.iv_menu).setOnClickListener { showIntroMenu(it) }
+        findViewById<ImageView>(R.id.intro_logo).setOnLongClickListener {
+            if (auth.currentSession() == null) {
+                auth.signInWithGoogle()
+            }
+            true
+        }
 
         val privacy = findViewById<android.widget.TextView>(R.id.tv_privacy_policy)
         privacy.text = Html.fromHtml(getString(R.string.tos_privacy_agreement), Html.FROM_HTML_MODE_LEGACY)
