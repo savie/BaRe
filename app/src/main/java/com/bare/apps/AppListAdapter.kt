@@ -4,6 +4,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.MotionEvent
+import android.view.GestureDetector
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
@@ -15,6 +17,7 @@ import com.bare.apps.model.CanonicalApp
 import com.bare.apps.ui.AppItemAction
 import com.bare.apps.ui.AppItemActions
 import com.bare.apps.ui.AppActionId
+import com.bare.apps.ui.AppSwipeActionPreferences
 
 class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClick:(CanonicalApp)->Unit):RecyclerView.Adapter<AppListAdapter.Holder>(){
  class Holder(v:View):RecyclerView.ViewHolder(v){val icon:ImageView=v.findViewById(R.id.app_item_icon);val title:TextView=v.findViewById(R.id.app_item_title);val subtitle:TextView=v.findViewById(R.id.app_item_subtitle);val status:TextView=v.findViewById(R.id.app_item_status);val labels:TextView=v.findViewById(R.id.app_item_labels);val favorite:ImageView=v.findViewById(R.id.app_item_favorite);val selection:android.widget.CheckBox=v.findViewById(R.id.app_item_selection);val menu:View=v.findViewById(R.id.app_item_menu)}
@@ -26,8 +29,11 @@ class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClic
   val backup=if(x.hasLocalBackup||x.hasCloudBackup)" · "+h.itemView.context.getString(R.string.apps_backed_up) else ""
   h.labels.text=x.labels.joinToString(" · ");h.labels.visibility=if(x.labels.isEmpty())View.GONE else View.VISIBLE;h.favorite.visibility=View.VISIBLE;h.favorite.alpha=if(x.favorite)1f else 0.35f;h.favorite.setOnClickListener{val favorite=AppFavoriteStore(h.itemView.context).toggle(x.packageName);x.favorite=favorite;h.favorite.alpha=if(favorite)1f else 0.35f};h.selection.visibility=View.GONE;h.status.text=(if(!x.enabled)h.itemView.context.getString(R.string.apps_status_disabled) else if(x.bundled)h.itemView.context.getString(R.string.apps_status_system) else h.itemView.context.getString(R.string.apps_status_installed))+backup
   h.itemView.setOnClickListener{onItemClick(x)}
+  val swipe=AppSwipeActionPreferences(h.itemView.context)
+  val detector=GestureDetector(h.itemView.context,object:GestureDetector.SimpleOnGestureListener(){override fun onDown(e:android.view.MotionEvent)=true;override fun onFling(e1:MotionEvent?,e2:MotionEvent?,vx:Float,vy:Float):Boolean{if(e1==null||e2==null||kotlin.math.abs(vx)<600f||kotlin.math.abs(vx)<kotlin.math.abs(vy)*1.2f)return false;val ids=if(vx<0)swipe.left()else swipe.right();val action=AppItemActions.resolve(x,hasPrivilegedAccess(h.itemView.context)).firstOrNull{it.id in ids&&it.enabled};if(action!=null){perform(h.itemView.context,x,action);return true};return false}});h.itemView.setOnTouchListener{_,event->detector.onTouchEvent(event);false}
   h.menu.setOnClickListener{showActions(h.menu,x)}
  }
+ private fun hasPrivilegedAccess(context:android.content.Context)=runCatching{ProcessBuilder("su","-c","id").start().waitFor()==0}.getOrDefault(false)
  private fun showActions(anchor:View,app:CanonicalApp){
   val root=runCatching{ProcessBuilder("su","-c","id").start().waitFor()==0}.getOrDefault(false)
   PopupMenu(anchor.context,anchor).apply{
