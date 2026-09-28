@@ -49,7 +49,7 @@ class LocalMetadataStore(private val context:Context){
    "ssaid="+(metadata.specialData?.ssaid?:"")+"\n"+
    "ntfAccessComponent="+(metadata.specialData?.ntfAccessComponent?:"")+"\n"+
    "accessibilityComponent="+(metadata.specialData?.accessibilityComponent?:"")+"\n"+
-   "notificationPolicyXml="+(metadata.specialData?.notificationPolicyXml?:"")+"\n"+
+   "notificationPolicyXmlB64="+(metadata.specialData?.notificationPolicyXml?.let{android.util.Base64.encodeToString(it.toByteArray(Charsets.UTF_8),android.util.Base64.NO_WRAP)}?:"")+"\n"+
     "parts="+metadata.backupParts.joinToString(","){it.id}
    )
    true
