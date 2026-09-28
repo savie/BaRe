@@ -153,4 +153,7 @@
     <item name="summary_shortcuts_segment" type="id"/>
     <item name="rvDashShortcutsDefault" type="id"/>
     <item name="rvDashShortcutsCompact" type="id"/>
+    <item name="item_content" type="id"/>
+    <item name="tv_more_list_item" type="id"/>
+    <item name="iv_more_list_item" type="id"/>
 </resources>
