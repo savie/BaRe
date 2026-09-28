@@ -1,10 +1,12 @@
 package com.bare.apps.task
 import android.content.Context
 import com.bare.apps.model.*
+import com.bare.apps.domain.RestorePreconditions
 import java.io.File
 class AppRestoreManager(private val context:Context){
  private val backup=AppBackupManager(context)
  fun restore(request:RestoreRequest,onProgress:(Long)->Unit={}):RestoreResult{
+  val pre=RestorePreconditions.check(request);if(!pre.allowed)return RestoreResult(false,pre.reason?:"Restore precondition failed")
   val app=request.app
   if(request.parts.any{it!=AppPart.APP}&&!app.installed)return RestoreResult(false,"App is not installed; data restore skipped.")
   request.parts.forEach{part->
