@@ -114,7 +114,7 @@ class AppListActivity:AppCompatActivity(){
    "User apps","System apps","All apps",
    "Backed up","Not backed up","Synced","Not synced",
    "Installed","Not installed","Enabled","Disabled",
-   "Favorites only","All favorites",
+   "Favorites only","Not favorites","All favorites","Launchable","Updated","Labelled or favorites",
    "Backup: last 7 days","Backup: last 30 days","Backup: older",
    "Sort: Name","Sort: Install date","Sort: Update date","Sort: Backup date",
    "Sort: App size","Sort: Backup size","Sort: Date used"
@@ -134,18 +134,22 @@ class AppListActivity:AppCompatActivity(){
      8->state.install=InstallFilter.NOT_INSTALLED
      9->state.enabled=EnabledFilter.ENABLED
      10->state.enabled=EnabledFilter.DISABLED
-     11->state.favoriteOnly=true
-     12->state.favoriteOnly=false
-     13->state.age=BackupAgeFilter.LAST_7_DAYS
-     14->state.age=BackupAgeFilter.LAST_30_DAYS
-     15->state.age=BackupAgeFilter.OLDER
-     16->AppSortState(this).mode=AppSortMode.Name
-     17->AppSortState(this).mode=AppSortMode.InstallDate
-     18->AppSortState(this).mode=AppSortMode.UpdateDate
-     19->AppSortState(this).mode=AppSortMode.BackupDate
-     20->AppSortState(this).mode=AppSortMode.AppSize
-     21->AppSortState(this).mode=AppSortMode.BackupSize
-     22->AppSortState(this).mode=AppSortMode.DateUsed
+     11->state.favorite=FavoriteFilter.FAVORITES
+     12->state.favorite=FavoriteFilter.NOT_FAVORITES
+     13->state.favorite=FavoriteFilter.ALL
+     14->state.misc=MiscFilter.LAUNCHABLE
+     15->state.misc=MiscFilter.UPDATED
+     16->state.misc=MiscFilter.LABELLED_OR_FAVORITES
+     17->state.age=BackupAgeFilter.LAST_7_DAYS
+     18->state.age=BackupAgeFilter.LAST_30_DAYS
+     19->state.age=BackupAgeFilter.OLDER
+     20->AppSortState(this).mode=AppSortMode.Name
+     21->AppSortState(this).mode=AppSortMode.InstallDate
+     22->AppSortState(this).mode=AppSortMode.UpdateDate
+     23->AppSortState(this).mode=AppSortMode.BackupDate
+     24->AppSortState(this).mode=AppSortMode.AppSize
+     25->AppSortState(this).mode=AppSortMode.BackupSize
+     26->AppSortState(this).mode=AppSortMode.DateUsed
     }
     AppFilterStore(this).save(state)
     loadApps()
