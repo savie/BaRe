@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.ImageView
+import android.os.Environment
+import android.os.StatFs
+import java.util.Locale
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bare.R
@@ -19,6 +22,19 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, state: Bundle?) {
         super.onViewCreated(view, state)
+
+        val storage = StatFs(Environment.getDataDirectory().path)
+        val total = storage.totalBytes.coerceAtLeast(1L)
+        val free = storage.availableBytes.coerceIn(0L, total)
+        val used = total - free
+        view.findViewById<TextView>(R.id.tvUsage).text =
+            formatBytes(used) + " / " + formatBytes(total)
+        view.findViewById<TextView>(R.id.tvUsedPercent).apply {
+            visibility = View.VISIBLE
+            text = String.format(Locale.ENGLISH, "%.0f%% used", used.toDouble() * 100.0 / total.toDouble())
+        }
+        view.findViewById<TextView>(R.id.tvRootAccess).text = getString(R.string.root_access_not_available)
+        view.findViewById<TextView>(R.id.tvRootProvider).text = getString(R.string.root_status)
 
         bindQuickCard(
             view.findViewById(R.id.dash_card_quick_actions_apps),
@@ -52,6 +68,18 @@ class DashboardFragment : Fragment() {
                 QuickAction(R.string.restore_folders, R.string.restore_folders_summary)
             )
         )
+    }
+
+    private fun formatBytes(bytes: Long): String {
+        if (bytes < 1024L) return bytes.toString() + " B"
+        val units = arrayOf("KB", "MB", "GB", "TB")
+        var value = bytes.toDouble()
+        var index = -1
+        while (value >= 1024.0 && index < units.lastIndex) {
+            value /= 1024.0
+            index++
+        }
+        return String.format(Locale.ENGLISH, "%.1f %s", value, units[index])
     }
 
     private fun bindQuickCard(card: View, title: Int, actions: List<QuickAction>) {
