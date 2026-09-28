@@ -77,3 +77,23 @@ Verified Reference transition condition:
 ## Next Action
 
 Continue from first-run completion into the actual Reference HomeActivity reconstruction, while replacing every Reference Firebase boundary encountered with Supabase equivalents and preserving Reference behavior/UI structure.
+
+
+## Latest Intro Flow Audit
+
+Reference inspection confirmed:
+- Intro overflow menu contains Language, SwiftLogger, and Restart.
+- Language opens a dedicated Locale Activity in Reference.
+- SwiftLogger opens a dedicated SLog Activity in Reference.
+- Restart invokes the application's restart mechanism rather than merely recreating the current Activity.
+- Skip/sign-in flows remain gated by the Reference first-run state and permission coordinator before first-run completion.
+
+BaRe changes made:
+- Intro Language now opens `LanguageActivity`.
+- Intro SwiftLogger now opens `BaReLoggerActivity` with BaRe branding.
+- Intro Restart now restarts the application task when a launcher intent is available.
+- The new destination Activities are registered in the manifest.
+
+Current limitation:
+- `LanguageActivity` currently exposes the supported BaRe language set as English only; Reference's full locale catalog/selection behavior is not yet reconstructed.
+- `BaReLoggerActivity` is a destination skeleton; the full Reference logger data/actions are not yet reconstructed.
