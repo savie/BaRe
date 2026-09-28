@@ -195,7 +195,7 @@ class IntroActivity : AppCompatActivity() {
             .setPositiveButton(R.string.grant_permissions) { _, _ ->
                 Toast.makeText(
                     this,
-                    R.string.root_grant_permissions_dialog_msg,
+                    R.string.root_provider_unavailable,
                     Toast.LENGTH_LONG
                 ).show()
             }
