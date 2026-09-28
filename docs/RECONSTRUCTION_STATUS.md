@@ -8,55 +8,38 @@
 - Canonical handoff: `docs/bare.md`
 - Target: 1:1 Reference fidelity except explicitly Authorized Deviations
 
-## Phase 1
-
-### Foundation
+## Foundation
 
 - Android project skeleton: COMPLETE
-- Java source implementation: COMPLETE (bootstrap)
-- Android Views/XML: COMPLETE (bootstrap foundation)
+- Java source implementation: ACTIVE
+- Android Views/XML: ACTIVE
 - Kotlin source: NOT USED
-- Kotlin JVM target: NOT CONFIGURED
 - Compose: NOT ENABLED
-- Namespace: `com.bare`
-- Application ID: `com.bare`
-- minSdk: 26 (aligned with Reference)
-- compileSdk: 37 (aligned with Reference)
-- targetSdk: 37 (aligned with Reference)
+- Namespace/applicationId: `com.bare`
+- minSdk/compileSdk/targetSdk: 26/37/37
 - versionName: `1.0`
 - versionCode: `BARE_VERSION_CODE`, fallback `1`
-- Stable debug signing: CONFIGURED as optional environment-driven signing
-- Packaging exclusions: CONFIGURED
-
-### Identity / naming alignment
-
 - Application class: `com.bare.BaReApp`
-- Launcher Activity: `com.bare.intro.IntroActivity`
-- Theme resource: `BaReTheme`
-- User-facing branding: `BΛR☰`
-- Bootstrap `MainActivity`: REMOVED
-- Reference `SwiftApp` naming: replaced at the BaRe application identity layer; internal Reference identifiers will be renamed selectively, not by unsafe global replacement.
-- Android resource identifiers cannot safely use `BΛR☰` as a resource name, so valid `BaRe` identifiers are used where canonical BΛR☰ characters are not valid.
+- Launcher: `com.bare.intro.IntroActivity`
+- Theme: `BaReTheme`
+- User-facing branding: BΛR☰
+- Reference logo `bare_logo.png`: NOT YET PORTED; source exists on `v1.0/rebaseline` and is intentionally deferred until asset/visual parity phase.
 
-### Reference audit
+## Reference audit
 
-**STATUS: COMPLETE**
+**COMPLETE**
 
-The supplied Reference artifact is now directly accessible and has been audited.
-
-Verified:
+Verified Reference inventory is recorded in `docs/REFERENCE_AUDIT.md`.
 
 - Reference package: `org.swiftapps.swiftbackup`
-- Application class: `org.swiftapps.swiftbackup.SwiftApp`
-- Version: `5.1.0`
-- Version code: `620`
-- JADX Java sources: 12,611 total
+- Version: 5.1.0 / 620
+- JADX Java sources: 12,611
 - Reference-package Java sources: 259
 - APKTool smali: 11,752
-- Activities: 95 total / 71 Reference-package
-- Services: 10 total / 3 Reference-package
-- Receivers: 10 total / 8 Reference-package
-- Providers: 4 total / 0 Reference-package
+- Activities: 95 / 71 Reference-package
+- Services: 10 / 3 Reference-package
+- Receivers: 10 / 8 Reference-package
+- Providers: 4 / 0 Reference-package
 - Layouts: 341
 - Drawables: 445
 - Menus: 44
@@ -64,64 +47,109 @@ Verified:
 - Raw resources: 12
 - Fonts: 7
 
-Detailed evidence is recorded in `docs/REFERENCE_AUDIT.md`.
+## Home reconstruction — data/domain layer
 
-### Reconstruction slice — Intro
+**STATUS: PORTED CONTRACTS / NOT YET RUNTIME-VERIFIED**
 
-**STATUS: IN PROGRESS**
+Implemented:
 
-Implemented from Reference evidence:
+- Reference-shaped Home pager with four pages
+- Dashboard, Cloud, Schedule, Account ViewModels
+- Reference quick-action ordering and Home action IDs
+- Reference ScheduleItem.Type constants
+- Reference ScheduleData defaults and legacy ordering
+- Backend-neutral identity model
+- Dashboard repository/action boundary
+- Cloud repository/service boundary
+- Schedule repository/service boundary
+- Account/identity/contributor repository/service boundaries
+- Storage service boundary
+- Cloud-provider boundary separated from backend
+- Telemetry boundary separated from domain
 
-- `BaReApp` application class
-- Reference notification channel IDs/categories
-- `IntroActivity` launcher
-- Reference-derived intro screen structure
-- Sign-in/benefit presentation structure
+## Firebase/backend audit checkpoint
+
+**STATUS: PARTIAL AUDIT — CONTRACTS PORTED**
+
+Confirmed Reference Firebase paths/contracts:
+
+- `appData`
+- `users/{uid}`
+- `users/{uid}/userInfo`
+- `users/{uid}/cloud_v1`
+- `tags/{cloudTag}/apps`
+- `tags/{cloudTag}/folders`
+- `tags/{cloudTag}/smsBackupsCount`
+- `tags/{cloudTag}/callLogBackupsCount`
+- `purchase_verifications/{uid}/{obfuscated-key}`
+- `contributorDetails/{uid-prefix}`
+
+Ported domain/repository contracts:
+
+- `ReferenceBackendContract`
+- `BaReBackendRepository`
+- `CloudAppMetadata` field shape + Reference upload sanitization behavior
+- `FolderRepository` + `BaReFolderItem`
+- `BackupCountsRepository`
+- `ContributorRegistrationData`
+- `ContributorRegistrationRepository`
+- `PurchaseVerificationRepository` boundary
+- `CloudProviderRepository` + `CloudAccessService`
+- `TelemetryService`
+
+### Firebase → Supabase rule
+
+Do NOT mechanically rename Firebase to Supabase.
+
+The audited architecture separates:
+
+1. BaRe backend/account metadata → future Supabase adapter
+2. Cloud backup providers (Drive/etc.) → CloudProviderRepository
+3. Local Android state/scheduler → local repositories
+4. Crash/diagnostics telemetry → TelemetryService
+
+No Supabase schema, RLS, table relation, or auth claim has been invented yet.
+
+### Known UNKNOWN / incomplete backend areas
+
+- Full payload/schema of `purchase_verifications`: UNKNOWN
+- Full `appData` consumers outside audited Home slice: UNKNOWN
+- Complete `cloud_v1/apps` read/write call graph: IN PROGRESS
+- Complete `cloud_v1/folders` metadata lifecycle: IN PROGRESS
+- All SMS/call count writers and consumers: IN PROGRESS
+- Complete contributor registration mutation lifecycle: IN PROGRESS
+- Complete account migration/anonymous lifecycle: IN PROGRESS
+- Full `re3` call graph across all 95 activities: NOT YET COMPLETE
+
+## Intro
+
+**IN PROGRESS**
+
+Implemented:
+
+- BaReApp notification channels
+- IntroActivity launcher
+- Reference-derived intro structure
 - Storage permission entry
 - Android 13+ notification permission entry
 - Intro completion persistence
-- Transition to `HomeActivity`
+- Home transition
 
-Not yet parity-complete:
+Not parity-complete:
 
-- Reference Intro ViewModel/state machine
-- Cloud sign-in flow
-- first-run restore flow
-- password strategy flow
-- Shizuku flow
-- Firebase diagnostics/error dialog behavior
-- exact Reference custom view styling/resources
-- exact dependency versions
-- exact Reference application initialization beyond the currently reconstructed notification-channel slice
+- full Reference Intro ViewModel/state machine
+- cloud sign-in flow
+- first-run restore
+- password strategy
+- Shizuku
+- exact custom view styling/resources
+- complete application initialization
 
-Temporary reconstruction gate:
+## Verification
 
-- `HomeActivity` is currently a shell so the launcher flow has a valid target.
-- This shell is **not MATCH** and must be replaced by the Reference `HomeActivity` reconstruction.
+No parity claim is made from build status alone.
 
-### Phase 1 mapping
-
-**STATUS: IN PROGRESS**
-
-Still being completed:
-
-1. Manifest component → source mapping
-2. Screen/layout → Activity/Fragment mapping
-3. Resource → feature mapping
-4. Navigation/workflow mapping
-5. Dependency/integration mapping
-6. Explicit Authorized Deviation register
-7. Reconstruction sequencing
-
-## Important package rule
-
-Reference internal package is `org.swiftapps.swiftbackup`.
-
-The handoff explicitly prohibits global renaming of internal identifiers merely because they contain Swift. Internal package/class identifiers must therefore be preserved where technically feasible and only changed when an explicit Authorized Deviation or technical necessity is evidenced.
-
-## Verification policy
-
-Every reconstructed capability must be classified as:
+Each capability must eventually be classified:
 
 - MATCH
 - AUTHORIZED DEVIATION
@@ -129,14 +157,40 @@ Every reconstructed capability must be classified as:
 - UNKNOWN
 - BLOCKED
 
-Build success alone does not establish parity. Runtime success alone does not establish feature parity.
+Required verification sequence:
 
-## Current gate
+`build → install → runtime → visual → behavior → feature → deviation audit → verification`
 
-**PHASE 1 — AUDIT COMPLETE / MAPPING IN PROGRESS**
+## Session handoff checkpoint
 
-The Reference-access blocker is resolved.
+**CURRENT PHASE: PHASE 1 AUDIT/MAPPING → PHASE 2 DOMAIN RECONSTRUCTION**
 
-Next execution gate:
+Completed this session batch:
 
-`Reference inventory → mapping → reconstruction sequence → first real feature implementation`.
+- Home repository/service/action boundaries
+- Reference backend path contract
+- Cloud provider vs backend separation
+- CloudMetadata domain field port
+- Folder domain/repository contract
+- SMS/call backup count contract
+- Contributor registration model/repository contract
+- Purchase verification UNKNOWN boundary
+- Persistent reconstruction status checkpoint
+
+### Exact next work
+
+1. Finish the `re3` call graph for `cloud_v1/apps`, folders, counts, contributor, and purchase.
+2. Port remaining concrete repositories/services/actions from those call sites.
+3. Implement actual BaRe/Supabase adapter only after payload/schema evidence is complete.
+4. Port Reference Home Activity/Fragment behavior against those real services.
+5. Continue outward from Home into the next Reference feature slice.
+6. Only then begin full visual/resource parity and runtime verification.
+
+Do not restart the audit from the beginning in a new session. Start from this checkpoint and the files under `app/src/main/java/com/bare/backend`, `com/bare/cloud`, `com/bare/folders`, `com/bare/messagescalls`, `com/bare/contributor`, and `com/bare/purchase`.
+
+## Documentation policy
+
+- Root documentation file: `README.md` only.
+- Project documentation belongs under `docs/`.
+- `docs/REFERENCE_BACKEND_CONTRACT.md` records backend evidence.
+- This file records implementation checkpoint and exact next steps.
