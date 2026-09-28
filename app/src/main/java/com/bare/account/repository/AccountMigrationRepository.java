@@ -4,6 +4,11 @@ package com.bare.account.repository;
 public interface AccountMigrationRepository {
     boolean isMigratingToGoogleSignIn();
     void setMigratingToGoogleSignIn(boolean migrating);
+    /**
+     * Reference fu3 semantics: create destination only when absent; delete source
+     * only when its value still equals the copied value; on source-change failure,
+     * remove destination only if it still equals that copied value, then retry once.
+     */
     MigrationResult migrateCloudDirectory(String oldCloudDirectory, String newCloudDirectory);
 
     /**
