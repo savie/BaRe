@@ -35,6 +35,11 @@
     <string name="cloud_sync">Cloud sync</string>
     <string name="schedules">Schedules</string>
     <string name="account">Account</string>
+    <string name="back">Back</string>
+    <string name="clear_search">Clear search</string>
+    <string name="search_swift_backup">Search BΛR☰</string>
+    <string name="shortcuts">Shortcuts</string>
+    <string name="see_all">See all</string>
     <string name="not_signed_in">Not signed in</string>
     <string name="anonymous_account">Anonymous account</string>
     <string name="cloud_settings_local_only">Cloud provider settings are not connected yet.</string>
