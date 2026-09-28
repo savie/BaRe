@@ -8,11 +8,23 @@ class SsaidHelper(
     private val context: Context,
     private val privileged: PrivilegedCommandExecutor
 ) {
+    fun read(packageName: String): String? {
+        val path = "/data/system/users/${UserHandle.myUserId()}/settings_ssaid.xml"
+        val output = privileged.run("cat '$path'")
+        if (output.code != 0) return null
+        val line = Regex(
+            "<setting\\b[^>]*\\bpackage=[\\\"']" +
+                Regex.escape(packageName) +
+                "[\\\"'][^>]*/?>",
+            setOf(RegexOption.IGNORE_CASE)
+        ).find(output.output)?.value ?: return null
+        return attribute(line, "value")
+    }
+
     fun restore(packageName: String, ssaid: String): Boolean {
         if (!HEX_16.matches(ssaid)) return false
 
-        val userId = UserHandle.myUserId()
-        val path = "/data/system/users/$userId/settings_ssaid.xml"
+        val path = "/data/system/users/${UserHandle.myUserId()}/settings_ssaid.xml"
         val read = privileged.run("cat '$path'")
         if (read.code != 0 || read.output.isBlank()) return false
 
@@ -33,7 +45,7 @@ class SsaidHelper(
             )
             current.replaceRange(existing.range, replaced)
         } else {
-            val ids = Regex("""\\bid=["'](\\d+)["']""")
+            val ids = Regex("""\bid=["'](\d+)["']""")
                 .findAll(current)
                 .mapNotNull { it.groupValues[1].toIntOrNull() }
                 .toList()
@@ -44,7 +56,7 @@ class SsaidHelper(
 
             val entry =
                 """    <setting id="$nextId" name="$uid" package="$packageName" value="$ssaid" defaultValue="$ssaid" />"""
-            val close = Regex("""</settings>\\s*$""", RegexOption.IGNORE_CASE)
+            val close = Regex("""</settings>\s*$""", RegexOption.IGNORE_CASE)
                 .find(current) ?: return false
             current.substring(0, close.range.first) + entry + "\n" +
                 current.substring(close.range.first)
