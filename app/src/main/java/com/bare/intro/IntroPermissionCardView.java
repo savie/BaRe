@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bare.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -15,9 +16,7 @@ public final class IntroPermissionCardView extends MaterialCardView {
     private final TextView subtitle;
     private final MaterialButton action;
 
-    public IntroPermissionCardView(Context context) {
-        this(context, null);
-    }
+    public IntroPermissionCardView(Context context) { this(context, null); }
 
     public IntroPermissionCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +44,14 @@ public final class IntroPermissionCardView extends MaterialCardView {
         content.addView(subtitle, new LinearLayout.LayoutParams(-1, -2));
         content.addView(action, new LinearLayout.LayoutParams(-1, -2));
         addView(content);
+
+        if (attrs != null) {
+            android.content.res.TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.IntroPermissionCardView);
+            title.setText(a.getString(R.styleable.IntroPermissionCardView_introPermissionTitle));
+            subtitle.setText(a.getString(R.styleable.IntroPermissionCardView_introPermissionSubtitle));
+            action.setText(a.getString(R.styleable.IntroPermissionCardView_introPermissionActionText));
+            a.recycle();
+        }
     }
 
     public TextView getTitleView() { return title; }
