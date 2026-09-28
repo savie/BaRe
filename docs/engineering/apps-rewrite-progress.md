@@ -90,3 +90,23 @@ Manifest menambahkan `android.permission.PACKAGE_USAGE_STATS` untuk capability D
 - Detail/backup/restore execution belum parity Reference.
 - FastScroller masih implementation-level, belum visual/runtime compared.
 - Architecture freeze belum dilakukan.
+
+
+## Update — Apps Detail / Backup History Slice
+
+- Reference basis: `reference/reference_apps_audit.md` on `v1.0/rebaseline`.
+- `rewrite` now carries backup history identity through `LocalBackupRecord.backupId`.
+- `RestoreRequest.localBackupId` selects the concrete local backup record.
+- `AppBackupManager.artifact(...)` resolves the selected backup identity instead of implicitly using latest when an ID is supplied.
+- `DetailActivity` renders local backup history and restores the selected/latest record identity.
+- Backup execution now checks `AppsCapability` for every requested `AppPart` before creating artifacts.
+- `AppPart.SHARED_LIBS` is now represented in the backup source routing boundary, although runtime/source accessibility remains unverified.
+- Cloud transport remains intentionally unimplemented/blocked because no verified backend contract was found in the rewrite evidence.
+- Delete/protect/note persistence and full Reference detail action parity remain incomplete; the UI explicitly avoids destructive deletion without a confirmed backup identity.
+
+### Verification state
+
+- GitHub combined status for latest commits: no reported status checks.
+- GitHub workflow runs for latest commits: none reported.
+- Local build/test: BLOCKED in this session because the environment cannot resolve GitHub for cloning and no local Gradle checkout is available.
+- Runtime Reference/Apps2 parity: UNVERIFIED.
