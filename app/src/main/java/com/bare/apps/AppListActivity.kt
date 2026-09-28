@@ -38,7 +38,25 @@ class AppListActivity:AppCompatActivity(){
   loadApps()
  }
  override fun onCreateOptionsMenu(menu:android.view.Menu):Boolean{menuInflater.inflate(R.menu.menu_apps,menu);val search=menu.findItem(R.id.menu_apps_search).actionView as SearchView;search.queryHint=getString(R.string.apps_search);search.setOnQueryTextListener(object:SearchView.OnQueryTextListener{override fun onQueryTextSubmit(q:String)=true;override fun onQueryTextChange(q:String):Boolean{applyFilter(q);return true}});return true}
- override fun onOptionsItemSelected(item:android.view.MenuItem):Boolean{if(item.itemId==R.id.menu_apps_filter){PopupMenu(this,findViewById(R.id.apps_filter_anchor)).apply{menu.add(R.string.apps_filter_user);menu.add(R.string.apps_filter_system);menu.add(R.string.apps_filter_all);setOnMenuItemClickListener{x->showSystemApps=x.title==getString(R.string.apps_filter_system)||x.title==getString(R.string.apps_filter_all);loadApps();true};show()};return true};return super.onOptionsItemSelected(item)}
+ override fun onOptionsItemSelected(item:android.view.MenuItem):Boolean{
+  if(item.itemId==R.id.menu_apps_filter){
+   val labels=arrayOf("User apps","System apps","All apps","Backed up","Not backed up","Synced","Not synced","Installed","Not installed","Enabled","Disabled","Favorites only","Sort: Name","Sort: Install date","Sort: Update date","Sort: Backup date","Sort: App size","Sort: Backup size","Sort: Date used")
+   androidx.appcompat.app.AlertDialog.Builder(this).setTitle(R.string.apps_filter).setItems(labels){_,which->
+    val s=AppFilterStore(this).load()
+    when(which){
+     0->s.system=SystemAppFilter.USER;1->s.system=SystemAppFilter.SYSTEM;2->s.system=SystemAppFilter.ALL
+     3->s.backup=BackupFilter.BACKED_UP;4->s.backup=BackupFilter.NOT_BACKED_UP
+     5->s.sync=SyncFilter.SYNCED;6->s.sync=SyncFilter.NOT_SYNCED
+     7->s.install=InstallFilter.INSTALLED;8->s.install=InstallFilter.NOT_INSTALLED
+     9->s.enabled=EnabledFilter.ENABLED;10->s.enabled=EnabledFilter.DISABLED;11->s.favoriteOnly=true
+     12->AppSortState(this).mode=AppSortMode.Name;13->AppSortState(this).mode=AppSortMode.InstallDate;14->AppSortState(this).mode=AppSortMode.UpdateDate;15->AppSortState(this).mode=AppSortMode.BackupDate;16->AppSortState(this).mode=AppSortMode.AppSize;17->AppSortState(this).mode=AppSortMode.BackupSize;18->AppSortState(this).mode=AppSortMode.DateUsed
+    }
+    AppFilterStore(this).save(s);loadApps()
+   }.show()
+   return true
+  }
+  return super.onOptionsItemSelected(item)
+ }
  private fun loadApps(){val swipe=findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.apps_swipe_refresh);val empty=findViewById<android.view.View>(R.id.apps_empty);val error=findViewById<android.view.View>(R.id.apps_error);if(section=="CLOUD"){allItems=emptyList();adapter.submitList(emptyList());swipe.isRefreshing=false;error.visibility=android.view.View.GONE;empty.visibility=android.view.View.VISIBLE;findViewById<android.widget.TextView>(R.id.apps_empty_title).setText(R.string.apps_cloud_empty_title);findViewById<android.widget.TextView>(R.id.apps_empty_message).setText(R.string.apps_cloud_empty_message);return};swipe.isRefreshing=true;error.visibility=android.view.View.GONE;Thread{runCatching{AppDiscovery.installed(this,showSystemApps)}.onSuccess{result->runOnUiThread{allItems=result;adapter.submitList(result);swipe.isRefreshing=false;empty.visibility=if(result.isEmpty())android.view.View.VISIBLE else android.view.View.GONE}}.onFailure{runOnUiThread{swipe.isRefreshing=false;error.visibility=android.view.View.VISIBLE;empty.visibility=android.view.View.GONE}}}.start()}
  private fun applyFilter(q:String){val x=q.trim();adapter.submitList(if(x.isEmpty())allItems else allItems.filter{it.label.contains(x,true)||it.packageName.contains(x,true)})}
  private fun openApp(x:CanonicalApp){startActivity(Intent(this,DetailActivity::class.java).putExtra("package_name",x.packageName))}
