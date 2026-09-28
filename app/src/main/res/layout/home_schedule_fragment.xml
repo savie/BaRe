@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView android:id="@+id/schedule_fragment_scrollview"
+        android:layout_width="match_parent" android:layout_height="match_parent" android:overScrollMode="never">
+        <LinearLayout android:orientation="vertical" android:paddingBottom="80dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:text="@string/schedule_controls" style="@style/SegmentCategoryCaption"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp">
+                <LinearLayout android:orientation="vertical" android:padding="16dp"
+                    android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:text="@string/schedule_enabled" android:textStyle="bold"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView android:id="@+id/tv_schedules_title" android:gravity="center"
+                android:text="@string/schedules" style="@style/CardTitle"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <LinearLayout android:id="@+id/schedule_list" android:orientation="vertical"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>
