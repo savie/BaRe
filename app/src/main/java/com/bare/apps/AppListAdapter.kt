@@ -22,7 +22,7 @@ class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClic
   val x=items[position];val pm=h.itemView.context.packageManager
   h.icon.setImageDrawable(runCatching{pm.getApplicationIcon(x.packageName)}.getOrNull());h.title.text=x.name;h.subtitle.text=x.packageName
   val backup=if(x.hasLocalBackup||x.hasCloudBackup)" · "+h.itemView.context.getString(R.string.apps_backed_up) else ""
-  h.labels.text=x.labels.joinToString(" · ");h.labels.visibility=if(x.labels.isEmpty())View.GONE else View.VISIBLE;h.favorite.visibility=View.VISIBLE;h.selection.visibility=View.GONE;h.status.text=(if(!x.enabled)h.itemView.context.getString(R.string.apps_status_disabled) else if(x.bundled)h.itemView.context.getString(R.string.apps_status_system) else h.itemView.context.getString(R.string.apps_status_installed))+backup
+  h.labels.text=x.labels.joinToString(" · ");h.labels.visibility=if(x.labels.isEmpty())View.GONE else View.VISIBLE;h.favorite.visibility=View.VISIBLE;h.favorite.alpha=if(x.favorite)1f else 0.35f;h.favorite.setOnClickListener{val favorite=AppFavoriteStore(h.itemView.context).toggle(x.packageName);x.favorite=favorite;h.favorite.alpha=if(favorite)1f else 0.35f};h.selection.visibility=View.GONE;h.status.text=(if(!x.enabled)h.itemView.context.getString(R.string.apps_status_disabled) else if(x.bundled)h.itemView.context.getString(R.string.apps_status_system) else h.itemView.context.getString(R.string.apps_status_installed))+backup
   h.itemView.setOnClickListener{onItemClick(x)}
   h.menu.setOnClickListener{showActions(h.menu,x)}
  }
