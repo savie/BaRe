@@ -40,8 +40,14 @@ class DashboardFragment : Fragment() {
             view.findViewById(R.id.dash_card_quick_actions_apps),
             R.string.quick_actions_apps,
             listOf(
-                QuickAction(R.string.quick_backup_apps, R.string.backup_all_apps_summary, true),
-                QuickAction(R.string.quick_restore_apps, R.string.restore_all_apps_summary, true)
+                QuickAction(R.string.backup_all_apps, R.string.backup_all_apps_summary),
+                QuickAction(R.string.backup_missing_apps, R.string.backup_missing_apps_summary, true),
+                QuickAction(R.string.backup_updated_apps, R.string.backup_updated_apps_summary, true),
+                QuickAction(R.string.redo_backups, R.string.redo_backups_message, true),
+                QuickAction(R.string.sync_device_backups_to_cloud, R.string.sync_device_backups_to_cloud_message),
+                QuickAction(R.string.restore_all_apps, R.string.restore_all_apps_summary, true),
+                QuickAction(R.string.restore_missing_apps, R.string.restore_missing_apps_summary, true),
+                QuickAction(R.string.restore_newer_versions, R.string.restore_newer_versions_summary, true)
             )
         )
         bindQuickCard(
@@ -49,15 +55,15 @@ class DashboardFragment : Fragment() {
             R.string.quick_actions_messages,
             listOf(
                 QuickAction(R.string.backup_messages, R.string.backup_messages_summary),
-                QuickAction(R.string.restore_messages, R.string.restore_messages_summary)
+                QuickAction(R.string.restore_messages, R.string.restore_messages_summary, true)
             )
         )
         bindQuickCard(
             view.findViewById(R.id.dash_card_quick_actions_calls),
             R.string.quick_actions_calls,
             listOf(
-                QuickAction(R.string.call_logs_backup, R.string.call_logs_backups_settings_summary),
-                QuickAction(R.string.call_logs_backups, R.string.call_logs_backups_settings_summary)
+                QuickAction(R.string.backup_call_logs, R.string.backup_call_logs_summary),
+                QuickAction(R.string.restore_call_logs, R.string.restore_call_logs_summary, true)
             )
         )
         bindQuickCard(
@@ -65,7 +71,7 @@ class DashboardFragment : Fragment() {
             R.string.quick_actions_folders,
             listOf(
                 QuickAction(R.string.backup_folders, R.string.backup_folders_summary),
-                QuickAction(R.string.restore_folders, R.string.restore_folders_summary)
+                QuickAction(R.string.restore_folders, R.string.restore_folders_summary, true)
             )
         )
     }
