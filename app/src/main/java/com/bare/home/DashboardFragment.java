@@ -1,5 +1,6 @@
 package com.bare.home;
 
+import android.app.WallpaperManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +27,22 @@ public final class DashboardFragment extends Fragment {
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         model = new ViewModelProvider(this).get(DashboardViewModel.class);
         LinearLayout actions = view.findViewById(R.id.dashboard_actions);
-        model.setQuickActions(
-                requireContext().getPackageManager().hasSystemFeature("android.hardware.telephony"),
-                android.app.WallpaperManager.getInstance(requireContext()).isWallpaperSupported()
-        );
+
+        boolean telephony = requireContext().getPackageManager().hasSystemFeature("android.hardware.telephony");
+        boolean wallpaper = WallpaperManager.getInstance(requireContext()).isWallpaperSupported();
+
+        model.configureQuickActions(
+                telephony, wallpaper,
+                getString(R.string.apps), getString(R.string.messages), getString(R.string.call_logs),
+                getString(R.string.folders), getString(R.string.wallpapers), getString(R.string.wifi),
+                android.R.drawable.ic_menu_view, android.R.drawable.ic_menu_send, android.R.drawable.ic_menu_call,
+                android.R.drawable.ic_menu_gallery, android.R.drawable.ic_menu_gallery, android.R.drawable.ic_menu_manage);
+
         model.getQuickActions().observe(getViewLifecycleOwner(), list -> {
             actions.removeAllViews();
             for (DashboardViewModel.QuickAction action : list) {
-                TextView item = (TextView) getLayoutInflater().inflate(R.layout.home_dashboard_action, actions, false);
+                TextView item = (TextView) getLayoutInflater().inflate(
+                        R.layout.home_dashboard_action, actions, false);
                 item.setText(action.title);
                 actions.addView(item);
             }
