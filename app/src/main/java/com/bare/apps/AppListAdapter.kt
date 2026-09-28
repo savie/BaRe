@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.FileProvider
+import java.io.File
 import com.bare.R
 import com.bare.apps.model.CanonicalApp
 import com.bare.apps.ui.AppItemAction
@@ -38,7 +40,7 @@ class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClic
    AppActionId.LAUNCH->context.packageManager.getLaunchIntentForPackage(app.packageName)?.let{context.startActivity(it)}
    AppActionId.APP_INFO->context.startActivity(Intent(context,AppInfoActivity::class.java).putExtra("package_name",app.packageName))
    AppActionId.PLAY_STORE->context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("market://details?id="+app.packageName)))
-   AppActionId.SHARE_APK->context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("application/vnd.android.package-archive"),context.getString(R.string.share_apk)))
+   AppActionId.SHARE_APK->{val file=app.sourceDir?.let(::File);if(file?.exists()==true){val uri=FileProvider.getUriForFile(context,context.packageName+".fileprovider",file);context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("application/vnd.android.package-archive").putExtra(Intent.EXTRA_STREAM,uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),context.getString(R.string.share_apk)))}}
    AppActionId.UNINSTALL->context.startActivity(Intent(Intent.ACTION_DELETE,Uri.parse("package:"+app.packageName)))
    AppActionId.FORCE_STOP->runShell("am force-stop "+app.packageName)
    AppActionId.CLEAR_DATA->runShell("pm clear "+app.packageName)
