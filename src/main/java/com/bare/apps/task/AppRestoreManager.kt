@@ -118,7 +118,6 @@ class AppRestoreManager(private val context: Context) {
             }
         }
         val selectedMetadata = request.localBackupId?.let {
-            backup.artifact(app, AppPart.APP, it)
             LocalMetadataStore(context).load(app.packageName, it)
         } ?: request.localBackup
 
