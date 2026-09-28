@@ -7,7 +7,10 @@
     <dimen name="spacing_normal_more">20dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_largest2">72dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="home_rail_content_margin">24dp</dimen>
+    <dimen name="home_rail_content_max_width">1200dp</dimen>
     <dimen name="title">16sp</dimen>
     <dimen name="title_largest">20sp</dimen>
     <dimen name="subtitle">14sp</dimen>
