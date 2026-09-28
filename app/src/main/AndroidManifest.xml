@@ -47,6 +47,10 @@
         <activity android:name=".apps.AppListActivity" android:launchMode="singleTop"/>
         <activity android:name=".apps.AppsBatchActivity"/>
         <activity android:name=".apps.BlacklistActivity"/>
+        <activity android:name=".apps.MultipleBackupsActivity"/>
+        <activity android:name=".apps.RestoreSpecialDataDetailsActivity"/>
+        <activity android:name=".apps.TaskActivity"/>
+        <activity android:name=".apps.PreconditionsActivity"/>
         <activity android:name=".apps.AppsConfigRunActivity"/>
         <activity android:name=".apps.AppsQuickActionsActivity"/>
         <activity android:name=".apps.AppInfoActivity"/>
