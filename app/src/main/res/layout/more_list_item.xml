@@ -6,5 +6,5 @@
             <TextView android:textColor="?android:textColorSecondary" android:gravity="center_vertical" android:id="@id/tv_more_list_item" android:layout_width="0dp" android:layout_height="wrap_content" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@id/iv_more_list_item" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" style="@style/Title.Large" />
             <ImageView android:id="@id/iv_more_list_item" android:layout_width="24dp" android:layout_height="24dp" android:layout_marginStart="@dimen/spacing_normal" android:src="@drawable/ic_chevron_right" android:tintMode="src_in" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:tint="?android:textColorSecondary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.listitem.ListItemLayout>
+    </com.bare.views.SwiftListItemCardView>
 </com.google.android.material.listitem.ListItemLayout>
