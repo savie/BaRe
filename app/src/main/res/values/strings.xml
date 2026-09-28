@@ -102,4 +102,22 @@
     <string name="root_grant_in_progress">Granting permissions with Root or Shizuku…</string>
     <string name="root_grant_success">Required permissions were granted. Rechecking permissions…</string>
     <string name="root_grant_partial">Some permissions could not be granted. Recheck the permission list.</string>
+    <string name="backup_all_apps">Backup all apps</string>
+    <string name="backup_missing_apps">Backup missing apps</string>
+    <string name="backup_missing_apps_summary">Back up apps that do not have a current backup</string>
+    <string name="backup_updated_apps">Backup updated apps</string>
+    <string name="backup_updated_apps_summary">Back up apps with newer installed versions</string>
+    <string name="redo_backups">Redo backups</string>
+    <string name="redo_backups_message">Create backups again for selected apps</string>
+    <string name="sync_device_backups_to_cloud">Sync device backups to cloud</string>
+    <string name="sync_device_backups_to_cloud_message">Sync existing device backups to connected cloud storage</string>
+    <string name="restore_all_apps">Restore all apps</string>
+    <string name="restore_missing_apps">Restore missing apps</string>
+    <string name="restore_missing_apps_summary">Restore apps that are missing from this device</string>
+    <string name="restore_newer_versions">Restore newer versions</string>
+    <string name="restore_newer_versions_summary">Restore newer available app versions</string>
+    <string name="backup_call_logs">Backup call logs</string>
+    <string name="backup_call_logs_summary">Create a backup of call logs on this device</string>
+    <string name="restore_call_logs">Restore call logs</string>
+    <string name="restore_call_logs_summary">Restore call logs from a backup</string>
 </resources>
