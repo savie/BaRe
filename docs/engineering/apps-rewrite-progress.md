@@ -184,3 +184,16 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - Gradle/build verification: BLOCKED in this environment.
 - Handoff:
   - No external handoff required; SSAID is recorded as a verification/implementation gap, not handed off.
+
+
+## Update — Apps metadata / multiple-backup consistency pass
+
+- AppBackupManager and LocalMetadataStore now use the same notificationPolicyXmlB64 metadata key and UTF-8 Base64 encoding, removing the previously observed writer/reader mismatch.
+- BackupCatalog.create() now avoids timestamp directory collisions.
+- BackupCatalog.delete() now provides a concrete local backup deletion primitive.
+- BackupRequest.multipleBackupStrategy is now executed by the local backup path:
+  - KEEP_ALL retains all records;
+  - REPLACE_LATEST removes the previous record after the new backup is created;
+  - LIMIT retains the requested number of newest records.
+- Build/test execution remains intentionally deferred.
+- Runtime parity remains UNVERIFIED.
