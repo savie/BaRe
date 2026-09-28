@@ -98,6 +98,22 @@ class AppBackupManager(private val context: Context) {
         }
 
         metadata.specialData = specialDataManager.capture(app.packageName)
+
+        when (request.multipleBackupStrategy) {
+            MultipleBackupStrategy.REPLACE_LATEST -> {
+                catalog.list(app.packageName)
+                    .firstOrNull { it.backupId != backupDir.name }
+                    ?.let { catalog.delete(app.packageName, it.backupId) }
+            }
+            MultipleBackupStrategy.LIMIT -> {
+                val keep = request.backupLimit?.coerceAtLeast(1) ?: 1
+                catalog.list(app.packageName)
+                    .drop(keep - 1)
+                    .filter { it.backupId != backupDir.name }
+                    .forEach { catalog.delete(app.packageName, it.backupId) }
+            }
+            MultipleBackupStrategy.KEEP_ALL -> Unit
+        }
         saveMetadata(metadata, backupDir)
         app.localMetadata = metadata
         return metadata
