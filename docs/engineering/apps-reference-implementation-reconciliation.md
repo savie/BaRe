@@ -2,7 +2,7 @@
 
 ## Basis
 
-- Reference source: SwiftBackup 5.1.0-620 JADX/apktool audit pada `reference/reference_apps_audit.md`, branch `v1.0/rebaseline`.
+- Reference source: Reference APK 5.1.0-620 JADX/apktool audit pada `reference/reference_apps_audit.md`, branch `v1.0/rebaseline`.
 - Target implementation: BaRe branch `rewrite`.
 - Legacy Apps tidak menjadi dependency implementation Apps2.
 - Runtime parity tidak diklaim dari static evidence.
@@ -110,7 +110,7 @@
    - Audit establishes client-side cloud metadata/artifact orchestration but not backend transaction/atomicity semantics.
    - Rewrite therefore exposes cloud inventory/contracts but does not invent a provider.
 
-2. Swift Backup Archive (SBA) format implementation.
+2. Reference SBA archive (SBA) format implementation.
    - Audit identifies format 6 and its extraction boundary, but the exact native/internal SBA implementation is not sufficiently reproduced in rewrite evidence.
    - Rewrite fails explicitly rather than treating SBA as ZIP.
 
