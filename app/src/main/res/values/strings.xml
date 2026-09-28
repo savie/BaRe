@@ -120,6 +120,7 @@
     <string name="backup_call_logs_summary">Create a new backup of all call logs on this device</string>
     <string name="restore_call_logs">Restore call logs</string>
     <string name="restore_call_logs_summary">Restore call logs from the most recent backup</string>
+    <string name="apps">Apps</string>
     <string name="apps_local">Local</string>
     <string name="apps_cloud">Cloud</string>
     <string name="apps_search">Search apps</string>
