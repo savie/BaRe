@@ -88,4 +88,8 @@
     <string name="cancel">Cancel</string>
     <string name="delete_all">Delete all</string>
     <string name="barelogger_share_subject">BaReLogger Logs (text only)</string>
+    <string name="xiaomi_installed_apps_permission_not_supported">Installed apps permission is not supported on this device.</string>
+    <string name="root_grant_permissions_dialog_title">Grant permissions with Root or Shizuku</string>
+    <string name="root_grant_permissions_dialog_msg">BaRe can use elevated access to grant required Android permissions. A compatible Root or Shizuku provider is required.</string>
+    <string name="grant_permissions">Grant permissions</string>
 </resources>
