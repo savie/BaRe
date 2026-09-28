@@ -11,6 +11,7 @@ object AppDiscovery {
  fun installed(context:Context,showSystemApps:Boolean):List<CanonicalApp>{
   val pm=context.packageManager
   val metadataStore=LocalMetadataStore(context)
+  val favoriteStore=AppFavoriteStore(context)
   val packages=if(Build.VERSION.SDK_INT>=33)pm.getInstalledPackages(android.content.pm.PackageManager.PackageInfoFlags.of(0)) else @Suppress("DEPRECATION") pm.getInstalledPackages(0)
   return packages.asSequence().mapNotNull{info->
    val ai=info.applicationInfo?:return@mapNotNull null
