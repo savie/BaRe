@@ -168,7 +168,7 @@ class AppListActivity:AppCompatActivity(){
    return
   }
   Thread{
-   runCatching{AppDiscovery.installed(this,true)}
+   runCatching{AppDiscovery.installed(this,showSystemApps)}
     .onSuccess{result->runOnUiThread{
      allItems=result
      swipe.isRefreshing=false
