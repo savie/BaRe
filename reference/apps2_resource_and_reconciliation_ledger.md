@@ -96,7 +96,7 @@ Additional split/shared-library metadata is covered by the artifact graph.
 
 Status: VERIFIED STATICALLY for observed producer/consumer graph.
 
-Boundary: exact EXPANSION capability mapping remains UNKNOWN at implementation-detail level.
+Boundary: exact low-level implementation details outside the inspected EXPANSION restore path remain subject to collaborator closure.
 
 ### 5. Special-data boundary
 
@@ -219,9 +219,7 @@ Total source inventory: 45.
 
 - Exact mapping of all 342 imported `defpackage.*` collaborators is not complete.
 - Exact filter collaborator decomposition remains partly UNKNOWN.
-- Exact EXPANSION capability/behavior mapping remains UNKNOWN.
-- Exact low-level split extraction helper identity remains UNKNOWN.
-- Explicit historical metadata schema migration engine was not found in inspected source.
+- Explicit historical metadata schema migration engine: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
 - Cloud backend transactional/atomic semantics remain UNKNOWN.
 - Runtime visual parity and runtime branch behavior remain UNVERIFIED.
 - Full formal reconciliation of the historical 112-candidate universe is blocked by the absence of its original complete candidate-name list in the committed audit text; this ledger therefore records only the candidates actually inspected and evidenced rather than inventing missing entries.
