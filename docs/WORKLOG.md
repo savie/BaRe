@@ -11,8 +11,11 @@
 
 ## Current Focus
 
-Fresh-install first-run lifecycle:
-`state/persistence → auth boundary → Premium entitlement → permission state → transition`.
+Reference-driven Home lifecycle reconstruction:
+`HomeActivity → Dashboard → Cloud → Schedule → Account → Search`
+
+Immediate priority:
+`compile-safety/static audit → behavior parity → runtime verification`
 
 ## Reference Evidence Used
 
@@ -34,62 +37,42 @@ Verified Reference transition condition:
 
 ## Implemented
 
-### State / persistence
+### Existing foundation
+- Intro first-run persistence and transition are implemented from the Reference structure.
+- Firebase boundary is replaced by BaRe Supabase Auth.
+- Premium entitlement is granted unconditionally.
+- HomeActivity, Dashboard, Cloud, Schedule, Account, and Search structures are reconstructed from the Reference.
 
-Added `IntroStateStore` with the Reference key names and defaults. Completion persists:
-- `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=true`
-- `KEY_FIRST_START=false`
+### Compile-safety corrections
+- Removed duplicate home navigation string resources by deleting `home_strings.xml`.
+- Removed duplicate `viewPager`, `container_btn_new_schedule`, and `primaryNavigation` ID definitions from `ids.xml`, retaining `home_ids.xml`.
+- Removed duplicate dashboard style definitions by deleting `dashboard_styles.xml`.
+- Static scan of branch `res/values` currently reports no duplicate `string`, `style`, `dimen`, `color`, or `attr` definitions.
 
-### Auth boundary
-
-Replaced the Reference Firebase authentication boundary with a BaRe Supabase boundary:
-- Supabase project URL: `https://fbiazqbrkwovzrirnzpb.supabase.co`
-- Google OAuth entry point uses Supabase Auth.
-- Anonymous/Skip uses Supabase Auth endpoint.
-- OAuth callback uses `bare://auth/callback`.
-- Only a publishable/anon key is used by the client; no service-role key is embedded.
-
-**Verification gap:** Supabase project is currently named `Varnexis-Workspace` and its inspected public database schema is unrelated to BaRe's backup domain. Google/anonymous Auth provider configuration was not exposed by the available project metadata, so provider enablement and redirect allowlisting remain **UNKNOWN**.
-
-### Premium
-
-Added a centralized `PremiumEntitlement` boundary. BaRe returns granted unconditionally, as required.
-
-### Permissions
-
-First-run UI now reads actual Android permission state for:
-- storage
-- notifications
-
-The installed-apps card is currently treated as satisfied on unsupported/non-Xiaomi devices, matching the Reference concept that this is device-specific.
-
-### Transition
-
-Added `HomeActivity` and wired first-run completion to launch it.
-
-### Build foundation
-
-Added Android ViewPager dependency required by the reconstructed Reference component boundary and normalized theme attribute references.
+### Backend
+- BaRe uses Supabase only; no migrations were created or required for this phase.
+- Current Supabase public schema remains intentionally empty for this phase.
 
 ## Verification
 
 **Verified from Reference:**
-- persistence key names/defaults
-- IntroActivity first-run decision structure
-- auth boundary in Reference is Firebase
-- Reference permission checks and permission-card wiring
-- Reference transition target is HomeActivity
+- Intro first-run decision structure and persistence keys/defaults.
+- Reference HomeActivity navigation/pager/reselection structure.
+- Reference Home/Search/Cloud/Schedule/Account resource structures used for reconstruction.
+
+**Verified on BaRe source state:**
+- `rewrite` branch exists and is 244 commits ahead of `master`.
+- Static `res/values` duplicate-resource scan is clean after the corrections above.
+- Android build configuration declares AndroidX/Material/ViewPager dependencies and Java/Kotlin 17.
 
 **Not yet verified:**
-- BaRe APK build
-- runtime
-- Google OAuth end-to-end
-- Supabase anonymous auth end-to-end
-- exact permission behavior on Xiaomi/root/Shizuku devices
-- cloud settings restore parity
-- visual/pixel parity after runtime
-- complete HomeActivity parity
-- global Premium gate coverage
+- APK compilation.
+- Runtime/UI behavior.
+- Google OAuth and Supabase anonymous-auth end-to-end.
+- Exact permission behavior on Xiaomi/root/Shizuku devices.
+- Actual cloud provider connection/settings/backup flows.
+- Pixel-level parity.
+- Complete quick-action execution, schedule creation/service behavior, and Account settings actions.
 
 ## Next Action
 
