@@ -1,5 +1,6 @@
-import java.io.File
 package com.bare.apps.domain
+
+import java.io.File
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
