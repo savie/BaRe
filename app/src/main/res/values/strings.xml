@@ -38,4 +38,9 @@
     <string name="not_signed_in">Not signed in</string>
     <string name="anonymous_account">Anonymous account</string>
     <string name="cloud_settings_local_only">Cloud provider settings are not connected yet.</string>
+    <string name="schedule_enabled_local">Scheduling is enabled for this device.</string>
+    <string name="schedule_disabled_local">Scheduling is disabled.</string>
+    <string name="no_schedules_to_run">No backup schedules are configured.</string>
+    <string name="schedule_time_when_ready">Time: Configure when schedules are added</string>
+    <string name="schedule_charging_any">Charging: Any state</string>
 </resources>
