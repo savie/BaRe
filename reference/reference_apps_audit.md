@@ -5695,3 +5695,35 @@ The baseline must NOT assert:
 ### Next
 
 Record the Apps2 static architecture baseline from the verified evidence, without freezing implementation details that remain UNKNOWN.
+
+
+## Audit Checkpoint 40 — Final Gate Review
+
+Evidence now supports a static, evidence-based Apps2 architecture baseline. It does not support architecture freeze or runtime parity claims.
+
+### Baseline-safe boundaries
+- app discovery → canonical app model;
+- local/cloud repository → list state;
+- search/filter/sort → list projection;
+- AppPart → artifact writer/reader → metadata;
+- special-data → isolated payload artifact;
+- restore request → compatibility gate → artifact restore → task/precondition;
+- capability checks → explicit platform adapter boundary;
+- Legacy Apps remains isolated.
+
+### Explicit UNKNOWN / UNVERIFIED boundaries
+- exact full filter predicate collaborator decomposition;
+- remaining deep semantics among imported `defpackage.*` collaborators;
+- historical metadata schema migration engine;
+- cloud backend transaction/atomicity;
+- runtime visual/branch parity.
+
+### Gate result
+- Static architecture baseline: AUTHORIZED BY CURRENT AUDIT EVIDENCE.
+- Architecture freeze: NOT AUTHORIZED.
+- Apps2 implementation: NOT AUTHORIZED YET; baseline artifact must be recorded first.
+- Home cutover: NOT AUTHORIZED.
+- Legacy Apps: UNCHANGED.
+
+### Next
+Record the static Apps2 architecture baseline while keeping every UNKNOWN boundary explicit.
