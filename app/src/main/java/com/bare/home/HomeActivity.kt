@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
             visibility = View.VISIBLE
         }
 
-        findViewById<ImageView>(R.id.iv_user).setOnClickListener {
+        findViewById<View>(R.id.app_logo_container).setOnLongClickListener {\n            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)\n            val compact = !prefs.getBoolean(KEY_COMPACT_STORAGE_INFO, false)\n            prefs.edit().putBoolean(KEY_COMPACT_STORAGE_INFO, compact).apply()\n            true\n        }\n\n        findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
         }
 
@@ -115,7 +115,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val KEY_SAVED_FRAGMENT = "saved_fragment"
+        private const val KEY_SAVED_FRAGMENT = "saved_fragment"\n        private const val PREFS_NAME = "bare_preferences"\n        private const val KEY_COMPACT_STORAGE_INFO = "compact_storage_info"
         private val INDEX = mapOf(
             R.id.nav_home to 0,
             R.id.nav_cloud to 1,
