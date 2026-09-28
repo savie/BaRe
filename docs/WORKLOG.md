@@ -97,3 +97,20 @@ BaRe changes made:
 Current limitation:
 - `LanguageActivity` currently exposes the supported BaRe language set as English only; Reference's full locale catalog/selection behavior is not yet reconstructed.
 - `BaReLoggerActivity` is a destination skeleton; the full Reference logger data/actions are not yet reconstructed.
+
+
+## Latest GO Progress
+
+### Intro overflow reconstruction
+- Verified against Reference `LocaleActivity` and `SLogActivity` decompiled sources/resources.
+- `Language` now opens a dedicated `LanguageActivity` and exposes the Reference production locale catalog: English, Chinese Simplified/Traditional, French, German, Indonesian, Italian, Japanese, Polish, Portuguese, Russian, Spanish, Turkish, Ukrainian, Vietnamese.
+- Locale selection persists the Reference `app_locale` form and applies the selected application locale through AppCompat locale APIs.
+- `LanguageActivity` now has the Reference Credits/WIP menu surface; translator credits remain UNKNOWN because BaRe has no reconstructed contributor dataset.
+- `SwiftLogger` was renamed to `BaReLogger` at the product-string layer and now opens a dedicated logger Activity.
+- `BaReLoggerActivity` now has the Reference logger surface, clear-all confirmation, and share action. Actual Reference logger data collection is not yet reconstructed.
+- Intro Restart now uses the application launch intent/task restart path rather than only recreating the Activity.
+
+### Verification status
+- Reference XML/JADX behavior for `LocaleActivity` and `SLogActivity` was directly inspected from the supplied Swift Backup 5.1.0 (620) decompiled artifact.
+- Changes are committed on `rewrite`.
+- APK compile/runtime remains UNVERIFIED because the environment cannot reach GitHub to obtain/build the current branch locally.
