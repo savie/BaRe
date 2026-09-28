@@ -3,6 +3,7 @@ package com.bare.apps.task
 import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.Settings
+import java.nio.charset.StandardCharsets
 import com.bare.apps.model.AppSpecialDataPayload
 
 class AppSpecialDataManager(private val context: Context) {
@@ -48,7 +49,7 @@ class AppSpecialDataManager(private val context: Context) {
             ssaid = null,
             ntfAccessComponent = notificationAccess,
             accessibilityComponent = accessibility,
-            notificationPolicyXml = null
+            notificationPolicyXml = captureNotificationPolicy()
         )
     }
 }
