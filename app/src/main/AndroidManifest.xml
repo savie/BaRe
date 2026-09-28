@@ -46,6 +46,7 @@
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
         <activity android:name=".apps.AppListActivity" android:launchMode="singleTop"/>
         <activity android:name=".apps.AppsBatchActivity"/>
+        <activity android:name=".apps.BlacklistActivity"/>
         <activity android:name=".apps.AppsConfigRunActivity"/>
         <activity android:name=".apps.AppsQuickActionsActivity"/>
         <activity android:name=".apps.AppInfoActivity"/>
