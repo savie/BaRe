@@ -23,7 +23,7 @@ class AppListActivity:AppCompatActivity(){
  private var showSystemApps=false
  private var section="LOCAL"
  override fun onCreate(state:Bundle?){
-  super.onCreate(state);setContentView(R.layout.app_list_activity);section=intent.getStringExtra(KEY_SECTION)?:"LOCAL";drawer=findViewById(R.id.apps_drawer)
+  super.onCreate(state);setContentView(R.layout.app_list_activity);section=intent.getStringExtra(KEY_SECTION)?:"LOCAL";showSystemApps=getSharedPreferences("bare_apps",MODE_PRIVATE).getBoolean("show_system_apps",false);drawer=findViewById(R.id.apps_drawer)
   val toolbar=findViewById<MaterialToolbar>(R.id.apps_toolbar);setSupportActionBar(toolbar);supportActionBar?.title=if(section=="CLOUD")getString(R.string.apps_cloud)else getString(R.string.apps_local)
   val toggle=ActionBarDrawerToggle(this,drawer,toolbar,R.string.apps_drawer_open,R.string.apps_drawer_close);drawer.addDrawerListener(toggle);toggle.syncState()
   val recycler=findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.apps_recycler);adapter=AppListAdapter(emptyList(),::openApp);recycler.layoutManager=LinearLayoutManager(this);recycler.adapter=adapter
@@ -44,14 +44,14 @@ class AppListActivity:AppCompatActivity(){
    androidx.appcompat.app.AlertDialog.Builder(this).setTitle(R.string.apps_filter).setItems(labels){_,which->
     val s=AppFilterStore(this).load()
     when(which){
-     0->s.system=SystemAppFilter.USER;1->s.system=SystemAppFilter.SYSTEM;2->s.system=SystemAppFilter.ALL
+     0->{s.system=SystemAppFilter.USER;showSystemApps=false};1->{s.system=SystemAppFilter.SYSTEM;showSystemApps=true};2->{s.system=SystemAppFilter.ALL;showSystemApps=true}
      3->s.backup=BackupFilter.BACKED_UP;4->s.backup=BackupFilter.NOT_BACKED_UP
      5->s.sync=SyncFilter.SYNCED;6->s.sync=SyncFilter.NOT_SYNCED
      7->s.install=InstallFilter.INSTALLED;8->s.install=InstallFilter.NOT_INSTALLED
      9->s.enabled=EnabledFilter.ENABLED;10->s.enabled=EnabledFilter.DISABLED;11->s.favoriteOnly=true
      12->AppSortState(this).mode=AppSortMode.Name;13->AppSortState(this).mode=AppSortMode.InstallDate;14->AppSortState(this).mode=AppSortMode.UpdateDate;15->AppSortState(this).mode=AppSortMode.BackupDate;16->AppSortState(this).mode=AppSortMode.AppSize;17->AppSortState(this).mode=AppSortMode.BackupSize;18->AppSortState(this).mode=AppSortMode.DateUsed
     }
-    AppFilterStore(this).save(s);loadApps()
+    AppFilterStore(this).save(s);getSharedPreferences("bare_apps",MODE_PRIVATE).edit().putBoolean("show_system_apps",showSystemApps).apply();loadApps()
    }.show()
    return true
   }
