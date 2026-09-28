@@ -26,7 +26,7 @@ class AppListActivity:AppCompatActivity(){
   super.onCreate(state);setContentView(R.layout.app_list_activity);section=intent.getStringExtra(KEY_SECTION)?:"LOCAL";showSystemApps=getSharedPreferences("bare_apps",MODE_PRIVATE).getBoolean("show_system_apps",false);drawer=findViewById(R.id.apps_drawer)
   val toolbar=findViewById<MaterialToolbar>(R.id.apps_toolbar);setSupportActionBar(toolbar);supportActionBar?.title=if(section=="CLOUD")getString(R.string.apps_cloud)else getString(R.string.apps_local)
   val toggle=ActionBarDrawerToggle(this,drawer,toolbar,R.string.apps_drawer_open,R.string.apps_drawer_close);drawer.addDrawerListener(toggle);toggle.syncState()
-  val recycler=findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.apps_recycler);adapter=AppListAdapter(emptyList(),::openApp);recycler.layoutManager=LinearLayoutManager(this);recycler.adapter=adapter
+  val recycler=findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.apps_recycler);adapter=AppListAdapter(emptyList(),::openApp);recycler.layoutManager=LinearLayoutManager(this);recycler.adapter=adapter;findViewById<com.bare.apps.ui.AppFastScrollerView>(R.id.apps_fast_scroller).attachTo(recycler)
   findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.apps_swipe_refresh).setOnRefreshListener{loadApps()}
   findViewById<TabLayout>(R.id.apps_section_tabs).apply{getTabAt(if(section=="CLOUD")1 else 0)?.select();addOnTabSelectedListener(object:TabLayout.OnTabSelectedListener{
    override fun onTabSelected(tab:TabLayout.Tab){section=if(tab.position==1)"CLOUD"else"LOCAL";supportActionBar?.title=if(section=="CLOUD")getString(R.string.apps_cloud)else getString(R.string.apps_local);loadApps()}
