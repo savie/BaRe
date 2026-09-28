@@ -151,4 +151,15 @@
     <string name="apps_drawer_open">Open apps drawer</string>
     <string name="apps_drawer_close">Close apps drawer</string>
     <string name="more">More</string>
+    <string name="apps_batch_title">Batch apps</string>
+    <string name="apps_config_run">Run app configuration</string>
+    <string name="apps_quick_actions">Apps quick actions</string>
+    <string name="app_info">App info</string>
+    <string name="app_details">App details</string>
+    <string name="labels">Labels</string>
+    <string name="add_label">Add label</string>
+    <string name="label_name">Label name</string>
+    <string name="save">Save</string>
+    <string name="labelled_apps">Labelled apps</string>
+    <string name="label_color">Label color</string>
 </resources>
