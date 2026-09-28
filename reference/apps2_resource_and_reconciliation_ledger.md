@@ -175,8 +175,7 @@ Restore request:
 Status: VERIFIED STATICALLY at orchestration/data-contract level.
 
 Boundary:
-- exact low-level split extraction helper identity UNKNOWN;
-- historical metadata schema migration engine UNKNOWN.
+- explicit historical metadata schema migration engine UNKNOWN / NOT FOUND IN INSPECTED SOURCE;
 
 ### 9. Task/precondition boundary
 
@@ -233,3 +232,27 @@ Apps2 implementation: NOT STARTED.
 Architecture freeze: NOT AUTHORIZED.
 Home cutover: NOT AUTHORIZED.
 Legacy Apps: UNCHANGED.
+
+
+## E. Checkpoint 38 closure update
+
+### Split restore
+- `mq` cloud metadata → `fo2(type=2)` → split target descriptor: VERIFIED STATICALLY.
+- `xw` restore orchestration → `yw`: VERIFIED STATICALLY.
+- `mv.c` split extraction into `workingDir/splits`: VERIFIED STATICALLY.
+- `mv.g` base-version filtering and exclusion set: VERIFIED STATICALLY.
+- `mv.f` source-preserving install, package-manager fallback, split failure cleanup, retry, and `pm install-existing` fallback: VERIFIED STATICALLY.
+- Low-level split extraction/install boundary is therefore no longer UNKNOWN at the execution-path level inspected here.
+
+### Metadata version / migration
+- LocalMetadata version constants and per-part stamping: VERIFIED STATICALLY.
+- CloudMetadata per-part stamping, global minimum version, and legacy-field normalization: VERIFIED STATICALLY.
+- Explicit historical schema-by-schema migration engine: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
+- Do not infer from the absence of a dedicated migrator class that no historical migration exists elsewhere.
+
+### Current unresolved boundaries
+- 342 imported `defpackage.*` collaborators: not fully reconstructed.
+- Exact filter predicate collaborator decomposition: partly UNKNOWN.
+- Explicit historical metadata schema migration engine: UNKNOWN.
+- Cloud backend transaction/atomicity: UNKNOWN.
+- Runtime visual/branch verification: UNVERIFIED.
