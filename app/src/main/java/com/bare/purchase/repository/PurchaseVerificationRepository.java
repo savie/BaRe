@@ -1,18 +1,17 @@
 package com.bare.purchase.repository;
 
-/**
- * Reference purchase_verifications/{uid}/{obfuscated-key} boundary.
- * Payload shape remains UNKNOWN until the complete purchase call graph is audited.
- */
+/** Reference purchase_verifications/{uid}/{obfuscated-key} boolean verification boundary. */
 public interface PurchaseVerificationRepository {
     VerificationResult load(String uid);
 
     final class VerificationResult {
         public enum State { VERIFIED, NOT_VERIFIED, UNKNOWN }
         public final State state;
-        public final String rawPayload;
-        public VerificationResult(State state, String rawPayload) {
-            this.state = state; this.rawPayload = rawPayload;
+        public VerificationResult(State state) {
+            this.state = state == null ? State.UNKNOWN : state;
+        }
+        public static VerificationResult verified(boolean value) {
+            return new VerificationResult(value ? State.VERIFIED : State.NOT_VERIFIED);
         }
     }
 }
