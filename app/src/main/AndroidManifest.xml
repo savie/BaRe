@@ -28,6 +28,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
+        <activity android:name=".settings.LanguageActivity"/>
+        <activity android:name=".settings.BaReLoggerActivity"/>
         <activity
             android:name=".home.HomeActivity"
             android:launchMode="singleTop"/>
