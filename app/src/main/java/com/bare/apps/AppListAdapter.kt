@@ -40,7 +40,13 @@ class AppListAdapter(private var items:List<CanonicalApp>,private val onItemClic
    AppActionId.PLAY_STORE->context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("market://details?id="+app.packageName)))
    AppActionId.SHARE_APK->context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("application/vnd.android.package-archive"),context.getString(R.string.share_apk)))
    AppActionId.UNINSTALL->context.startActivity(Intent(Intent.ACTION_DELETE,Uri.parse("package:"+app.packageName)))
+   AppActionId.FORCE_STOP->runShell("am force-stop "+app.packageName)
+   AppActionId.CLEAR_DATA->runShell("pm clear "+app.packageName)
+   AppActionId.ENABLE_DISABLE->runShell("pm "+(if(app.enabled)"disable-user --user 0 " else "enable ")+app.packageName)
    else->onItemClick(app)
+  }
+ }
+ private fun runShell(command:String){runCatching{ProcessBuilder("su","-c",command).redirectErrorStream(true).start().waitFor()}}
   }
  }
  override fun getItemCount()=items.size
