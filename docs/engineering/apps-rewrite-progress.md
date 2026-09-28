@@ -177,8 +177,8 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - notification-policy restore now uses the Android notification service reflection boundary with Reference-aligned payload/package validation;
   - special permission restore is wired into AppRestoreManager;
   - SSAID sekarang sudah mempunyai boundary capture/restore dan validasi 16-hex.
-- Write SSAID sekarang menggunakan temporary same-file replacement lalu rename, sehingga tidak lagi melakukan direct overwrite terhadap file aktif.
-- Implementasi ini tetap **belum 1:1 Reference** karena Reference menggunakan state-object/SettingsState-style mutation dan commit/reload semantics yang belum direproduksi.
+- Implementasi SSAID rewrite masih menggunakan pembacaan XML, mutation entry, dan write-back langsung melalui privileged command; ini **belum 1:1 Reference**.
+- Reference menggunakan state-object/SettingsState-style mutation, commit, reload, dan verification semantics yang belum direproduksi.
 - Runtime effect dan kebutuhan reboot tetap UNVERIFIED; tidak ada fake success yang diklaim.
 - Verification:
   - Static Reference reconciliation: UPDATED.
@@ -210,7 +210,7 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - label filter pada 34.
 - AppRestoreManager sekarang mengambil LocalMetadata berdasarkan localBackupId saat restore backup tertentu, sehingga special-data restore tidak lagi bergantung pada metadata backup yang kebetulan sedang terpasang pada model.
 - Cakupan special-data yang mengikuti backup terpilih mencakup permission states, notification access, accessibility, notification policy, dan SSAID.
-- SSAID file update telah diperkeras menjadi temporary copy + replace pada path yang sama, kemudian dilakukan read-back verification.
+- SSAID helper sekarang juga memastikan atribut `defaultValue` tersedia pada entry existing ketika melakukan restore, mendekati state mutation Reference tanpa mengklaim reproduksi SettingsState.
 - Verification status:
   - Static source inspection: UPDATED.
   - Runtime SSAID behavior: UNVERIFIED.
