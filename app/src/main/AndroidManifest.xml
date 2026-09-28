@@ -45,6 +45,18 @@
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"/>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
         <activity android:name=".apps.AppListActivity" android:launchMode="singleTop"/>
+        <activity android:name=".apps.AppsBatchActivity"/>
+        <activity android:name=".apps.AppsConfigRunActivity"/>
+        <activity android:name=".apps.AppsQuickActionsActivity"/>
+        <activity android:name=".apps.AppInfoActivity"/>
+        <activity android:name=".apps.DetailActivity"/>
+        <activity android:name=".apps.labels.LabelsActivity"/>
+        <activity android:name=".apps.labels.LabelEditActivity"/>
+        <activity android:name=".apps.config.ConfigListActivity"/>
+        <activity android:name=".apps.config.ConfigEditActivity"/>
+        <activity android:name=".apps.config.ConfigSettingsActivity"/>
+        <activity android:name=".apps.settings.AppBackupLimitsActivity"/>
+        <activity android:name=".apps.settings.AppVisibilityDiagnosticsActivity"/>
         <activity android:name=".settings.LanguageActivity"/>
         <activity android:name=".settings.BaReLoggerActivity"/>
         <activity
