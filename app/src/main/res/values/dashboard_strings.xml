@@ -6,4 +6,11 @@
     <string name="local_storage">Local storage</string>
     <string name="storage_usage_pending">Storage usage unavailable</string>
     <string name="quick_actions">Quick actions</string>
+    <string name="from_cloud">From cloud</string>
+    <string name="from_device">From device</string>
+    <string name="uses_root_access">Uses root access</string>
+    <string name="schedule_controls">Schedule controls</string>
+    <string name="new_schedule">New schedule</string>
+    <string name="no_schedules_added_message">No schedule added</string>
+    <string name="settings">Settings</string>
 </resources>
