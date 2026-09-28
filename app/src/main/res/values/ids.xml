@@ -126,4 +126,23 @@
     <item name="item_card" type="id"/>
     <item name="content_container" type="id"/>
     <item name="iv_root_needed" type="id"/>
+    <item name="search_toolbar" type="id"/>
+    <item name="et_search" type="id"/>
+    <item name="btn_clear" type="id"/>
+    <item name="search_content_container" type="id"/>
+    <item name="search_content" type="id"/>
+    <item name="search_scroll" type="id"/>
+    <item name="search_results_container" type="id"/>
+    <item name="shortcuts_card" type="id"/>
+    <item name="tv_home_search_shortcuts" type="id"/>
+    <item name="rv_home_search_shortcuts_default" type="id"/>
+    <item name="quick_actions_card" type="id"/>
+    <item name="tv_home_search_quick_actions" type="id"/>
+    <item name="rv_home_search_quick_actions" type="id"/>
+    <item name="btn_home_search_quick_actions_toggle" type="id"/>
+    <item name="apps_card" type="id"/>
+    <item name="rv_home_search_apps" type="id"/>
+    <item name="folders_card" type="id"/>
+    <item name="rv_home_search_folders" type="id"/>
+    <item name="home_search_empty" type="id"/>
 </resources>
