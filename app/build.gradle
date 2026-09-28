@@ -10,7 +10,6 @@ android {
         applicationId = "com.bare"
         minSdk = 26
         targetSdk = 37
-
         versionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
         versionName = "1.0"
     }
@@ -30,7 +29,6 @@ android {
                 keyPassword = System.getenv("BARE_DEBUG_KEY_PASSWORD") ?: "android"
             }
         }
-
         buildTypes.getByName("debug") {
             signingConfig = signingConfigs.getByName("stableDebug")
         }
@@ -39,4 +37,12 @@ android {
     packaging {
         resources.excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
+}
+
+dependencies {
+    // AndroidX/Material libraries are evidenced by the Reference resource/source tree.
+    // Exact Reference artifact versions remain an audit item.
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'com.google.android.material:material:1.12.0'
 }
