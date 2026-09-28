@@ -27,27 +27,22 @@ class CloudFragment : Fragment() {
 
     override fun onViewCreated(view: View, state: Bundle?) {
         super.onViewCreated(view, state)
-        view.findViewById<TextView>(R.id.tv_account_id).text =
-            auth.currentSession()?.userId ?: getString(R.string.not_signed_in)
+        val scroll = view.findViewById<View>(R.id.cloud_fragment_scroll_view)
+        val error = view.findViewById<View>(R.id.error_layout)
 
-        val usage = view.findViewById<TextView>(R.id.tvUsage)
-        val storage = StatFs(Environment.getDataDirectory().path)
-        val total = storage.totalBytes.coerceAtLeast(1L)
-        val free = storage.availableBytes.coerceIn(0L, total)
-        val used = total - free
-        usage.text = formatBytes(used) + " / " + formatBytes(total)
-
-        view.findViewById<MaterialButton>(R.id.btn_disconnect).apply {
-            isEnabled = false
-            alpha = 0.55f
-        }
-        view.findViewById<View>(R.id.iv_save_settings).setOnClickListener {
-            Toast.makeText(requireContext(), getString(R.string.cloud_settings_local_only), Toast.LENGTH_SHORT).show()
-        }
-
-        view.findViewById<View>(R.id.cloud_info_card_warning).visibility = View.VISIBLE
-        view.findViewById<View>(R.id.cloud_info_card_active_tag).visibility = View.GONE
+        // Reference shows the disconnected-cloud state when no cloud provider is connected.
+        // BaRe has no cloud-provider integration in this phase, so do not present local
+        // storage as if it were remote cloud state.
+        scroll.visibility = View.GONE
+        error.visibility = View.VISIBLE
         view.findViewById<View>(R.id.cloud_fragment_progress_bar).visibility = View.GONE
+        view.findViewById<MaterialButton>(R.id.btn_error).setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.cloud_settings_local_only),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun formatBytes(bytes: Long): String {
