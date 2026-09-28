@@ -1,6 +1,7 @@
 package com.bare.folders.repository;
 
 import com.bare.folders.data.BaReFolderItem;
+import com.bare.folders.data.FolderMetadata;
 
 import java.util.List;
 
@@ -10,7 +11,6 @@ public interface CloudFolderRepository {
     BaReFolderItem get(String cloudTag, String folderId);
     void upsert(String cloudTag, BaReFolderItem item);
     void remove(String cloudTag, String folderId);
-
-    /** Reference FolderItem.writeToFirebaseNode(): writes item at folderId/folderItem. */
     void writeFolderItem(String cloudTag, String folderId, BaReFolderItem item);
+    void writeFolderMetadata(String cloudTag, String folderId, FolderMetadata metadata);
 }
