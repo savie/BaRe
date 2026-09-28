@@ -28,7 +28,7 @@ object AppDiscovery{
     favorite=favoriteStore.isFavorite(info.packageName),cloudApp=false,
     installerPackage=if(Build.VERSION.SDK_INT>=30)info.installSourceInfo.initiatingPackageName else null,
     labels=labels.labelsFor(info.packageName).toMutableSet(),size=AppSize(),
-    localMetadata=metadataStore.load(info.packageName),sourceDir=ai.sourceDir,
+    localMetadata=metadataStore.load(info.packageName),localBackupCount=metadataStore.backupCount(info.packageName),sourceDir=ai.sourceDir,
     dataDir="/data/user/0/"+info.packageName,deDataDir="/data/user_de/0/"+info.packageName,
     externalDataDir="/sdcard/Android/data/"+info.packageName,mediaDir="/sdcard/Android/media/"+info.packageName,
     expansionDir="/sdcard/Android/obb/"+info.packageName,splitSourceDirs=ai.splitSourceDirs?.toList().orEmpty()
