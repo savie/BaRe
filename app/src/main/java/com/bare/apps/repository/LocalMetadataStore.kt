@@ -5,6 +5,8 @@ import java.io.File
 
 class LocalMetadataStore(private val context:Context){
  private val root=File(context.filesDir,"apps-backups")
+ fun backupCount(packageName:String):Int = File(root,packageName).listFiles()?.count{it.isDirectory && it.name.toLongOrNull()!=null} ?: 0
+
  fun load(packageName:String):LocalMetadata? = load(packageName, null)
 
  fun load(packageName:String, backupId:String?):LocalMetadata?{
