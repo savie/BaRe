@@ -20,4 +20,5 @@
     <string name="intro_benefit_settings_subtitle">Configure backup and restore behavior.</string>
     <string name="continue_label">Continue</string>
     <string name="skip_sign_in">Continue without signing in</string>
+    <string name="home_search">Search</string>
 </resources>
