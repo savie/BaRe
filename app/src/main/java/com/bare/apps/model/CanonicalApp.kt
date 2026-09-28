@@ -24,7 +24,9 @@ data class CanonicalApp(
  var deDataDir:String?=null,
  var externalDataDir:String?=null,
  var mediaDir:String?=null,
- var expansionDir:String?=null
+ var expansionDir:String?=null,
+ var splitSourceDirs:List<String> = emptyList(),
+ var sharedLibSourceDirs:List<String> = emptyList()
 ){
  val itemId get()=packageName
  val hasLocalBackup get()=localMetadata?.hasBackups()==true
