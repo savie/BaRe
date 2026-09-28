@@ -36,8 +36,6 @@ class DashboardFragment : Fragment() {
         view.findViewById<TextView>(R.id.tvRootAccess).text = getString(R.string.root_access_not_available)
         view.findViewById<TextView>(R.id.tvRootProvider).text = getString(R.string.root_status)
 
-        refreshCompactStoragePresentation()
-
         bindQuickCard(
             view.findViewById(R.id.dash_card_quick_actions_apps),
             R.string.quick_actions_apps,
@@ -70,15 +68,6 @@ class DashboardFragment : Fragment() {
                 QuickAction(R.string.restore_folders, R.string.restore_folders_summary)
             )
         )
-    }
-
-    fun refreshCompactStoragePresentation() {
-        val compact = requireContext().getSharedPreferences("bare_home", 0)
-            .getBoolean("compact_storage_info", false)
-        view?.findViewById<View>(R.id.rvDashShortcutsDefault)?.visibility =
-            if (compact) View.GONE else View.VISIBLE
-        view?.findViewById<View>(R.id.rvDashShortcutsCompact)?.visibility =
-            if (compact) View.VISIBLE else View.GONE
     }
 
     private fun formatBytes(bytes: Long): String {
