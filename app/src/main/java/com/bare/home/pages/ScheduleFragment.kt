@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bare.R
@@ -36,10 +37,16 @@ class ScheduleFragment : Fragment() {
             Toast.makeText(requireContext(), getString(R.string.no_schedules_to_run), Toast.LENGTH_SHORT).show()
         }
 
-        view.findViewById<View>(R.id.time_dropdown).findViewById<TextView>(R.id.tv_value).text =
-            getString(R.string.schedule_time_when_ready)
-        view.findViewById<View>(R.id.charging_dropdown).findViewById<TextView>(R.id.tv_value).text =
-            getString(R.string.schedule_charging_any)
+        view.findViewById<View>(R.id.time_dropdown).apply {
+            findViewById<ImageView>(R.id.iv_icon).setImageResource(R.drawable.ic_alarm)
+            findViewById<TextView>(R.id.tv_header).text = getString(R.string.start_time)
+            findViewById<TextView>(R.id.tv_value).text = getString(R.string.schedule_time_when_ready)
+        }
+        view.findViewById<View>(R.id.charging_dropdown).apply {
+            findViewById<ImageView>(R.id.iv_icon).setImageResource(R.drawable.ic_battery_charging)
+            findViewById<TextView>(R.id.tv_header).text = getString(R.string.charging_requirements)
+            findViewById<TextView>(R.id.tv_value).text = getString(R.string.schedule_charging_any)
+        }
         view.findViewById<TextView>(R.id.tv_schedules_title).text = getString(R.string.scheduled_backups)
         view.findViewById<View>(R.id.cv_no_schedule_added).visibility = View.VISIBLE
         view.findViewById<View>(R.id.progress_bar).visibility = View.GONE
