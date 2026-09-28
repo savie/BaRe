@@ -12,6 +12,14 @@ public final class BackupCountsService {
 
     public BackupCountsRepository.BackupCounts load(String cloudTag) {
         BackupCountsRepository.BackupCounts result = repository.load(cloudTag);
-        return result == null ? new BackupCountsRepository.BackupCounts(0, 0) : result;
+        return result == null ? new BackupCountsRepository.BackupCounts(null, null) : result;
+    }
+
+    public void writeSmsCount(String cloudTag, Integer count) {
+        repository.writeSmsCount(cloudTag, count);
+    }
+
+    public void writeCallLogCount(String cloudTag, Integer count) {
+        repository.writeCallLogCount(cloudTag, count);
     }
 }
