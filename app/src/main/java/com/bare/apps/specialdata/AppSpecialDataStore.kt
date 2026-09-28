@@ -14,7 +14,7 @@ class AppSpecialDataStore(private val context:Context){
   val target=file(packageName);val tmp=File(target.parentFile,target.name+".tmp");tmp.writeText(encoded);if(!tmp.renameTo(target)){target.delete();tmp.renameTo(target)}
  }
  fun read(packageName:String):AppSpecialDataPayload?=runCatching{
-  val raw=Zstd.decompress(Base64.decode(file(packageName).readText(),Base64.DEFAULT),1024*1024).toString(StandardCharsets.UTF_8)
+  val raw=String(Zstd.decompress(Base64.decode(file(packageName).readText(),Base64.DEFAULT),1024*1024),StandardCharsets.UTF_8)
   val p=raw.split("\u001f");AppSpecialDataPayload(p.getOrNull(0)?.ifBlank{null},p.getOrNull(1)?.ifBlank{null},p.getOrNull(2)?.ifBlank{null},p.getOrNull(3)?.ifBlank{null},p.getOrNull(4)?.ifBlank{null})
  }.getOrNull()
 }
