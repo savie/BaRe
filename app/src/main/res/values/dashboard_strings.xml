@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="overview">Overview</string>
+    <string name="root_status">Root status</string>
+    <string name="root_access_not_available">Root access not available</string>
+    <string name="local_storage">Local storage</string>
+    <string name="storage_usage_pending">Storage usage unavailable</string>
+    <string name="quick_actions">Quick actions</string>
+</resources>
