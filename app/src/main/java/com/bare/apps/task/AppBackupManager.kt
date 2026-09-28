@@ -9,6 +9,7 @@ class AppBackupManager(private val context:Context){
  private val root=File(context.filesDir,"apps-backups").apply{mkdirs()}
  private val catalog=BackupCatalog(context)
  private val limits=AppBackupLimitsStore(context)
+ private val privileged=PrivilegedCommandExecutor(context)
 
  fun backup(request:BackupRequest,onProgress:(Long)->Unit={}):LocalMetadata{
   require(request.locations.all{it==BackupLocation.LOCAL}){"Cloud backup transport is not configured in Apps2"}
