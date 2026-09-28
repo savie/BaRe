@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
         <activity android:name=".home.HomeActivity" android:exported="false" />
+        <activity android:name=".home.HomeSearchActivity" android:exported="false" />
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true">
