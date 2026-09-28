@@ -12,7 +12,10 @@ class AppBackupManager(private val context: Context) {
     private val catalog = BackupCatalog(context)
     private val limits = AppBackupLimitsStore(context)
     private val privileged = PrivilegedCommandExecutor(context)
-    private val specialDataManager = AppSpecialDataManager(context)
+    private val specialDataManager = AppSpecialDataManager(
+        context,
+        SsaidHelper(context, privileged)
+    )
 
     fun backup(request: BackupRequest, onProgress: (Long) -> Unit = {}): LocalMetadata {
         require(request.locations.all { it == BackupLocation.LOCAL }) {
