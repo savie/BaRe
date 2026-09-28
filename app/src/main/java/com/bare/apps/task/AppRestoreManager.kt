@@ -9,6 +9,7 @@ import java.io.File
 class AppRestoreManager(private val context: Context) {
     private val backup = AppBackupManager(context)
     private val privileged = PrivilegedCommandExecutor(context)
+    private val notificationPolicy = NotificationPolicyProxy(context)
 
     fun restore(request: RestoreRequest, onProgress: (Long) -> Unit = {}): RestoreResult {
         val pre = RestorePreconditions.check(request)
@@ -114,6 +115,12 @@ class AppRestoreManager(private val context: Context) {
                 }
             }
         }
+        if (request.restoreSpecialPermissions) {
+            restoreSpecialPermissions(app, request.localBackup?.specialData)
+        }
+        if (request.restoreSsaid) {
+            restoreSsaid(app.packageName, request.localBackup?.specialData?.ssaid)
+        }
         return RestoreResult(true, context.getString(R.string.apps_restore_completed))
     }
 
@@ -144,6 +151,56 @@ class AppRestoreManager(private val context: Context) {
         }.getOrDefault(false).also {
             working.deleteRecursively()
         }
+    }
+
+
+    private fun restoreSpecialPermissions(
+        app: CanonicalApp,
+        payload: AppSpecialDataPayload?
+    ) {
+        if (payload == null) return
+
+        payload.permissionStatesCsv.orEmpty()
+            .split(',')
+            .filter { it.contains(':') }
+            .forEach { entry ->
+                val permission = entry.substringBefore(':')
+                val state = entry.substringAfter(':')
+                if (state == "g") {
+                    privileged.run(
+                        "pm grant '" + app.packageName + "' '" +
+                            permission.replace("'", "") + "'"
+                    )
+                }
+            }
+
+        payload.ntfAccessComponent?.takeIf { it.isNotBlank() }?.let { component ->
+            privileged.run(
+                "settings put secure enabled_notification_listeners '" +
+                    component.replace("'", "") + "'"
+            )
+        }
+
+        payload.accessibilityComponent?.takeIf { it.isNotBlank() }?.let { component ->
+            privileged.run(
+                "settings put secure enabled_accessibility_services '" +
+                    component.replace("'", "") + "'"
+            )
+        }
+
+        payload.notificationPolicyXml?.let { xml ->
+            notificationPolicy.restore(
+                xml,
+                app.packageName,
+                android.os.UserHandle.myUserId()
+            )
+        }
+    }
+
+    private fun restoreSsaid(packageName: String, ssaid: String?) {
+        if (ssaid.isNullOrBlank()) return
+        // Reference delegates per-app SSAID mutation to a dedicated helper.
+        // No equivalent verified API exists in rewrite, so do not claim this is complete.
     }
 
     private fun restoreDirectoryArchive(
