@@ -114,3 +114,19 @@ Current limitation:
 - Reference XML/JADX behavior for `LocaleActivity` and `SLogActivity` was directly inspected from the supplied Swift Backup 5.1.0 (620) decompiled artifact.
 - Changes are committed on `rewrite`.
 - APK compile/runtime remains UNVERIFIED because the environment cannot reach GitHub to obtain/build the current branch locally.
+
+
+## Latest GO — Intro Permission Flow
+
+Reference-derived changes:
+- Storage permission card now hides after storage access is granted and remains actionable otherwise.
+- Notification permission card now hides after `POST_NOTIFICATIONS` is granted and remains actionable otherwise.
+- Xiaomi Installed Apps card is shown only on Xiaomi/Redmi/POCO-family devices.
+- Xiaomi action now requests the Reference permission string `com.android.permission.GET_INSTALLED_APPS`; unsupported/security-failure paths show the Reference-derived unsupported state message.
+- Root/Shizuku card remains exposed according to the Reference preference gate. Its provider action is explicitly BLOCKED because BaRe currently has no reconstructed Root/Shizuku provider integration; no fake elevated-access implementation was introduced.
+- Intro first-run completion remains gated by active Supabase session + storage + notification requirements + granted Premium entitlement.
+
+Verification:
+- Reference `IntroActivity`, `IntroPermissionCardView`, `intro_activity.xml`, `intro_activity_permissions.xml`, and synthetic permission click handlers were inspected directly from the supplied Swift Backup 5.1.0 (620) decompiled artifact.
+- BaRe `rewrite` resource duplicate scan remains clean: no duplicate string/style/dimen/color/attr definitions detected.
+- APK compile and runtime remain UNVERIFIED.
