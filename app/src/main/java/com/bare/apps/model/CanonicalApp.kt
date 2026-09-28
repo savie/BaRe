@@ -18,6 +18,7 @@ data class CanonicalApp(
  var labels:MutableSet<String> = linkedSetOf(),
  var size:AppSize=AppSize(),
  var localMetadata:LocalMetadata?=null,
+ var localBackupCount:Int=0,
  var cloudBackups:AppCloudBackups?=null,
  var sourceDir:String?=null,
  var dataDir:String?=null,
