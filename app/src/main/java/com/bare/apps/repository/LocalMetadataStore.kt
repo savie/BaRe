@@ -24,7 +24,7 @@ class LocalMetadataStore(private val context:Context){
    ssaid=props.getProperty("ssaid")?.takeIf{it.isNotBlank()},
    ntfAccessComponent=props.getProperty("ntfAccessComponent")?.takeIf{it.isNotBlank()},
    accessibilityComponent=props.getProperty("accessibilityComponent")?.takeIf{it.isNotBlank()},
-   notificationPolicyXml=props.getProperty("notificationPolicyXml")?.takeIf{it.isNotBlank()}
+   notificationPolicyXml=props.getProperty("notificationPolicyXmlB64")?.takeIf{it.isNotBlank()}?.let{runCatching{String(android.util.Base64.decode(it,android.util.Base64.NO_WRAP),Charsets.UTF_8)}.getOrNull()}
   )
   props.getProperty("parts","").split(",").filter{it.isNotBlank()}.forEach{runCatching{m.backupParts+=AppPart.valueOf(it)}}
   return m
