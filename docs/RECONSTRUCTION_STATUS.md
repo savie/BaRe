@@ -85,8 +85,17 @@
 - Reference account initialization reads `users/{uid}/userInfo` for non-anonymous users. Anonymous users receive a local user record without a database read/write.
 - Reference `userInfo` model fields are uid, anonymous, displayName, email, photoUrl, latestAppVersion, currentAppVersion; current Reference version is 620.
 - Existing user profile fields are refreshed when provider identity changes, and non-anonymous userInfo is persisted back to `users/{uid}/userInfo`.
+- BaRe now exposes the Reference `ah8` shape through `UserInfo` + `UserInfoRepository` without Firebase SDK types.
 - Crashlytics UID/custom-key updates are telemetry side effects, not backend user-state contract.
 - Exact provider execution remains behind repository boundaries.
+
+### Cloud deletion provider contract
+- Reference `ju3` is a Google Drive file-ID deletion task.
+- Empty IDs are filtered before deletion.
+- Batch deletion reports failed IDs and a provider retry delay.
+- Reference retries failed IDs once; fallback delay is 5 seconds when no provider delay is available.
+- Final success requires zero remaining failed IDs.
+- BaRe now exposes this through `CloudFileDeletionRepository` without binding the contract to Google Drive SDK types.
 
 ### App / folder cloud cleanup
 - Folder cloud deletion is explicit in Reference `al3.a(FolderMetadata)`: remove the folder metadata node first, collect base + incremental backup and manifest links, then delete those cloud files through the active cloud provider.
@@ -113,6 +122,8 @@
 - `AccountMigrationRepository`
 - `AccountLifecyclePolicy`
 - `AccountMigrationRepository` migration outcome semantics
+- `CloudFileDeletionRepository`
+- `UserInfo` + `UserInfoRepository`
 
 ## Explicitly not executed
 - No Supabase schema/table/RLS/auth implementation.
@@ -123,9 +134,9 @@
 - No invented purchase-verification writer.
 
 ## Remaining audit before backend freeze
-1. Audit the concrete cloud provider deletion payload used by app backup cleanup; keep app metadata-node post-delete mutation `UNKNOWN` until proven.
-2. Audit the concrete conditional-write/delete payload helper used by Google migration; provider-neutral outcome semantics are now frozen, but the serialized payload remains provider-specific.
-3. Audit remaining account initialization consumers that depend on `userInfo` and migration flags.
+1. Audit the concrete conditional-write/delete helper used by Google migration; the source/destination compare-and-rollback semantics are now confirmed, but the serialized provider payload remains provider-specific.
+2. Audit remaining account initialization consumers that depend on `userInfo` and migration flags.
+3. Resolve the app metadata-node post-delete mutation only if additional Reference evidence proves it; otherwise retain `UNKNOWN` rather than inventing a mutation.
 4. Freeze the evidence-backed backend contract after those checks.
 5. Stop and request user permission before any Supabase implementation.
 6. Stop and request user permission before any APK build.
