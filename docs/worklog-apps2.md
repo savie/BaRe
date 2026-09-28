@@ -2768,3 +2768,28 @@ The audit evidence is sufficient for a **static architecture baseline**, but not
 
 ### Next
 Record the static Apps2 architecture baseline from verified evidence, keeping all UNKNOWN boundaries explicit.
+
+
+## Worklog Checkpoint 40 — Architecture Baseline Gate
+
+Hasil gate: evidence static cukup untuk menyusun static Apps2 architecture baseline, tetapi belum cukup untuk architecture freeze atau runtime parity.
+
+### Non-blocking unknowns
+- exact full filter predicate collaborator decomposition;
+- deep semantics sebagian imported `defpackage.*` collaborators;
+- runtime visual/branch behavior.
+
+### Tetap diblokir dari freeze
+- historical metadata schema migration engine;
+- cloud backend transaction/atomicity;
+- runtime verification.
+
+### Authorization boundary
+- Static architecture baseline: AUTHORIZED.
+- Architecture freeze: NOT AUTHORIZED.
+- Apps2 implementation: NOT AUTHORIZED YET.
+- Home cutover: NOT AUTHORIZED.
+- Legacy Apps: UNCHANGED.
+
+### Next
+Record static Apps2 architecture baseline dengan seluruh UNKNOWN boundary tetap eksplisit.
