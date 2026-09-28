@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
@@ -14,58 +15,13 @@
     <uses-permission android:name="android.permission.WRITE_SMS"/>
     <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS"/>
     <uses-permission android:name="moe.shizuku.manager.permission.API_V23"/>
-    <application
-        android:allowBackup="false"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:localeConfig="@xml/locales_config"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".intro.IntroActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="bare" android:host="auth" android:path="/callback"/>
-            </intent-filter>
-        </activity>
-        <provider
-            android:name="rikka.shizuku.ShizukuProvider"
-            android:authorities="${applicationId}.shizuku"
-            android:multiprocess="false"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"/>
+    <application android:allowBackup="false" android:label="@string/app_name" android:supportsRtl="true" android:localeConfig="@xml/locales_config" android:theme="@style/AppTheme">
+        <activity android:name=".intro.IntroActivity" android:exported="true" android:launchMode="singleTop"><intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.DEFAULT"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter><intent-filter><action android:name="android.intent.action.VIEW"/><category android:name="android.intent.category.DEFAULT"/><category android:name="android.intent.category.BROWSABLE"/><data android:scheme="bare" android:host="auth" android:path="/callback"/></intent-filter></activity>
+        <provider android:name="rikka.shizuku.ShizukuProvider" android:authorities="${applicationId}.shizuku" android:multiprocess="false" android:enabled="true" android:exported="true" android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"/>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
         <activity android:name=".apps.AppListActivity" android:launchMode="singleTop"/>
-        <activity android:name=".apps.AppsBatchActivity"/>
-        <activity android:name=".apps.BlacklistActivity"/>
-        <activity android:name=".apps.MultipleBackupsActivity"/>
-        <activity android:name=".apps.RestoreSpecialDataDetailsActivity"/>
-        <activity android:name=".apps.TaskActivity"/>
-        <activity android:name=".apps.PreconditionsActivity"/>
-        <activity android:name=".apps.AppsConfigRunActivity"/>
-        <activity android:name=".apps.AppsQuickActionsActivity"/>
-        <activity android:name=".apps.AppInfoActivity"/>
-        <activity android:name=".apps.DetailActivity"/>
-        <activity android:name=".apps.labels.LabelsActivity"/>
-        <activity android:name=".apps.labels.LabelEditActivity"/>
-        <activity android:name=".apps.config.ConfigListActivity"/>
-        <activity android:name=".apps.config.ConfigEditActivity"/>
-        <activity android:name=".apps.config.ConfigSettingsActivity"/>
-        <activity android:name=".apps.settings.AppBackupLimitsActivity"/>
-        <activity android:name=".apps.settings.AppVisibilityDiagnosticsActivity"/>
-        <activity android:name=".settings.LanguageActivity"/>
-        <activity android:name=".settings.BaReLoggerActivity"/>
-        <activity
-            android:name=".home.HomeActivity"
-            android:launchMode="singleTop"/>
+        <activity android:name=".apps.AppsBatchActivity"/><activity android:name=".apps.BlacklistActivity"/><activity android:name=".apps.MultipleBackupsActivity"/><activity android:name=".apps.RestoreSpecialDataDetailsActivity"/><activity android:name=".apps.TaskActivity"/><activity android:name=".apps.PreconditionsActivity"/><activity android:name=".apps.AppsConfigRunActivity"/><activity android:name=".apps.AppsQuickActionsActivity"/><activity android:name=".apps.AppInfoActivity"/><activity android:name=".apps.DetailActivity"/>
+        <activity android:name=".apps.labels.LabelsActivity"/><activity android:name=".apps.labels.LabelEditActivity"/><activity android:name=".apps.config.ConfigListActivity"/><activity android:name=".apps.config.ConfigEditActivity"/><activity android:name=".apps.config.ConfigSettingsActivity"/><activity android:name=".apps.settings.AppBackupLimitsActivity"/><activity android:name=".apps.settings.AppVisibilityDiagnosticsActivity"/>
+        <activity android:name=".settings.LanguageActivity"/><activity android:name=".settings.BaReLoggerActivity"/><activity android:name=".home.HomeActivity" android:launchMode="singleTop"/>
     </application>
 </manifest>
