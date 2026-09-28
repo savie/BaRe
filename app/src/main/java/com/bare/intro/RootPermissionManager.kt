@@ -63,6 +63,7 @@ object RootPermissionManager {
                 Result(false, "root", "Root access was not granted.")
             } else {
                 runPrivilegedScript(
+                    context,
                     ProcessBuilder("su", "-c", grantScript(context)),
                     "root"
                 )
@@ -106,7 +107,7 @@ object RootPermissionManager {
         }
     }
 
-    private fun runPrivilegedScript(process: ProcessBuilder, mechanism: String): Result {
+    private fun runPrivilegedScript(context: Context, process: ProcessBuilder, mechanism: String): Result {
         val p = process.redirectErrorStream(true).start()
         val output = p.readAll()
         val code = p.waitFor()
@@ -184,10 +185,13 @@ object RootPermissionManager {
         val owner = permissionInfo.packageName ?: return false
         if (owner == "com.lbe.security.miui") return true
 
+        val canSeeInstalledPackages = canSeeInstalledPackages(context)
+        if (!canSeeInstalledPackages) return false
+
         val ownerIsSystemPackage = runCatching {
             val packageInfo = context.packageManager.getPackageInfo(owner, 0)
-            (packageInfo.applicationInfo?.flags ?: 0) and
-                android.content.pm.ApplicationInfo.FLAG_SYSTEM != 0 ||
+            (((packageInfo.applicationInfo?.flags ?: 0) and
+                android.content.pm.ApplicationInfo.FLAG_SYSTEM) != 0) ||
                 packageInfo.sharedUserId == "android.uid.system"
         }.getOrDefault(false)
 
@@ -209,19 +213,20 @@ object RootPermissionManager {
     fun isInstalledAppsPermissionGranted(context: Context): Boolean {
         if (!isInstalledAppsPermissionSupported(context)) return true
 
-        val canSeeInstalledPackages = runCatching {
-            val packages = context.packageManager.getInstalledPackages(0)
-            packages.any { it.packageName == context.packageName } &&
-                packages.any { it.packageName == "android" }
-        }.getOrDefault(true)
-
-        if (!canSeeInstalledPackages) return false
+        if (!canSeeInstalledPackages(context)) return false
 
         return ContextCompat.checkSelfPermission(
             context,
             INSTALLED_APPS_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
     }
+
+    private fun canSeeInstalledPackages(context: Context): Boolean =
+        runCatching {
+            val packages = context.packageManager.getInstalledPackages(0)
+            packages.any { it.packageName == context.packageName } &&
+                packages.any { it.packageName == "android" }
+        }.getOrDefault(true)
 
     private companion object {
         const val INSTALLED_APPS_PERMISSION = "com.android.permission.GET_INSTALLED_APPS"
