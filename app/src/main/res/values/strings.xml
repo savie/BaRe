@@ -77,4 +77,6 @@
     <string name="no_cloud_connected">Cloud account not connected</string>
     <string name="connect_cloud_subtitle">Connect a cloud service account to back up your files to cloud.</string>
     <string name="connect_cloud">Connect cloud</string>
+    <string name="barelogger_info">BaReLogger records application diagnostics and logs for troubleshooting.</string>
+    <string name="barelogger_empty">No log entries are available yet.</string>
 </resources>
