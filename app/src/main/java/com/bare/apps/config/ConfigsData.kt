@@ -1,0 +1,3 @@
+package com.bare.apps.config
+import android.content.Context
+class ConfigsData(context:Context){private val p=context.getSharedPreferences("bare_app_configs",Context.MODE_PRIVATE);fun list():List<Config>{return p.getStringSet("ids",emptySet()).map{Config(it,p.getString("name_"+it,it)?:it)}};fun save(c:Config){p.edit().putStringSet("ids",(list().map{it.id}+c.id).toSet()).putString("name_"+c.id,c.name).apply()};fun delete(id:String){p.edit().putStringSet("ids",list().map{it.id}.filter{it!=id}.toSet()).remove("name_"+id).apply()}}
