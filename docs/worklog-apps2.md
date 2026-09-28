@@ -2742,3 +2742,29 @@ Apps2 implementation: BELUM DIMULAI.
 Architecture freeze: BELUM / NOT AUTHORIZED.
 Home cutover: BELUM / NOT AUTHORIZED.
 Legacy Apps: TIDAK DIUBAH.
+
+
+## Worklog Checkpoint 40 — Architecture Baseline Gate
+
+### Result
+The audit evidence is sufficient for a **static architecture baseline**, but not sufficient for architecture freeze or runtime parity claims.
+
+### Non-blocking unknowns
+- Exact full filter predicate collaborator decomposition.
+- Remaining deep semantics among imported `defpackage.*` collaborators.
+- Runtime visual/branch behavior.
+
+### Blocked / excluded from freeze
+- Historical metadata schema migration engine.
+- Cloud backend transaction/atomicity.
+- Runtime verification.
+
+### Authorization boundary
+- Static architecture baseline: AUTHORIZED.
+- Architecture freeze: NOT AUTHORIZED.
+- Apps2 implementation: NOT AUTHORIZED YET.
+- Home cutover: NOT AUTHORIZED.
+- Legacy Apps: UNCHANGED.
+
+### Next
+Record the static Apps2 architecture baseline from verified evidence, keeping all UNKNOWN boundaries explicit.
