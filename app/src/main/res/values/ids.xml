@@ -145,4 +145,12 @@
     <item name="folders_card" type="id"/>
     <item name="rv_home_search_folders" type="id"/>
     <item name="home_search_empty" type="id"/>
+    <item name="root_status_container" type="id"/>
+    <item name="tv_root_title" type="id"/>
+    <item name="iv_refresh_root_access" type="id"/>
+    <item name="tvRootAccess" type="id"/>
+    <item name="tvRootProvider" type="id"/>
+    <item name="summary_shortcuts_segment" type="id"/>
+    <item name="rvDashShortcutsDefault" type="id"/>
+    <item name="rvDashShortcutsCompact" type="id"/>
 </resources>
