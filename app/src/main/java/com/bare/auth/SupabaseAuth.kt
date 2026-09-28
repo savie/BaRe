@@ -16,6 +16,13 @@ data class BareSession(
     val anonymous: Boolean
 )
 
+data class BareUser(
+    val userId: String?,
+    val email: String?,
+    val anonymous: Boolean,
+    val metadata: JSONObject
+)
+
 class SupabaseAuth(private val context: Context) {
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val executor = Executors.newSingleThreadExecutor()
@@ -66,6 +73,72 @@ class SupabaseAuth(private val context: Context) {
         }.toMap()
         val access = values["access_token"] ?: return null
         return BareSession(access, values["refresh_token"], values["user_id"], values["email"], false).also(::save)
+    }
+
+    fun fetchUser(onResult: (Result<BareUser>) -> Unit) {
+        val session = currentSession()
+        if (session == null) {
+            onResult(Result.failure(IllegalStateException("No active BaRe session.")))
+            return
+        }
+        executor.execute {
+            val result = runCatching {
+                val connection = URL("$SUPABASE_URL/auth/v1/user").openConnection() as HttpURLConnection
+                try {
+                    connection.requestMethod = "GET"
+                    connection.setRequestProperty("apikey", SUPABASE_PUBLISHABLE_KEY)
+                    connection.setRequestProperty("Authorization", "Bearer " + session.accessToken)
+                    val code = connection.responseCode
+                    val body = (if (code in 200..299) connection.inputStream else connection.errorStream)
+                        .bufferedReader().use { it.readText() }
+                    if (code !in 200..299) error("Supabase user lookup failed: HTTP $code: $body")
+                    val json = JSONObject(body)
+                    BareUser(
+                        userId = json.optString("id").ifBlank { session.userId },
+                        email = json.optString("email").ifBlank { session.email },
+                        anonymous = json.optBoolean("is_anonymous", session.anonymous),
+                        metadata = json.optJSONObject("user_metadata") ?: JSONObject()
+                    )
+                } finally {
+                    connection.disconnect()
+                }
+            }
+            android.os.Handler(android.os.Looper.getMainLooper()).post { onResult(result) }
+        }
+    }
+
+    fun signOut(onResult: (Result<Unit>) -> Unit) {
+        val session = currentSession()
+        if (session == null) {
+            clearSession()
+            onResult(Result.success(Unit))
+            return
+        }
+        executor.execute {
+            val result = runCatching {
+                val connection = URL("$SUPABASE_URL/auth/v1/logout").openConnection() as HttpURLConnection
+                try {
+                    connection.requestMethod = "POST"
+                    connection.setRequestProperty("apikey", SUPABASE_PUBLISHABLE_KEY)
+                    connection.setRequestProperty("Authorization", "Bearer " + session.accessToken)
+                    connection.doOutput = true
+                    connection.outputStream.use { }
+                    val code = connection.responseCode
+                    if (code !in 200..299) {
+                        val body = (connection.errorStream ?: connection.inputStream).bufferedReader().use { it.readText() }
+                        error("Supabase sign out failed: HTTP $code: $body")
+                    }
+                } finally {
+                    connection.disconnect()
+                }
+                clearSession()
+            }
+            android.os.Handler(android.os.Looper.getMainLooper()).post { onResult(result) }
+        }
+    }
+
+    fun clearSession() {
+        prefs.edit().clear().apply()
     }
 
     fun save(session: BareSession) {
