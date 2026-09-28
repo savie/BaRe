@@ -98,4 +98,5 @@
     <string name="notifications">Notifications</string>
     <string name="android_permission_name_installed_apps">Installed apps</string>
     <string name="grant_permissions">Grant permissions</string>
+    <string name="root_provider_unavailable">Root or Shizuku provider is not available in this build.</string>
 </resources>
