@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bare.R
@@ -74,7 +75,7 @@ class DashboardFragment : Fragment() {
             holder.itemView.findViewById<TextView>(R.id.tv_subtitle1).setText(item.summary)
             holder.itemView.findViewById<View>(R.id.iv_root_needed).visibility =
                 if (item.root) View.VISIBLE else View.GONE
-            holder.itemView.findViewById<View>(R.id.iv_pin).setBackgroundResource(R.drawable.ic_pin)
+            holder.itemView.findViewById<ImageView>(R.id.iv_pin).setImageResource(R.drawable.ic_pin)
             holder.itemView.setOnClickListener(null)
             holder.itemView.findViewById<View>(R.id.btn_from_local).setOnClickListener(null)
             holder.itemView.findViewById<View>(R.id.btn_from_cloud).setOnClickListener(null)
