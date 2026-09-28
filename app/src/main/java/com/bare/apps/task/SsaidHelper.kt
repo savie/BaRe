@@ -68,10 +68,16 @@ class SsaidHelper(
             updated.toByteArray(Charsets.UTF_8),
             Base64.NO_WRAP
         )
+        val tmpPath = path + ".tmp." + System.nanoTime()
         val write = privileged.run(
-            "printf '%s' '$encoded' | base64 -d > '$path'"
+            "cp '$path' '$tmpPath' && " +
+                "printf '%s' '$encoded' | base64 -d > '$tmpPath' && " +
+                "mv '$tmpPath' '$path'"
         )
-        if (write.code != 0) return false
+        if (write.code != 0) {
+            privileged.run("rm -f '$tmpPath'")
+            return false
+        }
 
         return verify(path, packageName, ssaid)
     }
