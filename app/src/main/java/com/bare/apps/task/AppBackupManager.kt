@@ -31,7 +31,7 @@ class AppBackupManager(private val context:Context){
     if(part==AppPart.APP){
      source.inputStream().use{input->target.outputStream().use{output->input.copyTo(output)}}
      onProgress(target.length())
-    }else ArchiveEngine.pack(source,target,onProgress)
+    }else{val staging=File(context.cacheDir,"apps-backup-stage-"+System.nanoTime()).apply{mkdirs()};try{val payload=File(staging,"payload");if(!stageForArchive(source,payload))throw IllegalStateException("Unable to stage "+part.id);if(part==AppPart.DATA&&app.deDataDir!=null){val de=File(app.deDataDir!!);if(de.exists())stageForArchive(de,File(staging,"payload_de"))};ArchiveEngine.pack(staging,target,onProgress)}finally{staging.deleteRecursively()}}
     metadata.updatePart(part,target.length())
    }
   }
@@ -41,6 +41,7 @@ class AppBackupManager(private val context:Context){
   return metadata
  }
 
+ private fun stageForArchive(source:File,target:File):Boolean{if(source.canRead()){target.mkdirs();source.walkTopDown().filter{it.isFile}.forEach{file->val rel=source.toPath().relativize(file.toPath()).toString();val out=File(target,rel);out.parentFile?.mkdirs();file.inputStream().use{input->out.outputStream().use{output->input.copyTo(output)}}};return true};target.mkdirs();return privileged.run("cp -a '"+source.absolutePath+"/.' '"+target.absolutePath+"/'").code==0}
  private fun sourceFor(app:CanonicalApp,part:AppPart):File?=when(part){
   AppPart.APP->app.sourceDir?.let(::File)
   AppPart.SPLITS->app.splitSourceDirs.firstOrNull()?.let(::File)
