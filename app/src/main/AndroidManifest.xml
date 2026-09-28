@@ -44,6 +44,7 @@
             android:exported="true"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"/>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop"/>
+        <activity android:name=".apps.AppListActivity" android:launchMode="singleTop"/>
         <activity android:name=".settings.LanguageActivity"/>
         <activity android:name=".settings.BaReLoggerActivity"/>
         <activity
