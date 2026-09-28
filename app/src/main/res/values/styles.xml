@@ -84,6 +84,31 @@
         <item name="android:textSize">@dimen/subtitle_large</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
+    <style name="SegmentCategoryCaption" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:paddingTop">@dimen/spacing_medium_more</item>
+        <item name="android:paddingBottom">@dimen/spacing_medium_more</item>
+        <item name="android:paddingHorizontal">@dimen/spacing_medium</item>
+    </style>
+    <style name="TextCaption" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="M3ButtonTonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textSize">@dimen/subtitle_large</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="backgroundTint">?attr/colorBackgroundActivated</item>
+        <item name="fontFamily">sans-serif-medium</item>
+        <item name="iconTint">?attr/colorPrimary</item>
+    </style>
+    <style name="DividerThinNoMargins">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?attr/colorSurfaceContainerHigh</item>
+    </style>
     <style name="Toolbar.TitleText" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:fontFamily">sans-serif-black</item>
         <item name="android:textSize">@dimen/title_large</item>
