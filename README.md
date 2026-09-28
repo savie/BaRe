@@ -1,6 +1,6 @@
-# Swift Backup Reference
+# BΛR☰ Reference Audit
 
-Package: org.swiftapps.swiftbackup
+Package: com.bare
 Version: 5.1.0
 Version code: 620
 
