@@ -1,27 +1,15 @@
 package com.bare.home.pages
 
 import android.os.Bundle
-import android.os.Environment
-import android.os.StatFs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bare.R
-import com.bare.auth.SupabaseAuth
 import com.google.android.material.button.MaterialButton
-import java.util.Locale
 
 class CloudFragment : Fragment() {
-    private lateinit var auth: SupabaseAuth
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        auth = SupabaseAuth(requireContext())
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, state: Bundle?): View =
         inflater.inflate(R.layout.cloud_info_fragment, container, false)
 
