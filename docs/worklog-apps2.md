@@ -2626,3 +2626,30 @@ The historical 112 candidate count is not yet recomputed as a formal inventory. 
 
 ### Next
 Build the formal candidate inventory reconciliation, then proceed to the final producer-consumer ledger.
+
+
+## Worklog Checkpoint 36 — Formal Resource Inventory + Producer-Consumer Ledger
+
+### Evidence
+- 25 remaining candidate resources from Checkpoints 34–35 were formalized.
+- XML parent/include/reference, binding/decompiled collaborator, and manifest/smali evidence were retained.
+- New formal ledger: `reference/apps2_resource_and_reconciliation_ledger.md`.
+- 45 source classes reconciled at cluster level.
+- Core producer-consumer graph recorded for model, parts, metadata, special-data, restore, task, and UI boundaries.
+
+### Important boundary
+The historical 112 candidate count is not treated as a current unresolved count because the complete original candidate-name list is not explicitly available in the committed audit text. Missing names are not invented.
+
+### Status
+- Formal inspected resource inventory: VERIFIED STATICALLY.
+- Producer-consumer ledger: VERIFIED STATICALLY at observed graph level.
+- 45-class cluster reconciliation: VERIFIED STATICALLY at cluster level.
+- Deep collaborator closure: BELUM SELESAI.
+- Runtime verification: BELUM ADA.
+- Apps2 implementation: BELUM DIMULAI.
+- Architecture freeze: BELUM / NOT AUTHORIZED.
+- Home cutover: BELUM / NOT AUTHORIZED.
+- Legacy Apps: TIDAK DIUBAH.
+
+### Next
+Close consequential unresolved collaborator/execution boundaries, then review the ledger against the 45-class source inventory before architecture freeze.
