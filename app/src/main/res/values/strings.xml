@@ -17,7 +17,7 @@
     <string name="skip_for_now">Skip for now</string>
     <string name="tos_privacy_agreement">By continuing you agree with our Terms of Service &amp; Privacy Policy.</string>
     <string name="language">Language</string>
-    <string name="swiftlogger">BaReLogger</string>
+    <string name="bare_logger">BaReLogger</string>
     <string name="restart_app">Restart app</string>
     <string name="required_permissions">Required permissions</string>
     <string name="grant_storage_permission">Grant Storage permission</string>
@@ -37,7 +37,7 @@
     <string name="account">Account</string>
     <string name="back">Back</string>
     <string name="clear_search">Clear search</string>
-    <string name="search_swift_backup">Search BΛR☰</string>
+    <string name="search_bare">Search BΛR☰</string>
     <string name="shortcuts">Shortcuts</string>
     <string name="see_all">See all</string>
     <string name="help_center">Help center</string>
@@ -80,7 +80,7 @@
     <string name="barelogger_info">BaReLogger records application diagnostics and logs for troubleshooting.</string>
     <string name="barelogger_empty">No log entries are available yet.</string>
     <string name="locale_credits_unavailable">Translation credits are not available yet.</string>
-    <string name="swiftlogger_info">Logs for bug reports</string>
+    <string name="bare_logger_info">Logs for bug reports</string>
     <string name="share_logs">Share logs</string>
     <string name="clear_logs">Clear logs</string>
     <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
