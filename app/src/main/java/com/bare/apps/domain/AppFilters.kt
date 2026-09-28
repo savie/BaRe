@@ -25,15 +25,30 @@ data class AppFilterState(
 
 class AppFilterStore(context:Context){
  private val prefs=context.getSharedPreferences("bare_apps",Context.MODE_PRIVATE)
+
  fun load()=AppFilterState(
   system=runCatching{SystemAppFilter.valueOf(prefs.getString("filter_system",SystemAppFilter.USER.name)!!)}.getOrDefault(SystemAppFilter.USER),
+  type=runCatching{AppTypeFilter.valueOf(prefs.getString("filter_type",AppTypeFilter.ALL.name)!!)}.getOrDefault(AppTypeFilter.ALL),
   favoriteOnly=prefs.getBoolean("key_filter_favorites",false),
   backup=runCatching{BackupFilter.valueOf(prefs.getString("key_filter_app_backup",BackupFilter.ALL.name)!!)}.getOrDefault(BackupFilter.ALL),
   sync=runCatching{SyncFilter.valueOf(prefs.getString("key_filter_app_synced",SyncFilter.ALL.name)!!)}.getOrDefault(SyncFilter.ALL),
   install=runCatching{InstallFilter.valueOf(prefs.getString("key_filter_app_install",InstallFilter.ALL.name)!!)}.getOrDefault(InstallFilter.ALL),
-  enabled=runCatching{EnabledFilter.valueOf(prefs.getString("key_filter_app_enabled",EnabledFilter.ALL.name)!!)}.getOrDefault(EnabledFilter.ALL)
+  enabled=runCatching{EnabledFilter.valueOf(prefs.getString("key_filter_app_enabled",EnabledFilter.ALL.name)!!)}.getOrDefault(EnabledFilter.ALL),
+  age=runCatching{BackupAgeFilter.valueOf(prefs.getString("key_filter_app_backup_age",BackupAgeFilter.ALL.name)!!)}.getOrDefault(BackupAgeFilter.ALL)
  )
- fun save(s:AppFilterState){prefs.edit().putString("filter_system",s.system.name).putBoolean("key_filter_favorites",s.favoriteOnly).putString("key_filter_app_backup",s.backup.name).putString("key_filter_app_synced",s.sync.name).putString("key_filter_app_install",s.install.name).putString("key_filter_app_enabled",s.enabled.name).apply()}
+
+ fun save(s:AppFilterState){
+  prefs.edit()
+   .putString("filter_system",s.system.name)
+   .putString("filter_type",s.type.name)
+   .putBoolean("key_filter_favorites",s.favoriteOnly)
+   .putString("key_filter_app_backup",s.backup.name)
+   .putString("key_filter_app_synced",s.sync.name)
+   .putString("key_filter_app_install",s.install.name)
+   .putString("key_filter_app_enabled",s.enabled.name)
+   .putString("key_filter_app_backup_age",s.age.name)
+   .apply()
+ }
 }
 
 object AppFilterEngine {
@@ -48,7 +63,12 @@ object AppFilterEngine {
    (state.enabled==EnabledFilter.ALL||(state.enabled==EnabledFilter.ENABLED&&a.enabled)||(state.enabled==EnabledFilter.DISABLED&&!a.enabled)) &&
    (!state.favoriteOnly||a.favorite) &&
    (state.labels.isEmpty()||state.labels.all{a.labels.contains(it)}) &&
-   when(state.age){BackupAgeFilter.ALL->true;BackupAgeFilter.LAST_7_DAYS->(now-(a.localMetadata?.dateBackup?:0))<=7*86400000L;BackupAgeFilter.LAST_30_DAYS->(now-(a.localMetadata?.dateBackup?:0))<=30*86400000L;BackupAgeFilter.OLDER->(now-(a.localMetadata?.dateBackup?:0))>30*86400000L}
+   when(state.age){
+    BackupAgeFilter.ALL->true
+    BackupAgeFilter.LAST_7_DAYS->(a.localMetadata?.dateBackup?.let{now-it}?:Long.MAX_VALUE)<=7*86400000L
+    BackupAgeFilter.LAST_30_DAYS->(a.localMetadata?.dateBackup?.let{now-it}?:Long.MAX_VALUE)<=30*86400000L
+    BackupAgeFilter.OLDER->(a.localMetadata?.dateBackup?.let{now-it}?:Long.MIN_VALUE)>30*86400000L
+   }
   }
  }
 }
