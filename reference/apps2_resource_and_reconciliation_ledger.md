@@ -349,3 +349,28 @@ Therefore:
 - Architecture freeze: BELUM / NOT AUTHORIZED.
 - Home cutover: BELUM / NOT AUTHORIZED.
 - Legacy Apps: TIDAK DIUBAH.
+
+
+## G. Architecture baseline gate
+
+The reconciliation is sufficient to define a static evidence-based Apps2 architecture baseline.
+
+Baseline-safe contracts:
+- app discovery → canonical app model;
+- local/cloud repository → list state;
+- search/filter/sort → list projection;
+- AppPart → artifact writer/reader → metadata;
+- special-data → isolated payload artifact;
+- restore request → compatibility gate → artifact restore → task/precondition;
+- capability checks → explicit platform adapter boundary;
+- Legacy Apps remains isolated.
+
+Not safe to assume:
+- historical metadata migration behavior;
+- cloud backend atomicity;
+- runtime visual/branch parity;
+- unresolved obfuscated collaborator semantics.
+
+**Architecture baseline:** AUTHORIZED.
+**Architecture freeze:** NOT AUTHORIZED.
+**Apps2 implementation:** NOT AUTHORIZED YET until the baseline artifact is recorded.
