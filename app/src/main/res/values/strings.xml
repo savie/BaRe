@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BΛR☰</string>
+    <string name="signin_title">Setup your BΛR☰ account</string>
+    <string name="signin_intro_subtitle">Create your BΛR☰ account for cloud backups, Premium, and account-based encryption.</string>
+    <string name="required_permissions">Required permissions</string>
+    <string name="storage_perm_title">Storage permission</string>
+    <string name="storage_perm_subtitle">Create, read, and restore local backup files on this device.</string>
+    <string name="grant_storage_permission">Grant Storage permission</string>
+    <string name="notifications_perm_title">Notifications permission</string>
+    <string name="notifications_perm_subtitle">Show backup, restore, schedule, and error notifications.</string>
+    <string name="grant_notifications_permission">Grant Notifications permission</string>
+    <string name="tos_privacy_agreement">By continuing you agree with our Terms of Service &amp; Privacy Policy.</string>
+    <string name="intro_benefit_cloud_title">Cloud backups</string>
+    <string name="intro_benefit_cloud_subtitle">Keep backups available across supported storage.</string>
+    <string name="intro_benefit_premium_title">Premium</string>
+    <string name="intro_benefit_premium_subtitle">Premium features remain available in BΛR☰.</string>
+    <string name="intro_benefit_keys_title">Encryption keys</string>
+    <string name="intro_benefit_keys_subtitle">Protect backups with account-based encryption.</string>
+    <string name="intro_benefit_settings_title">Settings</string>
+    <string name="intro_benefit_settings_subtitle">Configure backup and restore behavior.</string>
+    <string name="continue_label">Continue</string>
+    <string name="skip_sign_in">Continue without signing in</string>
+</resources>
