@@ -176,21 +176,16 @@ class IntroActivity : AppCompatActivity() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.action_language -> {
-                        MaterialAlertDialogBuilder(this@IntroActivity)
-                            .setTitle(R.string.language)
-                            .setItems(arrayOf("English")) { _, _ -> }
-                            .show()
+                        startActivity(Intent(this@IntroActivity, com.bare.settings.LanguageActivity::class.java))
                         true
                     }
                     R.id.action_swiftlogger -> {
-                        MaterialAlertDialogBuilder(this@IntroActivity)
-                            .setTitle(R.string.swiftlogger)
-                            .setMessage("BaReLogger is not reconstructed yet.")
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show()
+                        startActivity(Intent(this@IntroActivity, com.bare.settings.BaReLoggerActivity::class.java))
                         true
                     }
                     R.id.action_restart -> {
+                        // Reference restart action delegates to the app restart mechanism.
+                        // Recreate the current onboarding Activity without changing first-run state.
                         recreate()
                         true
                     }
