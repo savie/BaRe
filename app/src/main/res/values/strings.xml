@@ -37,4 +37,5 @@
     <string name="account">Account</string>
     <string name="not_signed_in">Not signed in</string>
     <string name="anonymous_account">Anonymous account</string>
+    <string name="cloud_settings_local_only">Cloud provider settings are not connected yet.</string>
 </resources>
