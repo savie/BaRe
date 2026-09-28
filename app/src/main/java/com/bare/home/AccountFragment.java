@@ -27,12 +27,21 @@ public final class AccountFragment extends Fragment {
         TextView name = view.findViewById(R.id.account_user_name);
         TextView email = view.findViewById(R.id.account_user_email);
         LinearLayout list = view.findViewById(R.id.account_items);
-        model.getUserName().observe(getViewLifecycleOwner(), name::setText);
-        model.getUserEmail().observe(getViewLifecycleOwner(), email::setText);
+
+        model.getUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) {
+                name.setText("");
+                email.setText("");
+            } else {
+                name.setText(user.displayName == null ? "" : user.displayName);
+                email.setText(user.email);
+            }
+        });
         model.getItems().observe(getViewLifecycleOwner(), items -> {
             list.removeAllViews();
             for (AccountViewModel.Item item : items) {
-                TextView row = (TextView) getLayoutInflater().inflate(R.layout.home_account_item, list, false);
+                TextView row = (TextView) getLayoutInflater().inflate(
+                        R.layout.home_account_item, list, false);
                 row.setText(item.title);
                 list.addView(row);
             }
