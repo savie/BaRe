@@ -35,4 +35,6 @@
     <string name="cloud_sync">Cloud sync</string>
     <string name="schedules">Schedules</string>
     <string name="account">Account</string>
+    <string name="not_signed_in">Not signed in</string>
+    <string name="anonymous_account">Anonymous account</string>
 </resources>
