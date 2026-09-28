@@ -1,7 +1,8 @@
 <resources>
-    <style name="BaReTheme" parent="android:style/Theme.Material.Light.NoActionBar">
+    <style name="BaReTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">#121212</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="colorSurface">#FAFAFA</item>
     </style>
 </resources>
