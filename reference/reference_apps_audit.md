@@ -5517,3 +5517,59 @@ Legacy Apps: **TIDAK DIUBAH**.
 ### Next audit
 
 Lanjutkan ke **split restore low-level execution + metadata migration boundary**, lalu review final ledger terhadap seluruh 45-class inventory sebelum architecture freeze.
+
+
+## Audit Checkpoint 38 — Split Restore Low-Level Execution + Metadata Migration Boundary
+
+### Split restore execution
+
+Static inspection menutup boundary split restore sampai helper eksekusi:
+
+1. `mq` membentuk descriptor cloud `fo2` untuk SPLITS: source = `CloudMetadata.splitsLink`; type = `2`; size = `CloudMetadata.splitsSize`; target = `hk.C()`.
+2. `xw` membentuk task `yw` dari base APK + split target ketika restore APK berjalan.
+3. `mv.c(...)` menangani persiapan split: memeriksa kebutuhan split, membersihkan/membuat `workingDir/splits`, lalu `zg.a(...)` mengekstrak split archive.
+4. `mv.g(...)` memfilter split berdasarkan base-version dan exclusion set.
+5. `mv.f(...)` menjalankan source-preserving install pada capability/path tertentu, fallback ke package-manager shell install, memproses error split, menghapus temporary split yang gagal, menyimpan nama split gagal untuk retry, dan dapat fallback ke `pm install-existing` pada kondisi tertentu.
+6. Dengan demikian split adalah artifact restore yang diekstrak, divalidasi terhadap base version, dipasang bersama APK, dan memiliki retry/error path.
+
+Status: SPLIT RESTORE LOW-LEVEL EXECUTION = VERIFIED STATICALLY.
+
+### Metadata migration / normalization boundary
+
+`LocalMetadata`:
+- `SB_VERSION_CODE_REQUIRED = 580`;
+- `SB_VERSION_NAME_REQUIRED = "v5.0.0"`;
+- `update*Details(...)` men-stamp version requirement 580 + version name;
+- `getSBVersionCodesRequired()` mengagregasi per-part requirements;
+- `updateSplitsDetails(...)` menyimpan split backup size/mirrored size + requirement;
+- model yang diperiksa tidak menunjukkan migrator schema-history terpisah.
+
+`CloudMetadata`:
+- setiap `update*Details(...)` men-stamp requirement 580 + `LocalMetadata.SB_VERSION_NAME_REQUIRED`;
+- `prepareForFirebaseUpload()` menetapkan `minSBVersionCodeRequired = 580` bila backup ada;
+- method tersebut membersihkan legacy special-data fields dan seluruh per-part SB version fields;
+- `remove*Details()` menghapus artifact metadata dan version requirement terkait;
+- `getSBVersionCodesRequired()` mengagregasi global + per-part requirements.
+
+Kesimpulan:
+- version stamping + normalization + legacy-field clearing = VERIFIED STATICALLY;
+- explicit historical schema-by-schema migration engine = NOT FOUND IN INSPECTED SOURCE / UNKNOWN;
+- absennya migrator yang ditemukan tidak boleh diterjemahkan menjadi klaim bahwa migrasi historis tidak ada di seluruh sistem.
+
+### Status Checkpoint 38
+
+- Split restore low-level execution: VERIFIED STATICALLY.
+- Split metadata → cloud restore descriptor: VERIFIED STATICALLY.
+- Split version filtering/retry/error boundary: VERIFIED STATICALLY.
+- Metadata version stamping/normalization: VERIFIED STATICALLY.
+- Historical schema migration engine: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
+- Cloud backend transaction/atomicity: UNKNOWN.
+- Runtime verification: BELUM ADA.
+- Apps2 implementation: BELUM DIMULAI.
+- Architecture freeze: BELUM / NOT AUTHORIZED.
+- Home cutover: BELUM / NOT AUTHORIZED.
+- Legacy Apps: TIDAK DIUBAH.
+
+### Next
+
+Review `reference/apps2_resource_and_reconciliation_ledger.md` against seluruh 45-class inventory, remove stale unresolved items yang sudah tertutup, dan pertahankan hanya boundary yang benar-benar masih UNKNOWN/BLOCKED.
