@@ -158,3 +158,5 @@ Remaining evidence-bound boundaries are explicitly blocked/unknown there; no clo
   - Gradle/build verification: still BLOCKED in this environment.
 - Handoff:
   - No external handoff required. Current work remains within the authorized Apps implementation scope.
+
+- Follow-up verification hardening: InstallerSourceProxy now verifies expected versionCode and expected split names after PackageInstaller commit; split restore retries the APK-set session once on failure. Runtime behavior remains UNVERIFIED.
