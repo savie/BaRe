@@ -1,28 +1,21 @@
 package com.bare.home;
 
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentManager;
 
 import com.bare.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public final class HomeActivity extends AppCompatActivity {
     private static final int[] NAV_IDS = {
-            R.id.nav_home,
-            R.id.nav_cloud,
-            R.id.nav_schedule,
-            R.id.nav_account
+            R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account
     };
 
-    private ViewPager2 viewPager;
+    private NoSwipeViewPager viewPager;
     private BottomNavigationView navigation;
 
     @Override
@@ -32,25 +25,28 @@ public final class HomeActivity extends AppCompatActivity {
 
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         viewPager = findViewById(R.id.viewPager);
         navigation = findViewById(R.id.primaryNavigation);
 
         viewPager.setOffscreenPageLimit(3);
-        viewPager.setAdapter(new HomePagerAdapter(this));
+        FragmentManager manager = getSupportFragmentManager();
+        viewPager.setAdapter(new HomePagerAdapter(manager));
 
         navigation.setOnItemSelectedListener(item -> {
             int position = positionFor(item.getItemId());
-            if (position < 0) {
-                return false;
-            }
+            if (position < 0) return false;
             viewPager.setCurrentItem(position, false);
             return true;
         });
+        navigation.setOnItemReselectedListener(item -> {
+            int position = positionFor(item.getItemId());
+            if (position >= 0) viewPager.setCurrentItem(position, false);
+        });
 
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
+        viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.SimpleOnPageChangeListener() {
+            @Override public void onPageSelected(int position) {
                 if (position >= 0 && position < NAV_IDS.length
                         && navigation.getSelectedItemId() != NAV_IDS[position]) {
                     navigation.setSelectedItemId(NAV_IDS[position]);
@@ -58,44 +54,19 @@ public final class HomeActivity extends AppCompatActivity {
             }
         });
 
-        int initial = 0;
-        if (state != null) {
-            initial = state.getInt("saved_fragment", R.id.nav_home);
-            initial = Math.max(0, positionFor(initial));
-        }
+        int initial = state == null ? 0 : positionFor(state.getInt("saved_fragment", R.id.nav_home));
+        if (initial < 0) initial = 0;
         navigation.setSelectedItemId(NAV_IDS[initial]);
         viewPager.setCurrentItem(initial, false);
     }
 
     private int positionFor(int itemId) {
-        for (int i = 0; i < NAV_IDS.length; i++) {
-            if (NAV_IDS[i] == itemId) {
-                return i;
-            }
-        }
+        for (int i = 0; i < NAV_IDS.length; i++) if (NAV_IDS[i] == itemId) return i;
         return -1;
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+    @Override protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt("saved_fragment", navigation.getSelectedItemId());
-    }
-
-    private static final class HomePagerAdapter extends FragmentStateAdapter {
-        HomePagerAdapter(HomeActivity activity) {
-            super(activity);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            return HomePlaceholderFragment.newInstance(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return NAV_IDS.length;
-        }
+        super.onSaveInstanceState(outState);
     }
 }
