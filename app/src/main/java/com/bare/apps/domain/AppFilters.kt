@@ -10,7 +10,7 @@ enum class InstallFilter { ALL, INSTALLED, NOT_INSTALLED }
 enum class EnabledFilter { ALL, ENABLED, DISABLED }
 enum class BackupAgeFilter { ALL, LAST_7_DAYS, LAST_30_DAYS, OLDER }
 enum class FavoriteFilter { ALL, FAVORITES, NOT_FAVORITES }
-enum class MiscFilter { ALL, LAUNCHABLE, UPDATED, LABELLED_OR_FAVORITES }
+enum class MiscFilter { ALL, LAUNCHABLE, UPDATED, LABELLED_OR_FAVORITES, MULTIPLE_BACKUPS, PROTECTED_BACKUPS, BACKUPS_WITH_NOTES, BACKUP_OLD, BACKUP_NEW, INSTALLED_FROM_GOOGLE_PLAY, NOT_INSTALLED_FROM_GOOGLE_PLAY }
 
 data class AppFilterState(
  var system:SystemAppFilter=SystemAppFilter.USER,
@@ -59,7 +59,7 @@ object AppFilterEngine{
    (state.install==InstallFilter.ALL||(state.install==InstallFilter.INSTALLED&&a.installed)||(state.install==InstallFilter.NOT_INSTALLED&&!a.installed)) &&
    (state.enabled==EnabledFilter.ALL||(state.enabled==EnabledFilter.ENABLED&&a.enabled)||(state.enabled==EnabledFilter.DISABLED&&!a.enabled)) &&
    (state.favorite==FavoriteFilter.ALL||(state.favorite==FavoriteFilter.FAVORITES&&a.favorite)||(state.favorite==FavoriteFilter.NOT_FAVORITES&&!a.favorite)) &&
-   (state.misc==MiscFilter.ALL||(state.misc==MiscFilter.LAUNCHABLE&&a.launchable)||(state.misc==MiscFilter.UPDATED&&a.lastUpdateTime>a.firstInstallTime)||(state.misc==MiscFilter.LABELLED_OR_FAVORITES&&(a.labels.isNotEmpty()||a.favorite))) &&
+   (state.misc==MiscFilter.ALL||(state.misc==MiscFilter.LAUNCHABLE&&a.launchable)||(state.misc==MiscFilter.UPDATED&&a.lastUpdateTime>a.firstInstallTime)||(state.misc==MiscFilter.LABELLED_OR_FAVORITES&&(a.labels.isNotEmpty()||a.favorite))||(state.misc==MiscFilter.MULTIPLE_BACKUPS&&a.localBackupCount>1)||(state.misc==MiscFilter.PROTECTED_BACKUPS&&a.localMetadata?.protectedBackup==true)||(state.misc==MiscFilter.BACKUPS_WITH_NOTES&&!a.localMetadata?.note.isNullOrBlank())||(state.misc==MiscFilter.BACKUP_OLD&&(a.localMetadata?.versionCode?:0L)<a.versionCode)||(state.misc==MiscFilter.BACKUP_NEW&&(a.localMetadata?.versionCode?:0L)>a.versionCode)||(state.misc==MiscFilter.INSTALLED_FROM_GOOGLE_PLAY&&a.installerPackage=="com.android.vending")||(state.misc==MiscFilter.NOT_INSTALLED_FROM_GOOGLE_PLAY&&a.installerPackage!="com.android.vending")) &&
    (state.labels.isEmpty()||state.labels.all{a.labels.contains(it)}) &&
    when(state.age){
     BackupAgeFilter.ALL->true
