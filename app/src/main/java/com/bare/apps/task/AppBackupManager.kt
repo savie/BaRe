@@ -2,14 +2,23 @@ package com.bare.apps.task
 import android.content.Context
 import com.bare.apps.domain.AppsCapability
 import com.bare.apps.model.*
+import com.bare.apps.settings.AppBackupLimitsStore
 import java.io.File
+
 class AppBackupManager(private val context:Context){
  private val root=File(context.filesDir,"apps-backups").apply{mkdirs()}
  private val catalog=BackupCatalog(context)
+ private val limits=AppBackupLimitsStore(context)
 
  fun backup(request:BackupRequest,onProgress:(Long)->Unit={}):LocalMetadata{
+  require(request.locations.all{it==BackupLocation.LOCAL}){"Cloud backup transport is not configured in Apps2"}
   val app=request.app
-  request.parts.forEach{part->require(AppsCapability.isPossible(part)){"Capability unavailable for "+part.id}}
+  request.parts.forEach{part->
+   require(AppsCapability.isPossible(part)){"Capability unavailable for "+part.id}
+   val source=sourceFor(app,part)
+   val estimated=source?.let(::sizeOf)?:0L
+   require(!limits.exceeds(part,estimated,false)){"Backup limit exceeded for "+part.id}
+  }
   val backupDir=catalog.create(app.packageName)
   val metadata=app.localMetadata?:LocalMetadata(app.packageName,app.name,app.versionCode,app.versionName.orEmpty(),app.installerPackage)
   metadata.dateBackup=System.currentTimeMillis()
@@ -41,6 +50,8 @@ class AppBackupManager(private val context:Context){
   AppPart.EXPANSION->app.expansionDir?.let(::File)
   AppPart.MEDIA->app.mediaDir?.let(::File)
  }
+
+ private fun sizeOf(file:File):Long=if(file.isFile)file.length() else file.walkTopDown().filter{it.isFile}.sumOf{it.length()}
 
  fun artifact(app:CanonicalApp,part:AppPart,backupId:String?=null):File?{
   val record=backupId?.let{id->catalog.list(app.packageName).firstOrNull{it.backupId==id}}?:catalog.latest(app.packageName)?:return null
