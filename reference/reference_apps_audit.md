@@ -5617,3 +5617,81 @@ Legacy Apps: TIDAK DIUBAH.
 
 ### Next
 Perform a final gate review: separate blockers from non-blocking collaborator unknowns, then determine whether the remaining evidence is sufficient for an Apps2 architecture baseline. Do not start implementation until that gate is explicitly satisfied.
+
+
+## Audit Checkpoint 40 — Final Gate Review: Architecture Baseline Readiness
+
+### Gate inputs
+
+Verified static boundaries now cover:
+- exact 45-class source inventory;
+- Apps list/navigation;
+- canonical `ji` convergence model;
+- size model;
+- filter/sort state boundary;
+- AppPart routing;
+- APP/DATA/DE-DATA/MEDIA/EXPANSION/SPLITS/SHARED-LIBS artifact metadata;
+- special-data payload boundary;
+- LocalMetadata/CloudMetadata transitions;
+- cloud special-data upload/delete lifecycle at client orchestration level;
+- restore orchestration and compatibility gate;
+- split low-level restore execution;
+- task/precondition boundary;
+- Apps resource/include/binding/manifest evidence for the formalized candidate set.
+
+### Gate classification
+
+#### NON-BLOCKING FOR ARCHITECTURE BASELINE, but must remain explicit
+1. Exact full filter predicate collaborator decomposition.
+   - Core filter contract and persisted selection boundary are known.
+   - Exact obfuscated predicate implementation remains a collaborator detail.
+2. Deep reconstruction of all 342 imported `defpackage.*` collaborators.
+   - The consequential producer/consumer boundaries are already identified for the inspected subsystem.
+   - Remaining collaborators must not be silently assumed equivalent.
+3. Runtime visual/branch behavior.
+   - Static architecture can be defined, but parity cannot be claimed before runtime verification.
+
+#### BLOCKED / MUST REMAIN OUTSIDE FREEZE
+1. Explicit historical metadata schema migration engine.
+   - Not found in inspected source.
+   - Apps2 must not assume historical migration behavior without additional evidence.
+2. Cloud backend transaction/atomicity semantics.
+   - Client-side upload/delete sequencing is known.
+   - Remote atomicity remains UNKNOWN.
+3. Runtime verification.
+   - No runtime Reference/Apps2 execution evidence exists.
+
+### Gate result
+
+**Architecture baseline can be defined as a STATIC EVIDENCE-BASED BASELINE with explicit UNKNOWN boundaries.**
+
+This is **not** an architecture freeze.
+
+The baseline may establish:
+- subsystem boundaries;
+- domain models;
+- repository/state contracts;
+- artifact/metadata contracts;
+- restore/task boundaries;
+- capability interfaces;
+- isolation from Legacy Apps;
+- resource ownership;
+- explicit UNKNOWN/extension points.
+
+The baseline must NOT assert:
+- runtime parity;
+- backend atomicity;
+- historical migration semantics not evidenced;
+- exact behavior of unresolved obfuscated collaborators.
+
+### Decision boundary
+
+- Architecture baseline: **AUTHORIZED BY CURRENT AUDIT EVIDENCE** as a documentation/design baseline.
+- Architecture freeze: **NOT AUTHORIZED**.
+- Apps2 implementation: **NOT AUTHORIZED YET**; implementation should wait until the baseline is recorded and its unknowns are converted into explicit contracts/tests.
+- Home cutover: **NOT AUTHORIZED**.
+- Legacy Apps: **UNCHANGED**.
+
+### Next
+
+Record the Apps2 static architecture baseline from the verified evidence, without freezing implementation details that remain UNKNOWN.
