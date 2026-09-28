@@ -11,6 +11,7 @@
         <item name="cardStyle">@style/CardStyleNormal</item>
         <item name="colorError2">@color/red</item>
         <item name="colorErrorContainer2">@color/red20</item>
+        <item name="colorOnErrorContainer2">@color/red</item>
         <item name="listItemCardViewStyle">@style/SwiftSegmentedListItemCardView</item>
         <item name="segmentedListItemBottomMargin">@dimen/segmented_list_item_bottom_margin</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -95,4 +96,11 @@
     </style>
     <style name="NavigationRailTextAppearanceActive" parent="TextAppearance.Material3.LabelMedium"/>
     <style name="NavigationRailTextAppearanceInactive" parent="TextAppearance.Material3.LabelMedium"/>
+    <style name="M3ButtonTonal.Error" parent="@style/M3ButtonTonal"><item name="android:textColor">?attr/colorError2</item></style>
+    <style name="M3ButtonFilled" parent="Widget.Material3.Button.FilledButton"/>
+    <style name="M3ButtonFilled.Large" parent="Widget.Material3.Button.FilledButton"><item name="android:minHeight">56dp</item></style>
+    <style name="M3ButtonFilled.Error" parent="Widget.Material3.Button.FilledButton"><item name="android:textColor">?attr/colorError2</item><item name="backgroundTint">?attr/colorErrorContainer2</item></style>
+    <style name="SwiftLinearProgressIndicator" parent="Widget.Material3.LinearProgressIndicator"/>
+    <style name="SwiftCircularProgressIndicator" parent="Widget.Material3.CircularProgressIndicator"/>
+    <style name="TextOverline.Large" parent="TextAppearance.Material3.LabelLarge"/>
 </resources>
