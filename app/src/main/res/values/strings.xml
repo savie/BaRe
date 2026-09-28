@@ -173,4 +173,5 @@
     <string name="apps_select_first">Select at least one app.</string>
     <string name="share_apk">Share APK</string>
     <string name="favorite">Favorite</string>
+    <string name="blacklist_description">Apps in this list are excluded from automated backup actions.</string>
 </resources>
