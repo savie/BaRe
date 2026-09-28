@@ -1,5 +1,6 @@
 package com.bare.apps.task
 import android.content.Context
+import com.bare.apps.domain.AppsCapability
 import com.bare.apps.model.*
 import java.io.File
 class AppBackupManager(private val context:Context){
@@ -8,6 +9,7 @@ class AppBackupManager(private val context:Context){
 
  fun backup(request:BackupRequest,onProgress:(Long)->Unit={}):LocalMetadata{
   val app=request.app
+  request.parts.forEach{part->require(AppsCapability.isPossible(part)){"Capability unavailable for "+part.id}}
   val backupDir=catalog.create(app.packageName)
   val metadata=app.localMetadata?:LocalMetadata(app.packageName,app.name,app.versionCode,app.versionName.orEmpty(),app.installerPackage)
   metadata.dateBackup=System.currentTimeMillis()
@@ -33,11 +35,11 @@ class AppBackupManager(private val context:Context){
  private fun sourceFor(app:CanonicalApp,part:AppPart):File?=when(part){
   AppPart.APP->app.sourceDir?.let(::File)
   AppPart.SPLITS->app.splitSourceDirs.firstOrNull()?.let(::File)
+  AppPart.SHARED_LIBS->app.sharedLibSourceDirs.firstOrNull()?.let(::File)
   AppPart.DATA->app.dataDir?.let(::File)
   AppPart.EXTDATA->app.externalDataDir?.let(::File)
   AppPart.EXPANSION->app.expansionDir?.let(::File)
   AppPart.MEDIA->app.mediaDir?.let(::File)
-  else->null
  }
 
  fun artifact(app:CanonicalApp,part:AppPart,backupId:String?=null):File?{
