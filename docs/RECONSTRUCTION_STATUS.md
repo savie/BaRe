@@ -12,7 +12,7 @@
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
 ## Current phase
-**PHASE 2 — BACKEND CONTRACT FREEZE PREPARATION**
+**PHASE 3 — EVIDENCE-BACKED BACKEND CONTRACT FROZEN (PRE-SUPABASE)**
 
 ## Latest verified Reference behavior
 
@@ -85,6 +85,8 @@
 - Reference account initialization reads `users/{uid}/userInfo` for non-anonymous users. Anonymous users receive a local user record without a database read/write.
 - Reference `userInfo` model fields are uid, anonymous, displayName, email, photoUrl, latestAppVersion, currentAppVersion; current Reference version is 620.
 - Existing user profile fields are refreshed when provider identity changes, and non-anonymous userInfo is persisted back to `users/{uid}/userInfo`.
+- Post-login work explicitly skips anonymous users; for non-anonymous users it reloads `userInfo` and persists the resulting Reference-shaped model.
+- Anonymous → Google migration is guarded by the current identity being anonymous before setting `is_migrating_to_google_sign_in` and entering the sign-out/reinitialization lifecycle.
 - BaRe now exposes the Reference `ah8` shape through `UserInfo` + `UserInfoRepository` without Firebase SDK types.
 - Crashlytics UID/custom-key updates are telemetry side effects, not backend user-state contract.
 - Exact provider execution remains behind repository boundaries.
@@ -133,13 +135,15 @@
 - No invented contributor mutation contract.
 - No invented purchase-verification writer.
 
-## Remaining audit before backend freeze
-1. Audit the concrete conditional-write/delete helper used by Google migration; the source/destination compare-and-rollback semantics are now confirmed, but the serialized provider payload remains provider-specific.
-2. Audit remaining account initialization consumers that depend on `userInfo` and migration flags.
-3. Resolve the app metadata-node post-delete mutation only if additional Reference evidence proves it; otherwise retain `UNKNOWN` rather than inventing a mutation.
-4. Freeze the evidence-backed backend contract after those checks.
-5. Stop and request user permission before any Supabase implementation.
-6. Stop and request user permission before any APK build.
+## Open evidence boundaries after contract freeze
+1. The exact provider SDK serialization behind the conditional migration transaction is provider-specific and remains outside the backend-neutral contract.
+2. The app metadata-node mutation after cloud file deletion remains `UNKNOWN`; no write/delete is inferred without direct Reference evidence.
+3. These `UNKNOWN` boundaries must not be silently filled during Supabase implementation.
+
+## Execution gate after contract freeze
+1. **WAIT FOR EXPLICIT USER PERMISSION:** Supabase schema/auth/RLS/SDK implementation.
+2. **WAIT FOR EXPLICIT USER PERMISSION:** APK build.
+3. After permission, implementation must preserve every `UNKNOWN` boundary until evidence or an explicit Authorized Deviation resolves it.
 
 ## Verification rule
 No parity claim from build alone. Required sequence: build → install → runtime → visual → behavior → feature → deviation audit → verification.
