@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="corner_radius_small">4dp</dimen>
+    <dimen name="segmented_card_gap">8dp</dimen>
+    <dimen name="spacing_lowest">2dp</dimen>
+    <dimen name="spacing_low_more">6dp</dimen>
+    <dimen name="dash_shortcut_item_width">112dp</dimen>
+</resources>
