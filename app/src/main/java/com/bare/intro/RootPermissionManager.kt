@@ -2,6 +2,7 @@ package com.bare.intro
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.provider.Settings
 import android.os.Build
 import androidx.core.content.ContextCompat
 import rikka.shizuku.Shizuku
@@ -31,7 +32,6 @@ object RootPermissionManager {
     }
 
     fun grantAll(context: Context, callback: (Result) -> Unit) {
-        thisContext = context
         Thread {
             val root = runRootGrant(context)
             if (root.success) {
@@ -96,7 +96,7 @@ object RootPermissionManager {
 
             val output = process.readAll()
             val code = process.waitFor()
-            if (code == 0 && verifyRequiredPermissions()) {
+            if (code == 0 && onboardingPermissionsGranted(context)) {
                 Result(true, "shizuku", output.ifBlank { "Permissions granted." })
             } else {
                 Result(false, "shizuku", output.ifBlank { "Shizuku command execution failed or permissions remain missing." })
@@ -113,7 +113,7 @@ object RootPermissionManager {
         if (code != 0) {
             return Result(false, mechanism, output.ifBlank { "Permission grant command failed." })
         }
-        return if (verifyRequiredPermissions()) {
+        return if (onboardingPermissionsGranted(context)) {
             Result(true, mechanism, output.ifBlank { "Permissions granted." })
         } else {
             Result(false, mechanism, output.ifBlank { "The command ran, but not all required permissions were granted." })
@@ -137,39 +137,96 @@ object RootPermissionManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             commands += "pm grant $packageName android.permission.POST_NOTIFICATIONS || true"
         }
-        commands += "pm grant $packageName com.android.permission.GET_INSTALLED_APPS || true"
+        if (isInstalledAppsPermissionSupported(context)) {
+            commands += "pm grant $packageName com.android.permission.GET_INSTALLED_APPS || true"
+        }
         return commands.joinToString("\n")
     }
 
-    private fun verifyRequiredPermissions(): Boolean {
+    /**
+     * Mirrors the reference onboarding gate: storage, notifications (when applicable),
+     * and installed-app visibility (only on devices that expose the OEM permission).
+     * Other permissions shown in the Root/Shizuku dialog are useful for later features,
+     * but are not prerequisites for leaving Intro.
+     */
+    fun onboardingPermissionsGranted(context: Context): Boolean {
         val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             android.os.Environment.isExternalStorageManager()
         } else {
-            ContextCompat.checkSelfPermission(thisContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
-                PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
         }
         if (!storageGranted) return false
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-            ContextCompat.checkSelfPermission(thisContext, android.Manifest.permission.POST_NOTIFICATIONS) !=
-                PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(
+                context,
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
         ) return false
 
-        val required = arrayOf(
-            android.Manifest.permission.READ_CONTACTS,
-            android.Manifest.permission.WRITE_CONTACTS,
-            android.Manifest.permission.READ_CALL_LOG,
-            android.Manifest.permission.WRITE_CALL_LOG,
-            android.Manifest.permission.READ_SMS,
-            android.Manifest.permission.RECEIVE_SMS,
-            android.Manifest.permission.SEND_SMS
-        )
-        return required.all {
-            ContextCompat.checkSelfPermission(thisContext, it) == PackageManager.PERMISSION_GRANTED
-        }
+        if (isInstalledAppsPermissionSupported(context) &&
+            !isInstalledAppsPermissionGranted(context)
+        ) return false
+
+        return true
     }
 
-    private lateinit var thisContext: Context
+    fun isInstalledAppsPermissionSupported(context: Context): Boolean {
+        val permissionInfo = runCatching {
+            context.packageManager.getPermissionInfo(
+                INSTALLED_APPS_PERMISSION,
+                0
+            )
+        }.getOrNull() ?: return false
+
+        val owner = permissionInfo.packageName ?: return false
+        if (owner == "com.lbe.security.miui") return true
+
+        val ownerIsSystemPackage = runCatching {
+            val packageInfo = context.packageManager.getPackageInfo(owner, 0)
+            (packageInfo.applicationInfo?.flags ?: 0) and
+                android.content.pm.ApplicationInfo.FLAG_SYSTEM != 0 ||
+                packageInfo.sharedUserId == "android.uid.system"
+        }.getOrDefault(false)
+
+        val protectionIsNormal =
+            (permissionInfo.protectionLevel and PackageManager.PROTECTION_MASK_BASE) ==
+                PackageManager.PROTECTION_NORMAL
+
+        val oemRuntimePermissionEnabled = runCatching {
+            Settings.Secure.getInt(
+                context.contentResolver,
+                "oem_installed_apps_runtime_permission_enable",
+                0
+            ) == 1
+        }.getOrDefault(false)
+
+        return ownerIsSystemPackage && (protectionIsNormal || oemRuntimePermissionEnabled)
+    }
+
+    fun isInstalledAppsPermissionGranted(context: Context): Boolean {
+        if (!isInstalledAppsPermissionSupported(context)) return true
+
+        val canSeeInstalledPackages = runCatching {
+            val packages = context.packageManager.getInstalledPackages(0)
+            packages.any { it.packageName == context.packageName } &&
+                packages.any { it.packageName == "android" }
+        }.getOrDefault(true)
+
+        if (!canSeeInstalledPackages) return false
+
+        return ContextCompat.checkSelfPermission(
+            context,
+            INSTALLED_APPS_PERMISSION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private companion object {
+        const val INSTALLED_APPS_PERMISSION = "com.android.permission.GET_INSTALLED_APPS"
+    }
 
     private fun Process.readAll(): String {
         return BufferedReader(InputStreamReader(inputStream)).use { reader ->
