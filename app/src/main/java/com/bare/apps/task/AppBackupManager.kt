@@ -181,7 +181,7 @@ class AppBackupManager(private val context: Context) {
                 "ssaid=" + (m.specialData?.ssaid ?: "") + "\n" +
                 "ntfAccessComponent=" + (m.specialData?.ntfAccessComponent ?: "") + "\n" +
                 "accessibilityComponent=" + (m.specialData?.accessibilityComponent ?: "") + "\n" +
-                "notificationPolicyXml=" + (m.specialData?.notificationPolicyXml ?: "") + "\n" +
+                "notificationPolicyXmlB64=" + (m.specialData?.notificationPolicyXml?.let { android.util.Base64.encodeToString(it.toByteArray(Charsets.UTF_8), android.util.Base64.NO_WRAP) } ?: "") + "\n" +
                 "parts=" + m.backupParts.joinToString(",") { it.id }
         )
     }
