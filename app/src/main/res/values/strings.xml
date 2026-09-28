@@ -26,7 +26,7 @@
     <string name="grant_notifications_permission">Grant Notifications permission</string>
     <string name="notifications_perm_title">Notifications permission</string>
     <string name="notifications_perm_subtitle">Show backup, restore, schedule, and error notifications.</string>
-    <string name="grant_xiaomi_installed_apps_permission">Grant Installed apps access</string>
+    <string name="grant_xiaomi_installed_apps_permission">Grant installed apps access</string>
     <string name="xiaomi_installed_apps_perm_title">Installed apps access</string>
     <string name="xiaomi_installed_apps_perm_subtitle">Read installed apps on this device so all apps appear for backup and restore.</string>
     <string name="root_grant_permissions">Grant all with Root or Shizuku</string>
@@ -89,7 +89,7 @@
     <string name="delete_all">Delete all</string>
     <string name="barelogger_share_subject">BaReLogger Logs (text only)</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Installed apps permission is not supported on this device.</string>
-    <string name="root_grant_permissions_dialog_title">Grant permissions with Root or Shizuku</string>
+    <string name="root_grant_permissions_dialog_title">Grant permissions with Root access or Shizuku</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Grant the permissions below to BΛR☰ in one click using Root access or Shizuku.</string>
     <string name="android_permission_name_storage">Storage</string>
     <string name="android_permission_name_sms">SMS</string>
