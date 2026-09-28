@@ -13,7 +13,4 @@ public interface CloudFolderRepository {
 
     /** Reference FolderItem.writeToFirebaseNode(): writes item at folderId/folderItem. */
     void writeFolderItem(String cloudTag, String folderId, BaReFolderItem item);
-
-    /** Reference FolderMetadata.writeToFirebaseNode(): writes metadata at the folderId node. */
-    void writeFolderMetadata(String cloudTag, String folderId, Object metadata);
 }
