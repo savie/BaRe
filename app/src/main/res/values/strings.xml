@@ -171,4 +171,5 @@
     <string name="app_backup_limits_description">Configure backup limits, encryption, and retention for apps.</string>
     <string name="app_visibility_diagnostics">App visibility diagnostics</string>
     <string name="apps_select_first">Select at least one app.</string>
+    <string name="share_apk">Share APK</string>
 </resources>
