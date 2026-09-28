@@ -9,6 +9,10 @@
         <item name="cardBackgroundColor">@color/card_background</item>
         <item name="cardStyleNormal">@style/CardStyleNormal</item>
         <item name="cardStyle">@style/CardStyleNormal</item>
+        <item name="colorError2">@color/red</item>
+        <item name="colorErrorContainer2">@color/red20</item>
+        <item name="listItemCardViewStyle">@style/SwiftSegmentedListItemCardView</item>
+        <item name="segmentedListItemBottomMargin">@dimen/segmented_list_item_bottom_margin</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@color/surface_container</item>
         <item name="android:navigationBarColor">@color/surface_container</item>
