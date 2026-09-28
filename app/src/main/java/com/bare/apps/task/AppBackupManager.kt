@@ -70,6 +70,9 @@ class AppBackupManager(private val context:Context){
    "versionCode="+m.versionCode+"\n"+
    "versionName="+m.versionName+"\n"+
    "dateBackup="+(m.dateBackup?:0)+"\n"+
+   "dateBackupUpdated="+(m.dateBackupUpdated?:0)+"\n"+
+   "note="+(m.note?:"")+"\n"+
+   "protectedBackup="+m.protectedBackup+"\n"+
    "parts="+m.backupParts.joinToString(","){it.id}
   )
  }
