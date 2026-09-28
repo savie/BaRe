@@ -39,15 +39,17 @@ Implemented:
 - storage boundary
 - cloud-provider boundary separate from backend
 - telemetry boundary
+- cloud summary aggregate contract
 
 ## Firebase/backend audit checkpoint
-**STATUS: CONTRACT BATCH PORTED; PAYLOAD AUDIT PARTIAL**
+**STATUS: CALL-SITE AUDIT ADVANCED; CONTRACTS PORTED**
 
-Confirmed paths:
+Confirmed Reference paths:
 - `appData`
+- `appData/activeSkus`
 - `users/{uid}`
 - `users/{uid}/userInfo`
-- `users/{uid}/cloud_v1`
+- `users/{uid}/cloud_v1/{cloudDir}`
 - `tags/{cloudTag}/apps`
 - `tags/{cloudTag}/folders`
 - `tags/{cloudTag}/smsBackupsCount`
@@ -55,36 +57,50 @@ Confirmed paths:
 - `purchase_verifications/{uid}/{obfuscated-key}`
 - `contributorDetails/{uid-prefix}`
 
+### Concrete Reference behavior now verified
+- `re3` resolves current UID and current cloud tag/path.
+- `ig1` reads `apps`, `folders`, SMS count, and call-log count to build the cloud summary.
+- App summary counts only metadata with valid cloud details and sums `CloudMetadata.getTotalSize()`.
+- Folder summary counts valid `FolderMetadata` entries.
+- `FolderItem.writeToFirebaseNode()` writes to `tags/{cloudTag}/folders/{folderId}/folderItem`.
+- `purchase_verifications/{uid}/{obfuscated-key}` is observed as a boolean verification node.
+- `activeSkus` is a Firebase-backed list under `appData` and is used by the billing catalog flow.
+- Contributor registration is read from `contributorDetails/{uid-prefix}`; Home menu reacts to existence/non-existence.
+- Contributor data fields are: status, type, name, locales, telegram ID, Crowdin ID, PayPal ID.
+- Cloud provider access remains separate from Firebase/Supabase backend state.
+
 ### Ported
 - `ReferenceBackendContract`
 - `BaReBackendRepository`
 - `BackendResult`
-- `CloudAppMetadata`
+- `CloudAppMetadata` with corrected Reference `hasBackups()` semantics
 - `CloudMetadataRepository`
+- `CloudSummaryRepository` + `CloudSummaryService`
 - `BaReFolderItem`
 - `FolderRepository`
 - `CloudFolderRepository`
 - `BackupCountsRepository` + `BackupCountsService`
 - `ContributorRegistrationData`
 - `ContributorRegistrationRepository` + service
-- `PurchaseVerificationRepository` + service
+- `PurchaseVerificationRepository` + service, now boolean-state based
+- `BillingCatalogRepository`
 - `CloudProviderRepository` + `CloudAccessService`
 - `TelemetryService`
 
-### What remains UNKNOWN / IN PROGRESS
-- Full purchase verification payload/schema: UNKNOWN
-- Full appData consumer graph: UNKNOWN
-- Complete cloud_v1/apps writer/reader call graph: IN PROGRESS
-- Complete cloud_v1/folders lifecycle: IN PROGRESS
+### Still UNKNOWN / IN PROGRESS
+- Exact Supabase relational schema/RLS/auth claims: UNKNOWN until complete backend contract audit
+- Complete cloud_v1/apps writer/reader graph outside current summary flow: IN PROGRESS
+- Complete cloud_v1/folders mutation graph outside FolderItem: IN PROGRESS
 - All SMS/call count writers: IN PROGRESS
-- Contributor mutation/update lifecycle: IN PROGRESS
+- Contributor registration mutation/write path: IN PROGRESS
 - Anonymous/account migration lifecycle: IN PROGRESS
+- Full purchase/billing flow beyond activeSkus + verification boolean: IN PROGRESS
 - Full re3 call graph across remaining features: NOT COMPLETE
 
 ### Firebase → Supabase rule
 No mechanical rename. No invented Supabase schema/RLS/auth claims.
 
-Separation is:
+Separation:
 1. BaRe backend/account metadata → future Supabase adapter
 2. Drive/etc. backup providers → CloudProviderRepository
 3. Local Android state/scheduler → local repositories
@@ -99,34 +115,38 @@ Required classification: MATCH / AUTHORIZED DEVIATION / UNAUTHORIZED DEVIATION /
 Required sequence: build → install → runtime → visual → behavior → feature → deviation audit → verification.
 
 ## Session handoff checkpoint
-**CURRENT PHASE: PHASE 2 DOMAIN RECONSTRUCTION — BACKEND CONTRACT LAYER**
+**CURRENT PHASE: PHASE 2 DOMAIN RECONSTRUCTION — BACKEND CALL-GRAPH AUDIT**
 
-### Completed in latest batch
-- Cloud app metadata domain DTO
-- cloud_v1/apps repository boundary
-- cloud_v1/folders repository boundary
-- SMS/call backup count service
-- contributor registration service
-- purchase verification service with explicit UNKNOWN state
-- common BackendResult error boundary
-- persistent status/checkpoint update
+### Latest completed batch
+- Rebuilt Reference decompile locally for direct call-site audit.
+- Verified `re3` node construction and current-cloud-tag logic.
+- Verified cloud summary aggregation in `ig1`.
+- Verified FolderItem Firebase write target.
+- Verified purchase verification node is boolean.
+- Verified `appData/activeSkus` billing catalog read.
+- Verified contributor remote read and menu listener behavior.
+- Corrected CloudMetadata `hasBackups()` parity.
+- Added cloud summary and billing catalog contracts.
+- Updated persistent status checkpoint.
 
 ### Exact next work — do not restart
-1. Complete concrete `re3` call-site audit for apps/folders/counts/contributor/purchase.
-2. Implement only the proven repository methods/payloads.
-3. Audit account anonymous/migration/sign-out behavior.
-4. Determine exact Supabase adapter contract from completed evidence.
-5. Implement Supabase adapter/schema only after evidence is sufficient; otherwise leave UNKNOWN.
-6. Wire Home services to real repositories instead of temporary ViewModel mutations.
-7. Then proceed to the next Reference feature slice.
+1. Finish concrete writer/reader audit for remaining `cloud_v1/apps` and folders consumers.
+2. Finish SMS/call count writers and contributor mutation path.
+3. Audit anonymous/migration/sign-out lifecycle from `d45`/account initialization.
+4. Audit billing flow around `activeSkus` and purchase verification.
+5. Freeze the backend contract; then derive Supabase adapter/schema from evidence.
+6. Wire Home services to real repository implementations.
+7. Build and runtime-verify before claiming MATCH.
 
-Start next session from these directories:
+Start next session from:
 - `app/src/main/java/com/bare/backend`
 - `app/src/main/java/com/bare/cloud`
 - `app/src/main/java/com/bare/folders`
 - `app/src/main/java/com/bare/messagescalls`
 - `app/src/main/java/com/bare/contributor`
 - `app/src/main/java/com/bare/purchase`
+
+Do not restart the Reference inventory/audit from zero.
 
 ## Documentation policy
 - Root documentation: `README.md` only.
