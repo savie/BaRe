@@ -40,7 +40,7 @@ object AppDiscovery{
     localMetadata=metadataStore.load(info.packageName),localBackupCount=metadataStore.backupCount(info.packageName),sourceDir=ai.sourceDir,
     dataDir="/data/user/0/"+info.packageName,deDataDir="/data/user_de/0/"+info.packageName,
     externalDataDir="/sdcard/Android/data/"+info.packageName,mediaDir="/sdcard/Android/media/"+info.packageName,
-    expansionDir="/sdcard/Android/obb/"+info.packageName,splitSourceDirs=ai.splitSourceDirs?.toList().orEmpty()
+    expansionDir="/sdcard/Android/obb/"+info.packageName,splitSourceDirs=splits,sharedLibSourceDirs=sharedLibs
    )
   }.sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER){it.name}).toList()
  }
