@@ -162,4 +162,5 @@
     <string name="save">Save</string>
     <string name="labelled_apps">Labelled apps</string>
     <string name="label_color">Label color</string>
+    <string name="apps_backed_up"> · Backed up</string>
 </resources>
