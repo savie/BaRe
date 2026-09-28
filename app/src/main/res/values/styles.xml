@@ -102,5 +102,6 @@
     <style name="M3ButtonFilled.Error" parent="Widget.Material3.Button.FilledButton"><item name="android:textColor">?attr/colorError2</item><item name="backgroundTint">?attr/colorErrorContainer2</item></style>
     <style name="SwiftLinearProgressIndicator" parent="Widget.Material3.LinearProgressIndicator"/>
     <style name="SwiftCircularProgressIndicator" parent="Widget.Material3.CircularProgressIndicator"/>
+    <style name="TextOverline" parent="TextAppearance.Material3.LabelSmall"><item name="android:textAllCaps">true</item></style>
     <style name="TextOverline.Large" parent="TextAppearance.Material3.LabelLarge"/>
 </resources>
