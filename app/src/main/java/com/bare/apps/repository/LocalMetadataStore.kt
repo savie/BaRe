@@ -2,12 +2,43 @@ package com.bare.apps.repository
 import android.content.Context
 import com.bare.apps.model.*
 import java.io.File
-class LocalMetadataStore(context:Context){
+
+class LocalMetadataStore(private val context:Context){
  private val root=File(context.filesDir,"apps-backups")
  fun load(packageName:String):LocalMetadata?{
-  val f=File(root,packageName);val dirs=f.listFiles()?.filter{it.isDirectory}?.sortedByDescending{it.name.toLongOrNull()?:0L}.orEmpty();if(dirs.isEmpty())return null
-  val props=java.util.Properties();val meta=File(dirs.first(),"metadata.properties");if(!meta.exists())return null;meta.inputStream().use{props.load(it)}
+  val f=File(root,packageName)
+  val dirs=f.listFiles()?.filter{it.isDirectory}?.sortedByDescending{it.name.toLongOrNull()?:0L}.orEmpty()
+  if(dirs.isEmpty())return null
+  val props=java.util.Properties()
+  val meta=File(dirs.first(),"metadata.properties")
+  if(!meta.exists())return null
+  meta.inputStream().use{props.load(it)}
   val m=LocalMetadata(packageName,props.getProperty("name",""),props.getProperty("versionCode","0").toLongOrNull()?:0,props.getProperty("versionName",""))
-  m.dateBackup=props.getProperty("dateBackup")?.toLongOrNull();props.getProperty("parts","").split(",").filter{it.isNotBlank()}.forEach{runCatching{m.backupParts+=AppPart.valueOf(it)}};return m
+  m.dateBackup=props.getProperty("dateBackup")?.toLongOrNull()
+  m.dateBackupUpdated=props.getProperty("dateBackupUpdated")?.toLongOrNull()
+  m.note=props.getProperty("note")
+  m.protectedBackup=props.getProperty("protectedBackup","false").toBoolean()
+  props.getProperty("parts","").split(",").filter{it.isNotBlank()}.forEach{runCatching{m.backupParts+=AppPart.valueOf(it)}}
+  return m
+ }
+ fun save(packageName:String,metadata:LocalMetadata,backupId:String?=null):Boolean{
+  val dir=if(backupId!=null)File(root,packageName).resolve(backupId)
+   else File(root,packageName).listFiles()?.filter{it.isDirectory}?.maxByOrNull{it.name.toLongOrNull()?:0L}?:return false
+  val file=File(dir,"metadata.properties")
+  return runCatching{
+   file.parentFile?.mkdirs()
+   file.writeText(
+    "packageName="+metadata.packageName+"\n"+
+    "name="+metadata.name+"\n"+
+    "versionCode="+metadata.versionCode+"\n"+
+    "versionName="+metadata.versionName+"\n"+
+    "dateBackup="+(metadata.dateBackup?:0)+"\n"+
+    "dateBackupUpdated="+(metadata.dateBackupUpdated?:0)+"\n"+
+    "note="+(metadata.note?:"")+"\n"+
+    "protectedBackup="+metadata.protectedBackup+"\n"+
+    "parts="+metadata.backupParts.joinToString(","){it.id}
+   )
+   true
+  }.getOrDefault(false)
  }
 }
