@@ -49,7 +49,14 @@ class HomeActivity : AppCompatActivity() {
             visibility = View.VISIBLE
         }
 
-        findViewById<View>(R.id.app_logo_container).setOnLongClickListener {\n            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)\n            val compact = !prefs.getBoolean(KEY_COMPACT_STORAGE_INFO, false)\n            prefs.edit().putBoolean(KEY_COMPACT_STORAGE_INFO, compact).apply()\n            true\n        }\n\n        findViewById<ImageView>(R.id.iv_user).setOnClickListener {
+        findViewById<View>(R.id.app_logo_container).setOnLongClickListener {
+            val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+            val compact = !prefs.getBoolean(KEY_COMPACT_STORAGE_INFO, false)
+            prefs.edit().putBoolean(KEY_COMPACT_STORAGE_INFO, compact).apply()
+            true
+        }
+
+        findViewById<ImageView>(R.id.iv_user).setOnClickListener {
             navigation.selectedItemId = R.id.nav_account
         }
 
