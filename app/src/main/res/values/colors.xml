@@ -23,4 +23,5 @@
     <color name="google_sign_in_button_text">#FF6E83F7</color>
     <color name="red">#FFF44336</color>
     <color name="red20">#33F44336</color>
+    <color name="wht">#FFFFFFFF</color>
 </resources>
