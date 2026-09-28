@@ -5424,3 +5424,96 @@ Legacy Apps: **TIDAK DIUBAH**.
 ### Next audit
 
 Prioritas berikutnya adalah menutup unresolved collaborator/execution boundaries yang paling consequential, lalu review ledger terhadap 45-class source inventory sebelum architecture freeze. Implementation Apps2 tetap ditahan.
+
+
+## Audit Checkpoint 37 — Filter State Closure + EXPANSION Restore Semantics
+
+Pass ini menutup dua unresolved boundary yang cukup consequential dari ledger sebelumnya: filter/sort state dan semantics execution untuk AppPart.EXPANSION.
+
+### 1. Sort/filter state closure
+
+`defpackage.sx` memiliki tujuh sort mode:
+
+- Name
+- InstallDate
+- UpdateDate
+- BackupDate
+- AppSize
+- BackupSize
+- DateUsed
+
+`defpackage.iy` menjadi state/persistence/execution helper:
+
+- membaca `app_sort_mode` dari SharedPreferences;
+- fallback default = `sx.Name`;
+- membaca `app_sort_ascending`;
+- menulis `app_sort_mode`;
+- menyediakan locale-aware comparator;
+- menghitung AppSize dan BackupSize secara lazy sebelum sorting;
+- untuk DateUsed, membaca UsageStats dan dapat mengatur usage-access melalui privileged path bila diperlukan;
+- bila usage access tetap tidak tersedia, reset sort mode ke Name;
+- memilih comparator berdasarkan `sx`;
+- menerapkan ascending/descending result.
+
+`sc3` menyediakan filter surface/state layer dan menggunakan sort entries tersebut untuk UI selection. Resource/UI evidence sudah ditutup pada ledger sebelumnya.
+
+Status:
+- sort enum → persisted state: VERIFIED STATICALLY;
+- persisted state → sorting execution: VERIFIED STATICALLY;
+- DateUsed capability/error fallback: VERIFIED STATICALLY;
+- filter surface → sort model: VERIFIED STATICALLY.
+
+Exact decomposition seluruh filter predicate collaborator tetap menjadi collaborator-level detail yang belum seluruhnya direkonstruksi.
+
+### 2. EXPANSION backup/restore semantics
+
+`defpackage.iu.EXPANSION` bukan sekadar display enum.
+
+Observed:
+
+- display label = Expansion;
+- icon = `ic_download`;
+- backup requirement mengikuti `hu`: EXPANSION membutuhkan ROOT_OR_SHIZUKU ketika `b67.c()` aktif, selain itu NONE;
+- restore selection membaca `CloudMetadata/LocalMetadata.expansion*` metadata;
+- restore sizing menggunakan `getExternalObbSize()`;
+- target restore = `ji.getExpansionDir()`;
+- restore supports archive formats 1, 3, and 6 in the inspected `xw.l(...)` path;
+- unsupported formats raise explicit `Backup format not handled`;
+- privileged expansion restore uses SHIZUKU/root-backed shell/file operations;
+- post-restore path verifies/handles OBB directory state.
+
+Ini menutup capability/target/archive-level semantics untuk EXPANSION pada inspected restore path.
+
+Status:
+- EXPANSION model/capability: VERIFIED STATICALLY;
+- EXPANSION metadata → restore target: VERIFIED STATICALLY;
+- EXPANSION archive format handling: VERIFIED STATICALLY for inspected path;
+- privileged restore requirement: VERIFIED STATICALLY.
+
+### 3. Remaining execution gaps
+
+Dengan filter state dan EXPANSION semantics tertutup, unresolved consequential boundaries menyempit menjadi:
+
+- exact full filter predicate collaborator decomposition;
+- low-level split extraction helper identity/implementation detail;
+- explicit historical metadata migration engine;
+- cloud backend transaction/atomicity semantics;
+- runtime visual/branch verification;
+- remaining imported collaborator semantics outside the currently consequential graph.
+
+Tidak ada implementation Apps2 dimulai pada pass ini.
+
+### Status
+
+Filter/sort state producer-consumer closure: **VERIFIED STATICALLY**.
+EXPANSION capability/restore closure: **VERIFIED STATICALLY**.
+Deep collaborator closure: **BELUM SELESAI**.
+Runtime verification: **BELUM ADA**.
+Apps2 implementation: **BELUM DIMULAI**.
+Architecture freeze: **BELUM / NOT AUTHORIZED**.
+Home cutover: **BELUM / NOT AUTHORIZED**.
+Legacy Apps: **TIDAK DIUBAH**.
+
+### Next audit
+
+Lanjutkan ke **split restore low-level execution + metadata migration boundary**, lalu review final ledger terhadap seluruh 45-class inventory sebelum architecture freeze.
