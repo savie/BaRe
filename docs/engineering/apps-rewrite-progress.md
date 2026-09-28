@@ -68,6 +68,20 @@ Manifest menambahkan `android.permission.PACKAGE_USAGE_STATS` untuk capability D
 - Reference visual comparison: NOT RUN.
 - Reference behavioral parity: UNVERIFIED.
 
+
+## Continued implementation — post-baseline
+
+- Static Apps2 architecture baseline recorded at `docs/architecture/apps2-static-baseline.md`.
+- Persistent favorite state implemented and loaded during local discovery.
+- Favorite item action implemented in the Apps list.
+- Local system-app visibility now reaches the discovery boundary instead of being forced to all-app inventory.
+- Cloud inventory domain contract implemented:
+  - `CloudInventoryProvider`
+  - explicit `Loading/Success/Empty/DriveNotConnected/NetworkError/CloudError` states
+  - `CloudInventoryMapper` from cloud backup metadata to `CanonicalApp`
+  - mapper unit test added.
+- Cloud transport/backend remains BLOCKED/UNKNOWN because rewrite currently has no verified cloud transport dependency or endpoint contract. No fake remote implementation was introduced.
+
 ## Known remaining gaps
 
 - Cloud Apps repository/inventory masih belum diimplementasikan; current cloud section belum dapat dianggap Reference-parity.
