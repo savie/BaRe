@@ -6,7 +6,10 @@ import android.provider.Settings
 import java.nio.charset.StandardCharsets
 import com.bare.apps.model.AppSpecialDataPayload
 
-class AppSpecialDataManager(private val context: Context) {
+class AppSpecialDataManager(
+    private val context: Context,
+    private val ssaidHelper: SsaidHelper
+) {
     fun capture(packageName: String): AppSpecialDataPayload {
         val info = runCatching {
             context.packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
@@ -46,7 +49,7 @@ class AppSpecialDataManager(private val context: Context) {
         return AppSpecialDataPayload(
             version = 1,
             permissionStatesCsv = permissionStates,
-            ssaid = null,
+            ssaid = ssaidHelper.read(packageName),
             ntfAccessComponent = notificationAccess,
             accessibilityComponent = accessibility,
             notificationPolicyXml = captureNotificationPolicy()
