@@ -184,9 +184,18 @@ class IntroActivity : AppCompatActivity() {
                         true
                     }
                     R.id.action_restart -> {
-                        // Reference restart action delegates to the app restart mechanism.
-                        // Recreate the current onboarding Activity without changing first-run state.
-                        recreate()
+                        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+                        if (launchIntent != null) {
+                            launchIntent.addFlags(
+                                Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            )
+                            startActivity(launchIntent)
+                            finish()
+                        } else {
+                            recreate()
+                        }
                         true
                     }
                     else -> false
