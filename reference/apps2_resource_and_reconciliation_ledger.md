@@ -254,3 +254,98 @@ Legacy Apps: UNCHANGED.
 - Explicit historical metadata schema migration engine: UNKNOWN.
 - Cloud backend transaction/atomicity: UNKNOWN.
 - Runtime visual/branch verification: UNVERIFIED.
+
+## F. Checkpoint 39 — Exact 45-Class Inventory Reconciliation
+
+### Inventory verification
+
+The decompiled source tree was rechecked against the nine audit clusters. The exact 45-class inventory is:
+
+#### appslist — 14
+1. `FavoriteApp`
+2. `FavoriteAppsRepo$FavoritesWrapper`
+3. `AppListItemLayout`
+4. `AppRowLabelsView`
+5. `AppItemContentLayout`
+6. `AppSwipeActionRevealLayout`
+7. `AppListActivity`
+8. `LabelEditActivity`
+9. `LabelParams`
+10. `LabelledApp`
+11. `LabelsData`
+12. `LabelsActivity`
+13. `AppsConfigRunActivity`
+14. `AppsBatchActivity`
+
+#### appsquickactions — 1
+15. `AppsQuickActionsActivity`
+
+#### appinfo — 1
+16. `AppInfoActivity`
+
+#### detail — 2
+17. `ShortcutPinnedReceiver`
+18. `DetailActivity`
+
+#### appconfigs — 11
+19. `b` (list)
+20. `ConfigListActivity`
+21. `a` (list)
+22. `ConfigSettingsActivity`
+23. `a` (edit)
+24. `ConfigEditActivity`
+25. `Config`
+26. `b` (data)
+27. `ConfigSettings`
+28. `ConfigsData`
+29. `a` (data)
+
+#### apptasks — 8
+30. `AppsWorkingDir`
+31. `InstallerSourceProxy`
+32. `NotificationPolicyProxy`
+33. `a` (notifications)
+34. `b` (notifications)
+35. `c` (notifications)
+36. `SbaAppDataRootRequestBuilder$SbaAppDataArchiveMetadata`
+37. `a` (sba)
+
+#### model/app — 5
+38. `AppSpecialDataPayload`
+39. `AppCloudBackup`
+40. `CloudMetadata`
+41. `LocalMetadata`
+42. `AppCloudBackups`
+
+#### settings/appbackuplimits — 2
+43. `AppBackupLimitsActivity`
+44. `AppBackupLimitItem`
+
+#### settings/appvisibility — 1
+45. `AppVisibilityDiagnosticsActivity`
+
+### Reconciliation result
+
+- Inventory count: **45 / 45 VERIFIED STATICALLY**.
+- All nine cluster counts now reconcile exactly to 45.
+- The previous apparent task-cluster mismatch was caused by separating `apptasks` from the generic `tasks` package; the 8-class audit cluster is the concrete `org.swiftapps.swiftbackup.apptasks` subtree.
+- The model/app cluster includes the already-closed special-data and metadata producer/consumer graph.
+- The apptasks cluster is execution-boundary reconciled, but its low-level collaborators outside the eight concrete classes are not all reconstructed.
+- The appslist cluster is substantially reconciled; exact full filter predicate decomposition remains collaborator-level UNKNOWN.
+- appconfigs, detail, appinfo, appsquickactions, settings/appbackuplimits, and settings/appvisibility have static class/resource/navigation coverage at the inspected boundary.
+
+### Gate interpretation
+
+This closes the **45-class inventory reconciliation**, not every collaborator semantic.
+
+Therefore:
+- 45-class inventory: VERIFIED STATICALLY.
+- 45-class cluster producer/consumer reconciliation: VERIFIED STATICALLY.
+- Deep reconstruction of every imported collaborator: BELUM SELESAI.
+- Historical metadata migration engine: UNKNOWN / NOT FOUND IN INSPECTED SOURCE.
+- Cloud backend transaction/atomicity: UNKNOWN.
+- Runtime visual/branch verification: UNVERIFIED.
+- Apps2 implementation: BELUM DIMULAI.
+- Architecture freeze: BELUM / NOT AUTHORIZED.
+- Home cutover: BELUM / NOT AUTHORIZED.
+- Legacy Apps: TIDAK DIUBAH.
