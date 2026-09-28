@@ -31,6 +31,7 @@ object RootPermissionManager {
     }
 
     fun grantAll(context: Context, callback: (Result) -> Unit) {
+        thisContext = context
         Thread {
             val root = runRootGrant(context)
             if (root.success) {
@@ -95,10 +96,10 @@ object RootPermissionManager {
 
             val output = process.readAll()
             val code = process.waitFor()
-            if (code == 0) {
+            if (code == 0 && verifyRequiredPermissions()) {
                 Result(true, "shizuku", output.ifBlank { "Permissions granted." })
             } else {
-                Result(false, "shizuku", output.ifBlank { "Shizuku command execution failed." })
+                Result(false, "shizuku", output.ifBlank { "Shizuku command execution failed or permissions remain missing." })
             }
         }.getOrElse {
             Result(false, "shizuku", it.message ?: "Unable to execute commands through Shizuku.")
@@ -109,33 +110,66 @@ object RootPermissionManager {
         val p = process.redirectErrorStream(true).start()
         val output = p.readAll()
         val code = p.waitFor()
-        return if (code == 0) {
+        if (code != 0) {
+            return Result(false, mechanism, output.ifBlank { "Permission grant command failed." })
+        }
+        return if (verifyRequiredPermissions()) {
             Result(true, mechanism, output.ifBlank { "Permissions granted." })
         } else {
-            Result(false, mechanism, output.ifBlank { "Permission grant command failed." })
+            Result(false, mechanism, output.ifBlank { "The command ran, but not all required permissions were granted." })
         }
     }
 
     private fun grantScript(context: Context): String {
         val packageName = context.packageName
         val commands = mutableListOf(
-            "appops set --uid $packageName MANAGE_EXTERNAL_STORAGE allow",
-            "pm grant $packageName android.permission.READ_EXTERNAL_STORAGE",
-            "pm grant $packageName android.permission.WRITE_EXTERNAL_STORAGE",
-            "pm grant $packageName android.permission.READ_CONTACTS",
-            "pm grant $packageName android.permission.WRITE_CONTACTS",
-            "pm grant $packageName android.permission.READ_CALL_LOG",
-            "pm grant $packageName android.permission.WRITE_CALL_LOG",
-            "pm grant $packageName android.permission.READ_SMS",
-            "pm grant $packageName android.permission.RECEIVE_SMS",
-            "pm grant $packageName android.permission.SEND_SMS"
+            "appops set --uid $packageName MANAGE_EXTERNAL_STORAGE allow || true",
+            "pm grant $packageName android.permission.READ_EXTERNAL_STORAGE || true",
+            "pm grant $packageName android.permission.WRITE_EXTERNAL_STORAGE || true",
+            "pm grant $packageName android.permission.READ_CONTACTS || true",
+            "pm grant $packageName android.permission.WRITE_CONTACTS || true",
+            "pm grant $packageName android.permission.READ_CALL_LOG || true",
+            "pm grant $packageName android.permission.WRITE_CALL_LOG || true",
+            "pm grant $packageName android.permission.READ_SMS || true",
+            "pm grant $packageName android.permission.RECEIVE_SMS || true",
+            "pm grant $packageName android.permission.SEND_SMS || true"
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            commands += "pm grant $packageName android.permission.POST_NOTIFICATIONS"
+            commands += "pm grant $packageName android.permission.POST_NOTIFICATIONS || true"
         }
-        commands += "pm grant $packageName com.android.permission.GET_INSTALLED_APPS"
+        commands += "pm grant $packageName com.android.permission.GET_INSTALLED_APPS || true"
         return commands.joinToString("\n")
     }
+
+    private fun verifyRequiredPermissions(): Boolean {
+        val storageGranted = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            android.os.Environment.isExternalStorageManager()
+        } else {
+            ContextCompat.checkSelfPermission(thisContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED
+        }
+        if (!storageGranted) return false
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(thisContext, android.Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED
+        ) return false
+
+        val required = arrayOf(
+            android.Manifest.permission.READ_CONTACTS,
+            android.Manifest.permission.WRITE_CONTACTS,
+            android.Manifest.permission.READ_CALL_LOG,
+            android.Manifest.permission.WRITE_CALL_LOG,
+            android.Manifest.permission.READ_SMS,
+            android.Manifest.permission.RECEIVE_SMS,
+            android.Manifest.permission.SEND_SMS
+        )
+        return required.all {
+            ContextCompat.checkSelfPermission(thisContext, it) == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private lateinit var thisContext: Context
 
     private fun Process.readAll(): String {
         return BufferedReader(InputStreamReader(inputStream)).use { reader ->
