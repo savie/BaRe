@@ -97,13 +97,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
-    <style name="M3ButtonTonal" parent="Widget.Material3.Button.TonalButton">
-        <item name="android:textSize">@dimen/subtitle_large</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="backgroundTint">?attr/colorBackgroundActivated</item>
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="iconTint">?attr/colorPrimary</item>
-    </style>
     <style name="DividerThinNoMargins">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
