@@ -1,0 +1,18 @@
+<resources>
+    <declare-styleable name="IntroPermissionCardView">
+        <attr name="introPermissionActionText" format="string" />
+        <attr name="introPermissionButtonId" format="reference" />
+        <attr name="introPermissionIcon" format="reference" />
+        <attr name="introPermissionIconBackgroundTint" format="color" />
+        <attr name="introPermissionSubtitle" format="string" />
+        <attr name="introPermissionTint" format="color" />
+        <attr name="introPermissionTitle" format="string" />
+    </declare-styleable>
+    <declare-styleable name="IntroBenefitCardView">
+        <attr name="introBenefitIcon" format="reference" />
+        <attr name="introBenefitIconBackgroundTint" format="color" />
+        <attr name="introBenefitIconTint" format="color" />
+        <attr name="introBenefitSubtitle" format="string" />
+        <attr name="introBenefitTitle" format="string" />
+    </declare-styleable>
+</resources>
