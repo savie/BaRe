@@ -176,16 +176,16 @@ class AppRestoreManager(private val context: Context) {
             }
 
         payload.ntfAccessComponent?.takeIf { it.isNotBlank() }?.let { component ->
-            privileged.run(
-                "settings put secure enabled_notification_listeners '" +
-                    component.replace("'", "") + "'"
+            mergeSecureComponentSetting(
+                "enabled_notification_listeners",
+                component
             )
         }
 
         payload.accessibilityComponent?.takeIf { it.isNotBlank() }?.let { component ->
-            privileged.run(
-                "settings put secure enabled_accessibility_services '" +
-                    component.replace("'", "") + "'"
+            mergeSecureComponentSetting(
+                android.provider.Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+                component
             )
         }
 
@@ -196,6 +196,26 @@ class AppRestoreManager(private val context: Context) {
                 android.os.UserHandle.myUserId()
             )
         }
+    }
+
+    private fun mergeSecureComponentSetting(setting: String, component: String) {
+        val value = component.replace("'", "")
+        val current = runCatching {
+            android.provider.Settings.Secure.getString(
+                context.contentResolver,
+                setting
+            )
+        }.getOrNull()
+        val entries = current.orEmpty()
+            .split(':')
+            .filter { it.isNotBlank() }
+            .filterNot { it.equals(value, ignoreCase = true) }
+            .toMutableList()
+        entries.add(value)
+        privileged.run(
+            "settings put secure '" + setting.replace("'", "") + "' '" +
+                entries.joinToString(":").replace("'", "") + "'"
+        )
     }
 
     private fun restoreSsaid(packageName: String, ssaid: String?) {
