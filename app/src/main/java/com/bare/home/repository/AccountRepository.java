@@ -4,5 +4,6 @@ package com.bare.home.repository;
 public interface AccountRepository {
     BackendIdentity currentIdentity();
     boolean isRegisteredContributor();
+    /** Reference sign-out lifecycle: auth sign-out plus local/migration reset and reinitialization. */
     void signOut();
 }
