@@ -307,4 +307,11 @@
     <string name="new_backup_conditions_data_changes_title">When app data changes</string>
     <string name="new_backup_conditions_any_changes_title">When anything changes</string>
     <string name="single_backup">Single backup</string>
+    <string name="swipe_actions_description">Choose the actions exposed when swiping an app row.</string>
+    <string name="none">None</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="force_stop">Force stop</string>
+    <string name="play_store">Play Store</string>
+    <string name="clear_data">Clear data</string>
+    <string name="share_apk">Share APK</string>
 </resources>
