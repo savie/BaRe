@@ -639,3 +639,20 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 - Reconstructed Multiple Backups around Reference single/dated/conditional strategy cards, backup-count slider and condition controls. Settings persistence/execution remains deferred.
 - ComposeSmsActivity remains intentionally minimal because the audited Reference class itself contains no implementation/UI.
 - No provider, filesystem, crypto, restart, backup, restore or backend side effect was introduced.
+
+
+## P3 vertical sweep checkpoint — App Swipe Actions — 2026-09-29
+
+- Audited Reference `AppSwipeActionsActivity`, `uy` selection flow, `oy` action catalog, and `ho6` persistence/serialization directly from the supplied decompiled 5.1.0 (620) artifact.
+- Reconstructed the Reference-shaped Swipe Actions screen in BaRe using Java + Android Views/XML.
+- Preserved the verified preference keys `app_list_right_swipe_actions` and `app_list_left_swipe_actions`.
+- Preserved Reference defaults: Right = Launch; Left = Uninstall; secondary action = None.
+- Preserved the Reference action catalog and distinct primary/secondary selection behavior, including the Reference reset semantics and `none` serialization.
+- Kept app-management execution out of this P3 batch; this screen only configures the local swipe-action contract already used by the Apps-list surface.
+- No filesystem/package mutation, backup/restore, provider operation, Supabase implementation, APK build, install, or runtime verification was executed.
+
+### P3 boundary result
+
+- Swipe Actions UI/selection/persistence: **MATCH at source-contract level**
+- Runtime/visual verification: **UNKNOWN**
+- App action execution: **P4 / boundary**
