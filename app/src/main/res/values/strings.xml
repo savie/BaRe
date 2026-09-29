@@ -171,4 +171,14 @@
     <string name="clear_logs">Clear logs</string>
     <string name="sure_to_proceed">Are you sure you want to proceed?</string>
     <string name="p3_slog_boundary">SwiftLogger list and sharing controls are present. Actual log collection/clearing remains outside this P3 reconstruction.</string>
+    <string name="apps_config_run_pending">Configuration data is waiting for the Reference config-run contract.</string>
+    <string name="licenses">Licenses</string>
+    <string name="licenses_pending">License catalog is waiting for the Reference license data contract.</string>
+    <string name="mega">MEGA</string>
+    <string name="dropbox">Dropbox</string>
+    <string name="authentication">Authentication</string>
+    <string name="connect_service">Connect service</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="p3_cloud_auth_boundary">Cloud authorization surface reached. Provider authentication and token exchange remain P4.</string>
 </resources>
