@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,6 +38,12 @@ public final class AccountFragment extends Fragment {
                 email.setText(user.email == null ? "" : user.email);
             }
         });
+        View settings = view.findViewById(R.id.account_items);
+        if (settings != null) {
+            settings.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), com.bare.settings.SettingsActivity.class)));
+        }
+
         model.getItems().observe(getViewLifecycleOwner(), items -> {
             list.removeAllViews();
             for (AccountViewModel.Item item : items) {
