@@ -324,3 +324,12 @@ Ported only contracts directly supported by Reference code:
 - Reference `restore_runtime_permissions` delegates to its permission helper; exact rewrite-equivalent provider/flow is not yet established and remains UNKNOWN.
 - Reference app compression uses exactly the two `vp1` choices exposed by `wp1`: `No compression` and `Fastest`, with `Fastest` as the `xp1.DEFAULT` fallback; rewrite preserves those two choices.
 - Multiple-backup strategy internals remain a dedicated feature boundary: Reference `MultipleBackupStrategy` exposes SingleBackup, DatedBackups, and ConditionalBackup representations with a default conditional strategy, while the reconstructed activity itself is still a behavior boundary.
+
+
+### Latest raw-Smali recovery continuation — 2026-09-29
+- Recovered `fs4.d()` action semantics from raw Smali after JADX reported the method as non-decompiled.
+- Labs now has verified launch boundaries for `CloudOrphanCleanerActivity` and `AppVisibilityDiagnosticsActivity`, plus the OneDrive sign-in-agent chooser contract (`WEBVIEW` / `BROWSER`) persisted under `onedrive_auth_agent`.
+- Recovered the exact cloud chunk chooser ranges from `sj1`/`ho6`/`ly8`: multithreaded connection choices resolve from the Reference feature list (default fallback 2,4); OneDrive uses 5, 10, 50, 60 MB; Dropbox uses 1, 10, 25, 50, 100, 150 MB; Nextcloud uses 1, 10, 50, 100, 150 MB; S3 uses 1, 5, 10, 50, 100, 150 MB.
+- Apps (`org.swiftapps.swiftbackup.settings.a`) action targets now include verified `LabelsActivity`, `MultipleBackupsActivity`, and `AppBackupLimitsActivity` launches for `manage_labels`, `multiple_backups_strategy`, and `app_backup_limits`.
+- `restore_runtime_permissions` remains outside the rewrite because the Reference delegates it through a permission/provider flow whose concrete rewrite equivalent is not yet established.
+- No Supabase implementation, APK build, install, or runtime verification was executed.
