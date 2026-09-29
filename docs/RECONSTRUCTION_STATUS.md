@@ -409,3 +409,9 @@ Ported only contracts directly supported by Reference code:
 - Settings Apps duplicate listener wiring was consolidated while preserving audited action targets and preference persistence.
 - ReferenceActivityBoundary now provides a generic navigable P3 shell for still-unreconstructed Activity implementations. This does not claim feature or visual parity.
 - No backup/restore engine, cloud mutation, scheduler execution, privileged permission engine, or Supabase implementation was added.
+
+### P3 feature-surface continuation — 2026-09-29
+- Apps Batch now exposes an interactive action chooser for Backup selected / Restore selected / P4 engine boundary.
+- Multiple Backups, Password Strategy, Premium, Messages, Calls, and Folders dashboard Activity boundaries now expose an explicit interactive P3 surface instead of an inert skeleton.
+- Generic ReferenceActivityBoundary back navigation is stabilized with Activity finish semantics.
+- No feature engine, data mutation, cloud sync, encryption, scheduling execution, or backend behavior was introduced by this batch.
