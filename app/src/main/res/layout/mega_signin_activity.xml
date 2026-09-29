@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+ <LinearLayout android:id="@+id/custom_action_bar" android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="horizontal" android:paddingHorizontal="@dimen/spacing_medium" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+  <TextView android:id="@+id/tv_title" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center_vertical" android:text="@string/mega" android:textSize="@dimen/title_large" android:textStyle="bold"/>
+ </LinearLayout>
+ <ScrollView android:id="@+id/scroll_view" android:layout_width="0dp" android:layout_height="0dp" android:paddingHorizontal="@dimen/spacing_normal_more" android:paddingBottom="@dimen/spacing_normal_more" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/custom_action_bar">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
+   <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large" android:text="@string/authentication" android:textSize="@dimen/title_large" android:textStyle="bold"/>
+   <EditText android:id="@+id/et_email" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:hint="@string/email"/>
+   <EditText android:id="@+id/et_password" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:inputType="textPassword" android:hint="@string/password"/>
+   <com.google.android.material.button.MaterialButton android:id="@+id/btn_connect_cloud" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:text="@string/connect_service"/>
+  </LinearLayout>
+ </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
