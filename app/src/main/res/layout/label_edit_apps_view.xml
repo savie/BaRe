@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content">
+ <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <TextView android:id="@+id/tv_title" android:text="@string/apps" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_subtitle" android:text="@string/app_labels_description" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <com.google.android.material.button.MaterialButton android:id="@+id/iv_edit" android:text="@string/select_apps" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+ </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
