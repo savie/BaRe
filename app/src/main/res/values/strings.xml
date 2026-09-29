@@ -181,4 +181,6 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="p3_cloud_auth_boundary">Cloud authorization surface reached. Provider authentication and token exchange remain P4.</string>
+    <string name="run_config">Run configuration</string>
+    <string name="p3_config_run_boundary">Configuration run UI is active. Installed-app selection and execution remain deferred to the audited configuration/engine contract.</string>
 </resources>
