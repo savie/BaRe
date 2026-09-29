@@ -139,6 +139,13 @@
 - No invented purchase-verification writer.
 
 
+## Latest UI reconstruction continuation — 2026-09-29
+- Audited the Reference Account/Home account layouts directly from the decompiled 5.1.0 (620) resource set.
+- Added a BaRe profile_card_user resource based on the Reference profile-card structure, while preserving only fields already supported by the current AccountFragment (account_user_name, account_user_email).
+- Updated home_account_fragment.xml to follow the Reference account hierarchy: account caption → profile card include → settings caption → settings-item container.
+- Reference-only profile actions/fields not yet supported by BaRe state/resources were intentionally not invented; those remain UNKNOWN.
+- Cloud and Schedule Home fragments remain partial boundaries because their Reference layouts depend on custom Reference views/components and additional behavior not yet reconstructed.
+
 ## Latest reconstruction batch — 2026-09-29
 - Re-audited `rewrite` component tree before adding skeletons.
 - Reference component coverage confirmed: **71/71 internal activities, 3/3 services, 8/8 receivers**.
