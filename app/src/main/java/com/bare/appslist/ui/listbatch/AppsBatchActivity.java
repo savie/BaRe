@@ -59,8 +59,8 @@ public final class AppsBatchActivity extends AppCompatActivity {
                         getString(R.string.apps_batch_restore),
                         getString(R.string.apps_batch_boundary)
                 }, (dialog, which) -> new MaterialAlertDialogBuilder(this)
-                        .setTitle(which == 0 ? R.string.apps_batch_backup : R.string.apps_batch_restore)
-                        .setMessage(R.string.apps_engine_boundary)
+                        .setTitle(which == 0 ? R.string.apps_batch_backup : (which == 1 ? R.string.apps_batch_restore : R.string.apps_batch_actions))
+                        .setMessage(which == 2 ? R.string.p3_batch_selection_boundary : R.string.apps_engine_boundary)
                         .setPositiveButton(R.string.close, null)
                         .show())
                 .show();
