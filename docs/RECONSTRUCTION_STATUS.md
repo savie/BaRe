@@ -550,3 +550,11 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Reconstructed Messages/Calls dashboard, backup-list, and backup/restore surfaces from the Reference `smscalls_*` layouts.
 - Empty-state presentation is explicit; backup/restore execution remains a P4 boundary.
 - Build/runtime verification remains intentionally deferred.
+
+
+## Latest P3 batch — Settings deep surfaces
+- Reconstructed Restore Special Data detail surface with Reference-derived permission switch and special-data list container.
+- Reconstructed per-app backup limits surface with local/cloud MB fields; actual limit persistence remains outside P3.
+- Reconstructed App Visibility Diagnostics surface with search, results container, refresh and copy actions; diagnostics/data collection remains outside P3.
+- These screens no longer rely solely on generic ReferenceActivityBoundary shells.
+- Build/runtime verification remains intentionally deferred.
