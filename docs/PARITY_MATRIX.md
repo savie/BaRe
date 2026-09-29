@@ -125,3 +125,8 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Apps Batch now exposes a Reference-derived toolbar/menu/action-FAB/list boundary.
 - Search/filter/select-all are P3 presentation boundaries; inventory/selection semantics remain UNKNOWN.
 - Batch backup/restore remain P4 engine boundaries.
+
+
+### 2026-09-29 SwiftLogger
+- SwiftLogger now has a Reference-derived list/FAB/menu P3 surface.
+- Share Logs and Clear Logs remain explicit behavior boundaries; actual log state is UNKNOWN.
