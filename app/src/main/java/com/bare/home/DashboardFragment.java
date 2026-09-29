@@ -1,6 +1,7 @@
 package com.bare.home;
 
 import android.app.WallpaperManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bare.R;
 import com.bare.home.data.DashboardViewModel;
+import com.bare.appslist.ui.list.AppListActivity;
 
 public final class DashboardFragment extends Fragment {
     private DashboardViewModel model;
@@ -44,6 +46,10 @@ public final class DashboardFragment extends Fragment {
                 TextView item = (TextView) getLayoutInflater().inflate(
                         R.layout.home_dashboard_action, actions, false);
                 item.setText(action.title);
+                if (getString(R.string.apps).contentEquals(action.title)) {
+                    item.setOnClickListener(v ->
+                            startActivity(new Intent(requireContext(), AppListActivity.class)));
+                }
                 actions.addView(item);
             }
         });
