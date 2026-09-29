@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="16dp">
+ <LinearLayout android:id="@+id/main_view" android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <TextView android:id="@+id/tv_card_title" android:text="@string/wifi" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view" android:layout_width="match_parent" android:layout_height="80dp"/>
+  <LinearLayout android:id="@+id/shortcuts_container" android:gravity="center_vertical" android:orientation="horizontal" android:visibility="gone" android:layout_width="match_parent" android:layout_height="56dp">
+   <com.google.android.material.button.MaterialButton android:id="@+id/btn_shortcut1" android:text="@string/delete" style="@style/M3ButtonTonal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+   <com.google.android.material.button.MaterialButton android:id="@+id/btn_shortcut2" android:text="@string/manage" style="@style/M3ButtonTonal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp"/>
+  </LinearLayout>
+ </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
