@@ -63,3 +63,11 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Account now uses the Reference profile-card hierarchy and IDs, with current BaRe account data bound only where evidence exists.
 - Added Java boundary classes for the audited Reference custom view roles; their full rendering/segment behavior remains UNKNOWN.
 - This is structural reconstruction only. Runtime and visual parity remain BLOCKED because build/install/runtime verification is still gated.
+
+
+## 2026-09-29 Settings UI reconstruction
+- SettingsActivity shell: MATCH at structural/resource boundary; runtime verification remains BLOCKED.
+- Settings PreferenceScreen categories and audited preference keys: reconstructed from Reference resource evidence.
+- Reference settings icons required by the screen: ported.
+- Settings action semantics: UNKNOWN until the corresponding Reference behavior is reconstructed and verified.
+- AndroidX Preference dependency: added to support the Reference PreferenceScreen contract.
