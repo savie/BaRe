@@ -138,6 +138,29 @@
 - No invented contributor mutation contract.
 - No invented purchase-verification writer.
 
+
+## Latest reconstruction batch — 2026-09-29
+- Re-audited `rewrite` component tree before adding skeletons.
+- Reference component coverage confirmed: **71/71 internal activities, 3/3 services, 8/8 receivers**.
+- No duplicate Activity/Service/Receiver skeletons were added.
+- Manifest was tightened against audited Reference evidence:
+  - SMS/MMS/default-handler permissions and intent contracts.
+  - APK import SEND/VIEW contracts.
+  - Boot/locale receiver contracts.
+  - foreground-service type declarations for task/schedule services.
+  - Reference-backed storage/app-management/Wi-Fi/biometric/wallpaper/notification-related permissions and hardware features.
+  - Removed duplicate/misnamed HomeSearch registration.
+- Home UI reconstruction batch:
+  - Reference bottom-navigation menu structure.
+  - Reference home navigation selector/vector resources.
+  - Reference bottom-navigation tint selector.
+  - Reference spacing values used by Home.
+  - Reference Home container structure.
+  - Reference Home app-bar structure adapted only for the authorized BΛR☰ branding deviation.
+  - Added `ScheduleFabMenuView` as a behavior-free Reference boundary; schedule FAB behavior remains UNKNOWN.
+- Static manifest inspection after the batch confirms 71 activities, 3 services, 8 receivers, with no duplicate activity names.
+- No build, APK generation, install, runtime verification, Supabase schema, Supabase SDK, Supabase Auth, or Supabase RLS was executed.
+
 ## Roadmap alignment
 - PHASE 1 — Foundation: Android/Gradle/Java/resources/manifest baseline exists; runtime/build verification remains gated.
 - PHASE 2 — Reference Skeleton: Reference Activity/Service/Receiver component boundaries are now registered in the BaRe manifest.
