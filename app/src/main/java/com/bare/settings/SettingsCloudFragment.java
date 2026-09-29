@@ -24,6 +24,7 @@ public final class SettingsCloudFragment extends SettingsDetailBaseFragment {
 
         PreferenceCategory multi = category(s, "Multithreaded downloads");
         multi.setKey("multithreaded_downloads_category");
+        multi.setKey("multithreaded_downloads_category");
         toggle(multi, "multithreaded_downloads", "Multithreaded downloads",
                 "Download using multiple connections", false);
         item(multi, "multithreaded_downloads_chunk_count",
