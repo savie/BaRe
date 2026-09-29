@@ -55,3 +55,11 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Home navigation resource batch now uses Reference-derived menu/selectors/vectors/tint and Reference Home container/app-bar structure, with only authorized BΛR☰ branding substitution.
 - ScheduleFabMenuView is currently an explicit behavior boundary; its runtime behavior remains UNKNOWN.
 - No build, APK generation, install, runtime verification, or Supabase implementation was performed.
+
+
+## 2026-09-29 Home UI dependency batch
+- Schedule now uses Reference-shaped segment/card, dropdown, notice, and RecyclerView resource boundaries.
+- Cloud now uses Reference-shaped storage, warning, active-tag, and storage-detail resource boundaries; active-tag remains hidden pending data-contract reconstruction.
+- Account now uses the Reference profile-card hierarchy and IDs, with current BaRe account data bound only where evidence exists.
+- Added Java boundary classes for the audited Reference custom view roles; their full rendering/segment behavior remains UNKNOWN.
+- This is structural reconstruction only. Runtime and visual parity remain BLOCKED because build/install/runtime verification is still gated.
