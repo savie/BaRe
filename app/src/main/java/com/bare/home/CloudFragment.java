@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,19 +22,8 @@ public final class CloudFragment extends Fragment {
 
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         model = new ViewModelProvider(this).get(CloudViewModel.class);
-        TextView status = view.findViewById(R.id.cloud_status);
-        model.getState().observe(getViewLifecycleOwner(), value -> {
-            if (value == null) return;
-            switch (value) {
-                case DRIVE_CONNECTED: status.setText(R.string.cloud_ready); break;
-                case DRIVE_NOT_CONNECTED: status.setText(R.string.no_cloud_connected); break;
-                case NETWORK_ERROR: status.setText(R.string.no_internet_connection); break;
-                case TEMP_CONNECTION_ERROR: status.setText(R.string.cloud_connection_failed); break;
-                default: status.setText(R.string.cloud_loading); break;
-            }
-        });
-        // Reference delegates the actual cloud state to re3/tb1. Until the
-        // Supabase adapter is ported, keep this state at the explicit boundary.
+        // Reference delegates cloud state to its cloud/backend layer. Until that
+        // layer is reconstructed, keep the state at the explicit boundary.
         model.setState(CloudViewModel.State.DRIVE_NOT_CONNECTED);
     }
 }
