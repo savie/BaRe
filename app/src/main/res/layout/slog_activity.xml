@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar" android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize" android:title="@string/swiftlogger"
+        android:subtitle="@string/swiftlogger_info" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_slog" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_marginTop="?attr/actionBarSize"
+        android:paddingBottom="@dimen/spacing_largest2" android:clipToPadding="false" />
+    <TextView
+        android:id="@+id/empty_state" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:layout_gravity="center"
+        android:gravity="center" android:padding="@dimen/spacing_large"
+        android:text="@string/p3_slog_boundary" android:textColor="?android:textColorSecondary" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_send_slogs" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/spacing_normal_more" android:text="@string/share_logs" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
