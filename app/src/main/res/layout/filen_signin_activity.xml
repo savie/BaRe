@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:padding="@dimen/spacing_large" android:layout_width="match_parent" android:layout_height="match_parent">
+ <TextView android:id="@+id/tv_title" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/filen"/>
+ <TextView android:id="@+id/tv_status" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_low" android:text="@string/cloud_auth_pending"/>
+ <com.google.android.material.textfield.TextInputLayout android:id="@+id/email_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large">
+  <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_filen_email" android:inputType="textEmailAddress" android:hint="@string/email" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+ </com.google.android.material.textfield.TextInputLayout>
+ <com.google.android.material.textfield.TextInputLayout android:id="@+id/password_layout" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" app:endIconMode="password_toggle">
+  <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_filen_password" android:inputType="textPassword" android:hint="@string/password" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+ </com.google.android.material.textfield.TextInputLayout>
+ <com.google.android.material.button.MaterialButton android:id="@+id/btn_connect_filen" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large" android:text="@string/connect_service"/>
+</LinearLayout>
