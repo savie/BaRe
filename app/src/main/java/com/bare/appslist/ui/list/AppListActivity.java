@@ -26,6 +26,7 @@ import com.bare.R;
 import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.appslist.ui.listbatch.AppsBatchActivity;
+import com.bare.appslist.ui.AppListItemLayout;
 import com.bare.detail.DetailActivity;
 import com.bare.appinfo.AppInfoActivity;
 import com.bare.blacklist.BlacklistActivity;
@@ -256,6 +257,8 @@ public final class AppListActivity extends AppCompatActivity {
         public void onBindViewHolder(Holder holder, int position) {
             View root = holder.itemView;
             View card = root.findViewById(R.id.item_card);
+            AppListItemLayout itemLayout = (AppListItemLayout) root;
+            itemLayout.bindSwipeTo(card);
             View menu = root.findViewById(R.id.iv_menu_click_listener);
             View menuIcon = root.findViewById(R.id.iv_menu);
             View favorite = root.findViewById(R.id.iv_favorite);
