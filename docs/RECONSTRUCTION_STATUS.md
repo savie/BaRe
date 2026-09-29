@@ -415,3 +415,10 @@ Ported only contracts directly supported by Reference code:
 - Multiple Backups, Password Strategy, Premium, Messages, Calls, and Folders dashboard Activity boundaries now expose an explicit interactive P3 surface instead of an inert skeleton.
 - Generic ReferenceActivityBoundary back navigation is stabilized with Activity finish semantics.
 - No feature engine, data mutation, cloud sync, encryption, scheduling execution, or backend behavior was introduced by this batch.
+
+### P3 feature-surface continuation 2 — 2026-09-29
+- Activated explicit P3 interaction boundaries for Cloud Connect, Cloud Diagnostics, Storage Switch, Notices, Notice View, Tasks, Task Preconditions.
+- Activated P3 boundaries for Folders batch/picker/edit/detail and Messages/Calls backup and backup/restore surfaces.
+- Activated P3 boundaries for APK Import, Manage Space, Wi-Fi, Walls dashboard/manager, Language, and Contributor registration.
+- These surfaces now have a reachable, navigable interaction surface rather than a pure empty ReferenceActivityBoundary.
+- No underlying provider authentication, filesystem mutation, SMS/call backup engine, task execution, wall application, or cloud operation was fabricated.
