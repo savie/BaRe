@@ -1,8 +1,8 @@
 package com.bare.settings;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
@@ -11,6 +11,9 @@ import com.bare.cloud.orphans.CloudOrphanCleanerActivity;
 import com.bare.settings.appvisibility.AppVisibilityDiagnosticsActivity;
 
 public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
+    private static final String[] ONEDRIVE_AGENTS = {"BROWSER", "WEBVIEW"};
+    private static final String[] ONEDRIVE_LABELS = {"Browser", "WebView"};
+
     @Override
     protected void build(PreferenceScreen s) {
         PreferenceCategory cloud = category(s, "Cloud");
@@ -34,6 +37,7 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         hidden(cached);
 
         wire(s);
+        refresh();
     }
 
     private void wire(PreferenceScreen s) {
@@ -46,7 +50,7 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         Preference orphan = s.findPreference("scan_orphaned_cloud_files");
         if (orphan != null) {
             orphan.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), CloudOrphanCleanerActivity.class));
+                startActivity(new android.content.Intent(requireContext(), CloudOrphanCleanerActivity.class));
                 return true;
             });
         }
@@ -54,7 +58,25 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         Preference diagnostics = s.findPreference("app_visibility_diagnostics");
         if (diagnostics != null) {
             diagnostics.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), AppVisibilityDiagnosticsActivity.class));
+                startActivity(new android.content.Intent(requireContext(), AppVisibilityDiagnosticsActivity.class));
+                return true;
+            });
+        }
+
+        Preference agent = s.findPreference("onedrive_auth_agent");
+        if (agent != null) {
+            agent.setOnPreferenceClickListener(p -> {
+                String current = prefs.getString("onedrive_auth_agent", "BROWSER");
+                int selected = "WEBVIEW".equals(current) ? 1 : 0;
+                new AlertDialog.Builder(requireContext())
+                        .setTitle("OneDrive sign-in agent")
+                        .setSingleChoiceItems(ONEDRIVE_LABELS, selected, (dialog, which) -> {
+                            prefs.edit().putString("onedrive_auth_agent", ONEDRIVE_AGENTS[which]).apply();
+                            dialog.dismiss();
+                            refresh();
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
                 return true;
             });
         }
@@ -72,14 +94,17 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    private void refresh() {
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         sync(prefs, "use_test_pdras", false);
         sync(prefs, "extra_logging", false);
         sync(prefs, "skip_disk_space_checks", false);
         sync(prefs, "extend_data_sync_fgs_timeout_for_schedules", false);
+        Preference agent = findPreference("onedrive_auth_agent");
+        if (agent != null) {
+            agent.setSummary("WEBVIEW".equals(prefs.getString("onedrive_auth_agent", "BROWSER"))
+                    ? "WebView" : "Browser");
+        }
     }
 
     private void sync(SharedPreferences prefs, String key, boolean fallback) {
@@ -87,5 +112,11 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         if (p instanceof MSwitchPreference) {
             ((MSwitchPreference) p).setChecked(prefs.getBoolean(key, fallback));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 }
