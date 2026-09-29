@@ -1,80 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:clipChildren="false" android:clipToPadding="false"
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
         android:id="@+id/schedule_fragment_scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
+        android:paddingBottom="@dimen/spacing_largest2"
+        android:scrollbars="none" android:clipChildren="false" android:clipToPadding="false"
+        android:layout_width="match_parent" android:layout_height="match_parent" android:overScrollMode="never">
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/spacing_largest2">
-
-            <TextView
-                android:text="@string/schedule_controls"
-                style="@style/SegmentCategoryCaption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:text="@string/schedule_controls" style="@style/SegmentCategoryCaption" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <include android:id="@+id/schedule_fragment_card" layout="@layout/schedule_fragment_card" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView android:gravity="center" android:id="@+id/tv_schedules_title" style="@style/CardTitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large" android:paddingHorizontal="@dimen/spacing_medium" android:text="@string/schedules"/>
+            <include android:id="@+id/schedule_notice_view" layout="@layout/schedule_notice_view" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium"/>
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/schedule_fragment_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/spacing_normal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_normal">
-
-                    <TextView
-                        android:id="@+id/tv_schedules_title"
-                        style="@style/CardTitle"
-                        android:text="@string/schedules"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/schedule_notice_view"
-                        android:layout_marginTop="@dimen/spacing_medium"
-                        android:text="@string/schedule_enabled"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
+                android:id="@+id/cv_no_schedule_added" android:visibility="gone"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+                <androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:id="@+id/tv_no_schedule_message" style="@style/CardTitle" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large" android:paddingHorizontal="@dimen/spacing_normal" android:text="@string/no_schedules_added_message"/>
+                    <com.google.android.material.button.MaterialButton android:id="@+id/btn_add_first_schedule" style="@style/M3ButtonFilled" android:layout_gravity="center|bottom" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:layout_marginBottom="@dimen/spacing_medium_more" android:text="@string/new_schedule" app:icon="@drawable/ic_plus"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:text="@string/schedules"
-                style="@style/SegmentCategoryCaption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:id="@+id/schedule_list"
-                android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+            <com.bare.views.QuickRecyclerView
+                android:id="@+id/rv_schedules" android:clipChildren="false" android:clipToPadding="false"
+                android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:overScrollMode="never" android:nestedScrollingEnabled="false"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/schedule_fragment_progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
-
+    <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/schedule_fragment_progress_bar" android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:visibility="gone"/>
 </FrameLayout>
