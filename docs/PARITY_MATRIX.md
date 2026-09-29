@@ -99,3 +99,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Apps List is now an interactive P3 flow surface rather than an inert screen: Search, Filter boundary, Refresh boundary, navigation drawer, drawer routes, Back handling, and Batch entry are wired.
 - Search/filter/refresh do not claim feature-engine behavior; their data semantics remain UNKNOWN/P4-bound.
 - Reference-audited drawer targets are wired where BaRe component boundaries already exist.
+
+
+### 2026-09-29 Apps-item P3 flow
+- Reference-shaped app row hierarchy is now reconstructed with live P3 interaction boundaries for row/detail, menu, favorite, and swipe actions.
+- Detail navigation uses the existing BaRe DetailActivity boundary; no Reference app parcelable is fabricated.
+- App Info, favorite persistence, backup/restore, and app-management actions remain explicit UNKNOWN/P4 boundaries where their concrete data/provider contracts are not yet reconstructed.
