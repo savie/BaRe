@@ -399,3 +399,13 @@ Ported only contracts directly supported by Reference code:
 - Added explicit P3 boundary strings for pending app inventory/info states.
 - P4 engine behavior remains deferred: no backup, restore, cloud mutation, scheduling execution, filesystem mutation, or permission-provider execution was added by this batch.
 - No APK build/install/runtime verification was executed by this batch.
+
+### P3 full-surface continuation — 2026-09-29
+- Home app-bar search now navigates to the Reference-shaped HomeSearchActivity boundary.
+- Home avatar action switches to the Account tab.
+- Schedule “New schedule” entry is interactive and reaches an explicit P3 boundary dialog; schedule persistence/execution remains P4.
+- Cloud storage/warning surfaces are interactive and reach an explicit P3 cloud-connect boundary; provider auth/sync remains P4.
+- Account menu rows are interactive: Settings and About have concrete navigation; other account actions reach explicit P3 boundary dialogs instead of dead rows.
+- Settings Apps duplicate listener wiring was consolidated while preserving audited action targets and preference persistence.
+- ReferenceActivityBoundary now provides a generic navigable P3 shell for still-unreconstructed Activity implementations. This does not claim feature or visual parity.
+- No backup/restore engine, cloud mutation, scheduler execution, privileged permission engine, or Supabase implementation was added.
