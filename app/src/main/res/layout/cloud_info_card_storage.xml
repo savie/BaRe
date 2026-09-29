@@ -1,89 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <com.bare.views.SwiftSegmentLinearLayout
-        android:id="@+id/cloud_storage_segment"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_normal">
-        <include
-            android:id="@+id/storage_view"
-            layout="@layout/dash_storage_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/spacing_normal">
-            <TextView
-                android:id="@+id/tv_account_id_label"
-                style="@style/TextCaption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/account_id"
-                android:textAllCaps="true" />
-            <TextView
-                android:id="@+id/tv_account_id"
-                style="@style/Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_low"
-                android:maxLines="2"
-                android:ellipsize="end" />
-            <TextView
-                android:id="@+id/tv_cloud_folder_label"
-                style="@style/TextCaption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:text="@string/cloud_folder"
-                android:textAllCaps="true"
-                android:visibility="gone" />
-            <TextView
-                android:id="@+id/tv_cloud_folder_name"
-                style="@style/Subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_low"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:visibility="gone" />
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cloud_actions_segment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_disconnect"
-                    style="@style/M3ButtonTonal.Error"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/disconnect_cloud"
-                    app:icon="@drawable/ic_cloud_off"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_save_settings"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-                <ImageView
-                    android:id="@+id/iv_save_settings"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_dots_vertical"
-                    android:contentDescription="@string/save_settings"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="?android:textColorSecondary" />
+<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <com.bare.views.SwiftSegmentLinearLayout android:id="@+id/cloud_storage_segment" android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal">
+        <include android:id="@+id/storage_view" layout="@layout/dash_storage_view" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp"/>
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="@dimen/spacing_normal">
+            <TextView android:id="@+id/tv_account_id_label" style="@style/TextCaption" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/account_id" android:textAllCaps="true"/>
+            <TextView android:id="@+id/tv_account_id" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_low" android:maxLines="2" android:ellipsize="end"/>
+            <TextView android:id="@+id/tv_cloud_folder_label" style="@style/TextCaption" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:text="@string/cloud_folder" android:textAllCaps="true" android:visibility="gone"/>
+            <TextView android:id="@+id/tv_cloud_folder_name" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_low" android:maxLines="2" android:ellipsize="end" android:visibility="gone"/>
+            <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/cloud_actions_segment" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+                <com.google.android.material.button.MaterialButton android:id="@+id/btn_disconnect" style="@style/M3ButtonTonal.Error" android:layout_width="0dp" android:layout_height="wrap_content" android:text="@string/disconnect_cloud" app:icon="@drawable/ic_cloud_off" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@id/iv_save_settings" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                <ImageView android:id="@+id/iv_save_settings" android:layout_width="48dp" android:layout_height="48dp" android:background="?selectableItemBackgroundBorderless" android:padding="12dp" android:src="@drawable/ic_dots_vertical" android:contentDescription="@string/save_settings" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:tint="?android:textColorSecondary"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </com.bare.views.SwiftSegmentLinearLayout>
