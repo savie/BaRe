@@ -34,6 +34,34 @@ public class AppListItemLayout extends FrameLayout {
         reveal.setVisibility(open ? VISIBLE : GONE);
     }
 
+    public void bindSwipeTo(View card) {
+        if (card == null) return;
+        card.setOnTouchListener(new OnTouchListener() {
+            private float downX;
+            private float downY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        downX = event.getRawX();
+                        downY = event.getRawY();
+                        return false;
+                    case MotionEvent.ACTION_UP:
+                        float dx = event.getRawX() - downX;
+                        float dy = event.getRawY() - downY;
+                        if (Math.abs(dx) >= SWIPE_DISTANCE_PX && Math.abs(dx) > Math.abs(dy)) {
+                            revealFromSwipe(dx > 0f);
+                            return true;
+                        }
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
+
     public void closeReveals() {
         reveal(findViewById(com.bare.R.id.reveal_start), false);
         reveal(findViewById(com.bare.R.id.reveal_end), false);
