@@ -55,7 +55,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         bindBoolean(s, prefs, "show_system_apps", false);
         bindBooleanWithWarning(s, prefs, "restore_ssaids", false,
                 "Note", R.string.restore_app_ssaids_note);
-        bindBooleanWithWarning(s, prefs, "backup_app_cache", false,
+        bindBooleanWithWarning(s, prefs, "backup_app_cache", legacyBackupCacheDefault(prefs),
                 "Warning", R.string.backup_cache_warning);
         bindBoolean(s, prefs, "in_place_apk_downgrades", false);
 
@@ -98,6 +98,13 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         if (limits != null) {
             limits.setOnPreferenceClickListener(p -> {
                 startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
+                return true;
+            });
+        }
+        Preference runtime = s.findPreference("restore_runtime_permissions");
+        if (runtime != null) {
+            runtime.setOnPreferenceClickListener(p -> {
+                chooseRuntimePermissions(prefs);
                 return true;
             });
         }
@@ -149,6 +156,29 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
             }
             return true;
         });
+    }
+
+    private void chooseRuntimePermissions(SharedPreferences prefs) {
+        String[] labels = {
+                getString(R.string.restore_permission_option_granted),
+                getString(R.string.restore_permission_option_all),
+                getString(R.string.restore_permission_option_none)
+        };
+        int current = prefs.getInt("restore_runtime_permissions", 0);
+        int selected = current >= 0 && current <= 2 ? current : 0;
+        new AlertDialog.Builder(requireContext())
+                .setTitle(R.string.restore_runtime_permissions)
+                .setSingleChoiceItems(labels, selected, (dialog, which) -> {
+                    prefs.edit().putInt("restore_runtime_permissions", which).apply();
+                    dialog.dismiss();
+                    refresh();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private boolean legacyBackupCacheDefault(SharedPreferences prefs) {
+        return prefs.getBoolean("KEY_BACKUP_APP_CACHE", false);
     }
 
     private void chooseCompression(SharedPreferences prefs) {
