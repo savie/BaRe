@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,5 +26,18 @@ public final class CloudFragment extends Fragment {
         // Reference delegates cloud state to its cloud/backend layer. Until that
         // layer is reconstructed, keep the state at the explicit boundary.
         model.setState(CloudViewModel.State.DRIVE_NOT_CONNECTED);
+
+        View storage = view.findViewById(R.id.cloud_info_card_storage);
+        if (storage != null) storage.setOnClickListener(v -> showCloudBoundary());
+        View warning = view.findViewById(R.id.cloud_info_card_warning);
+        if (warning != null) warning.setOnClickListener(v -> showCloudBoundary());
+    }
+
+    private void showCloudBoundary() {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.connect_cloud_account)
+                .setMessage(R.string.p3_cloud_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
     }
 }
