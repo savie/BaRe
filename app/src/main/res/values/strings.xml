@@ -137,7 +137,9 @@
     <string name="app_labels_description">Manage app labels.</string>
     <string name="custom_configurations">Custom configurations</string>
     <string name="custom_configurations_description">Configure advanced app backup options.</string>
-    <string name="blacklist_apps_msg">Exclude selected apps from operations.</string>
+    <string name="blacklist_apps_msg">Hide apps or back up APKs only</string>
+    <string name="p3_blacklist_boundary">App selection and blacklist membership are reconstructed as a P3 boundary. Real app inventory and blacklist persistence remain P4.</string>
+    <string name="p3_blacklist_clear_boundary">Clear-all is a P3 presentation boundary. Actual blacklist removal and persistence remain P4.</string>
     <string name="app_backup_settings">App backup settings</string>
     <string name="apps_engine_boundary">This action reaches the P3 flow boundary. Backup/restore execution remains deferred to the existing engine contract.</string>
     <string name="app_favorite_boundary">Favorite interaction reaches the P3 boundary. Favorite persistence remains deferred until its existing data contract is reconstructed.</string>
