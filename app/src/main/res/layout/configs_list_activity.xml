@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+    <ProgressBar android:id="@+id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"/>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:clipChildren="false" android:clipToPadding="false" android:paddingBottom="@dimen/spacing_largest6"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+    <TextView android:id="@+id/error_layout" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_gravity="center" android:gravity="center" android:padding="@dimen/spacing_large"
+        android:text="@string/configs_pending" android:visibility="visible"/>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_create"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/spacing_normal_more" android:text="@string/new_config"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
