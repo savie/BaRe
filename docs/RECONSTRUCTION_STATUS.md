@@ -241,3 +241,10 @@ Do not restart the Reference inventory from zero.
 - Ported the audited Reference settings preference icons required by the reconstructed screen.
 - Added AndroidX Preference as the explicit UI dependency required by the Reference PreferenceScreen contract.
 - Settings click semantics remain evidence-bound; no backend, entitlement, export/import, or device-state behavior was invented.
+
+
+## Latest Settings Detail boundary batch — 2026-09-29
+- Reconstructed the Reference SettingsDetailActivity shell and verified extras: category_title and category (default 1).
+- Preserved the eight-category selector contract (1..8) without guessing the obfuscated fragment mappings.
+- Added an explicit SettingsCategoryBoundaryFragment to carry the verified category selector.
+- Concrete category semantics remain UNKNOWN until the corresponding obfuscated Reference fragments are mapped.
