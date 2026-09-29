@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipToPadding="false"
     android:fillViewport="true"
     android:layout_width="match_parent"
@@ -30,8 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="?cardBackgroundColor"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -40,7 +39,7 @@
                 <LinearLayout
                     android:layout_gravity="start"
                     android:orientation="horizontal"
-                    android:background="?colorSurfaceVariant"
+                    android:background="?attr/colorSurfaceVariant"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
@@ -61,7 +60,7 @@
 
                 <FrameLayout
                     android:id="@+id/right_preview_content"
-                    android:background="?cardBackgroundColor"
+                    android:background="?attr/colorSurface"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="64dp">
@@ -95,7 +94,7 @@
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp"
-                    android:background="?colorOutlineVariant" />
+                    android:background="?attr/colorOutlineVariant" />
 
                 <LinearLayout android:id="@+id/right_secondary_action"
                     android:gravity="center_vertical"
@@ -127,7 +126,7 @@
             android:id="@+id/left_swipe_preview"
             android:layout_width="match_parent" android:layout_height="72dp"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="?cardBackgroundColor">
+            app:cardBackgroundColor="?attr/colorSurface">
 
             <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
                 <LinearLayout android:layout_gravity="end"
