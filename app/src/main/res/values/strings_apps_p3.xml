@@ -1,0 +1,15 @@
+<resources>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="search_hint_apps">Search apps</string>
+    <string name="quick_actions">Quick actions</string>
+    <string name="app_labels">App labels</string>
+    <string name="app_labels_description">Manage app labels.</string>
+    <string name="custom_configurations">Custom configurations</string>
+    <string name="custom_configurations_description">Configure advanced app backup options.</string>
+    <string name="for_advanced_rooted_users">For advanced/rooted users.</string>
+    <string name="blacklist">Blacklist</string>
+    <string name="blacklist_apps_msg">Exclude selected apps from operations.</string>
+    <string name="app_backup_settings">App backup settings</string>
+</resources>
