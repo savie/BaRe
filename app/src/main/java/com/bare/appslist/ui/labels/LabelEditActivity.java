@@ -1,22 +1,21 @@
 package com.bare.appslist.ui.labels;
 
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
-import com.bare.ReferenceActivityBoundary;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.bare.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class LabelEditActivity extends ReferenceActivityBoundary {
-    @Override protected void onCreate(@Nullable Bundle state) {
-        super.onCreate(state);
-        LinearLayout shell=(LinearLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0); shell.removeViewAt(1);
-        LinearLayout body=new LinearLayout(this); body.setOrientation(LinearLayout.VERTICAL); body.setPadding(32,24,32,24);
-        EditText name=new EditText(this); name.setHint("Label name"); body.addView(name);
-        TextView note=new TextView(this); note.setText("Label assignment/color persistence remains evidence-bound."); body.addView(note);
-        Button save=new Button(this); save.setText("Save"); save.setOnClickListener(v->finish()); body.addView(save);
-        shell.addView(body,new LinearLayout.LayoutParams(-1,0,1));
-    }
+public final class LabelEditActivity extends AppCompatActivity {
+ @Override protected void onCreate(@Nullable Bundle state){
+  super.onCreate(state); setContentView(R.layout.label_edit_activity);
+  Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t);
+  if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  findViewById(R.id.btn_cancel).setOnClickListener(v->finish());
+  findViewById(R.id.btn_save).setOnClickListener(v->new MaterialAlertDialogBuilder(this)
+   .setTitle("Save label").setMessage("Label persistence and app assignment remain outside the current P3 boundary.")
+   .setPositiveButton(R.string.close,null).show());
+ }
+ @Override public boolean onSupportNavigateUp(){finish();return true;}
 }
