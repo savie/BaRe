@@ -71,3 +71,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Reference settings icons required by the screen: ported.
 - Settings action semantics: UNKNOWN until the corresponding Reference behavior is reconstructed and verified.
 - AndroidX Preference dependency: added to support the Reference PreferenceScreen contract.
+
+
+## 2026-09-29 Settings Detail
+- SettingsDetailActivity toolbar/extras/category selector: reconstructed from Reference evidence.
+- Category 1..8 fragment mapping: UNKNOWN / unresolved due obfuscated Reference classes.
+- No backend or device-state behavior invented.
