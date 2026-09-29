@@ -564,3 +564,12 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Reused the existing reconstructed detail fragments instead of introducing new engine contracts.
 - Root actions without a reconstructed engine/system contract remain explicit P3 boundaries; SwiftLogger routes to the reconstructed SLog surface and notification management delegates to the Android app-notification settings surface.
 - Build/runtime verification remains intentionally deferred.
+
+
+## Latest P3 batch — Labels / Notices / Blacklist
+- Reconstructed Labels list/edit surfaces from the Reference label layouts: toolbar, app-label container, label list boundary, create/edit flow, label preview, name field, and save/cancel controls.
+- Reconstructed Notice list/view surfaces: toolbar, list boundary, intent-backed notice title/message rendering, and missing-message finish behavior.
+- Reconstructed Blacklist surface from the Reference activity/menu contract: toolbar, explanatory card, Add apps actions, empty list boundary, FAB, and Clear all menu.
+- Reference-derived blacklist copy is preserved: “Hide apps or back up APKs only”.
+- No app inventory, label persistence, blacklist membership mutation, notice catalog, or engine/provider side effect is fabricated; those remain P4/evidence boundaries.
+- Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
