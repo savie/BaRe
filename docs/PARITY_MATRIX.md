@@ -25,11 +25,20 @@
 | Backend | Reference behavior | Supabase target designated | UNKNOWN |
 | Database | Reference behavior | Not reconstructed yet | UNKNOWN |
 | Backup/restore | Reference behavior | Not reconstructed yet | UNKNOWN |
-| Navigation | Reference behavior | Not reconstructed yet | UNKNOWN |
-| Resources | Reference resources | Bootstrap resources only | BLOCKED |
-| Runtime behavior | Reference runtime | Bootstrap screen only | BLOCKED |
-| Visual parity | Reference UI | Bootstrap screen only | BLOCKED |
+| Navigation | Reference behavior | Home 4-page navigation structure + Reference bottom-nav menu/selectors reconstructed; detailed navigation behavior remains UNKNOWN | UNKNOWN |
+| Resources | Reference resources | Reference-derived Home navigation/resources partially reconstructed; remaining resources not yet ported/audited | UNKNOWN |
+| Runtime behavior | Reference runtime | Not runtime-verified; build/install intentionally blocked | BLOCKED |
+| Visual parity | Reference UI | Home structure/resources partially reconstructed; no visual verification yet | BLOCKED |
 
 ## Rule
 
 No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
+
+## 2026-09-29 reconstruction audit
+
+- Reference Activity coverage: **71/71** mapped to BaRe Activity classes.
+- Reference Android Service coverage: **3/3** mapped in the manifest.
+- Reference Receiver coverage: **8/8** mapped in the manifest.
+- Home navigation resource batch now uses Reference-derived menu/selectors/vectors/tint and Reference Home container/app-bar structure, with only authorized BΛR☰ branding substitution.
+- ScheduleFabMenuView is currently an explicit behavior boundary; its runtime behavior remains UNKNOWN.
+- No build, APK generation, install, runtime verification, or Supabase implementation was performed.
