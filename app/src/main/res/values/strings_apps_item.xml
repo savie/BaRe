@@ -2,4 +2,7 @@
     <string name="app_item_pending_subtitle">App metadata is waiting for the Reference app contract.</string>
     <string name="app_item_menu">App actions</string>
     <string name="favorite">Favorite</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="favorite">Favorite</string>
 </resources>
