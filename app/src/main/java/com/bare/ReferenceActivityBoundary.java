@@ -24,7 +24,7 @@ public abstract class ReferenceActivityBoundary extends AppCompatActivity {
         Toolbar toolbar = new Toolbar(this);
         toolbar.setTitle(humanTitle(getClass().getSimpleName()));
         toolbar.setNavigationIcon(android.R.drawable.ic_menu_revert);
-        toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        toolbar.setNavigationOnClickListener(v -> finish());
         root.addView(toolbar, new LinearLayout.LayoutParams(-1, dp(56)));
 
         TextView body = new TextView(this);
