@@ -50,4 +50,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+    <ImageView
+        android:id="@+id/warning_view"
+        android:visibility="gone"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_warn"
+        android:contentDescription="@null"
+        app:tint="?attr/colorError" />
 </LinearLayout>
