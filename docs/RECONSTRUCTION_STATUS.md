@@ -517,3 +517,12 @@ Ported only contracts directly supported by Reference code:
 - Dropbox sign-in now exposes the audited logo/status surface; external OAuth is not launched by P3.
 - pCloud authentication now exposes the Reference WebView boundary with an explicit P3 auth status instead of performing token exchange.
 - Provider authentication, token exchange, credential persistence, and cloud connection state remain P4.
+
+## P3 continuation — configs / cloud connect / shortcuts
+
+- Reconstructed Reference-shaped **ConfigListActivity** surface: appbar, loading/error boundary, RecyclerView catalog boundary, New Config route, sort/help/labels/app-backup-settings/settings menu routes. No fabricated configuration records.
+- Reconstructed **ConfigSettingsActivity** surface: Apply-to/labels card, settings container boundary, delete action boundary. Configuration persistence/deletion remains P4.
+- Reconstructed **CloudConnectActivity** surface: provider cards for Google Drive, browser Google Drive, Dropbox, OneDrive, Box, MEGA, Yandex, pCloud, TeraBox, and Filen. Provider rows route into the existing sign-in activities; authentication/token exchange remains P4.
+- Reconstructed **ShortcutsActivity** command routing for Reference extras `extra_id=configs` and `extra_id=quick_actions`. Arbitrary schedule command execution is held at a P3 boundary rather than invoking Task/Schedule engines.
+
+Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
