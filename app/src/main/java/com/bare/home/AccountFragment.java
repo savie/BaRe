@@ -24,8 +24,8 @@ public final class AccountFragment extends Fragment {
 
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         model = new ViewModelProvider(this).get(AccountViewModel.class);
-        TextView name = view.findViewById(R.id.account_user_name);
-        TextView email = view.findViewById(R.id.account_user_email);
+        TextView name = view.findViewById(R.id.tv_user_name);
+        TextView email = view.findViewById(R.id.tv_user_email);
         LinearLayout list = view.findViewById(R.id.account_items);
 
         model.getUser().observe(getViewLifecycleOwner(), user -> {
@@ -34,7 +34,7 @@ public final class AccountFragment extends Fragment {
                 email.setText("");
             } else {
                 name.setText(user.displayName == null ? "" : user.displayName);
-                email.setText(user.email);
+                email.setText(user.email == null ? "" : user.email);
             }
         });
         model.getItems().observe(getViewLifecycleOwner(), items -> {
