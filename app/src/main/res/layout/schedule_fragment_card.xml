@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.bare.views.SwiftSegmentConstraintLayout
+        android:id="@+id/schedule_header_segment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_normal">
+        <TextView
+            android:id="@+id/tv_header_title"
+            style="@style/CardTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/spacing_normal"
+            android:text="@string/scheduled_backups"
+            app:layout_constraintEnd_toStartOf="@id/swch_schedule"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_header_subtitle"
+            style="@style/Subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/schedule_backup_summary"
+            app:layout_constraintEnd_toStartOf="@id/swch_schedule"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_header_title" />
+        <com.bare.views.SwiftBackupMaterialSwitch
+            android:id="@+id/swch_schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tv_header_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_header_title" />
+        <View
+            android:id="@+id/schedule_header_click_target"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:importantForAccessibility="no"
+            app:layout_constraintBottom_toBottomOf="@id/tv_header_subtitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/schedule_requirements_segment"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/spacing_normal"
+            app:layout_constraintTop_toBottomOf="@id/tv_header_subtitle">
+            <include
+                android:id="@+id/time_dropdown"
+                layout="@layout/common_dropdown_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/charging_dropdown"
+                layout="@layout/common_dropdown_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium_more" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_run_all"
+                style="@style/M3ButtonFilled.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium_more"
+                android:text="@string/run_all_schedules"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_play" />
+            <TextView
+                android:id="@+id/tv_schedule_header_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium"
+                android:gravity="center"
+                android:textSize="@dimen/subtitle_smallest" />
+        </LinearLayout>
+    </com.bare.views.SwiftSegmentConstraintLayout>
+</com.bare.views.SwiftSegmentedCardGroup>
