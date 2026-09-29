@@ -501,3 +501,9 @@ Ported only contracts directly supported by Reference code:
 - Search, filter, select-all, App Backup Settings, and Settings are now explicit P3 interactions.
 - Batch Backup / Restore actions now terminate at the existing engine boundary; no inventory, selection persistence, filesystem, package, or backup side effect is fabricated.
 - Reference batch input extras and provider-backed selection semantics remain deferred because their concrete BaRe data contract is not reconstructed.
+
+
+### P3 SwiftLogger surface deepening — 2026-09-29
+- Reconstructed the Reference SwiftLogger toolbar/list/FAB/menu roles.
+- Share Logs and Clear Logs are interactive P3 boundaries.
+- Actual log collection, filtering, clearing, archive generation, and external sharing payloads remain deferred; no fake log data is produced.
