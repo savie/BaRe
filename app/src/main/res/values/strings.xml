@@ -121,4 +121,8 @@
     <string name="p3_cloud_boundary">Cloud connection UI boundary is active. Provider authentication and sync engine are P4.</string>
     <string name="p3_account_boundary">This account surface is interactive. Provider-specific account actions remain P4.</string>
     <string name="p3_activity_boundary">Reference screen boundary is active. Feature behavior is reconstructed separately in P3/P4.</string>
+    <string name="apps_batch_actions">Batch actions</string>
+    <string name="apps_batch_backup">Backup selected</string>
+    <string name="apps_batch_restore">Restore selected</string>
+    <string name="apps_batch_boundary">Feature engine boundary (P4)</string>
 </resources>
