@@ -349,3 +349,62 @@ Reference Swift Backup 5.1.0 (620)
 → Premium gratis
 → tanpa migration
 → 1:1 kecuali Authorized Deviations
+
+
+## 8. Canonical Roadmap
+
+```
+CURRENT  
+savie/BaRe  
+└── rewrite  
+  
+        ↓  
+  
+PHASE 1 — FOUNDATION  
+Android/Gradle/Java/Resources/Manifest  
+        ↓  
+  
+PHASE 2 — REFERENCE SKELETON  
+Application/Activity/Fragment/Service/etc.  
+        ↓  
+  
+PHASE 3 — UI + NAVIGATION  
+XML/Layout/Theme/Menu/Dialog/Navigation  
+        ↓  
+  
+PHASE 4 — CORE BEHAVIOR  
+State/Permission/Storage/Account/Settings  
+        ↓  
+  
+PHASE 5 — FEATURES  
+Backup/Restore + seluruh feature Reference  
+        ↓  
+  
+PHASE 6 — AUTHORIZED DEVIATIONS  
+BΛR☰ branding  
+Premium gratis  
+Supabase backend  
+        ↓  
+  
+PHASE 7 — RUNTIME  
+Build → APK → Install → Execute  
+        ↓  
+  
+PHASE 8 — PARITY  
+Visual + Behavior + Feature + Runtime  
+        ↓  
+  
+PHASE 9 — DEVIATION AUDIT  
+MATCH  
+AUTHORIZED DEVIATION  
+UNKNOWN  
+UNAUTHORIZED DEVIATION  
+BLOCKED  
+        ↓  
+  
+FINAL  
+```
+  
+BΛR☰  
+Reference-equivalent Android application  
++ only explicitly authorized deviations  
