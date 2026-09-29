@@ -236,4 +236,15 @@
     <string name="chat">Chat</string>
     <string name="p3_schedule_labels_boundary">Label catalog, selection persistence, and schedule assignment remain outside the current P3 data contract.</string>
     <string name="p3_schedule_folder_boundary">Folder inventory, selection persistence, and schedule assignment remain outside the current P3 data contract.</string>
+    <string name="config_name">Configuration name</string>
+    <string name="custom_backup_restore_settings">Custom backup/restore settings</string>
+    <string name="custom_backup_restore_settings_description">Configure advanced backup and restore options.</string>
+    <string name="new_custom_settings">New custom settings</string>
+    <string name="save_config">Save configuration</string>
+    <string name="new_config">New configuration</string>
+    <string name="manage_config">Manage configuration</string>
+    <string name="delete_config">Delete configuration</string>
+    <string name="important_announcement">Important announcement</string>
+    <string name="firebase_backend_diagnostics_message">Reference notice content is waiting for the backend notice contract.</string>
+    <string name="learn_more">Learn more</string>
 </resources>
