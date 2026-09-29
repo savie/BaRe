@@ -35,7 +35,7 @@ public final class AppsConfigRunActivity extends AppCompatActivity {
         fab.setText(R.string.run_config);
         fab.setOnClickListener(v->new MaterialAlertDialogBuilder(this).setTitle(R.string.run_config).setMessage(R.string.p3_config_run_boundary).setPositiveButton(R.string.close,null).show());
     }
-    @Override public boolean onCreateOptionsMenu(Menu m){m.add(0,R.id.action_select_all,0,R.string.select_apps).setCheckable(true);m.add(0,R.id.action_app_backup_settings,1,R.string.app_backup_settings);m.add(0,R.id.action_settings,2,R.string.settings);return true;}
+    @Override public boolean onCreateOptionsMenu(Menu m){getMenuInflater().inflate(R.menu.menu_apps_config_run_activity,m);return true;}
     @Override public boolean onOptionsItemSelected(MenuItem item){
         if(item.getItemId()==R.id.action_select_all){item.setChecked(!item.isChecked());return true;}
         if(item.getItemId()==R.id.action_app_backup_settings){Intent i=new Intent(this,SettingsDetailActivity.class);i.putExtra("category",1);i.putExtra("category_title",getString(R.string.app_backups));startActivity(i);return true;}
