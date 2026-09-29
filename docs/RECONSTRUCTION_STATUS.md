@@ -656,3 +656,8 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 - Swipe Actions UI/selection/persistence: **MATCH at source-contract level**
 - Runtime/visual verification: **UNKNOWN**
 - App action execution: **P4 / boundary**
+
+
+## P3 checkpoint — Preconditions — 2026-09-29
+
+Reference PreconditionsActivity and preconditions_activity.xml were audited. BaRe now has the corresponding permission-preconditions presentation and request-code routing for SMS/call-log surfaces. Permission granting and task execution remain explicit later-stage boundaries.
