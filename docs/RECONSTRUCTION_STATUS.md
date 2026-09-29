@@ -535,3 +535,10 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Cloud info card resources remain evidence-bound; no cloud account/storage values are fabricated.
 
 Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
+
+## P3 continuation — cloud info and provider sign-in surfaces
+
+- Deepened Home Cloud surface around the existing Reference-shaped storage/warning/active-tag cards: connect, settings/action menu, warning acknowledgement and active-tag deletion boundary are now wired.
+- Added navigation from the cloud action surface to Cloud Connect, Cloud Diagnostics and Cloud Orphan Cleaner.
+- Reconstructed provider sign-in presentation boundaries for Google Drive, browser Google Drive, OneDrive, Box, Yandex and TeraBox. Provider SDK/OAuth/token exchange remains P4.
+- Reconstructed Filen sign-in form with email/password fields and Connect action; credential validation/authentication remains P4.
