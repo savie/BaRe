@@ -616,3 +616,16 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 
 - Reconstructed the Labels surfaces toward the Reference hierarchy: app-info card, selected-labels card, label list, apply FAB, label preview, name input, color section, and app-assignment section. Real label catalog/persistence/color/app-selection contracts remain deferred.
 - Reconstructed the Folder Picker shell toward the Reference: app bar + breadcrumb RecyclerView, folder RecyclerView, progress boundary, select FAB, new-folder dialog, and storage/new-folder menu actions. Real storage/folder inventory and creation persistence remain deferred.
+
+## P3 continuation — remaining shallow feature surfaces — 2026-09-29
+
+- Activated the Reference-shaped APK Import presentation: import header/status, app-info boundary, action area, and incoming VIEW / SEND URI display boundary. APK extraction/install/import engine remains deferred.
+- Reconstructed LocaleActivity as the Reference app-bar + locale RecyclerView surface; dynamic language catalog/selection persistence remains deferred.
+- Reconstructed Walls dashboard/manage/apply surfaces with Reference-shaped cards, preview/apply boundary, and management list boundary. Wallpaper inventory/provider/application side effects remain deferred.
+- Reconstructed Wi-Fi dashboard/cards and Android-version warning boundary. Wi-Fi inventory/backup/restore/delete/provider behavior remains deferred.
+- Reconstructed Contributor Registration form surface with basic details, Telegram/Crowdin/PayPal fields and Save boundary. Reference contributor mutation was not observed, so persistence remains UNKNOWN.
+- Reconstructed Premium feature presentation and purchase CTA boundary using the already-audited premium feature catalog. Billing/purchase execution remains deferred.
+- Reconstructed Password Strategy selection cards for app-generated vs user-password modes. Secure password/encryption persistence remains deferred.
+- Reconstructed Manage Space category list for Apps, Messages, Calls, Folders, Wallpapers and Wi-Fi with size values intentionally left unavailable; deletion/cleanup engine remains deferred.
+- These changes are P3 UI/navigation reconstruction only; no filesystem, package, backup/restore, billing, cloud, provider or privileged side effect was introduced.
+- No APK build/install/runtime verification was executed.
