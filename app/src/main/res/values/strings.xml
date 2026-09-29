@@ -193,4 +193,23 @@
     <string name="help_center">Help center</string>
     <string name="manage_app_labels">Manage app labels</string>
     <string name="sort">Sort</string>
-    <string name="p3_shortcut_command_boundary">Shortcut command was received. Schedule lookup and execution remain P4.</string>\n    <string name="p3_shortcut_missing_boundary">No supported shortcut route or command was supplied.</string>\n</resources>
+    <string name="p3_shortcut_command_boundary">Shortcut command was received. Schedule lookup and execution remain P4.</string>\n    <string name="p3_shortcut_missing_boundary">No supported shortcut route or command was supplied.</string>\n    <string name="cloud_diagnostics">Cloud diagnostics</string>
+    <string name="cloud_diagnostics_summary">Run provider, metadata, access, and transfer checks.</string>
+    <string name="cloud_diagnostics_tag_pending">Backup tag: waiting for cloud state contract.</string>
+    <string name="cloud_diagnostics_temp_file_notice">Diagnostics may use temporary cloud files in the Reference flow.</string>
+    <string name="run_diagnostics">Run diagnostics</string>
+    <string name="diagnostic_pending">Waiting for diagnostic engine.</string>
+    <string name="p3_cloud_diagnostics_boundary">Cloud diagnostics presentation is reconstructed. Network, Firebase, provider access, transfer, and report generation remain P4.</string>
+    <string name="cloud_orphan_cleaner">Orphaned cloud files</string>
+    <string name="cloud_orphan_cleaner_summary">Find unreferenced App and Folder backup files</string>
+    <string name="cloud_orphan_scope_notice">This manual tool checks only App Backup and Folder Backup files whose IDs are stored in Firebase Database. Other cloud content is outside this deletion surface.</string>
+    <string name="cloud_orphan_ready">Ready to scan current and historical backup tags.</string>
+    <string name="cloud_orphan_scan">Scan</string>
+    <string name="cloud_orphan_none_found">No orphaned App or Folder backup files were found.</string>
+    <string name="cloud_orphan_results_title">Orphaned files</string>
+    <string name="cloud_orphan_delete_selected">Delete selected</string>
+    <string name="cloud_orphan_pending_file">Cloud file record pending</string>
+    <string name="cloud_orphan_pending_detail">Orphan file metadata is not connected yet.</string>
+    <string name="cloud_orphan_pending_modified">Modified time pending</string>
+    <string name="p3_cloud_orphan_boundary">Orphan scan and deletion controls are reconstructed. Cloud listing, Firebase references, revalidation, and deletion remain P4.</string>
+</resources>
