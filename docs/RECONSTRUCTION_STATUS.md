@@ -661,3 +661,20 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 ## P3 checkpoint — Preconditions — 2026-09-29
 
 Reference PreconditionsActivity and preconditions_activity.xml were audited. BaRe now has the corresponding permission-preconditions presentation and request-code routing for SMS/call-log surfaces. Permission granting and task execution remain explicit later-stage boundaries.
+
+## P3 checkpoint — Task screen resource fix — 2026-09-29
+
+- Last known reconstruction checkpoint is commit `791aac8dbbefc83459215d4b9045ff43f5ffcdca` (`P3: fix Task screen behavior resource`).
+- Audited the Reference `task_activity.xml` and confirmed `rv_tasks` uses `@string/appbar_scrolling_view_behavior`, while the reconstructed BaRe resource was not defined.
+- The checkpoint replaces that unresolved resource reference with the concrete Material behavior class `com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior`, matching the concrete behavior already used by the Reference `rv_slog` surface.
+- Therefore the `791aac8` change is considered a **source/resource-contract fix** and should be retained.
+- This checkpoint is **not build-verified**: no APK build was executed.
+- This checkpoint is **not runtime-verified**: Task screen inflation, scrolling/collapse behavior, and device behavior remain UNKNOWN.
+- This checkpoint is **not visual-parity verified**: remaining Reference-specific Task layout details (dimensions, toolbar styling, system-window behavior, button styling, etc.) remain subject to the continuing P3 audit.
+- No P4 task execution, cancellation engine, backup/restore execution, filesystem mutation, provider operation, backend mutation, APK build, install, or Supabase work was executed.
+
+### Resume point
+
+- **Resume from commit:** `791aac8dbbefc83459215d4b9045ff43f5ffcdca`
+- **Next action:** continue P3 vertical sweep from the Task/Preconditions area; do not redo already completed App Swipe Actions work.
+- Keep unresolved runtime/data/engine/provider semantics explicitly UNKNOWN until directly supported by Reference evidence.
