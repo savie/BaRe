@@ -125,4 +125,8 @@
     <string name="apps_batch_backup">Backup selected</string>
     <string name="apps_batch_restore">Restore selected</string>
     <string name="apps_batch_boundary">Feature engine boundary (P4)</string>
+    <string name="app_backups">App backups</string>
+    <string name="apps_refresh_boundary">Refresh boundary reached. App inventory refresh remains P4.</string>
+    <string name="apps_search_boundary">Search input is active, but Reference app indexing/query semantics remain an evidence boundary: "%s".</string>
+    <string name="apps_filter_boundary">Reference filter controls are available through the Apps-list surface. Filter semantics and persistence remain deferred to the audited app-list contract.</string>
 </resources>
