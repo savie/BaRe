@@ -65,4 +65,13 @@
     <string name="run_all_schedules">Run all schedules</string>
     <string name="get_premium">Get premium</string>
     <string name="device">Device</string>
+    <string name="back">Back</string>
+    <string name="search_swift_backup">Search Swift Backup</string>
+    <string name="clear_search">Clear search</string>
+    <string name="shortcuts">Shortcuts</string>
+    <string name="hide_system_apps">Hide System Apps</string>
+    <string name="see_all">See all</string>
+    <string name="folder_setups">Folder setups</string>
+    <string name="from_device">From device</string>
+    <string name="from_cloud">From cloud</string>
 </resources>
