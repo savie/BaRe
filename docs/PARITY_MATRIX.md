@@ -138,3 +138,8 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - MEGA: Reference-derived authentication form reconstructed; provider auth remains P4.
 - Dropbox: Reference-derived logo/status surface reconstructed; OAuth launch remains P4.
 - pCloud: Reference WebView/auth boundary reconstructed; token exchange remains P4.
+
+| ConfigListActivity | P3 | Appbar, list/error boundary, new-config route, sort/help/settings menu | Config data/provider contract not fabricated |
+| ConfigSettingsActivity | P3 | Apply-to/labels card, settings container, delete boundary | Config persistence and actual settings semantics remain P4 |
+| CloudConnectActivity | P3 | Provider list and provider-specific activity routing | OAuth/token exchange/cloud state remains P4 |
+| ShortcutsActivity | P3 | Reference shortcut IDs routed; command boundary shown | Schedule/task execution remains P4 |
