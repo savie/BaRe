@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/more_fragment_scroll_view" android:layout_width="match_parent" android:layout_height="match_parent">
-    <LinearLayout android:orientation="vertical" android:paddingBottom="24dp"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
-        <TextView android:text="@string/account" style="@style/SegmentCategoryCaption"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-            <LinearLayout android:orientation="vertical" android:padding="18dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content">
-                <TextView android:id="@+id/account_user_name" android:textStyle="bold"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-                <TextView android:id="@+id/account_user_email" android:layout_marginTop="4dp"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-        <TextView android:text="@string/settings" style="@style/SegmentCategoryCaption"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
-        <LinearLayout android:id="@+id/account_items" android:orientation="vertical"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    android:id="@+id/more_fragment_scroll_view"
+    android:scrollbars="none"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/account"
+            style="@style/SegmentCategoryCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/profile_card_user"
+            layout="@layout/profile_card_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginTop="@dimen/spacing_normal_more"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/settings"
+            style="@style/SegmentCategoryCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/account_items"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
