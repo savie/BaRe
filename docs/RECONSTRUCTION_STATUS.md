@@ -139,6 +139,11 @@
 - No invented purchase-verification writer.
 
 
+## Latest Phase 3 continuation — 2026-09-29
+- Ported `bare_logo.png` from `v1.0/rebaseline` to `rewrite` as an exact Git blob.
+- Refined Home Schedule and Cloud XML structures with Reference-derived card, scroll, warning/notice, status, list, and progress boundaries.
+- Kept unverified custom Reference behavior out of the implementation; runtime/visual parity remains unverified.
+
 ## Latest UI reconstruction continuation — 2026-09-29
 - Audited the Reference Account/Home account layouts directly from the decompiled 5.1.0 (620) resource set.
 - Added a BaRe profile_card_user resource based on the Reference profile-card structure, while preserving only fields already supported by the current AccountFragment (account_user_name, account_user_email).
