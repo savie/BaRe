@@ -314,4 +314,13 @@
     <string name="play_store">Play Store</string>
     <string name="clear_data">Clear data</string>
     <string name="share_apk">Share APK</string>
+    <string name="grant_permissions">Grant permissions</string>
+    <string name="permission_request_message">Swift Backup needs the below permissions to perform some actions. Please click below and grant the permissions in the popups.</string>
+    <string name="sms_permissions">SMS permissions</string>
+    <string name="call_logs_permissions">Call logs permissions</string>
+    <string name="all_permissions_granted">All permissions granted</string>
+    <string name="permissions_needed">Permissions needed</string>
+    <string name="already_granted_permissions_message">You have already granted the needed permissions!</string>
+    <string name="ok">OK</string>
+    <string name="p3_preconditions_boundary">Permission request UI is reconstructed from the Reference. Runtime SMS/call permission checks and Android permission grants remain outside the P3 reconstruction boundary.</string>
 </resources>
