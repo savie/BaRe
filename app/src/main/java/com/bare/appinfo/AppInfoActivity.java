@@ -3,6 +3,8 @@ package com.bare.appinfo;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,11 +23,22 @@ public final class AppInfoActivity extends AppCompatActivity {
         super.onCreate(state);
         setContentView(R.layout.app_info_activity);
 
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+
         TextView info = findViewById(R.id.tv_info);
         info.setText(R.string.app_info_pending);
 
         if (state == null) {
             setTitle(R.string.app_info);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
