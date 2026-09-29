@@ -494,3 +494,10 @@ Ported only contracts directly supported by Reference code:
 - Reference-derived action names/summaries are represented at the P3 presentation boundary.
 - Each action reaches an explicit engine boundary; no backup, restore, deletion, app enable/disable, or cloud sync side effect is executed.
 - The Reference Apps Quick Actions overflow routes to App Backup Settings and Settings; those routes are now wired in BaRe.
+
+
+### P3 Apps Batch deepening — 2026-09-29
+- Reconstructed the Reference Apps Batch screen hierarchy: toolbar, app-selection list boundary, empty/pending state, action FAB, and edit menu roles.
+- Search, filter, select-all, App Backup Settings, and Settings are now explicit P3 interactions.
+- Batch Backup / Restore actions now terminate at the existing engine boundary; no inventory, selection persistence, filesystem, package, or backup side effect is fabricated.
+- Reference batch input extras and provider-backed selection semantics remain deferred because their concrete BaRe data contract is not reconstructed.
