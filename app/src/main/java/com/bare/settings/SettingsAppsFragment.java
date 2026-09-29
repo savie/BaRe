@@ -3,6 +3,7 @@ package com.bare.settings;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
@@ -11,67 +12,135 @@ import com.bare.blacklist.BlacklistActivity;
 import com.bare.appconfigs.list.ConfigListActivity;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
-    @Override protected void build(PreferenceScreen s) {
-        PreferenceCategory general=category(s,"General");
-        toggle(general,"show_system_apps","Show system apps",null,false);
-        item(general,"swipe_actions","Swipe actions",null);
-        item(general,"manage_labels","Manage app labels","Manage labels for apps");
-        item(general,"configs","Custom configurations","Custom application configurations");
-        item(general,"blacklist_apps","Blacklist","Apps excluded from backup/restore");
+    private static final int[] COMPRESSION_LEVELS = {0, 1};
+    private static final String[] COMPRESSION_LABELS = {"No compression", "Fastest"};
 
-        PreferenceCategory multi=category(s,"Multiple backups");
-        item(multi,"multiple_backups_strategy","Multiple backups strategy",null);
+    @Override
+    protected void build(PreferenceScreen s) {
+        PreferenceCategory general = category(s, "General");
+        toggle(general, "show_system_apps", "Show system apps", null, false);
+        item(general, "swipe_actions", "Swipe actions", null);
+        item(general, "manage_labels", "Manage app labels", "Manage labels for apps");
+        item(general, "configs", "Custom configurations", "Custom application configurations");
+        item(general, "blacklist_apps", "Blacklist", "Apps excluded from backup/restore");
 
-        PreferenceCategory enc=category(s,"Encryption and compression");
-        Preference p=item(enc,"apps_encryption_on","Encrypt app data","Backups encrypted with Aegis by default");
-        disabled(p);
-        item(enc,"compression_level_app_data","Compression level",null);
+        PreferenceCategory multi = category(s, "Multiple backups");
+        item(multi, "multiple_backups_strategy", "Multiple backups strategy", null);
 
-        PreferenceCategory data=category(s,"App data");
-        item(data,"restore_runtime_permissions","Restore runtime permissions",null);
-        item(data,"restore_special_permissions","Restore special data","Special permissions");
-        toggle(data,"restore_ssaids","Restore app SSAIDs","Restores app SSAIDs",false);
-        item(data,"app_backup_limits","App backup limits",null);
-        toggle(data,"backup_app_cache","Backup cache","Back up application cache",false);
-        toggle(data,"in_place_apk_downgrades","In-place APK downgrades","Allow APK downgrades in place",false);
+        PreferenceCategory enc = category(s, "Encryption and compression");
+        Preference encryption = item(enc, "apps_encryption_on", "Encrypt app data",
+                "Backups encrypted with Aegis by default");
+        disabled(encryption);
+        item(enc, "compression_level_app_data", "Compression level", null);
+
+        PreferenceCategory data = category(s, "App data");
+        item(data, "restore_runtime_permissions", "Restore runtime permissions", null);
+        item(data, "restore_special_permissions", "Restore special data", "Special permissions");
+        toggle(data, "restore_ssaids", "Restore app SSAIDs", "Restores app SSAIDs", false);
+        item(data, "app_backup_limits", "App backup limits", null);
+        toggle(data, "backup_app_cache", "Backup cache", "Back up application cache", false);
+        toggle(data, "in_place_apk_downgrades", "In-place APK downgrades",
+                "Allow APK downgrades in place", false);
 
         wire(s);
+        refresh();
     }
 
     private void wire(PreferenceScreen s) {
-        SharedPreferences prefs=getPreferenceManager().getSharedPreferences();
-        Preference show=s.findPreference("show_system_apps");
-        if(show!=null) {
-            show.setOnPreferenceChangeListener((p,v)->{ prefs.edit().putBoolean("show_system_apps",(Boolean)v).apply(); return true; });
+        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+
+        bindBoolean(s, prefs, "show_system_apps", false);
+        bindBoolean(s, prefs, "restore_ssaids", false);
+        bindBoolean(s, prefs, "backup_app_cache", false);
+        bindBoolean(s, prefs, "in_place_apk_downgrades", false);
+
+        Preference swipe = s.findPreference("swipe_actions");
+        if (swipe != null) {
+            swipe.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), AppSwipeActionsActivity.class));
+                return true;
+            });
         }
-        Preference swipe=s.findPreference("swipe_actions");
-        if(swipe!=null) swipe.setOnPreferenceClickListener(p->{ startActivity(new Intent(requireContext(), AppSwipeActionsActivity.class)); return true; });
-        Preference configs=s.findPreference("configs");
-        if(configs!=null) configs.setOnPreferenceClickListener(p->{ startActivity(new Intent(requireContext(), ConfigListActivity.class)); return true; });
-        Preference blacklist=s.findPreference("blacklist_apps");
-        if(blacklist!=null) blacklist.setOnPreferenceClickListener(p->{ startActivity(new Intent(requireContext(), BlacklistActivity.class)); return true; });
-        Preference special=s.findPreference("restore_special_permissions");
-        if(special!=null) special.setOnPreferenceClickListener(p->{ startActivity(new Intent(requireContext(), RestoreSpecialDataDetailsActivity.class)); return true; });
-        Preference ssaids=s.findPreference("restore_ssaids");
-        if(ssaids!=null) {
-            ssaids.setOnPreferenceChangeListener((p,v)->{ prefs.edit().putBoolean("restore_ssaids",(Boolean)v).apply(); return true; });
+        Preference configs = s.findPreference("configs");
+        if (configs != null) {
+            configs.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), ConfigListActivity.class));
+                return true;
+            });
         }
-        Preference cache=s.findPreference("backup_app_cache");
-        if(cache!=null) cache.setOnPreferenceChangeListener((p,v)->{ prefs.edit().putBoolean("backup_app_cache",(Boolean)v).apply(); return true; });
-        Preference downgrade=s.findPreference("in_place_apk_downgrades");
-        if(downgrade!=null) downgrade.setOnPreferenceChangeListener((p,v)->{ prefs.edit().putBoolean("in_place_apk_downgrades",(Boolean)v).apply(); return true; });
+        Preference blacklist = s.findPreference("blacklist_apps");
+        if (blacklist != null) {
+            blacklist.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), BlacklistActivity.class));
+                return true;
+            });
+        }
+        Preference special = s.findPreference("restore_special_permissions");
+        if (special != null) {
+            special.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), RestoreSpecialDataDetailsActivity.class));
+                return true;
+            });
+        }
+
+        Preference compression = s.findPreference("compression_level_app_data");
+        if (compression != null) {
+            compression.setOnPreferenceClickListener(p -> {
+                chooseCompression(prefs);
+                return true;
+            });
+        }
     }
 
-    @Override public void onResume() {
+    private void bindBoolean(PreferenceScreen s, SharedPreferences prefs, String key, boolean fallback) {
+        Preference p = s.findPreference(key);
+        if (p == null) return;
+        if (p instanceof MSwitchPreference) {
+            ((MSwitchPreference) p).setChecked(prefs.getBoolean(key, fallback));
+        }
+        p.setOnPreferenceChangeListener((preference, value) -> {
+            prefs.edit().putBoolean(key, (Boolean) value).apply();
+            return true;
+        });
+    }
+
+    private void chooseCompression(SharedPreferences prefs) {
+        int current = prefs.getInt("compression_level_app_data", 1);
+        int selected = current == 0 ? 0 : 1;
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Compression level")
+                .setSingleChoiceItems(COMPRESSION_LABELS, selected, (dialog, which) -> {
+                    prefs.edit().putInt("compression_level_app_data", COMPRESSION_LEVELS[which]).apply();
+                    dialog.dismiss();
+                    refresh();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void refresh() {
+        SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
+        Preference compression = findPreference("compression_level_app_data");
+        if (compression != null) {
+            int level = prefs.getInt("compression_level_app_data", 1);
+            compression.setSummary(level == 0 ? COMPRESSION_LABELS[0] : COMPRESSION_LABELS[1]);
+        }
+        sync(prefs, "show_system_apps", false);
+        sync(prefs, "restore_ssaids", false);
+        sync(prefs, "backup_app_cache", false);
+        sync(prefs, "in_place_apk_downgrades", false);
+    }
+
+    private void sync(SharedPreferences prefs, String key, boolean fallback) {
+        Preference p = findPreference(key);
+        if (p instanceof MSwitchPreference) {
+            ((MSwitchPreference) p).setChecked(prefs.getBoolean(key, fallback));
+        }
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
-        SharedPreferences prefs=getPreferenceManager().getSharedPreferences();
-        Preference p=findPreference("show_system_apps");
-        if(p instanceof MSwitchPreference) ((MSwitchPreference)p).setChecked(prefs.getBoolean("show_system_apps",false));
-        p=findPreference("restore_ssaids");
-        if(p instanceof MSwitchPreference) ((MSwitchPreference)p).setChecked(prefs.getBoolean("restore_ssaids",false));
-        p=findPreference("backup_app_cache");
-        if(p instanceof MSwitchPreference) ((MSwitchPreference)p).setChecked(prefs.getBoolean("backup_app_cache",false));
-        p=findPreference("in_place_apk_downgrades");
-        if(p instanceof MSwitchPreference) ((MSwitchPreference)p).setChecked(prefs.getBoolean("in_place_apk_downgrades",false));
+        refresh();
     }
 }
