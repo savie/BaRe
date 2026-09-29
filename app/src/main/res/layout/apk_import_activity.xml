@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/importRoot" android:orientation="vertical" android:padding="16dp" android:background="?attr/colorSurfaceContainer" android:layout_width="match_parent" android:layout_height="match_parent">
  <LinearLayout android:id="@+id/importHeader" android:gravity="center_vertical" android:layout_width="match_parent" android:layout_height="56dp">
   <TextView android:text="@string/app_name" style="@style/Title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
-  <ImageView android:id="@+id/ivMenu" android:layout_width="48dp" android:layout_height="48dp" android:padding="12dp" android:src="@drawable/ic_menu_more"/>
+  <ImageView android:id="@+id/ivMenu" android:layout_width="48dp" android:layout_height="48dp" android:padding="12dp"/>
  </LinearLayout>
  <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
   <LinearLayout android:orientation="vertical" android:paddingBottom="24dp" android:layout_width="match_parent" android:layout_height="wrap_content">
