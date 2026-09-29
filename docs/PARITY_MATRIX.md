@@ -105,3 +105,11 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Reference-shaped app row hierarchy is now reconstructed with live P3 interaction boundaries for row/detail, menu, favorite, and swipe actions.
 - Detail navigation uses the existing BaRe DetailActivity boundary; no Reference app parcelable is fabricated.
 - App Info, favorite persistence, backup/restore, and app-management actions remain explicit UNKNOWN/P4 boundaries where their concrete data/provider contracts are not yet reconstructed.
+
+
+### 2026-09-29 Apps-item geometry deepening
+- AppItemContentLayout: Reference-derived custom measurement/layout roles reconstructed; structural parity is improved, runtime/visual verification remains BLOCKED.
+- AppListItemLayout: Reference card-first measurement and reveal-row sizing reconstructed at the P3 boundary.
+- AppSwipeActionRevealLayout: action-child sizing now derives from resolved row height, matching the audited Reference measurement role.
+- AppRowLabelsView: Reference-shaped chip rendering boundary reconstructed for explicitly supplied label text.
+- App-item checkbox boundary is now present.
