@@ -306,3 +306,12 @@ Ported only contracts directly supported by Reference code:
 - Apps: verified `restore_ssaids` and `backup_app_cache` warning flows; the cache setting also has a legacy `KEY_BACKUP_APP_CACHE` fallback in Reference.
 - App compression remains constrained to Reference-supported `NO_COMPRESSION` (0) and `FASTEST` (1) through `wp1.a()`; broader enum values are not exposed by the audited settings chooser.
 - No Supabase implementation, APK build, install, or runtime verification was executed.
+
+
+### Raw-smali recovery continuation — 2026-09-29
+- Used the supplied decompiled archive's raw `fs4.smali`, `sj1.smali`, and related helper sources where JADX Java output was incomplete.
+- Labs: recovered verified action targets for `scan_orphaned_cloud_files` → `CloudOrphanCleanerActivity`, `app_visibility_diagnostics` → `AppVisibilityDiagnosticsActivity`, and the OneDrive sign-in-agent chooser with Reference values `WEBVIEW` / `BROWSER` and display labels `WebView` / `Browser`.
+- Labs `scan_orphaned_cloud_files` remains hidden during normal screen setup because Reference `fs4.l()` explicitly hides it, even though its click handler exists.
+- Cloud raw smali confirms `cloud_diagnostics` → `CloudDiagnosticsActivity`, local persistence for `multithreaded_downloads` and `parallel_cloud_transfers`, and `nextcloud_force_chunked_uploads` through the Reference `ho6.U(boolean)` writer.
+- Cloud raw helper code confirms the OneDrive chunk range is 5–60 and the existing rewrite preserves the audited defaults; multithreaded-download visibility is gated by `allow_multithreaded_downloads` plus Reference account/entitlement logic that remains outside the local rewrite boundary.
+- No Supabase implementation, APK build, install, or runtime verification was executed.
