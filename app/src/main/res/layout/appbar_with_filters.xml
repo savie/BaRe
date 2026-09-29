@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bare.views.MAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appbar_with_filters" android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:elevation="0dp" app:liftOnScroll="false">
+    <androidx.appcompat.widget.LinearLayoutCompat android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <include android:id="@+id/toolbar_mini" layout="@layout/toolbar_mini" />
+            <androidx.appcompat.widget.SearchView android:id="@+id/search_view" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:visibility="gone" android:background="@android:color/transparent" />
+        </FrameLayout>
+        <com.bare.views.QuickRecyclerView android:id="@+id/rv_applied_filters" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:paddingStart="@dimen/spacing_normal" android:paddingBottom="@dimen/spacing_low" android:visibility="gone" />
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?android:attr/listDivider" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</com.bare.views.MAppBarLayout>
