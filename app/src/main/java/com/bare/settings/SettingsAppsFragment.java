@@ -10,6 +10,8 @@ import androidx.preference.PreferenceScreen;
 
 import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
+import com.bare.settings.appbackuplimits.AppBackupLimitsActivity;
+import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.blacklist.BlacklistActivity;
 import com.bare.settings.appbackuplimits.AppBackupLimitsActivity;
 import com.bare.R;
@@ -126,6 +128,27 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         if (runtime != null) {
             runtime.setOnPreferenceClickListener(p -> {
                 chooseRuntimePermissions(prefs);
+                return true;
+            });
+        }
+        Preference labels = s.findPreference("manage_labels");
+        if (labels != null) {
+            labels.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), LabelsActivity.class));
+                return true;
+            });
+        }
+        Preference multiple = s.findPreference("multiple_backups_strategy");
+        if (multiple != null) {
+            multiple.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), MultipleBackupsActivity.class));
+                return true;
+            });
+        }
+        Preference limits = s.findPreference("app_backup_limits");
+        if (limits != null) {
+            limits.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
                 return true;
             });
         }
