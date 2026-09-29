@@ -558,3 +558,9 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Reconstructed App Visibility Diagnostics surface with search, results container, refresh and copy actions; diagnostics/data collection remains outside P3.
 - These screens no longer rely solely on generic ReferenceActivityBoundary shells.
 - Build/runtime verification remains intentionally deferred.
+
+## Latest P3 batch — Root Settings navigation
+- Wired the reconstructed root Settings preference surface to the eight Reference detail categories: Apps, Messages, Calls, Labs, Contact, About, Cloud, and Folders.
+- Reused the existing reconstructed detail fragments instead of introducing new engine contracts.
+- Root actions without a reconstructed engine/system contract remain explicit P3 boundaries; SwiftLogger routes to the reconstructed SLog surface and notification management delegates to the Android app-notification settings surface.
+- Build/runtime verification remains intentionally deferred.
