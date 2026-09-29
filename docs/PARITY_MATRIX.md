@@ -8,6 +8,16 @@
 - UNKNOWN — insufficient evidence.
 - BLOCKED — verification cannot proceed because required evidence is unavailable.
 
+## Phase 1/2 gate
+| Gate | Result |
+|---|---|
+| Phase 1 — Reference inventory/evidence | COMPLETE (100%) |
+| Phase 2 — Reference-owned component skeleton | COMPLETE (100%) |
+| Runtime/build verification | BLOCKED / permission-gated |
+| Feature parity | UNKNOWN / ongoing |
+
+Authoritative records: `docs/PHASE_1_INVENTORY.md`, `docs/PHASE_2_SKELETON.md`.
+
 ## Current matrix
 
 | Area | Reference | BaRe | Status |
