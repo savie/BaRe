@@ -526,3 +526,12 @@ Ported only contracts directly supported by Reference code:
 - Reconstructed **ShortcutsActivity** command routing for Reference extras `extra_id=configs` and `extra_id=quick_actions`. Arbitrary schedule command execution is held at a P3 boundary rather than invoking Task/Schedule engines.
 
 Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
+
+## P3 continuation — cloud diagnostics / orphan cleanup
+
+- Reconstructed CloudDiagnosticsActivity with Reference-shaped provider/notice/test-list/run surface. Diagnostic tests remain explicit P4 engine boundaries; no network/Firebase/cloud transfer is executed.
+- Reconstructed CloudOrphanCleanerActivity with Reference-shaped provider/header/scope/status/results/list/scan/delete presentation. Cloud listing, Firebase reference validation, revalidation and deletion remain P4.
+- Added Reference-shaped cloud diagnostics test and orphan-file layouts without inventing file/test results.
+- Cloud info card resources remain evidence-bound; no cloud account/storage values are fabricated.
+
+Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
