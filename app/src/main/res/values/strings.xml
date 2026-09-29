@@ -254,4 +254,24 @@
     <string name="folder_name">Folder name</string>
     <string name="new_folder">New folder</string>
     <string name="select_storage">Select storage</string>
+    <string name="apk_import_title">APK import</string>
+    <string name="install">Install</string>
+    <string name="open_in_swift_backup">Open in BΛR☰</string>
+    <string name="launch">Launch</string>
+    <string name="backup">Backup</string>
+    <string name="manage">Manage</string>
+    <string name="wifi_networks">Wi-Fi networks</string>
+    <string name="no_batch_restore_wifi_on_q_message">Batch Wi-Fi restore is unavailable on this Android version.</string>
+    <string name="got_it">Got it</string>
+    <string name="set_user_password">Set user password</string>
+    <string name="save_details">Save details</string>
+    <string name="contributor_registration">Contributor registration</string>
+    <string name="basic_details">Basic details</string>
+    <string name="telegram_username">Telegram username</string>
+    <string name="crowdin_username">Crowdin username</string>
+    <string name="paypal">PayPal</string>
+    <string name="walls">Walls</string>
+    <string name="wall_manager">Wall manager</string>
+    <string name="password_strategy">Password strategy</string>
+    <string name="manage_space">Manage space</string>
 </resources>
