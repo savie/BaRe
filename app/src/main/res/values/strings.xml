@@ -93,6 +93,7 @@
     <string name="keep_setup">Keep setup</string>
     <string name="continue_anyway">Continue anyway</string>
     <string name="continue_to_home">Continue to Home</string>
+    <string name="getting_started">Getting Started</string>
     <string name="close">Close</string>
     <string name="reset_onboarding">Reset onboarding</string>
     <string name="intro_menu_title">Onboarding menu</string>
