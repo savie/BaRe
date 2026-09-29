@@ -226,3 +226,9 @@ Do not restart the Reference inventory from zero.
 - CloudFragment no longer renders a non-Reference `cloud_status` field; cloud provider state remains at the explicit backend boundary.
 - Cloud active-tag UI is structurally present but hidden until its provider/data contract is reconstructed; no active-tag data is invented.
 - No build, APK generation, install, runtime verification, or Supabase work was executed.
+
+
+## Latest Home Search batch — 2026-09-29
+- Added Reference-shaped Home Search shell and result-item resources for generic, app, folder, and quick-action results.
+- Ported the audited Reference search icons and required search labels.
+- HomeSearchActivity remains a behavior boundary; no search indexing/query semantics were invented.
