@@ -629,3 +629,13 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 - Reconstructed Manage Space category list for Apps, Messages, Calls, Folders, Wallpapers and Wi-Fi with size values intentionally left unavailable; deletion/cleanup engine remains deferred.
 - These changes are P3 UI/navigation reconstruction only; no filesystem, package, backup/restore, billing, cloud, provider or privileged side effect was introduced.
 - No APK build/install/runtime verification was executed.
+
+
+## P3 continuation — credentials / password / storage / backup strategy surfaces — 2026-09-29
+
+- Reconstructed the custom cloud-service credentials form (`CsActivity`) around the Reference protocol/server/path/port/authentication/connect-test surface. Provider credential validation, local-network discovery, encryption/key handling and persistence remain deferred.
+- Reconstructed User Password management around active-password status, password change, old-password status/addition and Done boundary. Secure password storage/crypto remains deferred.
+- Reconstructed Storage Switch around storage-option cards, folder-location/status presentation and Apply & Restart boundary. Actual storage migration/restart side effects remain deferred.
+- Reconstructed Multiple Backups around Reference single/dated/conditional strategy cards, backup-count slider and condition controls. Settings persistence/execution remains deferred.
+- ComposeSmsActivity remains intentionally minimal because the audited Reference class itself contains no implementation/UI.
+- No provider, filesystem, crypto, restart, backup, restore or backend side effect was introduced.
