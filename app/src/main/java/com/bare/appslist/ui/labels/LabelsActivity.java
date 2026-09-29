@@ -1,21 +1,23 @@
 package com.bare.appslist.ui.labels;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.annotation.Nullable;
-import com.bare.ReferenceActivityBoundary;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+import com.bare.R;
 
-public class LabelsActivity extends ReferenceActivityBoundary {
-    @Override protected void onCreate(@Nullable Bundle state) {
-        super.onCreate(state);
-        LinearLayout shell=(LinearLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0); shell.removeViewAt(1);
-        LinearLayout body=new LinearLayout(this); body.setOrientation(LinearLayout.VERTICAL); body.setPadding(32,24,32,24);
-        TextView empty=new TextView(this); empty.setText("Create and manage app labels."); body.addView(empty);
-        Button create=new Button(this); create.setText("Create new label"); create.setOnClickListener(v->startActivity(new Intent(this,LabelEditActivity.class))); body.addView(create);
-        shell.addView(body,new LinearLayout.LayoutParams(-1,0,1));
-    }
+public final class LabelsActivity extends AppCompatActivity {
+ @Override protected void onCreate(@Nullable Bundle state){
+  super.onCreate(state); setContentView(R.layout.labels_activity);
+  Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t);
+  if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  RecyclerView rv=findViewById(R.id.rv_labels); rv.setAdapter(new EmptyAdapter());
+  findViewById(R.id.btn_apply_labels).setOnClickListener(v->startActivity(new android.content.Intent(this,LabelEditActivity.class)));
+ }
+ @Override public boolean onSupportNavigateUp(){finish();return true;}
+ private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{
+  public H onCreateViewHolder(android.view.ViewGroup p,int t){android.view.View v=new android.view.View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}
+  public void onBindViewHolder(H h,int p){} public int getItemCount(){return 0;} static final class H extends RecyclerView.ViewHolder{H(android.view.View v){super(v);}}
+ }
 }
