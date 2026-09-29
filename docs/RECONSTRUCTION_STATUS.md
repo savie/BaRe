@@ -315,3 +315,12 @@ Ported only contracts directly supported by Reference code:
 - Cloud raw smali confirms `cloud_diagnostics` → `CloudDiagnosticsActivity`, local persistence for `multithreaded_downloads` and `parallel_cloud_transfers`, and `nextcloud_force_chunked_uploads` through the Reference `ho6.U(boolean)` writer.
 - Cloud raw helper code confirms the OneDrive chunk range is 5–60 and the existing rewrite preserves the audited defaults; multithreaded-download visibility is gated by `allow_multithreaded_downloads` plus Reference account/entitlement logic that remains outside the local rewrite boundary.
 - No Supabase implementation, APK build, install, or runtime verification was executed.
+
+
+### Settings Apps raw-evidence continuation — 2026-09-29
+- Reference `settings.a` confirms direct targets now wired in rewrite: `multiple_backups_strategy` → `MultipleBackupsActivity`, `manage_labels` → `LabelsActivity`, and `app_backup_limits` → `AppBackupLimitsActivity`.
+- Reference `restore_ssaids` and `backup_app_cache` include user-facing warning dialogs when enabled; the underlying boolean persistence remains verified, while exact localized warning copy is not yet ported.
+- Reference `show_system_apps` persists the boolean and triggers app-list refresh operations; rewrite currently persists the flag but does not yet reproduce those internal refresh calls.
+- Reference `restore_runtime_permissions` delegates to its permission helper; exact rewrite-equivalent provider/flow is not yet established and remains UNKNOWN.
+- Reference app compression uses exactly the two `vp1` choices exposed by `wp1`: `No compression` and `Fastest`, with `Fastest` as the `xp1.DEFAULT` fallback; rewrite preserves those two choices.
+- Multiple-backup strategy internals remain a dedicated feature boundary: Reference `MultipleBackupStrategy` exposes SingleBackup, DatedBackups, and ConditionalBackup representations with a default conditional strategy, while the reconstructed activity itself is still a behavior boundary.
