@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
-import com.bare.appslist.ui.list.HomeSearchActivity;
+
 import com.bare.home.account.AccountFragment;
 
 import com.bare.R;
