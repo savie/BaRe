@@ -507,3 +507,13 @@ Ported only contracts directly supported by Reference code:
 - Reconstructed the Reference SwiftLogger toolbar/list/FAB/menu roles.
 - Share Logs and Clear Logs are interactive P3 boundaries.
 - Actual log collection, filtering, clearing, archive generation, and external sharing payloads remain deferred; no fake log data is produced.
+
+
+### P3 configuration / license / cloud-auth continuation — 2026-09-29
+- Apps Config Run moved from generic boundary to a Reference-shaped run surface: app-result list boundary, progress/empty state, action FAB, select-all, App Backup Settings, and Settings routes.
+- The Reference premium gate and `extra_config_run_item` contract were preserved as boundaries; BaRe does not fabricate a configuration payload or execute it.
+- Licenses now has the Reference toolbar + RecyclerView surface; license catalog data is intentionally empty until its data source is reconstructed.
+- MEGA sign-in now exposes the audited email/password/connect form; connect stops at the provider-auth boundary.
+- Dropbox sign-in now exposes the audited logo/status surface; external OAuth is not launched by P3.
+- pCloud authentication now exposes the Reference WebView boundary with an explicit P3 auth status instead of performing token exchange.
+- Provider authentication, token exchange, credential persistence, and cloud connection state remain P4.
