@@ -215,8 +215,12 @@ public final class IntroActivity extends Activity {
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
 
-        if (isStorageGranted()) markStorageReady();
-        if (isNotificationsGranted()) markNotificationsReady();
+        if (isStorageGranted() && !prefs.getBoolean(KEY_STORAGE_READY, false)) {
+            prefs.edit().putBoolean(KEY_STORAGE_READY, true).apply();
+        }
+        if (isNotificationsGranted() && !prefs.getBoolean(KEY_NOTIFICATIONS_READY, false)) {
+            prefs.edit().putBoolean(KEY_NOTIFICATIONS_READY, true).apply();
+        }
 
         storageCard.getActionButton().setText(
                 prefs.getBoolean(KEY_STORAGE_READY, false)
