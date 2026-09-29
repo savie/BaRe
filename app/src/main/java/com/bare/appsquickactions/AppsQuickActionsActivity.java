@@ -1,7 +1,85 @@
 package com.bare.appsquickactions;
 
-import com.bare.ReferenceActivityBoundary;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
-/** Reference activity skeleton; behavior remains evidence-bound. */
-public class AppsQuickActionsActivity extends ReferenceActivityBoundary {
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.bare.R;
+import com.bare.settings.SettingsActivity;
+import com.bare.settings.SettingsDetailActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+/**
+ * P3 Apps Quick Actions surface reconstructed from the Reference action
+ * catalog. Selecting an action reaches the engine boundary only.
+ */
+public final class AppsQuickActionsActivity extends AppCompatActivity {
+    private static final int[] ACTION_IDS = {
+            R.id.action_backup_all, R.id.action_backup_missing, R.id.action_backup_updated,
+            R.id.action_backup_redo, R.id.action_backup_sync,
+            R.id.action_restore_all, R.id.action_restore_missing, R.id.action_restore_newer,
+            R.id.action_delete_uninstalled, R.id.action_enable_disable
+    };
+
+    @Override
+    protected void onCreate(@Nullable Bundle state) {
+        super.onCreate(state);
+        setContentView(R.layout.apps_quick_actions_activity);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.quick_actions_apps);
+        }
+        toolbar.setNavigationOnClickListener(v -> finish());
+
+        for (int id : ACTION_IDS) {
+            View action = findViewById(id);
+            if (action != null) action.setOnClickListener(v -> showBoundary(((android.widget.TextView) v).getText()));
+        }
+    }
+
+    private void showBoundary(CharSequence action) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(action)
+                .setMessage(R.string.p3_quick_action_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_apps_dash, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_app_backup_settings) {
+            Intent i = new Intent(this, SettingsDetailActivity.class);
+            i.putExtra("category", 1);
+            i.putExtra("category_title", getString(R.string.app_backups));
+            startActivity(i);
+            return true;
+        }
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
