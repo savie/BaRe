@@ -141,4 +141,26 @@
     <string name="app_backup_settings">App backup settings</string>
     <string name="apps_engine_boundary">This action reaches the P3 flow boundary. Backup/restore execution remains deferred to the existing engine contract.</string>
     <string name="app_favorite_boundary">Favorite interaction reaches the P3 boundary. Favorite persistence remains deferred until its existing data contract is reconstructed.</string>
+    <string name="quick_actions_apps">Apps quick actions</string>
+    <string name="backup_all_apps">Backup all apps</string>
+    <string name="backup_all_apps_summary">Back up all eligible installed apps.</string>
+    <string name="backup_missing_apps">Backup missing apps</string>
+    <string name="backup_missing_apps_summary">Back up apps that do not have a current backup.</string>
+    <string name="backup_updated_apps">Backup updated apps</string>
+    <string name="backup_updated_apps_summary">Back up apps with newer installed versions.</string>
+    <string name="redo_backups">Redo backups</string>
+    <string name="redo_backups_message">Re-run backups according to the configured policy.</string>
+    <string name="sync_device_backups_to_cloud">Sync device backups to cloud</string>
+    <string name="sync_device_backups_to_cloud_message">Sync eligible device backups to the connected cloud.</string>
+    <string name="restore_all_apps">Restore all apps</string>
+    <string name="restore_all_apps_summary">Restore all eligible app backups.</string>
+    <string name="restore_missing_apps">Restore missing apps</string>
+    <string name="restore_missing_apps_summary">Restore backups for apps missing from the device.</string>
+    <string name="restore_newer_versions">Restore newer versions</string>
+    <string name="restore_newer_versions_summary">Restore backups newer than the installed app versions.</string>
+    <string name="delete_backups_of_uninstalled_apps">Delete backups of uninstalled apps</string>
+    <string name="delete_backups_of_uninstalled_apps_summary">Remove backups belonging to apps no longer installed.</string>
+    <string name="enable_disable_apps">Enable / disable apps</string>
+    <string name="disable_apps_warning">Manage enabled state for selected apps.</string>
+    <string name="p3_quick_action_boundary">Quick action presentation reached. Backup, restore, deletion, and app-management execution remain P4.</string>
 </resources>
