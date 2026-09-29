@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bare.appslist.ui.AppListItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/spacing_medium"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_low"
+        app:cardUseCompatPadding="false">
+
+        <com.bare.appslist.ui.AppItemContentLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/spacing_medium">
+
+            <ImageView
+                android:id="@+id/image_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="start|top"
+                android:contentDescription="App icon"
+                android:src="@drawable/ic_menu_open_highlight" />
+
+            <LinearLayout
+                android:id="@+id/text_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="40dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/apps_list_pending"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/title_large" />
+
+                <TextView
+                    android:id="@+id/tv_subtitle1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/app_item_pending_subtitle"
+                    android:textColor="?android:textColorSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_subtitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="?android:textColorSecondary" />
+
+                <TextView
+                    android:id="@+id/tv_subtitle3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="?android:textColorSecondary" />
+
+                <com.bare.appslist.ui.AppRowLabelsView
+                    android:id="@+id/rv_labels"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_favorite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|top"
+                android:visibility="gone"
+                android:src="@drawable/ic_favorite"
+                android:contentDescription="@string/favorite" />
+
+            <ImageView
+                android:id="@+id/iv_menu"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/ic_menu_open_highlight"
+                android:contentDescription="@string/app_item_menu" />
+
+            <View
+                android:id="@+id/iv_menu_click_listener"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/app_item_menu" />
+        </com.bare.appslist.ui.AppItemContentLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.bare.appslist.ui.AppSwipeActionRevealLayout
+        android:id="@+id/reveal_start"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="start|center_vertical">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_swipe_start_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/backup" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_swipe_start_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/restore" />
+    </com.bare.appslist.ui.AppSwipeActionRevealLayout>
+
+    <com.bare.appslist.ui.AppSwipeActionRevealLayout
+        android:id="@+id/reveal_end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_gravity="end|center_vertical">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_swipe_end_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/app_info" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_swipe_end_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/app_detail" />
+    </com.bare.appslist.ui.AppSwipeActionRevealLayout>
+</com.bare.appslist.ui.AppListItemLayout>
