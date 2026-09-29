@@ -5,6 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import android.content.Intent;
+import android.view.View;
+import android.widget.ImageView;
+import com.bare.appslist.ui.list.HomeSearchActivity;
+import com.bare.home.account.AccountFragment;
 
 import com.bare.R;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -29,6 +34,12 @@ public final class HomeActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.viewPager);
         navigation = findViewById(R.id.primaryNavigation);
+
+        View search = findViewById(R.id.search_button);
+        if (search != null) search.setOnClickListener(v ->
+                startActivity(new Intent(this, HomeSearchActivity.class)));
+        ImageView user = findViewById(R.id.iv_user);
+        if (user != null) user.setOnClickListener(v -> navigation.setSelectedItemId(R.id.nav_account));
 
         viewPager.setOffscreenPageLimit(3);
         FragmentManager manager = getSupportFragmentManager();
