@@ -93,3 +93,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Added Reference-shaped Apps-list layout hierarchy and supporting toolbar/error resources.
 - Added Java/View boundaries for `MAppBarLayout` and fast-scroll role without inventing provider behavior.
 - Apps inventory/filter/search/sort/drawer semantics remain UNKNOWN; runtime and visual parity remain BLOCKED until build/install/runtime verification is authorized.
+
+
+## 2026-09-29 Apps-list P3 flow
+- Apps List is now an interactive P3 flow surface rather than an inert screen: Search, Filter boundary, Refresh boundary, navigation drawer, drawer routes, Back handling, and Batch entry are wired.
+- Search/filter/refresh do not claim feature-engine behavior; their data semantics remain UNKNOWN/P4-bound.
+- Reference-audited drawer targets are wired where BaRe component boundaries already exist.
