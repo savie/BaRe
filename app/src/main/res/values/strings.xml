@@ -183,4 +183,14 @@
     <string name="p3_cloud_auth_boundary">Cloud authorization surface reached. Provider authentication and token exchange remain P4.</string>
     <string name="run_config">Run configuration</string>
     <string name="p3_config_run_boundary">Configuration run UI is active. Installed-app selection and execution remain deferred to the audited configuration/engine contract.</string>
+    <string name="configs_pending">Configuration catalog is waiting for the Reference config data contract.</string>
+    <string name="config_sort_name">Name</string>
+    <string name="config_sort_created">Created date</string>
+    <string name="config_labels_pending">Configuration label assignment is a P3 surface; label persistence remains deferred.</string>
+    <string name="p3_config_help_boundary">Reference configuration help entry is preserved as a UI boundary. External help navigation remains deferred.</string>
+    <string name="delete">Delete</string>
+    <string name="delete_config_settings">Delete configuration settings? Actual configuration persistence/deletion remains P4.</string>
+    <string name="help_center">Help center</string>
+    <string name="manage_app_labels">Manage app labels</string>
+    <string name="sort">Sort</string>
 </resources>
