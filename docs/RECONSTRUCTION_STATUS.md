@@ -422,3 +422,9 @@ Ported only contracts directly supported by Reference code:
 - Activated P3 boundaries for APK Import, Manage Space, Wi-Fi, Walls dashboard/manager, Language, and Contributor registration.
 - These surfaces now have a reachable, navigable interaction surface rather than a pure empty ReferenceActivityBoundary.
 - No underlying provider authentication, filesystem mutation, SMS/call backup engine, task execution, wall application, or cloud operation was fabricated.
+
+### P3 interaction contract deepening — 2026-09-29
+- Replaced generic boundaries with concrete P3 controls for Custom Configurations list/edit/settings, Labels list/edit, Blacklist, App Backup Limits, and Restore Special Data Details.
+- Cloud Connect now exposes the Reference-evidenced provider surface; provider authentication remains P4.
+- Cloud Diagnostics now exposes concrete diagnostic action entry points; diagnostic execution remains P4.
+- Config/label/blacklist persistence is not fabricated; controls are interactive but engine/state contracts remain deferred where Reference evidence has not yet been reconstructed into BaRe models.
