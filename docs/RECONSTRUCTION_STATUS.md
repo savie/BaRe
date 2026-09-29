@@ -601,3 +601,13 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 ## Next P3 sweep
 
 Continue with the remaining shallow Reference Activity boundaries and verify navigation/resource references before opening the P3/P4 behavior contracts. Keep all unresolved provider/data/engine semantics explicitly UNKNOWN and do not reopen frozen Phase 1/Phase 2 inventory gates.
+
+
+### P3 continuation — shared appbar + Config Edit + Notices — 2026-09-29
+
+- Restored a BaRe `appbar.xml` boundary from the Reference `appbar`/`toolbar` structure so existing P3 surfaces using `@layout/appbar` have a concrete Android Views/XML implementation.
+- Reconstructed `ConfigEditActivity` around the Reference surface: configuration name field, custom-settings section boundary, settings RecyclerView boundary, Save Configuration action, and Delete action for edit mode.
+- Added the missing `menu_config_edit.xml` delete boundary.
+- Reconstructed Notice List layout around the Reference appbar + RecyclerView shape and added the Reference-shaped `notice_item` presentation boundary.
+- Added only the strings required by these surfaces; config persistence/execution and notice backend/provider semantics remain deferred.
+- Static resource/build verification could not be executed in this environment because the GitHub repository is not network-accessible from the local build runtime. No build success is claimed.
