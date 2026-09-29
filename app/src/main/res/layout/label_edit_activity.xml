@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
- <LinearLayout android:orientation="vertical" android:padding="24dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-  <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:title="Edit label" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"/>
-  <TextView android:text="Label preview" style="@style/TextOverline" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"/>
-  <com.google.android.material.card.MaterialCardView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="8dp">
-   <TextView android:id="@+id/tv_preview" android:text="Label" android:paddingHorizontal="20dp" android:paddingVertical="8dp" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-  </com.google.android.material.card.MaterialCardView>
-  <com.google.android.material.textfield.TextInputLayout android:id="@+id/til_label_name" android:hint="Label name" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp">
-   <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_label_name" android:maxLength="20" android:maxLines="1" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-  </com.google.android.material.textfield.TextInputLayout>
-  <TextView android:text="Color and app assignment remain outside the current P3 data contract." style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp"/>
-  <LinearLayout android:gravity="end" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp">
-   <com.google.android.material.button.MaterialButton android:id="@+id/btn_cancel" android:text="Cancel" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-   <com.google.android.material.button.MaterialButton android:id="@+id/btn_save" android:text="Save" style="@style/M3ButtonFilled" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp"/>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+ <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+ <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+  <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+   <TextView android:id="@+id/tv_title" android:text="@string/label_preview" style="@style/TextOverline" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+   <include android:id="@+id/label_preview" layout="@layout/app_label_item" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="8dp"/>
+   <com.google.android.material.textfield.TextInputLayout android:id="@+id/til_label_name" android:hint="@string/input_label_name_message" app:counterEnabled="true" app:counterMaxLength="20" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+    <com.google.android.material.textfield.TextInputEditText android:id="@+id/et_label_name" android:maxLength="20" android:maxLines="1" android:inputType="text" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+   </com.google.android.material.textfield.TextInputLayout>
+   <include android:id="@+id/label_edit_color_view" layout="@layout/label_edit_color_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
+   <include android:id="@+id/label_edit_apps_view" layout="@layout/label_edit_apps_view" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
+   <LinearLayout android:gravity="end" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp">
+    <com.google.android.material.button.MaterialButton android:id="@+id/btn_cancel" android:text="@string/cancel" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <com.google.android.material.button.MaterialButton android:id="@+id/btn_save" android:text="@string/save" style="@style/M3ButtonFilled" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="8dp"/>
+   </LinearLayout>
   </LinearLayout>
- </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+ </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
