@@ -469,3 +469,9 @@ Ported only contracts directly supported by Reference code:
 - No APK build, install, runtime verification, or Supabase work was executed.
 
 - App Info item action now reaches the existing BaRe AppInfoActivity P3 boundary directly; because the Reference Parcelable/data contract is not yet reconstructed, AppInfoActivity remains a pending-data surface rather than fabricating metadata.
+
+### P3 Reference verification — Apps item → App Info / Detail
+- Decompiled Reference AppInfoActivity requires a parcelable app under ji.PARCEL_KEY; when absent it logs the missing-app condition and finishes. BaRe deliberately does not fabricate that parcelable, so its P3 App Info surface remains a visible data-contract boundary.
+- Decompiled Reference DetailActivity likewise consumes the same app parcelable for normal entry and separately supports a shortcut/package-name path. BaRe DetailActivity currently provides the navigation/UI boundary only.
+- Reference detail_activity.xml contains an app-info card plus separate device/cloud backup cards. BaRe now has the equivalent P3 card structure and routes Backup/Restore controls to the existing engine boundary without executing them.
+- Reference app_item.xml contains the app row, favorite/menu affordances, checkbox boundary, and two start/end reveal groups. BaRe now has the corresponding P3 hierarchy and swipe reveal interaction; action side effects remain deferred.
