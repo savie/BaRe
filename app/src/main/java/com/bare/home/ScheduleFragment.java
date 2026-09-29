@@ -32,9 +32,20 @@ public final class ScheduleFragment extends Fragment {
         adapter = new ScheduleAdapter();
         list.setAdapter(adapter);
 
+        View add = view.findViewById(R.id.btn_add_first_schedule);
+        if (add != null) add.setOnClickListener(v -> showP3ScheduleBoundary());
+
         model.getSchedules().observe(getViewLifecycleOwner(), items -> {
             adapter.submit(items);
         });
+    }
+
+    private void showP3ScheduleBoundary() {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.new_schedule)
+                .setMessage(R.string.p3_schedule_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
     }
 
     private final class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Holder> {
