@@ -8,17 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bare.R;
 
-/**
- * Reference-shaped settings category router.
- *
- * The Reference passes:
- *   - "category_title" for the toolbar title
- *   - "category" as an integer category selector (1..8)
- *
- * The concrete category fragment mappings remain unresolved because the
- * decompiled implementation uses obfuscated fragment classes. We preserve
- * the routing inputs without inventing those implementations.
- */
 public final class SettingsDetailActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY = "category";
     public static final String EXTRA_CATEGORY_TITLE = "category_title";
@@ -30,18 +19,31 @@ public final class SettingsDetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(getIntent().getStringExtra(EXTRA_CATEGORY_TITLE));
         }
 
         if (state == null) {
-            int category = getIntent().getIntExtra(EXTRA_CATEGORY, 1);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.container, SettingsCategoryBoundaryFragment.newInstance(category))
+                    .replace(R.id.container, fragmentForCategory(
+                            getIntent().getIntExtra(EXTRA_CATEGORY, 1)))
                     .commit();
+        }
+    }
+
+    private androidx.fragment.app.Fragment fragmentForCategory(int category) {
+        switch (category) {
+            case 1: return new SettingsAppsFragment();
+            case 2: return new SettingsMessagesFragment();
+            case 3: return new SettingsCallsFragment();
+            case 4: return new SettingsLabsFragment();
+            case 5: return new SettingsContactFragment();
+            case 6: return new SettingsAboutFragment();
+            case 7: return new SettingsCloudFragment();
+            case 8: return new SettingsFoldersFragment();
+            default: return new SettingsAppsFragment();
         }
     }
 
