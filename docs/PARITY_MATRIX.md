@@ -34,6 +34,13 @@
 
 No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 
+## 2026-09-29 Phase 3 continuation
+
+- Ported `bare_logo.png` from `v1.0/rebaseline` to `rewrite` as an exact Git blob; this is the authorized BΛR☰ branding asset.
+- Refined Schedule Home XML toward the Reference hierarchy: scroll container, schedule card boundary, schedule notice boundary, schedule list, and progress indicator.
+- Refined Cloud Home XML toward the Reference hierarchy: storage card boundary, warning card boundary, status field, scroll container, and progress indicator.
+- These UI changes do not claim runtime/visual parity; custom Reference behavior and runtime verification remain UNKNOWN/BLOCKED.
+
 ## 2026-09-29 UI reconstruction continuation
 
 - Account fragment now follows the Reference hierarchy with a dedicated profile-card include and preserved supported account fields.
