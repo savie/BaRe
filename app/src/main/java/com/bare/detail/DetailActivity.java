@@ -22,12 +22,22 @@ public final class DetailActivity extends AppCompatActivity {
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            findViewById(R.id.btn_backup).setOnClickListener(v -> showEngineBoundary(R.string.backup));
+            findViewById(R.id.btn_restore).setOnClickListener(v -> showEngineBoundary(R.string.restore));
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 getSupportActionBar().setTitle(R.string.app_detail);
             }
             toolbar.setNavigationOnClickListener(v -> finish());
         }
+    }
+
+    private void showEngineBoundary(int actionRes) {
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                .setTitle(actionRes)
+                .setMessage(R.string.apps_engine_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
     }
 
     @Override
