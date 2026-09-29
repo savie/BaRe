@@ -296,3 +296,13 @@ Ported only contracts directly supported by Reference code:
 - `use_test_pdras`, `extra_logging`, `skip_disk_space_checks`, and `extend_data_sync_fgs_timeout_for_schedules` write their exact boolean keys from the switch state.
 - `delete_gms_files`, `scan_backups`, and the OneDrive sign-in-agent chooser still depend on Reference coroutine/provider/UI infrastructure not present in the rewrite; they remain explicit boundaries rather than being approximated.
 - This batch used raw Smali because the corresponding JADX `d()` method was explicitly marked `Method not decompiled`.
+
+
+### Raw Smali recovery continuation — 2026-09-29
+- When JADX failed to reconstruct `fs4.d()`, `sj1.d()`, and related callbacks cleanly, the supplied APK decompile archive was read directly from `output/apktool/smali_classes2/*.smali` instead of inferring behavior.
+- Labs (`fs4`): verified `scan_orphaned_cloud_files` launches `CloudOrphanCleanerActivity`; `app_visibility_diagnostics` launches `AppVisibilityDiagnosticsActivity`; `onedrive_auth_agent` presents the Reference `Browser` / `WebView` authorization-agent choices backed by `BROWSER` / `WEBVIEW`; the four verified boolean settings persist through SharedPreferences.
+- Cloud (`sj1`): verified chunk dialogs are built from a fixed Reference value set and filtered by per-provider ranges; multithreaded connection choices come from the feature-allowed list (default fallback 2..4). Rewrite now preserves the provider-specific filtered choice boundaries instead of approximating them as simple 5 MB steps.
+- Apps (`settings.a`): verified `manage_labels` → `LabelsActivity`, `multiple_backups_strategy` → `MultipleBackupsActivity`, `app_backup_limits` → `AppBackupLimitsActivity`, and `restore_runtime_permissions` uses exactly three Reference choices: backed-up permission choices (id 0), all supported permissions (id 1), and don't restore permissions (id 2).
+- Apps: verified `restore_ssaids` and `backup_app_cache` warning flows; the cache setting also has a legacy `KEY_BACKUP_APP_CACHE` fallback in Reference.
+- App compression remains constrained to Reference-supported `NO_COMPRESSION` (0) and `FASTEST` (1) through `wp1.a()`; broader enum values are not exposed by the audited settings chooser.
+- No Supabase implementation, APK build, install, or runtime verification was executed.
