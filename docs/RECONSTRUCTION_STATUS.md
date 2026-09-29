@@ -467,3 +467,5 @@ Ported only contracts directly supported by Reference code:
 - Swipe action controls are interactive but remain engine/provider boundaries; no backup, restore, uninstall, force-stop, clear-data, package launch, Play Store, or APK-sharing side effect was implemented.
 - Added the AndroidX SwipeRefreshLayout dependency required by the reconstructed Apps-list resource surface.
 - No APK build, install, runtime verification, or Supabase work was executed.
+
+- App Info item action now reaches the existing BaRe AppInfoActivity P3 boundary directly; because the Reference Parcelable/data contract is not yet reconstructed, AppInfoActivity remains a pending-data surface rather than fabricating metadata.
