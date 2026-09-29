@@ -11,7 +11,7 @@ import androidx.preference.PreferenceScreen;
 import com.bare.cloud.diagnostics.CloudDiagnosticsActivity;
 
 public final class SettingsCloudFragment extends SettingsDetailBaseFragment {
-    private static final int[] CONNECTIONS = {2, 3, 4};
+    private static final int[] CONNECTIONS = {2, 4};
     private static final int[] CHUNK_CHOICES = {10, 50, 100, 150, 200, 300, 400, 500, 1000};
 
     @Override
@@ -23,6 +23,7 @@ public final class SettingsCloudFragment extends SettingsDetailBaseFragment {
                 "Allow parallel cloud transfers", false);
 
         PreferenceCategory multi = category(s, "Multithreaded downloads");
+        multi.setKey("multithreaded_downloads_category");
         multi.setKey("multithreaded_downloads_category");
         multi.setKey("multithreaded_downloads_category");
         toggle(multi, "multithreaded_downloads", "Multithreaded downloads",
