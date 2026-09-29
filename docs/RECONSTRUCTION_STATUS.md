@@ -613,3 +613,6 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 - Static resource/build verification could not be executed in this environment because the GitHub repository is not network-accessible from the local build runtime. No build success is claimed.
 
 - Reconstructed `FoldersDashActivity` shell to match the Reference's two-tab `ViewPager` architecture and section selection boundary; folder inventory/persistence remains unimplemented.
+
+- Reconstructed the Labels surfaces toward the Reference hierarchy: app-info card, selected-labels card, label list, apply FAB, label preview, name input, color section, and app-assignment section. Real label catalog/persistence/color/app-selection contracts remain deferred.
+- Reconstructed the Folder Picker shell toward the Reference: app bar + breadcrumb RecyclerView, folder RecyclerView, progress boundary, select FAB, new-folder dialog, and storage/new-folder menu actions. Real storage/folder inventory and creation persistence remain deferred.
