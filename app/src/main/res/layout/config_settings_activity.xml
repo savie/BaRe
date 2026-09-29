@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+ <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+ <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="@dimen/activity_horizontal_margin">
+  <com.google.android.material.card.MaterialCardView android:id="@+id/container_apply_to" android:layout_width="match_parent" android:layout_height="wrap_content">
+   <LinearLayout android:orientation="vertical" android:padding="@dimen/spacing_medium_more" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:text="@string/labels" style="@style/CardTitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/tv_labels" android:text="@string/config_labels_pending" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="@dimen/spacing_low"/>
+   </LinearLayout>
+ </com.google.android.material.card.MaterialCardView>
+ <FrameLayout android:id="@+id/settings_container" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+ </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
