@@ -1,10 +1,14 @@
 package com.bare.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
+
+import com.bare.cloud.orphans.CloudOrphanCleanerActivity;
+import com.bare.settings.appvisibility.AppVisibilityDiagnosticsActivity;
 
 public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
     @Override
@@ -38,6 +42,22 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         bindBoolean(s, prefs, "extra_logging", false);
         bindBoolean(s, prefs, "skip_disk_space_checks", false);
         bindBoolean(s, prefs, "extend_data_sync_fgs_timeout_for_schedules", false);
+
+        Preference orphan = s.findPreference("scan_orphaned_cloud_files");
+        if (orphan != null) {
+            orphan.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), CloudOrphanCleanerActivity.class));
+                return true;
+            });
+        }
+
+        Preference diagnostics = s.findPreference("app_visibility_diagnostics");
+        if (diagnostics != null) {
+            diagnostics.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), AppVisibilityDiagnosticsActivity.class));
+                return true;
+            });
+        }
     }
 
     private void bindBoolean(PreferenceScreen s, SharedPreferences prefs, String key, boolean fallback) {
