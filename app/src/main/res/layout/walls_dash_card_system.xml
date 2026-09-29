@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wall_card_system" android:layout_width="match_parent" android:layout_height="wrap_content">
+ <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="160dp">
+   <ImageView android:id="@+id/iv_image1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:scaleType="centerCrop"/>
+   <ImageView android:id="@+id/iv_image2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"/>
+  </LinearLayout>
+  <TextView android:id="@+id/tv_title" android:text="@string/wallpapers" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+  <TextView android:id="@+id/tv_subtitle2" android:text="@string/p3_activity_boundary" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <LinearLayout android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+   <com.google.android.material.button.MaterialButton android:id="@+id/btn_shortcut1" android:text="@string/refresh" style="@style/M3ButtonTonal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
+   <com.google.android.material.button.MaterialButton android:id="@+id/btn_shortcut2" android:text="@string/backup" style="@style/M3ButtonTonal" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp"/>
+  </LinearLayout>
+  <View android:id="@+id/loading_helper" android:visibility="gone" android:layout_width="match_parent" android:layout_height="2dp"/>
+ </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
