@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 
 import com.bare.R;
-import com.bare.intro.HomeSearchActivity;
+import com.bare.home.search.HomeSearchActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
