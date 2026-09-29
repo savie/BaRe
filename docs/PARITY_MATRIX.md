@@ -87,3 +87,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - SettingsDetailActivity toolbar/extras/category selector: reconstructed from Reference evidence.
 - Category 1..8 fragment mapping: UNKNOWN / unresolved due obfuscated Reference classes.
 - No backend or device-state behavior invented.
+
+
+## 2026-09-29 Apps-list UI resource batch
+- Added Reference-shaped Apps-list layout hierarchy and supporting toolbar/error resources.
+- Added Java/View boundaries for `MAppBarLayout` and fast-scroll role without inventing provider behavior.
+- Apps inventory/filter/search/sort/drawer semantics remain UNKNOWN; runtime and visual parity remain BLOCKED until build/install/runtime verification is authorized.
