@@ -50,4 +50,19 @@
     <string name="error_connecting_cloud_server">Error connecting to the cloud server.</string>
     <string name="connect_cloud_account">Connect cloud account</string>
     <string name="retry">Retry</string>
+    <string name="account_id">Account ID</string>
+    <string name="cloud_folder">Cloud folder</string>
+    <string name="disconnect_cloud">Disconnect</string>
+    <string name="save_settings">Save settings</string>
+    <string name="cloud_backup_tag">Cloud backup tag</string>
+    <string name="cloud_backup_tag_message">Backups of Apps, Messages, Call Logs and Folders are grouped under a backup tag. This helps you manage backups when using Swift Backup across multiple devices.\n\nNote: Wallpapers and WiFi backups cannot be tagged.</string>
+    <string name="no_backups_with_active_tag">No backups with this tag yet</string>
+    <string name="no_backups_with_active_tag_message">Backups created with this tag will appear here.</string>
+    <string name="backups_tagged_with">Backups tagged with '%s'</string>
+    <string name="delete_active_tag">Delete tag '%s' and associated backups</string>
+    <string name="scheduled_backups">Scheduled backups</string>
+    <string name="schedule_backup_summary">Scheduled automatic recurring backups to local or cloud</string>
+    <string name="run_all_schedules">Run all schedules</string>
+    <string name="get_premium">Get premium</string>
+    <string name="device">Device</string>
 </resources>
