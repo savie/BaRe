@@ -1,7 +1,10 @@
 package com.bare.cloud.connect;
 
-import com.bare.ReferenceActivityBoundary;
+import android.os.Bundle;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import com.bare.R;
 
-/** Reference activity skeleton; behavior remains evidence-bound. */
-public class PCloudSignInActivity extends ReferenceActivityBoundary {
+public final class PCloudSignInActivity extends AppCompatActivity {
+ @Override protected void onCreate(@Nullable Bundle state){super.onCreate(state);setContentView(R.layout.activity_pcloud_authentication);}
 }
