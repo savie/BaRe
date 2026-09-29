@@ -12,6 +12,7 @@ import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.blacklist.BlacklistActivity;
 import com.bare.settings.appbackuplimits.AppBackupLimitsActivity;
+import com.bare.R;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
     private static final int[] COMPRESSION_LEVELS = {0, 1};
@@ -53,9 +54,9 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
 
         bindBoolean(s, prefs, "show_system_apps", false);
         bindBooleanWithWarning(s, prefs, "restore_ssaids", false,
-                "Note", "Restoring app SSAIDs can affect app identity after restore.");
+                "Note", R.string.restore_app_ssaids_note);
         bindBooleanWithWarning(s, prefs, "backup_app_cache", false,
-                "Warning", "Backing up app cache can significantly increase backup size.");
+                "Warning", R.string.backup_cache_warning);
         bindBoolean(s, prefs, "in_place_apk_downgrades", false);
 
         Preference swipe = s.findPreference("swipe_actions");
@@ -130,7 +131,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
     }
 
     private void bindBooleanWithWarning(PreferenceScreen s, SharedPreferences prefs,
-                                        String key, boolean fallback, String title, String message) {
+                                        String key, boolean fallback, String title, int messageRes) {
         Preference p = s.findPreference(key);
         if (p == null) return;
         if (p instanceof MSwitchPreference) {
@@ -142,7 +143,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
             if (enabled) {
                 new AlertDialog.Builder(requireContext())
                         .setTitle(title)
-                        .setMessage(message)
+                         .setMessage(messageRes)
                         .setPositiveButton(android.R.string.ok, null)
                         .show();
             }
