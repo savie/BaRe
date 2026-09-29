@@ -247,4 +247,11 @@
     <string name="important_announcement">Important announcement</string>
     <string name="firebase_backend_diagnostics_message">Reference notice content is waiting for the backend notice contract.</string>
     <string name="learn_more">Learn more</string>
+    <string name="label_preview">Label preview</string>
+    <string name="input_label_name_message">Label name</string>
+    <string name="label_color">Label color</string>
+    <string name="apply">Apply</string>
+    <string name="folder_name">Folder name</string>
+    <string name="new_folder">New folder</string>
+    <string name="select_storage">Select storage</string>
 </resources>
