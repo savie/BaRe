@@ -262,3 +262,11 @@ The Reference SettingsActivity (`pa7`) dispatches these exact category integers 
 - `8` → Folders (`zn3`) → `settings_folders.xml`
 
 The rewrite now contains concrete `PreferenceFragmentCompat` implementations for all eight categories and removes the numeric boundary placeholder. Preference keys, visible/hidden entries, disabled encryption entries, category grouping, and toggle presence are preserved from the Reference XML. Category action semantics and backend integrations remain intentionally unimplemented where the rewrite has no verified equivalent.
+
+### SettingsDetail action semantics — Apps/Messages/Calls
+
+Ported only contracts directly supported by Reference code:
+- Apps: `show_system_apps`, `restore_ssaids`, `backup_app_cache`, and `in_place_apk_downgrades` persist through Preference-managed settings; verified direct launches for Swipe Actions, Custom Configurations, Blacklist, and Restore Special Permissions are wired to the reconstructed activities.
+- Messages: `max_sms_backups` uses the Reference option set `No limit, 1, 5, 10, 20, 50, 100`; `messages_backup_mms` persists as a boolean with Reference default `true`.
+- Calls: `max_call_backups` uses the same Reference option set and persists under the verified `max_call_backups` key.
+- Encryption/compression entries remain disabled/hidden where the Reference XML makes them so. Compression chooser behavior remains outside the verified rewrite contract rather than being approximated.
