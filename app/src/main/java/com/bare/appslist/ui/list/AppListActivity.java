@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import com.bare.R;
 import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.appslist.ui.listbatch.AppsBatchActivity;
+import com.bare.detail.DetailActivity;
 import com.bare.blacklist.BlacklistActivity;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
@@ -239,22 +243,95 @@ public final class AppListActivity extends AppCompatActivity {
         return true;
     }
 
-    private static final class EmptyAppsAdapter extends RecyclerView.Adapter<EmptyAppsAdapter.Holder> {
+    private final class EmptyAppsAdapter extends RecyclerView.Adapter<EmptyAppsAdapter.Holder> {
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            TextView view = new TextView(parent.getContext());
-            int p = (int) (parent.getResources().getDisplayMetrics().density * 24f);
-            view.setPadding(p, p, p, p);
-            view.setText(R.string.apps_list_pending);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.app_item, parent, false);
             return new Holder(view);
         }
 
-        @Override public void onBindViewHolder(Holder holder, int position) {}
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            View root = holder.itemView;
+            View card = root.findViewById(R.id.item_card);
+            View menu = root.findViewById(R.id.iv_menu_click_listener);
+            View menuIcon = root.findViewById(R.id.iv_menu);
+            View favorite = root.findViewById(R.id.iv_favorite);
+
+            card.setOnClickListener(v -> openDetailBoundary());
+            root.findViewById(R.id.btn_swipe_start_primary)
+                    .setOnClickListener(v -> showEngineBoundary(R.string.backup));
+            root.findViewById(R.id.btn_swipe_start_secondary)
+                    .setOnClickListener(v -> showEngineBoundary(R.string.restore));
+            root.findViewById(R.id.btn_swipe_end_primary)
+                    .setOnClickListener(v -> openDetailBoundary());
+            root.findViewById(R.id.btn_swipe_end_secondary)
+                    .setOnClickListener(v -> showAppInfoBoundary());
+            menu.setOnClickListener(v -> showAppActionsBoundary());
+            menuIcon.setOnClickListener(v -> showAppActionsBoundary());
+            favorite.setOnClickListener(v -> showFavoriteBoundary());
+
+            TextView title = root.findViewById(R.id.tv_title);
+            TextView subtitle = root.findViewById(R.id.tv_subtitle1);
+            title.setText(R.string.apps_list_pending);
+            subtitle.setText(R.string.app_item_pending_subtitle);
+        }
+
         @Override public int getItemCount() { return 1; }
 
-        static final class Holder extends RecyclerView.ViewHolder {
+        final class Holder extends RecyclerView.ViewHolder {
             Holder(View itemView) { super(itemView); }
         }
+    }
+
+    private void openDetailBoundary() {
+        startActivity(new Intent(this, DetailActivity.class));
+    }
+
+    private void showEngineBoundary(int actionRes) {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(actionRes)
+                .setMessage(R.string.apps_engine_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
+    }
+
+    private void showAppInfoBoundary() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.app_info)
+                .setMessage(R.string.app_info_pending)
+                .setPositiveButton(R.string.close, null)
+                .show();
+    }
+
+    private void showFavoriteBoundary() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.favorite)
+                .setMessage(R.string.app_favorite_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
+    }
+
+    private void showAppActionsBoundary() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.app_item_menu)
+                .setItems(new String[]{
+                        getString(R.string.app_detail),
+                        getString(R.string.app_info),
+                        getString(R.string.favorite),
+                        getString(R.string.backup),
+                        getString(R.string.restore)
+                }, (dialog, which) -> {
+                    switch (which) {
+                        case 0: openDetailBoundary(); break;
+                        case 1: showAppInfoBoundary(); break;
+                        case 2: showFavoriteBoundary(); break;
+                        case 3: showEngineBoundary(R.string.backup); break;
+                        default: showEngineBoundary(R.string.restore); break;
+                    }
+                })
+                .show();
     }
 
     private static final class DrawerEntry {
