@@ -38,20 +38,33 @@ public final class AccountFragment extends Fragment {
                 email.setText(user.email == null ? "" : user.email);
             }
         });
-        View settings = view.findViewById(R.id.account_items);
-        if (settings != null) {
-            settings.setOnClickListener(v ->
-                    startActivity(new Intent(requireContext(), com.bare.settings.SettingsActivity.class)));
-        }
-
         model.getItems().observe(getViewLifecycleOwner(), items -> {
             list.removeAllViews();
             for (AccountViewModel.Item item : items) {
                 TextView row = (TextView) getLayoutInflater().inflate(
                         R.layout.home_account_item, list, false);
                 row.setText(item.title);
+                row.setOnClickListener(v -> handleItem(item.key));
                 list.addView(row);
             }
         });
+    }
+
+    private void handleItem(String key) {
+        if ("settings".equals(key)) {
+            startActivity(new Intent(requireContext(), com.bare.settings.SettingsActivity.class));
+            return;
+        }
+        if ("about".equals(key)) {
+            startActivity(new Intent(requireContext(), com.bare.settings.SettingsDetailActivity.class)
+                    .putExtra(com.bare.settings.SettingsDetailActivity.EXTRA_CATEGORY, 6)
+                    .putExtra(com.bare.settings.SettingsDetailActivity.EXTRA_CATEGORY_TITLE, getString(R.string.about)));
+            return;
+        }
+        new com.google.android.material.dialog.MaterialAlertDialogBuilder(requireContext())
+                .setTitle(key)
+                .setMessage(R.string.p3_account_boundary)
+                .setPositiveButton(R.string.close, null)
+                .show();
     }
 }
