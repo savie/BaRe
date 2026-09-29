@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+ android:layout_width="match_parent" android:layout_height="match_parent">
+ <include android:id="@+id/appbar_with_filters" layout="@layout/appbar_with_filters"/>
+ <ProgressBar android:id="@+id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center"/>
+ <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+  <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_apps_quick_perform" android:layout_width="match_parent" android:layout_height="match_parent" android:clipChildren="false" android:clipToPadding="false" android:paddingBottom="@dimen/spacing_largest2"/>
+  <TextView android:id="@+id/empty_state" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center" android:gravity="center" android:padding="@dimen/spacing_large" android:text="@string/apps_config_run_pending" android:textColor="?android:textColorSecondary"/>
+ </FrameLayout>
+ <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_actions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end|bottom" android:layout_margin="@dimen/spacing_normal_more"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
