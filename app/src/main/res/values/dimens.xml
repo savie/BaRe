@@ -8,6 +8,14 @@
     <dimen name="spacing_medium_more">12dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_normal_more">20dp</dimen>
-    <dimen name="subtitle_smallest">11sp</dimen>
+    <dimen name="spacing_low_more">6dp</dimen>
+    <dimen name="app_list_icon_size">40dp</dimen>
+    <dimen name="label_chip_min_height">24dp</dimen>
+    <dimen name="label_chip_corner_radius">12dp</dimen>
+    <dimen name="label_chip_stroke_width">1dp</dimen>
+    <dimen name="subtitle_smaller">11sp</dimen>
+    <dimen name="subtitle_small">12sp</dimen>
+    <dimen name="title">17sp</dimen>
     <dimen name="title_large">17sp</dimen>
+    <dimen name="subtitle_smallest">11sp</dimen>
 </resources>
