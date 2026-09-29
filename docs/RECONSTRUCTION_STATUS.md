@@ -486,3 +486,11 @@ Ported only contracts directly supported by Reference code:
 - Label rendering now exposes a Reference-shaped chip surface for explicitly supplied label text; no label/provider data is invented.
 - These changes remain P3-only: backup/restore, app-management, persistence, provider actions, and app inventory remain outside this batch.
 - No APK build, install, runtime, or visual verification was executed.
+
+
+### P3 Apps Quick Actions deepening — 2026-09-29
+- Audited Reference `AppsQuickActionsActivity`, its three-card fragment structure, and the Reference quick-action catalog.
+- BaRe now exposes the Reference Apps Quick Actions categories: app backup actions, app restore actions, and other app actions.
+- Reference-derived action names/summaries are represented at the P3 presentation boundary.
+- Each action reaches an explicit engine boundary; no backup, restore, deletion, app enable/disable, or cloud sync side effect is executed.
+- The Reference Apps Quick Actions overflow routes to App Backup Settings and Settings; those routes are now wired in BaRe.
