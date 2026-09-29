@@ -573,3 +573,31 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Reference-derived blacklist copy is preserved: “Hide apps or back up APKs only”.
 - No app inventory, label persistence, blacklist membership mutation, notice catalog, or engine/provider side effect is fabricated; those remain P4/evidence boundaries.
 - Build/runtime verification remains intentionally deferred while P3 reconstruction continues.
+
+
+## Latest P3 continuation — Schedule selection + Messages/Calls conversations — 2026-09-29
+
+- Reconstructed the Reference-shaped Schedule Labels Select surface:
+  - selected-label card with empty state and clear action
+  - user-created labels section + create action
+  - built-in labels section
+  - already-used labels section
+  - empty RecyclerView boundaries preserve the current evidence boundary
+- Reconstructed the Reference-shaped Schedule Folder Select surface:
+  - toolbar boundary
+  - folder RecyclerView boundary
+  - loading boundary
+  - empty folder-setup presentation
+  - Local Folder Setups action
+  - Save action
+- Reconstructed the Reference-shaped Messages/Calls Conversations and Chat layout surfaces:
+  - app bar/toolbar boundary
+  - conversation/chat RecyclerView boundary
+  - Reference-shaped chat_item resource
+- Conversation provider/query, parcelable conversation model, label persistence, folder inventory/selection persistence, and schedule mutation remain outside P3 and are not fabricated.
+- The Reference ConversationsActivity and ChatActivity contain an observed finish() path during onCreate; BaRe preserves the shallow screen boundary without inventing provider behavior.
+- No APK build, install, runtime, visual verification, or Supabase work was executed.
+
+## Next P3 sweep
+
+Continue with the remaining shallow Reference Activity boundaries and verify navigation/resource references before opening the P3/P4 behavior contracts. Keep all unresolved provider/data/engine semantics explicitly UNKNOWN and do not reopen frozen Phase 1/Phase 2 inventory gates.
