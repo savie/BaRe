@@ -678,3 +678,21 @@ Reference PreconditionsActivity and preconditions_activity.xml were audited. BaR
 - **Resume from commit:** `791aac8dbbefc83459215d4b9045ff43f5ffcdca`
 - **Next action:** continue P3 vertical sweep from the Task/Preconditions area; do not redo already completed App Swipe Actions work.
 - Keep unresolved runtime/data/engine/provider semantics explicitly UNKNOWN until directly supported by Reference evidence.
+
+
+## P3 continuation — Task surface deepening — 2026-09-30
+
+- Resumed from the recorded `791aac8` Task resource-fix checkpoint after the interrupted sweep.
+- Re-audited the Reference `task_activity.xml`, `task_activity_top.xml`, `menu_task_activity.xml`, and `TaskActivity` source.
+- Confirmed the `791aac8` behavior-resource change remains valid and retained it.
+- Deepened the BaRe Task layout with Reference-derived RecyclerView scroll boundaries: disabled overscroll and scrollbars, while retaining the concrete Material `AppBarLayout$ScrollingViewBehavior`.
+- Deepened the task action button presentation with the Reference error/cancel visual boundary using Material color attributes.
+- Added the Reference-observed `warning_view` status surface to `task_activity_top.xml`. BaRe continues to use Android Views/XML rather than introducing a new Lottie dependency solely for P3 reconstruction.
+- Task execution state, TaskService observation, cancellation, persisted task errors, SwiftLogger data, APK-result handling, and actual task execution remain outside this P3 batch.
+- Runtime/build/visual verification remains UNKNOWN.
+
+### Current Task checkpoint
+
+- Resource-fix commit: `791aac8dbbefc83459215d4b9045ff43f5ffcdca`
+- Layout deepening commits: `27277e8e71cd19d8321805b7c83a56f365cbe9c9`, `b5692660df5decb8b634acf9246ee78996075862`
+- Current reconstruction status: **P3 source-contract/UI boundary deepened; not runtime verified**
