@@ -299,4 +299,12 @@
     <string name="restore_previous_password_message">Previous password restoration is available at the Reference boundary.</string>
     <string name="s3">S3</string>
     <string name="webdav">WebDAV</string>
+    <string name="apply_and_restart">Apply and restart</string>
+    <string name="backup_folder_location">Backup folder location</string>
+    <string name="max_number_backups_to_keep">Maximum number of backups to keep</string>
+    <string name="new_backup_conditions">New backup conditions</string>
+    <string name="new_backup_conditions_apk_changes_title">When APK changes</string>
+    <string name="new_backup_conditions_data_changes_title">When app data changes</string>
+    <string name="new_backup_conditions_any_changes_title">When anything changes</string>
+    <string name="single_backup">Single backup</string>
 </resources>
