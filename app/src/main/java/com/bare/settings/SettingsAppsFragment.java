@@ -59,6 +59,27 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 "Warning", R.string.backup_cache_warning);
         bindBoolean(s, prefs, "in_place_apk_downgrades", false);
 
+        Preference multiple = s.findPreference("multiple_backups_strategy");
+        if (multiple != null) {
+            multiple.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), MultipleBackupsActivity.class));
+                return true;
+            });
+        }
+        Preference labels = s.findPreference("manage_labels");
+        if (labels != null) {
+            labels.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), LabelsActivity.class));
+                return true;
+            });
+        }
+        Preference limits = s.findPreference("app_backup_limits");
+        if (limits != null) {
+            limits.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
+                return true;
+            });
+        }
         Preference swipe = s.findPreference("swipe_actions");
         if (swipe != null) {
             swipe.setOnPreferenceClickListener(p -> {
