@@ -542,3 +542,11 @@ Build/runtime verification remains intentionally deferred while P3 reconstructio
 - Added navigation from the cloud action surface to Cloud Connect, Cloud Diagnostics and Cloud Orphan Cleaner.
 - Reconstructed provider sign-in presentation boundaries for Google Drive, browser Google Drive, OneDrive, Box, Yandex and TeraBox. Provider SDK/OAuth/token exchange remains P4.
 - Reconstructed Filen sign-in form with email/password fields and Connect action; credential validation/authentication remains P4.
+
+
+## Latest P3 batch — Folders + SMS/Call surfaces
+- Reconstructed folder dashboard, edit, detail, picker, and batch surfaces from Reference layouts/flows.
+- Preserved folder selection/edit/backup/delete operations as P3 boundaries; no filesystem inventory or backup engine side effects were fabricated.
+- Reconstructed Messages/Calls dashboard, backup-list, and backup/restore surfaces from the Reference `smscalls_*` layouts.
+- Empty-state presentation is explicit; backup/restore execution remains a P4 boundary.
+- Build/runtime verification remains intentionally deferred.
