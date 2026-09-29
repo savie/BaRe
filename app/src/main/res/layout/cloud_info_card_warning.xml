@@ -1,39 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cloud_info_card_warning"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:visibility="gone"
-    app:cardBackgroundColor="?colorErrorContainer2">
-    <LinearLayout
-        android:id="@+id/storage_container"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_normal"
-        android:paddingVertical="@dimen/spacing_normal">
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/CardTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/note"
-            android:textColor="?colorOnErrorContainer2" />
-        <TextView
-            android:id="@+id/tv_message"
-            style="@style/Subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/spacing_medium"
-            android:text="@string/cloud_folder_edit_warning"
-            android:textColor="?colorOnErrorContainer2" />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_i_understand"
-            style="@style/M3ButtonFilled"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/i_understand"
-            android:textAllCaps="true" />
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cloud_info_card_warning" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone" app:cardBackgroundColor="?colorErrorContainer2">
+    <LinearLayout android:id="@+id/storage_container" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal" android:paddingVertical="@dimen/spacing_normal">
+        <TextView android:id="@+id/tv_title" style="@style/CardTitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/note" android:textColor="?colorOnErrorContainer2"/>
+        <TextView android:id="@+id/tv_message" style="@style/Subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginVertical="@dimen/spacing_medium" android:text="@string/cloud_folder_edit_warning" android:textColor="?colorOnErrorContainer2"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_i_understand" style="@style/M3ButtonFilled" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/i_understand" android:textAllCaps="true"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
