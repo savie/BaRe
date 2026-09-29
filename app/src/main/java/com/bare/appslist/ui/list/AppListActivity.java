@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +16,8 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
  * P3 screen shell for the Reference Apps list.
  *
  * The Reference owns the actual app inventory, filtering and persistence semantics.
- * Those remain P4/P5 evidence boundaries; P3 only establishes the navigable surface.
+ * Those remain P4/P5 evidence boundaries; P3 establishes the navigable surface
+ * and now mirrors the Reference resource/component hierarchy.
  */
 public final class AppListActivity extends AppCompatActivity {
     @Override
@@ -23,7 +25,7 @@ public final class AppListActivity extends AppCompatActivity {
         super.onCreate(state);
         setContentView(R.layout.app_list_activity);
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_mini);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
@@ -34,7 +36,9 @@ public final class AppListActivity extends AppCompatActivity {
         }
 
         RecyclerView apps = findViewById(R.id.apps_recycler_view);
-        apps.setAdapter(new EmptyAppsAdapter());
+        if (apps != null) {
+            apps.setAdapter(new EmptyAppsAdapter());
+        }
 
         View error = findViewById(R.id.error_layout);
         if (error != null) {
@@ -48,10 +52,10 @@ public final class AppListActivity extends AppCompatActivity {
                             com.bare.appslist.ui.listbatch.AppsBatchActivity.class)));
         }
 
-        DrawerLayout drawer = findViewById(com.bare.R.id.drawer_container) != null
-                ? (DrawerLayout) findViewById(com.bare.R.id.drawer_container).getParent() : null;
-        if (drawer != null) {
-            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        View drawerContainer = findViewById(R.id.drawer_container);
+        if (drawerContainer != null && drawerContainer.getParent() instanceof DrawerLayout) {
+            DrawerLayout drawer = (DrawerLayout) drawerContainer.getParent();
+            drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, drawerContainer);
         }
     }
 
@@ -62,7 +66,8 @@ public final class AppListActivity extends AppCompatActivity {
     }
 
     private static final class EmptyAppsAdapter extends RecyclerView.Adapter<EmptyAppsAdapter.Holder> {
-        @Override public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
+        @Override
+        public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
             android.widget.TextView view = new android.widget.TextView(parent.getContext());
             int p = (int) (parent.getResources().getDisplayMetrics().density * 24f);
             view.setPadding(p, p, p, p);
