@@ -113,3 +113,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - AppSwipeActionRevealLayout: action-child sizing now derives from resolved row height, matching the audited Reference measurement role.
 - AppRowLabelsView: Reference-shaped chip rendering boundary reconstructed for explicitly supplied label text.
 - App-item checkbox boundary is now present.
+
+
+### 2026-09-29 Apps Quick Actions
+- Apps Quick Actions now has a Reference-derived three-category P3 surface and interactive action boundaries.
+- Reference overflow targets App Backup Settings and Settings are wired.
+- Action execution remains UNKNOWN/P4; no side effects are claimed.
