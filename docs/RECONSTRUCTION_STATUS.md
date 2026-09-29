@@ -611,3 +611,5 @@ Continue with the remaining shallow Reference Activity boundaries and verify nav
 - Reconstructed Notice List layout around the Reference appbar + RecyclerView shape and added the Reference-shaped `notice_item` presentation boundary.
 - Added only the strings required by these surfaces; config persistence/execution and notice backend/provider semantics remain deferred.
 - Static resource/build verification could not be executed in this environment because the GitHub repository is not network-accessible from the local build runtime. No build success is claimed.
+
+- Reconstructed `FoldersDashActivity` shell to match the Reference's two-tab `ViewPager` architecture and section selection boundary; folder inventory/persistence remains unimplemented.
