@@ -12,7 +12,15 @@
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
 ## Current phase
-**PHASE 4 — CORE FOUNDATION + REFERENCE SKELETON RECONSTRUCTION**
+**PHASE 3 + PHASE 4 — UI/NAVIGATION + CORE BEHAVIOR**
+
+Phase 1 and Phase 2 are now frozen at **100%**:
+- Phase 1 — evidence/inventory gate: COMPLETE
+- Phase 2 — Reference-owned structural skeleton gate: COMPLETE
+
+Authoritative gate records:
+- `docs/PHASE_1_INVENTORY.md`
+- `docs/PHASE_2_SKELETON.md`
 
 ## Latest verified Reference behavior
 
@@ -172,6 +180,25 @@
   - Added `ScheduleFabMenuView` as a behavior-free Reference boundary; schedule FAB behavior remains UNKNOWN.
 - Static manifest inspection after the batch confirms 71 activities, 3 services, 8 receivers, with no duplicate activity names.
 - No build, APK generation, install, runtime verification, Supabase schema, Supabase SDK, Supabase Auth, or Supabase RLS was executed.
+
+## Phase 1 + Phase 2 gate — 2026-09-29
+
+### Phase 1 — COMPLETE
+- Reference snapshot is present in the `reference/` tree on `rewrite`.
+- Reference identity, source inventory, resource inventory, manifest baseline, feature/package map, dependency surface, and Authorized Deviations are recorded.
+- The previous “Reference source tree not accessible” blocker is obsolete and has been removed from the Phase 1 inventory.
+
+### Phase 2 — COMPLETE
+- 71/71 Reference-package Activities registered and represented by BaRe Java sources.
+- 3/3 Reference-package Services registered and represented by BaRe Java sources.
+- 8/8 Reference-package Receivers registered and represented by BaRe Java sources.
+- 0 Reference-package Providers required; the 4 Reference manifest providers are dependency/library providers.
+- No missing Reference-owned component boundary was found.
+- The remaining 4 Reference-only permission declarations are explicitly tracked as dependency/manifest integration evidence, not silently treated as application-owned skeleton gaps.
+- No runtime, visual, or feature parity claim is made by these gates.
+
+### Freeze rule
+Do not restart Phase 1 inventory. Do not reopen the Phase 2 structural skeleton unless new Reference evidence proves a component boundary was missed.
 
 ## Roadmap alignment
 - PHASE 1 — Foundation: Android/Gradle/Java/resources/manifest baseline exists; runtime/build verification remains gated.
