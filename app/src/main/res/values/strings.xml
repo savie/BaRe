@@ -220,4 +220,20 @@
 
     <string name="swipe_actions">Swipe actions</string><string name="swipe_actions_summary">Choose the actions exposed when swiping an app row.</string><string name="swipe_left">Swipe left</string><string name="swipe_right">Swipe right</string><string name="primary_action">Primary action</string><string name="secondary_action">Secondary action</string><string name="reset">Reset</string><string name="multiple_backups">Multiple backups</string><string name="app_visibility_diagnostics">App visibility diagnostics</string><string name="restore_special_data">Restore special data</string><string name="restore_special_data_permissions">Restore special permissions</string><string name="local_backup_limit">Local backup limit</string><string name="cloud_backup_limit">Cloud backup limit</string>
 <string name="dated_backups">Dated backups</string><string name="conditional_backup">Conditional backup</string><string name="p3_restore_special_data_note">Special-permission restoration remains a P4 privileged-operation boundary.</string><string name="app_backup_limits">App backup limits</string><string name="app_backup_limits_summary">Configure local and cloud backup limits for an app.</string><string name="search">Search</string><string name="refresh">Refresh</string><string name="copy">Copy</string>    <string name="p3_settings_boundary">This Settings action is reconstructed as a P3 surface. The underlying engine or system side effect remains outside the current reconstruction boundary.</string>
+    <string name="select_labels">Select labels</string>
+    <string name="clear_labels">Clear labels</string>
+    <string name="user_created_labels">User created labels</string>
+    <string name="create_new_label">Create new label</string>
+    <string name="built_in_labels">Built-in labels</string>
+    <string name="already_in_use">Already in use</string>
+    <string name="no_labels_selected">No labels selected</string>
+    <string name="select_folder_setups">Select folder setups</string>
+    <string name="folder_setups">Folder setups</string>
+    <string name="create_your_first_folder_msg">No folder setup found on device. Click below to create one.</string>
+    <string name="local_folder_setups">Local folder setups</string>
+    <string name="save">Save</string>
+    <string name="conversations">Conversations</string>
+    <string name="chat">Chat</string>
+    <string name="p3_schedule_labels_boundary">Label catalog, selection persistence, and schedule assignment remain outside the current P3 data contract.</string>
+    <string name="p3_schedule_folder_boundary">Folder inventory, selection persistence, and schedule assignment remain outside the current P3 data contract.</string>
 </resources>
