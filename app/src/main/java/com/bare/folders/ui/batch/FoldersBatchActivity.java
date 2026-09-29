@@ -1,1 +1,17 @@
-package com.bare.folders.ui.batch; import android.os.Bundle; import android.view.ViewGroup; import android.widget.*; import androidx.annotation.Nullable; import com.bare.ReferenceActivityBoundary; import com.bare.folders.ui.FolderEditActivity; import com.google.android.material.dialog.MaterialAlertDialogBuilder; public class FoldersBatchActivity extends ReferenceActivityBoundary{ @Override protected void onCreate(@Nullable Bundle s){super.onCreate(s); LinearLayout x=(LinearLayout)((ViewGroup)findViewById(android.R.id.content)).getChildAt(0);x.removeViewAt(1);LinearLayout b=new LinearLayout(this);b.setOrientation(LinearLayout.VERTICAL);b.setPadding(32,24,32,24);TextView t=new TextView(this);t.setText("Folder list");b.addView(t);Button e=new Button(this);e.setText("Add / edit folder");e.setOnClickListener(v->startActivity(new android.content.Intent(this,FolderEditActivity.class)));b.addView(e);Button a=new Button(this);a.setText("Backup / restore selected");a.setOnClickListener(v->new MaterialAlertDialogBuilder(this).setMessage("Folder backup/restore engine is a P4 boundary.").setPositiveButton(android.R.string.ok,null).show());b.addView(a);x.addView(b,new LinearLayout.LayoutParams(-1,0,1));}}
+package com.bare.folders.ui.batch;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import com.bare.R;
+import com.bare.folders.ui.FolderEditActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+public final class FoldersBatchActivity extends AppCompatActivity {
+ @Override protected void onCreate(@Nullable Bundle state){
+  super.onCreate(state);setContentView(R.layout.folders_batch_activity);
+  Toolbar t=findViewById(R.id.toolbar);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+  findViewById(R.id.btn_actions).setOnClickListener(v->new MaterialAlertDialogBuilder(this).setTitle(R.string.folder_backup).setItems(new String[]{getString(R.string.backup_folders),getString(R.string.restore_folders),getString(R.string.edit_folder_setup)},(d,w)->{if(w==2)startActivity(new Intent(this,FolderEditActivity.class));else new MaterialAlertDialogBuilder(this).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}).show());
+ }
+ @Override public boolean onSupportNavigateUp(){finish();return true;}
+}
