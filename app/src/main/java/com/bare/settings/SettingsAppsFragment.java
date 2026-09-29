@@ -68,6 +68,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
+
         Preference labels = s.findPreference("manage_labels");
         if (labels != null) {
             labels.setOnPreferenceClickListener(p -> {
@@ -75,6 +76,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
+
         Preference limits = s.findPreference("app_backup_limits");
         if (limits != null) {
             limits.setOnPreferenceClickListener(p -> {
@@ -82,6 +84,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
+
         Preference swipe = s.findPreference("swipe_actions");
         if (swipe != null) {
             swipe.setOnPreferenceClickListener(p -> {
@@ -89,13 +92,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
-        Preference labels = s.findPreference("manage_labels");
-        if (labels != null) {
-            labels.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), LabelsActivity.class));
-                return true;
-            });
-        }
+
         Preference configs = s.findPreference("configs");
         if (configs != null) {
             configs.setOnPreferenceClickListener(p -> {
@@ -103,6 +100,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
+
         Preference blacklist = s.findPreference("blacklist_apps");
         if (blacklist != null) {
             blacklist.setOnPreferenceClickListener(p -> {
@@ -110,20 +108,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
-        Preference multiple = s.findPreference("multiple_backups_strategy");
-        if (multiple != null) {
-            multiple.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), MultipleBackupsActivity.class));
-                return true;
-            });
-        }
-        Preference limits = s.findPreference("app_backup_limits");
-        if (limits != null) {
-            limits.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
-                return true;
-            });
-        }
+
         Preference runtime = s.findPreference("restore_runtime_permissions");
         if (runtime != null) {
             runtime.setOnPreferenceClickListener(p -> {
@@ -131,27 +116,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                 return true;
             });
         }
-        Preference labels = s.findPreference("manage_labels");
-        if (labels != null) {
-            labels.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), LabelsActivity.class));
-                return true;
-            });
-        }
-        Preference multiple = s.findPreference("multiple_backups_strategy");
-        if (multiple != null) {
-            multiple.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), MultipleBackupsActivity.class));
-                return true;
-            });
-        }
-        Preference limits = s.findPreference("app_backup_limits");
-        if (limits != null) {
-            limits.setOnPreferenceClickListener(p -> {
-                startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
-                return true;
-            });
-        }
+
         Preference special = s.findPreference("restore_special_permissions");
         if (special != null) {
             special.setOnPreferenceClickListener(p -> {
