@@ -457,3 +457,13 @@ Ported only contracts directly supported by Reference code:
 - Batch action entry remains live; backup/restore execution remains P4.
 - Back behavior now handles search and drawer state before finishing the Activity.
 - No app inventory, backup/restore engine, privileged operation, filesystem mutation, backend mutation, APK build, install, or runtime verification was executed.
+
+
+### P3 Apps-item / detail flow continuation — 2026-09-29
+- Ported the Reference app-item structural surface into BaRe, including app-row content, labels boundary, favorite/menu affordances, and start/end swipe-action boundaries.
+- Added Java/View boundary classes for AppListItemLayout, AppItemContentLayout, AppSwipeActionRevealLayout, and AppRowLabelsView.
+- Apps List placeholder row is now interactive: row/detail entry reaches the existing DetailActivity P3 boundary; App Info reaches an explicit pending-data boundary; favorite reaches a persistence boundary; Backup/Restore reaches the existing engine boundary.
+- App-item action menu exposes the Reference-audited action categories at P3 presentation level without executing app-management side effects.
+- Swipe action controls are interactive but remain engine/provider boundaries; no backup, restore, uninstall, force-stop, clear-data, package launch, Play Store, or APK-sharing side effect was implemented.
+- Added the AndroidX SwipeRefreshLayout dependency required by the reconstructed Apps-list resource surface.
+- No APK build, install, runtime verification, or Supabase work was executed.
