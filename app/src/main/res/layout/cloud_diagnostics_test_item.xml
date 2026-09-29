@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginVertical="@dimen/spacing_low">
+ <LinearLayout android:orientation="vertical" android:minHeight="76dp" android:padding="@dimen/spacing_normal_more" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <TextView android:id="@+id/tv_title" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_subtitle" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_status" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_detail" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone"/>
+ </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
