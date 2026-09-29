@@ -12,7 +12,9 @@
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
 ## Current phase
-**PHASE 3 + PHASE 4 — UI/NAVIGATION + CORE BEHAVIOR**
+**PHASE 3 — UI + NAVIGATION / FLOW**
+
+P3 is the active implementation phase. P4 engine work is intentionally deferred; P3 may consume verified P4 contracts but does not implement their side effects.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
@@ -203,7 +205,7 @@ Do not restart Phase 1 inventory. Do not reopen the Phase 2 structural skeleton 
 ## Roadmap alignment
 - PHASE 1 — Foundation: Android/Gradle/Java/resources/manifest baseline exists; runtime/build verification remains gated.
 - PHASE 2 — Reference Skeleton: Reference Activity/Service/Receiver component boundaries are now registered in the BaRe manifest.
-- PHASE 3 — UI + Navigation: Intro/Home navigation exists but remains partial visual parity; exact resource port continues.
+- PHASE 3 — UI + Navigation: **ACTIVE**. Intro → Home, Home bottom navigation, Home search shell, Dashboard → Apps, Apps shell, App Info shell, and App Detail shell now have explicit navigation boundaries. Exact runtime/visual parity remains unverified.
 - PHASE 4 — Core Behavior: account/schedule/cloud/messages-calls contracts are being reconstructed without Supabase.
 - PHASE 5 — Features: feature-domain implementation continues after skeleton stabilization.
 - PHASE 6 — Authorized Deviations: branding/premium/Supabase remain explicit deviations; Supabase is permission-gated.
@@ -360,3 +362,13 @@ Ported only contracts directly supported by Reference code:
 - Apps (`org.swiftapps.swiftbackup.settings.a`) action targets now include verified `LabelsActivity`, `MultipleBackupsActivity`, and `AppBackupLimitsActivity` launches for `manage_labels`, `multiple_backups_strategy`, and `app_backup_limits`.
 - `restore_runtime_permissions` remains outside the rewrite because the Reference delegates it through a permission/provider flow whose concrete rewrite equivalent is not yet established.
 - No Supabase implementation, APK build, install, or runtime verification was executed.
+
+
+### Latest P3 UI + FLOW activation — 2026-09-29
+- Activated HomeSearchActivity as a Java/View navigation shell using the existing Reference-shaped home_search_activity.xml resource: back navigation, query input, and clear affordance are wired; search indexing/query semantics remain UNKNOWN.
+- Activated AppListActivity against the existing Reference-shaped app_list_activity.xml shell: toolbar/back flow, RecyclerView boundary, error surface suppression, and batch-action entry point are wired without fabricating an app inventory.
+- Activated AppInfoActivity and DetailActivity as explicit Reference-shaped screen boundaries. They do not fabricate app metadata or backup/restore state when the Reference parcelable/data contract is unavailable.
+- Dashboard quick action Apps now opens AppListActivity, establishing the first concrete Home → feature flow.
+- Added explicit P3 boundary strings for pending app inventory/info states.
+- P4 engine behavior remains deferred: no backup, restore, cloud mutation, scheduling execution, filesystem mutation, or permission-provider execution was added by this batch.
+- No APK build/install/runtime verification was executed by this batch.
