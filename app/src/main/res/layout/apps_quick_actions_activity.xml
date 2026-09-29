@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:title="@string/quick_actions_apps" />
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_medium_more"
+            android:paddingBottom="@dimen/spacing_large">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_medium_more"
+                android:paddingHorizontal="@dimen/spacing_medium"
+                android:text="@string/quick_actions_apps"
+                android:textAllCaps="true"
+                android:textColor="?android:textColorSecondary" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium_more">
+                <LinearLayout
+                    android:id="@+id/card_backup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_normal">
+                    <Button android:id="@+id/action_backup_all" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/backup_all_apps" />
+                    <Button android:id="@+id/action_backup_missing" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/backup_missing_apps" />
+                    <Button android:id="@+id/action_backup_updated" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/backup_updated_apps" />
+                    <Button android:id="@+id/action_backup_redo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/redo_backups" />
+                    <Button android:id="@+id/action_backup_sync" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sync_device_backups_to_cloud" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:id="@+id/card_restore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_normal">
+                    <Button android:id="@+id/action_restore_all" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/restore_all_apps" />
+                    <Button android:id="@+id/action_restore_missing" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/restore_missing_apps" />
+                    <Button android:id="@+id/action_restore_newer" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/restore_newer_versions" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:id="@+id/card_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_normal">
+                    <Button android:id="@+id/action_delete_uninstalled" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/delete_backups_of_uninstalled_apps" />
+                    <Button android:id="@+id/action_enable_disable" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/enable_disable_apps" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
