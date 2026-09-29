@@ -323,4 +323,8 @@
     <string name="already_granted_permissions_message">You have already granted the needed permissions!</string>
     <string name="ok">OK</string>
     <string name="p3_preconditions_boundary">Permission request UI is reconstructed from the Reference. Runtime SMS/call permission checks and Android permission grants remain outside the P3 reconstruction boundary.</string>
+    <string name="task_execution">Task execution</string>
+    <string name="cancel">Cancel</string>
+    <string name="p3_task_boundary">Task execution UI boundary is active. Real task scheduling, task state, backup/restore execution, and cancellation remain outside the P3 reconstruction boundary.</string>
+    <string name="p3_task_force_stop_boundary">Force-stop is preserved as a task-screen action boundary. Real task/process cancellation remains outside the P3 reconstruction boundary.</string>
 </resources>
