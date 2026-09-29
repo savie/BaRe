@@ -79,4 +79,8 @@
     <string name="restore_permission_option_granted">Restore backed up permission choices</string>
     <string name="restore_permission_option_all">Restore all permissions supported by the app</string>
     <string name="restore_permission_option_none">Don't restore permissions</string>
+    <string name="apps_list_pending">App inventory is not connected yet. This P3 surface is ready for the Reference app-list flow.</string>
+    <string name="app_info">App info</string>
+    <string name="app_info_pending">App metadata is waiting for the Reference app parcelable/data contract.</string>
+    <string name="app_detail">App detail</string>
 </resources>
