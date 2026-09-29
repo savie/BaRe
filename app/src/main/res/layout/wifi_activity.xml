@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+ <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+ <androidx.core.widget.NestedScrollView android:id="@+id/content" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+  <LinearLayout android:orientation="vertical" android:paddingBottom="48dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+   <com.google.android.material.card.MaterialCardView android:id="@+id/notice_no_batch_restore_on_q" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="16dp">
+    <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+     <TextView android:text="@string/no_batch_restore_wifi_on_q_message" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+     <com.google.android.material.button.MaterialButton android:id="@+id/btn_got_it" android:text="@string/got_it" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </LinearLayout>
+   </com.google.android.material.card.MaterialCardView>
+   <include android:id="@+id/wifi_card_system" layout="@layout/wifi_card"/>
+   <include android:id="@+id/wifi_card_local" layout="@layout/wifi_card"/>
+   <include android:id="@+id/wifi_card_cloud" layout="@layout/wifi_card"/>
+  </LinearLayout>
+ </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
