@@ -119,3 +119,9 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 - Apps Quick Actions now has a Reference-derived three-category P3 surface and interactive action boundaries.
 - Reference overflow targets App Backup Settings and Settings are wired.
 - Action execution remains UNKNOWN/P4; no side effects are claimed.
+
+
+### 2026-09-29 Apps Batch
+- Apps Batch now exposes a Reference-derived toolbar/menu/action-FAB/list boundary.
+- Search/filter/select-all are P3 presentation boundaries; inventory/selection semantics remain UNKNOWN.
+- Batch backup/restore remain P4 engine boundaries.
