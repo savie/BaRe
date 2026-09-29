@@ -143,3 +143,6 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 | ConfigSettingsActivity | P3 | Apply-to/labels card, settings container, delete boundary | Config persistence and actual settings semantics remain P4 |
 | CloudConnectActivity | P3 | Provider list and provider-specific activity routing | OAuth/token exchange/cloud state remains P4 |
 | ShortcutsActivity | P3 | Reference shortcut IDs routed; command boundary shown | Schedule/task execution remains P4 |
+
+| CloudDiagnosticsActivity | P3 | Provider/notice/test list/run presentation | Network, Firebase, provider and transfer diagnostics remain P4 |
+| CloudOrphanCleanerActivity | P3 | Scope/status/results/scan/delete presentation | Cloud listing, reference validation and deletion remain P4 |
