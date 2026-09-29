@@ -4,13 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * P3 swipe-action container reconstructed from the Reference app-item surface.
+ * P3 app-row shell reconstructed from the Reference ListItemLayout.
  *
- * Swipe only reveals the already-present action controls. It deliberately does
- * not execute backup/restore/package-management side effects.
+ * The row measures from the card/content first, then gives reveal groups the
+ * resolved row height. Swipe only exposes already-present controls.
  */
 public class AppListItemLayout extends FrameLayout {
     private static final int SWIPE_DISTANCE_PX = 80;
@@ -29,9 +30,49 @@ public class AppListItemLayout extends FrameLayout {
         setClipToPadding(false);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        View card = findViewById(com.bare.R.id.item_card);
+        if (card == null) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            return;
+        }
+
+        measureChildWithMargins(card, widthMeasureSpec, 0, heightMeasureSpec, 0);
+        MarginLayoutParams lp = (MarginLayoutParams) card.getLayoutParams();
+
+        int desiredWidth = card.getMeasuredWidth()
+                + getPaddingLeft() + getPaddingRight()
+                + lp.leftMargin + lp.rightMargin;
+        int desiredHeight = card.getMeasuredHeight()
+                + getPaddingTop() + getPaddingBottom()
+                + lp.topMargin + lp.bottomMargin;
+
+        int measuredWidth = resolveSizeAndState(
+                Math.max(desiredWidth, getSuggestedMinimumWidth()),
+                widthMeasureSpec,
+                card.getMeasuredState());
+        int measuredHeight = resolveSizeAndState(
+                Math.max(desiredHeight, getSuggestedMinimumHeight()),
+                heightMeasureSpec,
+                card.getMeasuredState() << 16);
+        setMeasuredDimension(measuredWidth, measuredHeight);
+
+        int rowHeight = Math.max(0, getMeasuredHeight() - getPaddingTop() - getPaddingBottom());
+        int revealSpec = MeasureSpec.makeMeasureSpec(rowHeight, MeasureSpec.EXACTLY);
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child == card || child.getVisibility() == GONE) continue;
+            if (child instanceof AppSwipeActionRevealLayout) {
+                measureChildWithMargins(child, widthMeasureSpec, 0, revealSpec, 0);
+            }
+        }
+    }
+
     public void reveal(View reveal, boolean open) {
         if (reveal == null) return;
         reveal.setVisibility(open ? VISIBLE : GONE);
+        requestLayout();
     }
 
     public void bindSwipeTo(View card) {
@@ -76,9 +117,10 @@ public class AppListItemLayout extends FrameLayout {
         reveal(endView, !start);
         View card = findViewById(com.bare.R.id.item_card);
         if (card != null) {
+            int fallback = getResources().getDimensionPixelSize(com.bare.R.dimen.app_list_icon_size) * 2;
             float distance = start
-                    ? Math.max(96f, startView == null ? 96f : startView.getWidth())
-                    : -Math.max(96f, endView == null ? 96f : endView.getWidth());
+                    ? Math.max((float) fallback, startView == null ? fallback : startView.getWidth())
+                    : -Math.max((float) fallback, endView == null ? fallback : endView.getWidth());
             card.animate().translationX(distance).setDuration(140L).start();
         }
     }
@@ -95,10 +137,9 @@ public class AppListItemLayout extends FrameLayout {
                 float dy = event.getY() - downY;
                 if (Math.abs(dx) >= SWIPE_DISTANCE_PX && Math.abs(dx) > Math.abs(dy)) {
                     revealFromSwipe(dx > 0f);
+                } else {
                     performClick();
-                    return true;
                 }
-                performClick();
                 return true;
             case MotionEvent.ACTION_CANCEL:
                 return false;
@@ -111,5 +152,25 @@ public class AppListItemLayout extends FrameLayout {
     public boolean performClick() {
         super.performClick();
         return true;
+    }
+
+    @Override
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        return p instanceof MarginLayoutParams;
+    }
+
+    @Override
+    protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
+        return new MarginLayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+    }
+
+    @Override
+    public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+        return new MarginLayoutParams(getContext(), attrs);
+    }
+
+    @Override
+    protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+        return new MarginLayoutParams(p);
     }
 }
