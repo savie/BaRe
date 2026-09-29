@@ -212,4 +212,7 @@
     <string name="cloud_orphan_pending_detail">Orphan file metadata is not connected yet.</string>
     <string name="cloud_orphan_pending_modified">Modified time pending</string>
     <string name="p3_cloud_orphan_boundary">Orphan scan and deletion controls are reconstructed. Cloud listing, Firebase references, revalidation, and deletion remain P4.</string>
+    <string name="cloud_provider">Cloud provider</string>
+    <string name="cloud_auth_pending">Authentication flow is waiting at the provider boundary.</string>
+    <string name="filen">Filen</string>
 </resources>
