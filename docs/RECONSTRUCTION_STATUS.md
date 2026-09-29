@@ -209,3 +209,20 @@
 No parity claim from build alone. Required sequence: build → install → runtime → visual → behavior → feature → deviation audit → verification.
 
 Do not restart the Reference inventory from zero.
+
+
+## Latest UI dependency batch — 2026-09-29
+- Audited the Reference Home resource dependencies for Schedule, Cloud, and Account directly from the supplied decompiled 5.1.0 (620) resource set.
+- Added Java-only, Views/XML-compatible BaRe boundary classes corresponding to Reference view roles:
+  - `SwiftSegmentedCardGroup`
+  - `SwiftSegmentConstraintLayout`
+  - `SwiftSegmentLinearLayout`
+  - `SwiftBackupMaterialSwitch`
+  - `QuickRecyclerView`
+- The boundary classes preserve only behavior directly justified by the audited class role; Reference-specific rendering/segment regrouping remains UNKNOWN where its full implementation is not ported.
+- Ported Reference-shaped `common_dropdown_item`, `dash_storage_view`, Schedule fragment card/notice, Cloud storage/warning/active-tag card resources, and the Account profile card.
+- ScheduleFragment now consumes the Reference-shaped RecyclerView boundary through a local adapter backed by the existing ScheduleViewModel data; no new schedule semantics were invented.
+- AccountFragment bindings were reconciled to the Reference profile-card IDs.
+- CloudFragment no longer renders a non-Reference `cloud_status` field; cloud provider state remains at the explicit backend boundary.
+- Cloud active-tag UI is structurally present but hidden until its provider/data contract is reconstructed; no active-tag data is invented.
+- No build, APK generation, install, runtime verification, or Supabase work was executed.
