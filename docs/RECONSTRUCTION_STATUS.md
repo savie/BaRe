@@ -24,6 +24,33 @@ Authoritative gate records:
 - `docs/PHASE_1_INVENTORY.md`
 - `docs/PHASE_2_SKELETON.md`
 
+## P3 onboarding implementation status
+
+The Intro → Home flow is now an active P3 UI/navigation state machine.
+
+Implemented:
+- First-start gate redirects completed onboarding directly to Home.
+- Sign-in surface has two live paths: Google-shaped P3 boundary and anonymous/skip P3 boundary.
+- Permission stage is reachable after either sign-in path.
+- Storage action opens the Android storage-management surface where supported.
+- Notification action requests POST_NOTIFICATIONS where supported.
+- Installed-app visibility has an explicit live P3 action/state boundary.
+- Root / Shizuku permissions have an explicit live P3 action/state boundary.
+- Permission items expose Ready (P3) state rather than remaining inert labels.
+- Continue from permissions reports missing setup items and provides an explicit Continue anyway path for P3.
+- Password strategy boundary exposes app-generated vs user-password choices without implementing password/encryption engine.
+- Getting Started transition is live and hands off into Home.
+- Intro menu can reset only the P3 onboarding state.
+
+Deferred to P4:
+- Real Google/Firebase/anonymous authentication.
+- Real storage coordinator and preferred-storage persistence.
+- Real Root/Shizuku detection, grant callbacks, and privileged permission engine.
+- Real installed-app inventory/app-op behavior.
+- First-run cloud restore.
+- Real password generation, secure storage, restore and encryption.
+- Backend initialization and cloud state.
+
 ## Latest verified Reference behavior
 
 ### Cloud backend
