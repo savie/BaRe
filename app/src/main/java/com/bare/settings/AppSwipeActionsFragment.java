@@ -1,6 +1,5 @@
 package com.bare.settings;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 
@@ -276,16 +274,12 @@ public final class AppSwipeActionsFragment extends Fragment {
             return;
         }
         button.setVisibility(View.VISIBLE);
-        int color;
-        if (action.tone == 1) {
-            color = com.google.android.material.R.attr.colorError;
-        } else {
-            color = android.R.color.transparent;
-        }
-        button.setIconTint(ColorStateList.valueOf(
+        int color = com.google.android.material.color.MaterialColors.getColor(
+                button,
                 action.tone == 1
-                        ? requireContext().getColor(com.google.android.material.R.color.design_default_color_error)
-                        : requireContext().getColor(android.R.color.white)));
+                        ? com.google.android.material.R.attr.colorError
+                        : com.google.android.material.R.attr.colorPrimary);
+        button.setIconTint(ColorStateList.valueOf(color));
     }
 
     public void resetToReferenceDefaults() {
