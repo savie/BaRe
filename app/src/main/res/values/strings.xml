@@ -193,4 +193,4 @@
     <string name="help_center">Help center</string>
     <string name="manage_app_labels">Manage app labels</string>
     <string name="sort">Sort</string>
-</resources>
+    <string name="p3_shortcut_command_boundary">Shortcut command was received. Schedule lookup and execution remain P4.</string>\n    <string name="p3_shortcut_missing_boundary">No supported shortcut route or command was supplied.</string>\n</resources>
