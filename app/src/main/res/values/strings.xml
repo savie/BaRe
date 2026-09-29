@@ -139,4 +139,6 @@
     <string name="custom_configurations_description">Configure advanced app backup options.</string>
     <string name="blacklist_apps_msg">Exclude selected apps from operations.</string>
     <string name="app_backup_settings">App backup settings</string>
+    <string name="apps_engine_boundary">This action reaches the P3 flow boundary. Backup/restore execution remains deferred to the existing engine contract.</string>
+    <string name="app_favorite_boundary">Favorite interaction reaches the P3 boundary. Favorite persistence remains deferred until its existing data contract is reconstructed.</string>
 </resources>
