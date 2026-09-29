@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+ <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+ <LinearLayout android:orientation="vertical" android:padding="@dimen/spacing_normal" android:layout_width="match_parent" android:layout_height="match_parent">
+  <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content">
+   <LinearLayout android:orientation="vertical" android:padding="@dimen/spacing_normal" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <TextView android:id="@+id/tv_provider_title" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/cloud_diagnostics"/>
+    <TextView android:id="@+id/tv_provider_subtitle" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/cloud_diagnostics_summary"/>
+    <TextView android:id="@+id/tv_backup_tag" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/cloud_diagnostics_tag_pending"/>
+    <com.google.android.material.button.MaterialButton android:id="@+id/btn_connect_service" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/connect_cloud_account"/>
+   </LinearLayout>
+  </com.google.android.material.card.MaterialCardView>
+  <TextView android:id="@+id/tv_notice" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="@dimen/spacing_normal" android:text="@string/cloud_diagnostics_temp_file_notice"/>
+  <androidx.recyclerview.widget.RecyclerView android:id="@+id/recycler_view" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:clipToPadding="false" android:paddingBottom="@dimen/spacing_normal"/>
+  <com.google.android.material.button.MaterialButton android:id="@+id/btn_run_diagnostics" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/run_diagnostics"/>
+ </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
