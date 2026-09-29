@@ -130,3 +130,11 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 ### 2026-09-29 SwiftLogger
 - SwiftLogger now has a Reference-derived list/FAB/menu P3 surface.
 - Share Logs and Clear Logs remain explicit behavior boundaries; actual log state is UNKNOWN.
+
+
+### 2026-09-29 Configuration / license / cloud-auth P3
+- Apps Config Run: Reference-derived list/progress/action/menu boundary reconstructed; config payload and execution remain UNKNOWN/P4.
+- Licenses: Reference-derived toolbar + RecyclerView boundary reconstructed; catalog remains UNKNOWN.
+- MEGA: Reference-derived authentication form reconstructed; provider auth remains P4.
+- Dropbox: Reference-derived logo/status surface reconstructed; OAuth launch remains P4.
+- pCloud: Reference WebView/auth boundary reconstructed; token exchange remains P4.
