@@ -436,3 +436,12 @@ Ported only contracts directly supported by Reference code:
 - Messages/Calls backup-restore surfaces expose explicit Backup vs Restore selection and Continue boundary.
 - Task surface exposes precondition check and cancel; Preconditions exposes SMS, Calls, and Wallpapers permission switches plus Done.
 - Actual backup/restore execution, task execution, provider/filesystem mutation, and privileged permission grants remain P4.
+
+
+## Latest Apps-list resource reconstruction — 2026-09-29
+- Ported the Reference Apps-list resource/component hierarchy into the Java + Views/XML rewrite: `app_list_activity.xml`, `appbar_with_filters.xml`, `toolbar_mini.xml`, and `error_layout.xml`.
+- Added Java-only boundaries for the Reference `MAppBarLayout` and fast-scroller roles; provider-specific fast-scroll behavior remains UNKNOWN.
+- Ported the Reference `ic_playlist_check` action icon.
+- Updated `AppListActivity` to bind the reconstructed mini-toolbar boundary while preserving the existing P3 batch-action navigation.
+- The actual installed-app inventory, filtering/search semantics, drawer contents, sorting, refresh behavior, fast-scroll behavior, and app persistence remain P4/P5 evidence boundaries.
+- No Supabase implementation, APK build, install, or runtime verification was executed.
