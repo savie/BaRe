@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/intro_surface"
     android:clipChildren="false"
@@ -25,7 +26,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="56dp">
+                android:layout_height="48dp">
 
                 <TextView
                     android:id="@+id/intro_logo"
@@ -42,120 +43,192 @@
                     android:text="⋮"
                     android:textSize="28sp"
                     android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:layout_width="48dp"
                     android:layout_height="48dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_sign_in_title"
-                android:text="@string/signin_title"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                android:textColor="?attr/colorPrimary"
+            <LinearLayout
+                android:id="@+id/container_sign_in"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_sign_in_title"
+                    android:text="@string/signin_title"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_marginTop="@dimen/spacing_normal_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_sign_in_subtitle"
+                    android:text="@string/signin_intro_subtitle"
+                    android:textSize="16sp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.bare.intro.IntroBenefitCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        app:introBenefitTitle="@string/intro_benefit_cloud_title"
+                        app:introBenefitSubtitle="@string/intro_benefit_cloud_subtitle" />
+
+                    <com.bare.intro.IntroBenefitCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        app:introBenefitTitle="@string/intro_benefit_premium_title"
+                        app:introBenefitSubtitle="@string/intro_benefit_premium_subtitle" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:baselineAligned="false"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.bare.intro.IntroBenefitCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/spacing_medium"
+                        app:introBenefitTitle="@string/intro_benefit_keys_title"
+                        app:introBenefitSubtitle="@string/intro_benefit_keys_subtitle" />
+
+                    <com.bare.intro.IntroBenefitCardView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_medium"
+                        app:introBenefitTitle="@string/intro_benefit_settings_title"
+                        app:introBenefitSubtitle="@string/intro_benefit_settings_subtitle" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/container_permissions"
+                android:orientation="vertical"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/spacing_normal_more"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tv_sign_in_subtitle"
-                android:text="@string/signin_intro_subtitle"
-                android:textSize="16sp"
-                android:textColor="?android:attr/textColorSecondary"
-                android:layout_marginTop="@dimen/spacing_medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:layout_marginTop="@dimen/spacing_large"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.bare.intro.IntroBenefitCardView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    app:introBenefitTitle="@string/intro_benefit_cloud_title"
-                    app:introBenefitSubtitle="@string/intro_benefit_cloud_subtitle" />
+                <TextView
+                    android:id="@+id/tv_permissions_header"
+                    android:text="@string/required_permissions"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <com.bare.intro.IntroBenefitCardView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    app:introBenefitTitle="@string/intro_benefit_premium_title"
-                    app:introBenefitSubtitle="@string/intro_benefit_premium_subtitle" />
+                <com.bare.intro.IntroPermissionCardView
+                    android:id="@+id/container_storage_perm"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    app:introPermissionActionText="@string/grant_storage_permission"
+                    app:introPermissionSubtitle="@string/storage_perm_subtitle"
+                    app:introPermissionTitle="@string/storage_perm_title" />
+
+                <com.bare.intro.IntroPermissionCardView
+                    android:id="@+id/container_notifications_perm"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:introPermissionActionText="@string/grant_notifications_permission"
+                    app:introPermissionSubtitle="@string/notifications_perm_subtitle"
+                    app:introPermissionTitle="@string/notifications_perm_title" />
+
+                <com.bare.intro.IntroPermissionCardView
+                    android:id="@+id/container_installed_apps_perm"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    app:introPermissionActionText="@string/grant_installed_apps_permission"
+                    app:introPermissionSubtitle="@string/installed_apps_perm_subtitle"
+                    app:introPermissionTitle="@string/installed_apps_perm_title" />
+
+                <LinearLayout
+                    android:id="@+id/container_root_permissions"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal_more">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="@dimen/spacing_medium_more"
+                        android:background="?android:attr/listDivider" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_root_permissions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal_more"
+                        android:minHeight="56dp"
+                        android:text="@string/root_grant_permissions" />
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:layout_marginTop="@dimen/spacing_normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.bare.intro.IntroBenefitCardView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/spacing_medium"
-                    app:introBenefitTitle="@string/intro_benefit_keys_title"
-                    app:introBenefitSubtitle="@string/intro_benefit_keys_subtitle" />
-
-                <com.bare.intro.IntroBenefitCardView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/spacing_medium"
-                    app:introBenefitTitle="@string/intro_benefit_settings_title"
-                    app:introBenefitSubtitle="@string/intro_benefit_settings_subtitle" />
-            </LinearLayout>
-
-            <com.bare.intro.IntroPermissionCardView
-                android:id="@+id/container_storage_perm"
-                android:layout_marginTop="@dimen/spacing_large"
-                app:introPermissionActionText="@string/grant_storage_permission"
-                app:introPermissionSubtitle="@string/storage_perm_subtitle"
-                app:introPermissionTitle="@string/storage_perm_title" />
-
-            <com.bare.intro.IntroPermissionCardView
-                android:id="@+id/container_notifications_perm"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:introPermissionActionText="@string/grant_notifications_permission"
-                app:introPermissionSubtitle="@string/notifications_perm_subtitle"
-                app:introPermissionTitle="@string/notifications_perm_title" />
 
             <TextView
-                android:id="@+id/tv_privacy_policy"
-                android:text="@string/tos_privacy_agreement"
-                android:textSize="12sp"
+                android:id="@+id/tv_flow_status"
+                android:text="@string/intro_flow_status_sign_in"
+                android:textSize="13sp"
                 android:textColor="?android:attr/textColorSecondary"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_normal_more"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_continue"
-        android:text="@string/continue_label"
-        android:minHeight="56dp"
-        android:layout_margin="@dimen/spacing_normal_more"
+    <LinearLayout
+        android:id="@+id/intro_bottom_actions"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/spacing_normal_more"
+        android:paddingBottom="@dimen/spacing_normal_more"
+        android:paddingHorizontal="@dimen/spacing_large"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_anonymous"
-        android:text="@string/skip_sign_in"
-        android:minHeight="48dp"
-        android:layout_marginStart="@dimen/spacing_normal_more"
-        android:layout_marginEnd="@dimen/spacing_normal_more"
-        android:layout_marginBottom="@dimen/spacing_normal_more"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/Widget.Material3.Button.TextButton" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_continue"
+            android:text="@string/continue_with_google"
+            android:minHeight="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_anonymous"
+            android:text="@string/skip_sign_in"
+            android:minHeight="48dp"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Button.TextButton" />
+
+        <TextView
+            android:id="@+id/tv_privacy_policy"
+            android:text="@string/tos_privacy_agreement"
+            android:textSize="12sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>
