@@ -248,3 +248,17 @@ Do not restart the Reference inventory from zero.
 - Preserved the eight-category selector contract (1..8) without guessing the obfuscated fragment mappings.
 - Added an explicit SettingsCategoryBoundaryFragment to carry the verified category selector.
 - Concrete category semantics remain UNKNOWN until the corresponding obfuscated Reference fragments are mapped.
+
+### SettingsDetail category reconstruction
+
+The Reference SettingsActivity (`pa7`) dispatches these exact category integers to SettingsDetailActivity:
+- `1` → Apps (`a`) → `settings_apps.xml`
+- `2` → Messages (`cf5`) → `settings_messages.xml`
+- `3` → Calls (`v11`) → `settings_calls.xml`
+- `4` → Labs (`fs4`) → `settings_labs.xml`
+- `5` → Contact (`eu1`) → `settings_contact.xml`
+- `6` → About (`a3`) → `settings_about.xml`
+- `7` → Cloud (`sj1`) → `settings_cloud.xml`
+- `8` → Folders (`zn3`) → `settings_folders.xml`
+
+The rewrite now contains concrete `PreferenceFragmentCompat` implementations for all eight categories and removes the numeric boundary placeholder. Preference keys, visible/hidden entries, disabled encryption entries, category grouping, and toggle presence are preserved from the Reference XML. Category action semantics and backend integrations remain intentionally unimplemented where the rewrite has no verified equivalent.
