@@ -4,4 +4,5 @@
     <string name="favorite">Favorite</string>
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
+    <string name="app_info_contract_status">P3 boundary — concrete app parcelable/data contract is not reconstructed yet.</string>
 </resources>
