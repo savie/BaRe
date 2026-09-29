@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="12dp">
+ <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <TextView android:id="@+id/tv_header" android:text="Storage" style="@style/TextOverline" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_title" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <com.google.android.material.progressindicator.LinearProgressIndicator android:id="@+id/progress" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_subtitle1" android:text="@string/p3_storage_boundary" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <TextView android:id="@+id/tv_folder_header" android:text="@string/backup_folder_location" style="@style/TextOverline" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"/>
+  <TextView android:id="@+id/tv_folder" android:text="@string/storage_summary_pending" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+ </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
