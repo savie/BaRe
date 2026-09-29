@@ -428,3 +428,11 @@ Ported only contracts directly supported by Reference code:
 - Cloud Connect now exposes the Reference-evidenced provider surface; provider authentication remains P4.
 - Cloud Diagnostics now exposes concrete diagnostic action entry points; diagnostic execution remains P4.
 - Config/label/blacklist persistence is not fabricated; controls are interactive but engine/state contracts remain deferred where Reference evidence has not yet been reconstructed into BaRe models.
+
+### P3 flow deepening — Folders / Messages / Calls / Tasks — 2026-09-29
+- Folders dashboard now exposes Reference-shaped device/cloud context plus folder management and picker entry points.
+- Folder batch surface exposes add/edit and backup/restore entry points.
+- Messages and Calls dashboards expose local/cloud backup surfaces, backup-list navigation, and backup/restore entry points.
+- Messages/Calls backup-restore surfaces expose explicit Backup vs Restore selection and Continue boundary.
+- Task surface exposes precondition check and cancel; Preconditions exposes SMS, Calls, and Wallpapers permission switches plus Done.
+- Actual backup/restore execution, task execution, provider/filesystem mutation, and privileged permission grants remain P4.
