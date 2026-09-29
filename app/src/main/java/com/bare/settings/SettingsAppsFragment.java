@@ -204,7 +204,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         }
         sync(prefs, "show_system_apps", false);
         sync(prefs, "restore_ssaids", false);
-        sync(prefs, "backup_app_cache", false);
+        sync(prefs, "backup_app_cache", legacyBackupCacheDefault(prefs));
         sync(prefs, "in_place_apk_downgrades", false);
 
         Preference special = findPreference("restore_special_permissions");
