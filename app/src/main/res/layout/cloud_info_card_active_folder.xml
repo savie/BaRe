@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cloud_info_card_active_tag"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone">
+    <com.bare.views.SwiftSegmentLinearLayout
+        android:id="@+id/cloud_tag_selector_segment"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/spacing_normal"
+        android:paddingVertical="@dimen/spacing_normal">
+        <TextView
+            android:id="@+id/text_title"
+            style="@style/CardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cloud_backup_tag" />
+        <TextView
+            android:id="@+id/tv_info"
+            style="@style/Subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_low"
+            android:text="@string/cloud_backup_tag_message" />
+        <include
+            android:id="@+id/dropdown_active_tag"
+            layout="@layout/common_dropdown_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal" />
+        <View
+            android:id="@+id/backup_info_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/spacing_normal" />
+        <LinearLayout
+            android:id="@+id/backup_info_container"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_backups_tagged_with"
+                style="@style/TextCaption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/backups_tagged_with" />
+            <com.bare.views.QuickRecyclerView
+                android:id="@+id/backup_info_icons_normal_ui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/backup_info_icons_compact_ui"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_active_tag"
+                style="@style/M3ButtonFilled.Error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_medium_more"
+                android:minHeight="56dp"
+                android:text="@string/delete_active_tag"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </com.bare.views.SwiftSegmentLinearLayout>
+</com.bare.views.SwiftSegmentedCardGroup>
