@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_medium"
-                        android:text="P3 boundary — concrete app parcelable/data contract is not reconstructed yet."
+                        android:text="@string/app_info_contract_status"
                         android:textColor="?android:textColorSecondary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
