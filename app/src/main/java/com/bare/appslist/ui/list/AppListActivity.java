@@ -27,6 +27,7 @@ import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.appslist.ui.listbatch.AppsBatchActivity;
 import com.bare.detail.DetailActivity;
+import com.bare.appinfo.AppInfoActivity;
 import com.bare.blacklist.BlacklistActivity;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
@@ -267,7 +268,7 @@ public final class AppListActivity extends AppCompatActivity {
             root.findViewById(R.id.btn_swipe_end_primary)
                     .setOnClickListener(v -> openDetailBoundary());
             root.findViewById(R.id.btn_swipe_end_secondary)
-                    .setOnClickListener(v -> showAppInfoBoundary());
+                    .setOnClickListener(v -> openAppInfoBoundary());
             menu.setOnClickListener(v -> showAppActionsBoundary());
             menuIcon.setOnClickListener(v -> showAppActionsBoundary());
             favorite.setOnClickListener(v -> showFavoriteBoundary());
@@ -297,12 +298,8 @@ public final class AppListActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showAppInfoBoundary() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.app_info)
-                .setMessage(R.string.app_info_pending)
-                .setPositiveButton(R.string.close, null)
-                .show();
+    private void openAppInfoBoundary() {
+        startActivity(new Intent(this, AppInfoActivity.class));
     }
 
     private void showFavoriteBoundary() {
@@ -325,7 +322,7 @@ public final class AppListActivity extends AppCompatActivity {
                 }, (dialog, which) -> {
                     switch (which) {
                         case 0: openDetailBoundary(); break;
-                        case 1: showAppInfoBoundary(); break;
+                        case 1: openAppInfoBoundary(); break;
                         case 2: showFavoriteBoundary(); break;
                         case 3: showEngineBoundary(R.string.backup); break;
                         default: showEngineBoundary(R.string.restore); break;
