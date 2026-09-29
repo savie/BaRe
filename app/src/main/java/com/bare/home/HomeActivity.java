@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bare.home.account.AccountFragment;
 
 import com.bare.R;
+import com.bare.intro.HomeSearchActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
