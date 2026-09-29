@@ -11,8 +11,6 @@ import com.bare.blacklist.BlacklistActivity;
 import com.bare.appconfigs.list.ConfigListActivity;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
-    private static final String PREFS = "swift_backup_settings";
-
     @Override protected void build(PreferenceScreen s) {
         PreferenceCategory general=category(s,"General");
         toggle(general,"show_system_apps","Show system apps",null,false);
