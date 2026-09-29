@@ -8,8 +8,10 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
 
-import com.bare.blacklist.BlacklistActivity;
 import com.bare.appconfigs.list.ConfigListActivity;
+import com.bare.appslist.ui.labels.LabelsActivity;
+import com.bare.blacklist.BlacklistActivity;
+import com.bare.settings.appbackuplimits.AppBackupLimitsActivity;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
     private static final int[] COMPRESSION_LEVELS = {0, 1};
@@ -50,14 +52,23 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
 
         bindBoolean(s, prefs, "show_system_apps", false);
-        bindBoolean(s, prefs, "restore_ssaids", false);
-        bindBoolean(s, prefs, "backup_app_cache", false);
+        bindBooleanWithWarning(s, prefs, "restore_ssaids", false,
+                "Note", "Restoring app SSAIDs can affect app identity after restore.");
+        bindBooleanWithWarning(s, prefs, "backup_app_cache", false,
+                "Warning", "Backing up app cache can significantly increase backup size.");
         bindBoolean(s, prefs, "in_place_apk_downgrades", false);
 
         Preference swipe = s.findPreference("swipe_actions");
         if (swipe != null) {
             swipe.setOnPreferenceClickListener(p -> {
                 startActivity(new Intent(requireContext(), AppSwipeActionsActivity.class));
+                return true;
+            });
+        }
+        Preference labels = s.findPreference("manage_labels");
+        if (labels != null) {
+            labels.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), LabelsActivity.class));
                 return true;
             });
         }
@@ -72,6 +83,20 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         if (blacklist != null) {
             blacklist.setOnPreferenceClickListener(p -> {
                 startActivity(new Intent(requireContext(), BlacklistActivity.class));
+                return true;
+            });
+        }
+        Preference multiple = s.findPreference("multiple_backups_strategy");
+        if (multiple != null) {
+            multiple.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), MultipleBackupsActivity.class));
+                return true;
+            });
+        }
+        Preference limits = s.findPreference("app_backup_limits");
+        if (limits != null) {
+            limits.setOnPreferenceClickListener(p -> {
+                startActivity(new Intent(requireContext(), AppBackupLimitsActivity.class));
                 return true;
             });
         }
@@ -104,6 +129,27 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         });
     }
 
+    private void bindBooleanWithWarning(PreferenceScreen s, SharedPreferences prefs,
+                                        String key, boolean fallback, String title, String message) {
+        Preference p = s.findPreference(key);
+        if (p == null) return;
+        if (p instanceof MSwitchPreference) {
+            ((MSwitchPreference) p).setChecked(prefs.getBoolean(key, fallback));
+        }
+        p.setOnPreferenceChangeListener((preference, value) -> {
+            boolean enabled = (Boolean) value;
+            prefs.edit().putBoolean(key, enabled).apply();
+            if (enabled) {
+                new AlertDialog.Builder(requireContext())
+                        .setTitle(title)
+                        .setMessage(message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
+            return true;
+        });
+    }
+
     private void chooseCompression(SharedPreferences prefs) {
         int current = prefs.getInt("compression_level_app_data", 1);
         int selected = current == 0 ? 0 : 1;
@@ -129,6 +175,11 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         sync(prefs, "restore_ssaids", false);
         sync(prefs, "backup_app_cache", false);
         sync(prefs, "in_place_apk_downgrades", false);
+
+        Preference special = findPreference("restore_special_permissions");
+        if (special != null) {
+            special.setSummary(prefs.getBoolean("restore_special_permissions", true) ? "Enabled" : "Disabled");
+        }
     }
 
     private void sync(SharedPreferences prefs, String key, boolean fallback) {
