@@ -1,5 +1,6 @@
 package com.bare.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AlertDialog;
@@ -11,13 +12,13 @@ import com.bare.cloud.orphans.CloudOrphanCleanerActivity;
 import com.bare.settings.appvisibility.AppVisibilityDiagnosticsActivity;
 
 public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
-    private static final String[] ONEDRIVE_AGENTS = {"BROWSER", "WEBVIEW"};
-    private static final String[] ONEDRIVE_LABELS = {"Browser", "WebView"};
+    private static final String[] ONEDRIVE_AGENTS = {"WebView", "Browser"};
+    private static final String[] ONEDRIVE_AGENT_VALUES = {"WEBVIEW", "BROWSER"};
 
     @Override
     protected void build(PreferenceScreen s) {
         PreferenceCategory cloud = category(s, "Cloud");
-        item(cloud, "onedrive_auth_agent", "OneDrive sign-in agent", null);
+        Preference oneDrive = item(cloud, "onedrive_auth_agent", "OneDrive sign-in agent", null);
         Preference orphan = item(cloud, "scan_orphaned_cloud_files",
                 "Cloud orphan cleaner", "Scan for orphaned cloud files");
         orphan.setVisible(false);
@@ -47,10 +48,18 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         bindBoolean(s, prefs, "skip_disk_space_checks", false);
         bindBoolean(s, prefs, "extend_data_sync_fgs_timeout_for_schedules", false);
 
+        Preference oneDrive = s.findPreference("onedrive_auth_agent");
+        if (oneDrive != null) {
+            oneDrive.setOnPreferenceClickListener(p -> {
+                chooseOneDriveAgent(prefs);
+                return true;
+            });
+        }
+
         Preference orphan = s.findPreference("scan_orphaned_cloud_files");
         if (orphan != null) {
             orphan.setOnPreferenceClickListener(p -> {
-                startActivity(new android.content.Intent(requireContext(), CloudOrphanCleanerActivity.class));
+                startActivity(new Intent(requireContext(), CloudOrphanCleanerActivity.class));
                 return true;
             });
         }
@@ -58,25 +67,7 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         Preference diagnostics = s.findPreference("app_visibility_diagnostics");
         if (diagnostics != null) {
             diagnostics.setOnPreferenceClickListener(p -> {
-                startActivity(new android.content.Intent(requireContext(), AppVisibilityDiagnosticsActivity.class));
-                return true;
-            });
-        }
-
-        Preference agent = s.findPreference("onedrive_auth_agent");
-        if (agent != null) {
-            agent.setOnPreferenceClickListener(p -> {
-                String current = prefs.getString("onedrive_auth_agent", "BROWSER");
-                int selected = "WEBVIEW".equals(current) ? 1 : 0;
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("OneDrive sign-in agent")
-                        .setSingleChoiceItems(ONEDRIVE_LABELS, selected, (dialog, which) -> {
-                            prefs.edit().putString("onedrive_auth_agent", ONEDRIVE_AGENTS[which]).apply();
-                            dialog.dismiss();
-                            refresh();
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                startActivity(new Intent(requireContext(), AppVisibilityDiagnosticsActivity.class));
                 return true;
             });
         }
@@ -94,16 +85,31 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         });
     }
 
+    private void chooseOneDriveAgent(SharedPreferences prefs) {
+        String current = prefs.getString("onedrive_auth_agent", null);
+        int selected = "BROWSER".equals(current) ? 1 : 0;
+        new AlertDialog.Builder(requireContext())
+                .setTitle("OneDrive sign-in agent")
+                .setSingleChoiceItems(ONEDRIVE_AGENTS, selected, (dialog, which) -> {
+                    prefs.edit().putString("onedrive_auth_agent", ONEDRIVE_AGENT_VALUES[which]).apply();
+                    dialog.dismiss();
+                    refresh();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
     private void refresh() {
         SharedPreferences prefs = getPreferenceManager().getSharedPreferences();
         sync(prefs, "use_test_pdras", false);
         sync(prefs, "extra_logging", false);
         sync(prefs, "skip_disk_space_checks", false);
         sync(prefs, "extend_data_sync_fgs_timeout_for_schedules", false);
-        Preference agent = findPreference("onedrive_auth_agent");
-        if (agent != null) {
-            agent.setSummary("WEBVIEW".equals(prefs.getString("onedrive_auth_agent", "BROWSER"))
-                    ? "WebView" : "Browser");
+
+        Preference oneDrive = findPreference("onedrive_auth_agent");
+        if (oneDrive != null) {
+            String value = prefs.getString("onedrive_auth_agent", "BROWSER");
+            oneDrive.setSummary("WEBVIEW".equals(value) ? "WebView" : "Browser");
         }
     }
 
