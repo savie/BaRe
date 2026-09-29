@@ -232,3 +232,12 @@ Do not restart the Reference inventory from zero.
 - Added Reference-shaped Home Search shell and result-item resources for generic, app, folder, and quick-action results.
 - Ported the audited Reference search icons and required search labels.
 - HomeSearchActivity remains a behavior boundary; no search indexing/query semantics were invented.
+
+
+## Latest Settings UI reconstruction batch — 2026-09-29
+- Reconstructed the Reference SettingsActivity shell as a Java Android Views boundary.
+- Added a Reference-shaped PreferenceFragmentCompat surface with the audited settings preference keys and category structure.
+- Added the Java-only MSwitchPreference boundary used by the Reference settings resource contract.
+- Ported the audited Reference settings preference icons required by the reconstructed screen.
+- Added AndroidX Preference as the explicit UI dependency required by the Reference PreferenceScreen contract.
+- Settings click semantics remain evidence-bound; no backend, entitlement, export/import, or device-state behavior was invented.
