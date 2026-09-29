@@ -75,5 +75,8 @@
     <string name="from_device">From device</string>
     <string name="from_cloud">From cloud</string>
     <string name="restore_app_ssaids_note">Apps can still detect a device change, factory reset or change of ROMs by many other ways.\n\nProper data restore for such apps is not guaranteed.</string>
-    <string name="backup_cache_warning">Cache data can be huge for some apps and its backup can result in very large sized backups! Use this option carefully.</string>
+    <string name="backup_cache_warning">Cache data can be huge for some apps and its backup can result in very large sized backups! Use this option carefully.</string>    <string name="restore_runtime_permissions">Restore runtime permissions</string>
+    <string name="restore_permission_option_granted">Restore backed up permission choices</string>
+    <string name="restore_permission_option_all">Restore all permissions supported by the app</string>
+    <string name="restore_permission_option_none">Don't restore permissions</string>
 </resources>
