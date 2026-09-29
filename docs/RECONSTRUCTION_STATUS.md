@@ -445,3 +445,15 @@ Ported only contracts directly supported by Reference code:
 - Updated `AppListActivity` to bind the reconstructed mini-toolbar boundary while preserving the existing P3 batch-action navigation.
 - The actual installed-app inventory, filtering/search semantics, drawer contents, sorting, refresh behavior, fast-scroll behavior, and app persistence remain P4/P5 evidence boundaries.
 - No Supabase implementation, APK build, install, or runtime verification was executed.
+
+
+## P3 Apps-list flow activation — 2026-09-29
+- Deepened the Apps List from a passive shell into a navigable P3 flow while keeping feature engines deferred.
+- Reference menu surface reconstructed: Search, Filter, and navigation drawer.
+- Search opens a live query surface; submitted text reaches an explicit P3 boundary and does not fabricate indexing/query results.
+- Filter opens an explicit P3 boundary; filter semantics/persistence remain UNKNOWN until the audited app-list contract is reconstructed.
+- Refresh is interactive and returns to idle without mutating inventory; real app refresh remains P4.
+- Apps navigation drawer now has live P3 routes matching audited Reference targets: Quick actions, App labels, Custom configurations, Blacklist, App backup settings (SettingsDetail category 1), and Settings.
+- Batch action entry remains live; backup/restore execution remains P4.
+- Back behavior now handles search and drawer state before finishing the Activity.
+- No app inventory, backup/restore engine, privileged operation, filesystem mutation, backend mutation, APK build, install, or runtime verification was executed.
