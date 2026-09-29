@@ -34,6 +34,12 @@
 
 No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 
+## 2026-09-29 UI reconstruction continuation
+
+- Account fragment now follows the Reference hierarchy with a dedicated profile-card include and preserved supported account fields.
+- Profile-card action fields not supported by current BaRe evidence remain UNKNOWN rather than being invented.
+- Cloud and Schedule fragment parity remains UNKNOWN while their Reference-specific custom view dependencies are being reconstructed.
+
 ## 2026-09-29 reconstruction audit
 
 - Reference Activity coverage: **71/71** mapped to BaRe Activity classes.
