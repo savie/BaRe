@@ -129,4 +129,14 @@
     <string name="apps_refresh_boundary">Refresh boundary reached. App inventory refresh remains P4.</string>
     <string name="apps_search_boundary">Search input is active, but Reference app indexing/query semantics remain an evidence boundary: "%s".</string>
     <string name="apps_filter_boundary">Reference filter controls are available through the Apps-list surface. Filter semantics and persistence remain deferred to the audited app-list contract.</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="search_hint_apps">Search apps</string>
+    <string name="app_labels">App labels</string>
+    <string name="app_labels_description">Manage app labels.</string>
+    <string name="custom_configurations">Custom configurations</string>
+    <string name="custom_configurations_description">Configure advanced app backup options.</string>
+    <string name="blacklist_apps_msg">Exclude selected apps from operations.</string>
+    <string name="app_backup_settings">App backup settings</string>
 </resources>
