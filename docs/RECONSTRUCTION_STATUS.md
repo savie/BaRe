@@ -475,3 +475,14 @@ Ported only contracts directly supported by Reference code:
 - Decompiled Reference DetailActivity likewise consumes the same app parcelable for normal entry and separately supports a shortcut/package-name path. BaRe DetailActivity currently provides the navigation/UI boundary only.
 - Reference detail_activity.xml contains an app-info card plus separate device/cloud backup cards. BaRe now has the equivalent P3 card structure and routes Backup/Restore controls to the existing engine boundary without executing them.
 - Reference app_item.xml contains the app row, favorite/menu affordances, checkbox boundary, and two start/end reveal groups. BaRe now has the corresponding P3 hierarchy and swipe reveal interaction; action side effects remain deferred.
+
+
+### P3 Apps-item geometry deepening — 2026-09-29
+- Re-audited the Reference `AppItemContentLayout`, `AppListItemLayout`, `AppSwipeActionRevealLayout`, and `AppRowLabelsView` implementations rather than treating their Java classes as empty boundaries.
+- BaRe app-row content now has an explicit custom ViewGroup measurement/layout path for the Reference title/subtitle/label/icon/favorite/menu/checkbox roles.
+- Added the Reference checkbox boundary (`cb`) and the Reference-derived app-list/label geometry dimensions.
+- Swipe reveal children now receive row-height-derived square action sizing, matching the Reference reveal-layout measurement role.
+- App-row container measurement now resolves the card height first and measures reveal groups against that resolved row height.
+- Label rendering now exposes a Reference-shaped chip surface for explicitly supplied label text; no label/provider data is invented.
+- These changes remain P3-only: backup/restore, app-management, persistence, provider actions, and app inventory remain outside this batch.
+- No APK build, install, runtime, or visual verification was executed.
