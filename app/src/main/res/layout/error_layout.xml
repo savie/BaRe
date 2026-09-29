@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:gravity="center" android:layout_gravity="center"
+    android:orientation="vertical" android:padding="@dimen/spacing_large" android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView android:id="@+id/el_iv" android:layout_width="64dp" android:layout_height="64dp" android:padding="@dimen/spacing_normal_more"
+        android:backgroundTint="?colorPrimary" android:src="@drawable/ic_menu_close" />
+    <TextView android:id="@+id/el_tv" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium_more" android:layout_marginBottom="@dimen/spacing_low"
+        android:layout_marginStart="@dimen/spacing_normal" android:layout_marginEnd="@dimen/spacing_normal"
+        android:gravity="center" android:textColor="?android:textColorSecondary" android:text="@string/apps_list_pending" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/el_btn" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:text="@string/retry" />
+    <com.google.android.material.button.MaterialButton android:id="@+id/el_btn_secondary" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_low" android:visibility="gone" android:text="@string/close" />
+</LinearLayout>
