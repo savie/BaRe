@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **68** |
-| 🟡 Yellow | **3** |
+| 🟢 Green | **69** |
+| 🟡 Yellow | **2** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 68
+### 🟢 Green — 69
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -101,14 +101,14 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 66. `PremiumActivity`
 67. `AppVisibilityDiagnosticsActivity`
 68. `WallsDashActivity`
+69. `WallApplyActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 3
+### 🟡 Yellow — 2
 
-1. `WallApplyActivity`
-2. `WallsManageActivity`
-3. `WifiActivity`
+1. `WallsManageActivity`
+2. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -161,3 +161,11 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - `WallsDashActivity` now reconstructs the current-wallpaper dashboard with Home/Lock preview surfaces, current-state summary, refresh, backup-location selection, device/cloud backup cards, manage navigation, loading/empty boundaries, and back navigation.
 - Current wallpaper snapshot files are read only when present; no backup inventory or provider state is fabricated.
 - Wallpaper backup execution remains explicitly at the engine/provider boundary. The Activity is promoted to 🟢 for P3.
+
+## Latest vertical slice — WallApplyActivity P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `WallApplyActivity` now reconstructs wallpaper preview, target selection (Home / Lock / Home + Lock), unavailable/ready states, apply confirmation, recreation state, and back navigation.
+- Incoming wallpaper data is accepted through the Activity URI contract; no fake wallpaper asset is generated.
+- The actual wallpaper mutation remains explicitly at the P3 engine boundary rather than being claimed as executed. The Activity is promoted to 🟢.
