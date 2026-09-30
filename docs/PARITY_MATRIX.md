@@ -229,3 +229,11 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - This is a P3 external-auth boundary, not provider execution parity.
 - Activity depth after this exit: **53 green / 18 yellow / 0 red / 71**.
 - Build/runtime/visual verification remains blocked/gated.
+
+
+## 2026-09-30 TeraBox sign-in P3
+
+- `TeraBoxSignInActivity` now reconstructs the Reference credential gate, browser/redirect-handler checks, TeraBox external authorization boundary, redirect intent/code parsing, and explicit failure/pending states.
+- Reference provider code exchange and token persistence remain downstream; no credentials are fabricated.
+- Activity depth after this exit: **54 green / 17 yellow / 0 red / 71**.
+- Build/runtime/visual verification remains blocked/gated.
