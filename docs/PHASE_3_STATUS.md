@@ -138,6 +138,20 @@ Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
 
 No promotion was made in this slice because the remaining differences are still evidence-supported P3 reconstruction gaps, not merely deferred execution engines.
 
+## Latest vertical audit — Premium / Diagnostics / Walls / Wi-Fi / Locale
+
+Audited against current BaRe source/resources:
+
+- `PremiumActivity` → 🟡; feature list is static and purchase action is only a boundary; product/catalog and purchase-state presentation remain unreconstructed.
+- `AppVisibilityDiagnosticsActivity` → 🟡; search/list surface exists but the RecyclerView has no diagnostics data contract and refresh/copy remain boundaries.
+- `WallsDashActivity` → 🟡; dashboard cards exist in XML but actions/data state are not wired.
+- `WallApplyActivity` → 🟡; image/apply surface exists but apply action and wall state are deferred behind boundary.
+- `WallsManageActivity` → 🟡; RecyclerView remains empty.
+- `WifiActivity` → 🟡; three Wi-Fi categories exist structurally but adapters/data are empty.
+- `LocaleActivity` → 🟡; locale RecyclerView remains empty.
+
+No promotion was made in this slice.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
