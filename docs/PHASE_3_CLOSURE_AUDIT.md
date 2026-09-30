@@ -42,7 +42,7 @@ Yellow is an audit state, not a defect finding.
 | # | Domain | Initial state | Final verdict |
 |---:|---|---|---|
 | 1 | Resource | 🟡 **OPEN** | Evidence audit completed; application-owned matrix still required for closure. |
-| 2 | Strings | 🟡 | Pending audit |
+| 2 | Strings | 🟡 **OPEN** | Evidence audit completed; application-owned string matrix and P3 usage classification are still required for closure. |
 | 3 | Dimensions | 🟡 | Pending audit |
 | 4 | Styles / Themes / Colors | 🟡 | Pending audit |
 | 5 | Manifest | 🟡 | Pending audit |
@@ -164,5 +164,49 @@ Reason: the evidence is sufficient to establish that the domain is not yet prove
 ### Follow-up, not implementation
 
 The next Resource work required after the 15-domain audit is an application-owned resource matrix separated from dependency/library resources.
+
+**No app/resource fix was performed.**
+
+
+## Audit #2 — Strings — Findings
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+The Strings domain was audited statically without changing the app.
+
+### Evidence
+
+Reference res/values/strings.xml contains **1,384** base string entries. Current BaRe app/src/main/res/values/strings.xml contains **523** entries.
+
+Direct name comparison yields **1,041 Reference names absent from BaRe's current base strings file** and **177 target-only names**. The Reference decoded resource tree includes dependency/library strings, so these raw deltas are not themselves defects.
+
+Static tracing of R.string.* references under the Reference org.swiftapps.swiftbackup Java source found **300 distinct application-source string names**, all defined by the Reference base strings file. Representative Reference application strings used by that source but absent from the current BaRe base strings file include:
+
+- add_apps
+- account_email
+- active_backup_tag
+- apk_import_ready_title
+- app_data
+- app_parts
+- apps_empty_list_error
+- auth_failed
+- backup_all
+- backup_and_restore
+- backup_call_logs
+- backup_content
+
+This is enough to establish that the current string set is not exhaustively reconciled at application scope.
+
+Earlier historical P3 documentation recorded a P3-visible string parity PASS, but the fresh total audit does not carry that forward as a final verdict.
+
+### Audit conclusion
+
+The Strings domain remains:
+
+> **🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Follow-up, not implementation
+
+Build an application-owned Reference→BaRe string matrix, classify dependency/library strings separately, then classify missing Reference application strings as P3-visible, authorized branding replacement, or legitimately deferred/downstream. Reconcile relevant locale/qualifier coverage where required.
 
 **No app/resource fix was performed.**
