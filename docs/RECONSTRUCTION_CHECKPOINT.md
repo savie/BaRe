@@ -302,3 +302,14 @@ Current Activity checkpoint: **53 green / 18 yellow / 0 red / 71**.
 - No build/runtime/visual verification was performed.
 
 Current Activity checkpoint: **54 green / 17 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — YandexSignInActivity
+
+`YandexSignInActivity` crossed the P3 boundary through the Reference inherited `fq5` OAuth lifecycle.
+
+- Browser and Yandex redirect-handler probes, authorization contract, request-code result handling, redirect URI/code validation, failure boundary, and recreation state are reconstructed.
+- Reference AppAuth token exchange and provider credential persistence remain downstream.
+- Reference redirect contract: `org.swiftapps.swiftbackup.yandex://oauth`; manifest remains non-exported/singleTop.
+- Current Activity checkpoint: **55 green / 16 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
