@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **46** |
-| 🟡 Yellow | **25** |
+| 🟢 Green | **47** |
+| 🟡 Yellow | **24** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -79,10 +79,11 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 44. `AppInfoActivity`
 45. `FolderEditActivity`
 46. `FolderDetailActivity`
+47. `FilenSignInActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 25
+### 🟡 Yellow — 24
 
 1. `ApkImportActivity`
 2. `LabelEditActivity`
@@ -195,6 +196,18 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Concrete app metadata rendering remains delegated to the downstream app-info engine; no fake app model or metadata was introduced.
 
 The Activity is promoted to 🟢 because its observable P3 contract/navigation boundary is now reconstructed; downstream metadata work remains outside P3.
+
+## Latest vertical slice — Filen sign-in P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- Email and password inputs are wired to the Reference surface.
+- Connect remains disabled until both fields are non-empty, matching the verified Reference enablement condition.
+- Connect reaches an explicit authentication/result boundary without fabricating provider credentials or token state.
+- Back/up returns `RESULT_CANCELED`; successful boundary returns `RESULT_OK`.
+- Provider authentication, ViewModel state, token validation, and cloud side effects remain downstream provider/engine work.
+
+`FilenSignInActivity` is promoted to 🟢 at the P3 boundary.
 
 ## Current P3 work order
 
