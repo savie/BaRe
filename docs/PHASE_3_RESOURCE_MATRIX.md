@@ -1,175 +1,122 @@
-# P3 EU-01 Resource Matrix — Inventory Baseline
+# P3 EU-01 Resource Matrix — Reference ZIP Evidence
 
-## Purpose
+## Source of truth
 
-EU-01 / N-01 resolves **application-owned Reference→BaRe resource parity**.
+EU-01 uses the supplied **Swift Backup 5.1.0 / versionCode 620 decompile ZIP** as the Reference source of truth.
 
-This checkpoint is an **evidence-only inventory baseline**. It does not declare parity, does not copy Reference resources, and does not modify application resources.
+Reference evidence is read from:
 
-## Current source baseline
+- `output/jadx/resources/res/`
+- `output/jadx/sources/org/swiftapps/swiftbackup/`
 
-- Branch: `rewrite`
-- Reference: Swift Backup 5.1.0 / versionCode 620
-- Target: `savie/BaRe`
-- Reference resource tree: `reference/apktool/res/`
-- Target resource tree: `app/src/main/res/`
+The repository's `reference/apktool/` / `reference/jadx/` mirrors are secondary cross-check material only and are **not** the primary Reference input for this EU.
 
-## Inventory totals
+## Target
 
-| Tree | Resource files |
+BaRe application-owned resources:
+
+- `app/src/main/res/`
+- branch: `rewrite`
+
+## Reference resource inventory from the supplied ZIP
+
+The decoded ZIP contains the previously recorded major resource families:
+
+| Resource family | Reference count |
 |---|---:|
-| Reference | **1491** |
-| BaRe | **242** |
-| Raw difference | **1249** |
+| layout | 341 |
+| layout-land | 2 |
+| layout-sw600dp | 2 |
+| layout-w600dp | 1 |
+| layout-watch | 2 |
+| drawable | 445 |
+| drawable-anydpi | 2 |
+| drawable-anydpi-v31 | 1 |
+| drawable-nodpi | 33 |
+| menu | 44 |
+| xml | 18 |
+| raw | 12 |
+| font | 7 |
+| anim | 41 |
+| animator | 42 |
+| color | 199 |
 
-**Important:** the raw difference is **not** a parity verdict. The Reference tree contains dependency/library/generated resources.
+These counts are inventory evidence only. They are **not** a parity target because the decoded Reference includes dependency/library resources.
 
-## Reference resource inventory by type / qualifier
+## Application-ownership evidence
 
-| Directory | Files |
+The strongest current static ownership signal is Reference application-source usage:
+
+`output/jadx/sources/org/swiftapps/swiftbackup/` was scanned for `R.<type>.<name>` references.
+
+Current Reference application-source usage inventory:
+
+| Type | Distinct application-source references |
 |---|---:|
-| `anim` | 41 |
-| `animator` | 42 |
-| `color` | 199 |
-| `color-night` | 3 |
-| `color-v31` | 21 |
-| `drawable` | 445 |
-| `drawable-anydpi` | 2 |
-| `drawable-anydpi-v31` | 1 |
-| `drawable-hdpi` | 36 |
-| `drawable-ldpi` | 1 |
-| `drawable-ldrtl-hdpi` | 1 |
-| `drawable-ldrtl-mdpi` | 1 |
-| `drawable-ldrtl-xhdpi` | 1 |
-| `drawable-ldrtl-xxhdpi` | 1 |
-| `drawable-ldrtl-xxxhdpi` | 1 |
-| `drawable-mdpi` | 35 |
-| `drawable-night-nodpi` | 1 |
-| `drawable-nodpi` | 33 |
-| `drawable-watch` | 1 |
-| `drawable-xhdpi` | 36 |
-| `drawable-xxhdpi` | 35 |
-| `drawable-xxxhdpi` | 16 |
-| `font` | 7 |
-| `interpolator` | 18 |
-| `layout` | 341 |
-| `layout-land` | 2 |
-| `layout-sw600dp` | 2 |
-| `layout-w600dp` | 1 |
-| `layout-watch` | 2 |
-| `menu` | 44 |
-| `mipmap-anydpi` | 1 |
-| `mipmap-xxxhdpi` | 3 |
-| `raw` | 12 |
-| `values` | 11 |
-| `values-de` | 2 |
-| `values-de-rDE` | 1 |
-| `values-es` | 2 |
-| `values-es-rES` | 1 |
-| `values-fr` | 2 |
-| `values-fr-rFR` | 1 |
-| `values-h320dp` | 1 |
-| `values-h320dp-port` | 1 |
-| `values-h360dp-land` | 1 |
-| `values-h480dp` | 1 |
-| `values-h480dp-land` | 1 |
-| `values-h550dp-port` | 1 |
-| `values-h720dp` | 1 |
-| `values-hdpi` | 1 |
-| `values-in` | 2 |
-| `values-in-rID` | 1 |
-| `values-it` | 2 |
-| `values-it-rIT` | 1 |
-| `values-ja` | 2 |
-| `values-ja-rJP` | 1 |
-| `values-land` | 3 |
-| `values-large` | 1 |
-| `values-night` | 1 |
-| `values-night-v31` | 1 |
-| `values-pl` | 2 |
-| `values-pl-rPL` | 1 |
-| `values-port` | 1 |
-| `values-pt` | 1 |
-| `values-pt-rBR` | 2 |
-| `values-ru` | 2 |
-| `values-ru-rRU` | 1 |
-| `values-sw360dp` | 1 |
-| `values-sw600dp` | 3 |
-| `values-tr` | 2 |
-| `values-tr-rTR` | 1 |
-| `values-uk` | 2 |
-| `values-uk-rUA` | 1 |
-| `values-v28` | 2 |
-| `values-v31` | 3 |
-| `values-v33` | 1 |
-| `values-v34` | 2 |
-| `values-v35` | 1 |
-| `values-vi` | 2 |
-| `values-vi-rVN` | 1 |
-| `values-w320dp-land` | 1 |
-| `values-w360dp-port` | 1 |
-| `values-w400dp-port` | 1 |
-| `values-w600dp` | 1 |
-| `values-w600dp-land` | 1 |
-| `values-w820dp` | 1 |
-| `values-watch` | 1 |
-| `values-xlarge` | 1 |
-| `values-zh-rCN` | 2 |
-| `values-zh-rTW` | 2 |
-| `xml` | 18 |
+| anim | 4 |
+| color | 6 |
+| dimen | 14 |
+| drawable | 59 |
+| font | 4 |
+| layout | 14 |
+| menu | 30 |
+| string | 300 |
+| style | 2 |
+| xml | 1 |
 
-## BaRe resource inventory by type / qualifier
+This source-usage inventory is the **candidate ownership seed**, not a final parity verdict. A resource can still be dependency-provided, shared, generated, or intentionally represented differently in BaRe.
 
-| Directory | Files |
-|---|---:|
-| `color` | 1 |
-| `drawable` | 79 |
-| `drawable-nodpi` | 1 |
-| `layout` | 121 |
-| `menu` | 29 |
-| `values` | 6 |
-| `values-land` | 1 |
-| `values-w320dp-land` | 1 |
-| `values-w600dp-land` | 1 |
-| `values-w820dp` | 1 |
-| `xml` | 1 |
+### Initial high-confidence application resource examples
 
-## Ownership rule
+Reference application source explicitly references application-facing resources such as:
 
-EU-01 may treat a Reference resource as an application-owned parity candidate only after ownership evidence is established.
+- layouts: `app_list_activity`, `folder_detail_activity`, `intro_benefit_card_view`, `schedule_fab_menu_item`, `task_activity`, `wifi_show_dialog`;
+- menus: `menu_apps`, `menu_apps_batch_activity`, `menu_config_settings`, `menu_folder_picker`, `menu_task_activity`, `menu_walls_explore`;
+- drawables: `ic_app`, `ic_check`, `ic_cloud`, `ic_restore`, `ic_settings_*_filled`, `ic_stat`;
+- application colors: `acnt`, `ambrdark`, `blk07`, `premium`, `trans`, `wht20`;
+- application fonts: `main_bold`, `mono_bold`, `mono_medium`, `condensed_regular`.
 
-Current evidence categories:
+The exact ownership classification still requires checking the Reference declaration plus current BaRe counterpart/usage before mutation.
 
-1. **Application-owned candidate** — evidence ties the resource to the Reference application contract/source/UI.
-2. **Dependency/library/generated candidate** — evidence ties the resource to AndroidX/Material/AppCompat/other dependency or generated resource surfaces.
-3. **Qualifier variant** — same contract under a Reference configuration qualifier; must be reconciled with its base resource contract rather than counted as an unrelated feature.
-4. **Unresolved** — ownership cannot yet be established safely.
+## Ownership classification rule
 
-An unresolved item is **not copied or changed**.
+Each candidate is classified as:
 
-## Stability guard
+1. **APP-MATCH** — Reference application-owned resource already represented by the current BaRe contract.
+2. **APP-MISSING** — Reference application-owned resource with evidence of a bounded missing BaRe counterpart.
+3. **DEPENDENCY/LIBRARY** — Reference resource belongs to AndroidX/Material/other dependency surface.
+4. **QUALIFIER VARIANT** — application-owned resource variant that must be reconciled with its base contract.
+5. **AUTHORIZED DIFFERENCE** — identity/branding or another explicitly authorized BΛR☰ deviation.
+6. **DOWNSTREAM / NOT P3 IMPLEMENTATION** — resource tied to a deferred provider/backend/engine capability where reconstruction would invent behavior.
+7. **UNRESOLVED** — evidence insufficient; no mutation permitted.
 
-Because the Reference contains 1,491 files across many resource families, EU-01 will not process the tree as one mutation.
+## EU-01 Batch 01 result
 
-Before any resource mutation, the next evidence pass must establish:
+**Inventory baseline: COMPLETE.**
 
-- application-owned file/name set;
-- dependency/library exclusions;
-- resource type and qualifier;
+The previous inventory note based on repository tree data is superseded as the primary Reference evidence. The supplied decompile ZIP is now the authoritative Reference input for this EU.
+
+**No application resource mutation was performed in Batch 01.**
+
+## EU-01 Batch 02
+
+**Ownership classification is now the active batch.**
+
+Required evidence per candidate:
+
+- exact Reference ZIP path;
+- declaration/resource type and qualifier;
+- Reference application-source usage where available;
 - current BaRe counterpart;
-- Reference usage/role where needed;
-- exact candidate change scope.
+- dependency/library exclusion evidence;
+- whether the candidate is P3-visible and bounded.
 
-Only a bounded candidate set may enter implementation.
+Only candidates classified **APP-MISSING** with a known safe contract may proceed to Small Implementation.
 
-## Current EU-01 status
+## Guardrails
 
-**Evidence batch 01 — Inventory baseline: COMPLETE.**
-
-**Parity verdict: NOT YET DETERMINED.**
-
-**Implementation changes: NONE.**
-
-**Runtime/build/install/visual verification: NOT AUTHORIZED / NOT PERFORMED.**
-
-**Next EU-01 batch:** ownership classification and bounded Reference→BaRe candidate matrix.
+- Do not bulk-copy Reference resources.
+- Do not treat raw count differences as defects.
+- Do not replace BΛR☰ identity merely to match Swift-named internal identifiers.
+- Do not invent provider/backend/engine behavior through resources.
+- Static verification only; build/install/runtime/visual verification remains gated.
