@@ -394,4 +394,8 @@
     <string name="box_redirect_handler_missing">No handler activity found for the Box redirect URI.</string>
     <string name="box_signin_result_null">Box sign-in result intent is null.</string>
     <string name="box_authorization_failed">Box authorization failed.</string>
+    <string name="one_drive">OneDrive</string>
+    <string name="one_drive_ready_to_authenticate">Microsoft sign-in is ready.</string>
+    <string name="one_drive_authorization_started">Opening Microsoft sign-in…</string>
+    <string name="one_drive_browser_missing">No browser is available to open Microsoft sign-in.</string>
 </resources>
