@@ -8,7 +8,7 @@
   <LinearLayout android:orientation="vertical" android:paddingBottom="24dp" android:layout_width="match_parent" android:layout_height="wrap_content">
    <com.google.android.material.card.MaterialCardView android:id="@+id/cardAppInfo" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-     <ImageView android:id="@+id/ivImportedAppIcon" android:layout_width="56dp" android:layout_height="56dp" android:src="@drawable/sym_def_app_icon" android:visibility="gone"/>
+     <ImageView android:id="@+id/ivImportedAppIcon" android:layout_width="56dp" android:layout_height="56dp" android:src="@android:drawable/sym_def_app_icon" android:visibility="gone"/>
      <TextView android:id="@+id/tvPackageName" style="@style/TextCaption" android:layout_width="match_parent" android:layout_height="wrap_content"/>
      <TextView android:id="@+id/tvAppName" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
      <TextView android:id="@+id/tvVersionInfo" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
