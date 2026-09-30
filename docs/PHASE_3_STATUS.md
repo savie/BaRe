@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **50** |
-| 🟡 Yellow | **21** |
+| 🟢 Green | **51** |
+| 🟡 Yellow | **20** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -83,13 +83,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 48. `DetailActivity`
 49. `ApkImportActivity`
 50. `LabelEditActivity`
+51. `LabelsActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 21
+### 🟡 Yellow — 20
 
-1. `LabelsActivity`
-2. `BoxSignInActivity`
+1. `BoxSignInActivity`
 3. `OneDriveSignInActivity`
 4. `TeraBoxSignInActivity`
 5. `YandexSignInActivity`
@@ -313,8 +313,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **50 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **21 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **51 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **20 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
@@ -405,3 +405,15 @@ The remaining label persistence, label catalog mutation, and real app inventory/
 **Current checkpoint signal: 50 green / 21 yellow / 0 red / 71 Activities.**
 
 No build, install, runtime, or visual verification was performed.
+
+
+## 2026-09-30 P3 lifecycle exit — LabelsActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `LabelsActivity` is now P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
+- Reference mode contracts are reconstructed for manage labels, set app labels, and select labels.
+- Create/edit/delete-all, clear selection, select/apply, five-label selection limit, empty state, mode-specific menu visibility, recreation state, and result propagation to/from `LabelEditActivity` are reconstructed.
+- Label catalog persistence, app inventory/parcel rendering, and actual assignment/storage semantics remain downstream P4/P5 dependencies and are not fabricated.
+- Current Activity depth: **51 green / 20 yellow / 0 red / 71**.
+- Build/runtime/visual verification was not performed.
