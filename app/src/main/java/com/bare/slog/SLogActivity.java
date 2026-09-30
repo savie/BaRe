@@ -13,7 +13,7 @@ import com.bare.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 /**
- * P3 SwiftLogger surface. Log collection/storage is deliberately not
+ * P3 BΛR☰Logger surface. Log collection/storage is deliberately not
  * fabricated; the Reference share/clear controls are exposed as boundaries.
  */
 public final class SLogActivity extends AppCompatActivity {
