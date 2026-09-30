@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 51
+### 🟢 Green — 52
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -84,30 +84,30 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 49. `ApkImportActivity`
 50. `LabelEditActivity`
 51. `LabelsActivity`
+52. `BoxSignInActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 20
+### 🟡 Yellow — 19
 
-1. `BoxSignInActivity`
-2. `OneDriveSignInActivity`
-3. `TeraBoxSignInActivity`
-4. `YandexSignInActivity`
-5. `ContributorRegActivity`
-6. `FolderPickerActivity`
-7. `FoldersBatchActivity`
-8. `ScheduleLabelsSelectActivity`
-9. `ScheduleFolderSelectActivity`
-10. `CallsBackupRestoreActivity`
-11. `MessagesBackupRestoreActivity`
-12. `ChatActivity`
-13. `CallsDashActivity`
-14. `MessagesDashActivity`
-15. `PremiumActivity`
-16. `AppVisibilityDiagnosticsActivity`
-17. `WallsDashActivity`
-18. `WallApplyActivity`
-19. `WallsManageActivity`
+1. `OneDriveSignInActivity`
+2. `TeraBoxSignInActivity`
+3. `YandexSignInActivity`
+4. `ContributorRegActivity`
+5. `FolderPickerActivity`
+6. `FoldersBatchActivity`
+7. `ScheduleLabelsSelectActivity`
+8. `ScheduleFolderSelectActivity`
+9. `CallsBackupRestoreActivity`
+10. `MessagesBackupRestoreActivity`
+11. `ChatActivity`
+12. `CallsDashActivity`
+13. `MessagesDashActivity`
+14. `PremiumActivity`
+15. `AppVisibilityDiagnosticsActivity`
+16. `WallsDashActivity`
+17. `WallApplyActivity`
+18. `WallsManageActivity`
 20. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
@@ -313,8 +313,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **51 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **20 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **52 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **19 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
@@ -416,4 +416,16 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Create/edit/delete-all, clear selection, select/apply, five-label selection limit, empty state, mode-specific menu visibility, recreation state, and result propagation to/from `LabelEditActivity` are reconstructed.
 - Label catalog persistence, app inventory/parcel rendering, and actual assignment/storage semantics remain downstream P4/P5 dependencies and are not fabricated.
 - Current Activity depth: **51 green / 20 yellow / 0 red / 71**.
+- Build/runtime/visual verification was not performed.
+
+
+## 2026-09-30 P3 lifecycle exit — BoxSignInActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `BoxSignInActivity` is now P3 **GREEN** at the evidence-supported external-auth boundary.
+- Browser availability and the Reference Box redirect URI handler are checked before authorization.
+- Box OAuth navigation uses the Reference authorization endpoint/redirect contract; provider token exchange and SDK result handling remain downstream because the Reference SDK/ViewModel contract is not present in BaRe.
+- Failure states for missing browser, missing redirect handler, and authorization failure are explicit; no token or provider state is fabricated.
+- Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
 - Build/runtime/visual verification was not performed.
