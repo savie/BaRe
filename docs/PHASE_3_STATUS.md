@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **59** |
-| 🟡 Yellow | **12** |
+| 🟢 Green | **60** |
+| 🟡 Yellow | **11** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 59
+### 🟢 Green — 60
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -92,23 +92,23 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 57. `FolderPickerActivity`
 58. `FoldersBatchActivity`
 59. `ScheduleLabelsSelectActivity`
+60. `ScheduleFolderSelectActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 12
+### 🟡 Yellow — 11
 
-1. `ScheduleFolderSelectActivity`
-2. `CallsBackupRestoreActivity`
-3. `MessagesBackupRestoreActivity`
-4. `ChatActivity`
-5. `CallsDashActivity`
-6. `MessagesDashActivity`
-7. `PremiumActivity`
-8. `AppVisibilityDiagnosticsActivity`
-9. `WallsDashActivity`
-10. `WallApplyActivity`
-11. `WallsManageActivity`
-12. `WifiActivity`
+1. `CallsBackupRestoreActivity`
+2. `MessagesBackupRestoreActivity`
+3. `ChatActivity`
+4. `CallsDashActivity`
+5. `MessagesDashActivity`
+6. `PremiumActivity`
+7. `AppVisibilityDiagnosticsActivity`
+8. `WallsDashActivity`
+9. `WallApplyActivity`
+10. `WallsManageActivity`
+11. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -517,5 +517,21 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - The Reference label catalog, persistent selection storage, and schedule mutation remain downstream data/feature contracts and are not fabricated.
 
 **Current Activity checkpoint: 59 green / 12 yellow / 0 red / 71.**
+
+No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleFolderSelectActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `ScheduleFolderSelectActivity` is promoted to 🟢 at the evidence-supported P3 folder-selection boundary.
+- Reference-shaped folder setup list, empty state, Save FAB, toolbar/up flow, and select-all menu contract are reconstructed.
+- Reference input contracts `EXTRA_BACKUP_ALL_FOLDERS` and `EXTRA_SELECTED_FOLDER_ITEMS` are preserved at the Activity boundary.
+- Save returns `EXTRA_RESULT` plus explicit selected-folder IDs and backup-all state; the concrete Reference `FolderItem` Parcelable/result class is not fabricated.
+- Recreation preserves backup-all and selected-folder state.
+- Folder inventory construction, FolderItem Parcelable semantics, persistent selection, and schedule mutation remain downstream data/engine contracts.
+
+**Current Activity checkpoint: 60 green / 11 yellow / 0 red / 71.**
 
 No build/runtime/visual verification performed.
