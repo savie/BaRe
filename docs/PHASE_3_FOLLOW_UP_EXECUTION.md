@@ -548,9 +548,46 @@ The 4 oversized WPs are therefore decomposed into **13 execution units**, one pe
 - **4 WPs were too large and were split:** WP-01, WP-02, WP-06, WP-07.
 - Result: **13 bounded execution units**, one per active normalized contract.
 - No implementation authorization is created.
-- Next step: **Step 8 — Small Implementation**, subject to explicit implementation authorization for the selected execution unit.
 
-**Step 7 is complete.**
+### Step 7A — Execution Safety / Stability Gate
+
+The 13 execution units are **domain contracts, not mandatory one-shot operations**. A large unit must be subdivided again before Step 8 whenever its evidence or change surface is too large to review safely.
+
+Mandatory controls for every EU/batch:
+
+1. **Inventory before mutation** — enumerate the exact files/contracts in scope before changing anything.
+2. **Ownership isolation** — separate application-owned items from dependency/library/generated/downstream items before counting or changing them.
+3. **Bounded batching** — an EU may be split into EU-A/EU-B/EU-C/... by resource type, qualifier, feature surface, component group, call-chain, or other evidence-backed boundary.
+4. **Explicit blast radius** — record exact paths/contracts allowed to change and explicitly exclude unrelated domains.
+5. **Static-first verification** — inspect the resulting diff, references, ownership, and contract matrix after each batch.
+6. **Re-audit before continuation** — the affected audit domain gets current evidence for the completed batch; a batch passing does not close the whole EU/domain.
+7. **Checkpoint after meaningful batches** — record state, changed scope, evidence, and remaining work.
+8. **Hard stop conditions** — stop if scope expands unexpectedly, ownership becomes ambiguous, static references break, the change crosses an excluded boundary, or the operation becomes operationally unstable.
+9. **Rollback/isolation** — isolate or revert an unstable/incorrect batch before attempting the next batch; never stack new changes on unresolved instability.
+10. **No bulk-copy parity** — Reference counts are inventory evidence only; never automatically copy/reconcile thousands of Reference files as one operation.
+11. **No runtime escalation** — build/install/runtime/visual verification remains gated unless separately authorized.
+12. **No cross-EU opportunism** — do not fix unrelated contracts merely because their files are nearby.
+
+### Step 8 entry criteria
+
+A batch is **small enough to enter Step 8** only when it has:
+
+- a known file/contract list;
+- known ownership;
+- bounded change scope;
+- known dependencies;
+- explicit exclusions;
+- a static verification method;
+- a re-audit target;
+- a checkpoint condition; and
+- a clear stop/rollback condition.
+
+If any item is unknown, **Step 8 does not start for that batch**. Subdivide the unit or return to evidence/classification work.
+
+This hardening does **not** rewrite the master flow. It strengthens Step 7 so that Step 8 remains genuinely “Small Implementation.”
+
+**Step 7 is complete — hardened.**
+**Next:** Step 8 — Small Implementation, only with explicit implementation authorization and only for a safety-gated bounded batch.
 # Step 8 — Small Implementation
 
 Only after explicit authorization for implementation:
@@ -616,7 +653,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; Step 3 Classification complete; Step 4 Dependency Mapping complete; Step 5 Dependency Order complete; **Step 6 Work Package Formation complete**. Eight bounded work packages are formed from the 13 active normalized contracts. Next: Step 7 Scope Check before any implementation.
+**Current execution objective:** Steps 1–6 complete; **Step 7 Scope Check complete and hardened with the Execution Safety / Stability Gate**. Eight WPs were reduced to 13 bounded execution units, and each unit may be subdivided further into safety-gated batches before Step 8. No implementation is authorized merely by reaching Step 7.
 
 **P4:** GATED / NOT STARTED.
 
