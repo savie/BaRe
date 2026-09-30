@@ -325,3 +325,19 @@ P3 is frozen after the dedicated closure audit.
 This UNKNOWN status is evidence-state classification, not a claim of parity. It must not be promoted to MATCH without additional evidence.
 
 P3 freeze does not authorize engine/provider/backend/runtime claims. Those remain downstream Phase 4/5/7 work as documented by the reconstruction roadmap.
+
+
+## 2026-09-30 P3 closure reconciliation
+
+Current baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`.
+
+| Current P3 closure state | Classification |
+|---|---|
+| Activity surface | 71/71 GREEN; frozen for regression protection |
+| Resource/dimension parity | UNKNOWN — complete Reference-vs-BaRe matrix still required |
+| String parity | UNKNOWN — complete name/value matrix still required |
+| Style/theme/color parity | UNKNOWN — complete matrix still required |
+| Other five P3 closure gates | Already classified; do not reopen without new evidence |
+| Phase 4 | PREPARED / GATED — implementation not started until total P3 closure |
+
+UNKNOWN is an evidence-state classification and must not be promoted to MATCH without evidence. Build/install/runtime/visual verification remain unauthorized.

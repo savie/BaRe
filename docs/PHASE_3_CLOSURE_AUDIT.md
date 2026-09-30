@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Final static closure audit before Phase 4. This document is Phase 3 work and does not authorize P4 implementation.
+Final static closure audit before Phase 4. Phase 4 remains paused until the three outstanding P3 parity gates are fully audited and any P3 defects are corrected. This document is Phase 3 work and does not authorize P4 implementation.
 
 Reference baseline: Swift Backup 5.1.0 (versionCode 620), supplied decompiled archive.
 
@@ -109,18 +109,13 @@ Actual execution remains P4/P5.
 
 ## Remaining closure work
 
-P3 is **not frozen yet** because the following gates remain UNKNOWN:
+P3 is **not fully closed yet** because three parity gates remain UNKNOWN and must be fully audited before Phase 4 starts:
 
-1. Complete Reference-vs-BaRe resource matrix.
+1. Complete Reference-vs-BaRe resource/dimension matrix.
 2. Complete string name/value matrix.
 3. Complete style/theme/color matrix.
-4. Complete 71-Activity intent/navigation matrix.
-5. Complete 71-Activity lifecycle/state matrix.
-6. Repository-wide fake/stub/boundary classification.
-7. Final branding/Swift-identity scan across all user-visible resources.
-8. Final static resource-reference integrity scan.
 
-Only after these gates are PASS / AUTHORIZED DEVIATION / P4 DEFERRED / explicitly documented UNKNOWN with no P3 defect should P3 be frozen.
+The other five closure gates have already been classified and are not being reopened without new evidence of a P3 defect. Only after these three remaining gates are fully audited, and any P3 defects are corrected, should total P3 closure be recorded.
 
 ## Freeze condition
 
@@ -172,7 +167,7 @@ Audit baseline: branch `rewrite`, starting checkpoint `925d2d6355a0381637bc03b32
 
 ### Freeze decision
 
-The eight closure gates are now explicitly classified. The remaining UNKNOWN states are documented evidence gaps, not open P3 defects. The freeze condition is satisfied:
+The eight closure gates are classified, but three parity gates remain open. The remaining UNKNOWN states are therefore not treated as closed P3 evidence.
 
 ```text
 71/71 Activity GREEN
@@ -185,10 +180,10 @@ The eight closure gates are now explicitly classified. The remaining UNKNOWN sta
 = FREEZE P3
 ```
 
-**P3 is FROZEN at this checkpoint.**
+**P3 is NOT FULLY CLOSED at this checkpoint.** The 71-Activity surface is frozen for regression protection, but the three parity gates above remain open.
 
 No build, install, runtime execution, or visual verification was performed. No engine/provider/backend/runtime success is claimed.
 
 ### Phase boundary
 
-The next authorized step is documentation handoff to Phase 4. P4 implementation may address the deferred core behavior contracts; P3 green Activities must not be reopened without new evidence of a P3 defect.
+Phase 4 is prepared but **not started**. P4 implementation remains paused until the three remaining P3 parity gates are fully audited and any P3 defects are corrected. The 71 green Activities remain frozen for regression protection; they must not be reopened without new evidence of a P3 defect.

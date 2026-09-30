@@ -390,3 +390,15 @@ P3 is **FROZEN**. The UNKNOWN rows are not represented as MATCH and remain evide
 Closure corrections included Reference-aligned Activity manifest contracts, visible Swift/Firebase wording cleanup, and restoration of missing Reference drawables used by audited P3 surfaces.
 
 No engine/provider/backend/runtime success is claimed. No build, install, runtime, or visual verification was performed.
+
+
+## 2026-09-30 P3 closure reconciliation
+
+Current branch baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`.
+
+- 71/71 Activities remain GREEN for P3 regression protection.
+- Total P3 closure is **OPEN**.
+- Three P3 parity gates remain UNKNOWN and require complete audit: resource/dimension parity, string parity, and style/theme/color parity.
+- The other five closure gates remain classified from the prior audit and are not being reopened without new evidence.
+- Phase 4 is **prepared but not started**; P4 implementation remains gated until total P3 closure.
+- Build, install, runtime, and visual verification remain unauthorized.

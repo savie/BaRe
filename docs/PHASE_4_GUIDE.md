@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Phase 4 is the **Core Behavior** phase following the frozen Phase 3 UI + Navigation reconstruction.
+Phase 4 is the **Core Behavior** phase prepared after the Phase 3 UI + Navigation reconstruction. Implementation remains gated until total P3 parity closure.
 
 Reference baseline: Swift Backup 5.1.0 (versionCode 620), supplied decompiled archive.
 
@@ -13,7 +13,9 @@ P3 status at entry:
 - 71/71 Activities 🟢
 - 0 Yellow
 - 0 Red
-- P3 frozen
+- P3 Activity surface frozen for regression protection
+- total P3 parity closure still OPEN
+- P4 implementation not started
 - no build/install/runtime/visual verification performed
 
 ## Phase 4 scope
@@ -50,9 +52,9 @@ For every behavior:
 
 Do not invent behavior when Reference evidence exists.
 
-### P3 freeze protection
+### P3 protection
 
-Do not reopen or redesign a green Activity merely to support Phase 4.
+Do not reopen or redesign a green Activity merely to support Phase 4. The 71-Activity surface is frozen for regression protection while the three remaining P3 parity gates are closed.
 
 A green Activity may change only when Phase 4 exposes a concrete defect in an existing P3 contract. Record the evidence before changing it.
 
@@ -196,7 +198,7 @@ Build, install, and runtime execution remain prohibited until explicitly authori
 
 ## Phase 4 exit criteria
 
-Phase 4 may close only when:
+Phase 4 may close only after total P3 closure has been established and when:
 
 - all targeted P4 contracts are classified;
 - no P4 FAIL remains;
@@ -212,6 +214,8 @@ Phase 4 may close only when:
   - this guide.
 
 ## Immediate Phase 4 sequence
+
+**Phase 4 implementation is currently PAUSED. First complete the three remaining P3 parity gates. After total P3 closure:**
 
 1. Build a Reference-backed state/permission contract inventory.
 2. Identify P4 gaps that block existing green P3 flows.
