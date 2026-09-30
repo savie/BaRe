@@ -120,7 +120,11 @@ Current execution position:
 
 > **Step 1 — FOLLOW-UP REGISTER established**
 >
-> **Next: Step 2 — NORMALISATION / DEDUP**
+> **Step 2 — NORMALISATION / DEDUP complete**
+>
+> **Step 3 — CLASSIFICATION complete**
+>
+> **Next: Step 4 — DEPENDENCY MAPPING**
 
 Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
 
@@ -231,4 +235,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 2/10 (Normalisation / Dedup complete) + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 3/10 (Classification complete) + P4 gated.**
