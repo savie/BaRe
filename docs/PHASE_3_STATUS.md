@@ -24,99 +24,93 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **23** |
-| 🟡 Yellow | **48** |
+| 🟢 Green | **39** |
+| 🟡 Yellow | **32** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 23
+### 🟢 Green — 39
+
+The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
 1. `ConfigEditActivity`
 2. `ConfigListActivity`
-3. `AppListActivity`
-4. `AppsBatchActivity`
-5. `BlacklistActivity`
-6. `CloudConnectActivity`
-7. `FoldersDashActivity`
-8. `HomeActivity`
-9. `HomeSearchActivity`
-10. `IntroActivity`
-11. `NoticeListActivity`
-12. `NoticeViewActivity`
-13. `AppSwipeActionsActivity`
-14. `LicensesActivity`
-15. `SettingsActivity`
-16. `SettingsDetailActivity`
-17. `SLogActivity`
-18. `PreconditionsActivity`
-19. `TaskActivity`
-20. `ComposeSmsActivity`
-21. `MultipleBackupsActivity`
-22. `RestoreSpecialDataDetailsActivity`
-23. `AppBackupLimitsActivity`
-
-**Green = P3 depth only.** Runtime/visual verification and underlying P4/P5 execution remain separate gates.
-
-### 🟡 Yellow — 48
-
-1. `ApkImportActivity`
-2. `ConfigSettingsActivity`
-3. `AppInfoActivity`
-4. `LabelEditActivity`
-5. `LabelsActivity`
+3. `ConfigSettingsActivity`
+4. `AppListActivity`
+5. `AppsBatchActivity`
 6. `AppsConfigRunActivity`
 7. `AppsQuickActionsActivity`
-8. `BoxSignInActivity`
-9. `CsActivity`
-10. `DropboxSignInActivity`
-11. `FilenSignInActivity`
-12. `GmsSignInActivity`
-13. `MegaSignInActivity`
-14. `NoGmsSignInActivity`
-15. `OneDriveSignInActivity`
-16. `TeraBoxSignInActivity`
-17. `YandexSignInActivity`
-18. `CloudDiagnosticsActivity`
-19. `CloudOrphanCleanerActivity`
-20. `ContributorRegActivity`
-21. `DetailActivity`
-22. `FolderDetailActivity`
-23. `FolderEditActivity`
-24. `FolderPickerActivity`
-25. `FoldersBatchActivity`
-26. `ScheduleLabelsSelectActivity`
-27. `ScheduleFolderSelectActivity`
-28. `StorageSwitchActivity`
-29. `ManageSpaceActivity`
-30. `CallsBackupRestoreActivity`
-31. `MessagesBackupRestoreActivity`
-32. `ChatActivity`
-33. `ConversationsActivity`
-34. `CallsDashActivity`
-35. `MessagesDashActivity`
-36. `PasswordStrategyActivity`
-37. `UserPasswordActivity`
-38. `PremiumActivity`
-39. `AppVisibilityDiagnosticsActivity`
-40. `ShortcutsActivity`
-41. `WallsDashActivity`
-42. `WallApplyActivity`
-43. `WallsManageActivity`
-44. `WifiActivity`
-45. `LocaleActivity`
-46. `PCloudSignInActivity`
-47. `CallsBackupsActivity`
-48. `MessagesBackupsActivity`
+8. `BlacklistActivity`
+9. `CloudConnectActivity`
+10. `CloudDiagnosticsActivity`
+11. `CloudOrphanCleanerActivity`
+12. `CsActivity`
+13. `DropboxSignInActivity`
+14. `FoldersDashActivity`
+15. `HomeActivity`
+16. `HomeSearchActivity`
+17. `IntroActivity`
+18. `LicensesActivity`
+19. `ManageSpaceActivity`
+20. `MegaSignInActivity`
+21. `MultipleBackupsActivity`
+22. `NoticeListActivity`
+23. `NoticeViewActivity`
+24. `AppSwipeActionsActivity`
+25. `PasswordStrategyActivity`
+26. `PCloudSignInActivity`
+27. `PreconditionsActivity`
+28. `SettingsActivity`
+29. `SettingsDetailActivity`
+30. `SLogActivity`
+31. `ShortcutsActivity`
+32. `StorageSwitchActivity`
+33. `TaskActivity`
+34. `UserPasswordActivity`
+35. `FoldersDashActivity`
+36. `CallsBackupsActivity`
+37. `MessagesBackupsActivity`
+38. `RestoreSpecialDataDetailsActivity`
+39. `AppBackupLimitsActivity`
 
-### Former special-review items
+**Green = P3 boundary reached.** It does not claim runtime verification or P4/P5 feature execution. The remaining gap is owned by the later phase where applicable.
 
-Direct comparison against the supplied Reference source/layout at the current head resolves all three as **🟡 Yellow**:
+### 🟡 Yellow — 32
 
-- `WallsManageActivity`: Reference has substantive menu/state/list behavior; BaRe currently exposes the shell with an empty adapter.
-- `WifiActivity`: Reference contains substantial Wi-Fi backup/restore/settings logic; BaRe currently exposes the card/dialog surface with empty adapters and no provider engine.
-- `LocaleActivity`: Reference has locale catalog/menu/selection behavior; BaRe currently exposes the toolbar/list shell with an empty adapter.
+1. `ApkImportActivity`
+2. `AppInfoActivity`
+3. `LabelEditActivity`
+4. `LabelsActivity`
+5. `BoxSignInActivity`
+6. `FilenSignInActivity`
+7. `GmsSignInActivity`
+8. `NoGmsSignInActivity`
+9. `OneDriveSignInActivity`
+10. `TeraBoxSignInActivity`
+11. `YandexSignInActivity`
+12. `ContributorRegActivity`
+13. `DetailActivity`
+14. `FolderDetailActivity`
+15. `FolderEditActivity`
+16. `FolderPickerActivity`
+17. `FoldersBatchActivity`
+18. `ScheduleLabelsSelectActivity`
+19. `ScheduleFolderSelectActivity`
+20. `CallsBackupRestoreActivity`
+21. `MessagesBackupRestoreActivity`
+22. `ChatActivity`
+23. `ConversationsActivity`
+24. `CallsDashActivity`
+25. `MessagesDashActivity`
+26. `PremiumActivity`
+27. `AppVisibilityDiagnosticsActivity`
+28. `WallsDashActivity`
+29. `WallApplyActivity`
+30. `WallsManageActivity`
+31. `WifiActivity`
+32. `LocaleActivity`
 
-They are no longer a separate classification bucket.
+**Yellow = evidence-supported P3 reconstruction is still incomplete.** Execution-only gaps must not be used to keep an otherwise complete P3 surface yellow.
 
 ## 🔴 Red backlog
 
