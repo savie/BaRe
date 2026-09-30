@@ -697,3 +697,24 @@ This document does not authorize P4 implementation, provider/backend implementat
 **Verification:** static evidence only. Build/install/runtime/visual verification remains gated and was not performed.
 
 **Checkpoint condition:** EU-01 remains active for targeted evidence if a concrete P3-visible resource defect or current BaRe consumer identifies a bounded missing contract. Do not bulk-copy Reference resources or add unused names speculatively.
+
+
+## EU-06 Execution Checkpoint — Launcher Identity Batch 01
+
+**Status:** COMPLETE — bounded launcher identity contract implemented and statically re-audited.
+
+**Scope:** N-11 Branding/identity; launcher identity only. Visible string and provider/deep-link identity remain dependent on EU-02/EU-04 and were not globally rewritten.
+
+**Reference source:** supplied `SwiftBackup-5.1.0-620-decompiled.zip` only as primary Reference input. Reference manifest declares `@string/swift_backup` and `@mipmap/ic_launcher`.
+
+**Implementation:**
+- Added `app/src/main/res/drawable/bare_launcher_icon.xml` as the application-owned BΛR☰ launcher vector.
+- Added `android:icon="@drawable/bare_launcher_icon"` to the BaRe application manifest.
+
+**Static verification:** manifest reference and resource declaration resolve by source-level inspection. Diff from the EU-01 checkpoint is limited to one new resource and one manifest attribute.
+
+**Re-audit #11:** concrete launcher identity/icon defect is resolved at static contract level. Broader branding remains 🟡 OPEN / NEEDS FOLLOW-UP pending string and intent evidence; visual verification remains gated.
+
+**Runtime:** NOT AUTHORIZED / NOT PERFORMED.
+
+**Checkpoint condition:** EU-06 bounded implementation is complete. Remaining branding follow-up returns to dependency order through EU-02/EU-04; no additional launcher mutation is warranted without new evidence.
