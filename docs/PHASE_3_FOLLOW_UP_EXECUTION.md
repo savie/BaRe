@@ -421,6 +421,56 @@ Each work package must contain:
 
 The number and names of WPs are not fixed by this document. The final WP structure must be derived from the normalized register and dependency map.
 
+# Step 6 — Work Package Formation
+
+Step 6 converts the 13 active normalized contracts into bounded execution packages. A work package may contain more than one normalized contract only where the contracts share a coherent ownership boundary, evidence set, and acceptance boundary. Grouping does not authorize implementation and does not erase individual contract traceability.
+
+## Work Package register
+
+| WP | Source contracts | Exact contract scope | Prerequisite evidence | Dependency status | Expected change | Static verification | Re-audit | Checkpoint |
+|---|---|---|---|---|---|---|---|---|
+| **WP-01 Foundation Resource/String Evidence** | N-01, N-02 | Establish application-owned Reference→BaRe resource and string matrices, including type/qualifier, usage/ownership, missing-name classification, and locale coverage. | Reference resource/string inventory; current BaRe resource/string tree. | N-01 and N-02 are independent; both feed later WPs. | Evidence/matrix updates only; no broad resource copy. | Matrix completeness, reference trace, ownership/type/qualifier and locale reconciliation. | #1 Resource, #2 Strings. | Both matrices are bounded and traceable inputs to dependent WPs. |
+| **WP-02 Manifest/Intent/Permission Contract** | N-05, N-06, N-07 | Reconcile manifest component/identity/configuration contracts, intent filters/callback topology, and static permission declaration/request/check classification. | P2 inventory; Reference manifest; N-05 evidence before N-06/N-07. | N-05 first; N-06/N-07 consume N-05. Runtime verification remains gated. | Targeted contract changes only after Step 7. | Reference→BaRe manifest/intent/permission matrices and static diff. | #5, #6, #7. | Ownership/deviation outcomes are explicit. |
+| **WP-03 Theme/Style/Color Contract** | N-04 | Reconcile app-owned theme inheritance, styles, colors, state lists, and authorized BΛR☰ identity while preserving Reference structure where required. | N-01 resource evidence. | Final reconciliation depends on WP-01/N-01. | Targeted theme/style/color changes only; no global visual rewrite. | Theme/style/color matrix, inheritance/item-contract trace, resource reference check. | #4. | All in-scope contracts have explicit parity/deviation classification. |
+| **WP-04 Navigation Contract** | N-08 | Reconcile all 71 Activity navigation contracts: parentActivityName, launch mode/task behavior, destinations, extras/results, and Up/back semantics. | Frozen P2 71-Activity inventory; N-05 manifest context where applicable. | Evidence can proceed in parallel; manifest attributes consume WP-02. Runtime Up/back remains gated. | Targeted navigation changes only after Step 7. | Reference→BaRe navigation matrix for all 71 Activities. | #8. | Every Activity has a bounded navigation record; unresolved items classified. |
+| **WP-05 Lifecycle/State Contract** | N-09 | Reconcile Activity/major Fragment lifecycle/state contracts, saved-state keys, save/restore, onNewIntent/onResume/result/configuration paths, and ViewModel vs Bundle ownership. | Frozen P2 inventory; Reference lifecycle/state evidence. | Independent evidence collection; feeds WP-06/N-10. Runtime lifecycle verification remains gated. | Targeted lifecycle/state changes only after Step 7. | Static lifecycle/state matrix and source-level event-path trace. | #9. | Each in-scope contract has explicit evidence and finite verification criteria. |
+| **WP-06 Visible UI State & Identity Contract** | N-11, N-10 | Reconcile BΛR☰ branding/identity matrix and dialog/error/loading trigger→state→action→dismiss/recovery contracts. Preserve authorized internal identifiers; no global text replacement. | WP-01 strings; WP-02 identity context; WP-03 theme; WP-05 lifecycle/state. | N-11 precedes final N-10 reconciliation; provider/deep-link identity and visual runtime checks remain downstream. | Targeted branding/transient-state changes only after Step 7. | Branding matrix plus dialog/error/loading state matrix and source-level trace. | #11, #10. | User-visible identity and transient-state contracts are traceable; deferred runtime checks marked. |
+| **WP-07 Boundary & Stub Contract** | N-13, N-14 | Inventory/classify explicit stubs/boundaries, then build the complete Reference→BaRe boundary matrix across 71 Activities plus major Services/Receivers and downstream calls; carry StorageInfoService.read()==null. | Target source inventory; WP-02 manifest/intent/permission context. | N-13 precedes final N-14 ownership classification; backend/provider/storage/engine execution stays downstream. | Boundary/interface/adaptor preparation only; never fabricate success. | Stub/null-return inventory plus owner/input/output/deferred-phase matrix. | #13, #14. | Every boundary is explicitly classified and downstream ownership recorded. |
+| **WP-08 Static Control-Plane Hygiene** | N-15 | Reconcile P3 status, follow-up records, checkpoint, matrices, gates, and historical/current terminology after WPs 01–07. | All preceding WP records and authorized changes. | Final WP; documentation must be current before closure review. | Documentation/status/checkpoint reconciliation only. | Cross-document consistency; no stale next-step or contradictory gate/status. | #15 plus touched docs. | Current status/checkpoint/matrices agree on the same P3 position. |
+
+## WP sequencing
+
+1. WP-01 — N-01 + N-02 foundational evidence.
+2. WP-02 — N-05, then N-06/N-07 dependent classification.
+3. WP-03 — N-04 after N-01 evidence.
+4. WP-04 — N-08 navigation evidence/reconciliation.
+5. WP-05 — N-09 lifecycle/state evidence/reconciliation.
+6. WP-06 — N-11, then N-10 visible-state reconciliation.
+7. WP-07 — N-13, then N-14 boundary reconciliation.
+8. WP-08 — N-15 final control-plane hygiene.
+
+Allowed parallel evidence collection from Step 5 remains valid. This order is the traceable primary sequence; it does not authorize implementation.
+
+## Work-package formation rules
+
+- Every active normalized contract is assigned to exactly one WP.
+- Grouped contracts retain their individual N-IDs and acceptance boundaries.
+- A WP may be split at Step 7 if it fails the scope check.
+- A WP that passes Step 7 may still be decomposed into smaller implementation units before Step 8.
+- Runtime/build/install/visual verification remains gated.
+- Provider/backend/storage/engine execution remains downstream.
+- No broad refactor, global branding replacement, automatic resource copying, or fabricated success behavior is implied.
+
+## Step 6 completion criteria
+
+Step 6 is complete when:
+- all active normalized contracts are assigned to exactly one WP;
+- every WP has bounded scope, prerequisites, dependencies, expected change, static verification, affected-domain re-audit, and checkpoint condition;
+- grouped contracts remain individually traceable;
+- no implementation authorization is implied;
+- the next action is Step 7 — Scope Check.
+
+**Step 6 is complete. The next step is Step 7 — Scope Check.**
 # Step 7 — Scope Check
 
 Before implementation, ask:
