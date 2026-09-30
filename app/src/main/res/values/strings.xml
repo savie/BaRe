@@ -39,10 +39,10 @@
     <string name="settings">Settings</string>
     <string name="apps">Apps</string>
     <string name="messages">Messages</string>
-    <string name="call_logs">Call logs</string>
+    <string name="call_logs">Call Logs</string>
     <string name="folders">Folders</string>
     <string name="wallpapers">Wallpapers</string>
-    <string name="wifi">Wi-Fi</string>
+    <string name="wifi">WiFi</string>
     <string name="no_cloud_connected">No cloud connected</string>
     <string name="connect_cloud_subtitle">Connect a cloud account.</string>
     <string name="no_internet_connection">No internet connection.</string>
@@ -133,10 +133,10 @@
     <string name="filter">Filter</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="search_hint_apps">Search apps</string>
-    <string name="app_labels">App labels</string>
-    <string name="app_labels_description">Manage app labels.</string>
+    <string name="app_labels">App Labels</string>
+    <string name="app_labels_description">Create and edit custom labels</string>
     <string name="custom_configurations">Custom configurations</string>
-    <string name="custom_configurations_description">Configure advanced app backup options.</string>
+    <string name="custom_configurations_description">App-specific backup and restore rules</string>
     <string name="blacklist_apps_msg">Hide apps or back up APKs only</string>
     <string name="p3_blacklist_boundary">App selection and blacklist membership are reconstructed as a P3 boundary. Real app inventory and blacklist persistence remain P4.</string>
     <string name="p3_blacklist_clear_boundary">Clear-all is a P3 presentation boundary. Actual blacklist removal and persistence remain P4.</string>
@@ -145,23 +145,23 @@
     <string name="app_favorite_boundary">Favorite interaction reaches the P3 boundary. Favorite persistence remains deferred until its existing data contract is reconstructed.</string>
     <string name="quick_actions_apps">Apps quick actions</string>
     <string name="backup_all_apps">Backup all apps</string>
-    <string name="backup_all_apps_summary">Back up all eligible installed apps.</string>
-    <string name="backup_missing_apps">Backup missing apps</string>
-    <string name="backup_missing_apps_summary">Back up apps that do not have a current backup.</string>
+    <string name="backup_all_apps_summary">Backup installed apps from this device</string>
+    <string name="backup_missing_apps">Backup pending apps</string>
+    <string name="backup_missing_apps_summary">Backup apps that are not backed up yet</string>
     <string name="backup_updated_apps">Backup updated apps</string>
-    <string name="backup_updated_apps_summary">Back up apps with newer installed versions.</string>
+    <string name="backup_updated_apps_summary">Backup apps that have newer version APKs installed on this device</string>
     <string name="redo_backups">Redo backups</string>
     <string name="redo_backups_message">Re-run backups according to the configured policy.</string>
     <string name="sync_device_backups_to_cloud">Sync device backups to cloud</string>
     <string name="sync_device_backups_to_cloud_message">Sync eligible device backups to the connected cloud.</string>
     <string name="restore_all_apps">Restore all apps</string>
-    <string name="restore_all_apps_summary">Restore all eligible app backups.</string>
+    <string name="restore_all_apps_summary">Restore all backed up apps</string>
     <string name="restore_missing_apps">Restore missing apps</string>
-    <string name="restore_missing_apps_summary">Restore backups for apps missing from the device.</string>
+    <string name="restore_missing_apps_summary">Restore backed up apps that are not installed on this device</string>
     <string name="restore_newer_versions">Restore newer versions</string>
-    <string name="restore_newer_versions_summary">Restore backups newer than the installed app versions.</string>
+    <string name="restore_newer_versions_summary">Restore backed up apps that have newer version APKs in the backups</string>
     <string name="delete_backups_of_uninstalled_apps">Delete backups of uninstalled apps</string>
-    <string name="delete_backups_of_uninstalled_apps_summary">Remove backups belonging to apps no longer installed.</string>
+    <string name="delete_backups_of_uninstalled_apps_summary">Delete backups of all missing/uninstalled apps</string>
     <string name="enable_disable_apps">Enable / disable apps</string>
     <string name="disable_apps_warning">Manage enabled state for selected apps.</string>
     <string name="p3_quick_action_boundary">Quick action presentation reached. Backup, restore, deletion, and app-management execution remain P4.</string>
@@ -196,7 +196,7 @@
     <string name="manage_app_labels">Manage app labels</string>
     <string name="sort">Sort</string>
     <string name="p3_shortcut_command_boundary">Shortcut command was received. Schedule lookup and execution remain P4.</string>\n    <string name="p3_shortcut_missing_boundary">No supported shortcut route or command was supplied.</string>\n    <string name="cloud_diagnostics">Cloud diagnostics</string>
-    <string name="cloud_diagnostics_summary">Run provider, metadata, access, and transfer checks.</string>
+    <string name="cloud_diagnostics_summary">Test the current provider</string>
     <string name="cloud_diagnostics_tag_pending">Backup tag: waiting for cloud state contract.</string>
     <string name="cloud_diagnostics_temp_file_notice">Diagnostics may use temporary cloud files in the Reference flow.</string>
     <string name="run_diagnostics">Run diagnostics</string>
@@ -453,7 +453,7 @@
     <string name="no_backups_synced">No backups synced</string>
     <string name="upgrade_to_premium">Upgrade to premium</string>
     <string name="premium_feature_cloud_backup_description">Back up apps and folders to supported cloud storage.</string>
-    <string name="premium_feature_schedules_description">Run recurring backups automatically.</string>
+    <string name="premium_feature_schedules_description">Run recurring backups automatically to device storage or a connected cloud account.</string>
     <string name="premium_feature_backup_history_title">Backup history and protection</string>
     <string name="premium_feature_backup_history_description">Keep multiple app backup versions and protect important versions.</string>
     <string name="premium_feature_app_labels_description">Group apps with labels for filtering, schedules, and configurations.</string>
@@ -481,10 +481,10 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="no_app_found_to_handle_action">No app found to handle this action</string>
     <string name="currently_applied">Currently applied</string>
-    <string name="applied_walls_summary">The wallpapers currently applied on this device.</string>
+    <string name="applied_walls_summary">Backup the currently applied wallpaper(s) to device or cloud.</string>
     <string name="home_screen">Home screen</string>
     <string name="lock_screen">Lock screen</string>
-    <string name="no_wallpapers_found">No wallpapers found</string>
+    <string name="no_wallpapers_found">No wallpapers found!</string>
     <string name="current_wallpaper_is_managed_by_android">Android currently manages the applied wallpaper; no BΛR☰ wallpaper snapshot is available.</string>
     <string name="select_backup_locations">Select backup locations</string>
     <string name="cloud">Cloud</string>
@@ -495,7 +495,7 @@
     <string name="wallpaper_backup_boundary">Wallpaper backup location selection is reconstructed. Backup execution remains at the engine boundary.</string>
     <string name="p3_wallpapers_engine_boundary">Wallpaper backup/restore execution and backup inventory remain deferred to the existing engine/provider contract.</string>
     <string name="set_wallpaper">Set wallpaper</string>    <string name="wifi_networks_backup">Wi-Fi networks backup</string>
-    <string name="wifi_on_device">Wi-Fi networks on device</string>
+    <string name="wifi_on_device">WiFi networks on device</string>
     <string name="backup_to_local">Backup to Device</string>
     <string name="p3_wifi_engine_boundary">Wi-Fi inventory, backup, restore, password disclosure, and deletion remain deferred to the existing system/provider/engine contract.</string>
 </resources>
