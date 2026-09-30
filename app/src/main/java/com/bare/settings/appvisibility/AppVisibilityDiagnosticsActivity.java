@@ -214,7 +214,7 @@ public final class AppVisibilityDiagnosticsActivity extends AppCompatActivity {
         if (packages.isEmpty()) return;
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Swift Backup app visibility diagnostics");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "BΛR☰ app visibility diagnostics");
         intent.putExtra(Intent.EXTRA_TEXT, buildResultsText());
         if (getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
             Toast.makeText(this, R.string.no_app_found_to_handle_action, Toast.LENGTH_SHORT).show();
