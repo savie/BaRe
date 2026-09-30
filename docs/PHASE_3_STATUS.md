@@ -211,3 +211,19 @@ P3 is now **FROZEN**. Green Activities are not to be reopened without new eviden
 The temporary P3 boundary marker policy remains in force: boundary messages are engineering markers, not product-success wording and not evidence of engine/provider/backend/runtime execution.
 
 No build, install, runtime, or visual verification was performed during closure. Phase 4 is the next implementation phase.
+
+
+## 2026-09-30 Resource / Dimension audit — first closure subgate
+
+The first Resource/Dimension sub-audit is complete against the supplied Swift Backup 5.1.0 (620) Reference.
+
+- Reference contains **839 unique dimension names** across **20** `values*/dimens.xml` files.
+- **67** dimension names outside the known dependency/library prefix families were treated as the project-facing/non-library-prefixed dimension scope.
+- All 67 are now present in BaRe with Reference values.
+- Reference qualifier overrides were restored for `values-land`, `values-w820dp`, `values-w320dp-land`, and `values-w600dp-land`.
+- No Activity source was changed.
+- No build, install, runtime, or visual verification was performed.
+
+Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
+
+This closes the **dimension subgate**, but does **not** yet promote the overall Resource/dimension parity gate: 772 dependency/library-prefixed Reference dimensions and the broader resource-name/content matrix still require explicit evidence before the overall gate can be marked PASS.
