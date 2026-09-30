@@ -126,7 +126,7 @@ Current execution position:
 >
 > **Step 4 — DEPENDENCY MAPPING complete**
 >
-> **Next: Step 5 — DEPENDENCY ORDER**
+> **Next: Step 7 — SCOPE CHECK**
 
 Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
 
@@ -237,4 +237,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 5/10 (Dependency Order complete) + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 6/10 (Work Package Formation complete; 8 WPs formed from 13 contracts) + P4 gated.**
