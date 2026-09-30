@@ -53,7 +53,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
 | 11 | Branding | 🔴 FAIL / DEFECT |
-| 12 | Java-only | 🟡 AUDIT REQUIRED |
+| 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 AUDIT REQUIRED |
 | 14 | Boundary | 🟡 AUDIT REQUIRED |
 | 15 | Static Hygiene | 🟡 AUDIT REQUIRED |
@@ -253,3 +253,14 @@ However, the current manifest does not declare an application icon and the inspe
 No app/code/resource change was made during this audit.
 
 Next: **#12 Java-only**.
+
+
+## P3 Total Audit — Java-only Result
+
+**#12 Java-only: 🟢 CLOSED / PASS**
+
+Static repository evidence confirms the BaRe implementation is Java-only, with no target `.kt` source and no Jetpack Compose implementation/configuration found. Kotlin references in the supplied Reference/decompiled surface are dependency/runtime evidence, not target Kotlin source implementation.
+
+No app/code/resource change was made during this audit.
+
+Next: **#13 Fake / Stub**.
