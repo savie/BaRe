@@ -104,4 +104,3 @@ Build/install/runtime/visual verification remains gated until explicitly authori
 | docs/PHASE_3_CLOSURE_AUDIT.md | **Supporting evidence / closure history** |
 | docs/PARITY_MATRIX.md | **High-level parity matrix** |
 
-There are no separate P3_RESOURCE_* work documents.
