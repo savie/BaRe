@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **69** |
-| 🟡 Yellow | **2** |
+| 🟢 Green | **70** |
+| 🟡 Yellow | **1** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 69
+### 🟢 Green — 70
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -102,13 +102,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 67. `AppVisibilityDiagnosticsActivity`
 68. `WallsDashActivity`
 69. `WallApplyActivity`
+70. `WallsManageActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 2
+### 🟡 Yellow — 1
 
-1. `WallsManageActivity`
-2. `WifiActivity`
+1. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -169,3 +169,11 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - `WallApplyActivity` now reconstructs wallpaper preview, target selection (Home / Lock / Home + Lock), unavailable/ready states, apply confirmation, recreation state, and back navigation.
 - Incoming wallpaper data is accepted through the Activity URI contract; no fake wallpaper asset is generated.
 - The actual wallpaper mutation remains explicitly at the P3 engine boundary rather than being claimed as executed. The Activity is promoted to 🟢.
+
+## Latest vertical slice — WallsManageActivity P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `WallsManageActivity` now reconstructs Device/Cloud mode, toolbar state, 4-column explorer surface, empty-state behavior, selection/menu contracts, recreation state, and back navigation.
+- Reference actions are preserved: Select All, Delete, Cloud Download, and Device Sync. Actual wallpaper inventory and repository mutation remain dependency/engine state and are not fabricated.
+- Delete/Download/Sync terminate at the explicit P3 wallpaper engine boundary. The Activity is promoted to 🟢.
