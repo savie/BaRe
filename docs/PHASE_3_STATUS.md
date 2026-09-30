@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 60
+### 🟢 Green — 61
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -97,11 +97,10 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 11
+### 🟡 Yellow — 10
 
 1. `MessagesBackupRestoreActivity`
 2. `ChatActivity`
-3. `ChatActivity`
 4. `CallsDashActivity`
 5. `MessagesDashActivity`
 6. `PremiumActivity`
