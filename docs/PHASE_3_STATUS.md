@@ -584,3 +584,11 @@ Next audit domain: **#15 Static Hygiene**.
 - Result: **BLOCKED BEFORE MUTATION** because no candidate satisfied `APP-MISSING + known safe contract + bounded consumer/blast radius`.
 - No app/resource mutation, build, install, runtime, or visual verification performed.
 - Project remains in P3 follow-up execution; P4 remains gated.
+
+## Step 8 Implementation Checkpoint — EU-11 / N-08
+
+- Small implementation: AppsQuickActionsActivity parentActivityName restored from Reference contract.
+- Static check: PASS.
+- Affected domain: #8 Navigation.
+- Domain #8 is **not closed**; complete 71-Activity reconciliation remains required.
+- No build/install/runtime/visual verification performed.
