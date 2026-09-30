@@ -365,4 +365,12 @@
     <string name="multiple_backups_strategy_conditional_description">Create a new backup only if any of the below conditions are fulfilled when you perform a backup. Otherwise, just update the latest backup.</string>
     <string name="pcloud">pCloud</string>
     <string name="no_browser_found_error">No browser found to open the link!</string>
+    <string name="apk_import_single_apk">Single APK</string>
+    <string name="apk_import_apks_archive">APKS archive</string>
+    <string name="apk_import_input_ready">%1$s input received: %2$s</string>
+    <string name="apk_import_missing_input">No APK input was supplied.</string>
+    <string name="apk_import_unsupported_input">Unsupported input: %s</string>
+    <string name="apk_import_error_title">Unable to import APK</string>
+    <string name="apk_import_unsupported_input_message">The Reference accepts APK or APKS input. Parsing, installation, and backup integration remain downstream behavior.</string>
+    <string name="p3_apk_import_boundary">APK/APKS intent handling and input classification are reconstructed at the P3 boundary. Archive parsing, installation, and backup integration remain P4/P5.</string>
 </resources>
