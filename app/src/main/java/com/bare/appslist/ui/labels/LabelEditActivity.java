@@ -25,6 +25,12 @@ import java.util.List;
 public final class LabelEditActivity extends AppCompatActivity {
     private static final String STATE_NAME = "label_name";
     private static final String STATE_COLOR = "label_color";
+    private static final String EXTRA_LABEL_ID = "label_id";
+    private static final String EXTRA_LABEL_NAME = "label_name";
+    private static final String EXTRA_LABEL_COLOR = "label_color";
+    private static final String RESULT_LABEL_ID = "label_id";
+    private static final String RESULT_LABEL_NAME = "label_name";
+    private static final String RESULT_LABEL_COLOR = "label_color";
 
     private TextInputEditText name;
     private TextView preview;
@@ -58,10 +64,14 @@ public final class LabelEditActivity extends AppCompatActivity {
         preview = findViewById(R.id.label_preview).findViewById(R.id.tv_title);
         selectedColor = state != null
                 ? state.getInt(STATE_COLOR, Color.parseColor("#2196F3"))
+                : getIntent() != null
+                ? getIntent().getIntExtra(EXTRA_LABEL_COLOR, Color.parseColor("#2196F3"))
                 : Color.parseColor("#2196F3");
 
         if (state != null) {
             name.setText(state.getString(STATE_NAME, ""));
+        } else if (getIntent() != null) {
+            name.setText(getIntent().getStringExtra(EXTRA_LABEL_NAME));
         }
 
         name.addTextChangedListener(new android.text.TextWatcher() {
@@ -133,24 +143,29 @@ public final class LabelEditActivity extends AppCompatActivity {
     }
 
     private void confirmSave() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.save)
-                .setMessage(R.string.p3_schedule_labels_boundary)
-                .setNegativeButton(R.string.close, null)
-                .setPositiveButton(android.R.string.ok, (d, which) -> {
-                    setResult(Activity.RESULT_OK);
-                    finish();
-                })
-                .show();
+        String value = name.getText() == null ? "" : name.getText().toString().trim();
+        android.content.Intent result = new android.content.Intent();
+        if (getIntent() != null && getIntent().hasExtra(EXTRA_LABEL_ID)) {
+            result.putExtra(RESULT_LABEL_ID, getIntent().getStringExtra(EXTRA_LABEL_ID));
+        }
+        result.putExtra(RESULT_LABEL_NAME, value);
+        result.putExtra(RESULT_LABEL_COLOR, selectedColor);
+        setResult(Activity.RESULT_OK, result);
+        finish();
     }
 
     private void confirmDelete() {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.delete_label)
-                .setMessage(R.string.p3_schedule_labels_boundary)
-                .setNegativeButton(R.string.close, null)
+                .setMessage(R.string.sure_to_proceed)
+                .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, (d, which) -> {
-                    setResult(Activity.RESULT_OK);
+                    android.content.Intent result = new android.content.Intent();
+                    if (getIntent() != null && getIntent().hasExtra(EXTRA_LABEL_ID)) {
+                        result.putExtra(RESULT_LABEL_ID, getIntent().getStringExtra(EXTRA_LABEL_ID));
+                    }
+                    result.putExtra("label_deleted", true);
+                    setResult(Activity.RESULT_OK, result);
                     finish();
                 })
                 .show();
