@@ -1,17 +1,11 @@
 package com.bare.folders.ui.batch;
-import android.content.Intent;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import com.bare.R;
-import com.bare.folders.ui.FolderEditActivity;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.app.Activity; import android.content.Intent; import android.os.Bundle; import android.view.View; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import androidx.recyclerview.widget.RecyclerView; import com.bare.R; import com.bare.folders.ui.FolderEditActivity; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public final class FoldersBatchActivity extends AppCompatActivity {
- @Override protected void onCreate(@Nullable Bundle state){
-  super.onCreate(state);setContentView(R.layout.folders_batch_activity);
-  Toolbar t=findViewById(R.id.toolbar);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-  findViewById(R.id.btn_actions).setOnClickListener(v->new MaterialAlertDialogBuilder(this).setTitle(R.string.folder_backup).setItems(new String[]{getString(R.string.backup_folders),getString(R.string.restore_folders),getString(R.string.edit_folder_setup)},(d,w)->{if(w==2)startActivity(new Intent(this,FolderEditActivity.class));else new MaterialAlertDialogBuilder(this).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}).show());
- }
- @Override public boolean onSupportNavigateUp(){finish();return true;}
+ private RecyclerView folders;
+ @Override protected void onCreate(@Nullable Bundle state){ super.onCreate(state); setContentView(R.layout.folders_batch_activity); Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true); folders=findViewById(R.id.rv_folders); folders.setAdapter(new EmptyAdapter()); findViewById(R.id.btn_actions).setOnClickListener(v->showActions()); }
+ private void showActions(){ new MaterialAlertDialogBuilder(this).setTitle(R.string.folder_backup).setItems(new String[]{getString(R.string.backup_folders),getString(R.string.restore_folders),getString(R.string.edit_folder_setup)},(d,w)->{ if(w==2){startActivityForResult(new Intent(this,FolderEditActivity.class),4988);} else showEngineBoundary(w==0?R.string.backup_folders:R.string.restore_folders); }).show(); }
+ private void showEngineBoundary(int title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}
+ @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(request==4988&&result==Activity.RESULT_OK&&data!=null){setResult(Activity.RESULT_OK,data);finish();}}
+ @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
+ private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{public H onCreateViewHolder(android.view.ViewGroup p,int t){View v=new View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}public void onBindViewHolder(H h,int p){}public int getItemCount(){return 0;}static final class H extends RecyclerView.ViewHolder{H(View v){super(v);}}}
 }
