@@ -242,3 +242,14 @@ The current P3 gate is now interpreted as a **phase-boundary audit**, not a requ
 - **P7/P8/P9 remain downstream gates** and are not part of this audit.
 
 The next P3 action is therefore to continue only the **27 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
+
+
+## 2026-09-30 P3 batch checkpoint — APK import + label editor
+
+Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next focused batch deepened `ApkImportActivity` and `LabelEditActivity` against the supplied Swift Backup 5.1.0 (620) Reference.
+
+- `ApkImportActivity` remains 🟡: input URI/type handling and recreation state are reconstructed; APK/APKS parsing, metadata extraction, installer fallback, and import execution remain downstream.
+- `LabelEditActivity` remains 🟡: name preview, color picker, app-selection boundary, save/cancel/delete result boundaries, edit/create menu behavior, and recreation state are reconstructed; persistence and app inventory remain downstream.
+- P3 signal remains **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**.
+- Structural check: **71 Activities / 0 duplicate registrations**.
+- Build/runtime/visual verification remains gated and was not performed.
