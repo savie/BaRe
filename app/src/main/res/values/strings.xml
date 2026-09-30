@@ -201,10 +201,10 @@
     <string name="cloud_diagnostics_temp_file_notice">Diagnostics may use temporary cloud files in the Reference flow.</string>
     <string name="run_diagnostics">Run diagnostics</string>
     <string name="diagnostic_pending">Waiting for diagnostic engine.</string>
-    <string name="p3_cloud_diagnostics_boundary">Cloud diagnostics presentation is reconstructed. Network, Firebase, provider access, transfer, and report generation remain P4.</string>
+    <string name="p3_cloud_diagnostics_boundary">Cloud diagnostics presentation is reconstructed. Network, backend, provider access, transfer, and report generation remain P4.</string>
     <string name="cloud_orphan_cleaner">Orphaned cloud files</string>
     <string name="cloud_orphan_cleaner_summary">Find unreferenced App and Folder backup files</string>
-    <string name="cloud_orphan_scope_notice">This manual tool checks only App Backup and Folder Backup files whose IDs are stored in Firebase Database. Other cloud content is outside this deletion surface.</string>
+    <string name="cloud_orphan_scope_notice">This manual tool checks only App Backup and Folder Backup files whose IDs are stored in the configured backend. Other cloud content is outside this deletion surface.</string>
     <string name="cloud_orphan_ready">Ready to scan current and historical backup tags.</string>
     <string name="cloud_orphan_scan">Scan</string>
     <string name="cloud_orphan_none_found">No orphaned App or Folder backup files were found.</string>
@@ -213,7 +213,7 @@
     <string name="cloud_orphan_pending_file">Cloud file record pending</string>
     <string name="cloud_orphan_pending_detail">Orphan file metadata is not connected yet.</string>
     <string name="cloud_orphan_pending_modified">Modified time pending</string>
-    <string name="p3_cloud_orphan_boundary">Orphan scan and deletion controls are reconstructed. Cloud listing, Firebase references, revalidation, and deletion remain P4.</string>
+    <string name="p3_cloud_orphan_boundary">Orphan scan and deletion controls are reconstructed. Cloud listing, backend references, revalidation, and deletion remain P4.</string>
     <string name="cloud_provider">Cloud provider</string>
     <string name="cloud_auth_pending">Authentication flow is waiting at the provider boundary.</string>
     <string name="filen">Filen</string>
