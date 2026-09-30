@@ -193,3 +193,12 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - Full APKS extraction/install session behavior and backup integration remain UNKNOWN/P4-P5; these are not used to block the P3 exit.
 - Activity depth checkpoint: **49 green / 22 yellow / 0 red / 71**.
 - Runtime/build/visual parity remains BLOCKED by the existing execution gate.
+
+
+### 2026-09-30 P3 lifecycle exit — LabelEditActivity
+
+- `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary.
+- Reference-derived create/edit mode, name preview, color selection, app-selection boundary, save/cancel/up flow, delete flow, and recreation state are reconstructed.
+- Label persistence and app inventory/selection remain UNKNOWN/P4 and do not block the P3 exit.
+- Activity depth checkpoint: **50 green / 21 yellow / 0 red / 71**.
+- Runtime/build/visual parity remains BLOCKED by the existing execution gate.
