@@ -47,7 +47,7 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
 | P3 TOTAL AUDIT | **COMPLETE — 15/15 domains audited; closure not established** |
-| P3 Follow-up Execution | **ACTIVE — register/order/scope derivation** |
+| P3 Follow-up Execution | **ACTIVE — Step 2 NORMALISATION / DEDUP complete; Step 3 pending** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
