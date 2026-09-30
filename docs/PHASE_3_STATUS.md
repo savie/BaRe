@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **58** |
-| 🟡 Yellow | **13** |
+| 🟢 Green | **59** |
+| 🟡 Yellow | **12** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 58
+### 🟢 Green — 59
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -91,25 +91,24 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 56. `ContributorRegActivity`
 57. `FolderPickerActivity`
 58. `FoldersBatchActivity`
+59. `ScheduleLabelsSelectActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 13
+### 🟡 Yellow — 12
 
-1. `FoldersBatchActivity`
-2. `ScheduleLabelsSelectActivity`
-3. `ScheduleFolderSelectActivity`
-4. `CallsBackupRestoreActivity`
-5. `MessagesBackupRestoreActivity`
-6. `ChatActivity`
-7. `CallsDashActivity`
-8. `MessagesDashActivity`
-9. `PremiumActivity`
-10. `AppVisibilityDiagnosticsActivity`
-11. `WallsDashActivity`
-12. `WallApplyActivity`
-13. `WallsManageActivity`
-14. `WifiActivity`
+1. `ScheduleFolderSelectActivity`
+2. `CallsBackupRestoreActivity`
+3. `MessagesBackupRestoreActivity`
+4. `ChatActivity`
+5. `CallsDashActivity`
+6. `MessagesDashActivity`
+7. `PremiumActivity`
+8. `AppVisibilityDiagnosticsActivity`
+9. `WallsDashActivity`
+10. `WallApplyActivity`
+11. `WallsManageActivity`
+12. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -501,5 +500,22 @@ No build/runtime/visual verification performed.
 - Reference folder inventory remains a downstream `qo3`/data contract and is intentionally not invented in this Activity.
 
 **Current Activity checkpoint: 58 green / 13 yellow / 0 red / 71.**
+
+No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleLabelsSelectActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `ScheduleLabelsSelectActivity` is promoted to 🟢 at the evidence-supported P3 label-selection boundary.
+- The Reference-shaped selected-label, user-created-label, built-in-label, and already-used-label surfaces are reconstructed.
+- Reference input contracts `extra_selected_labels` and `extra_already_used_labels` are preserved; selected IDs are returned through `extra_selected_labels` on back/up.
+- Clear-selection interaction is reconstructed with an explicit confirmation boundary.
+- Create-label routes to `LabelEditActivity` using the Reference request code `264`, with the returned label ID reflected in the local selector surface.
+- Recreation state preserves the four local label lists.
+- The Reference label catalog, persistent selection storage, and schedule mutation remain downstream data/feature contracts and are not fabricated.
+
+**Current Activity checkpoint: 59 green / 12 yellow / 0 red / 71.**
 
 No build/runtime/visual verification performed.
