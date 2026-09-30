@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **44** |
-| 🟡 Yellow | **27** |
+| 🟢 Green | **46** |
+| 🟡 Yellow | **25** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 44
+### 🟢 Green — 46
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -77,10 +77,12 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 42. `RestoreSpecialDataDetailsActivity`
 43. `AppBackupLimitsActivity`
 44. `AppInfoActivity`
+45. `FolderEditActivity`
+46. `FolderDetailActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 27
+### 🟡 Yellow — 25
 
 1. `ApkImportActivity`
 2. `LabelEditActivity`
@@ -92,9 +94,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 8. `YandexSignInActivity`
 9. `ContributorRegActivity`
 10. `DetailActivity`
-11. `FolderDetailActivity`
-12. `FolderEditActivity`
-13. `FolderPickerActivity`
+11. `FolderPickerActivity`
 14. `FoldersBatchActivity`
 15. `ScheduleLabelsSelectActivity`
 16. `ScheduleFolderSelectActivity`
@@ -245,8 +245,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **44 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **27 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- ****46 🟢**:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- ****25 🟡**:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
