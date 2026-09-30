@@ -152,6 +152,15 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 
 Both Activities are promoted to 🟢 at the evidence-supported P3 boundary.
 
+## Latest vertical slice — Messages / Calls backup-restore P3 deepening
+
+Compared directly with the supplied Swift Backup 5.1.0 decompiled Reference:
+
+- `CallsBackupRestoreActivity` now has the Reference-shaped RecyclerView + SwipeRefreshLayout surface, select-all menu contract, call-log permission request, and explicit backup/restore boundaries.
+- `MessagesBackupRestoreActivity` now has the same list/refresh/select-all surface and reconstructs the Reference default-SMS-role request boundary before restore.
+- Neither Activity fabricates backup inventory or selection data; the adapter/data model and actual backup/restore execution remain unresolved.
+- Both Activities therefore remain 🟡.
+
 ## Latest vertical audit — Premium / Diagnostics / Walls / Wi-Fi / Locale
 
 Audited against current BaRe source/resources:
