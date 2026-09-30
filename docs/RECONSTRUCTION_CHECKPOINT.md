@@ -231,4 +231,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 1/10 + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 2/10 (Normalisation / Dedup complete) + P4 gated.**
