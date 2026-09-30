@@ -1,19 +1,14 @@
 package com.bare.locale;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import com.bare.R;
+import android.app.Activity; import android.os.Bundle; import android.view.Menu; import android.view.MenuItem; import android.view.ViewGroup; import android.widget.TextView;
+import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import androidx.recyclerview.widget.LinearLayoutManager; import androidx.recyclerview.widget.RecyclerView;
+import com.bare.R; import com.google.android.material.dialog.MaterialAlertDialogBuilder; import java.util.Locale;
 public final class LocaleActivity extends AppCompatActivity {
- @Override protected void onCreate(@Nullable Bundle state){
-  super.onCreate(state); setContentView(R.layout.locale_activity);
-  Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-  ((RecyclerView)findViewById(R.id.rv_locale)).setAdapter(new EmptyAdapter());
- }
- @Override public boolean onSupportNavigateUp(){finish();return true;}
- static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{
-  public H onCreateViewHolder(android.view.ViewGroup p,int t){android.view.View v=new android.view.View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}
-  public void onBindViewHolder(H h,int p){} public int getItemCount(){return 0;} static final class H extends RecyclerView.ViewHolder{H(android.view.View v){super(v);}}
- }
+ private static final String[] SUPPORTED={"en","de","es","fr","id","it","ja","pl","pt","ru","tr","uk","vi","zh-CN","zh-TW"};
+ @Override protected void onCreate(@Nullable Bundle state){super.onCreate(state);setContentView(R.layout.locale_activity);Toolbar t=findViewById(R.id.toolbar);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);RecyclerView rv=findViewById(R.id.rv_locale);rv.setLayoutManager(new LinearLayoutManager(this));rv.setAdapter(new LocaleAdapter());}
+ @Override public boolean onCreateOptionsMenu(Menu menu){getMenuInflater().inflate(R.menu.menu_locale_activity,menu);MenuItem wip=menu.findItem(R.id.action_show_wip_languages);if(wip!=null)wip.setChecked(getPreferences(MODE_PRIVATE).getBoolean("show_wip_languages",false));return true;}
+ @Override public boolean onOptionsItemSelected(MenuItem item){if(item.getItemId()==R.id.action_show_wip_languages){item.setChecked(!item.isChecked());getPreferences(MODE_PRIVATE).edit().putBoolean("show_wip_languages",item.isChecked()).apply();return true;}if(item.getItemId()==R.id.action_credits){new MaterialAlertDialogBuilder(this).setTitle(R.string.contributors).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();return true;}return super.onOptionsItemSelected(item);}
+ private void choose(String tag){Locale locale=toLocale(tag);new MaterialAlertDialogBuilder(this).setTitle(locale.getDisplayName(locale)).setMessage(R.string.p3_activity_boundary).setNegativeButton(R.string.close,null).setPositiveButton(android.R.string.ok,(d,w)->{setResult(Activity.RESULT_OK);finish();}).show();}
+ private static Locale toLocale(String tag){if("zh-CN".equals(tag))return Locale.SIMPLIFIED_CHINESE;if("zh-TW".equals(tag))return Locale.TRADITIONAL_CHINESE;String[] p=tag.split("-");return p.length==1?new Locale(p[0]):new Locale(p[0],p[1]);}
+ @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
+ private final class LocaleAdapter extends RecyclerView.Adapter<LocaleAdapter.H>{public H onCreateViewHolder(ViewGroup p,int type){TextView v=new TextView(p.getContext());v.setPadding(32,28,32,28);v.setTextSize(16);return new H(v);}public void onBindViewHolder(H h,int position){String tag=SUPPORTED[position];Locale l=toLocale(tag);h.v.setText(l.getDisplayName(l));h.v.setOnClickListener(v->choose(tag));}public int getItemCount(){return SUPPORTED.length;}final class H extends RecyclerView.ViewHolder{final TextView v;H(TextView v){super(v);this.v=v;}}}
 }
