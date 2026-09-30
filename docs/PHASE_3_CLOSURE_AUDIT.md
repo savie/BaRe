@@ -26,7 +26,7 @@ Target: `savie/BaRe`, branch `rewrite`.
 | Firebase dependency | PASS | Current `app/build.gradle` has no Firebase dependency. |
 | Branch target | PASS | Work is on `rewrite`. |
 | Reference as baseline | PASS | Activity work was derived from the supplied Reference archive. |
-| Branding visible in strings | PASS (after correction) | Visible Swift Backup/search/logger/permission wording found by static scan was corrected to BΛR☰ wording. |
+| Branding visible in strings | PASS | Static scan of current strings.xml finds no visible Swift Backup / SwiftApps / swiftapps.org / SwiftLogger branding. |
 | Swift-specific external identity | AUTHORIZED DEVIATION | Provider redirect schemes such as `org.swiftapps.swiftbackup.*` remain where they are required by the Reference external contract; they are not user branding. |
 | Premium | P4 DEFERRED | Real entitlement/billing remains downstream; P3 Premium surface exists. |
 | Backend | P4 DEFERRED | Supabase/backend execution is not part of P3 UI closure. |
