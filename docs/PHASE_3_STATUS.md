@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 54
+### 🟢 Green — 55
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -94,23 +94,21 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 ### 🟡 Yellow — 16
 
 1. `ContributorRegActivity`
-3. `FolderPickerActivity`
-4. `FoldersBatchActivity`
-5. `ScheduleLabelsSelectActivity`
-6. `ScheduleFolderSelectActivity`
-7. `CallsBackupRestoreActivity`
-8. `MessagesBackupRestoreActivity`
-9. `ChatActivity`
-10. `CallsDashActivity`
-11. `MessagesDashActivity`
-12. `PremiumActivity`
-13. `AppVisibilityDiagnosticsActivity`
-14. `WallsDashActivity`
-15. `WallApplyActivity`
-16. `WallsManageActivity`
-17. `WifiActivity`
-
-**Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
+2. `FolderPickerActivity`
+3. `FoldersBatchActivity`
+4. `ScheduleLabelsSelectActivity`
+5. `ScheduleFolderSelectActivity`
+6. `CallsBackupRestoreActivity`
+7. `MessagesBackupRestoreActivity`
+8. `ChatActivity`
+9. `CallsDashActivity`
+10. `MessagesDashActivity`
+11. `PremiumActivity`
+12. `AppVisibilityDiagnosticsActivity`
+13. `WallsDashActivity`
+14. `WallApplyActivity`
+15. `WallsManageActivity`
+16. `WifiActivity`
 
 ## 🔴 Red backlog
 
