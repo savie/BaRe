@@ -162,23 +162,44 @@ Register rules:
 
 # Step 2 — Normalisation / Dedup
 
-Before creating work packages:
-1. Compare follow-ups by contract, not by domain name.
-2. Merge only when the same evidence, files, contract, and verification can reasonably close the combined item.
-3. Preserve every originating audit number on the merged item.
-4. Split a follow-up when it contains materially different ownership, dependencies, evidence, or verification criteria.
-5. Do not merge merely because two items touch the same resource/file.
-6. Do not remove a follow-up solely because an older historical document says it was already fixed; current evidence controls.
+Step 2 has been completed from the current Audit #1–#15 register. Normalisation is contract-based, not file-based.
 
-Examples requiring normalization rather than automatic grouping:
-- Resource (#1) and Strings (#2) both touch res/, but their parity contracts are distinct.
-- Styles/Themes/Colors (#4) depends on resource evidence and may share files with #1/#2, but its acceptance criteria are different.
-- Manifest (#5), Intent (#6), Permissions (#7), and Navigation (#8) overlap at AndroidManifest.xml, but they remain distinct contracts unless normalization proves a smaller common unit.
-- Lifecycle/State (#9) and Dialog/Error/Loading (#10) interact through saved dialog state and lifecycle ownership, but should not be merged automatically.
-- Branding (#11) intersects Strings (#2) and resources (#1/#4), but authorized identity classification must remain explicit.
-- Fake/Stub (#13) and Boundary (#14) are related; StorageInfoService.read()==null is explicitly carried from #13 into #14 rather than duplicated as two unrelated fixes.
-- Static Hygiene (#15) is primarily a consistency/re-audit concern and should not become unrelated app implementation work.
+## Normalisation result
 
+| Normalized item | Source audit domains | Decision | Reason |
+|---|---|---|---|
+| N-01 Application-owned resource parity | #1 | **KEEP SEPARATE** | Resource ownership/type/qualifier reconciliation has its own evidence and closure criteria. |
+| N-02 Application-owned string parity | #2 | **KEEP SEPARATE** | String usage/locale/visible-text classification is a distinct contract even though it touches `res/`. |
+| N-03 Dimension parity | #3 | **REMOVE FROM ACTIVE FOLLOW-UP** | #3 is already 🟢 CLOSED / PASS; no follow-up may be created merely for symmetry. |
+| N-04 Theme/style/color parity | #4 | **KEEP SEPARATE** | Theme inheritance, style item contracts, colors and state lists have distinct acceptance criteria from generic resource parity. It depends on resource evidence but is not the same contract. |
+| N-05 Manifest contract | #5 | **KEEP SEPARATE** | Manifest application/component metadata and attributes have a distinct contract from intent, permission, and navigation semantics even where they share `AndroidManifest.xml`. |
+| N-06 Intent contract | #6 | **KEEP SEPARATE** | Explicit intents, URI/data/type contracts, callback topology, and exported/deep-link filters require separate evidence and verification. |
+| N-07 Permission contract | #7 | **KEEP SEPARATE** | Permission declaration/ownership and runtime request/check mapping are a distinct contract; runtime verification remains gated. |
+| N-08 Navigation contract | #8 | **KEEP SEPARATE** | Parent/activity topology, launch mode, destinations, extras/results, and back/up behavior have distinct acceptance criteria. |
+| N-09 Lifecycle/state contract | #9 | **KEEP SEPARATE** | Lifecycle callbacks and state restoration/retention have distinct ownership and verification criteria. |
+| N-10 Dialog/error/loading contract | #10 | **KEEP SEPARATE** | Visible transient-state and recovery semantics are distinct, although saved dialog state must coordinate with N-09. |
+| N-11 Branding/identity contract | #11 | **KEEP SEPARATE** | Authorized BΛR☰/Swift identity classification must remain explicit and cannot be absorbed into generic strings/resources. |
+| N-12 Java-only | #12 | **REMOVE FROM ACTIVE FOLLOW-UP** | #12 is already 🟢 CLOSED / PASS. |
+| N-13 Fake/stub inventory | #13 | **KEEP SEPARATE** | Its purpose is classification of explicit stub/boundary/null-return markers, not execution of those boundaries. |
+| N-14 Boundary contract | #14 | **KEEP SEPARATE** | Boundary ownership/input/output/deferred-phase reconciliation is broader than the fake/stub inventory. `StorageInfoService.read()==null` is carried into this contract, not duplicated as a second fix. |
+| N-15 Static/documentation hygiene | #15 | **KEEP SEPARATE** | This is a project-control consistency contract and must not become unrelated application implementation work. |
+
+## Cross-domain dependency notes established during normalisation
+
+1. **#1 ↔ #4:** related evidence, but not one contract. Resource ownership evidence can support #4, while theme/style/color acceptance remains separate.
+2. **#2 ↔ #11:** string evidence is required for branding re-audit, but authorized identity classification remains a separate branding contract.
+3. **#5 ↔ #6 ↔ #7 ↔ #8:** all may touch `AndroidManifest.xml`, but file overlap is insufficient reason to merge them.
+4. **#9 ↔ #10:** lifecycle/state and dialog/error/loading interact where dialog state is restored, but their contracts remain separate.
+5. **#13 ↔ #14:** #13 maintains the explicit fake/stub inventory. The concrete `StorageInfoService.read()==null` item is carried into #14 Boundary rather than treated as a duplicate implementation item.
+6. **#15:** remains a final/current-status consistency concern and does not absorb the substantive domain contracts.
+
+## Normalisation decision
+
+The register therefore resolves to **13 active normalized contracts**:
+
+**N-01, N-02, N-04, N-05, N-06, N-07, N-08, N-09, N-10, N-11, N-13, N-14, N-15.**
+
+No implementation work package is formed at Step 2.
 # Step 3 — Classification
 
 Every normalized follow-up receives one primary class:
@@ -333,7 +354,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** establish the normalized follow-up register, classifications, dependency map, dependency order, and only then derive bounded work packages.
+**Current execution objective:** Step 1 Follow-up Register established; **Step 2 Normalisation / Dedup complete**. Next: Step 3 Classification, then dependency mapping/order before any work package or implementation.
 
 **P4:** GATED / NOT STARTED.
 
