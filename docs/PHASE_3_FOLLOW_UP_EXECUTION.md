@@ -278,6 +278,65 @@ For every normalized follow-up, record:
 
 Dependencies are evidence-driven. Do not assume a linear order merely because audit numbers are sequential.
 
+# Step 4 — Dependency Mapping
+
+Step 4 is now complete for the 13 active normalized contracts. This mapping records **dependencies and blocking relationships only**. It does not yet choose the execution order and does not form work packages.
+
+## Dependency map
+
+| Item | Blocks | Depends on | Parallel-safe | Downstream | Verification |
+|---|---|---|---|---|---|
+| **N-01 Resource** | N-04 Theme/style/color | Reference resource ownership evidence and type/qualifier reconciliation | **Yes** | No | Static matrix + resource/reference trace |
+| **N-02 Strings** | N-11 Branding; parts of N-10 visible-state reconciliation | Reference string ownership/usage trace and locale evidence | **Yes** | No | Static string matrix + usage/locale trace |
+| **N-04 Theme/style/color** | Affected UI/resource implementation and later re-audit | N-01 resource ownership evidence | **Partly** — can prepare independently, but final contract reconciliation needs N-01 | No | Static style/theme/color matrix + reference trace |
+| **N-05 Manifest** | N-06 Intent, N-07 Permission, parts of N-08 Navigation | Manifest/component ownership and authorized identity deviation evidence | **Yes** | No | Static manifest matrix/diff |
+| **N-06 Intent** | Affected deep-link/callback implementation and re-audit | N-05 manifest context; AppAuth/provider callback classification | **Partly** — classification can proceed while other evidence is gathered | Provider callback may be downstream | Static intent/filter/callback matrix; runtime remains gated |
+| **N-07 Permission** | Permission-related implementation and re-audit | N-05 manifest permission context; ownership classification | **Yes** | Runtime grant verification is downstream/gated | Static declaration/request/check matrix |
+| **N-08 Navigation** | Targeted navigation implementation and re-audit | P2 Activity inventory; N-05 manifest parent/activity attributes where applicable | **Yes** for evidence gathering; final reconciliation may consume N-05 | Runtime Up/back verification is gated | Static 71-Activity navigation matrix |
+| **N-09 Lifecycle/state** | Targeted state/lifecycle implementation and N-10 restoration reconciliation | P2 Activity/major Fragment inventory and current state evidence | **Yes** | Runtime configuration/lifecycle verification is gated | Static lifecycle/state matrix |
+| **N-10 Dialog/error/loading** | Targeted transient-state implementation and re-audit | N-09 lifecycle/state evidence; N-02 strings and N-04 theme/style evidence where visible contracts require them | **Partly** — trigger/state inventory can begin independently; final visible-state reconciliation consumes dependencies | Runtime visual/interaction verification is gated | Static trigger→state→action→dismiss/recovery matrix |
+| **N-11 Branding/identity** | Branding implementation and re-audit | N-02 string evidence; N-05 manifest identity evidence; authorized BΛR☰ deviation rules | **Partly** — identity classification can proceed before all string reconciliation is complete | Provider/deep-link identity may remain downstream | Static branding matrix; visual/runtime verification gated |
+| **N-13 Fake/stub inventory** | N-14 Boundary classification and later boundary re-audit | Current target source inventory | **Yes** | Intentional downstream boundaries remain downstream | Static marker/null-return inventory |
+| **N-14 Boundary** | Boundary-dependent implementation/re-audit and post-P3 planning | N-13 fake/stub inventory; manifest/intent/permission context; service/receiver/downstream call evidence | **Partly** — matrix construction can proceed in parallel, but final ownership classification consumes upstream boundary evidence | Provider/backend/storage/engine execution is downstream | Static boundary matrix; no runtime success claim |
+| **N-15 Static/documentation hygiene** | None; it verifies the control plane | Current Step 1–4 records and authoritative status/checkpoint documents | **Yes**, as an ongoing consistency check; final verification is after follow-up changes | No | Static cross-document consistency check |
+
+## Blocking graph
+
+The evidence-driven relationships established at this step are:
+
+`N-01 → N-04`
+
+`N-02 → N-11`
+
+`N-05 → N-06`
+
+`N-05 → N-07`
+
+`N-05 → N-08 (manifest-related navigation attributes)`
+
+`N-09 → N-10 (lifecycle/state restoration portion)`
+
+`N-02 + N-04 + N-09 → N-10 (visible-state/recovery reconciliation)`
+
+`N-13 → N-14`
+
+`N-05 + N-06 + N-07 + N-13 → N-14 (boundary ownership context)`
+
+N-08 and N-09 are **not** declared mutually blocking: both can collect evidence from the frozen P2 Activity/Fragment inventory. Their interaction is recorded only where navigation/state restoration semantics overlap.
+
+N-15 is a control-plane verification item and does not block evidence collection; it must, however, be rechecked after subsequent documentation or implementation changes.
+
+## Step 4 boundary rules
+
+1. A dependency means the downstream contract cannot be **closed correctly** without the upstream evidence/classification; it does not necessarily prevent preparatory evidence collection.
+2. Shared files do not create a dependency by themselves.
+3. Runtime/build/install/visual verification remains a gated downstream verification boundary.
+4. Provider/backend/storage/engine execution remains downstream and is not pulled into P3 implementation.
+5. No work package is formed from this map.
+6. No execution order is selected here.
+
+**Step 4 is complete. The next step is Step 5 — Dependency Order.**
+
 # Step 5 — Dependency Order
 
 A follow-up is ready when:
@@ -395,7 +454,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; **Step 3 Classification complete**. Next: Step 4 Dependency Mapping, then Step 5 Dependency Order before any work package or implementation.
+**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; **Step 3 Classification complete; **Step 4 Dependency Mapping complete**. Next: Step 5 Dependency Order before any work package or implementation.
 
 **P4:** GATED / NOT STARTED.
 
