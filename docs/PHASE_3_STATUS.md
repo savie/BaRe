@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **64** |
-| 🟡 Yellow | **7** |
+| 🟢 Green | **65** |
+| 🟡 Yellow | **6** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 64
+### 🟢 Green — 65
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -97,18 +97,18 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 62. `MessagesBackupRestoreActivity`
 63. `ChatActivity`
 64. `CallsDashActivity`
+65. `MessagesDashActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 7
+### 🟡 Yellow — 6
 
-1. `MessagesDashActivity`
-2. `PremiumActivity`
-3. `AppVisibilityDiagnosticsActivity`
-4. `WallsDashActivity`
-5. `WallApplyActivity`
-6. `WallsManageActivity`
-7. `WifiActivity`
+1. `PremiumActivity`
+2. `AppVisibilityDiagnosticsActivity`
+3. `WallsDashActivity`
+4. `WallApplyActivity`
+5. `WallsManageActivity`
+6. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -131,7 +131,7 @@ Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
 - `MessagesBackupRestoreActivity` → 🟢; Reference-shaped backup/restore mode, adapter-selection boundary, select-all, default-SMS-role request/rationale flow, refresh/state surface, and action boundary are reconstructed.
 - `CallsBackupRestoreActivity` → 🟢; Reference-shaped backup/restore mode, adapter-selection boundary, refresh/state surface, select-all, call-log permission flow, and action boundary are reconstructed.
 - `ChatActivity` → 🟢; Reference toolbar/conversation-title surface, RecyclerView message surface, hidden debug-menu contract, back navigation, and recreation state are reconstructed through the message-provider/adapter boundary. The Reference `qv1` conversation Parcelable and message-rendering provider are not fabricated.
-- `MessagesDashActivity` → 🟡; Reference has permission flow, dynamic device/cloud backup counts, menus, and navigation to conversation/settings surfaces.
+- `MessagesDashActivity` → 🟢; Reference-shaped local/cloud cards, READ_SMS + READ_CONTACTS permission gate, MessagesBackupRestoreActivity navigation, settings/navigation menu contracts, cloud-card highlight input, and explicit provider/count boundary are reconstructed.
 - `CallsDashActivity` → 🟢; Reference-shaped local/cloud cards, call-log permission flow, backup/settings navigation, menu contracts, cloud-card highlight input, and explicit data-count boundary are reconstructed.
 
 ## Latest vertical slice — Calls / Messages dashboard P3 completion
