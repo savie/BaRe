@@ -98,6 +98,12 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
                     .putExtra(EXTRA_RESTORE_SPECIAL_PERMISSIONS, checked));
         });
 
+        findViewById(R.id.container_restore_special_data).setOnClickListener(view -> {
+            if (permissionsSwitch.isEnabled()) {
+                permissionsSwitch.toggle();
+            }
+        });
+
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SpecialDataAdapter(ITEMS));
