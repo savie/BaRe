@@ -250,7 +250,7 @@ Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next fo
 
 - `ApkImportActivity` crossed the P3 boundary and is now 🟢; archive extraction, full APKS install/session execution, and backup integration remain downstream.
 - `LabelEditActivity` crossed the P3 boundary and is now 🟢; label persistence and app inventory/selection remain downstream.
-- The historical pre-exit signal was **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**; the current signal is **51 🟢 / 20 🟡 / 0 🔴 / 71 Activities**.
+- The historical pre-exit signal was **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**; the current signal is **52 🟢 / 19 🟡 / 0 🔴 / 71 Activities**.
 - Structural check: **71 Activities / 0 duplicate registrations**.
 - Build/runtime/visual verification remains gated and was not performed.
 
@@ -262,11 +262,18 @@ Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next fo
 
 ## 2026-09-30 P3 lifecycle exit — LabelEditActivity
 
-`LabelEditActivity` has crossed the P3 boundary. UI + navigation + interaction flow are reconstructed through the dependency boundary: create/edit state, name preview, color selection, app-selection entry, save/cancel/up result handling, delete confirmation/result handling, and recreation state. Label persistence and app inventory/selection semantics remain downstream. Current Activity checkpoint: **51 green / 20 yellow / 0 red / 71**. No build/runtime verification performed.
+`LabelEditActivity` has crossed the P3 boundary. UI + navigation + interaction flow are reconstructed through the dependency boundary: create/edit state, name preview, color selection, app-selection entry, save/cancel/up result handling, delete confirmation/result handling, and recreation state. Label persistence and app inventory/selection semantics remain downstream. Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime verification performed.
 
 
 ## 2026-09-30 P3 lifecycle exit — LabelsActivity
 
 `LabelsActivity` crossed the P3 boundary after direct comparison with the supplied Swift Backup 5.1.0 Reference. Manage/set-app/select modes, mode-specific menus, create/edit/delete-all, selection/app-label state, clear/apply result boundaries, empty state, recreation state, and `LabelEditActivity` result propagation are reconstructed. Label persistence, app inventory/parcel rendering, and assignment/storage semantics remain downstream.
 
-Current Activity checkpoint: **51 green / 20 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — BoxSignInActivity
+
+`BoxSignInActivity` crossed the P3 boundary at the verified external-auth contract: browser/redirect-handler checks, Box OAuth navigation, and explicit failure states are reconstructed. Token exchange and SDK/ViewModel result semantics remain downstream.
+
+Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime/visual verification performed.
