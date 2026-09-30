@@ -85,11 +85,9 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 23
+### 🟡 Yellow — 21
 
-1. `LabelEditActivity`
-2. `LabelsActivity`
-3. `LabelsActivity`
+1. `LabelsActivity`
 4. `BoxSignInActivity`
 5. `OneDriveSignInActivity`
 6. `TeraBoxSignInActivity`
@@ -353,7 +351,7 @@ This keeps P3 from absorbing backup/restore engines, service execution, provider
 Checkpoint-aligned continuation from 69324f8b3fa1ebf5901c644fcf9f87e8424b65fd:
 
 - `ApkImportActivity` remains 🟡. Compared with Reference, the BaRe boundary now preserves input URI/type state across recreation and accepts the Reference `ACTION_VIEW` / `EXTRA_STREAM` input contract without fabricating parsed APK metadata. Archive parsing, package metadata extraction, installer fallback, and import execution remain downstream.
-- `LabelEditActivity` remains 🟡. Compared with Reference, the editor now exposes interactive label-name preview, color-selection UI, app-selection boundary, save/cancel/delete result boundaries, edit-vs-create menu visibility, and recreation state. Actual label persistence and app inventory/selection remain downstream because their data contracts are not reconstructed here.
+- `LabelEditActivity` was promoted to green in the lifecycle exit below; label persistence and app inventory/selection remain downstream.
 - `ApkImportActivity` was subsequently promoted to green; `LabelEditActivity` is now promoted at its evidence-supported dependency boundary.
 - No build, install, runtime, or visual verification was performed.
 
