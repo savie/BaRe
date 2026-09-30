@@ -146,3 +146,31 @@ No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
 
 | CloudDiagnosticsActivity | P3 | Provider/notice/test list/run presentation | Network, Firebase, provider and transfer diagnostics remain P4 |
 | CloudOrphanCleanerActivity | P3 | Scope/status/results/scan/delete presentation | Cloud listing, reference validation and deletion remain P4 |
+
+
+## Component inventory / checkpoint
+
+The Phase 2 component counts are now backed by a canonical name-by-name inventory:
+
+- **71 Activities** — exact Reference-package Activity list and BaRe mapping: docs/PHASE_2_SKELETON.md
+- **3 Services** — TaskService, ScheduleService, HeadlessSmsSendService
+- **8 Receivers** — AlarmReceiver, LocaleChangedReceiver, BootReceiver, NotificationTaskCancelReceiver, PackageInstallResultReceiver, ShortcutPinnedReceiver, SmsReceiver, MmsReceiver
+- **0 Reference-owned Providers** — the 4 Reference manifest providers are dependency/library providers
+
+**Important:** Phase 2 MATCH means structural component coverage only. It does not mean those Activities/services/receivers are behaviorally complete.
+
+For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHECKPOINT.md.
+
+### Current roadmap checkpoint — 2026-09-30
+
+| Phase | Status | Interpretation |
+|---|---|---|
+| P1 Foundation | COMPLETE / FROZEN | Inventory/evidence gate closed. |
+| P2 Reference Skeleton | COMPLETE / FROZEN | 71/71 Activities, 3/3 Services, 8/8 Receivers, 0 Reference-owned Providers. |
+| P3 UI + Navigation | ACTIVE | Current primary vertical-sweep workstream. |
+| P4 Core Behavior | PARTIAL / DEPENDENCY-DRIVEN | Selected contracts reconstructed where P3 requires them; not a phase-completion claim. |
+| P5 Features | NOT COMPLETE / DEFERRED | Full backup/restore/feature execution remains UNKNOWN. |
+| P6 Authorized Deviations | DEFINED / GATED | Branding/Premium/Supabase rules defined; Supabase implementation remains permission-gated. |
+| P7 Runtime | BLOCKED / GATED | Build/install/execute not authorized. |
+| P8 Parity | NOT YET EXECUTED | Requires runtime evidence. |
+| P9 Deviation Audit | NOT YET FINAL | Final deviation classification comes after parity evidence. |
