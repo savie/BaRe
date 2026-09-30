@@ -94,6 +94,7 @@ public final class MessagesDashActivity extends AppCompatActivity {
     }
 
     private void showContent() {
+        findViewById(R.id.scroll_view).setVisibility(android.view.View.VISIBLE);
         findViewById(R.id.content_root).setVisibility(android.view.View.VISIBLE);
     }
 
