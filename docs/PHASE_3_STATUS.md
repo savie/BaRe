@@ -69,7 +69,7 @@ No application fix is performed merely because a domain is yellow.
 | # | Audit domain | Current status | Audit purpose |
 |---:|---|---|---|
 | 1 | Resource | 🟡 **OPEN** | Audit found a real application-resource evidence gap; scope must be separated from dependency/library resources before closure. |
-| 2 | Strings | 🟡 | Reconcile required P3-visible strings and their usage. |
+| 2 | Strings | 🟡 **OPEN** | Audit found substantial Reference→BaRe string-scope gaps; P3-visible ownership/usage still needs closure evidence. |
 | 3 | Dimensions | 🟡 | Reconcile dimension names, values, and qualifiers against Reference evidence. |
 | 4 | Styles / Themes / Colors | 🟡 | Reconcile the static style, theme, color, selector, and inheritance contracts. |
 | 5 | Manifest | 🟡 | Re-audit component declarations, attributes, exported state, launch contracts, and relevant metadata. |
@@ -117,9 +117,9 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #1 — Resource**
+> **Audit #3 — Dimensions**
 
-Then proceed sequentially through #15.
+Domains #1 Resource and #2 Strings have now been audited. Proceed sequentially through #15.
 
 There is currently **no Resource/Theme/Color implementation queue**. Those areas remain yellow until the total audit establishes their actual state.
 
@@ -179,4 +179,36 @@ These supporting documents must not introduce a separate P3 work queue or overri
 
 **No app/resource fix performed during this audit.**
 
-Next audit domain: **#2 Strings**.
+Next audit domain: **#3 Dimensions**.
+
+
+## Audit #2 — Strings — Result
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Evidence checked
+
+- Reference res/values/strings.xml: **1,384** string entries.
+- Current BaRe app/src/main/res/values/strings.xml: **523** string entries.
+- Direct name comparison: **1,041 Reference string names are absent from the current BaRe base strings file; 177 target names are target-only.**
+- The Reference string tree includes dependency/library strings, so raw 1,384-vs-523 equality is **not** a valid application-parity criterion.
+- Static Reference-source tracing found **300 distinct R.string.* names referenced by org.swiftapps.swiftbackup Java sources**, all defined in the Reference base strings file.
+- Representative Reference application strings used by the Reference source are absent from the current BaRe base strings file, including add_apps, account_email, active_backup_tag, apk_import_ready_title, app_data, app_parts, apps_empty_list_error, auth_failed, backup_all, backup_and_restore, backup_call_logs, and backup_content.
+- Earlier historical documentation claimed a P3-visible string parity pass, but the fresh total audit does **not** inherit that claim as a PASS without current evidence.
+- No build/install/runtime verification was performed.
+
+### Findings
+
+1. **String parity is not currently proven closed.**
+2. The large raw count delta contains dependency/library strings, so it cannot by itself establish defects.
+3. Independent static tracing nevertheless establishes a real application-string evidence gap: multiple Reference application strings used by Reference Java sources are not present in the current BaRe base string set.
+4. Target-only strings include current BΛR☰ branding and P3 boundary/status copy; these require classification against the authorized deviation and P3 boundary contracts rather than automatic removal.
+
+### Required follow-up
+
+- Build an application-owned **Reference→BaRe string matrix**, separating dependency/library names from Reference application strings.
+- Reconcile Reference application-owned string names against current BaRe names.
+- For missing names, classify whether the string is required by the current P3-visible surface, replaced by an authorized BΛR☰ branding string, or legitimately deferred/downstream.
+- Reconcile relevant base/locale qualifier coverage where localization is part of the P3-visible contract.
+
+**No app/resource fix performed during this audit.**
