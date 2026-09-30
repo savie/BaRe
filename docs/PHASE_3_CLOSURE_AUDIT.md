@@ -43,7 +43,7 @@ Yellow is an audit state, not a defect finding.
 |---:|---|---|---|
 | 1 | Resource | 🟡 **OPEN** | Evidence audit completed; application-owned matrix still required for closure. |
 | 2 | Strings | 🟡 **OPEN** | Evidence audit completed; application-owned string matrix and P3 usage classification are still required for closure. |
-| 3 | Dimensions | 🟡 | Pending audit |
+| 3 | Dimensions | 🟢 **CLOSED / PASS** | Evidence supports closure for the defined P3 dimension scope. |
 | 4 | Styles / Themes / Colors | 🟡 | Pending audit |
 | 5 | Manifest | 🟡 | Pending audit |
 | 6 | Intent | 🟡 | Pending audit |
@@ -208,5 +208,43 @@ The Strings domain remains:
 ### Follow-up, not implementation
 
 Build an application-owned Reference→BaRe string matrix, classify dependency/library strings separately, then classify missing Reference application strings as P3-visible, authorized branding replacement, or legitimately deferred/downstream. Reconcile relevant locale/qualifier coverage where required.
+
+**No app/resource fix was performed.**
+
+
+## Audit #3 — Dimensions — Findings
+
+**Verdict: 🟢 CLOSED / PASS**
+
+The Dimensions domain was re-audited statically without changing the app.
+
+### Evidence
+
+Reference evidence establishes **839 unique dimension names across 20 values*/dimens.xml files**. The prior application-scope reconciliation isolated **67 project-facing/non-library-prefixed dimension names**, and all 67 were reconciled into BaRe with Reference values.
+
+Current tree spot checks confirm the Reference-sensitive qualifier overrides:
+
+- values-land: activity_horizontal_margin = 64.0dp
+- values-w820dp: activity_horizontal_margin = 64.0dp
+- values-w320dp-land: clock_face_margin_start = 24.0dp
+- values-w600dp-land: clock_face_margin_start = 64.0dp
+
+Current base values also confirm the corrected Reference-facing values:
+
+- label_chip_corner_radius = 11.0dp
+- label_chip_stroke_width = 1.5dp
+- subtitle_small = 13.0sp
+- subtitle_smaller = 12.0sp
+- title = 16.0sp
+
+The dimension reconciliation predates the current documentation-only audit commits; no app/resource changes occurred after it.
+
+### Audit conclusion
+
+The Dimensions domain is:
+
+> **🟢 CLOSED / PASS**
+
+No implementation follow-up is required from this audit domain.
 
 **No app/resource fix was performed.**
