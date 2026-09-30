@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **57** |
-| 🟡 Yellow | **14** |
+| 🟢 Green | **58** |
+| 🟡 Yellow | **13** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 57
+### 🟢 Green — 58
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -90,10 +90,11 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 55. `YandexSignInActivity`
 56. `ContributorRegActivity`
 57. `FolderPickerActivity`
+58. `FoldersBatchActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 14
+### 🟡 Yellow — 13
 
 1. `FoldersBatchActivity`
 3. `ScheduleLabelsSelectActivity`
@@ -485,5 +486,20 @@ Current Activity depth: **54 green / 17 yellow / 0 red / 71**. No build/runtime/
 - The remaining filesystem permission, storage-provider semantics, and mutation engine are downstream and do not block the P3 exit.
 
 **Current Activity checkpoint: 57 green / 14 yellow / 0 red / 71.**
+
+No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — FoldersBatchActivity
+
+`FoldersBatchActivity` is promoted to 🟢 at the evidence-supported P3 batch folder boundary.
+
+- Reference batch action contract is preserved through `EXTRA_FOLDER_BATCH_ACTION_ITEM` plus explicit action-id/title support.
+- Reference-shaped batch surface is reconstructed: toolbar/up, folder setup RecyclerView, empty/loading boundary, selection state, select-all menu, action FAB, folder settings route, general settings route, and recreation state.
+- Edit-folder flow launches `FolderEditActivity` using the Reference request code `4988`; successful edit results are merged back into the batch surface.
+- Backup, restore, delete-backups, and copy-folder-setups actions terminate at explicit P3 engine boundaries; no backup inventory, cloud state, restore strategy, or side effect is fabricated.
+- Reference folder inventory remains a downstream `qo3`/data contract and is intentionally not invented in this Activity.
+
+**Current Activity checkpoint: 58 green / 13 yellow / 0 red / 71.**
 
 No build/runtime/visual verification performed.
