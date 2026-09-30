@@ -52,7 +52,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 8 | Navigation | 🔴 FAIL / DEFECT |
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
-| 11 | Branding | 🟡 AUDIT REQUIRED |
+| 11 | Branding | 🔴 FAIL / DEFECT |
 | 12 | Java-only | 🟡 AUDIT REQUIRED |
 | 13 | Fake / Stub | 🟡 AUDIT REQUIRED |
 | 14 | Boundary | 🟡 AUDIT REQUIRED |
@@ -240,3 +240,16 @@ Reference contains application-owned Alert/Material dialogs, Snackbar permission
 No app/code/resource change was made during the audit.
 
 Next: **#11 Branding / Swift Identity**.
+
+
+## P3 Total Audit — Branding / Swift Identity Result
+
+**#11 Branding: 🔴 FAIL / DEFECT**
+
+Static audit confirms that the authorized visible migration from Swift Backup to BΛR☰ is partially present: the manifest label and inspected Intro branding use BΛR☰, and inspected Swift-named resource identifiers currently resolve to BΛR☰ visible text. Internal Swift-named identifiers are not automatically defects under the handoff rules.
+
+However, the current manifest does not declare an application icon and the inspected target resource tree does not establish a BaRe/BΛR☰ launcher icon resource. Full user-visible branding parity is also not exhaustively proven without a branding matrix and later visual verification.
+
+No app/code/resource change was made during this audit.
+
+Next: **#12 Java-only**.
