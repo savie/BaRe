@@ -263,3 +263,12 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 - Filesystem mutation, permission handling, storage-provider semantics, and deeper folder engine behavior remain downstream and are not claimed as parity.
 - Current Activity depth: **57 green / 14 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 FoldersBatchActivity P3 completion
+
+- `FoldersBatchActivity` — P3 **GREEN** at the evidence-supported folder batch UI/navigation/interaction boundary.
+- Reference batch action contract, selection/select-all, toolbar/menu routes, action FAB, empty/loading states, recreation, and `FolderEditActivity` request/result flow (`4988`) are reconstructed.
+- Backup/restore/delete/copy execution and the Reference folder inventory/ViewModel contract remain downstream; no feature side effect or inventory state is fabricated.
+- Current Activity depth: **58 green / 13 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
