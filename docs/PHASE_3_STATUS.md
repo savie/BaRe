@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **70** |
-| 🟡 Yellow | **1** |
+| 🟢 Green | **71** |
+| 🟡 Yellow | **0** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 70
+### 🟢 Green — 71
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -103,12 +103,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 68. `WallsDashActivity`
 69. `WallApplyActivity`
 70. `WallsManageActivity`
+71. `WifiActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 1
+### 🟡 Yellow — 0
 
-1. `WifiActivity`
+None.
 
 ## 🔴 Red backlog
 
@@ -177,3 +178,11 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - `WallsManageActivity` now reconstructs Device/Cloud mode, toolbar state, 4-column explorer surface, empty-state behavior, selection/menu contracts, recreation state, and back navigation.
 - Reference actions are preserved: Select All, Delete, Cloud Download, and Device Sync. Actual wallpaper inventory and repository mutation remain dependency/engine state and are not fabricated.
 - Delete/Download/Sync terminate at the explicit P3 wallpaper engine boundary. The Activity is promoted to 🟢.
+
+## Latest vertical slice — WifiActivity P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `WifiActivity` now reconstructs the Wi-Fi backup dashboard with Device, local-backup, and cloud-backup cards, Android 10 batch-restore notice/acknowledgement, card actions, toolbar/back navigation, and recreation state.
+- The Reference's Wi-Fi inventory and backed-up network data remain provider/system state; no fake network list, password, or backup inventory is generated.
+- Backup, restore, delete, and password-related execution terminate at the explicit Wi-Fi engine/provider boundary. The final Yellow Activity is promoted to 🟢.
