@@ -897,3 +897,30 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - BaRe does not currently include the pCloud SDK or an equivalent verified token/result repository contract. The reconstruction therefore preserves the browser/custom-tab gate and explicit P3 auth boundary, but does not fabricate OAuth token parsing or provider persistence.
 - Added the missing Reference-facing strings `pcloud` and `no_browser_found_error`.
 - Runtime/build verification remains pending by project execution guard.
+
+
+## P3 complete 71-Activity depth audit — 2026-09-30
+
+- Audit head: `36704f7803bf779887e59c3c94513f457f1ea1aa` (`rewrite`).
+- Scope: all 71 Reference-owned Activities.
+- Starting audit snapshot: `7f03a13a0dc05bdf42b5cad28c16f81d33651551`.
+- Every post-snapshot Activity change was revalidated against the current head.
+- The previous audit's yellow list contains 42 Activities despite the old heading stating 39; the new classification uses the actual 71-row inventory.
+- The three former special-review Activities were directly compared against the supplied Reference source/layout and resolved to yellow:
+  - `WallsManageActivity` — Reference has substantive menu/state/list behavior; BaRe remains an empty-adapter shell.
+  - `WifiActivity` — Reference contains substantial Wi-Fi backup/restore/settings logic; BaRe remains a presentation boundary without provider execution.
+  - `LocaleActivity` — Reference has locale catalog/menu/selection behavior; BaRe remains a toolbar/list boundary without locale catalog semantics.
+- Final mutually-exclusive P3 depth classification:
+  - 🟢 Green: **23**
+  - 🟡 Yellow: **48**
+  - 🔴 Red: **0**
+  - Total: **71/71**
+- Previous red items were resolved by dedicated vertical sweeps:
+  - `PCloudSignInActivity` → 🟡
+  - `CallsBackupsActivity` → 🟡
+  - `MessagesBackupsActivity` → 🟡
+  - `ComposeSmsActivity` → 🟢
+  - `MultipleBackupsActivity` → 🟢
+  - `RestoreSpecialDataDetailsActivity` → 🟢
+  - `AppBackupLimitsActivity` → 🟢
+- This is a source/resource reconstruction-depth audit only. It does not claim build, install, runtime, visual, provider, backup/restore, backend, Supabase, or end-to-end feature parity.
