@@ -182,7 +182,7 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 
 - `ApkImportActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; full APKS extraction/install execution and backup integration remain UNKNOWN/P4-P5.
 - `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; label persistence and app inventory/selection remain UNKNOWN/P4.
-- The historical pre-exit Activity depth was **48 🟢 / 23 🟡 / 0 🔴 / 71**; the current Activity depth is **51 🟢 / 20 🟡 / 0 🔴 / 71**.
+- The historical pre-exit Activity depth was **48 🟢 / 23 🟡 / 0 🔴 / 71**; the current Activity depth is **52 🟢 / 19 🟡 / 0 🔴 / 71**.
 - Manifest verification: **71 Activities, 0 duplicate Activity registrations**. No build/runtime verification performed.
 
 
@@ -200,7 +200,7 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary.
 - Reference-derived create/edit mode, name preview, color selection, app-selection boundary, save/cancel/up flow, delete flow, and recreation state are reconstructed.
 - Label persistence and app inventory/selection remain UNKNOWN/P4 and do not block the P3 exit.
-- Activity depth checkpoint: **51 green / 20 yellow / 0 red / 71**.
+- Activity depth checkpoint: **52 green / 19 yellow / 0 red / 71**.
 - Runtime/build/visual parity remains BLOCKED by the existing execution gate.
 
 
@@ -209,5 +209,14 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - `LabelsActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
 - Reference mode selection, mode-specific toolbar/menu behavior, label create/edit/delete-all flow, selection/app-label state, clear/apply boundaries, empty state, recreation, and `LabelEditActivity` result propagation are reconstructed.
 - Label catalog persistence, app inventory/parcel rendering, and actual assignment/storage semantics remain downstream.
-- Current Activity depth: **51 green / 20 yellow / 0 red / 71**.
+- Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
+
+
+## 2026-09-30 BoxSignInActivity P3 completion
+
+- `BoxSignInActivity` — P3 **GREEN** at the evidence-supported external-auth boundary.
+- Browser and Reference redirect-handler probes plus Box OAuth navigation are reconstructed.
+- Token exchange, SDK callback decoding, and provider state remain downstream.
+- Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
