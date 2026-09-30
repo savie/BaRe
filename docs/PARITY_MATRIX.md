@@ -61,7 +61,7 @@ P3 UI + Navigation | **ACTIVE / FOLLOW-UP EXECUTION** | The 15-domain total audi
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 14 | Boundary | 🟡 OPEN / NEEDS FOLLOW-UP |
-| 15 | Static Hygiene | 🔴 FAIL / DEFECT |
+| 15 | Static Hygiene | 🟡 OPEN / NEEDS FOLLOW-UP |
 
 This table is the reconciled high-level result of the current total-audit cycle.
 
