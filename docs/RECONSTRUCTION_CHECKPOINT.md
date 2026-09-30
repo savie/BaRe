@@ -126,7 +126,11 @@ Current execution position:
 >
 > **Step 4 — DEPENDENCY MAPPING complete**
 >
-> **Next: Step 7 — SCOPE CHECK**
+> **Step 5 — DEPENDENCY ORDER complete**
+>
+> **Step 6 — WORK PACKAGE FORMATION complete**
+>
+> **Step 7 — SCOPE CHECK complete and hardened with Execution Safety / Stability Gate**
 
 Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
 
@@ -237,4 +241,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 7/10 (Scope Check complete; 13 bounded execution units) + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active after Step 7/10 (Scope Check complete + Execution Safety / Stability Gate hardened; 13 bounded execution units subject to further safe batching) + P4 gated.**
