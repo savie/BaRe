@@ -176,3 +176,11 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 | P7 Runtime | BLOCKED / GATED | Build/install/execute not authorized. |
 | P8 Parity | NOT YET EXECUTED | Requires runtime evidence. |
 | P9 Deviation Audit | NOT YET FINAL | Final deviation classification comes after parity evidence. |
+
+
+## 2026-09-30 P3 continuation — APK import + label editor
+
+- `ApkImportActivity`: P3 input contract/state boundary deepened from Reference evidence; parsed package metadata, archive extraction, installer fallback, and import execution remain UNKNOWN/P4-P5.
+- `LabelEditActivity`: Reference-derived name preview, color-selection, app-selection boundary, result flows, and recreation state reconstructed; label persistence and app inventory/selection remain UNKNOWN/P4.
+- Checkpoint-aligned Activity depth remains **48 🟢 / 23 🟡 / 0 🔴 / 71**; neither Activity is promoted by this batch.
+- Manifest verification: **71 Activities, 0 duplicate Activity registrations**. No build/runtime verification performed.
