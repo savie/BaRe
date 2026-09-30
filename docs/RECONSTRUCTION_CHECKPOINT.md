@@ -258,3 +258,8 @@ Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next fo
 ## 2026-09-30 P3 lifecycle exit — ApkImportActivity
 
 `ApkImportActivity` has crossed the P3 boundary and is now green. UI + navigation + user flow are reconstructed through the dependency boundary: input intent resolution, APK/APKS classification, single-APK metadata presentation via `PackageManager`, system-installer navigation, installer result state, launcher navigation, explicit backup/import boundary, menu routing, recreation, and `onNewIntent` handling. Full APKS extraction/install execution and backup integration remain P4/P5. Current Activity checkpoint: **49 green / 22 yellow / 0 red / 71**. No build/runtime verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — LabelEditActivity
+
+`LabelEditActivity` has crossed the P3 boundary. UI + navigation + interaction flow are reconstructed through the dependency boundary: create/edit state, name preview, color selection, app-selection entry, save/cancel/up result handling, delete confirmation/result handling, and recreation state. Label persistence and app inventory/selection semantics remain downstream. Current Activity checkpoint: **50 green / 21 yellow / 0 red / 71**. No build/runtime verification performed.
