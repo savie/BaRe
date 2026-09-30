@@ -1,11 +1,9 @@
 package com.bare.wifi;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bare.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public final class WifiActivity extends AppCompatActivity {
     private static final String PREFS = "wifi_p3";
@@ -32,46 +29,33 @@ public final class WifiActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.wifi_networks_backup);
         }
 
-        bindCard(R.id.wifi_card_system, R.string.wifi_on_device,
-                R.string.backup_to_local, R.string.manage, this::showBoundary);
-        bindCard(R.id.wifi_card_local, R.string.local_backups,
-                R.string.delete, R.string.restore, this::showBoundary);
-        bindCard(R.id.wifi_card_cloud, R.string.cloud_backups,
-                R.string.delete, R.string.restore, this::showBoundary);
+        bindCard(R.id.wifi_card_system, R.string.wifi_on_device);
+        bindCard(R.id.wifi_card_local, R.string.device_backups);
+        bindCard(R.id.wifi_card_cloud, R.string.cloud_backups);
 
         boolean notice = Build.VERSION.SDK_INT == 29
-                && !getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_ACK_Q, false);
+                && !getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getBoolean(KEY_ACK_Q, false);
         if (state != null) {
             notice = state.getBoolean(KEY_NOTICE, notice);
         }
+
         View noticeView = findViewById(R.id.notice_no_batch_restore_on_q);
         noticeView.setVisibility(notice ? View.VISIBLE : View.GONE);
         findViewById(R.id.btn_got_it).setOnClickListener(v -> {
-            getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_ACK_Q, true).apply();
+            getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                    .edit().putBoolean(KEY_ACK_Q, true).apply();
             noticeView.setVisibility(View.GONE);
         });
     }
 
-    private void bindCard(int id, int titleRes, int action1Res, int action2Res, View.OnClickListener boundary) {
+    private void bindCard(int id, int titleRes) {
         View card = findViewById(id);
-        ((TextView) card.findViewById(R.id.tv_card_title)).setText(titleRes);
+        ((android.widget.TextView) card.findViewById(R.id.tv_card_title)).setText(titleRes);
         RecyclerView list = card.findViewById(R.id.recycler_view);
         list.setAdapter(new EmptyAdapter());
-        card.findViewById(R.id.shortcuts_container).setVisibility(View.VISIBLE);
-        TextView b1 = (TextView) card.findViewById(R.id.btn_shortcut1);
-        TextView b2 = (TextView) card.findViewById(R.id.btn_shortcut2);
-        b1.setText(action1Res);
-        b2.setText(action2Res);
-        b1.setOnClickListener(boundary);
-        b2.setOnClickListener(boundary);
-    }
-
-    private void showBoundary(View v) {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.wifi_networks_backup)
-                .setMessage(R.string.p3_wifi_engine_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
+        card.findViewById(R.id.shortcuts_container).setVisibility(View.GONE);
+        card.findViewById(R.id.error_container_parent).setVisibility(View.GONE);
     }
 
     @Override
