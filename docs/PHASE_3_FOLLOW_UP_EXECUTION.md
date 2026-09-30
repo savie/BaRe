@@ -560,7 +560,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; **Step 3 Classification complete; **Step 4 Dependency Mapping complete**. Next: Step 5 Dependency Order before any work package or implementation.
+**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; Step 3 Classification complete; Step 4 Dependency Mapping complete; Step 5 Dependency Order complete; **Step 6 Work Package Formation complete**. Eight bounded work packages are formed from the 13 active normalized contracts. Next: Step 7 Scope Check before any implementation.
 
 **P4:** GATED / NOT STARTED.
 
