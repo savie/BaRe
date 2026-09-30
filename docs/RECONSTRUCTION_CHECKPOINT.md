@@ -2,417 +2,221 @@
 
 ## Purpose
 
-This document is the working checkpoint/dashboard for the reconstruction roadmap.
+This document is the reconstruction roadmap checkpoint.
 
-It answers three questions:
+It answers:
+
 1. What is structurally complete?
-2. What has actually been reconstructed/verified so far?
+2. What is the current phase status?
 3. What remains UNKNOWN, BLOCKED, or intentionally deferred?
 
-It does not replace the detailed evidence documents.
+The active P3 audit status is maintained in:
 
-## Source of truth
+`docs/PHASE_3_STATUS.md`
+
+The detailed audit ledger is:
+
+`docs/PHASE_3_CLOSURE_AUDIT.md`
+
+The high-level matrix is:
+
+`docs/PARITY_MATRIX.md`
+
+## Source Baseline
 
 - Reference: Swift Backup 5.1.0 (620)
 - Target: savie/BaRe
 - Branch: rewrite
-- Baseline: 42e4107e7289b4346cb030e5ad97472126440f23
-- Canonical component inventory: docs/PHASE_2_SKELETON.md
-- High-level parity dashboard: docs/PARITY_MATRIX.md
-- Phase 1 evidence: docs/PHASE_1_INVENTORY.md
-- Handoff / roadmap authority: docs/bare.md
+- Canonical P2 inventory: docs/PHASE_2_SKELETON.md
+- Reference baseline archive: supplied decompiled Swift Backup 5.1.0 (620)
 
-## Roadmap status
+## Roadmap Status
 
-| Phase | Scope | Current status | Meaning |
-|---|---|---|---|
-| 1 | Foundation | COMPLETE / FROZEN | Reference/project/resource/manifest inventory gate is closed. |
-| 2 | Reference Skeleton | COMPLETE / FROZEN | 71 Activities + 3 Services + 8 Receivers + 0 Reference-owned Providers are structurally registered/mapped. |
-| 3 | UI + Navigation | ACTIVE | Current primary workstream. Vertical reconstruction is being done Activity/surface by Activity/surface. |
-| 4 | Core Behavior | PARTIAL / DEPENDENCY-DRIVEN | Some Reference contracts/repositories have already been audited/reconstructed because P3 surfaces depend on them. This is not a Phase 4 completion claim. |
-| 5 | Features | NOT COMPLETE / DEFERRED | Full backup/restore and feature execution parity remains UNKNOWN. |
-| 6 | Authorized Deviations | BASELINE DEFINED; IMPLEMENTATION GATED | Branding/Premium/Supabase deviations are defined by handoff. Supabase implementation remains explicitly permission-gated. |
-| 7 | Runtime | BLOCKED / GATED | Build → APK → install → execute has not been authorized/executed. |
-| 8 | Parity | NOT YET EXECUTED | Visual/behavior/feature/runtime parity verification requires runtime evidence. |
-| 9 | Deviation Audit | NOT YET FINAL | Final MATCH / AUTHORIZED DEVIATION / UNKNOWN / UNAUTHORIZED DEVIATION / BLOCKED audit comes after parity evidence. |
+| Phase | Scope | Current status |
+|---|---|---|
+| 1 | Foundation | **COMPLETE / FROZEN** |
+| 2 | Reference Skeleton | **COMPLETE / FROZEN** |
+| 3 | UI + Navigation | **ACTIVE / TOTAL AUDIT** |
+| 4 | Core Behavior | **GATED / NOT STARTED** |
+| 5 | Features | **DEFERRED** |
+| 6 | Authorized Deviations | **DEFINED / GATED** |
+| 7 | Runtime | **BLOCKED / GATED** |
+| 8 | Parity | **NOT EXECUTED** |
+| 9 | Deviation Audit | **NOT FINAL** |
 
-## Phase 2: what the 71 / 3 / 8 actually mean
+## P2 Reference Skeleton
 
-These numbers are component counts, not feature-completion counts.
+P2 established and froze the Reference-owned structural skeleton:
 
-- 71 Activities — exact Reference-package Activities listed in docs/PHASE_2_SKELETON.md.
-- 3 Services — TaskService, ScheduleService, HeadlessSmsSendService.
-- 8 Receivers — AlarmReceiver, LocaleChangedReceiver, BootReceiver, NotificationTaskCancelReceiver, PackageInstallResultReceiver, ShortcutPinnedReceiver, SmsReceiver, MmsReceiver.
-- 0 Reference-owned Providers — Reference has 4 manifest providers, but they are dependency/library providers.
+- **71 Activities**
+- **3 Services**
+- **8 Receivers**
+- **0 Reference-owned Providers**
+
+These counts are component boundaries, not feature-completion counts.
+
+> **P2 = CLOSED / FROZEN.**
+
+The exact component inventory remains in docs/PHASE_2_SKELETON.md.
+
+## P3 Implementation Baseline
+
+After P2 freeze, P3 worked through the 71 / 3 / 8 skeleton:
+
+- Activity/UI/navigation/state reconstruction;
+- Services;
+- Receivers;
+- dependency boundaries required by the P3 surfaces.
+
+The previous P3 implementation pass was treated as completed, with the Activity surface previously classified as 71/71 green.
+
+That classification is now the **audit baseline**, not the final P3 closure verdict.
+
+## P3 TOTAL AUDIT — CURRENT AUTHORITY
+
+The P3 total audit has been reset to the original **15 domains**.
+
+All 15 domains intentionally start at:
+
+> **🟡 AUDIT REQUIRED**
+
+| # | Domain | Current state |
+|---:|---|---|
+| 1 | Resource | 🟡 |
+| 2 | Strings | 🟡 |
+| 3 | Dimensions | 🟡 |
+| 4 | Styles / Themes / Colors | 🟡 |
+| 5 | Manifest | 🟡 |
+| 6 | Intent | 🟡 |
+| 7 | Permissions | 🟡 |
+| 8 | Navigation | 🟡 |
+| 9 | Lifecycle / State | 🟡 |
+| 10 | Dialog / Error / Loading | 🟡 |
+| 11 | Branding | 🟡 |
+| 12 | Java-only | 🟡 |
+| 13 | Fake / Stub | 🟡 |
+| 14 | Boundary | 🟡 |
+| 15 | Static Hygiene | 🟡 |
+
+Yellow means **not yet re-audited in this total-audit cycle**. It does not mean a defect is already established.
+
+### Audit rule
+
+The audit determines whether each domain becomes:
+
+- 🟢 **CLOSED / PASS**
+- 🟡 **OPEN / UNKNOWN / NEEDS FOLLOW-UP**
+- 🔴 **FAIL / DEFECT**
+
+No implementation change is part of the audit pass.
+
+## Current P3 Work Order
+
+**TOTAL AUDIT ONLY.**
+
+Next:
+
+> **Audit #1 — Resource**
+
+Then proceed sequentially through #15.
+
+Do not create Resource or Style/Theme/Color implementation breakdowns until the 15-domain audit establishes the actual remaining work.
+
+Do not reopen all 71 Activities from scratch unless audit evidence requires a targeted revisit.
+
+## Historical P3 Work
+
+The repository contains detailed historical P3 reconstruction entries and lifecycle exits, including Activity-specific evidence and dependency-driven P4 contracts.
+
+Those entries remain valuable evidence/history.
+
+They do **not** override the current 15-domain audit matrix.
+
+Likewise, historical counts such as 48/23, 52/19, 60/11, or 71/0 are historical checkpoints. The current audit baseline is intentionally independent of those intermediate signals.
+
+## P4 Dependency Work
+
+Some P4/core contracts were reconstructed earlier because P3 surfaces depended on them.
+
+This does not mean P4 implementation is started as a phase.
+
+The current phase gate remains:
+
+> **P4 = GATED / NOT STARTED**
+
+Downstream engine/provider/backend/feature execution remains outside the P3 total audit.
+
+## P5 Status
+
+Full feature execution remains deferred, including:
+
+- full backup engines;
+- full restore engines;
+- provider execution;
+- complete feature-side effects;
+- complete runtime data/state parity.
+
+A P3 surface reaching a dependency boundary is not proof that the downstream feature is complete.
+
+## P6 Authorized Deviations
+
+The handoff defines authorized project deviations including:
+
+- BΛR☰ / BaRe branding;
+- replacement of Swift-specific external identity where required;
+- Premium free/granted;
+- Supabase replacing Firebase where backend functionality is required.
+
+Authorized deviation definition is not the same as implementation completion.
+
+## Runtime / Parity Boundary
+
+Build/install/runtime/visual verification has not been authorized.
 
 Therefore:
 
-> Phase 2 = all Reference component boundaries exist.
->
-> Phase 2 ≠ all 71 Activities are finished.
-
-The exact 71 Activity inventory is intentionally kept in docs/PHASE_2_SKELETON.md so the number can always be traced to a concrete component name.
-
-## Current vertical reconstruction checkpoint
-
-The following Activity/surface batches are explicitly documented as reconstructed or deepened in P3:
-
-### Recent vertical sweep
-
-- AppBackupLimitsActivity
-- RestoreSpecialDataDetailsActivity
-- MultipleBackupsActivity
-- ComposeSmsActivity
-- MessagesBackupsActivity
-- CallsBackupsActivity
-- PCloudSignInActivity
-
-These are P3 reconstruction checkpoints, not claims of full feature parity. Where Reference behavior depends on P4/P5 engines, those dependencies remain explicit boundaries.
-
-### Earlier documented P3 batches
-
-The repository history/docs also record P3 work for:
-
-- Home navigation / Home fragments
-- Account profile-card hierarchy
-- Settings shell / Settings Detail
-- Apps-list UI and navigation
-- Apps-item interaction boundaries
-- Apps Quick Actions
-- Apps Batch
-- SwiftLogger
-- Config List / Config Settings / Config Run
-- Licenses
-- Cloud Connect provider routing
-- MEGA / Dropbox / pCloud authentication boundaries
-- Shortcuts
-- Cloud Diagnostics
-- Cloud Orphan Cleaner
-
-For these surfaces, the exact claim varies by batch. docs/PARITY_MATRIX.md and the corresponding reconstruction-status entries remain authoritative for the detailed status.
-
-## P4 work that happened early
-
-Some P4/core-behavior contracts have already been reconstructed ahead of a complete P3 sweep.
-
-Examples documented in docs/RECONSTRUCTION_STATUS.md include:
-
-- CloudAppRepository
-- CloudFolderRepository
-- backup count writers
-- billing catalog / SKU contracts
-- premium transaction model/repository
-- account migration repository/policy
-- cloud file deletion repository
-- user-info repository
-- messages/call capability/policy contracts
-
-This is intentional dependency-driven work, not a phase-order violation.
-
-The practical rule is:
-
-> If P3 needs a verified P4 contract to avoid inventing behavior, reconstruct the minimum P4 contract needed, record it, then return to the active P3 vertical sweep.
-
-Do not interpret an existing P4 contract as proof that the corresponding feature is complete.
-
-## P5 status
-
-Full feature execution is still not complete.
-
-The following remain outside the current P3 completion claim:
-
-- full backup engines
-- full restore engines
-- provider execution
-- complete app/message/call/folder backup/restore flows
-- complete feature-side effects
-- complete runtime data/state parity
-
-A P3 screen reaching a boundary does not promote its underlying P5 feature to MATCH.
-
-## P6 status
-
-The handoff defines these Authorized Deviations:
-
-- BΛR☰ / BaRe branding
-- Swift-specific external identity replacement where required
-- Premium is free/granted
-- Supabase replaces Firebase where backend functionality is required
-
-Important:
-
-- Authorized deviation definition is not the same as implementation.
-- Supabase implementation is explicitly WAITING FOR EXPLICIT USER PERMISSION.
-- Unknown Supabase schema/config/RLS/etc. must remain UNKNOWN until actual evidence is available.
-
-## P7 / P8 / P9 gate
-
-No runtime parity claim has been made.
-
-Until execution is authorized:
-
-- no APK build claim
-- no install claim
-- no runtime behavior claim
-- no visual screenshot parity claim
-- no end-to-end feature parity claim
-
-Therefore P8 and the final P9 deviation audit remain downstream gates.
-
-## P3 working queue
-
-The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
-
-Latest complete 71-Activity P3 depth audit: current `rewrite` head:
-- 🟢 Green: **58**
-- 🟡 Yellow: **13**
-- 🔴 Red: **0**
-- **71/71 classified**
-- The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
-
-Do not use the 71/71 structural count as a completion metric; the depth classification is the current P3 work signal.
-
-## Documentation authority
-
-The role of every document under `docs/` is defined in `docs/DOCS_INDEX.md`.
-
-For daily execution, read this checkpoint first, then `docs/PHASE_3_STATUS.md`, then `docs/RECONSTRUCTION_STATUS.md` for evidence.
-
-## Working order from this checkpoint
-
-1. Keep the Phase 2 inventory frozen.
-2. Continue the P3 vertical sweep Activity/surface by Activity/surface.
-3. When a P3 surface depends on a missing verified core contract, reconstruct only the necessary P4 contract.
-4. Do not jump into full P5 execution unless the relevant P4 contract and P3 surface are ready.
-5. Keep P6 deviations isolated and explicit.
-6. When P3/P4/P5 are sufficiently reconstructed and execution is authorized, enter P7.
-7. Use runtime evidence for P8 parity.
-8. Perform P9 deviation audit last.
-
-## Urgency interpretation
-
-### Highest urgency now
-
-P3 vertical coverage and dependency closure.
-
-The immediate question for each next Activity is:
-
-- Does its Reference UI/layout/menu/navigation exist?
-- Does its required P4 contract exist?
-- Is the Activity only a boundary, or does Reference contain real behavior that must be reconstructed?
-- Are we accidentally claiming P5 behavior from a P3 screen?
-
-### Medium urgency
-
-P4 contract gaps exposed by P3.
-
-Only reconstruct the minimum verified contract required by the current vertical slice.
-
-### Later urgency
-
-P5 full feature execution, then runtime/parity.
-
-Do not use the existence of a Java skeleton or P3 screen as evidence that the underlying feature is complete.
-
-## Final mental model
-
-Think of the project as two different dimensions:
-
-Horizontal phase gates:
-P1 → P2 → P3 → P4 → P5 → P6 → P7 → P8 → P9
-
-Vertical feature slices:
-Activity → layout → navigation → state → contract → engine → runtime parity
-
-The project is currently:
-
-> P1 frozen + P2 frozen + P3 active, with selected P4 contracts reconstructed as dependencies.
-
-That is the intended interpretation of the current checkpoint.
-
-
-
-## Lifecycle interpretation update — 71 / 3 / 8
-
-The current P3 gate is now interpreted as a **phase-boundary audit**, not a requirement to force every component into green.
-
-- **71 Activities:** **50 are at the current P3 boundary (green); 21 remain yellow** with evidence-supported P3 depth work or need an explicit dependency decision.
-- **3 Services:** all structural boundaries exist. TaskService and ScheduleService have substantial Reference execution contracts and therefore move their remaining behavior to P4/P5; HeadlessSmsSendService is already minimal in the Reference and has reached its meaningful P3 boundary.
-- **8 Receivers:** all structural boundaries exist. Remaining side effects are phase-owned by P4/P5; MmsReceiver additionally needs its Reference inheritance boundary (SmsReceiver) corrected before execution work.
-- **P7/P8/P9 remain downstream gates** and are not part of this audit.
-
-The next P3 action is therefore to continue only the **21 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
-
-
-## 2026-09-30 P3 batch checkpoint — APK import + label editor
-
-Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next focused batch deepened `ApkImportActivity` and `LabelEditActivity` against the supplied Swift Backup 5.1.0 (620) Reference.
-
-- `ApkImportActivity` crossed the P3 boundary and is now 🟢; archive extraction, full APKS install/session execution, and backup integration remain downstream.
-- `LabelEditActivity` crossed the P3 boundary and is now 🟢; label persistence and app inventory/selection remain downstream.
-- The historical pre-exit signal was **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**; the current signal is **52 🟢 / 19 🟡 / 0 🔴 / 71 Activities**.
-- Structural check: **71 Activities / 0 duplicate registrations**.
-- Build/runtime/visual verification remains gated and was not performed.
-
-
-## 2026-09-30 P3 lifecycle exit — ApkImportActivity
-
-`ApkImportActivity` has crossed the P3 boundary and is now green. UI + navigation + user flow are reconstructed through the dependency boundary: input intent resolution, APK/APKS classification, single-APK metadata presentation via `PackageManager`, system-installer navigation, installer result state, launcher navigation, explicit backup/import boundary, menu routing, recreation, and `onNewIntent` handling. Full APKS extraction/install execution and backup integration remain P4/P5. Current Activity checkpoint: **49 green / 22 yellow / 0 red / 71**. No build/runtime verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — LabelEditActivity
-
-`LabelEditActivity` has crossed the P3 boundary. UI + navigation + interaction flow are reconstructed through the dependency boundary: create/edit state, name preview, color selection, app-selection entry, save/cancel/up result handling, delete confirmation/result handling, and recreation state. Label persistence and app inventory/selection semantics remain downstream. Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — LabelsActivity
-
-`LabelsActivity` crossed the P3 boundary after direct comparison with the supplied Swift Backup 5.1.0 Reference. Manage/set-app/select modes, mode-specific menus, create/edit/delete-all, selection/app-label state, clear/apply result boundaries, empty state, recreation state, and `LabelEditActivity` result propagation are reconstructed. Label persistence, app inventory/parcel rendering, and assignment/storage semantics remain downstream.
-
-Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — BoxSignInActivity
-
-`BoxSignInActivity` crossed the P3 boundary at the verified external-auth contract: browser/redirect-handler checks, Box OAuth navigation, and explicit failure states are reconstructed. Token exchange and SDK/ViewModel result semantics remain downstream.
-
-Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — OneDriveSignInActivity
-
-`OneDriveSignInActivity` crossed the P3 boundary at the evidence-supported external-auth contract.
-
-- Reference initializes the OneDrive/MSAL client, observes auth/error state, and starts Microsoft sign-in with Graph `User.Read` and `Files.ReadWrite` scopes.
-- BaRe reconstructs the provider surface, Microsoft sign-in handoff, ready/started/error states, browser availability handling, and recreation state.
-- MSAL client setup, callback/result processing, token acquisition/silent refresh, and provider persistence remain downstream P4/provider behavior.
-- No build/runtime/visual verification was performed.
-
-Current Activity checkpoint: **53 green / 18 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — TeraBoxSignInActivity
-
-`TeraBoxSignInActivity` crossed the P3 boundary at the evidence-supported external-auth contract.
-
-- Reference credential check, browser probe, redirect-handler probe, TeraBox authorization URL, redirect parsing, and auth/error lifecycle were audited directly.
-- The supplied Reference build has empty TeraBox API credentials, so the initial credential-missing state is preserved rather than inventing credentials.
-- BaRe reconstructs the redirect contract `org.swiftapps.swiftbackup.terabox://teraboxOauth`, authorization-code receipt boundary, error/pending states, and recreation lifecycle.
-- Token exchange, provider credential persistence, and cloud-service identity remain downstream provider behavior.
-- No build/runtime/visual verification was performed.
-
-Current Activity checkpoint: **54 green / 17 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — YandexSignInActivity
-
-`YandexSignInActivity` crossed the P3 boundary through the Reference inherited `fq5` OAuth lifecycle.
-
-- Browser and Yandex redirect-handler probes, authorization contract, request-code result handling, redirect URI/code validation, failure boundary, and recreation state are reconstructed.
-- Reference AppAuth token exchange and provider credential persistence remain downstream.
-- Reference redirect contract: `org.swiftapps.swiftbackup.yandex://oauth`; manifest remains non-exported/singleTop.
-- Current Activity checkpoint: **55 green / 16 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — ContributorRegActivity
-
-`ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference. BaRe reconstructs the Reference-shaped contributor registration UI, editable contributor contact fields, Save Details interaction boundary, and recreation state. Remote contributor status/details, ViewModel/coroutine persistence, and registration backend behavior remain downstream; no remote identity or status is fabricated.
-
-Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — FolderPickerActivity
-
-`FolderPickerActivity` is now 🟢 at the evidence-supported P3 boundary. The Reference `extra_initial_folder` and `extra_selected_folder` contracts are preserved with a BaRe `q63` compatibility value object; the picker reconstructs breadcrumb navigation, directory listing, empty/loading states, Select Folder, New Folder input/counter boundary, storage-switch menu, up/cancel flow, and recreation state. Filesystem mutation/permission/provider semantics remain downstream. No build/runtime/visual verification performed.
-
-Current P3 Activity checkpoint: **57 green / 14 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — FoldersBatchActivity
-
-`FoldersBatchActivity` is now 🟢 at the evidence-supported P3 batch folder boundary. The Reference action contract, selection/select-all flow, toolbar/menu routes, action FAB, empty/loading surface, recreation state, and `FolderEditActivity` result flow using request code `4988` are reconstructed. Backup/restore/delete/copy execution and the Reference `qo3` folder inventory remain downstream; no engine state is fabricated.
-
-Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — ScheduleLabelsSelectActivity
-
-`ScheduleLabelsSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped selected/user-created/built-in/already-used label surfaces, selected-label input/result contracts, clear-selection interaction, create-label route to `LabelEditActivity` request `264`, and recreation state. Persistent label catalog/assignment and schedule mutation remain downstream.
-
-Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — ScheduleFolderSelectActivity
-
-`ScheduleFolderSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped folder selector, empty/list surface, Save action, select-all menu, Reference input keys, explicit `EXTRA_RESULT` result boundary, and recreation state. Folder inventory/FolderItem data and schedule persistence remain downstream.
-
-Current P3 Activity checkpoint: **60 green / 11 yellow / 0 red / 71**.
-
-
-## 2026-09-30 P3 lifecycle exit — CallsBackupRestoreActivity
-
-- `CallsBackupRestoreActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
-- Reconstructed the Reference restore-mode input (`EXTRA_BACKUP_FILE_PATH`), mode-dependent action surface, RecyclerView + SwipeRefreshLayout, select-all menu contract, call-log permission flow, empty/selection state, and primary action boundary.
-- Backup inventory, concrete call-log adapter/data contract, restore strategy, and backup/restore execution remain downstream and are not fabricated.
-- Current Activity depth: **61 green / 10 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — MessagesBackupRestoreActivity
-
-- `MessagesBackupRestoreActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
-- Reconstructed the Reference restore-mode input, mode-dependent action surface, list/refresh surface, select-all contract, default-SMS-app RoleManager/legacy flow, result/rationale/warning handling, and primary action boundary.
-- Message inventory, concrete adapter data, default-SMS persistence, restore strategy, and backup/restore execution remain downstream.
-- Current Activity depth: **62 green / 9 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 closure checkpoint
-
-Starting from checkpoint `925d2d6355a0381637bc03b3214359edd60ad9f5`, the P3 Closure Audit was completed without build/install/runtime execution.
-
-Final P3 state:
-- **71/71 Activities 🟢**
-- **0 Yellow**
-- **0 Red**
-- Intent/navigation matrix: **PASS**
-- Lifecycle/state matrix: **PASS**
-- Fake/stub/P3-boundary classification: **PASS / P4 DEFERRED**
-- Branding/Swift-identity scan: **PASS + AUTHORIZED DEVIATION**
-- Static resource-reference integrity: **PASS** for audited P3 surface
-- Resource/dimension parity: **UNKNOWN** (explicit full-matrix evidence gap)
-- String parity: **UNKNOWN** (explicit full-matrix evidence gap)
-- Style/theme/color parity: **UNKNOWN** (explicit full-matrix evidence gap)
-
-P3 is **FROZEN**. The UNKNOWN rows are not represented as MATCH and remain evidence gaps for later parity verification.
-
-Closure corrections included Reference-aligned Activity manifest contracts, visible Swift/Firebase wording cleanup, and restoration of missing Reference drawables used by audited P3 surfaces.
-
-No engine/provider/backend/runtime success is claimed. No build, install, runtime, or visual verification was performed.
-
-
-## 2026-09-30 P3 closure reconciliation
-
-Current branch baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`.
-
-- 71/71 Activities remain GREEN for P3 regression protection.
-- Total P3 closure is **OPEN**.
-- Three P3 parity gates remain UNKNOWN and require complete audit: resource/dimension parity, string parity, and style/theme/color parity.
-- The other five closure gates remain classified from the prior audit and are not being reopened without new evidence.
-- Phase 4 is **prepared but not started**; P4 implementation remains gated until total P3 closure.
-- Build, install, runtime, and visual verification remain unauthorized.
-
-
-## 2026-09-30 String parity closure
-
-String parity gate: **PASS (P3-visible surface)**.
-
-- Reference baseline: 1,384 entries in merged `values/strings.xml`.
-- BaRe current resource set: 523 entries in `values/strings.xml` plus 6 app-item entries.
-- P3-visible strings were mechanically inventoried against the supplied Reference baseline.
-- Concrete Reference wording mismatches found in the active P3 surface were corrected in `app/src/main/res/values/strings.xml`.
-- Visible BΛR☰ branding and backend-neutral P3 boundary wording remain classified as authorized/project-boundary deviations where applicable.
-- Reference-only strings belonging to downstream features are not treated as P3 string defects.
-
-Remaining P3 parity gates: resource/dimension and style/theme/color.
+- no APK build claim;
+- no install claim;
+- no runtime behavior claim;
+- no screenshot/visual parity claim;
+- no end-to-end feature parity claim.
+
+P7/P8/P9 remain downstream gates.
+
+## Documentation Authority
+
+| Document | Role |
+|---|---|
+| docs/PHASE_3_STATUS.md | **Current P3 operational authority** |
+| docs/PHASE_3_CLOSURE_AUDIT.md | **P3 audit evidence ledger** |
+| docs/PARITY_MATRIX.md | **High-level parity map** |
+| docs/RECONSTRUCTION_CHECKPOINT.md | **Roadmap/checkpoint dashboard** |
+| docs/PHASE_2_SKELETON.md | **Frozen P2 component inventory** |
+
+No historical checkpoint should be interpreted as a competing current P3 status.
+
+## Final Mental Model
+
+```
+P1
+ ↓
+P2 — Reference Skeleton
+ ├─ 71 Activities
+ ├─ 3 Services
+ ├─ 8 Receivers
+ └─ 0 Reference-owned Providers
+ ↓
+CLOSED / FROZEN
+ ↓
+P3 — implementation pass
+ ↓
+P3 TOTAL AUDIT — 15 domains
+ ↓
+only after audit: targeted fixes / breakdown
+ ↓
+P4
+```
+
+**Current project position:**
+
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT in progress + P4 gated.**
