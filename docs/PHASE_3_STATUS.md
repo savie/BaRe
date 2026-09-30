@@ -347,3 +347,19 @@ The current P3 decision is therefore:
 > **Work the yellow Activities until their Reference UI + navigation + interaction flow is complete through the engine/dependency boundary. Then promote them to 🟢 and freeze P3 for that surface. Only the actual engine/provider/backend/side-effect work moves to P4/P5/P6.**
 
 This keeps P3 from absorbing backup/restore engines, service execution, provider side effects, backend implementation, or other P4/P5/P6 work merely to improve a depth label.
+
+
+## 2026-09-30 P3 batch — APK import + label editor
+
+Checkpoint-aligned continuation from 69324f8b3fa1ebf5901c644fcf9f87e8424b65fd:
+
+- `ApkImportActivity` remains 🟡. Compared with Reference, the BaRe boundary now preserves input URI/type state across recreation and accepts the Reference `ACTION_VIEW` / `EXTRA_STREAM` input contract without fabricating parsed APK metadata. Archive parsing, package metadata extraction, installer fallback, and import execution remain downstream.
+- `LabelEditActivity` remains 🟡. Compared with Reference, the editor now exposes interactive label-name preview, color-selection UI, app-selection boundary, save/cancel/delete result boundaries, edit-vs-create menu visibility, and recreation state. Actual label persistence and app inventory/selection remain downstream because their data contracts are not reconstructed here.
+- No Activity was promoted in this batch; the checkpoint P3 signal therefore remains **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**.
+- No build, install, runtime, or visual verification was performed.
+
+### Batch verification
+
+- Manifest Activity count: **71**
+- Duplicate Activity registrations: **0**
+- Reference Activity inventory remains frozen at **71/71**.
