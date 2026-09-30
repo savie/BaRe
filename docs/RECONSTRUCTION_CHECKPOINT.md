@@ -348,3 +348,12 @@ Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
 `ScheduleFolderSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped folder selector, empty/list surface, Save action, select-all menu, Reference input keys, explicit `EXTRA_RESULT` result boundary, and recreation state. Folder inventory/FolderItem data and schedule persistence remain downstream.
 
 Current P3 Activity checkpoint: **60 green / 11 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — CallsBackupRestoreActivity
+
+- `CallsBackupRestoreActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
+- Reconstructed the Reference restore-mode input (`EXTRA_BACKUP_FILE_PATH`), mode-dependent action surface, RecyclerView + SwipeRefreshLayout, select-all menu contract, call-log permission flow, empty/selection state, and primary action boundary.
+- Backup inventory, concrete call-log adapter/data contract, restore strategy, and backup/restore execution remain downstream and are not fabricated.
+- Current Activity depth: **61 green / 10 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
