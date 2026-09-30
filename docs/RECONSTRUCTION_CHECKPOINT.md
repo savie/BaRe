@@ -333,4 +333,11 @@ Current P3 Activity checkpoint: **57 green / 14 yellow / 0 red / 71**.
 
 `FoldersBatchActivity` is now 🟢 at the evidence-supported P3 batch folder boundary. The Reference action contract, selection/select-all flow, toolbar/menu routes, action FAB, empty/loading surface, recreation state, and `FolderEditActivity` result flow using request code `4988` are reconstructed. Backup/restore/delete/copy execution and the Reference `qo3` folder inventory remain downstream; no engine state is fabricated.
 
-Current P3 Activity checkpoint: **58 green / 13 yellow / 0 red / 71**.
+Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleLabelsSelectActivity
+
+`ScheduleLabelsSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped selected/user-created/built-in/already-used label surfaces, selected-label input/result contracts, clear-selection interaction, create-label route to `LabelEditActivity` request `264`, and recreation state. Persistent label catalog/assignment and schedule mutation remain downstream.
+
+Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
