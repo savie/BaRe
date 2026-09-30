@@ -3,7 +3,6 @@ package com.bare.settings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -66,6 +65,18 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
         datedCount = datedCard.findViewById(R.id.tv_num_of_backups);
         conditionalCount = conditionalCard.findViewById(R.id.tv_num_of_backups);
         conditionGroup = conditionalCard.findViewById(R.id.rg_conditions);
+
+        bindCardText(singleCard, R.string.multiple_backups_strategy_single_title,
+                R.string.multiple_backups_strategy_single_description);
+        bindCardText(datedCard, R.string.multiple_backups_strategy_dated_title,
+                R.string.multiple_backups_strategy_dated_description);
+        bindCardText(conditionalCard, R.string.multiple_backups_strategy_conditional_title,
+                R.string.multiple_backups_strategy_conditional_description);
+    }
+
+    private void bindCardText(View card, int titleRes, int subtitleRes) {
+        ((TextView) card.findViewById(R.id.tv_title)).setText(titleRes);
+        ((TextView) card.findViewById(R.id.tv_subtitle)).setText(subtitleRes);
     }
 
     private void bindInteractions() {
