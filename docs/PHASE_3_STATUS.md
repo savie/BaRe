@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 41
+### 🟢 Green — 40
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -67,7 +67,6 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 32. `StorageSwitchActivity`
 33. `TaskActivity`
 34. `UserPasswordActivity`
-35. `FolderEditActivity`
 36. `ConversationsActivity`
 37. `ComposeSmsActivity`
 38. `CallsBackupsActivity`
@@ -77,7 +76,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 boundary reached.** It does not claim runtime verification or P4/P5 feature execution. The remaining gap is owned by the later phase where applicable.
 
-### 🟡 Yellow — 30
+### 🟡 Yellow — 31
 
 1. `ApkImportActivity`
 2. `AppInfoActivity`
@@ -93,22 +92,23 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 12. `ContributorRegActivity`
 13. `DetailActivity`
 14. `FolderDetailActivity`
-15. `FolderPickerActivity`
-16. `FoldersBatchActivity`
-17. `ScheduleLabelsSelectActivity`
-18. `ScheduleFolderSelectActivity`
-19. `CallsBackupRestoreActivity`
-20. `MessagesBackupRestoreActivity`
-21. `ChatActivity`
-22. `CallsDashActivity`
-23. `MessagesDashActivity`
-24. `PremiumActivity`
-25. `AppVisibilityDiagnosticsActivity`
-26. `WallsDashActivity`
-27. `WallApplyActivity`
-28. `WallsManageActivity`
-29. `WifiActivity`
-30. `LocaleActivity`
+15. `FolderEditActivity`
+16. `FolderPickerActivity`
+17. `FoldersBatchActivity`
+18. `ScheduleLabelsSelectActivity`
+19. `ScheduleFolderSelectActivity`
+20. `CallsBackupRestoreActivity`
+21. `MessagesBackupRestoreActivity`
+22. `ChatActivity`
+23. `CallsDashActivity`
+24. `MessagesDashActivity`
+25. `PremiumActivity`
+26. `AppVisibilityDiagnosticsActivity`
+27. `WallsDashActivity`
+28. `WallApplyActivity`
+29. `WallsManageActivity`
+30. `WifiActivity`
+31. `LocaleActivity`
 
 **Yellow = evidence-supported P3 reconstruction is still incomplete.** Execution-only gaps must not be used to keep an otherwise complete P3 surface yellow.
 
