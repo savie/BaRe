@@ -2,97 +2,120 @@
 
 ## Purpose
 
-This document is the **high-level parity matrix**.
+This document is the **high-level parity map**.
 
-It is not the active work queue and it is not a second Phase 3 status document.
+It is not the active P3 work queue and it is not a second status document.
 
-For the current P3 work order, use:
-docs/PHASE_3_STATUS.md
+For the active P3 audit, use:
 
-For closure evidence/history, use:
-docs/PHASE_3_CLOSURE_AUDIT.md
+`docs/PHASE_3_STATUS.md`
+
+For audit evidence/history, use:
+
+`docs/PHASE_3_CLOSURE_AUDIT.md`
 
 ## Classification
 
-- **MATCH** — equivalent to Reference based on available evidence.
-- **AUTHORIZED DEVIATION** — difference explicitly allowed by the project handoff.
-- **UNKNOWN** — evidence is insufficient for closure.
-- **BLOCKED** — verification cannot proceed because the required execution evidence is not authorized/available.
-- **OPEN** — work is explicitly still being audited in the current phase.
+- **🟢 CLOSED / PASS** — evidence supports closure for the defined scope.
+- **🟡 OPEN / UNKNOWN** — evidence is incomplete, contradictory, or still being audited.
+- **🔴 FAIL / DEFECT** — concrete defect is established.
+- **AUTHORIZED DEVIATION** — an intentional project deviation is explicitly allowed.
+- **BLOCKED** — required verification cannot currently be performed because its execution evidence is unavailable or unauthorized.
 
-No UNKNOWN, BLOCKED, or OPEN row may be promoted to MATCH without evidence.
+The current P3 total-audit baseline intentionally starts all 15 P3 domains at **🟡**.
 
 ## Phase Gate Summary
 
 | Phase | Status | Meaning |
 |---|---|---|
-| P1 Foundation | **COMPLETE / FROZEN** | Reference inventory/evidence gate is closed. |
-| P2 Reference Skeleton | **COMPLETE / FROZEN** | Reference-owned structural component coverage is closed. |
-| P3 UI + Navigation | **ACTIVE** | 71 Activities are green; remaining static parity queue is open. |
-| P4 Core Behavior | **GATED / NOT STARTED** | Downstream engine/provider/core behavior is not being implemented as part of this P3 queue. |
-| P5 Features | **DEFERRED** | Full backup/restore/feature execution remains outside current P3 closure. |
-| P6 Authorized Deviations | **DEFINED / GATED** | Branding/Premium/Supabase rules exist; implementation remains separately gated. |
+| P1 Foundation | **COMPLETE / FROZEN** | Reference inventory/evidence foundation is established. |
+| P2 Reference Skeleton | **COMPLETE / FROZEN** | Reference-owned structural skeleton is established: 71 Activities, 3 Services, 8 Receivers, 0 Reference-owned Providers. |
+| P3 UI + Navigation | **ACTIVE / TOTAL AUDIT** | P3 implementation pass is the audit baseline; 15-domain total audit is now in progress. |
+| P4 Core Behavior | **GATED / NOT STARTED** | Downstream engine/provider/core behavior is not being implemented during this audit. |
+| P5 Features | **DEFERRED** | Full backup/restore/feature execution remains outside the current P3 audit. |
+| P6 Authorized Deviations | **DEFINED / GATED** | Authorized deviation rules remain separately controlled. |
 | P7 Runtime | **BLOCKED / GATED** | Build/install/execute has not been authorized. |
-| P8 Parity | **NOT EXECUTED** | Runtime evidence is required later. |
+| P8 Parity | **NOT EXECUTED** | Runtime evidence is reserved for the later runtime phase. |
 | P9 Deviation Audit | **NOT FINAL** | Final deviation classification follows later parity evidence. |
 
-## Current High-Level Matrix
+## P3 Total Audit Matrix
 
-| Area | Reference baseline | BaRe / BΛR☰ current state | Classification |
-|---|---|---|---|
-| Product identity | Swift Backup 5.1.0 (620) | BΛR☰ / BaRe | **AUTHORIZED DEVIATION** |
-| Repository branch | Reference baseline | rewrite | **AUTHORIZED CONFIGURATION** |
-| Implementation language | Java | Java | **MATCH** |
-| UI technology | Android Views/XML | Android Views/XML | **MATCH** |
-| Kotlin source | Not permitted by handoff | None | **MATCH** |
-| Compose | Not permitted by handoff | Disabled / not used for UI | **MATCH** |
-| Application namespace | Reference identity | com.bare | **AUTHORIZED DEVIATION** |
-| Application ID | Reference identity | com.bare | **AUTHORIZED DEVIATION** |
-| Branding | Swift Backup | BΛR☰ / BaRe | **AUTHORIZED DEVIATION** |
-| Navigation | Reference navigation | 71 Activity P3 surface reconstructed; detailed runtime behavior remains downstream | **UNKNOWN** |
-| Resources | Reference resources | Dimension subgate and audited active P3 resource contracts closed; remaining queue open | **OPEN** |
-| Strings | Reference strings | P3-visible surface audited; downstream Reference-only strings remain outside this P3 surface | **MATCH for P3-visible surface** |
-| Style / Theme / Color | Reference style/color system | Full static matrix not yet closed | **OPEN** |
-| Premium | Reference behavior | P3 surface exists; entitlement/billing remains downstream | **UNKNOWN** |
-| Backend | Reference behavior | Supabase target designated; backend execution not part of P3 | **UNKNOWN** |
-| Database | Reference behavior | Not reconstructed as a completed downstream system | **UNKNOWN** |
-| Backup / Restore | Reference behavior | Execution remains downstream | **UNKNOWN** |
-| Runtime behavior | Reference runtime | Not runtime-verified | **BLOCKED** |
-| Visual parity | Reference UI | No runtime visual comparison performed | **BLOCKED** |
+| # | Domain | Current classification |
+|---:|---|---|
+| 1 | Resource | 🟡 AUDIT REQUIRED |
+| 2 | Strings | 🟡 AUDIT REQUIRED |
+| 3 | Dimensions | 🟡 AUDIT REQUIRED |
+| 4 | Styles / Themes / Colors | 🟡 AUDIT REQUIRED |
+| 5 | Manifest | 🟡 AUDIT REQUIRED |
+| 6 | Intent | 🟡 AUDIT REQUIRED |
+| 7 | Permissions | 🟡 AUDIT REQUIRED |
+| 8 | Navigation | 🟡 AUDIT REQUIRED |
+| 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
+| 10 | Dialog / Error / Loading | 🟡 AUDIT REQUIRED |
+| 11 | Branding | 🟡 AUDIT REQUIRED |
+| 12 | Java-only | 🟡 AUDIT REQUIRED |
+| 13 | Fake / Stub | 🟡 AUDIT REQUIRED |
+| 14 | Boundary | 🟡 AUDIT REQUIRED |
+| 15 | Static Hygiene | 🟡 AUDIT REQUIRED |
 
-## P3 Closure Matrix
+This table is intentionally neutral. It does not claim that every domain contains a defect.
 
-| P3 gate | Current classification |
-|---|---|
-| 71-Activity intent/navigation | **PASS — static** |
-| 71-Activity lifecycle/state | **PASS — static** |
-| Resource / Dimension | **OPEN** |
-| String parity | **PASS — P3-visible surface** |
-| Style / Theme / Color | **OPEN** |
-| Fake / Stub / P3 boundary | **PASS / P4 DEFERRED** |
-| Branding / Swift identity | **PASS + AUTHORIZED DEVIATION** |
-| Static resource-reference integrity | **PASS — audited P3 surface** |
+## P2 → P3 Boundary
 
-## Current P3 Work Order
+P2 answered:
 
-The exact work order is maintained only in docs/PHASE_3_STATUS.md.
+> **What Reference-owned structural components exist?**
 
-Current sequence:
+Baseline:
 
-**Dimension → Layout → Menu → Drawable / Vector → XML → Animation → Animator → Raw / Font → Resource Qualifier → Resource Reference Cross-check → Color → Color State / Selector → Theme → Theme Parent / Inheritance → Style → Widget / Component Style → Night / Day Style-Color → Style / Theme Reference Cross-check → Final Visual Contract Audit**
+- 71 Activities
+- 3 Services
+- 8 Receivers
+- 0 Reference-owned Providers
 
-The sequence remains inside P3. Completion of one item does not authorize Phase 4.
+P2 is **CLOSED / FROZEN**.
+
+P3 answered:
+
+> **Can the identified skeleton be worked through as the UI/navigation/state/dependency-boundary reconstruction?**
+
+The prior implementation pass is treated as the **P3 implementation baseline**.
+
+The current question is now:
+
+> **Does the completed P3 implementation actually satisfy all 15 audit domains?**
+
+That is what the total audit determines.
+
+## Important Status Rule
+
+Do not carry forward older statements such as:
+
+- “three gates remain”;
+- “two areas remain”;
+- “Resource + Style/Theme/Color are the only remaining work”;
+- “P3 is closed because 71/71 Activities are green.”
+
+Those statements may remain as historical context where needed, but they are **not the current P3 verdict**.
+
+The current authoritative state is:
+
+> **P3 TOTAL AUDIT — 15/15 YELLOW**
+
+Only the audit can move a domain to 🟢 or 🔴.
 
 ## Runtime / Execution Boundary
 
-No P3 documentation in this matrix should be interpreted as proof of:
+Nothing in this matrix proves:
+
 - successful backup;
 - successful restore;
 - successful provider operation;
 - successful cloud authentication;
 - successful persistence;
 - successful billing;
-- successful backend execution.
+- successful backend execution;
+- runtime visual parity.
 
 Build/install/runtime/visual verification remains gated until explicitly authorized.
 
@@ -100,7 +123,8 @@ Build/install/runtime/visual verification remains gated until explicitly authori
 
 | Document | Role |
 |---|---|
-| docs/PHASE_3_STATUS.md | **Operational source / single work queue** |
-| docs/PHASE_3_CLOSURE_AUDIT.md | **Supporting evidence / closure history** |
-| docs/PARITY_MATRIX.md | **High-level parity matrix** |
+| docs/PHASE_3_STATUS.md | **Operational source / single P3 audit work order** |
+| docs/PHASE_3_CLOSURE_AUDIT.md | **Supporting evidence / audit ledger** |
+| docs/PARITY_MATRIX.md | **High-level parity map** |
 
+No document outside these roles should create a competing P3 work queue.
