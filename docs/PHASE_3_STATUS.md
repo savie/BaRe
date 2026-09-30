@@ -592,3 +592,11 @@ Next audit domain: **#15 Static Hygiene**.
 - Affected domain: #8 Navigation.
 - Domain #8 is **not closed**; complete 71-Activity reconciliation remains required.
 - No build/install/runtime/visual verification performed.
+
+## Step 8 Implementation Checkpoint — EU-11 / N-08 — AppListActivity
+
+- Small implementation: AppListActivity parentActivityName + windowSoftInputMode restored from Reference.
+- Static check: PASS.
+- Affected domain: #8 Navigation.
+- Domain #8 remains OPEN; full 71-Activity matrix is still required.
+- No build/install/runtime/visual verification performed.
