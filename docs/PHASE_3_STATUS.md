@@ -70,7 +70,7 @@ No application fix is performed merely because a domain is yellow.
 |---:|---|---|---|
 | 1 | Resource | 🟡 **OPEN** | Audit found a real application-resource evidence gap; scope must be separated from dependency/library resources before closure. |
 | 2 | Strings | 🟡 **OPEN** | Audit found substantial Reference→BaRe string-scope gaps; P3-visible ownership/usage still needs closure evidence. |
-| 3 | Dimensions | 🟡 | Reconcile dimension names, values, and qualifiers against Reference evidence. |
+| 3 | Dimensions | 🟢 **CLOSED / PASS** | Static Reference→BaRe dimension parity evidence and qualifier overrides are confirmed. |
 | 4 | Styles / Themes / Colors | 🟡 | Reconcile the static style, theme, color, selector, and inheritance contracts. |
 | 5 | Manifest | 🟡 | Re-audit component declarations, attributes, exported state, launch contracts, and relevant metadata. |
 | 6 | Intent | 🟡 | Re-audit explicit and implicit intent contracts used by the P3 surface. |
@@ -117,9 +117,9 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #3 — Dimensions**
+> **Audit #4 — Styles / Themes / Colors**
 
-Domains #1 Resource and #2 Strings have now been audited. Proceed sequentially through #15.
+Domains #1 Resource, #2 Strings, and #3 Dimensions have now been audited. Proceed sequentially through #15.
 
 There is currently **no Resource/Theme/Color implementation queue**. Those areas remain yellow until the total audit establishes their actual state.
 
@@ -210,5 +210,41 @@ Next audit domain: **#3 Dimensions**.
 - Reconcile Reference application-owned string names against current BaRe names.
 - For missing names, classify whether the string is required by the current P3-visible surface, replaced by an authorized BΛR☰ branding string, or legitimately deferred/downstream.
 - Reconcile relevant base/locale qualifier coverage where localization is part of the P3-visible contract.
+
+**No app/resource fix performed during this audit.**
+
+
+## Audit #3 — Dimensions — Result
+
+**Verdict: 🟢 CLOSED / PASS**
+
+### Evidence checked
+
+- Reference dimension inventory: **839 unique dimension names** across **20 values*/dimens.xml files**.
+- The prior dimension reconciliation identified **67 project-facing / non-library-prefixed dimension names**.
+- All 67 were reconciled into BaRe with Reference values.
+- Current BaRe qualifier overrides were spot-verified for the Reference-sensitive cases:
+  - values-land: activity_horizontal_margin = 64.0dp
+  - values-w820dp: activity_horizontal_margin = 64.0dp
+  - values-w320dp-land: clock_face_margin_start = 24.0dp
+  - values-w600dp-land: clock_face_margin_start = 64.0dp
+- Current BaRe base values were spot-verified for corrected Reference-facing dimensions: label_chip_corner_radius = 11.0dp; label_chip_stroke_width = 1.5dp; subtitle_small = 13.0sp; subtitle_smaller = 12.0sp; title = 16.0sp.
+- No application/resource changes have occurred after the dimension reconciliation; subsequent commits are documentation-only audit reconciliation.
+- No build/install/runtime/visual verification was used.
+
+### Findings
+
+1. The Reference-facing dimension set previously identified as the P3 project scope is reconciled against BaRe.
+2. The qualifier-specific overrides that materially affect the dimension contract are present in the current tree.
+3. The previously corrected base dimension values remain present.
+4. Dependency/library dimension names are not treated as application-owned parity requirements.
+
+### Audit conclusion
+
+The Dimensions domain is:
+
+> **🟢 CLOSED / PASS**
+
+No implementation follow-up is required from this audit domain.
 
 **No app/resource fix performed during this audit.**
