@@ -135,3 +135,60 @@ P3 FREEZE
 ```
 
 Until this condition is met, Phase 4 should remain paused.
+
+
+## 2026-09-30 P3 Closure Audit — gate closure
+
+Audit baseline: branch `rewrite`, starting checkpoint `925d2d6355a0381637bc03b3214359edd60ad9f5`, Reference Swift Backup 5.1.0 (620).
+
+| Gate | Final classification | Evidence / boundary |
+|---|---|---|
+| 1. Resource/dimension parity | **UNKNOWN** | Reference contains 839 dimension entries in the merged decompile resource set; the current BaRe app-owned dimension set is intentionally smaller. P3-owned/current-layout resource defects found during the audit were corrected, but a complete resource-by-resource parity matrix was not established. This is an explicit evidence gap, not a claimed match. |
+| 2. String parity | **UNKNOWN** | Reference `values/strings.xml` contains 1,384 string entries in the supplied merged resource set; BaRe currently defines 523 strings across its two string files. Current P3-visible strings and branding were mechanically reviewed, but full name/value parity was not established. |
+| 3. Style/theme/color parity | **UNKNOWN** | Reference contains 447 colors and 1,085 styles in the merged decompile values set. BaRe has a deliberately reduced P3 resource surface. Structural references used by audited P3 layouts are covered, but no full style/color matrix or runtime visual comparison was performed. |
+| 4. Intent/navigation matrix — 71 Activities | **PASS** | All 71 BaRe Activity classes were statically inspected; manifest registration count is 71; Reference launch-mode contracts were compared. P3 manifest defects found here were corrected: ApkImport default launch mode restored; BoxSignIn and FilenSignIn explicit non-exported contracts restored. External redirect/filter contracts remain Reference-shaped. Actual execution remains downstream. |
+| 5. Lifecycle/state matrix — 71 Activities | **PASS** | All 71 Activity source files were statically inspected for lifecycle/state entry points and intent/result boundaries. Recreation handling is present on the Activities where the reconstructed Reference contract requires it. Runtime lifecycle verification remains outside P3. |
+| 6. Fake/stub/P3-boundary classification | **PASS / P4 DEFERRED** | BaRe-owned boundary surfaces are intentional P3 temporary markers. They are not product-success claims. Engine/provider/backend/entitlement work is explicitly deferred to P4/P5. Reference/library boundary names under `reference/` are excluded from the BaRe fake/stub classification. |
+| 7. Final branding/Swift-identity scan | **PASS + AUTHORIZED DEVIATION** | Visible Swift wording found in P3 surfaces was removed/rebranded, including the App Visibility share subject and Apk Import action wording. Firebase wording in user-visible cloud diagnostic/orphan text was replaced with backend-neutral wording. Swift-specific redirect schemes and internal Swift-derived class identifiers remain only where required by the Reference/external contract and are classified as AUTHORIZED DEVIATION, not user branding. |
+| 8. Static resource-reference integrity | **PASS (audited P3 surface)** | Static audit found missing P3 resource references including `ic_error`, `ic_settings_block_filled`, and `ic_plus`; exact Reference vector resources were restored. The Apk Import default icon reference was changed to the platform `sym_def_app_icon` resource to remove the unresolved local reference. Known audited P3 resource references are now closed. |
+
+### P3 closure corrections after checkpoint
+
+- `AndroidManifest.xml`
+  - restored Reference default launch mode for `ApkImportActivity`;
+  - restored `exported=false` for `BoxSignInActivity`;
+  - restored explicit `exported=false` for `FilenSignInActivity`.
+- `values/strings.xml`
+  - removed visible Firebase wording from P3 cloud diagnostic/orphan surfaces;
+  - retained BΛR☰ branding in user-visible copy.
+- `AppVisibilityDiagnosticsActivity.java`
+  - replaced the visible Swift Backup share subject with BΛR☰ wording.
+- `apk_import_activity.xml`
+  - removed unresolved local `sym_def_app_icon` resource dependency in favor of the platform equivalent.
+- Restored Reference drawable resources:
+  - `ic_error.xml`
+  - `ic_settings_block_filled.xml`
+  - `ic_plus.xml`
+
+### Freeze decision
+
+The eight closure gates are now explicitly classified. The remaining UNKNOWN states are documented evidence gaps, not open P3 defects. The freeze condition is satisfied:
+
+```text
+71/71 Activity GREEN
++ 0 Yellow
++ 0 Red
++ no unresolved audited P3 resource/reference defect
++ no unexplained visible Swift branding
++ all eight closure gates classified
++ P4/P5 boundaries explicitly recorded
+= FREEZE P3
+```
+
+**P3 is FROZEN at this checkpoint.**
+
+No build, install, runtime execution, or visual verification was performed. No engine/provider/backend/runtime success is claimed.
+
+### Phase boundary
+
+The next authorized step is documentation handoff to Phase 4. P4 implementation may address the deferred core behavior contracts; P3 green Activities must not be reopened without new evidence of a P3 defect.
