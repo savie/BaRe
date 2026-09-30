@@ -78,7 +78,7 @@ No application fix is performed merely because a domain is yellow.
 | 8 | Navigation | 🟡 | Re-audit Activity-to-Activity navigation and navigation boundaries. |
 | 9 | Lifecycle / State | 🟡 | Re-audit lifecycle-sensitive and state-restoration boundaries visible in P3. |
 | 10 | Dialog / Error / Loading | 🟡 | Re-audit visible state contracts, dialogs, errors, empty/loading states, and transitions. |
-| 11 | Branding | 🟡 | Re-audit visible Swift identity and authorized BΛR☰ deviations. |
+| 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher branding contract and incomplete evidence for full Swift-identity cleanup. |
 | 12 | Java-only | 🟡 | Re-audit source-language and UI-technology constraints. |
 | 13 | Fake / Stub | 🟡 | Re-audit intentional boundaries versus accidental fake/stub behavior. |
 | 14 | Boundary | 🟡 | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
@@ -351,3 +351,38 @@ Next audit domain: **#6 Intent**.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#7 Permissions**.
+
+
+## Audit #11 — Branding / Swift Identity — Result
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Evidence checked
+
+- The handoff explicitly authorizes user-visible branding migration from Swift Backup → BΛR☰ / BaRe, including application name, logo, branding text, information pages, dialogs, menus, notifications, help, and other user-visible branding. It separately permits replacement of Swift-specific external identity where required.
+- Reference identity is org.swiftapps.swiftbackup with application class org.swiftapps.swiftbackup.SwiftApp. Current BaRe manifest intentionally uses .BaReApp, literal application label BΛR☰, and BaReTheme; the project inventory explicitly classifies namespace/applicationId com.bare and BΛR☰/BaRe branding as authorized deviations.
+- Current BaRe source/resources contain Swift-named internal identifiers: search_swift_backup, open_in_swift_backup, and btnOpenInSwiftBackup. The inspected user-visible values are already migrated to “Search BΛR☰” and “Open in BΛR☰”. These identifiers are not independently classified as branding defects because the handoff says internal identifiers must not be changed merely because they contain Swift.
+- Static search did not establish current BaRe source occurrences of SwiftApp, org.swiftapps.swiftbackup, Swift Backup, or SwiftTheme under app/src/main beyond the intentional/Reference-oriented identifiers noted above.
+- The current application manifest does not declare android:icon, and the inspected app/src/main/res tree has no mipmap directory. A target-specific BΛR☰ launcher icon/logo contract is therefore not established by current static evidence.
+- intro_activity.xml contains visible BΛR☰ branding.
+- No build/install/runtime/visual verification was performed.
+
+### Findings
+
+1. Authorized branding migration is partially present: application label and an inspected Intro surface use BΛR☰.
+2. Internal Swift-named identifiers remain, but these are not automatically defects under the handoff rules.
+3. The launcher branding contract is unresolved statically: no application icon is declared and no target mipmap launcher resource was established in the inspected tree.
+4. Full user-visible Swift identity cleanliness is not proven because an exhaustive branding matrix and runtime/visual verification do not yet exist.
+5. The evidence is sufficient for a P3 branding defect/open state because the target launcher identity contract is not established.
+
+### Required follow-up
+
+- Build a Reference→BaRe branding matrix covering application label, launcher icon/logo, Intro/About/Settings identity, dialogs, menus, notifications, help/legal/product URLs, share/export labels, and other user-visible identity surfaces.
+- Classify remaining Swift-named identifiers as internal functional identity, user-visible branding, provider/deep-link identity, or authorized Swift-specific external identity.
+- Establish an explicit BaRe/BΛR☰ launcher icon/logo resource contract and reconcile it against the Reference icon role while preserving the authorized branding deviation.
+- Re-audit user-visible strings after the Strings-domain follow-up; do not perform global text replacement.
+- Runtime/visual verification remains deferred until explicitly authorized.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#12 Java-only**.
