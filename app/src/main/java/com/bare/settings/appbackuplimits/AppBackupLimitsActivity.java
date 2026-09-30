@@ -38,7 +38,13 @@ public final class AppBackupLimitsActivity extends AppCompatActivity {
                 : getIntent().getParcelableArrayListExtra(EXTRA_LIMITS);
 
         if (initial == null || initial.isEmpty()) {
-            initial = AppBackupLimitItem.defaultItems();
+            String part = getIntent().getStringExtra("app_part");
+            if (part != null && !part.isEmpty()) {
+                initial = new ArrayList<>();
+                initial.add(new AppBackupLimitItem(part, null, null));
+            } else {
+                initial = AppBackupLimitItem.defaultItems();
+            }
         }
 
         bindInitial(initial);
