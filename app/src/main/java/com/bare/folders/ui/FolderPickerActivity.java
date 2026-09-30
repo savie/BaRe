@@ -1,47 +1,13 @@
 package com.bare.folders.ui;
-
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import com.bare.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
+import android.app.Activity; import android.os.Bundle; import android.view.*; import android.widget.EditText; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import androidx.recyclerview.widget.RecyclerView; import com.bare.R; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public final class FolderPickerActivity extends AppCompatActivity {
- @Override protected void onCreate(@Nullable Bundle state){
-  super.onCreate(state); setContentView(R.layout.folder_picker_activity);
-  Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t);
-  if(getSupportActionBar()!=null){getSupportActionBar().setDisplayHomeAsUpEnabled(true); getSupportActionBar().setTitle(R.string.select_folder);}
-  ((RecyclerView)findViewById(R.id.rv)).setAdapter(new EmptyAdapter());
-  ((RecyclerView)findViewById(R.id.rv_navigation)).setAdapter(new EmptyAdapter());
-  findViewById(R.id.progress_bar).setVisibility(View.GONE);
-  findViewById(R.id.btn_select).setOnClickListener(v -> boundary(R.string.select_folder, R.string.p3_schedule_folder_boundary));
- }
- @Override public boolean onCreateOptionsMenu(Menu menu){getMenuInflater().inflate(R.menu.menu_folder_picker,menu);return true;}
- @Override public boolean onOptionsItemSelected(MenuItem item){
-  if(item.getItemId()==R.id.action_new_folder){showNewFolderDialog();return true;}
-  if(item.getItemId()==R.id.action_storage_switch){boundary(R.string.select_storage,R.string.p3_activity_boundary);return true;}
-  return super.onOptionsItemSelected(item);
- }
- private void showNewFolderDialog(){
-  View content=getLayoutInflater().inflate(R.layout.folder_picker_new_folder_dialog,null,false);
-  EditText name=content.findViewById(R.id.et_folder_name);
-  new MaterialAlertDialogBuilder(this).setTitle(R.string.new_folder).setView(content)
-   .setNegativeButton(R.string.cancel,null)
-   .setPositiveButton(R.string.save,(d,w)->boundary(R.string.new_folder,R.string.p3_schedule_folder_boundary)).show();
- }
- private void boundary(int title,int message){
-  new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(message).setPositiveButton(R.string.close,null).show();
- }
- @Override public boolean onSupportNavigateUp(){finish();return true;}
- private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{
-  public H onCreateViewHolder(android.view.ViewGroup p,int t){View v=new View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}
-  public void onBindViewHolder(H h,int p){} public int getItemCount(){return 0;}
-  static final class H extends RecyclerView.ViewHolder{H(View v){super(v);}}
- }
+ private EditText pendingName;
+ @Override protected void onCreate(@Nullable Bundle state){ super.onCreate(state); setContentView(R.layout.folder_picker_activity); Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null){getSupportActionBar().setDisplayHomeAsUpEnabled(true);getSupportActionBar().setTitle(R.string.select_folder);} ((RecyclerView)findViewById(R.id.rv)).setAdapter(new EmptyAdapter()); ((RecyclerView)findViewById(R.id.rv_navigation)).setAdapter(new EmptyAdapter()); findViewById(R.id.progress_bar).setVisibility(View.GONE); findViewById(R.id.btn_select).setOnClickListener(v->select()); }
+ private void select(){ new MaterialAlertDialogBuilder(this).setTitle(R.string.select_folder).setMessage(R.string.p3_schedule_folder_boundary).setNegativeButton(R.string.close,null).setPositiveButton(android.R.string.ok,(d,w)->{setResult(Activity.RESULT_OK);finish();}).show(); }
+ @Override public boolean onCreateOptionsMenu(Menu menu){getMenuInflater().inflate(R.menu.menu_folder_picker,menu); menu.findItem(R.id.action_storage_switch).setVisible(false); return true;}
+ @Override public boolean onOptionsItemSelected(MenuItem item){ if(item.getItemId()==R.id.action_new_folder){showNewFolderDialog();return true;} if(item.getItemId()==R.id.action_storage_switch){showStorageBoundary();return true;} if(item.getItemId()==android.R.id.home){setResult(Activity.RESULT_CANCELED);finish();return true;} return super.onOptionsItemSelected(item);}
+ private void showNewFolderDialog(){ View content=getLayoutInflater().inflate(R.layout.folder_picker_new_folder_dialog,null,false); pendingName=content.findViewById(R.id.et_folder_name); MaterialAlertDialogBuilder b=new MaterialAlertDialogBuilder(this).setTitle(R.string.new_folder).setView(content).setNegativeButton(R.string.cancel,null).setPositiveButton(R.string.create,(d,w)->{ if(pendingName.getText().toString().trim().isEmpty())return; new MaterialAlertDialogBuilder(this).setTitle(R.string.new_folder).setMessage(R.string.p3_schedule_folder_boundary).setPositiveButton(R.string.close,null).show();}); android.app.AlertDialog dialog=b.create(); dialog.setOnShowListener(x->{android.widget.Button ok=dialog.getButton(android.content.DialogInterface.BUTTON_POSITIVE); ok.setEnabled(!pendingName.getText().toString().trim().isEmpty()); pendingName.addTextChangedListener(new android.text.TextWatcher(){public void beforeTextChanged(CharSequence s,int a,int c,int d){} public void onTextChanged(CharSequence s,int a,int b,int c){ok.setEnabled(s!=null&&!s.toString().trim().isEmpty());} public void afterTextChanged(android.text.Editable e){}});}); dialog.show(); }
+ private void showStorageBoundary(){new MaterialAlertDialogBuilder(this).setTitle(R.string.select_storage).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}
+ @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
+ private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{public H onCreateViewHolder(android.view.ViewGroup p,int t){View v=new View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}public void onBindViewHolder(H h,int p){}public int getItemCount(){return 0;}static final class H extends RecyclerView.ViewHolder{H(View v){super(v);}}}
 }
