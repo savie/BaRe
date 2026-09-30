@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"><com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"/><LinearLayout android:orientation="vertical" android:padding="24dp" android:layout_width="match_parent" android:layout_height="wrap_content"><com.google.android.material.button.MaterialButton android:id="@+id/btn_backup" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/create_backup"/><com.google.android.material.button.MaterialButton android:id="@+id/btn_restore" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="@string/restore"/></LinearLayout></LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+ <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"/>
+ <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipe_refresh" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+  <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_backups" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="12dp"/>
+ </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+ <LinearLayout android:orientation="horizontal" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+  <com.google.android.material.button.MaterialButton android:id="@+id/btn_backup" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/create_backup"/>
+  <com.google.android.material.button.MaterialButton android:id="@+id/btn_restore" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:layout_marginStart="8dp" android:text="@string/restore"/>
+ </LinearLayout>
+</LinearLayout>
