@@ -46,7 +46,7 @@ Yellow is an audit state, not a defect finding.
 | 3 | Dimensions | 🟢 **CLOSED / PASS** | Evidence supports closure for the defined P3 dimension scope. |
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Concrete static theme/style/color contract gaps established; implementation follow-up required after total audit. |
 | 5 | Manifest | 🔴 **FAIL / DEFECT** | Concrete static manifest contract gaps established; implementation follow-up required after total audit. |
-| 6 | Intent | 🟡 | Pending audit |
+| 6 | Intent | 🔴 **FAIL / DEFECT** | Concrete static external intent/URI contract gaps established; implementation follow-up required after total audit. |
 | 7 | Permissions | 🟡 | Pending audit |
 | 8 | Navigation | 🟡 | Pending audit |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
@@ -315,3 +315,32 @@ After the 15-domain audit, construct the Reference→BaRe manifest matrix, class
 **No app/code/resource fix was performed.**
 
 Next audit domain: **#6 Intent**.
+
+
+## Audit #6 — Intent — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+The Intent domain was audited statically without changing the app.
+
+### Evidence
+
+Reference's manifest contains an AppAuth `RedirectUriReceiverActivity` with multiple VIEW/BROWSABLE callback filters, including the Reference OAuth scheme plus Box/Yandex provider callbacks. Current BaRe does not preserve that receiver contract and instead routes Yandex/TeraBox callbacks through provider-specific Activities.
+
+Current BaRe source does contain extensive explicit Intent usage across the P3 surface, including internal Activity launches, APK import, browser/email actions, role requests, and cloud authentication. The audit therefore does not classify Intent support as missing wholesale.
+
+A concrete namespace mismatch remains: current Yandex code and manifest use `org.swiftapps.swiftbackup.yandex://oauth`, and TeraBox uses `org.swiftapps.swiftbackup.terabox`, despite the target identity being `com.bare`. Without an explicit authorized provider contract, these are unresolved external intent contracts.
+
+### Audit conclusion
+
+The Intent domain is:
+
+> **🔴 FAIL / DEFECT**
+
+### Follow-up, not implementation
+
+Create the Reference→BaRe intent matrix, classify the AppAuth callback topology, reconcile provider callback namespaces, and re-audit exported/deep-link filters after the implementation phase.
+
+**No app/code/resource fix was performed.**
+
+Next audit domain: **#7 Permissions**.
