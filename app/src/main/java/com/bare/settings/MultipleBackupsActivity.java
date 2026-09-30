@@ -1,6 +1,197 @@
 package com.bare.settings;
-import android.os.Bundle; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import com.bare.R;
-public final class MultipleBackupsActivity extends AppCompatActivity{
- protected void onCreate(@Nullable Bundle s){super.onCreate(s);setContentView(R.layout.multiple_backups_activity);Toolbar t=findViewById(R.id.toolbar);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);((com.google.android.material.slider.Slider)findViewById(R.id.slider_count)).addOnChangeListener((sl,v,u)->((android.widget.TextView)findViewById(R.id.tv_count)).setText(getString(R.string.multiple_backups)+" ("+(int)v+")"));}
- public boolean onSupportNavigateUp(){finish();return true;}
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.bare.R;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.slider.Slider;
+
+public final class MultipleBackupsActivity extends AppCompatActivity {
+    private static final String STATE_STRATEGY = "state_multiple_backups_strategy";
+    private static final String EXTRA_STRATEGY = "extra_multiple_backups_strategy";
+
+    private MaterialCardView singleCard;
+    private MaterialCardView datedCard;
+    private MaterialCardView conditionalCard;
+    private Slider datedSlider;
+    private Slider conditionalSlider;
+    private TextView datedCount;
+    private TextView conditionalCount;
+    private RadioGroup conditionGroup;
+
+    private MultipleBackupStrategy strategy;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.multiple_backups_strategy_activity);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.multiple_backups_strategy);
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(STATE_STRATEGY)) {
+            MultipleBackupStrategy restored =
+                    savedInstanceState.getParcelable(STATE_STRATEGY);
+            strategy = restored != null ? restored : loadStrategy();
+        } else {
+            MultipleBackupStrategy fromIntent = getIntent().getParcelableExtra(EXTRA_STRATEGY);
+            strategy = fromIntent != null ? fromIntent : loadStrategy();
+        }
+
+        bindViews();
+        bindInteractions();
+        render();
+    }
+
+    private void bindViews() {
+        singleCard = findViewById(R.id.mbs_single_item);
+        datedCard = findViewById(R.id.mbs_dated_item);
+        conditionalCard = findViewById(R.id.mbs_conditional_item);
+
+        datedSlider = datedCard.findViewById(R.id.slider_num_of_backups);
+        conditionalSlider = conditionalCard.findViewById(R.id.slider_num_of_backups);
+        datedCount = datedCard.findViewById(R.id.tv_num_of_backups);
+        conditionalCount = conditionalCard.findViewById(R.id.tv_num_of_backups);
+        conditionGroup = conditionalCard.findViewById(R.id.rg_conditions);
+    }
+
+    private void bindInteractions() {
+        singleCard.setOnClickListener(v -> {
+            strategy = MultipleBackupStrategy.singleBackup();
+            render();
+        });
+        datedCard.setOnClickListener(v -> {
+            int count = Math.round(datedSlider.getValue());
+            strategy = MultipleBackupStrategy.datedBackups(count);
+            render();
+        });
+        conditionalCard.setOnClickListener(v -> {
+            int count = Math.round(conditionalSlider.getValue());
+            strategy = MultipleBackupStrategy.conditionalBackup(count, selectedCondition());
+            render();
+        });
+
+        Slider.OnChangeListener sliderListener = (slider, value, fromUser) -> {
+            int count = Math.round(value);
+            if (slider == datedSlider) {
+                datedCount.setText(String.valueOf(count));
+                if (strategy.getType() == MultipleBackupStrategy.TYPE_DATED_BACKUPS) {
+                    strategy = MultipleBackupStrategy.datedBackups(count);
+                    updateSelectionOnly();
+                }
+            } else {
+                conditionalCount.setText(String.valueOf(count));
+                if (strategy.getType() == MultipleBackupStrategy.TYPE_CONDITIONAL_BACKUP) {
+                    strategy = MultipleBackupStrategy.conditionalBackup(count, selectedCondition());
+                    updateSelectionOnly();
+                }
+            }
+        };
+        datedSlider.addOnChangeListener(sliderListener);
+        conditionalSlider.addOnChangeListener(sliderListener);
+
+        conditionGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (strategy.getType() == MultipleBackupStrategy.TYPE_CONDITIONAL_BACKUP
+                    && checkedId != -1) {
+                strategy = MultipleBackupStrategy.conditionalBackup(
+                        Math.round(conditionalSlider.getValue()), selectedCondition());
+                updateSelectionOnly();
+            }
+        });
+
+        findViewById(R.id.btn_action).setOnClickListener(v -> applyStrategy());
+    }
+
+    private int selectedCondition() {
+        int checkedId = conditionGroup.getCheckedRadioButtonId();
+        if (checkedId == R.id.rb_data_changes) {
+            return MultipleBackupStrategy.CONDITION_DATA_CHANGES;
+        }
+        if (checkedId == R.id.rb_any_change) {
+            return MultipleBackupStrategy.CONDITION_ANY_CHANGES;
+        }
+        return MultipleBackupStrategy.CONDITION_APK_CHANGES;
+    }
+
+    private void render() {
+        int count = strategy.getMaxNumOfBackups();
+        if (strategy.getType() == MultipleBackupStrategy.TYPE_DATED_BACKUPS) {
+            datedSlider.setValue(MultipleBackupStrategy.clampCount(count));
+        } else if (strategy.getType() == MultipleBackupStrategy.TYPE_CONDITIONAL_BACKUP) {
+            conditionalSlider.setValue(MultipleBackupStrategy.clampCount(count));
+        }
+
+        datedCount.setText(String.valueOf(Math.max(2, Math.round(datedSlider.getValue()))));
+        conditionalCount.setText(String.valueOf(Math.max(2, Math.round(conditionalSlider.getValue()))));
+
+        switch (strategy.getCondition()) {
+            case MultipleBackupStrategy.CONDITION_DATA_CHANGES:
+                conditionGroup.check(R.id.rb_data_changes);
+                break;
+            case MultipleBackupStrategy.CONDITION_ANY_CHANGES:
+                conditionGroup.check(R.id.rb_any_change);
+                break;
+            default:
+                conditionGroup.check(R.id.rb_apk_changes);
+                break;
+        }
+
+        updateSelectionOnly();
+    }
+
+    private void updateSelectionOnly() {
+        boolean single = strategy.getType() == MultipleBackupStrategy.TYPE_SINGLE_BACKUP;
+        boolean dated = strategy.getType() == MultipleBackupStrategy.TYPE_DATED_BACKUPS;
+        boolean conditional = strategy.getType() == MultipleBackupStrategy.TYPE_CONDITIONAL_BACKUP;
+
+        datedCard.findViewById(R.id.container_slider).setVisibility(dated ? View.VISIBLE : View.GONE);
+        conditionalCard.findViewById(R.id.container_slider).setVisibility(conditional ? View.VISIBLE : View.GONE);
+        conditionalCard.findViewById(R.id.container_conditions).setVisibility(conditional ? View.VISIBLE : View.GONE);
+
+        setSelected(singleCard, single);
+        setSelected(datedCard, dated);
+        setSelected(conditionalCard, conditional);
+    }
+
+    private void setSelected(MaterialCardView card, boolean selected) {
+        card.setChecked(selected);
+        card.setStrokeWidth(selected ? 3 : 0);
+    }
+
+    private MultipleBackupStrategy loadStrategy() {
+        return MultipleBackupStrategy.fromPreferences(
+                getSharedPreferences("bare_settings", MODE_PRIVATE));
+    }
+
+    private void applyStrategy() {
+        strategy.saveTo(getSharedPreferences("bare_settings", MODE_PRIVATE));
+        Intent result = new Intent().putExtra(EXTRA_STRATEGY, strategy);
+        setResult(RESULT_OK, result);
+        finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(STATE_STRATEGY, strategy);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
