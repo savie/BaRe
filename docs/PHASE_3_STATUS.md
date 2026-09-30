@@ -24,7 +24,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **52** |
+| 🟢 Green | **53** |
 | 🟡 Yellow | **19** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
@@ -85,6 +85,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 50. `LabelEditActivity`
 51. `LabelsActivity`
 52. `BoxSignInActivity`
+53. `OneDriveSignInActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
