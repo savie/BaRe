@@ -220,3 +220,12 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - Token exchange, SDK callback decoding, and provider state remain downstream.
 - Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 OneDrive sign-in P3
+
+- `OneDriveSignInActivity` now has a Reference-derived provider entry surface with explicit Microsoft sign-in handoff and ready/started/error states.
+- Reference OneDrive uses MSAL with Graph `User.Read` and `Files.ReadWrite` scopes; BaRe does not fabricate the MSAL client, callback, access token, silent refresh, or provider persistence.
+- This is a P3 external-auth boundary, not provider execution parity.
+- Activity depth after this exit: **53 green / 18 yellow / 0 red / 71**.
+- Build/runtime/visual verification remains blocked/gated.
