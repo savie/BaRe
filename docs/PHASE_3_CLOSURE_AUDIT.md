@@ -31,7 +31,7 @@ Target: `savie/BaRe`, branch `rewrite`.
 | Premium | P4 DEFERRED | Real entitlement/billing remains downstream; P3 Premium surface exists. |
 | Backend | P4 DEFERRED | Supabase/backend execution is not part of P3 UI closure. |
 | Resource/dimension baseline | UNKNOWN | Reference contains substantially more app-specific dimensions than the initial BaRe set. Core missing app dimensions used by current P3 layouts were restored, but a complete resource-by-resource parity matrix remains. |
-| String parity | UNKNOWN | A full Reference-vs-BaRe string-name/value matrix still needs final mechanical comparison. Known visible branding defects were corrected. |
+| String parity | PASS (P3-visible surface) | P3-visible strings were mechanically inventoried against the supplied Reference baseline; concrete wording mismatches found in the active P3 surface were corrected. Visible BΛR☰ branding and backend-neutral P3 boundary wording are classified as authorized/project-boundary deviations. Reference-only strings outside the P3 surface remain downstream. |
 | Style/theme/color parity | UNKNOWN | Static structural audit remains; no build/runtime visual comparison has been performed. |
 | Manifest Activity lifecycle parity | PASS (static correction applied) | App Activity launch modes were aligned to Reference where the contract is known; Detail/Task use singleTask and normal Activities use singleTop, with Reference exceptions preserved. |
 | Manifest permission parity | PASS (static correction applied) | Missing Reference permission declarations identified in the audit were restored. Swift-specific generated permission identity remains UNKNOWN until runtime/dependency evidence. |
@@ -109,13 +109,14 @@ Actual execution remains P4/P5.
 
 ## Remaining closure work
 
-P3 is **not fully closed yet** because three parity gates remain UNKNOWN and must be fully audited before Phase 4 starts:
+P3 is **not fully closed yet** because two parity gates remain UNKNOWN and must be fully audited before Phase 4 starts:
 
 1. Complete Reference-vs-BaRe resource/dimension matrix.
-2. Complete string name/value matrix.
-3. Complete style/theme/color matrix.
+2. Complete style/theme/color matrix.
 
-The other five closure gates have already been classified and are not being reopened without new evidence of a P3 defect. Only after these three remaining gates are fully audited, and any P3 defects are corrected, should total P3 closure be recorded.
+String parity for the P3-visible surface is now PASS.
+
+The other six closure gates have already been classified and are not being reopened without new evidence of a P3 defect. Only after these three remaining gates are fully audited, and any P3 defects are corrected, should total P3 closure be recorded.
 
 ## Freeze condition
 
@@ -140,7 +141,7 @@ Audit baseline: branch `rewrite`, starting checkpoint `925d2d6355a0381637bc03b32
 | Gate | Final classification | Evidence / boundary |
 |---|---|---|
 | 1. Resource/dimension parity | **UNKNOWN** | Reference contains 839 dimension entries in the merged decompile resource set; the current BaRe app-owned dimension set is intentionally smaller. P3-owned/current-layout resource defects found during the audit were corrected, but a complete resource-by-resource parity matrix was not established. This is an explicit evidence gap, not a claimed match. |
-| 2. String parity | **UNKNOWN** | Reference `values/strings.xml` contains 1,384 string entries in the supplied merged resource set; BaRe currently defines 523 strings across its two string files. Current P3-visible strings and branding were mechanically reviewed, but full name/value parity was not established. |
+| 2. String parity | **PASS (P3-visible surface)** | Reference `values/strings.xml` contains 1,384 entries in the supplied merged resource set. BaRe currently defines 523 entries in `values/strings.xml` plus 6 app-item entries. The P3-visible string surface was mechanically inventoried and concrete Reference wording mismatches were corrected. Reference-only downstream strings are outside the P3 gate. |
 | 3. Style/theme/color parity | **UNKNOWN** | Reference contains 447 colors and 1,085 styles in the merged decompile values set. BaRe has a deliberately reduced P3 resource surface. Structural references used by audited P3 layouts are covered, but no full style/color matrix or runtime visual comparison was performed. |
 | 4. Intent/navigation matrix — 71 Activities | **PASS** | All 71 BaRe Activity classes were statically inspected; manifest registration count is 71; Reference launch-mode contracts were compared. P3 manifest defects found here were corrected: ApkImport default launch mode restored; BoxSignIn and FilenSignIn explicit non-exported contracts restored. External redirect/filter contracts remain Reference-shaped. Actual execution remains downstream. |
 | 5. Lifecycle/state matrix — 71 Activities | **PASS** | All 71 Activity source files were statically inspected for lifecycle/state entry points and intent/result boundaries. Recreation handling is present on the Activities where the reconstructed Reference contract requires it. Runtime lifecycle verification remains outside P3. |

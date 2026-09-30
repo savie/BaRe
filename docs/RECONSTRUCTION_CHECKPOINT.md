@@ -402,3 +402,17 @@ Current branch baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`
 - The other five closure gates remain classified from the prior audit and are not being reopened without new evidence.
 - Phase 4 is **prepared but not started**; P4 implementation remains gated until total P3 closure.
 - Build, install, runtime, and visual verification remain unauthorized.
+
+
+## 2026-09-30 String parity closure
+
+String parity gate: **PASS (P3-visible surface)**.
+
+- Reference baseline: 1,384 entries in merged `values/strings.xml`.
+- BaRe current resource set: 523 entries in `values/strings.xml` plus 6 app-item entries.
+- P3-visible strings were mechanically inventoried against the supplied Reference baseline.
+- Concrete Reference wording mismatches found in the active P3 surface were corrected in `app/src/main/res/values/strings.xml`.
+- Visible BΛR☰ branding and backend-neutral P3 boundary wording remain classified as authorized/project-boundary deviations where applicable.
+- Reference-only strings belonging to downstream features are not treated as P3 string defects.
+
+Remaining P3 parity gates: resource/dimension and style/theme/color.

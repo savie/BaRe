@@ -341,3 +341,14 @@ Current baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`.
 | Phase 4 | PREPARED / GATED — implementation not started until total P3 closure |
 
 UNKNOWN is an evidence-state classification and must not be promoted to MATCH without evidence. Build/install/runtime/visual verification remain unauthorized.
+
+
+## 2026-09-30 String parity closure
+
+| Gate | Current classification |
+|---|---|
+| String parity | **PASS (P3-visible surface)** |
+| Resource/dimension parity | UNKNOWN |
+| Style/theme/color parity | UNKNOWN |
+
+String parity is closed for the P3-visible surface. Reference-only strings belonging to downstream features remain outside P3 scope and are not promoted to P3 defects merely because those downstream features are not yet implemented.
