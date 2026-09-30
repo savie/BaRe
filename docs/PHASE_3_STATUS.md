@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **60** |
-| 🟡 Yellow | **11** |
+| 🟢 Green | **61** |
+| 🟡 Yellow | **10** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -93,13 +93,14 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 58. `FoldersBatchActivity`
 59. `ScheduleLabelsSelectActivity`
 60. `ScheduleFolderSelectActivity`
+61. `CallsBackupRestoreActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
 ### 🟡 Yellow — 11
 
-1. `CallsBackupRestoreActivity`
-2. `MessagesBackupRestoreActivity`
+1. `MessagesBackupRestoreActivity`
+2. `ChatActivity`
 3. `ChatActivity`
 4. `CallsDashActivity`
 5. `MessagesDashActivity`
@@ -129,7 +130,7 @@ Previous red items and final result:
 Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
 
 - `MessagesBackupRestoreActivity` → 🟡; Reference has adapter-backed backup selection, refresh/state controls, menu/select-all state, and default-SMS-role flow.
-- `CallsBackupRestoreActivity` → 🟡; Reference has adapter-backed backup selection, refresh/state controls, and call-log permission flow.
+- `CallsBackupRestoreActivity` → 🟢; Reference-shaped backup/restore mode, adapter-selection boundary, refresh/state surface, select-all, call-log permission flow, and action boundary are reconstructed.
 - `ChatActivity` → 🟡; BaRe currently stops at toolbar + empty RecyclerView; the Reference owns conversation/message rendering state.
 - `MessagesDashActivity` → 🟡; Reference has permission flow, dynamic device/cloud backup counts, menus, and navigation to conversation/settings surfaces.
 - `CallsDashActivity` → 🟡; Reference has call-log permission flow, dynamic device/cloud backup counts, menus, and settings navigation.
@@ -152,10 +153,9 @@ Both Activities are promoted to 🟢 at the evidence-supported P3 boundary.
 
 Compared directly with the supplied Swift Backup 5.1.0 decompiled Reference:
 
-- `CallsBackupRestoreActivity` now has the Reference-shaped RecyclerView + SwipeRefreshLayout surface, select-all menu contract, call-log permission request, and explicit backup/restore boundaries.
-- `MessagesBackupRestoreActivity` now has the same list/refresh/select-all surface and reconstructs the Reference default-SMS-role request boundary before restore.
-- Neither Activity fabricates backup inventory or selection data; the adapter/data model and actual backup/restore execution remain unresolved.
-- Both Activities therefore remain 🟡.
+- `CallsBackupRestoreActivity` is now 🟢 at the evidence-supported P3 boundary: Reference-shaped RecyclerView + SwipeRefreshLayout, mode-dependent backup/restore action, `EXTRA_BACKUP_FILE_PATH` restore contract, select-all menu, call-log permission request, explicit empty/selection state, and engine boundary are reconstructed.
+- `MessagesBackupRestoreActivity` remains 🟡 with its adapter-backed/default-SMS-role gaps.
+- Calls backup inventory, selection data, restore strategy, and actual backup/restore execution remain downstream and are not fabricated.
 
 ## Latest vertical audit — Premium / Diagnostics / Walls / Wi-Fi / Locale
 
@@ -535,3 +535,12 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 **Current Activity checkpoint: 60 green / 11 yellow / 0 red / 71.**
 
 No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — CallsBackupRestoreActivity
+
+- `CallsBackupRestoreActivity` is now P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
+- Reference-derived restore-mode detection from `EXTRA_BACKUP_FILE_PATH`, mode-dependent toolbar/action labels, RecyclerView + SwipeRefreshLayout surface, select-all menu contract, call-log permission request, empty/selection state, primary action routing, and cancel/up result boundary are reconstructed.
+- The concrete call-log inventory/adapter data model, restore strategy, backup/restore engine, and task side effects remain downstream; no fake call-log records or execution state are introduced.
+- Activity depth checkpoint: **61 green / 10 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
