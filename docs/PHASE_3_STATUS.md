@@ -95,20 +95,20 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 9. `ContributorRegActivity`
 10. `DetailActivity`
 11. `FolderPickerActivity`
-14. `FoldersBatchActivity`
-15. `ScheduleLabelsSelectActivity`
-16. `ScheduleFolderSelectActivity`
-17. `CallsBackupRestoreActivity`
-18. `MessagesBackupRestoreActivity`
-19. `ChatActivity`
-20. `CallsDashActivity`
-21. `MessagesDashActivity`
-22. `PremiumActivity`
-23. `AppVisibilityDiagnosticsActivity`
-24. `WallsDashActivity`
-25. `WallApplyActivity`
-26. `WallsManageActivity`
-27. `WifiActivity`
+12. `FoldersBatchActivity`
+13. `ScheduleLabelsSelectActivity`
+14. `ScheduleFolderSelectActivity`
+15. `CallsBackupRestoreActivity`
+16. `MessagesBackupRestoreActivity`
+17. `ChatActivity`
+18. `CallsDashActivity`
+19. `MessagesDashActivity`
+20. `PremiumActivity`
+21. `AppVisibilityDiagnosticsActivity`
+22. `WallsDashActivity`
+23. `WallApplyActivity`
+24. `WallsManageActivity`
+25. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
