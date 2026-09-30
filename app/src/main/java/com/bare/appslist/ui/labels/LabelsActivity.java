@@ -166,6 +166,8 @@ public final class LabelsActivity extends AppCompatActivity {
 
         selectedCounter.setText(getString(R.string.labels_selected_count, selectedIds.size()));
         appCounter.setText(getString(R.string.app_labels_count, appLabelIds.size()));
+        findViewById(R.id.rv_selected_labels).setVisibility(selectedIds.isEmpty() ? View.GONE : View.VISIBLE);
+        findViewById(R.id.rv_app_labels).setVisibility(appLabelIds.isEmpty() ? View.GONE : View.VISIBLE);
 
         boolean hasLabels = !labels.isEmpty();
         emptyView.setVisibility(hasLabels || mode != MODE_MANAGE ? View.GONE : View.VISIBLE);
