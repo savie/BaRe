@@ -420,3 +420,65 @@ The issue is **not absence of navigation code**. The defect is that the Referenc
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#9 State / Lifecycle**.
+
+
+## Audit #9 — State / Lifecycle — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Reference evidence
+
+Static Reference source inspection shows application-owned Activities explicitly persisting screen state in `onSaveInstanceState()`. Examples include:
+
+- `HomeActivity`: selected Home fragment/item id (`saved_fragment`).
+- `AppInfoActivity`: internal screen state through its backing state object.
+- `PremiumActivity`: expanded-plan state and selected plan.
+- `LocaleActivity`: screen state before recreation.
+- `DropboxSignInActivity`: auth-started/result-received flags.
+- `CloudConnectActivity`: persisted cloud connection state.
+- `CloudDiagnosticsActivity`: result visibility and latest report.
+- `RestoreSpecialDataDetailsActivity`: configuration settings parcelable.
+- `AppsConfigRunActivity`: active run state.
+- `AppBackupLimitsActivity`: limits list.
+- `AppVisibilityDiagnosticsActivity`: scroll position and search query.
+
+The Reference also relies on Android/AndroidX saved-state machinery for fragments and stateful views.
+
+### BaRe evidence
+
+BaRe does implement targeted state persistence in several important Activities, including:
+
+- `ApkImportActivity`: URI/kind/package state.
+- `YandexSignInActivity`: authorization/handled-result flags.
+- `TeraBoxSignInActivity`: browser/result flags.
+- `PremiumActivity`: expanded state and selected plan.
+- `FolderDetailActivity`: folder parcelable.
+- `FolderEditActivity`: existing folder item.
+- `FoldersBatchActivity`: action/selection state.
+- `FolderPickerActivity`: current folder.
+- `LabelsActivity`: labels and selected IDs.
+- `LabelEditActivity`: name/color.
+- `CallsDashActivity`: cloud-card highlight.
+- `ChatActivity`: conversation title.
+- `MultipleBackupsActivity`: strategy.
+
+BaRe also contains ViewModel-backed Home data surfaces such as Dashboard, Account, Cloud, and Schedule, plus lifecycle refreshes in Settings fragments.
+
+### Gap
+
+The evidence establishes **partial state/lifecycle reconstruction**, not parity. Reference persistence is broader and frequently preserves screen-specific state that is coupled to ViewModel/UI state. Several BaRe Activities are explicit P3 boundary shells rather than full Reference state engines, so static presence of `onSaveInstanceState()` alone cannot establish behavioral equivalence.
+
+Runtime recreation/background/foreground behavior has not been verified.
+
+### Required follow-up
+
+- Build Reference→BaRe lifecycle/state matrix for all application Activities and major Fragments.
+- Identify every Reference application-owned saved-state key and map its BaRe counterpart.
+- Reconcile `onCreate` restoration paths with `onSaveInstanceState` contracts.
+- Audit `onNewIntent`, `onResume`, permission-result, activity-result, and configuration-change paths where state depends on external returns.
+- Distinguish ViewModel-retained state from Bundle-restored state.
+- Runtime recreation verification only after explicit authorization.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#10 Dialog / Error / Loading**.
