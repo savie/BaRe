@@ -45,7 +45,7 @@ Yellow is an audit state, not a defect finding.
 | 2 | Strings | 🟡 **OPEN** | Evidence audit completed; application-owned string matrix and P3 usage classification are still required for closure. |
 | 3 | Dimensions | 🟢 **CLOSED / PASS** | Evidence supports closure for the defined P3 dimension scope. |
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Concrete static theme/style/color contract gaps established; implementation follow-up required after total audit. |
-| 5 | Manifest | 🟡 | Pending audit |
+| 5 | Manifest | 🔴 **FAIL / DEFECT** | Concrete static manifest contract gaps established; implementation follow-up required after total audit. |
 | 6 | Intent | 🟡 | Pending audit |
 | 7 | Permissions | 🟡 | Pending audit |
 | 8 | Navigation | 🟡 | Pending audit |
@@ -286,3 +286,32 @@ After the 15-domain audit completes, build the application-owned style/theme/col
 **No app/code/resource fix was performed.**
 
 Next audit domain: **#5 Manifest**.
+
+
+## Audit #5 — Manifest — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+The Manifest domain was audited statically without changing the app.
+
+### Evidence
+
+Reference declares a broader application-level manifest contract: `SwiftTheme`, `SwiftApp`, resource-backed label/icon, locale and network-security configuration, AndroidX app component factory, `extractNativeLibs`, and `android.max_aspect`. BaRe intentionally changes application identity/branding to `.BaReApp`, `BΛR☰`, and `BaReTheme`, but the current manifest also omits several non-branding Reference configuration elements.
+
+Reference additionally defines `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`; the current target has no corresponding manifest-defined permission. Reference package visibility also includes Microsoft authentication packages and an extra billing-test intent not present in BaRe.
+
+Across the 71 Activity surface, the current manifest structurally registers the components, but many Reference per-Activity attributes are reduced or absent, including `parentActivityName`, labels, `windowSoftInputMode`, and transparent activity themes. These are manifest-level contracts rather than merely source-level behavior.
+
+### Audit conclusion
+
+The Manifest domain is:
+
+> **🔴 FAIL / DEFECT**
+
+### Follow-up, not implementation
+
+After the 15-domain audit, construct the Reference→BaRe manifest matrix, classify authorized deviations, and reconcile the missing application/per-component contracts. Dependency/library components remain separately classified from the P2 Reference-owned skeleton.
+
+**No app/code/resource fix was performed.**
+
+Next audit domain: **#6 Intent**.
