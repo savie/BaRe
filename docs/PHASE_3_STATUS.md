@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **49** |
-| 🟡 Yellow | **22** |
+| 🟢 Green | **50** |
+| 🟡 Yellow | **21** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
