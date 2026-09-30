@@ -12,9 +12,9 @@ It does **not** claim runtime verification, visual parity, backup/restore execut
 
 ## Status semantics
 
-- 🔴 **RED — not meaningful yet**: too thin/stub-like to count as meaningful Phase 3 reconstruction.
-- 🟡 **YELLOW — shallow/boundary**: the surface exists, but meaningful Reference data/behavior/deeper contract is still pending or intentionally deferred.
-- 🟢 **GREEN — meaningful Phase 3 reconstruction**: the Activity has substantive Reference-derived UI/navigation/state/source-contract depth. Green does not mean runtime verified or feature-complete.
+- 🔴 **RED — not reconstructed**: Reference UI/flow is not meaningfully present.
+- 🟡 **YELLOW — P3 incomplete**: Reference UI, navigation, or user interaction flow still has observable gaps.
+- 🟢 **GREEN — P3 complete**: the observable Reference UI/navigation/user-flow is reconstructed through the engine/dependency boundary. Green does not mean the underlying engine, provider, backend, runtime, or feature execution is complete.
 
 ## Latest complete 71-Activity depth audit
 
@@ -74,7 +74,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 40. `RestoreSpecialDataDetailsActivity`
 41. `AppBackupLimitsActivity`
 
-**Green = P3 boundary reached.** It does not claim runtime verification or P4/P5 feature execution. The remaining gap is owned by the later phase where applicable.
+**Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
 ### 🟡 Yellow — 31
 
@@ -110,7 +110,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 30. `WifiActivity`
 31. `LocaleActivity`
 
-**Yellow = evidence-supported P3 reconstruction is still incomplete.** Execution-only gaps must not be used to keep an otherwise complete P3 surface yellow.
+**Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
 ## 🔴 Red backlog
 
@@ -228,8 +228,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### Lifecycle conclusion
 
-The current P3 decision is therefore **not** “make every 71/3/8 component green before leaving P3.” The correct gate is:
+The current P3 decision is therefore:
 
-> **Finish evidence-supported P3 reconstruction, freeze surfaces that have reached their P3 boundary, and move their remaining gaps to the phase that owns those gaps.**
+> **Work the yellow Activities until their Reference UI + navigation + interaction flow is complete through the engine/dependency boundary. Then promote them to 🟢 and freeze P3 for that surface. Only the actual engine/provider/backend/side-effect work moves to P4/P5/P6.**
 
 This keeps P3 from absorbing backup/restore engines, service execution, provider side effects, backend implementation, or other P4/P5/P6 work merely to improve a depth label.
