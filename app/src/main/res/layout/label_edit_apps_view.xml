@@ -1,8 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content">
- <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-  <TextView android:id="@+id/tv_title" android:text="@string/apps" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-  <TextView android:id="@+id/tv_subtitle" android:text="@string/app_labels_description" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-  <com.google.android.material.button.MaterialButton android:id="@+id/iv_edit" android:text="@string/select_apps" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
- </LinearLayout>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:rippleColor="?attr/dividerColor"
+    style="?attr/cardStyle">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/apps"
+            android:layout_marginStart="@dimen/spacing_normal_more"
+            android:layout_marginEnd="@dimen/spacing_medium"
+            app:layout_constraintEnd_toStartOf="@+id/iv_edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Title.Large"/>
+        <TextView
+            android:id="@+id/tv_subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_low_more"
+            android:maxLines="2"
+            android:alpha="0.6"
+            android:textAllCaps="true"
+            android:letterSpacing="0.06"
+            android:text="@string/app_labels_description"
+            app:layout_constraintEnd_toEndOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="@+id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            style="@style/TextAppearance.MaterialComponents.Overline"/>
+        <ImageView
+            android:id="@+id/iv_edit"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_edit_pencil"
+            android:layout_marginEnd="@dimen/spacing_normal_more"
+            android:tint="?android:attr/textColorSecondary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
