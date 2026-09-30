@@ -236,6 +236,13 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 
 `DetailActivity` is promoted to 🟢 at the evidence-supported P3 boundary.
 
+## Latest vertical slice — Calls/Messages dashboard P3 deepening
+
+- `CallsDashActivity` now exposes the Reference dashboard menu surface and routes call-log settings with category `3`; general Settings navigation is also wired.
+- `MessagesDashActivity` now exposes the Reference dashboard menu surface, routes message settings with category `2`, and opens `ConversationsActivity` from the messages-view action.
+- Both dashboards preserve explicit backup engine boundaries and existing backup-list navigation.
+- Reference permission orchestration, dynamic device/cloud backup counts, and ViewModel/data state remain downstream; both Activities stay 🟡.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
