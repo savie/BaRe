@@ -78,7 +78,7 @@ public final class LabelEditActivity extends AppCompatActivity {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 preview.setText(s != null && s.length() > 0
-                        ? s : getString(R.string.app_labels));
+                        ? s : getString(R.string.new_custom_settings));
             }
             @Override public void afterTextChanged(android.text.Editable s) {}
         });
