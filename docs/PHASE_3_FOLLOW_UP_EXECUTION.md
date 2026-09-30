@@ -718,3 +718,27 @@ This document does not authorize P4 implementation, provider/backend implementat
 **Runtime:** NOT AUTHORIZED / NOT PERFORMED.
 
 **Checkpoint condition:** EU-06 bounded implementation is complete. Remaining branding follow-up returns to dependency order through EU-02/EU-04; no additional launcher mutation is warranted without new evidence.
+
+
+## EU-02 Execution Checkpoint — Batch 01
+
+**Status:** COMPLETE — targeted application-owned string evidence and alternate-contract classification.
+
+**Reference source:** supplied `SwiftBackup-5.1.0-620-decompiled.zip` only as primary Reference input.
+
+**Scope:** N-02 application-owned string parity; targeted candidates only. No mass string-tree scan or bulk-copy operation.
+
+**Evidence:**
+- Reference base `values/strings.xml` contains 1,384 names; this raw count is not a parity target because the decoded tree includes dependency/library resources.
+- Existing audit evidence identifies 300 distinct application-source `R.string.*` names in Reference.
+- Targeted missing-name checks confirmed that several representative Reference names are absent from BaRe, but name absence alone does not establish a P3 defect.
+- Current BaRe already contains alternate/expanded P3 contracts for several related concepts; e.g. Reference `backup_all` is represented by the explicit BaRe `backup_all_apps`, `backup_missing_apps`, `backup_updated_apps`, `restore_all_apps`, and related P3 boundary strings rather than requiring an unused `backup_all` alias.
+- No current BaRe consumer was established for the other sampled missing names sufficient to justify adding them as standalone resources.
+
+**Step 8 decision:** NOT ENTERED. No sampled candidate met the condition **APP-MISSING + P3-visible consumer + bounded safe contract**.
+
+**Mutation:** none under `app/src/main/res/values*`.
+
+**Verification:** static evidence only. Build/install/runtime/visual verification remains gated.
+
+**Checkpoint condition:** EU-02 remains active for targeted evidence. Continue only with concrete Reference application-source strings that can be mapped to an existing/current BaRe P3 consumer or a documented visible defect. Do not bulk-copy Reference strings.
