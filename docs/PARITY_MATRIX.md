@@ -35,7 +35,7 @@ The current P3 follow-up cycle is active; the domain verdicts below are the reco
 |---|---|---|
 | P1 Foundation | **COMPLETE / FROZEN** | Reference inventory/evidence foundation is established. |
 | P2 Reference Skeleton | **COMPLETE / FROZEN** | Reference-owned structural skeleton is established: 71 Activities, 3 Services, 8 Receivers, 0 Reference-owned Providers. |
-| P3 UI + Navigation | **ACTIVE / TOTAL AUDIT** | P3 implementation pass is the audit baseline; 15-domain total audit is now in progress. |
+P3 UI + Navigation | **ACTIVE / FOLLOW-UP EXECUTION** | The 15-domain total audit is complete; bounded follow-up execution and re-audit/checkpoint cycles are active. |
 | P4 Core Behavior | **GATED / NOT STARTED** | Downstream engine/provider/core behavior is not being implemented during this audit. |
 | P5 Features | **DEFERRED** | Full backup/restore/feature execution remains outside the current P3 audit. |
 | P6 Authorized Deviations | **DEFINED / GATED** | Authorized deviation rules remain separately controlled. |
@@ -57,7 +57,7 @@ The current P3 follow-up cycle is active; the domain verdicts below are the reco
 | 8 | Navigation | 🔴 FAIL / DEFECT |
 | 9 | Lifecycle / State | 🔴 FAIL / DEFECT |
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
-| 11 | Branding | 🔴 FAIL / DEFECT |
+| 11 | Branding | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 14 | Boundary | 🟡 OPEN / NEEDS FOLLOW-UP |
@@ -251,9 +251,9 @@ Next: **#11 Branding / Swift Identity**.
 
 **#11 Branding: 🔴 FAIL / DEFECT**
 
-Static audit confirms that the authorized visible migration from Swift Backup to BΛR☰ is partially present: the manifest label and inspected Intro branding use BΛR☰, and inspected Swift-named resource identifiers currently resolve to BΛR☰ visible text. Internal Swift-named identifiers are not automatically defects under the handoff rules.
+Static audit and the subsequent EU-06 re-audit confirm that the authorized visible migration from Swift Backup to BΛR☰ is partially present: the manifest label and inspected Intro branding use BΛR☰, and inspected Swift-named resource identifiers currently resolve to BΛR☰ visible text. Internal Swift-named identifiers are not automatically defects under the handoff rules.
 
-However, the current manifest does not declare an application icon and the inspected target resource tree does not establish a BaRe/BΛR☰ launcher icon resource. Full user-visible branding parity is also not exhaustively proven without a branding matrix and later visual verification.
+The concrete launcher identity/icon gap was resolved statically by EU-06 (manifest icon plus application-owned launcher vector). Full user-visible branding parity is still not exhaustively proven; broader string/provider/deep-link identity remains open and visual verification is gated.
 
 No app/code/resource change was made during this audit.
 
