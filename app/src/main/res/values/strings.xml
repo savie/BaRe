@@ -373,4 +373,6 @@
     <string name="apk_import_error_title">Unable to import APK</string>
     <string name="apk_import_unsupported_input_message">The Reference accepts APK or APKS input. Parsing, installation, and backup integration remain downstream behavior.</string>
     <string name="p3_apk_import_boundary">APK/APKS intent handling and input classification are reconstructed at the P3 boundary. Archive parsing, installation, and backup integration remain P4/P5.</string>
+    <string name="app_info_received">App parcel received. Metadata rendering is delegated to the downstream app-info contract.</string>
+    <string name="app_info_contract_ready">Reference APP_PARCEL contract is present; app metadata engine remains downstream.</string>
 </resources>
