@@ -282,3 +282,12 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 - Label catalog persistence, schedule assignment, and deeper schedule mutation remain downstream.
 - Current Activity depth: **59 green / 12 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleFolderSelectActivity
+
+- `ScheduleFolderSelectActivity` — P3 **GREEN** at the evidence-supported folder-selection UI/navigation/interaction boundary.
+- Reference-shaped list/empty state, Save FAB, select-all menu, input contracts, result boundary, and recreation state are reconstructed.
+- Concrete Reference `FolderItem` inventory/result Parcelable and schedule mutation remain downstream.
+- Current Activity depth: **60 green / 11 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
