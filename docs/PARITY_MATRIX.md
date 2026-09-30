@@ -364,3 +364,12 @@ String parity is closed for the P3-visible surface. Reference-only strings belon
 - Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
 
 No Activity source was modified and no build/install/runtime/visual verification was performed.
+
+
+## 2026-09-30 Broad Resource Parity Pass
+
+- Reference `res/` inventory: **1,491** files; BaRe `rewrite`: **222** application resource files.
+- 15 concrete Reference app-owned drawables absent from BaRe were restored from the Reference APKTool source.
+- Dependency/library resources remain excluded from blind-copy parity.
+- Resource/dimension gate remains **UNKNOWN / OPEN** until the application-owned layout/menu/XML/animation/qualifier matrix is fully evidenced.
+- Dimension project-facing subgate: **PASS**.
