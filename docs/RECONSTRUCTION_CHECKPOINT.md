@@ -289,3 +289,16 @@ Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/run
 - No build/runtime/visual verification was performed.
 
 Current Activity checkpoint: **53 green / 18 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — TeraBoxSignInActivity
+
+`TeraBoxSignInActivity` crossed the P3 boundary at the evidence-supported external-auth contract.
+
+- Reference credential check, browser probe, redirect-handler probe, TeraBox authorization URL, redirect parsing, and auth/error lifecycle were audited directly.
+- The supplied Reference build has empty TeraBox API credentials, so the initial credential-missing state is preserved rather than inventing credentials.
+- BaRe reconstructs the redirect contract `org.swiftapps.swiftbackup.terabox://teraboxOauth`, authorization-code receipt boundary, error/pending states, and recreation lifecycle.
+- Token exchange, provider credential persistence, and cloud-service identity remain downstream provider behavior.
+- No build/runtime/visual verification was performed.
+
+Current Activity checkpoint: **54 green / 17 yellow / 0 red / 71**.
