@@ -354,7 +354,7 @@ Checkpoint-aligned continuation from 69324f8b3fa1ebf5901c644fcf9f87e8424b65fd:
 
 - `ApkImportActivity` remains 🟡. Compared with Reference, the BaRe boundary now preserves input URI/type state across recreation and accepts the Reference `ACTION_VIEW` / `EXTRA_STREAM` input contract without fabricating parsed APK metadata. Archive parsing, package metadata extraction, installer fallback, and import execution remain downstream.
 - `LabelEditActivity` remains 🟡. Compared with Reference, the editor now exposes interactive label-name preview, color-selection UI, app-selection boundary, save/cancel/delete result boundaries, edit-vs-create menu visibility, and recreation state. Actual label persistence and app inventory/selection remain downstream because their data contracts are not reconstructed here.
-- No Activity was promoted in this batch; the checkpoint P3 signal therefore remains **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**.
+- `ApkImportActivity` was subsequently promoted to green; `LabelEditActivity` is now promoted at its evidence-supported dependency boundary.
 - No build, install, runtime, or visual verification was performed.
 
 ### Batch verification
@@ -383,5 +383,26 @@ Reference-derived P3 flow now covers:
 The remaining archive extraction, full APKS install/session execution, backup integration, and deeper import engine semantics are downstream P4/P5 behavior and are not used to keep this Activity in P3.
 
 **Current checkpoint signal: 49 green / 22 yellow / 0 red / 71 Activities.**
+
+No build, install, runtime, or visual verification was performed.
+
+
+## 2026-09-30 P3 lifecycle exit — LabelEditActivity
+
+`LabelEditActivity` is promoted to green at the evidence-supported P3 boundary.
+
+Reference-derived P3 flow now covers:
+
+- create-vs-edit mode and toolbar state;
+- label-name editing with live preview and recreation state;
+- interactive color selection and preview rendering;
+- app-selection entry as an explicit downstream boundary;
+- save result flow carrying label id/name/color without fabricating persistence;
+- cancel/up navigation;
+- existing-label delete menu visibility and confirmation/result flow.
+
+The remaining label persistence, label catalog mutation, and real app inventory/selection semantics remain downstream because the corresponding BaRe data contracts are not reconstructed in this Activity. They are not used to block the P3 exit.
+
+**Current checkpoint signal: 50 green / 21 yellow / 0 red / 71 Activities.**
 
 No build, install, runtime, or visual verification was performed.
