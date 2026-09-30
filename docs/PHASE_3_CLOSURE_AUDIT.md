@@ -50,7 +50,7 @@ Yellow is an audit state, not a defect finding.
 | 7 | Permissions | 🟡 **OPEN / NEEDS FOLLOW-UP** | Static manifest/request comparison leaves one Reference-defined custom permission boundary unresolved; runtime permission verification remains unperformed. |
 | 8 | Navigation | 🔴 **FAIL / DEFECT** | Reference parentActivity and launch-mode contracts are materially reduced in BaRe; static source navigation exists but manifest back-stack topology is not yet reconciled. |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
-| 10 | Dialog / Error / Loading | 🟡 | Pending audit |
+| 10 | Dialog / Error / Loading | 🔴 **FAIL / DEFECT** | Reference application surfaces use multiple dialog/error/loading mechanisms and persisted dialog state; BaRe has partial replacements and P3 boundary dialogs, but application-wide parity is not established. |
 | 11 | Branding | 🟡 | Pending audit |
 | 12 | Java-only | 🟡 | Pending audit |
 | 13 | Fake / Stub | 🟡 | Pending audit |
@@ -482,3 +482,58 @@ Runtime recreation/background/foreground behavior has not been verified.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#10 Dialog / Error / Loading**.
+
+
+## Audit #10 — Dialog / Error / Loading — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Reference evidence
+
+Static Reference evidence shows several distinct user-facing feedback mechanisms:
+
+- Material/Alert dialogs, including application-specific dialog themes and custom layouts.
+- Snackbar flows in Intro for permission/error feedback, including actions such as proceeding after a permission issue.
+- Toast feedback for application actions and transient status messages.
+- Dialog visibility/state persistence: `IntroActivity` saves `KEY_FIREBASE_ERROR_DIALOG_MODE` when its error dialog is showing.
+- Multiple application Activities explicitly guard/show dialogs with `isShowing()` to avoid duplicate presentation.
+- Task/WiFi/cloud flows contain explicit dialog presentation and dismissal paths.
+
+Reference resources also include application-specific dialog layouts such as storage-setup failure and Material dialog styling contracts.
+
+### BaRe evidence
+
+BaRe has substantial partial feedback reconstruction:
+
+- Many Activities use `MaterialAlertDialogBuilder` for P3 boundary/error surfaces.
+- `IntroActivity` uses a Material dialog and Toast for current boundary paths.
+- `AppListActivity`, `CallsBackupRestoreActivity`, `MessagesBackupRestoreActivity`, `AppVisibilityDiagnosticsActivity`, and provider-boundary flows use Toast feedback.
+- Some Activities expose explicit loading/result shells or guard actions through boundary dialogs.
+
+However, the observed BaRe dialogs are frequently **P3 boundary dialogs**, not demonstrated reconstructions of the corresponding Reference error/loading semantics.
+
+### Gap
+
+The current evidence does not establish parity for:
+
+- Reference application-specific dialog content/layout/style contracts.
+- Snackbar action flows and their triggers.
+- Loading/progress lifecycle, including cancel/dismiss semantics.
+- Error-to-retry/recover transitions.
+- Dialog state restoration across recreation.
+- Full mapping of Reference transient feedback to BaRe equivalents.
+
+This is especially relevant because Audit #4 already established a missing/reduced Reference style/theme contract, including dialog-related styles.
+
+### Required follow-up
+
+- Build Reference→BaRe matrix for application-owned dialogs, Snackbars, Toasts, loading/progress indicators, and error states.
+- Map trigger → visible state → action → dismissal/cancel → recovery behavior.
+- Reconcile application-owned dialog layouts/themes and strings.
+- Reconcile loading/progress state with Activity/ViewModel lifecycle.
+- Re-audit saved dialog state together with Audit #9.
+- Runtime visual/interaction verification only after explicit authorization.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#11 Branding / Swift Identity**.
