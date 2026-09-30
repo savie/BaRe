@@ -361,7 +361,7 @@ String parity is closed for the P3-visible surface. Reference-only strings belon
 - BaRe now matches all 67 names/values, including Reference qualifier overrides for `land`, `w820dp`, `w320dp-land`, and `w600dp-land`.
 - Dimension subgate: **PASS**.
 - Overall Resource/dimension gate: **UNKNOWN** until the remaining dependency/library resource matrix and broader resource-name/content audit are explicitly evidenced.
-- Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
+- Evidence is consolidated in `docs/PHASE_3_STATUS.md`; the former standalone Dimension audit file has been retired.
 
 No Activity source was modified and no build/install/runtime/visual verification was performed.
 
