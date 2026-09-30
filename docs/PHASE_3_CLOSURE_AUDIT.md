@@ -51,7 +51,7 @@ Yellow is an audit state, not a defect finding.
 | 8 | Navigation | 🔴 **FAIL / DEFECT** | Reference parentActivity and launch-mode contracts are materially reduced in BaRe; static source navigation exists but manifest back-stack topology is not yet reconciled. |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
 | 10 | Dialog / Error / Loading | 🔴 **FAIL / DEFECT** | Reference application surfaces use multiple dialog/error/loading mechanisms and persisted dialog state; BaRe has partial replacements and P3 boundary dialogs, but application-wide parity is not established. |
-| 11 | Branding | 🟡 | Pending audit |
+| 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher identity/icon contract; internal Swift-named identifiers were distinguished from user-visible branding. |
 | 12 | Java-only | 🟡 | Pending audit |
 | 13 | Fake / Stub | 🟡 | Pending audit |
 | 14 | Boundary | 🟡 | Pending audit |
@@ -537,3 +537,40 @@ This is especially relevant because Audit #4 already established a missing/reduc
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#11 Branding / Swift Identity**.
+
+
+## Audit #11 — Branding / Swift Identity — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+The Branding / Swift Identity domain was audited statically without changing the app.
+
+### Evidence
+
+The handoff authorizes visible migration Swift Backup → BΛR☰ / BaRe, including application name, logo, branding text, information pages, dialogs, menus, notifications, help, and other user-visible branding. It separately authorizes replacement of Swift-specific external identity where required. Internal identifiers are not authorized for blind global replacement merely because they contain Swift.
+
+Reference identity is org.swiftapps.swiftbackup with application class org.swiftapps.swiftbackup.SwiftApp. Current BaRe intentionally uses .BaReApp, applicationId/namespace com.bare, literal application label BΛR☰, and BaReTheme; the project baseline explicitly classifies the package/applicationId and branding as authorized deviations.
+
+Current BaRe static search found Swift-named internal identifiers such as search_swift_backup, open_in_swift_backup, and btnOpenInSwiftBackup, but the inspected user-visible values are already migrated to “Search BΛR☰” and “Open in BΛR☰”. These identifiers are therefore not independently classified as branding defects.
+
+The current manifest does not declare an application icon, and the inspected BaRe res tree does not establish a target mipmap launcher resource. intro_activity.xml does contain visible BΛR☰ branding.
+
+### Audit conclusion
+
+The Branding / Swift Identity domain is:
+
+> **🔴 FAIL / DEFECT**
+
+The concrete static gap is the unresolved launcher identity/icon contract plus the absence of exhaustive evidence proving all user-visible Swift identity has been migrated. Runtime/visual verification was not performed.
+
+### Required follow-up
+
+- Build a Reference→BaRe branding matrix across all user-visible surfaces.
+- Separate internal identifiers from actual visible branding and from provider/deep-link identity.
+- Establish/reconcile the BaRe/BΛR☰ launcher icon/logo resource contract.
+- Re-audit user-visible strings after String-domain reconciliation.
+- Perform runtime/visual branding verification only when explicitly authorized.
+
+**No app/code/resource fix was performed.**
+
+Next audit domain: **#12 Java-only**.
