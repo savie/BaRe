@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **55** |
-| 🟡 Yellow | **16** |
+| 🟢 Green | **56** |
+| 🟡 Yellow | **15** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -88,27 +88,27 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 53. `OneDriveSignInActivity`
 54. `TeraBoxSignInActivity`
 55. `YandexSignInActivity`
+56. `ContributorRegActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 16
+### 🟡 Yellow — 15
 
-1. `ContributorRegActivity`
-2. `FolderPickerActivity`
-3. `FoldersBatchActivity`
-4. `ScheduleLabelsSelectActivity`
-5. `ScheduleFolderSelectActivity`
-6. `CallsBackupRestoreActivity`
-7. `MessagesBackupRestoreActivity`
-8. `ChatActivity`
-9. `CallsDashActivity`
-10. `MessagesDashActivity`
-11. `PremiumActivity`
-12. `AppVisibilityDiagnosticsActivity`
-13. `WallsDashActivity`
-14. `WallApplyActivity`
-15. `WallsManageActivity`
-16. `WifiActivity`
+1. `FolderPickerActivity`
+2. `FoldersBatchActivity`
+3. `ScheduleLabelsSelectActivity`
+4. `ScheduleFolderSelectActivity`
+5. `CallsBackupRestoreActivity`
+6. `MessagesBackupRestoreActivity`
+7. `ChatActivity`
+8. `CallsDashActivity`
+9. `MessagesDashActivity`
+10. `PremiumActivity`
+11. `AppVisibilityDiagnosticsActivity`
+12. `WallsDashActivity`
+13. `WallApplyActivity`
+14. `WallsManageActivity`
+15. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -461,4 +461,13 @@ Current Activity depth: **54 green / 17 yellow / 0 red / 71**. No build/runtime/
 - Reference AppAuth/hq5 token exchange and provider credential persistence remain downstream; no token/provider state is fabricated.
 - Reference redirect contract is `org.swiftapps.swiftbackup.yandex://oauth`; manifest registration remains non-exported/singleTop as in the supplied Reference.
 - Current Activity checkpoint: **55 green / 16 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ContributorRegActivity
+
+- `ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference layout and Activity lifecycle.
+- BaRe reconstructs the Reference-shaped contributor registration surface: remote-status/basic-details boundary, Telegram/Crowdin/PayPal fields, scroll layout, Save Details action, and recreation state.
+- Reference remote contributor state, coroutine/ViewModel persistence, and registration backend remain downstream; no remote status or contributor identity is fabricated.
+- Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
