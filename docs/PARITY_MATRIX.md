@@ -291,3 +291,10 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 - Concrete Reference `FolderItem` inventory/result Parcelable and schedule mutation remain downstream.
 - Current Activity depth: **60 green / 11 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — CallsBackupRestoreActivity
+- Reference-derived call-log backup/restore screen structure is reconstructed through the P3 engine boundary.
+- Mode detection from `EXTRA_BACKUP_FILE_PATH`, mode-dependent action, list/refresh surface, select-all menu, permission flow, empty/selection state, and cancel/up behavior are represented.
+- Concrete backup inventory, call-log adapter data, restore strategy, and backup/restore execution remain UNKNOWN/P4-P5.
+- No build, install, runtime, or visual verification performed.
