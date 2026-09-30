@@ -63,7 +63,7 @@ No need to say “Resource/Dimension” or “Style/Theme/Color” as a combined
 ### Document hierarchy
 
 **Operational source:** `docs/PHASE_3_STATUS.md`  
-**Evidence/history only:** `docs/P3_RESOURCE_DIMENSION_AUDIT.md`, `docs/P3_RESOURCE_PARITY_AUDIT.md`, `docs/PHASE_3_CLOSURE_AUDIT.md`, `docs/PARITY_MATRIX.md`
+**Evidence/history only:** `docs/PHASE_3_CLOSURE_AUDIT.md`, `docs/PARITY_MATRIX.md`
 
 The evidence/history documents may contain older checkpoints and historical freeze wording. They are **not** the current work queue.
 
@@ -281,7 +281,7 @@ The first Resource/Dimension sub-audit is complete against the supplied Swift Ba
 - No Activity source was changed.
 - No build, install, runtime, or visual verification was performed.
 
-Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
+Evidence is consolidated in this Phase 3 Status document; the former standalone Dimension audit file has been retired.
 
 This closes the **dimension subgate**, but does **not** yet promote the overall Resource/dimension parity gate: 772 dependency/library-prefixed Reference dimensions and the broader resource-name/content matrix still require explicit evidence before the overall gate can be marked PASS.
 
@@ -295,5 +295,5 @@ This closes the **dimension subgate**, but does **not** yet promote the overall 
 - Overall Resource/dimension parity remains **UNKNOWN / OPEN** pending application-owned layout/menu/XML/animation/qualifier resource mapping.
 - No Activity source was modified; no build/install/runtime/visual verification was performed.
 
-Evidence: `docs/P3_RESOURCE_PARITY_AUDIT.md`.
+Evidence is consolidated in this Phase 3 Status document; the former standalone Resource parity audit file has been retired.
 \n\n## 2026-09-30 Resource parity continuation — freeze evidence superseded\n\nThe earlier P3 FREEZE marker is superseded by the continuing Resource/Dimension evidence audit. It must not be treated as final while the Resource/Dimension gate remains UNKNOWN.\n\nConcrete evidence-backed resource corrections since the broad pass:\n- restored menu_apk_import.xml;\n- restored menu_select_all.xml;\n- confirmed/aligned menu_smscalls_backups.xml;\n- aligned menu_premium.xml to Reference;\n- restored ic_bug.xml and ic_help.xml required by those menu contracts.\n\nThe Activity freeze/regression rule remains: do not reopen green Activities without new evidence of an Activity defect. No Activity source changed in this resource pass.\n\nNo build/install/runtime/visual verification was performed. Engine/provider/backend/runtime success remains unclaimed.\n\n\n## 2026-09-30 Resource contract closure pass\n\nThe resource audit was extended from path inventory into active source-contract tracing. Current BaRe source references to R.menu were checked against rewrite resources; the active R.xml surface was checked as well. The Reference PreferenceCategory layout contract was restored and wired into settings.xml.\n\nP3-visible Resource contract is now **PASS by static evidence**. The broader Reference-vs-BaRe application-resource matrix remains **UNKNOWN / OPEN** because unused/reference-only layouts and resource classes are intentionally not mass-copied without ownership/usage evidence.\n\nNo Activity source was modified and no build/install/runtime/visual verification was performed.\n
