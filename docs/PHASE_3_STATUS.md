@@ -126,6 +126,18 @@ Previous red items and final result:
 - `RestoreSpecialDataDetailsActivity` → 🟢
 - `AppBackupLimitsActivity` → 🟢
 
+## Latest vertical audit — Messages / Calls
+
+Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
+
+- `MessagesBackupRestoreActivity` → 🟡; Reference has adapter-backed backup selection, refresh/state controls, menu/select-all state, and default-SMS-role flow.
+- `CallsBackupRestoreActivity` → 🟡; Reference has adapter-backed backup selection, refresh/state controls, and call-log permission flow.
+- `ChatActivity` → 🟡; BaRe currently stops at toolbar + empty RecyclerView; the Reference owns conversation/message rendering state.
+- `MessagesDashActivity` → 🟡; Reference has permission flow, dynamic device/cloud backup counts, menus, and navigation to conversation/settings surfaces.
+- `CallsDashActivity` → 🟡; Reference has call-log permission flow, dynamic device/cloud backup counts, menus, and settings navigation.
+
+No promotion was made in this slice because the remaining differences are still evidence-supported P3 reconstruction gaps, not merely deferred execution engines.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
