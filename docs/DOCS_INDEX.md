@@ -10,7 +10,7 @@ This file defines the role of every document under `docs/` so the reconstruction
 |---|---|---|
 | `docs/bare.md` | **ROADMAP / HANDOFF AUTHORITY** | Target definition, 1:1 rule, Authorized Deviations, phase order, implementation constraints |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | **CURRENT PROJECT DASHBOARD** | Current phase, gates, urgency, what is complete/deferred/blocked |
-| `docs/P3_STATUS.md` | **CURRENT P3 WORK QUEUE** | 71-Activity P3 depth map, 🔴/🟡/🟢 backlog, latest P3 reclassification and next work |
+| `docs/PHASE_3_STATUS.md` | **CURRENT P3 WORK QUEUE** | 71-Activity P3 depth map, 🔴/🟡/🟢 backlog, latest P3 reclassification and next work |
 | `docs/PARITY_MATRIX.md` | **HIGH-LEVEL PARITY DASHBOARD** | Cross-domain parity classification; not an Activity-by-Activity work queue |
 
 ## Frozen evidence / gate records
@@ -39,7 +39,7 @@ The following overlap is intentional but has different authority:
 - `PHASE_2_SKELETON.md` is the **frozen canonical component inventory**; do not duplicate its 71-name list elsewhere.
 - `RECONSTRUCTION_STATUS.md` is the **detailed history/evidence log**; it should not become the primary task queue.
 - `RECONSTRUCTION_CHECKPOINT.md` is the **current roadmap dashboard**.
-- `P3_STATUS.md` is the **current Activity-level P3 queue**.
+- `P3_STATUS.md` is the **current Activity-level Phase 3 queue**.
 - `PARITY_MATRIX.md` is intentionally high-level and must not duplicate the full 71-Activity inventory.
 
 ## Files that should not be duplicated
@@ -74,6 +74,6 @@ For project gates:
 
 The project is:
 
-**P1 frozen → P2 frozen → P3 active**, with selected P4 contracts reconstructed only where P3 required verified dependencies.
+**P1 frozen → P2 frozen → Phase 3 active**, with selected P4 contracts reconstructed only where P3 required verified dependencies.
 
 P3 remains the active work queue.
