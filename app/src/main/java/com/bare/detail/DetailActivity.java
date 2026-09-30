@@ -1,48 +1,10 @@
 package com.bare.detail;
-
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.bare.R;
-
-/**
- * P3 shell for the Reference app backup/detail surface.
- *
- * Backup/restore operations are intentionally not implemented here; the screen
- * is a navigation boundary for the later P4 engine.
- */
+import android.app.Activity; import android.content.Intent; import android.os.Bundle; import android.os.Parcelable; import android.widget.TextView; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import com.bare.R; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public final class DetailActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(@Nullable Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.detail_activity);
-
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            findViewById(R.id.btn_backup).setOnClickListener(v -> showEngineBoundary(R.string.backup));
-            findViewById(R.id.btn_restore).setOnClickListener(v -> showEngineBoundary(R.string.restore));
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setTitle(R.string.app_detail);
-            }
-            toolbar.setNavigationOnClickListener(v -> finish());
-        }
-    }
-
-    private void showEngineBoundary(int actionRes) {
-        new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
-                .setTitle(actionRes)
-                .setMessage(R.string.apps_engine_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
+ private static final String APP_PARCEL="APP_PARCEL"; private static final String SHORTCUT="detail_launched_from_shortcut"; private Parcelable appParcel;
+ @Override protected void onCreate(@Nullable Bundle state){ super.onCreate(state); setContentView(R.layout.detail_activity); Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null){getSupportActionBar().setDisplayHomeAsUpEnabled(true);getSupportActionBar().setTitle(R.string.app_detail);} appParcel=state!=null?state.getParcelable(APP_PARCEL):getIntent().getParcelableExtra(APP_PARCEL); if(appParcel==null&&!getIntent().getBooleanExtra(SHORTCUT,false)){finish();return;} if(appParcel!=null){((TextView)findViewById(R.id.tv_info)).setText(R.string.app_info_contract_ready);} findViewById(R.id.btn_backup).setOnClickListener(v->boundary(R.string.backup)); findViewById(R.id.btn_restore).setOnClickListener(v->boundary(R.string.restore)); }
+ private void boundary(int title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.apps_engine_boundary).setPositiveButton(R.string.close,null).show();}
+ @Override protected void onSaveInstanceState(Bundle out){if(appParcel!=null)out.putParcelable(APP_PARCEL,appParcel);super.onSaveInstanceState(out);}
+ @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
+ @Override protected void onNewIntent(Intent intent){super.onNewIntent(intent);setIntent(intent); if(intent.getBooleanExtra(SHORTCUT,false)){appParcel=intent.getParcelableExtra(APP_PARCEL);}}
 }
