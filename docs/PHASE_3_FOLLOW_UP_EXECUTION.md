@@ -789,3 +789,21 @@ The six Reference application colors (`acnt`, `ambrdark`, `blk07`, `premium`, `t
 **Step 8 remains gated for implementation execution.** The next valid action is targeted evidence/classification for a specific bounded contract, not opportunistic mutation. No cross-EU implementation is performed merely to force Step 8 progress.
 
 Checkpoint timestamp: 2026-10-01 04:48 WIB.
+
+## Step 8 — EU-11 / N-08 Small Implementation — AppsQuickActionsActivity
+
+**Status: IMPLEMENTED — STATIC CHECK PASS**
+
+Reference contract: AppsQuickActionsActivity declares parentActivityName=org.swiftapps.swiftbackup.home.HomeActivity.
+
+BaRe change: app/src/main/AndroidManifest.xml now declares android:parentActivityName=".home.HomeActivity" for AppsQuickActionsActivity.
+
+Scope: one manifest attribute on one Activity. No label/string, theme, intent-filter, provider, backend, or runtime behavior was changed.
+
+Static verification: target manifest was re-read and the expected parentActivityName is present.
+
+Re-audit target: **#8 Navigation**. This specific Reference→BaRe navigation difference is now reconciled statically as **MATCH for this attribute**. Domain #8 remains OPEN pending the complete 71-Activity matrix and remaining navigation contracts.
+
+No build/install/runtime/visual verification was performed.
+
+Checkpoint: commit 267f0733cfa84fb71e9d6db12893fcfe24264389.
