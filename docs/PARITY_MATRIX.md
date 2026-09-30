@@ -51,7 +51,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 7 | Permissions | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 8 | Navigation | 🔴 FAIL / DEFECT |
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
-| 10 | Dialog / Error / Loading | 🟡 AUDIT REQUIRED |
+| 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
 | 11 | Branding | 🟡 AUDIT REQUIRED |
 | 12 | Java-only | 🟡 AUDIT REQUIRED |
 | 13 | Fake / Stub | 🟡 AUDIT REQUIRED |
@@ -229,3 +229,14 @@ Reference application Activities contain numerous explicit saved-state contracts
 No app/code/resource change was made during the audit.
 
 Next: **#10 Dialog / Error / Loading**.
+
+
+## P3 Total Audit — Dialog / Error / Loading Result
+
+**#10 Dialog / Error / Loading: 🔴 FAIL / DEFECT**
+
+Reference contains application-owned Alert/Material dialogs, Snackbar permission/error flows, Toast feedback, loading/progress dialogs, duplicate-show guards, and persisted dialog state. BaRe has meaningful partial Material dialog and Toast coverage, but many are explicit P3 boundary surfaces and full error/loading/recovery parity is not established. Dialog state restoration and runtime presentation remain unverified.
+
+No app/code/resource change was made during the audit.
+
+Next: **#11 Branding / Swift Identity**.
