@@ -1,5 +1,10 @@
 # BΛR☰ PHASE 4 GUIDE
 
+## Canonical Target Guard
+
+The reconstruction target is defined by `docs/bare.md`. This guide cannot redefine 1:1 parity or authorize deviations. P4 remains a later lifecycle phase and cannot start until P3 closure and the P4 gate are explicitly satisfied.
+
+
 ## Purpose
 
 Phase 4 is the **Core Behavior** phase prepared after the Phase 3 UI + Navigation reconstruction. Implementation remains gated until total P3 parity closure.
