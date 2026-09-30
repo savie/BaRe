@@ -154,7 +154,7 @@
         <activity android:name=".settings.appbackuplimits.AppBackupLimitsActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.DropboxSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.OneDriveSignInActivity"  android:launchMode="singleTop" />
-        <activity android:name=".cloud.connect.BoxSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.BoxSignInActivity" android:exported="false" android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.MegaSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.YandexSignInActivity" android:exported="false" android:launchMode="singleTop">
             <intent-filter>
@@ -174,7 +174,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".cloud.connect.CsActivity"  android:launchMode="singleTop" />
-        <activity android:name=".cloud.connect.FilenSignInActivity" />
+        <activity android:name=".cloud.connect.FilenSignInActivity" android:exported="false" />
         <activity android:name=".messagescalls.defaulthandler.ComposeSmsActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
