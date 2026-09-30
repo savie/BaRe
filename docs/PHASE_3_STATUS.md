@@ -47,7 +47,7 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
 | P3 TOTAL AUDIT | **COMPLETE — 15/15 domains audited; closure not established** |
-| P3 Follow-up Execution | **ACTIVE — Step 4 DEPENDENCY MAPPING complete; Step 5 pending** |
+| P3 Follow-up Execution | **ACTIVE — Step 5 DEPENDENCY ORDER complete; Step 6 pending** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
@@ -63,11 +63,11 @@ No application fix is implied merely by an audit verdict. Required follow-ups ar
 
 
 
-## Current Follow-up Dependency Mapping
+## Current Follow-up Dependency Order
 
-**Step 4 — DEPENDENCY MAPPING: COMPLETE.**
+**Step 5 — DEPENDENCY ORDER: COMPLETE.**
 
-The normalized contracts now have explicit blocking, dependency, parallel-safe, downstream, and verification relationships. No execution order or work package has been formed yet. Next operational step: **Step 5 — DEPENDENCY ORDER**.
+The normalized contracts now have a traceable primary execution order derived from the Step 4 dependency graph. Parallel-safe evidence waves are recorded separately; no work package or implementation scope has been formed. Next operational step: **Step 6 — WORK PACKAGE FORMATION**.
 
 ## Current Follow-up Classification
 
@@ -80,7 +80,7 @@ The 13 active normalized contracts are classified as follows:
 - **IMPLEMENTATION:** none
 - **RE-AUDIT / VERIFICATION:** N-15
 
-This classification identifies the primary next action only. It does not authorize implementation. Next operational step: **Step 4 — DEPENDENCY MAPPING**.
+This classification identifies the primary next action only. It does not authorize implementation. Next operational step: **Step 5 — DEPENDENCY ORDER**.
 
 ## P3 TOTAL AUDIT — 15 Domains
 
