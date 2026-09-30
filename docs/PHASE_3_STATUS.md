@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **54** |
-| 🟡 Yellow | **19** |
+| 🟢 Green | **55** |
+| 🟡 Yellow | **16** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -87,13 +87,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 52. `BoxSignInActivity`
 53. `OneDriveSignInActivity`
 54. `TeraBoxSignInActivity`
+55. `YandexSignInActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 17
+### 🟡 Yellow — 16
 
-1. `YandexSignInActivity`
-2. `ContributorRegActivity`
+1. `ContributorRegActivity`
 3. `FolderPickerActivity`
 4. `FoldersBatchActivity`
 5. `ScheduleLabelsSelectActivity`
@@ -454,3 +454,13 @@ Compared directly with the supplied Swift Backup 5.1.0 (620) Reference:
 - `TeraBoxSignInActivity` is promoted to 🟢 at the evidence-supported external-auth boundary.
 
 Current Activity depth: **54 green / 17 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — YandexSignInActivity
+
+- `YandexSignInActivity` crossed the P3 boundary at the inherited `fq5` OAuth contract audited directly from the supplied Reference.
+- BaRe reconstructs the Yandex authorization contract: browser availability probe, redirect-handler probe, authorization URL/parameters, request-code result boundary, redirect URI/code validation, failure states, and recreation state.
+- Reference AppAuth/hq5 token exchange and provider credential persistence remain downstream; no token/provider state is fabricated.
+- Reference redirect contract is `org.swiftapps.swiftbackup.yandex://oauth`; manifest registration remains non-exported/singleTop as in the supplied Reference.
+- Current Activity checkpoint: **55 green / 16 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
