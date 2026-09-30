@@ -18,14 +18,14 @@ It does **not** claim runtime verification, visual parity, backup/restore execut
 
 ## Latest complete 71-Activity depth audit
 
-Audit head: `36704f7803bf779887e59c3c94513f457f1ea1aa` (`rewrite`).
+Audit head: current `rewrite` head.
 
 The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then re-validated every post-snapshot change through the current head. The three previous “special review” Activities were also compared directly against the supplied Reference source/layout and are now classified normally.
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **41** |
-| 🟡 Yellow | **30** |
+| 🟢 Green | **40** |
+| 🟡 Yellow | **31** | |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -201,8 +201,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **23 🟢:** P3 boundary is considered reached. These Activities should now be treated as downstream-phase inputs rather than routine P3 backlog. Their remaining work, where any exists, is execution/feature/deviation/verification work.
-- **48 🟡:** P3 remains active because these Activities still have shallow Reference-derived UI/navigation/state depth, or they expose a boundary whose deeper reconstruction is still pending. Each next slice must distinguish P3 work from P4/P5 dependency before implementation.
+- **40 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **31 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
