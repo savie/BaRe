@@ -43,7 +43,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | # | Domain | Current classification |
 |---:|---|---|
 | 1 | Resource | 🟡 OPEN / NEEDS FOLLOW-UP |
-| 2 | Strings | 🟡 AUDIT REQUIRED |
+| 2 | Strings | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 3 | Dimensions | 🟡 AUDIT REQUIRED |
 | 4 | Styles / Themes / Colors | 🟡 AUDIT REQUIRED |
 | 5 | Manifest | 🟡 AUDIT REQUIRED |
@@ -140,4 +140,15 @@ The current evidence does establish an application-owned resource **scope/eviden
 
 No app/resource change was made during this audit.
 
-Next: **#2 Strings**.
+Next: **#3 Dimensions**.
+
+
+## P3 Total Audit — Strings Result
+
+**#2 Strings: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+Static audit found 1,384 Reference base strings versus 523 current BaRe base strings. Raw equality is not a valid criterion because the Reference tree contains dependency/library strings. However, static Reference-source tracing identified 300 distinct R.string.* names used by the Reference application package, and representative application-owned names are absent from the current BaRe base string set.
+
+Therefore the current evidence does not prove application-owned string parity closed. The required next step is an application-owned Reference→BaRe string matrix with explicit classification for dependency/library strings, P3-visible strings, authorized BΛR☰ replacements, and deferred/downstream strings.
+
+No app/resource change was made during this audit.
