@@ -82,32 +82,33 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 47. `FilenSignInActivity`
 48. `DetailActivity`
 49. `ApkImportActivity`
+50. `LabelEditActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
 ### 🟡 Yellow — 21
 
 1. `LabelsActivity`
-4. `BoxSignInActivity`
-5. `OneDriveSignInActivity`
-6. `TeraBoxSignInActivity`
-7. `YandexSignInActivity`
-8. `ContributorRegActivity`
-9. `FolderPickerActivity`
-10. `FoldersBatchActivity`
-11. `ScheduleLabelsSelectActivity`
-12. `ScheduleFolderSelectActivity`
-13. `CallsBackupRestoreActivity`
-14. `MessagesBackupRestoreActivity`
-15. `ChatActivity`
-16. `CallsDashActivity`
-17. `MessagesDashActivity`
-18. `PremiumActivity`
-19. `AppVisibilityDiagnosticsActivity`
-20. `WallsDashActivity`
-21. `WallApplyActivity`
-22. `WallsManageActivity`
-23. `WifiActivity`
+2. `BoxSignInActivity`
+3. `OneDriveSignInActivity`
+4. `TeraBoxSignInActivity`
+5. `YandexSignInActivity`
+6. `ContributorRegActivity`
+7. `FolderPickerActivity`
+8. `FoldersBatchActivity`
+9. `ScheduleLabelsSelectActivity`
+10. `ScheduleFolderSelectActivity`
+11. `CallsBackupRestoreActivity`
+12. `MessagesBackupRestoreActivity`
+13. `ChatActivity`
+14. `CallsDashActivity`
+15. `MessagesDashActivity`
+16. `PremiumActivity`
+17. `AppVisibilityDiagnosticsActivity`
+18. `WallsDashActivity`
+19. `WallApplyActivity`
+20. `WallsManageActivity`
+21. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
@@ -312,8 +313,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- ****46 🟢**:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- ****25 🟡**:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **50 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **21 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
