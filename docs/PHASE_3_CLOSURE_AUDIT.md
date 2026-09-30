@@ -47,7 +47,7 @@ Yellow is an audit state, not a defect finding.
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Concrete static theme/style/color contract gaps established; implementation follow-up required after total audit. |
 | 5 | Manifest | 🔴 **FAIL / DEFECT** | Concrete static manifest contract gaps established; implementation follow-up required after total audit. |
 | 6 | Intent | 🔴 **FAIL / DEFECT** | Concrete static external intent/URI contract gaps established; implementation follow-up required after total audit. |
-| 7 | Permissions | 🟡 | Pending audit |
+| 7 | Permissions | 🟡 **OPEN / NEEDS FOLLOW-UP** | Static manifest/request comparison leaves one Reference-defined custom permission boundary unresolved; runtime permission verification remains unperformed. |
 | 8 | Navigation | 🟡 | Pending audit |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
 | 10 | Dialog / Error / Loading | 🟡 | Pending audit |
@@ -344,3 +344,40 @@ Create the Reference→BaRe intent matrix, classify the AppAuth callback topolog
 **No app/code/resource fix was performed.**
 
 Next audit domain: **#7 Permissions**.
+
+
+## Audit #7 — Permissions — Findings
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Static manifest result
+
+Direct comparison of the current Reference 5.1.0 (620) manifest and BaRe manifest shows **34 Reference `uses-permission` declarations vs 33 BaRe declarations**. The only Reference-only declaration is:
+
+`org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`
+
+The previously documented four-item delta is stale: current BaRe already declares `QUERY_ADVANCED_PROTECTION_MODE`, `com.google.android.providers.gsf.permission.READ_GSERVICES`, and `moe.shizuku.manager.permission.API_V23`.
+
+The Reference also defines the dynamic receiver permission itself with `protectionLevel="signature"`; current BaRe has no corresponding `<permission>` declaration.
+
+### Runtime/request contract evidence
+
+Static source evidence shows BaRe explicitly requests/checks permissions for the reconstructed SMS/contact/call-log and notification surfaces, including `READ_SMS`, `READ_CONTACTS`, `READ_CALL_LOG`, `WRITE_CALL_LOG`, and `POST_NOTIFICATIONS`. Reference source has corresponding permission handling for the same major surfaces.
+
+Reference source also contains Shizuku permission handling for `moe.shizuku.manager.permission.API_V23`, and current BaRe manifest declares that permission. This audit does not infer runtime grant state without execution.
+
+### Conclusion
+
+The remaining custom dynamic-receiver permission is tied to the Reference package identity and may represent dependency/generated manifest integration rather than an application-owned permission. The source evidence available in this audit does not establish its current BaRe runtime necessity or an authorized exemption.
+
+Therefore the domain remains **🟡 OPEN / NEEDS FOLLOW-UP**, not PASS.
+
+### Required follow-up
+
+- Classify the Reference-defined dynamic receiver permission as dependency-generated, application-owned, or authorized identity migration.
+- If application-owned, reconcile it under the BaRe namespace and re-audit receiver registration boundaries.
+- Complete static Reference→BaRe permission/request matrix, then perform runtime verification only when runtime work is authorized.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#8 Navigation**.
