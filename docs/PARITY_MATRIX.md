@@ -237,3 +237,12 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - Reference provider code exchange and token persistence remain downstream; no credentials are fabricated.
 - Activity depth after this exit: **54 green / 17 yellow / 0 red / 71**.
 - Build/runtime/visual verification remains blocked/gated.
+
+
+## 2026-09-30 Yandex sign-in P3
+
+- `YandexSignInActivity` now reconstructs the Reference inherited `fq5` OAuth boundary: browser/redirect-handler probes, Yandex authorization endpoint/contract, result request code, redirect validation, failure handling, and recreation state.
+- Reference AppAuth result decoding, token exchange, and provider persistence remain downstream and are not fabricated.
+- Redirect contract reconstructed as `org.swiftapps.swiftbackup.yandex://oauth`; manifest registration follows the supplied Reference (`exported=false`, `singleTop`).
+- Activity depth after this exit: **55 green / 16 yellow / 0 red / 71**.
+- Build/runtime/visual verification remains blocked/gated.
