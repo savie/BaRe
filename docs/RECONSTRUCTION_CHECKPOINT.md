@@ -163,9 +163,9 @@ Therefore P8 and the final P9 deviation audit remain downstream gates.
 
 The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
 
-Latest complete 71-Activity P3 depth audit at `29851c17a8103f5c33f7c2d251907fffd407f913`:
-- 🟢 Green: **47**
-- 🟡 Yellow: **24**
+Latest complete 71-Activity P3 depth audit at `b556d19e5c07656219070f42f448945d16982961`:
+- 🟢 Green: **48**
+- 🟡 Yellow: **23**
 - 🔴 Red: **0**
 - **71/71 classified**
 - The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
@@ -236,7 +236,7 @@ That is the intended interpretation of the current checkpoint.
 
 The current P3 gate is now interpreted as a **phase-boundary audit**, not a requirement to force every component into green.
 
-- **71 Activities:** 47 are at the current P3 boundary (green); 24 still contain evidence-supported P3 depth work or need an explicit dependency decision.
+- **71 Activities:** 48 are at the current P3 boundary (green); 23 still contain evidence-supported P3 depth work or need an explicit dependency decision.
 - **3 Services:** all structural boundaries exist. TaskService and ScheduleService have substantial Reference execution contracts and therefore move their remaining behavior to P4/P5; HeadlessSmsSendService is already minimal in the Reference and has reached its meaningful P3 boundary.
 - **8 Receivers:** all structural boundaries exist. Remaining side effects are phase-owned by P4/P5; MmsReceiver additionally needs its Reference inheritance boundary (SmsReceiver) corrected before execution work.
 - **P7/P8/P9 remain downstream gates** and are not part of this audit.
