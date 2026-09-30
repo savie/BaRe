@@ -398,4 +398,14 @@
     <string name="one_drive_ready_to_authenticate">Microsoft sign-in is ready.</string>
     <string name="one_drive_authorization_started">Opening Microsoft sign-in…</string>
     <string name="one_drive_browser_missing">No browser is available to open Microsoft sign-in.</string>
+    <string name="terabox">TeraBox</string>
+    <string name="terabox_ready_to_authenticate">TeraBox authorization is ready.</string>
+    <string name="terabox_authorization_started">Opening TeraBox authorization…</string>
+    <string name="terabox_authorization_pending">Waiting for the TeraBox redirect…</string>
+    <string name="terabox_redirect_handler_missing">No handler activity found for the TeraBox authorization redirect.</string>
+    <string name="terabox_signin_result_null">TeraBox sign-in result intent is null.</string>
+    <string name="terabox_invalid_response">Invalid response from the TeraBox authorization server.</string>
+    <string name="terabox_authorization_code_received">TeraBox authorization code received.</string>
+    <string name="terabox_auth_failed">TeraBox authorization failed.</string>
+    <string name="p3_terabox_provider_boundary">The TeraBox redirect was received. Reference exchanges the authorization code for provider credentials; that provider/token operation remains downstream.</string>
 </resources>
