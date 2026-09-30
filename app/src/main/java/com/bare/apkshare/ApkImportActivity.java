@@ -16,7 +16,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public final class ApkImportActivity extends AppCompatActivity {
     private TextView status;
-    private Uri inputUri;\n    private InputKind inputKind;
+    private Uri inputUri;
+    private InputKind inputKind;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -27,7 +28,19 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.btnClose).setOnClickListener(v -> finish());
         findViewById(R.id.ivMenu).setOnClickListener(v -> showBoundaryMenu());
 
-        if (state == null) {\n            handleIntent(getIntent());\n        } else {\n            String restoredUri = state.getString("apk_import_uri");\n            inputUri = restoredUri == null ? null : Uri.parse(restoredUri);\n            String restoredKind = state.getString("apk_import_kind");\n            inputKind = restoredKind == null ? null : InputKind.valueOf(restoredKind);\n            if (inputUri != null && inputKind != null) {\n                showAccepted(resolveDisplayName(inputUri), inputKind);\n            } else {\n                handleIntent(getIntent());\n            }\n        }
+        if (state == null) {
+            handleIntent(getIntent());
+        } else {
+            String restoredUri = state.getString("apk_import_uri");
+            inputUri = restoredUri == null ? null : Uri.parse(restoredUri);
+            String restoredKind = state.getString("apk_import_kind");
+            inputKind = restoredKind == null ? null : InputKind.valueOf(restoredKind);
+            if (inputUri != null && inputKind != null) {
+                showAccepted(resolveDisplayName(inputUri), inputKind);
+            } else {
+                handleIntent(getIntent());
+            }
+        }
     }
 
     @Override
