@@ -502,4 +502,8 @@
     <string name="wallpaper_ready_to_apply">Wallpaper is ready to apply.</string>
     <string name="wallpaper_apply_confirmation">Apply this wallpaper to %1$s?</string>
     <string name="wallpaper_apply_boundary">Apply wallpaper</string>
+    <string name="wifi_networks_backup">Wi-Fi networks backup</string>
+    <string name="wifi_on_device">Wi-Fi networks on device</string>
+    <string name="backup_to_local">Backup to Device</string>
+    <string name="p3_wifi_engine_boundary">Wi-Fi inventory, backup, restore, password disclosure, and deletion remain deferred to the existing system/provider/engine contract.</string>
 </resources>
