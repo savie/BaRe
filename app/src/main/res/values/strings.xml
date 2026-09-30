@@ -494,4 +494,12 @@
     <string name="wallpaper_cloud_backups_pending">Cloud wallpaper backup inventory is not connected yet. Open Manage to continue.</string>
     <string name="wallpaper_backup_boundary">Wallpaper backup location selection is reconstructed. Backup execution remains at the engine boundary.</string>
     <string name="p3_wallpapers_engine_boundary">Wallpaper backup/restore execution and backup inventory remain deferred to the existing engine/provider contract.</string>
+    <string name="set_wallpaper">Set wallpaper</string>
+    <string name="wallpaper_target">Wallpaper target</string>
+    <string name="home_and_lock_screen">Home + Lock screen</string>
+    <string name="wallpaper_preview">Wallpaper preview</string>
+    <string name="wallpaper_image_unavailable">Wallpaper image is unavailable or could not be opened.</string>
+    <string name="wallpaper_ready_to_apply">Wallpaper is ready to apply.</string>
+    <string name="wallpaper_apply_confirmation">Apply this wallpaper to %1$s?</string>
+    <string name="wallpaper_apply_boundary">Apply wallpaper</string>
 </resources>
