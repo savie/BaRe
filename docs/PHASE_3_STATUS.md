@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **56** |
-| 🟡 Yellow | **15** |
+| 🟢 Green | **57** |
+| 🟡 Yellow | **14** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 56
+### 🟢 Green — 57
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -89,13 +89,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 54. `TeraBoxSignInActivity`
 55. `YandexSignInActivity`
 56. `ContributorRegActivity`
+57. `FolderPickerActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 15
+### 🟡 Yellow — 14
 
-1. `FolderPickerActivity`
-2. `FoldersBatchActivity`
+1. `FoldersBatchActivity`
 3. `ScheduleLabelsSelectActivity`
 4. `ScheduleFolderSelectActivity`
 5. `CallsBackupRestoreActivity`
@@ -471,3 +471,19 @@ Current Activity depth: **54 green / 17 yellow / 0 red / 71**. No build/runtime/
 - Reference remote contributor state, coroutine/ViewModel persistence, and registration backend remain downstream; no remote status or contributor identity is fabricated.
 - Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — FolderPickerActivity
+
+`FolderPickerActivity` is promoted to 🟢 at the evidence-supported P3 folder-selection boundary.
+
+- Reference initial-folder contract `extra_initial_folder` is preserved through the BaRe `q63` compatibility value object.
+- The Reference-shaped picker surface is reconstructed: toolbar/up navigation, breadcrumb navigation, folder RecyclerView, empty state, progress boundary, and Select Folder action.
+- Directory navigation and recreation state are preserved locally; selecting the current folder returns the Reference result key `extra_selected_folder` plus an explicit path companion.
+- Reference New Folder interaction is reconstructed with the 255-character input/counter and explicit filesystem mutation boundary; actual creation/permission semantics remain downstream.
+- Reference storage-switch menu contract is reconstructed; available external roots are surfaced without fabricating storage/provider state.
+- The remaining filesystem permission, storage-provider semantics, and mutation engine are downstream and do not block the P3 exit.
+
+**Current Activity checkpoint: 57 green / 14 yellow / 0 red / 71.**
+
+No build/runtime/visual verification performed.
