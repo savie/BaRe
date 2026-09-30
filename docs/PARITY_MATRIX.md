@@ -159,6 +159,8 @@ The Phase 2 component counts are now backed by a canonical name-by-name inventor
 
 **Important:** Phase 2 MATCH means structural component coverage only. It does not mean those Activities/services/receivers are behaviorally complete.
 
+For Activity-level P3 depth and the current 🔴/🟡/🟢 queue, use `docs/P3_STATUS.md`. The parity matrix remains intentionally high-level.
+
 For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHECKPOINT.md.
 
 ### Current roadmap checkpoint — 2026-09-30
