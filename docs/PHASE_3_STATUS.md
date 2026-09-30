@@ -74,7 +74,7 @@ No application fix is implied merely by an audit verdict. Required follow-ups ar
 
 **Step 5 — DEPENDENCY ORDER: COMPLETE.**
 
-The normalized contracts now have a traceable primary execution order derived from the Step 4 dependency graph. Parallel-safe evidence waves are recorded separately; no work package or implementation scope has been formed. Next operational step: **Step 6 — WORK PACKAGE FORMATION**.
+The normalized contracts have a traceable primary execution order derived from the Step 4 dependency graph. Parallel-safe evidence waves are recorded separately. Step 6 work-package formation and Step 7 scope check are complete; execution now proceeds through bounded EUs and re-audit/checkpoint cycles.
 
 ## Current Follow-up Classification
 
@@ -161,7 +161,7 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 **P3 FOLLOW-UP EXECUTION.**
 
-The 15-domain total audit is complete. Steps 1–7 of the follow-up flow are complete; Step 7 is hardened with the Execution Safety / Stability Gate. The next operational task is to process its required follow-ups through the fixed master flow in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`:
+The 15-domain total audit is complete. Steps 1–7 of the follow-up flow are complete; Step 7 is hardened with the Execution Safety / Stability Gate. The current operational task is Step 8→9→10 for the bounded execution units, then back to Step 5 for remaining follow-ups, through the fixed master flow in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`:
 
 1. Follow-up Register
 2. Normalisation / Dedup
