@@ -163,9 +163,9 @@ Therefore P8 and the final P9 deviation audit remain downstream gates.
 
 The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
 
-Latest complete 71-Activity P3 depth audit at `b556d19e5c07656219070f42f448945d16982961`:
-- 🟢 Green: **48**
-- 🟡 Yellow: **23**
+Latest complete 71-Activity P3 depth audit: current `rewrite` head:
+- 🟢 Green: **57**
+- 🟡 Yellow: **14**
 - 🔴 Red: **0**
 - **71/71 classified**
 - The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
@@ -320,3 +320,10 @@ Current Activity checkpoint: **54 green / 17 yellow / 0 red / 71**.
 `ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference. BaRe reconstructs the Reference-shaped contributor registration UI, editable contributor contact fields, Save Details interaction boundary, and recreation state. Remote contributor status/details, ViewModel/coroutine persistence, and registration backend behavior remain downstream; no remote identity or status is fabricated.
 
 Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — FolderPickerActivity
+
+`FolderPickerActivity` is now 🟢 at the evidence-supported P3 boundary. The Reference `extra_initial_folder` and `extra_selected_folder` contracts are preserved with a BaRe `q63` compatibility value object; the picker reconstructs breadcrumb navigation, directory listing, empty/loading states, Select Folder, New Folder input/counter boundary, storage-switch menu, up/cancel flow, and recreation state. Filesystem mutation/permission/provider semantics remain downstream. No build/runtime/visual verification performed.
+
+Current P3 Activity checkpoint: **57 green / 14 yellow / 0 red / 71**.
