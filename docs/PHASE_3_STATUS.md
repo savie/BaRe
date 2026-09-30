@@ -73,7 +73,7 @@ No application fix is performed merely because a domain is yellow.
 | 3 | Dimensions | 🟢 **CLOSED / PASS** | Static Reference→BaRe dimension parity evidence and qualifier overrides are confirmed. |
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Static audit found concrete application-theme/style/color contract gaps versus the Reference. |
 | 5 | Manifest | 🔴 **FAIL / DEFECT** | Static comparison found concrete Reference-owned manifest contract gaps in permissions, application metadata, activity attributes, and manifest-defined identity. |
-| 6 | Intent | 🟡 | Re-audit explicit and implicit intent contracts used by the P3 surface. |
+| 6 | Intent | 🔴 **FAIL / DEFECT** | Static comparison found concrete external URI/intent-filter and Reference package-identity contract differences requiring reconciliation. |
 | 7 | Permissions | 🟡 | Re-audit permission declarations and permission-related P3 contracts. |
 | 8 | Navigation | 🟡 | Re-audit Activity-to-Activity navigation and navigation boundaries. |
 | 9 | Lifecycle / State | 🟡 | Re-audit lifecycle-sensitive and state-restoration boundaries visible in P3. |
@@ -117,9 +117,9 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #6 — Intent**
+> **Audit #7 — Permissions**
 
-Domains #1–#5 have now been audited. Proceed sequentially through #15.
+Domains #1–#6 have now been audited. Proceed sequentially through #15.
 
 The Styles / Themes / Colors domain is now a documented 🔴 follow-up item. No implementation fix is performed during the audit.
 
@@ -318,3 +318,36 @@ Next audit domain: **#5 Manifest**.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#6 Intent**.
+
+
+## Audit #6 — Intent — Result
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Evidence checked
+
+- Reference manifest exposes an AppAuth `RedirectUriReceiverActivity` with VIEW/BROWSABLE intent filters for the Reference OAuth scheme and provider callback schemes, including Yandex and Box.
+- Reference also exposes provider-specific URI contracts such as TeraBox through its declared intent filters.
+- Current BaRe manifest does not declare the Reference AppAuth `RedirectUriReceiverActivity` contract. Instead, Yandex and TeraBox callback handling is attached directly to the corresponding BaRe provider Activities.
+- Current BaRe source does contain substantial explicit internal Intent usage and external ACTION_VIEW/ACTION_SEND/ACTION_SENDTO usage, including Activity-to-Activity navigation, APK import, cloud sign-in, browser/email sharing, and role/permission requests. Therefore this is not an absence-of-Intent implementation finding.
+- Current Yandex source still contains the Reference package callback URI `org.swiftapps.swiftbackup.yandex://oauth`, while the target application identity is `com.bare`. This is a concrete namespace mismatch in an external intent contract unless explicitly preserved as an authorized provider requirement.
+- Current manifest retains a TeraBox callback scheme using the Reference namespace (`org.swiftapps.swiftbackup.terabox`) as well.
+- No build/install/runtime verification was performed.
+
+### Findings
+
+1. **External OAuth intent routing is not statically reconciled with the target identity.** Reference uses a library callback receiver plus Reference URI schemes; BaRe uses provider Activity filters while retaining Reference-namespaced callback URIs in source/manifest.
+2. Internal explicit Intent usage is present across the P3 surface, so the defect is contract parity/routing reconciliation rather than missing Intent APIs.
+3. The Reference-vs-BaRe callback receiver topology may be an intentional dependency/boundary change, but there is no current audit evidence classifying it as an authorized deviation.
+4. Runtime dispatch cannot be claimed without execution, but the static URI/filter mismatch is independently established.
+
+### Required follow-up
+
+- Build an application-owned Reference→BaRe intent contract matrix covering explicit Activity launches, action/data/type contracts, extras, request/result codes, and manifest intent-filters.
+- Reconcile external OAuth callback URI namespaces against the authorized package/provider contracts.
+- Explicitly classify the AppAuth callback-receiver topology as authorized boundary or reconstruct it; do not silently treat the topology difference as parity.
+- Re-audit all exported/deep-link intent filters after reconciliation.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#7 Permissions**.
