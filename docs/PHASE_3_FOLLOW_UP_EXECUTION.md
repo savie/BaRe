@@ -1,5 +1,12 @@
 # BΛR☰ Phase 3 Follow-up Execution
 
+## Canonical Target Guard
+
+The reconstruction target and authorized deviations are defined exclusively by `docs/bare.md`. This document defines **how P3 follow-ups are executed**, not what parity means. Every follow-up must retain the concrete Reference→BaRe contract and classify differences as MATCH, AUTHORIZED DEVIATION, UNAUTHORIZED DEVIATION, UNKNOWN, or BLOCKED. Evidence sampling, alternate contracts, or “functionally similar” replacements do not close parity.
+
+The supplied Swift Backup 5.1.0 (620) decompile archive remains the primary Reference evidence source. Repository mirrors are secondary evidence only.
+
+
 ## Document Role
 
 This document is the execution framework for P3 follow-up work after the 15-domain P3 TOTAL AUDIT.
