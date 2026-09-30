@@ -71,11 +71,11 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 36. `NoGmsSignInActivity`
 37. `LocaleActivity`
 38. `ConversationsActivity`
-37. `ComposeSmsActivity`
-38. `CallsBackupsActivity`
-39. `MessagesBackupsActivity`
-40. `RestoreSpecialDataDetailsActivity`
-41. `AppBackupLimitsActivity`
+39. `ComposeSmsActivity`
+40. `CallsBackupsActivity`
+41. `MessagesBackupsActivity`
+42. `RestoreSpecialDataDetailsActivity`
+43. `AppBackupLimitsActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
@@ -88,27 +88,27 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 5. `BoxSignInActivity`
 6. `FilenSignInActivity`
 7. `OneDriveSignInActivity`
-10. `TeraBoxSignInActivity`
-11. `YandexSignInActivity`
-12. `ContributorRegActivity`
-13. `DetailActivity`
-14. `FolderDetailActivity`
-15. `FolderEditActivity`
-16. `FolderPickerActivity`
-17. `FoldersBatchActivity`
-18. `ScheduleLabelsSelectActivity`
-19. `ScheduleFolderSelectActivity`
-20. `CallsBackupRestoreActivity`
-21. `MessagesBackupRestoreActivity`
-22. `ChatActivity`
-23. `CallsDashActivity`
-24. `MessagesDashActivity`
-25. `PremiumActivity`
-26. `AppVisibilityDiagnosticsActivity`
-27. `WallsDashActivity`
-28. `WallApplyActivity`
-29. `WallsManageActivity`
-30. `WifiActivity`
+8. `TeraBoxSignInActivity`
+9. `YandexSignInActivity`
+10. `ContributorRegActivity`
+11. `DetailActivity`
+12. `FolderDetailActivity`
+13. `FolderEditActivity`
+14. `FolderPickerActivity`
+15. `FoldersBatchActivity`
+16. `ScheduleLabelsSelectActivity`
+17. `ScheduleFolderSelectActivity`
+18. `CallsBackupRestoreActivity`
+19. `MessagesBackupRestoreActivity`
+20. `ChatActivity`
+21. `CallsDashActivity`
+22. `MessagesDashActivity`
+23. `PremiumActivity`
+24. `AppVisibilityDiagnosticsActivity`
+25. `WallsDashActivity`
+26. `WallApplyActivity`
+27. `WallsManageActivity`
+28. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
