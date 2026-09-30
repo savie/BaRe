@@ -219,6 +219,47 @@ No implementation item should be promoted here solely from a raw count differenc
 ### D. Re-audit / Verification
 A change or classification requires affected-domain re-evaluation.
 
+# Step 3 — Classification
+
+Step 3 is now complete for the 13 active normalized contracts. Classification is based on the current P3 TOTAL AUDIT evidence and identifies the **primary next action**, not an implementation authorization.
+
+## Classification result
+
+| Normalized item | Source audit domain | Primary class | Human meaning / reason |
+|---|---:|---|---|
+| N-01 Application-owned resource parity | #1 | **EVIDENCE** | We need the application-owned Reference→BaRe resource matrix first. Raw resource counts are not enough because dependency/library resources are mixed into the Reference tree. |
+| N-02 Application-owned string parity | #2 | **EVIDENCE** | We need the application-owned string matrix and usage/locale trace before changing strings. Missing names must be distinguished from authorized branding and deferred/downstream strings. |
+| N-04 Theme/style/color parity | #4 | **EVIDENCE** | The audit proves concrete theme/style/color gaps, but the exact application-owned contracts and qualifier coverage must be mapped before choosing the smallest safe change. |
+| N-05 Manifest contract | #5 | **EVIDENCE** | The audit found concrete manifest differences, but Reference-owned application attributes must first be separated from dependency components and authorized identity deviations. |
+| N-06 Intent contract | #6 | **CLASSIFICATION** | The key unresolved question is ownership/meaning of callback, URI, exported, and deep-link differences, especially AppAuth/provider callback topology. |
+| N-07 Permission contract | #7 | **CLASSIFICATION** | The remaining custom dynamic receiver permission must first be classified as an application-owned contract versus another boundary before implementation. |
+| N-08 Navigation contract | #8 | **EVIDENCE** | A complete 71-Activity navigation matrix is still required before targeted navigation changes can be selected. |
+| N-09 Lifecycle/state contract | #9 | **EVIDENCE** | Lifecycle and saved-state evidence must be mapped before changing restoration, callback, or retention behavior. |
+| N-10 Dialog/error/loading contract | #10 | **EVIDENCE** | The visible-state/recovery matrix is needed to identify exact trigger→state→action→dismiss contracts before implementation. |
+| N-11 Branding/identity contract | #11 | **CLASSIFICATION** | The audit establishes an unresolved launcher/identity contract; internal, visible, provider/deep-link, and authorized Swift-specific identities must be classified before changing names/resources. |
+| N-13 Fake/stub inventory | #13 | **CLASSIFICATION** | Explicit stubs, boundaries, TODO/no-op markers, and null returns must be classified as intentional P3 boundary, downstream, or accidental/incomplete. |
+| N-14 Boundary contract | #14 | **EVIDENCE** | The boundary architecture is known, but the complete 71-Activity + major Service/Receiver downstream matrix is still missing. |
+| N-15 Static/documentation hygiene | #15 | **RE-AUDIT / VERIFICATION** | This contract is primarily a consistency check: verify that status, matrices, gates, and historical/current labels remain synchronized after follow-up changes. |
+
+## Step 3 guardrails
+
+1. **No normalized item is classified as Implementation yet.**
+2. A red audit verdict does **not** automatically mean “Implementation”; implementation requires current evidence, resolved ownership/deviation classification where relevant, a bounded scope, and a known smallest safe change.
+3. Evidence work and classification work are not themselves code/resource fixes.
+4. N-13 remains separate from N-14; StorageInfoService.read()==null stays carried into the Boundary contract.
+5. N-15 is a verification/consistency contract and does not absorb application implementation work.
+6. Runtime/build/install/visual verification remains unauthorized and is not required for Step 3 completion.
+
+## Step 3 completion
+
+The 13 active normalized contracts are now classified:
+
+- **EVIDENCE:** N-01, N-02, N-04, N-05, N-08, N-09, N-10, N-14
+- **CLASSIFICATION:** N-06, N-07, N-11, N-13
+- **IMPLEMENTATION:** none
+- **RE-AUDIT / VERIFICATION:** N-15
+
+**Step 3 is complete. No work package, dependency order, or implementation is formed by this classification step.**
 # Step 4 — Dependency Mapping
 
 For every normalized follow-up, record:
@@ -354,7 +395,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** Step 1 Follow-up Register established; **Step 2 Normalisation / Dedup complete**. Next: Step 3 Classification, then dependency mapping/order before any work package or implementation.
+**Current execution objective:** Step 1 Follow-up Register established; Step 2 Normalisation / Dedup complete; **Step 3 Classification complete**. Next: Step 4 Dependency Mapping, then Step 5 Dependency Order before any work package or implementation.
 
 **P4:** GATED / NOT STARTED.
 
