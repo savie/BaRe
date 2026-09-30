@@ -89,27 +89,26 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 2. `LabelEditActivity`
 3. `LabelsActivity`
 4. `BoxSignInActivity`
-5. `FilenSignInActivity`
-6. `OneDriveSignInActivity`
-7. `TeraBoxSignInActivity`
-8. `YandexSignInActivity`
-9. `ContributorRegActivity`
-10. `DetailActivity`
-11. `FolderPickerActivity`
-12. `FoldersBatchActivity`
-13. `ScheduleLabelsSelectActivity`
-14. `ScheduleFolderSelectActivity`
-15. `CallsBackupRestoreActivity`
-16. `MessagesBackupRestoreActivity`
-17. `ChatActivity`
-18. `CallsDashActivity`
-19. `MessagesDashActivity`
-20. `PremiumActivity`
-21. `AppVisibilityDiagnosticsActivity`
-22. `WallsDashActivity`
-23. `WallApplyActivity`
-24. `WallsManageActivity`
-25. `WifiActivity`
+5. `OneDriveSignInActivity`
+6. `TeraBoxSignInActivity`
+7. `YandexSignInActivity`
+8. `ContributorRegActivity`
+9. `DetailActivity`
+10. `FolderPickerActivity`
+11. `FoldersBatchActivity`
+12. `ScheduleLabelsSelectActivity`
+13. `ScheduleFolderSelectActivity`
+14. `CallsBackupRestoreActivity`
+15. `MessagesBackupRestoreActivity`
+16. `ChatActivity`
+17. `CallsDashActivity`
+18. `MessagesDashActivity`
+19. `PremiumActivity`
+20. `AppVisibilityDiagnosticsActivity`
+21. `WallsDashActivity`
+22. `WallApplyActivity`
+23. `WallsManageActivity`
+24. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
