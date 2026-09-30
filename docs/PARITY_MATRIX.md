@@ -48,7 +48,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 4 | Styles / Themes / Colors | 🔴 FAIL / DEFECT |
 | 5 | Manifest | 🔴 FAIL / DEFECT |
 | 6 | Intent | 🔴 FAIL / DEFECT |
-| 7 | Permissions | 🟡 AUDIT REQUIRED |
+| 7 | Permissions | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 8 | Navigation | 🟡 AUDIT REQUIRED |
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
 | 10 | Dialog / Error / Loading | 🟡 AUDIT REQUIRED |
@@ -194,3 +194,16 @@ Static audit found unresolved external intent contracts: the Reference AppAuth c
 No app/code/resource change was made during the audit.
 
 Next: **#7 Permissions**.
+
+
+## P3 Total Audit — Permissions Result
+
+**#7 Permissions: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+Current static manifest counts are 34 Reference `uses-permission` declarations vs 33 BaRe declarations. Only `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` remains Reference-only; the other three permissions previously recorded as Reference-only are already present in the current BaRe manifest. BaRe also has static runtime request/check paths for the audited SMS/contact/call-log/notification permission surfaces.
+
+The remaining custom permission is not yet classified as application-owned vs dependency/generated identity surface, and runtime grant behavior has not been verified.
+
+No app/code/resource change was made during the audit.
+
+Next: **#8 Navigation**.
