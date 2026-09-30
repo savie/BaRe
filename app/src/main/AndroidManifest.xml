@@ -74,7 +74,7 @@
         </activity>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop" android:parentActivityName=".home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".appsquickactions.AppsQuickActionsActivity" android:launchMode="singleTop" android:parentActivityName=".home.HomeActivity" />
-        <activity android:name=".appslist.ui.list.AppListActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.list.AppListActivity" android:launchMode="singleTop" android:parentActivityName=".home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".appslist.ui.listbatch.AppsBatchActivity"  android:launchMode="singleTop" />
         <activity android:name=".appslist.ui.listconfig.AppsConfigRunActivity"  android:launchMode="singleTop" />
         <activity android:name=".detail.DetailActivity"  android:launchMode="singleTask" />
