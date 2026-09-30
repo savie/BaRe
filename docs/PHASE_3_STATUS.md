@@ -538,13 +538,15 @@ Next audit domain: **#14 Boundary**.
 Next audit domain: **#15 Static Hygiene**.
 
 
-## Step 6 — Work Package Formation
+
+## Step 7 — Scope Check
 
 **COMPLETE**
 
-- 13 active normalized contracts were assigned to **8 bounded work packages**.
-- Grouped contracts retain individual N-ID traceability.
-- No implementation was performed or authorized by Step 6.
-- Runtime/build/install/visual verification remains gated.
+- 8 WPs assessed.
+- WP-03, WP-04, WP-05, WP-08 passed unchanged.
+- WP-01, WP-02, WP-06, WP-07 were split because their grouped contracts remain distinct normalized contracts.
+- Result: **13 bounded execution units**, one per active normalized contract.
+- No implementation was performed or authorized.
 
-**Next:** Step 7 — Scope Check.
+**Next:** Step 8 — Small Implementation, only with explicit implementation authorization.
