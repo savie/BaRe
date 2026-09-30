@@ -119,6 +119,45 @@ P4 allowed to start
 7. P4 cannot start because a work package is complete; P3 closure and the P4 gate review are separate steps.
 8. Runtime/build/install work remains gated unless explicitly authorized.
 
+## Execution Granularity / Real-Workload Rule
+
+The 13 active normalized contracts are **domain/contract identities, not automatic one-shot operations and not file-by-file micro-tasks**. The execution unit must reflect the real technical workload established by the audit ledger, resource matrix, Reference evidence, and accumulated execution history.
+
+This rule is mandatory for P3 follow-up execution:
+
+- **EU = domain/contract.** Keeping one EU identity does not require processing its entire filesystem/component population in one operation.
+- **Bounded batching is allowed and required when the evidence surface is too large for a safe single operation.** A batch must follow a real technical boundary such as resource type/qualifier/ownership, contract surface, component group, call-chain, or another evidence-backed boundary.
+- **Micro-tasking is not the execution model.** Do not turn one EU into one task per file, one resource, or one Activity merely to make progress visible.
+- **Full-copy/full-sweep parity is prohibited.** In particular, EU-01 must not be executed as a blind copy or one-shot filesystem scan of the roughly 1,400 Reference resource files previously identified in project execution history. The prior OOM event is an execution constraint and must remain part of the working context.
+- **EU-02 is not a 1,384-string addition exercise.** The Reference strings.xml raw name count is evidence only; the previously established 300 distinct application-source R.string references and concrete consumers/contracts drive implementation candidates.
+- **Component-scale facts remain active context:** the frozen Reference skeleton is 71 Activities + 3 Services + 8 Receivers. EU-09 Boundary therefore requires bounded execution waves over that boundary surface; EU-11 Navigation is one navigation contract over the 71-Activity population, not 71 unrelated EU tasks.
+- **Raw resource/string inventories are not parity targets.** Dependency/library-owned material must remain separated from application-owned contracts before implementation.
+- **Previously proven facts remain lifecycle context even when not repeated in every EU table.** The working control-plane is the combination of docs/bare.md, relevant docs/*, the supplied Reference ZIP, and accumulated execution history/checkpoints.
+- **Each bounded batch must still preserve the same Step 8 gates:** known contract/file/component scope, ownership, dependencies, exclusions, static verification method, affected re-audit target, checkpoint condition, and hard stop/rollback condition.
+- **After a bounded batch, re-audit the affected contract/domain and continue within the same EU until its concrete delta is exhausted, blocked, or explicitly deferred.** Do not infer EU completion from one successful batch.
+
+Operational model:
+
+```text
+EU / CONTRACT
+     │
+     ├── collect ALL evidenced concrete deltas
+     │
+     ├── group by real technical boundary
+     │
+     ├── bounded implementation wave(s)
+     │
+     ├── static verification
+     │
+     └── re-audit EU/domain
+             │
+             ├── remaining concrete delta → next bounded wave
+             ├── blocked/unknown → record and stop safely
+             └── no remaining concrete delta → EU can be closed
+```
+
+This rule does **not** change the 13 normalized EU identities or the fixed P3 master flow. It defines the safe execution granularity inside those identities.
+
 ## Execution Dashboard
 
 Use this dashboard to answer: where are we in the flow, and is the current scope small enough to execute safely?
