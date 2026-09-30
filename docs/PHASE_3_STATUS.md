@@ -68,7 +68,7 @@ No application fix is performed merely because a domain is yellow.
 
 | # | Audit domain | Current status | Audit purpose |
 |---:|---|---|---|
-| 1 | Resource | 🟡 | Reconcile Reference application-owned resources against the implemented P3 surface. |
+| 1 | Resource | 🟡 **OPEN** | Audit found a real application-resource evidence gap; scope must be separated from dependency/library resources before closure. |
 | 2 | Strings | 🟡 | Reconcile required P3-visible strings and their usage. |
 | 3 | Dimensions | 🟡 | Reconcile dimension names, values, and qualifiers against Reference evidence. |
 | 4 | Styles / Themes / Colors | 🟡 | Reconcile the static style, theme, color, selector, and inheritance contracts. |
@@ -141,3 +141,42 @@ The prior 71/71 green Activity classification is retained as historical implemen
 - docs/PARITY_MATRIX.md
 
 These supporting documents must not introduce a separate P3 work queue or override the 15-domain audit state.
+
+
+## Audit #1 — Resource — Result
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Evidence checked
+
+- Phase 1 Reference inventory: Reference `res/` contains 1,491 decoded resources, including dependency/library resources.
+- Reference application resource inventory by major type includes 341 layouts, 44 menus, 445 drawables, 18 XML, 12 raw, 7 fonts, 41 anim, 42 animator, and 199 color resources.
+- Current BaRe `app/src/main/res` contains substantially smaller resource sets in the audited directories.
+- Direct name comparison shows, for example:
+  - Reference `layout/`: 341 files; BaRe: 121.
+  - Reference `menu/`: 44 files; BaRe: 29.
+  - Reference `drawable/`: 445 files; BaRe: 79.
+  - Reference `drawable-nodpi/`: 33 files; BaRe: 1.
+  - Reference `color/`: 199 files; BaRe: 1.
+  - Reference `xml/`: 18 files; BaRe: 1.
+- Many Reference-only files are clearly dependency/library-generated resources, so raw file-count equality is **not** a valid acceptance criterion.
+- Existing P3 evidence records several application-owned resource restorations/corrections, but there is not yet a single current Reference→BaRe application-owned resource matrix proving complete closure.
+
+### Findings
+
+1. **Resource parity is not currently closable as MATCH/PASS.**
+2. The raw Reference-vs-BaRe file-count delta is informative but cannot itself be classified as defects because the Reference tree contains dependency/library resources.
+3. There is nevertheless a confirmed **scope/evidence gap**: application-owned Reference resources have not yet been exhaustively reconciled against the current BaRe resource tree.
+4. Previously documented resource corrections are retained as evidence; they are not re-counted as a fresh PASS for the whole domain.
+5. No runtime/build/visual verification was used.
+
+### Required follow-up
+
+- Build an evidence-backed **application-owned Reference resource matrix**.
+- Separate dependency/library resources from application-owned resources.
+- Reconcile application-owned resources by type and qualifier.
+- Only then determine which missing resources are actual P3 defects versus out-of-scope/dependency resources.
+
+**No app/resource fix performed during this audit.**
+
+Next audit domain: **#2 Strings**.
