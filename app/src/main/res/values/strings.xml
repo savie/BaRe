@@ -448,4 +448,7 @@
     <string name="got_it">Got it</string>
     <string name="change_sms_app">Change SMS app</string>
     <string name="warning">Warning</string>
+    <string name="messages_backup_settings">Messages backup settings</string>
+    <string name="no_messages_found">No messages found on device</string>
+    <string name="no_backups_synced">No backups synced</string>
 </resources>
