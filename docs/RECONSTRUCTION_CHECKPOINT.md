@@ -135,7 +135,7 @@ Current execution position:
 >
 > **Step 6 — WORK PACKAGE FORMATION complete**
 >
-> **Step 7 — SCOPE CHECK complete and hardened with Execution Safety / Stability Gate**
+> **Step 7 — SCOPE CHECK complete, hardened, and re-validated after canonical control-plane reconciliation**
 
 Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
 
@@ -246,4 +246,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active after Step 7 (Scope Check complete + Execution Safety / Stability Gate hardened; bounded execution/re-audit/checkpoint cycles in progress) + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at the Step 7 gate; scope check re-validated after canonical control-plane reconciliation. Step 8 has not been entered. + P4 gated.**
