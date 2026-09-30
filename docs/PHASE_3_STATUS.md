@@ -227,3 +227,15 @@ The first Resource/Dimension sub-audit is complete against the supplied Swift Ba
 Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
 
 This closes the **dimension subgate**, but does **not** yet promote the overall Resource/dimension parity gate: 772 dependency/library-prefixed Reference dimensions and the broader resource-name/content matrix still require explicit evidence before the overall gate can be marked PASS.
+
+
+## 2026-09-30 Broad Resource Parity Pass
+
+- Reference resource inventory: **1,491** files under `res/`; BaRe `rewrite`: **222** application resource files.
+- The Reference tree includes dependency/library resources; exact absence is not automatically treated as an application parity defect.
+- **15 evidence-backed Reference app-owned drawables** were restored because they were absent from BaRe and relevant to current P3 resource contracts.
+- Dimension project-facing subgate remains **PASS**.
+- Overall Resource/dimension parity remains **UNKNOWN / OPEN** pending application-owned layout/menu/XML/animation/qualifier resource mapping.
+- No Activity source was modified; no build/install/runtime/visual verification was performed.
+
+Evidence: `docs/P3_RESOURCE_PARITY_AUDIT.md`.
