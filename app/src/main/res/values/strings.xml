@@ -46,7 +46,7 @@
     <string name="no_cloud_connected">No cloud connected</string>
     <string name="connect_cloud_subtitle">Connect a cloud account.</string>
     <string name="no_internet_connection">No internet connection.</string>
-    <string name="no_internet_connection_summary">Check your network connection and try again.</string>
+    <string name="no_internet_connection_summary">Make sure your WiFi or Cellular data is turned on and working.</string>
     <string name="error_connecting_cloud_server">Error connecting to the cloud server.</string>
     <string name="connect_cloud_account">Connect cloud account</string>
     <string name="retry">Retry</string>
