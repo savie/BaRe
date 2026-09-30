@@ -20,7 +20,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class LabelEditActivity extends AppCompatActivity {
@@ -105,7 +104,13 @@ public final class LabelEditActivity extends AppCompatActivity {
         }));
     }
 
-    private List<Integer> intColors(String... values) {\n        List<Integer> result = new ArrayList<>();\n        for (String value : values) result.add(Color.parseColor(value));\n        return result;\n    }\n\n    private List<Integer> primaryColors() {
+    private List<Integer> intColors(String... values) {
+        List<Integer> result = new ArrayList<>();
+        for (String value : values) result.add(Color.parseColor(value));
+        return result;
+    }
+
+    private List<Integer> primaryColors() {
         List<Integer> result = new ArrayList<>();
         for (String color : PALETTES[0]) result.add(Color.parseColor(color));
         return result;
@@ -194,12 +199,6 @@ public final class LabelEditActivity extends AppCompatActivity {
 
         ColorAdapter(List<Integer> colors, OnColorSelected listener) {
             this.colors = colors;
-            this.listener = listener;
-        }
-
-        ColorAdapter(int[] colors, OnColorSelected listener) {
-            this.colors = new ArrayList<>();
-            for (int color : colors) this.colors.add(color);
             this.listener = listener;
         }
 
