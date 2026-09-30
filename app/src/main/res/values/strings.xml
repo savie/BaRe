@@ -442,4 +442,10 @@
     <string name="default_sms_app_rationale">The Reference restore flow requires BΛR☰ to be the default SMS app before messages can be restored.</string>
     <string name="reset_sms_app_warning_q">Changing the default SMS app can affect how your device handles incoming messages.</string>
     <string name="p3_messages_backup_restore_boundary">Message backup/restore selection reached the P3 engine boundary. Message inventory, selection data, default-SMS persistence, restore strategy, and execution remain downstream.</string>
+    <string name="restore">Restore</string>
+    <string name="loading">Loading…</string>
+    <string name="note">Note</string>
+    <string name="got_it">Got it</string>
+    <string name="change_sms_app">Change SMS app</string>
+    <string name="warning">Warning</string>
 </resources>
