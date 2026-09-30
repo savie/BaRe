@@ -537,7 +537,7 @@ The 4 oversized WPs are therefore decomposed into **13 execution units**, one pe
 | **EU-10** | WP-03 | N-04 Theme/style/color | Application-owned theme/style/color/state-list parity. | Application-owned `app/src/main/res/values*/` theme/style/color resources and relevant layout references. | Theme/style/color matrix and inheritance/item-contract trace. | #4 |
 | **EU-11** | WP-04 | N-08 Navigation | Navigation contract for all 71 frozen P2 Activities. | The 71 BaRe Activity Java sources listed in `docs/PHASE_2_SKELETON.md`; manifest navigation attributes where applicable. | 71-Activity navigation matrix. | #8 |
 | **EU-12** | WP-05 | N-09 Lifecycle/state | Activity/major Fragment lifecycle and state contract. | In-scope Activity/major Fragment Java sources from P2 inventory; relevant saved-state/resource references. | Lifecycle/state matrix; save/restore/event-path trace. | #9 |
-| **EU-13** | WP-08 | N-15 Static/documentation hygiene | Cross-document control-plane consistency after follow-up changes. | `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`, `docs/PHASE_3_STATUS.md`, `docs/RECONSTRUCTION_CHECKPOINT.md`, plus affected matrices/ledger. | Cross-document consistency check. | #15 + touched control-plane domains |
+| **EU-13** | WP-08 | N-15 Static/documentation hygiene | Cross-document control-plane consistency after follow-up changes. | `docs/bare.md`, `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`, `docs/PHASE_3_STATUS.md`, `docs/RECONSTRUCTION_CHECKPOINT.md`, `docs/PARITY_MATRIX.md`, `docs/PHASE_3_CLOSURE_AUDIT.md`, plus affected matrices/ledger. | Cross-document consistency check. | #15 + touched control-plane domains |
 
 ## Scope-check rules applied
 
@@ -593,8 +593,11 @@ If any item is unknown, **Step 8 does not start for that batch**. Subdivide the 
 
 This hardening does **not** rewrite the master flow. It strengthens Step 7 so that Step 8 remains genuinely “Small Implementation.”
 
-**Step 7 is complete — hardened.**
-**Next:** Step 8 — Small Implementation, only with explicit implementation authorization and only for a safety-gated bounded batch.
+**Step 7 re-validation after control-plane correction — COMPLETE.**
+
+The Step 7 gate was re-run after the canonical-target/documentation reconciliation. All 13 execution units retain bounded scope, explicit exclusions, static verification, affected re-audit target, and checkpoint/stop conditions. EU-13 now explicitly includes `docs/bare.md` because the canonical handoff is part of the control-plane consistency contract.
+
+**Step 8 is NOT entered by this checkpoint.** Step 8 remains the next gated operation and requires a separately authorized, safety-gated bounded implementation batch. No implementation is authorized merely because Step 7 is complete.
 ## EU-01 Execution Checkpoint — Batch 01
 
 **Status:** COMPLETE — Reference inventory + application-source ownership seed.
@@ -676,7 +679,7 @@ This document does not authorize P4 implementation, provider/backend implementat
 
 **Audit baseline:** 15-domain P3 TOTAL AUDIT completed.
 
-**Current execution objective:** Steps 1–6 complete; **Step 7 Scope Check complete and hardened with the Execution Safety / Stability Gate**. Eight WPs were reduced to 13 bounded execution units, and each unit may be subdivided further into safety-gated batches before Step 8. No implementation is authorized merely by reaching Step 7.
+**Current execution objective:** Steps 1–6 complete; **Step 7 Scope Check re-validated after canonical control-plane reconciliation** and remains the active gate boundary. Eight WPs are reduced to 13 bounded execution units; each unit may be subdivided further into safety-gated batches before Step 8. Step 8 has not been entered by this checkpoint.
 
 **P4:** GATED / NOT STARTED.
 
@@ -749,3 +752,24 @@ This document does not authorize P4 implementation, provider/backend implementat
 **Verification:** static evidence only. Build/install/runtime/visual verification remains gated.
 
 **Checkpoint condition:** EU-02 remains active for targeted evidence. Continue only with concrete Reference application-source strings that can be mapped to an existing/current BaRe P3 consumer or a documented visible defect. Do not bulk-copy Reference strings.
+
+
+## Step 7 Re-validation Checkpoint — Canonical Control-Plane
+
+**Status:** COMPLETE — Step 7 scope gate re-validated; Step 8 not entered.
+
+**Reason for re-validation:** the project control-plane was corrected to make `docs/bare.md` the canonical reconstruction target and to remove stale P3 status contradictions.
+
+**Gate checks:**
+- 13 EUs remain bounded execution contracts; no WP was recombined.
+- EU-01 through EU-13 retain explicit scope, ownership boundaries, exclusions, static verification, affected re-audit target, and checkpoint/stop conditions.
+- EU-13 now explicitly includes `docs/bare.md` and the current P3 control documents because canonical-target consistency is part of N-15.
+- Reference evidence remains anchored to the supplied Swift Backup 5.1.0 (620) decompile ZIP.
+- No bulk-copy parity operation is authorized.
+- No cross-EU opportunistic implementation is authorized.
+- Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED.
+- No new application source/resource mutation was performed in this Step 7 re-validation.
+
+**Decision:** Step 7 scope gate is satisfied. The project is **ready to enter Step 8 only when a specific EU/batch receives explicit implementation authorization and independently satisfies the Step 8 entry criteria**.
+
+**Next operational state:** Step 8 — Small Implementation (gated; not started).
