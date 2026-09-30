@@ -861,3 +861,10 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Added a Parcelable `MultipleBackupStrategy` with Reference-compatible type/condition ordinals and preference key `apps_multiple_backups_strategy`.
 - Apply persists the reconstructed strategy in the current BaRe settings preference boundary and returns it as `extra_multiple_backups_strategy`.
 - Feature execution/backup rotation remains outside the current P3 UI reconstruction boundary.
+
+## P3 vertical sweep — ComposeSmsActivity — 2026-09-30
+
+- Reference source: `output/jadx/sources/org/swiftapps/swiftbackup/messagescalls/defaulthandler/ComposeSmsActivity.java`
+- Reference implementation is an empty `android.app.Activity`; no UI, lifecycle logic, extras, or SMS handling code is present in the decompiled Activity.
+- BaRe now matches that Activity boundary directly instead of adding unsupported behavior.
+- The SMS/MMS intent-filter remains declared in the manifest, matching the Reference manifest contract.
