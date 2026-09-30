@@ -39,7 +39,7 @@ The following overlap is intentional but has different authority:
 - `PHASE_2_SKELETON.md` is the **frozen canonical component inventory**; do not duplicate its 71-name list elsewhere.
 - `RECONSTRUCTION_STATUS.md` is the **detailed history/evidence log**; it should not become the primary task queue.
 - `RECONSTRUCTION_CHECKPOINT.md` is the **current roadmap dashboard**.
-- `P3_STATUS.md` is the **current Activity-level Phase 3 queue**.
+- `PHASE_3_STATUS.md` is the **current Activity-level Phase 3 queue**.
 - `PARITY_MATRIX.md` is intentionally high-level and must not duplicate the full 71-Activity inventory.
 
 ## Files that should not be duplicated
@@ -57,7 +57,7 @@ If a new audit is needed, update the appropriate role above instead.
 For daily work:
 
 1. `RECONSTRUCTION_CHECKPOINT.md`
-2. `P3_STATUS.md`
+2. `PHASE_3_STATUS.md`
 3. `RECONSTRUCTION_STATUS.md` for the exact evidence behind the selected task
 4. `PHASE_2_SKELETON.md` only when checking component identity
 5. `REFERENCE_*.md` when auditing the relevant Reference domain
