@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_debug_view"
-        android:title="@string/debug_view"
+        android:title="Debug view"
         android:checkable="true"
         app:showAsAction="ifRoom" />
 </menu>
