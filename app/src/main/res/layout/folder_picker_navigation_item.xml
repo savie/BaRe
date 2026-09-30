@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container" android:gravity="center_vertical" android:orientation="horizontal"
+    android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <TextView android:id="@+id/tv_divider" android:text="/" android:textColor="?android:attr/textColorSecondary"
+        android:alpha="0.6" android:paddingHorizontal="4dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <com.google.android.material.card.MaterialCardView android:id="@+id/cv" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="100dp" app:strokeWidth="0dp">
+        <TextView android:id="@+id/tv_title" style="@style/CardTitle" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:paddingVertical="@dimen/spacing_low_more" />
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
