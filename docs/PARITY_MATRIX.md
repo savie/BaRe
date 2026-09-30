@@ -272,3 +272,13 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 - Backup/restore/delete/copy execution and the Reference folder inventory/ViewModel contract remain downstream; no feature side effect or inventory state is fabricated.
 - Current Activity depth: **58 green / 13 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleLabelsSelectActivity
+
+- `ScheduleLabelsSelectActivity` — P3 **GREEN** at the evidence-supported label-selection UI/navigation/interaction boundary.
+- Reference-shaped selected, user-created, built-in, and already-used label surfaces are reconstructed.
+- `extra_selected_labels` / `extra_already_used_labels` input contracts, clear-selection flow, create-label navigation to `LabelEditActivity` request `264`, selected-label result return, and recreation state are reconstructed.
+- Label catalog persistence, schedule assignment, and deeper schedule mutation remain downstream.
+- Current Activity depth: **59 green / 12 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
