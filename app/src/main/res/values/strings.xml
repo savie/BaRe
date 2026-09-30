@@ -356,4 +356,11 @@
     <string name="restore_special_data_system_modes_summary">Widgets, VPN, PiP, and background states</string>
     <string name="restore_special_data_magisk_title">Magisk Hide / DenyList mode</string>
     <string name="restore_special_data_magisk_summary">Magisk Hide or DenyList state</string>
+    <string name="multiple_backups_strategy">Multiple backups strategy</string>
+    <string name="multiple_backups_strategy_single_title">Single backup</string>
+    <string name="multiple_backups_strategy_single_description">Keep a single backup and update/overwrite the changed parts when you perform a backup.</string>
+    <string name="multiple_backups_strategy_dated_title">New backup each time</string>
+    <string name="multiple_backups_strategy_dated_description">Create a new backup each time you perform a backup.</string>
+    <string name="multiple_backups_strategy_conditional_title">Conditional new backups</string>
+    <string name="multiple_backups_strategy_conditional_description">Create a new backup only if any of the below conditions are fulfilled when you perform a backup. Otherwise, just update the latest backup.</string>
 </resources>
