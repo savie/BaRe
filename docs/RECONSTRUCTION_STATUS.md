@@ -828,3 +828,16 @@ For the next P3 pass, do **not** restart the 71-Activity inventory from zero. Us
 ### Verification boundary
 
 This checkpoint records source-shape/depth audit evidence only. It does **not** establish build, install, runtime, visual-parity, filesystem/provider, backup/restore, cloud, billing, or Supabase verification.
+
+
+## P3 vertical sweep — AppBackupLimitsActivity — 2026-09-30
+
+- Reference source: Swift Backup 5.1.0-620 decompile archive.
+- Reference class: `org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity`.
+- Reference companion model: `AppBackupLimitItem`.
+- Reference UI contract reconstructed: title/summary, four app-part containers (`DATA`, `EXTERNAL_DATA`, `MEDIA`, `EXPANSION`), local/cloud MB inputs, positive-value normalization, state preservation, and `extra_limits` Parcelable result contract.
+- BaRe implementation now contains the corresponding `AppBackupLimitItem` Parcelable model and a multi-part `AppBackupLimitsActivity` instead of the previous single-card boundary shell.
+- Existing `app_part` launch extra remains supported as a compatibility path; when no explicit limits are supplied, the Reference-shaped four-part set is used.
+- Execution semantics remain intentionally outside this reconstruction: this pass does not claim actual backup-size enforcement, persistence, provider/cloud transfer, or backup-engine integration.
+- Verification boundary: source reconstruction only; build/install/runtime/visual-parity verification is still required before calling the surface runtime-verified.
+
