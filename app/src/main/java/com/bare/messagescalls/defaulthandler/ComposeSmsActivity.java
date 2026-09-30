@@ -1,7 +1,12 @@
 package com.bare.messagescalls.defaulthandler;
 
-import com.bare.ReferenceActivityBoundary;
+import android.app.Activity;
 
-/** Reference activity skeleton; behavior remains evidence-bound. */
-public class ComposeSmsActivity extends ReferenceActivityBoundary {
+/**
+ * Reference-compatible SMS compose activity.
+ *
+ * The Swift Backup 5.1.0-620 Reference implementation contains no
+ * lifecycle, UI, intent, or SMS handling logic in this Activity itself.
+ */
+public final class ComposeSmsActivity extends Activity {
 }
