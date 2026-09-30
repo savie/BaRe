@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **47** |
-| 🟡 Yellow | **24** |
+| 🟢 Green | **48** |
+| 🟡 Yellow | **23** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -80,10 +80,11 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 45. `FolderEditActivity`
 46. `FolderDetailActivity`
 47. `FilenSignInActivity`
+48. `DetailActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 24
+### 🟡 Yellow — 23
 
 1. `ApkImportActivity`
 2. `LabelEditActivity`
@@ -93,22 +94,21 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 6. `TeraBoxSignInActivity`
 7. `YandexSignInActivity`
 8. `ContributorRegActivity`
-9. `DetailActivity`
-10. `FolderPickerActivity`
-11. `FoldersBatchActivity`
-12. `ScheduleLabelsSelectActivity`
-13. `ScheduleFolderSelectActivity`
-14. `CallsBackupRestoreActivity`
-15. `MessagesBackupRestoreActivity`
-16. `ChatActivity`
-17. `CallsDashActivity`
-18. `MessagesDashActivity`
-19. `PremiumActivity`
-20. `AppVisibilityDiagnosticsActivity`
-21. `WallsDashActivity`
-22. `WallApplyActivity`
-23. `WallsManageActivity`
-24. `WifiActivity`
+9. `FolderPickerActivity`
+10. `FoldersBatchActivity`
+11. `ScheduleLabelsSelectActivity`
+12. `ScheduleFolderSelectActivity`
+13. `CallsBackupRestoreActivity`
+14. `MessagesBackupRestoreActivity`
+15. `ChatActivity`
+16. `CallsDashActivity`
+17. `MessagesDashActivity`
+18. `PremiumActivity`
+19. `AppVisibilityDiagnosticsActivity`
+20. `WallsDashActivity`
+21. `WallApplyActivity`
+22. `WallsManageActivity`
+23. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
@@ -223,6 +223,18 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Clear/create actions now have explicit confirmation boundaries and update the local UI state.
 - Actual label catalog, selection persistence, and schedule mutation remain outside this slice because their Reference data contracts are not yet reconstructed.
 - Activity remains 🟡; the missing catalog/selection model is still a genuine P3 gap.
+
+## Latest vertical slice — Detail app contract P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `DetailActivity` now consumes the verified `APP_PARCEL` contract.
+- Missing app parcel follows the Reference finish boundary unless the Activity was launched through `detail_launched_from_shortcut`.
+- `APP_PARCEL` survives recreation through `onSaveInstanceState`.
+- Shortcut `onNewIntent` is explicitly recognized without fabricating app metadata.
+- Backup/restore remain engine boundaries; metadata rendering remains downstream.
+
+`DetailActivity` is promoted to 🟢 at the evidence-supported P3 boundary.
 
 ## Current P3 work order
 
