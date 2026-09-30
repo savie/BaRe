@@ -114,7 +114,7 @@ This is a hardening of Step 7's scope gate; the fixed P3 master flow is unchange
 | 8 | Navigation | 🔴 **FAIL / DEFECT** | Re-audit Activity-to-Activity navigation and navigation boundaries. |
 | 9 | Lifecycle / State | 🔴 **FAIL / DEFECT** | Re-audit lifecycle-sensitive and state-restoration boundaries visible in P3. |
 | 10 | Dialog / Error / Loading | 🔴 **FAIL / DEFECT** | Re-audit visible state contracts, dialogs, errors, empty/loading states, and transitions. |
-| 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher branding contract and incomplete evidence for full Swift-identity cleanup. |
+| 11 | Branding | 🟡 **OPEN / NEEDS FOLLOW-UP** | EU-06 resolved the concrete launcher icon/identity defect statically. Broader visible/provider/deep-link identity evidence remains dependent on EU-02/EU-04; visual verification remains gated. |
 | 12 | Java-only | 🟢 **CLOSED / PASS** | Re-audit source-language and UI-technology constraints. |
 | 13 | Fake / Stub | 🟡 **OPEN / NEEDS FOLLOW-UP** | Explicit P3 boundaries are intentional; one incomplete null-return contract remains for downstream Boundary reconciliation. |
 | 14 | Boundary | 🟡 **OPEN / NEEDS FOLLOW-UP** | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
