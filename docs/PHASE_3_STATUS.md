@@ -47,7 +47,7 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
 | P3 TOTAL AUDIT | **COMPLETE — 15/15 domains audited; closure not established** |
-| P3 Follow-up Execution | **ACTIVE — Step 2 NORMALISATION / DEDUP complete; Step 3 pending** |
+| P3 Follow-up Execution | **ACTIVE — Step 3 CLASSIFICATION complete; Step 4 pending** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
@@ -60,6 +60,20 @@ The 15-domain total audit is complete. The reconciled domain verdicts are the cu
 - 🔴 **FAIL / DEFECT**
 
 No application fix is implied merely by an audit verdict. Required follow-ups are now processed through `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
+
+
+## Current Follow-up Classification
+
+**Step 3 — CLASSIFICATION: COMPLETE.**
+
+The 13 active normalized contracts are classified as follows:
+
+- **EVIDENCE:** N-01, N-02, N-04, N-05, N-08, N-09, N-10, N-14
+- **CLASSIFICATION:** N-06, N-07, N-11, N-13
+- **IMPLEMENTATION:** none
+- **RE-AUDIT / VERIFICATION:** N-15
+
+This classification identifies the primary next action only. It does not authorize implementation. Next operational step: **Step 4 — DEPENDENCY MAPPING**.
 
 ## P3 TOTAL AUDIT — 15 Domains
 
