@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **48** |
-| 🟡 Yellow | **23** |
+| 🟢 Green | **50** |
+| 🟡 Yellow | **21** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 46
+### 🟢 Green — 50
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -81,6 +81,8 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 46. `FolderDetailActivity`
 47. `FilenSignInActivity`
 48. `DetailActivity`
+49. `CallsDashActivity`
+50. `MessagesDashActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
@@ -137,6 +139,18 @@ Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
 - `CallsDashActivity` → 🟡; Reference has call-log permission flow, dynamic device/cloud backup counts, menus, and settings navigation.
 
 No promotion was made in this slice because the remaining differences are still evidence-supported P3 reconstruction gaps, not merely deferred execution engines.
+
+## Latest vertical slice — Calls / Messages dashboard P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `CallsDashActivity` now requests the verified Reference permission set: `WRITE_CALL_LOG`, `READ_CALL_LOG`, and `READ_CONTACTS`, with explicit denied-permission UI state.
+- `MessagesDashActivity` now requests the verified Reference permission set: `READ_SMS` and `READ_CONTACTS`, with explicit denied-permission UI state.
+- Both retain the Reference settings navigation contracts (`category=3` calls, `category=2` messages) and backup-list navigation.
+- `MessagesDashActivity` keeps the Reference menu behavior where `action_view_messages` is initially hidden; the existing conversation route remains available to downstream state wiring.
+- Device/cloud backup counts remain data-engine boundaries and were not fabricated.
+
+Both Activities are promoted to 🟢 at the evidence-supported P3 boundary.
 
 ## Latest vertical audit — Premium / Diagnostics / Walls / Wi-Fi / Locale
 
