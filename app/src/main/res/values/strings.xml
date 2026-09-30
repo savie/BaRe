@@ -270,6 +270,9 @@
     <string name="telegram_username">Telegram username</string>
     <string name="crowdin_username">Crowdin username</string>
     <string name="paypal">PayPal</string>
+    <string name="contributor_contact_hint">Please keep this updated to help us get in touch with you.</string>
+    <string name="contributor_paypal_hint">Once a year, top community helpers and translators may receive a small donation as a token of appreciation. Only PayPal is supported.</string>
+    <string name="p3_contributor_boundary">Contributor details are ready at the P3 boundary. Reference remote persistence and contributor registration state remain downstream.</string>
     <string name="walls">Walls</string>
     <string name="wall_manager">Wall manager</string>
     <string name="password_strategy">Password strategy</string>
