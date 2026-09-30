@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 55
+### 🟢 Green — 56
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
