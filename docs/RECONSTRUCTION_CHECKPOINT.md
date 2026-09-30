@@ -76,27 +76,25 @@ That classification is now the **audit baseline**, not the final P3 closure verd
 
 The P3 total audit has been reset to the original **15 domains**.
 
-All 15 domains intentionally start at:
-
-> **🟡 AUDIT REQUIRED**
+The current 15-domain audit cycle has reached Audit #15. The latest verdicts are maintained in docs/PHASE_3_STATUS.md.
 
 | # | Domain | Current state |
 |---:|---|---|
-| 1 | Resource | 🟡 |
-| 2 | Strings | 🟡 |
-| 3 | Dimensions | 🟡 |
-| 4 | Styles / Themes / Colors | 🟡 |
-| 5 | Manifest | 🟡 |
-| 6 | Intent | 🟡 |
-| 7 | Permissions | 🟡 |
-| 8 | Navigation | 🟡 |
-| 9 | Lifecycle / State | 🟡 |
-| 10 | Dialog / Error / Loading | 🟡 |
-| 11 | Branding | 🟡 |
-| 12 | Java-only | 🟡 |
-| 13 | Fake / Stub | 🟡 |
-| 14 | Boundary | 🟡 |
-| 15 | Static Hygiene | 🟡 |
+| 1 | Resource | 🟡 OPEN |
+| 2 | Strings | 🟡 OPEN |
+| 3 | Dimensions | 🟢 CLOSED / PASS |
+| 4 | Styles / Themes / Colors | 🔴 FAIL / DEFECT |
+| 5 | Manifest | 🔴 FAIL / DEFECT |
+| 6 | Intent | 🔴 FAIL / DEFECT |
+| 7 | Permissions | 🟡 OPEN |
+| 8 | Navigation | 🔴 FAIL / DEFECT |
+| 9 | Lifecycle / State | 🔴 FAIL / DEFECT |
+| 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
+| 11 | Branding | 🔴 FAIL / DEFECT |
+| 12 | Java-only | 🟢 CLOSED / PASS |
+| 13 | Fake / Stub | 🟡 OPEN |
+| 14 | Boundary | 🟡 OPEN |
+| 15 | Static Hygiene | 🔴 FAIL / DEFECT |
 
 Yellow means **not yet re-audited in this total-audit cycle**. It does not mean a defect is already established.
 
