@@ -1,1 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"><com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" android:title="@string/app_backup_limits"/><ScrollView android:layout_width="match_parent" android:layout_height="match_parent"><LinearLayout android:id="@+id/limits_container" android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content"><TextView style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/app_backup_limits_summary"/><com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"><LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content"><TextView android:id="@+id/tv_app_part" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/apps"/><com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp" android:hint="@string/local_backup_limit"><com.google.android.material.textfield.TextInputEditText android:id="@+id/et_local" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout><com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:hint="@string/cloud_backup_limit"><com.google.android.material.textfield.TextInputEditText android:id="@+id/et_cloud" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal"/></com.google.android.material.textfield.TextInputLayout></LinearLayout></com.google.android.material.card.MaterialCardView></LinearLayout></ScrollView></LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar"
+        android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+        android:title="@string/app_backup_limits"/>
+    <ScrollView android:scrollbars="none" android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false"
+            android:paddingHorizontal="16dp" android:paddingBottom="24dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingTop="12dp" android:text="@string/app_backup_limits_summary"/>
+            <include android:id="@+id/container_data" layout="@layout/app_backup_limits_item"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <include android:id="@+id/container_extdata" layout="@layout/app_backup_limits_item"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <include android:id="@+id/container_media" layout="@layout/app_backup_limits_item"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <include android:id="@+id/container_expansion" layout="@layout/app_backup_limits_item"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
