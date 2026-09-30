@@ -1,5 +1,12 @@
 # BΛR☰ Phase 3 Status — Total Audit
 
+## Canonical Target Guard
+
+The reconstruction target is defined by `docs/bare.md`. This document is **operational P3 status only** and cannot redefine 1:1, create a new deviation, or treat sampling/approximation as parity. Reference evidence for parity is the supplied Swift Backup 5.1.0 (620) decompile archive. Any unresolved Reference→BaRe difference remains UNKNOWN until reconciled; a P3 audit verdict is not itself an authorization to substitute a different contract.
+
+Current lifecycle remains **P1 → P2 → P3 → P4 → P5 → P6 → P7 → P8 → P9 → FINAL**. P3 follow-up execution is an execution mechanism inside P3, not a replacement roadmap.
+
+
 ## Purpose
 
 This is the **single operational status document for Phase 3**.
