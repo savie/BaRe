@@ -676,3 +676,24 @@ This document does not authorize P4 implementation, provider/backend implementat
 **Runtime:** NOT AUTHORIZED / NOT PERFORMED.
 
 **Implementation:** No new P3 follow-up implementation is performed merely by creating this document.
+
+## EU-01 Execution Checkpoint — Batch 02
+
+**Status:** COMPLETE — ownership classification and bounded candidate selection.
+
+**Reference source:** supplied `SwiftBackup-5.1.0-620-decompiled.zip` only as primary Reference input.
+
+**Result:**
+- Reference application-source resource ownership was cross-checked against the current BaRe application resource tree and current BaRe source usage.
+- Direct counterparts were classified as APP-MATCH where evidence supported an existing BaRe contract.
+- `xml/settings_apps` was treated as an authorized/alternate settings contract rather than a missing resource.
+- Several Reference application-owned names are absent from BaRe, including the six source-used Reference colors `acnt`, `ambrdark`, `blk07`, `premium`, `trans`, and `wht20`; however, no current BaRe consumer establishes a bounded safe insertion contract for these resources.
+- Reference-only animation/font/layout/menu/style names likewise do not establish a defect by name-level absence alone.
+
+**Step 8 decision:** NOT ENTERED. No candidate met all required conditions of APP-MISSING + known safe contract + bounded consumer/blast radius.
+
+**Mutation:** none under `app/src/main/res/`.
+
+**Verification:** static evidence only. Build/install/runtime/visual verification remains gated and was not performed.
+
+**Checkpoint condition:** EU-01 remains active for targeted evidence if a concrete P3-visible resource defect or current BaRe consumer identifies a bounded missing contract. Do not bulk-copy Reference resources or add unused names speculatively.
