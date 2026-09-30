@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:title="@string/calls" />
+        android:title="@string/messages" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll_view"
@@ -19,13 +19,16 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:paddingBottom="96dp"
         android:clipToPadding="false"
+        android:visibility="gone"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/content_root"
             android:orientation="vertical"
             android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/local_card"
@@ -38,13 +41,10 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/local_title"
                         style="@style/Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingEnd="16dp"
+                        android:padding="16dp"
                         android:text="@string/device_backups" />
 
                     <TextView
@@ -53,7 +53,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="@string/no_call_logs_found" />
+                        android:text="@string/no_messages_found" />
 
                     <TextView
                         android:id="@+id/local_shortcut"
@@ -61,9 +61,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/call_logs_backups"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/messages_backups"
                         android:background="?attr/selectableItemBackground" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -80,22 +79,18 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/cloud_title"
                         style="@style/Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingTop="16dp"
-                        android:paddingEnd="16dp"
+                        android:padding="16dp"
                         android:text="@string/cloud_backups" />
 
                     <TextView
-                        android:id="@+id/tv_cloud_state"
                         style="@style/Subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:text="@string/no_backups_with_active_tag_message" />
+                        android:text="@string/no_backups_synced" />
 
                     <TextView
                         android:id="@+id/cloud_shortcut"
@@ -103,9 +98,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:gravity="center_vertical"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="@string/call_logs_backup_settings"
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/messages_backup_settings"
                         android:background="?attr/selectableItemBackground" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
