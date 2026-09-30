@@ -878,3 +878,12 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Reference delete-all dispatch delegates to the SMS backup ViewModel/data layer. BaRe keeps that operation behind the existing P3 activity boundary rather than inventing deletion side effects.
 - Reference-specific ViewModel/event/adapter engine (`he5` / `fe5` and related obfuscated contracts) was not silently recreated in this Activity patch.
 - Runtime/build verification remains pending by project execution guard.
+
+
+## P3 vertical sweep — CallsBackupsActivity — 2026-09-30
+- Audited the exact Reference Activity from Swift Backup 5.1.0-620.
+- Reference structure: ViewModel-backed call-log backup list, shared `smscalls_backups_activity.xml`, progress/list observers, and the shared `menu_smscalls_backups` delete-all action.
+- Reference toolbar title is dynamic: `cloud_backups` when the active backup source is cloud, otherwise `device_backups`. BaRe currently has no verified equivalent source-state contract at this Activity boundary, so the reconstructed surface uses the verified device-backups title rather than inventing a new extra/state contract.
+- Delete-all remains a P3 boundary; the Reference delegates the actual deletion through the call-log ViewModel/data layer.
+- The shared SMS/call backup layout and delete menu previously restored for `MessagesBackupsActivity` are reused; no duplicate resources were introduced.
+- Runtime/build verification remains pending by project execution guard.
