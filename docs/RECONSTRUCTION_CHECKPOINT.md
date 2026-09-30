@@ -161,9 +161,16 @@ Therefore P8 and the final P9 deviation audit remain downstream gates.
 
 ## P3 working queue
 
-The Activity-level P3 backlog is maintained in `docs/PHASE_3_STATUS.md`.
+The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
 
-Use `P3_STATUS.md` for 🔴/🟡/🟢 depth and urgency. Do not use the 71/71 structural count as a completion metric.
+Latest complete 71-Activity P3 depth audit at `36704f7803bf779887e59c3c94513f457f1ea1aa`:
+- 🟢 Green: **23**
+- 🟡 Yellow: **48**
+- 🔴 Red: **0**
+- **71/71 classified**
+- The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
+
+Do not use the 71/71 structural count as a completion metric; the depth classification is the current P3 work signal.
 
 ## Documentation authority
 
