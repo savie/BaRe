@@ -12,8 +12,8 @@ P3 status at entry:
 
 - P3 implementation baseline established after the 71 / 3 / 8 implementation pass
 - P3 TOTAL AUDIT active
-- 15/15 P3 audit domains currently 🟡 AUDIT REQUIRED
-- P3 closure not established
+- P3 TOTAL AUDIT has completed all 15 domain passes; closure is not established because multiple domains remain OPEN/FAIL
+- P3 closure not established; latest audit domain #15 Static Hygiene is FAIL / DEFECT
 - P4 implementation not started
 - no build/install/runtime/visual verification performed
 
