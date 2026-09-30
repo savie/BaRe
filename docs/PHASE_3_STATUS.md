@@ -97,19 +97,19 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 ### 🟡 Yellow — 13
 
 1. `FoldersBatchActivity`
-3. `ScheduleLabelsSelectActivity`
-4. `ScheduleFolderSelectActivity`
-5. `CallsBackupRestoreActivity`
-6. `MessagesBackupRestoreActivity`
-7. `ChatActivity`
-8. `CallsDashActivity`
-9. `MessagesDashActivity`
-10. `PremiumActivity`
-11. `AppVisibilityDiagnosticsActivity`
-12. `WallsDashActivity`
-13. `WallApplyActivity`
-14. `WallsManageActivity`
-15. `WifiActivity`
+2. `ScheduleLabelsSelectActivity`
+3. `ScheduleFolderSelectActivity`
+4. `CallsBackupRestoreActivity`
+5. `MessagesBackupRestoreActivity`
+6. `ChatActivity`
+7. `CallsDashActivity`
+8. `MessagesDashActivity`
+9. `PremiumActivity`
+10. `AppVisibilityDiagnosticsActivity`
+11. `WallsDashActivity`
+12. `WallApplyActivity`
+13. `WallsManageActivity`
+14. `WifiActivity`
 
 ## 🔴 Red backlog
 
