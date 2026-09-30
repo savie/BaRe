@@ -159,6 +159,18 @@ Until execution is authorized:
 
 Therefore P8 and the final P9 deviation audit remain downstream gates.
 
+## P3 working queue
+
+The Activity-level P3 backlog is maintained in `docs/P3_STATUS.md`.
+
+Use `P3_STATUS.md` for 🔴/🟡/🟢 depth and urgency. Do not use the 71/71 structural count as a completion metric.
+
+## Documentation authority
+
+The role of every document under `docs/` is defined in `docs/DOCS_INDEX.md`.
+
+For daily execution, read this checkpoint first, then `docs/P3_STATUS.md`, then `docs/RECONSTRUCTION_STATUS.md` for evidence.
+
 ## Working order from this checkpoint
 
 1. Keep the Phase 2 inventory frozen.
