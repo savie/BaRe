@@ -66,6 +66,7 @@ public final class ApkImportActivity extends AppCompatActivity {
             return;
         }
 
+        inputKind = kind;
         showAccepted(displayName, kind);
     }
 
