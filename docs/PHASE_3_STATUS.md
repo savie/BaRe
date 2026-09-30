@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 50
+### 🟢 Green — 51
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -90,25 +90,25 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 ### 🟡 Yellow — 20
 
 1. `BoxSignInActivity`
-3. `OneDriveSignInActivity`
-4. `TeraBoxSignInActivity`
-5. `YandexSignInActivity`
-6. `ContributorRegActivity`
-7. `FolderPickerActivity`
-8. `FoldersBatchActivity`
-9. `ScheduleLabelsSelectActivity`
-10. `ScheduleFolderSelectActivity`
-11. `CallsBackupRestoreActivity`
-12. `MessagesBackupRestoreActivity`
-13. `ChatActivity`
-14. `CallsDashActivity`
-15. `MessagesDashActivity`
-16. `PremiumActivity`
-17. `AppVisibilityDiagnosticsActivity`
-18. `WallsDashActivity`
-19. `WallApplyActivity`
-20. `WallsManageActivity`
-21. `WifiActivity`
+2. `OneDriveSignInActivity`
+3. `TeraBoxSignInActivity`
+4. `YandexSignInActivity`
+5. `ContributorRegActivity`
+6. `FolderPickerActivity`
+7. `FoldersBatchActivity`
+8. `ScheduleLabelsSelectActivity`
+9. `ScheduleFolderSelectActivity`
+10. `CallsBackupRestoreActivity`
+11. `MessagesBackupRestoreActivity`
+12. `ChatActivity`
+13. `CallsDashActivity`
+14. `MessagesDashActivity`
+15. `PremiumActivity`
+16. `AppVisibilityDiagnosticsActivity`
+17. `WallsDashActivity`
+18. `WallApplyActivity`
+19. `WallsManageActivity`
+20. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
