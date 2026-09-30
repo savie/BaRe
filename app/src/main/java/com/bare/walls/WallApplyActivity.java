@@ -1,35 +1,22 @@
 package com.bare.walls;
 
-import android.app.WallpaperManager;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bare.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.io.File;
-import java.io.InputStream;
 
 public final class WallApplyActivity extends AppCompatActivity {
     private static final String KEY_WALL_URI = "wall_apply_uri";
-    private static final String KEY_SELECTED_TARGET = "wall_apply_target";
-
-    private ImageView image;
-    private TextView target;
-    private TextView status;
-    private MaterialButton setButton;
     private Uri wallUri;
-    private String selectedTarget = "home";
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -43,94 +30,74 @@ public final class WallApplyActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.set_wallpaper);
         }
 
-        image = findViewById(R.id.iv_wall);
-        target = findViewById(R.id.tv_target);
-        status = findViewById(R.id.tv_status);
-        setButton = findViewById(R.id.btn_set);
-
-        if (state != null) {
-            String raw = state.getString(KEY_WALL_URI);
-            if (raw != null) wallUri = Uri.parse(raw);
-            selectedTarget = state.getString(KEY_SELECTED_TARGET, "home");
+        if (state != null && state.getString(KEY_WALL_URI) != null) {
+            wallUri = Uri.parse(state.getString(KEY_WALL_URI));
+        }
+        if (wallUri == null && getIntent() != null) {
+            wallUri = getIntent().getData();
         }
 
-        Intent incoming = getIntent();
-        if (wallUri == null && incoming != null && incoming.getData() != null) {
-            wallUri = incoming.getData();
-        }
-
-        findViewById(R.id.btn_target).setOnClickListener(v -> chooseTarget());
-        setButton.setOnClickListener(v -> requestApply());
-
-        render();
-    }
-
-    private void chooseTarget() {
-        String[] targets = {getString(R.string.home_screen), getString(R.string.lock_screen), getString(R.string.home_and_lock_screen)};
-        int checked = "lock".equals(selectedTarget) ? 1 : "both".equals(selectedTarget) ? 2 : 0;
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.wallpaper_target)
-                .setSingleChoiceItems(targets, checked, (dialog, which) -> {
-                    selectedTarget = which == 0 ? "home" : which == 1 ? "lock" : "both";
-                    dialog.dismiss();
-                    render();
-                })
-                .show();
-    }
-
-    private void render() {
-        target.setText("home".equals(selectedTarget) ? R.string.home_screen
-                : "lock".equals(selectedTarget) ? R.string.lock_screen : R.string.home_and_lock_screen);
-
-        boolean ready = false;
+        ImageView image = findViewById(R.id.iv_wall);
         if (wallUri != null) {
-            try (InputStream in = getContentResolver().openInputStream(wallUri)) {
-                if (in != null) {
-                    image.setImageBitmap(BitmapFactory.decodeStream(in));
-                    ready = image.getDrawable() != null;
-                }
-            } catch (Exception ignored) {
-                image.setImageDrawable(null);
-            }
+            image.setImageURI(wallUri);
         }
-        if (!ready) {
-            image.setImageResource(android.R.drawable.ic_menu_gallery);
-            status.setText(R.string.wallpaper_image_unavailable);
-        } else {
-            status.setText(R.string.wallpaper_ready_to_apply);
-        }
-        setButton.setEnabled(ready);
     }
 
-    private void requestApply() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_walls_apply, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_apply_external) {
+            applyExternally();
+            return true;
+        }
+        if (id == R.id.action_share) {
+            shareWallpaper();
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.delete_backup)
+                    .setMessage(R.string.p3_wallpapers_engine_boundary)
+                    .setPositiveButton(R.string.close, null)
+                    .show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void applyExternally() {
         if (wallUri == null) return;
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.set_wallpaper)
-                .setMessage(getString(R.string.wallpaper_apply_confirmation, target.getText()))
-                .setPositiveButton(R.string.set_wallpaper, (d, w) -> applyBoundary())
-                .setNegativeButton(R.string.close, null)
-                .show();
+        Intent intent = new Intent(Intent.ACTION_ATTACH_DATA);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(wallUri, "image/jpeg");
+        intent.putExtra("mimeType", "image/jpeg");
+        startActivity(Intent.createChooser(intent, getString(R.string.set_wallpaper)));
     }
 
-    private void applyBoundary() {
-        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-        showBoundary(R.string.wallpaper_apply_boundary);
-    }
-
-    private void showBoundary(int titleRes) {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(titleRes)
-                .setMessage(R.string.p3_wallpapers_engine_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
+    private void shareWallpaper() {
+        if (wallUri == null) return;
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, wallUri);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(Intent.createChooser(intent, getString(R.string.share)));
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (wallUri != null) outState.putString(KEY_WALL_URI, wallUri.toString());
-        outState.putString(KEY_SELECTED_TARGET, selectedTarget);
         super.onSaveInstanceState(outState);
     }
 
-    @Override public boolean onSupportNavigateUp() { finish(); return true; }
+    @Override public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 }
