@@ -46,7 +46,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 2 | Strings | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 3 | Dimensions | 🟢 CLOSED / PASS |
 | 4 | Styles / Themes / Colors | 🔴 FAIL / DEFECT |
-| 5 | Manifest | 🟡 AUDIT REQUIRED |
+| 5 | Manifest | 🔴 FAIL / DEFECT |
 | 6 | Intent | 🟡 AUDIT REQUIRED |
 | 7 | Permissions | 🟡 AUDIT REQUIRED |
 | 8 | Navigation | 🟡 AUDIT REQUIRED |
@@ -172,3 +172,14 @@ Static audit established a concrete application-theme contract gap: Reference us
 This is a static parity finding, not a runtime claim. No app/code/resource change was made during the audit.
 
 Next: **#5 Manifest**.
+
+
+## P3 Total Audit — Manifest Result
+
+**#5 Manifest: 🔴 FAIL / DEFECT**
+
+Static audit established concrete manifest contract gaps beyond the authorized package/branding/theme identity deviation: missing Reference-defined dynamic receiver permission, reduced application metadata/configuration, incomplete package-visibility queries, and multiple missing per-Activity labels/parentActivityName/window/theme attributes.
+
+The 71 Reference-owned Activity/Service/Receiver structural skeleton remains distinct from these attribute-level findings. No app/code/resource change was made during the audit.
+
+Next: **#6 Intent**.
