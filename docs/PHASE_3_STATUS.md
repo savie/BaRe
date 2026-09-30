@@ -4,9 +4,9 @@
 
 This is the **single operational status document for Phase 3**.
 
-Phase 2 established and froze the Reference skeleton. Phase 3 then worked through that skeleton. The current task is **not another implementation pass over the 71 Activities / 3 Services / 8 Receivers**. It is a fresh **P3 TOTAL AUDIT** of the result.
+Phase 2 established and froze the Reference skeleton. Phase 3 then worked through that skeleton. The P3 implementation baseline was subjected to a fresh **P3 TOTAL AUDIT** of 15 domains. That audit is now complete; P3 remains active because multiple domains require follow-up resolution.
 
-No application/code/resource change is made by this status reset.
+The active follow-up execution method is defined in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
 
 ## Phase Sequence
 
@@ -46,23 +46,20 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Activity implementation baseline | **71/71 previously classified GREEN** |
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
-| P3 TOTAL AUDIT | **ACTIVE — #15 STATIC HYGIENE AUDIT COMPLETE** |
+| P3 TOTAL AUDIT | **COMPLETE — 15/15 domains audited; closure not established** |
+| P3 Follow-up Execution | **ACTIVE — register/order/scope derivation** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
-### Meaning of the current yellow state
+### Meaning of the current audit state
 
-All 15 domains are intentionally reset to **🟡 AUDIT REQUIRED**.
-
-Yellow does **not** mean the domain is known-bad. It means the previous closure claims are not being used as the final verdict for this fresh total audit.
-
-The audit will determine:
+The 15-domain total audit is complete. The reconciled domain verdicts are the current P3 audit baseline:
 
 - 🟢 **CLOSED / PASS**
-- 🟡 **OPEN / UNKNOWN / NEEDS FURTHER AUDIT**
+- 🟡 **OPEN / UNKNOWN / NEEDS FOLLOW-UP**
 - 🔴 **FAIL / DEFECT**
 
-No application fix is performed merely because a domain is yellow.
+No application fix is implied merely by an audit verdict. Required follow-ups are now processed through `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
 
 ## P3 TOTAL AUDIT — 15 Domains
 
@@ -84,7 +81,10 @@ No application fix is performed merely because a domain is yellow.
 | 14 | Boundary | 🟡 **OPEN / NEEDS FOLLOW-UP** | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
 | 15 | Static Hygiene | 🔴 **FAIL / DEFECT** | Re-audit static consistency, dead/missing references, contradictions, and documentation hygiene relevant to P3. |
 
-## Audit Rules
+## Historical Audit Rules
+
+The following rules governed the completed total-audit pass and remain historical constraints on its evidence:
+
 
 1. **Audit first. Do not fix during the audit.**
 2. One domain at a time.
@@ -113,21 +113,28 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 ## Current Work Order
 
-**TOTAL AUDIT ONLY.**
+**P3 FOLLOW-UP EXECUTION.**
 
-Next action:
+The 15-domain total audit is complete. The next operational task is to process its required follow-ups through the fixed master flow in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`:
 
-> **Audit #14 — Boundary**
+1. Follow-up Register
+2. Normalisation / Dedup
+3. Classification
+4. Dependency Mapping
+5. Dependency Order
+6. Work Package Formation
+7. Scope Check
+8. Small Implementation — only when implementation is explicitly authorized
+9. Re-audit
+10. Checkpoint
 
-Domains #1–#10 have now been audited. Proceed sequentially through #15.
-
-The Styles / Themes / Colors domain is now a documented 🔴 follow-up item. No implementation fix is performed during the audit.
+Work packages are not predetermined. They must be derived from the normalized follow-up register and dependency evidence. If a work package is too large, break it down without changing the master flow.
 
 ## Phase Boundary
 
 **Phase 4 is not started.**
 
-P4 remains gated until the P3 total audit is complete and all required P3 follow-up work is resolved.
+P4 remains gated until P3 follow-up execution is complete, P3 closure review passes, and the P4 gate review explicitly allows the transition.
 
 The prior 71/71 green Activity classification is retained as historical implementation context, but the total audit is the authority for current P3 closure.
 
@@ -140,7 +147,10 @@ The prior 71/71 green Activity classification is retained as historical implemen
 - docs/PHASE_3_CLOSURE_AUDIT.md
 - docs/PARITY_MATRIX.md
 
-These supporting documents must not introduce a separate P3 work queue or override the 15-domain audit state.
+**Execution framework**
+- docs/PHASE_3_FOLLOW_UP_EXECUTION.md
+
+The execution framework does not override the 15-domain audit state; it defines how its follow-ups are normalized, ordered, scoped, implemented when authorized, and re-audited.
 
 
 ## Audit #1 — Resource — Result
