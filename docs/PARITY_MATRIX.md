@@ -218,3 +218,14 @@ Static comparison found 32 Reference `parentActivityName` declarations vs 1 in B
 No app/code/resource change was made during the audit.
 
 Next: **#9 State / Lifecycle**.
+
+
+## P3 Total Audit — State / Lifecycle Result
+
+**#9 State / Lifecycle: 🔴 FAIL / DEFECT**
+
+Reference application Activities contain numerous explicit saved-state contracts, including Home selected fragment, auth flags, premium state, diagnostics/report state, configuration parcelables, search/scroll state, and other screen-specific data. BaRe has meaningful targeted state persistence and ViewModel-backed surfaces, but the current evidence establishes only partial parity. Runtime recreation/background/foreground behavior remains unverified.
+
+No app/code/resource change was made during the audit.
+
+Next: **#10 Dialog / Error / Loading**.
