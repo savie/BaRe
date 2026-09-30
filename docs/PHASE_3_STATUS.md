@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **67** |
-| 🟡 Yellow | **4** |
+| 🟢 Green | **68** |
+| 🟡 Yellow | **3** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 67
+### 🟢 Green — 68
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -100,15 +100,15 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 65. `MessagesDashActivity`
 66. `PremiumActivity`
 67. `AppVisibilityDiagnosticsActivity`
+68. `WallsDashActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 4
+### 🟡 Yellow — 3
 
-1. `WallsDashActivity`
-2. `WallApplyActivity`
-3. `WallsManageActivity`
-4. `WifiActivity`
+1. `WallApplyActivity`
+2. `WallsManageActivity`
+3. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -153,3 +153,11 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - AppVisibilityDiagnosticsActivity now reconstructs the Reference explanation/summary surface, raw PackageManager package inventory, loading/error/empty states, app-label/package-name rows, search filtering, refresh, copy-to-clipboard, share chooser, back navigation, and recreation state.
 - Package visibility is queried from Android PackageManager at the Activity boundary rather than fabricated. Provider/backend/engine work is not introduced.
 - The P3 status is promoted to green; runtime verification/build/install remain intentionally outside this pass.
+
+## Latest vertical slice — WallsDashActivity P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `WallsDashActivity` now reconstructs the current-wallpaper dashboard with Home/Lock preview surfaces, current-state summary, refresh, backup-location selection, device/cloud backup cards, manage navigation, loading/empty boundaries, and back navigation.
+- Current wallpaper snapshot files are read only when present; no backup inventory or provider state is fabricated.
+- Wallpaper backup execution remains explicitly at the engine/provider boundary. The Activity is promoted to 🟢 for P3.
