@@ -351,6 +351,35 @@ Reference Swift Backup 5.1.0 (620)
 → 1:1 kecuali Authorized Deviations
 
 
+## 8.1 Canonical Control-Plane Rules
+
+This handoff is the **canonical target definition** for the reconstruction. Operational P3/P4 documents may describe current evidence, execution state, checkpoints, and historical findings, but they must not redefine the reconstruction target or authorize deviations beyond this handoff.
+
+### Evidence hierarchy
+
+1. The supplied Reference Swift Backup 5.1.0 (620) decompile archive is the primary Reference evidence source.
+2. The BaRe `rewrite` branch is the implementation target.
+3. Project documents are control-plane records derived from Reference evidence and this handoff; they are not substitutes for Reference evidence.
+4. Repository-side Reference mirrors/copies are secondary convenience evidence only and must not silently replace the supplied Reference archive as source of truth.
+
+### Parity rule
+
+For every Reference→BaRe difference, the evidence record must preserve the concrete Reference contract, the BaRe contract, and the classification: MATCH, AUTHORIZED DEVIATION, UNAUTHORIZED DEVIATION, UNKNOWN, or BLOCKED.
+
+A sample, approximation, alternate implementation, or “functionally similar” contract is **not** proof of 1:1 parity. Missing evidence remains UNKNOWN until the Reference contract is reconciled.
+
+### Change rule
+
+Do not implement a difference merely because it appears convenient, cleaner, smaller, or sufficient for the current phase. Implementation requires Reference evidence plus a bounded change scope. Authorized deviations must be traceable to Section 3 of this handoff.
+
+### Phase-governance rule
+
+The canonical lifecycle remains P1 → P2 → P3 → P4 → P5 → P6 → P7 → P8 → P9 → FINAL. A phase document may govern execution inside its phase, but cannot move the project to a later phase, close parity, or convert UNKNOWN into MATCH without the evidence required by this handoff.
+
+### Verification rule
+
+Static reconstruction evidence, build success, runtime success, visual similarity, and feature execution are separate evidence classes. Success in one class must not be represented as success in another class.
+
 ## 8. Canonical Roadmap
 
 ```
