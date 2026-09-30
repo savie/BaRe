@@ -455,3 +455,53 @@ Next audit domain: **#14 Boundary**.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#14 Boundary**.
+
+
+## P3 Total Audit — Boundary Result
+
+**#14 Boundary: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Evidence
+
+- The P3 surface contains explicit boundary markers for downstream authentication, cloud/provider access, backup/restore engines, app-management side effects, storage/runtime behavior, permissions, diagnostics, contributor persistence, and other deferred execution paths. The Phase 4 guide explicitly states that these markers are temporary engineering markers and are not proof of execution.
+- Provider/backend abstractions are separated from UI/domain code through explicit interfaces such as `CloudProviderRepository`, `CloudRepository`, `AccountRepository`, `FolderRepository`, `UserInfoRepository`, `CloudFileDeletionRepository`, and `AccountMigrationRepository`.
+- Static search did not find concrete target implementations of those repository interfaces. This is consistent with the current downstream/deferred boundary, but it means the corresponding provider/backend execution contracts remain unimplemented/unverified.
+- `BackendResult` and `BackendIdentity` provide provider-neutral data/result boundaries rather than claiming backend success. The Reference backend contract explicitly states that recovered Firebase paths are evidence, not a direct Supabase schema proposal.
+- `CloudAccessService` maps provider results into the P3 Home cloud state model, but it still requires a concrete provider adapter.
+- `StorageInfoService.read()` returns `null` and is explicitly documented as belonging to the storage/runtime layer; this remains an incomplete downstream contract.
+- `app/build.gradle` contains AndroidX/Material dependencies only; no Supabase/Firebase/cloud-provider SDK implementation is present in the target dependency list.
+- No build/install/runtime/device/provider/backend verification was performed.
+
+### Boundary classification
+
+| Boundary | Current classification | P3 impact |
+|---|---|---|
+| Android permission/system APIs | P3-visible contract / runtime dependency | UI/request paths exist; runtime grant behavior unverified |
+| Storage/runtime provider | Downstream / incomplete | `StorageInfoService.read()` remains `null` |
+| Account/auth provider | Downstream / deferred | repository interface exists; concrete provider not established |
+| Cloud providers/OAuth SDKs | Downstream / deferred | explicit provider auth boundaries; SDK execution not claimed |
+| Backend/Supabase | Downstream / deferred | provider-neutral contracts only; no backend success claimed |
+| Backup/restore engine | Downstream / deferred | UI/action boundaries exist; execution not claimed |
+| App-management side effects | Downstream / deferred | no destructive side effects claimed from P3 surfaces |
+| Billing/entitlement | Downstream / deferred | no runtime entitlement success claimed |
+| Runtime/device verification | Verification boundary | not performed by project guard |
+
+### Findings
+
+1. The project has a deliberate architectural separation between P3 presentation/state contracts and downstream execution boundaries.
+2. No evidence was found that a downstream engine/provider/backend has been falsely represented as fully implemented merely because a P3 screen exists.
+3. Several provider/backend interfaces currently have no concrete implementation, so the boundary is known and explicit, but not closed as executable behavior.
+4. The boundary inventory is not yet exhaustive enough to establish PASS: concrete call-graph ownership for every P3 surface and every downstream interface still needs reconciliation.
+5. The unresolved `StorageInfoService.read() == null` contract is a concrete follow-up item, not a fake success value.
+
+### Required follow-up
+
+- Build the complete Reference→BaRe boundary matrix across all 71 Activities plus major Services/Receivers and their downstream calls.
+- For every boundary, record owner, input/output contract, deferred phase, and whether the P3-visible side is already reconstructed.
+- Reconcile repository interfaces with their eventual concrete adapters without introducing fake success data.
+- Carry storage/account/provider/backend/engine boundaries into the post-P3 implementation plan.
+- Re-audit any P3 surface whose boundary implementation changes after total-audit closure.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#15 Static Hygiene**.
