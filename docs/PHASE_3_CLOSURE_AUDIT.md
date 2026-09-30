@@ -41,7 +41,7 @@ Yellow is an audit state, not a defect finding.
 
 | # | Domain | Initial state | Final verdict |
 |---:|---|---|---|
-| 1 | Resource | 🟡 | Pending audit |
+| 1 | Resource | 🟡 **OPEN** | Evidence audit completed; application-owned matrix still required for closure. |
 | 2 | Strings | 🟡 | Pending audit |
 | 3 | Dimensions | 🟡 | Pending audit |
 | 4 | Styles / Themes / Colors | 🟡 | Pending audit |
@@ -129,3 +129,40 @@ P3 may only be considered closed after:
 Until then:
 
 > **P3 = ACTIVE / TOTAL AUDIT IN PROGRESS**
+
+
+## Audit #1 — Resource — Findings
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+The Resource domain was audited statically without changing the app.
+
+### Evidence
+
+Reference Phase 1 inventory records 1,491 decoded resources under `res/`, with major counts including 341 layouts, 44 menus, 445 drawables, 18 XML, 12 raw, 7 fonts, 41 anim, 42 animator, and 199 colors.
+
+Current direct directory comparisons show materially smaller BaRe sets, including:
+- layout: Reference 341 / BaRe 121
+- menu: Reference 44 / BaRe 29
+- drawable: Reference 445 / BaRe 79
+- drawable-nodpi: Reference 33 / BaRe 1
+- color: Reference 199 / BaRe 1
+- xml: Reference 18 / BaRe 1
+
+These deltas are **not** themselves defects because the Reference decoded tree includes dependency/library resources.
+
+Earlier P3 evidence also records multiple application-owned resource corrections. However, those records do not constitute a single exhaustive current application-owned Reference→BaRe matrix.
+
+### Audit conclusion
+
+The Resource domain remains:
+
+> **🟡 OPEN / NEEDS FOLLOW-UP**
+
+Reason: the evidence is sufficient to establish that the domain is not yet proven closed, but insufficient to classify every Reference-only resource as an application defect.
+
+### Follow-up, not implementation
+
+The next Resource work required after the 15-domain audit is an application-owned resource matrix separated from dependency/library resources.
+
+**No app/resource fix was performed.**
