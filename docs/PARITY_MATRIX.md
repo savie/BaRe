@@ -352,3 +352,15 @@ UNKNOWN is an evidence-state classification and must not be promoted to MATCH wi
 | Style/theme/color parity | UNKNOWN |
 
 String parity is closed for the P3-visible surface. Reference-only strings belonging to downstream features remain outside P3 scope and are not promoted to P3 defects merely because those downstream features are not yet implemented.
+
+
+## 2026-09-30 Resource / Dimension sub-audit
+
+- Reference dimension baseline: **839 unique names / 20 `values*/dimens.xml` files**.
+- Project-facing/non-library-prefixed dimension scope: **67 names**.
+- BaRe now matches all 67 names/values, including Reference qualifier overrides for `land`, `w820dp`, `w320dp-land`, and `w600dp-land`.
+- Dimension subgate: **PASS**.
+- Overall Resource/dimension gate: **UNKNOWN** until the remaining dependency/library resource matrix and broader resource-name/content audit are explicitly evidenced.
+- Evidence: `docs/P3_RESOURCE_DIMENSION_AUDIT.md`.
+
+No Activity source was modified and no build/install/runtime/visual verification was performed.
