@@ -253,3 +253,13 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 `ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference. BaRe reconstructs the Reference-shaped contributor registration UI, editable contributor contact fields, Save Details interaction boundary, and recreation state. Remote contributor status/details, ViewModel/coroutine persistence, and registration backend behavior remain downstream; no remote identity or status is fabricated.
 
 Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 FolderPickerActivity P3 completion
+
+- `FolderPickerActivity` — P3 **GREEN** at the evidence-supported folder-selection UI/navigation/flow boundary.
+- Reference `extra_initial_folder` input and `extra_selected_folder` result contracts are reconstructed with a minimal BaRe `q63` compatibility value object.
+- Toolbar/up, breadcrumb navigation, directory listing, empty state, Select Folder, New Folder dialog/input validation, storage-switch menu, and recreation state are reconstructed.
+- Filesystem mutation, permission handling, storage-provider semantics, and deeper folder engine behavior remain downstream and are not claimed as parity.
+- Current Activity depth: **57 green / 14 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
