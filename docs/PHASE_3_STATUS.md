@@ -72,7 +72,7 @@ No application fix is performed merely because a domain is yellow.
 | 2 | Strings | 🟡 **OPEN** | Audit found substantial Reference→BaRe string-scope gaps; P3-visible ownership/usage still needs closure evidence. |
 | 3 | Dimensions | 🟢 **CLOSED / PASS** | Static Reference→BaRe dimension parity evidence and qualifier overrides are confirmed. |
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Static audit found concrete application-theme/style/color contract gaps versus the Reference. |
-| 5 | Manifest | 🟡 | Re-audit component declarations, attributes, exported state, launch contracts, and relevant metadata. |
+| 5 | Manifest | 🔴 **FAIL / DEFECT** | Static comparison found concrete Reference-owned manifest contract gaps in permissions, application metadata, activity attributes, and manifest-defined identity. |
 | 6 | Intent | 🟡 | Re-audit explicit and implicit intent contracts used by the P3 surface. |
 | 7 | Permissions | 🟡 | Re-audit permission declarations and permission-related P3 contracts. |
 | 8 | Navigation | 🟡 | Re-audit Activity-to-Activity navigation and navigation boundaries. |
@@ -117,9 +117,9 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #5 — Manifest**
+> **Audit #6 — Intent**
 
-Domains #1–#4 have now been audited. Proceed sequentially through #15.
+Domains #1–#5 have now been audited. Proceed sequentially through #15.
 
 The Styles / Themes / Colors domain is now a documented 🔴 follow-up item. No implementation fix is performed during the audit.
 
@@ -282,3 +282,39 @@ No implementation follow-up is required from this audit domain.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#5 Manifest**.
+
+
+## Audit #5 — Manifest — Result
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Evidence checked
+
+- Reference `reference/apktool/AndroidManifest.xml` is the supplied Swift Backup 5.1.0 / versionCode 620 manifest baseline.
+- Reference application declares `android:theme="@style/SwiftTheme"`, `android:name="org.swiftapps.swiftbackup.SwiftApp"`, `android:label="@string/swift_backup"`, `android:icon="@mipmap/ic_launcher"`, `android:localeConfig="@xml/locales_config"`, `android:networkSecurityConfig="@xml/network_security_config"`, `android:appComponentFactory="androidx.core.app.CoreComponentFactory"`, `android:extractNativeLibs="true"`, and application metadata `android.max_aspect=2.1`.
+- Current BaRe application declares `.BaReApp`, `@style/BaReTheme`, literal label `BΛR☰`, and the backup/heap/storage/RTL/back-invoked attributes, but does not preserve the Reference application metadata/configuration set above.
+- Reference declares the application-owned dynamic receiver permission `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` and its `<permission>` definition. Current BaRe does not declare an equivalent permission boundary.
+- Reference `<queries>` contains additional package visibility declarations for Microsoft authentication components and an additional billing-test intent. Current BaRe retains only the generic HTTPS/custom-tabs/billing queries.
+- The current BaRe manifest omits multiple Reference activity attributes that are part of the static manifest contract, including numerous `parentActivityName`, `windowSoftInputMode`, labels, and activity-specific themes. Examples include `AppsQuickActionsActivity`, `AppListActivity`, `AppsBatchActivity`, `DetailActivity`, `SettingsActivity`, and the transparent-theme cloud sign-in activities.
+- Reference includes dependency/library-owned manifest components (for example FileProvider, Shizuku provider, AppAuth, Microsoft, Firebase, Billing, AndroidX startup). These are not treated as P2 Reference-owned component omissions; however, manifest attributes/configuration required by the P3 surface remain relevant.
+- No build/install/runtime verification was performed.
+
+### Findings
+
+1. **Concrete application manifest contract differences exist.** The target application metadata/theme/identity/configuration does not preserve the Reference manifest contract except where deviations are explicitly authorized.
+2. **The dynamic receiver permission boundary is missing.** This is a concrete Reference manifest declaration absent from the current target.
+3. **Multiple P3 Activity manifest attributes are missing or reduced**, especially parent-navigation metadata, labels, window behavior, and per-Activity themes.
+4. **Query/package-visibility declarations are incomplete** relative to the Reference authentication/billing surface.
+5. The previously documented P2 permission delta remains relevant: Reference had 34 uses-permission declarations versus BaRe's 30 baseline, with the dynamic receiver permission among the Reference-only declarations. The fresh audit does not infer that all remaining permission differences are defects; they require the separate Permissions domain.
+
+### Required follow-up
+
+- Build a Reference→BaRe manifest matrix covering application attributes, permissions, queries, activities, services, receivers, providers, metadata, and per-component attributes.
+- Classify authorized BΛR☰ deviations separately from missing parity contracts.
+- Reconcile Reference-owned activity labels, parentActivityName, windowSoftInputMode, themes, exported state, and intent-filter attributes.
+- Reconcile application-level configuration and manifest-defined permission boundaries.
+- Keep dependency/library component declarations separate from the Reference-owned P2 skeleton.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#6 Intent**.
