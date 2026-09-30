@@ -10,7 +10,7 @@ It answers:
 2. What is the current phase status?
 3. What remains UNKNOWN, BLOCKED, or intentionally deferred?
 
-The active P3 audit status is maintained in:
+The active P3 operational status is maintained in:
 
 `docs/PHASE_3_STATUS.md`
 
@@ -36,7 +36,7 @@ The high-level matrix is:
 |---|---|---|
 | 1 | Foundation | **COMPLETE / FROZEN** |
 | 2 | Reference Skeleton | **COMPLETE / FROZEN** |
-| 3 | UI + Navigation | **ACTIVE / TOTAL AUDIT** |
+| 3 | UI + Navigation | **ACTIVE / FOLLOW-UP EXECUTION** |
 | 4 | Core Behavior | **GATED / NOT STARTED** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized Deviations | **DEFINED / GATED** |
@@ -72,11 +72,11 @@ The previous P3 implementation pass was treated as completed, with the Activity 
 
 That classification is now the **audit baseline**, not the final P3 closure verdict.
 
-## P3 TOTAL AUDIT — CURRENT AUTHORITY
+## P3 TOTAL AUDIT — COMPLETED BASELINE
 
-The P3 total audit has been reset to the original **15 domains**.
+The P3 total audit of the original **15 domains is complete**. It is now the evidence baseline for P3 follow-up execution; it is no longer the current work order.
 
-The current 15-domain audit cycle has reached Audit #15. The latest verdicts are maintained in docs/PHASE_3_STATUS.md.
+The latest operational status and follow-up execution state are maintained in `docs/PHASE_3_STATUS.md` and `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
 
 | # | Domain | Current state |
 |---:|---|---|
@@ -96,7 +96,7 @@ The current 15-domain audit cycle has reached Audit #15. The latest verdicts are
 | 14 | Boundary | 🟡 OPEN |
 | 15 | Static Hygiene | 🔴 FAIL / DEFECT |
 
-Yellow means **not yet re-audited in this total-audit cycle**. It does not mean a defect is already established.
+Yellow means **OPEN / UNKNOWN / NEEDS FOLLOW-UP** in the completed audit baseline. It does not by itself mean a concrete defect was established.
 
 ### Audit rule
 
@@ -110,15 +110,21 @@ No implementation change is part of the audit pass.
 
 ## Current P3 Work Order
 
-**TOTAL AUDIT ONLY.**
+**P3 FOLLOW-UP EXECUTION.**
 
-Next:
+The 15-domain audit is complete. The active execution sequence is defined in:
 
-> **Audit #1 — Resource**
+`docs/PHASE_3_FOLLOW_UP_EXECUTION.md`
 
-Then proceed sequentially through #15.
+Current execution position:
 
-Do not create Resource or Style/Theme/Color implementation breakdowns until the 15-domain audit establishes the actual remaining work.
+> **Step 1 — FOLLOW-UP REGISTER established**
+>
+> **Next: Step 2 — NORMALISATION / DEDUP**
+
+Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
+
+Do not reopen all 71 Activities from scratch unless follow-up evidence requires a targeted revisit.
 
 Do not reopen all 71 Activities from scratch unless audit evidence requires a targeted revisit.
 
@@ -208,13 +214,21 @@ CLOSED / FROZEN
  ↓
 P3 — implementation pass
  ↓
-P3 TOTAL AUDIT — 15 domains
+P3 TOTAL AUDIT — 15 domains COMPLETE
  ↓
-only after audit: targeted fixes / breakdown
+P3 FOLLOW-UP EXECUTION
+ ├─ 1 Register
+ ├─ 2 Normalisation / Dedup
+ ├─ 3 Classification
+ ├─ 4 Dependency Mapping
+ ├─ 5 Dependency Order
+ └─ 6–10 bounded execution / re-audit / checkpoint
  ↓
-P4
+P3 CLOSURE REVIEW
+ ↓
+P4 GATE REVIEW
 ```
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT in progress + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active at Step 1/10 + P4 gated.**
