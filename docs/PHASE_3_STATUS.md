@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 40
+### 🟢 Green — 42
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -67,7 +67,9 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 32. `StorageSwitchActivity`
 33. `TaskActivity`
 34. `UserPasswordActivity`
-36. `ConversationsActivity`
+35. `GmsSignInActivity`
+36. `NoGmsSignInActivity`
+37. `ConversationsActivity`
 37. `ComposeSmsActivity`
 38. `CallsBackupsActivity`
 39. `MessagesBackupsActivity`
@@ -76,7 +78,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 31
+### 🟡 Yellow — 29
 
 1. `ApkImportActivity`
 2. `AppInfoActivity`
@@ -84,9 +86,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 4. `LabelsActivity`
 5. `BoxSignInActivity`
 6. `FilenSignInActivity`
-7. `GmsSignInActivity`
-8. `NoGmsSignInActivity`
-9. `OneDriveSignInActivity`
+7. `OneDriveSignInActivity`
 10. `TeraBoxSignInActivity`
 11. `YandexSignInActivity`
 12. `ContributorRegActivity`
@@ -152,6 +152,18 @@ Audited against current BaRe source/resources:
 
 No promotion was made in this slice.
 
+## Latest vertical slice — Google Sign-In P3 completion
+
+Completed GmsSignInActivity and NoGmsSignInActivity at the P3 boundary.
+
+- Both surfaces retain the existing Reference-derived provider entry UI.
+- Authenticate now has an explicit confirmation/result boundary.
+- Positive confirmation returns RESULT_OK and closes the Activity.
+- Back/up/cancel returns RESULT_CANCELED.
+- No Google credential parsing, token verification, Firebase/Supabase authentication, or provider side effect was implemented; those remain downstream engine/provider work.
+
+Both Activities are promoted to 🟢 because the observable P3 interaction/result flow no longer stops at an inert dialog.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
@@ -201,8 +213,8 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **40 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **31 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **42 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **29 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
