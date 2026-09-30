@@ -107,6 +107,19 @@ The Step 7 scope gate was re-validated after the canonical control-plane reconci
 
 This is a hardening of Step 7's scope gate; the fixed P3 master flow is unchanged.
 
+## P3 Execution-Scale Facts — Persistent Working Context
+
+The 13 active EUs are **domain/contract identities**, not one-shot operations and not file-by-file micro-tasks. The actual execution scale must follow the concrete workload already established by audit evidence and prior execution history.
+
+- **EU-01 Resource:** previously established roughly **1,400 Reference resource files**. The prior OOM event forced a bounded, evidence-backed strategy. Do not perform a blind copy or one-shot filesystem sweep.
+- **EU-02 Strings:** Reference `strings.xml` has roughly **1,384 names**, while prior app-source evidence identified **300 distinct `R.string` refs**. Raw count is not the parity target; concrete consumer/contract evidence is.
+- **Reference skeleton:** **71 Activities + 3 Services + 8 Receivers** remains frozen. EU-09 Boundary and EU-11 Navigation therefore use bounded execution waves over their contract populations; EU-11 is not 71 separate EU tasks.
+- **Raw resource/string inventories:** evidence only, not parity targets; dependency/library/generated ownership must remain separated.
+- **EU completion:** requires concrete-delta exhaustion or an explicit BLOCKED/UNKNOWN/deferred record plus re-audit. One successful bounded batch does not close an EU.
+- **Working context:** `docs/bare.md` + relevant `docs/*` + supplied Reference ZIP + accumulated execution/checkpoint history are treated as one lifecycle context.
+
+This records the workload facts that may not appear as a single row in the EU tables but remain binding execution context.
+
 ## P3 TOTAL AUDIT — 15 Domains
 
 | # | Audit domain | Current status | Audit purpose |
