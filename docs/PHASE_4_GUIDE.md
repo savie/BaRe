@@ -10,11 +10,10 @@ Target: `savie/BaRe`, branch `rewrite`.
 
 P3 status at entry:
 
-- 71/71 Activities 🟢
-- 0 Yellow
-- 0 Red
-- P3 Activity surface frozen for regression protection
-- total P3 parity closure still OPEN
+- P3 implementation baseline established after the 71 / 3 / 8 implementation pass
+- P3 TOTAL AUDIT active
+- 15/15 P3 audit domains currently 🟡 AUDIT REQUIRED
+- P3 closure not established
 - P4 implementation not started
 - no build/install/runtime/visual verification performed
 
@@ -54,7 +53,7 @@ Do not invent behavior when Reference evidence exists.
 
 ### P3 protection
 
-Do not reopen or redesign a green Activity merely to support Phase 4. The 71-Activity surface is frozen for regression protection while the three remaining P3 parity gates are closed.
+Do not start or redesign Phase 4 work while the P3 TOTAL AUDIT is active. The 71-Activity implementation baseline is not itself the P3 closure verdict; the 15-domain audit must establish the remaining P3 state first.
 
 A green Activity may change only when Phase 4 exposes a concrete defect in an existing P3 contract. Record the evidence before changing it.
 
@@ -215,7 +214,7 @@ Phase 4 may close only after total P3 closure has been established and when:
 
 ## Immediate Phase 4 sequence
 
-**Phase 4 implementation is currently PAUSED. First complete the three remaining P3 parity gates. After total P3 closure:**
+**Phase 4 implementation is currently PAUSED. First complete the 15-domain P3 TOTAL AUDIT and any resulting P3 follow-up work. After total P3 closure:**
 
 1. Build a Reference-backed state/permission contract inventory.
 2. Identify P4 gaps that block existing green P3 flows.
