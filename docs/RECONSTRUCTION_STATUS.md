@@ -696,3 +696,135 @@ Reference PreconditionsActivity and preconditions_activity.xml were audited. BaR
 - Resource-fix commit: `791aac8dbbefc83459215d4b9045ff43f5ffcdca`
 - Layout deepening commits: `27277e8e71cd19d8321805b7c83a56f365cbe9c9`, `b5692660df5decb8b634acf9246ee78996075862`
 - Current reconstruction status: **P3 source-contract/UI boundary deepened; not runtime verified**
+
+
+## P3 vertical sweep checkpoint — Activity depth audit — 2026-09-30
+
+- Audit snapshot: `7f03a13a0dc05bdf42b5cad28c16f81d33651551`.
+- Scope: all **71 Reference-owned Activities** were inspected for reconstruction depth. The audit confirms **71/71 registered/covered**, but registration/coverage must not be interpreted as completed reconstruction.
+- This checkpoint is an **audit-only result**. No source/code/resource modification was made by that audit.
+
+### Depth classification from snapshot 7f03a13a
+
+#### 🔴 Not yet meaningful / near-stub — 7 Activities
+
+- `PCloudSignInActivity`
+- `CallsBackupsActivity`
+- `MessagesBackupsActivity`
+- `ComposeSmsActivity`
+- `MultipleBackupsActivity`
+- `RestoreSpecialDataDetailsActivity`
+- `AppBackupLimitsActivity`
+
+Meaning: the BaRe source at that snapshot did not yet expose enough reconstruction depth for these surfaces to be called meaningful reconstruction. This does **not** mean the corresponding Reference surface is unimportant.
+
+#### 🟡 Shallow / boundary-only — 39 Activities
+
+- `ApkImportActivity`
+- `ConfigSettingsActivity`
+- `AppInfoActivity`
+- `LabelEditActivity`
+- `LabelsActivity`
+- `AppsConfigRunActivity`
+- `AppsQuickActionsActivity`
+- `BoxSignInActivity`
+- `CsActivity`
+- `DropboxSignInActivity`
+- `FilenSignInActivity`
+- `GmsSignInActivity`
+- `MegaSignInActivity`
+- `NoGmsSignInActivity`
+- `OneDriveSignInActivity`
+- `TeraBoxSignInActivity`
+- `YandexSignInActivity`
+- `CloudDiagnosticsActivity`
+- `CloudOrphanCleanerActivity`
+- `ContributorRegActivity`
+- `DetailActivity`
+- `FolderDetailActivity`
+- `FolderEditActivity`
+- `FolderPickerActivity`
+- `FoldersBatchActivity`
+- `ScheduleLabelsSelectActivity`
+- `ScheduleFolderSelectActivity`
+- `StorageSwitchActivity`
+- `ManageSpaceActivity`
+- `CallsBackupRestoreActivity`
+- `MessagesBackupRestoreActivity`
+- `ChatActivity`
+- `ConversationsActivity`
+- `CallsDashActivity`
+- `MessagesDashActivity`
+- `PasswordStrategyActivity`
+- `UserPasswordActivity`
+- `PremiumActivity`
+- `AppVisibilityDiagnosticsActivity`
+- `ShortcutsActivity`
+- `WallsDashActivity`
+- `WallApplyActivity`
+
+Meaning: these surfaces have some entry point/UI shell/dialog/navigation boundary, but their data/behavior/engine contract remains shallow or intentionally deferred. For this audit, 🟡 is **not** itself a bug; several are the correct P3 boundary while provider/backup/restore/engine semantics remain deferred.
+
+#### 🟢 Relatively meaningful reconstruction depth — 22 Activities
+
+- `ConfigEditActivity`
+- `ConfigListActivity`
+- `AppListActivity`
+- `AppsBatchActivity`
+- `BlacklistActivity`
+- `CloudConnectActivity`
+- `FoldersDashActivity`
+- `HomeActivity`
+- `HomeSearchActivity`
+- `IntroActivity`
+- `LocaleActivity`
+- `NoticeListActivity`
+- `NoticeViewActivity`
+- `AppSwipeActionsActivity`
+- `LicensesActivity`
+- `SettingsActivity`
+- `SettingsDetailActivity`
+- `SLogActivity`
+- `PreconditionsActivity`
+- `TaskActivity`
+- `WallsManageActivity`
+- `WifiActivity`
+
+### Special-case review
+
+The audit explicitly flags these 3 Activities for tighter Reference layout/source comparison before treating them as final green:
+
+- `WallsManageActivity`
+- `WifiActivity`
+- `LocaleActivity`
+
+Their source shape is sufficiently populated to appear green in the snapshot, but the audit does not consider that sufficient evidence for a final “complete” label.
+
+### P3 depth summary
+
+| Status | Count | Meaning |
+|---|---:|---|
+| 🟢 Meaningful reconstruction | 22 | UI/navigation/state handling has relatively real depth |
+| 🟡 Shallow / boundary-only | 39 | Surface exists, but depth/data/engine remains boundary |
+| 🔴 Not meaningful | 7 | Surface is still too thin/stub-like |
+| **Classified subtotal** | **68** | Three Activities require special-case handling |
+
+Three Activities are therefore tracked separately pending tighter Reference comparison, rather than forcing them into a final green classification.
+
+### Backlog interpretation
+
+The key audit conclusion is:
+
+> **71 Activities registered/covered ≠ 71 Activities reconstructed.**
+
+For the next P3 pass, do **not** restart the 71-Activity inventory from zero. Use this depth audit as the backlog map:
+
+1. Finish the 🔴 group first.
+2. Then deepen the 🟡 group in focused vertical sweeps.
+3. Re-audit the three special-case Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) against Reference layout + source before assigning final depth.
+4. Keep provider/data/engine semantics explicitly **UNKNOWN / deferred** where the Reference contract has not yet been reconstructed.
+5. Do not infer P4 behavior merely to make a surface appear deeper.
+
+### Verification boundary
+
+This checkpoint records source-shape/depth audit evidence only. It does **not** establish build, install, runtime, visual-parity, filesystem/provider, backup/restore, cloud, billing, or Supabase verification.
