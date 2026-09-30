@@ -124,7 +124,9 @@ Current execution position:
 >
 > **Step 3 — CLASSIFICATION complete**
 >
-> **Next: Step 4 — DEPENDENCY MAPPING**
+> **Step 4 — DEPENDENCY MAPPING complete**
+>
+> **Next: Step 5 — DEPENDENCY ORDER**
 
 Do not form work packages or perform implementation until Steps 2–5 establish normalized contracts, classifications, dependency mapping, and dependency order.
 
