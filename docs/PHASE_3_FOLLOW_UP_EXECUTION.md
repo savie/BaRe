@@ -588,6 +588,21 @@ This hardening does **not** rewrite the master flow. It strengthens Step 7 so th
 
 **Step 7 is complete — hardened.**
 **Next:** Step 8 — Small Implementation, only with explicit implementation authorization and only for a safety-gated bounded batch.
+## EU-01 Execution Checkpoint — Batch 01
+
+**Status:** COMPLETE — inventory baseline only.
+
+- Scope: Reference `reference/apktool/res/` vs target `app/src/main/res/` tree inventory.
+- Reference resource files observed: **1,491**.
+- BaRe resource files observed: **242**.
+- Raw count difference is **not** treated as a defect or parity target because the Reference tree contains dependency/library/generated resources.
+- Inventory is grouped by resource type and qualifier in `docs/PHASE_3_RESOURCE_MATRIX.md`.
+- No application resource was added, deleted, or modified.
+- No build/install/runtime/visual verification was performed.
+- EU-01 remains **OPEN**; parity is not yet determined.
+
+**Next bounded batch:** ownership classification and candidate selection. No mutation until application-owned scope is evidenced.
+
 # Step 8 — Small Implementation
 
 Only after explicit authorization for implementation:
