@@ -1,1 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent"><com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" android:title="@string/select_folder_setups"/><androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_folders" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingBottom="112dp" android:layout_marginTop="?attr/actionBarSize"/><com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_actions" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end|bottom" android:layout_margin="16dp" android:text="@string/folder_backup"/></androidx.coordinatorlayout.widget.CoordinatorLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.google.android.material.appbar.AppBarLayout android:id="@+id/appbar_layout" android:layout_width="match_parent" android:layout_height="wrap_content" app:elevation="0dp" app:liftOnScroll="false">
+        <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" android:title="@string/select_folder_setups"/>
+    </com.google.android.material.appbar.AppBarLayout>
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_folders" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:paddingTop="1dp" android:paddingBottom="128dp" android:clipChildren="false" android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <TextView android:id="@+id/tv_empty" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center"
+        android:gravity="center" android:padding="@dimen/spacing_large" android:text="@string/create_your_first_folder_msg" android:visibility="gone"/>
+    <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/progressBar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone"/>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_actions" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom" android:layout_margin="@dimen/spacing_normal_more" android:text="@string/backup_folders"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
