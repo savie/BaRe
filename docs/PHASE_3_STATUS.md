@@ -386,3 +386,34 @@ Next audit domain: **#7 Permissions**.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#12 Java-only**.
+
+
+## Audit #12 — Java-only — Result
+
+**Verdict: 🟢 CLOSED / PASS (static)**
+
+### Evidence
+
+- Project handoff requires Java source implementation, forbids adding `.kt` source, forbids Kotlin as an implementation dependency when not required by Reference, and requires Android Views/XML rather than Jetpack Compose.
+- Static repository search found **no `.kt` source files** under the BaRe implementation surface and no matches for `androidx.compose`, `org.jetbrains.kotlin`, or `kotlinOptions` in the target implementation search.
+- Current BaRe implementation files are Java; the Phase 1 inventory also records “Java source only”, “No Kotlin source”, and “Compose not enabled”.
+- The occurrence of `kotlin` in the repository is attributable to the supplied Reference/decompiled dependency surface (for example `reference/jadx/sources/kotlin/...` and Reference classes importing Kotlin runtime types), not BaRe `.kt` implementation source. This does not violate the target Java-only rule.
+- `ComposeSmsActivity.java` is a Java Activity. The word “Compose” there is the Reference component name/function, not Jetpack Compose UI. Reference itself contains the same `ComposeSmsActivity` class.
+
+### Findings
+
+1. **Language:** target implementation is Java-only based on static evidence.
+2. **Source extension:** no target `.kt` source was found.
+3. **UI technology:** no Jetpack Compose package/configuration was found; target UI remains Android Views/XML.
+4. **Reference Kotlin runtime presence:** Reference dependency/runtime artifacts containing Kotlin do not by themselves constitute target Kotlin source implementation.
+5. **Runtime/build verification:** not performed; this audit is static only.
+
+### Verdict
+
+> **🟢 CLOSED / PASS**
+
+No Java/Kotlin implementation defect was established in this audit.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#13 Fake / Stub**.
