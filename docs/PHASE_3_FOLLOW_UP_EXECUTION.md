@@ -807,3 +807,21 @@ Re-audit target: **#8 Navigation**. This specific Reference→BaRe navigation di
 No build/install/runtime/visual verification was performed.
 
 Checkpoint: commit 267f0733cfa84fb71e9d6db12893fcfe24264389.
+
+## Step 8 — EU-11 / N-08 Small Implementation — AppListActivity
+
+**Status: IMPLEMENTED — STATIC CHECK PASS**
+
+Reference contract for AppListActivity includes parentActivityName=org.swiftapps.swiftbackup.home.HomeActivity and windowSoftInputMode=stateAlwaysHidden.
+
+BaRe now declares android:parentActivityName=".home.HomeActivity" and android:windowSoftInputMode="stateAlwaysHidden" for AppListActivity.
+
+Scope: two manifest attributes on one Activity. No source-code, string, theme, intent-filter, provider, backend, or runtime implementation was changed.
+
+Static verification: target manifest re-read and both attributes are present.
+
+Re-audit target: **#8 Navigation**. These specific Reference→BaRe manifest contracts are now reconciled statically as **MATCH for this attribute set**. Domain #8 remains OPEN pending complete 71-Activity reconciliation and remaining navigation contracts.
+
+No build/install/runtime/visual verification was performed.
+
+Checkpoint: commit 01801eca6113f816bc8a604b8699a3db7b28bffb.
