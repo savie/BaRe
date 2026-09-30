@@ -186,3 +186,7 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - `WifiActivity` now reconstructs the Wi-Fi backup dashboard with Device, local-backup, and cloud-backup cards, Android 10 batch-restore notice/acknowledgement, card actions, toolbar/back navigation, and recreation state.
 - The Reference's Wi-Fi inventory and backed-up network data remain provider/system state; no fake network list, password, or backup inventory is generated.
 - Backup, restore, delete, and password-related execution terminate at the explicit Wi-Fi engine/provider boundary. The final Yellow Activity is promoted to 🟢.
+
+## P3 Closure Audit Gate
+
+`docs/PHASE_3_CLOSURE_AUDIT.md` is now the active Phase-3 closure checklist. The Activity count remains **71/71 🟢**, but P3 is **not frozen yet** while resource/string/style/contract/static matrices are being closed. No P4 implementation is authorized by this audit step.
