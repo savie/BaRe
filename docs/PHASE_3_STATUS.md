@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 39
+### 🟢 Green — 41
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -67,8 +67,9 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 32. `StorageSwitchActivity`
 33. `TaskActivity`
 34. `UserPasswordActivity`
-35. `ConversationsActivity`
-36. `ComposeSmsActivity`
+35. `FolderEditActivity`
+36. `ConversationsActivity`
+37. `ComposeSmsActivity`
 38. `CallsBackupsActivity`
 39. `MessagesBackupsActivity`
 40. `RestoreSpecialDataDetailsActivity`
@@ -92,24 +93,22 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 12. `ContributorRegActivity`
 13. `DetailActivity`
 14. `FolderDetailActivity`
-15. `FolderEditActivity`
-16. `FolderPickerActivity`
-17. `FoldersBatchActivity`
-18. `ScheduleLabelsSelectActivity`
-19. `ScheduleFolderSelectActivity`
-20. `CallsBackupRestoreActivity`
-21. `MessagesBackupRestoreActivity`
-22. `ChatActivity`
-23. `ConversationsActivity`
-24. `CallsDashActivity`
-25. `MessagesDashActivity`
-26. `PremiumActivity`
-27. `AppVisibilityDiagnosticsActivity`
-28. `WallsDashActivity`
-29. `WallApplyActivity`
-30. `WallsManageActivity`
-31. `WifiActivity`
-32. `LocaleActivity`
+15. `FolderPickerActivity`
+16. `FoldersBatchActivity`
+17. `ScheduleLabelsSelectActivity`
+18. `ScheduleFolderSelectActivity`
+19. `CallsBackupRestoreActivity`
+20. `MessagesBackupRestoreActivity`
+21. `ChatActivity`
+22. `CallsDashActivity`
+23. `MessagesDashActivity`
+24. `PremiumActivity`
+25. `AppVisibilityDiagnosticsActivity`
+26. `WallsDashActivity`
+27. `WallApplyActivity`
+28. `WallsManageActivity`
+29. `WifiActivity`
+30. `LocaleActivity`
 
 **Yellow = evidence-supported P3 reconstruction is still incomplete.** Execution-only gaps must not be used to keep an otherwise complete P3 surface yellow.
 
