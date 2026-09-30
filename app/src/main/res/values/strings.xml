@@ -413,4 +413,6 @@
     <string name="terabox_auth_failed">TeraBox authorization failed.</string>
     <string name="p3_yandex_provider_boundary">Yandex authorization returned to the app. Reference forwards the result to its provider token exchange; that operation remains downstream.</string>
     <string name="p3_terabox_provider_boundary">The TeraBox redirect was received. Reference exchanges the authorization code for provider credentials; that provider/token operation remains downstream.</string>
+    <string name="folder_picker_empty">No folders in this location.</string>
+    <string name="p3_folder_boundary">Reference folder creation reaches the filesystem mutation boundary here: %1$s. Real folder creation/permission handling remains downstream.</string>
 </resources>
