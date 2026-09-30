@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **40** |
-| 🟡 Yellow | **31** | |
+| 🟢 Green | **43** |
+| 🟡 Yellow | **28** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -148,7 +148,7 @@ Audited against current BaRe source/resources:
 - `WallApplyActivity` → 🟡; image/apply surface exists but apply action and wall state are deferred behind boundary.
 - `WallsManageActivity` → 🟡; RecyclerView remains empty.
 - `WifiActivity` → 🟡; three Wi-Fi categories exist structurally but adapters/data are empty.
-- `LocaleActivity` → 🟡; locale RecyclerView remains empty.
+- `LocaleActivity` → 🟢; locale list, WIP toggle, credits flow, selection confirmation, and result boundary are reconstructed; actual locale persistence/application remains downstream.
 
 No promotion was made in this slice.
 
@@ -175,6 +175,15 @@ Completed `LocaleActivity` through the P3 interaction boundary:
 - actual locale persistence/application remains downstream of the P3 boundary.
 
 `LabelsActivity` / `LabelEditActivity` were also deepened with create/delete/clear/save confirmation flows, but remain 🟡 because Reference exposes additional label color/app-selection interaction surfaces that are not yet reconstructed.
+
+## Latest vertical slice — APK import boundary
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- `ApkImportActivity` remains 🟡.
+- BaRe now resolves Reference-supported input forms (`ACTION_VIEW` plus `EXTRA_STREAM`), reads the display name, classifies `.apk` / `.apks` inputs, handles unsupported/missing input explicitly, and refreshes the flow from `onNewIntent`.
+- The import status exposes the accepted input kind without fabricating parsed package metadata.
+- Archive parsing, APK installation, backup integration, and imported-app metadata remain downstream P4/P5 behavior.
 
 ## Current P3 work order
 
@@ -225,7 +234,7 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 
 ### 71 Activities — current lifecycle interpretation
 
-- **42 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
+- **43 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
 - **28 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
