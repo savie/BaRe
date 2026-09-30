@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **63** |
-| 🟡 Yellow | **8** |
+| 🟢 Green | **64** |
+| 🟡 Yellow | **7** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 63
+### 🟢 Green — 64
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -96,19 +96,19 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 61. `CallsBackupRestoreActivity`
 62. `MessagesBackupRestoreActivity`
 63. `ChatActivity`
+64. `CallsDashActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 8
+### 🟡 Yellow — 7
 
-1. `CallsDashActivity`
-2. `MessagesDashActivity`
-3. `PremiumActivity`
-4. `AppVisibilityDiagnosticsActivity`
-5. `WallsDashActivity`
-6. `WallApplyActivity`
-7. `WallsManageActivity`
-8. `WifiActivity`
+1. `MessagesDashActivity`
+2. `PremiumActivity`
+3. `AppVisibilityDiagnosticsActivity`
+4. `WallsDashActivity`
+5. `WallApplyActivity`
+6. `WallsManageActivity`
+7. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -132,7 +132,7 @@ Audited against the uploaded Swift Backup 5.1.0 decompiled Reference:
 - `CallsBackupRestoreActivity` → 🟢; Reference-shaped backup/restore mode, adapter-selection boundary, refresh/state surface, select-all, call-log permission flow, and action boundary are reconstructed.
 - `ChatActivity` → 🟢; Reference toolbar/conversation-title surface, RecyclerView message surface, hidden debug-menu contract, back navigation, and recreation state are reconstructed through the message-provider/adapter boundary. The Reference `qv1` conversation Parcelable and message-rendering provider are not fabricated.
 - `MessagesDashActivity` → 🟡; Reference has permission flow, dynamic device/cloud backup counts, menus, and navigation to conversation/settings surfaces.
-- `CallsDashActivity` → 🟡; Reference has call-log permission flow, dynamic device/cloud backup counts, menus, and settings navigation.
+- `CallsDashActivity` → 🟢; Reference-shaped local/cloud cards, call-log permission flow, backup/settings navigation, menu contracts, cloud-card highlight input, and explicit data-count boundary are reconstructed.
 
 ## Latest vertical slice — Calls / Messages dashboard P3 completion
 
@@ -144,4 +144,4 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - `MessagesDashActivity` keeps the Reference menu behavior where `action_view_messages` is initially hidden; the existing conversation route remains available to downstream state wiring.
 - Device/cloud backup counts remain data-engine boundaries and were not fabricated.
 
-Both Activities are promoted to 🟢 at the evidence-supported P3 boundary.
+`CallsDashActivity` is promoted to 🟢 at the evidence-supported P3 boundary.
