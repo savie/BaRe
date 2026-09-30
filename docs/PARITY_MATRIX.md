@@ -305,3 +305,23 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 - Restore-mode input, list/refresh surface, select-all, default-SMS-app request/rationale/warning flow, and action boundary are represented.
 - Concrete message inventory, adapter data, default-SMS persistence, restore strategy, and backup/restore execution remain UNKNOWN/P4-P5.
 - No build, install, runtime, or visual verification performed.
+
+
+## 2026-09-30 P3 closure state
+
+P3 is frozen after the dedicated closure audit.
+
+| P3 closure gate | Classification |
+|---|---|
+| Resource/dimension parity | UNKNOWN — full Reference resource matrix not established; audited P3 resource defects corrected |
+| String parity | UNKNOWN — full Reference string name/value matrix not established; current P3-visible branding audited |
+| Style/theme/color parity | UNKNOWN — full matrix and runtime visual comparison not performed |
+| 71-Activity intent/navigation matrix | PASS — static source + manifest contract audit completed |
+| 71-Activity lifecycle/state matrix | PASS — static lifecycle/state audit completed |
+| Fake/stub/P3-boundary classification | PASS / P4 DEFERRED |
+| Final branding/Swift-identity scan | PASS + AUTHORIZED DEVIATION |
+| Static resource-reference integrity | PASS — audited P3 surface |
+
+This UNKNOWN status is evidence-state classification, not a claim of parity. It must not be promoted to MATCH without additional evidence.
+
+P3 freeze does not authorize engine/provider/backend/runtime claims. Those remain downstream Phase 4/5/7 work as documented by the reconstruction roadmap.
