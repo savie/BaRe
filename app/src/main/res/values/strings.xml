@@ -435,4 +435,11 @@
     <string name="no_call_logs_available">No call logs available.</string>
     <string name="select_some_call_logs">Select at least one call log.</string>
     <string name="p3_calls_backup_restore_boundary">Call-log backup/restore selection reached the P3 engine boundary. Backup inventory, selection data, restore strategy, and execution remain downstream.</string>
+    <string name="restore_messages">Restore messages</string>
+    <string name="backup_messages">Backup messages</string>
+    <string name="no_messages_available">No messages available.</string>
+    <string name="select_some_messages">Select at least one message.</string>
+    <string name="default_sms_app_rationale">The Reference restore flow requires BΛR☰ to be the default SMS app before messages can be restored.</string>
+    <string name="reset_sms_app_warning_q">Changing the default SMS app can affect how your device handles incoming messages.</string>
+    <string name="p3_messages_backup_restore_boundary">Message backup/restore selection reached the P3 engine boundary. Message inventory, selection data, default-SMS persistence, restore strategy, and execution remain downstream.</string>
 </resources>
