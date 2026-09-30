@@ -1,51 +1,12 @@
 package com.bare.home.schedule;
-
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.bare.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-/**
- * P3 Reference-shaped label selection surface.
- *
- * The Reference screen owns selected-label state and label catalogs. Those data
- * contracts are not reconstructed here, so RecyclerViews remain empty and all
- * mutations stop at explicit P3 boundaries.
- */
+import android.app.Activity; import android.os.Bundle; import android.view.View; import android.widget.TextView; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import androidx.recyclerview.widget.RecyclerView; import com.bare.R; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public final class ScheduleLabelsSelectActivity extends AppCompatActivity {
-    @Override
-    protected void onCreate(@Nullable Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.schedule_labels_select_activity);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        findViewById(R.id.iv_clear).setOnClickListener(v ->
-                new MaterialAlertDialogBuilder(this)
-                        .setTitle(R.string.clear_labels)
-                        .setMessage(R.string.p3_schedule_labels_boundary)
-                        .setPositiveButton(R.string.close, null)
-                        .show());
-
-        findViewById(R.id.btn_create_label).setOnClickListener(v ->
-                new MaterialAlertDialogBuilder(this)
-                        .setTitle(R.string.create_new_label)
-                        .setMessage(R.string.p3_schedule_labels_boundary)
-                        .setPositiveButton(R.string.close, null)
-                        .show());
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
+ private boolean changed;
+ @Override protected void onCreate(@Nullable Bundle state){ super.onCreate(state); setContentView(R.layout.schedule_labels_select_activity); Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true); if(state!=null)changed=state.getBoolean("p3_labels_changed",false); bindEmptyLists(); findViewById(R.id.iv_clear).setOnClickListener(v->clearSelection()); findViewById(R.id.btn_create_label).setOnClickListener(v->createBoundary()); }
+ private void bindEmptyLists(){int[] ids={R.id.rv_selected_labels,R.id.rv_labels,R.id.rv_labels_built_in,R.id.rv_labels_already_used}; for(int id:ids)((RecyclerView)findViewById(id)).setAdapter(new EmptyAdapter()); TextView empty=findViewById(R.id.tv_no_labels_selected); empty.setVisibility(changed?View.GONE:View.VISIBLE); findViewById(R.id.rv_selected_labels).setVisibility(changed?View.VISIBLE:View.GONE);}
+ private void clearSelection(){new MaterialAlertDialogBuilder(this).setTitle(R.string.clear_labels).setMessage(R.string.p3_schedule_labels_boundary).setNegativeButton(R.string.close,null).setPositiveButton(android.R.string.ok,(d,w)->{changed=true;bindEmptyLists();}).show();}
+ private void createBoundary(){new MaterialAlertDialogBuilder(this).setTitle(R.string.create_new_label).setMessage(R.string.p3_schedule_labels_boundary).setNegativeButton(R.string.close,null).setPositiveButton(android.R.string.ok,(d,w)->{changed=true;bindEmptyLists();}).show();}
+ @Override protected void onSaveInstanceState(Bundle out){out.putBoolean("p3_labels_changed",changed);super.onSaveInstanceState(out);}
+ @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
+ private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{public H onCreateViewHolder(android.view.ViewGroup p,int t){View v=new View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}public void onBindViewHolder(H h,int p){}public int getItemCount(){return 0;}static final class H extends RecyclerView.ViewHolder{H(View v){super(v);}}}
 }
