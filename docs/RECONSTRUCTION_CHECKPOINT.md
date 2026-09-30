@@ -277,3 +277,15 @@ Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/run
 `BoxSignInActivity` crossed the P3 boundary at the verified external-auth contract: browser/redirect-handler checks, Box OAuth navigation, and explicit failure states are reconstructed. Token exchange and SDK/ViewModel result semantics remain downstream.
 
 Current Activity checkpoint: **52 green / 19 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — OneDriveSignInActivity
+
+`OneDriveSignInActivity` crossed the P3 boundary at the evidence-supported external-auth contract.
+
+- Reference initializes the OneDrive/MSAL client, observes auth/error state, and starts Microsoft sign-in with Graph `User.Read` and `Files.ReadWrite` scopes.
+- BaRe reconstructs the provider surface, Microsoft sign-in handoff, ready/started/error states, browser availability handling, and recreation state.
+- MSAL client setup, callback/result processing, token acquisition/silent refresh, and provider persistence remain downstream P4/provider behavior.
+- No build/runtime/visual verification was performed.
+
+Current Activity checkpoint: **53 green / 18 yellow / 0 red / 71**.
