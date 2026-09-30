@@ -164,8 +164,8 @@ Therefore P8 and the final P9 deviation audit remain downstream gates.
 The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
 
 Latest complete 71-Activity P3 depth audit: current `rewrite` head:
-- 🟢 Green: **57**
-- 🟡 Yellow: **14**
+- 🟢 Green: **58**
+- 🟡 Yellow: **13**
 - 🔴 Red: **0**
 - **71/71 classified**
 - The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
@@ -327,3 +327,10 @@ Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/run
 `FolderPickerActivity` is now 🟢 at the evidence-supported P3 boundary. The Reference `extra_initial_folder` and `extra_selected_folder` contracts are preserved with a BaRe `q63` compatibility value object; the picker reconstructs breadcrumb navigation, directory listing, empty/loading states, Select Folder, New Folder input/counter boundary, storage-switch menu, up/cancel flow, and recreation state. Filesystem mutation/permission/provider semantics remain downstream. No build/runtime/visual verification performed.
 
 Current P3 Activity checkpoint: **57 green / 14 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — FoldersBatchActivity
+
+`FoldersBatchActivity` is now 🟢 at the evidence-supported P3 batch folder boundary. The Reference action contract, selection/select-all flow, toolbar/menu routes, action FAB, empty/loading surface, recreation state, and `FolderEditActivity` result flow using request code `4988` are reconstructed. Backup/restore/delete/copy execution and the Reference `qo3` folder inventory remain downstream; no engine state is fabricated.
+
+Current P3 Activity checkpoint: **58 green / 13 yellow / 0 red / 71**.
