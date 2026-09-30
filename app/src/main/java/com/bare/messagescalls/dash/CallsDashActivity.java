@@ -1,7 +1,9 @@
 package com.bare.messagescalls.dash;
-import android.content.Intent; import android.os.Bundle; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import com.bare.R; import com.bare.messagescalls.backups.CallsBackupsActivity; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import android.content.Intent; import android.os.Bundle; import android.view.Menu; import android.view.MenuItem; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import com.bare.R; import com.bare.messagescalls.backups.CallsBackupsActivity; import com.bare.settings.SettingsActivity; import com.bare.settings.SettingsDetailActivity; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 public final class CallsDashActivity extends AppCompatActivity{
  protected void onCreate(@Nullable Bundle s){super.onCreate(s);setContentView(R.layout.smscalls_dash_activity);Toolbar t=findViewById(R.id.toolbar);t.setTitle(R.string.calls);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);((android.widget.TextView)findViewById(R.id.tv_local_state)).setText(R.string.no_call_logs_found);findViewById(R.id.btn_create_backup).setOnClickListener(v->boundary(R.string.call_logs_backup));findViewById(R.id.tv_local_state).setOnClickListener(v->startActivity(new Intent(this,CallsBackupsActivity.class)));}
+ public boolean onCreateOptionsMenu(Menu m){getMenuInflater().inflate(R.menu.menu_calls_dash,m);return true;}
+ public boolean onOptionsItemSelected(MenuItem i){if(i.getItemId()==R.id.action_calls_settings){Intent x=new Intent(this,SettingsDetailActivity.class);x.putExtra("category",3);x.putExtra("category_title",getString(R.string.call_logs_backups));startActivity(x);return true;}if(i.getItemId()==R.id.action_settings){startActivity(new Intent(this,SettingsActivity.class));return true;}return super.onOptionsItemSelected(i);}
  void boundary(int title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}
- public boolean onSupportNavigateUp(){finish();return true;}
+ public boolean onSupportNavigateUp(){setResult(RESULT_CANCELED);finish();return true;}
 }
