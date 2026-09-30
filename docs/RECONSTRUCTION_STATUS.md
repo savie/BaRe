@@ -887,3 +887,13 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Delete-all remains a P3 boundary; the Reference delegates the actual deletion through the call-log ViewModel/data layer.
 - The shared SMS/call backup layout and delete menu previously restored for `MessagesBackupsActivity` are reused; no duplicate resources were introduced.
 - Runtime/build verification remains pending by project execution guard.
+
+
+## P3 vertical sweep — PCloudSignInActivity — 2026-09-30
+- Audited Reference `PCloudSignInActivity`, `sv5`, `il0`, `activity_pcloud_authentication.xml`, and the Reference manifest entry.
+- Reference request code is **1856** and the Activity delegates OAuth to `com.pcloud.sdk.AuthorizationActivity` through a ViewModel/provider contract.
+- Reference performs a browser availability check and verifies a Custom Tabs-capable handler before starting the pCloud authorization flow.
+- Reference processes the returned pCloud SDK auth result, validates the token, and forwards it to the provider ViewModel.
+- BaRe does not currently include the pCloud SDK or an equivalent verified token/result repository contract. The reconstruction therefore preserves the browser/custom-tab gate and explicit P3 auth boundary, but does not fabricate OAuth token parsing or provider persistence.
+- Added the missing Reference-facing strings `pcloud` and `no_browser_found_error`.
+- Runtime/build verification remains pending by project execution guard.
