@@ -80,7 +80,7 @@ No application fix is performed merely because a domain is yellow.
 | 10 | Dialog / Error / Loading | 🟡 | Re-audit visible state contracts, dialogs, errors, empty/loading states, and transitions. |
 | 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher branding contract and incomplete evidence for full Swift-identity cleanup. |
 | 12 | Java-only | 🟡 | Re-audit source-language and UI-technology constraints. |
-| 13 | Fake / Stub | 🟡 | Re-audit intentional boundaries versus accidental fake/stub behavior. |
+| 13 | Fake / Stub | 🟡 **OPEN / NEEDS FOLLOW-UP** | Explicit P3 boundaries are intentional; one incomplete null-return contract remains for downstream Boundary reconciliation. |
 | 14 | Boundary | 🟡 | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
 | 15 | Static Hygiene | 🟡 | Re-audit static consistency, dead/missing references, contradictions, and documentation hygiene relevant to P3. |
 
@@ -117,7 +117,7 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #11 — Branding / Swift Identity**
+> **Audit #14 — Boundary**
 
 Domains #1–#10 have now been audited. Proceed sequentially through #15.
 
@@ -416,4 +416,42 @@ No Java/Kotlin implementation defect was established in this audit.
 
 **No app/code/resource fix performed during this audit.**
 
-Next audit domain: **#13 Fake / Stub**.
+Next audit domain: **#14 Boundary**.
+
+
+## Audit #13 — Fake / Stub — Result
+
+**Verdict: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+### Evidence checked
+
+- Static target search found explicit P3 boundary/stub markers rather than hidden fake-value implementations. Representative cases include:
+  - `IntroActivity.beginP3SignIn()`: explicitly marks Google/Firebase/anonymous auth as a P4 boundary and exposes `p3_google_stub` / `p3_anonymous_stub`.
+  - `IntroActivity.grantRootBoundary()`: explicitly marks Root/Shizuku detection/grant/callback behavior as a P4 boundary and exposes `p3_root_stub`.
+  - `GmsSignInActivity`: presents a Google Drive authentication boundary and returns an Activity result without fabricating a token or persisted provider session.
+  - `PCloudSignInActivity`: explicitly documents that the pCloud SDK is not shipped and keeps provider OAuth exchange behind the P3 boundary.
+  - Multiple application Activities use explicit `p3_*_boundary` dialogs for cloud authentication, backup/restore engines, folder operations, diagnostics, password operations, blacklist/app inventory, shortcuts, and other downstream behavior.
+- Static search for target-side `UnsupportedOperationException` and `not implemented` produced no application-source matches.
+- Target-side search for `stub` is limited to explicit boundary naming/comments in `GmsSignInActivity`, `IntroActivity`, and the corresponding P3 strings.
+- `StorageInfoService.read()` currently returns `null` with an explicit comment that provider implementation belongs to the storage/runtime layer and that no fake values are emitted. No current target call site to `StorageInfoService` was found in the static search.
+- No evidence was found of fabricated success data, hard-coded fake storage metrics, fake cloud tokens, or silent `UnsupportedOperationException` placeholders in the audited target source.
+- No build/install/runtime verification was performed.
+
+### Findings
+
+1. **Intentional P3 stubs/boundaries are present and explicitly labeled.** They are consistent with the current phase gate: downstream authentication, privilege, provider, storage-runtime, and engine execution remain outside P3.
+2. **The audit did not find a hidden fake-value implementation pattern** such as fabricated engine results, fake provider tokens, or silent unimplemented exceptions in the searched target surface.
+3. `StorageInfoService.read()` is nevertheless an incomplete implementation contract because it returns `null`. The current evidence classifies it as a downstream/runtime boundary rather than a fake-value implementation, but its eventual implementation/use must be reconciled under the Boundary/Core Behavior work.
+4. The presence of many P3 boundary screens means **“screen exists” must not be interpreted as “Reference behavior is implemented.”** This is an explicit P3 scope condition, not an automatic defect for this audit domain.
+5. Because the audit is static and several downstream paths are intentionally deferred, complete absence of accidental stubs cannot be proven for runtime-only behavior.
+
+### Required follow-up
+
+- Maintain a Reference→BaRe fake/stub inventory for all explicit `p3_*_stub`, `p3_*_boundary`, TODO-like, no-op, and null-return contracts that can affect P3-visible behavior.
+- Classify each item as **intentional P3 boundary**, **downstream/dependency boundary**, or **accidental/incomplete implementation**.
+- Carry `StorageInfoService.read() == null` into Audit #14 Boundary/Core Behavior rather than treating it as a fake value.
+- Re-audit boundary items after P3 follow-up implementation; do not replace intentional boundaries with fabricated behavior.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#14 Boundary**.
