@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="?attr/listPreferredItemHeightLarge"
+        android:paddingHorizontal="@dimen/spacing_normal_more" android:foreground="?android:attr/selectableItemBackground">
+        <TextView android:id="@+id/tv_title" style="@style/CardTitle" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:maxLines="1" android:ellipsize="middle" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@id/btn_edit"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toTopOf="@id/tv_subtitle"/>
+        <TextView android:id="@+id/tv_subtitle" android:layout_width="0dp" android:layout_height="wrap_content" android:maxLines="1" android:ellipsize="middle"
+            android:textSize="12sp" android:textColor="?android:attr/textColorSecondary" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_edit" app:layout_constraintTop_toBottomOf="@id/tv_title" app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView android:id="@+id/tv_selected" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"
+            android:paddingHorizontal="@dimen/spacing_medium" app:layout_constraintEnd_toStartOf="@id/btn_edit" app:layout_constraintTop_toTopOf="parent"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_edit" style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/edit" android:minWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="16dp" android:background="?attr/colorOutlineVariant"/>
+</LinearLayout>
