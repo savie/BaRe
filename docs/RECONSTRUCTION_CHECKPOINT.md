@@ -1,5 +1,10 @@
 # BΛR☰ Reconstruction Checkpoint
 
+## Canonical Target Guard
+
+The canonical reconstruction definition is `docs/bare.md`. This checkpoint records roadmap state only; it does not redefine parity or authorize deviations. The target formula remains **BaRe = Reference + Authorized Deviations**. Reference evidence is anchored to the supplied Swift Backup 5.1.0 (620) decompile archive.
+
+
 ## Purpose
 
 This document is the reconstruction roadmap checkpoint.
