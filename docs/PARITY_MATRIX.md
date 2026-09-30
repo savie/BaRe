@@ -42,7 +42,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 
 | # | Domain | Current classification |
 |---:|---|---|
-| 1 | Resource | 🟡 AUDIT REQUIRED |
+| 1 | Resource | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 2 | Strings | 🟡 AUDIT REQUIRED |
 | 3 | Dimensions | 🟡 AUDIT REQUIRED |
 | 4 | Styles / Themes / Colors | 🟡 AUDIT REQUIRED |
@@ -128,3 +128,16 @@ Build/install/runtime/visual verification remains gated until explicitly authori
 | docs/PARITY_MATRIX.md | **High-level parity map** |
 
 No document outside these roles should create a competing P3 work queue.
+
+
+## P3 Total Audit — Resource Result
+
+**#1 Resource: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+Static audit evidence shows large raw Reference/BaRe resource-count differences, but the Reference decoded tree contains dependency/library resources. Therefore count equality is not a valid parity test.
+
+The current evidence does establish an application-owned resource **scope/evidence gap**: prior corrections exist, but a complete Reference→BaRe application-owned resource matrix is not yet documented.
+
+No app/resource change was made during this audit.
+
+Next: **#2 Strings**.
