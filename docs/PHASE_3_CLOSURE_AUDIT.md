@@ -748,3 +748,18 @@ Next: **P3 TOTAL AUDIT CLOSURE REVIEW**.
 **Remaining follow-up:** broader branding parity is not declared closed yet. Visible string reconciliation depends on EU-02, while provider/deep-link identity classification depends on EU-04. Visual launcher verification remains gated.
 
 **Implementation:** EU-06 performed a bounded app change only: one launcher vector resource and one manifest attribute.
+
+
+## Audit #15 — Static Hygiene — Re-audit after Control-Plane Reconciliation
+
+**Scope:** current-status/control-plane consistency after the documentation corrections applied to align P3 records with `docs/bare.md`.
+
+**Evidence checked:**
+- `docs/bare.md` now explicitly defines the canonical target, evidence hierarchy, parity rule, change rule, phase governance, and verification separation.
+- `docs/PHASE_3_STATUS.md`, `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`, `docs/RECONSTRUCTION_CHECKPOINT.md`, `docs/PARITY_MATRIX.md`, and `docs/PHASE_4_GUIDE.md` now identify `docs/bare.md` as the canonical target guard.
+- Stale current-state markers checked after reconciliation: no `ACTIVE / TOTAL AUDIT` phase-state marker remains in the audited control documents; no current #11 Branding `🔴 FAIL` row remains in the checkpoint/parity/status matrices; no `AUDIT REQUIRED` current-state marker remains in those matrices.
+- Historical audit entries remain retained as historical evidence and are not treated as current status.
+
+**Result:** the previously identified documentation contradiction has been corrected at the current-status level. Final #15 closure is still recorded as **🟡 OPEN / NEEDS FOLLOW-UP** until the full control-plane consistency pass is explicitly checkpointed.
+
+**No app/source implementation change was made.**
