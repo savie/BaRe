@@ -229,3 +229,16 @@ The project is currently:
 > P1 frozen + P2 frozen + P3 active, with selected P4 contracts reconstructed as dependencies.
 
 That is the intended interpretation of the current checkpoint.
+
+
+
+## Lifecycle interpretation update — 71 / 3 / 8
+
+The current P3 gate is now interpreted as a **phase-boundary audit**, not a requirement to force every component into green.
+
+- **71 Activities:** 23 are at the current P3 boundary (green); 48 still contain evidence-supported P3 depth work or need an explicit dependency decision.
+- **3 Services:** all structural boundaries exist. TaskService and ScheduleService have substantial Reference execution contracts and therefore move their remaining behavior to P4/P5; HeadlessSmsSendService is already minimal in the Reference and has reached its meaningful P3 boundary.
+- **8 Receivers:** all structural boundaries exist. Remaining side effects are phase-owned by P4/P5; MmsReceiver additionally needs its Reference inheritance boundary (SmsReceiver) corrected before execution work.
+- **P7/P8/P9 remain downstream gates** and are not part of this audit.
+
+The next P3 action is therefore to continue only the **48 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
