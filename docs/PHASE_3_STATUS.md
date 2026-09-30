@@ -2,118 +2,147 @@
 
 ## Purpose
 
-This is the **current Phase 3 work queue**.
+This is the **current Phase 3 work queue and latest complete 71-Activity depth audit**.
 
 Phase 3 answers:
 
 > Which of the 71 Reference Activities have meaningful UI/navigation reconstruction, which are still shallow, and which are urgent?
 
-It does **not** claim:
-- runtime verification;
-- visual parity;
-- backup/restore execution;
-- provider execution;
-- backend implementation;
-- full P4/P5 feature parity.
-
-Those remain governed by the phase gates and detailed evidence log.
+It does **not** claim runtime verification, visual parity, backup/restore execution, provider execution, backend implementation, or full P4/P5 feature parity.
 
 ## Status semantics
 
 - 🔴 **RED — not meaningful yet**: too thin/stub-like to count as meaningful Phase 3 reconstruction.
 - 🟡 **YELLOW — shallow/boundary**: the surface exists, but meaningful Reference data/behavior/deeper contract is still pending or intentionally deferred.
-- 🟢 **GREEN — meaningful Phase 3 reconstruction**: the Activity has substantive Reference-derived UI/navigation/state/source-contract depth. Green does **not** mean runtime verified or feature-complete.
-- ⚪ **SPECIAL REVIEW**: source is populated enough to avoid red/yellow classification, but the previous audit explicitly requested tighter Reference comparison before final depth classification.
+- 🟢 **GREEN — meaningful Phase 3 reconstruction**: the Activity has substantive Reference-derived UI/navigation/state/source-contract depth. Green does not mean runtime verified or feature-complete.
 
-## Last complete 71-Activity depth audit
+## Latest complete 71-Activity depth audit
 
-Audit snapshot: `7f03a13a0dc05bdf42b5cad28c16f81d33651551`.
+Audit head: `36704f7803bf779887e59c3c94513f457f1ea1aa` (`rewrite`).
 
-At that snapshot:
+The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then re-validated every post-snapshot change through the current head. The three previous “special review” Activities were also compared directly against the supplied Reference source/layout and are now classified normally.
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | 22 |
-| 🟡 Yellow | 39 |
-| 🔴 Red | 7 |
-| ⚪ Special review | 3 |
+| 🟢 Green | **23** |
+| 🟡 Yellow | **48** |
+| 🔴 Red | **0** |
 | **Total** | **71** |
 
-The audit explicitly warned that 71/71 structural coverage is not 71/71 reconstruction completion.
+### 🟢 Green — 23
 
-## 🔴 Red backlog from the last complete audit
+1. `ConfigEditActivity`
+2. `ConfigListActivity`
+3. `AppListActivity`
+4. `AppsBatchActivity`
+5. `BlacklistActivity`
+6. `CloudConnectActivity`
+7. `FoldersDashActivity`
+8. `HomeActivity`
+9. `HomeSearchActivity`
+10. `IntroActivity`
+11. `NoticeListActivity`
+12. `NoticeViewActivity`
+13. `AppSwipeActionsActivity`
+14. `LicensesActivity`
+15. `SettingsActivity`
+16. `SettingsDetailActivity`
+17. `SLogActivity`
+18. `PreconditionsActivity`
+19. `TaskActivity`
+20. `ComposeSmsActivity`
+21. `MultipleBackupsActivity`
+22. `RestoreSpecialDataDetailsActivity`
+23. `AppBackupLimitsActivity`
 
-These 7 Activities were red in the complete audit:
+**Green = P3 depth only.** Runtime/visual verification and underlying P4/P5 execution remain separate gates.
 
-1. `PCloudSignInActivity`
-2. `CallsBackupsActivity`
-3. `MessagesBackupsActivity`
-4. `ComposeSmsActivity`
-5. `MultipleBackupsActivity`
-6. `RestoreSpecialDataDetailsActivity`
-7. `AppBackupLimitsActivity`
+### 🟡 Yellow — 48
 
-### Post-audit vertical sweeps
+1. `ApkImportActivity`
+2. `ConfigSettingsActivity`
+3. `AppInfoActivity`
+4. `LabelEditActivity`
+5. `LabelsActivity`
+6. `AppsConfigRunActivity`
+7. `AppsQuickActionsActivity`
+8. `BoxSignInActivity`
+9. `CsActivity`
+10. `DropboxSignInActivity`
+11. `FilenSignInActivity`
+12. `GmsSignInActivity`
+13. `MegaSignInActivity`
+14. `NoGmsSignInActivity`
+15. `OneDriveSignInActivity`
+16. `TeraBoxSignInActivity`
+17. `YandexSignInActivity`
+18. `CloudDiagnosticsActivity`
+19. `CloudOrphanCleanerActivity`
+20. `ContributorRegActivity`
+21. `DetailActivity`
+22. `FolderDetailActivity`
+23. `FolderEditActivity`
+24. `FolderPickerActivity`
+25. `FoldersBatchActivity`
+26. `ScheduleLabelsSelectActivity`
+27. `ScheduleFolderSelectActivity`
+28. `StorageSwitchActivity`
+29. `ManageSpaceActivity`
+30. `CallsBackupRestoreActivity`
+31. `MessagesBackupRestoreActivity`
+32. `ChatActivity`
+33. `ConversationsActivity`
+34. `CallsDashActivity`
+35. `MessagesDashActivity`
+36. `PasswordStrategyActivity`
+37. `UserPasswordActivity`
+38. `PremiumActivity`
+39. `AppVisibilityDiagnosticsActivity`
+40. `ShortcutsActivity`
+41. `WallsDashActivity`
+42. `WallApplyActivity`
+43. `WallsManageActivity`
+44. `WifiActivity`
+45. `LocaleActivity`
+46. `PCloudSignInActivity`
+47. `CallsBackupsActivity`
+48. `MessagesBackupsActivity`
 
-All 7 red items subsequently received a dedicated Phase 3 vertical sweep on 2026-09-30:
+### Former special-review items
 
-| Activity | Post-audit Phase 3 result | Operational status |
-|---|---|---|
-| `PCloudSignInActivity` | Browser/custom-tab/auth boundary reconstructed; SDK token handling intentionally not fabricated | 🟡 |
-| `CallsBackupsActivity` | Shared backup list layout/menu/title boundary reconstructed; ViewModel/delete engine deferred | 🟡 |
-| `MessagesBackupsActivity` | Shared backup list layout/item/menu boundary reconstructed; ViewModel/delete engine deferred | 🟡 |
-| `ComposeSmsActivity` | Reference Activity is empty; BaRe now matches the empty Activity + manifest contract | 🟢 |
-| `MultipleBackupsActivity` | Three strategy cards, slider, conditions, Parcelable contract and preference/result boundary reconstructed | 🟢 |
-| `RestoreSpecialDataDetailsActivity` | 13-row restore-detail UI, switch/card behavior and boolean result boundary reconstructed | 🟢 |
-| `AppBackupLimitsActivity` | Four app-part limit sections, local/cloud inputs, state/result model reconstructed | 🟢 |
+Direct comparison against the supplied Reference source/layout at the current head resolves all three as **🟡 Yellow**:
 
-**Important:** this is a post-audit operational reclassification, not a new full 71-Activity audit. A future full depth audit should confirm these statuses.
+- `WallsManageActivity`: Reference has substantive menu/state/list behavior; BaRe currently exposes the shell with an empty adapter.
+- `WifiActivity`: Reference contains substantial Wi-Fi backup/restore/settings logic; BaRe currently exposes the card/dialog surface with empty adapters and no provider engine.
+- `LocaleActivity`: Reference has locale catalog/menu/selection behavior; BaRe currently exposes the toolbar/list shell with an empty adapter.
 
-## Current provisional Phase 3 picture
+They are no longer a separate classification bucket.
 
-Using the last full audit plus the seven post-audit sweeps:
+## 🔴 Red backlog
 
-| Status | Count | Meaning |
-|---|---:|---|
-| 🟢 Green | 26 | 22 from the full audit + 4 red items subsequently deepened |
-| 🟡 Yellow | 42 | 39 from the full audit + 3 red items subsequently deepened to boundary level |
-| 🔴 Red | 0 | Every Activity from the last red backlog has received a dedicated P3 sweep |
-| ⚪ Special review | 3 | Still requires tighter Reference comparison |
-| **Total** | **71** | Provisional until the next full 71-Activity depth audit |
+**None.**
 
-### ⚪ Special review
+Previous red items and final result:
 
-These remain explicitly flagged by the last full audit:
+- `PCloudSignInActivity` → 🟡
+- `CallsBackupsActivity` → 🟡
+- `MessagesBackupsActivity` → 🟡
+- `ComposeSmsActivity` → 🟢
+- `MultipleBackupsActivity` → 🟢
+- `RestoreSpecialDataDetailsActivity` → 🟢
+- `AppBackupLimitsActivity` → 🟢
 
-- `WallsManageActivity`
-- `WifiActivity`
-- `LocaleActivity`
+## Current P3 work order
 
-Do not silently promote these to green. Recompare their source/layout against Reference before final classification.
+1. Deepen the 🟡 queue by focused vertical slices.
+2. Prioritize Activities whose Reference source contains meaningful UI/state contracts that are still only shells in BaRe.
+3. When deeper behavior requires a verified P4 contract, reconstruct only the minimum contract needed and keep engine/provider semantics explicit.
+4. Do not promote a P3 surface to feature parity merely because its screen is green.
+5. Re-run this 71-Activity audit after the next meaningful batch.
 
-## What is urgent now
+## Verification boundary
 
-### 1. Re-audit the three special-review Activities
-
-- WallsManageActivity
-- WifiActivity
-- LocaleActivity
-
-This closes the only explicit unresolved classification bucket from the last full audit.
-
-### 2. Continue the 🟡 queue
-
-The yellow queue is the next Phase 3 depth backlog. The exact 39 names remain in the last complete audit recorded in `RECONSTRUCTION_STATUS.md`; use that evidence log rather than recreating the inventory.
-
-### 3. Do not turn yellow into P5 by accident
-
-A yellow Activity can be correct P3 work when its Reference behavior belongs to a later engine/provider/backup contract.
-
-The goal is to reconstruct the Reference UI/navigation/state boundary first, then record the dependency as P4/P5 UNKNOWN or deferred.
-
-### 4. Re-run the 71-Activity depth audit after a meaningful batch
-
-The next full audit should replace the provisional counts above with a fresh 71-row classification.
+This audit establishes source/resource reconstruction depth at the current Git head. It does **not** establish build, install, runtime, visual, filesystem/provider, backup/restore, cloud, billing, Supabase, or end-to-end feature parity.
 
 ## Current phase position
 
@@ -129,11 +158,11 @@ The next full audit should replace the provisional counts above with a fresh 71-
 
 ## Evidence source
 
-Detailed Phase 3 and Reference evidence remains in:
+Detailed reconstruction evidence remains in:
 
 - `docs/RECONSTRUCTION_STATUS.md`
 - `docs/PHASE_2_SKELETON.md`
 - `docs/REFERENCE_AUDIT.md`
 - `docs/REFERENCE_FEATURE_MAP.md`
 
-The current working queue is this document; the roadmap dashboard is `docs/RECONSTRUCTION_CHECKPOINT.md`.
+The current working queue and complete 71-row classification are maintained here; the roadmap dashboard is `docs/RECONSTRUCTION_CHECKPOINT.md`.
