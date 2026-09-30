@@ -467,7 +467,6 @@
     <string name="premium_already_paid_unavailable">Unable to open the already-paid help page.</string>
     <string name="already_paid">Already paid?</string>
     <string name="restore_purchases">Restore purchases</string>
-    <string name="app_visibility_diagnostics">App visibility diagnostics</string>
     <string name="app_visibility_diagnostics_explanation">This is the raw package list returned to BΛR☰ by Android PackageManager. If it is incomplete, that may indicate external filtering, such as an OEM app-list permission or an HMA configuration. This utility cannot identify the exact cause.</string>
     <string name="app_visibility_copy_results">Copy</string>
     <string name="app_visibility_share_results">Share</string>
