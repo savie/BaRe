@@ -167,7 +167,7 @@
     <string name="p3_quick_action_boundary">Quick action presentation reached. Backup, restore, deletion, and app-management execution remain P4.</string>
     <string name="select_apps">Select apps</string>
     <string name="p3_batch_selection_boundary">Batch selection/search/filter is a P3 presentation boundary. Real app inventory and selection semantics remain deferred.</string>
-    <string name="swiftlogger">SwiftLogger</string>
+    <string name="swiftlogger">BΛR☰Logger</string>
     <string name="swiftlogger_info">Logs for bug reports</string>
     <string name="share_logs">Share logs</string>
     <string name="clear_logs">Clear logs</string>
