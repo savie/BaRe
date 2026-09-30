@@ -495,6 +495,62 @@ continue using the same master flow
 
 Breaking down a work package does not change the master flow.
 
+# Step 7 — Scope Check
+
+Step 7 evaluates each of the 8 formed work packages against the fixed scope rule: a unit must be measurable, have a finite verification boundary, identify its affected audit domain(s), state expected files/resources, and avoid combining unrelated contracts or opening uncontrolled secondary scope.
+
+## Scope-check result
+
+| WP | Scope result | Decision | Reason |
+|---|---|---|---|
+| **WP-01 Foundation Resource/String Evidence** | **TOO LARGE** | Split into EU-01 and EU-02 | N-01 and N-02 were explicitly normalized as separate contracts with different ownership/evidence/acceptance criteria. Shared `res/` location is not sufficient reason to merge them. |
+| **WP-02 Manifest/Intent/Permission Contract** | **TOO LARGE** | Split into EU-03, EU-04, EU-05 | N-05, N-06, and N-07 remain separate contracts; intent and permission classification consume manifest evidence but have distinct acceptance criteria. |
+| **WP-03 Theme/Style/Color Contract** | **PASS** | Keep as one execution unit | Single N-04 contract with one bounded resource/theme acceptance boundary; dependency on N-01 is explicit. |
+| **WP-04 Navigation Contract** | **PASS** | Keep as one execution unit | Single N-08 contract. Scope is the frozen 71-Activity inventory, with static navigation matrix as finite verification. |
+| **WP-05 Lifecycle/State Contract** | **PASS** | Keep as one execution unit | Single N-09 contract. Scope is Activity/major Fragment lifecycle/state evidence and finite static matrix verification. |
+| **WP-06 Visible UI State & Identity Contract** | **TOO LARGE** | Split into EU-06 and EU-07 | N-11 branding/identity and N-10 dialog/error/loading were deliberately normalized separately and have different acceptance/re-audit criteria. |
+| **WP-07 Boundary & Stub Contract** | **TOO LARGE** | Split into EU-08 and EU-09 | N-13 is inventory/classification; N-14 is boundary ownership/reconciliation. Step 4 explicitly treats them as separate contracts despite dependency. |
+| **WP-08 Static Control-Plane Hygiene** | **PASS** | Keep as one execution unit | Single N-15 verification contract with finite cross-document consistency scope. |
+
+## Breakdown register
+
+The 4 oversized WPs are therefore decomposed into **13 execution units**, one per active normalized contract.
+
+| EU | Source WP | Contract | Bounded scope | Expected files/resources | Static verification | Affected re-audit |
+|---|---|---|---|---|---|---|
+| **EU-01** | WP-01 | N-01 Resource | Application-owned Reference→BaRe resource parity only. | Application-owned `app/src/main/res/` resources plus Reference resource inventory; exclude dependency/library-owned resources. | Resource matrix; type/qualifier/ownership trace. | #1 |
+| **EU-02** | WP-01 | N-02 Strings | Application-owned string parity, usage, classification, and relevant locale coverage only. | Application-owned string resources under `app/src/main/res/values*/`; Reference string inventory. | String matrix; usage/locale trace; visible/deferred classification. | #2 |
+| **EU-03** | WP-02 | N-05 Manifest | Application/component manifest contract only. | `app/src/main/AndroidManifest.xml`; Reference manifest. | Reference→BaRe manifest matrix/diff. | #5 |
+| **EU-04** | WP-02 | N-06 Intent | Intent/filter/callback/deep-link contract only. | `app/src/main/AndroidManifest.xml` intent/filter declarations plus relevant target Java Activity callback surfaces; Reference manifest/source evidence. | Intent/filter/callback matrix; exported/deep-link classification. | #6 |
+| **EU-05** | WP-02 | N-07 Permission | Static permission ownership/declaration/request/check contract only. | `app/src/main/AndroidManifest.xml` permission declarations plus relevant Java request/check sites; Reference permission evidence. | Permission declaration/request/check matrix. | #7 |
+| **EU-06** | WP-06 | N-11 Branding/identity | Visible/internal/provider/deep-link identity classification and BΛR☰ launcher identity contract. | Manifest identity fields; application-owned branding resources; relevant visible string/resource references; no global replacement. | Branding matrix and identity classification. | #11 |
+| **EU-07** | WP-06 | N-10 Dialog/error/loading | Trigger→visible state→action→dismiss/recovery contract, including relevant lifecycle restoration. | Relevant Activity/Fragment Java sources; application-owned dialog/loading/error layouts/styles/strings. | Transient-state matrix and source-level trigger/state trace. | #10 |
+| **EU-08** | WP-07 | N-13 Fake/stub | Explicit stub/boundary/TODO/no-op/null-return inventory and classification. | Target Java source tree; explicit P3 boundary/stub strings/resources; known `StorageInfoService` source. | Marker/null-return inventory and classification. | #13 |
+| **EU-09** | WP-07 | N-14 Boundary | Complete P3-visible boundary ownership matrix across 71 Activities + 3 Services + 8 Receivers and downstream calls. | Frozen P2 Java component inventory under `app/src/main/java`; relevant interfaces/services/receivers; downstream call sites. | Boundary matrix with owner/input/output/deferred phase/P3-visible side. | #14 |
+| **EU-10** | WP-03 | N-04 Theme/style/color | Application-owned theme/style/color/state-list parity. | Application-owned `app/src/main/res/values*/` theme/style/color resources and relevant layout references. | Theme/style/color matrix and inheritance/item-contract trace. | #4 |
+| **EU-11** | WP-04 | N-08 Navigation | Navigation contract for all 71 frozen P2 Activities. | The 71 BaRe Activity Java sources listed in `docs/PHASE_2_SKELETON.md`; manifest navigation attributes where applicable. | 71-Activity navigation matrix. | #8 |
+| **EU-12** | WP-05 | N-09 Lifecycle/state | Activity/major Fragment lifecycle and state contract. | In-scope Activity/major Fragment Java sources from P2 inventory; relevant saved-state/resource references. | Lifecycle/state matrix; save/restore/event-path trace. | #9 |
+| **EU-13** | WP-08 | N-15 Static/documentation hygiene | Cross-document control-plane consistency after follow-up changes. | `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`, `docs/PHASE_3_STATUS.md`, `docs/RECONSTRUCTION_CHECKPOINT.md`, plus affected matrices/ledger. | Cross-document consistency check. | #15 + touched control-plane domains |
+
+## Scope-check rules applied
+
+1. A normalized contract that was deliberately kept separate in Step 2 is not recombined merely because it shares files with another contract.
+2. Dependency does not equal scope grouping: EU-03 precedes EU-04/EU-05, and EU-08 precedes EU-09.
+3. The 71-Activity scope is finite because the authoritative P2 inventory defines the exact component set; it is not permission to rewrite all Activities.
+4. Static verification remains the default. Runtime/build/install/visual verification is still gated.
+5. Downstream provider/backend/storage/engine execution remains outside these units.
+6. No implementation is performed by Step 7.
+
+## Step 7 completion
+
+- **8 WPs assessed.**
+- **4 WPs passed unchanged:** WP-03, WP-04, WP-05, WP-08.
+- **4 WPs were too large and were split:** WP-01, WP-02, WP-06, WP-07.
+- Result: **13 bounded execution units**, one per active normalized contract.
+- No implementation authorization is created.
+- Next step: **Step 8 — Small Implementation**, subject to explicit implementation authorization for the selected execution unit.
+
+**Step 7 is complete.**
 # Step 8 — Small Implementation
 
 Only after explicit authorization for implementation:
