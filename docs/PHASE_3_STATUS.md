@@ -79,7 +79,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 29
+### 🟡 Yellow — 28
 
 1. `ApkImportActivity`
 2. `AppInfoActivity`
@@ -109,7 +109,6 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 28. `WallApplyActivity`
 29. `WallsManageActivity`
 30. `WifiActivity`
-31. `LocaleActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
@@ -227,7 +226,7 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 ### 71 Activities — current lifecycle interpretation
 
 - **42 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **29 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **28 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
