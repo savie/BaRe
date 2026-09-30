@@ -113,6 +113,19 @@ The audit determines whether each domain becomes:
 
 No implementation change is part of the audit pass.
 
+## Recorded Execution-Scale Facts
+
+The current P3 follow-up work order must preserve the real workload behind each EU. The 13 normalized EUs are domain/contract identities; they are not instructions to execute one giant operation or one micro-task per file/Activity.
+
+- EU-01 Resource: previously established roughly **1,400 Reference resource files**; prior OOM forced a bounded, evidence-backed strategy. No blind copy/full filesystem sweep.
+- EU-02 Strings: Reference strings.xml is roughly **1,384 names**, while prior application-source evidence identified **300 distinct R.string refs**. Raw count is not the parity target.
+- Reference skeleton remains **71 Activities + 3 Services + 8 Receivers**.
+- EU-09 Boundary and EU-11 Navigation must use bounded execution waves over their contract populations; EU-11 is not 71 separate EU tasks.
+- EU-01 raw resource inventory and EU-02 raw string count must not be treated as parity targets because dependency/library material is mixed in.
+- Build/install/runtime/visual verification remains unauthorized.
+
+This checkpoint intentionally treats docs/bare.md, relevant docs/*, the supplied Reference ZIP, and accumulated execution history as one lifecycle context.
+
 ## Current P3 Work Order
 
 **P3 FOLLOW-UP EXECUTION.**
