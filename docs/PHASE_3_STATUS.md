@@ -102,13 +102,13 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 1. `ChatActivity`
 2. `CallsDashActivity`
-4. `MessagesDashActivity`
-5. `PremiumActivity`
-6. `AppVisibilityDiagnosticsActivity`
-7. `WallsDashActivity`
-8. `WallApplyActivity`
-9. `WallsManageActivity`
-10. `WifiActivity`
+3. `MessagesDashActivity`
+4. `PremiumActivity`
+5. `AppVisibilityDiagnosticsActivity`
+6. `WallsDashActivity`
+7. `WallApplyActivity`
+8. `WallsManageActivity`
+9. `WifiActivity`
 
 ## 🔴 Red backlog
 
