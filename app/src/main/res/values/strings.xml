@@ -377,4 +377,8 @@
     <string name="app_info_contract_ready">Reference APP_PARCEL contract is present; app metadata engine remains downstream.</string>
     <string name="call_logs_permission_required">Call log permissions are required to inspect device call logs.</string>
     <string name="messages_permission_required">SMS and contacts permissions are required to inspect device messages.</string>
+    <string name="apk_import_error_with_detail">Unable to import APK: %s</string>
+    <string name="apk_import_status_install_complete">Installation finished.</string>
+    <string name="apk_import_status_waiting_for_installer">Waiting for the system installer…</string>
+    <string name="apk_import_apk_summary">%1$d APK, %2$s</string>
 </resources>
