@@ -451,4 +451,20 @@
     <string name="messages_backup_settings">Messages backup settings</string>
     <string name="no_messages_found">No messages found on device</string>
     <string name="no_backups_synced">No backups synced</string>
+    <string name="upgrade_to_premium">Upgrade to premium</string>
+    <string name="premium_feature_cloud_backup_description">Back up apps and folders to supported cloud storage.</string>
+    <string name="premium_feature_schedules_description">Run recurring backups automatically.</string>
+    <string name="premium_feature_backup_history_title">Backup history and protection</string>
+    <string name="premium_feature_backup_history_description">Keep multiple app backup versions and protect important versions.</string>
+    <string name="premium_feature_app_labels_description">Group apps with labels for filtering, schedules, and configurations.</string>
+    <string name="premium_feature_custom_configurations_description">Apply custom backup and restore rules to matching apps.</string>
+    <string name="premium_plan_lifetime">Lifetime Plan</string>
+    <string name="premium_plan_yearly">Yearly Plan</string>
+    <string name="no_premium_plan_selected">Select a Premium plan</string>
+    <string name="select_premium_plan">Select a Premium plan first.</string>
+    <string name="premium_purchase_boundary">Purchase flow reached the P3 billing boundary. Google Play product details, billing transaction, entitlement, and persistence remain downstream.</string>
+    <string name="premium_restore_boundary">Restore purchases reached the P3 billing boundary. Real Google Play purchase restoration and entitlement refresh remain downstream.</string>
+    <string name="premium_already_paid_unavailable">Unable to open the already-paid help page.</string>
+    <string name="already_paid">Already paid?</string>
+    <string name="restore_purchases">Restore purchases</string>
 </resources>
