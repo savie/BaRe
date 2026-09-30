@@ -16,7 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 public final class BoxSignInActivity extends AppCompatActivity {
-    private static final int REQUEST_BOX_AUTH = 5011;
     private static final String BOX_REDIRECT_URI = "org.swiftapps.swiftbackup.box://oauth";
     private static final String BOX_AUTHORIZE_URI =
             "https://account.box.com/api/oauth2/authorize"
@@ -25,7 +24,6 @@ public final class BoxSignInActivity extends AppCompatActivity {
                     + "&redirect_uri=" + BOX_REDIRECT_URI;
 
     private TextView status;
-    private boolean flowStarted;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -77,7 +75,6 @@ public final class BoxSignInActivity extends AppCompatActivity {
             return;
         }
 
-        flowStarted = true;
         status.setText(R.string.box_authorization_started);
         startActivity(auth);
     }
@@ -91,9 +88,4 @@ public final class BoxSignInActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("box_flow_started", flowStarted);
-        super.onSaveInstanceState(outState);
-    }
 }
