@@ -1,27 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
- android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
- <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
- <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center" android:visibility="gone"/>
- <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_view" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="16dp" android:layout_marginHorizontal="16dp" app:layout_behavior="@string/appbar_scrolling_view_behavior">
-  <com.google.android.material.card.MaterialCardView android:id="@+id/container_app_info" android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
-   <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <TextView android:id="@+id/tv_subtitle1" android:text="@string/app_info" style="@style/TextCaption" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <TextView android:id="@+id/tv_title" android:text="@string/app_labels" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <TextView android:id="@+id/tv_app_labels_counter" android:text="@string/no_labels_selected" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_app_labels" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <com.google.android.material.button.MaterialButton android:id="@+id/iv_clear_app_labels" android:text="@string/clear_labels" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-   </LinearLayout>
-  </com.google.android.material.card.MaterialCardView>
-  <com.google.android.material.card.MaterialCardView android:id="@+id/container_selected_labels" android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_constraintTop_toBottomOf="@+id/container_app_info" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
-   <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <TextView android:id="@+id/tv_selected_labels_counter" android:text="@string/no_labels_selected" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_selected_labels" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-    <com.google.android.material.button.MaterialButton android:id="@+id/iv_clear" android:text="@string/clear_labels" style="@style/M3ButtonTonal" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-   </LinearLayout>
-  </com.google.android.material.card.MaterialCardView>
-  <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_labels" android:layout_width="0dp" android:layout_height="0dp" android:paddingTop="12dp" android:paddingBottom="120dp" app:layout_constraintTop_toBottomOf="@+id/container_selected_labels" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-  <include android:id="@+id/error_layout" layout="@layout/error_layout" android:layout_width="0dp" android:layout_height="0dp" app:layout_constraintTop_toBottomOf="@+id/container_app_info" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
- </androidx.constraintlayout.widget.ConstraintLayout>
- <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_apply_labels" android:text="@string/apply" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end|bottom" android:layout_margin="16dp"/>
+    android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+    <include android:id="@+id/appbar_layout" layout="@layout/appbar"/>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="center" android:visibility="gone"/>
+    <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/main_view"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_marginTop="16dp" android:layout_marginHorizontal="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <com.google.android.material.card.MaterialCardView android:id="@+id/container_app_info"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp" android:paddingVertical="20dp">
+                <TextView android:id="@+id/tv_subtitle1" style="@style/TextCaption" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:maxLines="1" android:ellipsize="end" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView android:id="@+id/tv_title" style="@style/Title" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:maxLines="1" android:ellipsize="end" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/tv_subtitle1"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+                <TextView android:id="@+id/tv_app_labels_counter" style="@style/Subtitle" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:maxLines="1" android:layout_marginTop="4dp" app:layout_constraintStart_toStartOf="@id/tv_title" app:layout_constraintTop_toBottomOf="@id/tv_title"
+                    app:layout_constraintEnd_toStartOf="@id/iv_clear_app_labels"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_app_labels" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp" app:layout_constraintStart_toStartOf="@id/tv_title" app:layout_constraintEnd_toStartOf="@id/iv_clear_app_labels"
+                    app:layout_constraintTop_toBottomOf="@id/tv_app_labels_counter"/>
+                <ImageView android:id="@+id/iv_clear_app_labels" android:layout_width="28dp" android:layout_height="28dp" android:padding="4dp"
+                    android:src="@drawable/ic_delete" android:background="@drawable/circle" app:tint="?attr/colorOnErrorContainer2"
+                    android:backgroundTint="?attr/colorErrorContainer2" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="@id/rv_app_labels"/>
+                <TextView android:id="@+id/tv_app_boundary" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:visibility="gone" android:text="@string/p3_label_app_boundary" style="@style/Subtitle"
+                    app:layout_constraintStart_toStartOf="@id/tv_title" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_app_labels"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <com.google.android.material.card.MaterialCardView android:id="@+id/container_selected_labels"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/container_app_info" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                <TextView android:id="@+id/tv_selected_labels_counter" style="@style/Subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_selected_labels" android:visibility="gone" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toStartOf="@id/iv_clear"
+                    app:layout_constraintTop_toBottomOf="@id/tv_selected_labels_counter" app:layout_constraintBottom_toBottomOf="parent"/>
+                <ImageView android:id="@+id/iv_clear" android:layout_width="28dp" android:layout_height="28dp" android:padding="4dp"
+                    android:src="@drawable/ic_delete" android:background="@drawable/circle" app:tint="?attr/colorOnErrorContainer2"
+                    android:backgroundTint="?attr/colorErrorContainer2" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/rv_labels" android:layout_width="0dp" android:layout_height="0dp"
+            android:paddingTop="12dp" android:paddingBottom="120dp" android:clipChildren="false" android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/container_selected_labels" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/empty_labels_view" android:layout_width="0dp" android:layout_height="0dp"
+            android:visibility="gone" android:background="?android:attr/colorBackground"
+            app:layout_constraintTop_toBottomOf="@id/container_selected_labels" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+            <TextView android:id="@+id/tv_empty_labels" style="@style/Title" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/create_label_message" app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+            <com.google.android.material.button.MaterialButton android:id="@+id/btn_empty_create" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="@string/create_new_label" app:layout_constraintTop_toBottomOf="@id/tv_empty_labels" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <include android:id="@+id/error_layout" layout="@layout/error_layout" android:visibility="gone" android:layout_width="0dp" android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/container_app_info" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/btn_apply_labels"
+        android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="end|bottom"
+        android:layout_margin="16dp" android:text="@string/apply" app:icon="@drawable/ic_check" app:iconGravity="textStart"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
