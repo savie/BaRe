@@ -29,7 +29,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 42
+### 🟢 Green — 43
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -69,7 +69,8 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 34. `UserPasswordActivity`
 35. `GmsSignInActivity`
 36. `NoGmsSignInActivity`
-37. `ConversationsActivity`
+37. `LocaleActivity`
+38. `ConversationsActivity`
 37. `ComposeSmsActivity`
 38. `CallsBackupsActivity`
 39. `MessagesBackupsActivity`
@@ -78,7 +79,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 29
+### 🟡 Yellow — 28
 
 1. `ApkImportActivity`
 2. `AppInfoActivity`
@@ -164,6 +165,18 @@ Completed GmsSignInActivity and NoGmsSignInActivity at the P3 boundary.
 
 Both Activities are promoted to 🟢 because the observable P3 interaction/result flow no longer stops at an inert dialog.
 
+## Latest vertical slice — Locale P3 completion
+
+Completed `LocaleActivity` through the P3 interaction boundary:
+
+- reconstructed the locale list surface using the locales represented by the Reference resource set;
+- added the WIP-language menu toggle and credits entry flow;
+- selecting a locale now reaches an explicit confirmation/result boundary;
+- back/up/cancel returns `RESULT_CANCELED` and confirmation returns `RESULT_OK`;
+- actual locale persistence/application remains downstream of the P3 boundary.
+
+`LabelsActivity` / `LabelEditActivity` were also deepened with create/delete/clear/save confirmation flows, but remain 🟡 because Reference exposes additional label color/app-selection interaction surfaces that are not yet reconstructed.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
@@ -214,7 +227,7 @@ Conversely, **🟡 means there is still evidence-supported P3 reconstruction wor
 ### 71 Activities — current lifecycle interpretation
 
 - **42 🟢:** P3 flow is complete through the engine/dependency boundary. These Activities should now be treated as downstream-phase inputs.
-- **29 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
+- **28 🟡:** P3 remains active because Reference UI/navigation/user-flow reconstruction is still incomplete. Each batch must finish that flow before promotion.
 - **0 🔴:** no Activity is currently below the meaningful-reconstruction threshold.
 
 ### 3 Services — supporting-surface audit
