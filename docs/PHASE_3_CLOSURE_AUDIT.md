@@ -91,7 +91,9 @@ Corrected:
 
 ## Important Phase-3 boundary rule
 
-P3 boundary dialogs/messages used during reconstruction are engineering boundary markers, not evidence that the underlying feature has executed successfully.
+P3 boundary dialogs/messages used during reconstruction are temporary phase markers. They are not final product wording and must not be interpreted as evidence that the underlying feature has executed successfully.
+
+They are therefore classified as **P3 TEMPORARY MARKERS**, not as permanent branding/product copy. They must be removed or replaced by the Reference-equivalent execution surface when the corresponding P4/P5 contract is implemented.
 
 They must never be interpreted as:
 
