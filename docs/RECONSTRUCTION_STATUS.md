@@ -851,3 +851,13 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Reference source uses a ConfigSettings Parcelable when launched in configuration mode and otherwise persists restore_special_permissions in its preferences. BaRe does not currently expose the same ConfigSettings model, so this reconstruction preserves the boolean state/result contract and does not invent a cross-surface ConfigSettings implementation.
 - Reference also disables the switch when the standalone flow lacks root access. The current BaRe reconstruction has no verified equivalent root capability contract, so it does not fabricate a root check.
 - Runtime permission/system-setting restoration remains outside this P3 UI reconstruction boundary.
+
+## P3 vertical sweep — MultipleBackupsActivity — 2026-09-30
+
+- Reference source: `output/jadx/sources/org/swiftapps/swiftbackup/settings/MultipleBackupsActivity.java`
+- Reference model: `output/jadx/sources/org/swiftapps/swiftbackup/settings/MultipleBackupStrategy.java`
+- Reconstructed the three strategy cards: Single backup, New backup each time, and Conditional new backups.
+- Reconstructed max-backup slider range 2–10 and conditional change criteria (APK changes, app data changes, anything changes).
+- Added a Parcelable `MultipleBackupStrategy` with Reference-compatible type/condition ordinals and preference key `apps_multiple_backups_strategy`.
+- Apply persists the reconstructed strategy in the current BaRe settings preference boundary and returns it as `extra_multiple_backups_strategy`.
+- Feature execution/backup rotation remains outside the current P3 UI reconstruction boundary.
