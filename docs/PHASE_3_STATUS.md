@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **51** |
-| 🟡 Yellow | **20** |
+| 🟢 Green | **52** |
+| 🟡 Yellow | **19** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -88,27 +88,26 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 19
+### 🟡 Yellow — 18
 
-1. `OneDriveSignInActivity`
-2. `TeraBoxSignInActivity`
-3. `YandexSignInActivity`
-4. `ContributorRegActivity`
-5. `FolderPickerActivity`
-6. `FoldersBatchActivity`
-7. `ScheduleLabelsSelectActivity`
-8. `ScheduleFolderSelectActivity`
-9. `CallsBackupRestoreActivity`
-10. `MessagesBackupRestoreActivity`
-11. `ChatActivity`
-12. `CallsDashActivity`
-13. `MessagesDashActivity`
-14. `PremiumActivity`
-15. `AppVisibilityDiagnosticsActivity`
-16. `WallsDashActivity`
-17. `WallApplyActivity`
-18. `WallsManageActivity`
-20. `WifiActivity`
+1. `TeraBoxSignInActivity`
+2. `YandexSignInActivity`
+3. `ContributorRegActivity`
+4. `FolderPickerActivity`
+5. `FoldersBatchActivity`
+6. `ScheduleLabelsSelectActivity`
+7. `ScheduleFolderSelectActivity`
+8. `CallsBackupRestoreActivity`
+9. `MessagesBackupRestoreActivity`
+10. `ChatActivity`
+11. `CallsDashActivity`
+12. `MessagesDashActivity`
+13. `PremiumActivity`
+14. `AppVisibilityDiagnosticsActivity`
+15. `WallsDashActivity`
+16. `WallApplyActivity`
+17. `WallsManageActivity`
+18. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
@@ -195,13 +194,13 @@ Completed `LocaleActivity` through the P3 interaction boundary:
 - back/up/cancel returns `RESULT_CANCELED` and confirmation returns `RESULT_OK`;
 - actual locale persistence/application remains downstream of the P3 boundary.
 
-`LabelsActivity` / `LabelEditActivity` were also deepened with create/delete/clear/save confirmation flows, but remain 🟡 because Reference exposes additional label color/app-selection interaction surfaces that are not yet reconstructed.
+`LabelsActivity` / `LabelEditActivity` were subsequently promoted to 🟢 after those color/app-selection and result-flow surfaces were reconstructed.
 
 ## Latest vertical slice — APK import boundary
 
 Compared directly with the supplied Swift Backup 5.1.0 Reference:
 
-- `ApkImportActivity` remains 🟡.
+- `ApkImportActivity` is now 🟢; the historical pre-promotion note below records the earlier state.
 - BaRe now resolves Reference-supported input forms (`ACTION_VIEW` plus `EXTRA_STREAM`), reads the display name, classifies `.apk` / `.apks` inputs, handles unsupported/missing input explicitly, and refreshes the flow from `onNewIntent`.
 - The import status exposes the accepted input kind without fabricating parsed package metadata.
 - Archive parsing, APK installation, backup integration, and imported-app metadata remain downstream P4/P5 behavior.
@@ -429,3 +428,15 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Failure states for missing browser, missing redirect handler, and authorization failure are explicit; no token or provider state is fabricated.
 - Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
 - Build/runtime/visual verification was not performed.
+
+
+## 2026-09-30 P3 lifecycle exit — OneDriveSignInActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 (620) Reference:
+
+- Reference initializes a OneDrive/MSAL client, observes authentication/error state, and starts Microsoft sign-in with the Reference scopes `https://graph.microsoft.com/User.Read` and `https://graph.microsoft.com/Files.ReadWrite`.
+- BaRe now reconstructs the provider entry surface, explicit Microsoft sign-in handoff, ready/started/error states, browser availability handling, and recreation state.
+- The actual MSAL client, callback/result processing, token acquisition/silent refresh, and provider persistence remain downstream P4/provider work; no token or authentication success is fabricated.
+- `OneDriveSignInActivity` is promoted to 🟢 at the evidence-supported external-auth boundary.
+
+Current Activity depth: **53 green / 18 yellow / 0 red / 71**. No build/runtime/visual verification performed.
