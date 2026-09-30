@@ -218,7 +218,7 @@
     <string name="cloud_auth_pending">Authentication flow is waiting at the provider boundary.</string>
     <string name="filen">Filen</string>
 
-    <string name="swipe_actions">Swipe actions</string><string name="swipe_actions_summary">Choose the actions exposed when swiping an app row.</string><string name="swipe_left">Swipe left</string><string name="swipe_right">Swipe right</string><string name="primary_action">Primary action</string><string name="secondary_action">Secondary action</string><string name="reset">Reset</string><string name="multiple_backups">Multiple backups</string><string name="app_visibility_diagnostics">App visibility diagnostics</string><string name="restore_special_data">Restore special data</string><string name="restore_special_data_permissions">Restore special permissions</string><string name="local_backup_limit">Local backup limit</string><string name="cloud_backup_limit">Cloud backup limit</string>
+    <string name="swipe_actions">Swipe actions</string><string name="swipe_actions_summary">Choose the actions exposed when swiping an app row.</string><string name="swipe_left">Swipe left</string><string name="swipe_right">Swipe right</string><string name="primary_action">Primary action</string><string name="secondary_action">Secondary action</string><string name="reset">Reset</string><string name="multiple_backups">Multiple backups</string><string name="app_visibility_diagnostics">App visibility diagnostics</string><string name="restore_special_data">Restore special data</string>    <string name="restore_special_data_permissions">Restore special permissions</string><string name="local_backup_limit">Local backup limit</string><string name="cloud_backup_limit">Cloud backup limit</string>
 <string name="dated_backups">Dated backups</string><string name="conditional_backup">Conditional backup</string><string name="p3_restore_special_data_note">Special-permission restoration remains a P4 privileged-operation boundary.</string><string name="app_backup_limits">App backup limits</string><string name="app_backup_limits_title">App data backup size limits</string><string name="app_backup_limits_summary">Skip app data above set limits</string><string name="search">Search</string><string name="refresh">Refresh</string><string name="copy">Copy</string>    <string name="p3_settings_boundary">This Settings action is reconstructed as a P3 surface. The underlying engine or system side effect remains outside the current reconstruction boundary.</string>
     <string name="select_labels">Select labels</string>
     <string name="clear_labels">Clear labels</string>
@@ -327,4 +327,33 @@
     <string name="cancel">Cancel</string>
     <string name="p3_task_boundary">Task execution UI boundary is active. Real task scheduling, task state, backup/restore execution, and cancellation remain outside the P3 reconstruction boundary.</string>
     <string name="p3_task_force_stop_boundary">Force-stop is preserved as a task-screen action boundary. Real task/process cancellation remains outside the P3 reconstruction boundary.</string>
+    <string name="restore_special_data_title">Restore special data</string>
+    <string name="restore_special_data_details_title">What gets restored</string>
+    <string name="may_work_only_on_aosp_roms">Note: May work only on Pixel stock ROMs or AOSP based custom ROMs</string>
+    <string name="restore_special_data_notification_settings_title">Notification settings and channels</string>
+    <string name="restore_special_data_notification_settings_summary">Channels and notification policies</string>
+    <string name="restore_special_data_notification_access_title">Notification access</string>
+    <string name="restore_special_data_notification_access_summary">Notification listener access</string>
+    <string name="restore_special_data_accessibility_service_title">Accessibility service</string>
+    <string name="restore_special_data_accessibility_service_summary">Enabled accessibility services</string>
+    <string name="restore_special_data_usage_access_title">Usage access</string>
+    <string name="restore_special_data_usage_access_summary">Usage stats access</string>
+    <string name="restore_special_data_install_unknown_apps_title">Install unknown apps</string>
+    <string name="restore_special_data_install_unknown_apps_summary">Install from unknown sources</string>
+    <string name="restore_special_data_display_over_apps_title">Display over other apps</string>
+    <string name="restore_special_data_display_over_apps_summary">Overlay permission</string>
+    <string name="restore_special_data_modify_system_settings_title">Modify system settings</string>
+    <string name="restore_special_data_modify_system_settings_summary">System settings permission</string>
+    <string name="restore_special_data_battery_optimization_title">Battery optimization mode</string>
+    <string name="restore_special_data_battery_optimization_summary">Battery optimization state</string>
+    <string name="restore_special_data_network_modes_title">Network access modes</string>
+    <string name="restore_special_data_network_modes_summary">Data saver and background data</string>
+    <string name="restore_special_data_all_files_access_title">All files access</string>
+    <string name="restore_special_data_all_files_access_summary">Manage all files access</string>
+    <string name="restore_special_data_alarms_reminders_title">Alarms and reminders</string>
+    <string name="restore_special_data_alarms_reminders_summary">Exact alarm permission</string>
+    <string name="restore_special_data_system_modes_title">Other system modes</string>
+    <string name="restore_special_data_system_modes_summary">Widgets, VPN, PiP, and background states</string>
+    <string name="restore_special_data_magisk_title">Magisk Hide / DenyList mode</string>
+    <string name="restore_special_data_magisk_summary">Magisk Hide or DenyList state</string>
 </resources>
