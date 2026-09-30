@@ -246,3 +246,10 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - Redirect contract reconstructed as `org.swiftapps.swiftbackup.yandex://oauth`; manifest registration follows the supplied Reference (`exported=false`, `singleTop`).
 - Activity depth after this exit: **55 green / 16 yellow / 0 red / 71**.
 - Build/runtime/visual verification remains blocked/gated.
+
+
+## 2026-09-30 P3 lifecycle exit — ContributorRegActivity
+
+`ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference. BaRe reconstructs the Reference-shaped contributor registration UI, editable contributor contact fields, Save Details interaction boundary, and recreation state. Remote contributor status/details, ViewModel/coroutine persistence, and registration backend behavior remain downstream; no remote identity or status is fabricated.
+
+Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/runtime/visual verification performed.
