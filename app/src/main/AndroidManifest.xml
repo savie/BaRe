@@ -153,7 +153,14 @@
         <activity android:name=".cloud.connect.OneDriveSignInActivity" />
         <activity android:name=".cloud.connect.BoxSignInActivity" />
         <activity android:name=".cloud.connect.MegaSignInActivity" />
-        <activity android:name=".cloud.connect.YandexSignInActivity" />
+        <activity android:name=".cloud.connect.YandexSignInActivity" android:exported="false" android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:host="oauth" android:scheme="org.swiftapps.swiftbackup.yandex" />
+            </intent-filter>
+        </activity>
         <activity android:name=".cloud.connect.PCloudSignInActivity" />
         <activity android:name=".cloud.connect.TeraBoxSignInActivity" android:exported="true">
             <intent-filter>
