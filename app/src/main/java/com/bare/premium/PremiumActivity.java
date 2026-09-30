@@ -93,11 +93,11 @@ public final class PremiumActivity extends AppCompatActivity {
         findViewById(R.id.btn_purchase).setVisibility(android.view.View.VISIBLE);
     }
 
-    private void showBoundary(String message, boolean finish) {
+    private void showBoundary(String message, boolean closeActivity) {
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this)
                 .setMessage(message)
                 .setPositiveButton(R.string.close, null);
-        if (finish) {
+        if (closeActivity) {
             builder.setOnDismissListener(d -> finish());
         }
         builder.show();
