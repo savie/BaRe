@@ -71,7 +71,7 @@ No application fix is performed merely because a domain is yellow.
 | 1 | Resource | 🟡 **OPEN** | Audit found a real application-resource evidence gap; scope must be separated from dependency/library resources before closure. |
 | 2 | Strings | 🟡 **OPEN** | Audit found substantial Reference→BaRe string-scope gaps; P3-visible ownership/usage still needs closure evidence. |
 | 3 | Dimensions | 🟢 **CLOSED / PASS** | Static Reference→BaRe dimension parity evidence and qualifier overrides are confirmed. |
-| 4 | Styles / Themes / Colors | 🟡 | Reconcile the static style, theme, color, selector, and inheritance contracts. |
+| 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Static audit found concrete application-theme/style/color contract gaps versus the Reference. |
 | 5 | Manifest | 🟡 | Re-audit component declarations, attributes, exported state, launch contracts, and relevant metadata. |
 | 6 | Intent | 🟡 | Re-audit explicit and implicit intent contracts used by the P3 surface. |
 | 7 | Permissions | 🟡 | Re-audit permission declarations and permission-related P3 contracts. |
@@ -117,11 +117,11 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #4 — Styles / Themes / Colors**
+> **Audit #5 — Manifest**
 
-Domains #1 Resource, #2 Strings, and #3 Dimensions have now been audited. Proceed sequentially through #15.
+Domains #1–#4 have now been audited. Proceed sequentially through #15.
 
-There is currently **no Resource/Theme/Color implementation queue**. Those areas remain yellow until the total audit establishes their actual state.
+The Styles / Themes / Colors domain is now a documented 🔴 follow-up item. No implementation fix is performed during the audit.
 
 ## Phase Boundary
 
@@ -248,3 +248,37 @@ The Dimensions domain is:
 No implementation follow-up is required from this audit domain.
 
 **No app/resource fix performed during this audit.**
+
+
+## Audit #4 — Styles / Themes / Colors — Result
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Evidence checked
+
+- Reference `res/values/styles.xml` defines the application theme contract around `SwiftTheme` (parent `@style/BaseTheme`), plus `SwiftThemeDark`, `SwiftThemeBlack`, `HomeTheme*`, dialog themes, `TransparentActivityTheme`, `ToolbarTheme`, and related application-facing styles.
+- The Reference `SwiftTheme` contains a broad application contract covering popup/text appearances, dividers, status/navigation bars, card styles, button/dialog themes, bottom-bar colors, toolbar colors, warning/error colors, segmented-list styles, and other custom attributes.
+- Current BaRe `app/src/main/res/values/styles.xml` defines `BaReTheme` (parent `Theme.Material3.DayNight.NoActionBar`) plus a reduced set of generic/helper styles. It does not define the Reference `SwiftTheme` family or equivalent application theme contract.
+- Current BaRe `AndroidManifest.xml` assigns `android:theme="@style/BaReTheme"` to the application. This is an explicit static theme-contract difference from the Reference manifest's `@style/SwiftTheme`.
+- Concrete style-contract differences are visible even for retained names. Reference `CardStyleNormal` includes layout width/height, `cardBackgroundColor`, corner radius, zero elevation, and compat-padding settings; current BaRe `CardStyleNormal` only sets corner radius and zero elevation. Reference `M3ButtonFilled` also carries the Reference animator, font, and icon-gravity contract that current BaRe does not preserve.
+- Current BaRe `values/colors.xml` contains only `intro_surface`. The Reference base colors contain hundreds of entries; static Reference Java tracing also shows application-facing colors such as `acnt`, `ambr`, `apps`, `blk`, `blu`, `calls`, `color_primary_10`, `dialogErrorText`, `favorites`, `folders`, `grn`, `messages`, `premium`, `red`, `trans`, `wht`, and `wifi`. These cannot be treated as dependency-only merely from the raw count.
+- Reference source tracing found 66 `R.style.*` references, including `SwiftTheme`, `SwiftThemeDark`, `SwiftThemeBlack`, `HomeTheme`, `HomeThemeDark`, `HomeThemeBlack`, `IntroTheme`, and application dialog/theme contracts. The current BaRe resource tree does not expose the Reference `SwiftTheme` family.
+- No build/install/runtime/visual verification was performed.
+
+### Findings
+
+1. **The application theme contract is not statically equivalent to the Reference.** The manifest points to `BaReTheme`, while the Reference application theme is `SwiftTheme`, and the Reference theme contains many custom contracts absent from the current BaRe theme.
+2. **Multiple application-facing style contracts are incomplete or materially reduced**, not merely renamed branding.
+3. **Application-owned color coverage is not reconciled**; the current base color file is far smaller and lacks multiple Reference-facing colors used by Reference source/theme contracts.
+4. These are concrete static parity defects within the P3 Styles / Themes / Colors domain; runtime verification is not required to establish that the resource contracts differ.
+
+### Required follow-up
+
+- Reconstruct an application-owned Reference→BaRe style/theme matrix, including parent/inheritance and item-level contracts across qualifiers.
+- Reconcile the application theme contract behind `BaReTheme` against the Reference `SwiftTheme` family, while preserving authorized BΛR☰ branding deviations.
+- Reconcile application-owned base/qualifier colors and color-state-list contracts separately from dependency/library resources.
+- Re-audit style/resource references after the implementation pass.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#5 Manifest**.
