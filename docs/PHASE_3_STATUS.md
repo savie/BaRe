@@ -10,6 +10,63 @@ Phase 3 answers:
 
 It does **not** claim runtime verification, visual parity, backup/restore execution, provider execution, backend implementation, or full P4/P5 feature parity.
 
+## P3 Operational Work Queue — SINGLE SOURCE OF TRUTH
+
+**Use this section as the only work-order list for the remaining P3 parity work.**
+
+The work below stays **inside Phase 3** until every item is completed. Do **not** move to the next Phase while this queue is open.
+
+| # | Work item | Status |
+|---|---|---|
+| 1 | Dimension | **DONE** |
+| 2 | Layout Resource | **NEXT** |
+| 3 | Menu Resource | OPEN |
+| 4 | Drawable / Vector | OPEN |
+| 5 | XML Resource | OPEN |
+| 6 | Animation | OPEN |
+| 7 | Animator | OPEN |
+| 8 | Raw / Font | OPEN |
+| 9 | Resource Qualifier | OPEN |
+| 10 | Resource Reference Cross-check | OPEN |
+| 11 | Color | OPEN |
+| 12 | Color State / Selector | OPEN |
+| 13 | Theme | OPEN |
+| 14 | Theme Parent / Inheritance | OPEN |
+| 15 | Style | OPEN |
+| 16 | Widget / Component Style | OPEN |
+| 17 | Night / Day Style-Color | OPEN |
+| 18 | Style / Theme Reference Cross-check | OPEN |
+| 19 | Final Visual Contract Audit (static) | OPEN |
+
+### Operating rule
+
+- **One session = one work item.**
+- If the item is already correct, record **PASS / NO ACTION** and move to the next item.
+- If a defect exists, fix **only that item's scope**, then document and checkpoint it.
+- Do not reopen 🟢 Activities unless new evidence shows a P3 defect.
+- Do not mass-copy dependency/library resources without ownership/usage evidence.
+- No build, install, runtime, or visual verification unless explicitly authorized.
+- No P4/P5 implementation is started merely because an individual P3 item is complete.
+
+### What to say in the next session
+
+Use the item name directly, for example:
+
+> **Lanjut Color**
+
+or
+
+> **Lanjut Theme**
+
+No need to say “Resource/Dimension” or “Style/Theme/Color” as a combined work package anymore.
+
+### Document hierarchy
+
+**Operational source:** `docs/PHASE_3_STATUS.md`  
+**Evidence/history only:** `docs/P3_RESOURCE_DIMENSION_AUDIT.md`, `docs/P3_RESOURCE_PARITY_AUDIT.md`, `docs/PHASE_3_CLOSURE_AUDIT.md`, `docs/PARITY_MATRIX.md`
+
+The evidence/history documents may contain older checkpoints and historical freeze wording. They are **not** the current work queue.
+
 ## Status semantics
 
 - 🔴 **RED — not reconstructed**: Reference UI/flow is not meaningfully present.
@@ -189,10 +246,10 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 
 ## P3 Closure Audit Gate
 
-`docs/PHASE_3_CLOSURE_AUDIT.md` is now the active Phase-3 closure checklist. The Activity count remains **71/71 🟢**, but P3 is **not frozen yet** while resource/string/style/contract/static matrices are being closed. No P4 implementation is authorized by this audit step.
+The remaining parity work is tracked only by the **P3 Operational Work Queue** above. `docs/PHASE_3_CLOSURE_AUDIT.md` is supporting evidence/history, not the active work queue. The Activity count remains **71/71 🟢**, but P3 is **not frozen yet** while resource/string/style/contract/static matrices are being closed. No P4 implementation is authorized by this audit step.
 
 
-## 2026-09-30 P3 FREEZE
+## 2026-09-30 Historical P3 freeze marker — SUPERSEDED
 
 P3 Closure Audit is closed at **71/71 🟢 / 0 🟡 / 0 🔴**.
 
@@ -206,11 +263,11 @@ The eight closure gates are classified as:
 - Final branding/Swift-identity scan — **PASS + AUTHORIZED DEVIATION** for required Swift-specific external/internal identity.
 - Static resource-reference integrity — **PASS** for the audited P3 surface.
 
-P3 is now **FROZEN**. Green Activities are not to be reopened without new evidence of a P3 defect.
+This historical freeze marker is **SUPERSEDED** for the remaining parity queue. The 71 green Activities remain protected from reopening without new evidence of a P3 defect.
 
 The temporary P3 boundary marker policy remains in force: boundary messages are engineering markers, not product-success wording and not evidence of engine/provider/backend/runtime execution.
 
-No build, install, runtime, or visual verification was performed during closure. Phase 4 is the next implementation phase.
+No build, install, runtime, or visual verification was performed during closure. Phase 4 remains gated until the P3 Operational Work Queue is complete.
 
 
 ## 2026-09-30 Resource / Dimension audit — first closure subgate
