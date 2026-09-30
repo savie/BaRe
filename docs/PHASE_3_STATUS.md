@@ -24,7 +24,7 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **53** |
+| 🟢 Green | **54** |
 | 🟡 Yellow | **19** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
@@ -86,29 +86,29 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 51. `LabelsActivity`
 52. `BoxSignInActivity`
 53. `OneDriveSignInActivity`
+54. `TeraBoxSignInActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 18
+### 🟡 Yellow — 17
 
-1. `TeraBoxSignInActivity`
-2. `YandexSignInActivity`
-3. `ContributorRegActivity`
-4. `FolderPickerActivity`
-5. `FoldersBatchActivity`
-6. `ScheduleLabelsSelectActivity`
-7. `ScheduleFolderSelectActivity`
-8. `CallsBackupRestoreActivity`
-9. `MessagesBackupRestoreActivity`
-10. `ChatActivity`
-11. `CallsDashActivity`
-12. `MessagesDashActivity`
-13. `PremiumActivity`
-14. `AppVisibilityDiagnosticsActivity`
-15. `WallsDashActivity`
-16. `WallApplyActivity`
-17. `WallsManageActivity`
-18. `WifiActivity`
+1. `YandexSignInActivity`
+2. `ContributorRegActivity`
+3. `FolderPickerActivity`
+4. `FoldersBatchActivity`
+5. `ScheduleLabelsSelectActivity`
+6. `ScheduleFolderSelectActivity`
+7. `CallsBackupRestoreActivity`
+8. `MessagesBackupRestoreActivity`
+9. `ChatActivity`
+10. `CallsDashActivity`
+11. `MessagesDashActivity`
+12. `PremiumActivity`
+13. `AppVisibilityDiagnosticsActivity`
+14. `WallsDashActivity`
+15. `WallApplyActivity`
+16. `WallsManageActivity`
+17. `WifiActivity`
 
 **Yellow = evidence-supported P3 UI/navigation/user-flow reconstruction is still incomplete.** If only the underlying engine/provider/backend is missing after the flow reaches its boundary, the Activity must be green and that gap belongs to the later phase.
 
@@ -441,3 +441,16 @@ Compared directly with the supplied Swift Backup 5.1.0 (620) Reference:
 - `OneDriveSignInActivity` is promoted to 🟢 at the evidence-supported external-auth boundary.
 
 Current Activity depth: **53 green / 18 yellow / 0 red / 71**. No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — TeraBoxSignInActivity
+
+Compared directly with the supplied Swift Backup 5.1.0 (620) Reference:
+
+- Reference checks TeraBox API credentials before starting auth. The supplied Reference decompilation currently contains empty `clientId`, `clientSecret`, and `privateSecret`, so the observable initial state is the explicit `terabox_api_credentials_missing` error.
+- When credentials are available, Reference probes for a browser and a handler for the TeraBox redirect, then opens `https://www.terabox.com/wap/outside/login?clientId=&isFromApp=1`.
+- Reference receives the redirect on `org.swiftapps.swiftbackup.terabox://teraboxOauth`, validates the `code` parameter, and delegates code exchange/provider persistence downstream.
+- BaRe now reconstructs the credential-missing state, browser/redirect-handler probes, external authorization boundary, redirect intent parsing, invalid/null-result errors, pending/started states, and recreation lifecycle. No token exchange or provider persistence is fabricated.
+- `TeraBoxSignInActivity` is promoted to 🟢 at the evidence-supported external-auth boundary.
+
+Current Activity depth: **54 green / 17 yellow / 0 red / 71**. No build/runtime/visual verification performed.
