@@ -55,7 +55,7 @@
     <string name="disconnect_cloud">Disconnect</string>
     <string name="save_settings">Save settings</string>
     <string name="cloud_backup_tag">Cloud backup tag</string>
-    <string name="cloud_backup_tag_message">Backups of Apps, Messages, Call Logs and Folders are grouped under a backup tag. This helps you manage backups when using Swift Backup across multiple devices.\n\nNote: Wallpapers and WiFi backups cannot be tagged.</string>
+    <string name="cloud_backup_tag_message">Backups of Apps, Messages, Call Logs and Folders are grouped under a backup tag. This helps you manage backups across multiple devices.\n\nNote: Wallpapers and WiFi backups cannot be tagged.</string>
     <string name="no_backups_with_active_tag">No backups with this tag yet</string>
     <string name="no_backups_with_active_tag_message">Backups created with this tag will appear here.</string>
     <string name="backups_tagged_with">Backups tagged with '%s'</string>
@@ -66,7 +66,7 @@
     <string name="get_premium">Get premium</string>
     <string name="device">Device</string>
     <string name="back">Back</string>
-    <string name="search_swift_backup">Search Swift Backup</string>
+    <string name="search_swift_backup">Search BΛR☰</string>
     <string name="clear_search">Clear search</string>
     <string name="shortcuts">Shortcuts</string>
     <string name="hide_system_apps">Hide System Apps</string>
@@ -172,7 +172,7 @@
     <string name="share_logs">Share logs</string>
     <string name="clear_logs">Clear logs</string>
     <string name="sure_to_proceed">Are you sure you want to proceed?</string>
-    <string name="p3_slog_boundary">SwiftLogger list and sharing controls are present. Actual log collection/clearing remains outside this P3 reconstruction.</string>
+    <string name="p3_slog_boundary">BΛR☰Logger list and sharing controls are present. Actual log collection/clearing remains outside this P3 reconstruction.</string>
     <string name="apps_config_run_pending">Configuration data is waiting for the Reference config-run contract.</string>
     <string name="licenses">Licenses</string>
     <string name="licenses_pending">License catalog is waiting for the Reference license data contract.</string>
@@ -319,7 +319,7 @@
     <string name="clear_data">Clear data</string>
     <string name="share_apk">Share APK</string>
     <string name="grant_permissions">Grant permissions</string>
-    <string name="permission_request_message">Swift Backup needs the below permissions to perform some actions. Please click below and grant the permissions in the popups.</string>
+    <string name="permission_request_message">BΛR☰ needs the below permissions to perform some actions. Please click below and grant the permissions in the popups.</string>
     <string name="sms_permissions">SMS permissions</string>
     <string name="call_logs_permissions">Call logs permissions</string>
     <string name="all_permissions_granted">All permissions granted</string>
