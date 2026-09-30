@@ -120,3 +120,37 @@ Only candidates classified **APP-MISSING** with a known safe contract may procee
 - Do not replace BΛR☰ identity merely to match Swift-named internal identifiers.
 - Do not invent provider/backend/engine behavior through resources.
 - Static verification only; build/install/runtime/visual verification remains gated.
+
+
+### EU-01 Batch 02 result
+
+**Ownership classification: COMPLETE for the current bounded candidate pass.**
+
+Cross-checks used:
+
+- supplied Reference ZIP declarations under `output/jadx/resources/res/`;
+- Reference application-source `R.<type>.<name>` usage under `output/jadx/sources/org/swiftapps/swiftbackup/`;
+- current BaRe application-owned resource tree on `rewrite`;
+- current BaRe application-source usage for the candidate names.
+
+Observed classes:
+
+| Candidate evidence | Classification | Reason |
+|---|---|---|
+| Reference application-source dimension set (14 names) with current BaRe counterparts | APP-MATCH | Existing BaRe dimension contract already represents the observed Reference names. |
+| Reference application-source layouts/menus/drawables that have direct BaRe counterparts | APP-MATCH | Current BaRe already contains the corresponding application-owned resource contract. |
+| `xml/settings_apps` vs current `xml/settings.xml` | AUTHORIZED DIFFERENCE / contract rename | Current BaRe uses its own settings resource identity; no evidence that a second copy is required. |
+| Reference colors `acnt`, `ambrdark`, `blk07`, `premium`, `trans`, `wht20` | APP-MISSING name-level candidates, but **not implementation-ready** | Reference ZIP declarations and application-source usage confirm ownership, but current BaRe has no corresponding name-level resources or current BaRe consumers that establish a safe bounded insertion contract. Adding unused colors would be speculative rather than defect-driven. |
+| Reference-only anim/font/layout/menu/style candidates without a current BaRe consumer/contract | UNRESOLVED / alternate-contract candidate | Name-level absence alone does not establish a P3 defect; current BaRe may intentionally reconstruct the UI through different resources or deferred boundaries. |
+
+**Batch 02 conclusion:** no candidate currently satisfies the EU-01 Small Implementation entry condition of **APP-MISSING + known safe contract + bounded consumer/blast radius**.
+
+Therefore:
+
+- **No `app/src/main/res` mutation in Batch 02.**
+- **No bulk-copy parity operation.**
+- **No build/install/runtime/visual verification.**
+- EU-01 remains active, but Step 8 implementation is **not entered** from this evidence pass.
+- The next EU-01 action is targeted evidence only if a specific resource contract can be tied to a current BaRe consumer or a documented P3-visible defect.
+
+This preserves the Step 8 safety gate rather than manufacturing resource parity from Reference counts or unused names.
