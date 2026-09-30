@@ -120,12 +120,13 @@ The other five closure gates have already been classified and are not being reop
 ## Freeze condition
 
 ```text
-P3 FREEZE
+TOTAL P3 CLOSURE
 = 71/71 Activity green
 + no P3 FAIL
 + no unexplained visible branding deviation
 + no P3 resource/reference contract defect
-+ all remaining gaps classified
++ all eight closure gates classified
++ remaining three parity gates fully audited
 + P4 boundaries explicitly recorded
 ```
 
