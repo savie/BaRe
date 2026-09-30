@@ -208,6 +208,14 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 
 `FilenSignInActivity` is promoted to 🟢 at the P3 boundary.
 
+## Latest vertical slice — Folder batch P3 deepening
+
+- `FoldersBatchActivity` now owns an explicit folder-list surface with its RecyclerView adapter boundary.
+- Backup and restore actions remain explicit engine boundaries rather than fake execution.
+- Edit-folder launches `FolderEditActivity` for result, using request code `4988`; successful edit result is forwarded to the parent Activity.
+- Up/cancel returns `RESULT_CANCELED`.
+- Folder inventory/selection state remains unreconstructed, so the Activity stays 🟡.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
