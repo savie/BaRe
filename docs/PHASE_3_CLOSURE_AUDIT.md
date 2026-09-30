@@ -51,7 +51,7 @@ Yellow is an audit state, not a defect finding.
 | 8 | Navigation | 🔴 **FAIL / DEFECT** | Reference parentActivity and launch-mode contracts are materially reduced in BaRe; static source navigation exists but manifest back-stack topology is not yet reconciled. |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
 | 10 | Dialog / Error / Loading | 🔴 **FAIL / DEFECT** | Reference application surfaces use multiple dialog/error/loading mechanisms and persisted dialog state; BaRe has partial replacements and P3 boundary dialogs, but application-wide parity is not established. |
-| 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher identity/icon contract; internal Swift-named identifiers were distinguished from user-visible branding. |
+| 11 | Branding | 🟡 **OPEN / NEEDS FOLLOW-UP** | Launcher identity/icon defect is resolved statically: BaRe now declares `android:icon="@drawable/bare_launcher_icon"` and owns the BΛR☰ launcher vector. Broader visible/provider/deep-link branding matrix remains dependent on EU-02 string evidence and EU-04 intent evidence; no visual verification performed. |
 | 12 | Java-only | 🟢 **CLOSED / PASS** | Static audit confirms Java-only target implementation and no target Jetpack Compose/Kotlin source. |
 | 13 | Fake / Stub | 🟡 | Pending audit |
 | 14 | Boundary | 🟡 | Pending audit |
@@ -729,3 +729,22 @@ Next audit domain: **#15 Static Hygiene**.
 **No app/code/resource fix performed during this audit.**
 
 Next: **P3 TOTAL AUDIT CLOSURE REVIEW**.
+
+
+### Audit #11 — Branding — Re-audit after EU-06
+
+**Re-audit scope:** launcher identity and bounded user-visible application identity contract.
+
+**Reference evidence:** supplied Swift Backup 5.1.0/versionCode 620 decompile ZIP declares application label via `@string/swift_backup` and launcher icon via `@mipmap/ic_launcher`.
+
+**BaRe evidence after EU-06 implementation:**
+- application label remains explicitly `BΛR☰`;
+- application manifest now explicitly declares `android:icon="@drawable/bare_launcher_icon"`;
+- `app/src/main/res/drawable/bare_launcher_icon.xml` provides an application-owned BΛR☰ launcher vector;
+- no global Swift→BΛR☰ replacement was performed.
+
+**Result:** the concrete launcher identity/icon defect identified by Audit #11 is **resolved at static contract level**.
+
+**Remaining follow-up:** broader branding parity is not declared closed yet. Visible string reconciliation depends on EU-02, while provider/deep-link identity classification depends on EU-04. Visual launcher verification remains gated.
+
+**Implementation:** EU-06 performed a bounded app change only: one launcher vector resource and one manifest attribute.
