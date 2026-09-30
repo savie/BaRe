@@ -8,6 +8,7 @@
   <LinearLayout android:orientation="vertical" android:paddingBottom="24dp" android:layout_width="match_parent" android:layout_height="wrap_content">
    <com.google.android.material.card.MaterialCardView android:id="@+id/cardAppInfo" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
     <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+     <ImageView android:id="@+id/ivImportedAppIcon" android:layout_width="56dp" android:layout_height="56dp" android:src="@drawable/sym_def_app_icon" android:visibility="gone"/>
      <TextView android:id="@+id/tvPackageName" style="@style/TextCaption" android:layout_width="match_parent" android:layout_height="wrap_content"/>
      <TextView android:id="@+id/tvAppName" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content"/>
      <TextView android:id="@+id/tvVersionInfo" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content"/>
@@ -17,6 +18,8 @@
    </com.google.android.material.card.MaterialCardView>
    <com.google.android.material.card.MaterialCardView android:id="@+id/cardImportStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp">
     <LinearLayout android:id="@+id/importStatusContainer" android:gravity="center_horizontal" android:orientation="vertical" android:padding="24dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+     <ImageView android:id="@+id/ivStatus" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/ic_settings_install_mobile_filled" android:visibility="gone"/>
+     <ImageView android:id="@+id/ivError" android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/ic_error" android:visibility="gone"/>
      <com.google.android.material.progressindicator.CircularProgressIndicator android:id="@+id/progressIndicator" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
      <TextView android:id="@+id/tvTitle" android:text="@string/apk_import_title" style="@style/Title" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
      <TextView android:id="@+id/tvStatus" android:text="@string/p3_activity_boundary" style="@style/Subtitle" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content"/>
