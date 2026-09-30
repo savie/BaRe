@@ -1,11 +1,199 @@
 package com.bare.folders.ui.batch;
-import android.app.Activity; import android.content.Intent; import android.os.Bundle; import android.view.View; import androidx.annotation.Nullable; import androidx.appcompat.app.AppCompatActivity; import androidx.appcompat.widget.Toolbar; import androidx.recyclerview.widget.RecyclerView; import com.bare.R; import com.bare.folders.ui.FolderEditActivity; import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.bare.R;
+import com.bare.folders.data.FolderItem;
+import com.bare.folders.ui.FolderEditActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 public final class FoldersBatchActivity extends AppCompatActivity {
- private RecyclerView folders;
- @Override protected void onCreate(@Nullable Bundle state){ super.onCreate(state); setContentView(R.layout.folders_batch_activity); Toolbar t=findViewById(R.id.toolbar); setSupportActionBar(t); if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true); folders=findViewById(R.id.rv_folders); folders.setAdapter(new EmptyAdapter()); findViewById(R.id.btn_actions).setOnClickListener(v->showActions()); }
- private void showActions(){ new MaterialAlertDialogBuilder(this).setTitle(R.string.folder_backup).setItems(new String[]{getString(R.string.backup_folders),getString(R.string.restore_folders),getString(R.string.edit_folder_setup)},(d,w)->{ if(w==2){startActivityForResult(new Intent(this,FolderEditActivity.class),4988);} else showEngineBoundary(w==0?R.string.backup_folders:R.string.restore_folders); }).show(); }
- private void showEngineBoundary(int title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}
- @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(request==4988&&result==Activity.RESULT_OK&&data!=null){setResult(Activity.RESULT_OK,data);finish();}}
- @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
- private static final class EmptyAdapter extends RecyclerView.Adapter<EmptyAdapter.H>{public H onCreateViewHolder(android.view.ViewGroup p,int t){View v=new View(p.getContext());v.setLayoutParams(new RecyclerView.LayoutParams(1,1));return new H(v);}public void onBindViewHolder(H h,int p){}public int getItemCount(){return 0;}static final class H extends RecyclerView.ViewHolder{H(View v){super(v);}}}
+    public static final String EXTRA_FOLDER_BATCH_ACTION_ITEM = "EXTRA_FOLDER_BATCH_ACTION_ITEM";
+    private static final int REQUEST_EDIT_FOLDER = 4988;
+    private final List<FolderItem> folders = new ArrayList<>();
+    private final Set<String> selectedIds = new LinkedHashSet<>();
+    private FolderAdapter adapter;
+    private ExtendedFloatingActionButton actionButton;
+    private TextView emptyView;
+    private String actionId = "Backup";
+    private String actionTitle;
+
+    @Override protected void onCreate(@Nullable Bundle state) {
+        super.onCreate(state);
+        setContentView(R.layout.folders_batch_activity);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.select_folder_setups);
+        }
+        if (state != null) {
+            actionId = state.getString("action_id", "Backup");
+            actionTitle = state.getString("action_title");
+            ArrayList<String> ids = state.getStringArrayList("selected_ids");
+            if (ids != null) selectedIds.addAll(ids);
+        } else {
+            Intent intent = getIntent();
+            actionId = intent == null ? "Backup" : intent.getStringExtra("action_id");
+            if (actionId == null || actionId.trim().isEmpty()) actionId = "Backup";
+            actionTitle = intent == null ? null : intent.getStringExtra("action_title");
+            if (intent != null) {
+                String legacyAction = intent.getStringExtra(EXTRA_FOLDER_BATCH_ACTION_ITEM);
+                if (legacyAction != null && !legacyAction.trim().isEmpty()) actionId = legacyAction;
+            }
+        }
+
+        adapter = new FolderAdapter();
+        RecyclerView list = findViewById(R.id.rv_folders);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setAdapter(adapter);
+        emptyView = findViewById(R.id.tv_empty);
+        actionButton = findViewById(R.id.btn_actions);
+        actionButton.setText(actionTitle == null ? actionLabel(actionId) : actionTitle);
+        actionButton.setOnClickListener(v -> performBoundary());
+        render();
+    }
+
+    private void render() {
+        adapter.notifyDataSetChanged();
+        emptyView.setVisibility(folders.isEmpty() ? View.VISIBLE : View.GONE);
+        actionButton.setEnabled(!selectedIds.isEmpty());
+        invalidateOptionsMenu();
+    }
+
+    private String actionLabel(String action) {
+        if ("Restore".equals(action)) return getString(R.string.restore_folders);
+        if ("Delete backups".equals(action)) return getString(R.string.delete_folder_backups);
+        if ("Copy folder setups".equals(action)) return getString(R.string.copy_folder_setup_to_device);
+        return getString(R.string.backup_folders);
+    }
+
+    private void performBoundary() {
+        if (selectedIds.isEmpty()) {
+            new MaterialAlertDialogBuilder(this).setTitle(R.string.select_folder_setups)
+                    .setMessage(R.string.select_some_items).setPositiveButton(R.string.close, null).show();
+            return;
+        }
+        int message = "Restore".equals(actionId) ? R.string.p3_folder_restore_boundary
+                : "Delete backups".equals(actionId) ? R.string.p3_folder_delete_boundary
+                : "Copy folder setups".equals(actionId) ? R.string.p3_folder_copy_boundary
+                : R.string.p3_folder_backup_boundary;
+        new MaterialAlertDialogBuilder(this).setTitle(actionLabel(actionId))
+                .setMessage(message).setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.close, null).show();
+    }
+
+    private void editFolder(FolderItem item) {
+        Intent intent = new Intent(this, FolderEditActivity.class);
+        intent.putExtra("extra_folder_item", item);
+        startActivityForResult(intent, REQUEST_EDIT_FOLDER);
+    }
+
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_folders_batch_activity, menu);
+        MenuItem selectAll = menu.findItem(R.id.action_select_all);
+        selectAll.setVisible(!folders.isEmpty());
+        selectAll.setChecked(!folders.isEmpty() && selectedIds.size() == folders.size());
+        return true;
+    }
+
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_select_all) {
+            if (folders.isEmpty()) return true;
+            if (selectedIds.size() == folders.size()) selectedIds.clear();
+            else for (FolderItem folder : folders) selectedIds.add(folder.getId());
+            render();
+            return true;
+        }
+        if (id == R.id.action_folder_settings) {
+            Intent intent = new Intent(this, com.bare.settings.SettingsDetailActivity.class);
+            intent.putExtra("category", 8);
+            intent.putExtra("category_title", getString(R.string.folder_backup_settings));
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.action_settings) {
+            startActivity(new Intent(this, com.bare.settings.SettingsActivity.class));
+            return true;
+        }
+        if (id == android.R.id.home) {
+            setResult(Activity.RESULT_CANCELED); finish(); return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_EDIT_FOLDER && resultCode == RESULT_OK && data != null) {
+            FolderItem item = data.getParcelableExtra("extra_folder_item");
+            if (item != null && item.isValid()) {
+                boolean replaced = false;
+                for (int i = 0; i < folders.size(); i++) {
+                    if (folders.get(i).getId().equals(item.getId())) {
+                        folders.set(i, item); replaced = true; break;
+                    }
+                }
+                if (!replaced) folders.add(item);
+                render();
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("action_id", actionId);
+        outState.putString("action_title", actionTitle);
+        outState.putStringArrayList("selected_ids", new ArrayList<>(selectedIds));
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override public boolean onSupportNavigateUp() {
+        setResult(Activity.RESULT_CANCELED); finish(); return true;
+    }
+
+    private final class FolderAdapter extends RecyclerView.Adapter<FolderHolder> {
+        @Override public FolderHolder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
+            return new FolderHolder(getLayoutInflater().inflate(R.layout.folders_batch_item, parent, false));
+        }
+        @Override public void onBindViewHolder(FolderHolder holder, int position) {
+            FolderItem item = folders.get(position);
+            holder.title.setText(item.getDisplayName());
+            holder.path.setText(item.getSourceFolder());
+            holder.check.setText(selectedIds.contains(item.getId()) ? R.string.selected : R.string.select);
+            holder.itemView.setOnClickListener(v -> {
+                if (selectedIds.contains(item.getId())) selectedIds.remove(item.getId());
+                else selectedIds.add(item.getId());
+                render();
+            });
+            holder.edit.setOnClickListener(v -> editFolder(item));
+        }
+        @Override public int getItemCount() { return folders.size(); }
+    }
+
+    private static final class FolderHolder extends RecyclerView.ViewHolder {
+        final TextView title, path, check; final View edit;
+        FolderHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.tv_title);
+            path = itemView.findViewById(R.id.tv_subtitle);
+            check = itemView.findViewById(R.id.tv_selected);
+            edit = itemView.findViewById(R.id.btn_edit);
+        }
+    }
 }
