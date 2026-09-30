@@ -357,3 +357,12 @@ Current P3 Activity checkpoint: **60 green / 11 yellow / 0 red / 71**.
 - Backup inventory, concrete call-log adapter/data contract, restore strategy, and backup/restore execution remain downstream and are not fabricated.
 - Current Activity depth: **61 green / 10 yellow / 0 red / 71**.
 - No build/runtime/visual verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — MessagesBackupRestoreActivity
+
+- `MessagesBackupRestoreActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
+- Reconstructed the Reference restore-mode input, mode-dependent action surface, list/refresh surface, select-all contract, default-SMS-app RoleManager/legacy flow, result/rationale/warning handling, and primary action boundary.
+- Message inventory, concrete adapter data, default-SMS persistence, restore strategy, and backup/restore execution remain downstream.
+- Current Activity depth: **62 green / 9 yellow / 0 red / 71**.
+- No build/runtime/visual verification performed.
