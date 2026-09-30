@@ -47,7 +47,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 3 | Dimensions | 🟢 CLOSED / PASS |
 | 4 | Styles / Themes / Colors | 🔴 FAIL / DEFECT |
 | 5 | Manifest | 🔴 FAIL / DEFECT |
-| 6 | Intent | 🟡 AUDIT REQUIRED |
+| 6 | Intent | 🔴 FAIL / DEFECT |
 | 7 | Permissions | 🟡 AUDIT REQUIRED |
 | 8 | Navigation | 🟡 AUDIT REQUIRED |
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
@@ -183,3 +183,14 @@ Static audit established concrete manifest contract gaps beyond the authorized p
 The 71 Reference-owned Activity/Service/Receiver structural skeleton remains distinct from these attribute-level findings. No app/code/resource change was made during the audit.
 
 Next: **#6 Intent**.
+
+
+## P3 Total Audit — Intent Result
+
+**#6 Intent: 🔴 FAIL / DEFECT**
+
+Static audit found unresolved external intent contracts: the Reference AppAuth callback receiver topology is not preserved/classified, while current Yandex and TeraBox callback URIs retain the Reference package namespace despite the target identity being `com.bare`. Internal explicit Intent usage is present, so this is a routing/contract parity finding rather than a missing-Intent finding.
+
+No app/code/resource change was made during the audit.
+
+Next: **#7 Permissions**.
