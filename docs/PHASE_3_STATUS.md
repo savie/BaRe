@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **39** |
-| 🟡 Yellow | **32** |
+| 🟢 Green | **40** |
+| 🟡 Yellow | **31** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -67,15 +67,16 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 32. `StorageSwitchActivity`
 33. `TaskActivity`
 34. `UserPasswordActivity`
-35. `ComposeSmsActivity`
-36. `CallsBackupsActivity`
-37. `MessagesBackupsActivity`
-38. `RestoreSpecialDataDetailsActivity`
-39. `AppBackupLimitsActivity`
+35. `ConversationsActivity`
+36. `ComposeSmsActivity`
+37. `CallsBackupsActivity`
+38. `MessagesBackupsActivity`
+39. `RestoreSpecialDataDetailsActivity`
+40. `AppBackupLimitsActivity`
 
 **Green = P3 boundary reached.** It does not claim runtime verification or P4/P5 feature execution. The remaining gap is owned by the later phase where applicable.
 
-### 🟡 Yellow — 32
+### 🟡 Yellow — 31
 
 1. `ApkImportActivity`
 2. `AppInfoActivity`
