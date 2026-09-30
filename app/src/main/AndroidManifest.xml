@@ -55,6 +55,7 @@
         android:name=".BaReApp"
         android:theme="@style/BaReTheme"
         android:label="BΛR☰"
+        android:icon="@drawable/bare_launcher_icon"
         android:allowBackup="false"
         android:allowClearUserData="false"
         android:largeHeap="true"
