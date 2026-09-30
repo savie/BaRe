@@ -773,3 +773,19 @@ This document does not authorize P4 implementation, provider/backend implementat
 **Decision:** Step 7 scope gate is satisfied. The project is **ready to enter Step 8 only when a specific EU/batch receives explicit implementation authorization and independently satisfies the Step 8 entry criteria**.
 
 **Next operational state:** Step 8 — Small Implementation (gated; not started).
+
+## Step 8 Gate Attempt — EU-01 Batch 02
+
+**Decision: BLOCKED BEFORE MUTATION**
+
+Explicit implementation authorization has been given for Step 8, so the Step 8 gate was opened for the next dependency-ordered unit. The first candidate batch is **EU-01 / N-01 Resource / Batch 02**.
+
+The batch was checked against all Step 8 entry criteria and against the EU-01 implementation condition. No candidate met `APP-MISSING + known safe contract + bounded consumer/blast radius`.
+
+The six Reference application colors (`acnt`, `ambrdark`, `blk07`, `premium`, `trans`, `wht20`) remain name-level APP-MISSING candidates, but current BaRe evidence does not establish consumers or a bounded insertion contract. Adding them as unused resources would be speculative and would violate the canonical change rule in `docs/bare.md`.
+
+**No source/resource mutation was performed. No build/install/runtime/visual verification was performed.**
+
+**Step 8 remains gated for implementation execution.** The next valid action is targeted evidence/classification for a specific bounded contract, not opportunistic mutation. No cross-EU implementation is performed merely to force Step 8 progress.
+
+Checkpoint timestamp: 2026-10-01 04:48 WIB.
