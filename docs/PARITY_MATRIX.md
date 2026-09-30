@@ -329,3 +329,9 @@ Next: **#14 Boundary**.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#15 Static Hygiene**.
+
+## P3 Re-audit Note — #8 Navigation
+
+A targeted Step 8 implementation restored the Reference parentActivityName contract for AppsQuickActionsActivity to .home.HomeActivity.
+
+Classification for this specific attribute: **MATCH (static)**. The overall Navigation domain remains **OPEN / NEEDS FOLLOW-UP** until the full 71-Activity matrix and remaining launch/back/up contracts are reconciled.
