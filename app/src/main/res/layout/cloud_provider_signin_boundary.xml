@@ -1,8 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:gravity="center_horizontal"
- android:padding="@dimen/spacing_large" android:layout_width="match_parent" android:layout_height="match_parent">
- <ImageView android:id="@+id/iv_provider" android:layout_width="96dp" android:layout_height="96dp" android:layout_marginTop="@dimen/spacing_largest" android:contentDescription="@string/cloud_provider"/>
- <TextView android:id="@+id/tv_title" style="@style/Title" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="@dimen/spacing_normal"/>
- <TextView android:id="@+id/tv_status" style="@style/Subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="@dimen/spacing_normal" android:text="@string/cloud_auth_pending"/>
- <com.google.android.material.button.MaterialButton android:id="@+id/btn_authenticate" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_large" android:text="@string/connect_service"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="@dimen/spacing_large"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_provider"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="@dimen/spacing_largest"
+        android:contentDescription="@string/cloud_provider" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_normal" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        style="@style/Subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/cloud_auth_pending" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_authenticate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:text="@string/connect_service" />
 </LinearLayout>
