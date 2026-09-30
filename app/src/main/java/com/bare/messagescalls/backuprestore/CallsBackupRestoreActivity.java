@@ -68,6 +68,7 @@ public final class CallsBackupRestoreActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         refreshLayout.setEnabled(false);
+        if (getSupportActionBar() != null) getSupportActionBar().setTitle(restoreMode ? R.string.restore_call_logs : R.string.call_logs_backup);
         actionButton.setText(restoreMode ? R.string.restore : R.string.backup_options);
         actionButton.setIconResource(restoreMode ? R.drawable.ic_restore : R.drawable.ic_edit_pencil);
         stateView.setText(R.string.loading);
