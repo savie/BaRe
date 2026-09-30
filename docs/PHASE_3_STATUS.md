@@ -67,7 +67,7 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 32. `StorageSwitchActivity`
 33. `TaskActivity`
 34. `UserPasswordActivity`
-35. `FoldersDashActivity`
+35. `ComposeSmsActivity`
 36. `CallsBackupsActivity`
 37. `MessagesBackupsActivity`
 38. `RestoreSpecialDataDetailsActivity`
