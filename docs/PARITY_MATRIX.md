@@ -54,7 +54,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
 | 11 | Branding | 🔴 FAIL / DEFECT |
 | 12 | Java-only | 🟢 CLOSED / PASS |
-| 13 | Fake / Stub | 🟡 AUDIT REQUIRED |
+| 13 | Fake / Stub | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 14 | Boundary | 🟡 AUDIT REQUIRED |
 | 15 | Static Hygiene | 🟡 AUDIT REQUIRED |
 
@@ -263,4 +263,14 @@ Static repository evidence confirms the BaRe implementation is Java-only, with n
 
 No app/code/resource change was made during this audit.
 
-Next: **#13 Fake / Stub**.
+Next: **#14 Boundary**.
+
+## P3 Total Audit — Fake / Stub Result
+
+**#13 Fake / Stub: 🟡 OPEN / NEEDS FOLLOW-UP**
+
+Static target audit found explicit, labeled P3 stubs/boundaries for deferred authentication, Root/Shizuku, cloud/provider auth, backup/restore engines, and other downstream behavior. No target-side `UnsupportedOperationException` or `not implemented` matches were found, and no fabricated provider tokens/storage metrics/engine results were identified in the searched surface. `StorageInfoService.read()` returns `null` by explicit downstream/runtime-layer design and has no current target call site found by static search; it is carried into #14 Boundary rather than classified as a fake value.
+
+No app/code/resource change was made during the audit.
+
+Next: **#14 Boundary**.
