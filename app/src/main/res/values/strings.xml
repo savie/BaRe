@@ -375,4 +375,6 @@
     <string name="p3_apk_import_boundary">APK/APKS intent handling and input classification are reconstructed at the P3 boundary. Archive parsing, installation, and backup integration remain P4/P5.</string>
     <string name="app_info_received">App parcel received. Metadata rendering is delegated to the downstream app-info contract.</string>
     <string name="app_info_contract_ready">Reference APP_PARCEL contract is present; app metadata engine remains downstream.</string>
+    <string name="call_logs_permission_required">Call log permissions are required to inspect device call logs.</string>
+    <string name="messages_permission_required">SMS and contacts permissions are required to inspect device messages.</string>
 </resources>
