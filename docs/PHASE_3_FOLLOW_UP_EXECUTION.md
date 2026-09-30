@@ -129,7 +129,7 @@ Use this dashboard to answer: where are we in the flow, and is the current scope
 | 9 | Re-audit | Affected audit domains have current evidence and verdicts |
 | 10 | Checkpoint | Code/resource/docs state and remaining follow-up are recorded |
 
-Current execution state: the Follow-up Register, normalization, classification, dependency analysis, and dependency order must be established before implementation work packages are treated as executable.
+Current execution state: the Follow-up Register, normalization, classification, dependency analysis, and dependency order are established before implementation work packages are treated as executable.
 
 # Step 1 — Follow-up Register
 
@@ -346,6 +346,62 @@ A follow-up is ready when:
 4. Scope can be measured.
 5. Verification method is known.
 6. It does not require unauthorized runtime/build/install execution.
+
+# Step 5 — Dependency Order
+
+Step 5 converts the Step 4 dependency graph into an evidence-driven **primary execution order**. It does not form work packages and does not authorize implementation.
+
+## Ordering rules
+
+1. Upstream evidence precedes any contract that explicitly depends on it.
+2. Parallel-safe evidence may be collected in the same execution wave, but the primary order below remains the traceable sequence.
+3. A dependency is not treated as a blocker when Step 4 explicitly says preparatory evidence can proceed in parallel.
+4. Classification follows the evidence needed to resolve ownership/deviation.
+5. N-10 is placed after N-09 plus the N-02/N-04 visible-state inputs because its final contract depends on all three.
+6. N-14 is placed after N-13 and the manifest/intent/permission context because boundary ownership depends on those contracts.
+7. N-15 is last as the final control-plane consistency verification after the preceding follow-up evidence/classification work.
+8. Runtime/build/install/visual verification remains gated and is not introduced by this order.
+
+## Primary dependency order
+
+| Order | Item | Why this position | Required predecessor(s) |
+|---:|---|---|---|
+| 1 | **N-01 Resource** | Foundational application-owned resource evidence; directly blocks final N-04 reconciliation. | None |
+| 2 | **N-02 Strings** | Foundational string ownership/usage/locale evidence; feeds N-11 and visible portions of N-10. | None |
+| 3 | **N-05 Manifest** | Establishes application/component/identity/permission/navigation manifest context required by N-06, N-07, and parts of N-08. | None |
+| 4 | **N-13 Fake/stub inventory** | Establishes explicit boundary/stub classification before N-14 boundary ownership is closed. | None |
+| 5 | **N-04 Theme/style/color** | Final reconciliation requires N-01 resource ownership evidence. | N-01 |
+| 6 | **N-06 Intent** | Callback/filter/deep-link classification consumes manifest context from N-05. | N-05 |
+| 7 | **N-07 Permission** | Permission ownership and declaration/request/check classification consumes N-05 manifest context. | N-05 |
+| 8 | **N-08 Navigation** | Evidence can be gathered from frozen P2 inventory; final manifest-related attributes consume N-05 context. | P2 inventory; N-05 where applicable |
+| 9 | **N-09 Lifecycle/state** | Evidence can be gathered from frozen P2 Activity/Fragment inventory and becomes an input to N-10. | P2 inventory |
+| 10 | **N-11 Branding/identity** | Identity classification and branding matrix consume N-02 string evidence and N-05 manifest identity context. | N-02 + N-05 |
+| 11 | **N-10 Dialog/error/loading** | Final visible-state/recovery reconciliation consumes lifecycle/state plus string and theme/style evidence. | N-02 + N-04 + N-09 |
+| 12 | **N-14 Boundary** | Complete boundary ownership matrix consumes N-13 plus relevant manifest/intent/permission context. | N-13 + N-05 + N-06 + N-07 |
+| 13 | **N-15 Static/documentation hygiene** | Final cross-document consistency check after the follow-up evidence/classification sequence. | All preceding Step 5 work |
+
+## Parallel-safe evidence waves
+
+The primary order is for traceability; Step 4 explicitly permits limited parallel evidence gathering:
+
+- **Wave A — foundational evidence:** N-01, N-02, N-05, N-08, N-09, and N-13 can collect evidence independently where their own source inventory is sufficient.
+- **Wave B — dependent reconciliation/classification:** N-04 after N-01; N-06 and N-07 after N-05; N-11 after N-02 + N-05.
+- **Wave C — visible-state reconciliation:** N-10 after N-02 + N-04 + N-09.
+- **Wave D — boundary reconciliation:** N-14 after N-13 + N-05 + N-06 + N-07.
+- **Wave E — control-plane verification:** N-15 after the current follow-up records are updated.
+
+This parallelism does **not** create work packages. It only records where Step 4 allows evidence gathering without violating dependencies.
+
+## Step 5 completion criteria
+
+Step 5 is complete when:
+- all 13 active normalized contracts have a traceable primary order;
+- every ordering relationship is justified by Step 4 dependency evidence;
+- parallel-safe work is explicitly distinguished from required predecessor relationships;
+- no implementation scope is created;
+- no unauthorized runtime/build/install/visual verification is introduced.
+
+**Step 5 is complete. The next step is Step 6 — Work Package Formation.**
 
 # Step 6 — Work Package Formation
 
