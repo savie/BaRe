@@ -24,8 +24,8 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **50** |
-| 🟡 Yellow | **21** |
+| 🟢 Green | **49** |
+| 🟡 Yellow | **22** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
@@ -81,15 +81,14 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 46. `FolderDetailActivity`
 47. `FilenSignInActivity`
 48. `DetailActivity`
-49. `CallsDashActivity`
-50. `MessagesDashActivity`
+49. `ApkImportActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
 ### 🟡 Yellow — 23
 
-1. `ApkImportActivity`
-2. `LabelEditActivity`
+1. `LabelEditActivity`
+2. `LabelsActivity`
 3. `LabelsActivity`
 4. `BoxSignInActivity`
 5. `OneDriveSignInActivity`
@@ -363,3 +362,26 @@ Checkpoint-aligned continuation from 69324f8b3fa1ebf5901c644fcf9f87e8424b65fd:
 - Manifest Activity count: **71**
 - Duplicate Activity registrations: **0**
 - Reference Activity inventory remains frozen at **71/71**.
+
+## 2026-09-30 P3 lifecycle exit — ApkImportActivity
+
+`ApkImportActivity` is promoted to green at the evidence-supported P3 boundary.
+
+Reference-derived P3 flow now covers:
+
+- `ACTION_VIEW` and `EXTRA_STREAM` input resolution;
+- APK/APKS classification and explicit unsupported/missing-input state;
+- single-APK package metadata presentation through Android's real `PackageManager` contract;
+- Reference-shaped app-info/status/action surface;
+- real system-installer navigation for a single APK;
+- installer result/status boundary;
+- launch navigation when the imported package exposes a launcher Activity;
+- explicit BΛR☰ backup/import boundary without fabricating backup inventory or engine state;
+- Reference menu surface routed to the existing `SLogActivity`;
+- recreation and `onNewIntent` state handling.
+
+The remaining archive extraction, full APKS install/session execution, backup integration, and deeper import engine semantics are downstream P4/P5 behavior and are not used to keep this Activity in P3.
+
+**Current checkpoint signal: 49 green / 22 yellow / 0 red / 71 Activities.**
+
+No build, install, runtime, or visual verification was performed.
