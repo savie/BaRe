@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container" android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeightLarge"
+        android:foreground="?android:attr/selectableItemBackground">
+        <ImageView android:id="@+id/iv_icon" android:layout_width="48dp" android:layout_height="48dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin" android:padding="12dp"
+            android:src="@android:drawable/ic_menu_gallery" android:contentDescription="@string/folder_name"
+            app:tint="?android:attr/textColorSecondary"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_medium_more" android:paddingVertical="@dimen/spacing_low"
+            app:layout_constraintStart_toEndOf="@id/iv_icon" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+            <TextView android:id="@+id/tv_title" style="@style/CardTitle" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:maxLines="1" android:ellipsize="middle" />
+            <TextView android:id="@+id/tv_subtitle1" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:maxLines="1" android:ellipsize="middle"
+                android:textSize="12sp" android:textColor="?android:attr/textColorSecondary" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginStart="72dp"
+        android:background="?attr/colorOutlineVariant" />
+</LinearLayout>
