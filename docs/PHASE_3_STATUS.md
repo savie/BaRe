@@ -46,7 +46,7 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Activity implementation baseline | **71/71 previously classified GREEN** |
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
-| P3 TOTAL AUDIT | **ACTIVE — 15/15 YELLOW** |
+| P3 TOTAL AUDIT | **ACTIVE — #15 STATIC HYGIENE AUDIT COMPLETE** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
@@ -74,15 +74,15 @@ No application fix is performed merely because a domain is yellow.
 | 4 | Styles / Themes / Colors | 🔴 **FAIL / DEFECT** | Static audit found concrete application-theme/style/color contract gaps versus the Reference. |
 | 5 | Manifest | 🔴 **FAIL / DEFECT** | Static comparison found concrete Reference-owned manifest contract gaps in permissions, application metadata, activity attributes, and manifest-defined identity. |
 | 6 | Intent | 🔴 **FAIL / DEFECT** | Static comparison found concrete external URI/intent-filter and Reference package-identity contract differences requiring reconciliation. |
-| 7 | Permissions | 🟡 | Re-audit permission declarations and permission-related P3 contracts. |
-| 8 | Navigation | 🟡 | Re-audit Activity-to-Activity navigation and navigation boundaries. |
-| 9 | Lifecycle / State | 🟡 | Re-audit lifecycle-sensitive and state-restoration boundaries visible in P3. |
-| 10 | Dialog / Error / Loading | 🟡 | Re-audit visible state contracts, dialogs, errors, empty/loading states, and transitions. |
+| 7 | Permissions | 🟡 **OPEN / NEEDS FOLLOW-UP** | Re-audit permission declarations and permission-related P3 contracts. |
+| 8 | Navigation | 🔴 **FAIL / DEFECT** | Re-audit Activity-to-Activity navigation and navigation boundaries. |
+| 9 | Lifecycle / State | 🔴 **FAIL / DEFECT** | Re-audit lifecycle-sensitive and state-restoration boundaries visible in P3. |
+| 10 | Dialog / Error / Loading | 🔴 **FAIL / DEFECT** | Re-audit visible state contracts, dialogs, errors, empty/loading states, and transitions. |
 | 11 | Branding | 🔴 **FAIL / DEFECT** | Static audit found an unresolved launcher branding contract and incomplete evidence for full Swift-identity cleanup. |
-| 12 | Java-only | 🟡 | Re-audit source-language and UI-technology constraints. |
+| 12 | Java-only | 🟢 **CLOSED / PASS** | Re-audit source-language and UI-technology constraints. |
 | 13 | Fake / Stub | 🟡 **OPEN / NEEDS FOLLOW-UP** | Explicit P3 boundaries are intentional; one incomplete null-return contract remains for downstream Boundary reconciliation. |
-| 14 | Boundary | 🟡 | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
-| 15 | Static Hygiene | 🟡 | Re-audit static consistency, dead/missing references, contradictions, and documentation hygiene relevant to P3. |
+| 14 | Boundary | 🟡 **OPEN / NEEDS FOLLOW-UP** | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
+| 15 | Static Hygiene | 🔴 **FAIL / DEFECT** | Re-audit static consistency, dead/missing references, contradictions, and documentation hygiene relevant to P3. |
 
 ## Audit Rules
 
