@@ -91,9 +91,9 @@ This classification identifies the primary next action only. It does not authori
 
 ## Step 7 — Scope Check / Execution Safety Status
 
-**COMPLETE — HARDENED.**
+**COMPLETE — HARDENED + RE-VALIDATED.**
 
-The original Step 7 scope check produced 13 bounded execution units from 8 work packages. The scope gate is now explicitly strengthened for execution stability:
+The Step 7 scope gate was re-validated after the canonical control-plane reconciliation. The original Step 7 scope check produced 13 bounded execution units from 8 work packages. The scope gate is now explicitly strengthened for execution stability:
 
 - 13 EUs are domain contracts, not mandatory one-shot operations.
 - Any EU may be subdivided into smaller evidence-backed batches before Step 8.
