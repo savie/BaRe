@@ -388,4 +388,10 @@
     <string name="maximum_num_labels_limit_message">Maximum number of labels reached</string>
     <string name="create_label_message">No labels yet</string>
     <string name="delete_all">Delete all</string>
+    <string name="box">Box</string>
+    <string name="box_ready_to_authenticate">Box authorization is ready.</string>
+    <string name="box_authorization_started">Opening Box authorization…</string>
+    <string name="box_redirect_handler_missing">No handler activity found for the Box redirect URI.</string>
+    <string name="box_signin_result_null">Box sign-in result intent is null.</string>
+    <string name="box_authorization_failed">Box authorization failed.</string>
 </resources>
