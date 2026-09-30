@@ -125,7 +125,7 @@ This is a hardening of Step 7's scope gate; the fixed P3 master flow is unchange
 | 12 | Java-only | 🟢 **CLOSED / PASS** | Re-audit source-language and UI-technology constraints. |
 | 13 | Fake / Stub | 🟡 **OPEN / NEEDS FOLLOW-UP** | Explicit P3 boundaries are intentional; one incomplete null-return contract remains for downstream Boundary reconciliation. |
 | 14 | Boundary | 🟡 **OPEN / NEEDS FOLLOW-UP** | Re-audit dependency, provider, backend, engine, and downstream boundaries. |
-| 15 | Static Hygiene | 🔴 **FAIL / DEFECT** | Re-audit static consistency, dead/missing references, contradictions, and documentation hygiene relevant to P3. |
+| 15 | Static Hygiene | 🟡 **OPEN / NEEDS FOLLOW-UP** | Control-plane documentation was reconciled against canonical bare.md; final static-hygiene re-audit is pending closure recording. |
 
 ## Historical Audit Rules
 
