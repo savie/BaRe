@@ -2,6 +2,8 @@
 
 ## Purpose
 
+> **DOCUMENT ROLE: SUPPORTING EVIDENCE / HISTORY ONLY.** The active P3 work order is maintained exclusively in `docs/PHASE_3_STATUS.md`, under **P3 Operational Work Queue — SINGLE SOURCE OF TRUTH**. Do not use this document as the next-task list.
+
 Final static closure audit before Phase 4. Phase 4 remains paused until the three outstanding P3 parity gates are fully audited and any P3 defects are corrected. This document is Phase 3 work and does not authorize P4 implementation.
 
 Reference baseline: Swift Backup 5.1.0 (versionCode 620), supplied decompiled archive.
