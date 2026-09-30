@@ -341,3 +341,10 @@ Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
 `ScheduleLabelsSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped selected/user-created/built-in/already-used label surfaces, selected-label input/result contracts, clear-selection interaction, create-label route to `LabelEditActivity` request `264`, and recreation state. Persistent label catalog/assignment and schedule mutation remain downstream.
 
 Current P3 Activity checkpoint: **59 green / 12 yellow / 0 red / 71**.
+
+
+## 2026-09-30 P3 lifecycle exit — ScheduleFolderSelectActivity
+
+`ScheduleFolderSelectActivity` crossed the P3 boundary. BaRe reconstructs the Reference-shaped folder selector, empty/list surface, Save action, select-all menu, Reference input keys, explicit `EXTRA_RESULT` result boundary, and recreation state. Folder inventory/FolderItem data and schedule persistence remain downstream.
+
+Current P3 Activity checkpoint: **60 green / 11 yellow / 0 red / 71**.
