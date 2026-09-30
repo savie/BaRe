@@ -69,11 +69,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.search.HomeSearchActivity" android:launchMode="singleTop" android:parentActivityName=".home.HomeActivity" android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".appsquickactions.AppsQuickActionsActivity" />
-        <activity android:name=".appslist.ui.list.AppListActivity" />
-        <activity android:name=".appslist.ui.listbatch.AppsBatchActivity" />
-        <activity android:name=".appslist.ui.listconfig.AppsConfigRunActivity" />
-        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".appsquickactions.AppsQuickActionsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.list.AppListActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.listbatch.AppsBatchActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.listconfig.AppsConfigRunActivity"  android:launchMode="singleTop" />
+        <activity android:name=".detail.DetailActivity"  android:launchMode="singleTask" />
         <activity android:name=".apkshare.ApkImportActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -97,62 +97,62 @@
                 <data android:mimeType="application/vnd.android.package-archive" />
             </intent-filter>
         </activity>
-        <activity android:name=".appinfo.AppInfoActivity" />
-        <activity android:name=".appconfigs.list.ConfigListActivity" />
-        <activity android:name=".appconfigs.edit.ConfigEditActivity" />
-        <activity android:name=".appconfigs.settings.ConfigSettingsActivity" />
-        <activity android:name=".home.schedule.ScheduleLabelsSelectActivity" />
-        <activity android:name=".home.schedule.ui.ScheduleFolderSelectActivity" />
-        <activity android:name=".settings.SettingsActivity" />
-        <activity android:name=".blacklist.BlacklistActivity" />
-        <activity android:name=".notice.NoticeListActivity" />
-        <activity android:name=".settings.SettingsDetailActivity" />
-        <activity android:name=".settings.AppSwipeActionsActivity" />
-        <activity android:name=".cloud.diagnostics.CloudDiagnosticsActivity" />
-        <activity android:name=".cloud.orphans.CloudOrphanCleanerActivity" />
-        <activity android:name=".settings.appvisibility.AppVisibilityDiagnosticsActivity" />
-        <activity android:name=".locale.LocaleActivity" />
-        <activity android:name=".contributor.ContributorRegActivity" />
-        <activity android:name=".appslist.ui.labels.LabelsActivity" />
-        <activity android:name=".appslist.ui.labels.LabelEditActivity" />
-        <activity android:name=".manage.ManageSpaceActivity" />
-        <activity android:name=".shortcuts.ShortcutsActivity" android:excludeFromRecents="true" android:exported="true" />
-        <activity android:name=".premium.PremiumActivity" />
-        <activity android:name=".cloud.connect.GmsSignInActivity" />
-        <activity android:name=".cloud.connect.NoGmsSignInActivity" />
-        <activity android:name=".messagescalls.dash.MessagesDashActivity" />
-        <activity android:name=".messagescalls.backups.MessagesBackupsActivity" />
-        <activity android:name=".messagescalls.backuprestore.MessagesBackupRestoreActivity" />
-        <activity android:name=".messagescalls.dash.CallsDashActivity" />
-        <activity android:name=".messagescalls.backups.CallsBackupsActivity" />
-        <activity android:name=".messagescalls.backuprestore.CallsBackupRestoreActivity" />
-        <activity android:name=".messagescalls.conversationsview.ConversationsActivity" />
-        <activity android:name=".messagescalls.conversationsview.ChatActivity" />
-        <activity android:name=".folders.ui.FoldersDashActivity" />
-        <activity android:name=".folders.ui.batch.FoldersBatchActivity" />
-        <activity android:name=".folders.ui.FolderPickerActivity" />
-        <activity android:name=".folders.ui.FolderEditActivity" />
-        <activity android:name=".folders.ui.FolderDetailActivity" />
-        <activity android:name=".slog.SLogActivity" />
-        <activity android:name=".wifi.WifiActivity" />
-        <activity android:name=".walls.WallsDashActivity" />
-        <activity android:name=".walls.WallsManageActivity" />
-        <activity android:name=".walls.WallApplyActivity" />
-        <activity android:name=".notice.NoticeViewActivity" />
-        <activity android:name=".home.storageswitch.StorageSwitchActivity" />
-        <activity android:name=".password.PasswordStrategyActivity" />
-        <activity android:name=".password.UserPasswordActivity" />
-        <activity android:name=".settings.MultipleBackupsActivity" />
-        <activity android:name=".settings.RestoreSpecialDataDetailsActivity" />
-        <activity android:name=".tasks.ui.TaskActivity" />
-        <activity android:name=".tasks.PreconditionsActivity" />
-        <activity android:name=".settings.LicensesActivity" />
-        <activity android:name=".cloud.connect.common.CloudConnectActivity" />
-        <activity android:name=".settings.appbackuplimits.AppBackupLimitsActivity" />
-        <activity android:name=".cloud.connect.DropboxSignInActivity" />
-        <activity android:name=".cloud.connect.OneDriveSignInActivity" />
-        <activity android:name=".cloud.connect.BoxSignInActivity" />
-        <activity android:name=".cloud.connect.MegaSignInActivity" />
+        <activity android:name=".appinfo.AppInfoActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appconfigs.list.ConfigListActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appconfigs.edit.ConfigEditActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appconfigs.settings.ConfigSettingsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".home.schedule.ScheduleLabelsSelectActivity"  android:launchMode="singleTop" />
+        <activity android:name=".home.schedule.ui.ScheduleFolderSelectActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.SettingsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".blacklist.BlacklistActivity"  android:launchMode="singleTop" />
+        <activity android:name=".notice.NoticeListActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.SettingsDetailActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.AppSwipeActionsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.diagnostics.CloudDiagnosticsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.orphans.CloudOrphanCleanerActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.appvisibility.AppVisibilityDiagnosticsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".locale.LocaleActivity"  android:launchMode="singleTop" />
+        <activity android:name=".contributor.ContributorRegActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.labels.LabelsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".appslist.ui.labels.LabelEditActivity"  android:launchMode="singleTop" />
+        <activity android:name=".manage.ManageSpaceActivity"  android:launchMode="singleTop" />
+        <activity android:name=".shortcuts.ShortcutsActivity" android:excludeFromRecents="true" android:exported="true"  android:launchMode="singleTop" />
+        <activity android:name=".premium.PremiumActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.GmsSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.NoGmsSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.dash.MessagesDashActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.backups.MessagesBackupsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.backuprestore.MessagesBackupRestoreActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.dash.CallsDashActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.backups.CallsBackupsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.backuprestore.CallsBackupRestoreActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.conversationsview.ConversationsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".messagescalls.conversationsview.ChatActivity"  android:launchMode="singleTop" />
+        <activity android:name=".folders.ui.FoldersDashActivity"  android:launchMode="singleTop" />
+        <activity android:name=".folders.ui.batch.FoldersBatchActivity"  android:launchMode="singleTop" />
+        <activity android:name=".folders.ui.FolderPickerActivity"  android:launchMode="singleTop" />
+        <activity android:name=".folders.ui.FolderEditActivity"  android:launchMode="singleTop" />
+        <activity android:name=".folders.ui.FolderDetailActivity"  android:launchMode="singleTop" />
+        <activity android:name=".slog.SLogActivity"  android:launchMode="singleTop" />
+        <activity android:name=".wifi.WifiActivity"  android:launchMode="singleTop" />
+        <activity android:name=".walls.WallsDashActivity"  android:launchMode="singleTop" />
+        <activity android:name=".walls.WallsManageActivity"  android:launchMode="singleTop" />
+        <activity android:name=".walls.WallApplyActivity"  android:launchMode="singleTop" />
+        <activity android:name=".notice.NoticeViewActivity"  android:launchMode="singleTop" />
+        <activity android:name=".home.storageswitch.StorageSwitchActivity"  android:launchMode="singleTop" />
+        <activity android:name=".password.PasswordStrategyActivity"  android:launchMode="singleTop" />
+        <activity android:name=".password.UserPasswordActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.MultipleBackupsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.RestoreSpecialDataDetailsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".tasks.ui.TaskActivity"  android:launchMode="singleTask" />
+        <activity android:name=".tasks.PreconditionsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.LicensesActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.common.CloudConnectActivity"  android:launchMode="singleTop" />
+        <activity android:name=".settings.appbackuplimits.AppBackupLimitsActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.DropboxSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.OneDriveSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.BoxSignInActivity"  android:launchMode="singleTop" />
+        <activity android:name=".cloud.connect.MegaSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.YandexSignInActivity" android:exported="false" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -161,7 +161,7 @@
                 <data android:host="oauth" android:scheme="org.swiftapps.swiftbackup.yandex" />
             </intent-filter>
         </activity>
-        <activity android:name=".cloud.connect.PCloudSignInActivity" />
+        <activity android:name=".cloud.connect.PCloudSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.TeraBoxSignInActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -170,7 +170,7 @@
                 <data android:host="teraboxOauth" android:scheme="org.swiftapps.swiftbackup.terabox" />
             </intent-filter>
         </activity>
-        <activity android:name=".cloud.connect.CsActivity" />
+        <activity android:name=".cloud.connect.CsActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.FilenSignInActivity" />
         <activity android:name=".messagescalls.defaulthandler.ComposeSmsActivity" android:exported="true">
             <intent-filter>
