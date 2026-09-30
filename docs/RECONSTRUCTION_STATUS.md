@@ -868,3 +868,13 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Reference implementation is an empty `android.app.Activity`; no UI, lifecycle logic, extras, or SMS handling code is present in the decompiled Activity.
 - BaRe now matches that Activity boundary directly instead of adding unsupported behavior.
 - The SMS/MMS intent-filter remains declared in the manifest, matching the Reference manifest contract.
+
+
+## P3 vertical sweep — MessagesBackupsActivity — 2026-09-30
+- Audited the exact Reference Activity from Swift Backup 5.1.0-620.
+- Reference Activity structure: ViewModel-backed list state, Reference appbar/toolbar, progress indicator, QuickRecyclerView, and the `menu_smscalls_backups` delete-all action.
+- Reference layout `smscalls_backups_activity.xml` contains only the appbar include, progress indicator, and RecyclerView; BaRe now follows that structure.
+- Reference item layout `smscalls_backups_item.xml` was restored as the P3 list-item presentation boundary.
+- Reference delete-all dispatch delegates to the SMS backup ViewModel/data layer. BaRe keeps that operation behind the existing P3 activity boundary rather than inventing deletion side effects.
+- Reference-specific ViewModel/event/adapter engine (`he5` / `fe5` and related obfuscated contracts) was not silently recreated in this Activity patch.
+- Runtime/build verification remains pending by project execution guard.
