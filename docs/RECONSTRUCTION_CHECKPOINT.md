@@ -79,7 +79,7 @@ That classification is now the **audit baseline**, not the final P3 closure verd
 
 ## P3 TOTAL AUDIT — COMPLETED BASELINE
 
-The P3 total audit of the original **15 domains is complete**. It is now the evidence baseline for P3 follow-up execution; it is no longer the current work order.
+The P3 total audit of the original **15 domains is complete**. It is the evidence baseline for P3 follow-up execution; it is no longer the current work order. Subsequent re-audits supersede an original domain verdict when explicitly recorded.
 
 The latest operational status and follow-up execution state are maintained in `docs/PHASE_3_STATUS.md` and `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
 
@@ -95,7 +95,7 @@ The latest operational status and follow-up execution state are maintained in `d
 | 8 | Navigation | 🔴 FAIL / DEFECT |
 | 9 | Lifecycle / State | 🔴 FAIL / DEFECT |
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
-| 11 | Branding | 🔴 FAIL / DEFECT |
+| 11 | Branding | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 OPEN |
 | 14 | Boundary | 🟡 OPEN |
@@ -246,4 +246,4 @@ P4 GATE REVIEW
 
 **Current project position:**
 
-> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active after Step 7/10 (Scope Check complete + Execution Safety / Stability Gate hardened; 13 bounded execution units subject to further safe batching) + P4 gated.**
+> **P1 frozen + P2 frozen + P3 implementation baseline established + P3 TOTAL AUDIT complete + P3 FOLLOW-UP EXECUTION active after Step 7 (Scope Check complete + Execution Safety / Stability Gate hardened; bounded execution/re-audit/checkpoint cycles in progress) + P4 gated.**
