@@ -180,9 +180,9 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 
 ## 2026-09-30 P3 continuation — APK import + label editor
 
-- `ApkImportActivity`: P3 input contract/state boundary deepened from Reference evidence; parsed package metadata, archive extraction, installer fallback, and import execution remain UNKNOWN/P4-P5.
-- `LabelEditActivity`: Reference-derived name preview, color-selection, app-selection boundary, result flows, and recreation state reconstructed; label persistence and app inventory/selection remain UNKNOWN/P4.
-- Checkpoint-aligned Activity depth remains **48 🟢 / 23 🟡 / 0 🔴 / 71**; neither Activity is promoted by this batch.
+- `ApkImportActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; full APKS extraction/install execution and backup integration remain UNKNOWN/P4-P5.
+- `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; label persistence and app inventory/selection remain UNKNOWN/P4.
+- The historical pre-exit Activity depth was **48 🟢 / 23 🟡 / 0 🔴 / 71**; the current Activity depth is **50 🟢 / 21 🟡 / 0 🔴 / 71**.
 - Manifest verification: **71 Activities, 0 duplicate Activity registrations**. No build/runtime verification performed.
 
 
