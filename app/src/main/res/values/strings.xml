@@ -429,4 +429,10 @@
     <string name="p3_folder_restore_boundary">Folder restore selection reached the P3 engine boundary. Restore strategy and execution remain downstream.</string>
     <string name="p3_folder_delete_boundary">Folder backup deletion reached the P3 engine boundary. Cloud/device deletion execution remains downstream.</string>
     <string name="p3_folder_copy_boundary">Folder setup copy reached the P3 engine boundary. Cloud metadata transfer and persistence remain downstream.</string>
+    <string name="call_logs_backup">Call logs backup</string>
+    <string name="restore_call_logs">Restore call logs</string>
+    <string name="backup_options">Backup options</string>
+    <string name="no_call_logs_available">No call logs available.</string>
+    <string name="select_some_call_logs">Select at least one call log.</string>
+    <string name="p3_calls_backup_restore_boundary">Call-log backup/restore selection reached the P3 engine boundary. Backup inventory, selection data, restore strategy, and execution remain downstream.</string>
 </resources>
