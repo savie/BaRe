@@ -1,5 +1,10 @@
 # BΛR☰ Parity Matrix
 
+## Canonical Target Guard
+
+Parity is defined by `docs/bare.md`, not by this matrix. This file is a high-level map only. A domain is not MATCH merely because a BaRe contract is similar, smaller, substituted, or sufficient for P3; the concrete Reference contract must be reconciled first. The supplied Swift Backup 5.1.0 (620) decompile archive is the primary Reference evidence source.
+
+
 ## Purpose
 
 This document is the **high-level parity map**.
@@ -22,7 +27,7 @@ For audit evidence/history, use:
 - **AUTHORIZED DEVIATION** — an intentional project deviation is explicitly allowed.
 - **BLOCKED** — required verification cannot currently be performed because its execution evidence is unavailable or unauthorized.
 
-The current P3 total-audit cycle is active; domain verdicts below are the current reconciled audit results.
+The current P3 follow-up cycle is active; the domain verdicts below are the reconciled audit baseline. Current follow-up changes must be recorded separately from historical audit findings.
 
 ## Phase Gate Summary
 
@@ -50,13 +55,13 @@ The current P3 total-audit cycle is active; domain verdicts below are the curren
 | 6 | Intent | 🔴 FAIL / DEFECT |
 | 7 | Permissions | 🟡 OPEN / NEEDS FOLLOW-UP |
 | 8 | Navigation | 🔴 FAIL / DEFECT |
-| 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
+| 9 | Lifecycle / State | 🔴 FAIL / DEFECT |
 | 10 | Dialog / Error / Loading | 🔴 FAIL / DEFECT |
 | 11 | Branding | 🔴 FAIL / DEFECT |
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 OPEN / NEEDS FOLLOW-UP |
-| 14 | Boundary | 🟡 AUDIT REQUIRED |
-| 15 | Static Hygiene | 🟡 AUDIT REQUIRED |
+| 14 | Boundary | 🟡 OPEN / NEEDS FOLLOW-UP |
+| 15 | Static Hygiene | 🔴 FAIL / DEFECT |
 
 This table is the reconciled high-level result of the current total-audit cycle.
 
