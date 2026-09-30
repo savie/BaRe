@@ -1,376 +1,107 @@
 # BΛR☰ Parity Matrix
 
+## Purpose
+
+This document is the **high-level parity matrix**.
+
+It is not the active work queue and it is not a second Phase 3 status document.
+
+For the current P3 work order, use:
+docs/PHASE_3_STATUS.md
+
+For closure evidence/history, use:
+docs/PHASE_3_CLOSURE_AUDIT.md
+
 ## Classification
 
-- MATCH — equivalent to Reference.
-- AUTHORIZED DEVIATION — difference explicitly permitted by docs/bare.md.
-- UNAUTHORIZED DEVIATION — difference not permitted.
-- UNKNOWN — insufficient evidence.
-- BLOCKED — verification cannot proceed because required evidence is unavailable.
+- **MATCH** — equivalent to Reference based on available evidence.
+- **AUTHORIZED DEVIATION** — difference explicitly allowed by the project handoff.
+- **UNKNOWN** — evidence is insufficient for closure.
+- **BLOCKED** — verification cannot proceed because the required execution evidence is not authorized/available.
+- **OPEN** — work is explicitly still being audited in the current phase.
 
-## Phase 1/2 gate
-| Gate | Result |
-|---|---|
-| Phase 1 — Reference inventory/evidence | COMPLETE (100%) |
-| Phase 2 — Reference-owned component skeleton | COMPLETE (100%) |
-| Runtime/build verification | BLOCKED / permission-gated |
-| Feature parity | UNKNOWN / ongoing |
+No UNKNOWN, BLOCKED, or OPEN row may be promoted to MATCH without evidence.
 
-Authoritative records: `docs/PHASE_1_INVENTORY.md`, `docs/PHASE_2_SKELETON.md`.
+## Phase Gate Summary
 
-## Current matrix
-
-| Area | Reference | BaRe | Status |
-|---|---|---|---|
-| Product identity | Swift Backup 5.1.0 (620) | BaRe/BΛR☰ | AUTHORIZED DEVIATION |
-| Repository branch | Reference baseline | rewrite | AUTHORIZED CONFIGURATION |
-| Implementation language | Java | Java | MATCH (bootstrap) |
-| UI technology | Android Views/XML | Android Views/XML | MATCH (bootstrap) |
-| Kotlin source | Not permitted by handoff | None | MATCH |
-| Compose | Not permitted by handoff | Disabled | MATCH |
-| Application namespace | Reference package evidence required | com.bare | AUTHORIZED DEVIATION |
-| Application ID | Reference identity evidence required | com.bare | AUTHORIZED DEVIATION |
-| Branding | Swift Backup | BΛR☰ / BaRe | AUTHORIZED DEVIATION |
-| Premium | Reference behavior | Not reconstructed yet | UNKNOWN |
-| Backend | Reference behavior | Supabase target designated | UNKNOWN |
-| Database | Reference behavior | Not reconstructed yet | UNKNOWN |
-| Backup/restore | Reference behavior | Not reconstructed yet | UNKNOWN |
-| Navigation | Reference behavior | Home 4-page navigation structure + Reference bottom-nav menu/selectors reconstructed; detailed navigation behavior remains UNKNOWN | UNKNOWN |
-| Resources | Reference resources | Reference-derived Home navigation/resources partially reconstructed; remaining resources not yet ported/audited | UNKNOWN |
-| Runtime behavior | Reference runtime | Not runtime-verified; build/install intentionally blocked | BLOCKED |
-| Visual parity | Reference UI | Home structure/resources partially reconstructed; no visual verification yet | BLOCKED |
-
-## Rule
-
-No UNKNOWN or BLOCKED row may be promoted to MATCH without evidence.
-
-## 2026-09-29 Phase 3 continuation
-
-- Ported `bare_logo.png` from `v1.0/rebaseline` to `rewrite` as an exact Git blob; this is the authorized BΛR☰ branding asset.
-- Refined Schedule Home XML toward the Reference hierarchy: scroll container, schedule card boundary, schedule notice boundary, schedule list, and progress indicator.
-- Refined Cloud Home XML toward the Reference hierarchy: storage card boundary, warning card boundary, status field, scroll container, and progress indicator.
-- These UI changes do not claim runtime/visual parity; custom Reference behavior and runtime verification remain UNKNOWN/BLOCKED.
-
-## 2026-09-29 UI reconstruction continuation
-
-- Account fragment now follows the Reference hierarchy with a dedicated profile-card include and preserved supported account fields.
-- Profile-card action fields not supported by current BaRe evidence remain UNKNOWN rather than being invented.
-- Cloud and Schedule fragment parity remains UNKNOWN while their Reference-specific custom view dependencies are being reconstructed.
-
-## 2026-09-29 reconstruction audit
-
-- Reference Activity coverage: **71/71** mapped to BaRe Activity classes.
-- Reference Android Service coverage: **3/3** mapped in the manifest.
-- Reference Receiver coverage: **8/8** mapped in the manifest.
-- Home navigation resource batch now uses Reference-derived menu/selectors/vectors/tint and Reference Home container/app-bar structure, with only authorized BΛR☰ branding substitution.
-- ScheduleFabMenuView is currently an explicit behavior boundary; its runtime behavior remains UNKNOWN.
-- No build, APK generation, install, runtime verification, or Supabase implementation was performed.
-
-
-## 2026-09-29 Home UI dependency batch
-- Schedule now uses Reference-shaped segment/card, dropdown, notice, and RecyclerView resource boundaries.
-- Cloud now uses Reference-shaped storage, warning, active-tag, and storage-detail resource boundaries; active-tag remains hidden pending data-contract reconstruction.
-- Account now uses the Reference profile-card hierarchy and IDs, with current BaRe account data bound only where evidence exists.
-- Added Java boundary classes for the audited Reference custom view roles; their full rendering/segment behavior remains UNKNOWN.
-- This is structural reconstruction only. Runtime and visual parity remain BLOCKED because build/install/runtime verification is still gated.
-
-
-## 2026-09-29 Settings UI reconstruction
-- SettingsActivity shell: MATCH at structural/resource boundary; runtime verification remains BLOCKED.
-- Settings PreferenceScreen categories and audited preference keys: reconstructed from Reference resource evidence.
-- Reference settings icons required by the screen: ported.
-- Settings action semantics: UNKNOWN until the corresponding Reference behavior is reconstructed and verified.
-- AndroidX Preference dependency: added to support the Reference PreferenceScreen contract.
-
-
-## 2026-09-29 Settings Detail
-- SettingsDetailActivity toolbar/extras/category selector: reconstructed from Reference evidence.
-- Category 1..8 fragment mapping: UNKNOWN / unresolved due obfuscated Reference classes.
-- No backend or device-state behavior invented.
-
-
-## 2026-09-29 Apps-list UI resource batch
-- Added Reference-shaped Apps-list layout hierarchy and supporting toolbar/error resources.
-- Added Java/View boundaries for `MAppBarLayout` and fast-scroll role without inventing provider behavior.
-- Apps inventory/filter/search/sort/drawer semantics remain UNKNOWN; runtime and visual parity remain BLOCKED until build/install/runtime verification is authorized.
-
-
-## 2026-09-29 Apps-list P3 flow
-- Apps List is now an interactive P3 flow surface rather than an inert screen: Search, Filter boundary, Refresh boundary, navigation drawer, drawer routes, Back handling, and Batch entry are wired.
-- Search/filter/refresh do not claim feature-engine behavior; their data semantics remain UNKNOWN/P4-bound.
-- Reference-audited drawer targets are wired where BaRe component boundaries already exist.
-
-
-### 2026-09-29 Apps-item P3 flow
-- Reference-shaped app row hierarchy is now reconstructed with live P3 interaction boundaries for row/detail, menu, favorite, and swipe actions.
-- Detail navigation uses the existing BaRe DetailActivity boundary; no Reference app parcelable is fabricated.
-- App Info, favorite persistence, backup/restore, and app-management actions remain explicit UNKNOWN/P4 boundaries where their concrete data/provider contracts are not yet reconstructed.
-
-
-### 2026-09-29 Apps-item geometry deepening
-- AppItemContentLayout: Reference-derived custom measurement/layout roles reconstructed; structural parity is improved, runtime/visual verification remains BLOCKED.
-- AppListItemLayout: Reference card-first measurement and reveal-row sizing reconstructed at the P3 boundary.
-- AppSwipeActionRevealLayout: action-child sizing now derives from resolved row height, matching the audited Reference measurement role.
-- AppRowLabelsView: Reference-shaped chip rendering boundary reconstructed for explicitly supplied label text.
-- App-item checkbox boundary is now present.
-
-
-### 2026-09-29 Apps Quick Actions
-- Apps Quick Actions now has a Reference-derived three-category P3 surface and interactive action boundaries.
-- Reference overflow targets App Backup Settings and Settings are wired.
-- Action execution remains UNKNOWN/P4; no side effects are claimed.
-
-
-### 2026-09-29 Apps Batch
-- Apps Batch now exposes a Reference-derived toolbar/menu/action-FAB/list boundary.
-- Search/filter/select-all are P3 presentation boundaries; inventory/selection semantics remain UNKNOWN.
-- Batch backup/restore remain P4 engine boundaries.
-
-
-### 2026-09-29 SwiftLogger
-- SwiftLogger now has a Reference-derived list/FAB/menu P3 surface.
-- Share Logs and Clear Logs remain explicit behavior boundaries; actual log state is UNKNOWN.
-
-
-### 2026-09-29 Configuration / license / cloud-auth P3
-- Apps Config Run: Reference-derived list/progress/action/menu boundary reconstructed; config payload and execution remain UNKNOWN/P4.
-- Licenses: Reference-derived toolbar + RecyclerView boundary reconstructed; catalog remains UNKNOWN.
-- MEGA: Reference-derived authentication form reconstructed; provider auth remains P4.
-- Dropbox: Reference-derived logo/status surface reconstructed; OAuth launch remains P4.
-- pCloud: Reference WebView/auth boundary reconstructed; token exchange remains P4.
-
-| ConfigListActivity | P3 | Appbar, list/error boundary, new-config route, sort/help/settings menu | Config data/provider contract not fabricated |
-| ConfigSettingsActivity | P3 | Apply-to/labels card, settings container, delete boundary | Config persistence and actual settings semantics remain P4 |
-| CloudConnectActivity | P3 | Provider list and provider-specific activity routing | OAuth/token exchange/cloud state remains P4 |
-| ShortcutsActivity | P3 | Reference shortcut IDs routed; command boundary shown | Schedule/task execution remains P4 |
-
-| CloudDiagnosticsActivity | P3 | Provider/notice/test list/run presentation | Network, Firebase, provider and transfer diagnostics remain P4 |
-| CloudOrphanCleanerActivity | P3 | Scope/status/results/scan/delete presentation | Cloud listing, reference validation and deletion remain P4 |
-
-
-## Component inventory / checkpoint
-
-The Phase 2 component counts are now backed by a canonical name-by-name inventory:
-
-- **71 Activities** — exact Reference-package Activity list and BaRe mapping: docs/PHASE_2_SKELETON.md
-- **3 Services** — TaskService, ScheduleService, HeadlessSmsSendService
-- **8 Receivers** — AlarmReceiver, LocaleChangedReceiver, BootReceiver, NotificationTaskCancelReceiver, PackageInstallResultReceiver, ShortcutPinnedReceiver, SmsReceiver, MmsReceiver
-- **0 Reference-owned Providers** — the 4 Reference manifest providers are dependency/library providers
-
-**Important:** Phase 2 MATCH means structural component coverage only. It does not mean those Activities/services/receivers are behaviorally complete.
-
-For Activity-level P3 depth and the current 🔴/🟡/🟢 queue, use `docs/PHASE_3_STATUS.md`. The parity matrix remains intentionally high-level.
-
-For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHECKPOINT.md.
-
-### Current roadmap checkpoint — 2026-09-30
-
-| Phase | Status | Interpretation |
+| Phase | Status | Meaning |
 |---|---|---|
-| P1 Foundation | COMPLETE / FROZEN | Inventory/evidence gate closed. |
-| P2 Reference Skeleton | COMPLETE / FROZEN | 71/71 Activities, 3/3 Services, 8/8 Receivers, 0 Reference-owned Providers. |
-| P3 UI + Navigation | ACTIVE | Current primary vertical-sweep workstream. |
-| P4 Core Behavior | PARTIAL / DEPENDENCY-DRIVEN | Selected contracts reconstructed where P3 requires them; not a phase-completion claim. |
-| P5 Features | NOT COMPLETE / DEFERRED | Full backup/restore/feature execution remains UNKNOWN. |
-| P6 Authorized Deviations | DEFINED / GATED | Branding/Premium/Supabase rules defined; Supabase implementation remains permission-gated. |
-| P7 Runtime | BLOCKED / GATED | Build/install/execute not authorized. |
-| P8 Parity | NOT YET EXECUTED | Requires runtime evidence. |
-| P9 Deviation Audit | NOT YET FINAL | Final deviation classification comes after parity evidence. |
+| P1 Foundation | **COMPLETE / FROZEN** | Reference inventory/evidence gate is closed. |
+| P2 Reference Skeleton | **COMPLETE / FROZEN** | Reference-owned structural component coverage is closed. |
+| P3 UI + Navigation | **ACTIVE** | 71 Activities are green; remaining static parity queue is open. |
+| P4 Core Behavior | **GATED / NOT STARTED** | Downstream engine/provider/core behavior is not being implemented as part of this P3 queue. |
+| P5 Features | **DEFERRED** | Full backup/restore/feature execution remains outside current P3 closure. |
+| P6 Authorized Deviations | **DEFINED / GATED** | Branding/Premium/Supabase rules exist; implementation remains separately gated. |
+| P7 Runtime | **BLOCKED / GATED** | Build/install/execute has not been authorized. |
+| P8 Parity | **NOT EXECUTED** | Runtime evidence is required later. |
+| P9 Deviation Audit | **NOT FINAL** | Final deviation classification follows later parity evidence. |
 
+## Current High-Level Matrix
 
-## 2026-09-30 P3 continuation — APK import + label editor
+| Area | Reference baseline | BaRe / BΛR☰ current state | Classification |
+|---|---|---|---|
+| Product identity | Swift Backup 5.1.0 (620) | BΛR☰ / BaRe | **AUTHORIZED DEVIATION** |
+| Repository branch | Reference baseline | rewrite | **AUTHORIZED CONFIGURATION** |
+| Implementation language | Java | Java | **MATCH** |
+| UI technology | Android Views/XML | Android Views/XML | **MATCH** |
+| Kotlin source | Not permitted by handoff | None | **MATCH** |
+| Compose | Not permitted by handoff | Disabled / not used for UI | **MATCH** |
+| Application namespace | Reference identity | com.bare | **AUTHORIZED DEVIATION** |
+| Application ID | Reference identity | com.bare | **AUTHORIZED DEVIATION** |
+| Branding | Swift Backup | BΛR☰ / BaRe | **AUTHORIZED DEVIATION** |
+| Navigation | Reference navigation | 71 Activity P3 surface reconstructed; detailed runtime behavior remains downstream | **UNKNOWN** |
+| Resources | Reference resources | Dimension subgate and audited active P3 resource contracts closed; remaining queue open | **OPEN** |
+| Strings | Reference strings | P3-visible surface audited; downstream Reference-only strings remain outside this P3 surface | **MATCH for P3-visible surface** |
+| Style / Theme / Color | Reference style/color system | Full static matrix not yet closed | **OPEN** |
+| Premium | Reference behavior | P3 surface exists; entitlement/billing remains downstream | **UNKNOWN** |
+| Backend | Reference behavior | Supabase target designated; backend execution not part of P3 | **UNKNOWN** |
+| Database | Reference behavior | Not reconstructed as a completed downstream system | **UNKNOWN** |
+| Backup / Restore | Reference behavior | Execution remains downstream | **UNKNOWN** |
+| Runtime behavior | Reference runtime | Not runtime-verified | **BLOCKED** |
+| Visual parity | Reference UI | No runtime visual comparison performed | **BLOCKED** |
 
-- `ApkImportActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; full APKS extraction/install execution and backup integration remain UNKNOWN/P4-P5.
-- `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary; label persistence and app inventory/selection remain UNKNOWN/P4.
-- The historical pre-exit Activity depth was **48 🟢 / 23 🟡 / 0 🔴 / 71**; the current Activity depth is **52 🟢 / 19 🟡 / 0 🔴 / 71**.
-- Manifest verification: **71 Activities, 0 duplicate Activity registrations**. No build/runtime verification performed.
+## P3 Closure Matrix
 
-
-## 2026-09-30 P3 lifecycle exit — ApkImportActivity
-
-- `ApkImportActivity` is now P3 **GREEN** at the evidence-supported UI/navigation/flow boundary.
-- Reference-derived input resolution, APK classification, single-APK metadata surface, installer navigation/result boundary, launcher navigation, menu routing, and recreation state are reconstructed.
-- Full APKS extraction/install session behavior and backup integration remain UNKNOWN/P4-P5; these are not used to block the P3 exit.
-- Activity depth checkpoint: **49 green / 22 yellow / 0 red / 71**.
-- Runtime/build/visual parity remains BLOCKED by the existing execution gate.
-
-
-### 2026-09-30 P3 lifecycle exit — LabelEditActivity
-
-- `LabelEditActivity`: P3 **GREEN** at the evidence-supported UI/navigation/flow boundary.
-- Reference-derived create/edit mode, name preview, color selection, app-selection boundary, save/cancel/up flow, delete flow, and recreation state are reconstructed.
-- Label persistence and app inventory/selection remain UNKNOWN/P4 and do not block the P3 exit.
-- Activity depth checkpoint: **52 green / 19 yellow / 0 red / 71**.
-- Runtime/build/visual parity remains BLOCKED by the existing execution gate.
-
-
-## 2026-09-30 LabelsActivity P3 completion
-
-- `LabelsActivity` — P3 **GREEN** at the evidence-supported UI/navigation/interaction boundary.
-- Reference mode selection, mode-specific toolbar/menu behavior, label create/edit/delete-all flow, selection/app-label state, clear/apply boundaries, empty state, recreation, and `LabelEditActivity` result propagation are reconstructed.
-- Label catalog persistence, app inventory/parcel rendering, and actual assignment/storage semantics remain downstream.
-- Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 BoxSignInActivity P3 completion
-
-- `BoxSignInActivity` — P3 **GREEN** at the evidence-supported external-auth boundary.
-- Browser and Reference redirect-handler probes plus Box OAuth navigation are reconstructed.
-- Token exchange, SDK callback decoding, and provider state remain downstream.
-- Current Activity depth: **52 green / 19 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 OneDrive sign-in P3
-
-- `OneDriveSignInActivity` now has a Reference-derived provider entry surface with explicit Microsoft sign-in handoff and ready/started/error states.
-- Reference OneDrive uses MSAL with Graph `User.Read` and `Files.ReadWrite` scopes; BaRe does not fabricate the MSAL client, callback, access token, silent refresh, or provider persistence.
-- This is a P3 external-auth boundary, not provider execution parity.
-- Activity depth after this exit: **53 green / 18 yellow / 0 red / 71**.
-- Build/runtime/visual verification remains blocked/gated.
-
-
-## 2026-09-30 TeraBox sign-in P3
-
-- `TeraBoxSignInActivity` now reconstructs the Reference credential gate, browser/redirect-handler checks, TeraBox external authorization boundary, redirect intent/code parsing, and explicit failure/pending states.
-- Reference provider code exchange and token persistence remain downstream; no credentials are fabricated.
-- Activity depth after this exit: **54 green / 17 yellow / 0 red / 71**.
-- Build/runtime/visual verification remains blocked/gated.
-
-
-## 2026-09-30 Yandex sign-in P3
-
-- `YandexSignInActivity` now reconstructs the Reference inherited `fq5` OAuth boundary: browser/redirect-handler probes, Yandex authorization endpoint/contract, result request code, redirect validation, failure handling, and recreation state.
-- Reference AppAuth result decoding, token exchange, and provider persistence remain downstream and are not fabricated.
-- Redirect contract reconstructed as `org.swiftapps.swiftbackup.yandex://oauth`; manifest registration follows the supplied Reference (`exported=false`, `singleTop`).
-- Activity depth after this exit: **55 green / 16 yellow / 0 red / 71**.
-- Build/runtime/visual verification remains blocked/gated.
-
-
-## 2026-09-30 P3 lifecycle exit — ContributorRegActivity
-
-`ContributorRegActivity` crossed the P3 boundary after direct comparison with the supplied Reference. BaRe reconstructs the Reference-shaped contributor registration UI, editable contributor contact fields, Save Details interaction boundary, and recreation state. Remote contributor status/details, ViewModel/coroutine persistence, and registration backend behavior remain downstream; no remote identity or status is fabricated.
-
-Current Activity checkpoint: **56 green / 15 yellow / 0 red / 71**. No build/runtime/visual verification performed.
-
-
-## 2026-09-30 FolderPickerActivity P3 completion
-
-- `FolderPickerActivity` — P3 **GREEN** at the evidence-supported folder-selection UI/navigation/flow boundary.
-- Reference `extra_initial_folder` input and `extra_selected_folder` result contracts are reconstructed with a minimal BaRe `q63` compatibility value object.
-- Toolbar/up, breadcrumb navigation, directory listing, empty state, Select Folder, New Folder dialog/input validation, storage-switch menu, and recreation state are reconstructed.
-- Filesystem mutation, permission handling, storage-provider semantics, and deeper folder engine behavior remain downstream and are not claimed as parity.
-- Current Activity depth: **57 green / 14 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 FoldersBatchActivity P3 completion
-
-- `FoldersBatchActivity` — P3 **GREEN** at the evidence-supported folder batch UI/navigation/interaction boundary.
-- Reference batch action contract, selection/select-all, toolbar/menu routes, action FAB, empty/loading states, recreation, and `FolderEditActivity` request/result flow (`4988`) are reconstructed.
-- Backup/restore/delete/copy execution and the Reference folder inventory/ViewModel contract remain downstream; no feature side effect or inventory state is fabricated.
-- Current Activity depth: **58 green / 13 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — ScheduleLabelsSelectActivity
-
-- `ScheduleLabelsSelectActivity` — P3 **GREEN** at the evidence-supported label-selection UI/navigation/interaction boundary.
-- Reference-shaped selected, user-created, built-in, and already-used label surfaces are reconstructed.
-- `extra_selected_labels` / `extra_already_used_labels` input contracts, clear-selection flow, create-label navigation to `LabelEditActivity` request `264`, selected-label result return, and recreation state are reconstructed.
-- Label catalog persistence, schedule assignment, and deeper schedule mutation remain downstream.
-- Current Activity depth: **59 green / 12 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — ScheduleFolderSelectActivity
-
-- `ScheduleFolderSelectActivity` — P3 **GREEN** at the evidence-supported folder-selection UI/navigation/interaction boundary.
-- Reference-shaped list/empty state, Save FAB, select-all menu, input contracts, result boundary, and recreation state are reconstructed.
-- Concrete Reference `FolderItem` inventory/result Parcelable and schedule mutation remain downstream.
-- Current Activity depth: **60 green / 11 yellow / 0 red / 71**.
-- No build/runtime/visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — CallsBackupRestoreActivity
-- Reference-derived call-log backup/restore screen structure is reconstructed through the P3 engine boundary.
-- Mode detection from `EXTRA_BACKUP_FILE_PATH`, mode-dependent action, list/refresh surface, select-all menu, permission flow, empty/selection state, and cancel/up behavior are represented.
-- Concrete backup inventory, call-log adapter data, restore strategy, and backup/restore execution remain UNKNOWN/P4-P5.
-- No build, install, runtime, or visual verification performed.
-
-
-## 2026-09-30 P3 lifecycle exit — MessagesBackupRestoreActivity
-- Reference-derived message backup/restore screen structure is reconstructed through the P3 engine boundary.
-- Restore-mode input, list/refresh surface, select-all, default-SMS-app request/rationale/warning flow, and action boundary are represented.
-- Concrete message inventory, adapter data, default-SMS persistence, restore strategy, and backup/restore execution remain UNKNOWN/P4-P5.
-- No build, install, runtime, or visual verification performed.
-
-
-## 2026-09-30 P3 closure state
-
-P3 is frozen after the dedicated closure audit.
-
-| P3 closure gate | Classification |
+| P3 gate | Current classification |
 |---|---|
-| Resource/dimension parity | UNKNOWN — full Reference resource matrix not established; audited P3 resource defects corrected |
-| String parity | UNKNOWN — full Reference string name/value matrix not established; current P3-visible branding audited |
-| Style/theme/color parity | UNKNOWN — full matrix and runtime visual comparison not performed |
-| 71-Activity intent/navigation matrix | PASS — static source + manifest contract audit completed |
-| 71-Activity lifecycle/state matrix | PASS — static lifecycle/state audit completed |
-| Fake/stub/P3-boundary classification | PASS / P4 DEFERRED |
-| Final branding/Swift-identity scan | PASS + AUTHORIZED DEVIATION |
-| Static resource-reference integrity | PASS — audited P3 surface |
+| 71-Activity intent/navigation | **PASS — static** |
+| 71-Activity lifecycle/state | **PASS — static** |
+| Resource / Dimension | **OPEN** |
+| String parity | **PASS — P3-visible surface** |
+| Style / Theme / Color | **OPEN** |
+| Fake / Stub / P3 boundary | **PASS / P4 DEFERRED** |
+| Branding / Swift identity | **PASS + AUTHORIZED DEVIATION** |
+| Static resource-reference integrity | **PASS — audited P3 surface** |
 
-This UNKNOWN status is evidence-state classification, not a claim of parity. It must not be promoted to MATCH without additional evidence.
+## Current P3 Work Order
 
-P3 freeze does not authorize engine/provider/backend/runtime claims. Those remain downstream Phase 4/5/7 work as documented by the reconstruction roadmap.
+The exact work order is maintained only in docs/PHASE_3_STATUS.md.
 
+Current sequence:
 
-## 2026-09-30 P3 closure reconciliation
+**Dimension → Layout → Menu → Drawable / Vector → XML → Animation → Animator → Raw / Font → Resource Qualifier → Resource Reference Cross-check → Color → Color State / Selector → Theme → Theme Parent / Inheritance → Style → Widget / Component Style → Night / Day Style-Color → Style / Theme Reference Cross-check → Final Visual Contract Audit**
 
-Current baseline: `rewrite` at `43fcd4399dcebe578f5b0a8670078a921da2a641`.
+The sequence remains inside P3. Completion of one item does not authorize Phase 4.
 
-| Current P3 closure state | Classification |
+## Runtime / Execution Boundary
+
+No P3 documentation in this matrix should be interpreted as proof of:
+- successful backup;
+- successful restore;
+- successful provider operation;
+- successful cloud authentication;
+- successful persistence;
+- successful billing;
+- successful backend execution.
+
+Build/install/runtime/visual verification remains gated until explicitly authorized.
+
+## Document Roles
+
+| Document | Role |
 |---|---|
-| Activity surface | 71/71 GREEN; frozen for regression protection |
-| Resource/dimension parity | UNKNOWN — complete Reference-vs-BaRe matrix still required |
-| String parity | UNKNOWN — complete name/value matrix still required |
-| Style/theme/color parity | UNKNOWN — complete matrix still required |
-| Other five P3 closure gates | Already classified; do not reopen without new evidence |
-| Phase 4 | PREPARED / GATED — implementation not started until total P3 closure |
+| docs/PHASE_3_STATUS.md | **Operational source / single work queue** |
+| docs/PHASE_3_CLOSURE_AUDIT.md | **Supporting evidence / closure history** |
+| docs/PARITY_MATRIX.md | **High-level parity matrix** |
 
-UNKNOWN is an evidence-state classification and must not be promoted to MATCH without evidence. Build/install/runtime/visual verification remain unauthorized.
-
-
-## 2026-09-30 String parity closure
-
-| Gate | Current classification |
-|---|---|
-| String parity | **PASS (P3-visible surface)** |
-| Resource/dimension parity | UNKNOWN |
-| Style/theme/color parity | UNKNOWN |
-
-String parity is closed for the P3-visible surface. Reference-only strings belonging to downstream features remain outside P3 scope and are not promoted to P3 defects merely because those downstream features are not yet implemented.
-
-
-## 2026-09-30 Resource / Dimension sub-audit
-
-- Reference dimension baseline: **839 unique names / 20 `values*/dimens.xml` files**.
-- Project-facing/non-library-prefixed dimension scope: **67 names**.
-- BaRe now matches all 67 names/values, including Reference qualifier overrides for `land`, `w820dp`, `w320dp-land`, and `w600dp-land`.
-- Dimension subgate: **PASS**.
-- Overall Resource/dimension gate: **UNKNOWN** until the remaining dependency/library resource matrix and broader resource-name/content audit are explicitly evidenced.
-- Evidence is consolidated in `docs/PHASE_3_STATUS.md`; the former standalone Dimension audit file has been retired.
-
-No Activity source was modified and no build/install/runtime/visual verification was performed.
-
-
-## 2026-09-30 Broad Resource Parity Pass
-
-- Reference `res/` inventory: **1,491** files; BaRe `rewrite`: **222** application resource files.
-- 15 concrete Reference app-owned drawables absent from BaRe were restored from the Reference APKTool source.
-- Dependency/library resources remain excluded from blind-copy parity.
-- Resource/dimension gate remains **UNKNOWN / OPEN** until the application-owned layout/menu/XML/animation/qualifier matrix is fully evidenced.
-- Dimension project-facing subgate: **PASS**.
-\n\n## 2026-09-30 Resource parity continuation — evidence gate remains open\n\nThe Resource/Dimension gate remains UNKNOWN — OPEN. The earlier freeze classification is superseded for purposes of this evidence audit.\n\nNew evidence-backed corrections:\n- menu_apk_import.xml restored;\n- menu_select_all.xml restored;\n- menu_smscalls_backups.xml confirmed present for current backup surfaces;\n- menu_premium.xml aligned to Reference;\n- ic_bug.xml and ic_help.xml restored as required menu dependencies.\n\nDimension project-facing subgate remains PASS. No Activity source was modified. No build/install/runtime/visual verification was performed.\n\n\n## 2026-09-30 Resource contract closure pass\n\n| Resource evidence scope | Classification |\n|---|---|\n| Project-facing dimensions | PASS |\n| Active P3 menu contracts | PASS — all current R.menu references have corresponding rewrite resources |\n| Active XML contract | PASS — settings.xml aligned with Reference PreferenceCategory layout contract |\n| Active anim/animator/raw/font references | PASS — no current Java references found |\n| Full Reference application-resource matrix | UNKNOWN — unused/reference-only resources remain intentionally unproven |\n\nThis distinction prevents dependency/reference-only resources from being treated as mandatory application parity. No Activity source was changed; no build/install/runtime/visual verification was performed.\n
+There are no separate P3_RESOURCE_* work documents.
