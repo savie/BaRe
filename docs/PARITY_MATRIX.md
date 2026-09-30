@@ -22,7 +22,7 @@ For audit evidence/history, use:
 - **AUTHORIZED DEVIATION** — an intentional project deviation is explicitly allowed.
 - **BLOCKED** — required verification cannot currently be performed because its execution evidence is unavailable or unauthorized.
 
-The current P3 total-audit baseline intentionally starts all 15 P3 domains at **🟡**.
+The current P3 total-audit cycle is active; domain verdicts below are the current reconciled audit results.
 
 ## Phase Gate Summary
 
@@ -58,7 +58,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 14 | Boundary | 🟡 AUDIT REQUIRED |
 | 15 | Static Hygiene | 🟡 AUDIT REQUIRED |
 
-This table is intentionally neutral. It does not claim that every domain contains a defect.
+This table is the reconciled high-level result of the current total-audit cycle.
 
 ## P2 → P3 Boundary
 
@@ -100,7 +100,7 @@ Those statements may remain as historical context where needed, but they are **n
 
 The current authoritative state is:
 
-> **P3 TOTAL AUDIT — 15/15 YELLOW**
+> **P3 TOTAL AUDIT — #15 STATIC HYGIENE COMPLETE; P3 CLOSURE NOT ESTABLISHED**
 
 Only the audit can move a domain to 🟢 or 🔴.
 
