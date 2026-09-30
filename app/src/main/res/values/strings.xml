@@ -381,4 +381,11 @@
     <string name="apk_import_status_install_complete">Installation finished.</string>
     <string name="apk_import_status_waiting_for_installer">Waiting for the system installer…</string>
     <string name="apk_import_apk_summary">%1$d APK, %2$s</string>
+    <string name="set_app_labels">Set app labels</string>
+    <string name="labels_selected_count">%1$d labels selected</string>
+    <string name="app_labels_count">%1$d app labels</string>
+    <string name="p3_label_app_boundary">App label assignment reaches the P3 dependency boundary; app inventory and persistence remain downstream.</string>
+    <string name="maximum_num_labels_limit_message">Maximum number of labels reached</string>
+    <string name="create_label_message">No labels yet</string>
+    <string name="delete_all">Delete all</string>
 </resources>
