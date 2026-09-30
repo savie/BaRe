@@ -164,8 +164,8 @@ Therefore P8 and the final P9 deviation audit remain downstream gates.
 The complete Activity-level P3 audit and current backlog are maintained in `docs/PHASE_3_STATUS.md`.
 
 Latest complete 71-Activity P3 depth audit at `36704f7803bf779887e59c3c94513f457f1ea1aa`:
-- 🟢 Green: **41**
-- 🟡 Yellow: **30**
+- 🟢 Green: **43**
+- 🟡 Yellow: **28**
 - 🔴 Red: **0**
 - **71/71 classified**
 - The previous three special-review Activities (`WallsManageActivity`, `WifiActivity`, `LocaleActivity`) are now resolved as 🟡 after direct Reference source/layout comparison.
@@ -236,9 +236,9 @@ That is the intended interpretation of the current checkpoint.
 
 The current P3 gate is now interpreted as a **phase-boundary audit**, not a requirement to force every component into green.
 
-- **71 Activities:** 41 are at the current P3 boundary (green); 30 still contain evidence-supported P3 depth work or need an explicit dependency decision.
+- **71 Activities:** 43 are at the current P3 boundary (green); 28 still contain evidence-supported P3 depth work or need an explicit dependency decision.
 - **3 Services:** all structural boundaries exist. TaskService and ScheduleService have substantial Reference execution contracts and therefore move their remaining behavior to P4/P5; HeadlessSmsSendService is already minimal in the Reference and has reached its meaningful P3 boundary.
 - **8 Receivers:** all structural boundaries exist. Remaining side effects are phase-owned by P4/P5; MmsReceiver additionally needs its Reference inheritance boundary (SmsReceiver) corrected before execution work.
 - **P7/P8/P9 remain downstream gates** and are not part of this audit.
 
-The next P3 action is therefore to continue only the **30 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
+The next P3 action is therefore to continue only the **28 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
