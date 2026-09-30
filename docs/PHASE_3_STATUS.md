@@ -216,6 +216,14 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Up/cancel returns `RESULT_CANCELED`.
 - Folder inventory/selection state remains unreconstructed, so the Activity stays 🟡.
 
+## Latest vertical slice — Schedule label selector P3 deepening
+
+- `ScheduleLabelsSelectActivity` now binds all four Reference-shaped RecyclerView surfaces: selected, user-created, built-in, and already-used labels.
+- Empty-state visibility and a local changed-state survive recreation without inventing label catalog data.
+- Clear/create actions now have explicit confirmation boundaries and update the local UI state.
+- Actual label catalog, selection persistence, and schedule mutation remain outside this slice because their Reference data contracts are not yet reconstructed.
+- Activity remains 🟡; the missing catalog/selection model is still a genuine P3 gap.
+
 ## Current P3 work order
 
 1. Deepen the 🟡 queue by focused vertical slices.
