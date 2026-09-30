@@ -48,7 +48,7 @@ Yellow is an audit state, not a defect finding.
 | 5 | Manifest | 🔴 **FAIL / DEFECT** | Concrete static manifest contract gaps established; implementation follow-up required after total audit. |
 | 6 | Intent | 🔴 **FAIL / DEFECT** | Concrete static external intent/URI contract gaps established; implementation follow-up required after total audit. |
 | 7 | Permissions | 🟡 **OPEN / NEEDS FOLLOW-UP** | Static manifest/request comparison leaves one Reference-defined custom permission boundary unresolved; runtime permission verification remains unperformed. |
-| 8 | Navigation | 🟡 | Pending audit |
+| 8 | Navigation | 🔴 **FAIL / DEFECT** | Reference parentActivity and launch-mode contracts are materially reduced in BaRe; static source navigation exists but manifest back-stack topology is not yet reconciled. |
 | 9 | Lifecycle / State | 🟡 | Pending audit |
 | 10 | Dialog / Error / Loading | 🟡 | Pending audit |
 | 11 | Branding | 🟡 | Pending audit |
@@ -381,3 +381,42 @@ Therefore the domain remains **🟡 OPEN / NEEDS FOLLOW-UP**, not PASS.
 **No app/code/resource fix performed during this audit.**
 
 Next audit domain: **#8 Navigation**.
+
+
+## Audit #8 — Navigation — Findings
+
+**Verdict: 🔴 FAIL / DEFECT**
+
+### Static manifest comparison
+
+Reference declares **32 `parentActivityName` relationships** across its application Activities; the current BaRe manifest contains only **1**. Reference launch-mode declarations are also materially richer: **66 `singleTop`, 6 `singleTask`, and 2 `standard`** declarations versus BaRe's **64 `singleTop` and 2 `singleTask`** declarations.
+
+The Reference navigation topology therefore is not preserved by manifest metadata alone. This is especially material for chains such as Home → AppList → Detail and Settings → SettingsDetail, where Reference explicitly declares parent relationships.
+
+### Source navigation evidence
+
+BaRe does contain real explicit navigation contracts. Static examples include:
+
+- `AppListActivity` → `AppsQuickActionsActivity` and `LabelsActivity`.
+- `FoldersBatchActivity` → `FolderEditActivity` with `extra_folder_item`, and → `SettingsDetailActivity` with `category`.
+- `ScheduleLabelsSelectActivity` → `LabelEditActivity` via `startActivityForResult`.
+- `YandexSignInActivity` → external authorization via `ACTION_VIEW` + `startActivityForResult`.
+- `MessagesBackupRestoreActivity` → SMS role request via `startActivityForResult`.
+- `ApkImportActivity` → installer flow via `startActivityForResult`.
+
+There are also explicit Back/Up implementations in several Activities, including folder picker, schedule selectors, sign-in screens, and settings-related surfaces.
+
+### Conclusion
+
+The issue is **not absence of navigation code**. The defect is that the Reference navigation graph's manifest-level parent/back-stack contracts are substantially reduced, and launch-mode parity is not reconciled. Static source evidence also shows a mix of P3 boundary implementations, so runtime equivalence cannot be inferred.
+
+### Required follow-up
+
+- Build a Reference→BaRe navigation matrix for all 71 application Activities.
+- Reconcile `parentActivityName`, `launchMode`, and relevant `excludeFromRecents`/task-affinity/back-stack attributes.
+- Reconcile explicit Intent destinations and required extras/result contracts.
+- Re-audit Up/back behavior against the resulting parent graph.
+
+**No app/code/resource fix performed during this audit.**
+
+Next audit domain: **#9 State / Lifecycle**.
