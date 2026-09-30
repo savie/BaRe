@@ -184,3 +184,12 @@ For the current work order and per-phase checkpoint, use docs/RECONSTRUCTION_CHE
 - `LabelEditActivity`: Reference-derived name preview, color-selection, app-selection boundary, result flows, and recreation state reconstructed; label persistence and app inventory/selection remain UNKNOWN/P4.
 - Checkpoint-aligned Activity depth remains **48 🟢 / 23 🟡 / 0 🔴 / 71**; neither Activity is promoted by this batch.
 - Manifest verification: **71 Activities, 0 duplicate Activity registrations**. No build/runtime verification performed.
+
+
+## 2026-09-30 P3 lifecycle exit — ApkImportActivity
+
+- `ApkImportActivity` is now P3 **GREEN** at the evidence-supported UI/navigation/flow boundary.
+- Reference-derived input resolution, APK classification, single-APK metadata surface, installer navigation/result boundary, launcher navigation, menu routing, and recreation state are reconstructed.
+- Full APKS extraction/install session behavior and backup integration remain UNKNOWN/P4-P5; these are not used to block the P3 exit.
+- Activity depth checkpoint: **49 green / 22 yellow / 0 red / 71**.
+- Runtime/build/visual parity remains BLOCKED by the existing execution gate.
