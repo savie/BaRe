@@ -415,8 +415,6 @@
     <string name="p3_terabox_provider_boundary">The TeraBox redirect was received. Reference exchanges the authorization code for provider credentials; that provider/token operation remains downstream.</string>
     <string name="folder_picker_empty">No folders in this location.</string>
     <string name="p3_folder_boundary">Reference folder creation reaches the filesystem mutation boundary here: %1$s. Real folder creation/permission handling remains downstream.</string>
-    <string name="select_folder_setups">Select folder setups</string>
-    <string name="create_your_first_folder_msg">No folder setup found on device. Click below to create one.</string>
     <string name="backup_folders">Backup folders</string>
     <string name="restore_folders">Restore folders</string>
     <string name="delete_folder_backups">Delete folder backups</string>
