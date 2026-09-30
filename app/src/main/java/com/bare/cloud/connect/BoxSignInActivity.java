@@ -37,6 +37,7 @@ public final class BoxSignInActivity extends AppCompatActivity {
         title.setText(R.string.box);
         status.setText(R.string.cloud_auth_pending);
 
+        findViewById(R.id.btn_authenticate).setEnabled(false);
         findViewById(R.id.btn_authenticate).setOnClickListener(v -> startBoxAuthorization());
 
         if (state == null) {
@@ -78,47 +79,7 @@ public final class BoxSignInActivity extends AppCompatActivity {
 
         flowStarted = true;
         status.setText(R.string.box_authorization_started);
-        startActivityForResult(auth, REQUEST_BOX_AUTH);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode != REQUEST_BOX_AUTH) return;
-
-        if (data == null) {
-            showFailure(R.string.box_signin_result_null);
-            return;
-        }
-
-        Uri resultUri = data.getData();
-        if (resultUri == null) {
-            showFailure(R.string.box_authorization_failed);
-            return;
-        }
-
-        String error = resultUri.getQueryParameter("error");
-        if (error != null) {
-            showFailure(R.string.box_authorization_failed);
-            return;
-        }
-
-        String code = resultUri.getQueryParameter("code");
-        if (code == null || code.isEmpty()) {
-            showFailure(R.string.box_authorization_failed);
-            return;
-        }
-
-        // The Reference forwards this authorization result to its ViewModel.
-        // BaRe intentionally stops here: no token exchange or provider state is fabricated.
-        status.setText(R.string.p3_cloud_auth_boundary);
-        setResult(Activity.RESULT_OK);
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.box)
-                .setMessage(R.string.p3_cloud_auth_boundary)
-                .setPositiveButton(R.string.close, (d, w) -> finish())
-                .setOnCancelListener(d -> finish())
-                .show();
+        startActivity(auth);
     }
 
     private void showFailure(int message) {
