@@ -49,7 +49,7 @@ The current P3 total-audit baseline intentionally starts all 15 P3 domains at **
 | 5 | Manifest | 🔴 FAIL / DEFECT |
 | 6 | Intent | 🔴 FAIL / DEFECT |
 | 7 | Permissions | 🟡 OPEN / NEEDS FOLLOW-UP |
-| 8 | Navigation | 🟡 AUDIT REQUIRED |
+| 8 | Navigation | 🔴 FAIL / DEFECT |
 | 9 | Lifecycle / State | 🟡 AUDIT REQUIRED |
 | 10 | Dialog / Error / Loading | 🟡 AUDIT REQUIRED |
 | 11 | Branding | 🟡 AUDIT REQUIRED |
@@ -207,3 +207,14 @@ The remaining custom permission is not yet classified as application-owned vs de
 No app/code/resource change was made during the audit.
 
 Next: **#8 Navigation**.
+
+
+## P3 Total Audit — Navigation Result
+
+**#8 Navigation: 🔴 FAIL / DEFECT**
+
+Static comparison found 32 Reference `parentActivityName` declarations vs 1 in BaRe, plus materially different launch-mode coverage (Reference: 66 `singleTop`, 6 `singleTask`, 2 `standard`; BaRe: 64 `singleTop`, 2 `singleTask`). BaRe nevertheless contains substantial explicit Activity navigation and result flows. The unresolved issue is manifest-level navigation/back-stack parity, not wholesale absence of navigation implementation.
+
+No app/code/resource change was made during the audit.
+
+Next: **#9 State / Lifecycle**.
