@@ -1,12 +1,10 @@
-# DEFINISI TARGET REKONSTRUKSI
+DEFINISI TARGET REKONSTRUKSI
 
 Target project adalah:
 
 «Rekonstruksi Reference Swift Backup 5.1.0 (620) menjadi BaRe/BΛR☰ dengan fidelity 1:1 terhadap Reference, kecuali perbedaan yang secara eksplisit diizinkan dalam handoff ini.»
 
----
-
-## 0. REPOSITORY DAN BRANCH
+0. REPOSITORY DAN BRANCH
 
 Repository GitHub:
 
@@ -42,7 +40,7 @@ Repository "savie/BaRe" branch "rewrite" merupakan target implementation dari re
 
 ---
 
-## 1. Reference adalah baseline
+1. Reference adalah baseline
 
 Reference Swift Backup 5.1.0 (620) adalah baseline/source of truth.
 
@@ -85,7 +83,7 @@ Jangan membuat desain, behavior, struktur, atau implementasi baru apabila inform
 
 ---
 
-## 2. Definisi 1:1
+2. Definisi 1:1
 
 1:1 berarti parity terhadap Reference pada seluruh aspek yang tidak termasuk dalam daftar deviation yang diizinkan.
 
@@ -99,11 +97,11 @@ Tidak boleh menganggap suatu perbedaan sebagai deviation yang diizinkan hanya be
 
 ---
 
-## 3. Deviation yang DIIZINKAN
+3. Deviation yang DIIZINKAN
 
 Hanya perubahan berikut yang boleh membuat BaRe berbeda dari Reference:
 
-### A. Branding
+A. Branding
 
 Semua branding pengguna:
 
@@ -122,9 +120,9 @@ Termasuk:
 - dokumentasi
 - branding yang terlihat pengguna
 
-Perubahan identifier internal tidak boleh dilakukan hanya karena mengandung nama Swift. Setiap identifier internal harus dianalisis berdasarkan fungsi dan dependency-nya.
+Perubahan identifier internal boleh dilakukan karena mengandung nama Swift. Namun Setiap identifier internal harus dianalisis berdasarkan fungsi dan dependency-nya.
 
-### B. Swift-specific identity
+B. Swift-specific identity
 
 Referensi eksternal yang memang merupakan identitas Swift Backup dapat diganti dengan identitas BaRe apabila memang diperlukan:
 
@@ -139,7 +137,7 @@ Referensi eksternal yang memang merupakan identitas Swift Backup dapat diganti d
 
 Jangan melakukan global text replacement.
 
-### C. Premium
+C. Premium
 
 Premium BaRe diberikan GRATIS.
 
@@ -153,7 +151,7 @@ Selain mekanisme entitlement tersebut, feature, UI, flow, dan behavior Premium t
 
 Jangan menghapus Premium hanya karena gratis.
 
-### D. Backend
+D. Backend
 
 BaRe menggunakan Supabase.
 
@@ -165,7 +163,7 @@ Perubahan backend hanya boleh dilakukan sejauh diperlukan untuk menggantikan ata
 
 Tidak menggunakan proses migration.
 
-### Supabase Project
+Supabase Project
 
 Project Supabase yang digunakan:
 
@@ -177,7 +175,7 @@ Jika membutuhkan backend, database, authentication, storage, atau server-side fu
 
 Jangan menggunakan Firebase.
 
-### Supabase Configuration
+Supabase Configuration
 
 Jangan mengarang konfigurasi Supabase yang belum diketahui.
 
@@ -212,7 +210,7 @@ Keberadaan Project URL tidak berarti konfigurasi lainnya otomatis diketahui.
 
 Actual Supabase state harus dibedakan dari konfigurasi atau struktur yang hanya diasumsikan dari source, dokumentasi, atau Reference.
 
-### Database
+Database
 
 Supabase digunakan sebagai database/backend BaRe sesuai kebutuhan reconstruction.
 
@@ -226,7 +224,7 @@ Penggunaan Supabase tidak memberikan izin untuk mengubah behavior aplikasi yang 
 
 ---
 
-## 4. BAHASA IMPLEMENTASI
+4. BAHASA IMPLEMENTASI
 
 Reference menggunakan Java pada hasil rekonstruksi/decompile yang menjadi acuan project.
 
@@ -260,7 +258,7 @@ Perbedaan yang disebabkan oleh penggunaan Kotlin dianggap tidak diizinkan, karen
 
 ---
 
-## 5. Aturan perubahan
+5. Aturan perubahan
 
 Untuk setiap perbedaan:
 
@@ -288,7 +286,7 @@ Supabase → "https://fbiazqbrkwovzrirnzpb.supabase.co"
 
 ---
 
-## 6. Definisi keberhasilan
+6. Definisi keberhasilan
 
 Project tidak boleh dinyatakan 1:1 hanya karena berhasil build.
 
@@ -324,7 +322,7 @@ Backend integration juga harus diverifikasi terhadap actual Supabase state apabi
 
 ---
 
-## 7. Formula target
+7. Formula target
 
 Secara sederhana:
 
@@ -350,39 +348,9 @@ Reference Swift Backup 5.1.0 (620)
 → tanpa migration
 → 1:1 kecuali Authorized Deviations
 
+---
 
-## 8.1 Canonical Control-Plane Rules
-
-This handoff is the **canonical target definition** for the reconstruction. Operational P3/P4 documents may describe current evidence, execution state, checkpoints, and historical findings, but they must not redefine the reconstruction target or authorize deviations beyond this handoff.
-
-### Evidence hierarchy
-
-1. The supplied Reference Swift Backup 5.1.0 (620) decompile archive is the primary Reference evidence source.
-2. The BaRe `rewrite` branch is the implementation target.
-3. Project documents are control-plane records derived from Reference evidence and this handoff; they are not substitutes for Reference evidence.
-4. Repository-side Reference mirrors/copies are secondary convenience evidence only and must not silently replace the supplied Reference archive as source of truth.
-
-### Parity rule
-
-For every Reference→BaRe difference, the evidence record must preserve the concrete Reference contract, the BaRe contract, and the classification: MATCH, AUTHORIZED DEVIATION, UNAUTHORIZED DEVIATION, UNKNOWN, or BLOCKED.
-
-A sample, approximation, alternate implementation, or “functionally similar” contract is **not** proof of 1:1 parity. Missing evidence remains UNKNOWN until the Reference contract is reconciled.
-
-### Change rule
-
-Do not implement a difference merely because it appears convenient, cleaner, smaller, or sufficient for the current phase. Implementation requires Reference evidence plus a bounded change scope. Authorized deviations must be traceable to Section 3 of this handoff.
-
-### Phase-governance rule
-
-The canonical lifecycle remains P1 → P2 → P3 → P4 → P5 → P6 → P7 → P8 → P9 → FINAL. A phase document may govern execution inside its phase, but cannot move the project to a later phase, close parity, or convert UNKNOWN into MATCH without the evidence required by this handoff.
-
-### Verification rule
-
-Static reconstruction evidence, build success, runtime success, visual similarity, and feature execution are separate evidence classes. Success in one class must not be represented as success in another class.
-
-## 8. Canonical Roadmap
-
-```
+8. Canonical Roadmap
 CURRENT  
 savie/BaRe  
 └── rewrite  
@@ -432,8 +400,7 @@ BLOCKED
         ↓  
   
 FINAL  
-```
-  
-BΛR☰  
-Reference-equivalent Android application  
-+ only explicitly authorized deviations  
+BΛR☰
+Reference-equivalent Android application
+
+only explicitly authorized deviations
