@@ -117,9 +117,9 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 Next action:
 
-> **Audit #8 — Navigation**
+> **Audit #9 — State / Lifecycle**
 
-Domains #1–#7 have now been audited. Proceed sequentially through #15.
+Domains #1–#8 have now been audited. Proceed sequentially through #15.
 
 The Styles / Themes / Colors domain is now a documented 🔴 follow-up item. No implementation fix is performed during the audit.
 
