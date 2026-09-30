@@ -47,7 +47,7 @@ The 71-Activity green classification is the **starting claim to audit**, not a r
 | Services baseline | **3/3 covered by P3 implementation pass** |
 | Receivers baseline | **8/8 covered by P3 implementation pass** |
 | P3 TOTAL AUDIT | **COMPLETE — 15/15 domains audited; closure not established** |
-| P3 Follow-up Execution | **ACTIVE — Step 5 DEPENDENCY ORDER complete; Step 6 pending** |
+| P3 Follow-up Execution | **ACTIVE — Step 7 SCOPE CHECK complete and hardened; 13 bounded execution units, further batch subdivision required when needed** |
 | Phase 4 | **GATED / NOT STARTED** |
 | Build/install/runtime | **NOT AUTHORIZED / NOT PERFORMED** |
 
@@ -81,6 +81,24 @@ The 13 active normalized contracts are classified as follows:
 - **RE-AUDIT / VERIFICATION:** N-15
 
 This classification identifies the primary next action only. It does not authorize implementation. Next operational step: **Step 5 — DEPENDENCY ORDER**.
+
+## Step 7 — Scope Check / Execution Safety Status
+
+**COMPLETE — HARDENED.**
+
+The original Step 7 scope check produced 13 bounded execution units from 8 work packages. The scope gate is now explicitly strengthened for execution stability:
+
+- 13 EUs are domain contracts, not mandatory one-shot operations.
+- Any EU may be subdivided into smaller evidence-backed batches before Step 8.
+- Application-owned resources must be isolated from dependency/library/generated resources before mutation.
+- Exact file/contract scope, ownership, exclusions, dependencies, verification, re-audit target, checkpoint, and stop/rollback conditions are required before a batch enters Step 8.
+- Large Reference resource counts are inventory evidence only; bulk copying/reconciliation is prohibited.
+- Static-first verification remains mandatory after each meaningful batch.
+- Unstable, ambiguous, or unexpectedly expanding batches must stop and be isolated/reverted before continuation.
+- Build/install/runtime/visual verification remains **NOT AUTHORIZED / NOT PERFORMED** unless explicitly authorized.
+- No implementation is authorized merely because Step 7 is complete.
+
+This is a hardening of Step 7's scope gate; the fixed P3 master flow is unchanged.
 
 ## P3 TOTAL AUDIT — 15 Domains
 
@@ -136,7 +154,7 @@ Only after all 15 domains have been audited should P3 work be broken down into i
 
 **P3 FOLLOW-UP EXECUTION.**
 
-The 15-domain total audit is complete. The next operational task is to process its required follow-ups through the fixed master flow in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`:
+The 15-domain total audit is complete. Steps 1–7 of the follow-up flow are complete; Step 7 is hardened with the Execution Safety / Stability Gate. The next operational task is to process its required follow-ups through the fixed master flow in `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`:
 
 1. Follow-up Register
 2. Normalisation / Dedup
