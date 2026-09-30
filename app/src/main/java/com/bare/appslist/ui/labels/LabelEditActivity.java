@@ -2,7 +2,6 @@ package com.bare.appslist.ui.labels;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +96,7 @@ public final class LabelEditActivity extends AppCompatActivity {
             selectedColor = color;
             renderColor();
         }));
-        shades.setAdapter(new ColorAdapter(Arrays.asList(
+        shades.setAdapter(new ColorAdapter(intColors(
                 "#ECEFF1","#CFD8DC","#B0BEC5","#90A4AE","#78909C",
                 "#607D8B","#546E7A","#455A64","#37474F","#263238"
         ), color -> {
@@ -106,7 +105,7 @@ public final class LabelEditActivity extends AppCompatActivity {
         }));
     }
 
-    private List<Integer> primaryColors() {
+    private List<Integer> intColors(String... values) {\n        List<Integer> result = new ArrayList<>();\n        for (String value : values) result.add(Color.parseColor(value));\n        return result;\n    }\n\n    private List<Integer> primaryColors() {
         List<Integer> result = new ArrayList<>();
         for (String color : PALETTES[0]) result.add(Color.parseColor(color));
         return result;
