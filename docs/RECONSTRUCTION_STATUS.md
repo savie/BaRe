@@ -841,3 +841,13 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - Execution semantics remain intentionally outside this reconstruction: this pass does not claim actual backup-size enforcement, persistence, provider/cloud transfer, or backup-engine integration.
 - Verification boundary: source reconstruction only; build/install/runtime/visual-parity verification is still required before calling the surface runtime-verified.
 
+
+
+## P3 vertical sweep — RestoreSpecialDataDetailsActivity — 2026-09-30
+
+- Reference source: Swift Backup 5.1.0-620 decompile archive.
+- Reference screen reconstructed: "Restore special data" card with one restore-special-permissions switch, clickable card toggle, and "What gets restored" list.
+- Reference detail list contains 13 rows: notification settings/channels, notification access, accessibility service, usage access, install unknown apps, display over other apps, modify system settings, battery optimization, network access modes, all files access, alarms/reminders, other system modes, and Magisk Hide/DenyList mode.
+- Reference source uses a ConfigSettings Parcelable when launched in configuration mode and otherwise persists restore_special_permissions in its preferences. BaRe does not currently expose the same ConfigSettings model, so this reconstruction preserves the boolean state/result contract and does not invent a cross-surface ConfigSettings implementation.
+- Reference also disables the switch when the standalone flow lacks root access. The current BaRe reconstruction has no verified equivalent root capability contract, so it does not fabricate a root check.
+- Runtime permission/system-setting restoration remains outside this P3 UI reconstruction boundary.
