@@ -24,12 +24,12 @@ The audit started from snapshot `7f03a13a0dc05bdf42b5cad28c16f81d33651551`, then
 
 | Depth | Count |
 |---|---:|
-| 🟢 Green | **66** |
-| 🟡 Yellow | **5** |
+| 🟢 Green | **67** |
+| 🟡 Yellow | **4** |
 | 🔴 Red | **0** |
 | **Total** | **71** |
 
-### 🟢 Green — 66
+### 🟢 Green — 67
 
 The lifecycle audit reclassifies Activities that have reached their evidence-supported P3 UI/navigation/state boundary even when their execution engine remains deferred.
 
@@ -99,16 +99,16 @@ The lifecycle audit reclassifies Activities that have reached their evidence-sup
 64. `CallsDashActivity`
 65. `MessagesDashActivity`
 66. `PremiumActivity`
+67. `AppVisibilityDiagnosticsActivity`
 
 **Green = P3 flow complete through the engine/dependency boundary.** Runtime verification and the underlying P4/P5/P6 execution remain separate.
 
-### 🟡 Yellow — 5
+### 🟡 Yellow — 4
 
-1. `AppVisibilityDiagnosticsActivity`
-2. `WallsDashActivity`
-3. `WallApplyActivity`
-4. `WallsManageActivity`
-5. `WifiActivity`
+1. `WallsDashActivity`
+2. `WallApplyActivity`
+3. `WallsManageActivity`
+4. `WifiActivity`
 
 ## 🔴 Red backlog
 
@@ -145,3 +145,11 @@ Compared directly with the supplied Swift Backup 5.1.0 Reference:
 - Device/cloud backup counts remain data-engine boundaries and were not fabricated.
 
 `CallsDashActivity` is promoted to 🟢 at the evidence-supported P3 boundary.
+
+## Latest vertical slice — App visibility diagnostics P3 completion
+
+Compared directly with the supplied Swift Backup 5.1.0 Reference:
+
+- AppVisibilityDiagnosticsActivity now reconstructs the Reference explanation/summary surface, raw PackageManager package inventory, loading/error/empty states, app-label/package-name rows, search filtering, refresh, copy-to-clipboard, share chooser, back navigation, and recreation state.
+- Package visibility is queried from Android PackageManager at the Activity boundary rather than fabricated. Provider/backend/engine work is not introduced.
+- The P3 status is promoted to green; runtime verification/build/install remain intentionally outside this pass.
