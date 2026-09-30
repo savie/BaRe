@@ -236,21 +236,21 @@ That is the intended interpretation of the current checkpoint.
 
 The current P3 gate is now interpreted as a **phase-boundary audit**, not a requirement to force every component into green.
 
-- **71 Activities:** 48 are at the current P3 boundary (green); 23 still contain evidence-supported P3 depth work or need an explicit dependency decision.
+- **71 Activities:** **50 are at the current P3 boundary (green); 21 remain yellow** with evidence-supported P3 depth work or need an explicit dependency decision.
 - **3 Services:** all structural boundaries exist. TaskService and ScheduleService have substantial Reference execution contracts and therefore move their remaining behavior to P4/P5; HeadlessSmsSendService is already minimal in the Reference and has reached its meaningful P3 boundary.
 - **8 Receivers:** all structural boundaries exist. Remaining side effects are phase-owned by P4/P5; MmsReceiver additionally needs its Reference inheritance boundary (SmsReceiver) corrected before execution work.
 - **P7/P8/P9 remain downstream gates** and are not part of this audit.
 
-The next P3 action is therefore to continue only the **27 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
+The next P3 action is therefore to continue only the **21 yellow Activity surfaces** where Reference-derived UI/navigation/state reconstruction remains justified. Green Activities and supporting surfaces with execution-only gaps should be treated as inputs to P4/P5/P6 rather than reopened as P3 backlog.
 
 
 ## 2026-09-30 P3 batch checkpoint — APK import + label editor
 
 Starting from checkpoint `69324f8b3fa1ebf5901c644fcf9f87e8424b65fd`, the next focused batch deepened `ApkImportActivity` and `LabelEditActivity` against the supplied Swift Backup 5.1.0 (620) Reference.
 
-- `ApkImportActivity` remains 🟡: input URI/type handling and recreation state are reconstructed; APK/APKS parsing, metadata extraction, installer fallback, and import execution remain downstream.
-- `LabelEditActivity` remains 🟡: name preview, color picker, app-selection boundary, save/cancel/delete result boundaries, edit/create menu behavior, and recreation state are reconstructed; persistence and app inventory remain downstream.
-- P3 signal remains **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**.
+- `ApkImportActivity` crossed the P3 boundary and is now 🟢; archive extraction, full APKS install/session execution, and backup integration remain downstream.
+- `LabelEditActivity` crossed the P3 boundary and is now 🟢; label persistence and app inventory/selection remain downstream.
+- The historical pre-exit signal was **48 🟢 / 23 🟡 / 0 🔴 / 71 Activities**; the current signal is **50 🟢 / 21 🟡 / 0 🔴 / 71 Activities**.
 - Structural check: **71 Activities / 0 duplicate registrations**.
 - Build/runtime/visual verification remains gated and was not performed.
 
