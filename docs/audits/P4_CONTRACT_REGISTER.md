@@ -431,3 +431,10 @@ No provider, backend, password crypto, permission engine, storage engine, task e
 ### WP-A static result
 
 **WP-A is not yet package-closed.** Remaining WP-A work is limited to completing the C07/C11 consumer/ownership reconciliation that is supported by Reference evidence, then performing the static regression pass. No speculative wiring will be added where the Reference contract is not yet established.
+
+
+### WP-A additional wiring — settings local state
+
+`SettingsFragment` now reads/writes `play_notification_sounds` through `LocalState`, using the Reference local-preference boundary and Reference default `true`. This removes the previous BaRe-specific `settings` SharedPreferences store for that key and avoids a competing canonical store.
+
+This does **not** close C08: the full Reference `AppSettings` contract still belongs to WP-D. The change is limited to the already-observed P3 consumer/key and is therefore a WP-A state-ownership correction, not a settings-engine implementation.
