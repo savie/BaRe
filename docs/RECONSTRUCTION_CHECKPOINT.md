@@ -243,3 +243,13 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Build/install/runtime: **NOT PERFORMED**.
 - N-01-R6 Cross-domain resource closure remains the only open N-01 work package.
 - P3 remains **ACTIVE / FOLLOW-UP CLOSURE; no freeze**.
+
+
+## N-01-R2 branch integrity repair
+
+- The N01-R2 implementation commit `51aa67890828389eaef307052f40ae908d86b40b` was previously not reachable from `rewrite`.
+- Implementation is now applied directly on `rewrite` at commit `7d110274175ef90d52eaa204e21c488c5dc55454`.
+- Applied implementation delta: **218 added app resource files**; no existing target resource overwritten by this repair.
+- Static branch re-audit: implementation commit is now reachable from the active branch.
+- Build/install/runtime: **NOT PERFORMED**.
+- N-01-R2 remains **🟢 CLOSED / STATIC PASS**; N-01-R6 remains the only open N-01 work package.
