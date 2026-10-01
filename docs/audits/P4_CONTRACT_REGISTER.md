@@ -60,8 +60,8 @@ The P4.0 register is therefore considered exhaustive **for the defined P4 scope*
 | P4-C09 | Password strategy selected in Intro | Reference persists `saved_password_mode` using Reference enum ordinal with default STANDARD; completion reads the persisted strategy | Exact password-strategy state key/type/default consumed by Intro completion | BaRe uses `P3_PASSWORD_MODE` and does not yet map to Reference `saved_password_mode` semantics | IntroActivity / password boundary | **GAP / P4** | Reconcile exact key/default/ordinal contract while keeping password engine deferred | Password generation, secure storage, encryption and restore remain P5+ | Static Intro state/key comparison |
 | P4-C10 | First-run cloud settings restore | Reference `intro.d.l()`: waits for backend readiness, reads cloud settings, restores labels/configs/schedules/favorites/blacklist, and returns a terminal Boolean result; `IntroActivity` records completion at the terminal transition | Explicit restore-at-first-run state/result contract and safe skip/failure semantics | `FirstRunCloudRestoreState`, `FirstRunCloudRestoreResult`, and `FirstRunCloudRestoreCoordinator` now own the P4 state/result boundary; completion key is written only for terminal `SUCCESS` | FirstRunCloudRestoreCoordinator / downstream restore executor / Intro consumer | **CLOSED → P4.2** | State/result semantics and completion ownership are defined without fabricating restored data | Actual backend readiness, cloud reads/writes, and data restoration remain downstream | Static flow comparison to `intro.d`; Intro/local-state regression |
 | P4-C11 | Deterministic core data used by frozen P3 | Reference models include `UserInfo`, `StorageInfoLocal.Success`, `AppSettings`, storage item state, task/error summaries, SLog/log state, and diagnostic result state where exposed by frozen P3 surfaces | Required data shape, nullability, defaults, and consumer ownership | UserInfo is present; storage info shape is partial but service returns null; AppSettings/task data contracts are not fully present; SLog and cloud-diagnostic result data remain boundary-level | Domain repositories/services | **PARTIAL → GAP / P4** | Inventory only models with frozen-P3 consumers and record exact fields/defaults; keep feature execution deferred | Actual data collection, filesystem/provider execution, cloud persistence, diagnostic execution | Source-level field/consumer reconciliation |
-| P4-C12 | TaskActivity task list/status/error UI | Reference TaskActivity consumes task manager/service state and exposes loading/done/error/warning, task rows, SLog, cancel/force-stop boundaries | Stable task state/progress/error contract required by the existing P3 TaskActivity surface | BaRe TaskActivity has empty adapters and P3 boundary dialogs; only local `showing_slog` recreation state exists | TaskActivity + task-state layer | **GAP / P4** | Define task status/progress/error/result contract without implementing execution | Actual TaskService/job/backup/restore execution remains P5+ | Static TaskActivity/TaskManager reconciliation |
-| P4-C13 | Job/task scheduling only where P3 exposes state | Reference has TaskService, ScheduleService, alarms and task lifecycle; P4 guide limits job state to existing P3 consumers | State/progress/error/cancellation contract only; no generic job engine | BaRe has UI boundary but no verified task/job state repository | TaskActivity / schedule surfaces | **P4 / CONTRACT ONLY** | Define minimum state contract consumed by P3 | Scheduler execution, foreground service, alarms and feature jobs remain downstream | Static consumer inventory |
+| P4-C12 | TaskActivity task list/status/error UI | Reference TaskActivity consumes task manager/service state and exposes loading/done/error/warning, task rows, SLog, cancel/force-stop boundaries | Stable task state/progress/error contract required by the existing P3 TaskActivity surface | BaRe now has TaskState/TaskResult/TaskErrorSummary/TaskSnapshot plus TaskStateRepository/Registry/Service; TaskActivity consumes the canonical boundary | TaskActivity + task-state layer | **CLOSED / P4.2** | Observe state and expose lifecycle intent without execution | Actual TaskService/job/backup/restore execution remains P5+ | Static TaskActivity/TaskManager reconciliation |
+| P4-C13 | Job/task scheduling only where P3 exposes state | Reference has TaskService, ScheduleService, alarms and task lifecycle; P4 guide limits job state to existing P3 consumers | State/progress/error/cancellation contract only; no generic job engine | BaRe now has TaskJobRunMode/TaskJobIntent/TaskJobLifecycle and evidence-backed AlarmReceiver intent keys; no scheduler execution was added | TaskActivity / schedule surfaces | **CLOSED / P4.2** | Observe state and express run/cancel/force-stop intent without execution | Scheduler execution, foreground service, alarms and feature jobs remain downstream | Static consumer inventory |
 | P4-C14 | Cloud/session boundary behind Home/Account/Cloud UI | Reference cloud identity/tag/userInfo/session metadata is evidenced; backend paths already audited | Provider-neutral cloud/session metadata contract distinct from provider execution | BaRe has backend path constants/repositories and UserInfo contract, but no unified session/cloud state contract | Account/cloud repositories | **PARTIAL / P4** | Separate local session metadata from provider execution and identify frozen-P3 consumers | Actual auth/token/provider/cloud transfer/backend mutation | Static repository/consumer reconciliation |
 | P4-C15 | Provider/backend execution | Reference contains Firebase/cloud/provider implementation | Provider/backend execution contract is downstream of P4 | BaRe deliberately avoids provider execution | Provider/backend layer | **DOWNSTREAM / P5+** | Preserve boundary only | Firebase/Supabase auth, backend mutation, provider token exchange/upload/download | No P4 verification claim |
 | P4-C16 | Backup/restore engine | `reference/reference.md` A18 sections + `reference/reference_apps_audit.md` task/restore evidence | Execution pipeline exists conceptually but is not a P4 core contract | BaRe does not claim engine execution | Backup/restore engine | **DOWNSTREAM / P5** | Preserve state/result boundary only | Filesystem/archive/compression/encryption/backup/restore execution | No P4 verification claim |
@@ -759,3 +759,42 @@ The coordinator does not read/write cloud data itself. Firebase is Reference evi
 **WP-E / C10 decision: CLOSED (static contract acceptance).**
 
 **Next active package:** WP-F / C12-C13.
+
+
+### P4.2 WP-F / C12-C13 implementation + decompile-fidelity audit — 2026-10-01
+
+Primary evidence was re-read directly from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP:
+
+- `defpackage/gz7.java` — exact task lifecycle: WAITING, RUNNING, COMPLETE, CANCELLED, CANCEL_COMPLETE.
+- `defpackage/jc2.java` — exact terminal outcomes: COMPLETED, CANCELLED, ERROR, TIMEOUT, START_BLOCKED_QUOTA, PROCESS_RESTARTED, HANDED_OFF.
+- `defpackage/pw6.java` — task status/progress/total/progress-message/error channels and task provider boundary.
+- `org/swiftapps/swiftbackup/tasks/ui/TaskActivity.java` — status observation, task rows, completion/error/warning presentation, cancel/cancelling/done state, force-stop surface, and SLog visibility.
+- `org/swiftapps/swiftbackup/tasks/TaskService.java` — service state, cancellation/timeout outcomes, and task-result publication boundary.
+- `org/swiftapps/swiftbackup/home/schedule/ScheduleService.java` — `is_forced_run`, `schedule_run_mode`, and exact Schedules/SingleSchedule/MultipleSchedules modes.
+- `org/swiftapps/swiftbackup/jobs/AlarmReceiver.java` — alarm-to-schedule-service handoff boundary.
+- `ScheduleItem#getItemId()` — schedule-item identity boundary.
+
+BaRe implementation is contract-only:
+- canonical `TaskState`, `TaskResult`, `TaskErrorSummary`, `TaskSnapshot`;
+- canonical `TaskStateRepository` / `TaskStateRegistry` / `TaskStateService`;
+- TaskActivity state consumer;
+- canonical C13 `TaskJobRunMode` / `TaskJobIntent` / `TaskJobLifecycle`;
+- execution-free TaskService/AlarmReceiver boundaries.
+
+A static correction removed an unsupported AlarmReceiver attempt to decode the Reference Parcelable run mode into the BaRe enum. The final AlarmReceiver retains only the exact evidence-backed intent keys and does not fabricate runtime mapping.
+
+### WP-F / C12-C13 final static acceptance — 2026-10-01
+
+**Decision: WP-F / C12-C13 — 🟢 CLOSED (static contract acceptance).**
+
+Acceptance basis:
+1. Direct ZIP evidence covers the task lifecycle, terminal result, progress/error, TaskActivity observation, TaskService lifecycle, and scheduler/alarm boundary.
+2. TaskActivity consumes canonical task state through TaskStateService rather than manufacturing task status.
+3. Cancellation and force-stop are lifecycle intents only; real execution remains downstream.
+4. C13 retains Reference run-mode names and forced-run intent keys without unsupported runtime decoding.
+5. Current source tree contains one active BaRe TaskState/TaskResult/TaskErrorSummary/TaskSnapshot contract family.
+6. No unrelated green P3 Activity was modified.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next boundary: P4.3 static regression re-audit.**
