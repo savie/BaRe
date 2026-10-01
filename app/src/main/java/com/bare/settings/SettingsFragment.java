@@ -55,15 +55,17 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        Preference sounds = findPreference("play_notification_sounds");
+        Preference sounds = findPreference(LocalState.KEY_PLAY_NOTIFICATION_SOUNDS);
         if (sounds != null) {
             LocalState localState = new LocalState(requireContext());
             if (sounds instanceof MSwitchPreference) {
                 ((MSwitchPreference) sounds).setChecked(
-                        localState.getBoolean("play_notification_sounds", true));
+                        localState.getBoolean(LocalState.KEY_PLAY_NOTIFICATION_SOUNDS, true));
             }
             sounds.setOnPreferenceChangeListener((p, value) -> {
-                localState.putBoolean("play_notification_sounds", (Boolean) value);
+                localState.putBoolean(
+                        LocalState.KEY_PLAY_NOTIFICATION_SOUNDS,
+                        (Boolean) value);
                 return true;
             });
         }
