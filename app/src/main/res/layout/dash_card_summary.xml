@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content"
+<com.bare.views.BaReSegmentedCardGroup android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <org.swiftapps.swiftbackup.views.SwiftSegmentLinearLayout android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal">
+    <com.bare.views.BaReSegmentLinearLayout android:orientation="vertical" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal">
         <include android:id="@id/storage_view" android:layout_width="match_parent" android:layout_height="wrap_content" layout="@layout/dash_storage_view" />
         <View style="@style/DividerThinNoMargins" />
         <androidx.constraintlayout.widget.ConstraintLayout android:id="@id/root_status_container" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingVertical="@dimen/spacing_normal">
@@ -12,8 +12,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
         <View style="@style/DividerThinNoMargins" />
         <LinearLayout android:orientation="vertical" android:id="@id/summary_shortcuts_segment" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="-8.0dp" android:paddingVertical="@dimen/spacing_medium_more">
-            <org.swiftapps.swiftbackup.views.QuickRecyclerView android:layout_gravity="center" android:orientation="horizontal" android:id="@id/rvDashShortcutsDefault" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:columnWidth="@dimen/dash_shortcut_item_width" android:overScrollMode="never" />
+            <com.bare.views.QuickRecyclerView android:layout_gravity="center" android:orientation="horizontal" android:id="@id/rvDashShortcutsDefault" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:columnWidth="@dimen/dash_shortcut_item_width" android:overScrollMode="never" />
             <androidx.recyclerview.widget.RecyclerView android:layout_gravity="center" android:id="@id/rvDashShortcutsCompact" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:overScrollMode="never" />
         </LinearLayout>
-    </org.swiftapps.swiftbackup.views.SwiftSegmentLinearLayout>
-</org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup>
+    </com.bare.views.BaReSegmentLinearLayout>
+</com.bare.views.BaReSegmentedCardGroup>
