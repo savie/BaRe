@@ -21,6 +21,8 @@ import androidx.core.content.ContextCompat;
 import com.bare.R;
 import com.bare.home.HomeActivity;
 import com.bare.core.state.LocalState;
+import com.bare.account.repository.AccountMigrationRepository;
+import com.bare.account.repository.LocalAccountMigrationRepository;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -42,6 +44,7 @@ public final class IntroActivity extends Activity {
 
     private SharedPreferences prefs;
     private LocalState localState;
+    private AccountMigrationRepository accountMigrationRepository;
 
     private View signInContainer;
     private View permissionsContainer;
@@ -64,6 +67,7 @@ public final class IntroActivity extends Activity {
 
 
         localState = new LocalState(this);
+        accountMigrationRepository = new LocalAccountMigrationRepository(localState);
         prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
         if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
             openHome();
@@ -103,6 +107,7 @@ public final class IntroActivity extends Activity {
         });
         anonymousButton.setOnClickListener(v -> beginP3SignIn(true));
 
+        resumeGoogleMigrationIfNeeded();
         refreshState();
     }
 
@@ -111,6 +116,14 @@ public final class IntroActivity extends Activity {
         super.onResume();
         if (prefs == null || localState == null || !localState.getBoolean(LocalState.KEY_FIRST_START, true)) return;
         if (storageCard != null) refreshState();
+    }
+
+    private void resumeGoogleMigrationIfNeeded() {
+        if (!accountMigrationRepository.isMigratingToGoogleSignIn()) return;
+
+        // Reference IntroActivity clears the guard, then re-enters its sign-in action.
+        accountMigrationRepository.setMigratingToGoogleSignIn(false);
+        continueButton.callOnClick();
     }
 
     private void beginP3SignIn(boolean anonymous) {
