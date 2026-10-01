@@ -1096,3 +1096,26 @@ Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED
 - **Static re-audit:** PASS; Reference untouched.
 - **Exclusions:** no dependent-style changes, no build/install/runtime/visual verification.
 - **Implementation checkpoint:** `215d7803d631f36edf5ee8c6a335a956a82e47c6`.
+
+
+## Step 8 Implementation Checkpoint — EU-03 / N-05 Manifest — IntroActivity resizeableActivity Batch 03
+
+**Status: COMPLETE — STATIC CONTRACT PASS**
+
+**EU:** EU-03 — N-05 Manifest  
+**Batch:** IntroActivity `resizeableActivity`  
+**Reference contract:** Reference `org.swiftapps.swiftbackup.intro.IntroActivity` declares `android:resizeableActivity="true"`.  
+**BaRe before mutation:** `.intro.IntroActivity` did not declare the attribute.  
+**Implementation:** added `android:resizeableActivity="true"` to `app/src/main/AndroidManifest.xml`.
+
+**Scope:** one manifest attribute on one existing app-owned Activity.
+
+**Excluded:** application identity/theme deviations, `IntroTheme`, permissions, intent filters, providers, backend/engine behavior, and runtime verification. No Reference artifact was modified.
+
+**Static re-audit:** implementation commit changes exactly one file and adds one manifest attribute. Target manifest was re-read and `.intro.IntroActivity` now contains `android:resizeableActivity="true"`. Reference remains read-only.
+
+**Implementation commit:** `3e23f527b1f2b26738adf3758e2e0ea8ab05c193`
+
+**Verification:** static only. Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED.
+
+**EU-03 bounded contract:** 🟢 PASS. **N-05 overall:** 🟡 OPEN.
