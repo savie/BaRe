@@ -1439,3 +1439,33 @@ N-12 total re-audit confirms the target implementation remains Java-only at the 
 Outcome: **N-12 🟢 CLOSED / PASS**.
 
 This checkpoint does not change N-01 status. N-01 remains **🟡 OPEN** pending complete resource closure.
+
+
+## 41. Execution checkpoint — N01-R4
+
+Following the N-01 implementation contract, bounded batch **N01-R4 — Animation surface** was executed.
+
+### Scope
+- Reference application-facing animation contracts identified by the N-01 audit.
+- Restored:
+  - `anim/wall_apply_activity_enter_anim.xml`
+  - `anim/wall_apply_activity_exit_anim.xml`
+  - `animator/avd_schedule_fab_menu_close_to_plus.xml`
+  - `animator/avd_schedule_fab_menu_plus_to_close.xml`
+  - `animator/button_state_list_animator_m3.xml`
+- Reference source remained read-only.
+
+### Re-audit
+- All 5 target files were re-read from branch `rewrite` after implementation.
+- Content matches the corresponding canonical Reference resource XML inspected from the supplied local decompile archive.
+- No build/install/runtime verification was performed.
+
+### Closure state
+- **N01-R4: CLOSED / STATIC PASS for the executed five-resource application-facing animation batch.**
+- N-01 overall remains **🟡 AUDITED / PARTIAL IMPLEMENTATION**.
+
+Remaining N-01 work packages:
+- N01-R1 Layout / UI resource surface
+- N01-R2 Drawable / icon / image surface
+- N01-R5 Font / raw / XML / mipmap surface
+- N01-R6 Cross-domain resource closure
