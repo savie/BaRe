@@ -19,12 +19,7 @@ public final class NoGmsSignInActivity extends AppCompatActivity {
    .setTitle("Google Drive (browser)")
    .setMessage(R.string.p3_cloud_auth_boundary)
    .setNegativeButton(R.string.close, null)
-   .setPositiveButton(android.R.string.ok, (d, w) -> finishWithResult(Activity.RESULT_OK))
    .show();
- }
- private void finishWithResult(int result){
-  setResult(result);
-  finish();
  }
  @Override public void onBackPressed(){
   setResult(Activity.RESULT_CANCELED);
