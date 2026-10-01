@@ -1069,3 +1069,12 @@ Reference application metadata `android.max_aspect=2.1` is now present in the Ba
 Implementation commit: `b8b78c94b48b76bf8003539e2534125edc24cc48`.
 
 Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED. N-05 remains OPEN.
+
+
+### N-08 Batch 05 — FoldersDashActivity KEY_SECTION
+- **Scope:** `app/src/main/java/com/bare/folders/ui/FoldersDashActivity.java` only.
+- **Reference evidence:** `KEY_SECTION` is consumed as Serializable `to3`; default is `LOCAL`; `to3` is exactly `LOCAL/CLOUD`.
+- **Implementation:** app-owned `FolderSection { LOCAL, CLOUD }`; Serializable ingress; LOCAL default; CLOUD maps to tab index 1.
+- **Exclusions:** no caller mutation, no Reference mutation, no runtime/build/install/visual verification, no provider/backend/engine changes.
+- **Static re-audit:** target source re-read PASS; Reference remains untouched.
+- **Checkpoint:** `062afb201a69ad400bf9ded5acfedfb9f7cd98ab` (status doc checkpoint); implementation lineage `2c28f00c2688aaa8dde403a77e78dbc1e0dcd053e` → `7b33859b05dedf82507e28845b77e117216b5b97` → `07cdf2af1ea3df26b90e7e4366935ae64cb067b6`.
