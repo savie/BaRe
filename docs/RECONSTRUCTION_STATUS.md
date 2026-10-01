@@ -1159,3 +1159,22 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - P4.3 regression audit and P4.4 remaining-gap classification are complete.
 - No build/install/runtime/provider/backend/engine verification was performed.
 - **Next lifecycle boundary: Phase 5 — feature execution reconstruction.**
+
+
+## Post-P4 identity normalization correction — 2026-10-02
+
+Before entering P5, the target identity contract was reconciled with the implementation. The older P3 wording that treated non-visible Swift identifiers as automatically acceptable was removed from the current authority wording.
+
+### Static closure
+
+- `app/` contains **0 `Swift/swift` matches**;
+- `app/` contains **0 `Firebase/firebase` matches**;
+- no `Swift/swift` or `Firebase/firebase` target file paths remain;
+- known Swift-derived identity sweep: **0**;
+- `bareapps.org` target residue: **0**.
+
+The remaining Reference Firebase/Swift occurrences are evidence-only under the read-only Reference surface and are not target-app defects.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next lifecycle boundary remains P5 — Feature Execution Reconstruction.**
