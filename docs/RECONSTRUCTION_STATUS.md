@@ -1013,3 +1013,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - Reset now clears both first-start and first-run restore-completion local keys.
 - This removes a fabricated C10 terminal state from WP-A while preserving the Reference-backed local key boundary.
 - WP-A remains IN PROGRESS; no build/install/runtime/provider/backend/engine verification was performed.
+
+### WP-A C07/C11 inventory pass — 2026-10-01
+
+- Persisted-key inventory is now explicitly reconciled: ordinary local lifecycle/preference keys stay in `LocalState`; sensitive password keys remain behind the secure `V.getZ()` boundary and are owned by C09/WP-D.
+- `saved_storage_info_local` is confirmed as Reference storage-cache persistence, while its serialization/runtime persistence remains outside this WP-A execution scope.
+- Static consumer search found no remaining generic storage DTO/Object surface in the active Dashboard path and no duplicate BaRe TaskState/ErrorSummary shape.
+- No further WP-A mutation is justified without crossing into C09/C10/C12/C13 or runtime secure-storage/filesystem execution.
+- WP-A remains **IN PROGRESS** pending package-level acceptance/static regression; no build/install/runtime/provider/backend/engine verification was performed.
