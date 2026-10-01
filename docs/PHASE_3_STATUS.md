@@ -878,3 +878,19 @@ N-11 was processed using the N-Level Full Closure / Audit-to-Green pattern: comp
 All statically resolvable N-11 branding/identity contracts are PASS. The prior launcher implementation is retained and re-audited. Internal resource identifiers containing `swift` are intentionally preserved because their visible values are already BΛR☰ and the project rule does not authorize renaming internal identifiers merely for branding. Provider/deep-link URI identity is explicitly N-06-owned and is not duplicated or changed under N-11.
 
 Runtime/visual verification remains separately gated and was not performed. `reference/` remains read-only.
+
+
+## N-11 — REVISED ZERO-SWIFT-IDENTITY CLOSURE
+
+The earlier N-11 closure that preserved Swift-named internal identifiers is superseded by the current project decision.
+
+N-11 now uses the following static exit criterion: **no Swift product identity remains in `app/`**. This includes app-owned internal Swift-named identifiers and Swift-namespaced external callback identity. `reference/` remains read-only.
+
+Implementation completed on `rewrite`:
+- Swift-named app-owned identifiers/resources were renamed to BaRe-owned names.
+- The Box callback URI was moved from `org.swiftapps.swiftbackup.box://oauth` to `com.bare.box://oauth`.
+- User-visible values remain BΛR☰/BaRe; the cleanup does not assert that Box OAuth or other provider functionality is operational.
+- Static re-audit of the N-11 implementation files found zero `Swift/swift` identity residuals.
+
+**N-11: 🟢 CLOSED / PASS (STATIC — ZERO SWIFT IDENTITY IN APP).**
+Runtime/visual/provider verification remains gated and deferred.
