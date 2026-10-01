@@ -110,7 +110,7 @@ public final class PremiumActivity extends AppCompatActivity {
     private void openAlreadyPaid() {
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://swiftapps.org/issues#nopremium")));
+                    Uri.parse("https://bareapps.org/issues#nopremium")));
         } catch (Exception e) {
             showBoundary(getString(R.string.premium_already_paid_unavailable), false);
         }
