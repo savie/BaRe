@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.preference.PreferenceCategory android:title="@string/general" app:layout="@layout/preference_category">
-        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_settings_applications_filled" android:title="@string/show_system_apps" android:key="show_system_apps" />
+        <com.bare.settings.MSwitchPreference android:icon="@drawable/ic_settings_settings_applications_filled" android:title="@string/show_system_apps" android:key="show_system_apps" />
         <androidx.preference.Preference android:icon="@drawable/ic_launch" android:title="@string/swipe_actions" android:key="swipe_actions" />
         <androidx.preference.Preference android:icon="@drawable/ic_label_filled" android:title="@string/manage_app_labels" android:key="manage_labels" android:summary="@string/app_labels_description" />
         <androidx.preference.Preference android:icon="@drawable/ic_configs_filled" android:title="@string/custom_configurations" android:key="configs" android:summary="@string/custom_configurations_description" />
@@ -18,9 +18,9 @@
     <androidx.preference.PreferenceCategory android:title="@string/app_data" app:layout="@layout/preference_category">
         <androidx.preference.Preference android:icon="@drawable/ic_settings_security_filled" android:title="@string/restore_runtime_permissions" android:key="restore_runtime_permissions" />
         <androidx.preference.Preference android:icon="@drawable/ic_settings_admin_panel_settings_filled" android:title="@string/restore_special_data_title" android:key="restore_special_permissions" />
-        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_smartphone_filled" android:title="@string/restore_app_ssaids" android:key="restore_ssaids" android:summary="@string/restore_app_ssaids_summary" />
+        <com.bare.settings.MSwitchPreference android:icon="@drawable/ic_settings_smartphone_filled" android:title="@string/restore_app_ssaids" android:key="restore_ssaids" android:summary="@string/restore_app_ssaids_summary" />
         <androidx.preference.Preference android:icon="@drawable/ic_settings_sd_card_alert_filled" android:title="@string/app_backup_limits_title" android:key="app_backup_limits" />
-        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_folder_snippet_filled" android:title="@string/backup_cache" android:key="backup_app_cache" android:summary="@string/backup_cache_summary" />
-        <org.swiftapps.swiftbackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_install_mobile_filled" android:title="@string/in_place_apk_downgrades" android:key="in_place_apk_downgrades" android:summary="@string/in_place_apk_downgrades_summary" android:defaultValue="false" />
+        <com.bare.settings.MSwitchPreference android:icon="@drawable/ic_settings_folder_snippet_filled" android:title="@string/backup_cache" android:key="backup_app_cache" android:summary="@string/backup_cache_summary" />
+        <com.bare.settings.MSwitchPreference android:icon="@drawable/ic_settings_install_mobile_filled" android:title="@string/in_place_apk_downgrades" android:key="in_place_apk_downgrades" android:summary="@string/in_place_apk_downgrades_summary" android:defaultValue="false" />
     </androidx.preference.PreferenceCategory>
 </androidx.preference.PreferenceScreen>
