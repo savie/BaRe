@@ -155,3 +155,14 @@ C01/C05 are green at the P4 contract boundary. The provider-neutral lifecycle/ac
 Concrete Supabase auth/backend/session composition, database mutation, cloud execution, build/install/runtime verification, and engine execution remain outside this gate. The lack of a concrete provider implementation in P4.2 is therefore not a C01/C05 contract blocker.
 
 **Next active P4.2 package:** WP-C / C03-C04.
+
+
+### P4.2 WP-C final static acceptance — 2026-10-01
+
+**WP-C / C03-C04: 🟢 CLOSED — static contract acceptance.**
+
+The supplied Swift Backup 5.1.0 / 620 decompile ZIP was the primary evidence for dz5/intro.d permission semantics and yn7/zn7/StorageSwitchActivity storage semantics. BaRe now has explicit permission/access state ownership and a canonical storage inventory/selection/persistence boundary. The old P3 permission-ready booleans are not used as canonical readiness state.
+
+Root/Shizuku grant execution, OEM installed-app visibility engine, privileged storage behavior, backup/restore/filesystem execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next active P4.2 package: WP-D / C08-C09.**
