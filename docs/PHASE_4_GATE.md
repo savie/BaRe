@@ -107,3 +107,7 @@ P4.2 remains active for contracts outside WP-A ownership; this closure does not 
 ### P4.2 WP-B implementation checkpoint — 2026-10-01
 
 WP-B is now the active implementation package for **C01 / C05 / C06 / C14**. Reference lifecycle (`d45`), user-info (`ah8`), migration (`rc1`), and cloud/session (`re3`) evidence has been reconciled into provider-neutral BaRe contracts. The package remains **IN PROGRESS** until account-surface consumer wiring and static regression/acceptance are complete. No provider/backend/runtime execution is implied.
+
+### P4.2 WP-B decompile fidelity re-audit — 2026-10-01
+
+WP-B implementation was rechecked directly against the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP. Unsupported invented contracts were removed: C06 now models the observed migration boolean only, and C14 no longer exposes a generic initialization method absent from the audited Reference evidence. C01/C05/C14 remain provider-neutral and execution-deferred.
