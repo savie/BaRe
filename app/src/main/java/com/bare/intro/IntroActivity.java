@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class IntroActivity extends Activity {
+    private boolean restoreFlow;
+
     private static final String PREFS = "com.bare_preferences";
     private static final String KEY_FIRST_START = "KEY_FIRST_START";
     private static final String KEY_SIGNED_IN = "P3_SIGNED_IN";
@@ -56,6 +58,10 @@ public final class IntroActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
+        if (getIntent() != null) {
+            restoreFlow = getIntent().getBooleanExtra("extra_is_restoring", false);
+        }
+
 
         prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
         if (!prefs.getBoolean(KEY_FIRST_START, true)) {
