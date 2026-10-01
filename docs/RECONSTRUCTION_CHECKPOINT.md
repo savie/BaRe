@@ -198,3 +198,10 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-15 Static Hygiene: 🟢
 - **N-01 Resource: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remain open**
 - P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+
+
+## Latest N-domain closure checkpoint — N-01-R5
+
+- N-01 Resource: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remain open
+- N-02 through N-15: 🟢 at current P3 boundary
+- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
