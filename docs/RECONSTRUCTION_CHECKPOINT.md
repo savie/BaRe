@@ -205,3 +205,14 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-01 Resource: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remain open
 - N-02 through N-15: 🟢 at current P3 boundary
 - P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+
+
+## Post-checkpoint sweep — N-11 branding identity
+
+At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was completed for residual `Swift` / `Firebase` identity in the target surface.
+
+- No new app-owned visible Swift product branding was found.
+- Four `com.bare.views.*` classes retain Reference-derived `Swift...` internal identifiers; N-11 explicitly accepts these as non-visible internal identifiers.
+- Firebase target residue remains closed per `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md`; Firebase occurrences in `reference/` remain immutable source evidence.
+- **N-11 remains 🟢 CLOSED / STATIC PASS.**
+- No source mutation was required by this sweep.
