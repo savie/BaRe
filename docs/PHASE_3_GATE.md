@@ -158,8 +158,16 @@ A domain becomes 🟢 only after its current evidence-backed exit criterion is s
 - **N-11 = 🟢 CLOSED / STATIC PASS — TOTAL RE-AUDIT.**
 
 ### N-12 — Java-only
-- BaRe application source remains Java-only.
-- Static PASS.
+- Total audit: `docs/audits/N12_JAVA_ONLY_TOTAL_AUDIT.md`
+- Target `.kt` source search: **no result**.
+- `src/main/kotlin` / `src/test/kotlin`: **no result**.
+- Inspected target Gradle plugins: Android application only; no Kotlin Gradle plugin.
+- App compile options: Java 17.
+- No explicit Kotlin implementation dependency in inspected app dependencies.
+- Reference Kotlin metadata remains Reference/dependency-owned and is excluded from target-source defect classification.
+- No app source mutation required.
+- Reference remains read-only; build/install/runtime not performed.
+- **N-12 = 🟢 CLOSED / PASS — TOTAL STATIC RE-AUDIT.**
 
 ## Follow-up execution rule
 
