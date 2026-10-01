@@ -337,3 +337,32 @@ P4.1 is not closed merely because the 16 rows have a classification. It becomes 
 - the register, Phase 4 gate, checkpoint, and status ledger agree on the same current phase.
 
 No build/install/runtime/provider/backend/engine execution is part of this gate.
+
+
+### P4.1 owner reconciliation checkpoint — 2026-10-01
+
+The contract owners were reconciled against the current BaRe source and the Reference decompile evidence. The goal is to prevent duplicate canonical state stores when P4.2 begins.
+
+| Package | Canonical owner at P4 boundary | Existing BaRe pieces to reuse | Ownership collision / action |
+|---|---|---|---|
+| WP-A / C07 | LocalState / preference boundary | Existing Intro/account/settings preference access | P3 flags currently live in UI code; they are transitional consumers, not a second canonical domain owner. P4.2 must centralize persisted-key ownership. |
+| WP-A / C11 | Domain data contracts + repositories/services | `UserInfo`, `StorageInfoService`, existing task/diagnostic boundary models | Do not create feature-local DTOs when an existing Reference-shaped model is the contract. SLog/diagnostic state stays bounded to exposed P3 consumers. |
+| WP-B / C01 | Lifecycle owner / AccountService boundary | `AccountLifecyclePolicy`, `UserInfoRepository`, Intro first-start flags | IntroActivity must consume lifecycle state; it must not become the long-term lifecycle owner. |
+| WP-B / C05 | Account/session owner | `UserInfoRepository`, `UserInfo`, backend contract | Keep identity/session state provider-neutral. Provider SDK state is an adapter/downstream concern. |
+| WP-B / C06 | Migration policy/repository | `AccountMigrationRepository`, `AccountLifecyclePolicy` | Migration outcome/state must flow through the canonical session/lifecycle boundary; do not duplicate migration flags in UI. |
+| WP-B / C14 | Cloud/session metadata owner | `BaReBackendRepository`, `ReferenceBackendContract`, `UserInfoRepository` | Separate local session metadata from provider mutation. No second cloud-directory/session store. |
+| WP-C / C04 | Storage coordinator/service | `StorageInfoService`, `StorageSwitchActivity` | Activity remains UI consumer; selected/preferred storage state belongs to storage boundary. `StorageInfoService.read() == null` remains a gap until a real contract owner exists. |
+| WP-C / C03 | Permission/access state boundary | Existing N-07 permission checks + Intro consumers | Permission readiness must not be persisted as manual success flags. UI flags are transitional only. |
+| WP-D / C08 | Settings repository/model | Existing `SettingsFragment` and local settings access | `AppSettings` is the Reference model boundary; UI-local `settings` storage must not become a competing canonical store. |
+| WP-D / C09 | Settings/password-strategy state owner | C08 settings boundary + Intro consumer | `saved_password_mode` maps through the settings/state owner; `P3_PASSWORD_MODE` is transitional reconciliation state. |
+| WP-E / C10 | First-run restore state owner | Lifecycle + cloud/session boundaries | Restore completion is lifecycle state, but restore execution/result comes from a dedicated boundary; do not let IntroActivity synthesize success. |
+| WP-F / C12 | Task state repository/service boundary | `TaskActivity` UI + Reference task-state contract | Activity observes task state; it does not manufacture task status. |
+| WP-F / C13 | Task/job lifecycle boundary | Task state contract + future scheduler adapter | P4 exposes only observation/intent; scheduler execution remains downstream. |
+| C02 | `HomeActivity` recreation state | Existing `saved_fragment` | Keep local because Reference consumer is Activity recreation state; no new global owner needed. |
+| C15/C16 | Provider/engine adapters | Existing interface/boundary contracts | No P4 owner implementation; downstream execution only. |
+
+### Ownership decision
+
+There is **no unresolved canonical-owner collision** across C01–C16 at the P4 contract level after this reconciliation. The main migration rule for P4.2 is: **UI classes may consume transitional state, but they must not become new canonical owners of domain state.**
+
+The dependency order remains WP-A → WP-B → WP-C → WP-D → WP-E → WP-F, with C02 protected and C15/C16 downstream. This is an implementation map, not implementation authorization.
