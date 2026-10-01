@@ -296,3 +296,22 @@ Acceptance:
 7. No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next boundary: P4.3 static regression re-audit.**
+
+
+### P4.3 P3 static regression re-audit — 2026-10-02
+
+**Decision: P4.3 — CLOSED (static regression acceptance).**
+
+Scope was limited to the frozen P3 surfaces affected by WP-F/C12-C13: TaskActivity, TaskService, AlarmReceiver, and their task resource/manifest boundary.
+
+Findings:
+- TaskActivity remains wired to the canonical TaskStateService → TaskStateRegistry observation boundary.
+- TaskService remains the manifest-registered service boundary and does not introduce execution claims.
+- AlarmReceiver retains only evidence-backed is_forced_run / schedule_run_mode intent keys; scheduler execution remains downstream.
+- task_activity.xml, task_card.xml, menu_task_activity.xml, and the manifest task service/receiver declarations remain present.
+- A static menu-ID mismatch was found and corrected: R.id.action_barelogger → R.id.action_swiftlogger, matching both the BaRe resource and the Reference TaskActivity.
+- No additional P3 regression was identified in the affected surface.
+
+No build/install/runtime/device/provider/backend/engine execution was performed.
+
+**Next active package: P4.4 — remaining-gap classification.**
