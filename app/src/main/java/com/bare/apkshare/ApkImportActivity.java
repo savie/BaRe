@@ -50,7 +50,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.ivMenu).setOnClickListener(v -> showMenu());
         findViewById(R.id.btnClose).setOnClickListener(v -> finish());
         findViewById(R.id.btnInstall).setOnClickListener(v -> installSingleApk());
-        findViewById(R.id.btnOpenInSwiftBackup).setOnClickListener(v -> showBackupBoundary());
+        findViewById(R.id.btnOpenInBaRe).setOnClickListener(v -> showBackupBoundary());
         findViewById(R.id.btnLaunch).setOnClickListener(v -> launchImportedApp());
 
         if (state == null) {
@@ -240,7 +240,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.ivStatus).setVisibility(View.VISIBLE);
         findViewById(R.id.importBottomActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnInstall).setVisibility(View.VISIBLE);
-        findViewById(R.id.btnOpenInSwiftBackup).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnOpenInBaRe).setVisibility(View.VISIBLE);
         findViewById(R.id.importSuccessSecondaryActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnLaunch).setVisibility(
                 getPackageManager().getLaunchIntentForPackage(info.packageName) == null
@@ -258,7 +258,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.progressIndicator).setVisibility(View.GONE);
         findViewById(R.id.importBottomActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnInstall).setVisibility(View.VISIBLE);
-        findViewById(R.id.btnOpenInSwiftBackup).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnOpenInBaRe).setVisibility(View.VISIBLE);
         findViewById(R.id.importSuccessSecondaryActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnClose).setVisibility(View.VISIBLE);
     }
@@ -268,7 +268,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.ivStatus).setVisibility(View.VISIBLE);
         findViewById(R.id.importBottomActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnInstall).setVisibility(View.GONE);
-        findViewById(R.id.btnOpenInSwiftBackup).setVisibility(View.VISIBLE);
+        findViewById(R.id.btnOpenInBaRe).setVisibility(View.VISIBLE);
         findViewById(R.id.importSuccessSecondaryActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnLaunch).setVisibility(View.GONE);
         findViewById(R.id.btnClose).setVisibility(View.VISIBLE);
@@ -301,7 +301,7 @@ public final class ApkImportActivity extends AppCompatActivity {
 
     private void showBackupBoundary() {
         new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.open_in_swift_backup)
+                .setTitle(R.string.open_in_bare)
                 .setMessage(R.string.p3_apk_import_boundary)
                 .setNegativeButton(R.string.close, null)
                 .setPositiveButton(android.R.string.ok, null)
@@ -315,7 +315,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.ivStatus).setVisibility(View.GONE);
         findViewById(R.id.ivError).setVisibility(View.VISIBLE);
         findViewById(R.id.btnInstall).setVisibility(View.GONE);
-        findViewById(R.id.btnOpenInSwiftBackup).setVisibility(View.GONE);
+        findViewById(R.id.btnOpenInBaRe).setVisibility(View.GONE);
         findViewById(R.id.importSuccessSecondaryActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnLaunch).setVisibility(View.GONE);
         findViewById(R.id.btnClose).setVisibility(View.VISIBLE);
@@ -335,7 +335,7 @@ public final class ApkImportActivity extends AppCompatActivity {
         findViewById(R.id.ivStatus).setVisibility(View.GONE);
         findViewById(R.id.ivError).setVisibility(View.VISIBLE);
         findViewById(R.id.btnInstall).setVisibility(View.GONE);
-        findViewById(R.id.btnOpenInSwiftBackup).setVisibility(View.GONE);
+        findViewById(R.id.btnOpenInBaRe).setVisibility(View.GONE);
         findViewById(R.id.importSuccessSecondaryActions).setVisibility(View.VISIBLE);
         findViewById(R.id.btnLaunch).setVisibility(View.GONE);
         findViewById(R.id.btnClose).setVisibility(View.VISIBLE);
@@ -352,7 +352,7 @@ public final class ApkImportActivity extends AppCompatActivity {
     }
 
     private boolean onMenuItemClick(MenuItem item) {
-        if (item.getItemId() == R.id.action_swiftlogger) {
+        if (item.getItemId() == R.id.action_barelogger) {
             startActivity(new Intent(this, com.bare.slog.SLogActivity.class));
             return true;
         }
