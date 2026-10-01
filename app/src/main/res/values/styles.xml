@@ -85,8 +85,10 @@
         <item name="iconTint">@android:color/white</item>
     </style>
     <style name="M3ButtonFilled.Large" parent="@style/M3ButtonFilled">
-        <item name="android:minHeight">56dp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="fontFamily">@font/main_medium</item>
     </style>
     <style name="M3ButtonOutlined" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:textSize">@dimen/subtitle_large</item>
