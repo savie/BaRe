@@ -798,3 +798,16 @@ Acceptance basis:
 No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next boundary: P4.3 static regression re-audit.**
+
+
+### P4.3 static regression re-audit — 2026-10-02
+
+**P4.3 / WP-F affected P3 surface: CLOSED — static regression acceptance.**
+
+Static re-audit covered TaskActivity, TaskService, AlarmReceiver, task_activity.xml, task_card.xml, menu_task_activity.xml, and the manifest task service/receiver registration. The canonical C12 observation boundary remains intact and no duplicate task-state owner was introduced.
+
+A pre-existing menu-ID mismatch was found in TaskActivity: it referenced R.id.action_barelogger, while the resource and Reference use R.id.action_swiftlogger. The implementation was corrected to R.id.action_swiftlogger. This is a controlled static P3 correction backed directly by the Reference resource and Reference TaskActivity source.
+
+No additional P3 regression was found. No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next package: P4.4 — remaining-gap classification.**
