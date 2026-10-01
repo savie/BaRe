@@ -1,0 +1,7 @@
+<resources>
+    <style name="IntroTheme" parent="@style/IntroTheme.Base"/>
+    <style name="IntroTheme.Base" parent="@style/BaReThemeDark">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowAnimationStyle">@style/FadeActivityAnimations</item>
+    </style>
+</resources>
