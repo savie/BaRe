@@ -746,3 +746,13 @@ Reference `CardStyleNormal` explicitly defines layout width/height, `android:out
 Static re-audit: all Reference-defined items are now present in the target style. Scope was one style in `app/src/main/res/values/styles.xml`; `reference/` untouched. No broad theme/style copy, no build/install/runtime/visual verification.
 
 N-04 remains 🔴/open overall; this batch closes only this bounded style contract.
+
+## N-04 Theme/Style/Color — M3ButtonFilled Batch 02
+
+**Status: 🟢 CLOSED / PASS (bounded static contract)**
+
+Reference `M3ButtonFilled` explicitly defines `android:textSize=@dimen/subtitle_large`, `android:stateListAnimator=@animator/button_state_list_animator_m3`, `fontFamily=@font/main_medium`, and `iconGravity=textStart`. BaRe already had the same style name/parent and text size, but used a generic font and lacked the animator/icon-gravity contract. Batch implementation commit: `cd5e8eac94310134e79c59058e6daec6cd42a90f`.
+
+Static re-audit: all four Reference-defined items are present in the target style. `reference/` untouched. No broad theme copy, no build/install/runtime/visual verification.
+
+N-04 remains open overall; this closes only this bounded style contract.
