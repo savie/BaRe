@@ -2,7 +2,7 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 CLOSED / P4.4 ACTIVE**
+**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 ACTIVE**
 
 Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
 
@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.4 — Remaining-Gap Classification — ACTIVE**
+**P4.5 — Verified Checkpoint / Package Closure — ACTIVE**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
@@ -216,3 +216,14 @@ One pre-existing P3 menu-ID mismatch was detected during the re-audit: TaskActiv
 No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next package: P4.4 — remaining-gap classification.**
+
+
+### P4.4 remaining-gap classification — 2026-10-02
+
+**P4.4: CLOSED — current remaining dependencies classified.**
+
+C01-C14 are closed at the current P4 static contract boundary; C02 remains PASS; C15/C16 are explicitly DOWNSTREAM/P5+. No remaining P4 blocker was identified. Deferred provider/Supabase execution, secure-storage runtime implementation where required, filesystem/privileged execution, scheduler/foreground execution, backup/restore engine, cloud transfer, and runtime/device verification remain outside this gate.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next package: P4.5 — verified checkpoint / package closure.**
