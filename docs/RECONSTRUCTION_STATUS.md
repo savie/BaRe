@@ -1086,3 +1086,15 @@ C01/C05 are green because their canonical lifecycle/account/session contracts, o
 The concrete Supabase auth/backend/session implementation, composition root, network/database mutation, and cloud execution remain downstream work. No fake Firebase implementation was introduced.
 
 No build, install, runtime, provider, backend, or engine verification was performed.
+
+### P4.2 WP-C final static acceptance — 2026-10-01
+
+- **WP-C / C03-C04: 🟢 CLOSED — static contract acceptance.**
+- Primary evidence was the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP: dz5, intro.d, yn7, zn7, and StorageSwitchActivity.
+- C03 now has an explicit permission/access state model and Intro consumes it instead of persisted P3_*_READY booleans.
+- Root/Shizuku remains a separate coordinator/downstream execution boundary, matching the Reference state-machine split.
+- C04 now has a canonical storage inventory/selection owner, exact preferred_storage_dir persistence, and deterministic saved-volume fallback.
+- StorageSwitchActivity is a consumer of the storage boundary, not its owner.
+- Static regression found no new contract-level UNKNOWN.
+- No build, install, runtime, device, filesystem, privileged, provider, backend, or engine verification was performed.
+- **Next active package: WP-D / C08-C09.**
