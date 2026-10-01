@@ -9,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.bare.R;
 import com.bare.core.state.LocalState;
+import com.bare.settings.model.AppSettings;
 import com.bare.slog.SLogActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -16,9 +17,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
  * P3 reconstruction of the Reference root Settings surface.
  */
 public final class SettingsFragment extends PreferenceFragmentCompat {
+    private SettingsRepository settingsRepository;
+
     @Override
     public void onCreatePreferences(@Nullable android.os.Bundle state, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
+        settingsRepository = new SettingsRepository(new LocalState(requireContext()));
         wire();
     }
 
@@ -56,15 +60,13 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
         Preference sounds = findPreference(LocalState.KEY_PLAY_NOTIFICATION_SOUNDS);
         if (sounds != null) {
-            LocalState localState = new LocalState(requireContext());
+            AppSettings settings = settingsRepository.read();
             if (sounds instanceof MSwitchPreference) {
-                ((MSwitchPreference) sounds).setChecked(
-                        localState.getBoolean(LocalState.KEY_PLAY_NOTIFICATION_SOUNDS, true));
+                Boolean enabled = settings.isPlayNotificationSounds();
+                ((MSwitchPreference) sounds).setChecked(enabled != null && enabled);
             }
             sounds.setOnPreferenceChangeListener((p, value) -> {
-                localState.putBoolean(
-                        LocalState.KEY_PLAY_NOTIFICATION_SOUNDS,
-                        (Boolean) value);
+                settingsRepository.setPlayNotificationSounds((Boolean) value);
                 return true;
             });
         }
