@@ -14,6 +14,7 @@ public final class LocalState {
     public static final String KEY_FIRST_START = "KEY_FIRST_START";
     public static final String KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED =
             "KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED";
+    public static final String KEY_PLAY_NOTIFICATION_SOUNDS = "play_notification_sounds";
 
     private final SharedPreferences prefs;
 
