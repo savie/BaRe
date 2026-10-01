@@ -21,7 +21,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior / contracts | **ACTIVE — P4.0 RE-AUDIT / INVENTORY** |
+| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 READY** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
@@ -38,7 +38,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 
 ## Current P4 position
 
-**P4 remains active at P4.0.**
+**P4.0 is closed; P4.1 is the next active package.**
 
 A targeted Reference re-audit was performed using:
 - `v1.0/rebaseline/reference/*`;
@@ -47,6 +47,15 @@ A targeted Reference re-audit was performed using:
 - existing N-07/N-08/N-09 audits.
 
 The P4 register was expanded from coarse domain rows into explicit P3-trigger/contract/consumer/verification rows.
+
+## P4.0 closure
+
+P4.0 contract inventory is **COMPLETE / ACCEPTED**.
+
+- 16/16 targeted contract rows reconciled.
+- Every row has Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification method, and P3 regression surface.
+- Remaining GAP / PARTIAL classifications are implementation inputs for P4.1; they are not P4.0 blockers anymore.
+- Provider/backend, backup/restore execution, privileged engines, and runtime/device verification remain explicitly downstream.
 
 ## Confirmed P4.0 gaps
 
@@ -91,4 +100,4 @@ These remain outside P4 implementation:
 
 > **P1 frozen → P2 frozen → P3 frozen → 71/71 Activities covered → 15 P3 domains closed → P4 active → P4.0 re-audit/inventory confirms concrete P4 gaps.**
 
-Next package remains **P4.1 — BaRe Gap / Blocker Analysis**, after the remaining P4.0 inventory acceptance pass.
+Next package: **P4.1 — BaRe Gap / Blocker Analysis**.
