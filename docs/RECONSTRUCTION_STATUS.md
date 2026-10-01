@@ -1057,3 +1057,12 @@ This is static contract-analysis closure only. No implementation, build, install
 - BaRe IntroActivity now consumes the migration guard through that repository and re-enters its existing sign-in action when the guard is present.
 - No provider SDK, token exchange, backend mutation, or actual Google migration execution was added.
 - WP-B remains **IN PROGRESS** pending final C01/C05/C14 consumer/owner regression and static acceptance.
+
+
+### WP-B C01/C05/C14 owner regression — 2026-10-01
+
+Static regression found an unnecessary duplicate lifecycle boundary: `IdentityService` + `IdentityRepository` exposed `initialize()` / `hasIdentity()` separately from the canonical C01 `AccountLifecyclePolicy` / `AccountService` boundary, and neither had active consumers. These duplicate files were removed to preserve the owner rule: UI/domain consumers use the canonical lifecycle/account boundaries; no second identity lifecycle owner is introduced.
+
+C05/C14 remain provider-neutral interfaces (`UserInfoRepository`, `BaReBackendRepository`, `ReferenceBackendContract`). No concrete provider implementation or backend execution was added. Account UI consumer wiring remains a later static step because the current BaRe repository interfaces have no provider implementation to safely instantiate without inventing runtime behavior.
+
+**WP-B remains IN PROGRESS.** No build/install/runtime/provider/backend/engine execution was performed.
