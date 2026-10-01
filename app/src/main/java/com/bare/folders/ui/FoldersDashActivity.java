@@ -15,7 +15,7 @@ import com.bare.R;
 import com.google.android.material.tabs.TabLayout;
 
 public final class FoldersDashActivity extends AppCompatActivity {
-    private enum FolderSection { LOCAL, CLOUD }
+    public enum FolderSection { LOCAL, CLOUD }
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
