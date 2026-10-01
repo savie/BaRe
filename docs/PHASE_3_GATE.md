@@ -113,7 +113,7 @@ The original 15-domain audit is historical evidence. The table below is the curr
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟢 CLOSED / STATIC PASS |
 | 14 | Boundary | 🟢 CLOSED / STATIC PASS |
-| 15 | Static Hygiene | 🟡 OPEN |
+| 15 | Static Hygiene | 🟢 CLOSED / STATIC PASS |
 
 ### Important status rule
 
