@@ -49,6 +49,25 @@ A future `docs/PHASE_5_GATE.md` is the decision surface for P5 status. It must b
 
 ## P5 workflow
 
+P5 is a **vertical feature reconstruction phase**. It consumes frozen evidence and contracts from the earlier phases where the feature actually depends on them; it is not merely a continuation of P4.
+
+Applicable dependency chain:
+
+`P1 inventory → P2 structure → P3 surface/navigation → P4 contract → P5 feature execution`
+
+The full chain is **not mandatory for every feature**. Trace only the phases that are evidenced as dependencies of that feature.
+
+### Cross-phase dependency and overlap
+
+| Phase | P5 may consume | Rule |
+|---|---|---|
+| **P1 — Foundation / Reference Inventory** | Reference identity, source/resource inventory, manifest baseline, dependency inventory, feature/package map, authorized deviations | Use as the frozen evidence baseline. Do not reopen P1 merely because a P5 feature consumes a listed artifact. |
+| **P2 — Reference Skeleton** | Activities, Services, Receivers, Provider boundary, manifest registrations, Java component identity | Reuse established structural ownership. Do not recreate skeleton components as a side effect of feature work. |
+| **P3 — UI + Navigation** | Layouts, menus, themes, navigation, intents, lifecycle/UI state, dialogs/errors/loading, permission/navigation boundaries | P5 may deepen a frozen P3 surface into feature behavior. Preserve the existing P3 contract and re-audit affected consumers. |
+| **P4 — Core Behavior / Contract** | Account/lifecycle, permission/storage, settings/password, restore-state, task/job lifecycle, and deferred execution boundaries | Consume these contracts for downstream feature execution. Do not silently mutate the frozen P4 boundary. |
+
+Consuming an earlier phase does not reopen that phase. If P5 discovers a genuine defect in a frozen P1, P2, P3, or P4 authority, record the evidence and route a controlled re-audit of that phase before changing its frozen authority.
+
 The project-wide lifecycle remains:
 
 `AUDIT → CATAT → CEK → IMPLEMENTASI → RE-AUDIT → CLOSURE`
@@ -139,6 +158,20 @@ Known implementation gaps may remain GAP/PARTIAL only when their required behavi
 
 **Exit:** implementation scope is explicit and evidence-backed.
 
+### Frozen-phase protection
+
+P1, P2, P3, and P4 are frozen dependency baselines for P5.
+
+A P5 feature may consume their evidence, structures, UI/navigation surfaces, contracts, and boundaries without reopening the earlier phase. If a feature audit exposes a real defect in a frozen authority:
+
+1. record the finding and supporting Reference evidence;
+2. stop the affected mutation at evidence/classification;
+3. identify the owning frozen phase;
+4. perform a controlled re-audit of that phase;
+5. only then change the frozen authority if the re-audit confirms the defect.
+
+Do not silently patch a frozen predecessor as part of ordinary P5 implementation.
+
 ### P5.4 — Implementation readiness checkpoint
 
 Before changing `app/`:
@@ -205,7 +238,36 @@ Closure records:
 
 Static closure does not claim runtime/device/provider/backend parity unless those were actually executed and verified under an explicit authorization.
 
-## Backup / Restore boundary
+## Branding and backend target boundary
+
+P5 must treat the already-authorized target identity and backend policy as project constraints, not as unresolved Reference conflicts.
+
+### Branding
+
+**BΛR☰ / BaRe branding is an authorized target identity and is already statically closed.** Reference Swift Backup branding remains Reference evidence; it is not a defect in the Reference and does not require P5 to preserve Swift branding in the target app.
+
+P5 feature work must therefore:
+- preserve the established BΛR☰ / BaRe target identity;
+- not reintroduce Swift Backup branding into target-owned feature surfaces;
+- treat existing static branding closure as a frozen baseline unless new evidence identifies a genuine regression.
+
+### Backend
+
+**Supabase is the authorized BaRe target backend policy. Firebase is Reference evidence only.** This is an intentional project-level target difference, not an unresolved parity defect.
+
+P5 may define feature contracts that eventually require backend execution, but:
+- do not treat Firebase as a target implementation;
+- do not invent Supabase schema, authentication, storage, RLS, keys, functions, or runtime behavior without evidence;
+- distinguish the already-closed Firebase-free/static target boundary from downstream Supabase execution;
+- backend execution remains deferred/permission-gated where the current lifecycle boundary does not authorize it.
+
+The distinction is:
+
+`Target policy: BΛR☰ + Supabase → already authorized/static boundary`
+
+`Execution/integration: Supabase runtime/backend implementation → downstream when explicitly authorized`
+
+### Backup / Restore boundary
 
 Backup and Restore are explicit P5 scope in the canonical roadmap.
 
