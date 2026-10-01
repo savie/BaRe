@@ -53,7 +53,7 @@
     <dimen name="subtitle_small">13.0sp</dimen>
     <dimen name="subtitle_smaller">12.0sp</dimen>
     <dimen name="subtitle_smallest">11.0sp</dimen>
-    <dimen name="swiftbackup_expressive_switch_min_width">48.0dp</dimen>
+    <dimen name="barebackup_expressive_switch_min_width">48.0dp</dimen>
     <dimen name="swipe_preview_action_width">64.0dp</dimen>
     <dimen name="task_activity_animation_size">96.0dp</dimen>
     <dimen name="title">16.0sp</dimen>
