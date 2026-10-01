@@ -2,9 +2,9 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED → P4.2 READY**
+**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 ACTIVE**
 
-Explicit start authorization was given for the Phase 4 workflow. P4.0 contract inventory is complete and accepted. The next active package is P4.1 Gap / Blocker Analysis.
+Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
 
 ## Frozen prerequisite
 
@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.1 — BaRe Gap / Blocker Analysis — IN PROGRESS**
+**P4.2 — Minimum Contract Implementation — ACTIVE**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
@@ -145,3 +145,13 @@ The account/lifecycle contracts are now considered green at the P4 boundary. Fir
 The absence of a concrete AccountRepository/UserInfoRepository provider implementation in the current phase is intentional and is not a P4 contract defect. Supabase composition, auth, database mutation, cloud/session execution, and runtime verification remain downstream.
 
 P4 guard remains unchanged: no build/install/runtime/provider/backend/engine execution is authorized by this closure.
+
+### Current P4.2 package state — 2026-10-01
+
+**WP-B / C01-C05-C06-C14: 🟢 CLOSED — static contract acceptance.**
+
+C01/C05 are green at the P4 contract boundary. The provider-neutral lifecycle/account/session ownership is explicit and reconciled to the Reference. Firebase is Reference evidence only; BΛR☰ target backend execution is Supabase and is intentionally downstream.
+
+Concrete Supabase auth/backend/session composition, database mutation, cloud execution, build/install/runtime verification, and engine execution remain outside this gate. The lack of a concrete provider implementation in P4.2 is therefore not a C01/C05 contract blocker.
+
+**Next active P4.2 package:** WP-C / C03-C04.
