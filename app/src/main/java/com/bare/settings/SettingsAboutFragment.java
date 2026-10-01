@@ -31,12 +31,12 @@ public final class SettingsAboutFragment extends SettingsDetailBaseFragment {
 
         Preference privacy = s.findPreference("privacy_policy");
         if (privacy != null) {
-            privacy.setOnPreferenceClickListener(p -> openUrl("https://www.bareapps.org/privacy-policy"));
+            privacy.setOnPreferenceClickListener(p -> openUrl("https://github.com/savie/BaRe"));
         }
 
         Preference tos = s.findPreference("tos");
         if (tos != null) {
-            tos.setOnPreferenceClickListener(p -> openUrl("https://www.bareapps.org/tos"));
+            tos.setOnPreferenceClickListener(p -> openUrl("https://github.com/savie/BaRe"));
         }
 
         Preference notices = s.findPreference("notices");
