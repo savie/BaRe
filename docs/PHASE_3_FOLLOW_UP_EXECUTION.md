@@ -1047,3 +1047,14 @@ Implementation commit: `5ceedad7f6db89c6bca7cace915a18936a9ef77f`.
 Static re-audit passed. Scope was one style in one app resource file; `reference/` remained read-only. No build/install/runtime/visual verification was performed.
 
 `CardStyleStroked` remains deferred because its Reference `cardStrokeColor` dependency requires the broader custom attr/theme contract; no speculative partial mutation was made. N-04 remains OPEN.
+
+
+## Step 8 Checkpoint — N-04 Typography/Dialog Styles Batch 04
+
+**Status: COMPLETE — STATIC CONTRACT PASS**
+
+Reference typography/dialog contracts for `M3DialogBody`, `M3DialogButtonStyle`, and `M3TextInputEditTextPassword` are now represented in the BaRe app style file. Static re-audit passed with no Reference mutation and no runtime/build/install/visual verification.
+
+Implementation commit: `49670782f9784efece05a7c1c483266728ad49d1`.
+
+This batch does not close N-04; custom theme/attr/color surfaces and remaining style contracts stay open.
