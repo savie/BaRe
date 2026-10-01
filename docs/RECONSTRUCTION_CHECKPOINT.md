@@ -128,3 +128,12 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-14 Boundary: 🟢 CLOSED / STATIC PASS
 - N-15 Static Hygiene: next domain
 - P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+
+
+## Latest N-domain closure checkpoint — N-15
+
+- N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
+- N-14 Boundary: 🟢 CLOSED / STATIC PASS
+- N-15 Static Hygiene: 🟢 CLOSED / STATIC PASS
+- N-01 Resource: 🟡 master / cross-domain closure still open
+- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
