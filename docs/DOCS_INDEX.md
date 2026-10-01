@@ -27,6 +27,15 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Reading order
 
+### Daily work
+
+1. `docs/RECONSTRUCTION_CHECKPOINT.md` — current project position
+2. `docs/PHASE_4_GATE.md` — frozen P4 boundary and closure
+3. `docs/audits/P4_CONTRACT_REGISTER.md` — P4 contract evidence
+4. `docs/RECONSTRUCTION_STATUS.md` — detailed evidence/history
+5. `docs/bare.md` — roadmap/handoff/target definition
+6. Relevant `REFERENCE_*.md` — Reference evidence when needed
+
 ### Daily P3 work
 
 1. `docs/RECONSTRUCTION_CHECKPOINT.md` — where the project is
