@@ -26,8 +26,8 @@ public final class SLogActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.swiftlogger);
-            getSupportActionBar().setSubtitle(R.string.swiftlogger_info);
+            getSupportActionBar().setTitle(R.string.barelogger);
+            getSupportActionBar().setSubtitle(R.string.barelogger_info);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
