@@ -341,3 +341,12 @@ Classification for this specific attribute: **MATCH (static)**. The overall Navi
 AppListActivity now matches the Reference manifest contracts for parentActivityName=.home.HomeActivity and windowSoftInputMode=stateAlwaysHidden in static evidence.
 
 Classification for this targeted contract set: **MATCH (static)**. Overall Navigation remains **OPEN / NEEDS FOLLOW-UP**.
+
+
+## N-11 POLICY REVISION — ZERO SWIFT IDENTITY IN APP
+
+The earlier note that internal Swift-named identifiers were not independently classified as defects is superseded for the current P3 execution decision. The active N-11 exit criterion is now **zero Swift product identity in `app/`**.
+
+This is an app-only implementation rule: `reference/` remains read-only. Internal app-owned identifiers are renamed when statically reconciled; Swift-namespaced external callback identity is replaced with the BaRe-owned callback identity as part of identity cleanup. Provider/runtime functionality is verified separately later.
+
+Current static result: **N-11 🟢 PASS — zero Swift identity found in the audited implementation surface.**
