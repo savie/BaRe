@@ -17,9 +17,9 @@ public final class YandexSignInActivity extends AppCompatActivity {
     private static final String AUTHORIZE_URL =
             "https://oauth.yandex.com/authorize?response_type=code"
                     + "&client_id=ec2ee695f64042bfa6285a6999ef11bf"
-                    + "&redirect_uri=org.swiftapps.swiftbackup.yandex://oauth"
+                    + "&redirect_uri=com.bare.yandex://oauth"
                     + "&force_confirm=yes";
-    private static final String REDIRECT_URI = "org.swiftapps.swiftbackup.yandex://oauth";
+    private static final String REDIRECT_URI = "com.bare.yandex://oauth";
     private static final int REQUEST_CODE = 5012;
 
     private boolean authorizationStarted;
@@ -41,25 +41,20 @@ public final class YandexSignInActivity extends AppCompatActivity {
 
     private void beginAuthorization() {
         Intent browserProbe = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-        List<ResolveInfo> browsers =
-                getPackageManager().queryIntentActivities(browserProbe, 0);
+        List<ResolveInfo> browsers = getPackageManager().queryIntentActivities(browserProbe, 0);
         if (browsers == null || browsers.isEmpty()) {
             fail(getString(R.string.no_browser_found_error));
             return;
         }
 
         Intent redirectProbe = new Intent(Intent.ACTION_VIEW, Uri.parse(REDIRECT_URI));
-        List<ResolveInfo> handlers =
-                getPackageManager().queryIntentActivities(redirectProbe, 0);
+        List<ResolveInfo> handlers = getPackageManager().queryIntentActivities(redirectProbe, 0);
         if (handlers == null || handlers.isEmpty()) {
             fail("No handler activity found for " + REDIRECT_URI);
             return;
         }
 
         try {
-            // Reference fq5 launches an AppAuth authorization intent generated from
-            // the Yandex provider contract. This is the P3 external-auth boundary;
-            // token exchange and provider persistence stay downstream.
             Intent authorization = new Intent(Intent.ACTION_VIEW, Uri.parse(AUTHORIZE_URL));
             startActivityForResult(authorization, REQUEST_CODE);
             authorizationStarted = true;
@@ -74,12 +69,8 @@ public final class YandexSignInActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
-        if (data == null) {
-            fail("Sign in result intent is null");
-            return;
-        }
-        if (data.getData() == null) {
-            fail("Authorization failed");
+        if (data == null || data.getData() == null) {
+            fail(data == null ? "Sign in result intent is null" : "Authorization failed");
             return;
         }
         handleRedirect(data);
@@ -112,10 +103,6 @@ public final class YandexSignInActivity extends AppCompatActivity {
 
         handledResult = true;
         authorizationStarted = false;
-
-        // Reference fq5 forwards the authorization result into hq5, which then
-        // exchanges the code and persists provider state. Do not fabricate that
-        // provider operation in P3.
         Toast.makeText(this, R.string.p3_yandex_provider_boundary, Toast.LENGTH_LONG).show();
         setResult(RESULT_CANCELED);
         finish();
