@@ -1229,3 +1229,38 @@ The implementation phase can therefore proceed from this document as the N-01 au
 `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
 
 **Current N-01 state: 🟡 AUDITED / IMPLEMENTATION PENDING**
+
+
+## 28. Execution checkpoint — N01-R3
+
+Following the total-audit contract, bounded batch **N01-R3 — Menu surface** was executed.
+
+### Scope
+- All 44 Reference logical menu resources.
+- Target path: `app/src/main/res/menu/`
+- Reference source: `reference/apktool/res/menu/`
+- Reference remained read-only.
+
+### Result
+- 44/44 menu contracts audited against the Reference mirror.
+- Existing target menu mismatches were corrected to Reference content.
+- Missing target menu resources were reconstructed from Reference.
+- No navigation semantics were implemented under N-01; those remain N-08 ownership.
+- N-02 string values were not mutated under this batch.
+- Build/install/runtime: **NOT PERFORMED**.
+
+### Closure state
+N01-R3 is **CLOSED / STATIC PASS** as a bounded work package.
+
+N-01 overall remains:
+
+**🟡 AUDITED / PARTIAL IMPLEMENTATION**
+
+Remaining N-01 work packages:
+- N01-R1 Layout / UI resource surface
+- N01-R2 Drawable / icon / image surface
+- N01-R4 Animation surface
+- N01-R5 Font / raw / XML / mipmap surface
+- N01-R6 Cross-domain resource closure
+
+N-01 must not become 🟢 until the complete N-01 exit criterion is re-audited.
