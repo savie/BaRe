@@ -397,3 +397,37 @@ All sixteen C01–C16 rows now have named Reference evidence, canonical owner, e
 
 This is a static contract-analysis closure only. It does not claim implementation, build, install, runtime, provider/backend success, or backup/restore execution.
 
+
+
+## P4.2 — WP-A implementation progress — 2026-10-01
+
+### Reference-parity reconciliation
+
+WP-A implementation is being executed under the **Reference Parity Default / Reconstruction Fidelity** rule in `docs/PHASE_4_GUIDE.md`:
+
+- Reference-established shape/semantics are the default target;
+- conceptual equivalence is not accepted as Reference equivalence when observable contract shape differs;
+- scaffolds are provisional until reconciled against the actual decompile/reference;
+- existing consumers are wired only after reconciliation;
+- differences require either an explicit `AUTHORIZED DEVIATION` or an intentional downstream/environmental boundary;
+- missing evidence remains `UNKNOWN` rather than being approximated.
+
+### Reconciled WP-A artifacts
+
+| Artifact | Reference evidence | Current result |
+|---|---|---|
+| `ErrorSummary` | `TaskManager$ErrorSummary`: `msg`, `isOnlySafeErrors`, `getMsg()`, `hasErrors()`, `isOnlySafeErrors()` | **RECONCILED** to Reference field/accessor semantics |
+| `TaskState` | `defpackage/gz7.java`: `WAITING`, `RUNNING`, `COMPLETE`, `CANCELLED`, `CANCEL_COMPLETE` and helper semantics | **RECONCILED** |
+| `StorageInfoLocal` | `org/swiftapps/swiftbackup/model/StorageInfoLocal.java`: Loading/Error/Success state model, five Success fields, Parcelable contract, `saved_storage_info_local` persistence key | **RECONCILED** at model/state shape; persistence serialization remains separate contract work |
+| `LocalState` | `SwiftApp` initializes `<package>_preferences`; `d45` uses `KEY_FIRST_START` and `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` | **RECONCILED** for identified local keys; P3-only flags are not promoted to canonical state |
+| `SecureLocalState` | `common.V`: encrypted/secure SharedPreferences boundary with secure fallback; `saved_password_mode` and `saved_user_password` consumed through `V.getZ()` | **BOUNDARY RECONCILED**; concrete secure adapter remains unimplemented/deferred |
+
+### Wiring performed
+
+`IntroActivity` now consumes `LocalState` for the Reference-established `KEY_FIRST_START` and `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` lifecycle keys. The Activity still contains transitional P3 permission/sign-in/password flags; these were deliberately **not** promoted into canonical state during this package because their Reference-equivalent owners are separate P4 contracts (C03/C05/C09).
+
+No provider, backend, password crypto, permission engine, storage engine, task execution, build, install, or runtime verification was performed.
+
+### WP-A static result
+
+**WP-A is not yet package-closed.** Remaining WP-A work is limited to completing the C07/C11 consumer/ownership reconciliation that is supported by Reference evidence, then performing the static regression pass. No speculative wiring will be added where the Reference contract is not yet established.
