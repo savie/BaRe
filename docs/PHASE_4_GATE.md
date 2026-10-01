@@ -57,7 +57,7 @@ No further P4 implementation is open. Any future change affecting the P4 boundar
 
 ## Historical P4.1 analysis checkpoint
 
-P4.1 is now active and has a Reference-backed blocker/dependency analysis in `docs/audits/P4_CONTRACT_REGISTER.md`.
+At that historical checkpoint, P4.1 was active and had a Reference-backed blocker/dependency analysis in `docs/audits/P4_CONTRACT_REGISTER.md`.
 
 - Scope remains **C01–C16**; no C17+ contract was introduced.
 - Evidence basis: supplied Swift Backup 5.1.0 (620) decompile ZIP + `v1.0/rebaseline/reference/*` + current `rewrite` source + N-07/N-08/N-09.
@@ -82,7 +82,7 @@ A targeted re-audit was performed directly against the supplied Swift Backup 5.1
 
 UNKNOWN is now reserved for a genuinely unresolved evidence boundary after targeted static audit; it is not a synonym for “not implemented”, “not searched”, or “deferred to a later phase”.
 
-No implementation, build, install, runtime, provider, backend, or engine execution was performed. P4.1 remains IN PROGRESS until the remaining contract-owner/dependency acceptance conditions are closed.
+No implementation, build, install, runtime, provider, backend, or engine execution was performed. P4.1 remained IN PROGRESS at that historical checkpoint until the remaining contract-owner/dependency acceptance conditions are closed.
 
 
 ### Historical P4.1 owner reconciliation checkpoint — 2026-10-01
@@ -103,7 +103,7 @@ This is static contract-analysis closure only. No implementation, build, install
 
 The final acceptance pass found no remaining WP-A-owned duplicate state/model surface and no static contradiction in the reconciled P3 consumers. `LocalState`, `SecureLocalState` boundary, `StorageInfoLocal`, `TaskState`, and `ErrorSummary` remain bounded to their Reference-supported responsibilities. No runtime or provider/backend execution is claimed.
 
-P4.2 remains active for contracts outside WP-A ownership; this closure does not close P4.2 as a whole.
+P4.2 remained active at that historical checkpoint for contracts outside WP-A ownership; this closure does not close P4.2 as a whole.
 ### Historical P4.2 WP-B implementation checkpoint — 2026-10-01
 
 WP-B is now the active implementation package for **C01 / C05 / C06 / C14**. Reference lifecycle (`d45`), user-info (`ah8`), migration (`rc1`), and cloud/session (`re3`) evidence has been reconciled into provider-neutral BaRe contracts. The package remains **IN PROGRESS** until account-surface consumer wiring and static regression/acceptance are complete. No provider/backend/runtime execution is implied.
