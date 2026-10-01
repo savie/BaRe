@@ -241,8 +241,8 @@ No build/install/runtime/provider/backend/engine execution was performed.
 
 - Primary evidence: supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP (`AppSettings`, `ha7`, `IntroActivity`, `ux5`).
 - C08: `AppSettings` + `SettingsRepository` now own the smallest Reference-shaped settings contract required by frozen P3 consumers; `play_notification_sounds` remains one canonical local persistence key with Reference default `true`.
-- C09: `saved_password_mode` is now the canonical local key, stored as the Reference password-strategy enum ordinal; default is `STANDARD_PASSWORD.ordinal()`.
-- The old `P3_PASSWORD_MODE` is no longer used by IntroActivity as product state.
+- C09: `saved_password_mode` is now modeled at the secure-state contract boundary via `PasswordStrategyRepository`; default is `STANDARD_PASSWORD.ordinal()`. Intro's `P3_PASSWORD_MODE` remains transitional only.
+- `P3_PASSWORD_MODE` remains only as transitional Intro UI state; it is not the C09 canonical contract.
 - No unsupported Reference settings fields were promoted into the P4 contract.
 - Password generation/encryption/secure restore and cloud settings sync/backend mutation remain downstream.
 - Static regression found no duplicate Settings store or stale Intro password-state call-site in the affected source.
