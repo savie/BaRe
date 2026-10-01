@@ -43,7 +43,7 @@ import java.util.List;
  * semantics and persistence remain deferred to their owning contracts.
  */
 public final class AppListActivity extends AppCompatActivity {
-    private enum AppSection { LOCAL, CLOUD }
+    public enum AppSection { LOCAL, CLOUD }
 
     private AppSection section = AppSection.LOCAL;
     private SearchView searchView;
@@ -60,12 +60,6 @@ public final class AppListActivity extends AppCompatActivity {
             Object rawSection = incoming.getSerializableExtra("KEY_SECTION");
             if (rawSection instanceof AppSection) {
                 section = (AppSection) rawSection;
-            } else if (rawSection != null) {
-                try {
-                    section = AppSection.valueOf(rawSection.toString());
-                } catch (IllegalArgumentException ignored) {
-                    section = AppSection.LOCAL;
-                }
             }
         }
 
