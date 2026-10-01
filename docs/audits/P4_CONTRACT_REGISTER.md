@@ -476,3 +476,12 @@ Targeted re-check was performed against the supplied Swift Backup 5.1.0 / versio
 - No new static contradiction was found in the affected WP-A surfaces.
 - C07/C11 remain **in progress**, not package-closed: C03/C05/C08/C09/C10/C12/C13/C14 still own their respective state contracts, and WP-A must not absorb those boundaries.
 - No build/install/runtime/device/provider/backend/engine verification was performed.
+
+
+### WP-A C07/C11 correction — first-run restore completion ownership — 2026-10-01
+
+Static review identified one over-wiring in `IntroActivity`: `completeIntro()` was setting `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=true` merely because the Intro UI transitioned to Home. Reference evidence shows this key represents actual first-run cloud-settings restore completion, so UI completion is not sufficient evidence for the value.
+
+The correction removes that write. `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` remains a Reference-backed `LocalState` key, but its terminal `true` transition is reserved for the C10 restore owner. The reset path now also clears the key, matching the established reset boundary without fabricating restore success.
+
+**Result:** WP-A local-state ownership is cleaner and no longer asserts a C10 terminal state from P3 UI flow. No build/install/runtime/provider/backend/engine verification was performed.
