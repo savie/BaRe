@@ -1058,3 +1058,14 @@ Reference typography/dialog contracts for `M3DialogBody`, `M3DialogButtonStyle`,
 Implementation commit: `49670782f9784efece05a7c1c483266728ad49d1`.
 
 This batch does not close N-04; custom theme/attr/color surfaces and remaining style contracts stay open.
+
+
+## Step 8 Checkpoint — N-05 Application Metadata Batch 02
+
+**Status: COMPLETE — STATIC CONTRACT PASS**
+
+Reference application metadata `android.max_aspect=2.1` is now present in the BaRe application manifest. Static re-audit passed; scope was one manifest metadata record and `reference/` was not modified.
+
+Implementation commit: `b8b78c94b48b76bf8003539e2534125edc24cc48`.
+
+Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED. N-05 remains OPEN.
