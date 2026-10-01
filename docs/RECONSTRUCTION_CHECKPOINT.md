@@ -21,7 +21,7 @@ It does not duplicate the P3 domain register, Activity depth audit, or detailed 
 |---|---|---|
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
-| 3 | UI + Navigation + P3 follow-up closure | **ACTIVE** |
+| 3 | UI + Navigation + P3 follow-up closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior | **GATED / NOT STARTED** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
@@ -42,7 +42,7 @@ The canonical component inventory remains only in `docs/PHASE_2_SKELETON.md`.
 
 ## Current P3 position
 
-P3 is active.
+P3 is frozen at the documented static boundary.
 
 The latest complete Activity depth audit records:
 
@@ -65,7 +65,7 @@ The current normalized 15-domain closure register, N-level closure rule, exit ga
 
 ## Current project position
 
-> **P1 frozen → P2 frozen → P3 active → Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 → 15-domain follow-up closure active → P4 gated.**
+> **P1 frozen → P2 frozen → P3 frozen → Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 → 15-domain closure complete → P4 gated.**
 
 For the exact current P3 decision, read `docs/PHASE_3_GATE.md`.
 
@@ -80,7 +80,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-08 Navigation: 🟢 CLOSED / STATIC PASS
 - N-09 Lifecycle / State: next domain
 - N-10 Dialog / Error / Loading: pending
-- P3 remains ACTIVE and is not frozen.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-09
@@ -92,7 +92,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-08 Search P3 UI: 🟢
 - N-09 Lifecycle / State: 🟢 CLOSED / STATIC PASS
 - N-10 Dialog / Error / Loading: next domain
-- P3 remains ACTIVE and is not frozen.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-10
@@ -106,7 +106,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-10 Dialog / Error / Loading: 🟢 CLOSED / STATIC PASS
 - N-11 Branding / Identity: 🟢
 - N-12 Java-only: 🟢
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-13
@@ -116,7 +116,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-12 Java-only: 🟢
 - N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
 - N-14 Boundary: next domain
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-14
@@ -127,7 +127,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
 - N-14 Boundary: 🟢 CLOSED / STATIC PASS
 - N-15 Static Hygiene: next domain
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-15
@@ -135,8 +135,8 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
 - N-14 Boundary: 🟢 CLOSED / STATIC PASS
 - N-15 Static Hygiene: 🟢 CLOSED / STATIC PASS
-- N-01 Resource: 🟡 master / cross-domain closure still open
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+- N-01 Resource: 🟡 master / cross-domain closure still open (historical checkpoint)
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## N-03 total re-audit checkpoint — Dimensions
@@ -197,14 +197,14 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-14 Boundary: 🟢
 - N-15 Static Hygiene: 🟢
 - **N-01 Resource: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remain open**
-- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-01-R5
 
 - N-01 Resource: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remain open
 - N-02 through N-15: 🟢 at current P3 boundary
-- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Post-checkpoint sweep — N-11 branding identity
@@ -226,7 +226,7 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Wide-screen Home variant: **layout-w600dp/home_activity.xml restored**
 - Target layout surface contains **0 Swift/swift and 0 Firebase/firebase text matches**
 - N-02 through N-15: 🟢 at current P3 boundary
-- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-01-R2
@@ -241,8 +241,8 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Target drawable surface contains **0 Swift/swift** and **0 Firebase/firebase** text matches.
 - No existing target drawable resource was overwritten in R2; additions only.
 - Build/install/runtime: **NOT PERFORMED**.
-- N-01-R6 Cross-domain resource closure remains the only open N-01 work package.
-- P3 remains **ACTIVE / FOLLOW-UP CLOSURE; no freeze**.
+- N-01-R6 was the only open N-01 work package at this historical checkpoint.
+- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint..
 
 
 ## N-01-R2 branch integrity repair
@@ -252,7 +252,7 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Applied implementation delta: **218 added app resource files**; no existing target resource overwritten by this repair.
 - Static branch re-audit: implementation commit is now reachable from the active branch.
 - Build/install/runtime: **NOT PERFORMED**.
-- N-01-R2 remains **🟢 CLOSED / STATIC PASS**; N-01-R6 remains the only open N-01 work package.
+- N-01-R2 remains **🟢 CLOSED / STATIC PASS**; N-01-R6 was the only open N-01 work package at this historical checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-01-R6
