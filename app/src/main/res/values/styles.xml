@@ -24,7 +24,7 @@
     <style name="Title" parent="">
         <item name="android:textSize">@dimen/title</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/main_medium</item>
     </style>
     <style name="Title.Large" parent="@style/Title">
         <item name="android:textSize">@dimen/title_large</item>
