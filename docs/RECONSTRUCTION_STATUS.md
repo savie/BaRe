@@ -24,9 +24,9 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 3 — UI + NAVIGATION / FLOW**
+**PHASE 3 — UI + NAVIGATION / FLOW — FROZEN**
 
-P3 is the active implementation phase. P4 engine work is intentionally deferred; P3 may consume verified P4 contracts but does not implement their side effects.
+P3 is frozen at the documented static boundary. P4 engine work remains gated and is not started by this freeze. No runtime/provider/engine/backend success is inferred.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
@@ -244,31 +244,31 @@ Do not restart Phase 1 inventory. Do not reopen the Phase 2 structural skeleton 
 ## Roadmap alignment
 - PHASE 1 — Foundation: Android/Gradle/Java/resources/manifest baseline exists; runtime/build verification remains gated.
 - PHASE 2 — Reference Skeleton: Reference Activity/Service/Receiver component boundaries are now registered in the BaRe manifest.
-- PHASE 3 — UI + Navigation: **ACTIVE**. Intro → Home, Home bottom navigation, Home search shell, Dashboard → Apps, Apps shell, App Info shell, and App Detail shell now have explicit navigation boundaries. Exact runtime/visual parity remains unverified.
+- PHASE 3 — UI + Navigation: **COMPLETE / FROZEN**. The P3 static boundary is closed; exact runtime/visual parity remains unverified.
 - PHASE 4 — Core Behavior: account/schedule/cloud/messages-calls contracts are being reconstructed without Supabase.
 - PHASE 5 — Features: feature-domain implementation continues after skeleton stabilization.
 - PHASE 6 — Authorized Deviations: branding/premium/Supabase remain explicit deviations; Supabase is permission-gated.
 - PHASE 7 — Runtime: build/install remains permission-gated.
 - PHASE 8/9 — Parity/deviation audit: blocked until runtime verification is authorized and executable.
 
-## Phase 2–5 progress
+## Phase 2–5 historical progress
 - Reference Activity skeleton coverage: 71 internal Reference activities represented in `rewrite`.
 - Reference Service/Receiver coverage: 10 internal services/receivers represented in `rewrite` with existing concrete boundaries where already implemented; no placeholder behavior is being treated as parity.
 - Activity skeletons intentionally contain no invented UI or behavior; they establish component presence before feature implementation.
 
-## Phase 4 progress
+## Phase 4 historical notes
 - Reference component skeleton now covers the audited 71 internal activities plus the 3 audited services and 8 audited receivers; these are boundaries only and intentionally contain no invented behavior.
 - Placeholder Home fragment was removed; Home now maps to the four explicit Reference-shaped fragments already present.
 - Reference `CallLogItem` fields and call-type constants are now represented in BaRe.
 - Reference SMS default-handler persistence key and backup-file-path/highlight intent keys are represented in `MessagesCallsPolicy`.
 - Capability access remains behind `MessagesCallsCapabilityRepository`; no device provider implementation has been invented.
 
-## Open evidence boundaries after contract freeze
+## Open evidence boundaries after P3 freeze
 1. The exact provider SDK serialization behind the conditional migration transaction is provider-specific and remains outside the backend-neutral contract.
 2. The app metadata-node mutation after cloud file deletion remains `UNKNOWN`; no write/delete is inferred without direct Reference evidence.
 3. These `UNKNOWN` boundaries must not be silently filled during Supabase implementation.
 
-## Execution gate after contract freeze
+## Execution gate after P3 freeze
 1. **WAIT FOR EXPLICIT USER PERMISSION:** Supabase schema/auth/RLS/SDK implementation.
 2. **WAIT FOR EXPLICIT USER PERMISSION:** APK build.
 3. After permission, implementation must preserve every `UNKNOWN` boundary until evidence or an explicit Authorized Deviation resolves it.
