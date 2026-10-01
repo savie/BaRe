@@ -2,7 +2,7 @@
 
 ## Status
 
-**AUDIT COMPLETE — R1/R3/R4/R5 IMPLEMENTATION + STATIC RE-AUDIT ACTIVE**
+**AUDIT COMPLETE — R1/R2/R3/R4/R5 IMPLEMENTATION + STATIC RE-AUDIT ACTIVE**
 
 - Domain: **N-01 Resource**
 - Phase: P3
@@ -1168,7 +1168,7 @@ No reliance on stale GitHub search results is required for the Reference invento
 
 **PARTIAL — bounded work packages executed**
 
-N01-R1, N01-R3, N01-R4, and N01-R5 have been implemented and statically re-audited. N01-R2 and N01-R6 remain open.
+N01-R1, N01-R2, N01-R3, N01-R4, and N01-R5 have been implemented and statically re-audited. N01-R6 remains open.
 
 ### Runtime
 
@@ -1228,7 +1228,7 @@ The implementation phase can therefore proceed from this document as the N-01 au
 
 `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
 
-**Current N-01 state: 🟡 OPEN / PARTIAL IMPLEMENTATION — R1/R3/R4/R5 CLOSED; R2/R6 OPEN**
+**Current N-01 state: 🟡 OPEN / PARTIAL IMPLEMENTATION — R1/R2/R3/R4/R5 CLOSED; R6 OPEN**
 
 
 ## 28. Execution checkpoint — N01-R3
@@ -1573,3 +1573,43 @@ Remaining:
 
 - N01-R2 — Drawable / Icon / Image
 - N01-R6 — Cross-domain resource closure
+
+
+## 44. Execution checkpoint — N01-R2
+
+Bounded batch **N01-R2 — Drawable / icon / image surface** was executed from the canonical local Reference ZIP and re-audited against the target branch.
+
+### Scope
+- Reference drawable surface: **647 physical files / 517 logical drawable symbols**.
+- Actionable application-owned drawable contract after dependency/framework exclusion: **300 physical resource files**.
+- Provider branding assets and qualifier variants included.
+- Identity-sensitive Swift launcher/splash assets were **not copied literally**; they were classified under the already-authorized N-11 branding boundary.
+
+### IMPLEMENTASI
+- **215** missing application-owned drawable/resource blobs were restored from the immutable Reference mirror already present in the repository, preserving exact Reference blob identity.
+- **33** provider branding WebP resources were restored with exact Reference blobs.
+- Splash/launcher contract gaps were closed without introducing Swift identity:
+  - `drawable-anydpi/ic_launcher_splash.xml` → references `@drawable/bare_launcher_icon`.
+  - `drawable-anydpi-v31/ic_launcher_splash.xml` → references `@drawable/bare_launcher_icon`.
+  - `drawable-xxxhdpi/ic_splash.png` → uses the existing BaRe `bare_logo.png` blob as the authorized branding substitution.
+- Library/framework-owned drawable families (AppCompat/Material/AndroidX/FastScroller/YubiKit/Google support surfaces) were not copied as application-owned resources.
+- Reference remained read-only.
+
+### RE-AUDIT
+- Target drawable physical surface after implementation: **305**.
+- Actionable Reference drawable physical contracts present in target: **300/300**.
+- Actionable missing drawable contracts: **0**.
+- Required qualifier variants preserved for the actionable surface.
+- Reference-derived exact-blob resources remain byte-identical to their Reference mirror objects.
+- Target drawable surface contains **0 Swift/swift** text matches.
+- Target drawable surface contains **0 Firebase/firebase** text matches.
+- No existing target resource was overwritten during R2; additions only.
+- No build/install/runtime verification was performed.
+
+### Closure state
+
+**N01-R2 = 🟢 CLOSED / STATIC PASS.**
+
+R2 closure means the audited drawable/icon/image resource surface is accounted for under the N-01 ownership rules. It does not claim runtime visual parity or provider/engine execution.
+
+N-01 overall remains **🟡 OPEN / PARTIAL IMPLEMENTATION** pending **N01-R6 Cross-domain resource closure**.
