@@ -162,7 +162,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="oauth" android:scheme="org.swiftapps.swiftbackup.yandex" />
+                <data android:host="oauth" android:scheme="com.bare.yandex" />
             </intent-filter>
         </activity>
         <activity android:name=".cloud.connect.PCloudSignInActivity"  android:launchMode="singleTop" />
@@ -171,7 +171,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="teraboxOauth" android:scheme="org.swiftapps.swiftbackup.terabox" />
+                <data android:host="teraboxOauth" android:scheme="com.bare.terabox" />
             </intent-filter>
         </activity>
         <activity android:name=".cloud.connect.CsActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize" />
