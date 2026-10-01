@@ -185,7 +185,7 @@ Every bounded implementation batch must have:
 | N-02 | Strings | 🟢 |
 | N-03 | Dimensions | 🟢 |
 | N-04 | Styles / Themes / Colors | 🟢 |
-| N-05 | Manifest | 🟡 |
+| N-05 | Manifest | 🟢 |
 | N-06 | Intent | 🟡 |
 | N-07 | Permissions | 🟡 |
 | N-08 | Navigation | 🟡 |
@@ -267,3 +267,16 @@ P3 is **not yet frozen**.
 - Reference canonical SHA rechecked unchanged.
 - Build/install/runtime not performed.
 - **N-04 = 🟢 CLOSED / STATIC PASS.**
+
+
+### N-05 closure — Manifest
+
+- Total audit: `docs/audits/N05_MANIFEST_TOTAL_AUDIT.md`
+- N05-M1 static implementation and re-audit: **PASS**
+- `locales_config.xml` and `network_security_config.xml` restored from Reference.
+- Corresponding application manifest links restored.
+- Reference-defined dynamic receiver permission mapped to the BaRe package identity.
+- 71/71 Reference-owned Activities, 3/3 Services, 8/8 Receivers remain structurally covered; 0 Reference-owned Providers.
+- MSAL/test-query and dependency/library manifest entries remain explicitly dependency-owned/UNKNOWN and were not blindly copied.
+- Build/install/runtime not performed.
+- **N-05 = 🟢 CLOSED / STATIC PASS.**
