@@ -17,8 +17,8 @@ public final class CloudDiagnosticsActivity extends AppCompatActivity {
  }
  private void boundary(int title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.p3_cloud_diagnostics_boundary).setPositiveButton(R.string.close,null).show();}
  static final class Adapter extends RecyclerView.Adapter<Holder>{
-  final String[] titles={"Internet connectivity","Firebase Database connection","Account access","Large upload/download/delete","Multithreaded download"};
-  final String[] summaries={"Checks device internet access before diagnostics run","Checks cloud metadata connectivity","Checks account and Swift Backup folder access","Verifies the large temporary transfer round trip","Checks multi-connection download behavior"};
+  final String[] titles={"Internet connectivity","Supabase Database connection","Account access","Large upload/download/delete","Multithreaded download"};
+  final String[] summaries={"Checks device internet access before diagnostics run","Checks Supabase-backed cloud metadata connectivity","Checks account and Swift Backup folder access","Verifies the large temporary transfer round trip","Checks multi-connection download behavior"};
   public Holder onCreateViewHolder(android.view.ViewGroup p,int t){return new Holder(android.view.LayoutInflater.from(p.getContext()).inflate(R.layout.cloud_diagnostics_test_item,p,false));}
   public void onBindViewHolder(Holder h,int p){h.title.setText(titles[p]);h.subtitle.setText(summaries[p]);h.status.setText(R.string.diagnostic_pending);}
   public int getItemCount(){return titles.length;}
