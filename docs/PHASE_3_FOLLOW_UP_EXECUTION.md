@@ -943,3 +943,22 @@ Static re-audit: Yandex has `com.bare.yandex://oauth` in both authorization and 
 Runtime/provider registration/end-to-end OAuth callback behavior remains unverified; build/install/runtime/visual verification was not performed.
 
 Final implementation head: `8c75bc486acd02908b629c2786b8791c92a1e132` (docs checkpoint follows).
+
+
+## Step 8 Implementation Checkpoint — N-05 Manifest — Batch 01
+
+**Status: IMPLEMENTED — STATIC CONTRACT PASS**
+
+Bounded N-05 batch implemented one Reference-owned application manifest attribute in `app/src/main/AndroidManifest.xml`: `android:extractNativeLibs="true"`.
+
+- Reference evidence establishes the attribute on the Reference application manifest.
+- Implementation scope: one application attribute only.
+- Exclusions: no permission, identity, intent, provider, backend, engine, or runtime implementation.
+- `reference/` remained read-only and unchanged.
+- Static re-audit: target manifest re-read; attribute present.
+- Runtime/build/install/visual verification: NOT AUTHORIZED / NOT PERFORMED.
+
+Implementation commit: `8bad94fef4780faeefe7c94f081b805d415e5946`.
+Documentation checkpoint: `ba3889743c0f61d14fa9289356ae97103ceb143f`.
+
+N-05 remains OPEN for broader manifest reconciliation; this batch closes only this single static contract.
