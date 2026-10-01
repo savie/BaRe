@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bare.views.BaReSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <com.bare.views.SwiftSegmentConstraintLayout
+    <com.bare.views.BaReSegmentConstraintLayout
         android:id="@+id/schedule_header_segment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toStartOf="@id/swch_schedule"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_header_title" />
-        <com.bare.views.SwiftBackupMaterialSwitch
+        <com.bare.views.BaReMaterialSwitch
             android:id="@+id/swch_schedule"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,5 +79,5 @@
                 android:gravity="center"
                 android:textSize="@dimen/subtitle_smallest" />
         </LinearLayout>
-    </com.bare.views.SwiftSegmentConstraintLayout>
-</com.bare.views.SwiftSegmentedCardGroup>
+    </com.bare.views.BaReSegmentConstraintLayout>
+</com.bare.views.BaReSegmentedCardGroup>
