@@ -119,3 +119,8 @@ A targeted re-audit was performed directly against the supplied Swift Backup 5.1
 UNKNOWN is now reserved for a genuinely unresolved evidence boundary after targeted static audit; it is not a synonym for “not implemented”, “not searched”, or “deferred to a later phase”.
 
 No implementation, build, install, runtime, provider, backend, or engine execution was performed. P4.1 remains IN PROGRESS until the remaining contract-owner/dependency acceptance conditions are closed.
+
+
+### P4.1 owner reconciliation checkpoint — 2026-10-01
+
+Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The primary collision pattern is transitional P3 UI state versus domain-owned state; P4.2 must centralize persisted/domain state and leave Activities as consumers. The dependency order remains WP-A (C07/C11) → WP-B (C01/C05/C06/C14) → WP-C (C04/C03) → WP-D (C08/C09) → WP-E (C10) → WP-F (C12/C13). C02 remains regression-only; C15/C16 remain downstream. P4.1 remains IN PROGRESS until the remaining acceptance evidence is closed.
