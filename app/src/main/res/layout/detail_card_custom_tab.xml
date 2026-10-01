@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="horizontal" android:padding="@dimen/spacing_low" android:layout_width="wrap_content" android:layout_height="wrap_content" android:minHeight="48.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView android:layout_gravity="center" android:id="@id/iv_protected_backup" android:background="@drawable/circle" android:padding="8.0dp" android:layout_width="32.0dp" android:layout_height="32.0dp" android:src="@drawable/ic_protection_on_thick" android:layout_marginEnd="@dimen/spacing_medium_more" android:backgroundTint="?colorBackgroundActivated" app:tint="?colorPrimary" />
+    <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="48.0dp">
+        <TextView android:textColor="?android:textColorPrimary" android:gravity="center" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:fontFamily="@font/main_medium" style="@style/DetailTabTextAppearance" />
+        <TextView android:textSize="@dimen/subtitle_smallest" android:ellipsize="end" android:gravity="center" android:id="@id/tv_subtitle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxWidth="200.0dp" android:maxLines="2" style="@style/DetailTabTextAppearance" />
+    </LinearLayout>
+</LinearLayout>

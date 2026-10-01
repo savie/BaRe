@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipe_layout" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.recyclerview.widget.RecyclerView android:id="@id/recycler_view" android:paddingTop="@dimen/spacing_normal" android:paddingBottom="128.0dp" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <include android:id="@id/error_layout" layout="@layout/error_layout" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:layout_gravity="end|bottom" android:id="@id/btn_action" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more" android:text="@string/quick_actions" app:icon="@drawable/ic_playlist_check" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:paddingTop="@dimen/spacing_normal_more" android:paddingBottom="@dimen/bottom_dialog_action_bottom_spacing" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal_more"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:textSize="@dimen/title_largest" android:textColor="?android:textColorPrimary" android:gravity="center" android:id="@id/tv_title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:text="@string/quick_actions" android:fontFamily="@font/main_medium" />
+        <org.swiftapps.swiftbackup.views.QuickRecyclerView android:id="@id/recycler_view" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/spacing_normal" app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        <com.google.android.material.button.MaterialButton android:id="@id/btn_action" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/save" android:layout_marginVertical="@dimen/spacing_medium" app:icon="@drawable/ic_check" style="@style/M3ButtonFilled.Large" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
