@@ -2,20 +2,17 @@
 
 ## Purpose
 
-This is the **current project dashboard**. It records phase/gate position only.
-
-It does not duplicate the P3 domain register, Activity depth audit, or detailed reconstruction history.
+Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUCTION_STATUS.md` and technical audits under `docs/audits/`.
 
 ## Canonical control plane
 
 - Roadmap / handoff: `docs/bare.md`
 - P1 gate: `docs/PHASE_1_INVENTORY.md`
 - P2 gate: `docs/PHASE_2_SKELETON.md`
-- **Current P3 gate: `docs/PHASE_3_GATE.md`**
-- **Current P4 gate: `docs/PHASE_4_GATE.md`**
-- **P4 contract register: `docs/audits/P4_CONTRACT_REGISTER.md`**
-- Detailed evidence / implementation history: `docs/RECONSTRUCTION_STATUS.md`
-- Documentation map: `docs/DOCS_INDEX.md`
+- P3 gate: `docs/PHASE_3_GATE.md`
+- P4 gate: `docs/PHASE_4_GATE.md`
+- P4 contract register: `docs/audits/P4_CONTRACT_REGISTER.md`
+- Detailed status/history: `docs/RECONSTRUCTION_STATUS.md`
 
 ## Roadmap status
 
@@ -23,269 +20,75 @@ It does not duplicate the P3 domain register, Activity depth audit, or detailed 
 |---|---|---|
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
-| 3 | UI + Navigation + P3 follow-up closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior | **GATED / NOT STARTED** |
+| 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
+| 4 | Core behavior / contracts | **ACTIVE — P4.0 IN PROGRESS** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
 | 9 | Deviation audit | **NOT FINAL** |
 
-## Frozen P2 baseline
+## Frozen P3 position
 
-P2 froze the Reference-owned structural boundary:
-
-- 71 Activities
-- 3 Services
-- 8 Receivers
-- 0 Reference-owned Providers
-
-The canonical component inventory remains only in `docs/PHASE_2_SKELETON.md`.
-
-## Current P3 position
-
-P3 is frozen at the documented static boundary.
-
-The latest complete Activity depth audit records:
-
-- **71/71** Reference-owned Activities covered/registered;
-- **23 🟢** meaningful reconstruction depth;
-- **48 🟡** shallow / boundary-level reconstruction;
-- **0 🔴** not-meaningful surfaces.
-
-The 71/71 figure is **coverage**, not a claim that every Activity is fully reconstructed.
-
-The current normalized 15-domain closure register, N-level closure rule, exit gate, and current domain states are maintained **only** in `docs/PHASE_3_GATE.md`.
-
-## Execution boundary
-
+- 71/71 Reference-owned Activities covered/registered.
+- Activity depth: 23 🟢 / 48 🟡 / 0 🔴.
+- 15 normalized P3 domains closed at the static boundary.
 - Reference remains read-only.
-- All implementation changes belong to `app/`.
-- Build/install/runtime/visual verification is not authorized unless explicitly granted.
-- Provider, engine, backend/Supabase, and end-to-end feature success are not inferred from static reconstruction.
-- Historical implementation details remain in `docs/RECONSTRUCTION_STATUS.md`; they do not override the current P3 gate.
+- No build/install/runtime/device verification is claimed.
 
-## Current project position
+## Current P4 position
 
-> **P1 frozen → P2 frozen → P3 frozen → Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 → 15-domain closure complete → P4 active / P4.0 contract inventory in progress.**
+**P4 is active at P4.0 only.**
 
-For the exact current P3 decision, read `docs/PHASE_3_GATE.md`.
+Current sequence:
 
-No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard is active.
+```
+P4.0  Reference-backed contract inventory
+  ↓
+P4.1  BaRe gap / blocker analysis
+  ↓
+P4.2  Minimum contract implementation
+  ↓
+P4.3  P3 regression re-audit
+  ↓
+P4.4  Remaining-gap classification
+  ↓
+P4.5  Verified package / checkpoint closure
+```
 
+Current technical artifact:
 
-## Latest N-domain closure checkpoint — N-08
+`docs/audits/P4_CONTRACT_REGISTER.md`
 
-- N-05 Manifest: 🟢
-- N-06 Intent: 🟢
-- N-07 Permissions: 🟢
-- N-08 Navigation: 🟢 CLOSED / STATIC PASS
-- N-09 Lifecycle / State: next domain
-- N-10 Dialog / Error / Loading: pending
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
+## P4.0 initial findings
 
+First evidence-backed candidates behind frozen P3 surfaces:
 
-## Latest N-domain closure checkpoint — N-09
+1. Permission state/result/retry contract.
+2. Storage selection/persistence contract.
+3. Account/session contract reconciliation.
+4. State ownership/restoration.
+5. Settings contracts actually consumed by frozen P3 flows.
 
-- N-05 Manifest: 🟢
-- N-06 Intent: 🟢
-- N-07 Permissions: 🟢
-- N-08 Navigation: 🟢
-- N-08 Search P3 UI: 🟢
-- N-09 Lifecycle / State: 🟢 CLOSED / STATIC PASS
-- N-10 Dialog / Error / Loading: next domain
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
+Current explicit downstream boundaries:
 
+- backup/restore execution;
+- archive/compression/encryption execution;
+- provider execution;
+- backend/Supabase execution;
+- actual cloud transfer;
+- runtime/device verification.
 
-## Latest N-domain closure checkpoint — N-10
+## Execution guard
 
-- N-05 Manifest: 🟢
-- N-06 Intent: 🟢
-- N-07 Permissions: 🟢
-- N-08 Navigation: 🟢
-- N-08 Search P3 UI: 🟢
-- N-09 Lifecycle / State: 🟢
-- N-10 Dialog / Error / Loading: 🟢 CLOSED / STATIC PASS
-- N-11 Branding / Identity: 🟢
-- N-12 Java-only: 🟢
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
+- Reference is read-only.
+- Implementation changes belong to `app/`.
+- P4.0 inventory does not itself authorize implementation.
+- Build/install/runtime remains prohibited unless explicitly authorized.
+- Static evidence never implies engine/provider/backend/runtime success.
 
+## Current position
 
-## Latest N-domain closure checkpoint — N-13
+> **P1 frozen → P2 frozen → P3 frozen → 71/71 Activities covered → 15 P3 domains closed → P4 active → P4.0 contract inventory in progress.**
 
-- N-10 Dialog / Error / Loading: 🟢
-- N-11 Branding / Identity: 🟢
-- N-12 Java-only: 🟢
-- N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
-- N-14 Boundary: next domain
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## Latest N-domain closure checkpoint — N-14
-
-- N-10 Dialog / Error / Loading: 🟢
-- N-11 Branding / Identity: 🟢
-- N-12 Java-only: 🟢
-- N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
-- N-14 Boundary: 🟢 CLOSED / STATIC PASS
-- N-15 Static Hygiene: next domain
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## Latest N-domain closure checkpoint — N-15
-
-- N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
-- N-14 Boundary: 🟢 CLOSED / STATIC PASS
-- N-15 Static Hygiene: 🟢 CLOSED / STATIC PASS
-- N-01 Resource: 🟡 master / cross-domain closure still open (historical checkpoint)
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## N-03 total re-audit checkpoint — Dimensions
-
-- Total audit evidence: `docs/audits/N03_DIMENSIONS_TOTAL_AUDIT.md`
-- Reference dimension inventory: **839 unique names across 20 `dimens.xml` files**.
-- N-03 Reference-facing/project scope: **67 dimension contracts**, separated from dependency/library dimensions.
-- Current BaRe base dimensions and four Reference-sensitive qualifier overrides remain reconciled.
-- Target-only `bare_expressive_switch_min_width` is explicitly classified as a BaRe-owned addition.
-- N-03 verdict: **🟢 CLOSED / PASS — STATIC TOTAL RE-AUDIT**.
-- No app implementation change was required by this re-audit.
-- Reference remains read-only.
-- Build/install/runtime/visual verification was not performed.
-- P3 was ACTIVE / FOLLOW-UP CLOSURE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## N-11 total re-audit checkpoint — Branding / Identity
-
-- Total audit evidence: `docs/audits/N11_BRANDING_IDENTITY_TOTAL_AUDIT.md`
-- Application label: **BΛR☰**.
-- Launcher icon: **`@drawable/bare_launcher_icon`** and target-owned vector resource present.
-- Visible Swift-derived branding values remain migrated to BΛR☰ / BaRe identity.
-- Internal Swift-derived identifiers are explicitly classified separately from visible branding.
-- App-owned TeraBox callback uses `com.bare.terabox`; prior Yandex Swift callback identity was removed under N-06.
-- N-11 verdict: **🟢 CLOSED / STATIC PASS — TOTAL RE-AUDIT**.
-- No app implementation change was required by this re-audit.
-- Reference remains read-only.
-- Build/install/runtime/visual/provider/OAuth verification was not performed.
-- P3 was ACTIVE / FOLLOW-UP CLOSURE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## N-12 total re-audit checkpoint — Java-only
-
-- Total audit evidence: `docs/audits/N12_JAVA_ONLY_TOTAL_AUDIT.md`
-- Target Kotlin source search: no result.
-- `src/main/kotlin` / `src/test/kotlin`: no result.
-- Inspected target Gradle plugins: Android application only; no Kotlin Gradle plugin.
-- App compile options: Java 17.
-- No explicit Kotlin implementation dependency in inspected app dependencies.
-- Reference Kotlin metadata remains Reference/dependency-owned evidence and is not a target `.kt` source defect.
-- N-12 verdict: **🟢 CLOSED / PASS — TOTAL STATIC RE-AUDIT**.
-- No app source mutation required.
-- Reference remains read-only.
-- Build/install/runtime not performed.
-
-
-## Latest N-domain closure checkpoint — N-01-R4
-
-- N-05 Manifest: 🟢
-- N-06 Intent: 🟢
-- N-07 Permissions: 🟢
-- N-08 Navigation: 🟢
-- N-09 Lifecycle / State: 🟢
-- N-10 Dialog / Error / Loading: 🟢
-- N-11 Branding / Identity: 🟢
-- N-12 Java-only: 🟢
-- N-13 Fake / Stub: 🟢
-- N-14 Boundary: 🟢
-- N-15 Static Hygiene: 🟢
-- **Historical N-01 Resource state: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remained open at this checkpoint**
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## Latest N-domain closure checkpoint — N-01-R5
-
-- Historical N-01 Resource state: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remained open at this checkpoint
-- N-02 through N-15: 🟢 at current P3 boundary
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## Post-checkpoint sweep — N-11 branding identity
-
-At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was completed for residual `Swift` / `Firebase` identity in the target surface.
-
-- No new app-owned visible Swift product branding was found.
-- Four `com.bare.views.*` classes retain Reference-derived `Swift...` internal identifiers; N-11 explicitly accepts these as non-visible internal identifiers.
-- Firebase target residue remains closed per `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md`; Firebase occurrences in `reference/` remain immutable source evidence.
-- **N-11 remains 🟢 CLOSED / STATIC PASS.**
-- No source mutation was required by this sweep.
-
-
-## Latest N-domain closure checkpoint — N-01-R1
-
-- Historical N-01 Resource state: 🟡 — **R1 🟢, R3 🟢, R4 🟢, R5 🟢; R2/R6 remained open at this checkpoint**
-- N01-R1 layout/UI surface: **🟢 CLOSED / STATIC PASS**
-- Reference layout contract: **244/244 actionable base layouts accounted for**
-- Wide-screen Home variant: **layout-w600dp/home_activity.xml restored**
-- Target layout surface contains **0 Swift/swift and 0 Firebase/firebase text matches**
-- N-02 through N-15: 🟢 at current P3 boundary
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
-
-
-## Latest N-domain closure checkpoint — N-01-R2
-
-- Historical N-01 Resource state: 🟡 — **R1 🟢, R2 🟢, R3 🟢, R4 🟢, R5 🟢; R6 remained open at this checkpoint**
-- N01-R2 Drawable / Icon / Image: **🟢 CLOSED / STATIC PASS**
-- Reference drawable surface: **647 physical / 517 logical**.
-- Actionable application-owned drawable contract: **300 physical resources accounted for**.
-- Target actionable drawable coverage: **300/300; 0 missing**.
-- Provider branding qualifier assets restored from the immutable Reference mirror.
-- Swift launcher/splash identity was not copied literally; splash contracts use existing BaRe-owned branding resources under the authorized N-11 boundary.
-- Target drawable surface contains **0 Swift/swift** and **0 Firebase/firebase** text matches.
-- No existing target drawable resource was overwritten in R2; additions only.
-- Build/install/runtime: **NOT PERFORMED**.
-- N-01-R6 was the only open N-01 work package at this historical checkpoint.
-- P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint..
-
-
-## N-01-R2 branch integrity repair
-
-- The N01-R2 implementation commit `51aa67890828389eaef307052f40ae908d86b40b` was previously not reachable from `rewrite`.
-- Implementation is now applied directly on `rewrite` at commit `7d110274175ef90d52eaa204e21c488c5dc55454`.
-- Applied implementation delta: **218 added app resource files**; no existing target resource overwritten by this repair.
-- Static branch re-audit: implementation commit is now reachable from the active branch.
-- Build/install/runtime: **NOT PERFORMED**.
-- N-01-R2 remains **🟢 CLOSED / STATIC PASS**; N-01-R6 was the only open N-01 work package at this historical checkpoint.
-
-
-## Latest N-domain closure checkpoint — N-01-R6
-
-- N-01 Resource: **🟢 CLOSED / STATIC PASS**
-- N01-R1: 🟢 CLOSED / STATIC PASS
-- N01-R2: 🟢 CLOSED / STATIC PASS
-- N01-R3: 🟢 CLOSED / STATIC PASS
-- N01-R4: 🟢 CLOSED / STATIC PASS
-- N01-R5: 🟢 CLOSED / STATIC PASS
-- **N01-R6: 🟢 CLOSED / STATIC PASS**
-- Cross-domain resource ownership was re-audited across N-02/N-03/N-04/N-05/N-06/N-08/N-11, with supporting N-07/N-10/N-14 checks.
-- No unresolved P3-owned cross-domain resource defect remains.
-- Reference canonical SHA-256 rechecked: `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`.
-- Reference remained read-only.
-- Build/install/runtime/visual/provider/engine/backend verification: **NOT PERFORMED**.
-
-### P3 freeze checkpoint
-
-All current P3 exit conditions are satisfied at the documented static boundary:
-
-- 71/71 Reference-owned Activities remain covered; latest depth classification remains 23 🟢 / 48 🟡 / 0 🔴.
-- All 15 normalized domains have current closure classification; N-01 is now 🟢.
-- No unresolved P3 defect remains outside explicitly documented downstream boundaries.
-- Resource and Style/Theme/Color parity work is statically re-audited.
-- No unexplained Swift product identity remains in `app/`.
-- Reference remains unchanged.
-- No build/runtime claim is used as closure evidence.
-
-**FREEZE P3**
-
-P4 gate review may proceed separately. P4 implementation does not start automatically.
-
-Runtime boundary remains unchanged: this freeze does **not** claim engine/provider/backend/runtime success.
+Next package: **P4.1 only after P4.0 inventory is complete.**
