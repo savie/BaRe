@@ -372,11 +372,11 @@ This matrix is the final static acceptance ledger before P4.2. It establishes th
 
 | ID | Reference evidence | Canonical owner | BaRe gap | Dependency | Regression surface | Phase boundary | P4.1 result |
 |---|---|---|---|---|---|---|---|
-| C01 | d45, Intro lifecycle keys/flow | Lifecycle / AccountService boundary | Lifecycle state machine not wired | C07, C05 | Intro/account transitions | Auth/provider/cloud restore deferred | CLOSED → P4.2 |
+| C01 | d45, Intro lifecycle keys/flow | Lifecycle / AccountService boundary | Provider execution not wired by design | C07, C05 | Intro/account transitions | Supabase auth/cloud-restore execution deferred | **🟢 CLOSED — P4 contract** |
 | C02 | HomeActivity.saved_fragment, N-08/N-09 | HomeActivity recreation state | None at P4 boundary | None | Home recreation | Runtime proof deferred | CLOSED / PASS |
 | C03 | intro.d, permission/access helpers, N-07 | Permission/access boundary | P3 manual readiness flags remain | C07, C11 | Intro permission cards/Continue | Privileged engines deferred | CLOSED → P4.2 |
 | C04 | yn7, zn7, preferred_storage_dir | Storage coordinator/service | No canonical selected/preferred storage coordinator | C07, C11 | StorageSwitchActivity | Filesystem/privileged storage deferred | CLOSED → P4.2 |
-| C05 | ah8/UserInfo, d45, UserInfo repository | Account/session owner | Session state not unified | C07, C01 | Account/Home | Provider SDK/auth deferred | CLOSED → P4.2 |
+| C05 | ah8/UserInfo, d45, UserInfo repository | Account/session owner | Supabase provider composition not implemented by design | C07, C01 | Account/Home | Supabase auth/backend execution deferred | **🟢 CLOSED — P4 contract** |
 | C06 | d45.c(), migration flag/outcomes | Migration repository + lifecycle | Orchestration not connected to canonical session | C05, C01 | Account sign-out/migration | Provider/cloud mutation deferred | CLOSED → P4.2 |
 | C07 | common.V, encrypted preference boundary, bx5 | LocalState / preference boundary | P3 state uses scattered ordinary SharedPreferences | C11 | Intro/account/settings persistence | Keystore/runtime verification deferred | CLOSED → P4.2 |
 | C08 | AppSettings.withSavedSettings(), settings writer/XML | Settings repository/model | Reference settings persistence missing | C07, C11 | Settings flows | Cloud sync/backend mutation deferred | CLOSED → P4.2 |
@@ -589,3 +589,35 @@ C05/C14 remain provider-neutral interfaces (`UserInfoRepository`, `BaReBackendRe
 `AccountFragment` was rechecked against the current BaRe account contracts. It observes `AccountViewModel` but has no concrete `AccountService` composition/provider implementation. No speculative injection or fake provider was added. This preserves the contract boundary: `AccountFragment` remains a UI consumer, while identity/userInfo acquisition stays behind `AccountRepository` + `UserInfoRepository` / `AccountService`.
 
 C01/C05/C14 therefore remain statically bounded but not implementation-complete. Closure requires a real composition/provider owner supported by Reference evidence; this pass does not invent one.
+
+
+### P4.2 WP-B closure correction — Supabase is the downstream provider target — 2026-10-01
+
+The previous WP-B checkpoint incorrectly treated concrete provider composition as a prerequisite for C01/C05 static closure. That prerequisite is not part of the P4 contract acceptance boundary.
+
+BΛR☰ does not use Firebase as its target backend. The Swift Backup decompile uses Firebase only as Reference evidence for reconstructing the provider-neutral contract. The target implementation is Supabase, and its auth/backend execution belongs to the downstream provider phase.
+
+Therefore:
+- C01 — 🟢 CLOSED at P4 contract level. Lifecycle ownership, state transitions, persistence keys, reset ordering, and downstream provider/restore boundary are explicitly owned.
+- C05 — 🟢 CLOSED at P4 contract level. Provider-neutral identity/session ownership, canonical UserInfo, repository boundary, and UI consumer boundary are explicitly defined.
+- C06 — 🟢 CLOSED at P4 contract level. Migration guard and lifecycle policy are evidence-backed; provider migration execution remains downstream.
+- C14 — 🟢 CLOSED at P4 contract level. Cloud/session metadata boundary is explicit; Supabase auth/token/database execution remains downstream.
+
+AccountFragment not instantiating a concrete provider is therefore not a P4 contract defect. Adding a fake Firebase implementation merely to satisfy the Reference would violate the project architecture. The later Supabase phase will provide the concrete AccountRepository, UserInfoRepository, backend/session adapter, and composition root.
+
+This closure is static only. It does not claim Supabase implementation, build, install, runtime, network, auth, database, cloud transfer, or engine success.
+
+### WP-B final static acceptance — 2026-10-01
+
+**Decision: WP-B / C01-C05-C06-C14 — 🟢 CLOSED (static contract acceptance).**
+
+Acceptance basis:
+1. Reference lifecycle/userInfo/migration/cloud metadata evidence is directly reconciled from the supplied Swift Backup 5.1.0 / 620 decompile.
+2. Canonical owners are unique and provider-neutral.
+3. No duplicate identity lifecycle owner remains.
+4. C06 migration state is limited to the decompile-supported boolean guard.
+5. C14 contains only evidence-supported identity/cloud-directory metadata.
+6. Account UI remains a consumer and does not become a state owner.
+7. Supabase execution is explicitly deferred to the downstream provider/backend phase.
+
+No build/install/runtime/provider/backend/engine verification was performed.
