@@ -118,6 +118,54 @@ P5 does not reopen these phases because the feature audit consumes their outputs
 - UNKNOWN is reserved for unresolved evidence after targeted inspection; it is not a synonym for unimplemented.
 - Runtime/device/provider/backend verification is not claimed.
 
+## P5.1 Reference reconciliation addendum — v1.0/rebaseline
+
+A targeted reconciliation was performed against the two Reference audit artifacts on branch v1.0/rebaseline:
+
+- reference/reference.md
+- reference/reference_apps_audit.md
+
+These documents do not replace the P5.0 scope audit or the P5.1 register. They provide deeper feature/behavior evidence that was previously only represented at coarse feature-family level. Items already covered by F01–F37 are mapped below; genuinely additional boundaries are added as explicit P5 feature-contract units.
+
+### Existing coverage confirmed
+
+| Reference audit finding | Existing P5 unit | Reconciliation |
+|---|---|---|
+| Root / Shizuku permission confirmation and capability-specific grant flow | F01, F23, F27 | Already covered as onboarding/settings/task/permission dependency; detailed privileged mechanism now recorded as F38. |
+| Apps list filter/sort, search, row actions, batch actions | F03–F06, F30 | Already in register; deeper predicate/state evidence feeds F39/F44 rather than creating duplicate UI units. |
+| App detail, backup-card, part-chip and restore selection | F07, F26 | Already in register; execution semantics are expanded by F40/F41/F42. |
+| Labels, favorites, custom configurations, quick actions | F06, F09, F30, F37 | Already represented; no duplicate top-level feature added. |
+| Backup archive, encryption, compression and SBA root archive creation | F25, F27 | Existing coverage was too coarse; explicit artifact pipeline is added as F41. |
+| Local/cloud metadata lifecycle, delete, cleanup, multiple-backup consistency | F20/F21/F26 | Existing cloud/restore coverage exists; explicit metadata lifecycle boundary is added as F42. |
+| Restore result aggregation, cancellation, retry, task/process-death boundary | F27 | Existing task UI unit exists; execution/result semantics are added as F43. |
+| Per-app storage size, cache filtering, OBB/external data, usage-based sort | F04/F23/F24 | Existing inventory/storage/settings coverage exists; measurement/state boundary is added as F44. |
+| Favorite app state, AppInfo, pinned detail shortcut, app-backup limits, visibility diagnostics | F07/F08/F09/F35/F37 | Existing units cover the surfaces; reconciliation confirms these are not missing top-level feature families. |
+| Split APK restore, installer decision, downgrade/secondary-user handling | F10/F27 | APK import and task UI were present, but restore/install semantics were not explicit; added as F40. |
+| Change detection / identical-APK skip / data-extdata-expansion-media delta predicates | F04/F07/F27 | Existing list/detail/task units were too coarse; explicit backup planning semantics are added as F39. |
+| Archive format matrix and legacy extraction profiles | F25/F27 | Existing security/task units were too coarse; explicit artifact format contract is added as F41. |
+
+### Newly explicit P5 feature-contract units
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Audit finding |
+|---|---|---|---|---|
+| **P5-F38** | Privileged permission / Root–Shizuku capability workflow | reference.md §3.1; reference_apps_audit.md capability/precondition evidence | permission/capability adapter; Intro/Settings/Tasks consume it | Reference shows one confirmation surface but multiple mechanisms: runtime permissions, MANAGE_EXTERNAL_STORAGE/AppOps, installed-app capability handling, and Root/Shizuku. BaRe must not collapse these into one generic permission boolean. |
+| **P5-F39** | App backup planning / change detection / skip semantics | reference.md §§28–30; Apps audit §§5–10, 17–18 | app backup planner + artifact metadata boundary | Reference distinguishes Single/Dated/Conditional backup strategy, identical-APK skip, per-part change detection, cache/source filtering, and non-delta/patch archive behavior. UI presence is insufficient to claim these semantics. |
+| **P5-F40** | APK restore / split install / downgrade decision boundary | reference.md §§30–31; Apps audit §§7, 10–11 | restore planner + installer capability adapter + task boundary | Reference evidence covers installer request construction, source-preserving install, split extraction/validation/retry, downgrade preparation/recovery, and secondary-user workaround paths. Runtime installation remains downstream/unverified. |
+| **P5-F41** | Backup artifact format / archive / compression / encryption pipeline | reference.md §§23, 27, 29–30; Apps audit §§6, 8, 10 | artifact writer/reader + crypto boundary | Reference evidence distinguishes SBA/root archive creation, TAR/7-Zip/SBA format handling, compression profiles, password strategy, and encryption boundary. Exact low-level implementation is not to be copied; contracts must remain evidence-backed. |
+| **P5-F42** | Local/cloud metadata lifecycle / delete / sync consistency | reference.md §§30–31; Apps audit §§12, 14–16 | metadata repository + cloud orchestration boundary | Reference has explicit metadata read/write/update/remove behavior, cloud index reconstruction, metadata-first cloud delete, local-delete coupling, refresh/observer behavior, protected backup handling, and multiple-backup cleanup. Remote atomicity remains UNKNOWN. |
+| **P5-F43** | Task result aggregation / cancellation / retry / process-death semantics | reference.md §§20, 30; Apps audit §§13–14, 16, 21 | task orchestration + result aggregation | Reference distinguishes per-part/per-app failure from task terminal state, layered cancellation, retry, and post-restore reconciliation. Task UI alone is not the execution contract. |
+| **P5-F44** | App size / cache / OBB / usage-state measurement | reference.md §25; Apps audit §§3, 17 | app inventory measurement + sort/filter projection | Reference derives app size from multiple parts, treats cache separately, includes OBB/external data/media, and uses usage access for DateUsed sorting. Measurement/capability failure must be explicit rather than fabricated. |
+
+### P5.1 reconciliation result
+
+- Reference reference.md adds substantial **behavioral resolution** to already-known P5 families; it does not introduce a second product scope.
+- reference_apps_audit.md adds a deep Apps execution/metadata/restore ledger that was only partially represented in F04–F09/F26/F27.
+- P5.1 register is therefore expanded from **37** to **44** explicit feature-contract units.
+- F38–F44 are evidence-backed additions, not implementation authorization.
+- Reference remains read-only.
+- Runtime/device/provider/backend/privileged-engine execution remains unverified/downstream.
+- BΛR☰ branding and Supabase target-backend policy are unchanged and are not reopened by this reconciliation.
+
 ## P5.1 exit decision
 
 **P5.1 — COMPLETE / READY FOR P5.2.**
