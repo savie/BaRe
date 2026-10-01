@@ -26,7 +26,7 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 ACTIVE / RE-AUDIT INVENTORY**
+**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 CLOSED / P4.1 READY**
 
 P4.0 was re-audited against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
@@ -41,7 +41,7 @@ Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.m
 - complete P4-consumed core-data ownership;
 - secure/encrypted local preference boundary for persisted P4 state.
 
-P4.0 remains open. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
+P4.0 is closed at the static contract-inventory boundary. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
 
 P3 remains frozen at the documented static boundary. P4.0 is now active for Reference-backed contract inventory. No P4 implementation is implied by the inventory, and no runtime/provider/engine/backend success is inferred.
 
@@ -52,6 +52,16 @@ Phase 1 and Phase 2 are now frozen at **100%**:
 Authoritative gate records:
 - `docs/PHASE_1_INVENTORY.md`
 - `docs/PHASE_2_SKELETON.md`
+
+### P4.0 closure — 2026-10-01
+
+P4.0 contract inventory is **COMPLETE / ACCEPTED**.
+
+- 16/16 targeted P4 contract rows have complete inventory fields.
+- The P4 contract register records the acceptance matrix and closure decision.
+- Remaining GAP / PARTIAL rows are explicitly handed to P4.1 for blocker analysis; P4.0 does not require those gaps to be implemented.
+- P4.1 is now the next active package.
+- Build/install/runtime/provider/backend/engine execution remains prohibited by the existing guard.
 
 ## P3 onboarding implementation status
 
