@@ -1415,3 +1415,18 @@ Outcome:
 - N-03 total audit: **🟢 CLOSED / PASS**.
 
 This is a cross-domain closure checkpoint only. N-01 overall remains **🟡** until its complete resource exit criterion is satisfied.
+
+
+## 39. Cross-domain transfer checkpoint — N-11 Branding / Identity
+
+N-11 total re-audit consumed the N-01 resource ownership rule for app-owned visible identity resources.
+
+Outcome:
+- Target application label remains `BΛR☰`.
+- Target launcher resource `app/src/main/res/drawable/bare_launcher_icon.xml` remains present.
+- Swift-derived visible values were reconciled to BΛR☰ identity under the N-11/N-02 rule.
+- Internal identifiers containing Swift are not treated as resource defects when they are non-visible identifiers.
+- No new N-01 resource defect was identified by N-11.
+- N-11 total audit: **🟢 CLOSED / STATIC PASS**.
+
+This is a cross-domain closure checkpoint only. N-01 overall remains **🟡** until its complete resource exit criterion is satisfied.
