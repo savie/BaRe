@@ -21,7 +21,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 IN PROGRESS** |
+| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 CLOSED / P4.2 IN PROGRESS** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
@@ -233,3 +233,17 @@ No build/install/runtime/provider/backend/engine execution was performed. P4.2 r
 A final source reread found stale Intro call-sites to the removed P3 permission-ready helpers. Those call-sites were removed; current IntroActivity now refreshes the canonical PermissionAccessService state after permission-request returns/fallbacks. The C03/C04 closure decision is unchanged.
 
 No build/install/runtime/provider/backend/engine execution was performed.
+
+
+### P4.2 WP-D final static acceptance — 2026-10-01
+
+**WP-D / C08-C09: CLOSED — static contract acceptance.**
+
+- Primary evidence: supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP (`AppSettings`, `ha7`, `IntroActivity`, `ux5`).
+- C08: `AppSettings` + `SettingsRepository` now own the smallest Reference-shaped settings contract required by frozen P3 consumers; `play_notification_sounds` remains one canonical local persistence key with Reference default `true`.
+- C09: `saved_password_mode` is now the canonical local key, stored as the Reference password-strategy enum ordinal; default is `STANDARD_PASSWORD.ordinal()`.
+- The old `P3_PASSWORD_MODE` is no longer used by IntroActivity as product state.
+- No unsupported Reference settings fields were promoted into the P4 contract.
+- Password generation/encryption/secure restore and cloud settings sync/backend mutation remain downstream.
+- Static regression found no duplicate Settings store or stale Intro password-state call-site in the affected source.
+- No build, install, runtime, provider, backend, or engine execution was performed.
