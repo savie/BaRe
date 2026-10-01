@@ -131,3 +131,14 @@ Canonical ownership was reconciled across C01–C16 against the current BaRe sou
 P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms named Reference evidence, canonical owner, BaRe gap/state, dependency, P3 regression surface, and phase boundary for every row. No open contract-level UNKNOWN remains; no unresolved canonical-owner collision remains; no C17+ scope was introduced. C02 remains regression-only and C15/C16 remain downstream.
 
 This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+
+
+### P4.2 WP-A checkpoint — 2026-10-01
+
+- P4.1 is **CLOSED / READY FOR P4.2**; P4.2 implementation is active in **WP-A (C07/C11)**.
+- Current Reference-backed implementation includes `LocalState`, `SecureLocalState` boundary, `StorageInfoLocal`, `TaskState`, and `ErrorSummary`, plus wiring for first-start/first-run restore local state, notification-sound preference, and typed storage state.
+- Static regression against the supplied Swift Backup 5.1.0 / versionCode 620 decompile found no new contradiction in the affected P3 surfaces.
+- `P3_*` readiness/sign-in/password flags remain transitional and are not promoted to canonical state in WP-A.
+- `StorageInfoService.read()` remains a non-fabricating runtime/filesystem boundary.
+- WP-A remains **IN PROGRESS / NOT CLOSED** until its C07/C11 consumer/ownership reconciliation is complete.
+- No build, install, runtime, provider, backend, or engine execution was performed.
