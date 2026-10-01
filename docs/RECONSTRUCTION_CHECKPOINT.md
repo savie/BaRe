@@ -181,3 +181,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - Corrected C14 by removing an unsupported generic `isInitialized()` contract; retained only identity UID and current cloud-directory evidence.
 - C05 `UserInfo` remains aligned to the seven fields observed in Reference `ah8`.
 - WP-B remains **IN PROGRESS**; no build/install/runtime/provider/backend/engine execution was performed.
+
+
+### P4.2 WP-B consumer-wiring checkpoint — 2026-10-01
+
+- C06 migration-resume consumer wiring is aligned to the Reference sequence: read `is_migrating_to_google_sign_in`, clear the guard, then re-enter sign-in.
+- The key is owned by the existing `LocalState` boundary; `LocalAccountMigrationRepository` provides the C06 repository adapter.
+- Static source-level fidelity only. Provider authentication, backend mutation, and migration execution remain deferred.
+- WP-B remains **IN PROGRESS**; no build/install/runtime/provider/backend/engine execution was performed.
