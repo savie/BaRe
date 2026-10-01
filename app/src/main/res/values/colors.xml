@@ -157,4 +157,8 @@
     <color name="wht70">#b3ffffff</color>
     <color name="wht80">#ccffffff</color>
     <color name="wht90">#e6ffffff</color>
+    <color name="google_sign_in_button_background">#124285f4</color>
+    <color name="google_sign_in_button_ripple">#334285f4</color>
+    <color name="google_sign_in_button_stroke">#994285f4</color>
+    <color name="google_sign_in_button_text">#4285f4</color>
 </resources>
