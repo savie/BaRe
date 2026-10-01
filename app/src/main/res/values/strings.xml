@@ -604,4 +604,9 @@ In case you have enabled Multiple backups, BΛR☰ will not delete the protected
     <string name="webdav_default_server_value">Default server: %s</string>
     <string name="webdav_path_example_value">Path example: %s</string>
     <string name="yes">Yes</string>
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="unknown_error_occured">An unknown error occurred.</string>
+    <string name="supabase_backend_diagnostics_title">Supabase backend unavailable</string>
+    <string name="m3_loading_indicator_content_description">Loading</string>
 </resources>
