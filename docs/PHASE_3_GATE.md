@@ -147,11 +147,11 @@ A domain becomes 🟢 only after its current evidence-backed exit criterion is s
 
 ### N-11 — Branding / Identity
 - Total audit: `docs/audits/N11_BRANDING_IDENTITY_TOTAL_AUDIT.md`
-- Current exit criterion: **zero unexplained Swift product identity in the current app-owned visible surface**.
+- Current exit criterion: **zero `Swift/swift` and zero `Firebase/firebase` text matches in the target `app/` tree**, after ownership/dependency-aware normalization.
 - Application label: `BΛR☰`.
 - Launcher icon: `@drawable/bare_launcher_icon`, application-owned target resource.
 - Visible Swift-derived values were reconciled to BΛR☰ wording under the N-02/N-11 branding rule.
-- Internal identifiers containing `Swift` are explicitly not treated as defects when they are non-visible implementation/resource identifiers.
+- Internal identifiers containing `Swift` are no longer exempt merely because they are non-visible. App-owned Swift-derived identifiers must be normalized and their consumers/resources updated. Dependency-owned or Reference-only identifiers remain outside target-app mutation and must be explicitly classified.
 - App-owned TeraBox callback uses the BaRe namespace; prior Yandex Swift callback identity was removed under N-06.
 - Reference remains untouched.
 - Build/install/runtime/visual/provider/OAuth success is not claimed.
@@ -227,7 +227,7 @@ P3 can close only when:
 3. all 15 normalized domains have a current classification;
 4. every non-green domain has either reached its documented exit criterion or has an explicit, evidence-backed downstream ownership/deferment;
 5. Resource and Style/Theme/Color parity work is fully audited;
-6. no unexplained Swift product identity remains in `app/`;
+6. the target `app/` tree has zero `Swift/swift` and zero `Firebase/firebase` text matches after ownership-aware normalization;
 7. static resource/reference integrity is clean for the audited P3 surface;
 8. Reference remains unchanged;
 9. no unauthorized build/runtime claim is used as closure evidence.
@@ -460,3 +460,17 @@ P3 freeze does not claim:
 - end-to-end feature success.
 
 Those remain outside this P3 static closure.
+
+
+### N-11 target identity normalization checkpoint — 2026-10-02
+
+The N-11 rule is now explicitly aligned with the target reconstruction contract:
+
+- target `app/` must contain **0 `Swift/swift` text matches**;
+- target `app/` must contain **0 `Firebase/firebase` text matches**;
+- internal app-owned identifiers are included in this hygiene target, not exempted merely because they are non-visible;
+- the rule does **not** authorize blind/global replacement: every rename remains ownership/dependency-aware and must preserve consumer/resource/reference contracts;
+- Reference/decompiled material remains read-only and is excluded from the target-app zero-text count;
+- dependency-owned/external protocol identifiers must be classified rather than blindly renamed.
+
+This checkpoint supersedes the older P3 wording that treated non-visible Swift identifiers as automatically acceptable.
