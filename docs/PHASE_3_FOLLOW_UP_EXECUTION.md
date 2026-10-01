@@ -883,3 +883,16 @@ Checkpoint: commit 01801eca6113f816bc8a604b8699a3db7b28bffb.
 **Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
 
 **P3 state:** remains P3 Follow-up Execution; P4 remains gated. No engine/provider/backend/runtime success is claimed.
+
+
+## Step 8 Implementation Checkpoint — EU-11 / N-08 — Manifest Navigation Batch — Status Note
+
+**Status: 🟢 CLOSED / PASS (static contract)**
+
+The bounded N-08 manifest batch is considered complete at the source/static-contract level. No further app/source mutation is warranted from this batch on current evidence.
+
+- 33 targeted Reference parentActivityName/windowSoftInputMode records: **33/33 PASS, 0 failures**.
+- No build/install/runtime/device verification was performed.
+- Up/back runtime behavior and the full 71-Activity navigation matrix remain outside this batch's closure.
+- Domain #8 remains OPEN until its broader static contract is fully reconciled and any separately gated runtime verification is performed.
+- P4 remains gated; no provider/backend/engine/runtime success is claimed.
