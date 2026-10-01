@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.1 — BaRe Gap / Blocker Analysis**
+**P4.1 — BaRe Gap / Blocker Analysis — IN PROGRESS**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
@@ -53,3 +53,17 @@ P4.0 is **closed and accepted**.
 All 16 contract rows have explicit Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification surface, and P3 regression surface.
 
 P4.1 may now begin. This does **not** authorize implementation, build/install/runtime, provider/backend execution, or engine execution.
+
+
+## P4.1 analysis checkpoint
+
+P4.1 is now active and has a Reference-backed blocker/dependency analysis in `docs/audits/P4_CONTRACT_REGISTER.md`.
+
+- Scope remains **C01–C16**; no C17+ contract was introduced.
+- Evidence basis: supplied Swift Backup 5.1.0 (620) decompile ZIP + `v1.0/rebaseline/reference/*` + current `rewrite` source + N-07/N-08/N-09.
+- Foundational dependency set: **C07 + C11**, followed by identity/session (**C01/C05/C06/C14**), storage/permission (**C04/C03**), settings/password (**C08/C09**), restore state (**C10**), and task state (**C12/C13**).
+- C02 remains PASS/regression-protected.
+- C15/C16 remain downstream and are not blockers for P4.1.
+- No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+
+**Next package:** P4.2 — minimum contract implementation, after the P4.1 blocker analysis is accepted as the implementation map.
