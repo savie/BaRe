@@ -1264,3 +1264,19 @@ Remaining N-01 work packages:
 - N01-R6 Cross-domain resource closure
 
 N-01 must not become 🟢 until the complete N-01 exit criterion is re-audited.
+
+
+## 29. Cross-domain transfer checkpoint — N-06
+
+N-06 total Intent audit consumed the N-01 master resource contract as its dependency input.
+
+Transfer outcome:
+- Intent/deep-link resource contracts were handed to N-06.
+- Manifest linkage/configuration remained N-05-owned.
+- Navigation semantics remained N-08-owned.
+- Branding/identity substitutions remained N-11-owned.
+- N-06 completed its actionable Intent closure and returned no unresolved N-01 resource ownership defect.
+
+This is a **transfer/closure checkpoint**, not N-01 overall closure.
+
+N-01-R6 remains open until all cross-domain resource findings across N-02/N-03/N-04/N-05/N-06/N-08/N-11 are reconciled.
