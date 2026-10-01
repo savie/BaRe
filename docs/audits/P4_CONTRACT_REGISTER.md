@@ -286,7 +286,7 @@ This section makes the blocker analysis actionable without starting P4.2 impleme
 | P4-C03 | Permission/access state is split into capability identity, current state, result/retry outcome, and readiness aggregation. Each Intro card has an explicit source of truth. Manual P3 success flags are classified as transitional only. | Root/Shizuku grant engine, app-op engine, privileged runtime behavior |
 | P4-C04 | Storage contract names the stable volume identity, display/location metadata, selected volume, persisted `preferred_storage_dir`, validity check, and fallback rule. `StorageInfoService.read()` returning null is treated as an implementation gap, not as evidence for invented behavior. | Actual filesystem probing/migration and privileged storage behavior |
 | P4-C05 | Current identity, anonymous/registered state, identity/session state and userInfo ownership have one provider-neutral state boundary. Existing `UserInfoRepository` and lifecycle policy are reused rather than duplicated. | Firebase/Supabase SDK execution and live auth state |
-| P4-C06 | Migration policy is represented as an ordered state transition with the observed Reference outcomes: `MIGRATED`, `NOT_NEEDED`, `NOT_FOUND`, `SOURCE_CHANGED`, `DESTINATION_CHANGED`, `ROLLED_BACK`, `FAILED`, `UNKNOWN`. Sign-out/reset ordering is explicit. | Actual provider sign-out, cloud metadata mutation, and live migration |
+| P4-C06 | Migration policy is represented by the Reference-backed persisted boolean guard `is_migrating_to_google_sign_in`, with explicit sign-out/reset ordering and lifecycle policy. No typed migration-result enum is inferred because those enum names are not present in the audited ZIP. | Actual provider sign-out, cloud metadata mutation, and live migration |
 | P4-C07 | Every P4-consumed persisted key is classified by owner, type, default, sensitivity, and reset behavior. The secure/local preference boundary is explicit; no unsupported cryptographic implementation is inferred from the audit alone. | Keystore/encrypted-preferences runtime implementation unless separately authorized |
 | P4-C08 | Frozen-P3 settings consumers have an exact key/type/default/read-write-owner map corresponding to the Reference `AppSettings` boundary. UI-local settings are not allowed to become an accidental second canonical store. | Cloud settings sync and backend mutation |
 | P4-C09 | `saved_password_mode` is mapped exactly by key, stored representation, default, and consumer semantics. BaRe `P3_PASSWORD_MODE` is treated as a migration/reconciliation concern, not a new product contract. | Password generation, encryption, secure password storage, restore |
@@ -294,7 +294,7 @@ This section makes the blocker analysis actionable without starting P4.2 impleme
 | P4-C11 | Minimal P4 data contracts are frozen only for models with frozen-P3 consumers: exact fields, nullability/defaults, ownership, and state/result relationships are recorded. SLog/diagnostic state is included only where exposed by those consumers. | Actual data collection, provider execution, backup/restore data production |
 | P4-C12 | Task state contract defines stable identity, status, progress, result/error/warning, cancellation/force-stop intent, and SLog visibility needed by TaskActivity. UI adapter shape must consume the contract rather than inventing state. | TaskService execution, worker/foreground service execution, real task cancellation |
 | P4-C13 | Job/task boundary is limited to state observation and lifecycle intent consumed by existing P3 surfaces. Scheduling API shape must not leak provider/backup implementation details. | Alarm/WorkManager/foreground-service execution and actual feature jobs |
-| P4-C14 | Cloud/session metadata is separated into local provider-neutral state versus provider-specific execution. UID/cloud-directory metadata and initialization status have one ownership path. | Token exchange, cloud upload/download, backend mutation |
+| P4-C14 | Cloud/session metadata is separated into local provider-neutral state versus provider-specific execution. UID/cloud-directory metadata has one ownership path; no unsupported generic initialization API is introduced. | Token exchange, cloud upload/download, backend mutation |
 | P4-C15 | No P4.2 task may introduce a fake provider implementation merely to satisfy a consumer. Provider interfaces remain explicit boundaries. | Firebase/Supabase/provider SDK execution |
 | P4-C16 | Backup/restore engine remains represented only by state/result contracts required by P4 task surfaces. No archive, compression, encryption, filesystem mutation, or transfer engine is pulled into P4. | Full backup/restore execution and all feature-engine/provider work |
 
@@ -354,7 +354,7 @@ The contract owners were reconciled against the current BaRe source and the Refe
 | WP-C / C04 | Storage coordinator/service | `StorageInfoService`, `StorageSwitchActivity` | Activity remains UI consumer; selected/preferred storage state belongs to storage boundary. `StorageInfoService.read() == null` remains a gap until a real contract owner exists. |
 | WP-C / C03 | Permission/access state boundary | Existing N-07 permission checks + Intro consumers | Permission readiness must not be persisted as manual success flags. UI flags are transitional only. |
 | WP-D / C08 | Settings repository/model | Existing `SettingsFragment` and local settings access | `AppSettings` is the Reference model boundary; UI-local `settings` storage must not become a competing canonical store. |
-| WP-D / C09 | Settings/password-strategy state owner | C08 settings boundary + Intro consumer | `saved_password_mode` maps through the settings/state owner; `P3_PASSWORD_MODE` is transitional reconciliation state. |
+| WP-D / C09 | Settings/password-strategy state owner | `PasswordStrategyRepository` over `SecureLocalState`; C08 settings boundary + Intro consumer | `saved_password_mode` is the canonical secure-state contract with Reference ordinal/default semantics; `P3_PASSWORD_MODE` remains transitional reconciliation state only. Concrete encrypted/secure runtime adapter stays downstream. |
 | WP-E / C10 | First-run restore state owner | Lifecycle + cloud/session boundaries | Restore completion is lifecycle state, but restore execution/result comes from a dedicated boundary; do not let IntroActivity synthesize success. |
 | WP-F / C12 | Task state repository/service boundary | `TaskActivity` UI + Reference task-state contract | Activity observes task state; it does not manufacture task status. |
 | WP-F / C13 | Task/job lifecycle boundary | Task state contract + future scheduler adapter | P4 exposes only observation/intent; scheduler execution remains downstream. |
@@ -670,3 +670,55 @@ This closure is static only. It does not claim device permission success, Root/S
 A final source reread found stale Intro call-sites to the removed P3 permission-ready helpers. Those call-sites were removed; current IntroActivity now refreshes the canonical PermissionAccessService state after permission-request returns/fallbacks. The C03/C04 closure decision is unchanged.
 
 No build/install/runtime/provider/backend/engine execution was performed.
+
+
+### P4.2 WP-D implementation + decompile-fidelity correction — 2026-10-01
+
+**Scope:** C08 / C09 only.
+
+Primary evidence was re-read directly from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP before accepting the WP-D contract:
+
+- `org/swiftapps/swiftbackup/model/firebase/AppSettings.java`: `withSavedSettings()` reads `saved_password_mode` from the secure preference boundary with default `STANDARD_PASSWORD.ordinal()`; invalid ordinals fall back to `STANDARD_PASSWORD`. The frozen-P3 settings subset includes `isPlayNotificationSounds`, whose Reference default is `true`.
+- `defpackage/ha7.java`: `play_notification_sounds` is persisted through the ordinary local preference boundary with default `true`; cloud settings restore/save is a separate downstream path.
+- `defpackage/ux5.java`: the Reference password-strategy enum contains exactly `STANDARD_PASSWORD` and `USER_PASSWORD`.
+- `org/swiftapps/swiftbackup/common/V.java`: `getZ()` is the secure/encrypted preference boundary used by `saved_password_mode`; BaRe therefore must not place that key in ordinary `LocalState`.
+
+#### C08 — Settings
+
+BaRe now has the minimum Reference-shaped settings contract required by the frozen P3 consumers:
+
+- `AppSettings` contains the currently justified frozen-P3 settings field `isPlayNotificationSounds`.
+- `SettingsRepository` owns local `play_notification_sounds` read/write through the canonical `LocalState` boundary with Reference default `true`.
+- The former competing UI-local `settings` preference store is not used as a second canonical settings store.
+- Cloud settings sync/restore remains downstream; Firebase code in the Reference is evidence only, not a target backend implementation.
+
+#### C09 — saved_password_mode
+
+The initial WP-D implementation was corrected after the direct ZIP audit found that `saved_password_mode` belongs to Reference `V.getZ()` secure state, not ordinary local preferences.
+
+Current canonical contract:
+
+- key: `saved_password_mode`
+- stored representation: integer enum ordinal
+- values: `STANDARD_PASSWORD`, `USER_PASSWORD`
+- default/fallback: `STANDARD_PASSWORD.ordinal()`
+- owner: `PasswordStrategyRepository` over the `SecureLocalState` boundary
+- `P3_PASSWORD_MODE` remains transitional Intro reconciliation state only; it is not the canonical C09 persisted contract.
+
+The concrete encrypted/secure preference adapter is intentionally not implemented here. No crypto, password generation, password storage, restore, provider/backend, build, install, or runtime execution is claimed.
+
+#### WP-D static regression / correction result
+
+- `LocalState` no longer declares `KEY_SAVED_PASSWORD_MODE`.
+- `IntroActivity` retains `P3_PASSWORD_MODE` only as transitional state.
+- `PasswordStrategyRepository` is the canonical C09 contract owner.
+- `SettingsRepository` owns the ordinary local `play_notification_sounds` preference.
+- No duplicate settings/password canonical owner was introduced.
+- The earlier `0a77b303e549f5c5c84d941dfc74500d7dda26af` checkpoint was docs-only and is not treated as WP-D implementation.
+- Subsequent corrective commits are the implementation/evidence chain; the current `rewrite` HEAD is `1db9bbe02959aacc16d021697524f8fc38cb5f0a`.
+
+**WP-D decision: C08/C09 — CLOSED (static contract acceptance).**
+
+This closure is static only. It does not claim secure-storage runtime success, crypto success, cloud settings sync, password engine execution, build/install/runtime/provider/backend success.
+
+**Next active package:** WP-E / C10.
