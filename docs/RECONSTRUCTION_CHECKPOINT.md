@@ -12,6 +12,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 - P3 gate: `docs/PHASE_3_GATE.md`
 - P4 gate: `docs/PHASE_4_GATE.md`
 - P4 contract register: `docs/audits/P4_CONTRACT_REGISTER.md`
+- P5.0 scope audit: `docs/audits/P5_SCOPE_AUDIT.md`
 - Detailed status/history: `docs/RECONSTRUCTION_STATUS.md`
 
 ## Roadmap status
@@ -22,7 +23,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
-| 5 | Features | **DEFERRED** |
+| 5 | Features | **P5.0 SCOPE COMPLETE / P5 GATE NOT OPENED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
@@ -98,11 +99,11 @@ These remain outside P4 implementation:
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → Phase 5 downstream.**
+> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5 gate not opened.**
 
 Current package: **P4.5 — Verified Checkpoint / Package Closure — CLOSED.**
 
-Next lifecycle boundary: **Phase 5 — feature execution reconstruction.**
+Next lifecycle boundary: **Phase 5 — feature execution reconstruction. P5.0 scope/entry control is complete; P5.1 feature audit is next.**
 
 P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the scope remains C01–C16.
 
