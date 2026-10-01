@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bare.R;
 import com.bare.home.HomeActivity;
+import com.bare.core.state.LocalState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -29,8 +30,6 @@ import java.util.List;
 public final class IntroActivity extends Activity {
     private boolean restoreFlow;
 
-    private static final String PREFS = "com.bare_preferences";
-    private static final String KEY_FIRST_START = "KEY_FIRST_START";
     private static final String KEY_SIGNED_IN = "P3_SIGNED_IN";
     private static final String KEY_STORAGE_READY = "P3_STORAGE_READY";
     private static final String KEY_NOTIFICATIONS_READY = "P3_NOTIFICATIONS_READY";
@@ -42,6 +41,7 @@ public final class IntroActivity extends Activity {
     private static final int REQUEST_STORAGE = 1004;
 
     private SharedPreferences prefs;
+    private LocalState localState;
 
     private View signInContainer;
     private View permissionsContainer;
@@ -63,8 +63,9 @@ public final class IntroActivity extends Activity {
         }
 
 
-        prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
-        if (!prefs.getBoolean(KEY_FIRST_START, true)) {
+        localState = new LocalState(this);
+        prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
+        if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
             openHome();
             return;
         }
@@ -108,7 +109,7 @@ public final class IntroActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (prefs == null || !prefs.getBoolean(KEY_FIRST_START, true)) return;
+        if (prefs == null || localState == null || !localState.getBoolean(LocalState.KEY_FIRST_START, true)) return;
         if (storageCard != null) refreshState();
     }
 
@@ -303,10 +304,8 @@ public final class IntroActivity extends Activity {
     }
 
     private void completeIntro() {
-        prefs.edit()
-                .putBoolean(KEY_FIRST_START, false)
-                .putBoolean("KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED", true)
-                .apply();
+        localState.putBoolean(LocalState.KEY_FIRST_START, false);
+        localState.putBoolean(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED, true);
         openHome();
     }
 
@@ -324,7 +323,7 @@ public final class IntroActivity extends Activity {
                 }, (dialog, which) -> {
                     if (which == 0) {
                         prefs.edit()
-                                .remove(KEY_FIRST_START)
+                                .remove(LocalState.KEY_FIRST_START)
                                 .remove(KEY_SIGNED_IN)
                                 .remove(KEY_STORAGE_READY)
                                 .remove(KEY_NOTIFICATIONS_READY)
