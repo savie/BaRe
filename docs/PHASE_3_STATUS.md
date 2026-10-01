@@ -849,3 +849,21 @@ No build/install/runtime/visual verification was performed. N-04 remains OPEN ov
 **Implementation:** replaced only the Title font family with `@font/main_medium`.
 
 **Static re-audit:** target style re-read confirms the Reference font resource. Reference tree remains untouched. No dependent styles were altered. No build/install/runtime/visual verification was performed. N-04 remains OPEN overall.
+
+
+## Step 8 Implementation Checkpoint — N-05 Manifest — IntroActivity resizeableActivity Batch 03
+
+**Status: COMPLETE — STATIC CONTRACT PASS**
+
+**EU:** EU-03 / N-05 Manifest  
+**Reference contract:** `IntroActivity` declares `android:resizeableActivity="true"`.
+
+**Implementation:** added `android:resizeableActivity="true"` to `.intro.IntroActivity` in `app/src/main/AndroidManifest.xml`.
+
+**Scope:** one manifest attribute on one app-owned Activity.
+
+**Static re-audit:** commit `3e23f527b1f2b26738adf3758e2e0ea8ab05c193` changes only `app/src/main/AndroidManifest.xml`, adding the single target attribute. Target manifest was re-read and the attribute is present. `reference/` remains read-only.
+
+**Boundary:** no theme/resource copy, permission, intent-filter, provider, backend, engine, or runtime mutation. Build/install/runtime/visual verification was not performed.
+
+**Result:** bounded contract 🟢 PASS. N-05 remains 🟡 OPEN overall.
