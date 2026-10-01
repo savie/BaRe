@@ -1119,3 +1119,42 @@ Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED
 **Verification:** static only. Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED.
 
 **EU-03 bounded contract:** 🟢 PASS. **N-05 overall:** 🟡 OPEN.
+
+
+## N-11 — TOTAL AUDIT REGISTER + IMPLEMENTATION CLOSURE
+
+**Mode:** N-Level Full Closure / Audit-to-Green. This N is audited as a complete contract first; implementation then consumes the full register and continues until all statically resolvable N-11 items are PASS or explicitly owned by another N contract.
+
+### Total N-11 contract register
+
+| ID | Contract | Reference evidence | Current BaRe state | Action | Owner/status |
+|---|---|---|---|---|---|
+| N11-01 | Application visible name | Reference application label is `@string/swift_backup`; target branding deviation authorizes BΛR☰ | Manifest label is literal `BΛR☰`; `app_name` is `BΛR☰` | Preserve target branding | 🟢 PASS |
+| N11-02 | Launcher identity | Reference application icon is `@mipmap/ic_launcher`; target requires BΛR☰ launcher identity | `@drawable/bare_launcher_icon` is declared and resource exists from prior implementation | Static re-audit only | 🟢 PASS |
+| N11-03 | Intro/onboarding visible branding | Handoff explicitly includes onboarding/visible branding | Current strings and Intro surface use BΛR☰ branding | No mutation | 🟢 PASS |
+| N11-04 | Visible string branding | Handoff authorizes Swift Backup → BΛR☰ visible migration; internal identifiers are not automatically defects | Current app strings containing `swift` are `search_swift_backup`, `swiftlogger`, `open_in_swift_backup`; their displayed values are `Search BΛR☰`, `BΛR☰Logger`, `Open in BΛR☰` | Preserve resource identifiers; do not global-rename | 🟢 PASS |
+| N11-05 | Internal Java/resource identifier classification | Project rule forbids changing internal identifiers merely because they contain Swift | No target-side evidence establishes these identifiers as visible Swift branding | Classification only | 🟢 PASS |
+| N11-06 | Manifest application identity | Reference uses Swift package/class/theme; target explicitly authorizes `com.bare`, `.BaReApp`, `BaReTheme` | BaRe uses authorized target identity | Preserve authorized deviation | 🟢 PASS |
+| N11-07 | External/provider identity | Swift-namespaced callback URIs are provider/deep-link contracts | Yandex/TeraBox already aligned; Box still has Reference URI in `BoxSignInActivity` | Do not mutate under N-11; N-06 owns callback contract | 🟢 PASS / N-06-owned residual |
+| N11-08 | User-visible provider names | Provider labels such as Box, OneDrive, TeraBox are product/provider names, not Swift branding | Current values are provider names | Preserve | 🟢 PASS |
+| N11-09 | Help/legal/product identity | Handoff includes help/legal/product URLs in branding audit | No current app-source evidence establishes a Swift-branded visible URL requiring N-11 mutation | No speculative URL mutation | 🟢 PASS |
+| N11-10 | Runtime/visual branding verification | Runtime/visual verification is separately gated | Not performed | Keep as verification limitation, not static defect | 🟢 STATIC PASS; runtime deferred |
+
+### Implementation executed
+
+The only concrete N-11 implementation gap established by the audit was the launcher identity contract; it had already been implemented in the prior N-11 launcher batch with `android:icon="@drawable/bare_launcher_icon"` and the app-owned BΛR☰ vector. The current total audit re-reads that contract and confirms it remains present.
+
+No additional N-11 mutation is justified by current evidence. In particular, internal resource names containing `swift` are not renamed, and Box's `org.swiftapps.swiftbackup.box://oauth` is not silently changed because that is an external callback contract owned by N-06 and lacks an independently established replacement provider contract in N-11.
+
+### Re-audit / closure
+
+- Application label: PASS.
+- Launcher resource + manifest icon: PASS.
+- Visible Swift branding in inspected application strings: no unresolved visible Swift value found.
+- Internal Swift-containing resource identifiers: classified non-defect.
+- Authorized `com.bare` / `.BaReApp` identity: PASS.
+- Provider/deep-link residuals: explicitly transferred to N-06 ownership; no duplicate mutation.
+- `reference/` remains read-only.
+- No build/install/runtime/visual verification performed.
+
+**N-11 status: 🟢 CLOSED / PASS (static contract).**
