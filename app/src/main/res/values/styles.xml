@@ -136,4 +136,217 @@
     <style name="Toolbar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title"/>
     <style name="ToolbarDivider" parent="@style/DividerThinNoMargins"/>
     <style name="ToolbarTheme" parent=""/>
+
+    <style name="BottomNavTextAppearanceActive" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="fontFamily">@font/main_medium</item>
+    </style>
+    <style name="BottomNavTextAppearanceInactive" parent="@style/BottomNavTextAppearanceActive"/>
+    <style name="CircularActionIcon">
+        <item name="android:background">@drawable/circle_action_icon_ripple</item>
+        <item name="android:padding">@dimen/spacing_low_more</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="textAllCaps">false</item>
+    </style>
+    <style name="DetailTabTextAppearance" parent="@style/Subtitle">
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="ExtendedFabShapeAppearanceOverlay" parent="ShapeAppearanceOverlay.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="ExtendedFabTextAppearance" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/main_regular</item>
+        <item name="fontFamily">@font/main_regular</item>
+    </style>
+    <style name="FabShapeAppearanceOverlay" parent="ShapeAppearanceOverlay.Material3.FloatingActionButton">
+        <item name="cornerSize">100%</item>
+    </style>
+    <style name="FadeActivityAnimations" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@android:anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@android:anim/fade_out</item>
+    </style>
+    <style name="GoogleSignInButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textSize">@dimen/subtitle_large</item>
+        <item name="android:textColor">@color/google_sign_in_button_text</item>
+        <item name="android:fontFamily">@font/main_bold</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">@color/google_sign_in_button_background</item>
+        <item name="fontFamily">@font/main_bold</item>
+        <item name="iconTint">@null</item>
+        <item name="rippleColor">@color/google_sign_in_button_ripple</item>
+        <item name="strokeColor">@color/google_sign_in_button_stroke</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+    <style name="IntroBenefitCard" parent="@style/CardStyleNormal">
+        <item name="android:minHeight">124dp</item>
+        <item name="cardBackgroundColor">?cardBackgroundColor</item>
+    </style>
+    <style name="IntroBenefitIconCard" parent="Widget.Material3.CardView.Filled">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="cardCornerRadius">22dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+    <style name="M3AlertDialogTheme" parent="ThemeOverlay.Material3.Dialog.Alert">
+        <item name="android:colorBackground">?colorSurface</item>
+        <item name="android:dialogCornerRadius">@dimen/corner_radius_default</item>
+        <item name="buttonBarNegativeButtonStyle">@style/M3DialogButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/M3DialogButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/M3DialogButtonStyle</item>
+    </style>
+    <style name="M3SplitButtonTonalIcon" parent="Widget.Material3.SplitButton.IconButton.Filled.Tonal">
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:paddingTop">@dimen/spacing_low_more</item>
+        <item name="android:paddingBottom">@dimen/spacing_low_more</item>
+        <item name="android:minWidth">36dp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">@dimen/spacing_medium</item>
+        <item name="android:paddingEnd">@dimen/spacing_medium</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">?colorBackgroundActivated</item>
+        <item name="iconSize">18dp</item>
+        <item name="iconTint">?colorPrimary</item>
+        <item name="rippleColor">?colorBackgroundActivated</item>
+    </style>
+    <style name="M3SplitButtonTonalLeading" parent="Widget.Material3.SplitButton.LeadingButton.Filled.Tonal">
+        <item name="android:textSize">@dimen/subtitle_small</item>
+        <item name="android:textColor">?colorPrimary</item>
+        <item name="android:paddingTop">@dimen/spacing_low_more</item>
+        <item name="android:paddingBottom">@dimen/spacing_low_more</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:fontFamily">@font/main_bold</item>
+        <item name="android:paddingStart">@dimen/spacing_normal</item>
+        <item name="android:paddingEnd">@dimen/spacing_medium_more</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">?colorBackgroundActivated</item>
+        <item name="fontFamily">@font/main_medium</item>
+        <item name="iconTint">?colorPrimary</item>
+        <item name="rippleColor">?colorBackgroundActivated</item>
+    </style>
+    <style name="MyTextViewStyle" parent="@android:style/Widget.Material.TextView">
+        <item name="android:hyphenationFrequency">none</item>
+    </style>
+    <style name="NavigationRailTextAppearanceActive" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="fontFamily">@font/main_medium</item>
+    </style>
+    <style name="NavigationRailTextAppearanceInactive" parent="@style/NavigationRailTextAppearanceActive"/>
+    <style name="ScheduleFabMenuItem" parent="Widget.Material3.Button.Icon">
+        <item name="android:textAppearance">@style/ScheduleFabMenuItemTextAppearance</item>
+        <item name="android:textColor">?colorOnPrimaryContainer</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:maxWidth">260dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="backgroundTint">?colorPrimaryContainer</item>
+        <item name="elevation">0dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">8dp</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconTint">?colorOnPrimaryContainer</item>
+        <item name="rippleColor">?colorOnPrimaryContainer</item>
+        <item name="shapeAppearanceOverlay">@style/ScheduleFabMenuItemShapeAppearanceOverlay</item>
+    </style>
+    <style name="ScheduleFabMenuItemShapeAppearanceOverlay" parent="ShapeAppearanceOverlay.Material3.Button">
+        <item name="cornerSize">28dp</item>
+    </style>
+    <style name="ScheduleFabMenuItemTextAppearance" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">?colorOnPrimaryContainer</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="fontFamily">@font/main_medium</item>
+    </style>
+    <style name="ScheduleFabMenuToggle" parent="Widget.Material3.ExtendedFloatingActionButton.Icon.Primary">
+        <item name="android:textAppearance">@style/ExtendedFabTextAppearance</item>
+        <item name="android:textColor">?colorOnPrimaryContainer</item>
+        <item name="backgroundTint">?colorPrimaryContainer</item>
+        <item name="iconTint">?colorOnPrimaryContainer</item>
+        <item name="rippleColor">?colorOnPrimaryContainer</item>
+        <item name="shapeAppearanceOverlay">@style/ExtendedFabShapeAppearanceOverlay</item>
+    </style>
+    <style name="SearchViewIcon">
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:paddingLeft">@dimen/search_icon_padding</item>
+        <item name="android:paddingRight">@dimen/search_icon_padding</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:alpha">0.54</item>
+    </style>
+    <style name="BaReCircularProgressIndicator">
+        <item name="android:indeterminate">true</item>
+        <item name="trackColor">@color/trans</item>
+        <item name="trackCornerRadius">@dimen/progress_indicator_corner_radius</item>
+    </style>
+    <style name="BaReLinearProgressIndicator">
+        <item name="trackCornerRadius">@dimen/progress_indicator_corner_radius</item>
+    </style>
+    <style name="BaReSegmentedListItemCardView" parent="Widget.Material3.ListItemCardView.Segmented">
+        <item name="cardBackgroundColor">@color/segmented_list_item_background</item>
+    </style>
+    <style name="BaReSegmentedPreferenceCard" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?segmentedListItemBackgroundColor</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="rippleColor">?colorControlHighlight</item>
+        <item name="shapeAppearanceOverlay">ShapeAppearance.BaRe.Segmented.Single</item>
+    </style>
+    <style name="TextAppearance.BREChip" parent="@style/Title">
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+    </style>
+    <style name="TextAppearance.FilterChip" parent="@style/Title">
+        <item name="android:textSize">@dimen/subtitle</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+    <style name="TextAppearance.S3ProviderChip" parent="@style/Title">
+        <item name="android:textSize">@dimen/subtitle_smallest</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="fontFamily">@font/main_medium</item>
+    </style>
+    <style name="TextAppearanceListItem" parent="@style/Title">
+        <item name="android:textSize">@dimen/title_large</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+    </style>
+    <style name="TextAppearanceListItemSecondary" parent="@style/Subtitle">
+        <item name="android:textSize">@dimen/title</item>
+    </style>
+    <style name="TextOverline">
+        <item name="android:textSize">@dimen/subtitle_smallest</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">@font/main_medium</item>
+        <item name="android:letterSpacing">@integer/letterspacing_050</item>
+    </style>
+    <style name="TextOverline.Large" parent="@style/TextOverline">
+        <item name="android:textSize">11sp</item>
+    </style>
+
 </resources>
