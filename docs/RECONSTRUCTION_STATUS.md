@@ -11,6 +11,18 @@
 - APK build: **WAITING FOR EXPLICIT USER PERMISSION**
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
+## Current control-plane status
+
+The current P3 decision surface is **only** `docs/PHASE_3_GATE.md`.
+
+Latest Activity depth audit:
+- 71/71 Reference-owned Activities covered/registered
+- 23 🟢 meaningful reconstruction depth
+- 48 🟡 shallow / boundary-level reconstruction
+- 0 🔴 not-meaningful surfaces
+
+This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
+
 ## Current phase
 **PHASE 3 — UI + NAVIGATION / FLOW**
 
