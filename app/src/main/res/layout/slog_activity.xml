@@ -3,8 +3,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar" android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize" android:title="@string/swiftlogger"
-        android:subtitle="@string/swiftlogger_info" />
+        android:layout_height="?attr/actionBarSize" android:title="@string/barelogger"
+        android:subtitle="@string/barelogger_info" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_slog" android:layout_width="match_parent"
         android:layout_height="match_parent" android:layout_marginTop="?attr/actionBarSize"
