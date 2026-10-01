@@ -142,3 +142,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - `StorageInfoService.read()` remains a non-fabricating runtime/filesystem boundary.
 - WP-A remains **IN PROGRESS / NOT CLOSED** until its C07/C11 consumer/ownership reconciliation is complete.
 - No build, install, runtime, provider, backend, or engine execution was performed.
+
+### P4.2 WP-A correction — 2026-10-01
+
+- Corrected first-run restore ownership: `IntroActivity` no longer writes `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=true` merely on Intro completion.
+- The key remains owned by `LocalState` but its terminal transition is reserved for C10 first-run restore behavior.
+- Intro reset clears the key alongside first-start state.
+- This is a static contract-fidelity correction; WP-A remains IN PROGRESS.
+- No build, install, runtime, provider, backend, or engine execution was performed.
