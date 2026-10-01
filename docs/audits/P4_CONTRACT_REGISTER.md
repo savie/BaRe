@@ -663,3 +663,10 @@ Acceptance basis:
 This closure is static only. It does not claim device permission success, Root/Shizuku success, OEM inventory success, filesystem/runtime success, build/install success, or downstream engine/provider/backend execution.
 
 **Next active package:** WP-D / C08-C09.
+
+
+### WP-C post-acceptance static correction — 2026-10-01
+
+A final source reread found stale Intro call-sites to the removed P3 permission-ready helpers. Those call-sites were removed; current IntroActivity now refreshes the canonical PermissionAccessService state after permission-request returns/fallbacks. The C03/C04 closure decision is unchanged.
+
+No build/install/runtime/provider/backend/engine execution was performed.
