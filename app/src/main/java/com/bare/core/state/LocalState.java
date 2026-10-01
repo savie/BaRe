@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 /**
  * Reference-equivalent local preference boundary.
  *
- * Swift Backup initializes its local store from <package>_preferences.
+ * BΛR☰ initializes its local store from <package>_preferences.
  * This class owns only keys established by Reference evidence; P3-only BaRe flags
  * are intentionally not promoted to canonical product state.
  */
