@@ -198,3 +198,10 @@ Static regression found an unnecessary duplicate lifecycle boundary: `IdentitySe
 C05/C14 remain provider-neutral interfaces (`UserInfoRepository`, `BaReBackendRepository`, `ReferenceBackendContract`). No concrete provider implementation or backend execution was added. Account UI consumer wiring remains a later static step because the current BaRe repository interfaces have no provider implementation to safely instantiate without inventing runtime behavior.
 
 **WP-B remains IN PROGRESS.** No build/install/runtime/provider/backend/engine execution was performed.
+
+
+### WP-B account consumer regression — 2026-10-01
+
+`AccountFragment` was rechecked against the current BaRe account contracts. It observes `AccountViewModel` but has no concrete `AccountService` composition/provider implementation. No speculative injection or fake provider was added. This preserves the contract boundary: `AccountFragment` remains a UI consumer, while identity/userInfo acquisition stays behind `AccountRepository` + `UserInfoRepository` / `AccountService`.
+
+C01/C05/C14 therefore remain statically bounded but not implementation-complete. Closure requires a real composition/provider owner supported by Reference evidence; this pass does not invent one.
