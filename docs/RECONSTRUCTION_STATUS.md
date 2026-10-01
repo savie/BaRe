@@ -1136,7 +1136,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 
 - **P4.3: CLOSED — static regression acceptance.**
 - Re-audited the WP-F affected P3 task surface: TaskActivity, TaskService, AlarmReceiver, task resources, and manifest registration.
-- Found and corrected one menu-ID mismatch: TaskActivity now uses R.id.action_swiftlogger, matching menu_task_activity.xml and the Reference.
+- P4.3 found and corrected the then-current menu-ID mismatch. The subsequent N-11 target-app identity normalization renamed the app-owned logger ID consistently to R.id.action_barelogger in both consumer and resource; Reference-only action_swiftlogger remains unchanged.
 - No additional P3 regression was identified in the affected surface.
 - No build/install/runtime/provider/backend/engine verification was performed.
 - **Next active package: P4.4 — remaining-gap classification.**
