@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.bare.views.BaReSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <com.bare.views.SwiftSegmentLinearLayout android:id="@+id/cloud_storage_segment" android:orientation="vertical"
+    <com.bare.views.BaReSegmentLinearLayout android:id="@+id/cloud_storage_segment" android:orientation="vertical"
         android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingHorizontal="@dimen/spacing_normal">
         <include android:id="@+id/storage_view" layout="@layout/dash_storage_view" android:layout_width="match_parent" android:layout_height="wrap_content"/>
         <View android:layout_width="match_parent" android:layout_height="1dp"/>
@@ -15,5 +15,5 @@
                 <ImageView android:id="@+id/iv_save_settings" android:layout_width="48dp" android:layout_height="48dp" android:background="?selectableItemBackgroundBorderless" android:padding="12dp" android:src="@drawable/ic_dots_vertical" android:contentDescription="@string/save_settings" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:tint="?android:textColorSecondary"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-    </com.bare.views.SwiftSegmentLinearLayout>
-</com.bare.views.SwiftSegmentedCardGroup>
+    </com.bare.views.BaReSegmentLinearLayout>
+</com.bare.views.BaReSegmentedCardGroup>
