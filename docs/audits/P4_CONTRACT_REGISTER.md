@@ -621,3 +621,45 @@ Acceptance basis:
 7. Supabase execution is explicitly deferred to the downstream provider/backend phase.
 
 No build/install/runtime/provider/backend/engine verification was performed.
+
+### P4.2 WP-C implementation checkpoint — 2026-10-01
+
+**Scope:** C03 / C04 only.
+
+Primary evidence was re-read directly from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP before mutation:
+- defpackage/dz5.java: raw permission checks (h), set aggregation (i), storage readiness (n), installed-app visibility (k/l), settings/request boundary (o), and Root/Shizuku grant helpers.
+- org/swiftapps/swiftbackup/intro/d.java: Intro state is driven from dz5.n(), notification state, installed-app visibility, and a separate Root/Shizuku coordinator with IDLE, CHECKING_ROOT, AWAITING_SHIZUKU, and GRANTING_PERMISSIONS.
+- defpackage/yn7.java: StorageVolume enumeration, USB correlation, preferred_storage_dir read/write, saved-volume lookup, and fallback to the default volume.
+- defpackage/zn7.java: volume identity/path, removable/USB metadata, display label, read/write validation, and storage-volume resolution.
+- home/storageswitch/StorageSwitchActivity.java: selected zn7 state is UI-owned only; applying a changed selection crosses the storage boundary rather than inventing a second storage store.
+
+Implemented in BaRe:
+- PermissionCapability, PermissionCurrentState, PermissionResult, and PermissionState define the provider-neutral C03 state/result/retry contract.
+- PermissionAccessService reads current storage/notification state and the Reference-shaped installed-app capability; Root/Shizuku remains an explicit downstream coordinator boundary.
+- Intro no longer persists P3_STORAGE_READY, P3_NOTIFICATIONS_READY, P3_INSTALLED_APPS_READY, or P3_ROOT_READY as canonical readiness. It consumes PermissionAccessService instead.
+- StorageVolumeInfo, StorageSelection, StorageInventory, AndroidStorageInventory, StorageCoordinator, and LocalStorageCoordinator define the C04 inventory/selection/persistence/fallback boundary.
+- preferred_storage_dir is the canonical persisted storage-selection key, matching Reference.
+- StorageSwitchActivity now consumes the storage coordinator and persists the selected volume through the canonical boundary.
+
+Static boundary / explicit downstream:
+- Root/Shizuku grant execution and callbacks remain downstream of the C03 contract.
+- OEM-specific installed-app inventory behavior remains downstream; the P4 boundary only models/reads current capability state.
+- Storage archive/backup/restore engines, migration, privileged fallback, and runtime/device verification remain downstream.
+- No build, install, runtime, provider, backend, or engine execution was performed.
+
+### P4.2 WP-C static acceptance — 2026-10-01
+
+**Decision: WP-C / C03-C04 — 🟢 CLOSED (static contract acceptance).**
+
+Acceptance basis:
+1. C03 state ownership is no longer represented by persisted manual P3 readiness booleans.
+2. C03 separates capability identity, current state, last request/result, retry policy, and readiness aggregation.
+3. C03 keeps Root/Shizuku execution as a separate Reference-backed coordinator boundary instead of fabricating a privileged engine.
+4. C04 has one storage-selection owner and one preferred_storage_dir persistence boundary.
+5. C04 models Reference volume identity, display metadata, removable/USB attributes, selection, validity, and saved-selection fallback.
+6. StorageSwitchActivity remains a UI consumer and does not become the canonical storage-state owner.
+7. The implementation was rechecked against the supplied ZIP plus the existing Reference/N-07 audit; no contract-level UNKNOWN was introduced.
+
+This closure is static only. It does not claim device permission success, Root/Shizuku success, OEM inventory success, filesystem/runtime success, build/install success, or downstream engine/provider/backend execution.
+
+**Next active package:** WP-D / C08-C09.
