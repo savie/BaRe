@@ -367,4 +367,14 @@ A stale dashboard Firebase error include was normalized to the existing Supabase
 
 No build/install/runtime/device/provider/backend/engine execution was performed.
 
-**Result: N-11 zero-text target hygiene restored at static boundary; P5 remains the next feature lifecycle boundary.**
+**Result: N-11 zero-text target hygiene restored at static boundary; P5 remains the next feature lifecycle boundary.**### P5.1 Reference closure reconciliation — 2026-10-02
+
+A second full-section reconciliation against v1.0/rebaseline/reference/reference.md and reference/reference_apps_audit.md found ten additional evidence-backed boundaries that were only implicit in F01–F44.
+
+- Added **P5-F45–F54**: account/local identity continuity; import/export/config transfer; folder manifest/incremental/chain validation; MMS/RCS handling; Wi-Fi sensitive-access/enterprise data; schedule selectors/last-run diagnostics; cloud diagnostics/provider abstraction/transfer tests; backup protection/retention/notes; Apps Local-vs-Cloud inventory/canonical discovery; and independent restore-part selection/action model.
+- P5.1 explicit feature-contract units are now **54**.
+- Icon cache and BaRe-specific large-file performance findings were intentionally not promoted to Reference feature units.
+- This is still static evidence/register closure only. P5 gate remains **NOT OPENED**.
+- No build/install/runtime/provider/backend/privileged-engine execution was performed.
+
+
