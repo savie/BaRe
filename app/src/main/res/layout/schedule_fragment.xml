@@ -13,7 +13,7 @@
                     <com.google.android.material.button.MaterialButton android:layout_gravity="center|bottom" android:id="@id/btn_add_first_schedule" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:layout_marginBottom="@dimen/spacing_medium_more" android:text="@string/new_schedule" app:icon="@drawable/ic_plus" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" style="@style/M3ButtonFilled.Error" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
-            <org.swiftapps.swiftbackup.views.QuickRecyclerView android:id="@id/rv_schedules" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:overScrollMode="never" android:nestedScrollingEnabled="false" />
+            <com.bare.views.QuickRecyclerView android:id="@id/rv_schedules" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:overScrollMode="never" android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <include android:id="@id/error_layout" layout="@layout/error_view" />
