@@ -75,7 +75,9 @@
     </style>
     <style name="M3ButtonFilled" parent="Widget.Material3.Button.UnelevatedButton">
         <item name="android:textSize">@dimen/subtitle_large</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="android:stateListAnimator">@animator/button_state_list_animator_m3</item>
+        <item name="fontFamily">@font/main_medium</item>
+        <item name="iconGravity">textStart</item>
     </style>
     <style name="M3ButtonFilled.Error" parent="@style/M3ButtonFilled">
         <item name="android:textColor">@android:color/white</item>
