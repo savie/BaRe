@@ -401,3 +401,23 @@ Static tree verification at the resulting rewrite HEAD:
 - Build/install/runtime/device/provider/backend execution: NOT PERFORMED.
 
 Classification: N-11 TARGET-APP IDENTITY HYGIENE — STATIC PASS.
+
+
+## N-11 normalization re-audit — 2026-10-02
+
+A post-normalization target-tree sweep was performed after the authority-rule reconciliation.
+
+### Exit result
+
+- target `app/` content search for `Swift` / `swift`: **0 matches**;
+- target `app/` content search for `Firebase` / `firebase`: **0 matches**;
+- target `app/` file paths containing `Swift/swift`: **0**;
+- target `app/` file paths containing `Firebase/firebase`: **0**;
+- target `app/` search for known Swift-derived identifiers (`swift_clicks`, `swift_json_settings_summary`, `open_in_swift_backup`, `search_swift_backup`, `btnOpenInSwiftBackup`): **0 matches**;
+- target `app/` search for `bareapps.org`: **0 matches**.
+
+The dashboard backend error include was corrected from the stale Firebase-named surface to the existing BaRe Supabase-named `supabase_connection_error_view` contract. The Premium support URL was normalized from the old `bareapps.org` identity to the BaRe repository issue surface.
+
+No Reference/decompiled material was modified. No build/install/runtime/device/provider/backend/engine execution was performed.
+
+**N-11 target identity normalization = STATIC PASS / ZERO-TEXT CLOSURE.**
