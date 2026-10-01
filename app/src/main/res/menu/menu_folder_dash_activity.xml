@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_create_new_folder" android:id="@id/action_new_folder_setup" android:title="@string/new_folder_setup" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_sort" android:id="@id/action_sort" android:title="@string/sort" app:showAsAction="ifRoom" />
+    <item android:icon="@drawable/ic_folder" android:id="@id/action_folder_settings" android:title="@string/folder_backup_settings" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_settings" android:id="@id/action_settings" android:title="@string/settings" app:showAsAction="never" />
+</menu>
