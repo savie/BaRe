@@ -103,14 +103,20 @@
         <item name="android:textColor">?attr/colorError</item>
         <item name="backgroundTint">?attr/colorErrorContainer</item>
     </style>
-    <style name="M3DialogBody" parent="MaterialAlertDialog.Material3.Body.Text"/>
-    <style name="M3DialogButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog"/>
+    <style name="M3DialogBody" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="fontFamily">@font/main_regular</item>
+    </style>
+    <style name="M3DialogButtonStyle" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:letterSpacing">0.03</item>
+        <item name="fontFamily">@font/main_medium</item>
+    </style>
     <style name="M3DialogTitle" parent="MaterialAlertDialog.Material3.Title.Text"/>
     <style name="M3DialogTitleTextAppearance" parent="TextAppearance.Material3.HeadlineSmall"/>
     <style name="M3MaterialAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog"/>
     <style name="M3CheckedTextViewStyle" parent="Widget.Material3.CheckedTextView"/>
-    <style name="M3TextInputEditTextPassword" parent="">
-        <item name="android:fontFamily">monospace</item>
+    <style name="M3TextInputEditTextPassword">
+        <item name="android:fontFamily">@font/mono_regular</item>
+        <item name="fontFamily">@font/mono_regular</item>
     </style>
     <style name="M3TilFilledDense" parent="Widget.Material3.TextInputLayout.FilledBox.Dense"/>
     <style name="M3TilFilledDenseDropdown" parent="Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"/>
