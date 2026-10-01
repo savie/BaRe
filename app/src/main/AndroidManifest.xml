@@ -59,6 +59,7 @@
         android:allowBackup="false"
         android:allowClearUserData="false"
         android:largeHeap="true"
+        android:extractNativeLibs="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:enableOnBackInvokedCallback="true">
