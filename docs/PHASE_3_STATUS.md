@@ -817,3 +817,20 @@ No build/install/runtime/visual verification was performed. N-05 remains OPEN ov
 **Static re-audit:** target source re-read confirms enum, Serializable ingress, LOCAL default, and CLOUD→second-tab mapping. Scope is one app Java file. `reference/` remains read-only. No build/install/runtime/visual verification was performed.
 
 **Boundary:** this batch does not claim caller parity, fragment/provider behavior, or runtime navigation verification. N-08 remains OPEN overall.
+
+
+## N-04 Theme/Style/Color — M3ButtonTonal Batch 05
+
+**Status: COMPLETE — STATIC RE-AUDIT PASS**
+
+**Implementation commit:** `40da31ad46f84535f7c305aa4fa3a4894f55086b`
+
+**Scope:** `app/src/main/res/values/styles.xml`, `M3ButtonTonal.fontFamily` only.
+
+**Reference contract:** `M3ButtonTonal` explicitly uses `fontFamily=@font/main_medium`. BaRe previously used the generic `sans-serif-medium` value.
+
+**Implementation:** replaced only that font-family item with `@font/main_medium`.
+
+**Static re-audit:** target style re-read confirms `fontFamily=@font/main_medium`. Reference tree remains untouched. No other M3ButtonTonal color/animator/ripple contracts were changed because their custom attribute/color dependencies remain unproven/self-incomplete in BaRe.
+
+No build/install/runtime/visual verification was performed. N-04 remains OPEN overall.
