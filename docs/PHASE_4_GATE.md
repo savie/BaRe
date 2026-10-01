@@ -2,7 +2,7 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 ACTIVE**
+**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 CLOSED / P4.4 ACTIVE**
 
 Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
 
@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.3 — P3 Static Regression Re-Audit — ACTIVE**
+**P4.4 — Remaining-Gap Classification — ACTIVE**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
