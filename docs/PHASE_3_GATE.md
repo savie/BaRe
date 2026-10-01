@@ -356,3 +356,13 @@ P3 is **not yet frozen**.
 - Reference Firebase backend error surface was mapped to an authorized **Supabase** target surface.
 - Actual backend/error-engine execution remains P4.
 - **N-10 = 🟢 CLOSED / STATIC PASS.**
+
+
+### N-13 closure — Fake / Stub
+
+- Total audit: `docs/audits/N13_FAKE_STUB_TOTAL_AUDIT.md`
+- Generic `ReferenceActivityBoundary` P3 shell: **REMOVED**
+- Storage Switch fake shell: **REPLACED with Reference-shaped P3 UI**
+- Locale selection fake completion: **FIXED to apply selected locale**
+- Explicit engine/provider/backend boundary dialogs remain classified as **P4 handoffs**, not P3 fake.
+- **N-13 = 🟢 CLOSED / STATIC PASS.**
