@@ -1,6 +1,6 @@
 package com.bare.home.repository;
 
-/** Backend-neutral identity model. Firebase-specific types must not cross this boundary. */
+/** Backend-neutral identity model. Backend SDK types must not cross this boundary. */
 public final class BackendIdentity {
     public final String id;
     public final String email;
