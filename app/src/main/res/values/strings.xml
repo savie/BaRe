@@ -66,7 +66,7 @@
     <string name="get_premium">Get premium</string>
     <string name="device">Device</string>
     <string name="back">Back</string>
-    <string name="search_swift_backup">Search BΛR☰</string>
+    <string name="search_bare">Search BΛR☰</string>
     <string name="clear_search">Clear search</string>
     <string name="shortcuts">Shortcuts</string>
     <string name="hide_system_apps">Hide System Apps</string>
@@ -167,8 +167,8 @@
     <string name="p3_quick_action_boundary">Quick action presentation reached. Backup, restore, deletion, and app-management execution remain P4.</string>
     <string name="select_apps">Select apps</string>
     <string name="p3_batch_selection_boundary">Batch selection/search/filter is a P3 presentation boundary. Real app inventory and selection semantics remain deferred.</string>
-    <string name="swiftlogger">BΛR☰Logger</string>
-    <string name="swiftlogger_info">Logs for bug reports</string>
+    <string name="barelogger">BΛR☰Logger</string>
+    <string name="barelogger_info">Logs for bug reports</string>
     <string name="share_logs">Share logs</string>
     <string name="clear_logs">Clear logs</string>
     <string name="sure_to_proceed">Are you sure you want to proceed?</string>
@@ -256,7 +256,7 @@
     <string name="select_storage">Select storage</string>
     <string name="apk_import_title">APK import</string>
     <string name="install">Install</string>
-    <string name="open_in_swift_backup">Open in BΛR☰</string>
+    <string name="open_in_bare">Open in BΛR☰</string>
     <string name="launch">Launch</string>
     <string name="backup">Backup</string>
     <string name="manage">Manage</string>
@@ -498,4 +498,6 @@
     <string name="wifi_on_device">WiFi networks on device</string>
     <string name="backup_to_local">Backup to Device</string>
     <string name="p3_wifi_engine_boundary">Wi-Fi inventory, backup, restore, password disclosure, and deletion remain deferred to the existing system/provider/engine contract.</string>
+    <string name="bare_labs">BΛR☰ Labs</string>
+    <string name="bare_labs_settings_summary">Experimental and repair tools</string>
 </resources>
