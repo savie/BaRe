@@ -526,3 +526,23 @@ Acceptance checks completed:
 **Verification class:** static source/Reference regression only. No build, install, runtime, device, secure-storage/crypto, filesystem, provider, backend, or engine execution was performed.
 
 **Next boundary:** P4.2 continues outside WP-A with the explicitly owned downstream WPs/contracts; WP-A itself is closed.
+### P4.2 WP-B implementation checkpoint — 2026-10-01
+
+**Scope:** C01 / C05 / C06 / C14 only.
+
+Reference reconciliation performed against `d45`, `ah8`, `rc1`, and `re3` from Swift Backup 5.1.0 / versionCode 620.
+
+Implemented/reconciled:
+- `AccountLifecyclePolicy` now exposes explicit startup decisions for first-start, first-run cloud-restore wait, ready-for-home, and post-sign-out reinitialization.
+- Google migration entry is explicitly guarded by identity-present + anonymous + not-already-migrating, matching the Reference `rc1` gate.
+- `AccountMigrationRepository` retains the Reference migration outcome vocabulary without provider execution.
+- `AccountService` now composes the provider-neutral `AccountRepository` identity boundary with the canonical `UserInfoRepository` / `UserInfo` model; no duplicate user-info model is retained in this service path.
+- `BaReBackendRepository` now consumes the canonical `UserInfo` model and explicitly exposes cloud-directory metadata + initialization observation as provider-neutral C14 boundaries.
+
+Static boundary:
+- No provider SDK/auth execution was added.
+- No backend/cloud mutation was added.
+- No fake identity, fake sign-in, fake migration success, or fake cloud initialization was added.
+- No build/install/runtime/device verification was performed.
+
+**WP-B status:** IN PROGRESS / STATIC CONTRACT IMPLEMENTATION. Remaining closure requirement is consumer-level wiring/regression for the actual account surface and a final C01/C05/C06/C14 static acceptance pass. Provider/backend execution remains downstream.
