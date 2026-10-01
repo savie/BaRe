@@ -158,3 +158,10 @@ This is static contract-analysis closure only. No implementation, build, install
 - Static consumer search found no remaining generic storage DTO/Object surface in the active Dashboard path and no duplicate BaRe TaskState/ErrorSummary shape.
 - No further WP-A mutation is justified without crossing into C09/C10/C12/C13 or runtime secure-storage/filesystem execution.
 - WP-A remains **IN PROGRESS** pending package-level acceptance/static regression; no build/install/runtime/provider/backend/engine verification was performed.
+
+### P4.2 WP-A final acceptance — 2026-10-01
+
+- **WP-A / C07-C11 is CLOSED by static acceptance.**
+- Reference reconciliation and consumer regression are complete for the WP-A-owned surface.
+- No runtime/build/install/provider/backend/engine claim is made.
+- P4.2 remains active for the remaining owned work packages.
