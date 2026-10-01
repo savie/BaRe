@@ -67,3 +67,8 @@ P4.1 is now active and has a Reference-backed blocker/dependency analysis in `do
 - No implementation, build, install, runtime, provider, backend, or engine execution was performed.
 
 **Next package:** P4.2 — minimum contract implementation, after the P4.1 blocker analysis is accepted as the implementation map.
+
+
+## P4.1 deepening checkpoint — 2026-10-01
+
+The P4.1 register now includes per-contract acceptance conditions, evidence discipline, six implementation work packages, and an explicit P4.1 exit gate. This remains analysis only. The technical source of truth is `docs/audits/P4_CONTRACT_REGISTER.md` at commit `df1d394c137b897f1f58a65d3bc003623ec266e7`.
