@@ -10,12 +10,12 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 
 public final class SettingsContactFragment extends SettingsDetailBaseFragment {
-    private static final String SUPPORT_EMAIL = "support@swiftapps.org";
-    private static final String TELEGRAM_URL = "https://t.me/swiftbackupsupport";
+    private static final String SUPPORT_EMAIL = "support@bareapps.org";
+    private static final String TELEGRAM_URL = "https://t.me/barebackupsupport";
 
     @Override
     protected void build(PreferenceScreen s) {
-        item(s, "email", "Email", "Contact Swift Backup by email");
+        item(s, "email", "Email", "Contact BΛR☰ by email");
         item(s, "telegram_group", "Telegram group", null);
 
         Preference email = s.findPreference("email");
