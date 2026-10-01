@@ -689,3 +689,24 @@ Bounded N-05 batch reconciled one Reference-owned application manifest contract:
 **Checkpoint commit:** `8bad94fef4780faeefe7c94f081b805d415e5946`.
 
 N-05 remains OPEN for the broader manifest contract; this batch closes only this single attribute contract at static level.
+
+
+## Step 8 Implementation Checkpoint — N-08 Navigation — LaunchMode Batch 02
+
+**Status: 🟢 CLOSED / PASS (static contract)**
+
+**Implementation commit:** aa0c5ce1964cb3bc2287f6522b210cecad0b278a
+
+**Scope:** app/src/main/AndroidManifest.xml only. Reconciled two Reference-defined app-owned Activity launchMode contracts:
+- IntroActivity → android:launchMode="singleTop"
+- TeraBoxSignInActivity → android:launchMode="singleTop"
+
+**Reference evidence:** Swift Backup 5.1.0 / versionCode 620 decompile manifest declares both Activity launch modes as singleTop.
+
+**Static verification:** post-commit manifest re-read confirms both attributes. Commit diff contains exactly one changed app manifest file and no reference/ files. Reference manifest remains read-only and unchanged by this batch.
+
+**Re-audit #8 Navigation:** this bounded launchMode batch is statically reconciled. Domain #8 remains 🟡 OPEN because the complete 71-Activity navigation matrix, source-level explicit destination/extras/result contracts, and runtime Up/back behavior are not yet fully verified.
+
+**Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
+
+N-08 remains open; continue only with another bounded evidence-backed navigation contract.
