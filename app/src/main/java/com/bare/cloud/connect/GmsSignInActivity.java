@@ -19,12 +19,7 @@ public final class GmsSignInActivity extends AppCompatActivity {
    .setTitle("Google Drive")
    .setMessage(R.string.p3_google_stub)
    .setNegativeButton(R.string.close, null)
-   .setPositiveButton(android.R.string.ok, (d, w) -> finishWithResult(Activity.RESULT_OK))
    .show();
- }
- private void finishWithResult(int result){
-  setResult(result);
-  finish();
  }
  @Override public void onBackPressed(){
   setResult(Activity.RESULT_CANCELED);
