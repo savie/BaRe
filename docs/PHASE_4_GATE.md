@@ -2,9 +2,9 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 IN PROGRESS**
+**P4 — ACTIVE / P4.0 CLOSED → P4.1 READY**
 
-Explicit start authorization was given for the Phase 4 workflow. Current work is limited to the evidence-first P4.0 contract inventory.
+Explicit start authorization was given for the Phase 4 workflow. P4.0 contract inventory is complete and accepted. The next active package is P4.1 Gap / Blocker Analysis.
 
 ## Frozen prerequisite
 
@@ -46,6 +46,8 @@ Those require their own explicit authorization and/or downstream phase ownership
 
 ## Gate state
 
-P4 is **active**, but **P4.0 is not yet closed**.
+P4.0 is **closed and accepted**.
 
-The next gate decision is only required when P4.0 has a complete contract inventory and is ready to enter P4.1.
+All 16 contract rows have explicit Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification surface, and P3 regression surface.
+
+P4.1 may now begin. This does **not** authorize implementation, build/install/runtime, provider/backend execution, or engine execution.
