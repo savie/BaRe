@@ -151,3 +151,18 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - Reference remains read-only.
 - Build/install/runtime/visual verification was not performed.
 - P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze.
+
+
+## N-11 total re-audit checkpoint — Branding / Identity
+
+- Total audit evidence: `docs/audits/N11_BRANDING_IDENTITY_TOTAL_AUDIT.md`
+- Application label: **BΛR☰**.
+- Launcher icon: **`@drawable/bare_launcher_icon`** and target-owned vector resource present.
+- Visible Swift-derived branding values remain migrated to BΛR☰ / BaRe identity.
+- Internal Swift-derived identifiers are explicitly classified separately from visible branding.
+- App-owned TeraBox callback uses `com.bare.terabox`; prior Yandex Swift callback identity was removed under N-06.
+- N-11 verdict: **🟢 CLOSED / STATIC PASS — TOTAL RE-AUDIT**.
+- No app implementation change was required by this re-audit.
+- Reference remains read-only.
+- Build/install/runtime/visual/provider/OAuth verification was not performed.
+- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze.
