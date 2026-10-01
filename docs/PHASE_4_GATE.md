@@ -203,3 +203,16 @@ The supplied Swift Backup 5.1.0 / 620 decompile was re-audited directly for `gz7
 The P4.2 execution guard remains unchanged: no build/install/runtime/device/provider/backend/engine execution was performed.
 
 **Next package: P4.3 — P3 static regression re-audit.**
+
+
+### P4.3 static regression re-audit — 2026-10-02
+
+**P4.3: CLOSED — static regression acceptance.**
+
+The WP-F affected P3 task surface was re-audited after C12/C13 closure. TaskActivity continues to consume TaskStateService/TaskStateRegistry; TaskService remains the manifest-registered service boundary; AlarmReceiver retains the evidence-backed scheduler intent keys only. The task layout/menu/manifest references required by the affected surface remain present.
+
+One pre-existing P3 menu-ID mismatch was detected during the re-audit: TaskActivity referenced action_barelogger while menu_task_activity.xml and the Reference use action_swiftlogger. This was corrected to the Reference-backed ID. No other P3 contract regression was identified in the affected WP-F surface.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next package: P4.4 — remaining-gap classification.**
