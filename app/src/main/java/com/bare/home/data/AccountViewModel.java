@@ -56,7 +56,7 @@ public final class AccountViewModel extends ViewModel {
 
     /**
      * Exact r7 menu ordering/IDs. Contributor entry is conditional.
-     * Firebase-specific user acquisition remains a backend adapter boundary.
+     * Provider-specific user acquisition remains a backend adapter boundary.
      */
     public void configureItems(boolean registeredContributor) {
         contributorRegistered.setValue(registeredContributor);
