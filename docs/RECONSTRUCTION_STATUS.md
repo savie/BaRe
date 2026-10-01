@@ -30,7 +30,7 @@ This file is a **detailed evidence / implementation history ledger**. Entries be
 
 P4 was closed after re-audit against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
-Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.md` include:
+Historical P4.0 contract gaps, later resolved at the P4 static boundary, were recorded in `docs/audits/P4_CONTRACT_REGISTER.md` and included:
 - first-start/account lifecycle state and first-run cloud-restore result semantics;
 - authoritative permission readiness vs P3 manual success flags;
 - preferred-storage selection/persistence/fallback via Reference `preferred_storage_dir`;
@@ -53,7 +53,7 @@ Authoritative gate records:
 - `docs/PHASE_1_INVENTORY.md`
 - `docs/PHASE_2_SKELETON.md`
 
-### P4.0 closure — 2026-10-01
+### Historical P4.0 closure — 2026-10-01
 
 P4.0 contract inventory is **COMPLETE / ACCEPTED**.
 
@@ -985,7 +985,7 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - No implementation, build, install, runtime, provider, backend, or engine execution was performed.
 
 
-### P4.1 owner reconciliation checkpoint — 2026-10-01
+### Historical P4.1 owner reconciliation checkpoint — 2026-10-01
 
 Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The main collision is transitional P3 UI flags versus domain-owned state; P4.2 must centralize persisted/domain state and keep Activities as consumers. Dependency order remains WP-A → WP-B → WP-C → WP-D → WP-E → WP-F; C02 regression-only; C15/C16 downstream. P4.1 remains IN PROGRESS.
 
@@ -997,7 +997,7 @@ P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms
 This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
 
 
-### P4.2 WP-A checkpoint — 2026-10-01
+### Historical P4.2 WP-A checkpoint — 2026-10-01
 
 - P4.1 is closed; implementation is now in P4.2 WP-A only.
 - WP-A has reconciled and wired the Reference-backed local lifecycle keys `KEY_FIRST_START`, `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED`, and `play_notification_sounds` through `LocalState`.
@@ -1132,7 +1132,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next active package: WP-F / C12-C13.**
 
-### P4.3 P3 static regression re-audit — 2026-10-02
+### Historical P4.3 P3 static regression re-audit — 2026-10-02
 
 - **P4.3: CLOSED — static regression acceptance.**
 - Re-audited the WP-F affected P3 task surface: TaskActivity, TaskService, AlarmReceiver, task resources, and manifest registration.
@@ -1142,7 +1142,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - **Next active package: P4.4 — remaining-gap classification.**
 
 
-### P4.4 remaining-gap classification — 2026-10-02
+### Historical P4.4 remaining-gap classification — 2026-10-02
 
 - **P4.4: CLOSED — static classification complete.**
 - C01-C14 are closed at the P4 contract boundary; C02 remains PASS.
@@ -1152,7 +1152,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - **Next active package: P4.5 — verified checkpoint / package closure.**
 
 
-### P4.5 verified checkpoint / package closure — 2026-10-02
+### Historical P4.5 verified checkpoint / package closure — 2026-10-02
 
 - **P4: CLOSED at the static contract boundary.**
 - C01-C14 are closed/pass; C15/C16 remain downstream.
