@@ -98,6 +98,56 @@ When Reference evidence is incomplete:
 - document the evidence boundary;
 - defer implementation when a safe contract cannot be established.
 
+### Reference Parity Default / Reconstruction Fidelity
+
+**Default BΛR☰ policy: reproduce the Reference as close to 1:1 as the available evidence allows.**
+
+For any behavior, model, state, key, default, persistence rule, lifecycle transition, ownership boundary, or consumer flow that is established by the Swift Backup 5.1.0 (versionCode 620) decompile/reference:
+
+`Reference evidence → exact shape/semantics → BaRe implementation → wiring`
+
+Do **not** replace a Reference-established contract with a newly designed BaRe equivalent merely because the alternative is architecturally cleaner or conceptually similar.
+
+The implementation standard is:
+
+- preserve Reference class/model shape where it is part of the required contract;
+- preserve exact field names, types, enum values, keys, defaults, and state semantics where evidenced;
+- preserve persistence/read-write behavior and ownership where evidenced;
+- preserve consumer-facing lifecycle and result/error semantics where evidenced;
+- wire existing BaRe consumers to the reconstructed contract rather than leaving a parallel scaffold that is never used;
+- do not invent behavior to fill an evidence gap.
+
+A contract is **not considered Reference-equivalent merely because it produces a similar conceptual result**. Shape and semantics both matter when they are observable to consumers or required by downstream behavior.
+
+### Scaffold / Wiring Rule
+
+A newly introduced contract/model is provisional until it has been reconciled against the Reference evidence and connected to its intended P3/P4 consumer.
+
+Therefore:
+
+1. **Reconcile first** — compare the implementation against the actual decompile/reference, not only prior analysis.
+2. **Correct parity gaps** — change or remove BaRe abstractions that diverge from an evidenced Reference contract unless the difference is explicitly authorized.
+3. **Wire second** — route the existing consumer through the reconciled contract.
+4. **Static-regression third** — verify the affected P3 surface and record any mismatch.
+5. **Do not advance on a conceptual-only scaffold** when the Reference contract is available.
+
+A scaffold that has not been reconciled and wired is implementation work-in-progress, not a claimed parity result.
+
+### Authorized Difference Rule
+
+A difference from Reference is allowed only when it is explicitly one of:
+
+- **AUTHORIZED DEVIATION** — BΛR☰ intentionally chooses different behavior and the deviation is documented with its reason and affected boundary; or
+- **DOWNSTREAM / ENVIRONMENTAL LIMITATION** — the Reference behavior is known, but execution depends on a provider, privileged runtime, device capability, backend, or other dependency intentionally deferred to a later phase.
+
+Do not silently turn a Reference difference into a design choice.
+
+When evidence is missing, do not approximate the behavior. Keep the item **UNKNOWN** until targeted evidence resolves it.
+
+**Target principle:**
+
+> **1:1+- first. Deviate only deliberately. Reconstruct first, wire second, invent never.**
+
 ### P4 is boundary-first
 
 Do not begin by implementing a large generic engine, repository hierarchy, provider layer, or domain model merely because it appears architecturally useful.
