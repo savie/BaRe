@@ -70,3 +70,14 @@ The current normalized 15-domain closure register, N-level closure rule, exit ga
 For the exact current P3 decision, read `docs/PHASE_3_GATE.md`.
 
 No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard is active.
+
+
+## Latest N-domain closure checkpoint — N-08
+
+- N-05 Manifest: 🟢
+- N-06 Intent: 🟢
+- N-07 Permissions: 🟢
+- N-08 Navigation: 🟢 CLOSED / STATIC PASS
+- N-09 Lifecycle / State: next domain
+- N-10 Dialog / Error / Loading: pending
+- P3 remains ACTIVE and is not frozen.
