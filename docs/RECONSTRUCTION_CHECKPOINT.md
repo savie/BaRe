@@ -21,7 +21,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 STATIC REGRESSION ACTIVE** |
+| 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
@@ -38,7 +38,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 
 ## Current P4 position
 
-**P4.0 is closed; P4.1 is the current active package.**
+**P4 is CLOSED / FROZEN at the static contract boundary.**
 
 A targeted Reference re-audit was performed using:
 - `v1.0/rebaseline/reference/*`;
@@ -98,9 +98,11 @@ These remain outside P4 implementation:
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → 71/71 Activities covered → 15 P3 domains closed → P4 active → P4.0 re-audit/inventory confirms concrete P4 gaps.**
+> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → Phase 5 downstream.**
 
-Current package: **P4.1 — BaRe Gap / Blocker Analysis**.
+Current package: **P4.5 — Verified Checkpoint / Package Closure — CLOSED.**
+
+Next lifecycle boundary: **Phase 5 — feature execution reconstruction.**
 
 P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the scope remains C01–C16.
 
