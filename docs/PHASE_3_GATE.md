@@ -343,3 +343,16 @@ P3 is **not yet frozen**.
 - Reference remained read-only.
 - Build/install/runtime not performed.
 - **N-09 = 🟢 CLOSED / STATIC PASS — lifecycle/recreation contract boundary.**
+
+
+### N-10 closure — Dialog / Error / Loading
+
+- Total audit: `docs/audits/N10_DIALOG_ERROR_LOADING_TOTAL_AUDIT.md`
+- Common error surface: **PASS**
+- Common loading/progress surface: **PASS**
+- Folder/detail loading skeletons: **PASS**
+- Warning/notice surfaces: **PASS**
+- Programmatic Material dialog boundaries: **PASS at P3 boundary**
+- Reference Firebase backend error surface was mapped to an authorized **Supabase** target surface.
+- Actual backend/error-engine execution remains P4.
+- **N-10 = 🟢 CLOSED / STATIC PASS.**
