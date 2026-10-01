@@ -8,10 +8,10 @@ import android.widget.LinearLayout;
  * Reference-shaped segmented card container.
  * Advanced segment styling remains a parity boundary until its rendering behavior is ported.
  */
-public class SwiftSegmentedCardGroup extends LinearLayout {
-    public SwiftSegmentedCardGroup(Context context) { super(context); init(); }
-    public SwiftSegmentedCardGroup(Context context, AttributeSet attrs) { super(context, attrs); init(); }
-    public SwiftSegmentedCardGroup(Context context, AttributeSet attrs, int defStyleAttr) {
+public class BaReSegmentedCardGroup extends LinearLayout {
+    public BaReSegmentedCardGroup(Context context) { super(context); init(); }
+    public BaReSegmentedCardGroup(Context context, AttributeSet attrs) { super(context, attrs); init(); }
+    public BaReSegmentedCardGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr); init();
     }
     private void init() {
