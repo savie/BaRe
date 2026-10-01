@@ -670,3 +670,22 @@ Static re-audit: the three affected app files contain no remaining `org.swiftapp
 Runtime/provider registration and end-to-end OAuth callback behavior remain **UNVERIFIED** because build/install/runtime verification is still not authorized.
 
 Checkpoint commit: `8c75bc486acd02908b629c2786b8791c92a1e132`.
+
+
+## N-05 / Manifest — Small Implementation Checkpoint
+
+**Status: IMPLEMENTED — STATIC CONTRACT PASS**
+
+Bounded N-05 batch reconciled one Reference-owned application manifest contract:
+- `android:extractNativeLibs="true"` added to `app/src/main/AndroidManifest.xml`.
+- Reference evidence explicitly defines this application-level attribute.
+- Scope was limited to one application attribute; no permission, identity, intent, provider, backend, engine, or runtime behavior was changed.
+- `reference/` remained untouched.
+
+**Static re-audit:** target manifest was re-read and the expected `android:extractNativeLibs="true"` attribute is present.
+
+**Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
+
+**Checkpoint commit:** `8bad94fef4780faeefe7c94f081b805d415e5946`.
+
+N-05 remains OPEN for the broader manifest contract; this batch closes only this single attribute contract at static level.
