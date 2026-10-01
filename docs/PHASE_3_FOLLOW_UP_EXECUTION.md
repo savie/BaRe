@@ -1023,3 +1023,15 @@ N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListA
 **Re-audit:** target style re-read and all seven Reference-defined items confirmed. `reference/` remains read-only. No build/install/runtime/visual verification.
 
 **Boundary:** broader `SwiftTheme` family, other styles, colors, qualifiers, and runtime visual parity remain open.
+
+## Step 8 Implementation Checkpoint — N-04 M3ButtonFilled Batch 02
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation:** `app/src/main/res/values/styles.xml`, `M3ButtonFilled` only.
+
+**Reference contract:** text size `@dimen/subtitle_large`, state-list animator `@animator/button_state_list_animator_m3`, font `@font/main_medium`, icon gravity `textStart`.
+
+**Re-audit:** all four items confirmed in target. `reference/` remains read-only. No build/install/runtime/visual verification.
+
+**Boundary:** other M3Button variants, SwiftTheme family, colors, qualifiers, and runtime visual parity remain open.
