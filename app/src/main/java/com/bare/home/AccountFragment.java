@@ -15,9 +15,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bare.R;
 import com.bare.home.data.AccountViewModel;
+import com.bare.home.service.AccountService;
+import com.bare.home.repository.AccountRepository;
+import com.bare.account.repository.UserInfoRepository;
 
 public final class AccountFragment extends Fragment {
     private AccountViewModel model;
+    private AccountService accountService;
 
     @Nullable @Override public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle state) {
         return inflater.inflate(R.layout.home_account_fragment, container, false);
@@ -25,6 +29,8 @@ public final class AccountFragment extends Fragment {
 
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         model = new ViewModelProvider(this).get(AccountViewModel.class);
+        // Provider wiring remains deferred; when an AccountService is supplied, this
+        // fragment is the consumer only and never becomes a lifecycle/state owner.
         TextView name = view.findViewById(R.id.tv_user_name);
         TextView email = view.findViewById(R.id.tv_user_email);
         LinearLayout list = view.findViewById(R.id.account_items);
