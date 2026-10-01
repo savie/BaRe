@@ -135,10 +135,15 @@ A domain becomes 🟢 only after its current evidence-backed exit criterion is s
 - **STATIC PASS / CLOSED for P3.**
 
 ### N-03 — Dimensions
-- Project-facing/non-library dimension scope audited.
-- Reference values restored.
-- Required qualifier overrides restored.
-- Static PASS.
+- Total audit: `docs/audits/N03_DIMENSIONS_TOTAL_AUDIT.md`
+- Reference dimension inventory: **839 unique dimension names across 20 `dimens.xml` files**.
+- N-03 application/project-facing scope: **67 Reference-facing dimension contracts**, separated from dependency/library dimensions.
+- Reference-facing base values remain reconciled in `app/src/main/res/values/dimens.xml`.
+- Required qualifier overrides remain present and match Reference: `values-land`, `values-w820dp`, `values-w320dp-land`, `values-w600dp-land`.
+- Target-only `bare_expressive_switch_min_width` is explicitly classified as a BaRe-owned addition and does not invalidate Reference-facing parity.
+- Reference canonical SHA rechecked unchanged.
+- Build/install/runtime/visual verification not performed.
+- **N-03 = 🟢 CLOSED / PASS — STATIC TOTAL RE-AUDIT.**
 
 ### N-11 — Branding / Identity
 - Current exit criterion: **zero Swift product identity in `app/`**.
