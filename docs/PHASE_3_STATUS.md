@@ -756,3 +756,19 @@ Reference `M3ButtonFilled` explicitly defines `android:textSize=@dimen/subtitle_
 Static re-audit: all four Reference-defined items are present in the target style. `reference/` untouched. No broad theme copy, no build/install/runtime/visual verification.
 
 N-04 remains open overall; this closes only this bounded style contract.
+
+## Step 8 Implementation Checkpoint — N-04 M3ButtonFilled.Large Batch 03
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation commit:** `5ceedad7f6db89c6bca7cace915a18936a9ef77f`
+
+**Scope:** `app/src/main/res/values/styles.xml`, `M3ButtonFilled.Large` only.
+
+**Reference contract:** `android:textStyle=bold`, `android:minHeight=56.0dp`, `android:textAllCaps=true`, `fontFamily=@font/main_medium`.
+
+**Re-audit:** all four Reference-defined items are present in the target style. The implementation diff is one file and the Reference tree was not modified. No build/install/runtime/visual verification was performed.
+
+**Boundary:** other M3Button variants, `SwiftTheme` family, custom color attrs, qualifiers, and runtime visual parity remain open. `CardStyleStroked` was intentionally not mutated because its `cardStrokeColor` contract depends on the broader custom theme/attr surface and is not safely self-contained in this batch.
+
+P3 remains active; N-04 remains open overall.
