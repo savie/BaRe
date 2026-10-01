@@ -111,3 +111,10 @@ WP-B is now the active implementation package for **C01 / C05 / C06 / C14**. Ref
 ### P4.2 WP-B decompile fidelity re-audit — 2026-10-01
 
 WP-B implementation was rechecked directly against the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP. Unsupported invented contracts were removed: C06 now models the observed migration boolean only, and C14 no longer exposes a generic initialization method absent from the audited Reference evidence. C01/C05/C14 remain provider-neutral and execution-deferred.
+
+
+### P4.2 WP-B consumer-wiring update — 2026-10-01
+
+The C06 migration guard is now wired through the canonical local-state boundary. Reference IntroActivity behavior is mirrored as: detect `is_migrating_to_google_sign_in` → clear the flag → re-enter the sign-in action. Provider authentication and backend mutation remain downstream/deferred.
+
+WP-B remains **IN PROGRESS** pending final C01/C05/C14 consumer/owner regression and static acceptance. No build/install/runtime/provider/backend/engine execution was performed.
