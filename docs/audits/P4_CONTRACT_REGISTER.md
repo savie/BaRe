@@ -228,6 +228,53 @@ Next package:
 **P4.1 — BaRe Gap / Blocker Analysis.**
 
 
+## P4.1 — UNKNOWN / DEFERRED / UNVERIFIED evidence audit
+
+This checkpoint closes the evidence-classification ambiguity before P4.2. The supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP was directly re-audited for the previously questionable contract areas. The purpose was to distinguish evidence absence from phase deferral and from runtime verification status.
+
+### Classification rule
+
+- UNKNOWN = after the relevant static Reference/decompile call-chain, model, key, resource, or consumer has been searched, the available evidence still does not support a deterministic conclusion. It is not a synonym for “not implemented in BaRe”.
+- DEFERRED = the Reference behavior/boundary is known, but its execution intentionally belongs to P5+ or a later authorized phase.
+- UNVERIFIED = static evidence is sufficient to identify the contract/behavior, but the required runtime/device/provider verification has not been performed. This is not “not searched”.
+- GAP/PARTIAL = Reference evidence exists and the contract is understood, but BaRe still lacks or incompletely implements the corresponding P4 contract.
+
+### Targeted evidence results
+
+| Contract | Direct decompile evidence found | Classification consequence |
+|---|---|---|
+| C01 lifecycle | defpackage/d45.java contains KEY_FIRST_START, KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED, migration-state handling, sign-out cleanup, local-data reset, alarm cancellation and account re-init boundary. IntroActivity consumes the lifecycle flags. | Known contract; BaRe GAP remains. No UNKNOWN. |
+| C03 permissions | org/swiftapps/swiftbackup/intro/d.java contains explicit permission/access state holders (IDLE/RUNNING/SUCCESS/FAILED, sign-in state, Shizuku/root flow). dz5 contains actual permission checks, installed-app visibility checks, and privileged grant boundaries. | Known static contract; BaRe GAP/stub remains for the P4 state owner. No UNKNOWN. Runtime execution remains UNVERIFIED/deferred where applicable. |
+| C04 storage | defpackage/yn7.java reads/writes preferred_storage_dir, enumerates StorageVolume, resolves saved volume, falls back when saved storage is missing, and persists the selected volume. defpackage/zn7.java exposes volume identity/display metadata and read/write validation. | Known contract; BaRe GAP remains. No UNKNOWN. |
+| C05/C06 identity + migration | defpackage/ah8.java defines UserInfo fields and anonymous/non-anonymous database boundary. defpackage/d45.java defines sign-out/reset ordering. defpackage/rc1.java sets migration state. Existing Reference migration outcomes are also represented by BaRe migration contracts. | Known contract; BaRe PARTIAL remains. No UNKNOWN. Provider execution remains deferred/unverified. |
+| C07 local/secure state | org/swiftapps/swiftbackup/common/V.java exposes the preference boundary, including encrypted preferences / secure fallback and use_alt_preferences; defpackage/bx5.java also contains encrypted preference storage behavior. | Known contract; BaRe GAP remains. No UNKNOWN. Actual Android keystore/runtime verification is UNVERIFIED/deferred. |
+| C08 settings | org/swiftapps/swiftbackup/model/firebase/AppSettings.java exposes the Reference settings model and withSavedSettings() reads concrete persisted keys/defaults; defpackage/ha7.java writes the corresponding settings back to local state. | Known contract; BaRe GAP remains. No UNKNOWN. |
+| C09 password mode | AppSettings.withSavedSettings() and Intro code read saved_password_mode with STANDARD_PASSWORD as the fallback/default; IntroActivity.V() consumes the same Reference key before completion. | Known contract; BaRe GAP/reconciliation remains. No UNKNOWN. Password crypto/execution is downstream. |
+| C10 first-run cloud restore | org/swiftapps/swiftbackup/intro/d.java has an explicit restore flow: backend readiness wait, cloud-settings read, restore of labels/configs/schedules/favorites/blacklist, success/failure Boolean result, and skip/failure paths. IntroActivity.V() records terminal completion flags. | Known contract; BaRe GAP remains. No UNKNOWN. Actual cloud I/O is downstream and runtime remains UNVERIFIED. |
+| C11 core data | Direct models include UserInfo, StorageInfoLocal (Loading/Error/Success plus concrete fields), AppSettings, TaskManager$ErrorSummary, task status enums, and SLog/diagnostic consumers. | Known static shapes; BaRe GAP/PARTIAL remains. No UNKNOWN at the identified P4 consumer boundary. |
+| C12 task state | defpackage/gz7.java defines WAITING/RUNNING/COMPLETE/CANCELLED/CANCEL_COMPLETE; defpackage/jc2.java defines terminal/error outcomes; TaskService publishes state; TaskActivity observes status and exposes cancel/force-stop/SLog surfaces. | Known contract; BaRe GAP remains. No UNKNOWN. Actual task execution is downstream. |
+| C13 job/task boundary | TaskService is a real foreground IntentService with state transitions and cancellation/timeout handling; AlarmReceiver and scheduling code exist. | Known boundary; only the minimum P4 state contract is retained. Execution remains DEFERRED. No UNKNOWN. |
+| C14 cloud/session | defpackage/re3.java exposes provider-backed user/cloud/tag paths, current cloud directory sanitization, UID boundary and cloud metadata paths; ah8 exposes userInfo ownership. | Known contract; BaRe PARTIAL remains. Provider/backend mutation is DEFERRED. No UNKNOWN. |
+| C15 provider/backend | Firebase/cloud/provider execution is directly present in the Reference decompile. | DEFERRED / DOWNSTREAM, not UNKNOWN. |
+| C16 backup/restore engine | Task/restore/backup execution boundaries are present in the Reference source/decompile and are covered by the existing Reference audits. | DEFERRED / DOWNSTREAM, not UNKNOWN. |
+
+### P4.1 classification conclusion
+
+The audit searched the previously questionable P4 contract areas directly in the supplied decompile ZIP and reconciled them with the existing Reference audit.
+
+**Result: no open contract-level UNKNOWN remains across C01–C16 at this checkpoint.**
+
+The remaining uncertainty is categorized explicitly:
+
+1. GAP / PARTIAL — Reference contract is statically known but BaRe still needs the P4 contract implementation/reconciliation.
+2. DEFERRED — execution belongs to P5+ (provider/backend, backup/restore engine, privileged execution, scheduler/foreground execution where outside the P4 contract).
+3. UNVERIFIED — runtime/device/provider behavior has not been executed or tested because the project execution guard remains active.
+4. UNKNOWN should only reappear if a future targeted audit encounters a genuinely unresolved evidence boundary; it must not be used as a placeholder for an unaudited area or an unimplemented BaRe feature.
+
+This checkpoint therefore changes the P4.1 exit condition from “find/resolve possible UNKNOWNs” to **“maintain an explicit evidence ledger and prevent UNKNOWN from masking an incomplete audit.”**
+
+No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+
 ## P4.1 — Detailed implementation-map acceptance criteria
 
 This section makes the blocker analysis actionable without starting P4.2 implementation. Each row below defines the minimum evidence that must exist before its P4.2 consumer implementation is considered contract-safe. It does not require provider/backend/runtime execution.
