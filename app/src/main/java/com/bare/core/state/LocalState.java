@@ -15,6 +15,8 @@ public final class LocalState {
     public static final String KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED =
             "KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED";
     public static final String KEY_PLAY_NOTIFICATION_SOUNDS = "play_notification_sounds";
+    public static final String KEY_IS_MIGRATING_TO_GOOGLE_SIGN_IN =
+            "is_migrating_to_google_sign_in";
 
     private final SharedPreferences prefs;
 
