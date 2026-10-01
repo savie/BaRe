@@ -564,3 +564,12 @@ Fidelity corrections made during this pass:
 - Kept provider/backend operations behind interfaces only; no execution implementation was introduced.
 
 **WP-B remains IN PROGRESS.** The implementation is now explicitly constrained to evidence-supported Reference shape/semantics. Final consumer wiring/static acceptance remains before closure.
+
+
+### WP-B consumer-wiring pass — 2026-10-01
+
+Reference IntroActivity migration-resume behavior was rechecked against the supplied decompile ZIP: read `is_migrating_to_google_sign_in`, clear it, then re-enter the sign-in action. BaRe now mirrors that sequence through `AccountMigrationRepository` backed by `LocalState` and `LocalAccountMigrationRepository`.
+
+Acceptance: C06 local migration guard is consumed by IntroActivity through the canonical repository boundary; the guard is cleared before re-entering the existing sign-in action; no Firebase/Google provider mutation, token exchange, backend write, or migration execution was introduced.
+
+**WP-B remains IN PROGRESS** pending final C01/C05/C14 consumer/owner regression and static acceptance.
