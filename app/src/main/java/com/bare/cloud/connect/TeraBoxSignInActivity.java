@@ -19,7 +19,7 @@ import java.util.List;
 public final class TeraBoxSignInActivity extends AppCompatActivity {
     private static final String TERABOX_LOGIN_URL =
             "https://www.terabox.com/wap/outside/login?clientId=&isFromApp=1";
-    private static final String REDIRECT_SCHEME = "org.swiftapps.swiftbackup.terabox";
+    private static final String REDIRECT_SCHEME = "com.bare.terabox";
     private static final String REDIRECT_HOST = "teraboxOauth";
 
     private TextView statusView;
@@ -47,8 +47,6 @@ public final class TeraBoxSignInActivity extends AppCompatActivity {
 
         authenticateButton.setOnClickListener(v -> beginSignIn());
 
-        // The supplied Reference build contains empty TeraBox credentials, so its
-        // initial observable state is the explicit credentials-missing error.
         if (!hasReferenceCredentials()) {
             showStatus(R.string.terabox_api_credentials_missing);
         } else {
@@ -62,7 +60,6 @@ public final class TeraBoxSignInActivity extends AppCompatActivity {
     }
 
     private boolean hasReferenceCredentials() {
-        // Reference zz7 currently decompiles to empty clientId/clientSecret/privateSecret.
         return false;
     }
 
@@ -124,8 +121,6 @@ public final class TeraBoxSignInActivity extends AppCompatActivity {
             return;
         }
 
-        // Reference exchanges the code for TeraBox credentials and then persists
-        // provider state. That provider operation remains a downstream boundary.
         handledResult = true;
         returningFromBrowser = false;
         showStatus(R.string.terabox_authorization_code_received);
@@ -174,7 +169,6 @@ public final class TeraBoxSignInActivity extends AppCompatActivity {
         if (returningFromBrowser) {
             returningFromBrowser = false;
             if (!handledResult) {
-                // Reference waits briefly for the external redirect lifecycle.
                 statusView.setText(R.string.terabox_authorization_pending);
             }
         }
