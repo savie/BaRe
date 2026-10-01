@@ -1469,3 +1469,37 @@ Remaining N-01 work packages:
 - N01-R2 Drawable / icon / image surface
 - N01-R5 Font / raw / XML / mipmap surface
 - N01-R6 Cross-domain resource closure
+
+## 42. Execution checkpoint — N01-R5
+
+Bounded batch **N01-R5 — Font / raw / XML / mipmap surface** was executed and re-audited.
+
+### Implemented
+- **7/7 Reference fonts** restored under app/src/main/res/font/ using the exact existing Reference blob objects.
+- **12/12 Reference raw resources** restored under app/src/main/res/raw/ using the exact existing Reference blob objects.
+- **10 application-owned XML resources** added under app/src/main/res/xml/: filepaths.xml plus settings_about.xml, settings_apps.xml, settings_calls.xml, settings_cloud.xml, settings_config.xml, settings_contact.xml, settings_folders.xml, settings_labs.xml, and settings_messages.xml.
+- Existing locales_config.xml and network_security_config.xml were rechecked and are byte-identical to the canonical Reference resource blobs.
+- Existing settings.xml remains the BaRe-owned adapted resource; it is intentionally not overwritten by the Reference copy.
+
+### Explicit classifications / exclusions
+- The five Material/Expressive XML resources (m3_button_group_child_size_change, m3_list_item_shape_state_list, m3_split_button_inner_corner_size_state_list, m3expressive_button_shape_state_list, m3expressive_connected_buttons_inner_corner_size_state_list) remain **library/dependency-owned** and were not duplicated into app/.
+- Reference mipmap launcher resources are **identity-sensitive**. They remain owned by N-11; the BaRe application launcher remains mapped to @drawable/bare_launcher_icon. No Swift launcher asset was copied.
+- msal_default_config remains a dependency/provider resource contract even though its Reference raw blob is present in app/ for resource closure; this does not claim MSAL execution.
+- ODrive raw resources remain provider/dependency boundary resources; their presence is resource parity only.
+
+### Re-audit
+- All 7 target font blobs match the corresponding Reference blob SHA.
+- All 12 target raw blobs match the corresponding Reference blob SHA.
+- All 10 newly added XML blobs match the corresponding Reference blob SHA.
+- locales_config.xml and network_security_config.xml match Reference exactly.
+- No build/install/runtime verification was performed.
+- Reference remained read-only.
+
+### Closure state
+**N01-R5 = CLOSED / STATIC PASS.**
+
+N-01 overall remains **🟡 OPEN / PARTIAL IMPLEMENTATION**.
+Remaining work packages:
+- N01-R1 Layout / UI resource surface
+- N01-R2 Drawable / icon / image surface
+- N01-R6 Cross-domain resource closure
