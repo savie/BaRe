@@ -36,6 +36,40 @@ Seluruh perubahan terhadap source project, configuration project, integration, d
 
 Reference tetap menjadi baseline/source of truth untuk menentukan parity reconstruction.
 
+Sumber Reference Canonical
+
+Reference canonical yang digunakan project adalah decompile archive Swift Backup 5.1.0 (versionCode 620) yang diberikan dalam bentuk ZIP pada environment kerja lokal GPT.
+
+Path canonical Reference:
+
+`/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
+
+Archive tersebut merupakan sumber evidence utama dan bersifat read-only.
+
+Repository `reference/`
+
+Folder `reference/` di repository BaRe boleh digunakan sebagai mirror lokal/working copy dari Reference untuk mempercepat pekerjaan forensic, grep, diff, hash, parsing, inventory, dan audit massal, selama isinya telah diverifikasi identik dengan Reference canonical.
+
+Aturannya:
+
+- ZIP decompile adalah Reference canonical/source asal.
+- `reference/` adalah mirror lokal/evidence cache, bukan source implementation.
+- `reference/` bersifat read-only dan tidak boleh dimutasi sebagai bagian dari implementasi BaRe.
+- Implementasi dan reconstruction hanya dilakukan pada `app/` atau area implementation BaRe yang relevan.
+- Jika `reference/` dan ZIP canonical berbeda, ZIP canonical menjadi acuan dan mirror harus direkonsiliasi sebelum digunakan sebagai evidence.
+- Jangan menganggap isi `reference/` sebagai Reference yang independen dari archive canonical.
+- Verifikasi equivalence dapat dilakukan dengan hash, file inventory, atau pemeriksaan isi sesuai kebutuhan audit.
+
+Dengan demikian, alur kerja yang digunakan adalah:
+
+`Reference canonical (ZIP) → verifikasi/mirror lokal → contract/evidence → app/implementation`
+
+Bukan:
+
+`reference/ ↔ app/`
+
+Reference tetap menjadi baseline/source of truth. Mirror lokal hanya merupakan mekanisme kerja untuk menghindari pengambilan ulang file Reference yang besar atau berjumlah banyak.
+
 Repository "savie/BaRe" branch "rewrite" merupakan target implementation dari reconstruction tersebut.
 
 ---
