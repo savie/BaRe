@@ -1035,3 +1035,15 @@ N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListA
 **Re-audit:** all four items confirmed in target. `reference/` remains read-only. No build/install/runtime/visual verification.
 
 **Boundary:** other M3Button variants, SwiftTheme family, colors, qualifiers, and runtime visual parity remain open.
+
+## Step 8 Checkpoint — N-04 M3ButtonFilled.Large Batch 03
+
+**Status: COMPLETE — STATIC CONTRACT PASS**
+
+Reference `M3ButtonFilled.Large` defines four items: bold text style, 56dp minimum height, `textAllCaps=true`, and `@font/main_medium`. BaRe now carries all four in `app/src/main/res/values/styles.xml`.
+
+Implementation commit: `5ceedad7f6db89c6bca7cace915a18936a9ef77f`.
+
+Static re-audit passed. Scope was one style in one app resource file; `reference/` remained read-only. No build/install/runtime/visual verification was performed.
+
+`CardStyleStroked` remains deferred because its Reference `cardStrokeColor` dependency requires the broader custom attr/theme contract; no speculative partial mutation was made. N-04 remains OPEN.
