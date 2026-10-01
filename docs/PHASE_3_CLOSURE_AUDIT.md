@@ -763,3 +763,14 @@ Next: **P3 TOTAL AUDIT CLOSURE REVIEW**.
 **Result:** the previously identified documentation contradiction has been corrected at the current-status level. Final #15 closure is still recorded as **🟡 OPEN / NEEDS FOLLOW-UP** until the full control-plane consistency pass is explicitly checkpointed.
 
 **No app/source implementation change was made.**
+
+
+## N-11 POLICY REVISION — ZERO SWIFT IDENTITY
+
+The previous N-11 evidence/classification that preserved Swift-named internal identifiers and deferred the Box callback identity is superseded by the current project decision.
+
+N-11 now requires the implementation surface under `app/` to be free of Swift product identity. App-owned internal identifiers were renamed after static caller/resource reconciliation, and the Box callback was changed to `com.bare.box://oauth`. This is identity cleanup only; provider/OAuth functionality remains downstream and unverified.
+
+Reference remains read-only.
+
+Static result: **🟢 N-11 CLOSED — ZERO SWIFT IDENTITY IN APP.**
