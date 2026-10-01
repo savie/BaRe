@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/ic_app_tinted" android:id="@id/action_apps" android:title="@string/apps">
+        <menu>
+            <item android:icon="@drawable/ic_quick_actions" android:id="@id/action_by_quick_actions" android:title="@string/quick_actions" />
+            <item android:icon="@drawable/ic_label_filled" android:id="@id/action_by_labels" android:title="@string/app_labels" />
+            <item android:icon="@drawable/ic_configs_filled" android:id="@id/action_by_config" android:title="@string/configs" />
+        </menu>
+    </item>
+    <item android:icon="@drawable/ic_message_full" android:id="@id/action_messages" android:title="@string/messages" />
+    <item android:icon="@drawable/ic_call_log" android:id="@id/action_call_logs" android:title="@string/call_logs" />
+    <item android:icon="@drawable/ic_folder_full" android:id="@id/action_folders" android:title="@string/folders" />
+    <item android:icon="@drawable/ic_photo_full" android:id="@id/action_walls" android:title="@string/wallpapers" />
+    <item android:icon="@drawable/ic_wifi_full" android:id="@id/action_wifi" android:title="@string/wifi_networks" />
+</menu>
