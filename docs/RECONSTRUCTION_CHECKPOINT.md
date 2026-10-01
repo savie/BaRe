@@ -216,3 +216,14 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Firebase target residue remains closed per `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md`; Firebase occurrences in `reference/` remain immutable source evidence.
 - **N-11 remains 🟢 CLOSED / STATIC PASS.**
 - No source mutation was required by this sweep.
+
+
+## Latest N-domain closure checkpoint — N-01-R1
+
+- N-01 Resource: 🟡 — **R1 🟢, R3 🟢, R4 🟢, R5 🟢; R2/R6 remain open**
+- N01-R1 layout/UI surface: **🟢 CLOSED / STATIC PASS**
+- Reference layout contract: **244/244 actionable base layouts accounted for**
+- Wide-screen Home variant: **layout-w600dp/home_activity.xml restored**
+- Target layout surface contains **0 Swift/swift and 0 Firebase/firebase text matches**
+- N-02 through N-15: 🟢 at current P3 boundary
+- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
