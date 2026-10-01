@@ -736,3 +736,13 @@ Reference proves the bt contract is a two-value enum (LOCAL, CLOUD) and AppListA
 Static re-audit: enum, default state, KEY_SECTION read, and assignment are all present. No Reference file was modified. No build/install/runtime/visual verification was performed. This batch does not claim full section/tab/cloud behavior; those remain open under N-08.
 
 N-08 remains 🟡 OPEN overall.
+
+## N-04 Theme/Style/Color — CardStyleNormal Batch 01
+
+**Status: 🟢 CLOSED / PASS (bounded static contract)**
+
+Reference `CardStyleNormal` explicitly defines layout width/height, `android:outlineSpotShadowColor`, `cardBackgroundColor`, corner radius, zero elevation, and `cardUseCompatPadding=false`. BaRe already had the same style name/parent but lacked five of those contract items. Batch implementation commit: `d715a16810589955902078fe164d093d03efbdf2`.
+
+Static re-audit: all Reference-defined items are now present in the target style. Scope was one style in `app/src/main/res/values/styles.xml`; `reference/` untouched. No broad theme/style copy, no build/install/runtime/visual verification.
+
+N-04 remains 🔴/open overall; this batch closes only this bounded style contract.
