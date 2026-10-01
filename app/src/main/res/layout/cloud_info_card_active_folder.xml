@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bare.views.SwiftSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
+<com.bare.views.BaReSegmentedCardGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cloud_info_card_active_tag"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:visibility="gone">
-    <com.bare.views.SwiftSegmentLinearLayout
+    <com.bare.views.BaReSegmentLinearLayout
         android:id="@+id/cloud_tag_selector_segment"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -68,5 +68,5 @@
                 android:text="@string/delete_active_tag"
                 android:textAllCaps="false" />
         </LinearLayout>
-    </com.bare.views.SwiftSegmentLinearLayout>
-</com.bare.views.SwiftSegmentedCardGroup>
+    </com.bare.views.BaReSegmentLinearLayout>
+</com.bare.views.BaReSegmentedCardGroup>
