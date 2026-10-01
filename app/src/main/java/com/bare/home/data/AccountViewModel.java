@@ -66,7 +66,7 @@ public final class AccountViewModel extends ViewModel {
             result.add(new Item(9, "registered_contributor", "Registered contributor", 0));
         }
         result.addAll(Arrays.asList(
-                new Item(2, "swiftlogger", "SLog", 0),
+                new Item(2, "barelogger", "SLog", 0),
                 new Item(3, "language", "Language", 0),
                 new Item(7, "help_center", "Help Center", 0),
                 new Item(6, "contact", "Contact", 0),
