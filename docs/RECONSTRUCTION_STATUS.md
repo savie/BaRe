@@ -1119,3 +1119,15 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - Password generation/encryption/secure restore and cloud settings sync/backend mutation remain downstream.
 - Static regression found no duplicate Settings store or stale Intro password-state call-site in the affected source.
 - No build, install, runtime, provider, backend, or engine execution was performed.
+
+
+### P4.2 WP-E / C10 final static acceptance — 2026-10-01
+
+**WP-E / C10: CLOSED — static contract acceptance.**
+
+- Direct decompile evidence confirms first-run cloud restore waits for backend readiness, performs settings/data reads, and returns a terminal success/failure result.
+- FirstRunCloudRestoreState, FirstRunCloudRestoreResult, and FirstRunCloudRestoreCoordinator now own the P4 C10 state/result boundary.
+- KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED is written only on terminal SUCCESS; Intro UI completion does not synthesize restore success.
+- Actual Supabase/backend readiness, cloud reads/writes, data restoration, build/install/runtime verification remain downstream/unverified.
+
+**Next active package: WP-F / C12-C13.**
