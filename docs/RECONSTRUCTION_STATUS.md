@@ -983,3 +983,8 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 - The canonical register now defines detailed acceptance/blocker closure conditions for all C01–C16, explicit evidence discipline, and six P4.2 work packages.
 - No C17+ scope was introduced.
 - No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+
+
+### P4.1 owner reconciliation checkpoint — 2026-10-01
+
+Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The main collision is transitional P3 UI flags versus domain-owned state; P4.2 must centralize persisted/domain state and keep Activities as consumers. Dependency order remains WP-A → WP-B → WP-C → WP-D → WP-E → WP-F; C02 regression-only; C15/C16 downstream. P4.1 remains IN PROGRESS.
