@@ -244,7 +244,7 @@
     <string name="manage_config">Manage config</string>
     <string name="delete_config">Delete config</string>
     <string name="important_announcement">Important announcement</string>
-    <string name="firebase_backend_diagnostics_message">BΛR☰ has internet access, but it cannot reach its Firebase backend. Due to this, you may face issues with cloud backups, premium activation, syncing BΛR☰ settings, etc.</string>
+    <string name="supabase_backend_diagnostics_message">BΛR☰ has internet access, but it cannot reach its Supabase backend. Due to this, you may face issues with cloud backups, premium activation, syncing BΛR☰ settings, etc.</string>
     <string name="learn_more">Learn more</string>
     <string name="label_preview">Label preview</string>
     <string name="input_label_name_message">Label name</string>
