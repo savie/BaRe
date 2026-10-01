@@ -38,15 +38,18 @@ Reference remains read-only. All implementation changes belong to `app/`.
 
 **PHASE 3 — ACTIVE / FOLLOW-UP CLOSURE**
 
-The 71-Activity P3 surface has reached the evidence-supported UI/navigation boundary:
+The latest complete Activity depth audit is the current P3 Activity baseline:
 
 | Component | Result |
 |---|---:|
-| Activities | **71 / 71 🟢** |
-| Yellow | **0** |
-| Red | **0** |
+| Activities | **71 / 71 covered** |
+| Green depth | **23** |
+| Yellow depth | **48** |
+| Red depth | **0** |
 | Services | **3 / 3 structurally covered** |
 | Receivers | **8 / 8 structurally covered** |
+
+**Important:** 71/71 means registered/covered, not 71/71 fully reconstructed. The latest depth audit is the authoritative Activity classification: 23 🟢 / 48 🟡 / 0 🔴.
 
 Green means P3 UI/navigation/state reconstruction is complete through the documented dependency boundary. It does not mean downstream execution is complete.
 
@@ -92,7 +95,7 @@ P4 GATE REVIEW
 
 ## Total P3 Audit — 15 domains
 
-The original 15-domain audit is complete and is the historical evidence baseline. Its original verdicts are superseded by later domain-specific re-audits.
+The original 15-domain audit is historical evidence. The table below is the current normalized domain register; Activity depth is tracked separately above.
 
 | # | Domain | Current closure state |
 |---:|---|---|
@@ -168,7 +171,7 @@ Every bounded implementation batch must have:
 | N | Domain | State |
 |---:|---|---|
 | N-01 | Resource | 🟡 |
-| N-02 | Strings | 🟡 |
+| N-02 | Strings | 🟢 |
 | N-03 | Dimensions | 🟢 |
 | N-04 | Styles / Themes / Colors | 🟡 |
 | N-05 | Manifest | 🟡 |
@@ -183,7 +186,7 @@ Every bounded implementation batch must have:
 | N-14 | Boundary | 🟡 |
 | N-15 | Static Hygiene | 🟡 |
 
-**N-03, N-11, and N-12 are closed and must not be reopened without new evidence of defect.**
+**N-02, N-03, N-11, and N-12 are closed and must not be reopened without new evidence of defect.**
 
 N-09 and N-10 remain red at the domain-register level until their complete N-level closure audit proves otherwise.
 
@@ -191,8 +194,8 @@ N-09 and N-10 remain red at the domain-register level until their complete N-lev
 
 P3 can close only when:
 
-1. 71/71 Activities remain 🟢 at the evidence-supported P3 boundary;
-2. no unresolved P3 defect remains;
+1. all 71 Reference-owned Activities remain covered, with the latest depth audit at 23 🟢 / 48 🟡 / 0 🔴;
+2. no unresolved P3 defect remains outside explicitly deferred/downstream boundaries;
 3. all 15 normalized domains have a current classification;
 4. every non-green domain has either reached its documented exit criterion or has an explicit, evidence-backed downstream ownership/deferment;
 5. Resource and Style/Theme/Color parity work is fully audited;
@@ -233,6 +236,6 @@ The detailed historical commits preserve prior audit snapshots, resource audits,
 
 ## Current position
 
-> **P1 FROZEN + P2 FROZEN + P3 71/71 Activity boundary GREEN + TOTAL 15-domain audit complete + N-level follow-up closure active + P4 GATED.**
+> **P1 FROZEN + P2 FROZEN + P3 Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 + normalized 15-domain closure active + P4 GATED.**
 
 P3 is **not yet frozen**.
