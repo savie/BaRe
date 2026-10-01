@@ -710,3 +710,17 @@ N-05 remains OPEN for the broader manifest contract; this batch closes only this
 **Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
 
 N-08 remains open; continue only with another bounded evidence-backed navigation contract.
+
+## N-08 Navigation — Source-Level Batch 03 — Evidence/Classification Stop
+
+**Status: STOPPED BEFORE MUTATION**
+
+Reference evidence establishes that `AppListActivity` consumes the navigation extra `KEY_SECTION` as a serializable `bt` section value and defaults to `LOCAL` when absent. Current BaRe `AppListActivity` does not consume `KEY_SECTION`; it currently implements a bounded P3 navigation/presentation surface without the Reference app-list section state contract.
+
+**Decision:** no source mutation in this batch. The exact BaRe section enum/type and tab mapping are not established by current evidence, so adding a guessed Serializable contract or tab mapping would be speculative and could alter navigation semantics.
+
+Additional searched contracts (Reference→BaRe) were either already represented by current app navigation or remained tied to deferred/downstream behavior (`UserPasswordActivity`, Calls backup/restore, Folders dashboard), so they were not mutated in this batch.
+
+`reference/` remains read-only. Build/install/runtime/visual verification: NOT AUTHORIZED / NOT PERFORMED.
+
+N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListActivity KEY_SECTION` type/mapping or another independently bounded navigation contract.
