@@ -4,7 +4,7 @@
 
 **P4 — CLOSED at static contract boundary / P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED**
 
-Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
+P4 workflow is complete. P4.0 through P4.5 are closed. This document is the frozen P4 decision surface.
 
 ## Frozen prerequisite
 
@@ -48,14 +48,14 @@ Those require their own explicit authorization and/or downstream phase ownership
 
 ## Gate state
 
-P4.0 is **closed and accepted**.
+**P4.5 is CLOSED and P4 is FROZEN at the static contract boundary.**
 
-All 16 contract rows have explicit Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification surface, and P3 regression surface.
+All 16 contract rows have explicit Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification surface, and P3 regression surface. C01-C14 are closed/pass; C15/C16 are downstream.
 
-P4.1 may now begin. This does **not** authorize implementation, build/install/runtime, provider/backend execution, or engine execution.
+No further P4 implementation is open. Any future change affecting the P4 boundary requires a new evidence-backed re-audit; P4 does not authorize build/install/runtime/provider/backend/engine execution.
 
 
-## P4.1 analysis checkpoint
+## Historical P4.1 analysis checkpoint
 
 P4.1 is now active and has a Reference-backed blocker/dependency analysis in `docs/audits/P4_CONTRACT_REGISTER.md`.
 
@@ -74,7 +74,7 @@ P4.1 is now active and has a Reference-backed blocker/dependency analysis in `do
 The P4.1 register now includes per-contract acceptance conditions, evidence discipline, six implementation work packages, and an explicit P4.1 exit gate. This remains analysis only. The technical source of truth is `docs/audits/P4_CONTRACT_REGISTER.md` at commit `df1d394c137b897f1f58a65d3bc003623ec266e7`.
 
 
-### P4.1 evidence-classification audit checkpoint — 2026-10-01
+### Historical P4.1 evidence-classification audit checkpoint — 2026-10-01
 
 A targeted re-audit was performed directly against the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP for the previously questionable C01–C16 contract areas. The audit found direct static evidence for lifecycle, permissions, storage, secure/local preference boundary, AppSettings, saved_password_mode, first-run restore flow, core data models, task status, scheduling boundary, and cloud/session metadata.
 
@@ -85,26 +85,26 @@ UNKNOWN is now reserved for a genuinely unresolved evidence boundary after targe
 No implementation, build, install, runtime, provider, backend, or engine execution was performed. P4.1 remains IN PROGRESS until the remaining contract-owner/dependency acceptance conditions are closed.
 
 
-### P4.1 owner reconciliation checkpoint — 2026-10-01
+### Historical P4.1 owner reconciliation checkpoint — 2026-10-01
 
 Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The primary collision pattern is transitional P3 UI state versus domain-owned state; P4.2 must centralize persisted/domain state and leave Activities as consumers. The dependency order remains WP-A (C07/C11) → WP-B (C01/C05/C06/C14) → WP-C (C04/C03) → WP-D (C08/C09) → WP-E (C10) → WP-F (C12/C13). C02 remains regression-only; C15/C16 remain downstream. P4.1 remains IN PROGRESS until the remaining acceptance evidence is closed.
 
 
-### P4.1 final closure — 2026-10-01
+### Historical P4.1 final closure — 2026-10-01
 
 P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms named Reference evidence, canonical owner, BaRe gap/state, dependency, P3 regression surface, and phase boundary for every row. No open contract-level UNKNOWN remains; no unresolved canonical-owner collision remains; no C17+ scope was introduced. C02 remains regression-only and C15/C16 remain downstream.
 
 This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
 
 
-### P4.2 WP-A acceptance — 2026-10-01
+### Historical P4.2 WP-A acceptance — 2026-10-01
 
 **WP-A (C07/C11): CLOSED — static acceptance.**
 
 The final acceptance pass found no remaining WP-A-owned duplicate state/model surface and no static contradiction in the reconciled P3 consumers. `LocalState`, `SecureLocalState` boundary, `StorageInfoLocal`, `TaskState`, and `ErrorSummary` remain bounded to their Reference-supported responsibilities. No runtime or provider/backend execution is claimed.
 
 P4.2 remains active for contracts outside WP-A ownership; this closure does not close P4.2 as a whole.
-### P4.2 WP-B implementation checkpoint — 2026-10-01
+### Historical P4.2 WP-B implementation checkpoint — 2026-10-01
 
 WP-B is now the active implementation package for **C01 / C05 / C06 / C14**. Reference lifecycle (`d45`), user-info (`ah8`), migration (`rc1`), and cloud/session (`re3`) evidence has been reconciled into provider-neutral BaRe contracts. The package remains **IN PROGRESS** until account-surface consumer wiring and static regression/acceptance are complete. No provider/backend/runtime execution is implied.
 
@@ -157,7 +157,7 @@ Concrete Supabase auth/backend/session composition, database mutation, cloud exe
 **Next active P4.2 package:** WP-C / C03-C04.
 
 
-### P4.2 WP-C final static acceptance — 2026-10-01
+### Historical P4.2 WP-C final static acceptance — 2026-10-01
 
 **WP-C / C03-C04: 🟢 CLOSED — static contract acceptance.**
 
@@ -175,7 +175,7 @@ A final source reread found stale Intro call-sites to the removed P3 permission-
 No build/install/runtime/provider/backend/engine execution was performed.
 
 
-### P4.2 WP-D final static acceptance — 2026-10-01
+### Historical P4.2 WP-D final static acceptance — 2026-10-01
 
 **WP-D / C08-C09: CLOSED — static contract acceptance.**
 
@@ -184,7 +184,7 @@ C08 now has a canonical local settings boundary (`AppSettings` + `SettingsReposi
 **Next active P4.2 package: WP-E / C10.**
 
 
-### P4.2 WP-E / C10 final static acceptance — 2026-10-01
+### Historical P4.2 WP-E / C10 final static acceptance — 2026-10-01
 
 **WP-E / C10: CLOSED — static contract acceptance.**
 
@@ -194,7 +194,7 @@ No build/install/runtime/provider/backend/engine verification was performed.
 
 **Next active P4.2 package: WP-F / C12-C13.**
 
-### P4.2 WP-F / C12-C13 final acceptance — 2026-10-01
+### Historical P4.2 WP-F / C12-C13 final acceptance — 2026-10-01
 
 **WP-F / C12-C13: 🟢 CLOSED — static contract acceptance.**
 
@@ -205,7 +205,7 @@ The P4.2 execution guard remains unchanged: no build/install/runtime/device/prov
 **Next package: P4.3 — P3 static regression re-audit.**
 
 
-### P4.3 static regression re-audit — 2026-10-02
+### Historical P4.3 static regression re-audit — 2026-10-02
 
 **P4.3: CLOSED — static regression acceptance.**
 
@@ -218,7 +218,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 **Next package: P4.4 — remaining-gap classification.**
 
 
-### P4.4 remaining-gap classification — 2026-10-02
+### Historical P4.4 remaining-gap classification — 2026-10-02
 
 **P4.4: CLOSED — current remaining dependencies classified.**
 
