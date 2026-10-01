@@ -372,9 +372,17 @@ No build/install/runtime/device/provider/backend/engine execution was performed.
 A second full-section reconciliation against v1.0/rebaseline/reference/reference.md and reference/reference_apps_audit.md found ten additional evidence-backed boundaries that were only implicit in F01–F44.
 
 - Added **P5-F45–F54**: account/local identity continuity; import/export/config transfer; folder manifest/incremental/chain validation; MMS/RCS handling; Wi-Fi sensitive-access/enterprise data; schedule selectors/last-run diagnostics; cloud diagnostics/provider abstraction/transfer tests; backup protection/retention/notes; Apps Local-vs-Cloud inventory/canonical discovery; and independent restore-part selection/action model.
-- P5.1 explicit feature-contract units are now **54**.
+- P5.1 explicit feature-contract units were then **54**.
 - Icon cache and BaRe-specific large-file performance findings were intentionally not promoted to Reference feature units.
-- This is still static evidence/register closure only. P5 gate remains **NOT OPENED**.
-- No build/install/runtime/provider/backend/privileged-engine execution was performed.
 
+### P5.1 Apps child-feature reconciliation — 2026-10-02
+
+A targeted Reference Apps audit showed that several Apps child behaviors needed explicit feature IDs rather than remaining implicit under the Apps list parent.
+
+- Added **P5-F55–F58**: Apps-list search/query; Apps-list filtering/predicate state; Apps-list sorting/order projection; and label management/assignment/label-based filtering.
+- Filter dimensions such as favorites, labels, backup status, cloud sync, install status, enabled status, app type, system/miscellaneous remain sub-predicates of F56 rather than separate feature IDs.
+- Pull-to-refresh, FastScroller, RecyclerView, swipe reveal, and row presentation remain UI/interaction contract details, not separate top-level P5 feature units.
+- P5.1 explicit feature-contract units are now **58**.
+- This remains static evidence/register closure only. P5 gate remains **NOT OPENED**.
+- No build/install/runtime/provider/backend/privileged-engine execution was performed.
 
