@@ -864,3 +864,22 @@ Re-audit target: **#8 Navigation**. These specific Reference→BaRe manifest con
 No build/install/runtime/visual verification was performed.
 
 Checkpoint: commit 01801eca6113f816bc8a604b8699a3db7b28bffb.
+
+
+## Step 8 Implementation Checkpoint — EU-11 / N-08 — Manifest Navigation Batch
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation commit:** f0b758e154b5e0d8d49bdee3870626e7d6f7a8a4
+
+**Scope:** app/src/main/AndroidManifest.xml only. Reconciled Reference-defined parentActivityName and windowSoftInputMode contracts for the bounded N-08 batch. No Activity Java source, strings, themes, intent filters, providers, backend, engine, or runtime behavior changed.
+
+**Reference source:** supplied Swift Backup 5.1.0 / versionCode 620 decompile archive (output/apktool/AndroidManifest.xml).
+
+**Static verification:** 33 targeted Activity manifest contract records checked after mutation; 0 failures. GitHub compare from checkpoint bf19dcea3f228222d8eb5f6a4f8742f3b2af8df6 reports exactly 1 implementation commit and exactly 1 changed file (app/src/main/AndroidManifest.xml), with 33 additions and 33 deletions.
+
+**Re-audit #8 Navigation:** the contracts in this bounded batch now match the Reference statically. Domain #8 remains OPEN because this batch does not constitute the complete 71-Activity navigation matrix and does not verify runtime Up/back behavior.
+
+**Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
+
+**P3 state:** remains P3 Follow-up Execution; P4 remains gated. No engine/provider/backend/runtime success is claimed.
