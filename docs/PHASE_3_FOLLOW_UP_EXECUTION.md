@@ -1087,3 +1087,12 @@ Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED
 - **Exclusions:** no custom color/attr/ripple/state-list contracts; no theme-wide changes; no Reference mutation; no build/install/runtime/visual verification.
 - **Static re-audit:** PASS after target resource re-read.
 - **Implementation checkpoint:** `40da31ad46f84535f7c305aa4fa3a4894f55086b`.
+
+
+### N-04 Batch 06 — Title typography
+- **Scope:** `app/src/main/res/values/styles.xml`, one style item only.
+- **Reference evidence:** `Title.android:fontFamily=@font/main_medium`.
+- **Implementation:** BaRe `sans-serif-medium` → `@font/main_medium`.
+- **Static re-audit:** PASS; Reference untouched.
+- **Exclusions:** no dependent-style changes, no build/install/runtime/visual verification.
+- **Implementation checkpoint:** `215d7803d631f36edf5ee8c6a335a956a82e47c6`.
