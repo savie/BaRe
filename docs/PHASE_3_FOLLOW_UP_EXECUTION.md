@@ -909,3 +909,17 @@ Because `com.bare` is an authorized namespace/applicationId deviation, directly 
 **Step 8 not entered for N-07.** No manifest/source mutation was performed. Runtime/build/install/visual verification remains gated.
 
 Next action for N-07 is evidence/classification only if new consumer/ownership evidence appears; do not add an unused permission speculatively.
+
+## N-06 / External Intent — Namespace Alignment Checkpoint
+
+**Status: IMPLEMENTED — STATIC CONTRACT PASS**
+
+Bounded app-only implementation aligned concrete Yandex and TeraBox external callback contracts from the Reference package identity to the authorized BaRe `com.bare` identity.
+
+Scope: exactly three app files — YandexSignInActivity.java, TeraBoxSignInActivity.java, and AndroidManifest.xml. `reference/` remained untouched. No unrelated source/resource/provider/backend/engine mutation.
+
+Static re-audit: Yandex has `com.bare.yandex://oauth` in both authorization and redirect handling; TeraBox uses `com.bare.terabox`; manifest callback schemes match. Compare against the N-07 checkpoint is limited to those three app files at final state.
+
+Runtime/provider registration/end-to-end OAuth callback behavior remains unverified; build/install/runtime/visual verification was not performed.
+
+Final implementation head: `8c75bc486acd02908b629c2786b8791c92a1e132` (docs checkpoint follows).
