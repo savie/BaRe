@@ -108,3 +108,14 @@ P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTE
 ### P4.1 deepening
 
 The P4.1 register has been deepened from a dependency list into a per-contract implementation map for C01–C16. Six work packages are defined; C02 remains regression-only and C15/C16 remain downstream. P4.1 is still **IN PROGRESS** and is not yet closed.
+
+
+### P4.1 evidence-classification audit checkpoint — 2026-10-01
+
+A targeted re-audit was performed directly against the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP for the previously questionable C01–C16 contract areas. The audit found direct static evidence for lifecycle, permissions, storage, secure/local preference boundary, AppSettings, saved_password_mode, first-run restore flow, core data models, task status, scheduling boundary, and cloud/session metadata.
+
+**Classification result:** no open contract-level UNKNOWN remains across C01–C16 at this checkpoint. Known-but-not-yet-implemented BaRe behavior remains GAP/PARTIAL; known execution intentionally outside P4 remains DEFERRED/DOWNSTREAM; runtime/device/provider behavior remains UNVERIFIED because the execution guard is still active.
+
+UNKNOWN is now reserved for a genuinely unresolved evidence boundary after targeted static audit; it is not a synonym for “not implemented”, “not searched”, or “deferred to a later phase”.
+
+No implementation, build, install, runtime, provider, backend, or engine execution was performed. P4.1 remains IN PROGRESS until the remaining contract-owner/dependency acceptance conditions are closed.
