@@ -29,7 +29,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
         detail("call_backups", 3, R.string.call_logs_backups);
         detail("folder_backups", 8, R.string.folder_backups);
         detail("cloud_backups", 7, R.string.cloud_backups);
-        detail("labs", 4, R.string.swift_labs);
+        detail("labs", 4, R.string.bare_labs);
         detail("contact", 5, R.string.contact);
         detail("about", 6, R.string.about);
 
@@ -67,7 +67,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        Preference logger = findPreference("swiftlogger");
+        Preference logger = findPreference("barelogger");
         if (logger != null) {
             logger.setOnPreferenceClickListener(p -> {
                 startActivity(new Intent(requireContext(), SLogActivity.class));
