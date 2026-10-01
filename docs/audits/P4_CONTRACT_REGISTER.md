@@ -58,7 +58,7 @@ The P4.0 register is therefore considered exhaustive **for the defined P4 scope*
 | P4-C07 | Root storage / encrypted local preference state consumed by P3 | Reference `common.V`: encrypted/secure preference boundary and multiple persisted state keys | Deterministic local state store with correct ownership for P4 keys; do not silently replace secure state semantics | BaRe uses ordinary SharedPreferences for P3 flags; no Reference-equivalent secure preference contract | Intro/account/settings state owner | **GAP / P4** | Inventory only P4-consumed keys and define provider-neutral local state boundary; secure-storage requirement remains explicit | Actual Android keystore/encrypted-preferences implementation may be downstream if not needed by P3 contract | Static key/owner reconciliation |
 | P4-C08 | Settings root surface and settings changes | Reference `settings.xml` + `AppSettings.withSavedSettings()`; SettingsActivity persists cloud/local settings on destroy; model has many persisted fields | Reference-shaped settings model, defaults, read/write ownership, and persistence boundary | BaRe reconstructs the Settings UI; only `play_notification_sounds` has local behavior using a BaRe-specific `settings` preference store; no `AppSettings` equivalent | SettingsFragment / settings repository | **GAP / P4** | Inventory frozen-P3-consumed settings and create the smallest Reference-shaped local/settings contract | Cloud settings sync/backend mutation remains downstream | Static settings XML/model/key reconciliation; Settings regression |
 | P4-C09 | Password strategy selected in Intro | Reference persists `saved_password_mode` using Reference enum ordinal with default STANDARD; completion reads the persisted strategy | Exact password-strategy state key/type/default consumed by Intro completion | BaRe uses `P3_PASSWORD_MODE` and does not yet map to Reference `saved_password_mode` semantics | IntroActivity / password boundary | **GAP / P4** | Reconcile exact key/default/ordinal contract while keeping password engine deferred | Password generation, secure storage, encryption and restore remain P5+ | Static Intro state/key comparison |
-| P4-C10 | First-run cloud settings restore | Reference `intro.d.l()`: waits for backend readiness, reads cloud settings, restores labels/configs/schedules/favorites/blacklist, and records completion | Explicit restore-at-first-run state/result contract and safe skip/failure semantics | BaRe only sets `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` as a P3 completion flag; no verified restore state/result contract | Intro + cloud/settings restore coordinator | **GAP / P4** | Define state/result contract and completion semantics; do not fake restored data | Actual backend/cloud reads and writes remain downstream | Static flow comparison to `intro.d`; Intro regression |
+| P4-C10 | First-run cloud settings restore | Reference `intro.d.l()`: waits for backend readiness, reads cloud settings, restores labels/configs/schedules/favorites/blacklist, and returns a terminal Boolean result; `IntroActivity` records completion at the terminal transition | Explicit restore-at-first-run state/result contract and safe skip/failure semantics | `FirstRunCloudRestoreState`, `FirstRunCloudRestoreResult`, and `FirstRunCloudRestoreCoordinator` now own the P4 state/result boundary; completion key is written only for terminal `SUCCESS` | FirstRunCloudRestoreCoordinator / downstream restore executor / Intro consumer | **CLOSED → P4.2** | State/result semantics and completion ownership are defined without fabricating restored data | Actual backend readiness, cloud reads/writes, and data restoration remain downstream | Static flow comparison to `intro.d`; Intro/local-state regression |
 | P4-C11 | Deterministic core data used by frozen P3 | Reference models include `UserInfo`, `StorageInfoLocal.Success`, `AppSettings`, storage item state, task/error summaries, SLog/log state, and diagnostic result state where exposed by frozen P3 surfaces | Required data shape, nullability, defaults, and consumer ownership | UserInfo is present; storage info shape is partial but service returns null; AppSettings/task data contracts are not fully present; SLog and cloud-diagnostic result data remain boundary-level | Domain repositories/services | **PARTIAL → GAP / P4** | Inventory only models with frozen-P3 consumers and record exact fields/defaults; keep feature execution deferred | Actual data collection, filesystem/provider execution, cloud persistence, diagnostic execution | Source-level field/consumer reconciliation |
 | P4-C12 | TaskActivity task list/status/error UI | Reference TaskActivity consumes task manager/service state and exposes loading/done/error/warning, task rows, SLog, cancel/force-stop boundaries | Stable task state/progress/error contract required by the existing P3 TaskActivity surface | BaRe TaskActivity has empty adapters and P3 boundary dialogs; only local `showing_slog` recreation state exists | TaskActivity + task-state layer | **GAP / P4** | Define task status/progress/error/result contract without implementing execution | Actual TaskService/job/backup/restore execution remains P5+ | Static TaskActivity/TaskManager reconciliation |
 | P4-C13 | Job/task scheduling only where P3 exposes state | Reference has TaskService, ScheduleService, alarms and task lifecycle; P4 guide limits job state to existing P3 consumers | State/progress/error/cancellation contract only; no generic job engine | BaRe has UI boundary but no verified task/job state repository | TaskActivity / schedule surfaces | **P4 / CONTRACT ONLY** | Define minimum state contract consumed by P3 | Scheduler execution, foreground service, alarms and feature jobs remain downstream | Static consumer inventory |
@@ -722,3 +722,40 @@ The concrete encrypted/secure preference adapter is intentionally not implemente
 This closure is static only. It does not claim secure-storage runtime success, crypto success, cloud settings sync, password engine execution, build/install/runtime/provider/backend success.
 
 **Next active package:** WP-E / C10.
+
+
+### P4.2 WP-E / C10 implementation — 2026-10-01
+
+**Scope:** C10 only.
+
+Primary evidence was re-read directly from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP:
+
+- `org/swiftapps/swiftbackup/intro/d.java` method `l(...)` waits for backend readiness before attempting first-run cloud-settings restore.
+- If backend readiness is unavailable, the Reference skips first-run cloud settings restore and returns `Boolean.FALSE`.
+- If the settings read fails, the Reference skips the restore and returns `Boolean.FALSE`.
+- The restore path evaluates App Labels, Configs, Schedules, Favorite apps, and Blacklist data. Partial failure also returns `Boolean.FALSE`.
+- Only the fully successful restore path returns `Boolean.TRUE`.
+- `IntroActivity` records `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` only at its terminal transition; this key is not equivalent to merely opening Home.
+
+#### C10 BaRe contract
+
+Added:
+
+- `FirstRunCloudRestoreState`: `NOT_STARTED`, `READY_TO_ATTEMPT`, `COMPLETED`, `SKIPPED`, `FAILED`.
+- `FirstRunCloudRestoreResult`: `SUCCESS`, `SKIPPED`, `FAILED`.
+- `FirstRunCloudRestoreCoordinator`: reconstructs persisted completion; resolves attempt readiness from downstream backend readiness; records terminal results; writes `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=true` only for `SUCCESS`; leaves completion false for `SKIPPED`/`FAILED`; and owns reset of the completion key.
+
+The coordinator does not read/write cloud data itself. Firebase is Reference evidence only; Supabase/provider execution remains downstream.
+
+#### C10 static regression
+
+- `IntroActivity.completeIntro()` still does **not** assert restore completion.
+- `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` remains a `LocalState` key, with its terminal transition controlled by `FirstRunCloudRestoreCoordinator`.
+- No fake restored labels/configs/schedules/favorites/blacklist data was introduced.
+- No new persisted outcome keys were invented.
+- `SKIPPED` / `FAILED` do not mark completion, preserving retry eligibility.
+- No build/install/runtime/provider/backend/engine execution was performed.
+
+**WP-E / C10 decision: CLOSED (static contract acceptance).**
+
+**Next active package:** WP-F / C12-C13.
