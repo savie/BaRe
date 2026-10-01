@@ -546,3 +546,21 @@ Static boundary:
 - No build/install/runtime/device verification was performed.
 
 **WP-B status:** IN PROGRESS / STATIC CONTRACT IMPLEMENTATION. Remaining closure requirement is consumer-level wiring/regression for the actual account surface and a final C01/C05/C06/C14 static acceptance pass. Provider/backend execution remains downstream.
+
+### P4.2 WP-B decompile fidelity re-audit — 2026-10-01
+
+Primary evidence was re-read directly from `SwiftBackup-5.1.0-620-decompiled.zip`, not inferred from BaRe source alone.
+
+| Contract | ZIP evidence | Fidelity result |
+|---|---|---|
+| C01 | `defpackage/d45.java` | lifecycle decisions reconciled to `KEY_FIRST_START`, `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED`, sign-out reset, alarm cancellation/reinitialization |
+| C05 | `defpackage/ah8.java` + `d45.java` | canonical `UserInfo` shape matches id/anonymous/displayName/email/photoUrl/latestAppVersion/currentAppVersion; provider-neutral boundary retained |
+| C06 | `defpackage/rc1.java`, `d45.java`, `intro/IntroActivity.java` | exact persisted migration evidence is boolean `is_migrating_to_google_sign_in`; typed migration-result enum removed because those enum names are not present in ZIP |
+| C14 | `defpackage/re3.java` + `d45.java` | UID derives from current Firebase identity; cloud directory derives from `FireHelper.currentCloudDir`; unsupported generic initialization method removed |
+
+Fidelity corrections made during this pass:
+- Removed the previously introduced typed migration-result enum from `AccountMigrationRepository`; it was not Reference-exact.
+- Removed `isInitialized()` from `BaReBackendRepository`; no corresponding C14 account/session contract was found in the ZIP evidence audited here.
+- Kept provider/backend operations behind interfaces only; no execution implementation was introduced.
+
+**WP-B remains IN PROGRESS.** The implementation is now explicitly constrained to evidence-supported Reference shape/semantics. Final consumer wiring/static acceptance remains before closure.
