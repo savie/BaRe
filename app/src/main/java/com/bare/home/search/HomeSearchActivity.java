@@ -17,9 +17,15 @@ import com.bare.R;
  * this Activity intentionally provides only the screen, back flow and input shell.
  */
 public final class HomeSearchActivity extends AppCompatActivity {
+    private int[] sourceBounds;
+
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
+        if (getIntent() != null) {
+            sourceBounds = getIntent().getIntArrayExtra("source_bounds");
+        }
+
         setContentView(R.layout.home_search_activity);
 
         androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.search_toolbar);
