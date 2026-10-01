@@ -147,6 +147,7 @@ public final class LabelEditActivity extends AppCompatActivity {
         android.content.Intent result = new android.content.Intent();
         if (getIntent() != null && getIntent().hasExtra(EXTRA_LABEL_ID)) {
             result.putExtra(RESULT_LABEL_ID, getIntent().getStringExtra(EXTRA_LABEL_ID));
+            result.putExtra("extra_created_label_id", getIntent().getStringExtra(EXTRA_LABEL_ID));
         }
         result.putExtra(RESULT_LABEL_NAME, value);
         result.putExtra(RESULT_LABEL_COLOR, selectedColor);
