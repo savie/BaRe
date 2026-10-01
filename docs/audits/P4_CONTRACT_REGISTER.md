@@ -2,9 +2,9 @@
 
 ## Status
 
-**P4.0 — COMPLETE / ACCEPTED — SOURCE SET RECONCILED**
+**P4 — CLOSED / FROZEN — STATIC CONTRACT BOUNDARY**
 
-This register is the canonical technical artifact for P4.0. It reconciles the frozen P3 surfaces against the Reference evidence in `v1.0/rebaseline/reference/*`, the current `rewrite` implementation, and targeted inspection of the supplied Swift Backup 5.1.0 (620) decompile ZIP.
+This register is the canonical technical artifact for the P4 static contract boundary. It reconciles the frozen P3 surfaces against the Reference evidence in `v1.0/rebaseline/reference/*`, the current `rewrite` implementation, and targeted inspection of the supplied Swift Backup 5.1.0 (620) decompile ZIP.
 
 This remains static evidence only. It is not runtime verification and does not authorize build/install/runtime/provider/backend execution.
 
@@ -66,7 +66,7 @@ The P4.0 register is therefore considered exhaustive **for the defined P4 scope*
 | P4-C15 | Provider/backend execution | Reference contains Firebase/cloud/provider implementation | Provider/backend execution contract is downstream of P4 | BaRe deliberately avoids provider execution | Provider/backend layer | **DOWNSTREAM / P5+** | Preserve boundary only | Firebase/Supabase auth, backend mutation, provider token exchange/upload/download | No P4 verification claim |
 | P4-C16 | Backup/restore engine | `reference/reference.md` A18 sections + `reference/reference_apps_audit.md` task/restore evidence | Execution pipeline exists conceptually but is not a P4 core contract | BaRe does not claim engine execution | Backup/restore engine | **DOWNSTREAM / P5** | Preserve state/result boundary only | Filesystem/archive/compression/encryption/backup/restore execution | No P4 verification claim |
 
-## Confirmed P4.0 findings
+## Historical P4.0 findings
 
 The targeted re-audit confirms that the P4.0 inventory is complete **after source-set reconciliation**. The previous register required one evidence correction: A18 was cited under a nonexistent standalone filename instead of its actual location in `reference/reference.md`. The inventory scope was also tightened to explicitly include SLog/diagnostic state under the deterministic-data contract.
 
@@ -100,7 +100,7 @@ Do not pull these into P4 merely because a P3 surface exposes them:
 - foreground-service execution;
 - runtime/device verification.
 
-## P4.0 exit criteria
+## Historical P4.0 exit criteria
 
 P4.0 closes when every targeted row has:
 
@@ -116,7 +116,7 @@ P4.0 closes when every targeted row has:
 
 All 16 targeted rows satisfy those inventory fields.
 
-## P4.0 acceptance matrix
+## Historical P4.0 acceptance matrix
 
 The acceptance target for P4.0 is **contract inventory completeness**, not implementation completion. A row may therefore remain `GAP`, `PARTIAL`, or `DOWNSTREAM` while still being accepted into P4.1, provided its contract, owner, boundary, and verification surface are explicit.
 
