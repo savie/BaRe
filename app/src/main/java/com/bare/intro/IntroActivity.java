@@ -156,10 +156,10 @@ public final class IntroActivity extends Activity {
                         new String[]{Manifest.permission.POST_NOTIFICATIONS},
                         REQUEST_NOTIFICATIONS);
             } else {
-                markNotificationsReady();
+                refreshState();
             }
         } else {
-            markNotificationsReady();
+            refreshState();
         }
     }
 
@@ -172,10 +172,10 @@ public final class IntroActivity extends Activity {
                             Uri.parse("package:" + getPackageName()));
                     startActivityForResult(intent, REQUEST_STORAGE);
                 } catch (Exception e) {
-                    markStorageReady();
+                    refreshState();
                 }
             } else {
-                markStorageReady();
+                refreshState();
             }
         } else {
             ActivityCompat.requestPermissions(
