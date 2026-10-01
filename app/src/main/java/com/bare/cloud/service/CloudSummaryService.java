@@ -2,7 +2,7 @@ package com.bare.cloud.service;
 
 import com.bare.cloud.repository.CloudSummaryRepository;
 
-/** Preserves Reference ig1 aggregate semantics without coupling UI to Firebase snapshots. */
+/** Preserves Reference ig1 aggregate semantics without coupling UI to backend snapshots. */
 public final class CloudSummaryService {
     private final CloudSummaryRepository repository;
 
