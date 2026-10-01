@@ -366,3 +366,34 @@ The contract owners were reconciled against the current BaRe source and the Refe
 There is **no unresolved canonical-owner collision** across C01–C16 at the P4 contract level after this reconciliation. The main migration rule for P4.2 is: **UI classes may consume transitional state, but they must not become new canonical owners of domain state.**
 
 The dependency order remains WP-A → WP-B → WP-C → WP-D → WP-E → WP-F, with C02 protected and C15/C16 downstream. This is an implementation map, not implementation authorization.
+## P4.1 — Final contract closure matrix
+
+This matrix is the final static acceptance ledger before P4.2. It establishes that the P4.2 implementation map is contract-safe at the static boundary.
+
+| ID | Reference evidence | Canonical owner | BaRe gap | Dependency | Regression surface | Phase boundary | P4.1 result |
+|---|---|---|---|---|---|---|---|
+| C01 | d45, Intro lifecycle keys/flow | Lifecycle / AccountService boundary | Lifecycle state machine not wired | C07, C05 | Intro/account transitions | Auth/provider/cloud restore deferred | CLOSED → P4.2 |
+| C02 | HomeActivity.saved_fragment, N-08/N-09 | HomeActivity recreation state | None at P4 boundary | None | Home recreation | Runtime proof deferred | CLOSED / PASS |
+| C03 | intro.d, permission/access helpers, N-07 | Permission/access boundary | P3 manual readiness flags remain | C07, C11 | Intro permission cards/Continue | Privileged engines deferred | CLOSED → P4.2 |
+| C04 | yn7, zn7, preferred_storage_dir | Storage coordinator/service | No canonical selected/preferred storage coordinator | C07, C11 | StorageSwitchActivity | Filesystem/privileged storage deferred | CLOSED → P4.2 |
+| C05 | ah8/UserInfo, d45, UserInfo repository | Account/session owner | Session state not unified | C07, C01 | Account/Home | Provider SDK/auth deferred | CLOSED → P4.2 |
+| C06 | d45.c(), migration flag/outcomes | Migration repository + lifecycle | Orchestration not connected to canonical session | C05, C01 | Account sign-out/migration | Provider/cloud mutation deferred | CLOSED → P4.2 |
+| C07 | common.V, encrypted preference boundary, bx5 | LocalState / preference boundary | P3 state uses scattered ordinary SharedPreferences | C11 | Intro/account/settings persistence | Keystore/runtime verification deferred | CLOSED → P4.2 |
+| C08 | AppSettings.withSavedSettings(), settings writer/XML | Settings repository/model | Reference settings persistence missing | C07, C11 | Settings flows | Cloud sync/backend mutation deferred | CLOSED → P4.2 |
+| C09 | saved_password_mode, STANDARD_PASSWORD, Intro flow | Settings/password-strategy state | Transitional P3_PASSWORD_MODE | C07, C08 | Intro password selection | Password crypto/storage deferred | CLOSED → P4.2 |
+| C10 | intro.d restore flow + terminal flags | First-run restore state boundary | Completion boolean lacks full result contract | C01, C05, C08, C14 | Intro first-run flow | Cloud I/O deferred | CLOSED → P4.2 |
+| C11 | UserInfo, StorageInfoLocal, AppSettings, task/error/SLog/diagnostic models | Domain contracts + repositories/services | Several P4 models incomplete | C07 | P4 consumers | Feature data production deferred | CLOSED → P4.2 |
+| C12 | gz7, jc2, TaskService, TaskActivity | Task state repository/service | No canonical task state contract | C11 | TaskActivity | Task execution deferred | CLOSED → P4.2 |
+| C13 | TaskService + AlarmReceiver/scheduling | Task/job lifecycle boundary | No minimum P4 observation/intent contract | C11, C12 | Task/schedule surfaces | Scheduler/foreground execution deferred | CLOSED → P4.2 |
+| C14 | re3, ah8, cloud/userInfo metadata | Cloud/session metadata owner | No unified provider-neutral cloud/session state | C05, C07 | Account/cloud/restore | Token/cloud/backend mutation deferred | CLOSED → P4.2 |
+| C15 | Reference provider/Firebase/cloud execution | Downstream provider adapter boundary | Intentionally not implemented in P4 | C14 | No P4 execution surface | P5+ | CLOSED / DOWNSTREAM |
+| C16 | Reference backup/restore/task execution + existing audits | Downstream backup/restore engine boundary | Intentionally not implemented in P4 | C12, C13 | Task/restore surfaces | P5+ | CLOSED / DOWNSTREAM |
+
+### P4.1 final decision
+
+All sixteen C01–C16 rows now have named Reference evidence, canonical owner, explicit BaRe gap/state, dependency, P3 regression surface, and phase boundary. The evidence audit found no open contract-level UNKNOWN. No unresolved canonical-owner collision remains. No C17+ scope was introduced. C15/C16 remain downstream.
+
+**P4.1 — CLOSED / READY FOR P4.2.**
+
+This is a static contract-analysis closure only. It does not claim implementation, build, install, runtime, provider/backend success, or backup/restore execution.
+
