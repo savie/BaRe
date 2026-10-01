@@ -26,9 +26,9 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 CLOSED / P4.1 CLOSED / P4.2 IN PROGRESS**
+**PHASE 4 — CORE BEHAVIOR / CONTRACT — CLOSED / FROZEN at static contract boundary**
 
-P4.0 was re-audited against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
+P4 was closed after re-audit against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
 Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.md` include:
 - first-start/account lifecycle state and first-run cloud-restore result semantics;
@@ -41,9 +41,9 @@ Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.m
 - complete P4-consumed core-data ownership;
 - secure/encrypted local preference boundary for persisted P4 state.
 
-P4.0 is closed at the static contract-inventory boundary. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
+P4 is closed at the static contract boundary. C01-C14 are closed/pass; C15/C16 remain explicitly downstream. No P4 blocker or unresolved contract-level UNKNOWN remains. No build, install, runtime, provider, backend, or engine success is claimed.
 
-P3 remains frozen at the documented static boundary. P4.1 is now the active package for Reference-backed gap/blocker analysis. The current blocker/dependency map is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the P4 scope remains C01–C16. No P4 implementation, runtime/provider/engine/backend success is implied or claimed.
+P3 remains frozen at the documented static boundary. The P4.5 verified checkpoint is recorded in `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`. The next lifecycle boundary is Phase 5 feature execution reconstruction; its provider/backend/engine/runtime work remains outside the current execution guard.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
