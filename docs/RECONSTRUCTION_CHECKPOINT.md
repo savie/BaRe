@@ -21,7 +21,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior / contracts | **ACTIVE — P4.0 IN PROGRESS** |
+| 4 | Core behavior / contracts | **ACTIVE — P4.0 RE-AUDIT / INVENTORY** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
@@ -38,57 +38,57 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 
 ## Current P4 position
 
-**P4 is active at P4.0 only.**
+**P4 remains active at P4.0.**
 
-Current sequence:
+A targeted Reference re-audit was performed using:
+- `v1.0/rebaseline/reference/*`;
+- the supplied `SwiftBackup-5.1.0-620-decompiled.zip`;
+- current `rewrite` source;
+- existing N-07/N-08/N-09 audits.
 
-```
-P4.0  Reference-backed contract inventory
-  ↓
-P4.1  BaRe gap / blocker analysis
-  ↓
-P4.2  Minimum contract implementation
-  ↓
-P4.3  P3 regression re-audit
-  ↓
-P4.4  Remaining-gap classification
-  ↓
-P4.5  Verified package / checkpoint closure
-```
+The P4 register was expanded from coarse domain rows into explicit P3-trigger/contract/consumer/verification rows.
 
-Current technical artifact:
+## Confirmed P4.0 gaps
 
-`docs/audits/P4_CONTRACT_REGISTER.md`
+The re-audit confirms these are real P4 contract gaps, not merely documentation gaps:
 
-## P4.0 initial findings
+1. First-start/account lifecycle state is broader than the current P3 booleans.
+2. Permission readiness must eventually be derived from authoritative permission/access state, not manual P3 success flags.
+3. Reference persists and validates `preferred_storage_dir`; BaRe has no equivalent verified storage coordinator/persistence contract.
+4. Account/session state is only partially reconciled despite provider-neutral repositories already existing.
+5. Reference settings use a persisted `AppSettings` model; BaRe currently has the UI boundary but not the Reference-shaped settings contract.
+6. Intro password mode uses a BaRe-specific `P3_PASSWORD_MODE`; Reference uses `saved_password_mode` with Reference enum/default semantics.
+7. First-run cloud settings restore has an explicit Reference state/result flow; a completion boolean alone is not equivalent.
+8. TaskActivity requires task status/progress/error state; current empty task adapters are only a boundary stub.
+9. Core data inventory must include the Reference-shaped models consumed by these flows, not only `UserInfo`.
+10. Reference has a secure/encrypted local preference boundary relevant to persisted P4 state.
 
-First evidence-backed candidates behind frozen P3 surfaces:
+## Explicit downstream boundaries
 
-1. Permission state/result/retry contract.
-2. Storage selection/persistence contract.
-3. Account/session contract reconciliation.
-4. State ownership/restoration.
-5. Settings contracts actually consumed by frozen P3 flows.
-
-Current explicit downstream boundaries:
+These remain outside P4 implementation:
 
 - backup/restore execution;
-- archive/compression/encryption execution;
-- provider execution;
-- backend/Supabase execution;
+- archive/compression/encryption;
+- provider token exchange / provider SDK execution;
 - actual cloud transfer;
+- Firebase/Supabase auth execution;
+- backend/database mutation;
+- billing/purchase verification execution;
+- root/Shizuku privileged engine;
+- installed-app inventory/app-op engine;
+- foreground-service execution;
 - runtime/device verification.
 
 ## Execution guard
 
 - Reference is read-only.
-- Implementation changes belong to `app/`.
-- P4.0 inventory does not itself authorize implementation.
+- P4.0 is inventory/reconciliation only.
+- No implementation is implied by a register row.
 - Build/install/runtime remains prohibited unless explicitly authorized.
 - Static evidence never implies engine/provider/backend/runtime success.
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → 71/71 Activities covered → 15 P3 domains closed → P4 active → P4.0 contract inventory in progress.**
+> **P1 frozen → P2 frozen → P3 frozen → 71/71 Activities covered → 15 P3 domains closed → P4 active → P4.0 re-audit/inventory confirms concrete P4 gaps.**
 
-Next package: **P4.1 only after P4.0 inventory is complete.**
+Next package remains **P4.1 — BaRe Gap / Blocker Analysis**, after the remaining P4.0 inventory acceptance pass.
