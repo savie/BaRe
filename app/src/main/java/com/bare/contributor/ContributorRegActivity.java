@@ -49,14 +49,11 @@ public final class ContributorRegActivity extends AppCompatActivity {
 
     private void showSaveBoundary() {
         // Reference submits ContributorRegistration through its ViewModel/coroutine.
-        // Keep the observable P3 result boundary without fabricating remote persistence.
+        // Keep the observable P3 boundary without fabricating remote persistence.
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.save_details)
                 .setMessage(R.string.p3_contributor_boundary)
                 .setPositiveButton(R.string.close, null)
-                .setOnDismissListener(d -> {
-                    setResult(RESULT_OK);
-                })
                 .show();
     }
 
