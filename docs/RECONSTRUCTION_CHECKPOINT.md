@@ -150,7 +150,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - No app implementation change was required by this re-audit.
 - Reference remains read-only.
 - Build/install/runtime/visual verification was not performed.
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze.
+- P3 was ACTIVE / FOLLOW-UP CLOSURE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## N-11 total re-audit checkpoint — Branding / Identity
@@ -165,7 +165,7 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - No app implementation change was required by this re-audit.
 - Reference remains read-only.
 - Build/install/runtime/visual/provider/OAuth verification was not performed.
-- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze.
+- P3 was ACTIVE / FOLLOW-UP CLOSURE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## N-12 total re-audit checkpoint — Java-only
@@ -196,13 +196,13 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-13 Fake / Stub: 🟢
 - N-14 Boundary: 🟢
 - N-15 Static Hygiene: 🟢
-- **N-01 Resource: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remain open**
+- **Historical N-01 Resource state: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remained open at this checkpoint**
 - P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
 
 ## Latest N-domain closure checkpoint — N-01-R5
 
-- N-01 Resource: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remain open
+- Historical N-01 Resource state: 🟡 — R3 🟢, R4 🟢, **R5 🟢**; R1/R2/R6 remained open at this checkpoint
 - N-02 through N-15: 🟢 at current P3 boundary
 - P3 was ACTIVE at this historical checkpoint; superseded by the final N-01-R6 freeze checkpoint.
 
@@ -220,7 +220,7 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 
 ## Latest N-domain closure checkpoint — N-01-R1
 
-- N-01 Resource: 🟡 — **R1 🟢, R3 🟢, R4 🟢, R5 🟢; R2/R6 remain open**
+- Historical N-01 Resource state: 🟡 — **R1 🟢, R3 🟢, R4 🟢, R5 🟢; R2/R6 remained open at this checkpoint**
 - N01-R1 layout/UI surface: **🟢 CLOSED / STATIC PASS**
 - Reference layout contract: **244/244 actionable base layouts accounted for**
 - Wide-screen Home variant: **layout-w600dp/home_activity.xml restored**
@@ -231,7 +231,7 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 
 ## Latest N-domain closure checkpoint — N-01-R2
 
-- N-01 Resource: 🟡 — **R1 🟢, R2 🟢, R3 🟢, R4 🟢, R5 🟢; R6 remains open**
+- Historical N-01 Resource state: 🟡 — **R1 🟢, R2 🟢, R3 🟢, R4 🟢, R5 🟢; R6 remained open at this checkpoint**
 - N01-R2 Drawable / Icon / Image: **🟢 CLOSED / STATIC PASS**
 - Reference drawable surface: **647 physical / 517 logical**.
 - Actionable application-owned drawable contract: **300 physical resources accounted for**.
