@@ -73,7 +73,7 @@ public final class TaskActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_task_activity, menu);
-        MenuItem slog = menu.findItem(R.id.action_swiftlogger);
+        MenuItem slog = menu.findItem(R.id.action_barelogger);
         slog.setChecked(showingSlog);
         return true;
     }
@@ -88,7 +88,7 @@ public final class TaskActivity extends AppCompatActivity {
                     .show();
             return true;
         }
-        if (item.getItemId() == R.id.action_swiftlogger) {
+        if (item.getItemId() == R.id.action_barelogger) {
             showingSlog = !showingSlog;
             item.setChecked(showingSlog);
             renderSlog();
