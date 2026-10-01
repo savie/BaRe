@@ -41,9 +41,11 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 2. `docs/PHASE_1_INVENTORY.md`
 3. `docs/PHASE_2_SKELETON.md`
 4. `docs/PHASE_3_GATE.md`
+5. `docs/PHASE_4_GATE.md`
+6. `docs/audits/P4_CONTRACT_REGISTER.md`
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 active / follow-up closure → P4 gated.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5 downstream / not yet opened by a dedicated gate.**
 
-For exact P3 status, use `docs/PHASE_3_GATE.md`.
+For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
