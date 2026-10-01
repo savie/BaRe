@@ -1005,3 +1005,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - Targeted static regression against the supplied Swift Backup 5.1.0 (620) decompile found no new contradiction in the affected surfaces.
 - WP-A is **NOT CLOSED**. C07/C11 remain the active scope; other C03/C05/C08/C09/C10/C12/C13/C14 contracts remain owned by later WPs.
 - No build, install, runtime, device, provider, backend, or engine verification was performed.
+
+### P4.2 WP-A correction — 2026-10-01
+
+- Static review found `IntroActivity.completeIntro()` was incorrectly asserting `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED=true` at UI completion.
+- Corrected: Intro now only closes `KEY_FIRST_START`; C10 owns the terminal cloud-restore completion transition.
+- Reset now clears both first-start and first-run restore-completion local keys.
+- This removes a fabricated C10 terminal state from WP-A while preserving the Reference-backed local key boundary.
+- WP-A remains IN PROGRESS; no build/install/runtime/provider/backend/engine verification was performed.
