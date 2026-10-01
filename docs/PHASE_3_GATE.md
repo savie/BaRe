@@ -102,7 +102,7 @@ The original 15-domain audit is historical evidence. The table below is the curr
 | 1 | Resource | 🟡 OPEN |
 | 2 | Strings | 🟢 CLOSED / STATIC PASS |
 | 3 | Dimensions | 🟢 CLOSED / PASS |
-| 4 | Styles / Themes / Colors | 🟡 OPEN |
+| 4 | Styles / Themes / Colors | 🟢 CLOSED / STATIC PASS |
 | 5 | Manifest | 🟡 OPEN |
 | 6 | Intent | 🟡 OPEN |
 | 7 | Permissions | 🟡 OPEN |
@@ -184,7 +184,7 @@ Every bounded implementation batch must have:
 | N-01 | Resource | 🟡 |
 | N-02 | Strings | 🟢 |
 | N-03 | Dimensions | 🟢 |
-| N-04 | Styles / Themes / Colors | 🟡 |
+| N-04 | Styles / Themes / Colors | 🟢 |
 | N-05 | Manifest | 🟡 |
 | N-06 | Intent | 🟡 |
 | N-07 | Permissions | 🟡 |
@@ -250,3 +250,20 @@ The detailed historical commits preserve prior audit snapshots, resource audits,
 > **P1 FROZEN + P2 FROZEN + P3 Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 + normalized 15-domain closure active + P4 GATED.**
 
 P3 is **not yet frozen**.
+
+
+### N-04 closure — Styles / Themes / Colors
+
+- Total audit: `docs/audits/N04_STYLES_THEMES_COLORS_TOTAL_AUDIT.md`
+- Final static re-audit: **PASS**
+- 98 style definitions in the BaRe values style surface.
+- 0 duplicate styles.
+- 0 unresolved custom style references within the N-04 style graph.
+- 162 value color definitions plus required selector resources.
+- 0 unresolved color references in the N-04 style graph.
+- 57 attrs in the BaRe values attr surface with no duplicate declarations.
+- 0 residual Swift identity in the audited N-04 style surface.
+- Theme/light/dark/transparent/intro variants reconstructed under BaRe-owned identity.
+- Reference canonical SHA rechecked unchanged.
+- Build/install/runtime not performed.
+- **N-04 = 🟢 CLOSED / STATIC PASS.**
