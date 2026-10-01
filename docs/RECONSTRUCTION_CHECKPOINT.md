@@ -48,18 +48,18 @@ A targeted Reference re-audit was performed using:
 
 The P4 register was expanded from coarse domain rows into explicit P3-trigger/contract/consumer/verification rows.
 
-## P4.0 closure
+## Historical P4.0 closure
 
 P4.0 contract inventory is **COMPLETE / ACCEPTED**.
 
 - 16/16 targeted contract rows reconciled.
 - Every row has Reference evidence, required contract, current BaRe state, owner/consumer, classification, minimum P4 target, deferred execution boundary, verification method, and P3 regression surface.
-- Remaining GAP / PARTIAL classifications are implementation inputs for P4.1; they are not P4.0 blockers anymore.
+- The historical P4.0 GAP / PARTIAL classifications were inputs to P4.1/P4.2 and are superseded by the final P4.4 classification.
 - Provider/backend, backup/restore execution, privileged engines, and runtime/device verification remain explicitly downstream.
 
-## Confirmed P4.0 gaps
+## Historical P4.0 gaps
 
-The re-audit confirms these are real P4 contract gaps, not merely documentation gaps:
+At the P4.0 inventory checkpoint, the re-audit identified these contract gaps; later P4.2 implementation and P4.4 classification closed the P4 boundary:
 
 1. First-start/account lifecycle state is broader than the current P3 booleans.
 2. Permission readiness must eventually be derived from authoritative permission/access state, not manual P3 success flags.
