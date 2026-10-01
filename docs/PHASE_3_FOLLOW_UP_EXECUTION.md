@@ -998,3 +998,15 @@ Additional searched contracts (Reference→BaRe) were either already represented
 `reference/` remains read-only. Build/install/runtime/visual verification: NOT AUTHORIZED / NOT PERFORMED.
 
 N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListActivity KEY_SECTION` type/mapping or another independently bounded navigation contract.
+
+## Step 8 Implementation Checkpoint — N-08 AppListActivity KEY_SECTION — Batch 04
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation:** app/src/main/java/com/bare/appslist/ui/list/AppListActivity.java
+
+**Contract reconciled:** Reference bt enum has exactly LOCAL and CLOUD; AppListActivity consumes KEY_SECTION as Serializable and defaults to LOCAL when absent. BaRe implements the same bounded ingress/state contract with AppSection { LOCAL, CLOUD }.
+
+**Static checks:** public enum present; default state LOCAL present; getSerializableExtra(KEY_SECTION) present; assignment from AppSection present. Reference remains read-only. No runtime/build/install/visual verification.
+
+**Boundary:** section-dependent tab contents, cloud/local data semantics, and runtime navigation behavior remain outside this batch and are not claimed closed.
