@@ -1029,3 +1029,12 @@ This is static contract-analysis closure only. No implementation, build, install
 - `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` remains completion-owned by the future C10 restore flow rather than Intro UI completion.
 - No build/install/runtime/provider/backend/engine verification was performed.
 - P4.2 remains active outside WP-A.
+### P4.2 WP-B implementation checkpoint — 2026-10-01
+
+- WP-B is active for **C01 / C05 / C06 / C14**.
+- Reference lifecycle evidence from `d45`, user-info evidence from `ah8`, migration guard from `rc1`, and cloud/session path evidence from `re3` were reconciled before mutation.
+- `AccountLifecyclePolicy` now exposes explicit startup and Google-migration decisions without binding to provider SDKs.
+- `AccountService` now consumes canonical `UserInfo` through `UserInfoRepository` instead of maintaining a parallel user-info shape.
+- `BaReBackendRepository` now uses canonical `UserInfo` and exposes cloud-directory metadata / initialization as provider-neutral state boundaries.
+- No provider/backend execution, fake success, build, install, or runtime verification was performed.
+- **WP-B remains IN PROGRESS** pending account-surface consumer wiring and final static acceptance/regression.
