@@ -386,3 +386,16 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - This remains static evidence/register closure only. P5 gate remains **NOT OPENED**.
 - No build/install/runtime/provider/backend/privileged-engine execution was performed.
 
+
+
+### P5.1 Apps engine / special-data reconciliation — 2026-10-02
+
+- P5.1 remains **OPEN FOR AUDIT / P5 GATE NOT OPENED**.
+- Reference Apps deep audit Checkpoints 21–29 was reconciled against the supplied Swift Backup 5.1.0 / 620 decompile.
+- Promoted explicit feature-contract units: **F59–F71**.
+- New boundaries include Favorites persistence, AppInfo diagnostics, pinned shortcut integration, ConfigSettings→task mapping, backup-limit enforcement, package-visibility diagnostics, runtime/special permission state, SSAID, notification access, accessibility service, notification policy, Apps task workspace, and SBA app-data metadata envelope.
+- P5.1 explicit feature-contract count is now **71**.
+- The count is evidence-derived, not a target or parity quota; further P5.1 growth remains possible only when another independent Reference boundary is proven.
+- Generic helpers/threading/logging/string utilities were intentionally not promoted to feature IDs.
+- No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
+- P5.2 remains blocked until P5.1 feature audit is explicitly closed.
