@@ -2,7 +2,7 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 ACTIVE**
+**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 ACTIVE**
 
 Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
 
@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.2 — Minimum Contract Implementation — ACTIVE**
+**P4.3 — P3 Static Regression Re-Audit — ACTIVE**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
@@ -193,3 +193,13 @@ C10 now has an explicit state/result/completion boundary backed by direct decomp
 No build/install/runtime/provider/backend/engine verification was performed.
 
 **Next active P4.2 package: WP-F / C12-C13.**
+
+### P4.2 WP-F / C12-C13 final acceptance — 2026-10-01
+
+**WP-F / C12-C13: 🟢 CLOSED — static contract acceptance.**
+
+The supplied Swift Backup 5.1.0 / 620 decompile was re-audited directly for `gz7`, `jc2`, `pw6`, `TaskActivity`, `TaskService`, `ScheduleService.RunMode`, and `AlarmReceiver`. BaRe now has explicit canonical task-state/result/error/progress and job-lifecycle intent boundaries. TaskActivity consumes those contracts through `TaskStateService`; scheduler, foreground-service, AlarmManager, WorkManager, cancellation execution, and feature-job execution remain downstream.
+
+The P4.2 execution guard remains unchanged: no build/install/runtime/device/provider/backend/engine execution was performed.
+
+**Next package: P4.3 — P3 static regression re-audit.**
