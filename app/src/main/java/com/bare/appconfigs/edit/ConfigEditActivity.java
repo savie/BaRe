@@ -27,6 +27,10 @@ public final class ConfigEditActivity extends AppCompatActivity {
         }
 
         boolean editing = getIntent() != null && getIntent().hasExtra("extra_config");
+        if (getIntent() != null) {
+            incomingConfigSettings = getIntent().getParcelableExtra("extra_config_settings");
+            deleteConfigSettingsRequested = getIntent().getBooleanExtra("extra_config_settings_delete", false);
+        }
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(editing ? R.string.manage_config : R.string.new_config);
         }
