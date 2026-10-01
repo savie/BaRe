@@ -298,9 +298,11 @@ P3 is **not yet frozen**.
 
 - Total audit: `docs/audits/N07_PERMISSIONS_TOTAL_AUDIT.md`
 - Manifest declarations: **34/34 semantic match**
-- Runtime SMS/call/notification/storage contracts: **PASS**
+- Runtime SMS/call/notification/storage permission contracts: **PASS**
 - Custom permission identity substitution: **explicitly recorded**
+- Special-access declarations have explicit downstream ownership.
+- Root/Shizuku, storage engine, installed-app inventory, package operations, exact-alarm behavior, and foreground-service lifecycle are **not claimed complete by N-07**.
 - No speculative permission mutation.
 - Reference remained read-only.
 - Build/install/runtime not performed.
-- **N-07 = 🟢 CLOSED / STATIC PASS.**
+- **N-07 = 🟢 CLOSED / STATIC PASS — permission contract boundary.**
