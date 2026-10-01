@@ -2,7 +2,7 @@
 
 ## Status
 
-**AUDIT COMPLETE — DOCUMENT ONLY / IMPLEMENTATION REGISTER READY**
+**STATIC RE-AUDIT PASS — CLOSED**
 
 - Domain: **N-05 Manifest**
 - Phase: P3
@@ -13,6 +13,8 @@
 - Target branch: `rewrite`
 - Build/install/runtime: **NOT PERFORMED**
 - Reference mutation: **NO**
+- Implementation: **N05-M1 COMPLETE**
+- Static re-audit: **PASS**
 
 ## 1. Evidence
 
@@ -100,3 +102,22 @@ N-05 may close only after:
 10. build/install/runtime is not used as closure evidence.
 
 **Current N-05 state: 🟡 AUDITED / IMPLEMENTATION PENDING**
+
+
+## 6. N-05 closure
+
+N05-M1 was implemented without build/install/runtime execution:
+
+- `app/src/main/res/xml/locales_config.xml` reconstructed from Reference.
+- `app/src/main/res/xml/network_security_config.xml` reconstructed from Reference.
+- `android:localeConfig` restored.
+- `android:networkSecurityConfig` restored.
+- Reference-defined dynamic receiver permission was mapped to the BaRe package identity as `com.bare.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`.
+- XML content SHA parity against the Reference mirror: PASS.
+- Target manifest contains all three restored contracts: PASS.
+- 71 Reference-owned Activities / 3 Services / 8 Receivers remain structurally covered; no Provider was introduced.
+- MSAL/test-query and dependency/library manifest entries remain explicitly classified as UNKNOWN / dependency-owned and were not blindly copied.
+
+**N-05 → 🟢 CLOSED / STATIC PASS**
+
+No runtime/provider/backend claim is implied.
