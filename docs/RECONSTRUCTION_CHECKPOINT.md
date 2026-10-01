@@ -227,3 +227,19 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Target layout surface contains **0 Swift/swift and 0 Firebase/firebase text matches**
 - N-02 through N-15: 🟢 at current P3 boundary
 - P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
+
+
+## Latest N-domain closure checkpoint — N-01-R2
+
+- N-01 Resource: 🟡 — **R1 🟢, R2 🟢, R3 🟢, R4 🟢, R5 🟢; R6 remains open**
+- N01-R2 Drawable / Icon / Image: **🟢 CLOSED / STATIC PASS**
+- Reference drawable surface: **647 physical / 517 logical**.
+- Actionable application-owned drawable contract: **300 physical resources accounted for**.
+- Target actionable drawable coverage: **300/300; 0 missing**.
+- Provider branding qualifier assets restored from the immutable Reference mirror.
+- Swift launcher/splash identity was not copied literally; splash contracts use existing BaRe-owned branding resources under the authorized N-11 boundary.
+- Target drawable surface contains **0 Swift/swift** and **0 Firebase/firebase** text matches.
+- No existing target drawable resource was overwritten in R2; additions only.
+- Build/install/runtime: **NOT PERFORMED**.
+- N-01-R6 Cross-domain resource closure remains the only open N-01 work package.
+- P3 remains **ACTIVE / FOLLOW-UP CLOSURE; no freeze**.
