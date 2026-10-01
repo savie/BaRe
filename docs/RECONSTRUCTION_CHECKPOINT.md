@@ -15,17 +15,9 @@ It answers:
 2. What is the current phase status?
 3. What remains UNKNOWN, BLOCKED, or intentionally deferred?
 
-The active P3 operational status is maintained in:
+The single P3 authority is:
 
-`docs/PHASE_3_STATUS.md`
-
-The detailed audit ledger is:
-
-`docs/PHASE_3_CLOSURE_AUDIT.md`
-
-The high-level matrix is:
-
-`docs/PARITY_MATRIX.md`
+`docs/PHASE_3_GATE.md`
 
 ## Source Baseline
 
@@ -81,7 +73,7 @@ That classification is now the **audit baseline**, not the final P3 closure verd
 
 The P3 total audit of the original **15 domains is complete**. It is the evidence baseline for P3 follow-up execution; it is no longer the current work order. Subsequent re-audits supersede an original domain verdict when explicitly recorded.
 
-The latest operational status and follow-up execution state are maintained in `docs/PHASE_3_STATUS.md` and `docs/PHASE_3_FOLLOW_UP_EXECUTION.md`.
+The latest P3 status and follow-up closure state are maintained only in `docs/PHASE_3_GATE.md`.
 
 | # | Domain | Current state |
 |---:|---|---|
@@ -219,13 +211,12 @@ P7/P8/P9 remain downstream gates.
 
 | Document | Role |
 |---|---|
-| docs/PHASE_3_STATUS.md | **Current P3 operational authority** |
-| docs/PHASE_3_CLOSURE_AUDIT.md | **P3 audit evidence ledger** |
-| docs/PARITY_MATRIX.md | **High-level parity map** |
+| docs/PHASE_3_GATE.md | **Single P3 authority** |
 | docs/RECONSTRUCTION_CHECKPOINT.md | **Roadmap/checkpoint dashboard** |
 | docs/PHASE_2_SKELETON.md | **Frozen P2 component inventory** |
+| docs/RECONSTRUCTION_STATUS.md | **Historical implementation/evidence ledger** |
 
-No historical checkpoint should be interpreted as a competing current P3 status.
+No second P3 queue, closure audit, or parity matrix is an active authority.
 
 ## Final Mental Model
 
