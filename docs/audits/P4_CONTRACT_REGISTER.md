@@ -535,9 +535,9 @@ Reference reconciliation performed against `d45`, `ah8`, `rc1`, and `re3` from S
 Implemented/reconciled:
 - `AccountLifecyclePolicy` now exposes explicit startup decisions for first-start, first-run cloud-restore wait, ready-for-home, and post-sign-out reinitialization.
 - Google migration entry is explicitly guarded by identity-present + anonymous + not-already-migrating, matching the Reference `rc1` gate.
-- `AccountMigrationRepository` retains the Reference migration outcome vocabulary without provider execution.
+- `AccountMigrationRepository` retains only the Reference-backed boolean migration guard; no typed migration-result enum is claimed.
 - `AccountService` now composes the provider-neutral `AccountRepository` identity boundary with the canonical `UserInfoRepository` / `UserInfo` model; no duplicate user-info model is retained in this service path.
-- `BaReBackendRepository` now consumes the canonical `UserInfo` model and explicitly exposes cloud-directory metadata + initialization observation as provider-neutral C14 boundaries.
+- `BaReBackendRepository` now consumes the canonical `UserInfo` model and exposes only identity/cloud-directory metadata evidenced by Reference `re3`/`ah8`.
 
 Static boundary:
 - No provider SDK/auth execution was added.
