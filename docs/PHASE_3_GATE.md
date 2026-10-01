@@ -212,11 +212,11 @@ Every bounded implementation batch must have:
 | N-12 | Java-only | 🟢 |
 | N-13 | Fake / Stub | 🟢 CLOSED / STATIC PASS |
 | N-14 | Boundary | 🟢 CLOSED / STATIC PASS |
-| N-15 | Static Hygiene | 🟡 |
+| N-15 | Static Hygiene | 🟢 CLOSED / STATIC PASS |
 
 **N-02, N-03, N-11, and N-12 are closed and must not be reopened without new evidence of defect.**
 
-N-09 and N-10 remain red at the domain-register level until their complete N-level closure audit proves otherwise.
+N-09 and N-10 are closed at the P3 boundary based on their complete N-level closure audits; downstream engine/provider/backend behavior remains explicitly deferred.
 
 ## Current P3 exit gate
 
