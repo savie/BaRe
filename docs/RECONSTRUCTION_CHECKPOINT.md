@@ -137,3 +137,17 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-15 Static Hygiene: 🟢 CLOSED / STATIC PASS
 - N-01 Resource: 🟡 master / cross-domain closure still open
 - P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+
+
+## N-03 total re-audit checkpoint — Dimensions
+
+- Total audit evidence: `docs/audits/N03_DIMENSIONS_TOTAL_AUDIT.md`
+- Reference dimension inventory: **839 unique names across 20 `dimens.xml` files**.
+- N-03 Reference-facing/project scope: **67 dimension contracts**, separated from dependency/library dimensions.
+- Current BaRe base dimensions and four Reference-sensitive qualifier overrides remain reconciled.
+- Target-only `bare_expressive_switch_min_width` is explicitly classified as a BaRe-owned addition.
+- N-03 verdict: **🟢 CLOSED / PASS — STATIC TOTAL RE-AUDIT**.
+- No app implementation change was required by this re-audit.
+- Reference remains read-only.
+- Build/install/runtime/visual verification was not performed.
+- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze.
