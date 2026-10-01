@@ -802,3 +802,18 @@ N-04 remains OPEN overall; broader theme, color, qualifier, and remaining style 
 **Re-audit:** target manifest was re-read and the metadata record is present. The commit diff is limited to the app manifest; `reference/` remains read-only. No permission, intent, provider, backend, engine, or runtime behavior was changed.
 
 No build/install/runtime/visual verification was performed. N-05 remains OPEN overall; this batch closes only the bounded metadata record.
+
+
+## N-08 Navigation — FoldersDashActivity KEY_SECTION Batch 05
+
+**Status: COMPLETE — STATIC RE-AUDIT PASS**
+
+**Implementation commits:** `2c28f00c2688aaa8dde403a77e78dbc1e0dcd053` → `7b33859b05dedf82507e28845b77e117216b5b97` → `07cdf2af1ea3df26b90e7e4366935ae64cb067b6`
+
+**Reference contract:** Reference `FoldersDashActivity` reads `KEY_SECTION` via `getSerializableExtra`, defaults to `to3.LOCAL`, and the proven `to3` enum has exactly `LOCAL` and `CLOUD` values.
+
+**BaRe implementation:** `FoldersDashActivity` now defines app-owned `FolderSection { LOCAL, CLOUD }`, reads `KEY_SECTION` as a Serializable `FolderSection`, defaults to `LOCAL`, and maps `CLOUD` to the second tab while preserving the existing two-tab presentation surface.
+
+**Static re-audit:** target source re-read confirms enum, Serializable ingress, LOCAL default, and CLOUD→second-tab mapping. Scope is one app Java file. `reference/` remains read-only. No build/install/runtime/visual verification was performed.
+
+**Boundary:** this batch does not claim caller parity, fragment/provider behavior, or runtime navigation verification. N-08 remains OPEN overall.
