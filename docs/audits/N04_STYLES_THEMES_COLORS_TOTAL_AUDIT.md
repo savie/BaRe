@@ -249,7 +249,18 @@ N-04 is too dependency-heavy for a single blind write because the theme foundati
 
 Implementation is therefore split into:
 
-### N-04-1 — Theme foundation
+### N-04-1 — Component styles
+
+Scope:
+
+- missing application-owned component styles
+- FAB/schedule styles
+- text appearances
+- intro/card/button/dialog component styles
+- progress/list/segmented component styles
+- Swift-prefixed component style identity mappings to BaRe names
+
+### N-04-2 — Theme foundation
 
 Scope:
 
@@ -260,16 +271,6 @@ Scope:
 - application-owned custom attrs required by the theme
 - theme-linked component wiring
 - identity mapping from Swift theme names to BaRe names
-
-### N-04-2 — Component styles
-
-Scope:
-
-- missing component styles from section 4B
-- progress/list/segmented component styles
-- FAB/schedule styles
-- text appearances
-- intro/card/button/dialog component styles
 
 ### N-04-3 — Qualifier + cross-domain closure
 
@@ -320,3 +321,22 @@ Runtime/build is not part of this closure claim.
 **N-04: 🟡 AUDITED / IMPLEMENTATION SPLIT REQUIRED**
 
 The audit establishes the complete N-04 contract and the implementation order. The next action is N-04-1 Theme Foundation.
+
+
+## N-04-1 execution — component styles
+
+- Implemented on `rewrite`.
+- Style count increased from 48 to **83**.
+- All 34 planned non-theme missing component styles were registered.
+- Four Swift-prefixed component styles were reconstructed under BaRe-owned names:
+  - `BaReCircularProgressIndicator`
+  - `BaReLinearProgressIndicator`
+  - `BaReSegmentedListItemCardView`
+  - `BaReSegmentedPreferenceCard`
+- Static re-audit:
+  - expected N-04-1 style additions: **34/34 present**
+  - residual Swift identity in `styles.xml`: **0**
+  - Reference unchanged
+  - build/install/runtime: **not performed**
+- N-04 remains 🟡 because the theme foundation and color/attr closure are still open.
+
