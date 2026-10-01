@@ -165,3 +165,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - Reference reconciliation and consumer regression are complete for the WP-A-owned surface.
 - No runtime/build/install/provider/backend/engine claim is made.
 - P4.2 remains active for the remaining owned work packages.
+### P4.2 WP-B implementation checkpoint — 2026-10-01
+
+- Started WP-B with scope limited to **C01 / C05 / C06 / C14**.
+- Reconciled lifecycle, userInfo, migration, and cloud/session metadata contracts against the supplied Swift Backup 5.1.0 / 620 Reference decompile.
+- Removed the duplicate backend-local `UserInfo` shape from `BaReBackendRepository`; canonical account `UserInfo` is now the shared model boundary.
+- Added explicit lifecycle/migration decision contracts without implementing provider auth, backend mutation, cloud transfer, or restore execution.
+- WP-B is **IN PROGRESS**; account consumer wiring and final static regression remain before closure.
+- No build, install, runtime, provider, backend, or engine execution was performed.
