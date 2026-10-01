@@ -1,7 +1,7 @@
 package com.bare.messagescalls.model;
 
 /**
- * Reference provider model reconstructed from Swift Backup 5.1.0 (620) CallLogItem.
+ * Reference provider model reconstructed from BΛR☰ 5.1.0 (620) CallLogItem.
  * No Android provider query is performed here; this is the persisted/domain shape.
  */
 public final class CallLogItem {
