@@ -1,4 +1,4 @@
-# N-02 Strings — TOTAL AUDIT REGISTER
+| Residual Swift product identity in BaRe strings | 0 || Duplicate BaRe string names | 0 || P3-linked semantic value mismatches | 0 unauthorized |# N-02 Strings — TOTAL AUDIT REGISTER
 
 ## Audit metadata
 
@@ -12,7 +12,7 @@
 
 ## Total audit result
 
-**N-02 P3 closure is now statically PASS.** The earlier “P3-visible closed, full closure unproven” concern has been resolved by a complete Activity-linked register, bounded implementation, and re-audit.
+**N-02 P3 closure is now statically PASS.** The complete Activity-linked register was implemented and re-audited. The remaining Reference-vs-BaRe differences in the P3 register are explicitly classified as Authorized Branding/Identity Deviations.
 
 | Measure | Audit result |
 |---|---:|
@@ -1475,6 +1475,20 @@ BaRe has 185 names not present in the Reference base strings file. These are rec
 - `wallpaper_cloud_backups_pending`
 - `wallpaper_local_backups_pending`
 - `walls`
+
+### Authorized value differences
+
+The final re-audit found seven P3 value differences that are explicitly covered by the handoff's branding / Swift-specific identity deviations:
+
+- `cloud_folder_edit_warning` — Swift Backup wording replaced with BΛR☰.
+- `cloud_not_connected_summary` — product name replaced with BΛR☰.
+- `protected_backup_description` — product name replaced with BΛR☰.
+- `default_sms_app_rationale` — Swift-specific product identity replaced with BΛR☰ wording.
+- `firebase_backend_diagnostics_message` — Swift-specific product identity replaced with BΛR☰ wording.
+- `signin_intro_subtitle` — Swift Backup account wording replaced with BΛR☰ account wording.
+- `tos_privacy_agreement` — Swift-specific external Terms/Privacy identity is not copied literally; BaRe keeps a generic Terms/Privacy agreement surface pending its BaRe-owned policy URLs.
+
+These are **AUTHORIZED DEVIATIONS**, not unresolved N-02 defects.
 
 ## N-02 exit criterion
 
