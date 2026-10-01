@@ -9,6 +9,14 @@ Folder ini adalah tempat penyimpanan seluruh artefak audit reconstruction yang b
 - Audit tidak menjadi source implementation. Hasil audit menghasilkan contract, finding, classification, dan pekerjaan implementasi.
 - Reference tetap read-only.
 - Audit terhadap Reference menggunakan Reference canonical atau mirror lokal yang sudah diverifikasi identik.
+- Untuk audit N-01 terbaru, canonical Reference digunakan langsung dari ZIP lokal:
+  `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
+
+## Audit domain aktif
+
+- `N01_RESOURCE_TOTAL_AUDIT.md` — total audit Resource N-01; inventory, resource graph, qualifier/variant, ownership, orphan register, dan implementation contract.
+- `N02_STRINGS_TOTAL_AUDIT.md` — total audit Strings N-02.
+- `REFERENCE_AUDIT.md` — baseline audit artefak Reference.
 
 ## Pola N-Level
 
@@ -40,4 +48,3 @@ Contoh:
 `TOTAL AUDIT → CATAT REGISTER → KLASIFIKASI → PECAH PEKERJAAN BILA PERLU → IMPLEMENTASI → RE-AUDIT TOTAL → CLOSURE`
 
 Jangan membuat sub-batch hanya untuk membagi pekerjaan secara administratif. Sub-batch dibuat ketika scope, dependency, atau volume pekerjaan memang membuat implementasi total tidak praktis dalam satu batch.
-
