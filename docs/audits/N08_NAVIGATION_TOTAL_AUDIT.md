@@ -183,3 +183,64 @@ N-08 exit criterion is satisfied for the **N-08-owned navigation contract**:
 **N-08 → 🟢 CLOSED / STATIC PASS — navigation contract boundary.**
 
 This does not claim search engine, password engine, lifecycle engine, provider, backend, or runtime success.
+
+
+## 7. P3 Search sub-surface — implementation and re-audit
+
+The earlier N-08 Search classification is refined: **Search has a P3 UI/navigation layer and a P4 data/engine layer.**
+
+### P3 implementation completed
+
+Reference UI resources were re-audited from the canonical decompile and reconstructed in target:
+
+- `home_search_activity.xml`
+- `home_search_result_item.xml`
+- `home_search_app_result_item.xml`
+- `home_search_folder_result_item.xml`
+- `home_search_quick_action_item.xml`
+- search system-app toggle drawable/ripple
+- search close enter/exit animations
+- search transition duration resource
+- folder result circle background
+
+Target `HomeSearchActivity` now owns the P3 surface:
+- Reference-shaped Search toolbar/input;
+- clear affordance;
+- Shortcuts card container;
+- Quick Actions card container + See All affordance;
+- Apps card + system-app visibility affordance;
+- Folder Setups card;
+- empty-state container;
+- RecyclerView presentation surfaces;
+- keyboard show/hide boundary;
+- back/navigation close handling;
+- Reference close transition animation.
+
+### P3 re-audit
+
+Static checks:
+- target strings/dimensions/styles used by the new Search layout exist;
+- target branding hint remains `search_bare`;
+- result item resources are present;
+- system-app toggle resources are present;
+- close animation resources are present;
+- no Reference file was mutated.
+
+### Explicit P4 handoff
+
+Not implemented in N-08/P3:
+- query/index engine;
+- installed-app inventory search;
+- folder/message/call/wallpaper/Wi-Fi result providers;
+- filtering/ranking;
+- result data adapters/population;
+- system-app inventory filtering;
+- persistence/index state.
+
+These are **P4 Search/data semantics**, not P3 UI/navigation work.
+
+### P3 Search closure
+
+**P3 Search UI/navigation layer → 🟢 CLOSED.**
+
+Search engine/data layer remains an explicit P4 handoff and is not counted as P3 success.
