@@ -1048,3 +1048,12 @@ This is static contract-analysis closure only. No implementation, build, install
 - C14 was corrected to retain the directly evidenced current UID and `FireHelper.currentCloudDir` metadata boundary; unsupported generic initialization state was removed.
 - No provider SDK execution or backend mutation was added.
 - **WP-B remains IN PROGRESS** pending final consumer wiring and static acceptance.
+
+
+### P4.2 WP-B consumer-wiring pass — 2026-10-01
+
+- Rechecked Reference IntroActivity migration-resume behavior: read `is_migrating_to_google_sign_in` → clear it → invoke the sign-in action.
+- Added the exact Reference migration key to the existing `LocalState` boundary and added `LocalAccountMigrationRepository` as the C06 adapter.
+- BaRe IntroActivity now consumes the migration guard through that repository and re-enters its existing sign-in action when the guard is present.
+- No provider SDK, token exchange, backend mutation, or actual Google migration execution was added.
+- WP-B remains **IN PROGRESS** pending final C01/C05/C14 consumer/owner regression and static acceptance.
