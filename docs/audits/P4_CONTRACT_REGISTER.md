@@ -139,6 +139,84 @@ The acceptance target for P4.0 is **contract inventory completeness**, not imple
 | P4-C15 | Provider/backend execution is explicitly downstream and not silently pulled into P4 | **ACCEPTED / DOWNSTREAM** |
 | P4-C16 | Backup/restore execution is explicitly downstream and not silently pulled into P4 | **ACCEPTED / DOWNSTREAM** |
 
+## P4.1 — BaRe Gap / Blocker Analysis
+
+### Scope and evidence rule
+
+P4.1 consumes the accepted C01–C16 inventory; it does not expand the P4 scope merely because the Reference contains additional feature capability. The analysis is grounded in:
+
+- Swift Backup 5.1.0 / versionCode 620;
+- supplied `SwiftBackup-5.1.0-620-decompiled.zip` as the primary static artifact;
+- `v1.0/rebaseline/reference/*`, including `reference/reference.md` and `reference/reference_apps_audit.md`;
+- current `rewrite` source;
+- existing N-07/N-08/N-09 audits.
+
+No Reference runtime success is inferred. No build/install/runtime/provider/backend/engine execution is performed.
+
+### P4.1 dependency analysis
+
+| ID | Gap / blocker finding | Dependency level | Impact on P4 | Minimum resolution before P4.2 consumer implementation |
+|---|---|---|---|---|
+| P4-C01 | First-start/account lifecycle is represented by P3 booleans but lacks one Reference-shaped lifecycle/state owner. | **FOUNDATIONAL** | Intro/account transitions can diverge or duplicate state ownership. | Define authoritative lifecycle states, transition ownership, persistence keys, and reset semantics. |
+| P4-C02 | Home recreation contract is already statically satisfied through `saved_fragment`. | **NO BLOCKER** | No P4 implementation dependency. | Preserve regression surface only. |
+| P4-C03 | Intro readiness mixes real permission checks with P3 manual readiness flags; Reference has capability-specific state/result boundaries. | **BLOCKER for permission consumers** | Continue/setup decisions can be detached from actual access state. | Define permission/access state model and result/retry ownership; keep privileged grant engines downstream. |
+| P4-C04 | Storage selection lacks verified volume identity, preferred-storage persistence, validation, and fallback coordinator. | **FOUNDATIONAL** | Account/settings/feature consumers cannot rely on a stable selected-storage contract. | Define storage identity + inventory + selected/preferred state + validity/fallback contract. |
+| P4-C05 | Provider-neutral account models exist, but current-session/current-identity orchestration is not wired as one state contract. | **FOUNDATIONAL** | C01/C06/C10/C14 consumers lack a single session authority. | Define session/identity state and ownership around existing repositories; provider SDK remains outside. |
+| P4-C06 | Migration policy/outcomes exist, but orchestration boundary is not consumable from a canonical identity/session state. | **DEPENDENT BLOCKER** | Sign-out/migration lifecycle cannot be deterministically driven. | Connect lifecycle policy to C05 state without implementing provider execution. |
+| P4-C07 | P4 state currently uses ordinary SharedPreferences while Reference exposes a secure/local preference boundary. | **FOUNDATIONAL** | State ownership and sensitive persisted values can diverge. | Inventory P4 keys, ownership, defaults, sensitivity, and persistence boundary; do not invent crypto behavior. |
+| P4-C08 | Settings UI exists, but no Reference-shaped `AppSettings` contract owns persisted settings/defaults. | **BLOCKER for settings consumers** | Settings changes have no canonical model/read-write owner. | Define frozen-P3 settings subset, defaults, key mapping, read/write owner, and local/cloud boundary. |
+| P4-C09 | Intro uses `P3_PASSWORD_MODE` rather than Reference `saved_password_mode` semantics. | **DEPENDENT on C07/C08 boundary** | Intro selection is not aligned to the Reference persisted contract. | Map exact key/type/default/ordinal semantics; leave crypto/password engine downstream. |
+| P4-C10 | Cloud-restore completion boolean is not equivalent to Reference restore state/result semantics. | **DEPENDENT on C05/C07/C08/C14** | First-run initialization can report completion without a defined restore outcome. | Define pending/ready/success/skip/failure semantics and completion ownership; actual cloud I/O stays downstream. |
+| P4-C11 | Core data contracts are incomplete across storage, settings, task/error, SLog/diagnostic state consumed by frozen P3. | **FOUNDATIONAL** | Multiple P4 consumers otherwise invent local DTO/state shapes. | Freeze the minimal Reference-shaped P4 data contracts, defaults/nullability, and consumer ownership. |
+| P4-C12 | TaskActivity has UI state/recreation but no canonical task status/progress/error/result contract. | **BLOCKER for task consumers** | Task UI cannot consume deterministic state from future execution layers. | Define task state/result/error/cancellation contract without implementing TaskService execution. |
+| P4-C13 | Scheduler/task execution is downstream, but P3 exposes task state that needs a stable contract. | **DEPENDENT on C11/C12** | Scheduling surfaces would otherwise couple directly to execution. | Define task/job state boundary only; scheduler/foreground execution remains downstream. |
+| P4-C14 | Cloud/session metadata exists in repositories but lacks one provider-neutral session/cloud state boundary. | **DEPENDENT on C05/C07** | Cloud UI/restore consumers lack canonical local session metadata. | Define local cloud/session metadata contract and provider boundary. |
+| P4-C15 | Provider/backend execution is outside P4. | **NO P4 BLOCKER / DOWNSTREAM** | Must not be pulled forward to unblock contracts. | Preserve interface boundary only. |
+| P4-C16 | Backup/restore execution is outside P4. | **NO P4 BLOCKER / DOWNSTREAM** | Must not be pulled forward to unblock task/state contracts. | Preserve state/result boundary only. |
+
+### Dependency graph
+
+```
+                 C07  Local State Boundary
+                    │
+          ┌─────────┼──────────┐
+          ▼         ▼          ▼
+        C01       C08        C11
+     Lifecycle   Settings   Core Data
+          │         │          │
+          ▼         ▼          ▼
+        C05 ─────► C06       C12
+      Identity    Migration   Task State
+          │                      │
+          ├──────► C14          ▼
+          │                 C13 Job/Task boundary
+          ▼
+        C10 First-run restore
+
+        C04 Storage ──────────────► P4 consumers
+        C03 Permission ────────────► Intro/capability consumers
+        C09 Password ─────────────► Intro/settings consumers
+
+        C15 Provider execution ───► downstream
+        C16 Backup/restore engine ─► downstream
+```
+
+### P4.1 blocker conclusion
+
+The blocker analysis does **not** add new C17+ contracts. The accepted **16-point C01–C16 inventory remains the complete P4 scope** for the currently frozen P3 surfaces.
+
+The principal P4.2 implementation dependency order is:
+
+1. **C07 + C11** — establish deterministic local-state and core-data ownership.
+2. **C05 + C01 + C06 + C14** — establish identity/session/lifecycle boundaries using the existing provider-neutral repositories.
+3. **C04 + C03** — establish storage and permission/access state contracts.
+4. **C08 + C09** — establish settings and Intro password-strategy persistence semantics.
+5. **C10** — establish first-run restore state/result semantics without performing cloud I/O.
+6. **C12 + C13** — establish task/result/error state boundaries without executing jobs.
+7. **C02** remains regression-protected; **C15/C16** remain downstream.
+
+This ordering is a dependency analysis, not an implementation authorization. P4.2 must still implement the smallest contract first and re-audit P3 after each meaningful change.
+
 ## P4.0 closure decision
 
 **P4.0 — CLOSED / ACCEPTED.**
