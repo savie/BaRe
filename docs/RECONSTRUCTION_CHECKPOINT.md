@@ -335,3 +335,32 @@ No build/install/runtime/provider/backend/engine execution was performed.
 C01-C14 are closed/pass at the P4 contract boundary; C15/C16 remain downstream. P4.3 regression and P4.4 remaining-gap classification are complete. The branch is left at the post-audit state with no build/install/runtime/provider/backend/engine execution.
 
 The next lifecycle boundary is **Phase 5 — feature execution reconstruction**. P4 closure does not claim feature-engine, provider, backend, filesystem, scheduler, or runtime success.
+
+
+## Post-P4 identity normalization correction — 2026-10-02
+
+A pre-P5 control-plane review found that the written N-11 authority still contained the older wording that tolerated non-visible Swift-derived internal identifiers, while the intended target-app hygiene is zero Swift/Firebase residue. The authority wording was reconciled before further feature work.
+
+### Normalization contract
+
+- target `app/`: **0 `Swift/swift` text matches**;
+- target `app/`: **0 `Firebase/firebase` text matches**;
+- app-owned Swift/Firebase identifiers, resource names, XML references, URLs, callbacks, comments, and configuration are included in the normalization scope;
+- dependency-owned, external-protocol, and Reference-only identifiers are classified rather than blindly renamed;
+- no blind/global text replacement is authorized;
+- Reference/decompiled evidence remains read-only.
+
+### Static re-audit result
+
+- target `app/` Swift/swift content matches: **0**;
+- target `app/` Firebase/firebase content matches: **0**;
+- target `app/` Swift/swift paths: **0**;
+- target `app/` Firebase/firebase paths: **0**;
+- known Swift-derived identifier sweep: **0**;
+- old `bareapps.org` target identity: **0**.
+
+A stale dashboard Firebase error include was normalized to the existing Supabase-named target resource, and the Premium support URL was normalized to the BaRe repository issue surface.
+
+No build/install/runtime/device/provider/backend/engine execution was performed.
+
+**Result: N-11 zero-text target hygiene restored at static boundary; P5 remains the next feature lifecycle boundary.**
