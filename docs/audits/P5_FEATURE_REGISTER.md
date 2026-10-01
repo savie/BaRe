@@ -166,6 +166,35 @@ These documents do not replace the P5.0 scope audit or the P5.1 register. They p
 - Runtime/device/provider/backend/privileged-engine execution remains unverified/downstream.
 - BΛR☰ branding and Supabase target-backend policy are unchanged and are not reopened by this reconciliation.
 
+## P5.1 Closure reconciliation — additional reference boundaries
+
+A second closure pass against the complete section/heading inventory of v1.0/rebaseline reference/reference.md and reference/reference_apps_audit.md found additional evidence that was covered only implicitly by earlier units. These are made explicit before P5.2 so owner/contract work cannot accidentally omit them.
+
+| ID | Feature / boundary | Reference evidence | Why explicit |
+|---|---|---|---|
+| **P5-F45** | Account / local identity / continuity boundary | reference.md §§16, 22–23; account/identity continuity evidence | Account was present in the screen ledger but local/anonymous identity, derived account namespace, installation identity separation, and continuity/recovery boundaries were not an explicit P5 unit. |
+| **P5-F46** | Import / export / configuration transfer | reference.md §18 and targeted capability evidence | APK import F10 does not cover settings export/import and cloud-setup/config transfer surfaces. These must remain distinct from APK ingestion. |
+| **P5-F47** | Folder manifest / incremental backup / chain validation | reference.md §19.2–19.3; folder workflow evidence | F11/F12 cover folder UI and backup/restore, but manifest/file-entry, base/incremental backup, and chain-validation semantics need an explicit contract boundary. |
+| **P5-F48** | Messages advanced handling: MMS/RCS and provider state | reference.md §19.2 and S09 workflow evidence | F13/F14 cover message backup/restore generally; MMS/RCS-specific handling is a concrete capability dependency that must not disappear into generic SMS semantics. |
+| **P5-F49** | Wi-Fi sensitive-access authentication / enterprise data | reference.md §19.2 and S11 evidence | F28 identifies Wi-Fi backup/restore, but biometric/device-credential gating and enterprise Wi-Fi data handling are distinct capability/state boundaries. |
+| **P5-F50** | Schedule selection / last-run diagnostic state | reference.md §19.2 and S13 workflow evidence | F22 covers scheduling broadly; label/folder selectors and detailed last-run blocked/skipped/error state need explicit contract ownership. |
+| **P5-F51** | Cloud diagnostics / provider abstraction / transfer-test boundary | reference.md §§19.2–19.3 and S14 evidence | F19–F21 cover connection, provider operations, and cleanup, but diagnostic transfer tests and provider-neutral multi-provider protocol abstraction are distinct contracts. |
+| **P5-F52** | Backup protection / retention / notes policy | reference.md §§19.2–19.3 and §§30.5, 30.13 | F26 covers multiple backups/special restore data, but protected backups, retention protection, and backup notes are explicit metadata/policy semantics. |
+| **P5-F53** | Apps Local-vs-Cloud inventory context / canonical backup discovery | reference.md §§26, 31; Apps audit §§3, 20, 31 | Reference has an explicit Local apps vs Cloud synced apps inventory context and canonical backup-container discovery. This is more than generic Apps list presentation and affects repository/query ownership. |
+| **P5-F54** | Restore-part independent selection / restore-card action model | reference.md §§28, 30–31; Apps audit §§20, 31 | Reference evidence explicitly separates storage-part and backup-card actions and allows independent APK/Data/External/Expansion/Media restore selection; this must be a contract, not inferred from F07/F26 UI. |
+
+### Closure result
+
+- P5.1 explicit feature-contract units: **54**.
+- F01–F37: original scope decomposition.
+- F38–F44: first rebaseline reconciliation.
+- F45–F54: second full-section closure reconciliation.
+- No additional top-level feature family was invented; the additions are evidence-backed capability/contract boundaries already present in the Reference audit.
+- Icon cache is intentionally **not** promoted to a feature unit because the Reference audit explicitly distinguishes it from disk app-cache semantics.
+- The large-file performance findings in reference.md §31.3 are **not** promoted to Reference feature units because that section audits BaRe's current pipeline; it is an implementation/performance audit, not Reference feature evidence.
+- Runtime verification remains unclaimed.
+- P5 gate remains **NOT OPENED**.
+
 ## P5.1 exit decision
 
 **P5.1 — COMPLETE / READY FOR P5.2.**
