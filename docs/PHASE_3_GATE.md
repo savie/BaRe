@@ -100,7 +100,7 @@ The original 15-domain audit is historical evidence. The table below is the curr
 | # | Domain | Current closure state |
 |---:|---|---|
 | 1 | Resource | 🟡 OPEN |
-| 2 | Strings | 🟢 CLOSED for current P3-visible surface |
+| 2 | Strings | 🟢 CLOSED / STATIC PASS |
 | 3 | Dimensions | 🟢 CLOSED / PASS |
 | 4 | Styles / Themes / Colors | 🟡 OPEN |
 | 5 | Manifest | 🟡 OPEN |
@@ -122,6 +122,17 @@ The table above is the **current normalized closure register**, not a reproducti
 A domain becomes 🟢 only after its current evidence-backed exit criterion is satisfied and re-audited.
 
 ## Closed domains
+
+### N-02 — Strings
+- Total-audited against the 71-Activity linked Reference string graph.
+- 260 P3-linked string names are fully present or explicitly mapped to BaRe-owned identity.
+- 101 missing P3-linked strings were reconstructed from Reference values; four Swift-derived identifiers were mapped through the N-11 branding rule instead of copied literally.
+- Seven Reference-vs-BaRe value differences remain as **Authorized Branding/Identity Deviations** (BΛR☰ wording / Swift-specific external identity replacement).
+- Duplicate app-owned string definitions: 0 after re-audit.
+- Residual Swift product identity in the app-owned strings resource: 0.
+- Reference remained unchanged; no build/install/runtime verification was used.
+- Full audit register: `docs/audits/N02_STRINGS_TOTAL_AUDIT.md`.
+- **STATIC PASS / CLOSED for P3.**
 
 ### N-03 — Dimensions
 - Project-facing/non-library dimension scope audited.
