@@ -7,6 +7,26 @@ The reconstruction target and authorized deviations are defined exclusively by `
 The supplied Swift Backup 5.1.0 (620) decompile archive remains the primary Reference evidence source. Repository mirrors are secondary evidence only.
 
 
+## HARD SCOPE RULE — REFERENCE READ-ONLY / APP IMPLEMENTATION ONLY
+
+**Reference adalah evidence/source of truth dan selalu read-only. Reference tidak pernah menjadi target implementasi.**
+
+- `reference/` dan artefak decompile Reference hanya dibaca untuk evidence, inventory, mapping, dan parity verification.
+- Seluruh perubahan reconstruction/implementation dilakukan pada target BaRe/BΛR☰, terutama area `app/` yang menjadi implementation surface.
+- Jika suatu kontrak yang terbukti dari Reference perlu diwujudkan pada BaRe, implementasikan kontrak tersebut di `app/`; **jangan mengubah Reference agar cocok dengan app**.
+- Tidak ada global replacement, synchronization, atau mutation dua arah yang menjadikan Reference ikut berubah.
+- Jika evidence belum cukup menentukan bagaimana kontrak harus diterapkan di `app/`, statusnya `UNKNOWN`/`BLOCKED` dan pekerjaan berhenti pada evidence/classification; jangan membuat perubahan spekulatif.
+- Setiap implementation batch wajib memverifikasi bahwa `reference/` tetap unchanged dan diff implementation terbatas pada scope target yang telah ditentukan.
+
+Formula operasional:
+
+`Reference (read-only evidence) → contract → BaRe/app implementation`
+
+Bukan:
+
+`Reference ↔ app synchronization`
+
+
 ## Document Role
 
 This document is the execution framework for P3 follow-up work after the 15-domain P3 TOTAL AUDIT.
