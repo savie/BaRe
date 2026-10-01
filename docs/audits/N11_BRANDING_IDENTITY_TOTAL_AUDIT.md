@@ -339,20 +339,13 @@ A focused static sweep was performed against the target tree at:
 
 ### Swift-derived target identifiers
 
-The sweep found these app-owned target class identifiers:
+The post-checkpoint sweep identified app-owned target class identifiers carrying the Reference product identity. Under the revised N11 target-app rule, non-visible does not exempt an app-owned identifier from normalization.
 
-- `com.bare.views.SwiftBackupMaterialSwitch`
-- `com.bare.views.SwiftSegmentConstraintLayout`
-- `com.bare.views.SwiftSegmentLinearLayout`
-- `com.bare.views.SwiftSegmentedCardGroup`
+Those app-owned view identities were renamed to BaRe-owned class identities and their XML consumers were updated.
 
-These are internal Java class identifiers corresponding to Reference-shaped view roles. No evidence from the current target sweep establishes them as user-visible branding.
+Classification:
 
-Under **N11-B-06 — Internal identifiers**, they remain:
-
-**INTERNAL / NON-VISIBLE IDENTIFIER — ACCEPTED**
-
-Therefore they are **not renamed** merely because the token `Swift` occurs in the class name.
+**APP-OWNED IDENTIFIER NORMALIZATION — CLOSED**
 
 ### Firebase-derived target identity
 
