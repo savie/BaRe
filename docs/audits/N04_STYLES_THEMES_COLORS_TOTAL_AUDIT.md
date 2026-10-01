@@ -399,3 +399,46 @@ N-04 must not invent a replacement implementation merely to force green.
 Therefore:
 
 **N-04 remains 🟡 pending final cross-domain closure.**
+
+
+## N-04 FINAL RE-AUDIT / CLOSURE
+
+Canonical Reference SHA-256 rechecked:
+
+`148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
+
+Final static result:
+
+| Check | Result |
+|---|---:|
+| styles in values/styles.xml | **98** |
+| duplicate style names | **0** |
+| custom style references unresolved | **0** |
+| colors in values/colors.xml | **162** |
+| duplicate color names | **0** |
+| N-04 style color references unresolved | **0** |
+| attrs in values/attrs.xml | **57** |
+| duplicate attr names | **0** |
+| residual Swift identity in N-04 styles | **0** |
+| theme variant family | **complete** |
+| Reference mutation | **0** |
+| build/install/runtime | **not performed** |
+
+The remaining custom MaterialSwitch contract was transferred to BaRe-owned resources:
+
+- `Widget.BaRe.MaterialSwitch`
+- `bare_expressive_switch_min_width`
+- `bare_expressive_switch_thumb_icon`
+- `bare_expressive_switch_thumb_icon_tint`
+- `bare_expressive_switch_thumb_tint`
+- `bare_expressive_switch_track_tint`
+- `bare_expressive_icon_check`
+- `bare_expressive_icon_close`
+
+Reference semantics were preserved while product identity was mapped through the existing N-11 rule.
+
+### Closure decision
+
+**N-04 → 🟢 CLOSED / STATIC PASS**
+
+This closure means the audited N-04 static contract is reconstructed and internally reconciled. It does not claim runtime/visual/build parity.
