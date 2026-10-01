@@ -21,7 +21,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 1 | Foundation / evidence | **COMPLETE / FROZEN** |
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
-| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 CLOSED / P4.2 IN PROGRESS** |
+| 4 | Core behavior / contracts | **ACTIVE — P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 STATIC REGRESSION ACTIVE** |
 | 5 | Features | **DEFERRED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
@@ -258,3 +258,41 @@ The supplied Swift Backup 5.1.0 / 620 decompile was re-read directly for intro/d
 No build/install/runtime/provider/backend/engine verification was performed.
 
 **Next active package: WP-F / C12-C13.**
+
+### P4.2 WP-F / C12-C13 implementation + decompile-fidelity audit — 2026-10-01
+
+Primary evidence was re-read directly from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP before mutation:
+
+- `defpackage/gz7.java`: exact task lifecycle `WAITING`, `RUNNING`, `COMPLETE`, `CANCELLED`, `CANCEL_COMPLETE` plus cancellation/completion helpers.
+- `defpackage/jc2.java`: exact terminal outcomes `COMPLETED`, `CANCELLED`, `ERROR`, `TIMEOUT`, `START_BLOCKED_QUOTA`, `PROCESS_RESTARTED`, `HANDED_OFF`.
+- `defpackage/pw6.java`: per-task status, integer progress/total, progress message, error channel, task provider/type boundary, and lifecycle updates.
+- `org/swiftapps/swiftbackup/tasks/ui/TaskActivity.java`: task list, status observer, completion/error UI, cancel/cancelling/done button state, force-stop surface, and SLog visibility.
+- `org/swiftapps/swiftbackup/tasks/TaskService.java`: service-level state, cancellation/timeout terminal handling, and task-result publication boundary.
+- `org/swiftapps/swiftbackup/home/schedule/ScheduleService.java`: `is_forced_run`, `schedule_run_mode`, and exact `Schedules` / `SingleSchedule` / `MultipleSchedules` run modes.
+- `org/swiftapps/swiftbackup/jobs/AlarmReceiver.java`: alarm scheduling and handoff boundary.
+- `ScheduleItem#getItemId()`: evidence-supported schedule-item identity boundary.
+
+BaRe now has:
+- `TaskState`, `TaskResult`, `TaskErrorSummary`, and `TaskSnapshot` as the canonical C12 data boundary.
+- `TaskStateRepository`, `TaskStateRegistry`, and `TaskStateService` as the canonical observation/lifecycle-intent owner.
+- `TaskActivity` consumes the canonical task-state boundary instead of manufacturing an empty task state.
+- `TaskJobRunMode`, `TaskJobIntent`, and `TaskJobLifecycle` as the C13 scheduler/job boundary.
+- `TaskService` exposes the state registry without implementing execution.
+- `AlarmReceiver` retains only evidence-backed intent keys; AlarmManager/foreground/service handoff remains downstream.
+
+No task execution, real cancellation, foreground-service execution, AlarmManager scheduling, WorkManager execution, backup/restore engine, provider/backend, build, install, or runtime verification was performed.
+
+### P4.2 WP-F / C12-C13 final static acceptance — 2026-10-01
+
+**WP-F / C12-C13: 🟢 CLOSED — static contract acceptance.**
+
+Acceptance:
+1. Reference lifecycle/result/error/progress evidence is directly reconciled from the supplied decompile ZIP.
+2. TaskActivity now consumes canonical state through `TaskStateService`; UI does not invent task status.
+3. Cancellation and force-stop are represented as lifecycle intents only; execution remains downstream.
+4. C13 preserves the Reference run-mode names and forced-run boundary without decoding unsupported provider/runtime payloads.
+5. Static source search finds one active BaRe TaskState/TaskResult/ErrorSummary contract family; no duplicate canonical task-state owner was introduced.
+6. No P3 Activity outside the WP-F task surface was modified.
+7. No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next boundary: P4.3 static regression re-audit.**
