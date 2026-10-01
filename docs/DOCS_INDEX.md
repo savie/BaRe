@@ -13,6 +13,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/PHASE_4_GATE.md` | Frozen P4 boundary, contract closure, and exit gate | **Single P4 authority** |
 | `docs/audits/P4_CONTRACT_REGISTER.md` | P4 contract evidence and closure register | P4 evidence |
 | `docs/PHASE_5_GUIDE.md` | P5 feature reconstruction method and pre-implementation workflow | **P5 method guide** |
+| `docs/audits/P5_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
 | `docs/REFERENCE_AUDIT.md` | Reference artifact inventory/evidence | Reference evidence |
@@ -38,7 +39,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 2. `docs/PHASE_4_GATE.md` — frozen P4 boundary and closure
 3. `docs/audits/P4_CONTRACT_REGISTER.md` — P4 contract evidence
 4. `docs/PHASE_5_GUIDE.md` — P5 method and pre-implementation rules
-5. `docs/RECONSTRUCTION_STATUS.md` — detailed evidence/history
+5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry evidence
+6. `docs/RECONSTRUCTION_STATUS.md` — detailed evidence/history
 6. `docs/bare.md` — roadmap/handoff/target definition
 7. Relevant `REFERENCE_*.md` — Reference evidence when needed
 
@@ -48,7 +50,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 2. `docs/PHASE_4_GATE.md` — frozen predecessor boundary
 3. `docs/PHASE_5_GUIDE.md` — P5 workflow
 4. Relevant Reference evidence/audits
-5. Establish the P5 gate/register only after the evidence-backed pre-implementation audit is ready
+5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry result
+6. Establish the P5 gate/register only after the evidence-backed pre-implementation audit is ready
 
 ### Daily P3 work
 
@@ -70,7 +73,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5 guide prepared / P5 gate not yet opened.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5 gate not yet opened.**
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
