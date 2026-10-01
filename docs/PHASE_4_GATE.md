@@ -244,3 +244,20 @@ Closure basis:
 This is a static reconstruction checkpoint only. It does not claim build/install/runtime/device parity, Supabase/provider success, backup/restore execution, scheduler execution, filesystem/privileged execution, or production readiness.
 
 **Next lifecycle boundary: Phase 5 — feature execution reconstruction.**
+
+
+### Post-P4 identity normalization correction — 2026-10-02
+
+A pre-P5 static hygiene correction was performed after P4 package closure. The correction did not introduce a new P4 contract; it reconciled the target identity surface with the already-authorized N-11/BaRe branding and Supabase backend deviations.
+
+- target `app/` Swift/swift text matches: **0**;
+- target `app/` Firebase/firebase text matches: **0**;
+- target `app/` Swift/swift paths: **0**;
+- target `app/` Firebase/firebase paths: **0**;
+- old `bareapps.org` target identity: **0**;
+- stale dashboard Firebase error include was corrected to the existing Supabase-named resource;
+- Reference remains read-only.
+
+This correction is static hygiene only and does not reopen P4 execution boundaries. No build/install/runtime/device/provider/backend/engine execution was performed.
+
+**P4 closure remains valid at the static contract boundary; next lifecycle boundary remains P5 — Feature Execution Reconstruction.**
