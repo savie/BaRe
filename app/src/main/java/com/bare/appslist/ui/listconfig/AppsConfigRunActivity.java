@@ -17,8 +17,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 public final class AppsConfigRunActivity extends AppCompatActivity {
+    private android.os.Parcelable configRunItem;
+
     @Override protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
+        if (getIntent() != null) {
+            configRunItem = getIntent().getParcelableExtra("extra_config_run_item");
+        }
+
         setContentView(R.layout.apps_config_run_activity);
         Toolbar toolbar=new Toolbar(this);
         toolbar.setTitle(R.string.custom_configurations);
