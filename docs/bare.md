@@ -94,6 +94,99 @@ Bukan:
 `Reference ↔ app synchronization`
 
 
+---
+
+## MASTER WORKFLOW — AUDIT → CATAT → CEK → IMPLEMENTASI → RE-AUDIT
+
+Pola ini wajib dipahami sebelum mengerjakan N-domain mana pun.
+
+### Urutan dasar
+
+`AUDIT → CATAT → CEK → IMPLEMENTASI → RE-AUDIT → CLOSURE`
+
+1. **AUDIT**
+   - bongkar evidence sesuai scope;
+   - gunakan Reference canonical atau mirror lokal yang sudah diverifikasi identik;
+   - untuk N-domain selain N-01, baca hasil **N-01 TOTAL AUDIT terlebih dahulu** agar dependency/resource scope sudah diketahui;
+   - setelah itu baru bongkar/inspeksi ZIP canonical secara spesifik untuk domain tersebut.
+
+2. **CATAT**
+   - catat seluruh finding;
+   - catat evidence;
+   - catat ownership;
+   - catat dependency;
+   - catat classification;
+   - catat pekerjaan yang perlu dilakukan;
+   - jangan melakukan mutation implementation sebelum register audit cukup lengkap.
+
+3. **CEK**
+   - tentukan apakah hasil audit bisa dikerjakan **sekali jalan**;
+   - jika volume, dependency, risiko, atau scope terlalu besar, pecah menjadi `N-X-1`, `N-X-2`, `N-X-3`, dan seterusnya;
+   - pembagian hanya dibuat jika memang diperlukan, bukan administratif.
+
+4. **IMPLEMENTASI**
+   - baru setelah tahap CEK selesai;
+   - implementasikan pada `app/`/implementation surface BaRe;
+   - Reference tetap read-only;
+   - ikuti ownership N-domain agar tidak terjadi double mutation.
+
+5. **RE-AUDIT**
+   - audit kembali hasil implementasi terhadap Reference;
+   - verifikasi semua finding yang ditargetkan;
+   - pastikan tidak ada regression di scope terkait.
+
+6. **CLOSURE**
+   - hanya tandai `🟢` jika exit criterion domain benar-benar terpenuhi;
+   - jika belum, tetap `🟡`, `🔴`, `UNKNOWN`, atau `BLOCKED` sesuai evidence.
+
+### Jika bisa sekali jalan
+
+`AUDIT → CATAT → CEK: SEKALI JALAN → IMPLEMENTASI → RE-AUDIT → 🟢`
+
+### Jika harus dipecah
+
+`AUDIT → CATAT → CEK: PECAH → N-X-1 → RE-AUDIT → N-X-2 → RE-AUDIT → ... → TOTAL RE-AUDIT → CLOSURE`
+
+**Jangan implementasi sebelum tahap CEK selesai.**
+
+### Dependency rule lintas N
+
+**N-01 adalah master resource/dependency audit.**
+
+N-01 bukan berarti seluruh resource harus diimplementasikan sebagai pekerjaan N-01.
+
+N-01 menyediakan:
+
+- resource inventory;
+- logical resource inventory;
+- qualifier/variant;
+- resource graph;
+- ownership;
+- orphan/unknown register;
+- cross-domain mapping.
+
+Sebelum audit N-02 sampai N-15:
+
+`BACA N-01 TOTAL AUDIT → AMBIL FINDING YANG MENJADI SCOPE N → BONGKAR ZIP SECARA SPESIFIK → TOTAL AUDIT N`
+
+Temuan N-01 dapat menjadi pekerjaan N-domain lain.
+
+Contoh:
+
+`N-01 resource → N-02 string`
+
+`N-01 resource → N-03 dimension`
+
+`N-01 resource → N-04 style/color/attr`
+
+`N-01 resource → N-05 manifest XML`
+
+`N-01 resource → N-08 navigation resource`
+
+Setelah N-domain selesai, N-01 dapat ditutup melalui **closure verification** terhadap finding yang ditransfer kepadanya. Jangan melakukan duplicate implementation di N-01 hanya agar status N-01 hijau.
+
+---
+
 1. Reference adalah baseline
 
 Reference Swift Backup 5.1.0 (620) adalah baseline/source of truth.
@@ -405,55 +498,55 @@ Reference Swift Backup 5.1.0 (620)
 ---
 
 8. Canonical Roadmap
-CURRENT  
-savie/BaRe  
-└── rewrite  
-  
-        ↓  
-  
-PHASE 1 — FOUNDATION  
-Android/Gradle/Java/Resources/Manifest  
-        ↓  
-  
-PHASE 2 — REFERENCE SKELETON  
-Application/Activity/Fragment/Service/etc.  
-        ↓  
-  
-PHASE 3 — UI + NAVIGATION  
-XML/Layout/Theme/Menu/Dialog/Navigation  
-        ↓  
-  
-PHASE 4 — CORE BEHAVIOR  
-State/Permission/Storage/Account/Settings  
-        ↓  
-  
-PHASE 5 — FEATURES  
-Backup/Restore + seluruh feature Reference  
-        ↓  
-  
-PHASE 6 — AUTHORIZED DEVIATIONS  
-BΛR☰ branding  
-Premium gratis  
-Supabase backend  
-        ↓  
-  
-PHASE 7 — RUNTIME  
-Build → APK → Install → Execute  
-        ↓  
-  
-PHASE 8 — PARITY  
-Visual + Behavior + Feature + Runtime  
-        ↓  
-  
-PHASE 9 — DEVIATION AUDIT  
-MATCH  
-AUTHORIZED DEVIATION  
-UNKNOWN  
-UNAUTHORIZED DEVIATION  
-BLOCKED  
-        ↓  
-  
-FINAL  
+CURRENT
+savie/BaRe
+└── rewrite
+
+↓
+
+PHASE 1 — FOUNDATION
+Android/Gradle/Java/Resources/Manifest
+↓
+
+PHASE 2 — REFERENCE SKELETON
+Application/Activity/Fragment/Service/etc.
+↓
+
+PHASE 3 — UI + NAVIGATION
+XML/Layout/Theme/Menu/Dialog/Navigation
+↓
+
+PHASE 4 — CORE BEHAVIOR
+State/Permission/Storage/Account/Settings
+↓
+
+PHASE 5 — FEATURES
+Backup/Restore + seluruh feature Reference
+↓
+
+PHASE 6 — AUTHORIZED DEVIATIONS
+BΛR☰ branding
+Premium gratis
+Supabase backend
+↓
+
+PHASE 7 — RUNTIME
+Build → APK → Install → Execute
+↓
+
+PHASE 8 — PARITY
+Visual + Behavior + Feature + Runtime
+↓
+
+PHASE 9 — DEVIATION AUDIT
+MATCH
+AUTHORIZED DEVIATION
+UNKNOWN
+UNAUTHORIZED DEVIATION
+BLOCKED
+↓
+
+FINAL
 BΛR☰
 Reference-equivalent Android application
 
