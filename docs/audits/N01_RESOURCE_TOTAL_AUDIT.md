@@ -1326,3 +1326,18 @@ P3-owned Search resources now reconciled:
 Search query/index/data resources remain P4-owned and were explicitly handed off rather than silently treated as N-01/N-08 closure.
 
 N-01-R6 remains open globally.
+
+
+## 33. N-09 lifecycle/state cross-domain checkpoint
+
+N-01 resource/state handoff was consumed by N-09.
+
+P3-owned lifecycle/recreation surfaces were audited and reconciled:
+- selected navigation state;
+- Parcelable/List recreation;
+- Search/UI screen recreation boundaries;
+- feature screen input-state restoration.
+
+Business/provider/auth/search-index state remains downstream/P4 and is not treated as an N-01 resource defect.
+
+N-01-R6 remains open globally.
