@@ -25,7 +25,7 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
 
         PreferenceCategory misc = category(s, "Miscellaneous");
         toggle(misc, "use_test_pdras", "Test PDRAs", "Use only when support asks", false);
-        toggle(misc, "extra_logging", "Extra logging", "More SwiftLogger details", false);
+        toggle(misc, "extra_logging", "Extra logging", "More BΛR☰Logger details", false);
         toggle(misc, "skip_disk_space_checks", "Skip space checks",
                 "For systems reporting free space incorrectly", false);
         toggle(misc, "extend_data_sync_fgs_timeout_for_schedules", "Extend data sync timeout",
