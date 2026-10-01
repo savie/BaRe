@@ -10,8 +10,8 @@ This file defines the role of every document under `docs/` so the reconstruction
 |---|---|---|
 | `docs/bare.md` | **ROADMAP / HANDOFF AUTHORITY** | Target definition, 1:1 rule, Authorized Deviations, phase order, implementation constraints |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | **CURRENT PROJECT DASHBOARD** | Current phase, gates, urgency, what is complete/deferred/blocked |
-| `docs/PHASE_3_STATUS.md` | **CURRENT P3 WORK QUEUE** | 71-Activity P3 depth map, 🔴/🟡/🟢 backlog, latest P3 reclassification and next work |
-| `docs/PARITY_MATRIX.md` | **HIGH-LEVEL PARITY DASHBOARD** | Cross-domain parity classification; not an Activity-by-Activity work queue |
+| `docs/PHASE_3_GATE.md` | **CURRENT P3 GATE / SINGLE AUTHORITY** | Phase 3 scope, 71-Activity result, 15-domain closure register, N-level closure rule, exit gate |
+| 
 
 ## Frozen evidence / gate records
 
@@ -57,7 +57,7 @@ If a new audit is needed, update the appropriate role above instead.
 For daily work:
 
 1. `RECONSTRUCTION_CHECKPOINT.md`
-2. `PHASE_3_STATUS.md`
+2. `PHASE_3_GATE.md`
 3. `RECONSTRUCTION_STATUS.md` for the exact evidence behind the selected task
 4. `PHASE_2_SKELETON.md` only when checking component identity
 5. `REFERENCE_*.md` when auditing the relevant Reference domain
@@ -68,12 +68,12 @@ For project gates:
 2. `PHASE_1_INVENTORY.md`
 3. `PHASE_2_SKELETON.md`
 4. `RECONSTRUCTION_CHECKPOINT.md`
-5. `PARITY_MATRIX.md`
+5. `PHASE_3_GATE.md`
 
 ## Current state
 
 The project is:
 
-**P1 frozen → P2 frozen → Phase 3 active**, with selected P4 contracts reconstructed only where P3 required verified dependencies.
+**P1 frozen → P2 frozen → Phase 3 active**, with `PHASE_3_GATE.md` as the single P3 authority.
 
 P3 remains the active work queue.
