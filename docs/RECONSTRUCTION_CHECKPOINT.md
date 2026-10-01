@@ -122,9 +122,9 @@ This checkpoint intentionally treats docs/bare.md, relevant docs/*, the supplied
 
 **P3 FOLLOW-UP EXECUTION.**
 
-The 15-domain audit is complete. The active execution sequence is defined in:
+The 15-domain audit is complete. The active execution sequence and closure rules are defined in:
 
-`docs/PHASE_3_FOLLOW_UP_EXECUTION.md`
+`docs/PHASE_3_GATE.md`
 
 Current execution position:
 
