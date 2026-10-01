@@ -738,4 +738,7 @@
         <item name="thumbTint">@color/bare_expressive_switch_thumb_tint</item>
         <item name="trackTint">@color/bare_expressive_switch_track_tint</item>
     </style>
+    <style name="PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">?popupBackgroundColor</item>
+    </style>
 </resources>
