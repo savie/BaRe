@@ -1309,3 +1309,20 @@ Outcome:
 - no unresolved N-01 resource ownership defect was returned by N-08.
 
 N-01-R6 remains open until all cross-domain resource findings are reconciled.
+
+
+## 32. N-08 Search P3 resource closure
+
+Search resource handoff was refined after direct Reference inspection.
+
+P3-owned Search resources now reconciled:
+- Search screen structure;
+- Search result item resource surfaces;
+- Quick Actions / Apps / Folder section containers;
+- empty-state resource;
+- system-app visibility affordance;
+- close transition animations.
+
+Search query/index/data resources remain P4-owned and were explicitly handed off rather than silently treated as N-01/N-08 closure.
+
+N-01-R6 remains open globally.
