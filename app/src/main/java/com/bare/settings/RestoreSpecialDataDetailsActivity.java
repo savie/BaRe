@@ -2,6 +2,7 @@ package com.bare.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
 
     private MaterialSwitch permissionsSwitch;
     private boolean restoreSpecialPermissions;
+    private Parcelable configSettings;
 
     private static final List<SpecialDataItem> ITEMS = Arrays.asList(
             new SpecialDataItem(R.drawable.ic_settings_notifications_filled,
@@ -83,11 +85,13 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
                     EXTRA_RESTORE_SPECIAL_PERMISSIONS,
                     true
             );
+            configSettings = state.getParcelable(EXTRA_CONFIG_SETTINGS);
         } else {
             restoreSpecialPermissions = getIntent().getBooleanExtra(
                     EXTRA_RESTORE_SPECIAL_PERMISSIONS,
                     true
             );
+            configSettings = getIntent().getParcelableExtra(EXTRA_CONFIG_SETTINGS);
         }
 
         permissionsSwitch = findViewById(R.id.switch_permissions);
@@ -118,6 +122,9 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle state) {
         state.putBoolean(EXTRA_RESTORE_SPECIAL_PERMISSIONS, restoreSpecialPermissions);
+        if (configSettings != null) {
+            state.putParcelable(EXTRA_CONFIG_SETTINGS, configSettings);
+        }
         super.onSaveInstanceState(state);
     }
 
