@@ -179,6 +179,6 @@ No build/install/runtime/provider/backend/engine execution was performed.
 
 **WP-D / C08-C09: CLOSED — static contract acceptance.**
 
-C08 now has a canonical local settings boundary (`AppSettings` + `SettingsRepository`) limited to frozen-P3-consumed settings. C09 now uses the exact Reference `saved_password_mode` integer ordinal contract with `STANDARD_PASSWORD` as the default. `P3_PASSWORD_MODE` is no longer used by IntroActivity as canonical product state. Cloud settings sync, password generation/encryption/restore, provider/backend execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
+C08 now has a canonical local settings boundary (`AppSettings` + `SettingsRepository`) limited to frozen-P3-consumed settings. C09 now exposes the exact Reference `saved_password_mode` integer-ordinal contract through `PasswordStrategyRepository` over `SecureLocalState`, with `STANDARD_PASSWORD` as default. `P3_PASSWORD_MODE` remains transitional UI state only. Cloud settings sync, password generation/encryption/restore, provider/backend execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next active P4.2 package: WP-E / C10.**
