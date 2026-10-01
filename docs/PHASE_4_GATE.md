@@ -211,7 +211,7 @@ The P4.2 execution guard remains unchanged: no build/install/runtime/device/prov
 
 The WP-F affected P3 task surface was re-audited after C12/C13 closure. TaskActivity continues to consume TaskStateService/TaskStateRegistry; TaskService remains the manifest-registered service boundary; AlarmReceiver retains the evidence-backed scheduler intent keys only. The task layout/menu/manifest references required by the affected surface remain present.
 
-One pre-existing P3 menu-ID mismatch was detected during the re-audit: TaskActivity referenced action_barelogger while menu_task_activity.xml and the Reference use action_swiftlogger. This was corrected to the Reference-backed ID. No other P3 contract regression was identified in the affected WP-F surface.
+One pre-existing P3 menu-ID mismatch was detected during the re-audit: P4.3 historically found a TaskActivity/menu ID mismatch and corrected it against the then-current P3 contract. The subsequent N-11 target-app identity normalization intentionally renamed the app-owned logger ID to action_barelogger in both consumer and resource; the current BaRe contract is action_barelogger. No other P3 contract regression was identified in the affected WP-F surface.
 
 No build/install/runtime/provider/backend/engine execution was performed.
 
