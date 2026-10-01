@@ -438,3 +438,10 @@ No provider, backend, password crypto, permission engine, storage engine, task e
 `SettingsFragment` now reads/writes `play_notification_sounds` through `LocalState`, using the Reference local-preference boundary and Reference default `true`. This removes the previous BaRe-specific `settings` SharedPreferences store for that key and avoids a competing canonical store.
 
 This does **not** close C08: the full Reference `AppSettings` contract still belongs to WP-D. The change is limited to the already-observed P3 consumer/key and is therefore a WP-A state-ownership correction, not a settings-engine implementation.
+
+
+### P4.2 — WP-A local-key ownership follow-up — 2026-10-01
+
+The Reference-backed local preference key `play_notification_sounds` is now explicitly owned by `LocalState.KEY_PLAY_NOTIFICATION_SOUNDS`. `SettingsFragment` resolves and persists that key through the canonical `LocalState` boundary rather than carrying a duplicate string literal.
+
+This is a key-ownership/static-reconciliation correction only. It does not promote any `P3_*` readiness/sign-in/password flags to canonical state, and it does not close C08/C09/C03/C05. No build, install, runtime, provider, backend, or engine verification was performed.
