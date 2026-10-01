@@ -1394,3 +1394,24 @@ Outcome:
 - no new N-01 resource defect was identified.
 
 N-01-R6 remains globally open until its complete cross-domain resource closure criterion is satisfied.
+
+
+## 38. Cross-domain transfer checkpoint — N-03 Dimensions
+
+N-03 consumed the N-01 master resource contract for dimension ownership and completed a total re-audit.
+
+Outcome:
+- Reference dimension inventory: **839 unique dimension symbols across 20 `dimens.xml` files**.
+- N-03 Reference-facing/project-facing scope: **67 dimension contracts**.
+- Dependency/library dimensions were explicitly separated from BaRe application parity scope.
+- Reference-facing base dimension values remain reconciled.
+- Reference-sensitive qualifier overrides remain reconciled:
+  - `values-land` / `activity_horizontal_margin = 64.0dp`
+  - `values-w820dp` / `activity_horizontal_margin = 64.0dp`
+  - `values-w320dp-land` / `clock_face_margin_start = 24.0dp`
+  - `values-w600dp-land` / `clock_face_margin_start = 64.0dp`
+- Target-only `bare_expressive_switch_min_width` was classified as a BaRe-owned addition.
+- No new N-03 resource defect was identified.
+- N-03 total audit: **🟢 CLOSED / PASS**.
+
+This is a cross-domain closure checkpoint only. N-01 overall remains **🟡** until its complete resource exit criterion is satisfied.
