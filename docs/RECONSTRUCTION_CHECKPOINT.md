@@ -173,3 +173,11 @@ This is static contract-analysis closure only. No implementation, build, install
 - Added explicit lifecycle/migration decision contracts without implementing provider auth, backend mutation, cloud transfer, or restore execution.
 - WP-B is **IN PROGRESS**; account consumer wiring and final static regression remain before closure.
 - No build, install, runtime, provider, backend, or engine execution was performed.
+
+### P4.2 WP-B decompile fidelity re-audit — 2026-10-01
+
+- Primary source rechecked directly from `SwiftBackup-5.1.0-620-decompiled.zip`.
+- Corrected C06 migration contract to the actual Reference boolean `is_migrating_to_google_sign_in`.
+- Corrected C14 by removing an unsupported generic `isInitialized()` contract; retained only identity UID and current cloud-directory evidence.
+- C05 `UserInfo` remains aligned to the seven fields observed in Reference `ah8`.
+- WP-B remains **IN PROGRESS**; no build/install/runtime/provider/backend/engine execution was performed.
