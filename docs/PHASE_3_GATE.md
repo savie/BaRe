@@ -321,3 +321,12 @@ P3 is **not yet frozen**.
 - Reference remained read-only.
 - Build/install/runtime not performed.
 - **N-08 = 🟢 CLOSED / STATIC PASS — navigation contract boundary.**
+
+
+### N-08 Search P3 closure
+
+- Reference Search UI was re-audited against canonical decompile.
+- P3 Search UI/resource surface has been reconstructed.
+- Search toolbar/input, result-section containers, empty state, system-app affordance, result item layouts, keyboard boundary, and close transition are covered.
+- Query/index/data/result-provider semantics remain **P4 handoff**.
+- **P3 Search UI/navigation = 🟢 CLOSED.**
