@@ -1158,3 +1158,24 @@ No additional N-11 mutation is justified by current evidence. In particular, int
 - No build/install/runtime/visual verification performed.
 
 **N-11 status: 🟢 CLOSED / PASS (static contract).**
+
+
+## N-11 — REVISED ZERO-SWIFT-IDENTITY DECISION
+
+The prior N-11 classification that preserved Swift-named internal identifiers and treated the Box Swift callback as an N-06-owned residual is **superseded** by the current project decision.
+
+**New N-11 exit criterion:** the implementation surface under `app/` must contain no remaining Swift product identity, including internal Swift-named identifiers and Swift-namespaced external callback identity. Reference remains strictly read-only and is never modified.
+
+Implementation policy:
+- Rename targeted internal Swift identifiers in `app/` when they are app-owned and their references can be reconciled statically.
+- Replace Swift-branded callback identity in `app/` with the app-owned `com.bare` identity where the callback contract is currently being reconstructed. Provider/runtime functionality is a separate downstream task.
+- Do not claim provider/OAuth/backend functionality merely because the identity was renamed.
+- Do not mutate `reference/`.
+
+**N-11 current static closure:**
+- Internal identifiers cleaned: `search_swift_backup`, `swiftlogger`, `swiftlogger_info`, `open_in_swift_backup`, `swift_labs`, `swift_labs_settings_summary`, `action_swiftlogger`, `btnOpenInSwiftBackup`, and the corresponding app-owned preference/data keys.
+- Box callback changed in `app/src/main/java/com/bare/cloud/connect/BoxSignInActivity.java` from `org.swiftapps.swiftbackup.box://oauth` to `com.bare.box://oauth`.
+- Re-audit of the touched N-11 app files found zero `Swift/swift` identity residuals.
+- Runtime/provider/OAuth verification remains deferred and unperformed.
+
+Status: **🟢 STATIC PASS — ZERO SWIFT IDENTITY IN APP (N-11)**.
