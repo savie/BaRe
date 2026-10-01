@@ -2,7 +2,7 @@
 
 ## Status
 
-**P5.1 — REFERENCE FEATURE AUDIT — COMPLETE / STATIC**
+**P5.1 — REFERENCE FEATURE AUDIT — ONGOING / STATIC**
 
 This register records the Reference feature decomposition produced from direct inspection of the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP, supplemented only by existing project evidence where it already names the same Reference surface.
 
@@ -248,13 +248,15 @@ These additions deliberately do **not** promote generic helpers such as string/c
 - Runtime verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
-## P5.1 exit decision
+## P5.1 current decision
 
-**P5.1 — COMPLETE / READY FOR P5.2.**
+**P5.1 — ONGOING / NOT YET CLOSED.**
 
-The Reference feature universe has been decomposed into concrete audit units with direct entry/evidence surfaces, Reference ownership surfaces, and primary dependency/execution boundaries.
+The Reference feature universe is being decomposed into concrete audit units with direct entry/evidence surfaces, Reference ownership surfaces, and primary dependency/execution boundaries. The Apps engine/special-data pass materially expanded the register from 58 to 71 units, so the earlier P5.1 closure statement is superseded.
 
 No feature implementation was performed.
 
-Next:
-**P5.2 — Feature contract, owner, and boundary.**
+Current next step:
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved.**
+
+P5.2 remains **NOT OPENED**.
