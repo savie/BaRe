@@ -309,7 +309,7 @@ Findings:
 - TaskService remains the manifest-registered service boundary and does not introduce execution claims.
 - AlarmReceiver retains only evidence-backed is_forced_run / schedule_run_mode intent keys; scheduler execution remains downstream.
 - task_activity.xml, task_card.xml, menu_task_activity.xml, and the manifest task service/receiver declarations remain present.
-- A static menu-ID mismatch was found and corrected: R.id.action_barelogger → R.id.action_swiftlogger, matching both the BaRe resource and the Reference TaskActivity.
+- P4.3 found and corrected the then-current menu-ID mismatch. Afterward, N-11 identity normalization renamed the app-owned logger ID consistently to R.id.action_barelogger in both consumer and resource; Reference-only action_swiftlogger remains unchanged.
 - No additional P3 regression was identified in the affected surface.
 
 No build/install/runtime/device/provider/backend/engine execution was performed.
