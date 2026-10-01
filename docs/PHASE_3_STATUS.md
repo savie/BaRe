@@ -652,3 +652,21 @@ The bounded N-07 permission candidate was investigated before any source mutatio
 - Build/install/runtime/visual verification was not performed.
 
 N-07 remains **OPEN / CLASSIFICATION** pending stronger evidence of ownership/consumer necessity or an explicitly authorized target permission contract.
+
+## N-06 / External Intent — Namespace Alignment Checkpoint
+
+**Status: IMPLEMENTED — STATIC CONTRACT PASS**
+
+A bounded app-only namespace cleanup was executed for concrete external callback contracts that still used the Reference package identity while BaRe's authorized application identity is `com.bare`.
+
+- `app/src/main/java/com/bare/cloud/connect/YandexSignInActivity.java`: `org.swiftapps.swiftbackup.yandex://oauth` -> `com.bare.yandex://oauth` in the authorization redirect and local redirect contract.
+- `app/src/main/java/com/bare/cloud/connect/TeraBoxSignInActivity.java`: Reference callback scheme -> `com.bare.terabox`.
+- `app/src/main/AndroidManifest.xml`: corresponding Yandex and TeraBox callback schemes aligned to `com.bare`.
+- `reference/` was not modified.
+- No other app identity/string/resource/provider/backend/engine changes were made.
+
+Static re-audit: the three affected app files contain no remaining `org.swiftapps.swiftbackup` identity; the intended `com.bare.yandex` / `com.bare.terabox` contracts are present.
+
+Runtime/provider registration and end-to-end OAuth callback behavior remain **UNVERIFIED** because build/install/runtime verification is still not authorized.
+
+Checkpoint commit: `8c75bc486acd02908b629c2786b8791c92a1e132`.
