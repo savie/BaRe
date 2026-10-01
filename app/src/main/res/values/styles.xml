@@ -685,4 +685,43 @@
         <item name="android:colorBackground">?popupBackgroundColor</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
+
+    <style name="BaReTheme.Translucent" parent="@style/BaReTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@color/trans</item>
+        <item name="android:navigationBarColor">@color/trans</item>
+    </style>
+    <style name="BaReTheme.Transparent" parent="@style/BaReTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="BaReThemeDark.Transparent" parent="@style/BaReThemeDark">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="IntroTheme.Base" parent="@style/BaReTheme">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowAnimationStyle">@style/FadeActivityAnimations</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+    <style name="IntroTheme" parent="@style/IntroTheme.Base"/>
+
 </resources>
