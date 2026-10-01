@@ -44,7 +44,9 @@ public final class FoldersDashActivity extends AppCompatActivity {
             }
         });
 
-        int section = getIntent() != null ? getIntent().getIntExtra("KEY_SECTION", 0) : 0;
+        FolderSection sectionValue = getIntent() != null ? (FolderSection) getIntent().getSerializableExtra("KEY_SECTION") : null;
+        if (sectionValue == null) sectionValue = FolderSection.LOCAL;
+        int section = sectionValue == FolderSection.CLOUD ? 1 : 0;
         if (section >= 0 && section < tabs.getTabCount()) {
             pager.setCurrentItem(section, false);
             TabLayout.Tab tab = tabs.getTabAt(section);
