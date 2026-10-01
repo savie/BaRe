@@ -10,24 +10,24 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 
 public final class SettingsContactFragment extends SettingsDetailBaseFragment {
-    private static final String SUPPORT_EMAIL = "support@bareapps.org";
-    private static final String TELEGRAM_URL = "https://t.me/barebackupsupport";
+    private static final String SUPPORT_URL = "https://github.com/savie/BaRe/issues/new";
+    private static final String PROJECT_URL = "https://github.com/savie/BaRe";
 
     @Override
     protected void build(PreferenceScreen s) {
-        item(s, "email", "Email", "Contact BΛR☰ by email");
-        item(s, "telegram_group", "Telegram group", null);
+        item(s, "email", "Support", "Contact BΛR☰ support");
+        item(s, "telegram_group", "Project page", null);
 
         Preference email = s.findPreference("email");
         if (email != null) {
             email.setOnPreferenceClickListener(p -> {
-                Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", SUPPORT_EMAIL, null));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(SUPPORT_URL));
                 intent.putExtra(Intent.EXTRA_SUBJECT, appLabel() + " (From App)");
                 try {
                     startActivity(intent);
                 } catch (Exception ignored) {
                     new AlertDialog.Builder(requireContext())
-                            .setMessage("No email app found.")
+                            .setMessage("No browser found.")
                             .setPositiveButton(android.R.string.ok, null)
                             .show();
                 }
@@ -38,7 +38,7 @@ public final class SettingsContactFragment extends SettingsDetailBaseFragment {
         Preference telegram = s.findPreference("telegram_group");
         if (telegram != null) {
             telegram.setOnPreferenceClickListener(p -> {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(TELEGRAM_URL));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(PROJECT_URL));
                 try {
                     startActivity(intent);
                 } catch (Exception ignored) {
