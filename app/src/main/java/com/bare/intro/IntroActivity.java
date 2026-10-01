@@ -20,6 +20,9 @@ import androidx.core.content.ContextCompat;
 
 import com.bare.R;
 import com.bare.home.HomeActivity;
+import com.bare.permission.PermissionAccessService;
+import com.bare.permission.PermissionCapability;
+import com.bare.permission.PermissionState;
 import com.bare.core.state.LocalState;
 import com.bare.account.repository.AccountMigrationRepository;
 import com.bare.account.repository.LocalAccountMigrationRepository;
@@ -33,10 +36,6 @@ public final class IntroActivity extends Activity {
     private boolean restoreFlow;
 
     private static final String KEY_SIGNED_IN = "P3_SIGNED_IN";
-    private static final String KEY_STORAGE_READY = "P3_STORAGE_READY";
-    private static final String KEY_NOTIFICATIONS_READY = "P3_NOTIFICATIONS_READY";
-    private static final String KEY_INSTALLED_APPS_READY = "P3_INSTALLED_APPS_READY";
-    private static final String KEY_ROOT_READY = "P3_ROOT_READY";
     private static final String KEY_PASSWORD_MODE = "P3_PASSWORD_MODE";
 
     private static final int REQUEST_NOTIFICATIONS = 1003;
@@ -45,6 +44,7 @@ public final class IntroActivity extends Activity {
     private SharedPreferences prefs;
     private LocalState localState;
     private AccountMigrationRepository accountMigrationRepository;
+    private PermissionAccessService permissionAccessService;
 
     private View signInContainer;
     private View permissionsContainer;
@@ -68,6 +68,7 @@ public final class IntroActivity extends Activity {
 
         localState = new LocalState(this);
         accountMigrationRepository = new LocalAccountMigrationRepository(localState);
+        permissionAccessService = new PermissionAccessService(this);
         prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
         if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
             openHome();
@@ -95,7 +96,7 @@ public final class IntroActivity extends Activity {
 
         storageCard.getActionButton().setOnClickListener(v -> requestStorageAccess());
         notificationsCard.getActionButton().setOnClickListener(v -> requestNotificationAccess());
-        installedAppsCard.getActionButton().setOnClickListener(v -> markInstalledAppsReady());
+        installedAppsCard.getActionButton().setOnClickListener(v -> refreshState());
         rootButton.setOnClickListener(v -> grantRootBoundary());
 
         continueButton.setOnClickListener(v -> {
@@ -187,31 +188,8 @@ public final class IntroActivity extends Activity {
         }
     }
 
-    private void markStorageReady() {
-        prefs.edit().putBoolean(KEY_STORAGE_READY, true).apply();
-        storageCard.getActionButton().setText(R.string.ready_p3);
-        storageCard.getSubtitleView().setText(R.string.p3_storage_boundary);
-        refreshState();
-    }
-
-    private void markNotificationsReady() {
-        prefs.edit().putBoolean(KEY_NOTIFICATIONS_READY, true).apply();
-        notificationsCard.getActionButton().setText(R.string.ready_p3);
-        notificationsCard.getSubtitleView().setText(R.string.p3_notifications_boundary);
-        refreshState();
-    }
-
-    private void markInstalledAppsReady() {
-        prefs.edit().putBoolean(KEY_INSTALLED_APPS_READY, true).apply();
-        installedAppsCard.getActionButton().setText(R.string.ready_p3);
-        installedAppsCard.getSubtitleView().setText(R.string.p3_installed_apps_boundary);
-        refreshState();
-    }
-
     private void grantRootBoundary() {
-        // P3 boundary: actual Root/Shizuku detection, grant and callbacks belong to P4.
-        prefs.edit().putBoolean(KEY_ROOT_READY, true).apply();
-        rootButton.setText(R.string.ready_p3);
+        // Root/Shizuku execution is a separate Reference coordinator boundary.
         Toast.makeText(this, R.string.p3_root_stub, Toast.LENGTH_SHORT).show();
         refreshState();
     }
@@ -235,45 +213,40 @@ public final class IntroActivity extends Activity {
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
 
-        if (isStorageGranted() && !prefs.getBoolean(KEY_STORAGE_READY, false)) {
-            prefs.edit().putBoolean(KEY_STORAGE_READY, true).apply();
-        }
-        if (isNotificationsGranted() && !prefs.getBoolean(KEY_NOTIFICATIONS_READY, false)) {
-            prefs.edit().putBoolean(KEY_NOTIFICATIONS_READY, true).apply();
-        }
+        PermissionState storage = permissionAccessService.read().get(PermissionCapability.STORAGE);
+        PermissionState notifications = permissionAccessService.read().get(PermissionCapability.NOTIFICATIONS);
+        PermissionState installedApps = permissionAccessService.read().get(PermissionCapability.INSTALLED_APPS);
+        PermissionState root = permissionAccessService.read().get(PermissionCapability.ROOT_SHIZUKU);
 
         storageCard.getActionButton().setText(
-                prefs.getBoolean(KEY_STORAGE_READY, false)
-                        ? R.string.ready_p3 : R.string.grant_storage_permission);
+                storage.isReady() ? R.string.ready_p3 : R.string.grant_storage_permission);
         notificationsCard.getActionButton().setText(
-                prefs.getBoolean(KEY_NOTIFICATIONS_READY, false)
-                        ? R.string.ready_p3 : R.string.grant_notifications_permission);
+                notifications.isReady() ? R.string.ready_p3 : R.string.grant_notifications_permission);
         installedAppsCard.getActionButton().setText(
-                prefs.getBoolean(KEY_INSTALLED_APPS_READY, false)
-                        ? R.string.ready_p3 : R.string.grant_installed_apps_permission);
+                installedApps.isReady() ? R.string.ready_p3 : R.string.grant_installed_apps_permission);
         rootButton.setText(
-                prefs.getBoolean(KEY_ROOT_READY, false)
-                        ? R.string.ready_p3 : R.string.root_grant_permissions);
+                root.isReady() ? R.string.ready_p3 : R.string.root_grant_permissions);
     }
 
     private boolean isStorageGranted() {
-        if (Build.VERSION.SDK_INT >= 30) return Environment.isExternalStorageManager();
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
+        return permissionAccessService.read().get(PermissionCapability.STORAGE).isReady();
     }
 
     private boolean isNotificationsGranted() {
-        return Build.VERSION.SDK_INT < 33
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                == PackageManager.PERMISSION_GRANTED;
+        return permissionAccessService.read().get(PermissionCapability.NOTIFICATIONS).isReady();
     }
 
     private void continueFromPermissions() {
         List<String> missing = new ArrayList<>();
-        if (!prefs.getBoolean(KEY_STORAGE_READY, false)) missing.add(getString(R.string.storage_perm_title));
-        if (!prefs.getBoolean(KEY_NOTIFICATIONS_READY, false)) missing.add(getString(R.string.notifications_perm_title));
-        if (!prefs.getBoolean(KEY_INSTALLED_APPS_READY, false)) missing.add(getString(R.string.installed_apps_perm_title));
-        if (!prefs.getBoolean(KEY_ROOT_READY, false)) missing.add(getString(R.string.root_grant_permissions));
+        if (!permissionAccessService.read().get(PermissionCapability.STORAGE).isReady()) {
+            missing.add(getString(R.string.storage_perm_title));
+        }
+        if (!permissionAccessService.read().get(PermissionCapability.NOTIFICATIONS).isReady()) {
+            missing.add(getString(R.string.notifications_perm_title));
+        }
+        if (!permissionAccessService.read().get(PermissionCapability.INSTALLED_APPS).isReady()) {
+            missing.add(getString(R.string.installed_apps_perm_title));
+        }
 
         if (!missing.isEmpty()) {
             StringBuilder message = new StringBuilder(getString(R.string.p3_permissions_missing));
@@ -340,11 +313,7 @@ public final class IntroActivity extends Activity {
                         localState.remove(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED);
                         prefs.edit()
                                 .remove(KEY_SIGNED_IN)
-                                .remove(KEY_STORAGE_READY)
-                                .remove(KEY_NOTIFICATIONS_READY)
-                                .remove(KEY_INSTALLED_APPS_READY)
-                                .remove(KEY_ROOT_READY)
-                                .remove(KEY_PASSWORD_MODE)
+                                        .remove(KEY_PASSWORD_MODE)
                                 .apply();
                         recreate();
                     }
@@ -365,11 +334,11 @@ public final class IntroActivity extends Activity {
             int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_NOTIFICATIONS) {
-            if (isNotificationsGranted()) markNotificationsReady();
-            else Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
+            refreshState();
+            if (!isNotificationsGranted()) Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
         } else if (requestCode == REQUEST_STORAGE) {
-            if (isStorageGranted()) markStorageReady();
-            else Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
+            refreshState();
+            if (!isStorageGranted()) Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
         }
     }
 }
