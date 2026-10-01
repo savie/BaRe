@@ -787,3 +787,18 @@ P3 remains active; N-04 remains open overall.
 **Re-audit:** all targeted Reference-defined items are present. Commit diff is one app resource file only; `reference/` remains read-only. No build/install/runtime/visual verification was performed.
 
 N-04 remains OPEN overall; broader theme, color, qualifier, and remaining style contracts are not closed by this batch.
+
+
+## Step 8 Implementation Checkpoint — N-05 Application Metadata Batch 02
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation commit:** `b8b78c94b48b76bf8003539e2534125edc24cc48`
+
+**Scope:** `app/src/main/AndroidManifest.xml`, one application metadata record.
+
+**Reference contract:** application declares `android.max_aspect=2.1`.
+
+**Re-audit:** target manifest was re-read and the metadata record is present. The commit diff is limited to the app manifest; `reference/` remains read-only. No permission, intent, provider, backend, engine, or runtime behavior was changed.
+
+No build/install/runtime/visual verification was performed. N-05 remains OPEN overall; this batch closes only the bounded metadata record.
