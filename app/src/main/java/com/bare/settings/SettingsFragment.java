@@ -1,7 +1,6 @@
 package com.bare.settings;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.provider.Settings;
 
 import androidx.annotation.Nullable;
