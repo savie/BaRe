@@ -205,3 +205,14 @@ C05/C14 remain provider-neutral interfaces (`UserInfoRepository`, `BaReBackendRe
 `AccountFragment` was rechecked against the current BaRe account contracts. It observes `AccountViewModel` but has no concrete `AccountService` composition/provider implementation. No speculative injection or fake provider was added. This preserves the contract boundary: `AccountFragment` remains a UI consumer, while identity/userInfo acquisition stays behind `AccountRepository` + `UserInfoRepository` / `AccountService`.
 
 C01/C05/C14 therefore remain statically bounded but not implementation-complete. Closure requires a real composition/provider owner supported by Reference evidence; this pass does not invent one.
+
+
+### P4.2 WP-B final static acceptance — 2026-10-01
+
+WP-B / C01-C05-C06-C14 is **🟢 CLOSED at the P4 static contract boundary**.
+
+The closure boundary is provider-neutral: lifecycle/account/session/migration/cloud metadata ownership is complete enough for downstream implementation. Firebase is Reference evidence only; the target backend is Supabase.
+
+Concrete Supabase repositories/adapters and runtime auth/backend execution remain in the downstream provider phase. This is not a blocker for the current P4 contract gate.
+
+No build/install/runtime/provider/backend/engine execution was performed.
