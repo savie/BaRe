@@ -2,7 +2,7 @@
 
 ## Status
 
-**AUDIT COMPLETE — REGISTERED / IMPLEMENTATION PENDING**
+**STATIC RE-AUDIT PASS — CLOSED**
 
 - Domain: **N-06 Intent**
 - Phase: P3
@@ -273,3 +273,70 @@ N-06 can become GREEN only when:
 10. build/install/runtime is not used as closure evidence.
 
 **Current N-06 state: 🟡 AUDITED / IMPLEMENTATION PENDING**
+
+
+## 9. Execution / re-audit
+
+### N06-1 — App-owned manifest Intent contracts
+
+Implemented:
+- retained Reference APK SEND/VIEW filter contract on `ApkImportActivity`;
+- retained launcher contract;
+- retained SMS/MMS/default-handler contracts;
+- retained TeraBox callback with BaRe identity substitution;
+- removed the target-only Yandex callback filter because it was not a Reference app-owned manifest contract.
+
+Static re-audit:
+- target manifest now contains **10** intent-filter blocks;
+- all 10 correspond to the actionable app-owned/default-handler/identity-adjusted Reference surface;
+- no `com.bare.yandex` manifest filter remains;
+- no build/install/runtime execution.
+
+**N06-1 = PASS**
+
+### N06-2 — Explicit Activity/Service Intent contracts
+
+Reference source contracts that were missing from the target and are now preserved:
+- `extra_config_settings`
+- `extra_config_settings_delete`
+- `extra_is_restoring`
+- `batch_action_item`
+- `quick_action_item`
+- `select_mode_replace_existing_labels`
+- `extra_config_run_item`
+- `source_bounds`
+- `extra_created_label_id` result key
+
+Static re-audit directly fetched the modified target files and confirmed every listed contract is present.
+
+The changes are contract-preservation changes only; they do not claim downstream engine/backend behavior.
+
+**N06-2 = PASS**
+
+### N06-3 — Dependency/external callback boundary
+
+The following remain explicitly dependency-owned and are not copied blindly:
+- OpenID/AppAuth redirect filters;
+- MSAL BrowserTab callback;
+- PCloud SDK callback;
+- Firebase GenericIdp/Recaptcha callbacks;
+- AndroidX ProfileInstaller filters.
+
+Firebase-specific callback resources remain excluded under the project rule that Firebase is not used.
+
+These are transferred/classified as dependency/backend identity boundaries rather than unresolved app-owned N-06 defects.
+
+**N06-3 = EXPLICIT DOWNSTREAM OWNERSHIP**
+
+## 10. N-06 closure
+
+All actionable app-owned N-06 findings from the total audit are accounted for and re-audited.
+
+- Reference canonical fingerprint unchanged.
+- Reference remained read-only.
+- Implementation remained on `rewrite`.
+- Java-only implementation preserved.
+- No runtime/build/install evidence used.
+- No provider/engine/backend/runtime success is claimed.
+
+**N-06 → 🟢 CLOSED / STATIC PASS**
