@@ -32,11 +32,11 @@ public final class DashboardViewModel extends ViewModel {
     public LiveData<Object> getStorageInfo() { return storageInfo; }
     public LiveData<List<QuickAction>> getQuickActions() { return quickActions; }
     public LiveData<Boolean> getCompactShortcuts() { return compactShortcuts; }
-    public LiveData<Boolean> getShowFirebaseDiagnostics() { return showBackendDiagnostics; }
+    public LiveData<Boolean> getShowBackendDiagnostics() { return showBackendDiagnostics; }
 
     public void setStorageInfo(Object value) { storageInfo.setValue(value); }
     public void setCompactShortcuts(boolean value) { compactShortcuts.setValue(value); }
-    public void setShowFirebaseDiagnostics(boolean value) { showBackendDiagnostics.setValue(value); }
+    public void setShowBackendDiagnostics(boolean value) { showBackendDiagnostics.setValue(value); }
 
     /**
      * Reference x92 populates these in this order:
