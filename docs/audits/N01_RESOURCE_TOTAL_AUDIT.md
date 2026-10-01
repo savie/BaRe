@@ -1380,3 +1380,17 @@ Outcome:
 - N-14 corrected boundary/result semantics in Java source without mutating Reference resources.
 
 N-01-R6 remains globally open.
+
+
+## 37. N-15 Static Hygiene cross-domain checkpoint
+
+N-15 consumed the N-01 master contract only for static ownership/control-plane verification.
+
+Outcome:
+- N-01 remains the master resource/dependency audit and remains 🟡;
+- no resource implementation was duplicated under N-15;
+- current P3 domain status tables were reconciled without mutating Reference resources;
+- static hygiene findings were limited to control-plane status consistency, not resource parity;
+- no new N-01 resource defect was identified.
+
+N-01-R6 remains globally open until its complete cross-domain resource closure criterion is satisfied.
