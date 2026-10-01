@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.bare.core.model.StorageInfoLocal;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,18 +25,18 @@ public final class DashboardViewModel extends ViewModel {
         }
     }
 
-    private final MutableLiveData<Object> storageInfo = new MutableLiveData<>();
+    private final MutableLiveData<StorageInfoLocal> storageInfo = new MutableLiveData<>();
     private final MutableLiveData<List<QuickAction>> quickActions =
             new MutableLiveData<>(Collections.emptyList());
     private final MutableLiveData<Boolean> compactShortcuts = new MutableLiveData<>(false);
     private final MutableLiveData<Boolean> showBackendDiagnostics = new MutableLiveData<>(false);
 
-    public LiveData<Object> getStorageInfo() { return storageInfo; }
+    public LiveData<StorageInfoLocal> getStorageInfo() { return storageInfo; }
     public LiveData<List<QuickAction>> getQuickActions() { return quickActions; }
     public LiveData<Boolean> getCompactShortcuts() { return compactShortcuts; }
     public LiveData<Boolean> getShowBackendDiagnostics() { return showBackendDiagnostics; }
 
-    public void setStorageInfo(Object value) { storageInfo.setValue(value); }
+    public void setStorageInfo(StorageInfoLocal value) { storageInfo.setValue(value); }
     public void setCompactShortcuts(boolean value) { compactShortcuts.setValue(value); }
     public void setShowBackendDiagnostics(boolean value) { showBackendDiagnostics.setValue(value); }
 
