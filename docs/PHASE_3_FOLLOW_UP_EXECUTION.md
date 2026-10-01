@@ -896,3 +896,16 @@ The bounded N-08 manifest batch is considered complete at the source/static-cont
 - Up/back runtime behavior and the full 71-Activity navigation matrix remain outside this batch's closure.
 - Domain #8 remains OPEN until its broader static contract is fully reconciled and any separately gated runtime verification is performed.
 - P4 remains gated; no provider/backend/engine/runtime success is claimed.
+
+
+## N-07 / Permission — Step 7A Classification Checkpoint
+
+**Decision: STOPPED AT 7A — NO MUTATION**
+
+A single-pass implementation was attempted only after checking the smallest bounded permission contract. Reference evidence confirms the custom signature permission and corresponding `uses-permission`, but current BaRe evidence does not establish a consumer that requires the Reference package-namespaced permission.
+
+Because `com.bare` is an authorized namespace/applicationId deviation, directly copying `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` would introduce Reference identity rather than a proven BaRe contract. No replacement target name is evidenced either.
+
+**Step 8 not entered for N-07.** No manifest/source mutation was performed. Runtime/build/install/visual verification remains gated.
+
+Next action for N-07 is evidence/classification only if new consumer/ownership evidence appears; do not add an unused permission speculatively.

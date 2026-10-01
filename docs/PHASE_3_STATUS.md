@@ -635,3 +635,20 @@ Next audit domain: **#15 Static Hygiene**.
 - **Runtime note:** Up/back behavior and the complete 71-Activity navigation surface remain unverified because build/runtime/device verification has not been performed.
 - Domain #8 **remains OPEN** for the broader 71-Activity navigation matrix and any separately authorized runtime verification.
 - No build/install/runtime/visual verification was performed.
+
+
+## N-07 / Permission — Step 7A Checkpoint
+
+**Status: 🟡 STOPPED AT 7A — NO MUTATION**
+
+The bounded N-07 permission candidate was investigated before any source mutation.
+
+- Reference defines `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` with `protectionLevel="signature"` and a corresponding `uses-permission`.
+- Static repository search did not establish a current BaRe source/receiver consumer that requires this exact Reference-namespaced permission.
+- BaRe namespace/applicationId is intentionally `com.bare`; the Swift Backup package identity is an authorized deviation. Copying the exact Reference-namespaced permission into BaRe would therefore be an identity-bearing mutation without a proven target contract.
+- No safe bounded replacement permission name was established from current evidence.
+- **Decision: stop at Step 7A. Do not add the permission speculatively.**
+- No app/source/manifest mutation was made for N-07.
+- Build/install/runtime/visual verification was not performed.
+
+N-07 remains **OPEN / CLASSIFICATION** pending stronger evidence of ownership/consumer necessity or an explicitly authorized target permission contract.
