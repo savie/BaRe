@@ -216,3 +216,13 @@ The closure boundary is provider-neutral: lifecycle/account/session/migration/cl
 Concrete Supabase repositories/adapters and runtime auth/backend execution remain in the downstream provider phase. This is not a blocker for the current P4 contract gate.
 
 No build/install/runtime/provider/backend/engine execution was performed.
+
+### P4.2 WP-C final static acceptance — 2026-10-01
+
+WP-C / C03-C04 is **🟢 CLOSED at the P4 static contract boundary**.
+
+Primary evidence came from the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP. Permission evidence was reconciled from dz5 and intro.d; storage evidence was reconciled from yn7, zn7, and StorageSwitchActivity.
+
+The resulting BaRe boundary is: permission capability → current state/result/retry → readiness, and storage inventory → selected volume → preferred_storage_dir persistence → validity/fallback. Activities remain consumers. Root/Shizuku, OEM package-visibility execution, privileged storage behavior, and backup/restore/filesystem engines remain downstream.
+
+No build/install/runtime/provider/backend/engine execution was performed. P4.2 remains active for **WP-D / C08-C09**.
