@@ -315,3 +315,14 @@ Findings:
 No build/install/runtime/device/provider/backend/engine execution was performed.
 
 **Next active package: P4.4 — remaining-gap classification.**
+
+
+### P4.4 remaining-gap classification — 2026-10-02
+
+**Decision: P4.4 — CLOSED.**
+
+The current static classification leaves no unresolved P4 blocker across C01-C14. C02 remains PASS. C15 provider/backend execution and C16 backup/restore engine execution remain explicitly downstream. Runtime/device verification and other execution dependencies remain deferred to their owning phases.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next active package: P4.5 — verified checkpoint / package closure.**
