@@ -103,3 +103,8 @@ These remain outside P4 implementation:
 Current package: **P4.1 — BaRe Gap / Blocker Analysis**.
 
 P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the scope remains C01–C16.
+
+
+### P4.1 deepening
+
+The P4.1 register has been deepened from a dependency list into a per-contract implementation map for C01–C16. Six work packages are defined; C02 remains regression-only and C15/C16 remain downstream. P4.1 is still **IN PROGRESS** and is not yet closed.
