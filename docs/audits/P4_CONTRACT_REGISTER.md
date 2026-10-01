@@ -485,3 +485,25 @@ Static review identified one over-wiring in `IntroActivity`: `completeIntro()` w
 The correction removes that write. `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` remains a Reference-backed `LocalState` key, but its terminal `true` transition is reserved for the C10 restore owner. The reset path now also clears the key, matching the established reset boundary without fabricating restore success.
 
 **Result:** WP-A local-state ownership is cleaner and no longer asserts a C10 terminal state from P3 UI flow. No build/install/runtime/provider/backend/engine verification was performed.
+
+
+### WP-A C07/C11 key-and-consumer inventory pass — 2026-10-01
+
+Targeted source search revalidated persisted keys and frozen-P3 consumer surfaces.
+
+| Key / contract | Store boundary | Type/default evidenced | Sensitivity | WP-A treatment |
+|---|---|---|---|---|
+| `KEY_FIRST_START` | ordinary local `<package>_preferences` | boolean / `true` on first-start read | local lifecycle state | reconciled + Intro wired |
+| `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` | ordinary local `<package>_preferences` | boolean / `false` on read | local lifecycle/restore state | reconciled; terminal write deliberately **not** owned by Intro; C10 owns completion |
+| `play_notification_sounds` | ordinary local `<package>_preferences` | boolean / `true` | local preference | reconciled + Settings wired |
+| `saved_password_mode` | secure `V.getZ()` store | int ordinal / `STANDARD_PASSWORD.ordinal()` | sensitive strategy state | C09/WP-D; not wired in WP-A |
+| `saved_user_password` | secure `V.getZ()` store | nullable string / empty-or-null treated as absent | sensitive credential state | secure boundary only; password contract remains downstream of WP-A |
+| `saved_storage_info_local` | Reference local persistence | serialized `StorageInfoLocal.Success` | local cached storage metrics | model key reconciled; serialization/runtime persistence remains outside WP-A execution |
+
+**C11 consumer inventory result**
+- Active BaRe P3-facing storage state has no remaining generic `Object`/duplicate storage DTO surface; Dashboard uses `StorageInfoLocal` and `StorageInfoService.read()` returns that type.
+- No BaRe duplicate `TaskState` or `ErrorSummary` shape was found in the active source search. Their direct task UI wiring remains intentionally outside WP-A because C12/C13 own task lifecycle consumption.
+- SLog/diagnostic surfaces remain exposed UI/boundary surfaces; no new WP-A diagnostic model is justified by current P3 consumers.
+- No additional Reference-shaped core model is added merely because it exists in the decompile.
+
+**WP-A conclusion:** no further safe C07/C11 source mutation is justified without crossing into C09/C10/C12/C13 or implementing runtime/secure-storage/filesystem execution. WP-A remains open pending package-level acceptance/static regression, not because an unowned feature contract should be pulled forward.
