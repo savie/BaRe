@@ -1294,3 +1294,18 @@ Outcome:
 - no unresolved N-01 resource ownership defect was returned by N-07.
 
 This does not close N-01-R6 overall.
+
+
+## 31. Cross-domain transfer checkpoint — N-08
+
+N-01 navigation/resource handoff has been consumed by N-08.
+
+Outcome:
+- navigation/resource transition behavior was audited under N-08;
+- menu XML/presence remained N-01-owned;
+- actionable Activity navigation and Home/tab navigation were reconciled;
+- Intent/deep-link contracts remained N-06-owned;
+- lifecycle/state consequences remain N-09-owned;
+- no unresolved N-01 resource ownership defect was returned by N-08.
+
+N-01-R6 remains open until all cross-domain resource findings are reconciled.
