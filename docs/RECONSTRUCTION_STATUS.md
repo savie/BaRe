@@ -1140,3 +1140,13 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - No additional P3 regression was identified in the affected surface.
 - No build/install/runtime/provider/backend/engine verification was performed.
 - **Next active package: P4.4 — remaining-gap classification.**
+
+
+### P4.4 remaining-gap classification — 2026-10-02
+
+- **P4.4: CLOSED — static classification complete.**
+- C01-C14 are closed at the P4 contract boundary; C02 remains PASS.
+- C15/C16 remain downstream; no P4 blocker remains.
+- Deferred execution remains explicitly outside P4.
+- No build/install/runtime/provider/backend/engine verification was performed.
+- **Next active package: P4.5 — verified checkpoint / package closure.**
