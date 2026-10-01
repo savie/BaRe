@@ -247,3 +247,14 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - Password generation/encryption/secure restore and cloud settings sync/backend mutation remain downstream.
 - Static regression found no duplicate Settings store or stale Intro password-state call-site in the affected source.
 - No build, install, runtime, provider, backend, or engine execution was performed.
+
+
+### P4.2 WP-E / C10 final static acceptance — 2026-10-01
+
+**WP-E / C10: CLOSED — static contract acceptance.**
+
+The supplied Swift Backup 5.1.0 / 620 decompile was re-read directly for intro/d.java first-run restore behavior. BaRe now has an explicit C10 state/result owner without implementing cloud execution. Completion is persisted only for SUCCESS; SKIPPED and FAILED leave the completion key false.
+
+No build/install/runtime/provider/backend/engine verification was performed.
+
+**Next active package: WP-F / C12-C13.**
