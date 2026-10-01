@@ -305,7 +305,8 @@ public final class IntroActivity extends Activity {
 
     private void completeIntro() {
         localState.putBoolean(LocalState.KEY_FIRST_START, false);
-        localState.putBoolean(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED, true);
+        // Cloud-restore completion is owned by the first-run restore contract (C10).
+        // Do not fabricate completion from the Intro UI transition.
         openHome();
     }
 
@@ -322,8 +323,9 @@ public final class IntroActivity extends Activity {
                         getString(R.string.close)
                 }, (dialog, which) -> {
                     if (which == 0) {
+                        localState.remove(LocalState.KEY_FIRST_START);
+                        localState.remove(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED);
                         prefs.edit()
-                                .remove(LocalState.KEY_FIRST_START)
                                 .remove(KEY_SIGNED_IN)
                                 .remove(KEY_STORAGE_READY)
                                 .remove(KEY_NOTIFICATIONS_READY)
