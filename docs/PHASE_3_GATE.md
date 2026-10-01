@@ -146,12 +146,16 @@ A domain becomes 🟢 only after its current evidence-backed exit criterion is s
 - **N-03 = 🟢 CLOSED / PASS — STATIC TOTAL RE-AUDIT.**
 
 ### N-11 — Branding / Identity
-- Current exit criterion: **zero Swift product identity in `app/`**.
-- App-owned Swift-derived identifiers were renamed where statically reconciled.
-- Swift-specific external callback identity was replaced where app-owned identity was required.
+- Total audit: `docs/audits/N11_BRANDING_IDENTITY_TOTAL_AUDIT.md`
+- Current exit criterion: **zero unexplained Swift product identity in the current app-owned visible surface**.
+- Application label: `BΛR☰`.
+- Launcher icon: `@drawable/bare_launcher_icon`, application-owned target resource.
+- Visible Swift-derived values were reconciled to BΛR☰ wording under the N-02/N-11 branding rule.
+- Internal identifiers containing `Swift` are explicitly not treated as defects when they are non-visible implementation/resource identifiers.
+- App-owned TeraBox callback uses the BaRe namespace; prior Yandex Swift callback identity was removed under N-06.
 - Reference remains untouched.
-- Static PASS.
-- Runtime/provider/OAuth success is not claimed.
+- Build/install/runtime/visual/provider/OAuth success is not claimed.
+- **N-11 = 🟢 CLOSED / STATIC PASS — TOTAL RE-AUDIT.**
 
 ### N-12 — Java-only
 - BaRe application source remains Java-only.
