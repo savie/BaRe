@@ -724,3 +724,15 @@ Additional searched contracts (Reference→BaRe) were either already represented
 `reference/` remains read-only. Build/install/runtime/visual verification: NOT AUTHORIZED / NOT PERFORMED.
 
 N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListActivity KEY_SECTION` type/mapping or another independently bounded navigation contract.
+
+## N-08 Navigation — AppListActivity KEY_SECTION Batch 04
+
+**Status: 🟢 CLOSED / PASS (static contract)**
+
+**Implementation commits:** 27bba5b2b292c8c2c5956032fc0f6266bac1a792 → ceace40e57fb8fa5ae4816261a3d66a3ec0a4e93
+
+Reference proves the bt contract is a two-value enum (LOCAL, CLOUD) and AppListActivity reads KEY_SECTION via getSerializableExtra, defaulting to LOCAL. BaRe now implements the corresponding bounded ingress contract in app/src/main/java/com/bare/appslist/ui/list/AppListActivity.java with AppSection { LOCAL, CLOUD }, default LOCAL, and Serializable-extra ingestion.
+
+Static re-audit: enum, default state, KEY_SECTION read, and assignment are all present. No Reference file was modified. No build/install/runtime/visual verification was performed. This batch does not claim full section/tab/cloud behavior; those remain open under N-08.
+
+N-08 remains 🟡 OPEN overall.
