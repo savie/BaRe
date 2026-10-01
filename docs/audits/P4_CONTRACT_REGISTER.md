@@ -226,3 +226,67 @@ Source-set reconciliation is complete for the defined P4 scope. No implementatio
 Next package:
 
 **P4.1 — BaRe Gap / Blocker Analysis.**
+
+
+## P4.1 — Detailed implementation-map acceptance criteria
+
+This section makes the blocker analysis actionable without starting P4.2 implementation. Each row below defines the minimum evidence that must exist before its P4.2 consumer implementation is considered contract-safe. It does not require provider/backend/runtime execution.
+
+| ID | P4.1 acceptance / blocker closure condition | Must remain deferred or UNKNOWN |
+|---|---|---|
+| P4-C01 | One authoritative lifecycle owner is identified for first-start, initialized, signed-out/re-init, and cloud-restore-completion state. Exact persisted keys and transition triggers are mapped to Reference evidence. Duplicate P3 boolean ownership is explicitly marked for replacement/deprecation. | Auth SDK execution, backend reads/writes, and real first-run restore |
+| P4-C02 | Existing `saved_fragment` behavior remains the sole required P4 dependency. No new state owner is introduced unless a Reference defect is found. | Device recreation/runtime proof |
+| P4-C03 | Permission/access state is split into capability identity, current state, result/retry outcome, and readiness aggregation. Each Intro card has an explicit source of truth. Manual P3 success flags are classified as transitional only. | Root/Shizuku grant engine, app-op engine, privileged runtime behavior |
+| P4-C04 | Storage contract names the stable volume identity, display/location metadata, selected volume, persisted `preferred_storage_dir`, validity check, and fallback rule. `StorageInfoService.read()` returning null is treated as an implementation gap, not as evidence for invented behavior. | Actual filesystem probing/migration and privileged storage behavior |
+| P4-C05 | Current identity, anonymous/registered state, initialization status, and userInfo ownership have one provider-neutral state boundary. Existing `UserInfoRepository` and lifecycle policy are reused rather than duplicated. | Firebase/Supabase SDK execution and live auth state |
+| P4-C06 | Migration policy is represented as an ordered state transition with the observed Reference outcomes: `MIGRATED`, `NOT_NEEDED`, `NOT_FOUND`, `SOURCE_CHANGED`, `DESTINATION_CHANGED`, `ROLLED_BACK`, `FAILED`, `UNKNOWN`. Sign-out/reset ordering is explicit. | Actual provider sign-out, cloud metadata mutation, and live migration |
+| P4-C07 | Every P4-consumed persisted key is classified by owner, type, default, sensitivity, and reset behavior. The secure/local preference boundary is explicit; no unsupported cryptographic implementation is inferred from the audit alone. | Keystore/encrypted-preferences runtime implementation unless separately authorized |
+| P4-C08 | Frozen-P3 settings consumers have an exact key/type/default/read-write-owner map corresponding to the Reference `AppSettings` boundary. UI-local settings are not allowed to become an accidental second canonical store. | Cloud settings sync and backend mutation |
+| P4-C09 | `saved_password_mode` is mapped exactly by key, stored representation, default, and consumer semantics. BaRe `P3_PASSWORD_MODE` is treated as a migration/reconciliation concern, not a new product contract. | Password generation, encryption, secure password storage, restore |
+| P4-C10 | First-run cloud restore has explicit states/results for not-started, ready-to-attempt, completed, skipped/not-applicable, and failure where supported by Reference evidence. Completion is only recorded at the defined terminal point. | Actual cloud settings reads/writes and remote data transfer |
+| P4-C11 | Minimal P4 data contracts are frozen only for models with frozen-P3 consumers: exact fields, nullability/defaults, ownership, and state/result relationships are recorded. SLog/diagnostic state is included only where exposed by those consumers. | Actual data collection, provider execution, backup/restore data production |
+| P4-C12 | Task state contract defines stable identity, status, progress, result/error/warning, cancellation/force-stop intent, and SLog visibility needed by TaskActivity. UI adapter shape must consume the contract rather than inventing state. | TaskService execution, worker/foreground service execution, real task cancellation |
+| P4-C13 | Job/task boundary is limited to state observation and lifecycle intent consumed by existing P3 surfaces. Scheduling API shape must not leak provider/backup implementation details. | Alarm/WorkManager/foreground-service execution and actual feature jobs |
+| P4-C14 | Cloud/session metadata is separated into local provider-neutral state versus provider-specific execution. UID/cloud-directory metadata and initialization status have one ownership path. | Token exchange, cloud upload/download, backend mutation |
+| P4-C15 | No P4.2 task may introduce a fake provider implementation merely to satisfy a consumer. Provider interfaces remain explicit boundaries. | Firebase/Supabase/provider SDK execution |
+| P4-C16 | Backup/restore engine remains represented only by state/result contracts required by P4 task surfaces. No archive, compression, encryption, filesystem mutation, or transfer engine is pulled into P4. | Full backup/restore execution and all feature-engine/provider work |
+
+### P4.1 evidence discipline
+
+For every row, P4.2 implementation must satisfy all of the following before the row is considered contract-closed:
+
+1. **Reference evidence is named** at class/model/resource/flow level where available.
+2. **BaRe owner is singular** or the deliberate ownership split is documented.
+3. **State transitions are deterministic** and do not depend on runtime success that has not been verified.
+4. **Defaults/nullability/keys are explicit** where Reference evidence exposes them.
+5. **Downstream boundaries are preserved** rather than replaced with fake success.
+6. **Existing P3 regression surfaces are listed** before modification.
+7. **No implementation is justified solely by UI appearance** when the Reference source exposes a deeper state contract.
+8. If Reference evidence is insufficient, the field/behavior remains **UNKNOWN** rather than being filled by convention.
+
+### P4.1 work-package split
+
+P4.1 can now hand P4.2 six concrete contract packages without inventing new scope:
+
+- **WP-A — Local state/data:** C07 + C11
+- **WP-B — Identity/lifecycle:** C01 + C05 + C06 + C14
+- **WP-C — Storage/access:** C04 + C03
+- **WP-D — Settings/password:** C08 + C09
+- **WP-E — First-run restore state:** C10
+- **WP-F — Task state boundary:** C12 + C13
+
+C02 remains regression-only. C15/C16 remain downstream.
+
+### P4.1 exit gate
+
+P4.1 is not closed merely because the 16 rows have a classification. It becomes **READY FOR P4.2** only when:
+
+- every C01–C16 has the detailed acceptance condition above;
+- all foundational dependencies have an identified owner and no unresolved ownership collision;
+- every implementation target has a named Reference evidence surface or is explicitly marked UNKNOWN;
+- downstream boundaries are explicit;
+- the P3 regression surface is known for every implementation-bearing row;
+- no C17+ scope has been introduced;
+- the register, Phase 4 gate, checkpoint, and status ledger agree on the same current phase.
+
+No build/install/runtime/provider/backend/engine execution is part of this gate.
