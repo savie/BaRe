@@ -49,10 +49,10 @@
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory android:title="@string/advanced_tools" app:layout="@layout/preference_category">
-        <androidx.preference.Preference android:icon="@drawable/ic_settings_science_filled" android:title="@string/swift_labs" android:key="labs" android:summary="@string/swift_labs_settings_summary" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_science_filled" android:title="@string/bare_labs" android:key="labs" android:summary="@string/bare_labs_settings_summary" />
         <androidx.preference.Preference android:icon="@drawable/ic_settings_upload_file_filled" android:title="@string/export_settings" android:key="export_settings" android:summary="@string/export_settings_summary" app:isPreferenceVisible="false" />
         <androidx.preference.Preference android:icon="@drawable/ic_settings_download_filled" android:title="@string/import_settings" android:key="import_settings" android:summary="@string/import_settings_summary" app:isPreferenceVisible="false" />
-        <androidx.preference.Preference android:icon="@drawable/ic_settings_bug_report_filled" android:title="@string/swiftlogger" android:key="swiftlogger" android:summary="@string/swiftlogger_info" />
+        <androidx.preference.Preference android:icon="@drawable/ic_settings_bug_report_filled" android:title="@string/barelogger" android:key="barelogger" android:summary="@string/barelogger_info" />
         <androidx.preference.Preference android:icon="@drawable/ic_restart" android:title="@string/restart_app" android:key="restart_app" android:summary="@string/restart_app_settings_summary" />
     </androidx.preference.PreferenceCategory>
 
