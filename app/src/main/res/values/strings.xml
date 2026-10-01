@@ -609,4 +609,5 @@ In case you have enabled Multiple backups, BΛR☰ will not delete the protected
     <string name="unknown_error_occured">An unknown error occurred.</string>
     <string name="supabase_backend_diagnostics_title">Supabase backend unavailable</string>
     <string name="m3_loading_indicator_content_description">Loading</string>
+    <string name="p3_storage_switch_boundary">Storage provider change is handled by the storage/runtime layer.</string>
 </resources>
