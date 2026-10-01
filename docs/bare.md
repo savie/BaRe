@@ -267,7 +267,21 @@ Termasuk:
 - dokumentasi
 - branding yang terlihat pengguna
 
-Perubahan identifier internal boleh dilakukan karena mengandung nama Swift. Namun Setiap identifier internal harus dianalisis berdasarkan fungsi dan dependency-nya.
+Identifier internal yang mengandung nama Swift bukan alasan untuk membiarkannya tetap berada di target app/. Setiap identifier internal app-owned harus dianalisis berdasarkan fungsi dan dependency-nya, lalu dinormalisasi ke identitas BaRe/BΛR☰ apabila merupakan residue Swift Backup.
+
+Aturan normalisasi target app/:
+
+- seluruh occurrence `Swift` / `swift` di target `app/` harus mencapai **0** setelah audit dan implementasi selesai;
+- seluruh occurrence `Firebase` / `firebase` di target `app/` harus mencapai **0** setelah audit dan implementasi selesai;
+- class, method, field, resource, XML reference, ID, key, filename, URL, callback identity, comment, dan konfigurasi app-owned yang membawa identitas Swift/Firebase harus dinormalisasi apabila memang merupakan residue target;
+- rename wajib dilakukan berdasarkan ownership/dependency dan harus diikuti seluruh consumer/resource/reference yang terdampak;
+- identifier dependency-owned, Reference-only, atau external protocol yang bukan app-owned tidak boleh diubah secara blind dan harus diklasifikasikan secara eksplisit.
+
+**Jangan melakukan blind/global text replacement.**
+
+Target static hygiene adalah:
+
+`app/ → 0 Swift/swift + 0 Firebase/firebase`
 
 B. Swift-specific identity
 
