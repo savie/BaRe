@@ -154,3 +154,10 @@ Therefore:
 - The next EU-01 action is targeted evidence only if a specific resource contract can be tied to a current BaRe consumer or a documented P3-visible defect.
 
 This preserves the Step 8 safety gate rather than manufacturing resource parity from Reference counts or unused names.
+
+
+## N-11 POLICY OVERRIDE — CURRENT P3 EXECUTION
+
+The older guidance to avoid replacing BΛR☰ identity merely to match Swift-named internal identifiers is superseded by the current N-11 decision. For P3 identity closure, app-owned Swift-named identifiers are now explicitly in scope for cleanup.
+
+The rule remains: no blind global replacement, no Reference mutation, and no runtime/provider success claim. Changes are made only in `app/` after static reference reconciliation.
