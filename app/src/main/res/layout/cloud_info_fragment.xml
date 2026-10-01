@@ -10,5 +10,5 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
     <include android:id="@id/error_layout" android:visibility="gone" layout="@layout/error_view" />
-    <com.google.android.material.progressindicator.CircularProgressIndicator android:layout_gravity="center" android:id="@id/cloud_fragment_progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/SwiftCircularProgressIndicator" />
+    <com.google.android.material.progressindicator.CircularProgressIndicator android:layout_gravity="center" android:id="@id/cloud_fragment_progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/BaReCircularProgressIndicator" />
 </FrameLayout>
