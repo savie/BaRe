@@ -95,3 +95,12 @@ Canonical ownership was reconciled across C01–C16 against the current BaRe sou
 P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms named Reference evidence, canonical owner, BaRe gap/state, dependency, P3 regression surface, and phase boundary for every row. No open contract-level UNKNOWN remains; no unresolved canonical-owner collision remains; no C17+ scope was introduced. C02 remains regression-only and C15/C16 remain downstream.
 
 This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+
+
+### P4.2 WP-A acceptance — 2026-10-01
+
+**WP-A (C07/C11): CLOSED — static acceptance.**
+
+The final acceptance pass found no remaining WP-A-owned duplicate state/model surface and no static contradiction in the reconciled P3 consumers. `LocalState`, `SecureLocalState` boundary, `StorageInfoLocal`, `TaskState`, and `ErrorSummary` remain bounded to their Reference-supported responsibilities. No runtime or provider/backend execution is claimed.
+
+P4.2 remains active for contracts outside WP-A ownership; this closure does not close P4.2 as a whole.
