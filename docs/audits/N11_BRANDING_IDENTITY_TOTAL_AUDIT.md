@@ -318,3 +318,54 @@ This closure does **not** claim:
 Those remain outside this static N-11 closure.
 
 **Reference remains read-only.**
+
+
+---
+
+## 9. Post-checkpoint branding sweep — commit `fccd6e5`
+
+A focused static sweep was performed against the target tree at:
+
+`fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`
+
+### Swift-derived target identifiers
+
+The sweep found these app-owned target class identifiers:
+
+- `com.bare.views.SwiftBackupMaterialSwitch`
+- `com.bare.views.SwiftSegmentConstraintLayout`
+- `com.bare.views.SwiftSegmentLinearLayout`
+- `com.bare.views.SwiftSegmentedCardGroup`
+
+These are internal Java class identifiers corresponding to Reference-shaped view roles. No evidence from the current target sweep establishes them as user-visible branding.
+
+Under **N11-B-06 — Internal identifiers**, they remain:
+
+**INTERNAL / NON-VISIBLE IDENTIFIER — ACCEPTED**
+
+Therefore they are **not renamed** merely because the token `Swift` occurs in the class name.
+
+### Firebase-derived target identity
+
+The target dependency/source sweep was cross-checked against:
+
+`docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md`
+
+The target has:
+
+- no Firebase SDK dependency;
+- no Google Services plugin;
+- no current app-owned Firebase diagnostic copy;
+- no current app-owned Firebase target implementation identified by the audit.
+
+Reference-side Firebase classes/resources remain under `reference/` as immutable source evidence.
+
+Therefore Firebase occurrences in Reference/decompilation material are **not target branding defects**.
+
+### Sweep conclusion
+
+No new **app-owned visible Swift product branding** or **app-owned Firebase branding/integration residue** was established.
+
+**N-11 remains CLOSED / STATIC PASS.**
+
+No source/resource mutation was required by this sweep.
