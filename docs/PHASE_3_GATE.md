@@ -330,3 +330,16 @@ P3 is **not yet frozen**.
 - Search toolbar/input, result-section containers, empty state, system-app affordance, result item layouts, keyboard boundary, and close transition are covered.
 - Query/index/data/result-provider semantics remain **P4 handoff**.
 - **P3 Search UI/navigation = 🟢 CLOSED.**
+
+
+### N-09 closure — Lifecycle / State
+
+- Total audit: `docs/audits/N09_LIFECYCLE_STATE_TOTAL_AUDIT.md`
+- P3 lifecycle/recreation state: **PASS**
+- Home selected navigation state: **PASS**
+- Parcelable/List recreation state: **PASS**
+- RestoreSpecialDataDetailsActivity Reference `extra_config_settings` gap: **FIXED + RE-AUDITED**
+- Cloud/Auth/Diagnostics engine state remains explicit P4/feature handoff.
+- Reference remained read-only.
+- Build/install/runtime not performed.
+- **N-09 = 🟢 CLOSED / STATIC PASS — lifecycle/recreation contract boundary.**
