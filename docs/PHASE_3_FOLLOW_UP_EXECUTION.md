@@ -1078,3 +1078,12 @@ Build/install/runtime/visual verification remains NOT AUTHORIZED / NOT PERFORMED
 - **Exclusions:** no caller mutation, no Reference mutation, no runtime/build/install/visual verification, no provider/backend/engine changes.
 - **Static re-audit:** target source re-read PASS; Reference remains untouched.
 - **Checkpoint:** `062afb201a69ad400bf9ded5acfedfb9f7cd98ab` (status doc checkpoint); implementation lineage `2c28f00c2688aaa8dde403a77e78dbc1e0dcd053e` → `7b33859b05dedf82507e28845b77e117216b5b97` → `07cdf2af1ea3df26b90e7e4366935ae64cb067b6`.
+
+
+### N-04 Batch 05 — M3ButtonTonal font family
+- **Scope:** `app/src/main/res/values/styles.xml`, one style item only.
+- **Reference evidence:** `M3ButtonTonal.fontFamily=@font/main_medium`.
+- **Implementation:** replaced BaRe `sans-serif-medium` with `@font/main_medium`.
+- **Exclusions:** no custom color/attr/ripple/state-list contracts; no theme-wide changes; no Reference mutation; no build/install/runtime/visual verification.
+- **Static re-audit:** PASS after target resource re-read.
+- **Implementation checkpoint:** `40da31ad46f84535f7c305aa4fa3a4894f55086b`.
