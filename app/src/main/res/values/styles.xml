@@ -41,8 +41,13 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
     <style name="CardStyleNormal" parent="Widget.Material3.CardView.Filled">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:outlineSpotShadowColor">?colorSurface</item>
+        <item name="cardBackgroundColor">?cardBackgroundColor</item>
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
         <item name="cardElevation">0dp</item>
+        <item name="cardUseCompatPadding">false</item>
     </style>
     <style name="CardStyleStroked" parent="Widget.Material3.CardView.Outlined">
         <item name="cardCornerRadius">@dimen/card_corner_radius</item>
