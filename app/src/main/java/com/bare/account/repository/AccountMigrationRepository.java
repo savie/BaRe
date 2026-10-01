@@ -1,28 +1,14 @@
 package com.bare.account.repository;
 
-/** Provider-neutral boundary for Reference anonymous → Google migration state. */
+/**
+ * Provider-neutral state boundary for the Reference
+ * `is_migrating_to_google_sign_in` preference.
+ *
+ * The decompile exposes this boolean guard and reset path; it does not expose
+ * a typed migration-result enum. Provider/cloud mutation therefore remains
+ * outside this contract until separately evidenced.
+ */
 public interface AccountMigrationRepository {
     boolean isMigratingToGoogleSignIn();
     void setMigratingToGoogleSignIn(boolean migrating);
-
-    /**
-     * Reference fu3 semantics: create destination only when absent; delete source
-     * only when its value still equals the copied value; on source-change failure,
-     * remove destination only if it still equals that copied value, then retry once.
-     */
-    MigrationResult migrateCloudDirectory(String oldCloudDirectory, String newCloudDirectory);
-
-    /**
-     * Reference migration outcomes observed in fu3.
-     */
-    enum MigrationResult {
-        MIGRATED,
-        NOT_NEEDED,
-        NOT_FOUND,
-        SOURCE_CHANGED,
-        DESTINATION_CHANGED,
-        ROLLED_BACK,
-        FAILED,
-        UNKNOWN
-    }
 }
