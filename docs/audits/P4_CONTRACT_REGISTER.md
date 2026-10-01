@@ -811,3 +811,37 @@ A pre-existing menu-ID mismatch was found in TaskActivity: it referenced R.id.ac
 No additional P3 regression was found. No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next package: P4.4 — remaining-gap classification.**
+
+
+### P4.4 remaining-gap classification — 2026-10-02
+
+**P4.4: CLOSED — all C01-C16 remaining dependencies classified at the current static boundary.**
+
+This section supersedes the earlier P4.1 snapshot classifications where later WP-A through WP-F closures changed the current BaRe state. The historical rows remain as evidence of the blocker analysis that preceded implementation.
+
+| Contract | Current classification | Current decision |
+|---|---|---|
+| C01 | P4 contract CLOSED | Lifecycle/account state ownership and downstream auth/restore boundary are explicit. |
+| C02 | PASS | Home recreation/save/restore contract remains regression-protected. |
+| C03 | P4 contract CLOSED | Permission capability/state/result/readiness ownership is explicit; privileged execution remains downstream. |
+| C04 | P4 contract CLOSED | Storage inventory/selection/preferred-path/fallback contract is explicit; filesystem execution remains downstream. |
+| C05 | P4 contract CLOSED | Provider-neutral identity/session/user-info ownership is explicit; live provider auth remains downstream. |
+| C06 | P4 contract CLOSED | Migration guard/policy and lifecycle boundary are explicit; provider migration execution remains downstream. |
+| C07 | P4 contract CLOSED | Local/secure persistence ownership and P4-consumed keys are explicitly bounded; secure runtime implementation remains downstream. |
+| C08 | P4 contract CLOSED | Frozen-P3 settings model/default/read-write ownership is explicit; cloud sync remains downstream. |
+| C09 | P4 contract CLOSED | `saved_password_mode` secure key/type/default/ordinal semantics are explicit; password/crypto execution remains downstream. |
+| C10 | P4 contract CLOSED | First-run restore state/result/completion ownership is explicit; cloud restore execution remains downstream. |
+| C11 | P4 contract CLOSED | Minimal frozen-P3 data shapes and ownership are explicit; actual data production remains downstream. |
+| C12 | P4 contract CLOSED | Task state/result/error/progress/cancellation boundary is explicit; task execution remains downstream. |
+| C13 | P4 contract CLOSED | Job/task lifecycle intent boundary is explicit; scheduler/foreground execution remains downstream. |
+| C14 | P4 contract CLOSED | Provider-neutral cloud/session metadata ownership is explicit; token/cloud/backend execution remains downstream. |
+| C15 | DOWNSTREAM / P5+ | Provider/backend execution is intentionally outside P4. |
+| C16 | DOWNSTREAM / P5 | Backup/restore engine execution is intentionally outside P4. |
+
+**Remaining P4 blockers:** none identified at the current static boundary.
+
+**Remaining downstream work:** provider/Supabase execution, secure-storage runtime implementation where required, filesystem/privileged execution, scheduler/foreground execution, backup/restore engine, cloud transfer, and runtime/device verification remain explicitly deferred to their owning phases.
+
+No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next package: P4.5 — verified checkpoint / package closure.**
