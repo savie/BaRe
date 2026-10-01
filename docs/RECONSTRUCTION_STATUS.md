@@ -1038,3 +1038,13 @@ This is static contract-analysis closure only. No implementation, build, install
 - `BaReBackendRepository` now uses canonical `UserInfo` and exposes cloud-directory metadata / initialization as provider-neutral state boundaries.
 - No provider/backend execution, fake success, build, install, or runtime verification was performed.
 - **WP-B remains IN PROGRESS** pending account-surface consumer wiring and final static acceptance/regression.
+
+### P4.2 WP-B decompile fidelity re-audit — 2026-10-01
+
+- WP-B was re-audited directly against the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP.
+- C01 matches the observed `d45` first-start / restore-completion / sign-out reset flow.
+- C05 canonical `UserInfo` matches the observed `ah8` seven-field model, including app-version fields.
+- C06 was corrected to expose only the decompile-supported `is_migrating_to_google_sign_in` boolean boundary; the previously added typed result enum was removed.
+- C14 was corrected to retain the directly evidenced current UID and `FireHelper.currentCloudDir` metadata boundary; unsupported generic initialization state was removed.
+- No provider SDK execution or backend mutation was added.
+- **WP-B remains IN PROGRESS** pending final consumer wiring and static acceptance.
