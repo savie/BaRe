@@ -16,7 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.List;
 
 public final class BoxSignInActivity extends AppCompatActivity {
-    private static final String BOX_REDIRECT_URI = "org.swiftapps.swiftbackup.box://oauth";
+    private static final String BOX_REDIRECT_URI = "com.bare.box://oauth";
     private static final String BOX_AUTHORIZE_URI =
             "https://account.box.com/api/oauth2/authorize"
                     + "?response_type=code"
