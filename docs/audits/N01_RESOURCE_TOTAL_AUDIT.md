@@ -1355,3 +1355,15 @@ N-01 resource findings transferred to N-10 were reconciled at the P3 surface:
 N-10 does not claim backend/engine execution.
 
 N-01-R6 remains open globally until all transferred resource findings are reconciled.
+
+
+## 35. N-13 Fake / Stub cross-domain checkpoint
+
+N-01 resource findings that were exposed as P3 fake/stub UI were reconciled:
+- Storage Switch Reference-shaped layout;
+- progress/list/FAB surface;
+- locale selection surface.
+
+Generic boundary resources are not counted as N-01 defects when they represent explicit P4 engine/provider handoffs.
+
+N-01-R6 remains globally open.
