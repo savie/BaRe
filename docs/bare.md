@@ -407,6 +407,22 @@ Target akhir adalah:
 
 ---
 
+## 10.1 CURRENT LIFECYCLE CHECKPOINT
+
+Current control-plane position on branch `rewrite`:
+
+- **P1 — FROZEN**
+- **P2 — FROZEN**
+- **P3 — FROZEN** at the documented static UI/navigation boundary
+- **P4 — FROZEN / CLOSED** at the static contract boundary; P4.0 through P4.5 are closed
+- **P5 — NEXT LIFECYCLE BOUNDARY** for feature execution reconstruction; no P5 gate is opened by this checkpoint
+
+P4 closure is static/evidence-based only. It does not claim build, install, runtime/device verification, provider execution, Supabase execution, backup/restore engine execution, scheduler execution, filesystem/privileged execution, or production readiness.
+
+The P4 authority is `docs/PHASE_4_GATE.md`, with technical contract evidence in `docs/audits/P4_CONTRACT_REGISTER.md`. Current dashboard state is maintained in `docs/RECONSTRUCTION_CHECKPOINT.md`.
+
+---
+
 ## 10. CANONICAL ROADMAP
 
 ```
