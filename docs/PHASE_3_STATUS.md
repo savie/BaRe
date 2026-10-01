@@ -613,3 +613,15 @@ Next audit domain: **#15 Static Hygiene**.
 - Affected domain: #8 Navigation.
 - Domain #8 remains OPEN; full 71-Activity matrix is still required.
 - No build/install/runtime/visual verification performed.
+
+
+## Step 8 Implementation Checkpoint — EU-11 / N-08 — Manifest Navigation Batch
+
+- Implementation commit: f0b758e154b5e0d8d49bdee3870626e7d6f7a8a4.
+- Changed file: app/src/main/AndroidManifest.xml only.
+- 33 Reference-defined parent/window contract records were reconciled and statically re-checked; 0 failures.
+- Compare against checkpoint bf19dcea3f228222d8eb5f6a4f8742f3b2af8df6: exactly 1 implementation commit, 1 changed file, 33 additions / 33 deletions.
+- Affected audit domain: #8 Navigation.
+- Domain #8 remains OPEN pending complete 71-Activity navigation reconciliation and any separately gated runtime verification.
+- No build/install/runtime/visual verification performed.
+- No provider/backend/engine/runtime implementation claimed.
