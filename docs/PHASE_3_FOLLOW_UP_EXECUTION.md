@@ -1010,3 +1010,16 @@ N-08 remains 🟡 OPEN. Next valid action is targeted evidence for the `AppListA
 **Static checks:** public enum present; default state LOCAL present; getSerializableExtra(KEY_SECTION) present; assignment from AppSection present. Reference remains read-only. No runtime/build/install/visual verification.
 
 **Boundary:** section-dependent tab contents, cloud/local data semantics, and runtime navigation behavior remain outside this batch and are not claimed closed.
+
+
+## Step 8 Implementation Checkpoint — N-04 CardStyleNormal Batch 01
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation:** `app/src/main/res/values/styles.xml`, `CardStyleNormal` only.
+
+**Reference contract:** layout width `match_parent`, layout height `wrap_content`, `android:outlineSpotShadowColor=?colorSurface`, `cardBackgroundColor=?cardBackgroundColor`, `cardCornerRadius=@dimen/card_corner_radius`, `cardElevation=0dp`, `cardUseCompatPadding=false`.
+
+**Re-audit:** target style re-read and all seven Reference-defined items confirmed. `reference/` remains read-only. No build/install/runtime/visual verification.
+
+**Boundary:** broader `SwiftTheme` family, other styles, colors, qualifiers, and runtime visual parity remain open.
