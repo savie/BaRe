@@ -1613,3 +1613,24 @@ Bounded batch **N01-R2 — Drawable / icon / image surface** was executed from t
 R2 closure means the audited drawable/icon/image resource surface is accounted for under the N-01 ownership rules. It does not claim runtime visual parity or provider/engine execution.
 
 N-01 overall remains **🟡 OPEN / PARTIAL IMPLEMENTATION** pending **N01-R6 Cross-domain resource closure**.
+
+
+## 45. Branch integrity checkpoint — N01-R2 implementation applied
+
+The earlier N01-R2 implementation commit existed as an independent commit but was not reachable from branch `rewrite`. This checkpoint corrects branch reachability without changing the Reference contract.
+
+### Branch repair
+- Previous `rewrite` head: `23b10d7f90d9ee3ca3f6bffd2d7fde510a974c41`.
+- Implementation source commit: `51aa67890828389eaef307052f40ae908d86b40b`.
+- Applied implementation commit on `rewrite`: `7d110274175ef90d52eaa204e21c488c5dc55454`.
+- Parent of applied implementation commit: `23b10d7f90d9ee3ca3f6bffd2d7fde510a974c41`.
+- The applied commit contains **218 added app resource files** from the original N01-R2 implementation commit; no existing target resource was modified by this branch repair.
+
+### Static branch re-audit
+- `rewrite` now reaches the N01-R2 implementation commit directly.
+- The 218 implementation paths are additions relative to the prior `rewrite` head.
+- Reference remains read-only.
+- Build/install/runtime verification remains **NOT PERFORMED**.
+- N01-R2 remains **🟢 CLOSED / STATIC PASS**.
+
+N-01 remains **🟡 OPEN** pending N01-R6 Cross-domain resource closure.
