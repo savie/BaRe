@@ -187,7 +187,7 @@ Every bounded implementation batch must have:
 | N-04 | Styles / Themes / Colors | 🟢 |
 | N-05 | Manifest | 🟢 |
 | N-06 | Intent | 🟢 |
-| N-07 | Permissions | 🟡 |
+| N-07 | Permissions | 🟢 CLOSED / STATIC PASS |
 | N-08 | Navigation | 🟡 |
 | N-09 | Lifecycle / State | 🔴 |
 | N-10 | Dialog / Error / Loading | 🔴 |
@@ -292,3 +292,15 @@ P3 is **not yet frozen**.
 - Reference remained read-only.
 - Build/install/runtime not performed.
 - **N-06 = 🟢 CLOSED / STATIC PASS.**
+
+
+### N-07 closure — Permissions
+
+- Total audit: `docs/audits/N07_PERMISSIONS_TOTAL_AUDIT.md`
+- Manifest declarations: **34/34 semantic match**
+- Runtime SMS/call/notification/storage contracts: **PASS**
+- Custom permission identity substitution: **explicitly recorded**
+- No speculative permission mutation.
+- Reference remained read-only.
+- Build/install/runtime not performed.
+- **N-07 = 🟢 CLOSED / STATIC PASS.**
