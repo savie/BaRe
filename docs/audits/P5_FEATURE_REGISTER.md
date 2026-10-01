@@ -204,9 +204,40 @@ Reference evidence: `reference/reference_apps_audit.md` — Apps List, Filter / 
 - Pull-to-refresh, FastScroller, RecyclerView, swipe reveal, and row presentation remain interaction/UI contract details, not separate top-level P5 feature units at this stage.
 - Apps batch, quick actions, custom configurations, blacklist, app detail, backup parts, and restore selection remain represented by existing units and are not duplicated here.
 
+### Apps engine / special-data reconciliation — remaining explicit boundaries
+
+A further targeted pass against `reference/reference_apps_audit.md` Checkpoints 21–29 and the supplied decompile was performed while remaining in P5.1. The pass specifically targeted items previously marked OPEN. Only boundaries with an independently evidenced lifecycle, persistence, consumer, or enforcement point are promoted to feature-contract units.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F59** | Favorites persistence / local-cache / cloud-sync lifecycle | Apps audit Checkpoint 22; `FavoriteAppsRepo`, `FavoriteApp` | favorites repository + app-event refresh | Favorites are not merely a row predicate: they have local cache, authenticated cloud load/mutation, anonymous-local behavior, identity derivation, and repository refresh semantics. |
+| **P5-F60** | AppInfo diagnostic data surface | Apps audit Checkpoint 22; `AppInfoActivity`, `sq` | app diagnostic/read-model boundary | AppInfo derives package/version/source/data/split/UID diagnostics from `ji`; it is a distinct read-only diagnostic contract, not generic detail presentation. |
+| **P5-F61** | Pinned detail shortcut integration | Apps audit Checkpoint 22; `ShortcutPinnedReceiver`, `j32` | launcher shortcut integration + Detail entry origin | Pin-result handling, shortcut refresh, parcel propagation, and `detail_launched_from_shortcut` origin state form a concrete integration boundary. |
+| **P5-F62** | Custom configuration → Apps task input mapping | Apps audit Checkpoint 22; `ConfigSettings`, `v10`, `m30` | configuration repository → task parameter boundary | ConfigSettings is consumed directly to construct backup/restore task parameters; this downstream mapping is stronger than the F09 UI/editor surface alone. |
+| **P5-F63** | Per-part backup-limit enforcement | Apps audit Checkpoint 22; `AppBackupLimitItem`, `qk0` | backup planner / eligibility enforcement | Limits are enforced against actual part size, storage type, local/cloud target, bypass mode, and warning accumulation; this is engine policy, not settings display. |
+| **P5-F64** | Package-visibility diagnostics | Apps audit Checkpoint 22; `AppVisibilityDiagnosticsActivity`, `p00`, `v00` | PackageManager snapshot + diagnostic projection | Raw package visibility snapshot, query state, empty/error state, and diagnostic flags are independently evidenced and do not mutate visibility configuration. |
+| **P5-F65** | Runtime/special permission state backup + restore | Apps audit Checkpoint 29; `permissionStatesCsv` producer/consumer chain | special-data capture/persistence + restore capability | Permission state has a concrete producer → user-bound special-data persistence → restore consumer chain, including runtime and supported special-permission state tokens. |
+| **P5-F66** | SSAID backup + restore | Apps audit Checkpoint 29; `ssaid`, `mk7/ok7/kk7` | system-settings identity snapshot + privileged restore | SSAID is separately captured, validated, persisted, and restored under explicit root/capability conditions; it is not equivalent to generic special permissions. |
+| **P5-F67** | Notification-access component backup + restore | Apps audit Checkpoint 29; `ntfAccessComponent`, `yo5/cl`, restore consumer | notification-access state adapter | The payload stores a concrete component identity and restore reconstitutes notification-access state; this is distinct from generic permission flags and notification-policy XML. |
+| **P5-F68** | Accessibility-service component backup + restore | Apps audit Checkpoint 29; `accessibilityComponent`, `o6/el`, restore consumer | accessibility-service state adapter | Accessibility state is captured as component identity and restored through a dedicated system-state path; it has its own producer/consumer semantics. |
+| **P5-F69** | Notification policy backup + restore | Apps audit Checkpoints 25/28; `NotificationPolicyProxy` + `AppSpecialDataPayload.notificationPolicyXml` | privileged notification-policy proxy + special-data persistence | Full policy payload extraction, per-package XML isolation, size limits, user/package validation, persistence, and privileged restore are a concrete execution boundary separate from notification-access state. |
+| **P5-F70** | Apps task workspace / temporary-artifact lifecycle | Apps audit Checkpoint 25; `AppsWorkingDir` | task workspace/storage accessibility boundary | Per-task `app_tasks` workspace selection, internal/external/Shizuku-accessible path choice, creation failure, and stale-workspace cleanup are explicit engine prerequisites for archive/install/restore flows. |
+| **P5-F71** | SBA app-data archive metadata envelope | Apps audit Checkpoints 25/28; `SbaAppDataRootRequestBuilder$SbaAppDataArchiveMetadata` | app-data artifact metadata builder | The app-data artifact carries explicit kind/version/package/app identity, version, cache/device-protected flags, compression, encryption, sizes, and entry list; this is a concrete artifact-contract boundary. |
+
+These additions deliberately do **not** promote generic helpers such as string/collection utilities, lazy holders, logging facades, or threading primitives into feature IDs. Their existence is supporting infrastructure, not independent P5 feature behavior.
+
+### Apps engine reconciliation result
+
+- F59–F64 close the previously open Apps repository/diagnostic/control surfaces identified in Checkpoint 22.
+- F65–F69 close the special-data producer/consumer boundaries traced in Checkpoint 29.
+- F70–F71 make two explicit engine/artifact prerequisites visible to P5.2 without treating generic utilities as product features.
+- These units are evidence-backed Reference boundaries; they do not authorize implementation, privileged execution, provider/backend execution, or runtime verification.
+- This pass does not treat the number **71** as a target. The count is a consequence of the evidence decomposition and may still increase if another independent boundary is proven.
+
 ### Closure result
 
-- P5.1 explicit feature-contract units: **58**.
+- P5.1 explicit feature-contract units: **71**.
+- F59–F71: Apps engine / special-data reconciliation pass.
 - F01–F37: original scope decomposition.
 - F38–F44: first rebaseline reconciliation.
 - F45–F54: second full-section closure reconciliation.
