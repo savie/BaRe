@@ -1634,3 +1634,63 @@ The earlier N01-R2 implementation commit existed as an independent commit but wa
 - N01-R2 remains **🟢 CLOSED / STATIC PASS**.
 
 N-01 remains **🟡 OPEN** pending N01-R6 Cross-domain resource closure.
+
+
+## 46. Execution checkpoint — N01-R6
+
+Bounded batch **N01-R6 — Cross-domain resource closure** was executed as a closure/reconciliation batch after N01-R1 through N01-R5 and the dependent N-domain audits were statically re-audited.
+
+### CEK SEKALI JALAN / PECAH
+
+**Decision: SEKALI JALAN.**
+
+No new resource-copy batch was required. The remaining N-01 work is ownership reconciliation across the already-closed P3 resource/value/navigation/identity domains. The canonical Reference fingerprint was rechecked before closure:
+
+- Canonical ZIP SHA-256: `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
+- Reference physical resource count: **1,491**
+- Reference logical resource-symbol count: **8,231**
+- Complete-source reachable candidate surface: **4,850**
+- Static-unreached candidate register: **839**, retained under the existing ORPHAN / STATIC-UNREACHED rule.
+
+### Cross-domain closure matrix
+
+| N-01 transfer | Owner / boundary | Re-audit evidence | R6 result |
+|---|---|---|---|
+| Strings / locale-qualified string resources | **N-02**; visible identity substitutions additionally **N-11** | P3-linked unresolved string names: **0**; remaining non-P3 Reference names are explicitly outside the P3 register/downstream/dependency material | **CLOSED** |
+| Dimensions / qualifier overrides | **N-03** | Reference-facing N-03 contract: **67**; total re-audit PASS; no unexplained missing N-03-owned dimension remains | **CLOSED** |
+| Styles / themes / colors / attrs | **N-04**; identity-sensitive resource names additionally **N-11** | custom style references unresolved: **0**; N-04 style color references unresolved: **0**; cross-domain ownership reconciled | **CLOSED** |
+| Manifest-linked XML resources | **N-05** | `locales_config.xml` and `network_security_config.xml` present/linked; XML content parity PASS; manifest linkage PASS | **CLOSED** |
+| Intent / deep-link resource contracts | **N-06**; identity-sensitive callbacks **N-11** | N06-X requires every cross-domain item to have one owner; N06-1 PASS; N06-2 PASS; dependency/backend identity boundaries explicitly classified | **CLOSED** |
+| Navigation/resource transition behavior | **N-08** | N-01 handoff consumed; actionable navigation contract PASS; no unresolved N-08-owned defect | **CLOSED** |
+| Branding / identity-sensitive resources | **N-11** | target app sweep: **0 Swift/swift + 0 Firebase/firebase**; visible identity contract PASS; launcher identity explicitly classified | **CLOSED** |
+
+Supporting transfers were also rechecked: N-07 reports no unresolved N-01 permission-resource ownership defect; N-10 reports its transferred P3 resource findings reconciled; N-14 reports no new N-01 resource defect at the P3 boundary.
+
+### Static closure rules
+
+The following N-01 findings remain intentionally **classified**, not silently discarded:
+
+- Library/framework/dependency resources remain **R-L / dependency-owned** and are not duplicated into `app/` without evidence.
+- Static-unreached resources remain **R-U / ORPHAN / STATIC-UNREACHED** until deadness is proven.
+- Identity-bearing resources remain subject to **N-11** classification; no global Swift rename was performed.
+- Downstream engine/provider/backend resources remain explicitly downstream/P4 boundaries where documented; they are not converted into false P3 resource parity claims.
+- N-02/N-03/N-04 semantic values were not duplicated or reimplemented under N-01.
+
+### Re-audit result
+
+- Every N-01 cross-domain transfer in the defined R6 scope has an explicit owner or explicit classified boundary.
+- No unresolved P3-owned cross-domain resource defect remains.
+- No silent resource loss was identified between N-01 and N-02/N-03/N-04/N-05/N-06/N-08/N-11.
+- Reference remained read-only.
+- Canonical Reference archive remained unchanged.
+- No build/install/runtime/visual/provider/engine/backend verification was performed.
+
+### Closure state
+
+**N01-R6 = 🟢 CLOSED / STATIC PASS.**
+
+With R1/R2/R3/R4/R5 already closed, the complete N-01 exit criterion is now satisfied for the P3 resource contract.
+
+**N-01 Resource → 🟢 CLOSED / STATIC PASS.**
+
+This closure is static resource-contract closure only. It does not claim engine/provider/backend/runtime success.
