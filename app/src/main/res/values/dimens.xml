@@ -66,4 +66,5 @@
     <dimen name="wall_thumb_width">72.0dp</dimen>
     <dimen name="yubikit_otp_activity_margin">24.0dp</dimen>
     <dimen name="yubikit_otp_text_margin">16.0dp</dimen>
+    <dimen name="bare_expressive_switch_min_width">48dp</dimen>
 </resources>
