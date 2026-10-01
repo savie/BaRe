@@ -9,7 +9,7 @@
         <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
             <include android:id="@id/highlighted_credit_item" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:layout_marginStart="@dimen/spacing_normal_more" android:layout_marginEnd="@dimen/spacing_normal_more" layout="@layout/translation_credits_item_highlight" />
             <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
-                <org.swiftapps.swiftbackup.views.QuickRecyclerView android:id="@id/rv_credits" android:padding="@dimen/spacing_medium_more" android:layout_width="match_parent" android:layout_height="match_parent" app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
+                <com.bare.views.QuickRecyclerView android:id="@id/rv_credits" android:padding="@dimen/spacing_medium_more" android:layout_width="match_parent" android:layout_height="match_parent" app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager" />
             </FrameLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
