@@ -806,7 +806,7 @@ No build/install/runtime/provider/backend/engine execution was performed.
 
 Static re-audit covered TaskActivity, TaskService, AlarmReceiver, task_activity.xml, task_card.xml, menu_task_activity.xml, and the manifest task service/receiver registration. The canonical C12 observation boundary remains intact and no duplicate task-state owner was introduced.
 
-A pre-existing menu-ID mismatch was found in TaskActivity: it referenced R.id.action_barelogger, while the resource and Reference use R.id.action_swiftlogger. The implementation was corrected to R.id.action_swiftlogger. This is a controlled static P3 correction backed directly by the Reference resource and Reference TaskActivity source.
+P4.3 found a pre-existing menu-ID mismatch in TaskActivity. At that time the app consumer used R.id.action_barelogger while the resource and Reference used R.id.action_swiftlogger, so the then-current P3 contract was corrected against Reference. The subsequent N-11 target-app identity normalization intentionally renamed the app-owned logger ID to R.id.action_barelogger in both consumer and resource; Reference-only action_swiftlogger remains unchanged.
 
 No additional P3 regression was found. No build/install/runtime/provider/backend/engine execution was performed.
 
