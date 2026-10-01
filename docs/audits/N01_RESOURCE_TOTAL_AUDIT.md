@@ -1280,3 +1280,17 @@ Transfer outcome:
 This is a **transfer/closure checkpoint**, not N-01 overall closure.
 
 N-01-R6 remains open until all cross-domain resource findings across N-02/N-03/N-04/N-05/N-06/N-08/N-11 are reconciled.
+
+
+## 30. Cross-domain transfer checkpoint — N-07
+
+N-07 consumed N-01 master inputs for permission-linked resources/contracts.
+
+Outcome:
+- permission-linked resource/configuration surfaces were accounted for;
+- manifest permission declarations were reconciled;
+- runtime permission contracts were audited;
+- special-access behavior remains owned by its feature/engine/settings domains;
+- no unresolved N-01 resource ownership defect was returned by N-07.
+
+This does not close N-01-R6 overall.
