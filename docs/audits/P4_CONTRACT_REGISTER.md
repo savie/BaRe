@@ -451,3 +451,28 @@ This is a key-ownership/static-reconciliation correction only. It does not promo
 `StorageInfoService` and `DashboardViewModel` now reference the reconciled `StorageInfoLocal` contract directly instead of maintaining a second BaRe-specific storage DTO shape. `StorageInfoService.read()` remains an explicit downstream/runtime boundary and returns no fabricated value. This is static contract typing only; no filesystem/storage runtime execution was added.
 
 No build, install, runtime, provider, backend, or engine verification was performed.
+
+
+### WP-A C07/C11 static regression pass — 2026-10-01
+
+Targeted re-check was performed against the supplied Swift Backup 5.1.0 / versionCode 620 decompile after the current WP-A wiring.
+
+**C07 — local/secure preference ownership**
+- Reference SwiftApp initializes the ordinary local preference store as `<package>_preferences`; the reconciled BaRe `LocalState` uses the same store pattern.
+- Reference `common.V.getZ()` is the secure/encrypted preference boundary. Its initialization first attempts encrypted preferences and falls back to a secure preference implementation when initialization fails; BaRe therefore keeps `SecureLocalState` as a boundary interface and does not invent a crypto implementation in WP-A.
+- Reference-backed local keys currently reconciled into `LocalState`: `KEY_FIRST_START`, `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED`, and `play_notification_sounds`.
+- Reference `play_notification_sounds` default is `true`; the current Settings consumer now reads/writes it through `LocalState`, eliminating the previous competing `settings` preference store.
+- Reference `saved_password_mode` is explicitly secure-preference state with integer/enum-ordinal semantics and default `STANDARD_PASSWORD.ordinal()`. It remains C09/WP-D and is **not** promoted into WP-A.
+- Reference P3-only readiness/sign-in/password flags remain transitional in `IntroActivity`; this pass does not promote them into canonical C07 state.
+
+**C11 — deterministic data contract**
+- `StorageInfoLocal` is now the direct storage state type used by `StorageInfoService` and the Dashboard storage state surface; the duplicate BaRe storage DTO is removed from the active contract.
+- `TaskState` matches Reference `gz7` values and helper semantics: `WAITING`, `RUNNING`, `COMPLETE`, `CANCELLED`, `CANCEL_COMPLETE`.
+- `ErrorSummary` matches Reference `TaskManager.ErrorSummary` field/accessor semantics.
+- `StorageInfoService.read()` remains explicitly unimplemented at the filesystem/runtime boundary and returns no fabricated state.
+- No additional Reference model is added solely because it exists in the decompile; only frozen-P3-consumed contracts are being reconciled in WP-A.
+
+**Regression result**
+- No new static contradiction was found in the affected WP-A surfaces.
+- C07/C11 remain **in progress**, not package-closed: C03/C05/C08/C09/C10/C12/C13/C14 still own their respective state contracts, and WP-A must not absorb those boundaries.
+- No build/install/runtime/device/provider/backend/engine verification was performed.
