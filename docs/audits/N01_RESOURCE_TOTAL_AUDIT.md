@@ -2,12 +2,12 @@
 
 ## Status
 
-**AUDIT COMPLETE — DOCUMENT ONLY**
+**AUDIT COMPLETE — R1/R3/R4/R5 IMPLEMENTATION + STATIC RE-AUDIT ACTIVE**
 
 - Domain: **N-01 Resource**
 - Phase: P3
 - Scope: complete Reference resource inventory, resource-symbol inventory, source/resource dependency graph, qualifier/variant audit, resource-to-screen/resource-to-code mapping, cross-domain transfer, implementation register and closure criteria.
-- Implementation performed: **NO**
+- Implementation performed: **PARTIAL — N01-R1, N01-R3, N01-R4, N01-R5**
 - Build/install/runtime performed: **NO**
 - Reference mutation: **NO**
 - Canonical Reference used: **local ZIP**
@@ -1166,9 +1166,9 @@ No reliance on stale GitHub search results is required for the Reference invento
 
 ### Implementation
 
-**NOT PERFORMED**
+**PARTIAL — bounded work packages executed**
 
-This is intentional.
+N01-R1, N01-R3, N01-R4, and N01-R5 have been implemented and statically re-audited. N01-R2 and N01-R6 remain open.
 
 ### Runtime
 
@@ -1228,7 +1228,7 @@ The implementation phase can therefore proceed from this document as the N-01 au
 
 `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`
 
-**Current N-01 state: 🟡 AUDITED / IMPLEMENTATION PENDING**
+**Current N-01 state: 🟡 OPEN / PARTIAL IMPLEMENTATION — R1/R3/R4/R5 CLOSED; R2/R6 OPEN**
 
 
 ## 28. Execution checkpoint — N01-R3
@@ -1503,3 +1503,73 @@ Remaining work packages:
 - N01-R1 Layout / UI resource surface
 - N01-R2 Drawable / icon / image surface
 - N01-R6 Cross-domain resource closure
+
+
+## 43. Execution checkpoint — N01-R1
+
+Bounded batch N01-R1 — Layout / UI resource surface was executed from the canonical local Reference ZIP and re-audited against the target branch.
+
+### CEK SEKALI JALAN / PECAH
+
+Reference layout surface:
+
+- 342 logical layout resources
+- 348 physical layout XML files
+- Base res/layout/: 341 physical files
+- Qualifier variants: 7 physical files
+
+Ownership classification was applied before implementation.
+
+Excluded from app-owned reconstruction:
+
+- AndroidX/AppCompat/Material dependency layouts (abc_*, design_*, m3*, material_*, mtrl_*, preference*, and equivalent library surfaces).
+- MSAL broker/certificate/dual-screen layouts.
+- YubiKit/FastScroller dependency layouts.
+- firebase_connection_error_view.xml, because the target identity is already migrated to the Supabase-owned supabase_connection_error_view.xml.
+- black_list_activity.xml, because the target already owns the adapted blacklist_activity.xml.
+
+### IMPLEMENTASI
+
+The actionable Reference base-layout contract was restored using the canonical Reference resource blobs:
+
+- Reference actionable base layouts: 244
+- Target actionable base layouts present after implementation: 244/244
+- Newly restored base layout files: 135
+- Existing target layouts classified as adapted/non-byte-identical: 109
+- Library/dependency/excluded base layouts: 97
+
+The wide-screen Home qualifier was additionally restored:
+
+- app/src/main/res/layout-w600dp/home_activity.xml
+- Reference structure preserved.
+- Reference Swift-derived custom-view package names were mapped to the existing BaRe classes:
+  - com.bare.home.NoSwipeViewPager
+  - com.bare.home.schedule.ui.ScheduleFabMenuView
+
+The remaining six Reference qualifier layout files are dependency/library surfaces and were not copied into app/.
+
+### RE-AUDIT
+
+Static re-audit result:
+
+- Actionable base layout contracts missing from target: 0
+- layout-w600dp/home_activity.xml: present
+- Swift/swift text in target layout surface: 0
+- Firebase/firebase text in target layout surface: 0
+- Reference remained read-only.
+- No build/install/runtime verification was performed.
+
+### Closure state
+
+N01-R1 = 🟢 CLOSED / STATIC PASS.
+
+R1 closure means the audited layout/UI resource surface is accounted for under the ownership rules. It does not claim runtime visual parity.
+
+N-01 overall remains:
+
+🟡 OPEN / PARTIAL IMPLEMENTATION
+
+Remaining:
+
+- N01-R2 — Drawable / Icon / Image
+- N01-R6 — Cross-domain resource closure
