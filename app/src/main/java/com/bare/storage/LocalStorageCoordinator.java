@@ -7,25 +7,27 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Local owner for the Reference preferred_storage_dir state.
+ * Canonical local owner for Reference preferred_storage_dir state and selection.
  *
- * Inventory is deliberately supplied by a separate adapter; this class only
- * owns persistence and deterministic selection/fallback semantics.
+ * Inventory is supplied by the storage adapter; persistence/fallback remains
+ * provider-neutral and deterministic.
  */
 public final class LocalStorageCoordinator implements StorageCoordinator {
     private final SharedPreferences prefs;
-    private final List<StorageVolumeInfo> volumes;
+    private final StorageInventory inventory;
 
-    public LocalStorageCoordinator(Context context, List<StorageVolumeInfo> volumes) {
+    public LocalStorageCoordinator(Context context, StorageInventory inventory) {
         this.prefs = context.getSharedPreferences(
                 context.getPackageName() + "_preferences",
                 Context.MODE_PRIVATE);
-        this.volumes = volumes == null ? Collections.emptyList() : volumes;
+        this.inventory = inventory;
     }
 
     @Override
     public List<StorageVolumeInfo> listVolumes() {
-        return volumes;
+        if (inventory == null) return Collections.emptyList();
+        List<StorageVolumeInfo> volumes = inventory.listVolumes();
+        return volumes == null ? Collections.emptyList() : volumes;
     }
 
     @Override
@@ -40,12 +42,13 @@ public final class LocalStorageCoordinator implements StorageCoordinator {
 
     @Override
     public StorageSelection resolveSelection() {
-        StorageVolumeInfo fallback = null;
+        List<StorageVolumeInfo> volumes = listVolumes();
+        StorageVolumeInfo defaultVolume = null;
         String preferred = readPreferredStorageDir();
 
         for (StorageVolumeInfo volume : volumes) {
-            if (fallback == null && volume.isValid()) {
-                fallback = volume;
+            if (defaultVolume == null && volume.isValid()) {
+                defaultVolume = volume;
             }
             if (preferred != null
                     && preferred.equals(volume.rootPath)
@@ -54,18 +57,14 @@ public final class LocalStorageCoordinator implements StorageCoordinator {
             }
         }
 
-        if (fallback == null && !volumes.isEmpty()) {
-            fallback = volumes.get(0);
-        }
-
-        if (fallback == null) {
+        if (defaultVolume == null) {
             return null;
         }
 
-        if (preferred != null && !preferred.equals(fallback.rootPath)) {
-            persistPreferredStorageDir(fallback.rootPath);
+        if (preferred != null && !preferred.equals(defaultVolume.rootPath)) {
+            persistPreferredStorageDir(defaultVolume.rootPath);
         }
 
-        return new StorageSelection(fallback, true);
+        return new StorageSelection(defaultVolume, true);
     }
 }
