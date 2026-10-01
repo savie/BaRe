@@ -1,6 +1,5 @@
 package com.bare.settings;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Settings;
@@ -10,6 +9,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bare.R;
+import com.bare.core.state.LocalState;
 import com.bare.slog.SLogActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -57,12 +57,13 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
         Preference sounds = findPreference("play_notification_sounds");
         if (sounds != null) {
-            SharedPreferences prefs = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+            LocalState localState = new LocalState(requireContext());
             if (sounds instanceof MSwitchPreference) {
-                ((MSwitchPreference) sounds).setChecked(prefs.getBoolean("play_notification_sounds", true));
+                ((MSwitchPreference) sounds).setChecked(
+                        localState.getBoolean("play_notification_sounds", true));
             }
             sounds.setOnPreferenceChangeListener((p, value) -> {
-                prefs.edit().putBoolean("play_notification_sounds", (Boolean) value).apply();
+                localState.putBoolean("play_notification_sounds", (Boolean) value);
                 return true;
             });
         }
