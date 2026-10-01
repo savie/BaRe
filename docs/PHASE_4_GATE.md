@@ -104,3 +104,6 @@ This is static contract-analysis closure only. No implementation, build, install
 The final acceptance pass found no remaining WP-A-owned duplicate state/model surface and no static contradiction in the reconciled P3 consumers. `LocalState`, `SecureLocalState` boundary, `StorageInfoLocal`, `TaskState`, and `ErrorSummary` remain bounded to their Reference-supported responsibilities. No runtime or provider/backend execution is claimed.
 
 P4.2 remains active for contracts outside WP-A ownership; this closure does not close P4.2 as a whole.
+### P4.2 WP-B implementation checkpoint — 2026-10-01
+
+WP-B is now the active implementation package for **C01 / C05 / C06 / C14**. Reference lifecycle (`d45`), user-info (`ah8`), migration (`rc1`), and cloud/session (`re3`) evidence has been reconciled into provider-neutral BaRe contracts. The package remains **IN PROGRESS** until account-surface consumer wiring and static regression/acceptance are complete. No provider/backend/runtime execution is implied.
