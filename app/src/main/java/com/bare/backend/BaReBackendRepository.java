@@ -6,8 +6,8 @@ import com.bare.home.repository.BackendIdentity;
 /**
  * Provider-neutral backend boundary for account/session metadata.
  *
- * Implementations may bind this interface to a provider later; no provider SDK
- * type or execution guarantee crosses this boundary.
+ * The decompile directly supports identity/userInfo and current cloud-directory
+ * path derivation. Provider SDK execution and backend mutation remain downstream.
  */
 public interface BaReBackendRepository {
     BackendIdentity currentIdentity();
@@ -16,16 +16,6 @@ public interface BaReBackendRepository {
     boolean isRegisteredContributor(String uid);
     void signOut();
 
-    /**
-     * Reference re3/FireHelper current cloud-directory metadata.
-     * The value is metadata only at this boundary; provider transfer/execution
-     * remains downstream.
-     */
+    /** Reference re3 cloud_v1 path uses FireHelper.currentCloudDir metadata. */
     String currentCloudDirectory();
-
-    /**
-     * Whether the backend/session boundary has completed its initialization.
-     * This is state observation, not proof of provider connectivity.
-     */
-    boolean isInitialized();
 }
