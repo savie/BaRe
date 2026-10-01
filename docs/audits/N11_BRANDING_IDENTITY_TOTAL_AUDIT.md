@@ -30,14 +30,16 @@ N-11 covers:
 6. app-owned external/deep-link identity where branding migration is explicitly required;
 7. separation between visible branding and internal identifiers that must **not** be blindly renamed.
 
-N-11 does **not** require:
+The current project instruction supersedes the historical identifier-tolerance rule for the target sweep:
 
-- renaming every internal identifier containing `Swift`;
-- changing the Reference package name inside the read-only Reference tree;
-- claiming provider/OAuth runtime success;
-- visual runtime verification without authorized execution.
+- the current `app/` tree must contain **zero `Swift/swift` text matches**;
+- the current `app/` tree must contain **zero `Firebase/firebase` text matches**;
+- Reference/decompiled sources and project documentation are excluded from this target-app textual sweep;
+- the Reference tree remains read-only;
+- provider/OAuth/runtime success is not claimed;
+- visual runtime verification is not claimed without authorized execution.
 
-The project rule is identity migration, not blind global text replacement.
+This is a targeted target-app hygiene rule, not a mutation of the Reference artifact.
 
 ---
 
@@ -142,27 +144,27 @@ Classification:
 
 Result: PASS.
 
-### N11-B-06 — Internal identifiers
+### N11-B-06 — Revised target-app textual sweep
 
-Reference contains identifiers such as:
+The revised project rule does not retain Swift-derived text in the current `app/` tree merely because an occurrence might be an internal identifier.
 
-- `search_swift_backup`
-- `open_in_swift_backup`
-- `btnOpenInSwiftBackup`
-- `ivSwiftBackupLogo`
-- `SwiftThemeDark.Transparent`
+The target-app sweep was therefore run for:
 
-N-11 does not require blind global replacement of these names.
+- `Swift`
+- `swift`
+- `Firebase`
+- `firebase`
 
-The established audit rule is:
+Result after implementation:
 
-> **Identifier text alone is not visible branding.**
+- Swift/swift matches in `app/`: **0**
+- Firebase/firebase matches in `app/`: **0**
 
-Only the actual user-visible value/identity contract is subject to migration.
+Reference-only identifiers such as `search_swift_backup` remain untouched in the read-only Reference tree.
 
 Classification:
 
-**INTERNAL / NON-VISIBLE IDENTIFIER — ACCEPTED**
+**REVISED TARGET-APP ZERO-TEXT RULE**
 
 Result: PASS.
 
@@ -188,6 +190,13 @@ Provider OAuth/authentication execution is not claimed.
 
 ## 4. CEK — Implementation state
 
+The historical N-11 implementation established the original visible-branding migration. The revised sweep then identified two remaining target-app text surfaces that were outside that older criterion:
+
+- Swift product wording in `app/src/main/res/raw/changelog.txt`;
+- Firebase package/library names in `app/src/main/res/raw/third_party_license_metadata`.
+
+Both were removed from the current target app. The Reference artifact was not modified.
+
 The historical N-11 implementation work already addressed the concrete branding defects found during the original audit:
 
 - visible Swift branding was removed from P3-visible surfaces;
@@ -204,7 +213,7 @@ Therefore:
 
 **CEK result: NO NEW IMPLEMENTATION REQUIRED**
 
-No app/source/resource mutation was performed during this re-audit.
+The revised sweep required implementation in the two files above.
 
 ---
 
@@ -239,18 +248,18 @@ Current target string surface contains BΛR☰-branded values including:
 
 Result: **PRESENT**
 
-### 5.4 Residual Swift identity in target app
+### 5.4 Revised target-app textual identity sweep
 
-Static target searches were interpreted by ownership:
+The current `app/` tree was re-checked after implementation.
 
-- Reference/decompiled files contain expected `Swift Backup` and `org.swiftapps.swiftbackup` evidence;
-- project documentation contains expected historical/reference terminology;
-- internal identifiers may retain Swift-derived names where they are not user-visible;
-- current app-owned visible identity is BΛR☰ / BaRe.
+Results:
 
-No new app-owned **visible Swift product identity** was established by the re-audit.
+- `Swift/swift`: **0 matches**
+- `Firebase/firebase`: **0 matches**
+- Reference/decompiled paths were excluded from this target-app sweep;
+- project documentation was excluded from this target-app sweep.
 
-Result: **PASS**
+Result: **PASS — ZERO SWIFT/FIREBASE TEXT IN APP**
 
 ### 5.5 External callback identity
 
@@ -271,9 +280,9 @@ Result: **PASS at static identity-contract level**
 | N11-B-03 | Launcher icon resource and manifest declaration exist | BΛR☰ launcher identity | PASS |
 | N11-B-04 | Visible P3 branding uses BΛR☰ | Visible identity | PASS |
 | N11-B-05 | Swift-derived visible values were migrated | Branding value migration | PASS |
-| N11-B-06 | Swift-derived internal identifiers remain where non-visible | Accepted internal identifier | PASS |
+| N11-B-06 | Revised target-app textual sweep | 0 Swift/swift + 0 Firebase/firebase matches in `app/` | PASS |
 | N11-B-07 | App-owned TeraBox callback uses BaRe namespace; Yandex Swift callback removed under N-06 | External identity / intent handoff | PASS |
-| N11-B-08 | New visible Swift product identity found in current app | None established | PASS |
+| N11-B-08 | Revised zero-text closure | Zero Swift/Firebase text remains in target `app/` | PASS |
 
 ---
 
@@ -281,11 +290,11 @@ Result: **PASS at static identity-contract level**
 
 N-11 is closed when:
 
-1. no unexplained Swift product identity remains in the current `app/` visible surface;
-2. BΛR☰ application label is explicit;
-3. BΛR☰ launcher identity is explicitly owned by the target;
-4. visible Swift-derived strings are migrated or explicitly classified;
-5. internal identifiers are not incorrectly treated as visible branding defects;
+1. the current target `app/` contains zero `Swift/swift` text matches;
+2. the current target `app/` contains zero `Firebase/firebase` text matches;
+3. BΛR☰ application label is explicit;
+4. BΛR☰ launcher identity is explicitly owned by the target;
+5. visible Swift-derived strings are migrated;
 6. app-owned external identity is migrated/classified under the intent contract;
 7. Reference remains read-only;
 8. runtime/provider/OAuth/visual success is not falsely claimed.
@@ -302,7 +311,7 @@ All static criteria are satisfied.
 
 The domain is statically closed for the defined P3 branding/identity contract.
 
-No implementation follow-up is required unless new evidence establishes a visible/app-owned identity defect.
+No implementation follow-up is required unless a new target-app evidence sweep establishes a Swift/Firebase text violation or another N-11 identity defect.
 
 ### Verification boundary
 
