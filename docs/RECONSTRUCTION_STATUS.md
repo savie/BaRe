@@ -43,7 +43,7 @@ Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.m
 
 P4.0 is closed at the static contract-inventory boundary. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
 
-P3 remains frozen at the documented static boundary. P4.0 is now active for Reference-backed contract inventory. No P4 implementation is implied by the inventory, and no runtime/provider/engine/backend success is inferred.
+P3 remains frozen at the documented static boundary. P4.1 is now the next active package for Reference-backed gap/blocker analysis. No P4 implementation, runtime/provider/engine/backend success is implied or claimed.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
