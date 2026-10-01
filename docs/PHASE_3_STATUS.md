@@ -772,3 +772,18 @@ N-04 remains open overall; this closes only this bounded style contract.
 **Boundary:** other M3Button variants, `SwiftTheme` family, custom color attrs, qualifiers, and runtime visual parity remain open. `CardStyleStroked` was intentionally not mutated because its `cardStrokeColor` contract depends on the broader custom theme/attr surface and is not safely self-contained in this batch.
 
 P3 remains active; N-04 remains open overall.
+
+
+## Step 8 Implementation Checkpoint — N-04 Typography/Dialog Styles Batch 04
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation commit:** `49670782f9784efece05a7c1c483266728ad49d1`
+
+**Scope:** `app/src/main/res/values/styles.xml`, three bounded styles: `M3DialogBody`, `M3DialogButtonStyle`, `M3TextInputEditTextPassword`.
+
+**Reference contracts reconciled:** dialog body uses `@font/main_regular`; dialog button uses `android:letterSpacing=0.03` and `@font/main_medium`; password text input uses `@font/mono_regular` for both Android and Material font-family attributes.
+
+**Re-audit:** all targeted Reference-defined items are present. Commit diff is one app resource file only; `reference/` remains read-only. No build/install/runtime/visual verification was performed.
+
+N-04 remains OPEN overall; broader theme, color, qualifier, and remaining style contracts are not closed by this batch.
