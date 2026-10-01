@@ -186,7 +186,7 @@ Every bounded implementation batch must have:
 | N-03 | Dimensions | 🟢 |
 | N-04 | Styles / Themes / Colors | 🟢 |
 | N-05 | Manifest | 🟢 |
-| N-06 | Intent | 🟡 |
+| N-06 | Intent | 🟢 |
 | N-07 | Permissions | 🟡 |
 | N-08 | Navigation | 🟡 |
 | N-09 | Lifecycle / State | 🔴 |
@@ -280,3 +280,15 @@ P3 is **not yet frozen**.
 - MSAL/test-query and dependency/library manifest entries remain explicitly dependency-owned/UNKNOWN and were not blindly copied.
 - Build/install/runtime not performed.
 - **N-05 = 🟢 CLOSED / STATIC PASS.**
+
+
+### N-06 closure — Intent
+
+- Total audit: `docs/audits/N06_INTENT_TOTAL_AUDIT.md`
+- N06-1 app-owned manifest Intent contracts: **PASS**
+- N06-2 explicit Activity/Service Intent contracts: **PASS**
+- N06-3 dependency/external callback surface: **explicit downstream ownership**
+- Reference canonical fingerprint unchanged.
+- Reference remained read-only.
+- Build/install/runtime not performed.
+- **N-06 = 🟢 CLOSED / STATIC PASS.**
