@@ -2,7 +2,7 @@
 
 ## Status
 
-**P4.0 — ACTIVE / RE-AUDIT INVENTORY**
+**P4.0 — COMPLETE / ACCEPTED**
 
 This register is the canonical technical artifact for P4.0. It reconciles the frozen P3 surfaces against the Reference evidence in `v1.0/rebaseline/reference/*`, the current `rewrite` implementation, and targeted inspection of the supplied Swift Backup 5.1.0 (620) decompile ZIP.
 
@@ -85,7 +85,7 @@ Do not pull these into P4 merely because a P3 surface exposes them:
 
 ## P4.0 exit criteria
 
-P4.0 can close only when every targeted row has:
+P4.0 closes when every targeted row has:
 
 - Reference evidence;
 - exact required contract;
@@ -97,12 +97,37 @@ P4.0 can close only when every targeted row has:
 - verification method;
 - P3 regression surface.
 
-### Current state
+All 16 targeted rows satisfy those inventory fields.
 
-**P4.0 remains OPEN.**
+## P4.0 acceptance matrix
 
-The register is now materially complete enough to hand to **P4.1 Gap / Blocker Analysis**, but P4.0 itself is not closed because the newly identified P4 gaps still need their consumer-level reconciliation/acceptance criteria finalized before implementation is authorized.
+The acceptance target for P4.0 is **contract inventory completeness**, not implementation completion. A row may therefore remain `GAP`, `PARTIAL`, or `DOWNSTREAM` while still being accepted into P4.1, provided its contract, owner, boundary, and verification surface are explicit.
 
-Next package remains:
+| ID | Acceptance criterion | P4.0 decision |
+|---|---|---|
+| P4-C01 | First-start/account lifecycle states, persistence owner, transition boundary, and downstream auth/restore boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C02 | Recreation/save/restore contract and static evidence are explicit; runtime remains deferred | **ACCEPTED / PASS** |
+| P4-C03 | Permission/readiness inputs, result/retry boundary, and downstream privileged/app-op engines are explicit | **ACCEPTED → P4.1** |
+| P4-C04 | Storage inventory, selected identity, preferred-storage key, validation/fallback, and filesystem boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C05 | Identity/session model, initialization, userInfo ownership, and provider boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C06 | Migration sequence, observed outcomes, rollback boundary, and provider/backend boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C07 | P4-consumed local keys, ownership, and secure-storage boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C08 | Reference-shaped settings model/default/persistence ownership and cloud-sync boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C09 | saved_password_mode key/type/default/consumer semantics and crypto boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C10 | First-run restore state/result/completion semantics and backend boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C11 | P4-consumed data shapes, defaults/nullability, and ownership are enumerated | **ACCEPTED → P4.1** |
+| P4-C12 | Task status/progress/error/result/cancellation state surface and execution boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C13 | Minimum task/job state contract and scheduler/foreground execution boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C14 | Provider-neutral cloud/session metadata contract and provider/backend boundary are explicit | **ACCEPTED → P4.1** |
+| P4-C15 | Provider/backend execution is explicitly downstream and not silently pulled into P4 | **ACCEPTED / DOWNSTREAM** |
+| P4-C16 | Backup/restore execution is explicitly downstream and not silently pulled into P4 | **ACCEPTED / DOWNSTREAM** |
 
-**P4.1 — BaRe Gap / Blocker Analysis**, after the remaining P4.0 inventory acceptance pass.
+## P4.0 closure decision
+
+**P4.0 — CLOSED.**
+
+No implementation is claimed by this closure. The remaining `GAP` / `PARTIAL` rows are the input set for **P4.1 — BaRe Gap / Blocker Analysis**. No build, install, runtime, provider, backend, or engine verification was performed.
+
+Next package:
+
+**P4.1 — BaRe Gap / Blocker Analysis.**
