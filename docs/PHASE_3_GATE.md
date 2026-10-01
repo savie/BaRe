@@ -36,7 +36,7 @@ Reference remains read-only. All implementation changes belong to `app/`.
 
 ## Gate status
 
-**PHASE 3 — ACTIVE / FOLLOW-UP CLOSURE**
+**PHASE 3 — FROZEN / CLOSED AT P3 STATIC BOUNDARY**
 
 The latest complete Activity depth audit is the current P3 Activity baseline:
 
@@ -99,7 +99,7 @@ The original 15-domain audit is historical evidence. The table below is the curr
 
 | # | Domain | Current closure state |
 |---:|---|---|
-| 1 | Resource | 🟡 OPEN |
+| 1 | Resource | 🟢 CLOSED / STATIC PASS |
 | 2 | Strings | 🟢 CLOSED / STATIC PASS |
 | 3 | Dimensions | 🟢 CLOSED / PASS |
 | 4 | Styles / Themes / Colors | 🟢 CLOSED / STATIC PASS |
@@ -411,3 +411,52 @@ P3 is **not yet frozen**.
 - Reference remains read-only.
 - Build/install/runtime not performed.
 - **N-15 = 🟢 CLOSED / STATIC PASS — control-plane consistency.**
+
+
+## Final P3 freeze checkpoint — N-01-R6
+
+N-01-R6 cross-domain resource closure has been completed and statically re-audited.
+
+### N-01 final state
+
+- N01-R1 Layout / UI: 🟢 CLOSED / STATIC PASS
+- N01-R2 Drawable / Icon / Image: 🟢 CLOSED / STATIC PASS
+- N01-R3 Menu: 🟢 CLOSED / STATIC PASS
+- N01-R4 Animation: 🟢 CLOSED / STATIC PASS
+- N01-R5 Font / Raw / XML / Mipmap: 🟢 CLOSED / STATIC PASS
+- **N01-R6 Cross-domain resource closure: 🟢 CLOSED / STATIC PASS**
+- **N-01 Resource: 🟢 CLOSED / STATIC PASS**
+
+R6 reconciled the N-01 handoffs to N-02/N-03/N-04/N-05/N-06/N-08/N-11. Supporting transfer checks from N-07/N-10/N-14 introduced no unresolved N-01 resource defect.
+
+### P3 freeze condition
+
+The current P3 exit gate is satisfied at the documented static boundary:
+
+1. all 71 Reference-owned Activities remain covered; latest depth audit remains 23 🟢 / 48 🟡 / 0 🔴;
+2. no unresolved P3 defect remains outside explicitly documented downstream boundaries;
+3. all 15 normalized domains have current classification;
+4. the previously non-green Resource domain has reached its evidence-backed exit criterion;
+5. Resource and Style/Theme/Color parity work is fully statically re-audited;
+6. no unexplained Swift product identity remains in `app/`;
+7. static resource/reference integrity is clean for the audited P3 surface;
+8. Reference remains unchanged;
+9. no build/runtime claim is used as closure evidence.
+
+**FREEZE P3**
+
+P4 gate review may proceed. P4 implementation does not start automatically.
+
+### Runtime boundary
+
+P3 freeze does not claim:
+
+- APK build success;
+- installation success;
+- runtime success;
+- provider success;
+- engine success;
+- backend/Supabase success;
+- end-to-end feature success.
+
+Those remain outside this P3 static closure.
