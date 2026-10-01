@@ -27,16 +27,16 @@ public final class DashboardViewModel extends ViewModel {
     private final MutableLiveData<List<QuickAction>> quickActions =
             new MutableLiveData<>(Collections.emptyList());
     private final MutableLiveData<Boolean> compactShortcuts = new MutableLiveData<>(false);
-    private final MutableLiveData<Boolean> showFirebaseDiagnostics = new MutableLiveData<>(false);
+    private final MutableLiveData<Boolean> showBackendDiagnostics = new MutableLiveData<>(false);
 
     public LiveData<Object> getStorageInfo() { return storageInfo; }
     public LiveData<List<QuickAction>> getQuickActions() { return quickActions; }
     public LiveData<Boolean> getCompactShortcuts() { return compactShortcuts; }
-    public LiveData<Boolean> getShowFirebaseDiagnostics() { return showFirebaseDiagnostics; }
+    public LiveData<Boolean> getShowFirebaseDiagnostics() { return showBackendDiagnostics; }
 
     public void setStorageInfo(Object value) { storageInfo.setValue(value); }
     public void setCompactShortcuts(boolean value) { compactShortcuts.setValue(value); }
-    public void setShowFirebaseDiagnostics(boolean value) { showFirebaseDiagnostics.setValue(value); }
+    public void setShowFirebaseDiagnostics(boolean value) { showBackendDiagnostics.setValue(value); }
 
     /**
      * Reference x92 populates these in this order:
