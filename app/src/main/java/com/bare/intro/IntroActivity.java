@@ -23,6 +23,7 @@ import com.bare.home.HomeActivity;
 import com.bare.permission.PermissionAccessService;
 import com.bare.permission.PermissionCapability;
 import com.bare.permission.PermissionState;
+import com.bare.settings.PasswordStrategy;
 import com.bare.core.state.LocalState;
 import com.bare.account.repository.AccountMigrationRepository;
 import com.bare.account.repository.LocalAccountMigrationRepository;
@@ -36,7 +37,6 @@ public final class IntroActivity extends Activity {
     private boolean restoreFlow;
 
     private static final String KEY_SIGNED_IN = "P3_SIGNED_IN";
-    private static final String KEY_PASSWORD_MODE = "P3_PASSWORD_MODE";
 
     private static final int REQUEST_NOTIFICATIONS = 1003;
     private static final int REQUEST_STORAGE = 1004;
@@ -272,8 +272,12 @@ public final class IntroActivity extends Activity {
                                 getString(R.string.password_mode_standard),
                                 getString(R.string.password_mode_user)
                         },
-                        prefs.getInt(KEY_PASSWORD_MODE, 0),
-                        (dialog, which) -> prefs.edit().putInt(KEY_PASSWORD_MODE, which).apply())
+                        localState.getInt(
+                                LocalState.KEY_SAVED_PASSWORD_MODE,
+                                PasswordStrategy.STANDARD_PASSWORD.ordinal()),
+                        (dialog, which) -> localState.putInt(
+                                LocalState.KEY_SAVED_PASSWORD_MODE,
+                                which))
                 .setNegativeButton(R.string.keep_setup, null)
                 .setPositiveButton(R.string.continue_label, (dialog, which) -> showGettingStarted())
                 .show();
@@ -313,8 +317,7 @@ public final class IntroActivity extends Activity {
                         localState.remove(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED);
                         prefs.edit()
                                 .remove(KEY_SIGNED_IN)
-                                        .remove(KEY_PASSWORD_MODE)
-                                .apply();
+                                        .apply();
                         recreate();
                     }
                 })
