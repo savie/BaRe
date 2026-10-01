@@ -188,7 +188,7 @@ Every bounded implementation batch must have:
 | N-05 | Manifest | 🟢 |
 | N-06 | Intent | 🟢 |
 | N-07 | Permissions | 🟢 CLOSED / STATIC PASS |
-| N-08 | Navigation | 🟡 |
+| N-08 | Navigation | 🟢 CLOSED / STATIC PASS |
 | N-09 | Lifecycle / State | 🔴 |
 | N-10 | Dialog / Error / Loading | 🔴 |
 | N-11 | Branding / Identity | 🟢 |
@@ -306,3 +306,18 @@ P3 is **not yet frozen**.
 - Reference remained read-only.
 - Build/install/runtime not performed.
 - **N-07 = 🟢 CLOSED / STATIC PASS — permission contract boundary.**
+
+
+### N-08 closure — Navigation
+
+- Total audit: `docs/audits/N08_NAVIGATION_TOTAL_AUDIT.md`
+- Home/tab navigation: **PASS**
+- Actionable app-owned Activity navigation: **PASS**
+- Existing menu/drawer navigation: **PASS**
+- Back/result navigation boundaries: **PASS**
+- HomeSearch result routes remain explicitly downstream-blocked by missing search semantics; no synthetic routing was invented.
+- Password-engine-dependent route remains downstream-boundary.
+- External/dependency callbacks remain owned by N-06 / permission or feature domains.
+- Reference remained read-only.
+- Build/install/runtime not performed.
+- **N-08 = 🟢 CLOSED / STATIC PASS — navigation contract boundary.**
