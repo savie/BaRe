@@ -485,6 +485,7 @@
         <item name="colorTertiaryFixedDim">@color/md_theme_light_tertiaryFixedDim</item>
         <item name="dynamicColorThemeOverlay">@style/ThemeOverlay.Material3Expressive.DynamicColors.Light</item>
         <item name="elevationOverlayColor">?colorPrimary</item>
+        <item name="materialSwitchStyle">@style/Widget.BaRe.MaterialSwitch</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <item name="textInputFilledDenseStyle">@style/M3TilFilledDense</item>
         <item name="textInputFilledExposedDropdownMenuStyle">@style/M3TilFilledDenseDropdown</item>
@@ -727,5 +728,14 @@
     <style name="ShapeAppearance.BaRe.Segmented.Single">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/card_corner_radius</item>
+    </style>
+    <style name="Widget.BaRe.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="android:background">@null</item>
+        <item name="android:minWidth">@dimen/bare_expressive_switch_min_width</item>
+        <item name="thumbIcon">@drawable/bare_expressive_switch_thumb_icon</item>
+        <item name="thumbIconSize">16dp</item>
+        <item name="thumbIconTint">@color/bare_expressive_switch_thumb_icon_tint</item>
+        <item name="thumbTint">@color/bare_expressive_switch_thumb_tint</item>
+        <item name="trackTint">@color/bare_expressive_switch_track_tint</item>
     </style>
 </resources>
