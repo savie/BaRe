@@ -9,15 +9,19 @@ import android.os.Environment;
 import androidx.core.content.ContextCompat;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Reference-shaped access-state reader for the Intro permission boundary.
  *
- * This service only reads current Android capability state. Root/Shizuku grant
- * execution and OEM installed-app visibility engines remain downstream.
+ * This service reads current Android capability state. Root/Shizuku grant
+ * execution remains a separate downstream coordinator.
  */
 public final class PermissionAccessService {
+    private static final String GET_INSTALLED_APPS =
+            "com.android.permission.GET_INSTALLED_APPS";
+
     private final Context context;
 
     public PermissionAccessService(Context context) {
@@ -28,27 +32,23 @@ public final class PermissionAccessService {
         EnumMap<PermissionCapability, PermissionState> states =
                 new EnumMap<>(PermissionCapability.class);
 
-        states.put(
-                PermissionCapability.STORAGE,
-                storageState());
-        states.put(
-                PermissionCapability.NOTIFICATIONS,
-                notificationState());
-        states.put(
-                PermissionCapability.INSTALLED_APPS,
-                installedAppsState());
-        states.put(
-                PermissionCapability.ROOT_SHIZUKU,
-                rootState());
+        states.put(PermissionCapability.STORAGE, storageState());
+        states.put(PermissionCapability.NOTIFICATIONS, notificationState());
+        states.put(PermissionCapability.INSTALLED_APPS, installedAppsState());
+        states.put(PermissionCapability.ROOT_SHIZUKU, rootState());
 
         return states;
     }
 
+    /**
+     * Reference Intro readiness is based on storage + notification +
+     * installed-app visibility. Root/Shizuku has its own coordinator/state
+     * machine and is intentionally not folded into this boolean.
+     */
     public boolean isReady() {
-        for (PermissionState state : read().values()) {
-            if (!state.isReady()) return false;
-        }
-        return true;
+        return read().get(PermissionCapability.STORAGE).isReady()
+                && read().get(PermissionCapability.NOTIFICATIONS).isReady()
+                && read().get(PermissionCapability.INSTALLED_APPS).isReady();
     }
 
     private PermissionState storageState() {
@@ -93,15 +93,39 @@ public final class PermissionAccessService {
     }
 
     private PermissionState installedAppsState() {
-        /*
-         * Reference dz5.k() delegates to OEM/package-visibility capability
-         * detection. That engine is intentionally not fabricated in P4.2.
-         */
-        return new PermissionState(
-                PermissionCapability.INSTALLED_APPS,
-                PermissionCurrentState.UNKNOWN,
-                PermissionResult.NOT_REQUESTED,
-                false);
+        try {
+            PackageManager pm = context.getPackageManager();
+            pm.getPermissionInfo(GET_INSTALLED_APPS, 0);
+
+            boolean granted = ContextCompat.checkSelfPermission(
+                    context, GET_INSTALLED_APPS) == PackageManager.PERMISSION_GRANTED;
+
+            /*
+             * Reference dz5.k() also checks package visibility. A granted
+             * custom permission is sufficient for the P4 state boundary;
+             * OEM-specific inventory behavior stays downstream.
+             */
+            return new PermissionState(
+                    PermissionCapability.INSTALLED_APPS,
+                    granted
+                            ? PermissionCurrentState.GRANTED
+                            : PermissionCurrentState.DENIED,
+                    granted ? PermissionResult.GRANTED : PermissionResult.NOT_REQUESTED,
+                    !granted);
+        } catch (PackageManager.NameNotFoundException e) {
+            // Reference dz5.l() treats a missing custom permission as not applicable.
+            return new PermissionState(
+                    PermissionCapability.INSTALLED_APPS,
+                    PermissionCurrentState.UNAVAILABLE,
+                    PermissionResult.GRANTED,
+                    false);
+        } catch (Exception e) {
+            return new PermissionState(
+                    PermissionCapability.INSTALLED_APPS,
+                    PermissionCurrentState.UNKNOWN,
+                    PermissionResult.FAILED,
+                    true);
+        }
     }
 
     private PermissionState rootState() {
