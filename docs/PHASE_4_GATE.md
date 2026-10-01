@@ -2,7 +2,7 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED / P4.2 WP-F CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 ACTIVE**
+**P4 — CLOSED at static contract boundary / P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED**
 
 Explicit start authorization was given for the Phase 4 workflow. P4.0 and P4.1 are closed. P4.2 is the active minimum-contract implementation phase.
 
@@ -17,7 +17,7 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.5 — Verified Checkpoint / Package Closure — ACTIVE**
+**P4.5 — Verified Checkpoint / Package Closure — CLOSED**
 
 P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
@@ -227,3 +227,20 @@ C01-C14 are closed at the current P4 static contract boundary; C02 remains PASS;
 No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next package: P4.5 — verified checkpoint / package closure.**
+
+
+### P4.5 verified checkpoint / package closure — 2026-10-02
+
+**P4: CLOSED at the static contract boundary.**
+
+Closure basis:
+- C01-C14 have current P4 contract closure or PASS classification.
+- C15/C16 are explicitly downstream and are not P4 blockers.
+- P4.3 regression audit found and corrected one evidence-backed TaskActivity menu-ID mismatch; no additional regression was identified in the affected WP-F surface.
+- P4.4 classified all remaining dependencies; no unresolved P4 blocker remains.
+- Reference evidence, ownership, consumer boundaries, deferred execution, and regression surfaces are recorded in the P4 contract register.
+- No speculative provider/backend/engine implementation was used to achieve closure.
+
+This is a static reconstruction checkpoint only. It does not claim build/install/runtime/device parity, Supabase/provider success, backup/restore execution, scheduler execution, filesystem/privileged execution, or production readiness.
+
+**Next lifecycle boundary: Phase 5 — feature execution reconstruction.**
