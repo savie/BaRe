@@ -26,7 +26,22 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 ACTIVE**
+**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 ACTIVE / RE-AUDIT INVENTORY**
+
+P4.0 was re-audited against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
+
+Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.md` include:
+- first-start/account lifecycle state and first-run cloud-restore result semantics;
+- authoritative permission readiness vs P3 manual success flags;
+- preferred-storage selection/persistence/fallback via Reference `preferred_storage_dir`;
+- account/session state orchestration beyond provider-neutral model interfaces;
+- Reference-shaped `AppSettings` persistence contract;
+- Intro `saved_password_mode` key/default semantics;
+- TaskActivity task status/progress/error contract;
+- complete P4-consumed core-data ownership;
+- secure/encrypted local preference boundary for persisted P4 state.
+
+P4.0 remains open. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
 
 P3 remains frozen at the documented static boundary. P4.0 is now active for Reference-backed contract inventory. No P4 implementation is implied by the inventory, and no runtime/provider/engine/backend success is inferred.
 
