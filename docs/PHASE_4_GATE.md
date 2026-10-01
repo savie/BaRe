@@ -182,3 +182,14 @@ No build/install/runtime/provider/backend/engine execution was performed.
 C08 now has a canonical local settings boundary (`AppSettings` + `SettingsRepository`) limited to frozen-P3-consumed settings. C09 now exposes the exact Reference `saved_password_mode` integer-ordinal contract through `PasswordStrategyRepository` over `SecureLocalState`, with `STANDARD_PASSWORD` as default. `P3_PASSWORD_MODE` remains transitional UI state only. Cloud settings sync, password generation/encryption/restore, provider/backend execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next active P4.2 package: WP-E / C10.**
+
+
+### P4.2 WP-E / C10 final static acceptance — 2026-10-01
+
+**WP-E / C10: CLOSED — static contract acceptance.**
+
+C10 now has an explicit state/result/completion boundary backed by direct decompile evidence. The downstream restore executor is intentionally absent; no fake cloud/provider implementation was introduced. KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED is only asserted for terminal successful restore.
+
+No build/install/runtime/provider/backend/engine verification was performed.
+
+**Next active P4.2 package: WP-F / C12-C13.**
