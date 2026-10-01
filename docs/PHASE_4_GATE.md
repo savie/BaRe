@@ -17,7 +17,9 @@ P3 remains frozen at its documented static boundary:
 
 ## Current package
 
-**P4.0 — Reference-backed Boundary & Contract Inventory**
+**P4.1 — BaRe Gap / Blocker Analysis**
+
+P4.0 primary artifact remains `docs/audits/P4_CONTRACT_REGISTER.md` and is closed/accepted.
 
 Primary artifact:
 
