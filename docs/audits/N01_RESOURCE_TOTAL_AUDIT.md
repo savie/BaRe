@@ -1341,3 +1341,17 @@ P3-owned lifecycle/recreation surfaces were audited and reconciled:
 Business/provider/auth/search-index state remains downstream/P4 and is not treated as an N-01 resource defect.
 
 N-01-R6 remains open globally.
+
+
+## 34. N-10 Dialog / Error / Loading cross-domain checkpoint
+
+N-01 resource findings transferred to N-10 were reconciled at the P3 surface:
+- common error resource;
+- progress/loading resource;
+- detail/folder loading skeletons;
+- warning/notice surfaces;
+- backend error surface with authorized Supabase identity deviation.
+
+N-10 does not claim backend/engine execution.
+
+N-01-R6 remains open globally until all transferred resource findings are reconciled.
