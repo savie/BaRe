@@ -155,7 +155,7 @@ P4.0 inventory / P4 implementation boundaries:
   - cancels scheduled alarms;
   - re-runs account initialization.
 - Reference Google account email-change migration compares sanitized old/new cloud directories.
-- Migration is conditional: destination is checked first; source metadata must exist and pass the migration predicate.
+- Migration is conditional in the Reference execution path; BaRe WP-B retains only the observed sign-in migration guard and leaves cloud migration execution downstream.
 - The metadata object is written to the new `users/{uid}/cloud_v1/{sanitized-new-dir}` node, then the old `users/{uid}/cloud_v1/{sanitized-old-dir}` node is conditionally cleaned up.
 - If the source changes during cleanup, the Reference skips unsafe cleanup and attempts rollback of the destination; rollback is also conditional on the destination remaining unchanged.
 - `AccountMigrationRepository.MigrationResult` now preserves these observed outcomes: `MIGRATED`, `NOT_NEEDED`, `NOT_FOUND`, `SOURCE_CHANGED`, `DESTINATION_CHANGED`, `ROLLED_BACK`, `FAILED`, `UNKNOWN`.
@@ -1035,7 +1035,7 @@ This is static contract-analysis closure only. No implementation, build, install
 - Reference lifecycle evidence from `d45`, user-info evidence from `ah8`, migration guard from `rc1`, and cloud/session path evidence from `re3` were reconciled before mutation.
 - `AccountLifecyclePolicy` now exposes explicit startup and Google-migration decisions without binding to provider SDKs.
 - `AccountService` now consumes canonical `UserInfo` through `UserInfoRepository` instead of maintaining a parallel user-info shape.
-- `BaReBackendRepository` now uses canonical `UserInfo` and exposes cloud-directory metadata / initialization as provider-neutral state boundaries.
+- `BaReBackendRepository` now uses canonical `UserInfo` and exposes only identity/cloud-directory metadata evidenced by Reference `re3`/`ah8`.
 - No provider/backend execution, fake success, build, install, or runtime verification was performed.
 - **WP-B remains IN PROGRESS** pending account-surface consumer wiring and final static acceptance/regression.
 
