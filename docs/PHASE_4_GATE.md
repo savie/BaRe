@@ -2,7 +2,7 @@
 
 ## Current decision
 
-**P4 — ACTIVE / P4.0 CLOSED → P4.1 READY**
+**P4 — ACTIVE / P4.0 CLOSED / P4.1 CLOSED → P4.2 READY**
 
 Explicit start authorization was given for the Phase 4 workflow. P4.0 contract inventory is complete and accepted. The next active package is P4.1 Gap / Blocker Analysis.
 
@@ -88,3 +88,10 @@ No implementation, build, install, runtime, provider, backend, or engine executi
 ### P4.1 owner reconciliation checkpoint — 2026-10-01
 
 Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The primary collision pattern is transitional P3 UI state versus domain-owned state; P4.2 must centralize persisted/domain state and leave Activities as consumers. The dependency order remains WP-A (C07/C11) → WP-B (C01/C05/C06/C14) → WP-C (C04/C03) → WP-D (C08/C09) → WP-E (C10) → WP-F (C12/C13). C02 remains regression-only; C15/C16 remain downstream. P4.1 remains IN PROGRESS until the remaining acceptance evidence is closed.
+
+
+### P4.1 final closure — 2026-10-01
+
+P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms named Reference evidence, canonical owner, BaRe gap/state, dependency, P3 regression surface, and phase boundary for every row. No open contract-level UNKNOWN remains; no unresolved canonical-owner collision remains; no C17+ scope was introduced. C02 remains regression-only and C15/C16 remain downstream.
+
+This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
