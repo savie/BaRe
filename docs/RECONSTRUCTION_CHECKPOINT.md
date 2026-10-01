@@ -253,3 +253,37 @@ At commit `fccd6e5658f6fc57bbff9b8cc78ef51cb35b5042`, a focused static sweep was
 - Static branch re-audit: implementation commit is now reachable from the active branch.
 - Build/install/runtime: **NOT PERFORMED**.
 - N-01-R2 remains **🟢 CLOSED / STATIC PASS**; N-01-R6 remains the only open N-01 work package.
+
+
+## Latest N-domain closure checkpoint — N-01-R6
+
+- N-01 Resource: **🟢 CLOSED / STATIC PASS**
+- N01-R1: 🟢 CLOSED / STATIC PASS
+- N01-R2: 🟢 CLOSED / STATIC PASS
+- N01-R3: 🟢 CLOSED / STATIC PASS
+- N01-R4: 🟢 CLOSED / STATIC PASS
+- N01-R5: 🟢 CLOSED / STATIC PASS
+- **N01-R6: 🟢 CLOSED / STATIC PASS**
+- Cross-domain resource ownership was re-audited across N-02/N-03/N-04/N-05/N-06/N-08/N-11, with supporting N-07/N-10/N-14 checks.
+- No unresolved P3-owned cross-domain resource defect remains.
+- Reference canonical SHA-256 rechecked: `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948`.
+- Reference remained read-only.
+- Build/install/runtime/visual/provider/engine/backend verification: **NOT PERFORMED**.
+
+### P3 freeze checkpoint
+
+All current P3 exit conditions are satisfied at the documented static boundary:
+
+- 71/71 Reference-owned Activities remain covered; latest depth classification remains 23 🟢 / 48 🟡 / 0 🔴.
+- All 15 normalized domains have current closure classification; N-01 is now 🟢.
+- No unresolved P3 defect remains outside explicitly documented downstream boundaries.
+- Resource and Style/Theme/Color parity work is statically re-audited.
+- No unexplained Swift product identity remains in `app/`.
+- Reference remains unchanged.
+- No build/runtime claim is used as closure evidence.
+
+**FREEZE P3**
+
+P4 gate review may proceed separately. P4 implementation does not start automatically.
+
+Runtime boundary remains unchanged: this freeze does **not** claim engine/provider/backend/runtime success.
