@@ -117,3 +117,14 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
 - N-14 Boundary: next domain
 - P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
+
+
+## Latest N-domain closure checkpoint — N-14
+
+- N-10 Dialog / Error / Loading: 🟢
+- N-11 Branding / Identity: 🟢
+- N-12 Java-only: 🟢
+- N-13 Fake / Stub: 🟢 CLOSED / STATIC PASS
+- N-14 Boundary: 🟢 CLOSED / STATIC PASS
+- N-15 Static Hygiene: next domain
+- P3 remains ACTIVE / FOLLOW-UP CLOSURE; no freeze yet.
