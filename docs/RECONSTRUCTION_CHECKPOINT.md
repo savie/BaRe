@@ -226,3 +226,10 @@ Primary evidence came from the supplied Swift Backup 5.1.0 / versionCode 620 dec
 The resulting BaRe boundary is: permission capability → current state/result/retry → readiness, and storage inventory → selected volume → preferred_storage_dir persistence → validity/fallback. Activities remain consumers. Root/Shizuku, OEM package-visibility execution, privileged storage behavior, and backup/restore/filesystem engines remain downstream.
 
 No build/install/runtime/provider/backend/engine execution was performed. P4.2 remains active for **WP-D / C08-C09**.
+
+
+### WP-C post-acceptance static correction — 2026-10-01
+
+A final source reread found stale Intro call-sites to the removed P3 permission-ready helpers. Those call-sites were removed; current IntroActivity now refreshes the canonical PermissionAccessService state after permission-request returns/fallbacks. The C03/C04 closure decision is unchanged.
+
+No build/install/runtime/provider/backend/engine execution was performed.
