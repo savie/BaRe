@@ -181,3 +181,20 @@ No separate P3 queue, parity matrix, closure audit, or execution-scale dashboard
 - No app source mutation required.
 - Reference remains read-only.
 - Build/install/runtime not performed.
+
+
+## Latest N-domain closure checkpoint — N-01-R4
+
+- N-05 Manifest: 🟢
+- N-06 Intent: 🟢
+- N-07 Permissions: 🟢
+- N-08 Navigation: 🟢
+- N-09 Lifecycle / State: 🟢
+- N-10 Dialog / Error / Loading: 🟢
+- N-11 Branding / Identity: 🟢
+- N-12 Java-only: 🟢
+- N-13 Fake / Stub: 🟢
+- N-14 Boundary: 🟢
+- N-15 Static Hygiene: 🟢
+- **N-01 Resource: 🟡 — R3 closed, R4 closed; R1/R2/R5/R6 remain open**
+- P3 remains **ACTIVE / FOLLOW-UP CLOSURE**; no freeze.
