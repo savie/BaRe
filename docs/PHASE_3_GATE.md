@@ -103,15 +103,15 @@ The original 15-domain audit is historical evidence. The table below is the curr
 | 2 | Strings | 🟢 CLOSED / STATIC PASS |
 | 3 | Dimensions | 🟢 CLOSED / PASS |
 | 4 | Styles / Themes / Colors | 🟢 CLOSED / STATIC PASS |
-| 5 | Manifest | 🟡 OPEN |
-| 6 | Intent | 🟡 OPEN |
-| 7 | Permissions | 🟡 OPEN |
-| 8 | Navigation | 🟡 OPEN |
-| 9 | Lifecycle / State | 🟡 OPEN |
-| 10 | Dialog / Error / Loading | 🟡 OPEN |
+| 5 | Manifest | 🟢 CLOSED / STATIC PASS |
+| 6 | Intent | 🟢 CLOSED / STATIC PASS |
+| 7 | Permissions | 🟢 CLOSED / STATIC PASS |
+| 8 | Navigation | 🟢 CLOSED / STATIC PASS |
+| 9 | Lifecycle / State | 🟢 CLOSED / STATIC PASS |
+| 10 | Dialog / Error / Loading | 🟢 CLOSED / STATIC PASS |
 | 11 | Branding / Identity | 🟢 CLOSED / STATIC PASS |
 | 12 | Java-only | 🟢 CLOSED / PASS |
-| 13 | Fake / Stub | 🟡 OPEN |
+| 13 | Fake / Stub | 🟢 CLOSED / STATIC PASS |
 | 14 | Boundary | 🟢 CLOSED / STATIC PASS |
 | 15 | Static Hygiene | 🟡 OPEN |
 
@@ -189,11 +189,11 @@ Every bounded implementation batch must have:
 | N-06 | Intent | 🟢 |
 | N-07 | Permissions | 🟢 CLOSED / STATIC PASS |
 | N-08 | Navigation | 🟢 CLOSED / STATIC PASS |
-| N-09 | Lifecycle / State | 🔴 |
-| N-10 | Dialog / Error / Loading | 🔴 |
+| N-09 | Lifecycle / State | 🟢 CLOSED / STATIC PASS |
+| N-10 | Dialog / Error / Loading | 🟢 CLOSED / STATIC PASS |
 | N-11 | Branding / Identity | 🟢 |
 | N-12 | Java-only | 🟢 |
-| N-13 | Fake / Stub | 🟡 |
+| N-13 | Fake / Stub | 🟢 CLOSED / STATIC PASS |
 | N-14 | Boundary | 🟢 CLOSED / STATIC PASS |
 | N-15 | Static Hygiene | 🟡 |
 
@@ -380,3 +380,17 @@ P3 is **not yet frozen**.
 - Reference remained read-only.
 - Build/install/runtime not performed.
 - **N-14 = 🟢 CLOSED / STATIC PASS — truthful P3 boundary/result contract.**
+
+
+### N-15 closure — Static Hygiene / Control-Plane Consistency
+
+- Total audit: `docs/audits/N15_STATIC_HYGIENE_TOTAL_AUDIT.md`
+- Canonical target guard: **PASS**
+- Single live P3 authority: `docs/PHASE_3_GATE.md`
+- Historical audit records remain distinguishable from current status.
+- Current normalized 15-domain table reconciled with the already-closed N-05 through N-14 domains.
+- Removed stale current-state colors for N-05, N-06, N-07, N-08, N-09, N-10, and N-13.
+- No current `ACTIVE / TOTAL AUDIT`, `AUDIT REQUIRED`, or current #11 Branding `🔴 FAIL` marker remains in the audited control-plane documents.
+- Reference remains read-only.
+- Build/install/runtime not performed.
+- **N-15 = 🟢 CLOSED / STATIC PASS — control-plane consistency.**
