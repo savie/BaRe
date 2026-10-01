@@ -43,6 +43,9 @@ import java.util.List;
  * semantics and persistence remain deferred to their owning contracts.
  */
 public final class AppListActivity extends AppCompatActivity {
+    private enum AppSection { LOCAL, CLOUD }
+
+    private AppSection section = AppSection.LOCAL;
     private SearchView searchView;
     private DrawerLayout drawer;
     private boolean searchOpen;
@@ -51,6 +54,20 @@ public final class AppListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.app_list_activity);
+
+        Intent incoming = getIntent();
+        if (incoming != null) {
+            Object rawSection = incoming.getSerializableExtra("KEY_SECTION");
+            if (rawSection instanceof AppSection) {
+                section = (AppSection) rawSection;
+            } else if (rawSection != null) {
+                try {
+                    section = AppSection.valueOf(rawSection.toString());
+                } catch (IllegalArgumentException ignored) {
+                    section = AppSection.LOCAL;
+                }
+            }
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar_mini);
         if (toolbar != null) {
