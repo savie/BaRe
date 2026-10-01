@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_email_filled" android:title="@string/email" android:key="email" android:summary="@string/email_summary" />
+    <androidx.preference.Preference android:icon="@drawable/ic_settings_send_filled" android:title="@string/telegram_group" android:key="telegram_group" />
+</androidx.preference.PreferenceScreen>
