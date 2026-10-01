@@ -724,4 +724,8 @@
     </style>
     <style name="IntroTheme" parent="@style/IntroTheme.Base"/>
 
+    <style name="ShapeAppearance.BaRe.Segmented.Single">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/card_corner_radius</item>
+    </style>
 </resources>
