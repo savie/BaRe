@@ -112,7 +112,7 @@ The original 15-domain audit is historical evidence. The table below is the curr
 | 11 | Branding / Identity | 🟢 CLOSED / STATIC PASS |
 | 12 | Java-only | 🟢 CLOSED / PASS |
 | 13 | Fake / Stub | 🟡 OPEN |
-| 14 | Boundary | 🟡 OPEN |
+| 14 | Boundary | 🟢 CLOSED / STATIC PASS |
 | 15 | Static Hygiene | 🟡 OPEN |
 
 ### Important status rule
@@ -194,7 +194,7 @@ Every bounded implementation batch must have:
 | N-11 | Branding / Identity | 🟢 |
 | N-12 | Java-only | 🟢 |
 | N-13 | Fake / Stub | 🟡 |
-| N-14 | Boundary | 🟡 |
+| N-14 | Boundary | 🟢 CLOSED / STATIC PASS |
 | N-15 | Static Hygiene | 🟡 |
 
 **N-02, N-03, N-11, and N-12 are closed and must not be reopened without new evidence of defect.**
@@ -366,3 +366,17 @@ P3 is **not yet frozen**.
 - Locale selection fake completion: **FIXED to apply selected locale**
 - Explicit engine/provider/backend boundary dialogs remain classified as **P4 handoffs**, not P3 fake.
 - **N-13 = 🟢 CLOSED / STATIC PASS.**
+
+
+### N-14 closure — Boundary
+
+- Total audit: `docs/audits/N14_BOUNDARY_TOTAL_AUDIT.md`
+- P3 dependency-boundary truthfulness: **PASS**
+- Removed synthetic `RESULT_OK` from Google Drive GMS/no-GMS boundary acknowledgements.
+- Removed synthetic `RESULT_OK` from Filen provider-auth boundary.
+- Removed contributor dialog-dismiss `RESULT_OK` while remote persistence remains downstream.
+- Provider callback boundaries already using non-success results for deferred provider work were retained.
+- Explicit downstream ownership remains for engine/provider/backend/Supabase execution.
+- Reference remained read-only.
+- Build/install/runtime not performed.
+- **N-14 = 🟢 CLOSED / STATIC PASS — truthful P3 boundary/result contract.**
