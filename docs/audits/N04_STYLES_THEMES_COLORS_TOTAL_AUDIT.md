@@ -340,3 +340,62 @@ The audit establishes the complete N-04 contract and the implementation order. T
   - build/install/runtime: **not performed**
 - N-04 remains 🟡 because the theme foundation and color/attr closure are still open.
 
+
+
+## N-04-2 execution — theme foundation / palette
+
+Implemented on `rewrite` from the local Reference theme contract:
+
+- `BaseTheme`
+- `BaseThemeDark`
+- `BaReTheme`
+- `BaReThemeDark`
+- `BaReThemeBlack`
+- `BaReTheme.AppBarOverlay`
+- `BaReTheme.PopupOverlay`
+- `BaReTheme.PopupOverlay.Dark`
+- `BaReTheme.Translucent`
+- `BaReTheme.Transparent`
+- `BaReThemeDark.Transparent`
+- `IntroTheme`
+- `IntroTheme.Base`
+- API-31 IntroTheme splash variants
+- night/night-v31 IntroTheme variants
+
+Palette restoration added the application-owned theme color closure, including the Reference light/dark Material3 role palette and application toolbar/dialog/divider/bottom-bar/navigation/popup palette.
+
+Additional N-04 component color/shape contracts restored:
+
+- Google sign-in button color family
+- segmented list background selector
+- BaRe segmented shape appearance
+
+Static re-audit at current head:
+
+- styles in `values/styles.xml`: **95**
+- duplicate style names: **0**
+- residual Swift identity in `values/styles.xml`: **0**
+- duplicate color names in `values/colors.xml`: **0**
+- custom N-04 attrs: present with no duplicate declarations
+- theme variant set: present
+- color selector files for primary/text-selection contract: present
+- Reference remains unchanged
+- build/install/runtime: **not performed**
+
+### Remaining N-04 cross-domain dependency
+
+Reference `BaseTheme/BaseThemeDark` contains a custom MaterialSwitch style reference:
+
+`Widget.SwiftBackup.MaterialSwitch`
+
+Its contract depends on Swift-named drawable/color/dimension resources. Because N-11 owns product identity and N-01 owns resource reconstruction, this item must be transferred through the existing cross-domain rule rather than copied literally.
+
+Current classification:
+
+**CROSS-DOMAIN / N-01 + N-11 HANDOFF**
+
+N-04 must not invent a replacement implementation merely to force green.
+
+Therefore:
+
+**N-04 remains 🟡 pending final cross-domain closure.**
