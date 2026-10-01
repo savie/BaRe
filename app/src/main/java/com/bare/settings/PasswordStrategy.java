@@ -3,10 +3,20 @@ package com.bare.settings;
 /**
  * Reference ux5-equivalent password strategy.
  *
- * The persisted representation is the enum ordinal under saved_password_mode.
- * Password generation, encryption and restore are downstream execution concerns.
+ * Reference persists the ordinal in the secure V.getZ() preference boundary.
+ * This enum defines only the supported strategy values; secure persistence
+ * remains behind SecureLocalState.
  */
 public enum PasswordStrategy {
     STANDARD_PASSWORD,
-    USER_PASSWORD
+    USER_PASSWORD;
+
+    public static final String KEY_SAVED_PASSWORD_MODE = "saved_password_mode";
+
+    public static PasswordStrategy fromOrdinal(int ordinal) {
+        PasswordStrategy[] values = values();
+        return ordinal >= 0 && ordinal < values.length
+                ? values[ordinal]
+                : STANDARD_PASSWORD;
+    }
 }
