@@ -1131,3 +1131,12 @@ No build/install/runtime/provider/backend/engine execution was performed.
 - Actual Supabase/backend readiness, cloud reads/writes, data restoration, build/install/runtime verification remain downstream/unverified.
 
 **Next active package: WP-F / C12-C13.**
+
+### P4.3 P3 static regression re-audit — 2026-10-02
+
+- **P4.3: CLOSED — static regression acceptance.**
+- Re-audited the WP-F affected P3 task surface: TaskActivity, TaskService, AlarmReceiver, task resources, and manifest registration.
+- Found and corrected one menu-ID mismatch: TaskActivity now uses R.id.action_swiftlogger, matching menu_task_activity.xml and the Reference.
+- No additional P3 regression was identified in the affected surface.
+- No build/install/runtime/provider/backend/engine verification was performed.
+- **Next active package: P4.4 — remaining-gap classification.**
