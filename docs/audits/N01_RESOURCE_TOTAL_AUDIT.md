@@ -1430,3 +1430,12 @@ Outcome:
 - N-11 total audit: **🟢 CLOSED / STATIC PASS**.
 
 This is a cross-domain closure checkpoint only. N-01 overall remains **🟡** until its complete resource exit criterion is satisfied.
+
+
+## 40. Cross-domain transfer checkpoint — N-12 Java-only
+
+N-12 total re-audit confirms the target implementation remains Java-only at the inspected source/build-configuration level. No `.kt` target source, Kotlin source directories, Kotlin Gradle plugin, or explicit Kotlin implementation dependency was found in the audited target surface. Reference/dependency Kotlin metadata remains excluded from target-source defect classification.
+
+Outcome: **N-12 🟢 CLOSED / PASS**.
+
+This checkpoint does not change N-01 status. N-01 remains **🟡 OPEN** pending complete resource closure.
