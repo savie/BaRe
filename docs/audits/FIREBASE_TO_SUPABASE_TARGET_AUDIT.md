@@ -54,3 +54,16 @@ Direct fetch verification after edits:
 - `app/build.gradle`: no Firebase dependency/plugin.
 
 No build/install/runtime performed.
+
+
+## Post-normalization re-audit — 2026-10-02
+
+The target `app/` surface was re-scanned after the identity normalization pass.
+
+- `Firebase` / `firebase` content matches in target `app/`: **0**;
+- `Firebase` / `firebase` file paths in target `app/`: **0**;
+- stale dashboard include `firebase_connection_error_view` was corrected to the existing `supabase_connection_error_view` resource;
+- no Firebase SDK dependency or Google Services plugin is present in the inspected target dependency surface;
+- Reference Firebase identifiers remain only under the read-only Reference/evidence surface and are not part of the target zero-text count.
+
+This is static target normalization evidence only. It does not claim Supabase runtime/auth/database execution.
