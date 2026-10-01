@@ -166,12 +166,6 @@
         <activity android:name=".cloud.connect.BoxSignInActivity" android:exported="false" android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.MegaSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.YandexSignInActivity" android:exported="false" android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="oauth" android:scheme="com.bare.yandex" />
-            </intent-filter>
         </activity>
         <activity android:name=".cloud.connect.PCloudSignInActivity"  android:launchMode="singleTop" />
         <activity android:name=".cloud.connect.TeraBoxSignInActivity" android:exported="true" android:launchMode="singleTop">
