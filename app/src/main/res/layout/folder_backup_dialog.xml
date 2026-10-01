@@ -8,7 +8,7 @@
         <include android:id="@id/strategy_incremental" layout="@layout/folder_strategy_item" />
         <LinearLayout android:orientation="vertical" android:id="@id/locations_section" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
             <TextView android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:text="@string/select_backup_locations" style="@style/Title.Large" />
-            <org.swiftapps.swiftbackup.views.QuickRecyclerView android:id="@id/rv_locations" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" />
+            <com.bare.views.QuickRecyclerView android:id="@id/rv_locations" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" />
         </LinearLayout>
         <com.google.android.material.button.MaterialButton android:id="@id/btn_action" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:layout_marginBottom="@dimen/bottom_dialog_action_bottom_spacing" android:text="@string/backup" app:icon="@drawable/ic_backup" style="@style/M3ButtonFilled.Large" />
     </LinearLayout>
