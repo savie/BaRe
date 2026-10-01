@@ -183,13 +183,35 @@ A second closure pass against the complete section/heading inventory of v1.0/reb
 | **P5-F53** | Apps Local-vs-Cloud inventory context / canonical backup discovery | reference.md §§26, 31; Apps audit §§3, 20, 31 | Reference has an explicit Local apps vs Cloud synced apps inventory context and canonical backup-container discovery. This is more than generic Apps list presentation and affects repository/query ownership. |
 | **P5-F54** | Restore-part independent selection / restore-card action model | reference.md §§28, 30–31; Apps audit §§20, 31 | Reference evidence explicitly separates storage-part and backup-card actions and allows independent APK/Data/External/Expansion/Media restore selection; this must be a contract, not inferred from F07/F26 UI. |
 
+### Apps decomposition reconciliation — explicit child feature units
+
+A targeted reconciliation of the Reference Apps audit was performed before leaving P5.1. The Apps parent unit alone was too coarse for several independently evidenced behaviors. These are promoted to explicit P5.1 feature units so P5.2 can assign separate contracts/owners without losing behavior in a generic Apps list boundary.
+
+Reference evidence: `reference/reference_apps_audit.md` — Apps List, Filter / Sort, Batch / Config / Quick Actions, and Labels sections; corresponding Reference JADX/apktool resources and classes.
+
+| ID | Feature unit | Reference evidence | Why explicit |
+|---|---|---|---|
+| **P5-F55** | Apps list search / query surface | Apps audit: `AppListActivity` search; apps-list menu/search surface | Home search F03 is not the same boundary as Apps-list search. Apps list query state and its result projection need an explicit owner/contract. |
+| **P5-F56** | Apps list filtering / predicate state | Apps audit: `filter_bottom_dialog.xml`, `defpackage.sc3`, `defpackage.iy`; filter groups for app type, system, favorites, labels, backup status, cloud sync, install status, enabled status, miscellaneous | Filtering has its own persisted/state semantics and multiple predicates. It is more than generic inventory/list presentation. |
+| **P5-F57** | Apps list sorting / order projection | Apps audit: Filter / Sort; `defpackage.sx` with Name, InstallDate, UpdateDate, BackupDate, AppSize, BackupSize, DateUsed | Sort criteria and order projection are independently evidenced and include usage/date/size semantics. They should not be hidden inside a generic list contract. |
+| **P5-F58** | App labels management / assignment / label-based filtering | Apps audit: `LabelsActivity`, `LabelEditActivity`, `LabelParams`, `LabelledApp`, `LabelsData`; static evidence for list/create/edit/delete/assign/association/selected-label filtering | F09 custom configurations and F30 blacklist do not own the label lifecycle. Labels are a reusable Apps domain capability consumed by list/filter/batch/config flows. |
+
+### Apps decomposition result
+
+- Apps parent/dependency units remain F04–F09, F26/F27, F30/F35/F37, F39–F44, F53/F54 where applicable.
+- F55–F58 are **not duplicates** of those units; they make independently evidenced Apps child behaviors explicit.
+- Filter dimensions such as Favorites, Labels, Backup Status, Cloud Sync, Install Status, Enabled Status, App Type, System/Miscellaneous remain sub-predicates of **F56**, not separate feature IDs unless later evidence shows an independent lifecycle/owner.
+- Pull-to-refresh, FastScroller, RecyclerView, swipe reveal, and row presentation remain interaction/UI contract details, not separate top-level P5 feature units at this stage.
+- Apps batch, quick actions, custom configurations, blacklist, app detail, backup parts, and restore selection remain represented by existing units and are not duplicated here.
+
 ### Closure result
 
-- P5.1 explicit feature-contract units: **54**.
+- P5.1 explicit feature-contract units: **58**.
 - F01–F37: original scope decomposition.
 - F38–F44: first rebaseline reconciliation.
 - F45–F54: second full-section closure reconciliation.
-- No additional top-level feature family was invented; the additions are evidence-backed capability/contract boundaries already present in the Reference audit.
+- F55–F58: Apps child-feature decomposition reconciliation.
+- No additional product family was invented; F55–F58 make independently evidenced Apps child behaviors explicit before P5.2.
 - Icon cache is intentionally **not** promoted to a feature unit because the Reference audit explicitly distinguishes it from disk app-cache semantics.
 - The large-file performance findings in reference.md §31.3 are **not** promoted to Reference feature units because that section audits BaRe's current pipeline; it is an implementation/performance audit, not Reference feature evidence.
 - Runtime verification remains unclaimed.
