@@ -26,7 +26,7 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 CLOSED / P4.1 READY**
+**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 CLOSED / P4.1 IN PROGRESS**
 
 P4.0 was re-audited against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
@@ -43,7 +43,7 @@ Confirmed P4 contract gaps now registered in `docs/audits/P4_CONTRACT_REGISTER.m
 
 P4.0 is closed at the static contract-inventory boundary. No implementation, build, install, runtime, provider, backend, or engine success is claimed.
 
-P3 remains frozen at the documented static boundary. P4.1 is now the next active package for Reference-backed gap/blocker analysis. No P4 implementation, runtime/provider/engine/backend success is implied or claimed.
+P3 remains frozen at the documented static boundary. P4.1 is now the active package for Reference-backed gap/blocker analysis. The current blocker/dependency map is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the P4 scope remains C01–C16. No P4 implementation, runtime/provider/engine/backend success is implied or claimed.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
@@ -964,3 +964,14 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
   - `RestoreSpecialDataDetailsActivity` → 🟢
   - `AppBackupLimitsActivity` → 🟢
 - This is a source/resource reconstruction-depth audit only. It does not claim build, install, runtime, visual, provider, backup/restore, backend, Supabase, or end-to-end feature parity.
+
+
+## P4.1 checkpoint — Reference-backed gap/blocker analysis — 2026-10-01
+
+- P4.0 remains **COMPLETE / ACCEPTED** with exactly **16 contract rows C01–C16**.
+- P4.1 is **IN PROGRESS**; no new C17+ contract was introduced.
+- Evidence basis remains the supplied Swift Backup 5.1.0 (620) decompile ZIP, `v1.0/rebaseline/reference/*`, current `rewrite` source, and N-07/N-08/N-09 audits.
+- Foundational dependency set: C07 + C11; identity/session: C01/C05/C06/C14; storage/permission: C04/C03; settings/password: C08/C09; first-run restore state: C10; task state: C12/C13.
+- C02 remains PASS/regression-protected. C15/C16 remain downstream.
+- This is analysis only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
+- P4.2 must implement the smallest contract in dependency order and then trigger P3 regression re-audit per the Phase 4 workflow.
