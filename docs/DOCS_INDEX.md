@@ -1,78 +1,49 @@
 # BΛR☰ Documentation Map
 
-## Purpose
+## Operating model
 
-This file defines the role of every document under `docs/` so the reconstruction work has one clear operating model.
+Keep one document authoritative for each layer. Do not duplicate live status tables, queues, or phase roadmaps across documents.
 
-## Working authority
-
-| Document | Role | Use it for |
+| Document | Role | Authority |
 |---|---|---|
-| `docs/bare.md` | **ROADMAP / HANDOFF AUTHORITY** | Target definition, 1:1 rule, Authorized Deviations, phase order, implementation constraints |
-| `docs/RECONSTRUCTION_CHECKPOINT.md` | **CURRENT PROJECT DASHBOARD** | Current phase, gates, urgency, what is complete/deferred/blocked |
-| `docs/PHASE_3_GATE.md` | **CURRENT P3 GATE / SINGLE AUTHORITY** | Phase 3 scope, 71-Activity result, 15-domain closure register, N-level closure rule, exit gate |
-| 
+| `docs/bare.md` | Project roadmap / handoff / target definition | **Canonical project definition** |
+| `docs/PHASE_1_INVENTORY.md` | Phase 1 evidence and inventory gate | **Frozen P1 gate** |
+| `docs/PHASE_2_SKELETON.md` | 71/3/8 Reference structural inventory | **Frozen P2 gate** |
+| `docs/PHASE_3_GATE.md` | Current P3 scope, Activity audit baseline, 15-domain register, N-level closure, exit gate | **Single P3 authority** |
+| `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
+| `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
+| `docs/REFERENCE_AUDIT.md` | Reference artifact inventory/evidence | Reference evidence |
+| `docs/REFERENCE_FEATURE_MAP.md` | Reference feature/component mapping | Reference evidence |
+| `docs/REFERENCE_BACKEND_CONTRACT.md` | Verified Reference backend contracts | Reference evidence; not a Supabase schema |
 
-## Frozen evidence / gate records
+## Deduplication rules
 
-| Document | Role | Status |
-|---|---|---|
-| `docs/PHASE_1_INVENTORY.md` | Phase 1 evidence/inventory gate | **FROZEN** |
-| `docs/PHASE_2_SKELETON.md` | Canonical 71/3/8 structural inventory + Phase 2 gate | **FROZEN** |
+- `PHASE_3_GATE.md` owns the **live P3 status**. Other documents must point to it instead of copying its 15-domain table.
+- `RECONSTRUCTION_CHECKPOINT.md` owns only the **short roadmap dashboard**. It must not contain a second P3 work queue or detailed audit matrix.
+- `RECONSTRUCTION_STATUS.md` owns **detailed evidence/history**. Historical entries may retain old counts, but they must not be presented as the current P3 state.
+- `PHASE_2_SKELETON.md` owns the canonical 71/3/8 component inventory. Do not copy the full component list elsewhere.
+- Historical/retired P3 work-package, parity, closure-audit, and resource-matrix documents are not active authorities.
+- Reference artifacts remain read-only; implementation belongs in `app/`.
 
-These are acceptance records. Do not use them as the day-to-day P3 task list.
+## Reading order
 
-## Detailed evidence / historical reconstruction records
+### Daily P3 work
 
-| Document | Role | Use it for |
-|---|---|---|
-| `docs/RECONSTRUCTION_STATUS.md` | Detailed reconstruction log / evidence ledger | Exact implementation notes, Reference findings, contracts, historical P3 batches |
-| `docs/REFERENCE_AUDIT.md` | Reference artifact audit record | Reference identity, raw inventory and manifest evidence |
-| `docs/REFERENCE_FEATURE_MAP.md` | Reference domain/component map | Finding where a Reference feature/component belongs |
-| `docs/REFERENCE_BACKEND_CONTRACT.md` | Reference backend evidence contract | Verified Firebase paths/semantics; not a Supabase schema |
+1. `docs/RECONSTRUCTION_CHECKPOINT.md` — where the project is
+2. `docs/PHASE_3_GATE.md` — what P3 currently requires
+3. `docs/RECONSTRUCTION_STATUS.md` — evidence behind the selected task
+4. Relevant `REFERENCE_*.md` — Reference evidence when needed
+5. `docs/PHASE_2_SKELETON.md` — component identity only when needed
 
-## Redundancy policy
+### Gate review
 
-The following overlap is intentional but has different authority:
-
-- `PHASE_1_INVENTORY.md` is the **frozen Phase 1 gate**; `REFERENCE_AUDIT.md` is the **underlying Reference audit record**.
-- `PHASE_2_SKELETON.md` is the **frozen canonical component inventory**; do not duplicate its 71-name list elsewhere.
-- `RECONSTRUCTION_STATUS.md` is the **detailed history/evidence log**; it should not become the primary task queue.
-- `RECONSTRUCTION_CHECKPOINT.md` is the **current roadmap dashboard**.
-- `PHASE_3_GATE.md` is the **single Phase 3 authority** and contains the normalized 15-domain closure register.
-
-## Files that should not be duplicated
-
-Do not create another document containing:
-- the full 71/3/8 component list;
-- another copy of the phase roadmap;
-- another generic parity matrix;
-- another chronological reconstruction log.
-
-If a new audit is needed, update the appropriate role above instead.
-
-## Current reading order
-
-For daily work:
-
-1. `RECONSTRUCTION_CHECKPOINT.md`
-2. `PHASE_3_GATE.md`
-3. `RECONSTRUCTION_STATUS.md` for the exact evidence behind the selected task
-4. `PHASE_2_SKELETON.md` only when checking component identity
-5. `REFERENCE_*.md` when auditing the relevant Reference domain
-
-For project gates:
-
-1. `bare.md`
-2. `PHASE_1_INVENTORY.md`
-3. `PHASE_2_SKELETON.md`
-4. `RECONSTRUCTION_CHECKPOINT.md`
-5. `PHASE_3_GATE.md`
+1. `docs/bare.md`
+2. `docs/PHASE_1_INVENTORY.md`
+3. `docs/PHASE_2_SKELETON.md`
+4. `docs/PHASE_3_GATE.md`
 
 ## Current state
 
-The project is:
+**P1 frozen → P2 frozen → P3 active / follow-up closure → P4 gated.**
 
-**P1 frozen → P2 frozen → Phase 3 active**, with `PHASE_3_GATE.md` as the single P3 authority.
-
-P3 remains the active work queue.
+For exact P3 status, use `docs/PHASE_3_GATE.md`.
