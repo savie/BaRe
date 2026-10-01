@@ -113,7 +113,7 @@ public final class IntroActivity extends Activity {
     }
 
     private void beginP3SignIn(boolean anonymous) {
-        // P3 boundary: real Google/Firebase/anonymous auth belongs to P4.
+        // P3 boundary: real Google/Supabase/anonymous auth belongs to P4.
         prefs.edit().putBoolean(KEY_SIGNED_IN, true).apply();
         if (anonymous) {
             Toast.makeText(this, R.string.p3_anonymous_stub, Toast.LENGTH_SHORT).show();
