@@ -1,8 +1,14 @@
 package com.bare.backend;
 
+import com.bare.account.data.UserInfo;
 import com.bare.home.repository.BackendIdentity;
 
-/** Provider-neutral backend contract; only audited Home/account operations are exposed. */
+/**
+ * Provider-neutral backend boundary for account/session metadata.
+ *
+ * Implementations may bind this interface to a provider later; no provider SDK
+ * type or execution guarantee crosses this boundary.
+ */
 public interface BaReBackendRepository {
     BackendIdentity currentIdentity();
     UserInfo loadUserInfo(String uid);
@@ -10,19 +16,16 @@ public interface BaReBackendRepository {
     boolean isRegisteredContributor(String uid);
     void signOut();
 
-    final class UserInfo {
-        public final String uid;
-        public final boolean anonymous;
-        public final String displayName;
-        public final String email;
-        public final String photoUrl;
-        public final int latestAppVersion;
-        public final int currentAppVersion;
-        public UserInfo(String uid, boolean anonymous, String displayName, String email,
-                        String photoUrl, int latestAppVersion, int currentAppVersion) {
-            this.uid = uid; this.anonymous = anonymous; this.displayName = displayName;
-            this.email = email; this.photoUrl = photoUrl;
-            this.latestAppVersion = latestAppVersion; this.currentAppVersion = currentAppVersion;
-        }
-    }
+    /**
+     * Reference re3/FireHelper current cloud-directory metadata.
+     * The value is metadata only at this boundary; provider transfer/execution
+     * remains downstream.
+     */
+    String currentCloudDirectory();
+
+    /**
+     * Whether the backend/session boundary has completed its initialization.
+     * This is state observation, not proof of provider connectivity.
+     */
+    boolean isInitialized();
 }
