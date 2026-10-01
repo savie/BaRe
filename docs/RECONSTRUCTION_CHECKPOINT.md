@@ -12,6 +12,8 @@ It does not duplicate the P3 domain register, Activity depth audit, or detailed 
 - P1 gate: `docs/PHASE_1_INVENTORY.md`
 - P2 gate: `docs/PHASE_2_SKELETON.md`
 - **Current P3 gate: `docs/PHASE_3_GATE.md`**
+- **Current P4 gate: `docs/PHASE_4_GATE.md`**
+- **P4 contract register: `docs/audits/P4_CONTRACT_REGISTER.md`**
 - Detailed evidence / implementation history: `docs/RECONSTRUCTION_STATUS.md`
 - Documentation map: `docs/DOCS_INDEX.md`
 
@@ -65,7 +67,7 @@ The current normalized 15-domain closure register, N-level closure rule, exit ga
 
 ## Current project position
 
-> **P1 frozen → P2 frozen → P3 frozen → Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 → 15-domain closure complete → P4 gated.**
+> **P1 frozen → P2 frozen → P3 frozen → Activity coverage 71/71 with depth 23 🟢 / 48 🟡 / 0 🔴 → 15-domain closure complete → P4 active / P4.0 contract inventory in progress.**
 
 For the exact current P3 decision, read `docs/PHASE_3_GATE.md`.
 
