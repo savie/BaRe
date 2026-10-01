@@ -1,0 +1,130 @@
+# BΛR☰ P5 Feature Register — P5.1 Reference Audit
+
+## Status
+
+**P5.1 — REFERENCE FEATURE AUDIT — COMPLETE / STATIC**
+
+This register records the Reference feature decomposition produced from direct inspection of the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP, supplemented only by existing project evidence where it already names the same Reference surface.
+
+This is **feature evidence**, not implementation approval, parity closure, runtime verification, or P5 gate closure.
+
+## Primary evidence
+
+Canonical Reference:
+- `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
+- Swift Backup 5.1.0 / versionCode 620
+
+Repository evidence used for cross-checking:
+- `docs/REFERENCE_FEATURE_MAP.md`
+- `docs/audits/P5_SCOPE_AUDIT.md`
+- `docs/PHASE_5_GUIDE.md`
+- `docs/PHASE_4_GATE.md`
+- `docs/audits/P4_CONTRACT_REGISTER.md`
+
+Reference evidence rule:
+- ZIP/decompile source is primary.
+- Existing audits are corroboration and dependency context.
+- No behavior is invented where the direct source does not establish it.
+- Feature status is not inferred from the existence of an Activity alone.
+
+## P5.1 feature decomposition
+
+| ID | Feature unit | Reference entry / evidence surface | Reference owner surface | Key dependencies / boundaries | Audit finding |
+|---|---|---|---|---|---|
+| P5-F01 | Onboarding / first-start | `intro.IntroActivity` | `intro` lifecycle/account flow | P4 C01/C03/C09/C10; account, permission, password strategy, first-run restore | Entry and state boundary are directly evidenced; execution of provider/backend restore remains downstream. |
+| P5-F02 | Home/dashboard orchestration | `home.HomeActivity` | `home` | P3 navigation + P4 state contracts; app/cloud/task summaries | Dashboard is a feature consumer/orchestrator; do not treat shell reconstruction as feature execution. |
+| P5-F03 | Home search | `home.search.HomeSearchActivity` | `home.search` | Search UI/data/result provider | Search surface is present; result/data semantics require targeted feature audit. |
+| P5-F04 | Apps inventory/list | `appslist.ui.list.AppListActivity` | `appslist` | package inventory, labels/favorites, task/backup actions | Direct source surface exists; actual inventory and backup execution are separate boundaries. |
+| P5-F05 | Apps batch actions | `appslist.ui.listbatch.AppsBatchActivity` | `appslist` | selected app set, action dispatch, task execution | Batch feature is distinct from list presentation. |
+| P5-F06 | App quick actions | `appsquickactions.AppsQuickActionsActivity` | `appsquickactions` | app selection, action routing, backup/restore engine boundary | Action categories are Reference feature behavior; side effects require deeper audit. |
+| P5-F07 | App detail / app actions | `detail.DetailActivity` | `detail` | app metadata, shortcut, backup/restore/action execution | Detail/action flow is separately evidenced. |
+| P5-F08 | App info | `appinfo.AppInfoActivity` | `appinfo` | package/application metadata | Info surface is feature-level UI/data; package data production remains an execution dependency. |
+| P5-F09 | App configuration list/edit/settings | `appconfigs.list.ConfigListActivity`, `ConfigEditActivity`, `ConfigSettingsActivity` | `appconfigs` | config model, persistence, app feature selection | Three-screen configuration flow is directly evidenced and must be audited as one feature family with distinct units. |
+| P5-F10 | APK import | `apkshare.ApkImportActivity` | `apkshare` | incoming APK/share intent, metadata, filesystem/install boundary | Import flow is directly evidenced; actual package installation is downstream execution. |
+| P5-F11 | Folders dashboard/picker/edit/detail | `FoldersDashActivity`, `FolderPickerActivity`, `FolderEditActivity`, `FolderDetailActivity` | `folders` | `FolderItem`, `FolderMetadata`, storage/filesystem, cloud metadata | Folder model and restore/backup structures are directly present in Reference. |
+| P5-F12 | Folder batch backup/restore | `FoldersBatchActivity` + folder data classes | `folders` | `FolderBackup`, `BackupResult`, `RestoreResult`, manifest/file state | Backup/restore execution is an explicit feature boundary, not satisfied by the batch Activity alone. |
+| P5-F13 | Messages dashboard/backups | `MessagesDashActivity`, `MessagesBackupsActivity` | `messagescalls` | SMS provider, storage, task engine | SMS backup inventory and task execution are distinct from UI. |
+| P5-F14 | Messages backup/restore | `MessagesBackupRestoreActivity` + backuprestore classes | `messagescalls.backuprestore` | SMS provider/default-handler state, file/data storage | Reference directly contains dedicated backup/restore flow. |
+| P5-F15 | Calls dashboard/backups | `CallsDashActivity`, `CallsBackupsActivity` | `messagescalls` | call-log provider, storage, task engine | Call-log inventory/backup is separately represented. |
+| P5-F16 | Calls backup/restore | `CallsBackupRestoreActivity` + backuprestore classes | `messagescalls.backuprestore` | call-log provider, restore state, task engine | Dedicated restore flow is directly evidenced. |
+| P5-F17 | Conversations / chat | `ConversationsActivity`, `ChatActivity` | `messagescalls.conversationsview` | SMS/conversation data | Conversation browsing is a distinct feature surface from backup/restore. |
+| P5-F18 | SMS default-handler integration | `ComposeSmsActivity`, `HeadlessSmsSendService`, `SmsReceiver`, `MmsReceiver` | `messagescalls.defaulthandler` | Android default SMS role, broadcast/service lifecycle | Integration includes Activity, Service and Receivers; runtime role/broadcast execution remains unverified. |
+| P5-F19 | Cloud connection | `CloudConnectActivity` + provider sign-in Activities | `cloud.connect` | provider credentials/session, account lifecycle | Reference has multiple provider-specific entry surfaces; provider execution requires separate contract audit. |
+| P5-F20 | Cloud provider operations | `cloud.protocols` implementations/models | `cloud.protocols` | credentials/tokens, transfer, file metadata, provider APIs | Provider-neutral contracts must preserve observed provider behavior without inventing target backend behavior. |
+| P5-F21 | Cloud orphan/cleanup | `cloud.orphans`, folder/app cloud cleanup paths | `cloud.orphans` / feature cleanup helpers | cloud metadata, file deletion, retry/error semantics | Cleanup is a separate execution family from sign-in/connection. |
+| P5-F22 | Scheduling | `ScheduleService`, schedule data/UI | `home.schedule` | task lifecycle, alarms, schedule state | Schedule model, UI and service are directly evidenced; actual alarm/task execution is downstream. |
+| P5-F23 | Settings | `settings.SettingsActivity`, `SettingsDetailActivity`, related settings screens | `settings` | P4 AppSettings/secure state; feature-specific settings | Frozen P4 settings contract is an input; feature-specific settings behavior remains P5 audit scope. |
+| P5-F24 | Storage management | `StorageSwitchActivity` + storage data surfaces | `home.storageswitch` | P4 storage contract, filesystem/volume engine | Selection/persistence contract is P4; actual filesystem/storage execution remains P5/downstream. |
+| P5-F25 | Password / encryption strategy | `PasswordStrategyActivity`, `UserPasswordActivity` | `password` | P4 saved_password_mode; secure storage; crypto | Strategy and user-password flows are directly evidenced; crypto execution must be audited separately. |
+| P5-F26 | Multiple backups / restore special data | `MultipleBackupsActivity`, `RestoreSpecialDataDetailsActivity` | `settings` | backup representation, restore policy, task/data engine | These are feature controls/details beyond the frozen P4 contract. |
+| P5-F27 | Tasks / task execution UI | `TaskActivity`, `PreconditionsActivity`, `TaskService` | `tasks` | P4 TaskState/TaskResult; feature executors | P4 provides state boundary; actual task execution is explicit P5 scope. |
+| P5-F28 | Wi-Fi backup/restore | `wifi.WifiActivity`, `PasswordInfo` | `wifi` | Wi-Fi credential/system boundary, cloud/local data | Dedicated feature source exists; credential/runtime behavior requires targeted audit. |
+| P5-F29 | Wallpapers | `WallsDashActivity`, `WallsManageActivity`, `WallApplyActivity` | `walls` | wallpaper/system API, local/cloud metadata | Dashboard, management and apply are separate execution surfaces. |
+| P5-F30 | Blacklist | `BlacklistActivity`, `BlacklistData`, `BlacklistApp` | `blacklist` | app inventory/selection, persistence | Blacklist model and UI are directly evidenced; filtering consumers require targeted audit. |
+| P5-F31 | Premium / entitlement feature surface | `PremiumActivity`, `NoGmsPremium` | `premium` | authorized free-entitlement deviation; billing Reference evidence | Target entitlement is authorized free; Reference premium feature behavior remains the parity evidence. |
+| P5-F32 | Locale | `LocaleActivity`, `LocaleChangedReceiver` | `locale` / `common` | locale configuration, resource selection | Locale selection and change propagation are directly represented. |
+| P5-F33 | Contributor registration | `ContributorRegActivity`, `ContributorRegistration` | `contributor` | contributor status/data contract | Registration flow is evidenced; Reference mutation/write semantics need targeted audit where not established. |
+| P5-F34 | Notices / licenses | `NoticeListActivity`, `NoticeViewActivity`, `LicensesActivity` | `notice` / `settings` | notice data, static content/licenses | Supporting feature surface; data source behavior requires targeted audit. |
+| P5-F35 | Diagnostics / logging | `SLogActivity`, cloud/app-visibility diagnostics | `slog`, `cloud.diagnostics`, `settings.appvisibility` | P4 diagnostic state; telemetry/provider boundaries | Static diagnostic surfaces exist; actual collection/provider behavior is not implied. |
+| P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
+| P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
+
+## Direct ZIP structural audit
+
+The supplied ZIP was inspected directly.
+
+Reference source counts under `org/swiftapps/swiftbackup` for major P5 families include:
+
+| Family | Java source files in ZIP |
+|---|---:|
+| Apps / appslist | 14 |
+| Folders | 24 |
+| Messages/calls | 20 |
+| Cloud protocols | 13 |
+| Cloud connection | 13 |
+| Scheduling | 27 |
+| Tasks | 7 |
+| Password | 2 |
+| Wi-Fi | 2 |
+| Wallpapers | 3 |
+| Blacklist | 3 |
+| APK import | 4 |
+| Premium | 2 |
+| Locale | 1 |
+| Contributor | 5 |
+| App configuration | 11 |
+
+These counts are **forensic scope indicators**, not feature-completeness scores.
+
+## Cross-phase inputs confirmed
+
+P5.1 explicitly consumes frozen predecessor outputs where applicable:
+
+- **P1:** resource/manifest/dependency/feature inventory.
+- **P2:** Activity/Service/Receiver identity and structural ownership.
+- **P3:** UI/navigation/lifecycle/dialog/error/loading surfaces.
+- **P4:** account/lifecycle, permission/storage, settings/password, restore-state, task/job contracts.
+
+P5 does not reopen these phases because the feature audit consumes their outputs.
+
+## P5.1 audit rules carried forward
+
+- Activity existence is not feature parity.
+- UI is not assumed to own domain execution when Reference evidence shows service/data/task ownership.
+- Backup/restore engine behavior must be audited directly; it cannot be inferred from P4 contracts.
+- Provider/backend execution must remain behind the evidenced boundary.
+- Firebase identifiers in Reference are evidence only; they do not authorize Firebase in BaRe.
+- BΛR☰ branding remains the authorized target identity.
+- UNKNOWN is reserved for unresolved evidence after targeted inspection; it is not a synonym for unimplemented.
+- Runtime/device/provider/backend verification is not claimed.
+
+## P5.1 exit decision
+
+**P5.1 — COMPLETE / READY FOR P5.2.**
+
+The Reference feature universe has been decomposed into concrete audit units with direct entry/evidence surfaces, Reference ownership surfaces, and primary dependency/execution boundaries.
+
+No feature implementation was performed.
+
+Next:
+**P5.2 — Feature contract, owner, and boundary.**
