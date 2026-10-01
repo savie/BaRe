@@ -834,3 +834,18 @@ No build/install/runtime/visual verification was performed. N-05 remains OPEN ov
 **Static re-audit:** target style re-read confirms `fontFamily=@font/main_medium`. Reference tree remains untouched. No other M3ButtonTonal color/animator/ripple contracts were changed because their custom attribute/color dependencies remain unproven/self-incomplete in BaRe.
 
 No build/install/runtime/visual verification was performed. N-04 remains OPEN overall.
+
+
+## N-04 Theme/Style/Color — Title typography Batch 06
+
+**Status: COMPLETE — STATIC RE-AUDIT PASS**
+
+**Implementation commit:** `215d7803d631f36edf5ee8c6a335a956a82e47c6`
+
+**Scope:** `app/src/main/res/values/styles.xml`, `Title.android:fontFamily` only.
+
+**Reference contract:** `Title` defines `android:fontFamily=@font/main_medium`. BaRe used `sans-serif-medium`.
+
+**Implementation:** replaced only the Title font family with `@font/main_medium`.
+
+**Static re-audit:** target style re-read confirms the Reference font resource. Reference tree remains untouched. No dependent styles were altered. No build/install/runtime/visual verification was performed. N-04 remains OPEN overall.
