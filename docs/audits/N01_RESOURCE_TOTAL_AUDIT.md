@@ -1367,3 +1367,16 @@ N-01 resource findings that were exposed as P3 fake/stub UI were reconciled:
 Generic boundary resources are not counted as N-01 defects when they represent explicit P4 engine/provider handoffs.
 
 N-01-R6 remains globally open.
+
+
+## 36. N-14 Boundary cross-domain checkpoint
+
+N-01 resource findings consumed by N-14 were reviewed only where they participate in explicit P3 dependency-boundary surfaces.
+
+Outcome:
+- boundary dialog/resource surfaces remain implementation-owned under their respective feature/provider domains;
+- no new N-01 resource defect was identified;
+- provider/engine/backend boundary messaging remains downstream-owned and is not converted into resource parity work;
+- N-14 corrected boundary/result semantics in Java source without mutating Reference resources.
+
+N-01-R6 remains globally open.
