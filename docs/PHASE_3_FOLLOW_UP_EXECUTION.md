@@ -962,3 +962,24 @@ Implementation commit: `8bad94fef4780faeefe7c94f081b805d415e5946`.
 Documentation checkpoint: `ba3889743c0f61d14fa9289356ae97103ceb143f`.
 
 N-05 remains OPEN for broader manifest reconciliation; this batch closes only this single static contract.
+
+
+## Step 8 Implementation Checkpoint — N-08 Navigation — LaunchMode Batch 02
+
+**Status:** COMPLETE — STATIC RE-AUDIT PASS
+
+**Implementation commit:** aa0c5ce1964cb3bc2287f6522b210cecad0b278a
+
+**Bounded scope:** app/src/main/AndroidManifest.xml only.
+
+**Reference→BaRe contracts implemented:**
+1. IntroActivity — Reference android:launchMode="singleTop" → BaRe android:launchMode="singleTop".
+2. TeraBoxSignInActivity — Reference android:launchMode="singleTop" → BaRe android:launchMode="singleTop".
+
+**Static re-audit:** both target records PASS after mutation. Commit diff contains only the app manifest; reference/ is not changed. No Activity Java source, strings, themes, intent-filter, provider, backend, engine, or runtime behavior was changed.
+
+**Stop condition for this batch:** manifest launchMode gaps identified by current evidence are exhausted for these two app-owned Activities. Further N-08 work requires a new bounded source-level navigation contract; no speculative mutation is authorized.
+
+**Runtime/build/install/visual verification:** NOT AUTHORIZED / NOT PERFORMED.
+
+**Domain #8:** remains 🟡 OPEN pending complete static navigation matrix/source-level destination-extras-results reconciliation and any separately authorized runtime Up/back verification.
