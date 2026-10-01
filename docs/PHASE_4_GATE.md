@@ -165,7 +165,7 @@ The supplied Swift Backup 5.1.0 / 620 decompile ZIP was the primary evidence for
 
 Root/Shizuku grant execution, OEM installed-app visibility engine, privileged storage behavior, backup/restore/filesystem execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
 
-**Next active P4.2 package: WP-D / C08-C09.**
+**Next active P4.2 package: WP-E / C10.**
 
 
 ### WP-C post-acceptance static correction — 2026-10-01
@@ -173,3 +173,12 @@ Root/Shizuku grant execution, OEM installed-app visibility engine, privileged st
 A final source reread found stale Intro call-sites to the removed P3 permission-ready helpers. Those call-sites were removed; current IntroActivity now refreshes the canonical PermissionAccessService state after permission-request returns/fallbacks. The C03/C04 closure decision is unchanged.
 
 No build/install/runtime/provider/backend/engine execution was performed.
+
+
+### P4.2 WP-D final static acceptance — 2026-10-01
+
+**WP-D / C08-C09: CLOSED — static contract acceptance.**
+
+C08 now has a canonical local settings boundary (`AppSettings` + `SettingsRepository`) limited to frozen-P3-consumed settings. C09 now uses the exact Reference `saved_password_mode` integer ordinal contract with `STANDARD_PASSWORD` as the default. `P3_PASSWORD_MODE` is no longer used by IntroActivity as canonical product state. Cloud settings sync, password generation/encryption/restore, provider/backend execution, and runtime verification remain downstream/unverified. No build/install/runtime/provider/backend/engine execution was performed.
+
+**Next active P4.2 package: WP-E / C10.**
