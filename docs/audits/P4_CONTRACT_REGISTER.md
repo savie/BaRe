@@ -2,7 +2,7 @@
 
 ## Status
 
-**P4.0 — COMPLETE / ACCEPTED**
+**P4.0 — COMPLETE / ACCEPTED — SOURCE SET RECONCILED**
 
 This register is the canonical technical artifact for P4.0. It reconciles the frozen P3 surfaces against the Reference evidence in `v1.0/rebaseline/reference/*`, the current `rewrite` implementation, and targeted inspection of the supplied Swift Backup 5.1.0 (620) decompile ZIP.
 
@@ -15,7 +15,24 @@ This remains static evidence only. It is not runtime verification and does not a
 - Local decompile: `SwiftBackup-5.1.0-620-decompiled.zip`.
 - Target: `savie/BaRe`, branch `rewrite`.
 - Existing P3 audits are reused where they already establish the boundary.
-- Targeted ZIP/source inspection was performed for storage selection, intro permission/state, account lifecycle, settings, and task state.
+- `reference/reference.md` is the current consolidated Reference FE/workflow audit and contains the A18 reconstruction material; there is no standalone `a18_reference_reconstruction.md` in `v1.0/rebaseline`.
+- `reference/reference_apps_audit.md` is the current Apps-subsystem audit and is used for Apps/task/data/restore evidence where those boundaries touch frozen P3 surfaces.
+- Targeted ZIP/source inspection was performed for storage selection, intro permission/state, account lifecycle, settings, task state, and the supplied Reference decompile.
+
+## Reference source coverage
+
+P4.0 source reconciliation was explicitly checked against the Reference sources relevant to the frozen P3 contract boundary:
+
+| Reference source | Role in P4.0 | Result |
+|---|---|---|
+| `reference/reference.md` | Consolidated screen/state/action/transition ledger, including Intro, Home, Storage, Account, Settings, Schedules, Cloud, Tasks, Diagnostics, and A18 app-backup/restore evidence | **COVERED** |
+| `reference/reference_apps_audit.md` | Apps subsystem decomposition, canonical app model, local/cloud inventory, task/precondition, backup/restore boundaries | **COVERED**; execution remains downstream where applicable |
+| `a18_reference_reconstruction.md` | Previously cited standalone filename | **NOT PRESENT**; A18 material is contained in `reference/reference.md` |
+| Supplied Swift Backup 5.1.0 (620) decompile ZIP | Primary static artifact for targeted source/resource verification | **COVERED** |
+
+The source-set correction does **not** add a new P4 execution domain by itself. The frozen-P3 contract scope remains the deciding boundary: Reference-only feature execution that is not required by an existing frozen P3 contract remains downstream.
+
+The P4.0 register is therefore considered exhaustive **for the defined P4 scope** after this source reconciliation: all currently identified frozen-P3 core contract domains are represented by C01–C16, with the deterministic-data row explicitly covering SLog/diagnostic state exposed by frozen P3 surfaces.
 
 ## Classification
 
@@ -42,16 +59,16 @@ This remains static evidence only. It is not runtime verification and does not a
 | P4-C08 | Settings root surface and settings changes | Reference `settings.xml` + `AppSettings.withSavedSettings()`; SettingsActivity persists cloud/local settings on destroy; model has many persisted fields | Reference-shaped settings model, defaults, read/write ownership, and persistence boundary | BaRe reconstructs the Settings UI; only `play_notification_sounds` has local behavior using a BaRe-specific `settings` preference store; no `AppSettings` equivalent | SettingsFragment / settings repository | **GAP / P4** | Inventory frozen-P3-consumed settings and create the smallest Reference-shaped local/settings contract | Cloud settings sync/backend mutation remains downstream | Static settings XML/model/key reconciliation; Settings regression |
 | P4-C09 | Password strategy selected in Intro | Reference persists `saved_password_mode` using Reference enum ordinal with default STANDARD; completion reads the persisted strategy | Exact password-strategy state key/type/default consumed by Intro completion | BaRe uses `P3_PASSWORD_MODE` and does not yet map to Reference `saved_password_mode` semantics | IntroActivity / password boundary | **GAP / P4** | Reconcile exact key/default/ordinal contract while keeping password engine deferred | Password generation, secure storage, encryption and restore remain P5+ | Static Intro state/key comparison |
 | P4-C10 | First-run cloud settings restore | Reference `intro.d.l()`: waits for backend readiness, reads cloud settings, restores labels/configs/schedules/favorites/blacklist, and records completion | Explicit restore-at-first-run state/result contract and safe skip/failure semantics | BaRe only sets `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` as a P3 completion flag; no verified restore state/result contract | Intro + cloud/settings restore coordinator | **GAP / P4** | Define state/result contract and completion semantics; do not fake restored data | Actual backend/cloud reads and writes remain downstream | Static flow comparison to `intro.d`; Intro regression |
-| P4-C11 | Deterministic core data used by frozen P3 | Reference models include `UserInfo`, `StorageInfoLocal.Success`, `AppSettings`, storage item state, task/error summaries | Required data shape, nullability, defaults, and consumer ownership | UserInfo is present; storage info shape is partial but service returns null; AppSettings/task data contracts are not fully present | Domain repositories/services | **PARTIAL → GAP / P4** | Inventory only models with frozen-P3 consumers and record exact fields/defaults | Actual data collection, filesystem/provider execution, cloud persistence | Source-level field/consumer reconciliation |
+| P4-C11 | Deterministic core data used by frozen P3 | Reference models include `UserInfo`, `StorageInfoLocal.Success`, `AppSettings`, storage item state, task/error summaries, SLog/log state, and diagnostic result state where exposed by frozen P3 surfaces | Required data shape, nullability, defaults, and consumer ownership | UserInfo is present; storage info shape is partial but service returns null; AppSettings/task data contracts are not fully present; SLog and cloud-diagnostic result data remain boundary-level | Domain repositories/services | **PARTIAL → GAP / P4** | Inventory only models with frozen-P3 consumers and record exact fields/defaults; keep feature execution deferred | Actual data collection, filesystem/provider execution, cloud persistence, diagnostic execution | Source-level field/consumer reconciliation |
 | P4-C12 | TaskActivity task list/status/error UI | Reference TaskActivity consumes task manager/service state and exposes loading/done/error/warning, task rows, SLog, cancel/force-stop boundaries | Stable task state/progress/error contract required by the existing P3 TaskActivity surface | BaRe TaskActivity has empty adapters and P3 boundary dialogs; only local `showing_slog` recreation state exists | TaskActivity + task-state layer | **GAP / P4** | Define task status/progress/error/result contract without implementing execution | Actual TaskService/job/backup/restore execution remains P5+ | Static TaskActivity/TaskManager reconciliation |
 | P4-C13 | Job/task scheduling only where P3 exposes state | Reference has TaskService, ScheduleService, alarms and task lifecycle; P4 guide limits job state to existing P3 consumers | State/progress/error/cancellation contract only; no generic job engine | BaRe has UI boundary but no verified task/job state repository | TaskActivity / schedule surfaces | **P4 / CONTRACT ONLY** | Define minimum state contract consumed by P3 | Scheduler execution, foreground service, alarms and feature jobs remain downstream | Static consumer inventory |
 | P4-C14 | Cloud/session boundary behind Home/Account/Cloud UI | Reference cloud identity/tag/userInfo/session metadata is evidenced; backend paths already audited | Provider-neutral cloud/session metadata contract distinct from provider execution | BaRe has backend path constants/repositories and UserInfo contract, but no unified session/cloud state contract | Account/cloud repositories | **PARTIAL / P4** | Separate local session metadata from provider execution and identify frozen-P3 consumers | Actual auth/token/provider/cloud transfer/backend mutation | Static repository/consumer reconciliation |
 | P4-C15 | Provider/backend execution | Reference contains Firebase/cloud/provider implementation | Provider/backend execution contract is downstream of P4 | BaRe deliberately avoids provider execution | Provider/backend layer | **DOWNSTREAM / P5+** | Preserve boundary only | Firebase/Supabase auth, backend mutation, provider token exchange/upload/download | No P4 verification claim |
-| P4-C16 | Backup/restore engine | Reference `a18_reference_reconstruction.md` and detailed task/provider evidence | Execution pipeline exists conceptually but is not a P4 core contract | BaRe does not claim engine execution | Backup/restore engine | **DOWNSTREAM / P5** | Preserve state/result boundary only | Filesystem/archive/compression/encryption/backup/restore execution | No P4 verification claim |
+| P4-C16 | Backup/restore engine | `reference/reference.md` A18 sections + `reference/reference_apps_audit.md` task/restore evidence | Execution pipeline exists conceptually but is not a P4 core contract | BaRe does not claim engine execution | Backup/restore engine | **DOWNSTREAM / P5** | Preserve state/result boundary only | Filesystem/archive/compression/encryption/backup/restore execution | No P4 verification claim |
 
 ## Confirmed P4.0 findings
 
-The targeted re-audit confirms that P4.0 is **not complete yet**. The previous register was too coarse in several places.
+The targeted re-audit confirms that the P4.0 inventory is complete **after source-set reconciliation**. The previous register required one evidence correction: A18 was cited under a nonexistent standalone filename instead of its actual location in `reference/reference.md`. The inventory scope was also tightened to explicitly include SLog/diagnostic state under the deterministic-data contract.
 
 Concrete Reference-backed P4 gaps now explicitly recorded:
 
@@ -124,9 +141,9 @@ The acceptance target for P4.0 is **contract inventory completeness**, not imple
 
 ## P4.0 closure decision
 
-**P4.0 — CLOSED.**
+**P4.0 — CLOSED / ACCEPTED.**
 
-No implementation is claimed by this closure. The remaining `GAP` / `PARTIAL` rows are the input set for **P4.1 — BaRe Gap / Blocker Analysis**. No build, install, runtime, provider, backend, or engine verification was performed.
+Source-set reconciliation is complete for the defined P4 scope. No implementation is claimed by this closure. The remaining `GAP` / `PARTIAL` rows are the input set for **P4.1 — BaRe Gap / Blocker Analysis**. No build, install, runtime, provider, backend, or engine verification was performed.
 
 Next package:
 
