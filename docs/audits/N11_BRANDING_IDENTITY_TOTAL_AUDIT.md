@@ -378,3 +378,26 @@ No new **app-owned visible Swift product branding** or **app-owned Firebase bran
 **N-11 remains CLOSED / STATIC PASS.**
 
 No source/resource mutation was required by this sweep.
+
+
+## 10. Post-P4 target-app zero-Swift cleanup — current rewrite HEAD
+
+A direct target-tree sweep was performed after the P4 static checkpoint because Swift-derived target-app residue was found in the implementation tree despite the historical N-11 closure text.
+
+Cleanup applied to the target app/ tree:
+
+- Swift-derived package references in target resources were mapped to the com.bare namespace.
+- Swift-derived logger identifiers were mapped to barelogger / action_barelogger.
+- Swift-derived app identifiers such as swift_backup, open_in_swift_backup, swift_clicks, and swift_json_settings_summary were mapped to their BaRe-owned forms established by the N-11 mapping.
+- Swift-derived view class identities were renamed to BaRe-owned class names and their XML references were updated.
+- Visible product wording was migrated to BΛR☰/BaRe wording.
+- Target-owned support/legal links were moved to the known BaRe repository identity; no new unsupported BaRe domain was introduced.
+- The TaskActivity logger menu consumer was updated to the renamed action_barelogger resource ID to keep the consumer/resource contract aligned.
+
+Static tree verification at the resulting rewrite HEAD:
+
+- target app/ file paths containing Swift/swift: 0
+- Reference/decompiled material was not modified.
+- Build/install/runtime/device/provider/backend execution: NOT PERFORMED.
+
+Classification: N-11 TARGET-APP IDENTITY HYGIENE — STATIC PASS.
