@@ -507,3 +507,22 @@ Targeted source search revalidated persisted keys and frozen-P3 consumer surface
 - No additional Reference-shaped core model is added merely because it exists in the decompile.
 
 **WP-A conclusion:** no further safe C07/C11 source mutation is justified without crossing into C09/C10/C12/C13 or implementing runtime/secure-storage/filesystem execution. WP-A remains open pending package-level acceptance/static regression, not because an unowned feature contract should be pulled forward.
+
+
+### WP-A final acceptance — 2026-10-01
+
+**Decision: WP-A / C07-C11 — CLOSED (static acceptance).**
+
+Acceptance checks completed:
+- Reference-backed local key ownership is centralized through `LocalState` for the WP-A-owned keys.
+- `play_notification_sounds` no longer uses the former competing `settings` preference store.
+- `saved_password_mode` / `saved_user_password` remain secure-state contracts owned by C09/WP-D; WP-A does not absorb them.
+- `StorageInfoLocal` is the sole active Dashboard storage state type; no duplicate `StorageInfoService.StorageInfo` surface remains.
+- `TaskState` and `ErrorSummary` have Reference-aligned BaRe contracts with no duplicate active shape found.
+- P3-only readiness/sign-in/password flags remain transitional and are not promoted to canonical C07 state.
+- `KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED` is not asserted by Intro completion; terminal restore ownership remains C10.
+- No additional C07/C11 mutation is justified without crossing into another WP or runtime execution.
+
+**Verification class:** static source/Reference regression only. No build, install, runtime, device, secure-storage/crypto, filesystem, provider, backend, or engine execution was performed.
+
+**Next boundary:** P4.2 continues outside WP-A with the explicitly owned downstream WPs/contracts; WP-A itself is closed.
