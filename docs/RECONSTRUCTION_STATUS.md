@@ -988,3 +988,10 @@ This checkpoint records source-shape/depth audit evidence only. It does **not** 
 ### P4.1 owner reconciliation checkpoint — 2026-10-01
 
 Canonical ownership was reconciled across C01–C16 against the current BaRe source and Reference evidence. No unresolved P4-level canonical-owner collision remains. The main collision is transitional P3 UI flags versus domain-owned state; P4.2 must centralize persisted/domain state and keep Activities as consumers. Dependency order remains WP-A → WP-B → WP-C → WP-D → WP-E → WP-F; C02 regression-only; C15/C16 downstream. P4.1 remains IN PROGRESS.
+
+
+### P4.1 final closure — 2026-10-01
+
+P4.1 is **CLOSED / READY FOR P4.2**. The final C01–C16 closure matrix confirms named Reference evidence, canonical owner, BaRe gap/state, dependency, P3 regression surface, and phase boundary for every row. No open contract-level UNKNOWN remains; no unresolved canonical-owner collision remains; no C17+ scope was introduced. C02 remains regression-only and C15/C16 remain downstream.
+
+This is static contract-analysis closure only. No implementation, build, install, runtime, provider, backend, or engine execution was performed.
