@@ -29,7 +29,7 @@
  </ScrollView>
  <LinearLayout android:id="@+id/importBottomActions" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
   <com.google.android.material.button.MaterialButton android:id="@+id/btnInstall" android:text="@string/install" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-  <com.google.android.material.button.MaterialButton android:id="@+id/btnOpenInSwiftBackup" android:text="@string/open_in_swift_backup" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
+  <com.google.android.material.button.MaterialButton android:id="@+id/btnOpenInBaRe" android:text="@string/open_in_bare" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content"/>
   <LinearLayout android:id="@+id/importSuccessSecondaryActions" android:orientation="horizontal" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content">
    <com.google.android.material.button.MaterialButton android:id="@+id/btnLaunch" android:text="@string/launch" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"/>
    <com.google.android.material.button.MaterialButton android:id="@+id/btnClose" android:text="@string/close" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp"/>
