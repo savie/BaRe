@@ -48,7 +48,7 @@
     <string name="no_internet_connection">No internet connection.</string>
     <string name="no_internet_connection_summary">Make sure your WiFi or Cellular data is turned on and working.</string>
     <string name="error_connecting_cloud_server">Error connecting to the cloud server.</string>
-    <string name="connect_cloud_account">Connect cloud account</string>
+    <string name="connect_cloud_account">Connect a cloud account</string>
     <string name="retry">Retry</string>
     <string name="account_id">Account ID</string>
     <string name="cloud_folder">Cloud folder</string>
@@ -93,7 +93,7 @@
     <string name="keep_setup">Keep setup</string>
     <string name="continue_anyway">Continue anyway</string>
     <string name="continue_to_home">Continue to Home</string>
-    <string name="getting_started">Getting Started</string>
+    <string name="getting_started">Getting started!</string>
     <string name="close">Close</string>
     <string name="reset_onboarding">Reset onboarding</string>
     <string name="intro_menu_title">Onboarding menu</string>
@@ -171,7 +171,7 @@
     <string name="barelogger_info">Logs for bug reports</string>
     <string name="share_logs">Share logs</string>
     <string name="clear_logs">Clear logs</string>
-    <string name="sure_to_proceed">Are you sure you want to proceed?</string>
+    <string name="sure_to_proceed">Are you sure you want to proceed? Click Yes to confirm.</string>
     <string name="p3_slog_boundary">BΛR☰Logger list and sharing controls are present. Actual log collection/clearing remains outside this P3 reconstruction.</string>
     <string name="apps_config_run_pending">Configuration data is waiting for the Reference config-run contract.</string>
     <string name="licenses">Licenses</string>
@@ -191,7 +191,7 @@
     <string name="config_labels_pending">Configuration label assignment is a P3 surface; label persistence remains deferred.</string>
     <string name="p3_config_help_boundary">Reference configuration help entry is preserved as a UI boundary. External help navigation remains deferred.</string>
     <string name="delete">Delete</string>
-    <string name="delete_config_settings">Delete configuration settings? Actual configuration persistence/deletion remains P4.</string>
+    <string name="delete_config_settings">Delete custom settings</string>
     <string name="help_center">Help center</string>
     <string name="manage_app_labels">Manage app labels</string>
     <string name="sort">Sort</string>
@@ -240,11 +240,11 @@
     <string name="custom_backup_restore_settings_description">Configure advanced backup and restore options.</string>
     <string name="new_custom_settings">New custom settings</string>
     <string name="save_config">Save configuration</string>
-    <string name="new_config">New configuration</string>
-    <string name="manage_config">Manage configuration</string>
-    <string name="delete_config">Delete configuration</string>
+    <string name="new_config">New config</string>
+    <string name="manage_config">Manage config</string>
+    <string name="delete_config">Delete config</string>
     <string name="important_announcement">Important announcement</string>
-    <string name="firebase_backend_diagnostics_message">Reference notice content is waiting for the backend notice contract.</string>
+    <string name="firebase_backend_diagnostics_message">BΛR☰ has internet access, but it cannot reach its Firebase backend. Due to this, you may face issues with cloud backups, premium activation, syncing BΛR☰ settings, etc.</string>
     <string name="learn_more">Learn more</string>
     <string name="label_preview">Label preview</string>
     <string name="input_label_name_message">Label name</string>
@@ -259,7 +259,7 @@
     <string name="launch">Launch</string>
     <string name="backup">Backup</string>
     <string name="manage">Manage</string>
-    <string name="wifi_networks">Wi-Fi networks</string>
+    <string name="wifi_networks">WiFi networks</string>
     <string name="no_batch_restore_wifi_on_q_message">Batch Wi-Fi restore is unavailable on this Android version.</string>
     <string name="got_it">Got it</string>
     <string name="set_user_password">Set user password</string>
@@ -280,10 +280,10 @@
     <string name="test">Test</string>
     <string name="protocol">Protocol</string>
     <string name="authentication_type">Authentication type</string>
-    <string name="anonymous_auth_hint">Leave blank for anonymous authentication</string>
+    <string name="anonymous_auth_hint">Leave blank for anonymous</string>
     <string name="s3_provider">S3 provider</string>
     <string name="webdav_provider">WebDAV provider</string>
-    <string name="data_encryption_smb_3">Data encryption</string>
+    <string name="data_encryption_smb_3">Data Encryption (SMB 3+)</string>
     <string name="port">Port</string>
     <string name="server">Server</string>
     <string name="path">Path</string>
@@ -297,7 +297,7 @@
     <string name="done">Done</string>
     <string name="no_active_password">No active password</string>
     <string name="password_saved">Password saved</string>
-    <string name="x_passwords_saved">%s passwords saved</string>
+    <string name="x_passwords_saved">%s password(s) saved</string>
     <string name="new_password">New password</string>
     <string name="restore_previous_password_message">Previous password restoration is available at the Reference boundary.</string>
     <string name="s3">S3</string>
@@ -373,7 +373,7 @@
     <string name="apk_import_input_ready">%1$s input received: %2$s</string>
     <string name="apk_import_missing_input">No APK input was supplied.</string>
     <string name="apk_import_unsupported_input">Unsupported input: %s</string>
-    <string name="apk_import_error_title">Unable to import APK</string>
+    <string name="apk_import_error_title">Unable to import APKs</string>
     <string name="apk_import_unsupported_input_message">The Reference accepts APK or APKS input. Parsing, installation, and backup integration remain downstream behavior.</string>
     <string name="p3_apk_import_boundary">APK/APKS intent handling and input classification are reconstructed at the P3 boundary. Archive parsing, installation, and backup integration remain P4/P5.</string>
     <string name="app_info_received">App parcel received. Metadata rendering is delegated to the downstream app-info contract.</string>
@@ -382,14 +382,14 @@
     <string name="messages_permission_required">SMS and contacts permissions are required to inspect device messages.</string>
     <string name="apk_import_error_with_detail">Unable to import APK: %s</string>
     <string name="apk_import_status_install_complete">Installation finished.</string>
-    <string name="apk_import_status_waiting_for_installer">Waiting for the system installer…</string>
-    <string name="apk_import_apk_summary">%1$d APK, %2$s</string>
+    <string name="apk_import_status_waiting_for_installer">Waiting for installer…</string>
+    <string name="apk_import_apk_summary">%1$d APKs, %2$s</string>
     <string name="set_app_labels">Set app labels</string>
     <string name="labels_selected_count">%1$d labels selected</string>
     <string name="app_labels_count">%1$d app labels</string>
     <string name="p3_label_app_boundary">App label assignment reaches the P3 dependency boundary; app inventory and persistence remain downstream.</string>
     <string name="maximum_num_labels_limit_message">Maximum number of labels reached</string>
-    <string name="create_label_message">No labels yet</string>
+    <string name="create_label_message">Create labels and use them to categorize your apps the way you want!</string>
     <string name="delete_all">Delete all</string>
     <string name="box">Box</string>
     <string name="box_ready_to_authenticate">Box authorization is ready.</string>
@@ -423,7 +423,7 @@
     <string name="select">Select</string>
     <string name="edit">Edit</string>
     <string name="folder_backup_settings">Folder backup settings</string>
-    <string name="select_some_items">Select at least one folder setup.</string>
+    <string name="select_some_items">Please select some items</string>
     <string name="p3_folder_backup_boundary">Folder backup selection reached the P3 engine boundary. Backup execution and folder inventory state remain downstream.</string>
     <string name="p3_folder_restore_boundary">Folder restore selection reached the P3 engine boundary. Restore strategy and execution remain downstream.</string>
     <string name="p3_folder_delete_boundary">Folder backup deletion reached the P3 engine boundary. Cloud/device deletion execution remains downstream.</string>
@@ -439,10 +439,12 @@
     <string name="no_messages_available">No messages available.</string>
     <string name="select_some_messages">Select at least one message.</string>
     <string name="default_sms_app_rationale">The Reference restore flow requires BΛR☰ to be the default SMS app before messages can be restored.</string>
-    <string name="reset_sms_app_warning_q">Changing the default SMS app can affect how your device handles incoming messages.</string>
+    <string name="reset_sms_app_warning_q">"You won't be able to receive messages if you don't set a default SMS app!
+
+Please set a default SMS app in the next screen!"</string>
     <string name="p3_messages_backup_restore_boundary">Message backup/restore selection reached the P3 engine boundary. Message inventory, selection data, default-SMS persistence, restore strategy, and execution remain downstream.</string>
     <string name="restore">Restore</string>
-    <string name="loading">Loading…</string>
+    <string name="loading">Loading</string>
     <string name="note">Note</string>
 <string name="change_sms_app">Change SMS app</string>
     <string name="warning">Warning</string>
@@ -450,12 +452,12 @@
     <string name="no_messages_found">No messages found on device</string>
     <string name="no_backups_synced">No backups synced</string>
     <string name="upgrade_to_premium">Upgrade to premium</string>
-    <string name="premium_feature_cloud_backup_description">Back up apps and folders to supported cloud storage.</string>
+    <string name="premium_feature_cloud_backup_description">Back up apps and folders to cloud drives, S3-compatible storage, WebDAV/NAS, SMB, SFTP, FTP, and more.</string>
     <string name="premium_feature_schedules_description">Run recurring backups automatically to device storage or a connected cloud account.</string>
     <string name="premium_feature_backup_history_title">Backup history and protection</string>
-    <string name="premium_feature_backup_history_description">Keep multiple app backup versions and protect important versions.</string>
-    <string name="premium_feature_app_labels_description">Group apps with labels for filtering, schedules, and configurations.</string>
-    <string name="premium_feature_custom_configurations_description">Apply custom backup and restore rules to matching apps.</string>
+    <string name="premium_feature_backup_history_description">Keep multiple app backups, add notes, and protect important versions from overwrite or deletion.</string>
+    <string name="premium_feature_app_labels_description">Group apps with labels for filtering, schedules, and custom configurations.</string>
+    <string name="premium_feature_custom_configurations_description">Apply label-based backup and restore rules to matching apps.</string>
     <string name="premium_plan_lifetime">Lifetime Plan</string>
     <string name="premium_plan_yearly">Yearly Plan</string>
     <string name="no_premium_plan_selected">Select a Premium plan</string>
