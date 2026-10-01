@@ -13,7 +13,9 @@
 
 ## Current control-plane status
 
-The current P3 decision surface is **only** `docs/PHASE_3_GATE.md`.
+The current P3 decision surface is `docs/PHASE_3_GATE.md`.
+
+The current P4 decision surface is `docs/PHASE_4_GATE.md`, with technical contract evidence in `docs/audits/P4_CONTRACT_REGISTER.md`.
 
 Latest Activity depth audit:
 - 71/71 Reference-owned Activities covered/registered
@@ -24,9 +26,9 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 3 — UI + NAVIGATION / FLOW — FROZEN**
+**PHASE 4 — CORE BEHAVIOR / CONTRACT — P4.0 ACTIVE**
 
-P3 is frozen at the documented static boundary. P4 engine work remains gated and is not started by this freeze. No runtime/provider/engine/backend success is inferred.
+P3 remains frozen at the documented static boundary. P4.0 is now active for Reference-backed contract inventory. No P4 implementation is implied by the inventory, and no runtime/provider/engine/backend success is inferred.
 
 Phase 1 and Phase 2 are now frozen at **100%**:
 - Phase 1 — evidence/inventory gate: COMPLETE
@@ -54,8 +56,9 @@ Implemented:
 - Getting Started transition is live and hands off into Home.
 - Intro menu can reset only the P3 onboarding state.
 
-Deferred to P4:
-- Real Google/Firebase/anonymous authentication.
+P4.0 inventory / P4 implementation boundaries:
+- Real Google/Firebase/anonymous authentication remains a downstream/provider boundary unless a specific P4 contract is proven.
+- P4.0 contract inventory and P4.1 blocker analysis determine which core behavior is actually required before implementation.
 - Real storage coordinator and preferred-storage persistence.
 - Real Root/Shizuku detection, grant callbacks, and privileged permission engine.
 - Real installed-app inventory/app-op behavior.
