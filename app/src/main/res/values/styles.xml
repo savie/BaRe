@@ -97,7 +97,7 @@
     <style name="M3ButtonTonal" parent="Widget.Material3.Button.TonalButton">
         <item name="android:textSize">@dimen/subtitle_large</item>
         <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">@font/main_medium</item>
     </style>
     <style name="M3ButtonTonal.Error" parent="@style/M3ButtonTonal">
         <item name="android:textColor">?attr/colorError</item>
