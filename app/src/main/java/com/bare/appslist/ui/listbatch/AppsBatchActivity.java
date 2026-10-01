@@ -28,9 +28,19 @@ import java.util.List;
  * fabricates installed-app inventory or executes batch operations.
  */
 public final class AppsBatchActivity extends AppCompatActivity {
+    private android.os.Parcelable batchActionItem;
+    private android.os.Parcelable quickActionItem;
+    private boolean replaceExistingLabels = true;
+
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
+        if (getIntent() != null) {
+            batchActionItem = getIntent().getParcelableExtra("batch_action_item");
+            quickActionItem = getIntent().getParcelableExtra("quick_action_item");
+            replaceExistingLabels = getIntent().getBooleanExtra("select_mode_replace_existing_labels", true);
+        }
+
         setContentView(R.layout.apps_batch_activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
