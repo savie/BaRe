@@ -671,6 +671,21 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - No provider authentication or session reuse was executed at runtime.
 
 
+### P5.1 App configuration export/import payload reconciliation
+
+**P5-F121 — App configuration export/import serialization / validation / replacement lifecycle**
+
+Direct Reference evidence establishes a concrete configuration-transfer contract:
+
+- App configuration export is represented as a dedicated serialized configuration payload rather than a direct SharedPreferences copy.
+- The payload carries app-specific configuration state used by the App Configuration flow, including the settings required to reconstruct a `ConfigSettings` object.
+- Import validates the serialized configuration before replacing/applying the target app configuration; malformed/incompatible input is rejected rather than partially applied.
+- The transfer path is distinct from F46's broader import/export surface: F121 records the **App Configuration payload format, validation, and replacement boundary**, while F46 remains the cross-feature configuration-transfer orchestration.
+- The same configuration payload can feed the Apps task input mapping already represented by F62 after successful application.
+
+Static-only; no configuration was exported/imported or applied.
+
+
 ### P5.1 Restore-special-permission policy configuration reconciliation
 
 **P5-F120 — Restore-special-permission policy / root capability gating / ConfigSettings override**
@@ -689,7 +704,7 @@ Static-only; no root capability check or restore operation was executed.
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **120 unique units**.
+- P5.1 explicit feature-contract units after this pass: **121 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
