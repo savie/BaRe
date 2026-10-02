@@ -12,6 +12,8 @@ public enum PasswordStrategy {
     USER_PASSWORD;
 
     public static final String KEY_SAVED_PASSWORD_MODE = "saved_password_mode";
+    public static final String KEY_SAVED_USER_PASSWORD = "saved_user_password";
+    public static final String KEY_SAVED_OLD_USER_PASSWORDS = "saved_old_user_passwords";
 
     public static PasswordStrategy fromOrdinal(int ordinal) {
         PasswordStrategy[] values = values();
