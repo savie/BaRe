@@ -20,7 +20,7 @@ Reference is read-only. This register is evidence, not implementation approval, 
 |---|---|---|---|---|
 | **F01** | Onboarding / first-start | `intro.IntroActivity` | `intro` lifecycle/account flow | Entry and state boundary are directly evidenced; execution of provider/backend restore remains downstream. |
 | **F02** | Home/dashboard orchestration | `home.HomeActivity` | `home` | Dashboard is a feature consumer/orchestrator; do not treat shell reconstruction as feature execution. |
-| **F03** | Home search | `home.search.HomeSearchActivity` | `home.search` | Search surface is present; result/data semantics require targeted feature audit. |
+| **F03** | Home search | `home.search.HomeSearchActivity`; `defpackage.x54` search-state/data model; `defpackage.s54` result model; `defpackage.j54` quick-action catalog | `home.search` | Targeted sweep now establishes the result/data contract: search builds categorized results for apps, folders, and quick actions; applies case-insensitive query matching/ranking, per-category result limits, bundled/system-app filtering controlled by persisted preferences, and empty-query shortcut limits; search execution is cancellable/restarted through the `x54` worker lifecycle. `HomeSearchActivity` renders separate result groups and dispatches app/folder/quick-action results to their existing feature entry points, including capability/precondition checks for backup/restore actions. This closes the earlier “result/data semantics require targeted feature audit” follow-up without creating a new independent boundary. Static-only. |
 | **F04** | Apps inventory/list | `appslist.ui.list.AppListActivity` | `appslist` | Direct source surface exists; actual inventory and backup execution are separate boundaries. |
 | **F05** | Apps batch actions | `appslist.ui.listbatch.AppsBatchActivity` | `appslist` | Batch feature is distinct from list presentation. |
 | **F06** | App quick actions | `appsquickactions.AppsQuickActionsActivity` | `appsquickactions` | Action categories are Reference feature behavior; side effects require deeper audit. |
@@ -190,6 +190,13 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - Existing boundaries are sufficient for the observed onboarding scope: **F38** privileged capability workflow, **F45** account/local identity continuity, **F73** user-password lifecycle, **F87** cloud credential persistence/config export, **F100** settings cloud backup/restore + local-settings application, and **F163** onboarding storage setup/failure recovery; **F01** remains the onboarding entry/lifecycle family.
 - The Reference evidence did **not** establish an additional independent onboarding boundary requiring a new F-ID. **No F164 was created.**
 - This reconciliation is static-only. No build/install/runtime/device, provider, backend, or filesystem execution was performed.
+
+## P5.1 targeted reconciliation — Home / dashboard — 2026-10-02
+
+- Targeted Reference sweep covered the Home shell/orchestration (`home.HomeActivity` + its four-page pager), Home dashboard content/quick-action entry surface, Home Search (`home.search.HomeSearchActivity`), storage switch entry, scheduling entry/service, task entry dependencies, diagnostics/logging entry, manage-space entry, and shortcut command entry.
+- Existing F-ID boundaries remain sufficient for the observed Home/domain scope: **F02** owns Home/dashboard orchestration, **F03** now records the concrete Home Search result/data lifecycle, while **F22, F24, F27, F35, F36, and F37** remain the existing scheduling, storage, task, diagnostics, manage-space, and shortcut boundaries respectively.
+- The targeted sweep did **not** establish an additional independent Home/dashboard feature boundary requiring a new F-ID. **No F164 was created.**
+- The earlier F03 targeted follow-up is resolved by the evidence recorded above; no implementation/runtime/provider/backend execution was performed.
 
 ## Cross-document rule
 
