@@ -472,9 +472,24 @@ A direct decompile pass on `cloud/diagnostics` found a concrete provider diagnos
 - No build/install/runtime/provider/backend execution was performed.
 
 
+### P5.1 Cloud transfer concurrency policy reconciliation
+
+A targeted direct decompile pass traced the persisted `parallel_cloud_transfers` setting into concrete Apps and Folders cloud upload/download paths.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F103** | Cloud transfer concurrency policy / parallel transfer execution mode | `defpackage/sj1.java`, `no5.java`, consumers `c40.java`, `qp3.java`, `ek3.java`, `fo8.java`, `jo8.java` | cloud transfer scheduler/concurrency boundary | Reference persists a boolean `parallel_cloud_transfers` (default false) and feeds it into the transfer dispatcher for Apps upload/download and Folders upload/download paths. The policy changes whether transfer work is dispatched concurrently or serially and is also consulted by transfer-result aggregation helpers. This is a cross-feature execution policy beyond generic provider operations (F20/F51) and the individual task providers (F77/F78). |
+
+#### Cloud transfer concurrency note
+
+- F103 records the observed execution-policy boundary only; it does not prescribe a BaRe concurrency implementation or claim runtime performance.
+- The setting is consumed by multiple independent transfer paths, so it is not merely a Settings UI field.
+- No cloud transfer or concurrency test was executed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **102 unique units**.
+- P5.1 explicit feature-contract units after this pass: **103 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -491,6 +506,7 @@ A direct decompile pass on `cloud/diagnostics` found a concrete provider diagnos
 - F100 exposes reusable settings cloud backup/restore and local-settings application.
 - F101 exposes persisted FolderRestoreStrategy policy and its restore-engine consumption.
 - F102 exposes the Cloud Diagnostics transfer-test/result-state engine.
+- F103 exposes the persisted cloud-transfer concurrency policy consumed by Apps/Folders transfer paths.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
