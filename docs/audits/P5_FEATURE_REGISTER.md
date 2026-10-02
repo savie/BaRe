@@ -671,9 +671,25 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - No provider authentication or session reuse was executed at runtime.
 
 
+### P5.1 Restore-special-permission policy configuration reconciliation
+
+**P5-F120 — Restore-special-permission policy / root capability gating / ConfigSettings override**
+
+Direct Reference evidence establishes a dedicated restore policy contract:
+
+- `settings/RestoreSpecialDataDetailsActivity` exposes a dedicated switch for `restore_special_permissions`.
+- In standalone Settings mode, the switch reads/writes the persisted `restore_special_permissions` preference with default `true`.
+- The switch is disabled when the required root capability is unavailable and presents a root-access-needed state.
+- When opened from an App `ConfigSettings` context, the activity reads the config-local value instead of global preference state and returns an updated `extra_config_settings` result; enabling the setting clears the nullable override so effective policy can fall back to config/default semantics.
+- Settings navigation routes the `restore_special_permissions` preference to this dedicated activity.
+- This is distinct from F65–F69: those units cover special-data/permission payload semantics; F120 owns the **user-selectable restore policy, persistence, capability gating, and ConfigSettings override boundary**.
+
+Static-only; no root capability check or restore operation was executed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **119 unique units**.
+- P5.1 explicit feature-contract units after this pass: **120 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -702,6 +718,12 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F112 exposes scheduled Wallpapers selection/valid-wallpaper/task preparation.
 - F113 exposes scheduled Wi-Fi device-read/task preparation.
 - F114 exposes scheduled Folders selection/strategy/task preparation.
+- F115 exposes MultipleBackupStrategy persistence/migration/normalization/representation.
+- F116 exposes app-list left/right swipe-action configuration persistence/reset/projection.
+- F117 exposes per-app-part backup-limit configuration persistence/validation/serialization.
+- F118 exposes app-cache inclusion policy persistence/warning/change-detection projection.
+- F119 exposes app-data compression-level selection/persistence/default normalization/pipeline projection.
+- F120 exposes restore-special-permission policy persistence, root gating, and ConfigSettings override.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
