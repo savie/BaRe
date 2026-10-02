@@ -1146,3 +1146,53 @@ Static-only; no folder restore operation was executed.
 - F139 is distinct from F87 generic cloud credential persistence and F96 generic login-result taxonomy because it owns the concrete Google/GMS token acquisition/refresh boundary used by the Drive REST client.
 - P5.1 numbered IDs are now **139**; unique feature-contract units are **138** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no Google account/token/network/provider execution was performed or authorized.
+
+
+### P5.1 Box upload-session + recent-upload cache reconciliation — 2026-10-02
+
+- Added **F140**: Box resumable upload session lifecycle and recent-upload cache bridge.
+- Direct Reference evidence: `sj0` creates Box upload sessions, consumes session ID/part-size/upload-part/commit endpoints, retries upload, and records completed files into `BoxRecentUploadCache`; `mv0` validates session endpoints, part offsets, commit response, and retry-after handling.
+- F140 is distinct from F20/F41 generic provider/artifact operations because it owns Box's concrete upload-session protocol and post-upload recent-file cache boundary.
+- Static-only; no Box upload/network/provider execution was performed or authorized.
+
+### P5.1 Dropbox upload-session offset recovery reconciliation — 2026-10-02
+
+- Added **F141**: Dropbox upload-session chunking, offset correction, bounded retry, and stop/failure lifecycle.
+- Direct Reference evidence: `n92` owns Dropbox upload execution with persisted chunk-size setting, session execution, retry loop, and `fr2` reports provider offset correction; failed uploads surface a bounded-attempt IOException and stopped uploads have explicit failure semantics.
+- F141 is distinct from F20/F51 generic transfer contracts because it owns Dropbox's session-offset recovery protocol.
+- Static-only; no Dropbox upload/network/provider execution was performed or authorized.
+
+### P5.1 OneDrive resumable upload-session reconciliation — 2026-10-02
+
+- Added **F142**: OneDrive upload-session creation, next-expected-range progression, chunk result state, and bounded retry/auth-stop behavior.
+- Direct Reference evidence: `wq5`/`st5` create and execute OneDrive upload sessions, require `uploadUrl` and `nextExpectedRanges`, return `OneDriveUploadChunkResult`, retry selected transient/API failures, and disable retry after authentication failure.
+- F142 is distinct from F135 Google Drive resumable upload because the OneDrive contract is Microsoft Graph session/range state with provider-specific retry/auth semantics.
+- Static-only; no OneDrive upload/network/provider execution was performed or authorized.
+
+### P5.1 OneDrive batch-delete retry/result reconciliation — 2026-10-02
+
+- Added **F143**: OneDrive batch-delete aggregation, failed-ID retry, and terminal failure result.
+- Direct Reference evidence: `pq5` executes batch deletion, collects failed IDs, retries failed IDs, and reports remaining failures after retry; `tq2` represents `DropboxDeleteBatchResult`/batch response state used by the shared cloud operation machinery.
+- F143 is distinct from F136 because the OneDrive implementation has its own deletion executor and retry/result path.
+- Static-only; no OneDrive deletion/network/provider execution was performed or authorized.
+
+### P5.1 OneDrive MSAL silent-token lifecycle reconciliation — 2026-10-02
+
+- Added **F144**: OneDrive account discovery, silent MSAL token acquisition, force-refresh path, expiry capture, and invalid-token/error handling.
+- Direct Reference evidence: `oq5` resolves the current Microsoft account, performs `acquireTokenSilent`, optionally forces refresh, validates the returned access token, and records expiry through `jq5`; `nq5`/provider execution consumes this access-token boundary.
+- F144 is distinct from F87 generic cloud credential persistence and F139 Google/GMS token acquisition because it owns the concrete Microsoft Identity/MSAL silent-token lifecycle.
+- Static-only; no Microsoft account/token/network/provider execution was performed or authorized.
+
+### P5.1 Yandex OAuth token refresh + persistence reconciliation — 2026-10-02
+
+- Added **F145**: Yandex OAuth refresh-token exchange, refreshed access-token replacement, cloud-service persistence, and refresh failure handling.
+- Direct Reference evidence: `jy8` reloads `TokenCredentials`, detects stale/forced refresh, exchanges the saved refresh token against the Yandex OAuth token endpoint, replaces the access token/expiry, persists the updated credentials when bound to a CloudServiceId, and returns failure/null token on refresh errors.
+- F145 is distinct from F87 generic credential persistence and F96 generic login-result taxonomy because it owns Yandex's concrete OAuth refresh lifecycle.
+- Static-only; no Yandex authentication/network/provider execution was performed or authorized.
+
+### P5.1 Yandex asynchronous operation lifecycle reconciliation — 2026-10-02
+
+- Added **F146**: Yandex async-operation polling, retry-after handling, terminal-state validation, and download-link acquisition boundary.
+- Direct Reference evidence: `iy8` parses `Retry-After`, starts/polls Yandex operations, rejects unknown operation states, and requires successful operation completion before continuing to resource/download handling.
+- F146 is distinct from F20/F51 generic provider operations because it owns the provider's explicit asynchronous-operation state machine.
+- Static-only; no Yandex operation/network/provider execution was performed or authorized.
