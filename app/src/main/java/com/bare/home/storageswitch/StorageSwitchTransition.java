@@ -1,10 +1,11 @@
 package com.bare.home.storageswitch;
 
+import com.bare.core.storage.StorageDiskPreflight;
+
 /**
- * Static decision contract for changing the active backup storage.
+ * Static transition presentation contract for changing active backup storage.
  *
- * Filesystem copy/move execution remains downstream; this class only evaluates
- * the Reference-shaped transition guard.
+ * F125 owns the disk-space preflight predicate; filesystem copy/move remains downstream.
  */
 public final class StorageSwitchTransition {
     public enum Decision {
@@ -13,18 +14,24 @@ public final class StorageSwitchTransition {
         DESTINATION_UNAVAILABLE
     }
 
-    private StorageSwitchTransition() {}
+    private StorageSwitchTransition() {
+    }
 
     public static Decision evaluate(
             boolean destinationUsable,
             long destinationUsableBytes,
             long currentStorageFootprintBytes) {
-        if (!destinationUsable || destinationUsableBytes <= 0L) {
-            return Decision.DESTINATION_UNAVAILABLE;
+        StorageDiskPreflight.Decision decision = StorageDiskPreflight.evaluate(
+                destinationUsable,
+                destinationUsableBytes,
+                currentStorageFootprintBytes);
+        switch (decision) {
+            case INSUFFICIENT_SPACE:
+                return Decision.INSUFFICIENT_SPACE;
+            case DESTINATION_UNAVAILABLE:
+                return Decision.DESTINATION_UNAVAILABLE;
+            default:
+                return Decision.PROCEED;
         }
-        if (destinationUsableBytes <= currentStorageFootprintBytes) {
-            return Decision.INSUFFICIENT_SPACE;
-        }
-        return Decision.PROCEED;
     }
 }
