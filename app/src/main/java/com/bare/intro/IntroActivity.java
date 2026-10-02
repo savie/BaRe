@@ -171,7 +171,7 @@ public final class IntroActivity extends Activity {
         LocalStorageCoordinator coordinator = new LocalStorageCoordinator(this, inventory);
         List<StorageVolumeInfo> volumes = coordinator.listVolumes();
         com.bare.storage.StorageSelection selection = coordinator.resolveSelection();
-        StorageVolumeInfo selected = selection == null ? null : selection.volume;
+        StorageVolumeInfo selected = selection == null ? null : selection.selected;
 
         boolean internalAvailable = false;
         for (StorageVolumeInfo volume : volumes) {
