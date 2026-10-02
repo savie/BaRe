@@ -721,3 +721,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F131 is distinct from F87 generic cloud credential persistence, F96 generic login-result taxonomy, and F20 provider operations because it owns the concrete TeraBox token lifecycle and refresh boundary.
 - P5.1 explicit unique feature-contract count is now **130**.
 - Static-only; no TeraBox authentication, token refresh, network/provider execution, build/install/runtime/backend execution was performed or authorized.
+
+### P5.1 TeraBox OAuth handoff reconciliation — 2026-10-02
+
+- Added **F132**: TeraBox external-browser OAuth handoff, browser/intent-handler prerequisite, deep-link callback intake, authorization-code routing, and sign-in UI/result lifecycle.
+- F132 is distinct from F131: F131 owns token credential construction/persistence/validity/refresh; F132 owns the browser-to-app OAuth integration and callback/result boundary.
+- P5.1 explicit unique feature-contract count is now **131**.
+- Static-only; no browser launch, callback delivery, TeraBox authentication, network/provider execution, build/install/runtime/backend execution was performed or authorized.
