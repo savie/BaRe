@@ -469,3 +469,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **92**.
 - These small-family units may be regrouped/collapsed during P5.2 if owner analysis shows they share one implementation boundary.
 - No implementation, build/install/runtime/provider/backend execution was performed or authorized.
+
+### P5.1 restore/install privileged-engine reconciliation — 2026-10-02
+
+- Added **F93–F94** from targeted direct decompile evidence.
+- F93: PackageInstaller session installation, result wait/status mapping, and install-source verification.
+- F94: notification-policy backup/per-package restore bridge with bounded XML payload handling.
+- P5.1 explicit feature-contract count is now **94**.
+- These are lower-level execution boundaries for later P5.2 owner grouping; they do not authorize privileged/runtime execution.
+- No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
