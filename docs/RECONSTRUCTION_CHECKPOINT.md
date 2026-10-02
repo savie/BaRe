@@ -696,3 +696,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F126 is distinct from F119 (app-data compression policy) and F41 (generic artifact format/compression/encryption boundary).
 - P5.1 explicit unique feature-contract count is now **126**.
 - Static-only; no folder backup/compression operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
+### P5.1 Folder result contract reconciliation — 2026-10-02
+
+- Added **F127**: folder backup result algebra with Failure / NoChange / Success variants, artifact references, and BackupStats payload.
+- Added **F128**: folder restore result algebra with success metrics and failure-message payload.
+- F127/F128 are distinct from F43 generic task result aggregation and F78 folder task execution; they own the domain-operation result contracts emitted by the folder engine.
+- P5.1 explicit unique feature-contract count is now **127**.
+- Static-only; no folder backup/restore operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
