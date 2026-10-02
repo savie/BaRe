@@ -32,7 +32,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 10 | Cloud | F19–F21, F42, F51–F52, F87–F88, F96–F105, F131–F153, F164–F165 | cloud connection, access state, provider execution, metadata/cleanup, diagnostics, provider-specific protocols, credentials and cloud-account identity |
 | 11 | Scheduling | F22, F50, F74, F107–F114, F122, F166 | schedule selection, execution eligibility, task handoff, per-feature schedule preparation, aggregate persistence, and alarm/boot trigger lifecycle |
 | 12 | Settings | F23, F26, F52, F73, F87, F100, F115, F118–F120 | settings and feature policy surfaces consumed by backup/restore |
-| 13 | Premium / entitlement | F31 | Reference premium/entitlement feature evidence |
+| 13 | Premium / entitlement | F31, **F168** | Reference premium UI/plan surface plus billing, purchase-state and entitlement reconciliation lifecycle |
 | 14 | Password / encryption | F25, F41, F52, F73, F95, F106, F154–F158 | password lifecycle, archive/encryption strategy, cryptographic payload/archive boundaries |
 | 15 | Tasks | F27, F43, F70, F75–F82 | task lifecycle, result aggregation, temporary workspace and feature task executors |
 | 16 | Wi-Fi | F28, F49, F81, F113 | Wi-Fi backup/restore, sensitive-access authentication and scheduled task preparation |
