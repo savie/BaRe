@@ -781,3 +781,16 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - pCloud quota/user-info remains under the generic CloudQuota provider surface; ordinary GET/move retry loops were not promoted to standalone feature IDs because the evidence supports implementation policy rather than a separate externally consumed lifecycle.
 - P5.1 numbered IDs are now **148**; unique feature-contract units are **147** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no pCloud network/authentication/upload/delete/filesystem/provider execution was performed or authorized.
+
+
+### P5.1 Generic/remote provider deep sweep — 2026-10-02
+
+- Added **F149–F153**:
+  - F149 S3 batch-object deletion aggregation/partial-failure handling.
+  - F150 WebDAV chunked upload, server-side assembly, and post-disconnect verification.
+  - F151 SMB multi-method deletion fallback.
+  - F152 SFTP password/private-key authentication execution boundary.
+  - F153 FTP LIST/TLS compatibility fallback and partial-upload cleanup.
+- Cloud Mail.Ru was specifically inspected and did not yield an independent lifecycle beyond the shared WebDAV/client boundary, so no extra ID was created.
+- P5.1 numbered IDs are now **153**; unique feature-contract units are **152** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no remote-provider execution was performed or authorized.
