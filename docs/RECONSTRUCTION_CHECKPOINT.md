@@ -891,3 +891,17 @@ The P5.2 working document was rebuilt as a concise contract matrix.
 - Implementation remains not authorized; P5 Gate remains not opened.
 
 Next P5.2 work: complete the contract matrix from the frozen P5.1 register, using targeted evidence extraction only where an owner/boundary field is genuinely unsupported.
+
+
+### P5.2 Contract Matrix Batch 01 — F01–F18 — 2026-10-02
+
+Rebuilt P5.2 matrix now has a bounded first contract batch using frozen P5.1 evidence and current BaRe structural targets.
+
+- F01–F18: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+P5.2 remains active. Next batches continue from the existing P5.1 register; no Reference re-audit is performed unless a specific contract field lacks evidence.
