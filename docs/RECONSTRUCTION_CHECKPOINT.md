@@ -503,6 +503,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - This is a connection-result contract, not runtime/network verification.
 - No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
 
+### P5.1 Calls retention / backup-lifecycle reconciliation — 2026-10-02
+
+- Added **F99** from targeted direct decompile evidence.
+- F99: Calls backup retention/local-cloud cleanup policy driven by the persisted `max_call_backups` limit, with separate local/cloud inventory and deletion paths plus failure reporting.
+- F99 is distinct from Calls backup/restore UI (F15/F16) and Calls task execution (F80), and is the Calls-specific counterpart to Messages retention F72.
+- P5.1 explicit unique feature-contract count is now **98**.
+- No backup deletion, cloud operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
