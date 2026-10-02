@@ -735,3 +735,13 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F133 is distinct from F131/F132 authentication lifecycle and from F20/F41 generic provider/artifact contracts.
 - P5.1 explicit unique feature-contract count is now **132**.
 - Static-only; no TeraBox upload, network/provider execution, file mutation, build/install/runtime/backend execution was performed or authorized.
+
+
+### P5.1 TeraBox provider error classification reconciliation — 2026-10-02
+
+- Added **F134** from direct TeraBox decompile evidence.
+- F134 records the provider-specific API error envelope and classification contract: HTTP/API responses become yz7 with method/URL/status/errno/body; auth-invalidating errors are classified from HTTP 401/403 or provider errno 200002/200003; errno -9 is classified as a non-fatal missing/no-op condition.
+- This classification feeds login outcome mapping, access-token refresh/retry, file/metadata/list/delete/create-directory handling, and existence-state mapping.
+- F134 is distinct from F96 generic login-result taxonomy and F20 generic provider operations.
+- P5.1 numbered IDs are now **134**; unique feature-contract units are **133** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no TeraBox network/provider execution, build/install/runtime, or backend execution was performed or authorized.
