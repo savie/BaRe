@@ -26,6 +26,9 @@ import com.bare.permission.PermissionState;
 import com.bare.core.state.LocalState;
 import com.bare.account.repository.AccountMigrationRepository;
 import com.bare.account.repository.LocalAccountMigrationRepository;
+import com.bare.storage.AndroidStorageInventory;
+import com.bare.storage.LocalStorageCoordinator;
+import com.bare.storage.StorageVolumeInfo;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -163,6 +166,67 @@ public final class IntroActivity extends Activity {
         }
     }
 
+    private void showStorageSetupRecovery() {
+        AndroidStorageInventory inventory = new AndroidStorageInventory(this);
+        LocalStorageCoordinator coordinator = new LocalStorageCoordinator(this, inventory);
+        List<StorageVolumeInfo> volumes = coordinator.listVolumes();
+        com.bare.storage.StorageSelection selection = coordinator.resolveSelection();
+        StorageVolumeInfo selected = selection == null ? null : selection.volume;
+
+        boolean internalAvailable = false;
+        for (StorageVolumeInfo volume : volumes) {
+            if (!volume.removable && volume.isValid()) {
+                internalAvailable = true;
+                break;
+            }
+        }
+
+        String location = selected == null ? getString(R.string.internal_storage)
+                : selected.displayName;
+        StorageSetupRecovery recovery = new StorageSetupRecovery(
+                location,
+                selected != null && selected.removable,
+                internalAvailable);
+
+        List<String> actions = new ArrayList<>();
+        actions.add(getString(R.string.exit));
+        actions.add(getString(R.string.retry));
+        actions.add(getString(R.string.review_storage_access));
+        if (recovery.supports(StorageSetupRecovery.Action.USE_INTERNAL_STORAGE)) {
+            actions.add(getString(R.string.internal_storage));
+        }
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.backup_storage_unavailable)
+                .setMessage(recovery.location)
+                .setItems(actions.toArray(new String[0]), (dialog, which) -> {
+                    String action = actions.get(which);
+                    if (action.equals(getString(R.string.exit))) {
+                        finishAffinity();
+                    } else if (action.equals(getString(R.string.retry))) {
+                        requestStorageAccess();
+                    } else if (action.equals(getString(R.string.review_storage_access))) {
+                        try {
+                            Intent intent = new Intent(
+                                    Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                                    Uri.parse("package:" + getPackageName()));
+                            startActivityForResult(intent, REQUEST_STORAGE);
+                        } catch (Exception ignored) {
+                            refreshState();
+                        }
+                    } else {
+                        for (StorageVolumeInfo volume : volumes) {
+                            if (!volume.removable && volume.isValid()) {
+                                coordinator.persistPreferredStorageDir(volume.rootPath);
+                                refreshState();
+                                break;
+                            }
+                        }
+                    }
+                })
+                .show();
+    }
+
     private void requestStorageAccess() {
         if (Build.VERSION.SDK_INT >= 30) {
             if (!Environment.isExternalStorageManager()) {
@@ -172,7 +236,7 @@ public final class IntroActivity extends Activity {
                             Uri.parse("package:" + getPackageName()));
                     startActivityForResult(intent, REQUEST_STORAGE);
                 } catch (Exception e) {
-                    refreshState();
+                    showStorageSetupRecovery();
                 }
             } else {
                 refreshState();
@@ -337,7 +401,7 @@ public final class IntroActivity extends Activity {
             if (!isNotificationsGranted()) Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
         } else if (requestCode == REQUEST_STORAGE) {
             refreshState();
-            if (!isStorageGranted()) Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
+            if (!isStorageGranted()) showStorageSetupRecovery();
         }
     }
 }
