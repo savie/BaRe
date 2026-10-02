@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 MEGA saved-session rehydration reconciliation — 2026-10-02
+
+- Added **F104** from direct decompile evidence.
+- F104: persisted MEGA session `email/sessionId/masterKey/userHandle`, email-bound validation, session-material decoding, and saved-session reuse before fresh authentication.
+- F104 is distinct from F97's MFA-required login outcome/session gate.
+- P5.1 explicit unique feature-contract count is now **104**.
+- No provider authentication/session reuse, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
