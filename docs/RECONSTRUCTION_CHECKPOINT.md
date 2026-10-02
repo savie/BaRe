@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 App cache + compression settings reconciliation — 2026-10-02
+
+- Added **F118**: app-cache inclusion policy, persistence, warning, settings propagation, and change-detection projection.
+- Added **F119**: app-data compression-level selection, persistence, supported-level normalization/default fallback, summary projection, and pipeline consumption boundary.
+- F118 is distinct from F39; F119 is distinct from F41.
+- P5.1 explicit unique feature-contract count is now **119**.
+- Static-only; no cache backup or compression operation was executed.
+
+
 ### P5.1 App backup-limit configuration lifecycle reconciliation — 2026-10-02
 
 - Added **F117**: per-app-part backup-limit configuration persistence, validation, serialization, normalization, and settings summary projection.
