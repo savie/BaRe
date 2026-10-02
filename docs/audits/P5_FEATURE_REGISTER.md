@@ -303,16 +303,33 @@ A targeted pass on `apkshare` found an additional artifact boundary separate fro
 F86 is static artifact evidence only; no archive was generated or installed at runtime.
 
 
+### P5.1 Cloud credential / orphan execution reconciliation
+
+A targeted direct decompile pass inspected the cloud persistence and orphan-cleanup state machines. These are promoted because they expose concrete persisted state or execution lifecycle beyond generic provider connectivity.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F87** | Cloud credential persistence / secure password-key merge / settings export | `cloud/protocols/a.java`, `CloudCredentials.java`, SharedPreferences keys `cloud_creds_*`, `cloud_creds_pswd_*`, `cloud_creds_pvt_key_*` | cloud credential repository + configuration export | Reference stores serialized cloud credentials per provider, separately persists encrypted/encoded password and private-key material, reconstructs a credential object by merging those persisted pieces, and exports credential settings through a document URI. This is a concrete credential lifecycle distinct from provider connection (F19/F20) and config transfer (F46). |
+| **P5-F88** | Cloud orphan scan / result / deletion state machine | `cloud/orphans/a.java`, `CloudOrphanCleanerActivity`, orphan worker callbacks | orphan-cleanup engine | Reference exposes explicit **IDLE → SCANNING → RESULTS → DELETING → ERROR** states and coordinates scan/delete work, connected-provider metadata, result state, progress/operation completion, and cleanup errors. F21 covers orphan cleanup as a feature family; F88 makes its execution state machine explicit for P5.2. |
+
+#### Cloud reconciliation notes
+
+- F87 is not a claim that credential storage is secure by modern BaRe standards; it records the observed Reference persistence/merge/export mechanism only.
+- F88 does not claim remote deletion success; only the statically evidenced cleanup state/operation boundary is recorded.
+- Provider-specific SDK/network behavior remains behind F20/F51 and is not promoted per provider here unless an independent lifecycle is later proven.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **86**.
+- P5.1 explicit feature-contract units after this pass: **88**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
 - F86 exposes the APKS share-package artifact builder/metadata manifest boundary.
+- F87–F88 expose cloud credential persistence and orphan-cleanup execution state boundaries.
 - This does **not** mean six independent Android Services; F77–F82 are provider implementations behind the shared task execution service/manager.
 - Packer archive extraction remains represented by F41; no duplicate archive feature is created.
-- Runtime verification remains unclaimed.
+- Runtime/provider/backend verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
 ## P5.1 current decision
