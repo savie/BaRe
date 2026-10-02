@@ -80,7 +80,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete (static closure) → P5.3 not started → P5 gate not yet opened.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete (static closure) → P5.3 active (static classification) → P5 gate not yet opened.**
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
