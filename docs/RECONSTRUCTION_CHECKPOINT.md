@@ -921,3 +921,19 @@ Second matrix consolidation batch completed from frozen P5.1 evidence plus curre
 Key boundary decisions: F19 remains the cloud connection/catalog consumer boundary; F20 owns the provider-neutral cloud operation contract; F21 owns cloud orphan/cleanup; F22 owns schedule state/service while F166 owns alarm/boot lifecycle; F23 remains settings shell/policy navigation rather than a duplicate owner of concrete settings contracts; F24 owns storage transition presentation/guard; F25/F26 own password and special-settings surfaces while downstream policy/crypto contracts remain separate; F27 owns task lifecycle/UI/service boundary; F28/F29 remain feature surfaces with device/acquisition/task execution delegated; F30/F31/F32/F33/F34 remain their respective presentation/input boundaries with persistence, entitlement, validation, and content parsing separated into existing F-IDs.
 
 P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
+
+
+### P5.2 Contract Matrix Batch 03 — F35–F50 — 2026-10-02
+
+Third matrix consolidation batch completed from frozen P5.1 evidence and current BaRe structural contracts. No new feature discovery pass was performed.
+
+- F35–F50: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+Boundary reconciliation keeps F38 on the existing provider-neutral permission capability service; F39–F44 on Apps/artifact/task domain boundaries; F45 on Home Account continuity; F46 on settings/config transfer; F47 on folder manifest/chain semantics; F48/F49 on message/Wi-Fi capability policy; and F50 on schedule selection/last-run state. No UI surface was promoted to an execution owner where a domain/task boundary already exists.
+
+P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
