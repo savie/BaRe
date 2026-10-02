@@ -184,6 +184,13 @@ Reference is read-only. This register is evidence, not implementation approval, 
 
 **Numbered IDs: 163. Unique feature-contract units: 162. F94 is a retained reconciliation marker duplicating F69.**
 
+## P5.1 targeted reconciliation — Onboarding — 2026-10-02
+
+- Targeted Reference sweep covered the onboarding lifecycle around `intro.d`, the storage-setup coordinator, storage-setup failure state, permission/root-Shizuku coordination, sign-in/identity flow, and first-run settings restore.
+- Existing boundaries are sufficient for the observed onboarding scope: **F38** privileged capability workflow, **F45** account/local identity continuity, **F73** user-password lifecycle, **F87** cloud credential persistence/config export, **F100** settings cloud backup/restore + local-settings application, and **F163** onboarding storage setup/failure recovery; **F01** remains the onboarding entry/lifecycle family.
+- The Reference evidence did **not** establish an additional independent onboarding boundary requiring a new F-ID. **No F164 was created.**
+- This reconciliation is static-only. No build/install/runtime/device, provider, backend, or filesystem execution was performed.
+
 ## Cross-document rule
 
 New finding workflow:
