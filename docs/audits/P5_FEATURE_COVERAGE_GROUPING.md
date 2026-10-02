@@ -34,7 +34,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 12 | Settings | F23, F26, F52, F73, F87, F100, F115, F118–F120 | settings and feature policy surfaces consumed by backup/restore |
 | 13 | Premium / entitlement | F31, **F168** | Reference premium UI/plan surface plus billing, purchase-state and entitlement reconciliation lifecycle |
 | 14 | Password / encryption | F25, F41, F52, F73, F95, F106, F154–F158 | password lifecycle, archive/encryption strategy, cryptographic payload/archive boundaries |
-| 15 | Tasks | F27, F43, F70, F75–F82 | task lifecycle, result aggregation, temporary workspace and feature task executors |
+| 15 | Tasks | F27, F43, F70, F75–F82, **F169** | task lifecycle, result aggregation, temporary workspace, feature task executors, and DataSync FGS runtime accounting/quota/reconciliation |
 | 16 | Wi-Fi | F28, F49, F81, F113 | Wi-Fi backup/restore, sensitive-access authentication and scheduled task preparation |
 | 17 | Wallpapers | F29, F82, F112 | wallpaper management/apply and task execution |
 | 18 | Storage | F24, F44, F89, F125, F161 | storage inventory, app-size measurement, manage-space and execution-time disk-space preflight |
