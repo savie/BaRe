@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 App-list swipe-action settings reconciliation — 2026-10-02
+
+- Added **F116**: app-list left/right swipe action configuration, separate persisted state, reset semantics, and downstream app-list projection.
+- F116 is a dedicated settings contract, not merely generic F23 Settings.
+- P5.1 explicit unique feature-contract count is now **116**.
+- Static-only; no UI interaction or persisted-state mutation was executed.
+
+
 ### P5.1 Multiple-backup strategy contract reconciliation — 2026-10-02
 
 - Added **F115**: MultipleBackupStrategy state model, persistence, legacy migration, backup-count normalization, entitlement-aware resolution, representation mapping, and settings-state transport.
