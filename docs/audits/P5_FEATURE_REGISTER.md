@@ -364,6 +364,22 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 App backup-limit configuration lifecycle reconciliation
+
+**P5-F117 — Per-app-part backup-limit configuration persistence / validation / serialization**
+
+Direct Reference evidence establishes a configuration lifecycle separate from the downstream enforcement contract:
+
+- `settings/appbackuplimits/AppBackupLimitsActivity` edits a Parcelable list of `AppBackupLimitItem` values for DATA, EXTDATA, MEDIA and EXPANSION.
+- Each item has independent local/cloud MB limits and exposes byte conversion plus `hasLimits()` / `isValid()` normalization semantics.
+- `defpackage/ok.java` loads each part's persisted value from SharedPreferences, deserializes the `AppBackupLimitItem`, returns empty/default items when absent, and aggregates all four app parts.
+- Save logic normalizes non-positive limits to null; valid items with limits are serialized and stored under the app-part key; invalid/no-limit items remove the persisted key.
+- Settings summary reads the persisted limit items and displays only entries that currently have limits.
+- This is distinct from F63 **per-part backup-limit enforcement**: F117 owns the editable configuration/state persistence and normalization lifecycle; F63 covers application of those limits during backup planning/execution.
+
+Static-only; no persisted settings were changed.
+
+
 ### P5.1 App-list swipe-action settings reconciliation
 
 **P5-F116 — App-list left/right swipe action configuration / persistence / reset**
@@ -626,7 +642,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **116 unique units**.
+- P5.1 explicit feature-contract units after this pass: **117 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
