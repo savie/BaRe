@@ -59,7 +59,7 @@ Status di atas hanya status coverage P5.1.
 
 **P5.1 tetap OPEN.**
 
-**Domain 1 — Onboarding:** \`COVERED — provisional / FOLLOW-UP REQUIRED\`
+**Domain 1 — Onboarding:** \`COVERED — provisional\` — targeted onboarding sweep completed on 2026-10-02; no independent new boundary was found, so no new F-ID was added.
 
 Detail evidence, finding, boundary reconciliation, dan targeted audit tetap canonical di \`P5_FEATURE_REGISTER.md\`.
 
