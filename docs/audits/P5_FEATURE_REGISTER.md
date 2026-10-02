@@ -379,9 +379,24 @@ A targeted direct decompile pass inspected the app special-data payload format u
 - No runtime decode/write/restore test was performed.
 
 
+### P5.1 Cloud login outcome reconciliation
+
+A targeted direct decompile pass inspected the cloud login result contract and its consumers. The Reference does not collapse login into a boolean; it carries distinct terminal/error classes used by the connection flow.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F96** | Cloud login outcome taxonomy / connection-result contract | `cloud/protocols/CloudOperationsImpl$LoginResult.java` and consumers including `jh1`, `v52`, `l62`, `rv5` | cloud connection engine → connection UI/state | Reference explicitly distinguishes **Success**, **InvalidCredentials**, **TempConnectionError**, **UnknownHostKey**, **UntrustedCertificate**, **UnknownError**, and generic **Failed**, with error payloads and host-key properties where applicable. This is a concrete result contract behind F19/F20 and prevents downstream implementation from collapsing actionable connection outcomes into one boolean. |
+
+#### Cloud login note
+
+- F96 is a result/state contract, not a claim of successful network connectivity on BaRe.
+- Provider-specific network implementations remain under F20/F51.
+- No runtime connection test was performed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after duplicate reconciliation: **94 unique units**.
+- P5.1 explicit feature-contract units after this pass: **95 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -392,6 +407,7 @@ A targeted direct decompile pass inspected the app special-data payload format u
 - F93 exposes the privileged PackageInstaller execution boundary.
 - F94 is merged into existing F69 and is not counted separately.
 - F95 exposes the special-data payload format/codec lifecycle.
+- F96 exposes the cloud login outcome taxonomy/result contract.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
