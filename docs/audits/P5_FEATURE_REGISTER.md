@@ -273,6 +273,25 @@ A targeted direct decompile pass inspected the Reference task stack after F74. R
 - `MultiCompressor$Type` / metadata evidence alone does not establish an independent compression execution owner beyond F41, so it is not promoted separately.
 - These are static Reference execution boundaries. No task was executed on-device and no provider/backend implementation was performed.
 
+
+### P5.1 Persistence / configuration engine reconciliation
+
+A targeted direct decompile pass then inspected local persistence and configuration data boundaries. Only independently consumed/persisted behavior is promoted.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F83** | Apps inventory cache persistence / refresh reconciliation | `database/MDatabase.java`, `MDatabase_Impl.java`, `defpackage/y35.java`, `defpackage/lm.java`, `defpackage/nm.java`, `defpackage/pm.java`, `defpackage/ji.java`; Room table `app_cached_data` | local Room persistence + AppCachedData repository | Reference persists package name, display name, installed/enabled/launchable state and locale; reads cached rows by package and refreshes them when PackageManager-derived state differs. This is a concrete inventory-cache lifecycle behind F04/F53, not merely a list UI detail. |
+| **P5-F84** | SLog local persistence / retention / filtering | `database/MDatabase_Impl.java`, `defpackage/nv6.java`, `defpackage/kv6.java`, `defpackage/vr6.java`; `SMessage` table | local Room log DAO + SLog service | Reference writes structured log rows, exposes latest/after-time observation, clears all logs, deletes logs older than three days, caps retrieval at 10,000 rows, and filters selected diagnostic categories. F35 covers the diagnostic surface; F84 records its concrete persistence/retention engine. |
+| **P5-F85** | App configuration validation / label-reference normalization | `appconfigs/data/ConfigSettings.java`, `ConfigsData.java`; `ApplyData.getLabelIds()`, `getLabels()`, `isValid()`, `ConfigSettings.isValid()`, `ConfigsData.validate()`, `removeCloudLocation()` | configuration model validation + label/cloud-location normalization | Reference validates config entries before use, filters stale label IDs, logs missing label references, rejects invalid ApplyData unless explicitly allowed, removes cloud locations through a normalized copy, and filters invalid ConfigSettings from the aggregate. This is a domain validation boundary beyond F09 editing UI and F62 task mapping. |
+
+#### Persistence/config notes
+
+- F83 is deliberately not a new Apps inventory family; it makes the already evidenced **local cache producer/consumer lifecycle** explicit for P5.2.
+- F84 is deliberately not a duplicate of F35 diagnostics UI; it records the actual local structured-log persistence and retention policy.
+- F85 does not replace F09 or F62. It is the validation/normalization boundary between editable configuration data and downstream consumers.
+- The Reference Room database is statically evidenced; no runtime database migration/open/transaction verification was performed.
+- Cloud credential serialization was inspected but not promoted here because the evidence maps cleanly into the existing F46 import/export/config-transfer and F51 provider-abstraction boundaries; no independent execution owner was required by this pass.
+
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units: **82**.
