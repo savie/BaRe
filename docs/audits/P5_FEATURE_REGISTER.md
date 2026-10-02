@@ -685,6 +685,22 @@ Direct Reference evidence establishes a concrete configuration-transfer contract
 
 Static-only; no configuration was exported/imported or applied.
 
+### P5.1 Apps search index / result-provider reconciliation
+
+**P5-F124 — Apps search query normalization / index-source projection / result-provider contract**
+
+Direct Reference evidence establishes a search data boundary beyond the Apps search UI:
+
+- Apps search input is normalized before query execution rather than being passed directly from the Activity text field.
+- The search layer projects installed-app/package records into a dedicated searchable source and filters the source using package/app-label metadata.
+- Result projection is owned by the search provider/model boundary and feeds the Apps result surface independently of the Activity's query-entry state.
+- Empty-query/default state and no-result state are represented separately from an execution failure.
+- This is distinct from F55: F55 owns the **Apps-list search UI/query state**, while F124 owns the **search-source/index projection and result-provider contract**.
+- Home search F03 remains a separate feature because its search surface and source/result scope are not the Apps-list provider.
+
+Static-only; no search index was built or queried at runtime.
+
+
 ### P5.1 Blacklist predicate / backup-planning integration reconciliation
 
 **P5-F123 — Blacklist persistence / package predicate / backup-selection exclusion**
@@ -735,7 +751,7 @@ Static-only; no root capability check or restore operation was executed.
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **123 unique units**.
+- P5.1 explicit feature-contract units after this pass: **124 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -773,6 +789,7 @@ Static-only; no root capability check or restore operation was executed.
 - F121 exposes App Configuration export/import serialization, validation, and replacement boundary.
 - F122 exposes ScheduleData aggregate persistence, ordering normalization/mutation, and battery-policy state.
 - F123 exposes Blacklist package predicate persistence and backup-selection exclusion integration.
+- F124 exposes Apps search normalization, searchable-source projection, and result-provider semantics.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
