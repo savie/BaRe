@@ -16,6 +16,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/audits/P5_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
 | `docs/audits/P5_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** |
 | `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` | P5.2 contract / owner / boundary static-analysis authority | **P5.2 working authority** |
+| `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` | P5.3 gap/dependency/UNKNOWN classification and closure | **P5.3 static-analysis authority** |
+| `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` | P5.4 implementation readiness and batch selection | **P5.4 working authority** |
 | `docs/audits/P5_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
@@ -57,8 +59,9 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry result
 6. `docs/audits/P5_FEATURE_REGISTER.md` — P5.1 Reference feature audit
 7. `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` — P5.2 owner/boundary closure
-8. P5.3 gap/dependency/UNKNOWN classification is the next phase; the P5 gate remains closed
-9. P5 implementation is not authorized before the documented readiness checkpoint
+8. `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` — P5.3 static closure
+9. `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` — active readiness checkpoint
+10. P5.5 implementation is not authorized until P5.4 exit
 
 ### Daily P3 work
 
