@@ -90,7 +90,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 
 | # | P5.0 domain | Current F-ID coverage | Coverage purpose |
 |---:|---|---|---|
-| 1 | Onboarding | F01, F45, F73, F87, F100 | first-start, identity, password/settings continuity, restore-related entry dependencies |
+| 1 | Onboarding | F01, F45, F73, F87, F100, **F163** | first-start, identity, password/settings continuity, restore-related entry dependencies, storage setup/recovery |
 | 2 | Home / dashboard | F02, F03, F22, F24, F27, F35, F36, F37 | dashboard/search/orchestration and home-level feature entry |
 | 3 | Apps | F04–F08, F38–F44, F53–F71, F77, F83, F93, F159–F162 | core Apps inventory, selection, backup/restore, package execution, special data, row actions, compatibility and artifact materialization |
 | 4 | App configuration | F09, F58, F62, F85, F116–F121 | configuration model, labels, task-input projection, persistence and normalization |
@@ -278,8 +278,9 @@ Ketiga artefak mempunyai fungsi berbeda dan tidak boleh dicampur.
 Prioritas pencarian berikutnya:
 
 1. **Onboarding → Home / dashboard**
-   - validasi apakah F01–F03 sudah mencakup seluruh entry, state transition, search/result, dan first-run continuation behavior;
-   - cari feature-specific behavior yang hanya terlihat dari consumer/orchestration path.
+   - **Onboarding targeted sweep: F163 ditemukan** untuk storage setup/failure recovery;
+   - domain tetap `COVERED — provisional`, belum `READY FOR P5.2 REVIEW`;
+   - lanjutkan cek entry, state transition, sign-in/migration, permission handoff, first-run cloud restore continuation, dan consumer/orchestration path agar tidak ada boundary onboarding lain yang tertinggal.
 
 2. **Apps**
    - validasi coverage core backup/restore setelah F159–F162;
@@ -360,3 +361,60 @@ Bukan:
 > **Cari 162 → anggap selesai → langsung bikin contract.**
 
 P5.1 tetap terbuka selama coverage belum cukup dibuktikan.
+
+
+---
+
+## 13. Domain 1 audit record — Onboarding
+
+### Current result
+
+**Status: COVERED — provisional / FOLLOW-UP REQUIRED**
+
+Current onboarding evidence:
+- F01 — Onboarding / first-start
+- F45 — Account / local identity / continuity boundary
+- F73 — User-password lifecycle / password history state
+- F87 — Cloud credential persistence / secure password-key merge / settings export
+- F100 — Settings cloud backup / restore and local-settings application
+- **F163 — Onboarding storage setup / failure recovery**
+
+### F163 finding
+
+Targeted direct Reference inspection found an onboarding-specific storage setup lifecycle that was not represented by an existing independent F-ID.
+
+Evidence:
+- 'intro.d' constructs a dedicated storage setup coordinator.
+- The coordinator consumes 'getPreferredStorageTypeForIntro'.
+- The coordinator exposes an 'onStorageSetupFailure' callback.
+- Reference defines 'StorageSetupFailure(mainDir, isRemovable, offerInternalStorage)'.
+- 'IntroActivity' renders 'intro_storage_setup_failure_dialog'.
+- Failure recovery includes Retry, Review storage access, optional Use internal storage, and Exit storage setup.
+- The failure surface also carries location, diagnostics, and remaining/review step information.
+
+Classification for this document:
+- **NEW EVIDENCE → F163**
+- This is still P5.1 evidence/coverage work.
+- It does not create a P5.2 contract.
+
+### Boundary reconciliation
+
+F163 is kept separate from:
+- F24 — Storage management;
+- F38 — Privileged permission / Root–Shizuku capability workflow;
+- F01 — general onboarding/first-start orchestration.
+
+Those existing findings remain valid. F163 captures the concrete onboarding storage initialization/failure-recovery boundary discovered by targeted inspection.
+
+### Remaining targeted sweep
+
+Do not mark Onboarding ready yet. Continue checking:
+- first-start state transitions;
+- Google/anonymous sign-in and migration continuation;
+- permission handoff;
+- first-run cloud settings restore;
+- password handoff;
+- onboarding-to-Home continuation;
+- Activity result/error/dialog restoration paths.
+
+Only create F164+ if the next targeted search establishes another independent Reference boundary.
