@@ -319,17 +319,27 @@ A targeted direct decompile pass inspected the cloud persistence and orphan-clea
 - Provider-specific SDK/network behavior remains behind F20/F51 and is not promoted per provider here unless an independent lifecycle is later proven.
 
 
+### P5.1 Storage measurement / cached-usage reconciliation
+
+A direct pass on the storage-switch model found a concrete measurement/cache lifecycle behind the storage UI.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F89** | Storage volume measurement / app-usage calculation / cached storage snapshot | `model/StorageInfoLocal.java`, `defpackage/wo7.java`, `defpackage/zn7.java`; SharedPreferences key `saved_storage_info_local` | storage measurement model + persisted snapshot | Reference computes total/used/free storage, used percentage, optional app-usage bytes/percentage, returns Loading/Error/Success states, and persists a serialized successful snapshot for later retrieval. It also derives filesystem/root-access conditions per volume. This is more concrete than F24's storage-selection UI contract. |
+
+F89 is static evidence only; filesystem statistics and persisted snapshot behavior were not runtime-verified on BaRe.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **88**.
+- P5.1 explicit feature-contract units after this pass: **89**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
 - F86 exposes the APKS share-package artifact builder/metadata manifest boundary.
 - F87–F88 expose cloud credential persistence and orphan-cleanup execution state boundaries.
-- This does **not** mean six independent Android Services; F77–F82 are provider implementations behind the shared task execution service/manager.
-- Packer archive extraction remains represented by F41; no duplicate archive feature is created.
-- Runtime/provider/backend verification remains unclaimed.
+- F89 exposes storage measurement and cached-usage snapshot behavior.
+- Runtime/provider/backend/filesystem verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
 ## P5.1 current decision
