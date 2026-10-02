@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Special-data payload codec reconciliation — 2026-10-02
+
+- Added **F106** from direct Reference decompile evidence.
+- F106: versioned `AppSpecialDataPayload` container/codec lifecycle, including v1 format, encrypted-string separator, user binding, bounded read/size handling, compression/decompression, validation, and atomic replacement persistence.
+- F106 is distinct from F65–F69, which describe the semantic permission/SSAID/notification-access/accessibility/notification-policy state contracts carried by the payload.
+- P5.1 explicit unique feature-contract count is now **106**.
+- No payload generation/restoration, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 Protected-backup deletion enforcement reconciliation — 2026-10-02
 
 - Added **F105** from direct decompile evidence.
