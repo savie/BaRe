@@ -502,3 +502,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit unique feature-contract count is now **95**.
 - This is a connection-result contract, not runtime/network verification.
 - No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 provider-specific cloud session reconciliation — 2026-10-02
+
+- Added **F97–F98** from targeted direct decompile evidence.
+- F97: MEGA multi-factor-auth-required login outcome and session gate.
+- F98: Filen restorable encrypted-session state and session rehydration lifecycle.
+- P5.1 explicit unique feature-contract count is now **97**.
+- Other provider-specific classes remain grouped under existing F20/F51/F87 unless an independent lifecycle is evidenced.
+- No provider network/authentication runtime was performed or authorized.
