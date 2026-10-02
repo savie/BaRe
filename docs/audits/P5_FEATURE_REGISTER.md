@@ -330,15 +330,33 @@ A direct pass on the storage-switch model found a concrete measurement/cache lif
 F89 is static evidence only; filesystem statistics and persisted snapshot behavior were not runtime-verified on BaRe.
 
 
+### P5.1 Locale / contributor / notice data-engine reconciliation
+
+A targeted direct pass inspected the smaller feature families that remained mostly represented by Activities. Only concrete persisted/derived behavior was promoted.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F90** | Locale selection persistence / resource-language switch | `locale/LocaleActivity.java`, `locale/LocaleChangedReceiver.java`, locale preference/state helpers | locale preference + configuration propagation | Reference persists selected locale and has a dedicated locale-change receiver that reacts to configuration changes. This is the state/propagation boundary behind F32 rather than merely the locale screen. |
+| **P5-F91** | Contributor registration state / registration persistence | `contributor/ContributorRegistration.java`, `ContributorRegActivity.java`, contributor data/preferences | contributor registration state + persistence | Reference has a dedicated registration data object and persisted registration state consumed by the registration UI. This makes the contributor state lifecycle explicit beyond F33's screen surface. |
+| **P5-F92** | Notice/license content loading / selection model | `notice/NoticeListActivity.java`, `NoticeViewActivity.java`, `settings/LicensesActivity.java`, notice/license resources/data | static notice/license content provider + selection state | Reference separates notice listing, selected notice rendering, and license content selection. The content model is static/read-only and is recorded here as a data boundary, not as a runtime backend feature. |
+
+#### Small-family audit note
+
+- F90–F92 are deliberately modest: no network or backend behavior is inferred.
+- These units capture concrete state/data ownership where the original F32–F34 entries were primarily Activity-level.
+- If later direct inspection shows no reusable consumer beyond the Activity itself, these may be collapsed during P5.2 rather than treated as separate implementation packages.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **89**.
+- P5.1 explicit feature-contract units after this pass: **92**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
 - F86 exposes the APKS share-package artifact builder/metadata manifest boundary.
 - F87–F88 expose cloud credential persistence and orphan-cleanup execution state boundaries.
 - F89 exposes storage measurement and cached-usage snapshot behavior.
+- F90–F92 expose locale, contributor, and notice/license data/state boundaries.
 - Runtime/provider/backend/filesystem verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
