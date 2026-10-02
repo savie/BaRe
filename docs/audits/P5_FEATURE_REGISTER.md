@@ -456,9 +456,25 @@ A targeted direct decompile pass traced `FolderRestoreStrategy` from its persist
 - No folder restore was executed and no filesystem mutation was performed.
 
 
+### P5.1 Cloud diagnostics transfer-test engine reconciliation
+
+A direct decompile pass on `cloud/diagnostics` found a concrete provider diagnostic execution boundary beyond the Cloud Diagnostics Activity/UI.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F102** | Cloud diagnostics transfer-test suite / result-state engine | `cloud/diagnostics/CloudDiagnosticsActivity.java`, `defpackage/hf1.java`, `we1.java`, `te1.java`, `ge1.java`, related diagnostic event/state classes | cloud diagnostics orchestrator + provider transfer-test boundary | Reference builds a selectable diagnostic test suite and executes concrete cloud checks including upload/download preparation, round-trip transfer, multithreaded download, provider transfer mode, file-size/hash validation, thumbnail/download validation, cache-file cleanup, and progress/error reporting. Test outcomes are explicitly represented as **NOT_RUN, RUNNING, PASSED, FAILED, ACTION_REQUIRED, SKIPPED**, with a generated summary/report path. This is a concrete execution family distinct from generic cloud provider operations (F20/F51) and cloud cleanup (F21/F88). |
+
+#### Cloud diagnostics note
+
+- F102 records the static diagnostic test/result boundary only; no provider transfer was executed.
+- Existing F35 remains the broader diagnostics/logging feature surface; F102 exposes the concrete cloud transfer-test engine behind its cloud-diagnostics surface.
+- Provider-specific network implementation remains downstream under F20/F51.
+- No build/install/runtime/provider/backend execution was performed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **97 unique units**.
+- P5.1 explicit feature-contract units after this pass: **102 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -471,6 +487,10 @@ A targeted direct decompile pass traced `FolderRestoreStrategy` from its persist
 - F95 exposes the special-data payload format/codec lifecycle.
 - F96 exposes the cloud login outcome taxonomy/result contract.
 - F97–F98 expose two independently evidenced provider-specific session/authentication lifecycles.
+- F99 exposes Calls backup retention/local-cloud cleanup policy.
+- F100 exposes reusable settings cloud backup/restore and local-settings application.
+- F101 exposes persisted FolderRestoreStrategy policy and its restore-engine consumption.
+- F102 exposes the Cloud Diagnostics transfer-test/result-state engine.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
