@@ -8,6 +8,8 @@
 
 Reference is read-only. This register is evidence, not implementation approval, parity closure, runtime verification, or P5 gate closure.
 
+**P5.3 classification layer:** ACTIVE below. The P5.1 evidence table remains frozen; P5.3 adds classification without mutating the Reference evidence.
+
 ## Primary evidence
 
 - `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
