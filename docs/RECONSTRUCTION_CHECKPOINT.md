@@ -845,3 +845,26 @@ Static cross-check against current `rewrite` found no equivalent canonical BaRe 
 **Batch F01–F11 is now owner/boundary-locked at static-analysis level.** Implementation target projection and downstream execution remain separate work; P5 Gate remains **NOT OPENED**.
 
 No build, install, runtime, device, provider, backend, or engine execution was performed.
+
+
+### P5.2 F12–F18 owner/boundary checkpoint — 2026-10-02
+
+P5.2 remains **ACTIVE**. A third bounded static forensic batch completed owner/boundary extraction for F12–F18:
+
+- F12: qo3 folder batch state/orchestration → qp3 FoldersTask execution.
+- F13: ye5 / he5 message dashboard/backup state → existing ff5 MessagesTask execution boundary.
+- F14: Messages backup/restore Activity consumer/selection → ff5 MessagesTask execution; default-SMS capability remains a separate prerequisite.
+- F15: s11 / v01 call dashboard/backup state → rz0 CallLogItem metadata model; execution remains F80.
+- F16: Calls backup/restore Activity consumer/selection → z11 CallsTask execution; rz0 remains the item model.
+- F17: wv1 conversation state/orchestration → qv1 conversation read model backed by SMS/MMS item sources.
+- F18: SmsReceiver / MmsReceiver inbound integration endpoints; Compose/Headless SMS endpoints retained without inventing a separate engine.
+
+Batch result:
+- independent new F-ID: **0**
+- owner collision: **0**
+- unresolved owner/boundary UNKNOWN: **0 for F12–F18**
+- implementation: **not authorized**
+- P5 Gate: **NOT OPENED**
+- runtime/device/provider/backend/engine execution: **not performed**
+
+P5.2 remains the current lifecycle boundary; additional feature batches are still required before any P5.3 transition.
