@@ -1315,3 +1315,11 @@ Static-only; no folder restore operation was executed.
 - F161 is distinct from **F24** Storage Management: F24 is the storage inventory/manage-space feature surface, while F161 is the execution-time filesystem-capacity precondition and result algebra used by backup/restore engines.
 - F161 is also distinct from **F43** task result aggregation because `oj7` is the concrete space-check result contract consumed before/within execution rather than a task terminal-result aggregator.
 - Static-only; no filesystem mutation, backup/restore execution, or runtime storage-capacity test was performed.
+### P5.1 Apps cloud-restore artifact reuse / download decision reconciliation — 2026-10-02
+
+- Added **F162**: Apps cloud-restore per-part artifact descriptor construction, local-copy reuse, and change-aware download decision boundary.
+- Direct Reference evidence: `mq` constructs concrete restore artifact descriptors for APK, split APKs, shared libraries, DATA, EXTDATA, MEDIA, EXPANSION, and optional special data from `CloudMetadata` plus the selected `AppPart` set, including expected size and target local path.
+- `mq.a(fo2)` first reuses an existing local cloud-copy when the target file exists and its size exactly matches the expected artifact size, skipping another download. Otherwise it evaluates the installed app state and applies part-specific change detection before deciding whether a cloud transfer is required.
+- APK/split/shared-library reuse is checked through `eq.a()` using current APK size, version name/code, split presence, and shared-library presence. DATA/EXTDATA/MEDIA/EXPANSION reuse is checked through `nm6.b()` using backup date, current part size, mirrored backup size, cache policy, and part identity.
+- F162 is distinct from **F20** generic cloud-provider operations, **F39** backup-time change detection, **F42** metadata lifecycle, and **F54** restore-part selection: F162 owns the Apps cloud-restore artifact materialization/reuse decision before provider transfer.
+- Static-only; no cloud download, local filesystem mutation, restore execution, provider execution, build/install, or backend execution was performed.
