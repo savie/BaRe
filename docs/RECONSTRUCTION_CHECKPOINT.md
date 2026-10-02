@@ -728,3 +728,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F132 is distinct from F131: F131 owns token credential construction/persistence/validity/refresh; F132 owns the browser-to-app OAuth integration and callback/result boundary.
 - P5.1 explicit unique feature-contract count is now **131**.
 - Static-only; no browser launch, callback delivery, TeraBox authentication, network/provider execution, build/install/runtime/backend execution was performed or authorized.
+
+### P5.1 TeraBox chunked-upload protocol reconciliation — 2026-10-02
+
+- Added **F133**: TeraBox multipart upload session, chunk boundaries, per-part MD5 integrity verification, sequence/result state, upload-session ID, and finalization protocol.
+- F133 is distinct from F131/F132 authentication lifecycle and from F20/F41 generic provider/artifact contracts.
+- P5.1 explicit unique feature-contract count is now **132**.
+- Static-only; no TeraBox upload, network/provider execution, file mutation, build/install/runtime/backend execution was performed or authorized.
