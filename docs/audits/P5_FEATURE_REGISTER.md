@@ -69,7 +69,7 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F131
+## Canonical P5.1 feature index — F01–F132
 
 This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
 
@@ -206,8 +206,9 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F129** | Folder metadata reconstruction / local persistence / cloud synchronization lifecycle |
 | **F130** | Latest folder manifest selection / cloud-download cache lifecycle |
 | **F131** | TeraBox token credential persistence / validity / OAuth refresh lifecycle |
+| **F132** | TeraBox browser OAuth sign-in handoff / deep-link callback / sign-in result lifecycle |
 
-**Numbered IDs present: 131. Unique feature-contract units: 130.**
+**Numbered IDs present: 132. Unique feature-contract units: 131.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -965,6 +966,21 @@ Direct Reference decompile evidence establishes a provider-specific token lifecy
 - This is distinct from F87 generic cloud credential persistence, F96 generic login-result taxonomy, and F20 provider operations: F131 owns the **TeraBox token/session continuity, validity, expiry, authorization-code exchange, refresh-token, and persisted credential lifecycle**.
 
 Static-only; no TeraBox authentication, token refresh, network/provider execution, build/install/runtime/backend execution was performed.
+### P5.1 TeraBox browser OAuth sign-in handoff reconciliation
+
+**P5-F132 — TeraBox browser OAuth sign-in handoff / deep-link callback / sign-in result lifecycle**
+
+Direct Reference decompile evidence establishes a sign-in integration boundary separate from F131 token lifecycle:
+
+- `TeraBoxSignInActivity` checks that TeraBox app credentials are configured and that a browser/intent handler is available before starting the external TeraBox login URL.
+- The Activity builds the TeraBox outside-login URL with the configured client identifier and launches it through an Android VIEW intent.
+- `onNewIntent()` receives the callback/deep-link intent and resets the sign-in state before handing the returned URI to the sign-in coordinator.
+- The sign-in coordinator parses the callback authorization code and passes it to the TeraBox OAuth token-exchange path.
+- UI state explicitly exposes handler/browser errors, missing TeraBox API credentials, callback processing errors, and sign-in completion/error outcomes.
+- The completion path updates the surrounding cloud-connect flow after the callback rather than treating browser launch as successful authentication.
+- This is distinct from **F131**, which owns token credential construction, persistence, validity, expiry, and refresh. F132 owns the **external-browser OAuth handoff, callback/deep-link intake, authorization-code routing, and sign-in UI/result lifecycle**.
+
+Static-only; no browser launch, callback delivery, TeraBox authentication, network/provider execution, build/install/runtime/backend execution was performed.
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **127 unique units**.
@@ -1013,6 +1029,7 @@ Static-only; no TeraBox authentication, token refresh, network/provider executio
 - F129 exposes folder metadata reconstruction, local persistence, artifact-to-metadata reconciliation, and cloud-node publication/deletion.
 - F130 exposes latest folder manifest selection plus the local cloud-manifest cache/download lifecycle.
 - F131 exposes TeraBox token credential persistence, validity/expiry policy, OAuth authorization-code exchange, refresh-token lifecycle, and session continuity.
+- F132 exposes the TeraBox external-browser OAuth handoff, callback/deep-link intake, authorization-code routing, and sign-in UI/result lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -1025,7 +1042,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F131 index is consolidated above.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F132 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
