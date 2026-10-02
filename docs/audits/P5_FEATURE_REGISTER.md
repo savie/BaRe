@@ -364,6 +364,26 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 Scheduled domain-subtype execution reconciliation
+
+A direct decompile trace of `ScheduleService` and the remaining `ScheduleItem` subtypes found five additional schedule-specific task-preparation boundaries. These are parallel to F107–F109 and are not merely generic F74 handoff.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F110** | Scheduled Messages selection / permission-data availability / task preparation | `ScheduleItem$Messages.smali`, `ScheduleService.java`, `qv1`, `ff5` | schedule engine → Messages task preparation | Reference collects enabled Messages schedule items, verifies the Messages capability/permission gate, loads available message data, explicitly skips schedules when no messages are available, and constructs `MessagesTask` providers with each schedule's item identity and sync/location parameters. This is distinct from F72 retention and F79 generic Messages task execution. |
+| **P5-F111** | Scheduled Calls selection / call-log availability / task preparation | `ScheduleItem$CallLogs.smali`, `ScheduleService.java`, `d01`, `z11` | schedule engine → Calls task preparation | Reference collects CallLogs schedule items, checks call-log access, enumerates available call-log backups/data, explicitly skips when no call logs exist, and constructs `CallsTask` providers with schedule identity and transfer settings. This is distinct from F99 retention and F80 generic Calls task execution. |
+| **P5-F112** | Scheduled Wallpapers selection / valid-wallpaper discovery / task preparation | `ScheduleItem$Wallpapers.smali`, `ScheduleService.java`, `sv7/tv7`, `wp8` | schedule engine → Wallpapers task preparation | Reference resolves the currently valid system wallpaper set, skips the scheduled wallpaper task when no valid wallpapers are available, and constructs the Wallpapers provider with schedule identity and selected transfer settings. This is distinct from F82 generic Wallpapers task execution. |
+| **P5-F113** | Scheduled Wi-Fi selection / device-read prerequisite / task preparation | `ScheduleItem$Wifi.smali`, `ScheduleService.java`, `us8/hs8/gs8`, `tt8` | schedule engine → Wi-Fi task preparation | Reference reads saved Wi-Fi networks through the device adapter, handles explicit device-read failure/access-unavailable states and records corresponding `ScheduleLastRunDetails`, skips when no saved networks exist, and constructs `WifiTask` providers for valid schedule items. This is distinct from F49 Wi-Fi capability policy and F81 generic Wi-Fi task execution. |
+| **P5-F114** | Scheduled Folders selection / backup-strategy projection / task preparation | `ScheduleItem$Folders.smali`, `ScheduleService.java`, `FolderBackupStrategy`, `qp3` | schedule engine → Folders task preparation | Reference persists folder schedule selection plus `backupAllFolders`, folder-item selection, backup strategy, locations, sync option and repeat/enabled state, then projects those values into `FoldersTask` providers. This is distinct from F47 folder artifact semantics and F78 generic Folders task execution. |
+
+#### Scheduled domain-subtype notes
+
+- F110–F114 are **schedule-specific preparation contracts**, not replacements for F74.
+- F74 remains the shared scheduler eligibility/handoff spine.
+- F79–F82 remain domain task execution owners.
+- Static evidence only; no schedule was triggered or executed.
+
+
 ### P5.1 Scheduled Apps configuration reconciliation
 
 A targeted direct decompile pass traced the schedule-specific `ScheduleItem.AppConfig` branch separately from generic configuration validation and task mapping.
@@ -573,7 +593,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **109 unique units**.
+- P5.1 explicit feature-contract units after this pass: **114 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -597,6 +617,11 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F107 exposes the schedule-specific Apps Quick Actions selection/task-preparation/last-run lifecycle.
 - F108 exposes the schedule-specific Apps custom-configuration selection/cloud-fallback/task-preparation lifecycle.
 - F109 exposes the schedule-specific Apps label-selection/app-projection/task-preparation lifecycle.
+- F110 exposes scheduled Messages selection/availability/task preparation.
+- F111 exposes scheduled Calls selection/availability/task preparation.
+- F112 exposes scheduled Wallpapers selection/valid-wallpaper/task preparation.
+- F113 exposes scheduled Wi-Fi device-read/task preparation.
+- F114 exposes scheduled Folders selection/strategy/task preparation.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
