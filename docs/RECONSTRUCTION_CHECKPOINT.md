@@ -459,3 +459,13 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F89: storage volume measurement, app-usage calculation, Loading/Error/Success state, persisted `saved_storage_info_local` snapshot, and filesystem/root-access derivation.
 - P5.1 explicit feature-contract count is now **89**.
 - No filesystem statistics, snapshot persistence, build/install/runtime/provider/backend execution was performed or authorized.
+
+### P5.1 locale / contributor / notice reconciliation — 2026-10-02
+
+- Added **F90–F92** from targeted direct decompile evidence.
+- F90: locale selection persistence and configuration-change propagation.
+- F91: contributor registration state/persistence boundary.
+- F92: notice/license content loading and selection model.
+- P5.1 explicit feature-contract count is now **92**.
+- These small-family units may be regrouped/collapsed during P5.2 if owner analysis shows they share one implementation boundary.
+- No implementation, build/install/runtime/provider/backend execution was performed or authorized.
