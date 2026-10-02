@@ -685,6 +685,21 @@ Direct Reference evidence establishes a concrete configuration-transfer contract
 
 Static-only; no configuration was exported/imported or applied.
 
+### P5.1 Blacklist predicate / backup-planning integration reconciliation
+
+**P5-F123 — Blacklist persistence / package predicate / backup-selection exclusion**
+
+Direct Reference evidence establishes a consumer contract beyond the Blacklist UI/model:
+
+- `BlacklistData` persists the blacklisted package set and exposes package-membership lookup used outside the blacklist screen.
+- Apps inventory/task-selection paths consult blacklist membership when projecting eligible applications for backup-related operations.
+- The predicate is package-identity based, so reinstall/label/list presentation does not require duplicating blacklist state in each consumer.
+- Empty/absent blacklist state resolves to the non-excluding/default predicate.
+- This is distinct from F30's Blacklist management surface: F123 records the **reusable exclusion predicate and its integration into app selection/backup planning**, not the CRUD UI itself.
+
+Static-only; no blacklist mutation or backup task was executed.
+
+
 ### P5.1 Schedule aggregate persistence / ordering / battery-policy reconciliation
 
 **P5-F122 — ScheduleData aggregate persistence / normalization / ordering / battery requirement state**
@@ -720,7 +735,7 @@ Static-only; no root capability check or restore operation was executed.
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **122 unique units**.
+- P5.1 explicit feature-contract units after this pass: **123 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -757,6 +772,7 @@ Static-only; no root capability check or restore operation was executed.
 - F120 exposes restore-special-permission policy persistence, root gating, and ConfigSettings override.
 - F121 exposes App Configuration export/import serialization, validation, and replacement boundary.
 - F122 exposes ScheduleData aggregate persistence, ordering normalization/mutation, and battery-policy state.
+- F123 exposes Blacklist package predicate persistence and backup-selection exclusion integration.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
