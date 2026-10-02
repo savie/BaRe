@@ -512,6 +512,16 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No backup deletion, cloud operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
 
 
+### P5.1 Settings cloud backup / restore reconciliation — 2026-10-02
+
+- Added **F100** from targeted direct decompile evidence.
+- F100: reusable settings snapshot backup/restore and application to local settings state through `SettingsBackupHelper`.
+- F100 is distinct from the Settings UI family (F23), generic config transfer (F46), and the frozen P4 C10 first-run restore contract: C10 owns the first-run entry/state boundary, while F100 exposes the reusable settings snapshot/apply engine.
+- Reference Firebase access remains Reference-only; target Supabase execution remains downstream.
+- P5.1 explicit unique feature-contract count is now **100**.
+- No cloud read/write, settings restore, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
