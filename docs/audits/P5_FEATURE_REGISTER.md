@@ -198,6 +198,13 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - The targeted sweep did **not** establish an additional independent Home/dashboard feature boundary requiring a new F-ID. **No F164 was created.**
 - The earlier F03 targeted follow-up is resolved by the evidence recorded above; no implementation/runtime/provider/backend execution was performed.
 
+## P5.1 targeted reconciliation — Apps — 2026-10-02
+
+- Targeted Reference sweep covered the Apps manifest/activity family, Apps list inventory/search/filter/sort/labels/favorites, batch/config-run entry, AppInfo, interactive Apps Quick Actions, app-specific settings surfaces, app task workspace/install/notification/SBA boundaries, app metadata/special-data models, and the concrete Apps task execution/restore compatibility/artifact-reuse paths already represented in the register.
+- Existing F-ID coverage is sufficient for the observed Apps scope: **F04–F08, F38–F44, F53–F71, F77, F83, F93, and F159–F162** account for the independent feature/engine boundaries established by the targeted sweep. The manifest/source inventory did not reveal an additional independent Apps boundary requiring a new F-ID.
+- Reference-only `model/firebase/AppSettings` was observed as a Reference configuration model. It is not promoted to a new Apps feature ID; its settings responsibilities map to existing configuration/settings/backend evidence, and `bare.md` continues to prohibit Firebase in the BaRe target.
+- **No F164 was created.** This reconciliation is static-only; no build/install/runtime/device/provider/backend execution was performed.
+
 ## Cross-document rule
 
 New finding workflow:
