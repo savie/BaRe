@@ -487,6 +487,21 @@ A targeted direct decompile pass traced the persisted `parallel_cloud_transfers`
 - No cloud transfer or concurrency test was executed.
 
 
+### P5.1 Protected-backup deletion enforcement reconciliation
+
+A targeted direct decompile pass separated the protected-backup **policy** already represented by F52 from the concrete deletion/revalidation enforcement path.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F105** | Protected-backup deletion guard / revalidation / protected-count result | `defpackage/fh2.java`, `eh2.java`, `defpackage/uh1.java`, `defpackage/mn6.java`, `defpackage/bi1.java`, `defpackage/oj.java`, `defpackage/v20.java` | backup-delete orchestration + local/cloud metadata revalidation | Reference has an explicit delete flow with a “keep protected backups” control, a confirmation path for deleting protected backups, protected-file/count results, and local/cloud delete logic that re-checks `isProtectedBackup()` before deletion. This is an enforcement/result boundary beyond F52's protection/retention policy description. |
+
+#### Protected-backup enforcement note
+
+- F105 does not replace F52: **F52 = policy/metadata semantics; F105 = deletion enforcement + revalidation/result boundary**.
+- The evidence includes both local and cloud backup paths.
+- No delete operation was executed at runtime.
+
+
 ### P5.1 MEGA saved-session rehydration reconciliation
 
 A targeted direct decompile pass traced the persisted MEGA session path independently from the F97 MFA-required outcome contract.
@@ -504,7 +519,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **104 unique units**.
+- P5.1 explicit feature-contract units after this pass: **105 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -523,6 +538,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F102 exposes the Cloud Diagnostics transfer-test/result-state engine.
 - F103 exposes the persisted cloud-transfer concurrency policy consumed by Apps/Folders transfer paths.
 - F104 exposes MEGA saved-session persistence and validated session rehydration.
+- F105 exposes protected-backup deletion guard, revalidation, and protected-count result semantics.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
