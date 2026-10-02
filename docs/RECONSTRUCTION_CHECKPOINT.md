@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Scheduled Apps Quick Actions execution reconciliation — 2026-10-02
+
+- Added **F107** from direct Reference decompile evidence.
+- F107: schedule-specific Apps Quick Actions subtype carrying quick-action IDs, allowed apps, app parts, locations, sync option, repeat days, and enabled state; consumed by `ScheduleService` to prepare Apps tasks and persist schedule last-run state.
+- F107 is distinct from F06 interactive Quick Actions, F62 custom-configuration task mapping, and F74 generic scheduler eligibility/task handoff.
+- P5.1 explicit unique feature-contract count is now **107**.
+- No scheduled task was triggered/executed; no build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 Special-data payload codec reconciliation — 2026-10-02
 
 - Added **F106** from direct Reference decompile evidence.
