@@ -1,0 +1,1 @@
+package com.bare.home.schedule; public final class WifiPreparation { private final ScheduledTaskPreparation state; public WifiPreparation(ScheduledTaskPreparation state){this.state=state;} public ScheduledTaskPreparation getState(){return state;} }
