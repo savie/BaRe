@@ -1094,3 +1094,13 @@ Direct Reference decompile evidence establishes a separate folder-restore-specif
 - This is distinct from **F43** generic task result aggregation and **F78** folder task execution: F128 owns the **folder restore operation result algebra and domain-specific success/failure payload** produced by the restore engine.
 
 Static-only; no folder restore operation was executed.
+
+### P5.1 TeraBox provider error classification reconciliation — 2026-10-02
+
+- Added **F134**: TeraBox API error normalization/classification boundary.
+- Direct Reference evidence: h08.l(Response) converts HTTP/API error responses into yz7 carrying method, URL, HTTP status, provider errno, and raw body; yz7.a() classifies authentication-invalidating errors (HTTP 401/403 and provider errno 200002/200003); yz7.b() classifies provider errno -9 as a non-fatal/not-found-style condition.
+- The classification is consumed independently by TeraBox login (InvalidCredentials vs TempConnectionError), access-token refresh/retry (h08.f retries once after auth-classified failure), metadata/file/list/delete/create-directory paths (errno -9 maps to missing/no-op semantics), and existence checks (Exists / Missing / Unknown).
+- F134 is distinct from F96: F96 is the generic cloud login-result taxonomy, while F134 owns the provider-specific error envelope and classification rules that feed multiple TeraBox operations.
+- F134 is distinct from F20: F20 covers generic cloud-provider operation surface; F134 records the concrete TeraBox HTTP/API error interpretation and retry/not-found boundary.
+- P5.1 numbered IDs are now **134**; unique feature-contract units are **133** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no TeraBox network/provider execution, build/install/runtime, or backend execution was performed or authorized.
