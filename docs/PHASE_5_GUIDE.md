@@ -355,4 +355,4 @@ P5 closure requires feature-level evidence, reconstruction, regression/re-audit,
 
 **GUIDE PREPARED — P5 IMPLEMENTATION NOT AUTHORIZED BY THIS DOCUMENT.**
 
-The guide establishes the method. The next control-plane step is to perform the P5 pre-implementation audit and establish the P5 gate/register from actual Reference evidence before implementation begins.
+The guide establishes the method. The current control-plane step is P5.2 contract/owner/boundary static analysis; the P5 gate remains unopened until its entry evidence and scope are explicitly governed.
