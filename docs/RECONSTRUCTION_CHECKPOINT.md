@@ -522,6 +522,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud read/write, settings restore, build/install/runtime/provider/backend/privileged execution was performed or authorized.
 
 
+### P5.1 Folder restore strategy policy reconciliation — 2026-10-02
+
+- Added **F101** from targeted direct decompile evidence.
+- F101: persisted FolderRestoreStrategy policy with **MISSING_ONLY / OVERWRITE / FULL_RESTORE** modes and direct consumption by the folder restore engine.
+- F101 is distinct from folder UI/batch surfaces (F11/F12), manifest/incremental-chain semantics (F47), and the generic folder task executor (F78).
+- P5.1 explicit unique feature-contract count is now **101**.
+- No folder restore, filesystem mutation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
