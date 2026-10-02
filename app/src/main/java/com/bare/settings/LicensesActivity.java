@@ -29,24 +29,25 @@ public final class LicensesActivity extends AppCompatActivity {
         addContentView(toolbar, new ViewGroup.LayoutParams(-1, 56));
 
         adapter = new LicenseAdapter();
-        ((RecyclerView) findViewById(R.id.rv_licenses)).setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.rv_licenses);
+        recyclerView.setAdapter(adapter);
+        setLicenseRows(LicenseParser.parse(this));
     }
 
     /**
-     * F34 presentation input. F92 owns bundled-license parsing and row construction.
+     * F34/F92 presentation input boundary.
      */
     public void setLicenseRows(@Nullable List<String> rows) {
         adapter.setItems(rows);
     }
 
-    private static final class LicenseAdapter extends RecyclerView.Adapter<LicenseHolder> {
+    private static final class LicenseAdapter
+            extends RecyclerView.Adapter<LicenseHolder> {
         private final List<String> items = new ArrayList<>();
 
         void setItems(@Nullable List<String> rows) {
             items.clear();
-            if (rows != null) {
-                items.addAll(rows);
-            }
+            if (rows != null) items.addAll(rows);
             notifyDataSetChanged();
         }
 
