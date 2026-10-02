@@ -205,6 +205,13 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - Reference-only `model/firebase/AppSettings` was observed as a Reference configuration model. It is not promoted to a new Apps feature ID; its settings responsibilities map to existing configuration/settings/backend evidence, and `bare.md` continues to prohibit Firebase in the BaRe target.
 - **No F164 was created.** This reconciliation is static-only; no build/install/runtime/device/provider/backend execution was performed.
 
+## P5.1 targeted reconciliation — App configuration — 2026-10-02
+
+- Targeted Reference sweep covered the App Configuration list/edit/settings Activities, `Config`, `ConfigSettings`/`ApplyData`, `ConfigsData`, the configuration repository/load path, validation/normalization, label resolution, task-input projection, per-part limit/cache/compression/restore-policy settings, swipe-action configuration, and App Configuration import/export replacement flow represented by the existing F-IDs.
+- The direct Reference source confirms that `ConfigSettings` is a Parcelable configuration aggregate with explicit app-parts, locations, sync, backup-limit, archive/multiple-backup, restore-policy, compression, cache, force-redo and enabled state; `ApplyData` resolves label IDs and drops stale label references; `ConfigsData.validate()` filters invalid configs; and `br1` owns the in-memory configuration repository plus persisted/cloud-backed load path. These are already covered by **F09, F58, F62, F85, F116–F121**.
+- No additional independent App Configuration boundary was established beyond those existing units. **No F164 was created.**
+- Static-only; no configuration mutation, import/export operation, build/install/runtime/device/provider/backend execution was performed.
+
 ## Cross-document rule
 
 New finding workflow:
