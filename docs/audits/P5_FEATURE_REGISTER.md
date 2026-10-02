@@ -1211,3 +1211,22 @@ Static-only; no folder restore operation was executed.
 - Direct Reference evidence: `ov5.e()` writes to `<target>.tmp`, creates required parent directories, closes the upload stream, renames the temporary path to the final target via `A()`, and deletes the temporary artifact when upload/finalization fails; `A()` distinguishes file vs folder rename endpoints.
 - F148 is distinct from F20/F41 generic provider/artifact operations because it owns the pCloud-specific temporary-artifact and atomic-finalization boundary.
 - Static-only; no pCloud upload, rename, deletion, filesystem mutation, or provider execution was performed or authorized.
+
+
+### P5.1 Generic/remote provider deep sweep — 2026-10-02
+
+- Added **F149**: S3 batch-object deletion aggregation and partial-failure handling.
+  - Direct Reference evidence: `ar6.w(List)` batches object deletions, logs individual failed object deletions, and surfaces aggregate failure when any deletion fails.
+  - Not split into a generic delete ID because this boundary is specifically S3 multi-object deletion behavior.
+- Added **F150**: WebDAV chunked-upload assembly and post-disconnect verification lifecycle.
+  - Direct Reference evidence: `vq8` chunks uploads, retries individual chunks up to five times, assembles server-side, handles temporary assembly artifacts, and after server disconnect can manually verify assembly success for up to one hour.
+  - Direct Reference evidence also shows direct-upload rejection can fall back to chunked upload and server capability probing.
+- Added **F151**: SMB deletion fallback strategy / multi-method cleanup lifecycle.
+  - Direct Reference evidence: `ji7.x(String)` attempts deletion through multiple SMB mechanisms, records failures from each method, and escalates through Method 2 and Method 3 when earlier deletion mechanisms fail.
+- Added **F152**: SFTP authentication-mode execution boundary.
+  - Direct Reference evidence: `li4` selects password or private-key authentication from `CloudCredentials.authType`; private-key mode loads key material/passphrase and configures JSch public-key authentication, while password mode requires a saved password.
+  - Host-key strictness is also selected from the connection configuration.
+- Added **F153**: FTP compatibility fallback for listing/TLS upload.
+  - Direct Reference evidence: `o23` falls back from `LIST -a` to `LIST` when unsupported, can discard/recreate the FTP client after listing state failures, retries FTPS upload with TLS 1.2 after the specific 426/network-stream failure, and cleans partial uploads after failed PUT.
+- **Cloud Mail.Ru**: targeted sweep found no independent provider lifecycle beyond the shared WebDAV client/credential boundary; no new feature ID added.
+- Static-only; no remote-provider network execution, authentication, upload, delete, or filesystem mutation was performed or authorized.
