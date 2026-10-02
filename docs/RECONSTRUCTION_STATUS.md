@@ -1178,3 +1178,4 @@ The remaining Reference Firebase/Swift occurrences are evidence-only under the r
 No build/install/runtime/provider/backend/engine execution was performed.
 
 **Next lifecycle boundary remains P5 — Feature Execution Reconstruction.**
+\n\n### P5.2 contract / owner / boundary checkpoint — 2026-10-02\n\nP5.2 static contract/owner/boundary analysis is now active after rechecking the current control-plane documents and frozen P5.1 evidence. A dedicated P5.2 working authority was created. The first bounded extraction batch is F01–F11. P5.1 Register and Grouping remain frozen evidence inputs. The P5 gate remains not opened. No implementation, build, install, runtime, device, provider, backend, or feature-engine execution was performed.\n
