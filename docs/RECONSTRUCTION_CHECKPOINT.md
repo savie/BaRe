@@ -953,3 +953,19 @@ Fourth matrix consolidation batch completed from frozen P5.1 evidence and curren
 Boundary reconciliation keeps F51 distinct from F102 (diagnostic execution engine), F52 distinct from F105 (deletion enforcement), F53 distinct from F04 inventory presentation, F54 as Detail-side restore-part contract, F55–F57 as independent list query/filter/sort contracts, F58/F59 as reusable label/favorite domain state, F60 as AppInfo read-model, F61 as shortcut-to-detail integration, F62 as config-to-task projection, F63 as backup eligibility policy, F64 as package-visibility diagnostic state, F65–F69 as distinct special-data state adapters, and F70 as the Apps task workspace boundary.
 
 P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
+
+
+### P5.2 Contract Matrix Batch 05 — F71–F90 — 2026-10-02
+
+Fifth matrix consolidation batch completed from frozen P5.1 evidence and current BaRe structural targets. No new F-ID discovery pass was performed.
+
+- F71–F90: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+Boundary reconciliation keeps F71 as artifact metadata (not the generic archive engine), F72 as Messages retention policy, F73 as persisted password lifecycle, F74 as scheduler eligibility/handoff, F75/F76 as shared task lifecycle/runtime accounting, F77–F82 as domain task execution owners, F83/F84 as concrete consumers of shared local persistence, F85 as config validation/normalization, F86 as APKS artifact construction, F87 as credential persistence/export, F88 as orphan execution state, F89 as storage measurement/snapshot, and F90 as locale propagation.
+
+P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
