@@ -16,7 +16,7 @@ Reference is read-only. This register is evidence, not implementation approval, 
 
 ## Register summary
 
-**Numbered IDs: 169. Unique feature-contract units: 168. F94 is a retained reconciliation marker duplicating F69.**
+**Numbered IDs: 170. Unique feature-contract units: 169. F94 is a retained reconciliation marker duplicating F69.**
 
 ## Canonical table
 
