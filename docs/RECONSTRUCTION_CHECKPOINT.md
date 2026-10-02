@@ -687,3 +687,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit unique feature-contract count is now **97**.
 - Other provider-specific classes remain grouped under existing F20/F51/F87 unless an independent lifecycle is evidenced.
 - No provider network/authentication runtime was performed or authorized.
+
+
+### P5.1 Folder compression policy reconciliation — 2026-10-02
+
+- Added **F126** from direct Reference decompile evidence.
+- F126: folder-data compression-level selection, persisted `compression_level_folders` state, supported-level normalization/default fallback, settings summary projection, and direct projection into folder backup task inputs (`bo3`).
+- F126 is distinct from F119 (app-data compression policy) and F41 (generic artifact format/compression/encryption boundary).
+- P5.1 explicit unique feature-contract count is now **126**.
+- Static-only; no folder backup/compression operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
