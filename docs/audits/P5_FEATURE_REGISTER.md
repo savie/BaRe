@@ -487,9 +487,24 @@ A targeted direct decompile pass traced the persisted `parallel_cloud_transfers`
 - No cloud transfer or concurrency test was executed.
 
 
+### P5.1 MEGA saved-session rehydration reconciliation
+
+A targeted direct decompile pass traced the persisted MEGA session path independently from the F97 MFA-required outcome contract.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F104** | MEGA saved-session persistence / validated session rehydration | `cloud/protocols/mega/lite/SwiftMegaSavedSession.java`, `defpackage/gt7.java`, `defpackage/ti8.java` | MEGA session persistence + authentication adapter | Reference persists `email`, `sessionId`, `masterKey`, and `userHandle` in the `mega_swift_session` preference, deserializes the saved session, validates it against the current email and required session/crypto fields, decodes the validated session material, and attempts session reuse before falling back to fresh authentication. This is a concrete continuity/rehydration lifecycle distinct from F97's MFA-required login outcome. |
+
+#### MEGA saved-session note
+
+- F104 records the persisted-session and rehydration contract only; it does not claim successful MEGA authentication on BaRe.
+- F97 remains the separate MFA-required outcome/session gate.
+- No provider authentication or session reuse was executed at runtime.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **103 unique units**.
+- P5.1 explicit feature-contract units after this pass: **104 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -507,6 +522,7 @@ A targeted direct decompile pass traced the persisted `parallel_cloud_transfers`
 - F101 exposes persisted FolderRestoreStrategy policy and its restore-engine consumption.
 - F102 exposes the Cloud Diagnostics transfer-test/result-state engine.
 - F103 exposes the persisted cloud-transfer concurrency policy consumed by Apps/Folders transfer paths.
+- F104 exposes MEGA saved-session persistence and validated session rehydration.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
