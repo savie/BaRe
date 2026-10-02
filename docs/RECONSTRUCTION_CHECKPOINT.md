@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Multiple-backup strategy contract reconciliation — 2026-10-02
+
+- Added **F115**: MultipleBackupStrategy state model, persistence, legacy migration, backup-count normalization, entitlement-aware resolution, representation mapping, and settings-state transport.
+- F115 is distinct from F39: it covers the **strategy contract itself**, while F39 covers app backup planning/change-detection/skip semantics.
+- P5.1 explicit unique feature-contract count is now **115**.
+- Static-only; no settings migration or backup execution was run.
+
+
 ### P5.1 Scheduled domain-subtype execution reconciliation — 2026-10-02
 
 - Added **F110**: scheduled Messages selection, permission/data availability gating, and Messages task preparation.
