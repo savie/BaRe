@@ -1131,3 +1131,20 @@ The P5.4 exact batch assignment was re-audited for dependency direction before i
 - P5.4 remains **COMPLETE / STATIC READINESS CLOSURE**
 - P5.5 implementation: **PERMITTED within selected batch boundaries**
 - Runtime/provider/backend/device execution: **NOT PERFORMED**
+
+
+### P5.5 Feature Implementation — R-A started — 2026-10-02
+
+P5.4 readiness is closed. P5.5 is now active and implementation is constrained to R-A.
+
+- R-A scope: **26 F-IDs**
+- First implementation slice: **F123**
+- F123 local blacklist data model/persistence/predicate contract: **implemented**
+- F123 cloud sync: **deferred**
+- F123 Apps inventory/restore consumer wiring: **pending R-B**
+- R-A remaining: **25 F-IDs**
+- P5.5: **ACTIVE**
+- P5 Gate: **NOT OPENED**
+- Build/install/runtime/provider/backend/device: **NOT PERFORMED**
+
+**No jump to R-B until R-A implementation/re-audit is closed.**
