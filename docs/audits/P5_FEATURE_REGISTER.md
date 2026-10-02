@@ -441,6 +441,21 @@ A targeted direct decompile pass inspected the Reference `SettingsBackupHelper` 
 - No cloud read/write or settings restore was executed at runtime.
 
 
+### P5.1 Folder restore strategy policy reconciliation
+
+A targeted direct decompile pass traced `FolderRestoreStrategy` from its persisted preference state into the folder restore engine.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F101** | Folder restore strategy policy / persisted mode | `settings/FolderRestoreStrategy.java`, consumers `ln3`, `wj3`, `pn3`, `qp3` | folder restore policy + restore engine | Reference persists three explicit modes — **MISSING_ONLY**, **OVERWRITE**, and **FULL_RESTORE** — with MISSING_ONLY as the default, exposes the selected mode to folder restore orchestration, and branches restore behavior based on the selected policy (including full-restore deletion handling). This is a domain policy boundary beyond folder UI/batch surfaces (F11/F12) and the generic folder task executor (F78). |
+
+#### Folder restore strategy note
+
+- F101 records the persisted policy and its consumption by the restore engine; it is not merely a dialog/enum UI detail.
+- Manifest/incremental-chain behavior remains under F47, while actual task execution remains under F78.
+- No folder restore was executed and no filesystem mutation was performed.
+
+
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **97 unique units**.
