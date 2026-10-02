@@ -2,7 +2,7 @@
 
 ## Status
 
-**P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — ONGOING / STATIC**
+**P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — COMPLETE / STATIC CLOSURE**
 
 Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P5_FEATURE_REGISTER.md\`.
 
@@ -22,7 +22,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 |---:|---|---|---|
 | 1 | Onboarding | F01, F38, F45, F73, F87, F100, **F163** | first-start, identity, password/settings continuity, restore-related entry dependencies, storage setup/recovery |
 | 2 | Home / dashboard | F02, F03, F22, F24, F27, F35, F36, F37 | dashboard/search/orchestration and home-level feature entry |
-| 3 | Apps | F04–F08, F38–F44, F53–F71, F77, F83, F93, F159–F162 | core Apps inventory, selection, backup/restore, package execution, special data, row actions, compatibility and artifact materialization |
+| 3 | Apps | F04–F08, F38–F44, F53–F71, F77, F83, F93, F124, F159–F162 | core Apps inventory, selection, backup/restore, package execution, special data, row actions, compatibility and artifact materialization |
 | 4 | App configuration | F09, F58, F62, F85, F116–F121 | configuration model, labels, task-input projection, persistence and normalization |
 | 5 | App detail | F07, F08, F54, F60, F61 | detail actions, app info, restore-card model and detail integrations |
 | 6 | APK import | F10, F86, **F167** | APK/APKS import/share artifact path and import-side materialization/validation lifecycle |
@@ -57,7 +57,7 @@ Status di atas hanya status coverage P5.1.
 
 ## Current audit position
 
-**P5.1 tetap OPEN.**
+**P5.1 COMPLETE / STATIC CLOSURE.**
 
 ## Static boundary
 
