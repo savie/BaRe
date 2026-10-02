@@ -364,6 +364,37 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 App cache backup policy reconciliation
+
+**P5-F118 — App-cache inclusion policy / persistence / warning / change-detection projection**
+
+Direct Reference evidence establishes a dedicated cache-inclusion policy lifecycle:
+
+- Settings persists `backup_app_cache` from the dedicated cache preference.
+- Enabling the option surfaces an explicit cache-backup warning.
+- Settings import/restore paths also hydrate the same persisted policy from AppSettings when present.
+- `defpackage/eq.java` consumes the persisted policy during app-data change detection: when enabled, cache paths remain eligible; when disabled, cache paths are filtered from the modified-file projection.
+- A legacy `KEY_BACKUP_APP_CACHE` fallback is consulted before the current key.
+- This is distinct from F39: F118 owns the **cache inclusion policy state and its propagation into change-detection**, while F39 owns broader app backup planning/change-detection/skip semantics.
+
+Static-only; no cache backup was executed.
+
+### P5.1 App-data compression-level settings reconciliation
+
+**P5-F119 — App-data compression level selection / persistence / normalization / pipeline projection**
+
+Direct Reference evidence establishes a dedicated compression-level settings contract:
+
+- `compression_level_app_data` is edited through the Settings compression-level selector.
+- `defpackage/px.java` persists the selected `xp1` level integer.
+- `defpackage/z85.java` resolves the persisted integer back to the supported compression-level enum and falls back to `xp1.DEFAULT` when absent/invalid.
+- The settings summary projects the resolved level into user-facing labels.
+- The resolved setting is consumed by the app-data backup/compression pipeline rather than being limited to UI state.
+- This is distinct from F41: F119 owns the **selection/persistence/default-resolution contract**; F41 owns the backup artifact compression/encryption pipeline itself.
+
+Static-only; no compression operation was executed.
+
+
 ### P5.1 App backup-limit configuration lifecycle reconciliation
 
 **P5-F117 — Per-app-part backup-limit configuration persistence / validation / serialization**
@@ -642,7 +673,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **117 unique units**.
+- P5.1 explicit feature-contract units after this pass: **119 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
