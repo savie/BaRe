@@ -69,7 +69,7 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F133
+## Canonical P5.1 feature index — F01–F153
 
 This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
 
@@ -164,7 +164,7 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F87** | Cloud credential persistence / secure password-key merge / settings export |
 | **F88** | Cloud orphan scan / result / deletion state machine |
 | **F89** | Storage volume measurement / app-usage calculation / cached storage snapshot |
-| **F90** | Locale selection persistence / resource-language switch |
+| **F90** | Locale selection persistence / configuration-change propagation |
 | **F91** | Contributor registration state / registration persistence |
 | **F92** | Notice/license content loading / selection model |
 | **F93** | PackageInstaller session install / result verification engine |
@@ -208,8 +208,28 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F131** | TeraBox token credential persistence / validity / OAuth refresh lifecycle |
 | **F132** | TeraBox browser OAuth sign-in handoff / deep-link callback / sign-in result lifecycle |
 | **F133** | TeraBox chunked upload session / per-part MD5 / sequencing / finalization contract |
+| **F134** | TeraBox provider error normalization/classification boundary |
+| **F135** | Google Drive resumable upload-session lifecycle |
+| **F136** | Google Drive batch-delete result and retry lifecycle |
+| **F137** | Google Drive ranged-download recovery and bounded retry lifecycle |
+| **F138** | Google Drive main-folder integrity and account-email metadata migration lifecycle |
+| **F139** | Google Drive GMS access-token acquisition, stale-token clearing, account validation, and refresh/error lifecycle |
+| **F140** | Box resumable upload session lifecycle and recent-upload cache bridge |
+| **F141** | Dropbox upload-session chunking, offset correction, bounded retry, and stop/failure lifecycle |
+| **F142** | OneDrive upload-session creation, next-expected-range progression, chunk result state, and bounded retry/auth-stop behavior |
+| **F143** | OneDrive batch-delete aggregation, failed-ID retry, and terminal failure result |
+| **F144** | OneDrive MSAL silent-token lifecycle reconciliation |
+| **F145** | Yandex OAuth refresh-token exchange, refreshed access-token replacement, cloud-service persistence, and refresh failure handling |
+| **F146** | Yandex async-operation polling, retry-after handling, terminal-state validation, and download-link acquisition boundary |
+| **F147** | pCloud API-host failover and persisted endpoint selection lifecycle |
+| **F148** | pCloud temporary upload, parent-directory preparation, rename-to-final, and failure cleanup lifecycle |
+| **F149** | S3 batch-object deletion aggregation and partial-failure handling |
+| **F150** | WebDAV chunked-upload assembly and post-disconnect verification lifecycle |
+| **F151** | SMB multi-method deletion fallback |
+| **F152** | SFTP password/private-key authentication execution boundary |
+| **F153** | FTP LIST/TLS compatibility fallback and partial-upload cleanup |
 
-**Numbered IDs present: 133. Unique feature-contract units: 132.**
+**Numbered IDs present: 153. Unique feature-contract units: 152.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -1059,7 +1079,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F133 index is consolidated above.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F153 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
