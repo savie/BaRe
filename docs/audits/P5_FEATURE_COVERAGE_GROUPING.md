@@ -63,6 +63,8 @@ Status di atas hanya status coverage P5.1.
 
 **Domain 3 — Apps:** `COVERED — provisional` — targeted Apps sweep completed on 2026-10-02; existing F-ID coverage was reconciled against the Reference manifest/source inventory; no independent new boundary was found, so no new F-ID was added.
 
+**Domain 4 — App configuration:** `COVERED — provisional` — targeted App Configuration sweep completed on 2026-10-02; existing F-ID coverage was reconciled against direct Reference source evidence; no independent new boundary was found, so no new F-ID was added.
+
 **Domain 1 — Onboarding:** \`COVERED — provisional\` — targeted onboarding sweep completed on 2026-10-02; no independent new boundary was found, so no new F-ID was added.
 
 Detail evidence, finding, boundary reconciliation, dan targeted audit tetap canonical di \`P5_FEATURE_REGISTER.md\`.
