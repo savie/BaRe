@@ -821,3 +821,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - Added **F161** after targeted ZIP inspection of `pj7`/`oj7` and consumers. Reference has a concrete execution-time disk-space contract: required-size calculation with 16 MiB/1% headroom for restore, 50 MiB reserved free-space margin, `skip_disk_space_checks` override, and a distinct critical-low-space result. The checker is consumed by Apps backup (`vl`), Apps restore (`xw`), and folder execution (`wj3`).
 - F161 is kept separate from F24 Storage Management because this is an engine precondition/result contract, not the storage-management UI/inventory surface.
 - No runtime/filesystem execution, build/install, provider, or backend execution was performed.
+
+
+### P5.1 Apps cloud-restore artifact reuse/download reconciliation — 2026-10-02
+
+- Added **F162** after targeted ZIP inspection of `mq`, `eq`, and `nm6`. Reference builds per-part cloud-restore artifact descriptors and decides whether each artifact can be reused locally or must be downloaded. Existing local copies are reused when present and size-matching; otherwise APK/split/shared-lib and DATA/EXTDATA/MEDIA/EXPANSION paths apply their respective change checks before transfer.
+- F162 is an Apps restore materialization boundary, distinct from provider operations, backup-time change detection, metadata lifecycle, and restore-part selection.
+- No cloud/local transfer execution, build/install/runtime, provider, or backend execution was performed.
