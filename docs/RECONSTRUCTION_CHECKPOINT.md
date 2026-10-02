@@ -478,3 +478,11 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **94**.
 - These are lower-level execution boundaries for later P5.2 owner grouping; they do not authorize privileged/runtime execution.
 - No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 special-data payload codec reconciliation — 2026-10-02
+
+- Added **F95** from targeted direct decompile evidence.
+- F95: versioned app special-data serialization/compression, user binding, bounded read, and atomic replacement write lifecycle.
+- P5.1 explicit feature-contract count is now **95**.
+- F95 is a data-format/codec boundary; target identity/backend adaptation remains downstream.
+- No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
