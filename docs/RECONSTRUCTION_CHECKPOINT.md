@@ -868,3 +868,12 @@ Batch result:
 - runtime/device/provider/backend/engine execution: **not performed**
 
 P5.2 remains the current lifecycle boundary; additional feature batches are still required before any P5.3 transition.
+
+
+### P5.2 F19 Cloud connection owner/boundary checkpoint — 2026-10-02
+
+- **F19 owner locked:** `dd1` is the Reference provider catalog/connection descriptor; `lc1` owns CloudConnect screen state/orchestration; provider-specific sign-in Activities/auth adapters remain provider entry boundaries; `CloudConnectActivity` is the consumer/orchestrator.
+- Reference provider catalog evidence covers 15 provider identities and provider-specific connection entry contracts. Successful/failed connection results are reconciled in `CloudConnectActivity` without promoting the Activity to provider execution owner.
+- Current BaRe `CloudConnectActivity` is structurally present but hardcodes only 10 provider entries and lacks an equivalent centralized provider catalog/capability contract. Existing `CloudProviderRepository` / `CloudAccessService` is a separate post-connection access-state boundary and is not treated as F19 owner.
+- **Independent new F-ID:** 0. **Owner collision:** 0. **Runtime/provider/backend/build/install:** not performed. **Implementation:** not authorized.
+- **P5.2 remains ACTIVE; P5 Gate remains NOT OPENED.**
