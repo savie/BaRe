@@ -64,6 +64,78 @@ The Reference JADX/APKTool snapshot is present in the `rewrite` branch and was a
 | Android providers | 4 |
 | Android providers under Reference package | 0 |
 
+## Full Reference manifest component inventory
+
+The Phase 1 manifest inventory records all Android manifest component declarations, not only the application-owned subset used by the Phase 2 skeleton gate.
+
+| Component | Total Reference manifest | Application-owned (org.swiftapps.swiftbackup.*) | Dependency/library/integration |
+|---|---:|---:|---:|
+| Activities | 95 | 71 | 24 |
+| Services | 10 | 3 | 7 |
+| Receivers | 10 | 8 | 2 |
+| Providers | 4 | 0 | 4 |
+
+### Activities not included in the application-owned Phase 2 skeleton — 24
+
+| # | Reference manifest Activity | Classification |
+|---:|---|---|
+| 1 | net.openid.appauth.RedirectUriReceiverActivity | Dependency/library |
+| 2 | com.gun0912.tedpermission.TedPermissionActivity | Dependency/library |
+| 3 | com.microsoft.identity.client.BrowserTabActivity | Dependency/library |
+| 4 | com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity | Dependency/library |
+| 5 | com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity | Dependency/library |
+| 6 | com.microsoft.identity.client.helper.BrokerHelperActivity | Dependency/library |
+| 7 | com.microsoft.identity.client.CurrentTaskBrowserTabActivity | Dependency/library |
+| 8 | com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity | Dependency/library |
+| 9 | com.microsoft.identity.common.internal.broker.BrokerActivity | Dependency/library |
+| 10 | com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher | Dependency/library |
+| 11 | com.google.firebase.auth.internal.GenericIdpActivity | Dependency/library |
+| 12 | com.google.firebase.auth.internal.RecaptchaActivity | Dependency/library |
+| 13 | androidx.credentials.playservices.controllers.identityauth.HiddenActivity | Dependency/library |
+| 14 | androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity | Dependency/library |
+| 15 | com.google.android.gms.auth.api.signin.internal.SignInHubActivity | Dependency/library |
+| 16 | net.openid.appauth.AuthorizationManagementActivity | Dependency/library |
+| 17 | com.android.billingclient.api.ProxyBillingActivity | Dependency/library |
+| 18 | com.android.billingclient.api.ProxyBillingActivityV2 | Dependency/library |
+| 19 | com.google.android.gms.common.api.GoogleApiActivity | Dependency/library |
+| 20 | com.pcloud.sdk.AuthorizationActivity | Dependency/library |
+| 21 | com.pcloud.sdk.CustomTabActivity | Dependency/library |
+| 22 | com.yubico.yubikit.android.ui.OtpActivity | Dependency/library |
+| 23 | com.yubico.yubikit.android.ui.YubiKeyPromptActivity | Dependency/library |
+| 24 | com.google.android.play.core.common.PlayCoreDialogWrapperActivity | Dependency/library |
+
+### Services not included in the application-owned Phase 2 skeleton — 7
+
+| # | Reference manifest Service | Classification |
+|---:|---|---|
+| 1 | com.google.firebase.components.ComponentDiscoveryService | Dependency/library |
+| 2 | androidx.credentials.playservices.CredentialProviderMetadataHolder | Dependency/library |
+| 3 | com.google.android.gms.auth.api.signin.RevocationBoundService | Dependency/library |
+| 4 | com.google.firebase.sessions.SessionLifecycleService | Dependency/library |
+| 5 | androidx.room.MultiInstanceInvalidationService | Dependency/library |
+| 6 | com.google.android.datatransport.runtime.backends.TransportBackendDiscovery | Dependency/library |
+| 7 | com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService | Dependency/library |
+
+### Receivers not included in the application-owned Phase 2 skeleton — 2
+
+| # | Reference manifest Receiver | Classification |
+|---:|---|---|
+| 1 | androidx.profileinstaller.ProfileInstallReceiver | Dependency/library |
+| 2 | com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver | Dependency/library |
+
+### Providers not included in the application-owned Phase 2 skeleton — 4
+
+| # | Reference manifest Provider | Classification |
+|---:|---|---|
+| 1 | androidx.core.content.FileProvider | Dependency/library |
+| 2 | rikka.shizuku.ShizukuProvider | Dependency/library |
+| 3 | com.gun0912.tedpermission.provider.TedPermissionProvider | Dependency/library |
+| 4 | androidx.startup.InitializationProvider | Dependency/library |
+
+### Inventory boundary
+
+The 24 Activities, 7 Services, 2 Receivers, and 4 Providers above are recorded Reference manifest components, but are not application-owned BaRe Phase 2 skeleton components. Their exclusion from the Phase 2 application-owned skeleton is an ownership classification only; it does not by itself declare any capability or integration surface irrelevant to later reconstruction. Any capability dependency exposed through these components remains subject to Phase 3, Phase 4, and Phase 5 reconciliation.
+
 ## Resource inventory
 
 | Resource type | Count |
