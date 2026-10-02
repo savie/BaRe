@@ -610,4 +610,10 @@ In case you have enabled Multiple backups, BΛR☰ will not delete the protected
     <string name="supabase_backend_diagnostics_title">Supabase backend unavailable</string>
     <string name="m3_loading_indicator_content_description">Loading</string>
     <string name="p3_storage_switch_boundary">Storage provider change is handled by the storage/runtime layer.</string>
+    <string name="backup_storage_unavailable">Backup storage unavailable</string>
+    <string name="review_storage_access">Review storage access</string>
+    <string name="internal_storage">Internal storage</string>
+    <string name="task_successful">Task successful</string>
+    <string name="task_error">Task error</string>
+    <string name="task_complete_no_sound">Task completion (No sound)</string>
 </resources>
