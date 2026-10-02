@@ -43,6 +43,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
         boundary("manage_space", "Manage space");
         boundary("help_center", "Help center");
         boundary("restart_app", "Restart app");
+        boundary("export_settings", "Export settings");
+        boundary("import_settings", "Import settings");
 
         Preference notifications = findPreference("manage_notifications");
         if (notifications != null) {
