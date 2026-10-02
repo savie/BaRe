@@ -549,6 +549,18 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Scheduled domain-subtype execution reconciliation — 2026-10-02
+
+- Added **F110**: scheduled Messages selection, permission/data availability gating, and Messages task preparation.
+- Added **F111**: scheduled Calls selection, call-log availability gating, and Calls task preparation.
+- Added **F112**: scheduled Wallpapers valid-system-wallpaper discovery and task preparation.
+- Added **F113**: scheduled Wi-Fi device-read prerequisite/error-state handling and task preparation.
+- Added **F114**: scheduled Folders selection, backup-strategy projection, and task preparation.
+- F110–F114 are distinct from F74 generic scheduler handoff and F79–F82 domain task execution.
+- P5.1 explicit unique feature-contract count is now **114**.
+- No schedule was triggered/executed; no build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 Scheduled Apps configuration + label-selection reconciliation — 2026-10-02
 
 - Added **F108**: schedule-specific Apps custom-configuration selection, cloud-destination fallback, task preparation, and last-run lifecycle.
