@@ -364,6 +364,22 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 App-list swipe-action settings reconciliation
+
+**P5-F116 — App-list left/right swipe action configuration / persistence / reset**
+
+Direct Reference evidence establishes a dedicated settings contract:
+
+- `settings/AppSwipeActionsActivity.java` owns the dedicated swipe-action settings surface.
+- The settings flow persists separate left/right action selections under `app_list_left_swipe_actions` and `app_list_right_swipe_actions`.
+- The reset action explicitly removes both persisted keys and refreshes the settings fragment.
+- On activity destruction, the settings state is handed to `AppSettings.Companion.withSavedSettings()` through the existing settings persistence boundary.
+- `defpackage/ho6.java` reads the two persisted keys for the corresponding left/right swipe projections.
+- This is distinct from generic F23 Settings: the evidence shows a dedicated configuration owner, two named persisted state keys, explicit reset semantics, and downstream app-list action projection.
+
+Static-only; no UI interaction or persisted-state mutation was executed.
+
+
 ### P5.1 Multiple-backup strategy contract reconciliation
 
 **P5-F115 — MultipleBackupStrategy persistence / legacy migration / normalization / representation**
@@ -610,7 +626,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **115 unique units**.
+- P5.1 explicit feature-contract units after this pass: **116 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
