@@ -29,7 +29,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 7 | Folders | F11, F12, F47, F78, F101, F126–F130 | folder model, backup/restore, manifests, strategy, result algebra and metadata lifecycle |
 | 8 | Messages | F13, F14, F17, F18, F48, F72, F79, F110 | SMS backup/restore, conversations, default-handler integration, advanced provider state, retention and task execution |
 | 9 | Calls | F15, F16, F80, F99, F111 | call-log backup/restore, task execution and retention |
-| 10 | Cloud | F19–F21, F42, F51–F52, F87–F88, F96–F105, F131–F153, **F164–F165** | cloud connection/access state, provider execution, metadata/cleanup, diagnostics, provider-specific protocols, credentials and cloud-account identity reconciliation |
+| 10 | Cloud | F19–F21, F42, F51–F52, F87–F88, F96–F105, F131–F153 | cloud connection, provider execution, metadata/cleanup, diagnostics, provider-specific protocols and credentials |
 | 11 | Scheduling | F22, F50, F74, F107–F114, F122 | schedule selection, execution eligibility, task handoff, per-feature schedule preparation and aggregate persistence |
 | 12 | Settings | F23, F26, F52, F73, F87, F100, F115, F118–F120 | settings and feature policy surfaces consumed by backup/restore |
 | 13 | Premium / entitlement | F31 | Reference premium/entitlement feature evidence |
@@ -64,8 +64,6 @@ Status di atas hanya status coverage P5.1.
 **Domain 3 — Apps:** `COVERED — provisional` — targeted Apps sweep completed on 2026-10-02; existing F-ID coverage was reconciled against the Reference manifest/source inventory; no independent new boundary was found, so no new F-ID was added.
 
 **Domain 4 — App configuration:** `COVERED — provisional` — targeted App Configuration sweep completed on 2026-10-02; existing F-ID coverage was reconciled against direct Reference source evidence; no independent new boundary was found, so no new F-ID was added.
-
-**Domain 10 — Cloud:** `COVERED — provisional` — targeted forensic sweep completed on 2026-10-02 from the 4-tab Cloud surface through connection/access-state, credential persistence, orphan cleanup, diagnostics, provider protocols, and cloud-account identity reconciliation; **F164–F165** were added for two independent boundaries not previously represented.
 
 **Domain 1 — Onboarding:** \`COVERED — provisional\` — forensic re-audit completed on 2026-10-02 across IntroActivity, Intro state/coordinator, permission/root/storage/password/identity boundaries, and first-run restore consumers; existing F-ID/P4 coverage was reconciled and no independent new boundary was found, so no new F-ID was added.
 
