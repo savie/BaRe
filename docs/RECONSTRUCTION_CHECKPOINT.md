@@ -937,3 +937,19 @@ Third matrix consolidation batch completed from frozen P5.1 evidence and current
 Boundary reconciliation keeps F38 on the existing provider-neutral permission capability service; F39–F44 on Apps/artifact/task domain boundaries; F45 on Home Account continuity; F46 on settings/config transfer; F47 on folder manifest/chain semantics; F48/F49 on message/Wi-Fi capability policy; and F50 on schedule selection/last-run state. No UI surface was promoted to an execution owner where a domain/task boundary already exists.
 
 P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
+
+
+### P5.2 Contract Matrix Batch 04 — F51–F70 — 2026-10-02
+
+Fourth matrix consolidation batch completed from frozen P5.1 evidence and current BaRe structural targets. No new F-ID discovery pass was performed.
+
+- F51–F70: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+Boundary reconciliation keeps F51 distinct from F102 (diagnostic execution engine), F52 distinct from F105 (deletion enforcement), F53 distinct from F04 inventory presentation, F54 as Detail-side restore-part contract, F55–F57 as independent list query/filter/sort contracts, F58/F59 as reusable label/favorite domain state, F60 as AppInfo read-model, F61 as shortcut-to-detail integration, F62 as config-to-task projection, F63 as backup eligibility policy, F64 as package-visibility diagnostic state, F65–F69 as distinct special-data state adapters, and F70 as the Apps task workspace boundary.
+
+P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
