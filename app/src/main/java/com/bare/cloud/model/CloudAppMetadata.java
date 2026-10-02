@@ -49,7 +49,12 @@ public final class CloudAppMetadata {
     public String accessibilityComponent;
     public String ssaid;
     public String installerPackage;
+
+    /** Reference protection metadata. Deletion enforcement remains F105. */
     public Boolean protectedBackup;
+    /** Reference backup note metadata. */
+    public String note;
+
     public String specialDataLink;
     public Long specialDataSize;
     public Integer keyVersion;
@@ -67,6 +72,26 @@ public final class CloudAppMetadata {
     public Long expSBVersionCodeRequired;
     public String apkSBVersionNameRequired;
     public Long apkSBVersionCodeRequired;
+
+    public boolean isProtectedBackup() {
+        return Boolean.TRUE.equals(protectedBackup);
+    }
+
+    public void updateProtection(boolean protectedValue) {
+        protectedBackup = protectedValue;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void updateNote(String value) {
+        note = value;
+    }
+
+    public boolean hasNote() {
+        return note != null && !note.trim().isEmpty();
+    }
 
     public void prepareForUpload() {
         minSBVersionCodeRequired = hasBackups() ? 580L : null;
