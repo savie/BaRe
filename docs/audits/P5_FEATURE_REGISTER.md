@@ -487,6 +487,21 @@ A targeted direct decompile pass traced the persisted `parallel_cloud_transfers`
 - No cloud transfer or concurrency test was executed.
 
 
+### P5.1 Special-data payload codec reconciliation
+
+A targeted direct decompile pass separated the shared special-data **container/codec lifecycle** from the individual semantic payload types already represented by F65–F69.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F106** | AppSpecialDataPayload versioned serialization / compression / encryption / atomic persistence lifecycle | `model/app/AppSpecialDataPayload.java`, corresponding smali, special-data producer/consumer chain | special-data container codec + persistence boundary | Reference defines a versioned payload format (`v1`), encrypted-string separator semantics, user binding, bounded read/size handling, compression/decompression, payload validation, and atomic replacement write behavior. F65–F69 describe individual state payloads; F106 is the shared container/codec lifecycle that carries them. |
+
+#### Special-data codec note
+
+- F106 is intentionally **not** another permission/notification feature.
+- F65–F69 remain the semantic state contracts carried inside the payload.
+- F106 records serialization/container behavior only; no payload was generated, restored, or executed at runtime.
+
+
 ### P5.1 Protected-backup deletion enforcement reconciliation
 
 A targeted direct decompile pass separated the protected-backup **policy** already represented by F52 from the concrete deletion/revalidation enforcement path.
@@ -519,7 +534,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **105 unique units**.
+- P5.1 explicit feature-contract units after this pass: **106 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -539,6 +554,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F103 exposes the persisted cloud-transfer concurrency policy consumed by Apps/Folders transfer paths.
 - F104 exposes MEGA saved-session persistence and validated session rehydration.
 - F105 exposes protected-backup deletion guard, revalidation, and protected-count result semantics.
+- F106 exposes the versioned AppSpecialDataPayload container/codec and atomic persistence lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
