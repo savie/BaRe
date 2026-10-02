@@ -794,3 +794,17 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - Cloud Mail.Ru was specifically inspected and did not yield an independent lifecycle beyond the shared WebDAV/client boundary, so no extra ID was created.
 - P5.1 numbered IDs are now **153**; unique feature-contract units are **152** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no remote-provider execution was performed or authorized.
+
+
+### P5.1 App-data / encryption deep sweep — 2026-10-02
+
+- Added **F154–F158**:
+  - F154 app-data part model and per-part privileged backup requirement.
+  - F155 per-part DATA/EXTDATA/MEDIA encryption metadata and password-hash consistency.
+  - F156 SBA Argon2id KDF, encryption-method key-check, and index/payload MAC derivation boundary.
+  - F157 native SBA archive creation, encryption, progress, verification, temporary-artifact cleanup, and finalization.
+  - F158 SBA archive parsing, encryption-header validation, native Aegis extraction/decryption, and authentication/error boundary.
+- Existing special-data coverage was reconciled rather than duplicated: F65–F69 + F95/F106 already cover permission states, SSAID, notification-access, accessibility, notification policy, and versioned special-data serialization.
+- Required-version fields in app metadata were observed but not promoted to a new ID without direct evidence of a separate compatibility state machine.
+- P5.1 numbered IDs are now **158**; unique feature-contract units are **157** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no archive/encryption/decryption/restore/native execution was performed or authorized.
