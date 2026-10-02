@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Restore-special-permission policy reconciliation — 2026-10-02
+
+- Added **F120**: restore-special-permission policy persistence, root-capability gating, dedicated settings activity, and ConfigSettings override/result boundary.
+- F120 is distinct from F65–F69: those cover semantic permission/special-data payload contracts; F120 covers the selectable restore policy and configuration lifecycle.
+- P5.1 explicit unique feature-contract count is now **120**.
+- Static-only; no root capability check or restore operation was executed.
+
+
 ### P5.1 App cache + compression settings reconciliation — 2026-10-02
 
 - Added **F118**: app-cache inclusion policy, persistence, warning, settings propagation, and change-detection projection.
