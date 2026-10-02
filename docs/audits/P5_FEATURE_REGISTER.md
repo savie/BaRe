@@ -220,6 +220,16 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - No additional independent Domain 1 boundary was established by this deeper sweep. **No F164 was created.** Existing F-ID coverage remains provisional pending the remaining domain sweeps.
 - Static-only: no build/install/runtime/device, provider, backend, filesystem, privileged, or restore execution was performed.
 
+## P5.1 forensic re-audit — Home / dashboard — 2026-10-02
+
+- Re-audited Domain 2 beyond `HomeActivity`: Reference `home.HomeActivity`, pager `t44`, dashboard fragment `defpackage.x92`, the dashboard summary/quick-action resource structure, and the Home-side action/search/navigation dependencies were inspected directly.
+- Reference `HomeActivity` owns the four-page navigation contract (`Home`, `Cloud`, `Schedule`, `Account`), selected-page restoration, reselect-to-top behavior, toolbar/search/account entry, and page-change synchronization. This is the **F02** Home/dashboard orchestration boundary.
+- Reference dashboard `x92` additionally establishes the Home dashboard content contract: storage summary/state observation, Root/Shizuku status presentation and refresh entry, compact/default dashboard shortcuts, capability-gated Apps/Messages/Calls/Folders/Wallpapers/Wi-Fi quick-action catalog, notices/changelog/backend-diagnostic surfaces, and feature-entry dispatch. These remain Home/dashboard orchestration/content responsibilities; the concrete feature engines are already represented by **F38, F22, F24, F27, F35, F36, F37** and the domain-specific F04/F13/F15/F28/F29/F11 boundaries.
+- The supplied screenshot corroborates the current BΛR☰ dashboard surface visually: storage summary, Root status, Apps/Messages/Call Logs/Folders/Wallpapers/Wi-Fi quick-action cards, and the Home/Cloud sync/Schedules/Account navigation are present. The screenshot is treated only as current UI evidence; it does not establish Reference runtime semantics or backend/provider success.
+- Target cross-check shows `HomePagerAdapter`, `DashboardViewModel`, `DashboardAction`, and `DashboardActionService`/`DashboardRepository` already provide provider-neutral dashboard/action boundaries. `DashboardActionService` has no active consumer in the current source search, so it is not promoted as a second owner or new F-ID.
+- No independent Home/dashboard boundary was established beyond the existing **F02** orchestration/content unit and the already-owned downstream feature boundaries. **No F164 was created.**
+- Static-only: no build/install/runtime/device, provider, backend, filesystem, privileged, scheduling, task, or feature execution was performed.
+
 ## Cross-document rule
 
 New finding workflow:
