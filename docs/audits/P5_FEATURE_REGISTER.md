@@ -347,9 +347,26 @@ A targeted direct pass inspected the smaller feature families that remained most
 - If later direct inspection shows no reusable consumer beyond the Activity itself, these may be collapsed during P5.2 rather than treated as separate implementation packages.
 
 
+### P5.1 Restore/install privileged-engine reconciliation
+
+A targeted direct decompile pass inspected the privileged execution surfaces behind app restore. Two independently evidenced boundaries were promoted; generic restore UI and existing artifact-pipeline coverage were not duplicated.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F93** | PackageInstaller session install / result verification engine | `apptasks/install/InstallerSourceProxy.java` | privileged APK/APKS installer bridge | Reference creates PackageInstaller sessions, streams one or more APK entries into the session, fsyncs them, commits through an IntentSender, waits up to 120 seconds for the result, maps timeout/status failures, and verifies initiating/installing package identity after success. This is a concrete execution boundary behind F40, not merely an Activity or restore-selection surface. |
+| **P5-F94** | Notification-policy backup / per-package restore engine | `apptasks/notifications/NotificationPolicyProxy.java` | privileged notification-policy bridge | Reference obtains Android notification-service backup payloads, validates/extracts the package-specific XML block, bounds payload sizes, persists the package payload, and restores it through the notification service. Backup and restore are explicit modes in the proxy. This is an independent special-data engine boundary. |
+
+#### Restore/install reconciliation notes
+
+- F93 records the actual PackageInstaller bridge; it does not claim that installation succeeds on BaRe or that privileged execution is currently available.
+- F94 records the notification-policy bridge and its bounded XML transformation; it does not claim device-level restore success.
+- Existing F40/F41/F42/F43 remain the higher-level restore/artifact/metadata/result families; F93/F94 expose concrete lower-level execution boundaries for later P5.2 ownership grouping.
+- No build, install, privileged execution, or runtime verification was performed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **92**.
+- P5.1 explicit feature-contract units after this pass: **94**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -357,7 +374,8 @@ A targeted direct pass inspected the smaller feature families that remained most
 - F87–F88 expose cloud credential persistence and orphan-cleanup execution state boundaries.
 - F89 exposes storage measurement and cached-usage snapshot behavior.
 - F90–F92 expose locale, contributor, and notice/license data/state boundaries.
-- Runtime/provider/backend/filesystem verification remains unclaimed.
+- F93–F94 expose privileged install and notification-policy execution boundaries.
+- Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
 ## P5.1 current decision
