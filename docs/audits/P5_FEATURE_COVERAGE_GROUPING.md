@@ -59,7 +59,7 @@ Status di atas hanya status coverage P5.1.
 
 **P5.1 tetap OPEN.**
 
-**Domain 2 — Home / dashboard:** `COVERED — provisional` — targeted Home/dashboard sweep completed on 2026-10-02; F03 result/data semantics were reconciled; no independent new boundary was found.
+**Domain 2 — Home / dashboard:** \`COVERED — provisional\` — forensic re-audit completed on 2026-10-02 across HomeActivity/pager navigation, dashboard storage/root/shortcut/quick-action content, search/navigation entry, and downstream Home feature entry boundaries; existing F-ID coverage was reconciled and no independent new boundary was found, so no new F-ID was added.
 
 **Domain 3 — Apps:** `COVERED — provisional` — targeted Apps sweep completed on 2026-10-02; existing F-ID coverage was reconciled against the Reference manifest/source inventory; no independent new boundary was found, so no new F-ID was added.
 
