@@ -364,6 +364,31 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 Scheduled Apps configuration reconciliation
+
+A targeted direct decompile pass traced the schedule-specific `ScheduleItem.AppConfig` branch separately from generic configuration validation and task mapping.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F108** | Scheduled Apps custom-configuration selection / cloud fallback / task preparation / last-run lifecycle | `home/schedule/data/ScheduleItem$AppConfig.smali`, `home/schedule/ScheduleService.java`, `ConfigSettings` consumers | schedule engine → ConfigSettings/task preparation boundary | Reference schedules can carry a dedicated AppConfig subtype. `ScheduleService` resolves only valid settings, checks network/cloud availability, removes cloud destinations when unavailable, skips settings with no remaining destination, records schedule last-run outcomes, and prepares Apps task inputs from the surviving configuration set. This is distinct from F85's config validation and F62's generic config-to-task mapping because the schedule branch adds schedule-specific eligibility, destination fallback, and last-run semantics. |
+
+### P5.1 Scheduled Apps label-selection reconciliation
+
+A targeted direct decompile pass also traced the `ScheduleItem.AppsLabels` branch independently from the general Labels lifecycle.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F109** | Scheduled Apps label selection / installed-app projection / part filtering / task preparation | `home/schedule/data/ScheduleItem$AppsLabels.smali`, `home/schedule/ScheduleService.java`, `LabelParams`, app model `ji` | schedule engine → label predicate → Apps task preparation | Reference validates label IDs, separates label matching semantics, scans installed apps, matches label associations, de-duplicates packages, orders the selected projection, filters backup parts by capability, applies sync/multiple-backup settings, prepares Apps tasks, and records schedule last-run state. This is distinct from F58 label management and F107 Quick Actions because the schedule contract owns label-based app selection and task projection. |
+
+#### Scheduled Apps subtype notes
+
+- F108 = schedule-specific **custom configuration** path.
+- F109 = schedule-specific **label selection** path.
+- F107 = schedule-specific **Quick Actions** path.
+- F74 remains the generic scheduler eligibility/handoff spine; these units are concrete subtype-specific task-preparation contracts.
+- Static evidence only; no schedule was triggered or executed.
+
+
 ### P5.1 Scheduled Apps Quick Actions execution reconciliation
 
 A targeted direct decompile pass traced the schedule-specific Apps Quick Actions path from persisted schedule data into concrete task preparation.
@@ -548,7 +573,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **107 unique units**.
+- P5.1 explicit feature-contract units after this pass: **109 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -570,6 +595,8 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F105 exposes protected-backup deletion guard, revalidation, and protected-count result semantics.
 - F106 exposes the versioned AppSpecialDataPayload container/codec and atomic persistence lifecycle.
 - F107 exposes the schedule-specific Apps Quick Actions selection/task-preparation/last-run lifecycle.
+- F108 exposes the schedule-specific Apps custom-configuration selection/cloud-fallback/task-preparation lifecycle.
+- F109 exposes the schedule-specific Apps label-selection/app-projection/task-preparation lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
