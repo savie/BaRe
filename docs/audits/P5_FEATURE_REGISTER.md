@@ -364,6 +364,20 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 Scheduled Apps Quick Actions execution reconciliation
+
+A targeted direct decompile pass traced the schedule-specific Apps Quick Actions path from persisted schedule data into concrete task preparation.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F107** | Scheduled Apps Quick Actions selection / task preparation / last-run lifecycle | `home/schedule/data/ScheduleItem$AppsQuickActions.smali`, `home/schedule/ScheduleService.smali`, `f47.smali` | schedule engine → Apps task preparation boundary | Reference persists a dedicated `AppsQuickActions` schedule subtype carrying quick-action IDs, allowed-app selection, app parts, backup locations, sync option, repeat days, and enabled state. `ScheduleService` consumes this subtype, validates sync prerequisites, resolves quick-action IDs and allowed-app predicates, prepares the Apps task with the selected parts/locations and `MultipleBackupStrategy`, and records schedule last-run states. This is distinct from F06's interactive quick-action surface, F62's custom-configuration-to-task mapping, and F74's generic scheduler eligibility/handoff. |
+
+#### Scheduled Apps Quick Actions note
+
+- F107 is the **schedule-specific execution contract**; F06 remains interactive Apps Quick Actions and F74 remains the shared scheduler/eligibility spine.
+- The evidence is static; no scheduled task was triggered or executed at runtime.
+
+
 ### P5.1 Special-data payload codec reconciliation
 
 A targeted direct decompile pass inspected the app special-data payload format used for permission/SSAID/notification-related metadata. The model is more than a passive DTO: it owns versioning, user binding, bounded read, compression/encoding, atomic file replacement, and read/write error handling.
@@ -534,7 +548,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **106 unique units**.
+- P5.1 explicit feature-contract units after this pass: **107 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -555,6 +569,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 - F104 exposes MEGA saved-session persistence and validated session rehydration.
 - F105 exposes protected-backup deletion guard, revalidation, and protected-count result semantics.
 - F106 exposes the versioned AppSpecialDataPayload container/codec and atomic persistence lifecycle.
+- F107 exposes the schedule-specific Apps Quick Actions selection/task-preparation/last-run lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
