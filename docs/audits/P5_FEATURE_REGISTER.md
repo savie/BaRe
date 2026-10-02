@@ -229,7 +229,13 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F152** | SFTP password/private-key authentication execution boundary |
 | **F153** | FTP LIST/TLS compatibility fallback and partial-upload cleanup |
 
-**Numbered IDs present: 153. Unique feature-contract units: 152.**
+| **F154** | App data part model / per-part privileged backup requirement |
+| **F155** | App-data encryption metadata / per-part encryption-password-hash consistency |
+| **F156** | SBA password KDF / encryption-method key-check lifecycle |
+| **F157** | SBA native archive creation / encrypted finalization lifecycle |
+| **F158** | SBA archive parsing / native Aegis extraction and decryption lifecycle |
+
+**Numbered IDs present: 158. Unique feature-contract units: 157.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -1250,3 +1256,33 @@ Static-only; no folder restore operation was executed.
   - Direct Reference evidence: `o23` falls back from `LIST -a` to `LIST` when unsupported, can discard/recreate the FTP client after listing state failures, retries FTPS upload with TLS 1.2 after the specific 426/network-stream failure, and cleans partial uploads after failed PUT.
 - **Cloud Mail.Ru**: targeted sweep found no independent provider lifecycle beyond the shared WebDAV client/credential boundary; no new feature ID added.
 - Static-only; no remote-provider network execution, authentication, upload, delete, or filesystem mutation was performed or authorized.
+
+
+### P5.1 App-data / encryption deep sweep — 2026-10-02
+
+- Added **F154**: app-data part model and per-part privileged-backup requirement.
+  - Direct Reference evidence: enum `iu` defines `APP`, `DATA`, `EXTDATA`, `EXPANSION`, and `MEDIA`.
+  - `getBackupReq()` assigns different capability requirements: `DATA` requires ROOT; `EXTDATA` and `EXPANSION` require ROOT-or-Shizuku when that capability is available; `APP` and `MEDIA` require no privileged capability.
+  - The same enum persists per-part checked state for system/user selection.
+  - F154 is distinct from F38 generic privileged-capability workflow and F63 per-part backup limits because it owns the concrete app-part capability/selection boundary.
+- Added **F155**: app-data per-part encryption metadata and password-hash consistency boundary.
+  - Direct Reference evidence: `LocalMetadata`/`CloudMetadata` carry separate DATA, EXTDATA, and MEDIA encryption state, including encrypted flag, encryption method, password hash, size/mirrored size, and backup date; upload/metadata reconciliation updates these fields independently.
+  - Restore/backup comparison paths consume the corresponding local/cloud password hashes and mirrored sizes independently for DATA, EXTDATA, and MEDIA.
+  - F155 is distinct from F41 generic artifact pipeline because this contract preserves per-part encryption identity and reconciliation metadata.
+- Added **F156**: SBA password KDF and encryption-method key-check lifecycle.
+  - Direct Reference evidence: `sy6.a()` derives key material through native Argon2id with a 16-byte salt and validated iteration/memory/parallelism/output parameters; `sy6.d()` derives a 16-byte method-specific key-check digest.
+  - Supported Reference encryption methods include SevenZip AES, AES-256-GCM, AES-256-GCM-SIV, Aegis-256, and Aegis-128X2; the key-check labels are method-specific.
+  - `sy6` also defines SBA2 index-MAC derivation material and payload/index metadata MAC inputs.
+  - F156 is distinct from F25 generic password/encryption strategy and F41 generic archive pipeline because it owns the concrete cryptographic KDF/key-check contract.
+- Added **F157**: SBA native archive creation and encrypted finalization lifecycle.
+  - Direct Reference evidence: `tu0.d()` creates a temporary SBA archive, validates Aegis backend availability when selected, derives encryption material, invokes `SbaArchiveNative.createArchive()`, records native progress, verifies the resulting archive through `z07`, then moves/finalizes the temporary artifact; failures delete the temporary archive and clear sensitive key material.
+  - The native creation call carries compression/encryption configuration, archive metadata, entry information, chunk parameters, and encryption material.
+  - F157 is distinct from F41 because it owns the concrete native SBA archive-construction/finalization execution boundary.
+- Added **F158**: SBA archive parsing, encryption-header validation, and native Aegis extraction/decryption lifecycle.
+  - Direct Reference evidence: `z07` validates compression/encryption headers, KDF/key-check/salt/nonce/MAC/chunk-size fields, resolves encryption methods, derives/validates archive keys, and rejects inconsistent or unsupported archive states.
+  - For Aegis-256/Aegis-128X2, the Reference uses `SbaLibaegisCryptoNative` and `SbaSwiftTarNative.extractAegisArchiveEntry*`; authentication failure is surfaced as a distinct SBA payload-authentication failure.
+  - Extraction validates archive entry safety/metadata and supports cancellation/progress/error propagation.
+  - F158 is distinct from F157 because it owns the restore/read/decrypt side of the SBA archive contract.
+- **Special-data / SSAID note:** `AppSpecialDataPayload` already has dedicated coverage in **F65–F69, F95, and F106**. Its versioned payload explicitly carries permission states, SSAID, notification-access component, accessibility component, and notification-policy XML; no duplicate ID was created in this sweep.
+- **Restore compatibility note:** `CloudMetadata` exposes per-part required-version fields (DATA/EXTDATA/etc.), but this sweep did not promote them to a new ID because targeted evidence found the fields but did not yet establish an independently named compatibility state machine. Keep this as a targeted follow-up rather than inventing behavior.
+- Static-only; no archive creation, encryption, decryption, restore, native library execution, or device/provider execution was performed.
