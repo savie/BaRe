@@ -8,9 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bare.R;
+import com.bare.contributor.data.ContributorRegistrationData;
 import com.google.android.material.button.ExtendedFloatingActionButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.StringJoiner;
 
 public final class ContributorRegActivity extends AppCompatActivity {
     private TextView statusView;
@@ -47,9 +50,65 @@ public final class ContributorRegActivity extends AppCompatActivity {
         saveButton.setOnClickListener(v -> showSaveBoundary());
     }
 
+    /**
+     * F33 presentation surface. F91 supplies contributor registration state.
+     */
+    public void onRemoteDetails(@Nullable ContributorRegistrationData registration) {
+        if (registration == null) {
+            statusView.setText(R.string.p3_contributor_boundary);
+            basicDetailsView.setText(R.string.p3_contributor_remote_details_pending);
+            crowdinContainer.setVisibility(View.GONE);
+            return;
+        }
+
+        statusView.setText(
+                registration.status == null || registration.status.isEmpty()
+                        ? R.string.p3_contributor_boundary
+                        : registration.status);
+
+        StringJoiner details = new StringJoiner("\n\n");
+        appendDetail(details, "Name", registration.name);
+        appendDetail(details, "Registration type", displayType(registration.type));
+
+        if (registration.type == ContributorRegistrationData.Type.TRANSLATOR
+                && registration.locales != null
+                && !registration.locales.trim().isEmpty()) {
+            appendDetail(details, "Languages", registration.locales);
+        }
+
+        basicDetailsView.setText(
+                details.length() == 0
+                        ? R.string.p3_contributor_remote_details_pending
+                        : details.toString());
+
+        boolean translator =
+                registration.type == ContributorRegistrationData.Type.TRANSLATOR;
+        crowdinContainer.setVisibility(translator ? View.VISIBLE : View.GONE);
+
+        telegramView.setText(valueOrEmpty(registration.telegramId));
+        crowdinView.setText(valueOrEmpty(registration.crowdinId));
+        paypalView.setText(valueOrEmpty(registration.paypalId));
+    }
+
+    private static String displayType(ContributorRegistrationData.Type type) {
+        return type == ContributorRegistrationData.Type.TRANSLATOR
+                ? "Translator"
+                : "Community Helper";
+    }
+
+    private static void appendDetail(StringJoiner details, String label, String value) {
+        if (value != null && !value.trim().isEmpty()) {
+            details.add(label + "\n" + value);
+        }
+    }
+
+    private static String valueOrEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
     private void showSaveBoundary() {
-        // Reference submits ContributorRegistration through its ViewModel/coroutine.
-        // Keep the observable P3 boundary without fabricating remote persistence.
+        // Reference submits through the contributor state owner.
+        // F91 owns validation/persistence; remote execution is not fabricated here.
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.save_details)
                 .setMessage(R.string.p3_contributor_boundary)
