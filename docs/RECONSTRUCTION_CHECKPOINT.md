@@ -714,3 +714,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F130 is distinct from F47 chain semantics and F127/F128 operation-result contracts; it owns the latest-manifest selection and cache/download boundary.
 - P5.1 explicit unique feature-contract count is now **129**.
 - Static-only; no metadata mutation, cloud download, restore, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 TeraBox token lifecycle reconciliation — 2026-10-02
+
+- Added **F131**: TeraBox token credential persistence, validity/expiry policy, OAuth authorization-code exchange, refresh-token lifecycle, and saved-session continuity.
+- F131 is distinct from F87 generic cloud credential persistence, F96 generic login-result taxonomy, and F20 provider operations because it owns the concrete TeraBox token lifecycle and refresh boundary.
+- P5.1 explicit unique feature-contract count is now **130**.
+- Static-only; no TeraBox authentication, token refresh, network/provider execution, build/install/runtime/backend execution was performed or authorized.
