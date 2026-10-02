@@ -25,7 +25,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 3 | Apps | F04–F08, F38–F44, F53–F71, F77, F83, F93, F159–F162 | core Apps inventory, selection, backup/restore, package execution, special data, row actions, compatibility and artifact materialization |
 | 4 | App configuration | F09, F58, F62, F85, F116–F121 | configuration model, labels, task-input projection, persistence and normalization |
 | 5 | App detail | F07, F08, F54, F60, F61 | detail actions, app info, restore-card model and detail integrations |
-| 6 | APK import | F10, F86 | APK/APKS import/share artifact path |
+| 6 | APK import | F10, F86, **F167** | APK/APKS import/share artifact path and import-side materialization/validation lifecycle |
 | 7 | Folders | F11, F12, F47, F78, F101, F126–F130 | folder model, backup/restore, manifests, strategy, result algebra and metadata lifecycle |
 | 8 | Messages | F13, F14, F17, F18, F48, F72, F79, F110 | SMS backup/restore, conversations, default-handler integration, advanced provider state, retention and task execution |
 | 9 | Calls | F15, F16, F80, F99, F111 | call-log backup/restore, task execution and retention |
