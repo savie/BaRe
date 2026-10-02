@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Apps search provider reconciliation — 2026-10-02
+
+- Added **F124**: Apps search query normalization, searchable-source/index projection, and result-provider contract.
+- F124 is distinct from F55 (Apps search UI/query state) and F03 (Home search).
+- P5.1 explicit unique feature-contract count is now **124**.
+- Static-only; no search index was built or queried at runtime.
+
+
 ### P5.1 Blacklist predicate integration reconciliation — 2026-10-02
 
 - Added **F123**: blacklist package predicate persistence and reusable backup-selection exclusion integration.
