@@ -164,17 +164,17 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F87** | Cloud credential persistence / secure password-key merge / settings export |
 | **F88** | Cloud orphan scan / result / deletion state machine |
 | **F89** | Storage volume measurement / app-usage calculation / cached storage snapshot |
-| **F90** | locale selection persistence / configuration-change propagation |
-| **F91** | contributor registration state / persistence boundary |
-| **F92** | notice/license content loading and selection model |
-| **F93** | privileged PackageInstaller execution boundary |
-| **F94** | AppSpecialDataPayload special-data payload format/codec lifecycle |
-| **F95** | Cloud login outcome taxonomy / connection-result contract |
-| **F96** | MEGA multi-factor-auth-required login outcome / session gate |
-| **F97** | Filen restorable encrypted-session state / session rehydration |
-| **F98** | Notification policy backup + restore — DUPLICATE OF F69; reconciliation marker only |
+| **F90** | Locale selection persistence / resource-language switch |
+| **F91** | Contributor registration state / registration persistence |
+| **F92** | Notice/license content loading / selection model |
+| **F93** | PackageInstaller session install / result verification engine |
+| **F94** | ~~Notification-policy backup / per-package restore engine~~ |
+| **F95** | App special-data payload serialization / compression / user-binding codec |
+| **F96** | Cloud login outcome taxonomy / connection-result contract |
+| **F97** | MEGA multi-factor-auth-required login outcome / session gate |
+| **F98** | Filen restorable encrypted-session state / session rehydration |
 | **F99** | Calls backup retention / local-cloud cleanup policy |
-| **F100** | Settings cloud backup/restore and local-settings application |
+| **F100** | Settings cloud backup / restore and local-settings application |
 | **F101** | Folder restore strategy policy / persisted mode |
 | **F102** | Cloud diagnostics transfer-test suite / result-state engine |
 | **F103** | Cloud transfer concurrency policy / parallel transfer execution mode |
@@ -182,7 +182,7 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F105** | Protected-backup deletion guard / revalidation / protected-count result |
 | **F106** | AppSpecialDataPayload versioned serialization / compression / encryption / atomic persistence lifecycle |
 | **F107** | Scheduled Apps Quick Actions selection / task preparation / last-run lifecycle |
-| **F108** | Scheduled Apps custom-configuration selection / cloud fallback / task preparation |
+| **F108** | Scheduled Apps custom-configuration selection / cloud fallback / task preparation / last-run lifecycle |
 | **F109** | Scheduled Apps label selection / installed-app projection / part filtering / task preparation |
 | **F110** | Scheduled Messages selection / permission-data availability / task preparation |
 | **F111** | Scheduled Calls selection / call-log availability / task preparation |
