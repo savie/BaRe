@@ -354,7 +354,7 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 | ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
 |---|---|---|---|---|
 | **P5-F93** | PackageInstaller session install / result verification engine | `apptasks/install/InstallerSourceProxy.java` | privileged APK/APKS installer bridge | Reference creates PackageInstaller sessions, streams one or more APK entries into the session, fsyncs them, commits through an IntentSender, waits up to 120 seconds for the result, maps timeout/status failures, and verifies initiating/installing package identity after success. This is a concrete execution boundary behind F40, not merely an Activity or restore-selection surface. |
-| **P5-F94** | Notification-policy backup / per-package restore engine | `apptasks/notifications/NotificationPolicyProxy.java` | privileged notification-policy bridge | Reference obtains Android notification-service backup payloads, validates/extracts the package-specific XML block, bounds payload sizes, persists the package payload, and restores it through the notification service. Backup and restore are explicit modes in the proxy. This is an independent special-data engine boundary. |
+| **P5-F94** | ~~Notification-policy backup / per-package restore engine~~ | ~~`apptasks/notifications/NotificationPolicyProxy.java`~~ | **MERGED INTO P5-F69** | Duplicate boundary discovered during P5.1 reconciliation. F69 already canonically owns the same `NotificationPolicyProxy` + `notificationPolicyXml` backup/restore lifecycle. F94 is retained only as an audit reconciliation marker and is **not counted as a unique feature-contract unit**. |
 
 #### Restore/install reconciliation notes
 
@@ -381,7 +381,7 @@ A targeted direct decompile pass inspected the app special-data payload format u
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **95**.
+- P5.1 explicit feature-contract units after duplicate reconciliation: **94 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -389,7 +389,8 @@ A targeted direct decompile pass inspected the app special-data payload format u
 - F87–F88 expose cloud credential persistence and orphan-cleanup execution state boundaries.
 - F89 exposes storage measurement and cached-usage snapshot behavior.
 - F90–F92 expose locale, contributor, and notice/license data/state boundaries.
-- F93–F94 expose privileged install and notification-policy execution boundaries.
+- F93 exposes the privileged PackageInstaller execution boundary.
+- F94 is merged into existing F69 and is not counted separately.
 - F95 exposes the special-data payload format/codec lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
