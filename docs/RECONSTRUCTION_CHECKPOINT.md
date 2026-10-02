@@ -1209,3 +1209,28 @@ P5.5 remains active for subsequent authorized batch progression. P5 Gate remains
 - Build/install/runtime/device verification was **NOT PERFORMED**.
 - P5 Gate remains **NOT OPENED**.
 - Next authorized P5.5 batch: **R-F**, exact 8 F-IDs: F86,F154,F155,F156,F157,F158,F162,F167.
+
+
+### P5.5 R-F archive/crypto/APK-import contract batch — 2026-10-03
+
+- R-F exact P5.4 scope: **8 F-IDs**: F86,F154,F155,F156,F157,F158,F162,F167.
+- Added `com.bare.apps.contracts.RfArtifactContracts` as a bounded static contract layer for APKS artifact metadata, app-data part capability/selection, per-part encryption metadata, SBA KDF/key-check/index-MAC state, SBA archive create/parse boundaries, cloud-restore artifact reuse decisions, and APK/APKS import staging/validation.
+- Exact R-F implementation coverage: **8/8**; missing: **0**; extra outside R-F: **0**.
+- Ownership/boundary collision: **0**; later-batch ownership absorbed: **0**.
+- Targeted Reference evidence was re-checked for `apkshare/a`, `ApkImportActivity`, `mg`, `iu`, `mq`, `sy6`, and `z07`.
+- R-F is **COMPLETE / STATIC RE-AUDIT CLOSURE**.
+- Native archive/crypto, filesystem, PackageInstaller, root/Shizuku, provider/backend, runtime and device execution were **NOT PERFORMED**.
+- Build/install/runtime/device verification was **NOT PERFORMED**.
+- P5 Gate remains **NOT OPENED**.
+
+### P5.5 batch progression status — 2026-10-03
+
+- R-A: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- R-B: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- R-C: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- R-D: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- R-E: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- R-F: **COMPLETE / STATIC RE-AUDIT CLOSURE**
+- P5.5: **ACTIVE — all six implementation batches statically closed**
+- Next lifecycle: **P5.6 Re-audit / Regression → P5.7 Feature Closure**
+- P5 Gate: **NOT OPENED**
