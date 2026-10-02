@@ -100,11 +100,11 @@ These remain outside P4 implementation:
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature audit complete → P5.2 contract/owner/boundary active → P5 gate not opened.**
+> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete (static closure) → P5.3 active (static classification) → P5 gate not opened.**
 
-Current package: **P4.5 — Verified Checkpoint / Package Closure — CLOSED.**
+Current package: **P5.3 — Gap / Dependency / UNKNOWN Classification — ACTIVE.**
 
-Current lifecycle boundary: **P5.2 — contract / owner / boundary static analysis. P5 gate remains not opened.**
+Current lifecycle boundary: **P5.3 — gap / dependency / UNKNOWN classification. P5 gate remains not opened.**
 
 P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the scope remains C01–C16.
 
