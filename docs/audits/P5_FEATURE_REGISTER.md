@@ -234,9 +234,22 @@ These additions deliberately do **not** promote generic helpers such as string/c
 - These units are evidence-backed Reference boundaries; they do not authorize implementation, privileged execution, provider/backend execution, or runtime verification.
 - This pass does not treat the number **71** as a target. The count is a consequence of the evidence decomposition and may still increase if another independent boundary is proven.
 
+### Non-Apps engine reconciliation — scheduling / messages / password
+
+A further targeted P5.1 pass inspected the supplied decompile directly for non-Apps execution boundaries that remained coarse in F01–F37 and were not already made explicit by F45–F71.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F72** | Messages backup retention / local-cloud cleanup | `defpackage/ud5`; `max_sms_backups`; local/cloud backup enumeration and deletion | SMS backup repository + retention helper | Reference has an explicit configurable maximum SMS-backup count, enumerates local/cloud backup records, selects older backups, deletes them, and reports cleanup failures. This is an engine policy distinct from Messages backup/restore UI and the MMS toggle. |
+| **P5-F73** | User-password lifecycle / password history state | `password.PasswordStrategyActivity`, `UserPasswordActivity`, `defpackage/yx5`, `by5` | password strategy state + persisted user-password state | Reference distinguishes STANDARD_PASSWORD vs USER_PASSWORD, active-password state, password change flow, and saved old-password set. The lifecycle is a persisted security-state boundary, not merely the strategy screen. |
+| **P5-F74** | Schedule execution eligibility / alarm-to-task handoff | `ScheduleService`, `ScheduleItem`, `AlarmReceiver`, schedule RunMode/selector paths | alarm/service scheduler + task preparation/handoff | Reference evaluates enabled/runnable/repeat-day state, forced/manual run modes, charging/battery/cloud prerequisites, prepares app/message/call/folder/Wi-Fi tasks, records schedule errors, and hands runnable work into the task system. This is materially deeper than schedule CRUD/UI. |
+
+F74 is intentionally not a claim that every Android alarm/runtime outcome has been verified; it is the statically evidenced scheduler decision and task-handoff boundary.
+
 ### Closure result
 
-- P5.1 explicit feature-contract units: **71**.
+- P5.1 explicit feature-contract units: **74**.
+- F72–F74: non-Apps engine reconciliation pass.
 - F59–F71: Apps engine / special-data reconciliation pass.
 - F01–F37: original scope decomposition.
 - F38–F44: first rebaseline reconciliation.
