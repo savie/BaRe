@@ -1112,3 +1112,22 @@ P5.4 converted the P5.3 static scope into six exact, non-overlapping implementat
 - Build/install/runtime/provider/backend/device: **NOT PERFORMED**
 
 **Implementation is permitted only within the exact P5.4 batch boundaries. No runtime/provider/backend/device execution is authorized by this closure.**
+
+
+### P5.4 Batch-order correction — 2026-10-02
+
+The P5.4 exact batch assignment was re-audited for dependency direction before implementation. The batch sets remain complete/non-overlapping, but ownership was corrected so no earlier batch depends on a later batch.
+
+- R-A: **26 F-IDs**
+- R-B: **45 F-IDs**
+- R-C: **34 F-IDs**
+- R-D: **41 F-IDs**
+- R-E: **14 F-IDs**
+- R-F: **8 F-IDs**
+- Total: **168**
+- Missing GAP/PARTIAL IDs: **0**
+- Overlap: **0**
+- Dependency order: **PASS**
+- P5.4 remains **COMPLETE / STATIC READINESS CLOSURE**
+- P5.5 implementation: **PERMITTED within selected batch boundaries**
+- Runtime/provider/backend/device execution: **NOT PERFORMED**
