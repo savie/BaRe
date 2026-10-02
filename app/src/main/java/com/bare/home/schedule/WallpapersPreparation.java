@@ -1,0 +1,1 @@
+package com.bare.home.schedule; public final class WallpapersPreparation { private final ScheduledTaskPreparation state; public WallpapersPreparation(ScheduledTaskPreparation state){this.state=state;} public ScheduledTaskPreparation getState(){return state;} }
