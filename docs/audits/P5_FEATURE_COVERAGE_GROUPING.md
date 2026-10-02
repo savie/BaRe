@@ -20,7 +20,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 
 | # | P5.0 domain | Current F-ID coverage | Coverage purpose |
 |---:|---|---|---|
-| 1 | Onboarding | F01, F45, F73, F87, F100, **F163** | first-start, identity, password/settings continuity, restore-related entry dependencies, storage setup/recovery |
+| 1 | Onboarding | F01, F38, F45, F73, F87, F100, **F163** | first-start, identity, password/settings continuity, restore-related entry dependencies, storage setup/recovery |
 | 2 | Home / dashboard | F02, F03, F22, F24, F27, F35, F36, F37 | dashboard/search/orchestration and home-level feature entry |
 | 3 | Apps | F04–F08, F38–F44, F53–F71, F77, F83, F93, F159–F162 | core Apps inventory, selection, backup/restore, package execution, special data, row actions, compatibility and artifact materialization |
 | 4 | App configuration | F09, F58, F62, F85, F116–F121 | configuration model, labels, task-input projection, persistence and normalization |
