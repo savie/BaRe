@@ -69,7 +69,7 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F130
+## Canonical P5.1 feature index — F01–F131
 
 This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
 
@@ -205,8 +205,9 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F128** | Folder restore result algebra / success metrics / failure message |
 | **F129** | Folder metadata reconstruction / local persistence / cloud synchronization lifecycle |
 | **F130** | Latest folder manifest selection / cloud-download cache lifecycle |
+| **F131** | TeraBox token credential persistence / validity / OAuth refresh lifecycle |
 
-**Numbered IDs present: 130. Unique feature-contract units: 129.**
+**Numbered IDs present: 131. Unique feature-contract units: 130.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -949,6 +950,21 @@ Direct Reference decompile evidence establishes a dedicated manifest-cache bound
 - This is distinct from F47, which owns manifest/incremental chain semantics and restore-chain validation, and from F127/F128, which own folder backup/restore result algebra. F130 owns the latest-manifest selection plus local cloud-manifest cache/download boundary.
 
 Static-only; no cloud download, cache mutation, restore operation, provider/backend execution, or runtime verification was performed.
+### P5.1 TeraBox token credential lifecycle reconciliation
+
+**P5-F131 — TeraBox token credential persistence / validity / OAuth refresh lifecycle**
+
+Direct Reference decompile evidence establishes a provider-specific token lifecycle beyond generic cloud credentials/login:
+
+- `TeraBoxTokenCredentials` carries access token, refresh token, API/upload domains, user key (`uk`), display identity, expiry time, and CloudServiceId.
+- `defpackage/m08` persists and reloads the token credential object through the saved-credentials preference boundary.
+- `TeraBoxTokenCredentials.isValid()` and `needsAccessTokenRefresh(...)` provide explicit validity/expiry-skew policy; the Reference uses a 5-minute default refresh skew.
+- `defpackage/h08` exchanges an OAuth authorization code for token credentials and reconstructs the credential object from the provider response.
+- The same provider adapter detects an expiring saved access token and performs an OAuth refresh-token request before continuing with the refreshed credential state.
+- `k08` consumes the saved credential, invokes the provider authentication/refresh adapter, and persists the resulting credential state for subsequent use.
+- This is distinct from F87 generic cloud credential persistence, F96 generic login-result taxonomy, and F20 provider operations: F131 owns the **TeraBox token/session continuity, validity, expiry, authorization-code exchange, refresh-token, and persisted credential lifecycle**.
+
+Static-only; no TeraBox authentication, token refresh, network/provider execution, build/install/runtime/backend execution was performed.
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **127 unique units**.
@@ -996,6 +1012,7 @@ Static-only; no cloud download, cache mutation, restore operation, provider/back
 - F128 exposes the folder restore result algebra, success metrics, and failure-message payload.
 - F129 exposes folder metadata reconstruction, local persistence, artifact-to-metadata reconciliation, and cloud-node publication/deletion.
 - F130 exposes latest folder manifest selection plus the local cloud-manifest cache/download lifecycle.
+- F131 exposes TeraBox token credential persistence, validity/expiry policy, OAuth authorization-code exchange, refresh-token lifecycle, and session continuity.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -1008,7 +1025,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F130 index is consolidated above.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F131 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
