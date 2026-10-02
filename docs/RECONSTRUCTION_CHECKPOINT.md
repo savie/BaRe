@@ -24,7 +24,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
-| 5 | Features | **P5.2 CONTRACT / OWNER / BOUNDARY ACTIVE / P5 GATE NOT OPENED** |
+| 5 | Features | **P5.3 GAP / DEPENDENCY / UNKNOWN CLASSIFICATION ACTIVE / P5 GATE NOT OPENED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
