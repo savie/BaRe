@@ -65,6 +65,8 @@ Status di atas hanya status coverage P5.1.
 
 **Domain 4 — App configuration:** `COVERED — provisional` — targeted App Configuration sweep completed on 2026-10-02; existing F-ID coverage was reconciled against direct Reference source evidence; no independent new boundary was found, so no new F-ID was added.
 
+**Domain 10 — Cloud:** `COVERED — provisional` — targeted forensic sweep completed on 2026-10-02 from the 4-tab Cloud surface through connection/access-state, credential persistence, orphan cleanup, diagnostics, provider protocols, and cloud-account identity reconciliation; **F164–F165** were added for two independent boundaries not previously represented.
+
 **Domain 1 — Onboarding:** \`COVERED — provisional\` — forensic re-audit completed on 2026-10-02 across IntroActivity, Intro state/coordinator, permission/root/storage/password/identity boundaries, and first-run restore consumers; existing F-ID/P4 coverage was reconciled and no independent new boundary was found, so no new F-ID was added.
 
 Detail evidence, finding, boundary reconciliation, dan targeted audit tetap canonical di \`P5_FEATURE_REGISTER.md\`.
