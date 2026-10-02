@@ -203,7 +203,6 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F126** | Folder-data compression level selection / persistence / normalization / task projection |
 
 **Numbered IDs present: 126. Unique feature-contract units: 125.**
-
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
