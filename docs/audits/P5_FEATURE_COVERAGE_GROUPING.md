@@ -4,21 +4,15 @@
 
 **P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — ONGOING / STATIC**
 
-Dokumen ini adalah view grouping saja.
+Dokumen ini **hanya grouping**. Evidence/canonical detail ada di `docs/audits/P5_FEATURE_REGISTER.md`.
 
-- Canonical evidence: docs/audits/P5_FEATURE_REGISTER.md
-- Dokumen ini hanya memetakan F-ID ke 24 domain P5.0.
-- Tidak menyimpan ulang forensic/class/XML evidence.
-- Tidak menentukan P5.2 contract, owner, implementation task, parity, atau closure.
-- F-ID mengikuti Register dan tidak boleh hilang/reuse.
+## Rule
 
-## Working rule
-
-Setiap temuan baru:
-1. Tambahkan canonical F-ID + evidence lengkap ke P5_FEATURE_REGISTER.md.
-2. Tambahkan F-ID tersebut ke domain yang sesuai di dokumen ini.
-3. Jika overlap dengan F lama, reconcile tanpa menghapus evidence lama.
-4. Jika belum ada boundary independen, jangan membuat F-ID hanya karena grouping.
+- Tetap 24 domain besar dari P5.0.
+- F-ID dipakai sebagai traceability/coverage mapping.
+- Temuan baru: Register dulu, lalu tambahkan F-ID ke domain di sini.
+- Jangan menyalin class, XML, method, forensic detail, atau reconciliation narrative ke dokumen ini.
+- Grouping bukan P5.2 contract grouping dan bukan implementation task.
 
 ## 3. Coverage buckets P5.1
 
@@ -137,4 +131,21 @@ Only create F164+ if the next targeted search establishes another independent Re
 
 `GROUPING = coverage map`
 
-`P5.2 = canonical contract/owner/boundary`
+
+## Current position
+
+**P5.1 OPEN.**
+
+**Domain 1 — Onboarding:** `COVERED — provisional / FOLLOW-UP REQUIRED`
+
+Current onboarding F-ID: `F01, F45, F73, F87, F100, F163`.
+
+F163 adalah temuan baru dari targeted onboarding audit. Evidence lengkapnya ada di Register.
+
+## Static boundary
+
+- Reference read-only.
+- ZIP/decompile adalah primary evidence.
+- Tidak build/install/runtime/device verification.
+- Tidak provider/backend execution.
+- P5.2 belum dimulai.
