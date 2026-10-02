@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Blacklist predicate integration reconciliation — 2026-10-02
+
+- Added **F123**: blacklist package predicate persistence and reusable backup-selection exclusion integration.
+- F123 is distinct from F30: F30 covers blacklist management; F123 covers the consumer predicate/selection boundary.
+- P5.1 explicit unique feature-contract count is now **123**.
+- Static-only; no blacklist mutation or backup task was executed.
+
+
 ### P5.1 Schedule aggregate persistence reconciliation — 2026-10-02
 
 - Added **F122**: ScheduleData aggregate persistence, schedule-order normalization/mutation, and battery-policy state/eligibility contract.
