@@ -1306,3 +1306,12 @@ Static-only; no folder restore operation was executed.
 - `ho6` persists/loads the selected primary/secondary actions by stable action IDs and defaults them per swipe side; `uy` exposes the selection UI. This is distinct from **F116**, which records the persisted left/right swipe-action configuration/reset contract, because F160 records the concrete action catalog, availability predicates, presentation semantics, and execution mapping.
 - F160 is also distinct from **F06** interactive Apps Quick Actions: the eight `oy` actions are row/swipe actions on the Apps list, while F06 covers the separate Quick Actions feature surface.
 - Static-only; no row action was executed on-device and no build/install/runtime/provider/backend execution was performed.
+### P5.1 Generic disk-space preflight / critical-low-space reconciliation — 2026-10-02
+
+- Added **F161**: Reference disk-space preflight, reserved-space policy, critical-low-space result state, and skip-check override used by backup/restore execution.
+- Direct Reference evidence: `pj7.b(q63,long)` checks available filesystem space for a target path against the required byte count; it subtracts a 50 MiB reserve from reported free space before evaluating availability, and returns `oj7(message,isCriticallyLowSpace)` when space is insufficient.
+- `pj7.b()` has an explicit `skip_disk_space_checks` SharedPreferences override; when enabled it bypasses the check and records that the check is disabled. Very low remaining space (50 MiB or less after the reserve calculation) is represented as a distinct critical-low-space result.
+- `pj7.a()` derives the required threshold from the restore artifact size and adds a minimum 16 MiB / 1% headroom before delegating to the check. `xw` consumes this during Apps restore; `vl` consumes the checker during app backup; `wj3` consumes it in folder backup/restore paths.
+- F161 is distinct from **F24** Storage Management: F24 is the storage inventory/manage-space feature surface, while F161 is the execution-time filesystem-capacity precondition and result algebra used by backup/restore engines.
+- F161 is also distinct from **F43** task result aggregation because `oj7` is the concrete space-check result contract consumed before/within execution rather than a task terminal-result aggregator.
+- Static-only; no filesystem mutation, backup/restore execution, or runtime storage-capacity test was performed.
