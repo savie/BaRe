@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Scheduled Apps configuration + label-selection reconciliation — 2026-10-02
+
+- Added **F108**: schedule-specific Apps custom-configuration selection, cloud-destination fallback, task preparation, and last-run lifecycle.
+- Added **F109**: schedule-specific Apps label selection, installed-app projection, backup-part filtering, task preparation, and last-run lifecycle.
+- F108 is distinct from F85/F62; F109 is distinct from F58/F107. F74 remains the generic scheduler spine.
+- P5.1 explicit unique feature-contract count is now **109**.
+- No schedule was triggered/executed; no build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 Scheduled Apps Quick Actions execution reconciliation — 2026-10-02
 
 - Added **F107** from direct Reference decompile evidence.
