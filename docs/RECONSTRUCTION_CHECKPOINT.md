@@ -452,3 +452,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **88**.
 - Provider-specific network execution remains behind existing F20/F51 boundaries; no provider-specific IDs were invented.
 - No implementation, build/install/runtime/provider/backend execution was performed or authorized.
+
+### P5.1 storage measurement reconciliation — 2026-10-02
+
+- Added **P5-F89** from direct `StorageInfoLocal` / storage-switch decompile evidence.
+- F89: storage volume measurement, app-usage calculation, Loading/Error/Success state, persisted `saved_storage_info_local` snapshot, and filesystem/root-access derivation.
+- P5.1 explicit feature-contract count is now **89**.
+- No filesystem statistics, snapshot persistence, build/install/runtime/provider/backend execution was performed or authorized.
