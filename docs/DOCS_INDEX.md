@@ -56,7 +56,9 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 4. Relevant Reference evidence/audits
 5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry result
 6. `docs/audits/P5_FEATURE_REGISTER.md` — P5.1 Reference feature audit
-7. Establish the P5 gate/register only after the evidence-backed pre-implementation audit is ready
+7. `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` — P5.2 owner/boundary closure
+8. P5.3 gap/dependency/UNKNOWN classification is the next phase; the P5 gate remains closed
+9. P5 implementation is not authorized before the documented readiness checkpoint
 
 ### Daily P3 work
 
@@ -82,4 +84,4 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-For P5 method, use `docs/PHASE_5_GUIDE.md`. The guide does not authorize P5 implementation.
+For P5 method, use `docs/PHASE_5_GUIDE.md`. For the completed static contract boundary, use `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md`. P5.3 has not started and the guide does not authorize P5 implementation.
