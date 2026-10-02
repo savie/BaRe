@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 App backup-limit configuration lifecycle reconciliation — 2026-10-02
+
+- Added **F117**: per-app-part backup-limit configuration persistence, validation, serialization, normalization, and settings summary projection.
+- F117 is distinct from F63: F117 owns configuration/state persistence; F63 owns downstream backup-limit enforcement.
+- P5.1 explicit unique feature-contract count is now **117**.
+- Static-only; no persisted settings were changed.
+
+
 ### P5.1 App-list swipe-action settings reconciliation — 2026-10-02
 
 - Added **F116**: app-list left/right swipe action configuration, separate persisted state, reset semantics, and downstream app-list projection.
