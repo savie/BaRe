@@ -69,7 +69,7 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F126
+## Canonical P5.1 feature index — F01–F130
 
 This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
 
@@ -203,8 +203,10 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F126** | Folder-data compression level selection / persistence / normalization / task projection |
 | **F127** | Folder backup result algebra / no-change / artifact + statistics result |
 | **F128** | Folder restore result algebra / success metrics / failure message |
+| **F129** | Folder metadata reconstruction / local persistence / cloud synchronization lifecycle |
+| **F130** | Latest folder manifest selection / cloud-download cache lifecycle |
 
-**Numbered IDs present: 128. Unique feature-contract units: 127.**
+**Numbered IDs present: 130. Unique feature-contract units: 129.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -917,6 +919,36 @@ Direct Reference decompile evidence establishes a folder-specific compression co
 Static-only; no folder backup, compression operation, build/install/runtime/provider/backend/privileged execution was performed.
 
 
+### P5.1 Folder metadata reconciliation / cloud publication lifecycle
+
+**P5-F129 — Folder metadata reconstruction / local persistence / cloud synchronization lifecycle**
+
+Direct Reference decompile evidence establishes a folder-specific metadata lifecycle beyond the generic cross-feature metadata boundary:
+
+- FolderMetadata owns the persisted folder identity plus base-backup and incremental-backup metadata, including artifact links, sizes, original sizes, manifest links/sizes, and timestamps.
+- defpackage.a loads the local metadata file when present; when it is absent/invalid, it reconstructs metadata from the currently existing base/incremental folder backup artifacts and persists the reconstructed representation.
+- FolderMetadata.refreshLocalMetadataFile(kj3) re-reads the current filesystem backup set, rebuilds the base/incremental metadata projection from existing artifacts/manifests, compares it with the persisted metadata, and writes the replacement metadata when the projection changed.
+- FolderMetadata.writeToFile(q63) is the concrete local persistence boundary for this folder metadata representation.
+- FolderMetadata.writeToFirebaseNode() validates folder identity, cloud links, base backup, and incremental backup metadata before publishing the folder metadata node; removeFromFirebaseNode() owns the corresponding cloud-node deletion path.
+- ik3 consumes this boundary when a FolderItem changes, updating both the local metadata representation and the corresponding cloud metadata representation.
+- This is distinct from F42: F42 is the broader local/cloud metadata lifecycle policy across backup domains, while F129 records the folder-specific reconstruction, artifact-to-metadata reconciliation, persistence, and cloud-node publication/deletion contract.
+
+Static-only; no metadata write, cloud metadata mutation, filesystem scan, provider/backend execution, or runtime verification was performed.
+
+### P5.1 Latest folder manifest selection / cloud-cache reconciliation
+
+**P5-F130 — Latest folder manifest selection / cloud-download cache lifecycle**
+
+Direct Reference decompile evidence establishes a dedicated manifest-cache boundary used by folder restore/download flows:
+
+- defpackage/sk3.a(FolderMetadata) selects the manifest belonging to the latest valid folder backup: the base manifest when no incremental backups exist, otherwise the newest valid incremental manifest by backup date.
+- The selected manifest's cloud link and expected size are validated before transfer.
+- The local cache is keyed by folder ID as <folderId>.json; when the cached file already exists with the expected size, the cache is reused without another download.
+- If the cache is stale/missing, sk3 creates a cloud-download work item targeting the cache file and accepts the cache only after the transfer completes with a valid local file.
+- ek3 and pn3 consume this helper when a current cloud manifest is needed, and the upload path refreshes the same cache after metadata/manifest upload.
+- This is distinct from F47, which owns manifest/incremental chain semantics and restore-chain validation, and from F127/F128, which own folder backup/restore result algebra. F130 owns the latest-manifest selection plus local cloud-manifest cache/download boundary.
+
+Static-only; no cloud download, cache mutation, restore operation, provider/backend execution, or runtime verification was performed.
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **127 unique units**.
@@ -962,6 +994,8 @@ Static-only; no folder backup, compression operation, build/install/runtime/prov
 - F126 exposes folder-data compression policy persistence, normalization, settings projection, and folder-task input projection.
 - F127 exposes the folder backup result algebra, no-change state, artifact references, and backup statistics payload.
 - F128 exposes the folder restore result algebra, success metrics, and failure-message payload.
+- F129 exposes folder metadata reconstruction, local persistence, artifact-to-metadata reconciliation, and cloud-node publication/deletion.
+- F130 exposes latest folder manifest selection plus the local cloud-manifest cache/download lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -974,7 +1008,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F126 index is consolidated above.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F130 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
