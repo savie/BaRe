@@ -745,3 +745,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F134 is distinct from F96 generic login-result taxonomy and F20 generic provider operations.
 - P5.1 numbered IDs are now **134**; unique feature-contract units are **133** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no TeraBox network/provider execution, build/install/runtime, or backend execution was performed or authorized.
+
+
+### P5.1 Google Drive provider lifecycle reconciliation — 2026-10-02
+
+- Added **F135–F139** from direct Google Drive decompile evidence.
+- **F135**: resumable upload-session creation, session URL validation, acknowledged byte-range progression, chunk/session result state, fresh-session restart, and completed-upload verification.
+- **F136**: batch-delete aggregation, per-file failure state, retry-after handling, one retry pass, and final success/failure result.
+- **F137**: ranged-download progression and bounded retry/recovery, including transient/API/internal failures and manually deleted file/main-folder reconciliation.
+- **F138**: main Swift Backup folder creation/duplicate reconciliation plus account-email-triggered cloud metadata migration with guarded rollback/retry.
+- **F139**: GMS Drive-scoped access-token acquisition, stale-token clearing, account validation, refreshed-token storage, and failure-state clearing.
+- P5.1 numbered IDs are now **139**; unique feature-contract units are **138** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no Google Drive network/provider/account/folder/file mutation, build/install/runtime, or backend execution was performed or authorized.
