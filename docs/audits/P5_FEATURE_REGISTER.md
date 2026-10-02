@@ -4,6 +4,8 @@
 
 **P5.1 — REFERENCE FEATURE AUDIT — ONGOING / STATIC**
 
+**Canonical role:** this file is the authoritative P5.1 evidence register. Evidence detail stays here; the companion grouping file is only a coverage map.
+
 This register records the Reference feature decomposition produced from direct inspection of the supplied Swift Backup 5.1.0 / versionCode 620 decompile ZIP, supplemented only by existing project evidence where it already names the same Reference surface.
 
 This is **feature evidence**, not implementation approval, parity closure, runtime verification, or P5 gate closure.
@@ -69,11 +71,15 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F153
+## Canonical P5.1 feature index — F01–F163
 
-This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
+This is the single canonical numbered index for P5.1 evidence. F-IDs are traceability IDs, not implementation tasks and not final P5.2 contracts.
 
-| ID | Feature-contract unit / reconciliation marker |
+Rule: never delete/reuse an F-ID. If a finding overlaps another finding, reconcile the relationship but retain the original ID and evidence.
+
+F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.
+
+| ID | Canonical feature / evidence unit |
 |---|---|
 | **F01** | Onboarding / first-start |
 | **F02** | Home/dashboard orchestration |
@@ -168,7 +174,6 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F91** | Contributor registration state / registration persistence |
 | **F92** | Notice/license content loading / selection model |
 | **F93** | PackageInstaller session install / result verification engine |
-| **F94** | ~~Notification-policy backup / per-package restore engine~~ |
 | **F95** | App special-data payload serialization / compression / user-binding codec |
 | **F96** | Cloud login outcome taxonomy / connection-result contract |
 | **F97** | MEGA multi-factor-auth-required login outcome / session gate |
@@ -228,14 +233,27 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F151** | SMB multi-method deletion fallback |
 | **F152** | SFTP password/private-key authentication execution boundary |
 | **F153** | FTP LIST/TLS compatibility fallback and partial-upload cleanup |
-
 | **F154** | App data part model / per-part privileged backup requirement |
 | **F155** | App-data encryption metadata / per-part encryption-password-hash consistency |
 | **F156** | SBA password KDF / encryption-method key-check lifecycle |
 | **F157** | SBA native archive creation / encrypted finalization lifecycle |
 | **F158** | SBA archive parsing / native Aegis extraction and decryption lifecycle |
+| **F94** | ~~Notification-policy backup / per-package restore engine~~ — reconciliation marker; duplicates F69 and is not counted as a unique feature-contract unit. |
+| **F159** | Apps backup/restore required Swift Backup version compatibility gate and per-artifact/part version-requirement lifecycle |
+| **F160** | Apps row-action catalog / availability / execution reconciliation |
+| **F161** | Generic disk-space preflight / critical-low-space reconciliation |
+| **F162** | Apps cloud-restore artifact reuse / download decision reconciliation |
+| **F163** | Onboarding storage setup / preferred-storage initialization / failure-state presentation / retry-review-fallback-exit recovery boundary |
 
-**Numbered IDs present: 158. Unique feature-contract units: 157.**
+**Numbered IDs present: 163. Unique feature-contract units: 162.**
+
+### Evidence rule
+
+For every F-ID, the canonical evidence is retained in this document:
+- F01–F37: the initial P5.1 feature decomposition table provides the Reference entry/evidence surface and owner/boundary.
+- F38–F163: the reconciliation/evidence sections below provide the concrete Reference classes, models, methods, resources, or execution boundaries found during targeted ZIP inspection.
+- When a new finding is added, its F-ID and concrete evidence locator(s) are added here and its detailed forensic evidence is appended below.
+- The companion grouping file does not duplicate forensic evidence; it only maps F-IDs to coverage domains.
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -1324,9 +1342,9 @@ Static-only; no folder restore operation was executed.
 - F162 is distinct from **F20** generic cloud-provider operations, **F39** backup-time change detection, **F42** metadata lifecycle, and **F54** restore-part selection: F162 owns the Apps cloud-restore artifact materialization/reuse decision before provider transfer.
 - Static-only; no cloud download, local filesystem mutation, restore execution, provider execution, build/install, or backend execution was performed.
 
-### P5.1 Onboarding storage setup / failure recovery reconciliation — 2026-10-02
+### F163 — Onboarding storage setup / failure recovery reconciliation — 2026-10-02
 
-- Added **F163**: onboarding storage setup, preferred-storage initialization, failure-state presentation, retry/review/fallback/exit recovery boundary.
+- **Canonical:** F163 — onboarding storage setup / preferred-storage initialization / failure-state presentation / retry-review-fallback-exit recovery boundary.
 - Direct Reference evidence: `intro.d` constructs a dedicated storage-setup coordinator using `getPreferredStorageTypeForIntro`, a setup operation, and an `onStorageSetupFailure` callback.
 - Direct Reference evidence also exposes `StorageSetupFailure(mainDir, isRemovable, offerInternalStorage)` and a dedicated `intro_storage_setup_failure_dialog`.
 - The failure UI provides concrete recovery actions for **Retry**, **Review storage access**, **Use internal storage** when offered, and **Exit storage setup**; the dialog also exposes storage location, diagnostics, remaining/review steps, and a failure-specific menu.
