@@ -394,9 +394,25 @@ A targeted direct decompile pass inspected the cloud login result contract and i
 - No runtime connection test was performed.
 
 
+### P5.1 Provider-specific cloud session reconciliation
+
+A targeted direct decompile pass found two provider-specific authentication/session lifecycles that are independently consumed and therefore remain explicit. These are not generic per-provider network IDs: each has a concrete state transition that changes the connection contract.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F97** | MEGA multi-factor-auth-required login outcome / session gate | `protocols/mega/MegaLoginResult.java`, `defpackage/gt7.java`, consumers `sb5` / `x95` | MEGA authentication adapter → login/session state | Reference maps MEGA-specific error codes to an explicit `MultiFactorAuthRequired` terminal result, separate from generic failure, and the session accessor refuses to continue without a successful login/session. This is a provider-specific authentication gate with an independently consumed lifecycle. |
+| **P5-F98** | Filen restorable encrypted-session state / session rehydration | `protocols/filen/FilenSession.java`, `FilenCredentials.java`, `defpackage/ai5.java`, `sb3` | Filen session persistence + crypto-state rehydration | Reference validates persisted session identity/auth version/crypto material, exposes `hasRestorableCryptoState()`, rehydrates the session before fresh login when valid, and optionally persists the refreshed session. This is a concrete session continuity/crypto-state lifecycle, not merely a credential DTO. |
+
+#### Provider-specific reconciliation note
+
+- F97/F98 are promoted only because each has an independent consumer and state transition.
+- Other provider-specific credential/session classes remain under F20/F51/F87 unless a comparable lifecycle is directly evidenced.
+- No provider network or authentication runtime was executed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **95 unique units**.
+- P5.1 explicit feature-contract units after this pass: **97 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -408,6 +424,7 @@ A targeted direct decompile pass inspected the cloud login result contract and i
 - F94 is merged into existing F69 and is not counted separately.
 - F95 exposes the special-data payload format/codec lifecycle.
 - F96 exposes the cloud login outcome taxonomy/result contract.
+- F97–F98 expose two independently evidenced provider-specific session/authentication lifecycles.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
