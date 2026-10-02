@@ -364,6 +364,23 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 Multiple-backup strategy contract reconciliation
+
+**P5-F115 — MultipleBackupStrategy persistence / legacy migration / normalization / representation**
+
+Direct Reference evidence establishes a standalone strategy contract beyond the generic app-backup planning units:
+
+- `settings/MultipleBackupStrategy.java` defines the persisted strategy model with type, maximum-backup count, and conditional-backup condition fields, plus Parcelable transport.
+- Strategy representations are normalized through `settings/f.java` into Single Backup, Dated Backups, or Conditional Backups; invalid/missing integer values fall back to defaults.
+- `settings/b.java` owns default/legacy strategy resolution, reads the persisted `apps_multiple_backups_strategy` value, applies entitlement handling, and migrates the legacy `app_backup_archiving` preference into the legacy archive strategy when needed.
+- Backup-count normalization is bounded to the Reference-supported range (minimum 2, maximum 10).
+- `settings/k.java` maps the selected strategy back into the settings-state representation used by the Multiple Backups settings flow.
+- `ConfigSettings` carries `MultipleBackupStrategy` as part of app configuration state, while task input objects carry the resolved strategy into backup preparation.
+- This is distinct from F39 change-detection/skip semantics: F115 owns the **strategy state model, persistence/migration, normalization, and UI representation contract**, not the downstream decision to execute a backup.
+
+Static-only; no settings migration or backup execution was run.
+
+
 ### P5.1 Scheduled domain-subtype execution reconciliation
 
 A direct decompile trace of `ScheduleService` and the remaining `ScheduleItem` subtypes found five additional schedule-specific task-preparation boundaries. These are parallel to F107–F109 and are not merely generic F74 handoff.
@@ -593,7 +610,7 @@ A targeted direct decompile pass traced the persisted MEGA session path independ
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **114 unique units**.
+- P5.1 explicit feature-contract units after this pass: **115 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
