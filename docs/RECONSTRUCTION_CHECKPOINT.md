@@ -399,3 +399,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - Generic helpers/threading/logging/string utilities were intentionally not promoted to feature IDs.
 - No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
 - P5.2 remains blocked until P5.1 feature audit is explicitly closed.
+
+
+### P5.1 non-Apps engine reconciliation — 2026-10-02
+
+- P5.1 remains **ONGOING / NOT YET CLOSED**; P5.2 remains **NOT OPENED**.
+- Targeted decompile pass added **F72–F74**.
+- F72: Messages backup retention / local-cloud cleanup via explicit max-backup policy.
+- F73: User-password lifecycle / persisted strategy and old-password state.
+- F74: Schedule execution eligibility / alarm-to-task handoff, including runnable checks and prerequisite gates.
+- P5.1 explicit feature-contract count is now **74**.
+- Folder backup model evidence was intentionally not promoted further in this pass because the inspected material did not establish a sufficiently independent consumer/execution boundary beyond existing F47/F12.
+- No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
