@@ -423,3 +423,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - These are provider execution boundaries behind the shared task service/manager, **not** six additional Android Services.
 - `Packer`/SevenZip archive handling and `MultiCompressor` metadata were inspected but not duplicated because F41 already owns the artifact format/compression/encryption boundary.
 - No task execution, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 persistence / configuration engine reconciliation — 2026-10-02
+
+- P5.1 remains **ONGOING / NOT YET CLOSED**; P5.2 remains **NOT OPENED**.
+- Added **F83–F85** from direct decompile evidence.
+- F83: Apps inventory cache persistence/refresh reconciliation through Room `app_cached_data` and PackageManager-derived state.
+- F84: SLog structured local persistence, retention, retrieval cap, and filtering through Room `SMessage`/DAO.
+- F85: App configuration validation/normalization, including stale-label filtering, ApplyData validity, aggregate config validation, and cloud-location normalization.
+- P5.1 explicit feature-contract count is now **85**.
+- Cloud credential serialization was inspected but not promoted as a new ID because current evidence maps it to F46/F51 boundaries without requiring an independent execution owner.
+- No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
