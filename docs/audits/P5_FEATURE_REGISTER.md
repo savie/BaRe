@@ -410,6 +410,21 @@ A targeted direct decompile pass found two provider-specific authentication/sess
 - No provider network or authentication runtime was executed.
 
 
+### P5.1 Calls retention / backup-lifecycle reconciliation
+
+A targeted direct decompile pass on the Calls backup helper found a concrete retention lifecycle that is independently configurable and operates across both local and cloud backup inventories.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F99** | Calls backup retention / local-cloud cleanup policy | `defpackage/d01.java`, related `max_call_backups` preference consumers | calls backup helper + local/cloud backup metadata boundary | Reference reads the persisted `max_call_backups` limit, enumerates local or cloud call-log backups, sorts/limits the retained set, deletes older backups through the appropriate local/cloud path, and reports deletion failures. This is a concrete retention lifecycle distinct from Calls backup/restore UI (F15/F16) and Calls task execution (F80). |
+
+#### Calls retention note
+
+- F99 is promoted because the retention policy has its own persisted setting, local/cloud enumeration, deletion path, and error/reporting lifecycle.
+- This does not duplicate F72: F72 owns the analogous Messages retention lifecycle; F99 is the Calls-specific counterpart directly evidenced in Reference.
+- No backup deletion, cloud operation, or runtime execution was performed.
+
+
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **97 unique units**.
