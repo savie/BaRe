@@ -3,6 +3,7 @@ package com.bare.slog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bare.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-/**
- * P3 BΛR☰Logger surface. Log collection/storage is deliberately not
- * fabricated; the Reference share/clear controls are exposed as boundaries.
- */
+import java.util.ArrayList;
+import java.util.List;
+
 public final class SLogActivity extends AppCompatActivity {
+    private LogAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
@@ -32,13 +34,22 @@ public final class SLogActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         RecyclerView logs = findViewById(R.id.rv_slog);
-        logs.setAdapter(new EmptyLogAdapter());
+        adapter = new LogAdapter();
+        logs.setAdapter(adapter);
+
         findViewById(R.id.btn_send_slogs).setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.share_logs)
                         .setMessage(R.string.p3_slog_boundary)
                         .setPositiveButton(R.string.close, null)
                         .show());
+    }
+
+    /**
+     * F35 presentation input. F84 owns log persistence/collection.
+     */
+    public void renderLogs(@Nullable List<String> entries) {
+        adapter.setItems(entries);
     }
 
     @Override
@@ -66,16 +77,38 @@ public final class SLogActivity extends AppCompatActivity {
         return true;
     }
 
-    private static final class EmptyLogAdapter extends RecyclerView.Adapter<EmptyLogAdapter.Holder> {
-        @Override public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
-            android.view.View v = new android.view.View(parent.getContext());
-            v.setLayoutParams(new RecyclerView.LayoutParams(1, 1));
-            return new Holder(v);
+    private static final class LogAdapter extends RecyclerView.Adapter<LogAdapter.Holder> {
+        private final List<String> entries = new ArrayList<>();
+
+        void setItems(@Nullable List<String> values) {
+            entries.clear();
+            if (values != null) {
+                entries.addAll(values);
+            }
+            notifyDataSetChanged();
         }
-        @Override public void onBindViewHolder(Holder holder, int position) {}
-        @Override public int getItemCount() { return 0; }
+
+        @Override
+        public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
+            android.widget.TextView view = new android.widget.TextView(parent.getContext());
+            view.setPadding(24, 16, 24, 16);
+            return new Holder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            ((android.widget.TextView) holder.itemView).setText(entries.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return entries.size();
+        }
+
         static final class Holder extends RecyclerView.ViewHolder {
-            Holder(android.view.View itemView) { super(itemView); }
+            Holder(View itemView) {
+                super(itemView);
+            }
         }
     }
 }
