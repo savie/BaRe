@@ -821,3 +821,20 @@ Current next step:
 **Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved.**
 
 P5.2 remains **NOT OPENED**.
+
+
+### P5.1 Folder compression policy reconciliation — 2026-10-02
+
+**P5-F126 — Folder-data compression level selection / persistence / normalization / task projection**
+
+Direct Reference decompile evidence establishes a folder-specific compression contract that is independent from the existing app-data compression unit F119:
+
+- `settings` folder settings expose the persisted `compression_level_folders` preference.
+- `zn3` reads the preference and projects the resolved `xp1` compression level into the folder settings summary.
+- `v10` persists the selected compression level as the `xp1` numeric level.
+- `g67.s()` resolves the stored integer against the supported `xp1` values and falls back to `xp1.DEFAULT` when the stored value is absent/invalid.
+- `ScheduleService`/`l30` reads the same folder compression policy while constructing folder backup task inputs.
+- `bo3` carries the resolved `compressionLevel` as an explicit field of each folder backup work item, so the setting crosses from persisted configuration into the folder backup execution contract.
+- This is distinct from **F119**, which owns the app-data compression-level setting and pipeline projection. It is also not merely F41: F41 owns the generic artifact format/compression/encryption boundary, while F126 owns the **folder-specific persisted policy and its task-input projection**.
+
+Static-only; no folder backup, compression operation, build/install/runtime/provider/backend/privileged execution was performed.
