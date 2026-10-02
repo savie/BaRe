@@ -36,7 +36,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 14 | Password / encryption | F25, F41, F52, F73, F95, F106, F154–F158 | password lifecycle, archive/encryption strategy, cryptographic payload/archive boundaries |
 | 15 | Tasks | F27, F43, F70, F75–F82, **F169** | task lifecycle, result aggregation, temporary workspace, feature task executors, and DataSync FGS runtime accounting/quota/reconciliation |
 | 16 | Wi-Fi | F28, F49, F81, F113, **F170** | Wi-Fi feature surface, sensitive-access/enterprise policy, device-access/restore adapter, task execution and scheduled preparation |
-| 17 | Wallpapers | F29, F82, F112 | wallpaper management/apply and task execution |
+| 17 | Wallpapers | F29, F82, F112, **F171** | wallpaper management/apply, system-wallpaper materialization, task execution and scheduled preparation |
 | 18 | Storage | F24, F44, F89, F125, F161 | storage inventory, app-size measurement, manage-space and execution-time disk-space preflight |
 | 19 | Locale | F32, F90 | locale persistence and configuration-change propagation |
 | 20 | Blacklist | F30, F123 | blacklist persistence and backup-selection exclusion |
