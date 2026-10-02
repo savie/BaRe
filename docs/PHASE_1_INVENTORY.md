@@ -48,6 +48,30 @@ The Reference JADX/APKTool snapshot is present in the `rewrite` branch and was a
 - APKTool targetSdk: `37`
 - Manifest compileSdkVersion: `37`
 
+## Component inventory summary
+
+Reference Android manifest component inventory and ownership classification:
+
+```
+Activity  = 95
+  ├─ 71 application-owned
+  └─ 24 dependency/library
+
+Service   = 10
+  ├─ 3 application-owned
+  └─ 7 dependency/library
+
+Receiver  = 10
+  ├─ 8 application-owned
+  └─ 2 dependency/library
+
+Provider  = 4
+  ├─ 0 application-owned
+  └─ 4 dependency/library
+```
+
+This summary is the Phase 1 full-manifest view. The application-owned subset is the structural skeleton carried into Phase 2; the dependency/library subset remains recorded here so it is not lost from the Reference inventory and can be reconciled against later Phase 3, Phase 4, and Phase 5 capability/integration coverage.
+
 ## Source inventory
 
 | Artifact | Count |
