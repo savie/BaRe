@@ -1104,3 +1104,45 @@ Static-only; no folder restore operation was executed.
 - F134 is distinct from F20: F20 covers generic cloud-provider operation surface; F134 records the concrete TeraBox HTTP/API error interpretation and retry/not-found boundary.
 - P5.1 numbered IDs are now **134**; unique feature-contract units are **133** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no TeraBox network/provider execution, build/install/runtime, or backend execution was performed or authorized.
+
+
+### P5.1 Google Drive resumable upload-session reconciliation — 2026-10-02
+
+- Added **F135**: Google Drive resumable upload session lifecycle.
+- Direct Reference evidence: d04.d() creates a Drive resumable upload session and validates the returned Location; n04 carries the upload URL; o04/m04 carry session/chunk status including completion, generated file metadata, next byte, and current upload URL; d04.m() parses the acknowledged Range and rejects invalid next-byte state.
+- pu3 owns upload-session execution, fresh-session restart, missing-file/create recovery, and completed-upload verification.
+- F135 is distinct from F20/F41 generic provider/artifact operations and from F133 TeraBox chunk upload because Google Drive uses a resumable session URL + acknowledged byte-range protocol.
+- P5.1 numbered IDs are now **135**; unique feature-contract units are **134** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no Google Drive upload/network/provider execution was performed or authorized.
+
+### P5.1 Google Drive batch-delete result/retry reconciliation — 2026-10-02
+
+- Added **F136**: Google Drive batch-delete result and retry lifecycle.
+- Direct Reference evidence: xz3 aggregates failed file IDs, retry-after delay, and per-part failures; wz3 carries file ID/status/body preview; ju3 filters IDs, executes batch deletion, honors retry-after, retries failed IDs once, and returns success/failure.
+- F136 is distinct from F21/F88 generic cloud cleanup/orphan boundaries because it owns the concrete Google Drive batch request/result/retry protocol.
+- P5.1 numbered IDs are now **136**; unique feature-contract units are **135**.
+- Static-only; no Google Drive deletion/network/provider execution was performed or authorized.
+
+### P5.1 Google Drive download recovery/retry reconciliation — 2026-10-02
+
+- Added **F137**: Google Drive ranged-download recovery and bounded retry lifecycle.
+- Direct Reference evidence: lu3 downloads by byte range, tracks retry count, retries selected transient/network/internal/API failures up to five times, honors provider retry-after where available, detects manually deleted files/main-folder loss, and handles resumable download progression.
+- F137 is distinct from F20/F51 generic provider transfer/diagnostics because it owns the concrete Google Drive download recovery policy and file-loss reconciliation.
+- P5.1 numbered IDs are now **137**; unique feature-contract units are **136**.
+- Static-only; no Google Drive download/network/provider execution was performed or authorized.
+
+### P5.1 Google Drive main-folder reconciliation + account-email metadata migration — 2026-10-02
+
+- Added **F138**: Google Drive main-folder integrity and account-email metadata migration lifecycle.
+- Direct Reference evidence: fu3.p() resolves/creates the main Swift Backup folder and reconciles duplicate folders; fu3.t() migrates cloud backup metadata when the Google account email changes, deletes old metadata when safe, and performs guarded rollback/retry when source/destination state changes.
+- F138 is distinct from F42 generic metadata lifecycle because it owns the Google Drive-specific root-folder identity/reconciliation and account-change migration transaction.
+- P5.1 numbered IDs are now **138**; unique feature-contract units are **137**.
+- Static-only; no Google Drive folder/metadata mutation or provider execution was performed or authorized.
+
+### P5.1 Google Drive GMS access-token lifecycle reconciliation — 2026-10-02
+
+- Added **F139**: Google Drive GMS access-token acquisition, stale-token clearing, account validation, and refresh/error lifecycle.
+- Direct Reference evidence: fu3.u() validates Google Play Services/account state, clears a stale token through sz3.a(), obtains a Drive-scoped token through sz3.b() using the signed-in Google account, stores the refreshed token in the provider client, and clears provider token state on refresh failure; sz3 uses the Drive scope https://www.googleapis.com/auth/drive.file.
+- F139 is distinct from F87 generic cloud credential persistence and F96 generic login-result taxonomy because it owns the concrete Google/GMS token acquisition/refresh boundary used by the Drive REST client.
+- P5.1 numbered IDs are now **139**; unique feature-contract units are **138** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no Google account/token/network/provider execution was performed or authorized.
