@@ -4,7 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/** Reference receiver skeleton; execution behavior remains evidence-bound. */
-public class ShortcutPinnedReceiver extends BroadcastReceiver {
-    @Override public void onReceive(Context context, Intent intent) { }
+/** Receiver boundary only; pinned-shortcut side effects remain downstream. */
+public final class ShortcutPinnedReceiver extends BroadcastReceiver {
+    public static final String LOG_TAG="SPR";
+    @Override public void onReceive(Context context,Intent intent){ if(context==null||intent==null)return; }
 }
