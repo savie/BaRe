@@ -69,7 +69,7 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
-## Canonical P5.1 feature index — F01–F132
+## Canonical P5.1 feature index — F01–F133
 
 This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
 
@@ -207,8 +207,9 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F130** | Latest folder manifest selection / cloud-download cache lifecycle |
 | **F131** | TeraBox token credential persistence / validity / OAuth refresh lifecycle |
 | **F132** | TeraBox browser OAuth sign-in handoff / deep-link callback / sign-in result lifecycle |
+| **F133** | TeraBox chunked upload session / per-part MD5 / sequencing / finalization contract |
 
-**Numbered IDs present: 132. Unique feature-contract units: 131.**
+**Numbered IDs present: 133. Unique feature-contract units: 132.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -981,6 +982,21 @@ Direct Reference decompile evidence establishes a sign-in integration boundary s
 - This is distinct from **F131**, which owns token credential construction, persistence, validity, expiry, and refresh. F132 owns the **external-browser OAuth handoff, callback/deep-link intake, authorization-code routing, and sign-in UI/result lifecycle**.
 
 Static-only; no browser launch, callback delivery, TeraBox authentication, network/provider execution, build/install/runtime/backend execution was performed.
+### P5.1 TeraBox chunked-upload protocol reconciliation
+
+**P5-F133 — TeraBox chunked upload session / per-part MD5 / sequencing / finalization contract**
+
+Direct Reference decompile evidence establishes a provider-specific multipart upload contract separate from authentication:
+
+- `o08` models an upload chunk with explicit `index`, `start`, and `size` fields.
+- The upload path reads each chunk and computes an MD5 digest before transmission; unexpected EOF while reading a chunk is surfaced as an explicit failure.
+- The provider response supplies an `uploadid` that becomes the upload-session identifier for subsequent part requests.
+- `p08` models each part result with `md5`, `uploadId`, and `partSeq`, preserving provider acknowledgement state.
+- Each returned part MD5 is compared with the locally calculated digest; a mismatch raises an explicit `IOException` rather than silently accepting the part.
+- Part sequence metadata is retained while the upload session is continued/finalized, so the upload is not merely a generic byte-stream transfer.
+- This is distinct from F20 generic provider operations and F41 generic artifact format/compression/encryption: F133 owns the **TeraBox multipart upload session, chunk boundaries, per-part integrity verification, sequence/result state, and finalization protocol**.
+
+Static-only; no TeraBox upload, network/provider execution, file mutation, build/install/runtime/backend execution was performed.
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **127 unique units**.
@@ -1030,6 +1046,7 @@ Static-only; no browser launch, callback delivery, TeraBox authentication, netwo
 - F130 exposes latest folder manifest selection plus the local cloud-manifest cache/download lifecycle.
 - F131 exposes TeraBox token credential persistence, validity/expiry policy, OAuth authorization-code exchange, refresh-token lifecycle, and session continuity.
 - F132 exposes the TeraBox external-browser OAuth handoff, callback/deep-link intake, authorization-code routing, and sign-in UI/result lifecycle.
+- F133 exposes the TeraBox multipart upload session, chunk boundaries, per-part MD5 integrity verification, sequencing/result state, and finalization protocol.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -1042,7 +1059,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F132 index is consolidated above.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F133 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
