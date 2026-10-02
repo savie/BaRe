@@ -434,3 +434,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **85**.
 - Cloud credential serialization was inspected but not promoted as a new ID because current evidence maps it to F46/F51 boundaries without requiring an independent execution owner.
 - No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 APK-share / APKS artifact reconciliation — 2026-10-02
+
+- Added **P5-F86** from direct `apkshare` decompile evidence.
+- F86: APKS share-package creation, per-entry SHA-256 metadata, role/size manifest, and dual metadata JSON envelopes.
+- F86 is distinct from APK/APKS import (F10) and restore/install execution (F40).
+- P5.1 explicit feature-contract count is now **86**.
+- P5.1 remains ongoing; P5.2 remains not opened.
+- No archive generation, installation, build, runtime, provider/backend, or privileged execution was performed or authorized.
