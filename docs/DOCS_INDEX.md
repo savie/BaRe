@@ -15,6 +15,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/PHASE_5_GUIDE.md` | P5 feature reconstruction method and pre-implementation workflow | **P5 method guide** |
 | `docs/audits/P5_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
 | `docs/audits/P5_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** |
+| `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` | P5.2 contract / owner / boundary static-analysis authority | **P5.2 working authority** |
 | `docs/audits/P5_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
