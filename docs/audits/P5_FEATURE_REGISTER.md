@@ -364,9 +364,24 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - No build, install, privileged execution, or runtime verification was performed.
 
 
+### P5.1 Special-data payload codec reconciliation
+
+A targeted direct decompile pass inspected the app special-data payload format used for permission/SSAID/notification-related metadata. The model is more than a passive DTO: it owns versioning, user binding, bounded read, compression/encoding, atomic file replacement, and read/write error handling.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F95** | App special-data payload serialization / compression / user-binding codec | `model/app/AppSpecialDataPayload.java` | special-data payload codec | Reference serializes special-data fields, encodes them into a versioned payload, compresses through native Zstd, binds the payload to the active user identity, rejects oversized/unsupported payloads, decompresses/deserializes on read, and writes through a temporary file followed by replacement. This is a concrete data-format lifecycle behind special-data restore, distinct from the notification-policy execution bridge F94. |
+
+#### Special-data codec note
+
+- F95 records the observed Reference format/codec boundary only; it does not preserve Firebase as the BaRe target backend contract.
+- The Reference implementation checks its own Reference user identity while decoding; target identity/backend adaptation remains downstream.
+- No runtime decode/write/restore test was performed.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **94**.
+- P5.1 explicit feature-contract units after this pass: **95**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -375,6 +390,7 @@ A targeted direct decompile pass inspected the privileged execution surfaces beh
 - F89 exposes storage measurement and cached-usage snapshot behavior.
 - F90–F92 expose locale, contributor, and notice/license data/state boundaries.
 - F93–F94 expose privileged install and notification-policy execution boundaries.
+- F95 exposes the special-data payload format/codec lifecycle.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
