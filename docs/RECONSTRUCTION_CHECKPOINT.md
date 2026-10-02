@@ -1012,3 +1012,17 @@ Eighth matrix consolidation batch completed from frozen P5.1 evidence. Provider-
 - Runtime/device/provider/backend: **NOT PERFORMED**
 
 P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
+
+
+### P5.2 Contract Matrix Batch 09 — F151–F171 — 2026-10-02
+
+Final matrix consolidation batch completed from frozen P5.1 evidence. F01–F171 now have P5.2 owner/boundary entries, with F94 retained only as the duplicate marker for F69.
+
+- F151–F171: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+P5.2 matrix consolidation is complete; P5.2 remains **ACTIVE** pending formal gate/exit review. P5 Gate remains **NOT OPENED**.
