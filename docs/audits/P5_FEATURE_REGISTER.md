@@ -1323,3 +1323,13 @@ Static-only; no folder restore operation was executed.
 - APK/split/shared-library reuse is checked through `eq.a()` using current APK size, version name/code, split presence, and shared-library presence. DATA/EXTDATA/MEDIA/EXPANSION reuse is checked through `nm6.b()` using backup date, current part size, mirrored backup size, cache policy, and part identity.
 - F162 is distinct from **F20** generic cloud-provider operations, **F39** backup-time change detection, **F42** metadata lifecycle, and **F54** restore-part selection: F162 owns the Apps cloud-restore artifact materialization/reuse decision before provider transfer.
 - Static-only; no cloud download, local filesystem mutation, restore execution, provider execution, build/install, or backend execution was performed.
+
+### P5.1 Onboarding storage setup / failure recovery reconciliation — 2026-10-02
+
+- Added **F163**: onboarding storage setup, preferred-storage initialization, failure-state presentation, retry/review/fallback/exit recovery boundary.
+- Direct Reference evidence: `intro.d` constructs a dedicated storage-setup coordinator using `getPreferredStorageTypeForIntro`, a setup operation, and an `onStorageSetupFailure` callback.
+- Direct Reference evidence also exposes `StorageSetupFailure(mainDir, isRemovable, offerInternalStorage)` and a dedicated `intro_storage_setup_failure_dialog`.
+- The failure UI provides concrete recovery actions for **Retry**, **Review storage access**, **Use internal storage** when offered, and **Exit storage setup**; the dialog also exposes storage location, diagnostics, remaining/review steps, and a failure-specific menu.
+- The storage setup path is distinct from **F24 Storage Management**: F24 covers the storage-management feature surface, while F163 owns the first-run onboarding storage initialization and its failure/recovery state.
+- F163 is also distinct from **F38** privileged capability workflow: root/Shizuku permission handling is consumed during onboarding, but the storage setup coordinator owns the onboarding storage initialization/failure boundary.
+- Static-only; no storage permission mutation, filesystem setup, runtime dialog interaction, build/install/runtime, provider, or backend execution was performed.
