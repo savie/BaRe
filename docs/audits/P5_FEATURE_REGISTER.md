@@ -212,6 +212,14 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - No additional independent App Configuration boundary was established beyond those existing units. **No F164 was created.**
 - Static-only; no configuration mutation, import/export operation, build/install/runtime/device/provider/backend execution was performed.
 
+## P5.1 forensic re-audit — Onboarding / Domain 1 — 2026-10-02
+
+- Re-audited Domain 1 from the Reference ZIP beyond the Activity surface: `intro.IntroActivity`, `intro.d` (Intro state/coordinator owner), the Reference storage-setup failure value `defpackage.ho7`, the first-run restore coroutine `intro.e`, and the connected Reference state/permission callbacks were inspected directly. The sweep covered first-start gating, sign-in status and migration guard, runtime permission readiness, Root/Shizuku coordination, onboarding storage setup/failure recovery, password-strategy handoff, first-run cloud-settings restore, terminal completion state, and error/recovery dialog state.
+- Reference evidence confirms multiple distinct boundaries already represented by existing units: **F01** first-start/onboarding lifecycle; **F38** privileged permission/capability workflow; **F45** account/local identity and migration continuity; **F73** password lifecycle/strategy; **F100** reusable settings cloud snapshot/apply lifecycle; **F163** onboarding storage setup/failure recovery. The first-run cloud-restore state/result contract is additionally owned by the frozen P4 **C10** boundary and is not promoted to a duplicate P5 F-ID.
+- Target BaRe cross-check confirms these boundaries are not merely UI placeholders: `IntroActivity` consumes `LocalState`, `AccountMigrationRepository`, `PermissionAccessService`, and the canonical storage/account/password/first-run restore contracts already established in P4. Provider/auth/backend execution remains downstream.
+- No additional independent Domain 1 boundary was established by this deeper sweep. **No F164 was created.** Existing F-ID coverage remains provisional pending the remaining domain sweeps.
+- Static-only: no build/install/runtime/device, provider, backend, filesystem, privileged, or restore execution was performed.
+
 ## Cross-document rule
 
 New finding workflow:
