@@ -201,8 +201,10 @@ This section is the canonical index of every numbered P5.1 audit ID currently re
 | **F124** | Apps search query normalization / index-source projection / result-provider contract |
 | **F125** | Manage-space inventory projection / reclaim-action routing / backup-artifact cleanup boundary |
 | **F126** | Folder-data compression level selection / persistence / normalization / task projection |
+| **F127** | Folder backup result algebra / no-change / artifact + statistics result |
+| **F128** | Folder restore result algebra / success metrics / failure message |
 
-**Numbered IDs present: 126. Unique feature-contract units: 125.**
+**Numbered IDs present: 128. Unique feature-contract units: 127.**
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -917,7 +919,7 @@ Static-only; no folder backup, compression operation, build/install/runtime/prov
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **125 unique units**.
+- P5.1 explicit feature-contract units after this pass: **127 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -958,6 +960,8 @@ Static-only; no folder backup, compression operation, build/install/runtime/prov
 - F124 exposes Apps search normalization, searchable-source projection, and result-provider semantics.
 - F125 exposes Manage Space inventory-to-reclaim routing and backup-artifact cleanup boundary.
 - F126 exposes folder-data compression policy persistence, normalization, settings projection, and folder-task input projection.
+- F127 exposes the folder backup result algebra, no-change state, artifact references, and backup statistics payload.
+- F128 exposes the folder restore result algebra, success metrics, and failure-message payload.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -974,3 +978,34 @@ Current next step:
 
 P5.2 remains **NOT OPENED**.
 
+
+
+### P5.1 Folder backup result contract reconciliation
+
+**P5-F127 — Folder backup result algebra / no-change / artifact + statistics result**
+
+Direct Reference decompile evidence establishes a folder-backup-specific result contract:
+
+- `BackupResult` is an explicit result family with **Failure**, **NoChange**, and **Success** variants.
+- `Failure` carries a concrete error message and reports unsuccessful completion.
+- `NoChange` is a distinct successful result used by incremental folder backup when the scanner detects no file/directory changes since the previous manifest.
+- `Success` carries the generated manifest file, backup file, and a `BackupStats` object.
+- `BackupStats` independently carries files scanned/added/modified/deleted, total bytes, and elapsed duration.
+- `FoldersTask`/folder backup orchestration consumes these result variants rather than reducing them to a generic task boolean.
+- This is distinct from **F43** generic task result aggregation and **F78** folder task execution: F127 owns the **folder backup operation result algebra and artifact/statistics payload** produced by the folder backup engine.
+
+Static-only; no folder backup operation was executed.
+
+### P5.1 Folder restore result contract reconciliation
+
+**P5-F128 — Folder restore result algebra / success metrics / failure message**
+
+Direct Reference decompile evidence establishes a separate folder-restore-specific result contract:
+
+- `RestoreResult` is an explicit result family with separate success and failure variants.
+- `rm6` represents restore success and carries `filesRestored`, `totalBytes`, and elapsed `Duration`.
+- `qm6` represents restore failure and carries a concrete failure message.
+- `qp3` consumes the restore result, branches on failure vs success, logs the result, and exposes the failure message or successful restore metrics to the surrounding task flow.
+- This is distinct from **F43** generic task result aggregation and **F78** folder task execution: F128 owns the **folder restore operation result algebra and domain-specific success/failure payload** produced by the restore engine.
+
+Static-only; no folder restore operation was executed.
