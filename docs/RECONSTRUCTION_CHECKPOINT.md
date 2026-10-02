@@ -494,3 +494,11 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 unique explicit feature-contract count is corrected from **95 → 94**.
 - F93 (PackageInstaller execution) and F95 (special-data payload codec) remain independently evidenced boundaries.
 - No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 cloud login outcome reconciliation — 2026-10-02
+
+- Added **F96** from targeted direct decompile evidence.
+- F96: explicit cloud login outcome taxonomy covering success, invalid credentials, temporary connection failure, unknown host key, untrusted certificate, unknown error, and failed outcomes.
+- P5.1 explicit unique feature-contract count is now **95**.
+- This is a connection-result contract, not runtime/network verification.
+- No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
