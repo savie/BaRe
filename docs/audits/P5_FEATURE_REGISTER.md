@@ -425,6 +425,22 @@ A targeted direct decompile pass on the Calls backup helper found a concrete ret
 - No backup deletion, cloud operation, or runtime execution was performed.
 
 
+### P5.1 Settings cloud backup / restore reconciliation
+
+A targeted direct decompile pass inspected the Reference `SettingsBackupHelper` because settings screens and first-run restore alone did not expose the complete persistence lifecycle.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F100** | Settings cloud backup / restore and local-settings application | `defpackage/ha7.java`, `SettingsBackupHelper$SettingsData`, consumers across Settings/Intro/restore flows | settings snapshot mapper + cloud settings repository boundary | Reference serializes current app settings into an `AppSettings` snapshot, writes it to the cloud settings document, reads the saved snapshot during restore, and applies a defined set of settings back into local preferences/models (backup strategy, restore permissions/special permissions, cache/SSAID flags, APK downgrade policy, notification sounds, language, cloud setup, and related settings). This is an execution/data lifecycle beyond the Settings UI surface (F23) and narrower than generic import/export/config transfer (F46). |
+
+#### Settings cloud backup note
+
+- F100 records the Reference cloud-settings snapshot/apply lifecycle only.
+- Reference Firebase access in this evidence remains Reference-only; BaRe's target backend is Supabase and its runtime execution remains downstream.
+- The first-run restore entry already belongs to the frozen P4 C10 contract; F100 captures the reusable settings snapshot/apply engine consumed by multiple settings/restore call-sites.
+- No cloud read/write or settings restore was executed at runtime.
+
+
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **97 unique units**.
