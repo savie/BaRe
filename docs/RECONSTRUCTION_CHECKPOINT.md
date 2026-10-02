@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Manage-space reclaim reconciliation — 2026-10-02
+
+- Added **F125**: Manage Space inventory projection, reclaim-action routing, and backup-artifact cleanup boundary.
+- F125 is distinct from F89 (storage measurement/snapshot) and F105 (protected-delete enforcement).
+- P5.1 explicit unique feature-contract count is now **125**.
+- Static-only; no cleanup or file deletion was executed.
+
+
 ### P5.1 Apps search provider reconciliation — 2026-10-02
 
 - Added **F124**: Apps search query normalization, searchable-source/index projection, and result-provider contract.
