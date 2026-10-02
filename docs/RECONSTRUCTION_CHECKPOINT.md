@@ -549,6 +549,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Protected-backup deletion enforcement reconciliation — 2026-10-02
+
+- Added **F105** from direct decompile evidence.
+- F105: protected-backup deletion guard, explicit confirmation path, local/cloud revalidation of `isProtectedBackup()`, and protected-file/count result semantics.
+- F105 is distinct from F52: F52 records protection/retention/notes policy; F105 records concrete deletion enforcement and result behavior.
+- P5.1 explicit unique feature-contract count is now **105**.
+- No delete operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 MEGA saved-session rehydration reconciliation — 2026-10-02
 
 - Added **F104** from direct decompile evidence.
