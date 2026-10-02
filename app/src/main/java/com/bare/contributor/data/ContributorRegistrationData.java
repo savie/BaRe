@@ -11,9 +11,22 @@ public final class ContributorRegistrationData {
     public final String crowdinId;
     public final String paypalId;
 
-    public ContributorRegistrationData(String status, Type type, String name, String locales,
-                                       String telegramId, String crowdinId, String paypalId) {
-        this.status = status; this.type = type; this.name = name; this.locales = locales;
-        this.telegramId = telegramId; this.crowdinId = crowdinId; this.paypalId = paypalId;
+    public ContributorRegistrationData(
+            String status, Type type, String name, String locales,
+            String telegramId, String crowdinId, String paypalId) {
+        this.status = status;
+        this.type = type;
+        this.name = name;
+        this.locales = locales;
+        this.telegramId = telegramId;
+        this.crowdinId = crowdinId;
+        this.paypalId = paypalId;
+    }
+
+    public boolean isValid() {
+        if (name == null || name.trim().isEmpty()) return false;
+        if (telegramId == null || telegramId.trim().isEmpty()) return false;
+        return type != Type.TRANSLATOR
+                || (crowdinId != null && !crowdinId.trim().isEmpty());
     }
 }
