@@ -292,20 +292,38 @@ A targeted direct decompile pass then inspected local persistence and configurat
 - The Reference Room database is statically evidenced; no runtime database migration/open/transaction verification was performed.
 - Cloud credential serialization was inspected but not promoted here because the evidence maps cleanly into the existing F46 import/export/config-transfer and F51 provider-abstraction boundaries; no independent execution owner was required by this pass.
 
+### P5.1 APK-share / APKS artifact reconciliation
+
+A targeted pass on `apkshare` found an additional artifact boundary separate from APK import and restore/install.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F86** | APKS share-package creation / metadata + SHA-256 artifact manifest | `apkshare/a.java`, `ApkSharePackageMetadata`, `SaiApksMetadata`, `ApkImportActivity` | APK-share artifact builder | Reference builds APKS ZIP packages from one or more APK/split entries, validates archive entry names, computes SHA-256 per APK, records role/size/hash metadata, and emits `meta.sai_v2.json` and `meta.swiftbackup_v1.json`. This is distinct from consuming/importing APK/APKS files (F10) and restore/install execution (F40). |
+
+F86 is static artifact evidence only; no archive was generated or installed at runtime.
+
+
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units: **82**.
+- P5.1 explicit feature-contract units after this pass: **86**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
-- This does **not** mean six independent Android Services; they are provider implementations behind the shared task execution service/manager.
-- The count remains evidence-derived and may still increase if another independent Reference engine boundary is proven.
-- P5.2 remains **NOT OPENED**.
-
-### Closure result
-
-- P5.1 explicit feature-contract units: **82**.
-- F75–F76 expose the shared task orchestration/governance spine.
-- F77–F82 expose six concrete task-provider execution boundaries.
-- This pass deliberately did not duplicate F41 archive handling, F43 result/cancellation semantics, or permission-gate surfaces already represented elsewhere.
+- F83–F85 expose persistence/configuration engine boundaries.
+- F86 exposes the APKS share-package artifact builder/metadata manifest boundary.
+- This does **not** mean six independent Android Services; F77–F82 are provider implementations behind the shared task execution service/manager.
+- Packer archive extraction remains represented by F41; no duplicate archive feature is created.
 - Runtime verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
+
+## P5.1 current decision
+
+**P5.1 — ONGOING / NOT YET CLOSED.**
+
+The Reference feature universe is being decomposed into concrete audit units with direct evidence surfaces, ownership boundaries, and engine/data contracts. The register is intentionally granular so P5.2 can regroup the units into implementation work packages without losing Reference behavior.
+
+No feature implementation was performed.
+
+Current next step:
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved.**
+
+P5.2 remains **NOT OPENED**.
