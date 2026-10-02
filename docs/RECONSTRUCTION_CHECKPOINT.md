@@ -771,3 +771,13 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F146: Yandex asynchronous operation polling, Retry-After, terminal-state validation and download-link continuation.
 - P5.1 numbered IDs are now **146**; unique feature-contract units are **145** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no provider authentication, transfer, deletion, build/install/runtime, or backend execution was performed or authorized.
+
+
+### P5.1 pCloud provider reconciliation — 2026-10-02
+
+- Added **F147–F148** from direct Reference decompile evidence.
+- **F147**: persisted pCloud API-host failover between api.pcloud.com and eapi.pcloud.com after provider error 2094, with retry through the selected endpoint.
+- **F148**: pCloud upload-to-temp, parent-directory preparation, rename-to-final, and failure cleanup protocol.
+- pCloud quota/user-info remains under the generic CloudQuota provider surface; ordinary GET/move retry loops were not promoted to standalone feature IDs because the evidence supports implementation policy rather than a separate externally consumed lifecycle.
+- P5.1 numbered IDs are now **148**; unique feature-contract units are **147** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no pCloud network/authentication/upload/delete/filesystem/provider execution was performed or authorized.
