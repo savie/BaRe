@@ -905,3 +905,19 @@ Rebuilt P5.2 matrix now has a bounded first contract batch using frozen P5.1 evi
 - Runtime/device/provider/backend: **NOT PERFORMED**
 
 P5.2 remains active. Next batches continue from the existing P5.1 register; no Reference re-audit is performed unless a specific contract field lacks evidence.
+
+
+### P5.2 Contract Matrix Batch 02 — F19–F34 — 2026-10-02
+
+Second matrix consolidation batch completed from frozen P5.1 evidence plus current BaRe structural targets. No feature was re-audited as a new discovery pass.
+
+- F19–F34: **BOUNDED**
+- New F-ID: **0**
+- Owner collision: **0**
+- Evidence UNKNOWN: **0**
+- Implementation: **NOT AUTHORIZED**
+- Runtime/device/provider/backend: **NOT PERFORMED**
+
+Key boundary decisions: F19 remains the cloud connection/catalog consumer boundary; F20 owns the provider-neutral cloud operation contract; F21 owns cloud orphan/cleanup; F22 owns schedule state/service while F166 owns alarm/boot lifecycle; F23 remains settings shell/policy navigation rather than a duplicate owner of concrete settings contracts; F24 owns storage transition presentation/guard; F25/F26 own password and special-settings surfaces while downstream policy/crypto contracts remain separate; F27 owns task lifecycle/UI/service boundary; F28/F29 remain feature surfaces with device/acquisition/task execution delegated; F30/F31/F32/F33/F34 remain their respective presentation/input boundaries with persistence, entitlement, validation, and content parsing separated into existing F-IDs.
+
+P5.2 remains **ACTIVE**; P5 Gate remains **NOT OPENED**.
