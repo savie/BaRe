@@ -211,5 +211,5 @@ New finding workflow:
 - No build/install/runtime/device verification.
 - No provider execution.
 - No backend execution.
-- P5.2 contract/owner/boundary consolidation has not started.
+- P5.2 contract/owner/boundary consolidation is now active in the dedicated P5.2 static-analysis document; this register remains the frozen P5.1 evidence input.
 - Frozen P1–P4 authority is not changed from this register unless controlled re-audit is independently required.
