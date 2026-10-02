@@ -685,6 +685,22 @@ Direct Reference evidence establishes a concrete configuration-transfer contract
 
 Static-only; no configuration was exported/imported or applied.
 
+### P5.1 Schedule aggregate persistence / ordering / battery-policy reconciliation
+
+**P5-F122 — ScheduleData aggregate persistence / normalization / ordering / battery requirement state**
+
+Direct Reference evidence establishes a schedule aggregate contract beyond the generic scheduling feature:
+
+- `ScheduleData` is the aggregate model holding the schedule start hour/minute, battery requirement mode, minimum battery percentage, all eight schedule subtype lists, and explicit `scheduleOrderIds`.
+- Battery policy has explicit modes **NONE**, **CHARGING**, and **MINIMUM_PERCENT**; percentage values are normalized to the supported 10–100 range with a default of 50.
+- `c47`/`b47` load and persist `ScheduleData` through the Reference preferences/Gson helper, with an empty/default aggregate when no saved data exists.
+- `ScheduleData.withNormalizedScheduleOrder()`, `withScheduleAppended()`, `withScheduleDeleted()`, and `withScheduleMoved()` own order-list reconciliation and schedule mutation semantics.
+- The persistence writer normalizes schedule ordering before storing the aggregate.
+- `ScheduleService` consumes the aggregate battery policy as an execution eligibility gate before preparing scheduled work.
+- This is distinct from F22's scheduling feature surface and F50's last-run diagnostics: F122 owns the **persisted aggregate state, ordering model, normalization, and battery-policy contract**.
+
+Static-only; no schedule state was mutated or executed.
+
 
 ### P5.1 Restore-special-permission policy configuration reconciliation
 
@@ -704,7 +720,7 @@ Static-only; no root capability check or restore operation was executed.
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **121 unique units**.
+- P5.1 explicit feature-contract units after this pass: **122 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -739,6 +755,8 @@ Static-only; no root capability check or restore operation was executed.
 - F118 exposes app-cache inclusion policy persistence/warning/change-detection projection.
 - F119 exposes app-data compression-level selection/persistence/default normalization/pipeline projection.
 - F120 exposes restore-special-permission policy persistence, root gating, and ConfigSettings override.
+- F121 exposes App Configuration export/import serialization, validation, and replacement boundary.
+- F122 exposes ScheduleData aggregate persistence, ordering normalization/mutation, and battery-policy state.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
