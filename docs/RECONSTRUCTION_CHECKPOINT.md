@@ -757,3 +757,17 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - **F139**: GMS Drive-scoped access-token acquisition, stale-token clearing, account validation, refreshed-token storage, and failure-state clearing.
 - P5.1 numbered IDs are now **139**; unique feature-contract units are **138** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no Google Drive network/provider/account/folder/file mutation, build/install/runtime, or backend execution was performed or authorized.
+
+
+### P5.1 Provider sweep — Box / Dropbox / OneDrive / Yandex — 2026-10-02
+
+- Added **F140–F146** from direct Reference decompile evidence.
+- F140: Box resumable upload-session protocol plus recent-upload cache bridge.
+- F141: Dropbox upload-session offset correction, bounded retry, chunk/stop semantics.
+- F142: OneDrive resumable upload-session/range protocol with transient retry and authentication-stop behavior.
+- F143: OneDrive batch-delete failed-ID retry/result lifecycle.
+- F144: Microsoft Identity/MSAL silent access-token acquisition, force-refresh, expiry and invalid-token handling.
+- F145: Yandex OAuth refresh-token exchange, credential replacement/persistence and failure handling.
+- F146: Yandex asynchronous operation polling, Retry-After, terminal-state validation and download-link continuation.
+- P5.1 numbered IDs are now **146**; unique feature-contract units are **145** because F94 remains the duplicate/reconciliation marker.
+- Static-only; no provider authentication, transfer, deletion, build/install/runtime, or backend execution was performed or authorized.
