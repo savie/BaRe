@@ -1,0 +1,1 @@
+package com.bare.home.schedule; public final class FoldersPreparation { private final ScheduledTaskPreparation state; public FoldersPreparation(ScheduledTaskPreparation state){this.state=state;} public ScheduledTaskPreparation getState(){return state;} }
