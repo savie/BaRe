@@ -14,6 +14,10 @@ Reference is read-only. This register is evidence, not implementation approval, 
 - Swift Backup 5.1.0 / versionCode 620
 - ZIP/decompile source is primary; existing project audits are corroboration/dependency context only.
 
+## Register summary
+
+**Numbered IDs: 166. Unique feature-contract units: 165. F94 is a retained reconciliation marker duplicating F69.**
+
 ## Canonical table
 
 | ID | Feature unit | Reference evidence | Owner / boundary | Audit finding |
@@ -183,7 +187,6 @@ Reference is read-only. This register is evidence, not implementation approval, 
 | **F164** | Cloud access / authorization state machine and recoverable-access result mapping | `defpackage/tb1.java`, `defpackage/qb1.java`, `defpackage/rb1.java`, `defpackage/lc1.java` | cloud access state + authorization recovery boundary | Reference `tb1.a(boolean)` performs the synchronous cloud-access check after authorization gating, exposes explicit `LOADING`, `DRIVE_CONNECTED`, `DRIVE_NOT_CONNECTED`, `NETWORK_ERROR`, and `TEMP_CONNECTION_ERROR` states, stores the resulting `CloudResult`, maps recoverable authorization failures to a recovery Intent, and updates authorization/result state consumed by the Home Cloud surface. This is distinct from **F19** provider connection/sign-in entry and **F96** login outcome taxonomy: F164 owns the post-connection **access-state/recovery orchestration** used to decide what the Cloud tab should present. Static-only; no provider/network/auth runtime was executed. |
 | **F165** | CloudServiceId primary/copy identity-file creation, recovery, reconciliation, and integrity lifecycle | `defpackage/eh1.java`, `org.swiftapps.swiftbackup.cloud.protocols.CloudServiceId` | provider-neutral cloud-account identity-file lifecycle | Reference maintains a provider-neutral cloud account identity in `DO_NOT_DELETE_cloud_account_id.json` plus ID-named copy files, reads and validates primary/copy contents, detects name/content mismatches and duplicates, recovers a valid ID from copies when the primary is missing, generates a new `CloudServiceId` when necessary, and recreates/reconciles the primary/copy pair. This is distinct from **F87** credential persistence, **F42** local/cloud backup metadata lifecycle, and provider-specific transfer protocols because it is the cloud-account identity/reconciliation artifact itself. Static-only; no cloud file creation/read/write/delete or provider/backend runtime was executed. |
 | **F166** | Schedule alarm registration / exact-alarm capability / boot rescheduling lifecycle | `AlarmReceiver.java`, `BootReceiver.java`, `defpackage/o37.java` | schedule trigger lifecycle boundary | Reference persists the schedule-enabled state, registers/cancels the next exact alarm with `AlarmManager.setExactAndAllowWhileIdle`, checks exact-alarm capability, enables/disables boot recovery, and on `BOOT_COMPLETED` restores or cancels the alarm according to the persisted schedule state. This is distinct from **F74**, which owns scheduler eligibility and alarm-to-task handoff, and **F122**, which owns persisted ScheduleData aggregate state. Static-only; no alarm, boot, or runtime execution was performed. |
-**Numbered IDs: 166. Unique feature-contract units: 165. F94 is a retained reconciliation marker duplicating F69.**
 
 ## Cross-document rule
 
