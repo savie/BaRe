@@ -246,30 +246,47 @@ A further targeted P5.1 pass inspected the supplied decompile directly for non-A
 
 F74 is intentionally not a claim that every Android alarm/runtime outcome has been verified; it is the statically evidenced scheduler decision and task-handoff boundary.
 
+
+### P5.1 Task-engine reconciliation — execution orchestration / provider boundaries
+
+A targeted direct decompile pass inspected the Reference task stack after F74. Reference has a task-manager/provider architecture in which concrete task providers extend the shared `defpackage.pw6` execution contract and are registered/executed by `defpackage.hy7`.
+
+| ID | Feature unit | Reference evidence | Owner / boundary | Why explicit |
+|---|---|---|---|---|
+| **P5-F75** | Task-manager provider registration / sequential execution lifecycle | `defpackage/hy7.java`, `defpackage/pw6.java`, `tasks/TaskService.java`, `tasks/ui/TaskActivity.java` | task manager + provider contract | Reference rejects overlapping runs, registers provider list, executes providers sequentially, drives provider state/progress, and routes terminal completion/cancellation. This is the shared execution spine behind the domain task providers below. |
+| **P5-F76** | DataSync foreground-service runtime ledger / quota accounting | `tasks/fgs/DataSyncFgsRuntimeLedger$Entry.java`, `defpackage/kc2.java`, `TaskService.java` | FGS runtime ledger + TaskService lifecycle | Reference persists start/end time, service name, schedule/forced-run flags, run mode, outcome and note; computes rolling 24-hour usage; records quota-blocked starts; closes interrupted sessions as PROCESS_RESTARTED; and prunes retained entries. |
+| **P5-F77** | Apps task execution engine | `defpackage/c40.java` (`AppsTask`) extending `pw6` | Apps task provider → app backup/restore engine | Concrete provider owns multi-app backup/restore execution and cancellation across lower-level upload/download/archive/install/metadata collaborators. This must not be collapsed into AppList/Detail UI. |
+| **P5-F78** | Folders task execution engine | `defpackage/qp3.java` (`FoldersTask`) extending `pw6` | Folders task provider → folder backup/restore engine | Dedicated provider invokes folder backup/restore managers, upload/download paths, and cancellation. F47 defines folder artifact semantics; F78 is the execution owner that drives them. |
+| **P5-F79** | Messages task execution engine | `defpackage/ff5.java` (`MessagesTask`) extending `pw6` | Messages task provider → SMS backup engine | Dedicated provider reads SMS data through ContentResolver, creates the backup artifact, applies compression/password handling, and optionally hands the artifact to cloud execution. |
+| **P5-F80** | Calls task execution engine | `defpackage/z11.java` (`CallsTask`) extending `pw6` | Calls task provider → call-log backup engine | Dedicated provider reads call-log data, creates the artifact, selects compression/password settings, handles local/cloud paths, and reports failure through the task result boundary. |
+| **P5-F81** | Wi-Fi task execution engine | `defpackage/tt8.java` (`WifiTask`) extending `pw6` | Wi-Fi task provider → Wi-Fi backup engine | Dedicated provider maps access/device/selection/storage failures, updates schedule last-run diagnostics, and performs the evidenced cloud-cache cleanup path. |
+| **P5-F82** | Wallpapers task execution engine | `defpackage/wp8.java` (`WallsTask`) extending `pw6` | Wallpapers task provider → wallpaper backup engine | Dedicated provider invokes the wallpaper backup operation and post-run cleanup. This is the execution owner behind the Wallpapers UI family. |
+
+#### Task-engine evidence notes
+
+- The shared `pw6` contract is directly evidenced by concrete providers `c40`, `qp3`, `ff5`, `z11`, `tt8`, and `wp8`.
+- Shared task lifecycle enum `gz7`: **WAITING / RUNNING / COMPLETE / CANCELLED / CANCEL_COMPLETE**.
+- `hy7.b()` prevents overlapping task execution and records the selected provider list; `hy7.g()` executes registered providers sequentially and updates provider state/progress.
+- `TaskService` wraps the execution spine with foreground-service handling, wake-lock acquisition, cancellation receiver registration, terminal-state reporting, error-summary persistence, and runtime-ledger completion.
+- `PreconditionsActivity` remains a permission gate for SMS/call task entry; it is not promoted as a new engine feature because its capability semantics are already represented by the existing permission boundaries.
+- `Packer` was inspected in the same pass. Its archive-info/SevenZip extraction/password-error classification is already represented by **F41**, so no duplicate feature ID is created.
+- `MultiCompressor$Type` / metadata evidence alone does not establish an independent compression execution owner beyond F41, so it is not promoted separately.
+- These are static Reference execution boundaries. No task was executed on-device and no provider/backend implementation was performed.
+
+### Task-engine reconciliation result
+
+- P5.1 explicit feature-contract units: **82**.
+- F75–F76 expose the shared task orchestration/governance spine.
+- F77–F82 expose six concrete task-provider execution boundaries.
+- This does **not** mean six independent Android Services; they are provider implementations behind the shared task execution service/manager.
+- The count remains evidence-derived and may still increase if another independent Reference engine boundary is proven.
+- P5.2 remains **NOT OPENED**.
+
 ### Closure result
 
-- P5.1 explicit feature-contract units: **74**.
-- F72–F74: non-Apps engine reconciliation pass.
-- F59–F71: Apps engine / special-data reconciliation pass.
-- F01–F37: original scope decomposition.
-- F38–F44: first rebaseline reconciliation.
-- F45–F54: second full-section closure reconciliation.
-- F55–F58: Apps child-feature decomposition reconciliation.
-- No additional product family was invented; F55–F58 make independently evidenced Apps child behaviors explicit before P5.2.
-- Icon cache is intentionally **not** promoted to a feature unit because the Reference audit explicitly distinguishes it from disk app-cache semantics.
-- The large-file performance findings in reference.md §31.3 are **not** promoted to Reference feature units because that section audits BaRe's current pipeline; it is an implementation/performance audit, not Reference feature evidence.
+- P5.1 explicit feature-contract units: **82**.
+- F75–F76 expose the shared task orchestration/governance spine.
+- F77–F82 expose six concrete task-provider execution boundaries.
+- This pass deliberately did not duplicate F41 archive handling, F43 result/cancellation semantics, or permission-gate surfaces already represented elsewhere.
 - Runtime verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
-
-## P5.1 current decision
-
-**P5.1 — ONGOING / NOT YET CLOSED.**
-
-The Reference feature universe is being decomposed into concrete audit units with direct entry/evidence surfaces, Reference ownership surfaces, and primary dependency/execution boundaries. The Apps engine/special-data pass materially expanded the register from 58 to 71 units, so the earlier P5.1 closure statement is superseded.
-
-No feature implementation was performed.
-
-Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved.**
-
-P5.2 remains **NOT OPENED**.
