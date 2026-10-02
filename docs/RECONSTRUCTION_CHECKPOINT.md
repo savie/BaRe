@@ -705,3 +705,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - F127/F128 are distinct from F43 generic task result aggregation and F78 folder task execution; they own the domain-operation result contracts emitted by the folder engine.
 - P5.1 explicit unique feature-contract count is now **127**.
 - Static-only; no folder backup/restore operation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 Folder metadata + manifest-cache reconciliation — 2026-10-02
+
+- Added **F129**: folder metadata reconstruction from local backup artifacts, local metadata persistence, artifact-to-metadata refresh/reconciliation, and folder cloud-metadata publication/deletion lifecycle.
+- F129 is distinct from F42's broader metadata lifecycle policy: F129 records the concrete folder-specific metadata projection/reconciliation boundary.
+- Added **F130**: latest folder manifest selection plus local cloud-manifest cache/download lifecycle, including cache reuse by expected size and refresh on stale/missing cache.
+- F130 is distinct from F47 chain semantics and F127/F128 operation-result contracts; it owns the latest-manifest selection and cache/download boundary.
+- P5.1 explicit unique feature-contract count is now **129**.
+- Static-only; no metadata mutation, cloud download, restore, build/install/runtime/provider/backend/privileged execution was performed or authorized.
