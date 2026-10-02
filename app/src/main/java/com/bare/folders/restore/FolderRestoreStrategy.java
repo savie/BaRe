@@ -1,0 +1,1 @@
+package com.bare.folders.restore; public enum FolderRestoreStrategy { MISSING_ONLY, OVERWRITE, FULL_RESTORE }
