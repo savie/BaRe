@@ -69,6 +69,141 @@ Reference evidence rule:
 | P5-F36 | Manage space | `ManageSpaceActivity` | `manage` | storage inventory, backup metadata/files | Space-management behavior needs direct feature audit. |
 | P5-F37 | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Android launcher shortcut APIs | Shortcut creation/pinning is a feature integration boundary. |
 
+## Canonical P5.1 feature index — F01–F126
+
+This section is the canonical index of every numbered P5.1 audit ID currently recorded. **F94 is retained only as a reconciliation marker because it duplicates F69; it is not counted as a unique feature-contract unit.** Detailed evidence remains in the reconciliation sections below.
+
+| ID | Feature-contract unit / reconciliation marker |
+|---|---|
+| **F01** | Onboarding / first-start |
+| **F02** | Home/dashboard orchestration |
+| **F03** | Home search |
+| **F04** | Apps inventory/list |
+| **F05** | Apps batch actions |
+| **F06** | App quick actions |
+| **F07** | App detail / app actions |
+| **F08** | App info |
+| **F09** | App configuration list/edit/settings |
+| **F10** | APK import |
+| **F11** | Folders dashboard/picker/edit/detail |
+| **F12** | Folder batch backup/restore |
+| **F13** | Messages dashboard/backups |
+| **F14** | Messages backup/restore |
+| **F15** | Calls dashboard/backups |
+| **F16** | Calls backup/restore |
+| **F17** | Conversations / chat |
+| **F18** | SMS default-handler integration |
+| **F19** | Cloud connection |
+| **F20** | Cloud provider operations |
+| **F21** | Cloud orphan/cleanup |
+| **F22** | Scheduling |
+| **F23** | Settings |
+| **F24** | Storage management |
+| **F25** | Password / encryption strategy |
+| **F26** | Multiple backups / restore special data |
+| **F27** | Tasks / task execution UI |
+| **F28** | Wi-Fi backup/restore |
+| **F29** | Wallpapers |
+| **F30** | Blacklist |
+| **F31** | Premium / entitlement feature surface |
+| **F32** | Locale |
+| **F33** | Contributor registration |
+| **F34** | Notices / licenses |
+| **F35** | Diagnostics / logging |
+| **F36** | Manage space |
+| **F37** | Shortcuts |
+| **F38** | Privileged permission / Root–Shizuku capability workflow |
+| **F39** | App backup planning / change detection / skip semantics |
+| **F40** | APK restore / split install / downgrade decision boundary |
+| **F41** | Backup artifact format / archive / compression / encryption pipeline |
+| **F42** | Local/cloud metadata lifecycle / delete / sync consistency |
+| **F43** | Task result aggregation / cancellation / retry / process-death semantics |
+| **F44** | App size / cache / OBB / usage-state measurement |
+| **F45** | Account / local identity / continuity boundary |
+| **F46** | Import / export / configuration transfer |
+| **F47** | Folder manifest / incremental backup / chain validation |
+| **F48** | Messages advanced handling: MMS/RCS and provider state |
+| **F49** | Wi-Fi sensitive-access authentication / enterprise data |
+| **F50** | Schedule selection / last-run diagnostic state |
+| **F51** | Cloud diagnostics / provider abstraction / transfer-test boundary |
+| **F52** | Backup protection / retention / notes policy |
+| **F53** | Apps Local-vs-Cloud inventory context / canonical backup discovery |
+| **F54** | Restore-part independent selection / restore-card action model |
+| **F55** | Apps list search / query surface |
+| **F56** | Apps list filtering / predicate state |
+| **F57** | Apps list sorting / order projection |
+| **F58** | App labels management / assignment / label-based filtering |
+| **F59** | Favorites persistence / local-cache / cloud-sync lifecycle |
+| **F60** | AppInfo diagnostic data surface |
+| **F61** | Pinned detail shortcut integration |
+| **F62** | Custom configuration → Apps task input mapping |
+| **F63** | Per-part backup-limit enforcement |
+| **F64** | Package-visibility diagnostics |
+| **F65** | Runtime/special permission state backup + restore |
+| **F66** | SSAID backup + restore |
+| **F67** | Notification-access component backup + restore |
+| **F68** | Accessibility-service component backup + restore |
+| **F69** | Notification policy backup + restore |
+| **F70** | Apps task workspace / temporary-artifact lifecycle |
+| **F71** | SBA app-data archive metadata envelope |
+| **F72** | Messages backup retention / local-cloud cleanup |
+| **F73** | User-password lifecycle / password history state |
+| **F74** | Schedule execution eligibility / alarm-to-task handoff |
+| **F75** | Task-manager provider registration / sequential execution lifecycle |
+| **F76** | DataSync foreground-service runtime ledger / quota accounting |
+| **F77** | Apps task execution engine |
+| **F78** | Folders task execution engine |
+| **F79** | Messages task execution engine |
+| **F80** | Calls task execution engine |
+| **F81** | Wi-Fi task execution engine |
+| **F82** | Wallpapers task execution engine |
+| **F83** | Apps inventory cache persistence / refresh reconciliation |
+| **F84** | SLog local persistence / retention / filtering |
+| **F85** | App configuration validation / label-reference normalization |
+| **F86** | APKS share-package creation / metadata + SHA-256 artifact manifest |
+| **F87** | Cloud credential persistence / secure password-key merge / settings export |
+| **F88** | Cloud orphan scan / result / deletion state machine |
+| **F89** | Storage volume measurement / app-usage calculation / cached storage snapshot |
+| **F90** | locale selection persistence / configuration-change propagation |
+| **F91** | contributor registration state / persistence boundary |
+| **F92** | notice/license content loading and selection model |
+| **F93** | privileged PackageInstaller execution boundary |
+| **F94** | AppSpecialDataPayload special-data payload format/codec lifecycle |
+| **F95** | Cloud login outcome taxonomy / connection-result contract |
+| **F96** | MEGA multi-factor-auth-required login outcome / session gate |
+| **F97** | Filen restorable encrypted-session state / session rehydration |
+| **F98** | Notification policy backup + restore — DUPLICATE OF F69; reconciliation marker only |
+| **F99** | Calls backup retention / local-cloud cleanup policy |
+| **F100** | Settings cloud backup/restore and local-settings application |
+| **F101** | Folder restore strategy policy / persisted mode |
+| **F102** | Cloud diagnostics transfer-test suite / result-state engine |
+| **F103** | Cloud transfer concurrency policy / parallel transfer execution mode |
+| **F104** | MEGA saved-session persistence / validated session rehydration |
+| **F105** | Protected-backup deletion guard / revalidation / protected-count result |
+| **F106** | AppSpecialDataPayload versioned serialization / compression / encryption / atomic persistence lifecycle |
+| **F107** | Scheduled Apps Quick Actions selection / task preparation / last-run lifecycle |
+| **F108** | Scheduled Apps custom-configuration selection / cloud fallback / task preparation |
+| **F109** | Scheduled Apps label selection / installed-app projection / part filtering / task preparation |
+| **F110** | Scheduled Messages selection / permission-data availability / task preparation |
+| **F111** | Scheduled Calls selection / call-log availability / task preparation |
+| **F112** | Scheduled Wallpapers selection / valid-wallpaper discovery / task preparation |
+| **F113** | Scheduled Wi-Fi selection / device-read prerequisite / task preparation |
+| **F114** | Scheduled Folders selection / backup-strategy projection / task preparation |
+| **F115** | MultipleBackupStrategy persistence / legacy migration / normalization / representation |
+| **F116** | App-list left/right swipe action configuration / persistence / reset |
+| **F117** | Per-app-part backup-limit configuration persistence / validation / serialization |
+| **F118** | App-cache inclusion policy / persistence / warning / change-detection projection |
+| **F119** | App-data compression level selection / persistence / normalization / pipeline projection |
+| **F120** | Restore-special-permission policy / root capability gating / ConfigSettings override |
+| **F121** | App configuration export/import serialization / validation / replacement lifecycle |
+| **F122** | ScheduleData aggregate persistence / normalization / ordering / battery requirement state |
+| **F123** | Blacklist persistence / package predicate / backup-selection exclusion |
+| **F124** | Apps search query normalization / index-source projection / result-provider contract |
+| **F125** | Manage-space inventory projection / reclaim-action routing / backup-artifact cleanup boundary |
+| **F126** | Folder-data compression level selection / persistence / normalization / task projection |
+
+**Numbered IDs present: 126. Unique feature-contract units: 125.**
+
 ## Direct ZIP structural audit
 
 The supplied ZIP was inspected directly.
@@ -764,6 +899,23 @@ Direct Reference evidence establishes a dedicated restore policy contract:
 Static-only; no root capability check or restore operation was executed.
 
 
+### P5.1 Folder compression policy reconciliation — 2026-10-02
+
+**P5-F126 — Folder-data compression level selection / persistence / normalization / task projection**
+
+Direct Reference decompile evidence establishes a folder-specific compression contract that is independent from the existing app-data compression unit F119:
+
+- `settings` folder settings expose the persisted `compression_level_folders` preference.
+- `zn3` reads the preference and projects the resolved `xp1` compression level into the folder settings summary.
+- `v10` persists the selected compression level as the `xp1` numeric level.
+- `g67.s()` resolves the stored integer against the supported `xp1` values and falls back to `xp1.DEFAULT` when the stored value is absent/invalid.
+- `ScheduleService`/`l30` reads the same folder compression policy while constructing folder backup task inputs.
+- `bo3` carries the resolved `compressionLevel` as an explicit field of each folder backup work item, so the setting crosses from persisted configuration into the folder backup execution contract.
+- This is distinct from **F119**, which owns the app-data compression-level setting and pipeline projection. It is also not merely F41: F41 owns the generic artifact format/compression/encryption boundary, while F126 owns the **folder-specific persisted policy and its task-input projection**.
+
+Static-only; no folder backup, compression operation, build/install/runtime/provider/backend/privileged execution was performed.
+
+
 ### Task-engine reconciliation result
 
 - P5.1 explicit feature-contract units after this pass: **125 unique units**.
@@ -806,6 +958,7 @@ Static-only; no root capability check or restore operation was executed.
 - F123 exposes Blacklist package predicate persistence and backup-selection exclusion integration.
 - F124 exposes Apps search normalization, searchable-source projection, and result-provider semantics.
 - F125 exposes Manage Space inventory-to-reclaim routing and backup-artifact cleanup boundary.
+- F126 exposes folder-data compression policy persistence, normalization, settings projection, and folder-task input projection.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
@@ -818,23 +971,7 @@ The Reference feature universe is being decomposed into concrete audit units wit
 No feature implementation was performed.
 
 Current next step:
-**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved.**
+**Continue P5.1 targeted Reference audit until no additional independently evidenced feature/engine boundary remains unresolved; the complete numbered F01–F126 index is consolidated above.**
 
 P5.2 remains **NOT OPENED**.
 
-
-### P5.1 Folder compression policy reconciliation — 2026-10-02
-
-**P5-F126 — Folder-data compression level selection / persistence / normalization / task projection**
-
-Direct Reference decompile evidence establishes a folder-specific compression contract that is independent from the existing app-data compression unit F119:
-
-- `settings` folder settings expose the persisted `compression_level_folders` preference.
-- `zn3` reads the preference and projects the resolved `xp1` compression level into the folder settings summary.
-- `v10` persists the selected compression level as the `xp1` numeric level.
-- `g67.s()` resolves the stored integer against the supported `xp1` values and falls back to `xp1.DEFAULT` when the stored value is absent/invalid.
-- `ScheduleService`/`l30` reads the same folder compression policy while constructing folder backup task inputs.
-- `bo3` carries the resolved `compressionLevel` as an explicit field of each folder backup work item, so the setting crosses from persisted configuration into the folder backup execution contract.
-- This is distinct from **F119**, which owns the app-data compression-level setting and pipeline projection. It is also not merely F41: F41 owns the generic artifact format/compression/encryption boundary, while F126 owns the **folder-specific persisted policy and its task-input projection**.
-
-Static-only; no folder backup, compression operation, build/install/runtime/provider/backend/privileged execution was performed.
