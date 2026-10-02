@@ -29,7 +29,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 7 | Folders | F11, F12, F47, F78, F101, F126–F130 | folder model, backup/restore, manifests, strategy, result algebra and metadata lifecycle |
 | 8 | Messages | F13, F14, F17, F18, F48, F72, F79, F110 | SMS backup/restore, conversations, default-handler integration, advanced provider state, retention and task execution |
 | 9 | Calls | F15, F16, F80, F99, F111 | call-log backup/restore, task execution and retention |
-| 10 | Cloud | F19–F21, F42, F51–F52, F87–F88, F96–F105, F131–F153 | cloud connection, provider execution, metadata/cleanup, diagnostics, provider-specific protocols and credentials |
+| 10 | Cloud | F19–F21, F42, F51–F52, F87–F88, F96–F105, F131–F153, **F164–F165** | cloud connection/access state, provider execution, metadata/cleanup, diagnostics, provider-specific protocols, credentials and cloud-account identity reconciliation |
 | 11 | Scheduling | F22, F50, F74, F107–F114, F122 | schedule selection, execution eligibility, task handoff, per-feature schedule preparation and aggregate persistence |
 | 12 | Settings | F23, F26, F52, F73, F87, F100, F115, F118–F120 | settings and feature policy surfaces consumed by backup/restore |
 | 13 | Premium / entitlement | F31 | Reference premium/entitlement feature evidence |
