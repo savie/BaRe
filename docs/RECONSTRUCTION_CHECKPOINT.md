@@ -540,6 +540,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No provider transfer, build/install/runtime/provider/backend/privileged execution was performed or authorized.
 
 
+### P5.1 Cloud transfer concurrency policy reconciliation — 2026-10-02
+
+- Added **F103** from direct decompile evidence.
+- F103: persisted `parallel_cloud_transfers` policy (default false) consumed by Apps upload/download and Folders upload/download transfer dispatch, changing concurrent vs serial transfer behavior and feeding result aggregation.
+- F103 is distinct from generic provider operations (F20/F51), Apps/Folders task providers (F77/F78), and Settings UI.
+- P5.1 explicit unique feature-contract count is now **103**.
+- No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
