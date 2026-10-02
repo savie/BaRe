@@ -4,7 +4,7 @@
 
 **P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — ONGOING / STATIC**
 
-Dokumen ini **hanya grouping**. Evidence/canonical detail ada di `docs/audits/P5_FEATURE_REGISTER.md`.
+Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P5_FEATURE_REGISTER.md\`.
 
 ## Rule
 
@@ -45,7 +45,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | 23 | Contributor | F33, F91 | contributor registration state and persistence |
 | 24 | Database / local persistence | F42, F45, F46, F53, F59, F70, F83, F87, F89, F115, F117, F121, F122, F123, F129, F130 | persistence/reconciliation surfaces that support multiple feature families |
 
-## Coverage interpretation
+## Coverage status
 
 | Status | Arti |
 |---|---|
@@ -59,63 +59,9 @@ Status di atas hanya status coverage P5.1.
 
 **P5.1 tetap OPEN.**
 
-Domain 1 — Onboarding saat ini: **COVERED — provisional / FOLLOW-UP REQUIRED**
+**Domain 1 — Onboarding:** \`COVERED — provisional / FOLLOW-UP REQUIRED\`
 
-F163 sudah ditambahkan karena targeted ZIP audit menemukan boundary onboarding storage setup/failure recovery yang independen. Evidence lengkapnya ada di Register; grouping hanya mencatat F163 di domain Onboarding.
-
-## 13. Domain 1 audit record — Onboarding
-
-### Current result
-
-**Status: COVERED — provisional / FOLLOW-UP REQUIRED**
-
-Current onboarding evidence:
-- F01 — Onboarding / first-start
-- F45 — Account / local identity / continuity boundary
-- F73 — User-password lifecycle / password history state
-- F87 — Cloud credential persistence / secure password-key merge / settings export
-- F100 — Settings cloud backup / restore and local-settings application
-- **F163 — Onboarding storage setup / failure recovery**
-
-### F163 finding
-
-Targeted direct Reference inspection found an onboarding-specific storage setup lifecycle that was not represented by an existing independent F-ID.
-
-Evidence:
-- 'intro.d' constructs a dedicated storage setup coordinator.
-- The coordinator consumes 'getPreferredStorageTypeForIntro'.
-- The coordinator exposes an 'onStorageSetupFailure' callback.
-- Reference defines 'StorageSetupFailure(mainDir, isRemovable, offerInternalStorage)'.
-- 'IntroActivity' renders 'intro_storage_setup_failure_dialog'.
-- Failure recovery includes Retry, Review storage access, optional Use internal storage, and Exit storage setup.
-- The failure surface also carries location, diagnostics, and remaining/review step information.
-
-Classification for this document:
-- **NEW EVIDENCE → F163**
-- This is still P5.1 evidence/coverage work.
-- It does not create a P5.2 contract.
-
-### Boundary reconciliation
-
-F163 is kept separate from:
-- F24 — Storage management;
-- F38 — Privileged permission / Root–Shizuku capability workflow;
-- F01 — general onboarding/first-start orchestration.
-
-Those existing findings remain valid. F163 captures the concrete onboarding storage initialization/failure-recovery boundary discovered by targeted inspection.
-
-### Remaining targeted sweep
-
-Do not mark Onboarding ready yet. Continue checking:
-- first-start state transitions;
-- Google/anonymous sign-in and migration continuation;
-- permission handoff;
-- first-run cloud settings restore;
-- password handoff;
-- onboarding-to-Home continuation;
-- Activity result/error/dialog restoration paths.
-
-Only create F164+ if the next targeted search establishes another independent Reference boundary.
+Detail evidence, finding, boundary reconciliation, dan targeted audit tetap canonical di \`P5_FEATURE_REGISTER.md\`.
 
 ## Static boundary
 
@@ -127,25 +73,6 @@ Only create F164+ if the next targeted search establishes another independent Re
 
 ## Operating principle
 
-`REGISTER = evidence history`
+\`REGISTER = evidence history\`
 
-`GROUPING = coverage map`
-
-
-## Current position
-
-**P5.1 OPEN.**
-
-**Domain 1 — Onboarding:** `COVERED — provisional / FOLLOW-UP REQUIRED`
-
-Current onboarding F-ID: `F01, F45, F73, F87, F100, F163`.
-
-F163 adalah temuan baru dari targeted onboarding audit. Evidence lengkapnya ada di Register.
-
-## Static boundary
-
-- Reference read-only.
-- ZIP/decompile adalah primary evidence.
-- Tidak build/install/runtime/device verification.
-- Tidak provider/backend execution.
-- P5.2 belum dimulai.
+\`GROUPING = coverage map\`
