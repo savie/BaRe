@@ -443,3 +443,12 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **86**.
 - P5.1 remains ongoing; P5.2 remains not opened.
 - No archive generation, installation, build, runtime, provider/backend, or privileged execution was performed or authorized.
+
+### P5.1 cloud credential / orphan execution reconciliation — 2026-10-02
+
+- Added **F87–F88** from direct decompile evidence.
+- F87: cloud credential persistence, password/private-key merge, and credential settings export.
+- F88: cloud orphan cleanup state machine with IDLE → SCANNING → RESULTS → DELETING → ERROR execution states.
+- P5.1 explicit feature-contract count is now **88**.
+- Provider-specific network execution remains behind existing F20/F51 boundaries; no provider-specific IDs were invented.
+- No implementation, build/install/runtime/provider/backend execution was performed or authorized.
