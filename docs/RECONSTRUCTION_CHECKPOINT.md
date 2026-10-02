@@ -486,3 +486,11 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **95**.
 - F95 is a data-format/codec boundary; target identity/backend adaptation remains downstream.
 - No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 duplicate reconciliation — 2026-10-02
+
+- Targeted review found **F94** duplicated the already-canonical **F69 Notification policy backup + restore** boundary.
+- F94 is retained as a reconciliation marker only and is **not counted** as a unique feature-contract unit.
+- P5.1 unique explicit feature-contract count is corrected from **95 → 94**.
+- F93 (PackageInstaller execution) and F95 (special-data payload codec) remain independently evidenced boundaries.
+- No implementation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
