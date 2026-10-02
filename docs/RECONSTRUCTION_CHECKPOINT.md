@@ -531,6 +531,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No folder restore, filesystem mutation, build/install/runtime/provider/backend/privileged execution was performed or authorized.
 
 
+### P5.1 Cloud diagnostics transfer-test reconciliation — 2026-10-02
+
+- Added **F102** from direct `cloud/diagnostics` decompile evidence.
+- F102: selectable cloud diagnostic test suite covering round-trip transfer, multithreaded download, provider transfer mode, upload/download validation, size/hash checks, thumbnail/download checks, cache cleanup, progress/errors, and explicit NOT_RUN/RUNNING/PASSED/FAILED/ACTION_REQUIRED/SKIPPED result states.
+- F102 is distinct from generic cloud provider operations (F20/F51) and orphan cleanup (F21/F88); it is the concrete diagnostic execution boundary behind the broader diagnostics surface F35.
+- P5.1 explicit unique feature-contract count is now **102**.
+- No provider transfer, build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+
 ### P5.1 provider-specific cloud session reconciliation — 2026-10-02
 
 - Added **F97–F98** from targeted direct decompile evidence.
