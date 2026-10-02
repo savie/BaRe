@@ -1,0 +1,1 @@
+package com.bare.home.schedule; public final class CallsPreparation { private final ScheduledTaskPreparation state; public CallsPreparation(ScheduledTaskPreparation state){this.state=state;} public ScheduledTaskPreparation getState(){return state;} }
