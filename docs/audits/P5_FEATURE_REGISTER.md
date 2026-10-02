@@ -1196,3 +1196,18 @@ Static-only; no folder restore operation was executed.
 - Direct Reference evidence: `iy8` parses `Retry-After`, starts/polls Yandex operations, rejects unknown operation states, and requires successful operation completion before continuing to resource/download handling.
 - F146 is distinct from F20/F51 generic provider operations because it owns the provider's explicit asynchronous-operation state machine.
 - Static-only; no Yandex operation/network/provider execution was performed or authorized.
+
+
+### P5.1 pCloud API-host failover persistence reconciliation — 2026-10-02
+
+- Added **F147**: pCloud API-host failover and persisted endpoint selection lifecycle.
+- Direct Reference evidence: `ov5.z()` detects provider error `qe.a == 2094`, switches the persisted `pcloud_api_host` between `api.pcloud.com` and `eapi.pcloud.com`, saves the selected host, and retries login through the new endpoint; `ov5.u()` consumes the persisted host when constructing the pCloud client.
+- F147 is distinct from F96 generic login-result taxonomy because the provider-specific endpoint failover changes persisted client configuration and directly alters subsequent authentication/client construction.
+- Static-only; no pCloud network/authentication execution was performed or authorized.
+
+### P5.1 pCloud temporary-upload atomic-finalize reconciliation — 2026-10-02
+
+- Added **F148**: pCloud temporary upload, parent-directory preparation, rename-to-final, and failure cleanup lifecycle.
+- Direct Reference evidence: `ov5.e()` writes to `<target>.tmp`, creates required parent directories, closes the upload stream, renames the temporary path to the final target via `A()`, and deletes the temporary artifact when upload/finalization fails; `A()` distinguishes file vs folder rename endpoints.
+- F148 is distinct from F20/F41 generic provider/artifact operations because it owns the pCloud-specific temporary-artifact and atomic-finalization boundary.
+- Static-only; no pCloud upload, rename, deletion, filesystem mutation, or provider execution was performed or authorized.
