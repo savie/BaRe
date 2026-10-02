@@ -188,6 +188,10 @@ Reference is read-only. This register is evidence, not implementation approval, 
 | **F165** | CloudServiceId primary/copy identity-file creation, recovery, reconciliation, and integrity lifecycle | `defpackage/eh1.java`, `org.swiftapps.swiftbackup.cloud.protocols.CloudServiceId` | provider-neutral cloud-account identity-file lifecycle | Reference maintains a provider-neutral cloud account identity in `DO_NOT_DELETE_cloud_account_id.json` plus ID-named copy files, reads and validates primary/copy contents, detects name/content mismatches and duplicates, recovers a valid ID from copies when the primary is missing, generates a new `CloudServiceId` when necessary, and recreates/reconciles the primary/copy pair. This is distinct from **F87** credential persistence, **F42** local/cloud backup metadata lifecycle, and provider-specific transfer protocols because it is the cloud-account identity/reconciliation artifact itself. Static-only; no cloud file creation/read/write/delete or provider/backend runtime was executed. |
 | **F166** | Schedule alarm registration / exact-alarm capability / boot rescheduling lifecycle | `AlarmReceiver.java`, `BootReceiver.java`, `defpackage/o37.java` | schedule trigger lifecycle boundary | Reference persists the schedule-enabled state, registers/cancels the next exact alarm with `AlarmManager.setExactAndAllowWhileIdle`, checks exact-alarm capability, enables/disables boot recovery, and on `BOOT_COMPLETED` restores or cancels the alarm according to the persisted schedule state. This is distinct from **F74**, which owns scheduler eligibility and alarm-to-task handoff, and **F122**, which owns persisted ScheduleData aggregate state. Static-only; no alarm, boot, or runtime execution was performed. |
 
+## Reconciliation marker
+
+**F94 — retained duplicate of F69.** Reference evidence: `apptasks/notifications/NotificationPolicyProxy.java` and `notificationPolicyXml` backup/restore lifecycle. F94 is retained as an audit reconciliation marker only; the unique feature-contract unit remains **F69**. No F-ID is deleted or renumbered.
+
 ## Cross-document rule
 
 New finding workflow:
