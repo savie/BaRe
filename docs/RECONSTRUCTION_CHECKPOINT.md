@@ -828,3 +828,20 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - Added **F162** after targeted ZIP inspection of `mq`, `eq`, and `nm6`. Reference builds per-part cloud-restore artifact descriptors and decides whether each artifact can be reused locally or must be downloaded. Existing local copies are reused when present and size-matching; otherwise APK/split/shared-lib and DATA/EXTDATA/MEDIA/EXPANSION paths apply their respective change checks before transfer.
 - F162 is an Apps restore materialization boundary, distinct from provider operations, backup-time change detection, metadata lifecycle, and restore-part selection.
 - No cloud/local transfer execution, build/install/runtime, provider, or backend execution was performed.
+
+
+### P5.2 F01–F11 owner/boundary closure — 2026-10-02
+
+Targeted forensic extraction was completed for the five previously open owner/boundary items:
+
+- **F04** — owner locked to Apps inventory repository `kz4`, with `g00` inventory assembly and `ji` app model.
+- **F05** — owner locked to `r20` batch state/orchestration and `c40` AppsTask execution boundary.
+- **F06** — owner locked to `yc6` quick-action catalog, `zc6` action/capability contract, and `xi0` input/capability projection; execution remains delegated.
+- **F08** — owner locked to `ji` app-data source, `sq` AppInfo projection, and `g00.n()` UID lookup dependency.
+- **F09** — owner locked to `Config`/`ConfigSettings` models, `ConfigsData` persisted collection, and `br1` config repository/persistence boundary; validation remains in the model/repository chain.
+
+Static cross-check against current `rewrite` found no equivalent canonical BaRe owners for these contracts yet; existing Activities remain consumer/placeholder surfaces. No new F-ID, owner collision, or evidence-level UNKNOWN was introduced.
+
+**Batch F01–F11 is now owner/boundary-locked at static-analysis level.** Implementation target projection and downstream execution remain separate work; P5 Gate remains **NOT OPENED**.
+
+No build, install, runtime, device, provider, backend, or engine execution was performed.
