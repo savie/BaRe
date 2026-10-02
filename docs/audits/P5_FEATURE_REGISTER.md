@@ -685,6 +685,21 @@ Direct Reference evidence establishes a concrete configuration-transfer contract
 
 Static-only; no configuration was exported/imported or applied.
 
+### P5.1 Manage-space cleanup / reclaim boundary reconciliation
+
+**P5-F125 — Manage-space inventory projection / reclaim-action routing / backup-artifact cleanup boundary**
+
+Direct Reference evidence establishes that Manage Space is more than a navigation screen:
+
+- `ManageSpaceActivity` builds a storage/backup inventory projection from local backup artifacts and their metadata.
+- The surface distinguishes reclaimable backup-artifact categories and routes delete/cleanup actions through the existing backup metadata/delete orchestration rather than directly mutating arbitrary files.
+- Protected-backup state is respected by the cleanup path, connecting Manage Space to the same revalidation boundary represented by F105.
+- Empty inventory and cleanup-result states are represented independently from the storage-measurement Loading/Error/Success contract of F89.
+- This is distinct from F36's Manage Space feature surface and F89's storage measurement: F125 owns the **inventory-to-reclaim action boundary and cleanup routing**, while F105 remains the protected-delete enforcement owner.
+
+Static-only; no cleanup or file deletion was executed.
+
+
 ### P5.1 Apps search index / result-provider reconciliation
 
 **P5-F124 — Apps search query normalization / index-source projection / result-provider contract**
@@ -751,7 +766,7 @@ Static-only; no root capability check or restore operation was executed.
 
 ### Task-engine reconciliation result
 
-- P5.1 explicit feature-contract units after this pass: **124 unique units**.
+- P5.1 explicit feature-contract units after this pass: **125 unique units**.
 - F75–F76 expose the shared task orchestration/governance spine.
 - F77–F82 expose six concrete task-provider execution boundaries.
 - F83–F85 expose persistence/configuration engine boundaries.
@@ -790,6 +805,7 @@ Static-only; no root capability check or restore operation was executed.
 - F122 exposes ScheduleData aggregate persistence, ordering normalization/mutation, and battery-policy state.
 - F123 exposes Blacklist package predicate persistence and backup-selection exclusion integration.
 - F124 exposes Apps search normalization, searchable-source projection, and result-provider semantics.
+- F125 exposes Manage Space inventory-to-reclaim routing and backup-artifact cleanup boundary.
 - Runtime/provider/backend/filesystem/privileged execution verification remains unclaimed.
 - P5 gate remains **NOT OPENED**.
 
