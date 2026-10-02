@@ -423,3 +423,10 @@ This section is the P5.3 classification layer for the frozen P5.1 feature eviden
 This matrix establishes the implementation scope without reopening P5.1 or P5.2. GAP / PARTIAL means the contract is sufficiently known to scope implementation; it does not claim that implementation has started or that runtime parity exists.
 
 P5.3 exit remains gated on explicit dependency/readiness treatment for the classified gaps. No build/install/runtime/device/provider/backend execution is implied.
+
+
+## P5.3 dependency/readiness closure
+
+The P5.3 dependency/readiness treatment is recorded in docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md. The frozen F01–F171 classification index remains unchanged: 168 GAP / PARTIAL, F31/F168 AUTHORIZED DEVIATION, F94 reconciliation marker, 0 UNKNOWN, 0 UNAUTHORIZED DEVIATION, 0 BLOCKED. P5.3 adds no new F-ID and does not mutate P5.1 evidence.
+
+**P5.3 status: COMPLETE / STATIC CLOSURE. Next: P5.4 Implementation Readiness Checkpoint.**
