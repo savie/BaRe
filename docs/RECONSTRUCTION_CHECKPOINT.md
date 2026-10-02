@@ -549,6 +549,14 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - No cloud transfer/concurrency runtime test, build/install, provider/backend, or privileged execution was performed or authorized.
 
 
+### P5.1 Schedule aggregate persistence reconciliation — 2026-10-02
+
+- Added **F122**: ScheduleData aggregate persistence, schedule-order normalization/mutation, and battery-policy state/eligibility contract.
+- F122 is distinct from F22 generic scheduling and F50 last-run diagnostics.
+- P5.1 explicit unique feature-contract count is now **122**.
+- Static-only; no schedule state was mutated or executed.
+
+
 ### P5.1 Restore-special-permission policy reconciliation — 2026-10-02
 
 - Added **F120**: restore-special-permission policy persistence, root-capability gating, dedicated settings activity, and ConfigSettings override/result boundary.
