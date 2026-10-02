@@ -62,12 +62,16 @@ public final class BlacklistRepository {
         if (data == null) throw new NullPointerException("data");
 
         JSONArray entries = new JSONArray();
-        for (BlacklistApp item : data.getItems()) {
-            JSONObject json = new JSONObject();
-            json.put("name", item.getName());
-            json.put("packageName", item.getPackageName());
-            json.put("blackListType", item.getBlackListType());
-            entries.put(json);
+        try {
+            for (BlacklistApp item : data.getItems()) {
+                JSONObject json = new JSONObject();
+                json.put("name", item.getName());
+                json.put("packageName", item.getPackageName());
+                json.put("blackListType", item.getBlackListType());
+                entries.put(json);
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException("Unable to serialize blacklist data", e);
         }
 
         prefs.edit().putString(PREF_KEY, entries.toString()).apply();
