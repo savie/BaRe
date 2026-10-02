@@ -21,18 +21,52 @@ public final class BaReApp extends Application {
             return;
         }
 
-        create(manager, "backup_restore_channel", "Backup and Restore",
+        create(manager, "backup_restore_channel", getString(R.string.backup_and_restore),
                 NotificationManager.IMPORTANCE_LOW, false, null);
-        create(manager, "normal_channel", "Normal",
+        create(manager, "normal_channel", getString(R.string.normal),
                 NotificationManager.IMPORTANCE_LOW, false, null);
-        create(manager, "task_completion_channel_success", "Task successful",
-                NotificationManager.IMPORTANCE_DEFAULT, true, android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
-        create(manager, "task_completion_channel_error", "Task error",
-                NotificationManager.IMPORTANCE_DEFAULT, true, android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
-        create(manager, "task_completion_channel_silent", "Task completion (No sound)",
+        create(manager, "task_completion_channel_success", getString(R.string.task_successful),
+                NotificationManager.IMPORTANCE_DEFAULT, true,
+                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+        create(manager, "task_completion_channel_error", getString(R.string.task_error),
+                NotificationManager.IMPORTANCE_DEFAULT, true,
+                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+        create(manager, "task_completion_channel_silent", getString(R.string.task_complete_no_sound),
                 NotificationManager.IMPORTANCE_LOW, true, null);
         create(manager, "crash_error_channel", "Crash notification",
-                NotificationManager.IMPORTANCE_DEFAULT, true, android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+                NotificationManager.IMPORTANCE_DEFAULT, true,
+                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+    }
+
+    /**
+     * F90 locale-change consumer. Recreates the Reference-observed channels so
+     * their names resolve from the currently active resources.
+     */
+    public void refreshLocalizedNotificationChannels() {
+        NotificationManager manager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) {
+            return;
+        }
+
+        refresh(manager, "backup_restore_channel", R.string.backup_and_restore);
+        refresh(manager, "normal_channel", R.string.normal);
+        refresh(manager, "task_completion_channel_success", R.string.task_successful);
+        refresh(manager, "task_completion_channel_error", R.string.task_error);
+        refresh(manager, "task_completion_channel_silent", R.string.task_complete_no_sound);
+    }
+
+    private void refresh(NotificationManager manager, String id, int nameRes) {
+        NotificationChannel existing = manager.getNotificationChannel(id);
+        if (existing == null) {
+            return;
+        }
+        NotificationChannel channel = new NotificationChannel(
+                id, getString(nameRes), existing.getImportance());
+        channel.setShowBadge(existing.canShowBadge());
+        channel.enableVibration(existing.shouldVibrate());
+        channel.setSound(existing.getSound(), existing.getAudioAttributes());
+        manager.createNotificationChannel(channel);
     }
 
     private void create(
