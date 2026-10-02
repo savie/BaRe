@@ -411,3 +411,15 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - P5.1 explicit feature-contract count is now **74**.
 - Folder backup model evidence was intentionally not promoted further in this pass because the inspected material did not establish a sufficiently independent consumer/execution boundary beyond existing F47/F12.
 - No implementation/build/install/runtime/provider/backend/privileged execution was performed or authorized.
+
+### P5.1 Task-engine reconciliation — 2026-10-02
+
+- P5.1 remains **ONGOING / NOT YET CLOSED**; P5.2 remains **NOT OPENED**.
+- Direct decompile inspection of the Reference task stack exposed **F75–F82**.
+- F75: shared task-manager/provider registration and sequential execution lifecycle via `hy7` + `pw6`.
+- F76: DataSync foreground-service runtime ledger/quota accounting via `DataSyncFgsRuntimeLedger` + `kc2`.
+- F77–F82: concrete `pw6` task-provider execution boundaries for Apps, Folders, Messages, Calls, Wi-Fi, and Wallpapers.
+- P5.1 explicit feature-contract count is now **82**.
+- These are provider execution boundaries behind the shared task service/manager, **not** six additional Android Services.
+- `Packer`/SevenZip archive handling and `MultiCompressor` metadata were inspected but not duplicated because F41 already owns the artifact format/compression/encryption boundary.
+- No task execution, build/install/runtime/provider/backend/privileged execution was performed or authorized.
