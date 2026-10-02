@@ -808,3 +808,10 @@ A targeted Reference Apps audit showed that several Apps child behaviors needed 
 - Required-version fields in app metadata were observed but not promoted to a new ID without direct evidence of a separate compatibility state machine.
 - P5.1 numbered IDs are now **158**; unique feature-contract units are **157** because F94 remains the duplicate/reconciliation marker.
 - Static-only; no archive/encryption/decryption/restore/native execution was performed or authorized.
+
+### P5.1 Apps restore required-version compatibility + row-action reconciliation — 2026-10-02
+
+- Added **F159** after targeted decompile verification of the previously unresolved restore compatibility boundary. `LocalMetadata`/`CloudMetadata` carry per-artifact required Swift Backup version codes/names; `CloudMetadata` also carries a minimum required version. `nm6.a()` enforces the gate by comparing current Swift Backup version code against the aggregated requirements and blocks restore with an explicit higher-version message. The gate is consumed from both cloud and local Apps restore paths.
+- Added **F160** after targeted decompile verification of the concrete Apps row/swipe action graph. `oy` defines eight actions (`Launch`, `EnableDisable`, `Uninstall`, `ForceStop`, `PlayStore`, `ClearData`, `AppInfo`, `ShareApk`) with stable IDs, presentation metadata, and capability-aware availability. `tr` applies availability to configured primary/secondary swipe actions; `ss` maps the eight actions to their concrete execution paths; `ho6`/`uy` cover persisted selection UI. F160 is distinct from F116 configuration persistence and F06 interactive Quick Actions.
+- P5 numbered feature-contract IDs are now **160**; current register is fully static/evidence-based.
+- No restore/action runtime execution, build/install, provider, privileged runtime, or backend execution was performed.
