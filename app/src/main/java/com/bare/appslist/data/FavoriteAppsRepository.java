@@ -26,22 +26,14 @@ public final class FavoriteAppsRepository {
         cacheFile = new File(directory, CACHE_FILE);
     }
 
-    /**
-     * Loads the local anonymous/cache representation. Authenticated cloud
-     * load/mutation remains a downstream backend boundary.
-     */
     public synchronized Map<String, FavoriteApp> loadLocal() {
         cache.clear();
-        if (!cacheFile.isFile()) {
-            return new LinkedHashMap<>(cache);
-        }
+        if (!cacheFile.isFile()) return new LinkedHashMap<>(cache);
 
         try (FileInputStream input = new FileInputStream(cacheFile)) {
             byte[] bytes = new byte[(int) cacheFile.length()];
             int count = input.read(bytes);
-            if (count <= 0) {
-                return new LinkedHashMap<>(cache);
-            }
+            if (count <= 0) return new LinkedHashMap<>(cache);
 
             JSONArray array = new JSONArray(new String(bytes, 0, count, StandardCharsets.UTF_8));
             for (int i = 0; i < array.length(); i++) {
@@ -62,14 +54,22 @@ public final class FavoriteAppsRepository {
 
     public synchronized Map<String, FavoriteApp> setFavorite(FavoriteApp app) {
         if (app == null) throw new NullPointerException("app");
-
-        if (cache.containsKey(app.getPackageName())) {
-            cache.remove(app.getPackageName());
-        } else {
-            cache.put(app.getPackageName(), app);
-        }
+        if (cache.containsKey(app.getPackageName())) cache.remove(app.getPackageName());
+        else cache.put(app.getPackageName(), app);
         persistLocal();
         return new LinkedHashMap<>(cache);
+    }
+
+    public synchronized void replaceAll(List<FavoriteApp> favorites) {
+        cache.clear();
+        if (favorites != null) {
+            for (FavoriteApp app : favorites) {
+                if (app != null && !app.getPackageName().isEmpty()) {
+                    cache.put(app.getPackageName(), app);
+                }
+            }
+        }
+        persistLocal();
     }
 
     public synchronized List<FavoriteApp> getFavorites() {
@@ -82,9 +82,7 @@ public final class FavoriteAppsRepository {
 
     private void persistLocal() {
         File parent = cacheFile.getParentFile();
-        if (parent != null && !parent.exists() && !parent.mkdirs() && !parent.isDirectory()) {
-            return;
-        }
+        if (parent != null && !parent.exists() && !parent.mkdirs() && !parent.isDirectory()) return;
 
         JSONArray array = new JSONArray();
         for (FavoriteApp app : cache.values()) {
@@ -94,7 +92,6 @@ public final class FavoriteAppsRepository {
                 item.put("name", app.getName());
                 array.put(item);
             } catch (Exception ignored) {
-                // Keep the remaining cache entries serializable.
             }
         }
 
@@ -102,7 +99,6 @@ public final class FavoriteAppsRepository {
             output.write(array.toString().getBytes(StandardCharsets.UTF_8));
             output.flush();
         } catch (Exception ignored) {
-            // Persistence failure must not fabricate cloud success.
         }
     }
 }
