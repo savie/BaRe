@@ -877,3 +877,17 @@ P5.2 remains the current lifecycle boundary; additional feature batches are stil
 - Current BaRe `CloudConnectActivity` is structurally present but hardcodes only 10 provider entries and lacks an equivalent centralized provider catalog/capability contract. Existing `CloudProviderRepository` / `CloudAccessService` is a separate post-connection access-state boundary and is not treated as F19 owner.
 - **Independent new F-ID:** 0. **Owner collision:** 0. **Runtime/provider/backend/build/install:** not performed. **Implementation:** not authorized.
 - **P5.2 remains ACTIVE; P5 Gate remains NOT OPENED.**
+
+
+### P5.2 Authority Reset — 2026-10-02
+
+The P5.2 working document was rebuilt as a concise contract matrix.
+
+- P5.1 remains the frozen Reference evidence register.
+- P5.2 no longer treats F-ID-by-F-ID forensic auditing as the normal workflow.
+- Existing F01–F171 evidence is consumed from P5.1 and consolidated into owner/boundary contracts.
+- The previous F19 checkpoint above is retained as historical evidence only; it is not a new P5.1 discovery pass.
+- No new F-ID was created by the P5.2 authority reset.
+- Implementation remains not authorized; P5 Gate remains not opened.
+
+Next P5.2 work: complete the contract matrix from the frozen P5.1 register, using targeted evidence extraction only where an owner/boundary field is genuinely unsupported.
