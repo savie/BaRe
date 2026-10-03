@@ -51,4 +51,12 @@ public class TaskService extends Service {
         }
     }
 
+    /** F43 result aggregation with cancellation/restart reconciliation. */
+    public static final class ResultAggregator {
+        public static final class Unit { public final boolean success,cancelled,retryable; public Unit(boolean s,boolean c,boolean r){success=s;cancelled=c;retryable=r;} }
+        private final java.util.List<Unit> units=new java.util.ArrayList<>(); private boolean cancel,forceStop,restarted;
+        public void add(Unit u){if(u!=null)units.add(u);} public void requestCancel(){cancel=true;} public void requestForceStop(){forceStop=true;} public void markProcessDeath(){restarted=true;}
+        public String terminal(){int ok=0,fail=0;for(Unit u:units){if(u.success)ok++;else fail++;}if(restarted)return "PROCESS_RESTARTED";if(ok==0&&(cancel||forceStop))return "CANCELLED";if(fail==0)return "COMPLETED";return ok>0?"PARTIAL_FAILURE":"ERROR";}
+    }
+
 }
