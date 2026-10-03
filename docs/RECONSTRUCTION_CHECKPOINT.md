@@ -1429,3 +1429,14 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - No source mutation was required.
 - P5.6 Pass 03: **PASS — cross-batch contract traceability / duplicate-owner regression**.
 - P5.6 remains **ACTIVE**; P5.7 Feature Closure and the P5 Gate remain **NOT OPENED**.
+
+
+### P5.6 Pass 04 — localization debt closure — 2026-10-03
+- Long-standing user-facing hardcoded-string debt previously recorded only as a regression guard was explicitly pulled into the P5.6 exit surface.
+- Closed target surfaces: Settings Contact/About/Messages/Calls/Folders/Labs/Apps, Google Drive sign-in boundary, and App Info formatting.
+- User-facing literals were moved to Android string resources without changing feature owners or execution boundaries.
+- Static verification: no duplicate string resource definitions; affected settings surfaces have no remaining user-facing setText/setTitle/setMessage/setSummary literals; no static getString initializer remains.
+- Empty-string UI clears, URLs, preference keys, provider values, and machine identifiers were intentionally left unchanged.
+- No build/runtime/device/provider/backend execution performed.
+- P5.6 Pass 04: **PASS — localization debt CLOSED**.
+- P5.6 remains **ACTIVE**; P5.7 remains **NOT OPENED** pending remaining regression passes and final P5.6 exit review.
