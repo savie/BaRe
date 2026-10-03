@@ -43,7 +43,7 @@ public final class ApkImportMetadataInspector {
 
     public Result inspect(Context context, File apk) {
         if (context == null || apk == null || !apk.isFile() || apk.length() <= 0) {
-            return Result.error("APK is missing or empty.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_metadata_missing));
         }
 
         PackageManager pm = context.getPackageManager();
@@ -53,7 +53,7 @@ public final class ApkImportMetadataInspector {
         );
         if (info == null || info.applicationInfo == null || info.packageName == null
                 || info.packageName.trim().isEmpty()) {
-            return Result.error("Android could not read APK package metadata.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_metadata_unreadable));
         }
 
         ApplicationInfo appInfo = info.applicationInfo;
