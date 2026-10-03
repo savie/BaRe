@@ -30,7 +30,7 @@ public final class RestoreCompatibility {
         return check(currentVersionCode,Collections.singletonList(SB_VERSION_CODE_REQUIRED));
     }
     /** F93 PackageInstaller session contract; execution is deliberately not invoked in P5.5. */
-    public static final class Installer {
+    public static final class Installer { public static final long RESULT_TIMEOUT_MS=120000L;
         public static final class Entry { public final String archiveName,path; public final long size; public Entry(String n,String p,long s){archiveName=n;path=p;size=Math.max(0,s);} }
         public static final class Session { public final String packageName,installerPackage; public final java.util.List<Entry> entries; public final long totalSize;
             public Session(String p,String i,java.util.List<Entry> e){packageName=p;installerPackage=i;entries=java.util.Collections.unmodifiableList(new java.util.ArrayList<>(e));long n=0;for(Entry x:e)n+=x.size;totalSize=n;}
@@ -38,7 +38,7 @@ public final class RestoreCompatibility {
         public static final class Result { public final int status; public final String message,packageName; public Result(int s,String m,String p){status=s;message=m;packageName=p;} }
         public Session plan(String packageName,String installerPackage,java.util.List<Entry> entries){return new Session(packageName,installerPackage,entries==null?java.util.Collections.emptyList():entries);}
         public boolean verifySource(String expected,String installer,String initiating,String installing){return expected!=null&&expected.equals(installer)&&expected.equals(initiating)&&expected.equals(installing);}
-        public boolean isSuccess(int status){return status==0;}
+        public boolean isSuccess(int status){return status==0;} public boolean timedOut(long elapsedMs){return elapsedMs>=RESULT_TIMEOUT_MS;}
     }
 
 }
