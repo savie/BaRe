@@ -24,6 +24,7 @@ import java.util.List;
 public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
     public static final String EXTRA_RESTORE_SPECIAL_PERMISSIONS = "restore_special_permissions";
     public static final String EXTRA_CONFIG_SETTINGS = "extra_config_settings";
+    public static final String EXTRA_CONFIG_OVERRIDE = "config_restore_special_permissions_override";
 
     private MaterialSwitch permissionsSwitch;
     private boolean restoreSpecialPermissions;
@@ -103,8 +104,8 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
         permissionsSwitch.setChecked(restoreSpecialPermissions);
         permissionsSwitch.setOnCheckedChangeListener((button, checked) -> {
             restoreSpecialPermissions = checked;
-            setResult(RESULT_OK, new Intent()
-                    .putExtra(EXTRA_RESTORE_SPECIAL_PERMISSIONS, checked));
+            setResult(RESULT_OK, new Intent().putExtra(EXTRA_RESTORE_SPECIAL_PERMISSIONS, checked)
+                    .putExtra(EXTRA_CONFIG_OVERRIDE, configSettings != null ? !checked : checked));
         });
 
         findViewById(R.id.container_restore_special_data).setOnClickListener(view -> {
