@@ -182,7 +182,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                     dialog.dismiss();
                     refresh();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
@@ -218,7 +218,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
 
         Preference special = findPreference("restore_special_permissions");
         if (special != null) {
-            special.setSummary(prefs.getBoolean("restore_special_permissions", true) ? "Enabled" : "Disabled");
+            special.setSummary(prefs.getBoolean("restore_special_permissions", true) ? getString(R.string.enabled) : getString(R.string.disabled));
         }
     }
 
