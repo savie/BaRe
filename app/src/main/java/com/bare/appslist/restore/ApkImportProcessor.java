@@ -49,7 +49,7 @@ public final class ApkImportProcessor {
         }
 
         ApkImportArchiveValidator.Result archiveResult =
-                archiveValidator.validate(intakeResult.getFile(), intakeResult.getKind());
+                archiveValidator.validate(context, intakeResult.getFile(), intakeResult.getKind());
         if (!archiveResult.isValid()) {
             delete(taskDirectory);
             return new Result(intakeResult, archiveResult, null,
@@ -57,7 +57,7 @@ public final class ApkImportProcessor {
         }
 
         ApkImportMaterializer.Result materializedResult =
-                materializer.materialize(intakeResult, taskDirectory);
+                materializer.materialize(context, intakeResult, taskDirectory);
         if (!materializedResult.isReady()) {
             delete(taskDirectory);
             return new Result(intakeResult, archiveResult, materializedResult,
