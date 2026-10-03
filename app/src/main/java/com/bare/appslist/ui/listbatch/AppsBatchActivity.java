@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bare.R;
+import com.bare.appslist.data.AppInventoryItem;
+import com.bare.appslist.data.AppInventoryLoader;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -20,6 +22,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * P3 Apps Batch surface reconstructed from the Reference batch screen.
@@ -31,6 +34,9 @@ public final class AppsBatchActivity extends AppCompatActivity {
     private android.os.Parcelable batchActionItem;
     private android.os.Parcelable quickActionItem;
     private boolean replaceExistingLabels = true;
+    private final AppsBatchSelection selection = new AppsBatchSelection();
+    private final ArrayList<AppInventoryItem> inventory = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -51,8 +57,9 @@ public final class AppsBatchActivity extends AppCompatActivity {
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        RecyclerView recyclerView = findViewById(R.id.rv_apps_quick_perform);
-        recyclerView.setAdapter(new EmptySelectionAdapter());
+        recyclerView = findViewById(R.id.rv_apps_quick_perform);
+        recyclerView.setAdapter(new InventorySelectionAdapter());
+        loadInventory();
 
         ExtendedFloatingActionButton actions = findViewById(R.id.btn_actions);
         actions.setOnClickListener(v -> showBatchActions());
@@ -122,12 +129,43 @@ public final class AppsBatchActivity extends AppCompatActivity {
         return true;
     }
 
-    private static final class EmptySelectionAdapter extends RecyclerView.Adapter<EmptySelectionAdapter.Holder> {
+    private void loadInventory() {
+        new Thread(() -> {
+            try {
+                List<AppInventoryItem> loaded = new AppInventoryLoader(this).load();
+                runOnUiThread(() -> {
+                    inventory.clear();
+                    inventory.addAll(loaded);
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                });
+            } catch (RuntimeException ignored) {
+            }
+        }).start();
+    }
+
+    private final class InventorySelectionAdapter extends RecyclerView.Adapter<InventorySelectionAdapter.Holder> {
         @Override public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
-            View v = new View(parent.getContext());
-            v.setLayoutParams(new RecyclerView.LayoutParams(1, 1));
+            TextView v = new TextView(parent.getContext());
+            v.setPadding(32, 24, 32, 24);
             return new Holder(v);
         }
+        @Override public void onBindViewHolder(Holder holder, int position) {
+            AppInventoryItem item = inventory.get(position);
+            boolean selected = selection.contains(item.packageName);
+            holder.view.setText((selected ? "✓ " : "") + item.name + "\n" + item.packageName);
+            holder.view.setOnClickListener(v -> {
+                selection.toggle(item.packageName);
+                notifyItemChanged(position);
+            });
+        }
+        @Override public int getItemCount() { return inventory.size(); }
+        final class Holder extends RecyclerView.ViewHolder {
+            final TextView view;
+            Holder(TextView itemView) { super(itemView); view = itemView; }
+        }
+    }
+
+
         @Override public void onBindViewHolder(Holder holder, int position) {}
         @Override public int getItemCount() { return 0; }
         static final class Holder extends RecyclerView.ViewHolder {
