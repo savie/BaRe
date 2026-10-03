@@ -184,7 +184,7 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
 
     private MultipleBackupStrategy loadStrategy() {
         return MultipleBackupStrategy.fromPreferences(
-                getSharedPreferences("bare_settings", MODE_PRIVATE));
+                getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE));
     }
 
     private void applyStrategy() {
