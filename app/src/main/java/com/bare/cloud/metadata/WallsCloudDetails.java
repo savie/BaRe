@@ -1,11 +1,24 @@
 package com.bare.cloud.metadata;
 
-/** Persisted wallpaper summary; provider artifact data stays outside this model. */
+/** Persisted wallpaper summary; nullable to match the recovered Reference model. */
 public final class WallsCloudDetails {
-    private final int wallsBackupCount;
-    public WallsCloudDetails(int wallsBackupCount) {
-        if (wallsBackupCount < 0) throw new IllegalArgumentException("wallsBackupCount");
+    private Integer wallsBackupCount;
+
+    public WallsCloudDetails() {
+        this(null);
+    }
+
+    public WallsCloudDetails(Integer wallsBackupCount) {
+        if (wallsBackupCount != null && wallsBackupCount < 0) {
+            throw new IllegalArgumentException("wallsBackupCount");
+        }
         this.wallsBackupCount = wallsBackupCount;
     }
-    public int getWallsBackupCount() { return wallsBackupCount; }
+
+    public Integer getWallsBackupCount() { return wallsBackupCount; }
+
+    public void setWallsBackupCount(Integer value) {
+        if (value != null && value < 0) throw new IllegalArgumentException("wallsBackupCount");
+        wallsBackupCount = value;
+    }
 }
