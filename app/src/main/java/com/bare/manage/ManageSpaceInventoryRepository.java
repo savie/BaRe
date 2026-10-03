@@ -15,7 +15,7 @@ import java.util.List;
  * F125 — local Manage Space inventory projection.
  *
  * Reference projects the six local backup-artifact categories from the active
- * Swift Backup storage root. Protection metadata is deliberately not inferred
+ * BaRe storage root. Protection metadata is deliberately not inferred
  * from filenames; until the F105 metadata owner supplies it, protection state
  * remains UNKNOWN and cleanup is not enabled.
  */
