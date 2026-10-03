@@ -1346,3 +1346,14 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Build/install/runtime/provider/backend/device/privileged execution: **NOT PERFORMED**.
 
 **R-B: 🟢 COMPLETE / PRIMARY-ZIP STATIC RE-AUDIT CLOSURE.** Next authorized batch: **R-C** (34 exact F-IDs).
+
+### P5.5 R-C primary ZIP re-audit closure — 2026-10-03
+
+- Re-audited the exact R-C 34 F-ID assignment directly against the canonical Swift Backup 5.1.0 / versionCode 620 decompile ZIP.
+- Primary ZIP targeted evidence: **PASS** across APK import, Folders, Messages, Calls, Conversations/default-handler, Wi-Fi, Wallpapers, retention/restore/compression, domain result/metadata/cache, and schedule-specific preparation surfaces.
+- BaRe bounded R-C contracts are already present; no source mutation was required by this re-audit.
+- Owner/boundary regression: **PASS**; R-D/R-E/R-F ownership leakage: **0**.
+- Reference ZIP mutation: **0**.
+- Build/install/runtime/provider/backend/device/filesystem/privileged/schedule execution: **NOT PERFORMED**.
+
+**R-C: 🟢 COMPLETE / PRIMARY-ZIP STATIC RE-AUDIT CLOSURE.** Next authorized batch: **R-D** (41 exact F-IDs).
