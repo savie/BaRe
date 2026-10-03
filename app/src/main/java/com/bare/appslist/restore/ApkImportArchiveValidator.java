@@ -1,6 +1,8 @@
 package com.bare.appslist.restore;
 
-import android.content.Context;\n\nimport java.io.File;
+import android.content.Context;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashSet;
