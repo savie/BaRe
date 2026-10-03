@@ -41,9 +41,15 @@ public final class AppInventoryRepository {
     public static Measurement measure(Context context,ApplicationInfo app){
         if(context==null||app==null)return new Measurement(null,false,"missing application");
         try{
-            long apk=size(new File(app.sourceDir)), data=size(new File(app.dataDir));
-            long cache=size(new File(app.dataDir==null?"":app.dataDir,"cache"));
-            return new Measurement(new AppSize(apk,0,0,data,cache,0,0,0,0,0,0),true,null);
+            long apk=size(new File(app.sourceDir)),split=0;
+            if(app.splitSourceDirs!=null)for(String p:app.splitSourceDirs)if(p!=null&&!p.isEmpty())split+=size(new File(p));
+            long data=size(new File(app.dataDir)),cache=size(new File(app.dataDir==null?"":app.dataDir,"cache"));
+            java.io.File extRoot=new java.io.File(android.os.Environment.getExternalStorageDirectory(),"Android/data/"+app.packageName);
+            java.io.File mediaRoot=new java.io.File(android.os.Environment.getExternalStorageDirectory(),"Android/media/"+app.packageName);
+            java.io.File obbRoot=new java.io.File(android.os.Environment.getExternalStorageDirectory(),"Android/obb/"+app.packageName);
+            long ext=size(extRoot),extCache=size(new File(extRoot,"cache")),media=size(mediaRoot),obb=size(obbRoot);
+            boolean accessible=(!extRoot.exists()||extRoot.canRead())&&(!mediaRoot.exists()||mediaRoot.canRead())&&(!obbRoot.exists()||obbRoot.canRead());
+            return new Measurement(new AppSize(apk,split,0,data,cache,0,0,ext,extCache,media,obb),accessible,accessible?null:"external app-data path is not readable");
         }catch(Exception e){return new Measurement(null,false,e.getClass().getSimpleName()+": "+String.valueOf(e.getMessage()));}
     }
     private static long size(File f){if(f==null||!f.exists())return 0;if(f.isFile())return Math.max(0,f.length());File[] fs=f.listFiles();if(fs==null)return 0;long n=0;for(File x:fs)n+=size(x);return n;}
