@@ -18,6 +18,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` | P5.2 contract / owner / boundary static-analysis authority | **P5.2 working authority** |
 | `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` | P5.3 gap/dependency/UNKNOWN classification and closure | **P5.3 static-analysis authority** |
 | `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` | P5.4 implementation readiness and batch selection | **P5.4 working authority** |
+| `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` | P5.5 implementation and static re-audit closure | **P5.5 implementation authority** |
+| `docs/audits/P5.6_REAUDIT_REGRESSION.md` | P5.6 post-implementation re-audit and regression | **P5.6 working authority** |
 | `docs/audits/P5_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
