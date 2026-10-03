@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/** F159 required-Swift-Backup-version lifecycle and restore gate. */
+/** F159 required-BaRe-version lifecycle and restore gate. */
 public final class RestoreCompatibility {
     public static final long SB_VERSION_CODE_REQUIRED=580L;
     public static final String SB_VERSION_NAME_REQUIRED="v5.0.0";
