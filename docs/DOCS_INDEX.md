@@ -13,14 +13,12 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/PHASE_4_GATE.md` | Frozen P4 boundary, contract closure, and exit gate | **Single P4 authority** |
 | `docs/audits/P4_CONTRACT_REGISTER.md` | P4 contract evidence and closure register | P4 evidence |
 | `docs/PHASE_5_GUIDE.md` | P5 feature reconstruction method and pre-implementation workflow | **P5 method guide** |
-| `docs/audits/P5_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
-| `docs/audits/P5_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** |
+| `docs/audits/P5.0_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
+| `docs/audits/P5.1_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** | 
+| `docs/audits/P5.1_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` | P5.2 contract / owner / boundary static-analysis authority | **P5.2 working authority** |
 | `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` | P5.3 gap/dependency/UNKNOWN classification and closure | **P5.3 static-analysis authority** |
 | `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` | P5.4 implementation readiness and batch selection | **P5.4 working authority** |
-| `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` | P5.5 implementation and static re-audit closure | **P5.5 implementation authority** |
-| `docs/audits/P5.6_REAUDIT_REGRESSION.md` | P5.6 post-implementation re-audit and regression | **P5.6 working authority** |
-| `docs/audits/P5_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
 | `docs/REFERENCE_AUDIT.md` | Reference artifact inventory/evidence | Reference evidence |
@@ -42,66 +40,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ### Daily work
 
-1. `docs/RECONSTRUCTION_CHECKPOINT.md` — current project position
-2. `docs/PHASE_4_GATE.md` — frozen P4 boundary and closure
-3. `docs/audits/P4_CONTRACT_REGISTER.md` — P4 contract evidence
-4. `docs/PHASE_5_GUIDE.md` — P5 method and pre-implementation rules
-5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry evidence
-6. `docs/audits/P5_FEATURE_REGISTER.md` — P5.1 feature evidence
-7. `docs/RECONSTRUCTION_STATUS.md` — detailed evidence/history
-8. `docs/bare.md` — roadmap/handoff/target definition
-9. Relevant `REFERENCE_*.md` — Reference evidence when needed
-
-### P5 pre-implementation work
-
-1. `docs/bare.md` — canonical P5 scope and target rules
-2. `docs/PHASE_4_GATE.md` — frozen predecessor boundary
-3. `docs/PHASE_5_GUIDE.md` — P5 workflow
-4. Relevant Reference evidence/audits
-5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry result
-6. `docs/audits/P5_FEATURE_REGISTER.md` — P5.1 Reference feature audit
-7. `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` — P5.2 owner/boundary closure
-8. `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` — P5.3 static closure
-9. `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` — active readiness checkpoint
-10. P5.5 implementation authority: `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` — R-A through R-F statically closed
-
-### Daily P3 work
-
-1. `docs/RECONSTRUCTION_CHECKPOINT.md` — where the project is
-2. `docs/PHASE_3_GATE.md` — what P3 currently requires
-3. `docs/RECONSTRUCTION_STATUS.md` — evidence behind the selected task
-4. Relevant `REFERENCE_*.md` — Reference evidence when needed
-5. `docs/PHASE_2_SKELETON.md` — component identity only when needed
-
 ### Gate review
-
-1. `docs/bare.md`
-2. `docs/PHASE_1_INVENTORY.md`
-3. `docs/PHASE_2_SKELETON.md`
-4. `docs/PHASE_3_GATE.md`
-5. `docs/PHASE_4_GATE.md`
-6. `docs/audits/P4_CONTRACT_REGISTER.md`
-7. `docs/PHASE_5_GUIDE.md` — method only; P5 gate is active and P5 remains 🟡 until total implementation
 
 ## Current state
 
 **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5 🟡 ACTIVE for total implementation of all P5.1 feature scope except explicitly authorized P6 deviations.**
-
-For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
-
-For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5/P5.6 implementation and regression evidence, use their respective audit authorities. P5.7 and the P5 Gate retain the recorded static evidence, but P5 remains 🟡 ACTIVE until total implementation of the P5.1 feature scope, except explicitly authorized P6 deviations.
-
-- **P5.6 targeted regression:** passes 01–04 complete; dependency/classification closure PASS.
-- **Current:** continue P5 total implementation against the frozen P5.1 feature register; P5 remains 🟡 ACTIVE.
-### P5.7 Feature Closure
-
-- `docs/audits/P5.7_FEATURE_CLOSURE.md` — P5.7 feature-level static closure authority; 170 unique units, 168 GAP/PARTIAL static closures, F31/F168 authorized deviations, F94 reconciliation marker.
-- P5 Gate is active as a control surface; total P5 implementation remains pending.
-### P5 Gate
-
-- `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **🟡 ACTIVE — TOTAL FEATURE IMPLEMENTATION PENDING**.
-- P5.7 closure authority: `docs/audits/P5.7_FEATURE_CLOSURE.md` — static evidence retained; total P5 closure pending.
-### Phase 6 — Authorized Deviations
-
-- `docs/PHASE_6_GATE.md` — static authorized-deviation reconciliation; branding/Premium/Supabase target policy preserved without speculative backend/runtime execution.
-- Phase 7 Runtime remains permission-gated.
