@@ -169,20 +169,72 @@ public final class ConfigSettings {
     }
     public static final class TransferCodec {
         public String encode(ConfigSettings c){
-            if(c==null)throw new IllegalArgumentException("config");org.json.JSONObject o=new org.json.JSONObject();
-            try{o.put("id",c.id).put("version",c.version).put("appParts",c.appParts).put("locations",c.locations).put("syncOption",c.syncOption)
-                .put("archiveBackup",c.archiveBackup==null?org.json.JSONObject.NULL:c.archiveBackup)
-                .put("restorePermissionsMode",c.restorePermissionsMode).put("restoreSpecialPermissions",c.restoreSpecialPermissions==null?org.json.JSONObject.NULL:c.restoreSpecialPermissions)
-                .put("restoreSsaid",c.restoreSsaid==null?org.json.JSONObject.NULL:c.restoreSsaid).put("compressionLevel",c.compressionLevel==null?org.json.JSONObject.NULL:c.compressionLevel)
-                .put("cacheBackup",c.cacheBackup==null?org.json.JSONObject.NULL:c.cacheBackup).put("isForceRedo",c.isForceRedo==null?org.json.JSONObject.NULL:c.isForceRedo)
-                .put("enabled",c.enabled==null?org.json.JSONObject.NULL:c.enabled);return o.toString();
-            }catch(Exception e){throw new IllegalStateException(e);}
+            if(c==null)throw new IllegalArgumentException("config");
+            org.json.JSONObject o=new org.json.JSONObject();
+            try{
+                o.put("id",c.id).put("version",c.version).put("appParts",c.appParts)
+                 .put("locations",c.locations).put("syncOption",c.syncOption)
+                 .put("applyLabels",c.applyData==null?org.json.JSONObject.NULL:c.applyData.getLabelsRaw())
+                 .put("archiveBackup",c.archiveBackup==null?org.json.JSONObject.NULL:c.archiveBackup)
+                 .put("multipleBackupStrategy",c.multipleBackupStrategy==null?org.json.JSONObject.NULL:c.multipleBackupStrategy.toJson())
+                 .put("restorePermissionsMode",c.restorePermissionsMode)
+                 .put("restoreSpecialPermissions",c.restoreSpecialPermissions==null?org.json.JSONObject.NULL:c.restoreSpecialPermissions)
+                 .put("restoreSsaid",c.restoreSsaid==null?org.json.JSONObject.NULL:c.restoreSsaid)
+                 .put("compressionLevel",c.compressionLevel==null?org.json.JSONObject.NULL:c.compressionLevel)
+                 .put("cacheBackup",c.cacheBackup==null?org.json.JSONObject.NULL:c.cacheBackup)
+                 .put("isForceRedo",c.isForceRedo==null?org.json.JSONObject.NULL:c.isForceRedo)
+                 .put("enabled",c.enabled==null?org.json.JSONObject.NULL:c.enabled);
+                org.json.JSONArray limits=new org.json.JSONArray();
+                if(c.backupLimits!=null) for(AppBackupLimitItem item:c.backupLimits) if(item!=null){
+                    limits.put(new org.json.JSONObject()
+                            .put("part",item.getPart())
+                            .put("localLimitMBs",item.getLocalLimitMBs()==null?org.json.JSONObject.NULL:item.getLocalLimitMBs())
+                            .put("cloudLimitMBs",item.getCloudLimitMBs()==null?org.json.JSONObject.NULL:item.getCloudLimitMBs()));
+                }
+                o.put("backupLimits",limits);
+                return o.toString();
+            }catch(Exception e){throw new IllegalStateException("config serialization failed",e);}
         }
         public ConfigSettings decode(String raw){
-            if(raw==null||raw.trim().isEmpty())return null;try{org.json.JSONObject o=new org.json.JSONObject(raw);String id=o.optString("id","");
-                if(id.isEmpty())return null;return new ConfigSettings(o.optInt("version",1),id,null,o.optString("appParts",null),o.optString("locations",null),o.optString("syncOption",null),null,nullable(o,"archiveBackup"),null,o.optString("restorePermissionsMode",null),nullable(o,"restoreSpecialPermissions"),nullable(o,"restoreSsaid"),nullable(o,"compressionLevel"),nullable(o,"cacheBackup"),nullable(o,"isForceRedo"),nullable(o,"enabled"));
+            if(raw==null||raw.trim().isEmpty())return null;
+            try{
+                org.json.JSONObject o=new org.json.JSONObject(raw);
+                String id=o.optString("id","");
+                if(id.isEmpty())return null;
+                ApplyData applyData=o.isNull("applyLabels")?null:new ApplyData(o.optString("applyLabels",null));
+                MultipleBackupStrategy strategy=null;
+                if(!o.isNull("multipleBackupStrategy")){
+                    org.json.JSONObject s=o.optJSONObject("multipleBackupStrategy");
+                    if(s!=null){
+                        int type=s.optInt("typeInt",0);
+                        int count=s.isNull("maxNumOfBackups")?2:s.optInt("maxNumOfBackups",2);
+                        int condition=s.isNull("conditionInt")?0:s.optInt("conditionInt",0);
+                        if(type==MultipleBackupStrategy.TYPE_DATED_BACKUPS) strategy=MultipleBackupStrategy.datedBackups(count);
+                        else if(type==MultipleBackupStrategy.TYPE_CONDITIONAL_BACKUP) strategy=MultipleBackupStrategy.conditionalBackup(count,condition);
+                        else strategy=MultipleBackupStrategy.singleBackup();
+                    }
+                }
+                List<AppBackupLimitItem> limits=null;
+                org.json.JSONArray array=o.optJSONArray("backupLimits");
+                if(array!=null){
+                    limits=new ArrayList<>();
+                    for(int i=0;i<array.length();i++){
+                        org.json.JSONObject item=array.optJSONObject(i);
+                        if(item==null)continue;
+                        String part=item.optString("part","");
+                        if(part.isEmpty())continue;
+                        limits.add(new AppBackupLimitItem(part,nullableLong(item,"localLimitMBs"),nullableLong(item,"cloudLimitMBs")));
+                    }
+                }
+                return new ConfigSettings(o.optInt("version",1),id,applyData,
+                    o.optString("appParts",null),o.optString("locations",null),o.optString("syncOption",null),
+                    limits,nullable(o,"archiveBackup"),strategy,o.optString("restorePermissionsMode",null),
+                    nullable(o,"restoreSpecialPermissions"),nullable(o,"restoreSsaid"),nullable(o,"compressionLevel"),
+                    nullable(o,"cacheBackup"),nullable(o,"isForceRedo"),nullable(o,"enabled"));
             }catch(Exception e){return null;}
         }
+        private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
+        private Long nullableLong(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optLong(k);}
         private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
         public boolean validate(ConfigSettings c,java.util.Set<String> labelIds){return c!=null&&c.isValid(labelIds);}
     }
