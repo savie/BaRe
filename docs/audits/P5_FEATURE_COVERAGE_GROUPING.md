@@ -2,7 +2,7 @@
 
 ## Status
 
-**P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — COMPLETE / STATIC CLOSURE**
+**P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — 🟢 COMPLETE / STATIC CLOSURE**
 
 Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P5_FEATURE_REGISTER.md\`.
 
