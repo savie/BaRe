@@ -1,0 +1,2 @@
+package com.bare.messagescalls.advanced;
+public final class MmsRcsPolicy {public static final String KEY_BACKUP_MMS="backup_mms";private final boolean backupMms,providerAvailable;public MmsRcsPolicy(boolean e,boolean p){backupMms=e;providerAvailable=p;}public boolean canProcess(){return backupMms&&providerAvailable;}public boolean skipWhenUnavailable(){return backupMms&&!providerAvailable;}public boolean isBackupMms(){return backupMms;}public boolean isProviderAvailable(){return providerAvailable;}}
