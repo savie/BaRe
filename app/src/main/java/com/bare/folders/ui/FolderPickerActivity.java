@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import defpackage.q63;
+import com.bare.folders.data.FolderSelection;
 
 public final class FolderPickerActivity extends AppCompatActivity {
     private static final String EXTRA_INITIAL_FOLDER = "extra_initial_folder";
@@ -71,8 +71,8 @@ public final class FolderPickerActivity extends AppCompatActivity {
             currentFolder = new File(state.getString("current_folder"));
         } else {
             Object extra = getIntent().getSerializableExtra(EXTRA_INITIAL_FOLDER);
-            if (extra instanceof q63) {
-                currentFolder = new File(((q63) extra).v());
+            if (extra instanceof FolderSelection) {
+                currentFolder = new File(((FolderSelection) extra).path());
             } else if (extra instanceof String) {
                 currentFolder = new File((String) extra);
             } else {
@@ -112,7 +112,7 @@ public final class FolderPickerActivity extends AppCompatActivity {
     }
 
     private void selectCurrentFolder() {
-        q63 selected = new q63(currentFolder.getAbsolutePath(), 1);
+        FolderSelection selected = new FolderSelection(currentFolder.getAbsolutePath());
         Intent result = new Intent();
         result.putExtra(EXTRA_SELECTED_FOLDER, selected);
         result.putExtra(EXTRA_SELECTED_FOLDER_PATH, currentFolder.getAbsolutePath());
