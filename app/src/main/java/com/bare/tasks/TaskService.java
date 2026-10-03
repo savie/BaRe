@@ -29,10 +29,13 @@ public class TaskService extends Service {
         public static final String DIR_NAME="app_tasks";
         public enum Access { INTERNAL, EXTERNAL, SHIZUKU }
         public static final class Result { public final java.io.File directory; public final Access access; public final boolean created; public final String error; Result(java.io.File d,Access a,boolean c,String e){directory=d;access=a;created=c;error=e;} }
-        public Result open(java.io.File base,long taskId,boolean shizukuAvailable){
-            if(base==null)return new Result(null,Access.INTERNAL,false,"missing base");
+        public Result open(java.io.File base,long taskId,boolean shizukuAvailable){return open(base,null,taskId,shizukuAvailable);}
+        public Result open(java.io.File internalBase,java.io.File externalBase,long taskId,boolean shizukuAvailable){
+            if(internalBase==null&&externalBase==null)return new Result(null,Access.INTERNAL,false,"missing base");
+            java.io.File base=externalBase!=null?externalBase:internalBase;
+            Access access=externalBase!=null?Access.EXTERNAL:Access.INTERNAL;
             java.io.File normal=new java.io.File(base,DIR_NAME+java.io.File.separator+taskId);
-            try{if(!normal.exists()&&!normal.mkdirs())return new Result(null,Access.INTERNAL,false,"workspace creation failed");return new Result(normal,Access.INTERNAL,true,null);}
+            try{if(!normal.exists()&&!normal.mkdirs())return new Result(null,Access.INTERNAL,false,"workspace creation failed");return new Result(normal,access,true,null);}
             catch(SecurityException e){if(shizukuAvailable)return new Result(normal,Access.SHIZUKU,false,e.getMessage());return new Result(null,Access.INTERNAL,false,e.getMessage());}
         }
         public boolean cleanup(java.io.File root){if(root==null||!root.exists())return true;java.io.File[] fs=root.listFiles();if(fs!=null)for(java.io.File f:fs)delete(f);return !root.exists();}
