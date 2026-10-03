@@ -1,0 +1,2 @@
+package com.bare.messagescalls.defaulthandler;
+public final class SmsDefaultHandlerContract {public enum State{DEFAULT_HANDLER,NOT_DEFAULT_HANDLER,ROLE_UNAVAILABLE}public static State resolve(boolean available,boolean isDefault){if(!available)return State.ROLE_UNAVAILABLE;return isDefault?State.DEFAULT_HANDLER:State.NOT_DEFAULT_HANDLER;}public static boolean canReceiveSms(boolean isDefault){return isDefault;}}
