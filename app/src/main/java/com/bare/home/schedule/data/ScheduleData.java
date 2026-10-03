@@ -21,7 +21,7 @@ public final class ScheduleData {
     public final List<String> wallsSchedules = new ArrayList<>();
     public final List<String> wifiSchedules = new ArrayList<>();
     public final List<String> foldersSchedules = new ArrayList<>();
-    public final List<Integer> scheduleOrderIds = new ArrayList<>();
+    public final List<String> scheduleOrderIds = new ArrayList<>();
 
     /** Legacy/reference order: app config, labels, quick actions, messages, calls, walls, wifi, folders. */
     public List<String> legacyOrder() {
@@ -44,7 +44,79 @@ public final class ScheduleData {
         }
     }
 
-    public List<Integer> getScheduleOrderIds() {
+    public List<String> getScheduleOrderIds() {
         return Collections.unmodifiableList(scheduleOrderIds);
     }
 }
+
+
+    public ScheduleData withScheduleAppended(String scheduleId) {
+        ScheduleData copy = copy();
+        if (scheduleId != null && !scheduleId.isEmpty() && !copy.scheduleOrderIds.contains(scheduleId)) {
+            copy.scheduleOrderIds.add(scheduleId);
+        }
+        return copy;
+    }
+
+    public ScheduleData withScheduleDeleted(String scheduleId) {
+        ScheduleData copy = copy();
+        copy.scheduleOrderIds.remove(scheduleId);
+        return copy;
+    }
+
+    public ScheduleData withScheduleMoved(String scheduleId, int targetIndex) {
+        ScheduleData copy = copy();
+        int current = copy.scheduleOrderIds.indexOf(scheduleId);
+        if (current < 0) return copy;
+        copy.scheduleOrderIds.remove(current);
+        int bounded = Math.max(0, Math.min(targetIndex, copy.scheduleOrderIds.size()));
+        copy.scheduleOrderIds.add(bounded, scheduleId);
+        return copy;
+    }
+
+    public ScheduleData withNormalizedScheduleOrder() {
+        ScheduleData copy = copy();
+        ArrayList<String> valid = new ArrayList<>();
+        appendUnique(valid, copy.appConfigSchedules);
+        appendUnique(valid, copy.appsLabelSchedules);
+        appendUnique(valid, copy.appsQuickActionSchedules);
+        appendUnique(valid, copy.messagesSchedules);
+        appendUnique(valid, copy.callLogsSchedules);
+        appendUnique(valid, copy.wallsSchedules);
+        appendUnique(valid, copy.wifiSchedules);
+        appendUnique(valid, copy.foldersSchedules);
+        ArrayList<String> normalized = new ArrayList<>();
+        for (String id : copy.scheduleOrderIds) {
+            if (valid.contains(id) && !normalized.contains(id)) normalized.add(id);
+        }
+        for (String id : valid) if (!normalized.contains(id)) normalized.add(id);
+        copy.scheduleOrderIds.clear();
+        copy.scheduleOrderIds.addAll(normalized);
+        return copy;
+    }
+
+    public ScheduleData copy() {
+        ScheduleData copy = new ScheduleData();
+        copy.startHour = startHour;
+        copy.startMinute = startMinute;
+        copy.batteryRequirement = batteryRequirement;
+        copy.batteryPercentRequirement = batteryPercentRequirement;
+        copy.appsQuickActionSchedules.addAll(appsQuickActionSchedules);
+        copy.appsLabelSchedules.addAll(appsLabelSchedules);
+        copy.appConfigSchedules.addAll(appConfigSchedules);
+        copy.messagesSchedules.addAll(messagesSchedules);
+        copy.callLogsSchedules.addAll(callLogsSchedules);
+        copy.wallsSchedules.addAll(wallsSchedules);
+        copy.wifiSchedules.addAll(wifiSchedules);
+        copy.foldersSchedules.addAll(foldersSchedules);
+        copy.scheduleOrderIds.addAll(scheduleOrderIds);
+        return copy;
+    }
+
+    private static void appendUnique(List<String> target, List<String> source) {
+        for (String id : source) {
+            if (id != null && !id.isEmpty() && !target.contains(id) && target.size() < 20) {
+                target.add(id);
+            }
+        }
+    }
