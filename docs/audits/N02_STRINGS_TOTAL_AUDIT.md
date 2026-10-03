@@ -6,7 +6,7 @@
 - Repository: `savie/BaRe`
 - Branch: `rewrite`
 - Reference strings SHA: `b21e2bf1b1bb620570cddd1371cefeffb8a1a104`
-- BaRe strings SHA: `1ae9e0a2fa93c189a897f2aa4f6fd60b7bf50e6f`
+- BaRe strings SHA: `f2c5e261f57fac28abc96c86a802be1549f02824`
 - Runtime/build/install: **not executed**
 - Reference mutation: **none**
 
@@ -17,7 +17,7 @@
 | Measure | Audit result |
 |---|---:|
 | Reference string definitions | 1384 |
-| BaRe unique string names | 621 |
+| BaRe unique string names | 644 |
 | Reference names absent from BaRe after implementation | 948 |
 | BaRe names not present in Reference base file | 185 |
 | Reference P3 Activity-linked register | 260 |
@@ -314,6 +314,12 @@ Reference values containing “Swift Backup” on the implemented P3 strings wer
 - Applied the four N-11 identity mappings above; two mapped names already existed (`barelogger`, `barelogger_info`).
 - Did not copy dependency/library-only resource names as app-owned strings.
 - Commit: `705415217504828518ab733775a3b82be70dd3de`.
+
+### P6.3 restore/app import localization refinement
+
+- Added 23 BaRe-owned localized error/status strings for the app import and restore working-directory implementation.
+- Rewired the affected Java code to resolve user-facing messages through `R.string` instead of hardcoded text.
+- No Reference string was modified.
 
 ### Batch 02 — duplicate-definition cleanup
 
