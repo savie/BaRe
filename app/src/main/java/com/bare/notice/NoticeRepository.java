@@ -3,7 +3,6 @@ package com.bare.notice;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public final class NoticeRepository {
@@ -35,7 +34,6 @@ public final class NoticeRepository {
             }
         }
 
-        result.sort(Comparator.comparingInt(item -> priorityOrder(item.priority)));
         return result;
     }
 
@@ -49,9 +47,4 @@ public final class NoticeRepository {
         }
     }
 
-    private static int priorityOrder(NoticeItem.Priority priority) {
-        if (priority == NoticeItem.Priority.HIGH) return 0;
-        if (priority == NoticeItem.Priority.NORMAL) return 1;
-        return 2;
-    }
 }
