@@ -39,12 +39,12 @@ public final class ManageSpaceInventoryRepository {
                 "backups");
 
         List<ManageSpaceReclaimItem> result = new ArrayList<>();
-        add(result, "apps", "Apps", new File(backupRoot, "apps/local"));
-        add(result, "messages", "Messages", new File(backupRoot, "sms/local"));
-        add(result, "calls", "Calls", new File(backupRoot, "calls/local"));
-        add(result, "folders", "Folders", new File(backupRoot, "folders/local"));
-        add(result, "wallpapers", "Wallpapers", new File(backupRoot, "walls/local"));
-        add(result, "wifi", "Wi-Fi", new File(backupRoot, "wifi/local"));
+        add(result, "apps", context.getString(com.bare.R.string.apps), new File(backupRoot, "apps/local"));
+        add(result, "messages", context.getString(com.bare.R.string.messages), new File(backupRoot, "sms/local"));
+        add(result, "calls", context.getString(com.bare.R.string.calls), new File(backupRoot, "calls/local"));
+        add(result, "folders", context.getString(com.bare.R.string.folders), new File(backupRoot, "folders/local"));
+        add(result, "wallpapers", context.getString(com.bare.R.string.wallpapers), new File(backupRoot, "walls/local"));
+        add(result, "wifi", context.getString(com.bare.R.string.wifi), new File(backupRoot, "wifi/local"));
         return result;
     }
 
