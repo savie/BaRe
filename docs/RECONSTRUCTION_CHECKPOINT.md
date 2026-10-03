@@ -1406,3 +1406,15 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Current P5.6 source diff from R-F is bounded to FolderSelection, FolderPickerActivity migration, q63 removal, and the P5.6 audit record.
 - P5.6 Pass 01: **PASS — targeted whole-P5 static re-audit/regression**.
 - P5.6 remains **ACTIVE**; P5.7 Feature Closure and the P5 Gate remain **NOT OPENED**.
+
+
+### P5.6 Pass 02 — target identity regression correction — 2026-10-03
+- Reconciled Pass 01 against the frozen N-11 target identity authority.
+- Found seven target-app files that had residual `Swift/swift` identity after the Pass 01 checkpoint.
+- Corrected only the identified target-owned identity surfaces: BaRe terminology in comments, `bare-db` local database filename, `BaRe` storage-root directory, and BaRe naming/filename for the F86 metadata contract.
+- Primary ZIP was rechecked directly and still remains the evidence source for the original Reference values `SwiftBackup`, `swiftbackup-db`, and `meta.swiftbackup_v1.json`; the target substitutions are authorized identity deviations, not claims about Reference behavior.
+- Post-correction fetch of all seven affected files from branch `rewrite`: no `Swift/swift/Firebase/firebase` text remains in those affected files.
+- Compare from Pass 01 checkpoint `d2d784060a36a9cb5c22eddf324d572591b57669` is bounded to exactly seven app files plus the P5.6 audit/checkpoint documentation updates.
+- No provider/backend/native/runtime/device execution was performed; Reference ZIP remains unchanged.
+- P5.6 Pass 02: **PASS — target identity regression corrected**.
+- P5.6 remains **ACTIVE**; P5.7 Feature Closure and the P5 Gate remain **NOT OPENED**.
