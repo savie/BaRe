@@ -1218,3 +1218,13 @@ P5.7 closure review opened against the frozen P5.1–P5.6 authorities.
 - **P5.7 decision: PASS — STATIC FEATURE CLOSURE.**
 - This does not claim runtime/device/provider/backend/native archive/filesystem/privileged parity.
 - Next lifecycle/control-plane action: explicit P5 Gate review.
+## P5 Gate — 2026-10-03
+
+P5.7 passed feature closure and the explicit P5 Gate is now closed at the static feature reconstruction boundary.
+
+- P5.1–P5.7: PASS at documented static boundaries.
+- 170 unique feature-contract units; 168 GAP/PARTIAL static closures; F31/F168 authorized deviations; F94 reconciliation marker.
+- UNKNOWN = 0; BLOCKED = 0; UNAUTHORIZED DEVIATION = 0.
+- No runtime/device/provider/backend/build/install/native archive/filesystem/privileged execution was performed or claimed.
+- **P5: COMPLETE — STATIC FEATURE RECONSTRUCTION CLOSURE.**
+- Remaining execution work belongs to later authorized lifecycle boundaries.
