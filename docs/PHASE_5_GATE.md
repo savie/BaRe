@@ -2,22 +2,22 @@
 
 ## Status
 
-**P5 GATE — PASS / STATIC FEATURE RECONSTRUCTION CLOSURE**
+**P5 GATE — 🟡 ACTIVE / TOTAL FEATURE IMPLEMENTATION PENDING**
 
-This gate is the explicit P5 decision surface. It consumes the frozen P5 method and the completed P5.1–P5.7 authorities. It does not authorize runtime, provider, backend, device, privileged, filesystem, scheduler, PackageInstaller, or native archive/crypto execution.
+This gate is the explicit P5 decision surface. It consumes the frozen P5 method and the P5.1–P5.7 authorities. Static contract/implementation evidence already recorded by P5.5/P5.6 is retained; it is not treated as total P5 completion. All P5.1 feature requirements remain active P5 work except explicitly authorized P6 deviations.
 
 ## Entry evidence
 
 | Control | Result |
 |---|---|
 | P5.0 scope | PASS / frozen |
-| P5.1 Reference feature evidence | PASS / static closure |
-| P5.2 owner / contract / boundary | PASS / static closure |
-| P5.3 dependency / classification | PASS / static closure |
-| P5.4 implementation readiness | PASS / static closure |
-| P5.5 R-A → R-F implementation | PASS / 168/168 static closure |
+| P5.1 Reference feature evidence | PASS / frozen evidence; implementation scope remains active |
+| P5.2 owner / contract / boundary | PASS / static closure; implementation scope remains active |
+| P5.3 dependency / classification | PASS / static closure; implementation scope remains active |
+| P5.4 implementation readiness | PASS / static closure; implementation scope remains active |
+| P5.5 R-A → R-F implementation | PASS / 168/168 bounded static implementation; not total P5 closure |
 | P5.6 re-audit / regression | PASS / passes 01–04 |
-| P5.7 feature closure | PASS / static feature closure |
+| P5.7 feature closure | 🟡 ACTIVE / total implementation pending |
 | P4 frozen boundary | PRESERVED |
 | Reference mutation | 0 |
 | Owner collision | 0 |
@@ -43,25 +43,25 @@ This gate is the explicit P5 decision surface. It consumes the frozen P5 method 
 PASS. Every registered feature-contract unit has frozen Reference evidence and a P5.2 owner/boundary record.
 
 ### Contract → implementation
-PASS at the authorized static implementation boundary. All 168 GAP/PARTIAL units were assigned to R-A through R-F and statically closed.
+PASS at the recorded bounded static implementation boundary. All 168 GAP/PARTIAL units were assigned to R-A through R-F and have retained implementation evidence, but the P5.1 feature requirements are not thereby promoted to final completion.
 
 ### Implementation → regression
 PASS. P5.6 passes 01–04 found no owner collision, frozen P4 mutation, later-batch absorption, unauthorized runtime execution, or dependency/classification inconsistency.
 
 ### Feature closure
-PASS. P5.7 recorded the required evidence, contract, owner, consumers, regression result, remaining downstream work, final classification, and verification limitation.
+🟡 ACTIVE. P5.7 recorded the evidence, contract, owner, consumers, regression result, remaining work, classification, and verification limitation. Final P5 closure remains pending total implementation of the P5.1 feature scope.
 
 ## Final P5 classification
 
 | Classification | Count | Gate treatment |
 |---|---:|---|
-| GAP / PARTIAL | 168 | **STATICALLY CLOSED at P5 contract/implementation boundary; downstream execution remains deferred** |
+| GAP / PARTIAL | 168 | **🟡 ACTIVE — P5 implementation remains required; bounded static work is retained** |
 | AUTHORIZED DEVIATION | 2 | **CLOSED / TARGET POLICY** |
 | UNKNOWN | 0 | No unresolved evidence unknown |
 | BLOCKED | 0 | No P5 blocker |
 | UNAUTHORIZED DEVIATION | 0 | None |
 
-The GAP/PARTIAL label is retained because P5 static contract/implementation closure is not equivalent to full runtime feature parity. Closure records completion of this lifecycle boundary without falsifying downstream execution status.
+The GAP/PARTIAL label remains the active P5 state. The recorded static contract/implementation evidence is retained, but it is not final feature completion. Known P5.1 requirements remain in P5 until implemented, except explicitly authorized P6 deviations.
 
 ## Explicitly outside this gate
 
@@ -82,9 +82,9 @@ These are known boundary limitations, not evidence UNKNOWNs.
 
 ## Decision
 
-**PASS — P5 STATIC FEATURE RECONSTRUCTION CLOSURE**
+**🟡 ACTIVE — P5 TOTAL FEATURE IMPLEMENTATION NOT CLOSED**
 
-P5 is closed at the documented static feature reconstruction boundary.
+P5 remains open. The static work already completed is retained, while every P5.1 result remains active P5 implementation scope except explicitly authorized P6 deviations.
 
 This decision does not claim:
 - application build success;
@@ -99,9 +99,7 @@ This decision does not claim:
 
 ## Next lifecycle
 
-P5 is complete at this static gate.
-
-Any remaining execution work must enter the appropriate later lifecycle boundary with explicit authorization and fresh evidence. Do not reopen P5 merely to perform downstream runtime/provider/backend/device work.
+Continue P5 implementation against the frozen P5.1 feature register and its established owner/boundary/classification records. Do not treat known P5.1 requirements as completed merely because a static contract or implementation boundary exists. P6-authorized deviations remain excluded from the P5 completion target.
 
 ## Authority chain
 
