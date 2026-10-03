@@ -11,12 +11,12 @@ public final class GmsSignInActivity extends AppCompatActivity {
  @Override protected void onCreate(@Nullable Bundle state){
   super.onCreate(state);
   setContentView(R.layout.cloud_provider_signin_boundary);
-  ((android.widget.TextView)findViewById(R.id.tv_title)).setText("Google Drive");
+  ((android.widget.TextView)findViewById(R.id.tv_title)).setText(R.string.google_drive);
   findViewById(R.id.btn_authenticate).setOnClickListener(v -> confirmAuth());
  }
  private void confirmAuth(){
   new MaterialAlertDialogBuilder(this)
-   .setTitle("Google Drive")
+   .setTitle(R.string.google_drive)
    .setMessage(R.string.p3_google_stub)
    .setNegativeButton(R.string.close, null)
    .show();
