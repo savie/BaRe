@@ -47,8 +47,12 @@ public final class AppBackupLimitsActivity extends AppCompatActivity {
             }
         }
 
+        if(state==null && getIntent().getParcelableArrayListExtra(EXTRA_LIMITS)==null) initial=loadPersisted(initial);
         bindInitial(initial);
     }
+
+    private ArrayList<AppBackupLimitItem> loadPersisted(ArrayList<AppBackupLimitItem> defaults){ java.util.ArrayList<AppBackupLimitItem> out=new java.util.ArrayList<>(); android.content.SharedPreferences p=getSharedPreferences("settings",MODE_PRIVATE); for(AppBackupLimitItem d:defaults){String raw=p.getString(d.getPart(),null);if(raw==null){out.add(d);continue;}try{org.json.JSONObject o=new org.json.JSONObject(raw);Long l=o.isNull("localLimitMBs")?null:o.optLong("localLimitMBs");Long cl=o.isNull("cloudLimitMBs")?null:o.optLong("cloudLimitMBs");out.add(new AppBackupLimitItem(d.getPart(),l,cl));}catch(Exception e){out.add(d);}} return out; }
+    private void persist(){android.content.SharedPreferences.Editor e=getSharedPreferences("settings",MODE_PRIVATE).edit();for(AppBackupLimitItem x:limits.values()){try{if(x.isValid()&&x.hasLimits())e.putString(x.getPart(),new org.json.JSONObject().put("localLimitMBs",x.getLocalLimitMBs()==null?org.json.JSONObject.NULL:x.getLocalLimitMBs()).put("cloudLimitMBs",x.getCloudLimitMBs()==null?org.json.JSONObject.NULL:x.getCloudLimitMBs()).toString());else e.remove(x.getPart());}catch(Exception ignored){}}e.apply();}
 
     private void bindInitial(ArrayList<AppBackupLimitItem> initial) {
         limits.clear();
@@ -146,6 +150,7 @@ public final class AppBackupLimitsActivity extends AppCompatActivity {
     }
 
     private void returnLimits() {
+        persist();
         Intent result = new Intent(this, AppBackupLimitsActivity.class);
         result.putParcelableArrayListExtra(EXTRA_LIMITS, currentItems());
         setResult(RESULT_OK, result);
