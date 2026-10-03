@@ -18,6 +18,8 @@ import java.util.List;
 
 public final class SLogActivity extends AppCompatActivity {
     private LogAdapter adapter;
+    private SLogRepository repository;
+    private SLogRepository.Observer observer;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -37,6 +39,16 @@ public final class SLogActivity extends AppCompatActivity {
         adapter = new LogAdapter();
         logs.setAdapter(adapter);
 
+        repository = new SLogRepository(this);
+        observer = entries -> {
+            List<String> rendered = new ArrayList<>();
+            for (SLogEntry entry : entries) {
+                rendered.add(entry.title + ": " + entry.message);
+            }
+            renderLogs(rendered);
+        };
+        repository.observeAfter(0L, observer);
+
         findViewById(R.id.btn_send_slogs).setOnClickListener(v ->
                 new MaterialAlertDialogBuilder(this)
                         .setTitle(R.string.share_logs)
@@ -53,6 +65,14 @@ public final class SLogActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        if (repository != null && observer != null) {
+            repository.removeObserver(observer);
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_slog, menu);
         return true;
@@ -64,7 +84,8 @@ public final class SLogActivity extends AppCompatActivity {
             new MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.clear_logs)
                     .setMessage(R.string.sure_to_proceed)
-                    .setPositiveButton(R.string.close, null)
+                    .setPositiveButton(R.string.close, (dialog, which) -> repository.clearAll())
+                    .setNegativeButton(R.string.close, null)
                     .show();
             return true;
         }
