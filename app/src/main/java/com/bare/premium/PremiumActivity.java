@@ -74,7 +74,9 @@ public final class PremiumActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_purchase).setOnClickListener(v -> {
             if (selectedPlanId == null) {
-                showBoundary(getString(R.string.select_premium_plan), false);
+                showBoundary(getString(R.string.premium_free_access_granted), false);
+            } else if (PremiumAccessPolicy.isGranted()) {
+                showBoundary(getString(R.string.premium_free_access_granted), false);
             } else {
                 showBoundary(getString(R.string.premium_purchase_boundary), false);
             }
@@ -91,6 +93,7 @@ public final class PremiumActivity extends AppCompatActivity {
             selected.setText(R.string.premium_plan_yearly);
         }
         findViewById(R.id.btn_purchase).setVisibility(android.view.View.VISIBLE);
+        findViewById(R.id.btn_purchase).setContentDescription(getString(R.string.premium_free_access_granted));
     }
 
     private void showBoundary(String message, boolean closeActivity) {
@@ -104,7 +107,7 @@ public final class PremiumActivity extends AppCompatActivity {
     }
 
     private void restorePurchases() {
-        showBoundary(getString(R.string.premium_restore_boundary), false);
+        showBoundary(getString(R.string.premium_free_access_granted), false);
     }
 
     private void openAlreadyPaid() {
