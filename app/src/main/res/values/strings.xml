@@ -679,4 +679,5 @@ Unable to read package information: %2$s</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="terms_of_service">Terms of service</string>
     <string name="notices">Notices</string>
+    <string name="storage_volume_unavailable">Unavailable</string>
 </resources>
