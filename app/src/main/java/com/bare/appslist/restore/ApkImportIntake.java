@@ -48,16 +48,16 @@ public final class ApkImportIntake {
 
     public Result stage(Context context, Uri source, File taskDirectory) {
         if (context == null || source == null || taskDirectory == null) {
-            return Result.error("Missing APK import input.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_missing_input));
         }
         if (!taskDirectory.exists() && !taskDirectory.mkdirs()) {
-            return Result.error("Unable to create APK import directory.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_directory_error));
         }
 
         String name = displayName(context.getContentResolver(), source);
         Kind kind = classify(context.getContentResolver(), source, name);
         if (kind == null) {
-            return Result.error("Unsupported APK file.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_unsupported_file));
         }
 
         File target = new File(taskDirectory, kind == Kind.SINGLE_APK ? "base.apk" : "package.apks");
@@ -65,12 +65,12 @@ public final class ApkImportIntake {
             copy(context.getContentResolver(), source, target);
             if (!target.isFile() || target.length() <= 0) {
                 delete(target);
-                return Result.error("APK import is empty.");
+                return Result.error(context.getString(com.bare.R.string.apk_import_empty));
             }
             return Result.ready(kind, target, name);
         } catch (IOException | SecurityException e) {
             delete(target);
-            return Result.error(e.getMessage() == null ? "Unable to read APK file." : e.getMessage());
+            return Result.error(context.getString(com.bare.R.string.apk_import_read_error));
         }
     }
 
@@ -104,7 +104,7 @@ public final class ApkImportIntake {
 
     private void copy(ContentResolver resolver, Uri source, File target) throws IOException {
         InputStream input = resolver.openInputStream(source);
-        if (input == null) throw new IOException("Unable to open APK file.");
+        if (input == null) throw new IOException();
         try (InputStream in = input; FileOutputStream out = new FileOutputStream(target, false)) {
             byte[] buffer = new byte[64 * 1024];
             int read;
