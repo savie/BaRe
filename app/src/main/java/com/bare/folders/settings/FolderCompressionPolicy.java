@@ -1,1 +1,2 @@
-package com.bare.folders.settings; public final class FolderCompressionPolicy { private final int level; public FolderCompressionPolicy(int level){this.level=Math.max(0,Math.min(9,level));} public int getLevel(){return level;} }
+package com.bare.folders.settings;
+public final class FolderCompressionPolicy {public static final String KEY="compression_level_folders";public final int level;public FolderCompressionPolicy(int l){level=l;}public static FolderCompressionPolicy resolve(int stored,int def,int min,int max){return new FolderCompressionPolicy(stored<min||stored>max?def:stored);}}
