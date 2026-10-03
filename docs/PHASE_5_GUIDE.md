@@ -45,7 +45,7 @@ This document is the **P5 method/guide**. Current P5.5 implementation status is 
 
 It is not the P5 gate and does not by itself close P5. The current P5 state remains 🟡 ACTIVE until total implementation of the P5.1 feature scope, except explicitly authorized P6 deviations.
 
-`docs/PHASE_5_GATE.md` is the decision surface for P5 status. The gate is currently active as a control surface, but it does not close P5 until the total P5.1 feature scope is implemented, except explicitly authorized P6 deviations.
+`docs/PHASE_5_GATE.md` is the decision surface for P5 status. The gate is currently active as a control surface; P5.0–P5.4 are closed at their respective static scope/evidence/contract/classification/readiness boundaries, while total P5 remains 🟡 ACTIVE until the P5.1 implementation scope is actually completed, except explicitly authorized P6 deviations.
 
 ## P5 workflow
 
@@ -353,6 +353,6 @@ P5 closure requires feature-level evidence, reconstruction, regression/re-audit,
 
 ## Current P5 status
 
-**GUIDE PREPARED — P5 IMPLEMENTATION NOT AUTHORIZED BY THIS DOCUMENT.**
+**GUIDE ACTIVE — P5 🟡 ACTIVE / P5.0–P5.4 STATIC CONTROL-PLANE CLOSED.**
 
-The guide establishes the method. The current control-plane step is P5.2 contract/owner/boundary static analysis; the P5 gate remains unopened until its entry evidence and scope are explicitly governed.
+The guide establishes the method. P5.0 scope, P5.1 evidence/coverage, P5.2 contract/owner/boundary, P5.3 classification, and P5.4 readiness are closed at their documented static boundaries. P5 implementation proceeds from the exact P5.4 batch assignments; total P5 remains 🟡 ACTIVE until all non-P6 P5.1 implementation scope is actually completed.
