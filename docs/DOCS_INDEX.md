@@ -14,11 +14,12 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/audits/P4_CONTRACT_REGISTER.md` | P4 contract evidence and closure register | P4 evidence |
 | `docs/PHASE_5_GUIDE.md` | P5 feature reconstruction method and pre-implementation workflow | **P5 method guide** |
 | `docs/audits/P5.0_SCOPE_AUDIT.md` | P5.0 evidence-backed feature universe and entry boundary | **P5.0 scope evidence** |
-| `docs/audits/P5.1_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** | 
+| `docs/audits/P5.1_FEATURE_REGISTER.md` | P5.1 Reference feature decomposition and evidence register | **P5.1 feature evidence** |
 | `docs/audits/P5.1_FEATURE_COVERAGE_GROUPING.md` | P5.1 provisional coverage/grouping ledger and targeted audit queue | **P5.1 coverage/grouping** |
 | `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` | P5.2 contract / owner / boundary static-analysis authority | **P5.2 working authority** |
 | `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` | P5.3 gap/dependency/UNKNOWN classification and closure | **P5.3 static-analysis authority** |
 | `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` | P5.4 implementation readiness and batch selection | **P5.4 working authority** |
+| `docs/audits/P5.6.5_P6_HANDOFF_READINESS.md` | Pre-P5.7 backend/data/auth/credential/provider handoff audit | **P6 handoff evidence** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
 | `docs/REFERENCE_AUDIT.md` | Reference artifact inventory/evidence | Reference evidence |
@@ -44,4 +45,5 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5 🟡 ACTIVE for total implementation of all P5.1 feature scope except explicitly authorized P6 deviations.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5.6 CLOSED → P5.6.5 P6 handoff readiness COMPLETE → P5.7 NOT OPENED.**
+
