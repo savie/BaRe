@@ -48,7 +48,6 @@ public final class UserPasswordActivity extends AppCompatActivity {
 
         EditText confirm = new EditText(this);
         confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        confirm.setHint(R.string.confirm_password);
 
         android.widget.LinearLayout content = new android.widget.LinearLayout(this);
         content.setOrientation(android.widget.LinearLayout.VERTICAL);
