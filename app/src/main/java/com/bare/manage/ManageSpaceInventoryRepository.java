@@ -35,7 +35,7 @@ public final class ManageSpaceInventoryRepository {
         if (selection == null) return Collections.emptyList();
 
         File backupRoot = new File(
-                new File(selection.selected.rootPath, "SwiftBackup"),
+                new File(selection.selected.rootPath, "BaRe"),
                 "backups");
 
         List<ManageSpaceReclaimItem> result = new ArrayList<>();
