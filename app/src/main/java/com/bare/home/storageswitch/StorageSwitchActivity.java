@@ -86,7 +86,7 @@ public final class StorageSwitchActivity extends AppCompatActivity {
 
         File currentBackupRoot = currentSelection == null
                 ? null
-                : new File(currentSelection.rootPath, "SwiftBackup");
+                : new File(currentSelection.rootPath, "BaRe");
         File destinationBackupRoot = new File(pendingSelection.rootPath, "SwiftBackup");
 
         long footprint = StorageBackupFootprint.measure(currentBackupRoot);
