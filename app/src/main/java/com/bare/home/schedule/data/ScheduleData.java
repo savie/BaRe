@@ -47,8 +47,6 @@ public final class ScheduleData {
     public List<String> getScheduleOrderIds() {
         return Collections.unmodifiableList(scheduleOrderIds);
     }
-}
-
 
     public ScheduleData withScheduleAppended(String scheduleId) {
         ScheduleData copy = copy();
@@ -120,3 +118,5 @@ public final class ScheduleData {
             }
         }
     }
+
+}
