@@ -53,4 +53,24 @@ public final class LocalScheduleRepository implements ScheduleRepository {
                 .putString("order_ids", join(state.orderIds))
                 .apply();
     }
+
+    private void loadList(java.util.List<String> target, String key) {
+        target.clear();
+        String raw = prefs.getString(key, "");
+        if (raw == null || raw.isEmpty()) return;
+        for (String value : raw.split("\\n")) {
+            if (!value.isEmpty()) target.add(value);
+        }
+    }
+
+    private String join(java.util.List<String> values) {
+        StringBuilder out = new StringBuilder();
+        if (values == null) return "";
+        for (String value : values) {
+            if (value == null || value.isEmpty() || value.indexOf('\\n') >= 0) continue;
+            if (out.length() > 0) out.append('\\n');
+            out.append(value);
+        }
+        return out.toString();
+    }
 }
