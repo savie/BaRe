@@ -1228,3 +1228,16 @@ P5.7 passed feature closure and the explicit P5 Gate is now closed at the static
 - No runtime/device/provider/backend/build/install/native archive/filesystem/privileged execution was performed or claimed.
 - **P5: COMPLETE — STATIC FEATURE RECONSTRUCTION CLOSURE.**
 - Remaining execution work belongs to later authorized lifecycle boundaries.
+## Phase 6 — Authorized Deviations — 2026-10-03
+
+Phase 6 opened as a static reconciliation boundary after P5 completion.
+
+- Branding/BΛR☰ identity: statically closed by N-11.
+- Swift-specific external identity: statically closed by N-06/N-11.
+- Premium-free target: preserved as authorized F31/F168 policy.
+- Supabase: authorized target backend policy; actual schema/auth/storage/RLS/functions/network execution remains gated.
+- Java + Android Views/XML and no-migration constraints remain explicit target constraints.
+- UNKNOWN = 0; BLOCKED = 0; UNAUTHORIZED DEVIATION = 0.
+- No new implementation is authorized by the Phase 6 opening review.
+- **Phase 6 decision: PASS — STATIC AUTHORIZED-DEVIATION RECONCILIATION.**
+- Phase 7 Runtime remains permission-gated.
