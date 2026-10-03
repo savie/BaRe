@@ -4,7 +4,7 @@
 
 **P5.1 — REFERENCE FEATURE AUDIT — COVERAGE / GROUPING — 🟢 COMPLETE / STATIC CLOSURE**
 
-Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P5_FEATURE_REGISTER.md\`.
+Dokumen ini **hanya grouping**. Evidence/canonical detail ada di `docs/audits/P5_FEATURE_REGISTER.md`.
 
 ## Rule
 
@@ -14,7 +14,10 @@ Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P
 - Jangan menyalin class, XML, method, forensic detail, atau reconciliation narrative ke dokumen ini.
 - Grouping bukan P5.2 contract grouping dan bukan implementation task.
 - **Static closure di sini hanya menutup coverage/grouping audit; ini bukan penutupan implementasi feature P5.**
-- Seluruh F-ID non-P6 tetap berada dalam scope implementasi P5 setelah P5.4 readiness.
+- **P5 implementation mencakup seluruh F-ID dalam feature universe, kecuali pekerjaan yang secara eksplisit dimiliki phase berikutnya (P6/P7/P8/P9).**
+- **DEFERRED dari P2/P3/P4 tidak berarti excluded dari P5. Jika sebuah deferred item menjadi bagian dari feature P5 dan tidak secara eksplisit dimiliki P6/P7/P8/P9, item tersebut tetap termasuk scope implementasi P5.**
+- P6 hanya mengecualikan deviation/authorization work yang memang dimiliki P6; P7 hanya runtime/build/install/execute verification yang memang dimiliki P7; P8 hanya parity verification yang memang dimiliki P8; P9 hanya final deviation audit yang memang dimiliki P9.
+- Jika feature P5 memiliki operasi downstream yang belum boleh dieksekusi pada static lifecycle, kontrak/owner/state/flow/boundary feature tetap termasuk implementasi P5; hanya operasi downstream yang secara eksplisit dimiliki phase berikutnya yang ditunda.
 
 ## 3. Coverage buckets P5.1
 
@@ -55,7 +58,7 @@ Coverage memakai 24 domain yang sudah ditetapkan oleh P5.0. Domain P5.0 tidak di
 | **FOLLOW-UP REQUIRED** | Masih ada lifecycle/boundary yang perlu dicari di Reference. |
 | **READY FOR P5.2 REVIEW** | Coverage domain sudah cukup direkonsiliasi untuk dibawa ke P5.2. |
 
-Status di atas hanya status coverage P5.1.
+Status di atas hanya status coverage P5.1 dan **tidak menghapus, menunda, atau mengecualikan implementasi P5**.
 
 ## Current audit position
 
@@ -68,9 +71,10 @@ Status di atas hanya status coverage P5.1.
 - Tidak build/install/runtime/device verification.
 - Tidak provider/backend execution.
 - P5.2, P5.3, dan P5.4 sudah closed pada static boundary masing-masing; grouping tetap frozen dan tidak menjadi contract register.
+- Static boundary di atas membatasi jenis verifikasi/eksekusi pada lifecycle ini; **bukan exclusion terhadap rekonstruksi dan implementasi feature P5**.
 
 ## Operating principle
 
-\`REGISTER = evidence history\`
+`REGISTER = evidence history`
 
-\`GROUPING = coverage map\`
+`GROUPING = coverage map`
