@@ -1261,3 +1261,14 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - R-D/R-E/R-F bounded contract classes have no external consumer imports yet; integration is therefore **contract-defined but execution-wiring DEFERRED / NOT PERFORMED**.
 - No new owner collision, frozen P4 mutation, build/manifest mutation, or unauthorized runtime execution detected.
 - P5.6 remains **ACTIVE**; P5.7 remains **NOT OPENED**; P5 Gate remains **NOT OPENED**.
+
+### P5.6 targeted regression pass 03 — 2026-10-03
+
+- R-E → R-F execution-facing boundary: **PASS**.
+- Restore → artifact/cloud handoff ownership: **PASS**.
+- Cloud metadata → F162 reuse mapping: **DEFERRED / NOT PERFORMED**.
+- F157/F158 archive/crypto → F43 task-result bridge: **DEFERRED / NOT PERFORMED**.
+- F167 import/staging → installer boundary: **PASS / execution downstream**.
+- No owner collision, circular dependency, backend invention, frozen P4 mutation, or runtime execution claim.
+- P5.6 remains **ACTIVE**; P5.7 and P5 Gate remain **NOT OPENED**.
+
