@@ -24,7 +24,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
-| 5 | Features | **🟡 ACTIVE — P5.1 FEATURE SCOPE REMAINS TO BE FULLY IMPLEMENTED** |
+| 5 | Features | **🟢 P5.7 COMPLETE / STATIC FEATURE CLOSURE — P5 GATE NEXT** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
@@ -100,7 +100,7 @@ These remain outside P4 implementation:
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5 remains 🟡 ACTIVE until all P5.1 feature requirements are implemented, except explicitly authorized P6 deviations.**
+> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5.6.5 handoff readiness complete → P5.7 feature closure complete → P5 Gate next.**
 
 Current package: **P5.3 — Gap / Dependency / UNKNOWN Classification — ACTIVE.**
 
@@ -1471,3 +1471,19 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Reference ZIP remains unchanged. No build/runtime/device/provider/backend/native verification was performed.
 - P5.6: **CLOSED — STATIC REGRESSION/RE-AUDIT PASS**.
 - P5.7 Feature Closure: **NOT OPENED**; it is the next lifecycle step requiring explicit authorization.
+
+
+## Current P5.7 position — 2026-10-03
+
+- P5.7: **🟢 COMPLETE / STATIC FEATURE CLOSURE**.
+- Unique feature-contract units: **170**.
+- Batch-assigned contracts: **168**.
+- Authorized deviations: **F31/F168 — Premium free — CLOSED at static target-policy boundary**.
+- F94: **reconciliation marker for F69**.
+- UNKNOWN: **0**.
+- BLOCKED: **0**.
+- UNAUTHORIZED DEVIATION: **0**.
+- Reference ZIP mutation: **0**.
+- Build/install/runtime/provider/backend/device/native execution: **NOT PERFORMED**.
+- Premium-free entitlement policy is now statically represented by `PremiumAccessPolicy`; Supabase remains gated and untouched.
+- **Next control action: finalize `docs/PHASE_5_GATE.md`; do not open P6 before that gate is closed.**
