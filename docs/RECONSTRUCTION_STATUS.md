@@ -1191,3 +1191,12 @@ P5.6 pass 02 completed a static cross-batch consumer regression. Existing P4 own
 The R-D/R-E/R-F contract classes currently have no external consumer imports. This is recorded as **DEFERRED / NOT PERFORMED integration depth**, not UNKNOWN and not an owner collision. No runtime/provider/backend/device execution was performed.
 
 P5.6 remains ACTIVE; P5.7 Feature Closure and the P5 Gate remain unopened.
+
+## P5.6 targeted regression pass 03
+
+Deep static handoff regression completed for R-E → R-F and restore/cloud/artifact boundaries. Ownership remains separated; no backend mapping or runtime execution is inferred.
+
+Cloud metadata → artifact reuse, archive/crypto → task-result execution bridge, and downstream installer execution remain **DEFERRED / NOT PERFORMED**.
+
+P5.6 remains ACTIVE; P5.7 Feature Closure and the P5 Gate remain unopened.
+
