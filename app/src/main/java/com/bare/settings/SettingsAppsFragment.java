@@ -18,34 +18,34 @@ import com.bare.R;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
     private static final int[] COMPRESSION_LEVELS = {0, 1};
-    private static final String[] COMPRESSION_LABELS = {"No compression", "Fastest"};
+    private static final String[] COMPRESSION_LABELS = {getString(R.string.no_compression), getString(R.string.fastest)};
 
     @Override
     protected void build(PreferenceScreen s) {
-        PreferenceCategory general = category(s, "General");
-        toggle(general, "show_system_apps", "Show system apps", null, false);
-        item(general, "swipe_actions", "Swipe actions", null);
-        item(general, "manage_labels", "Manage app labels", "Manage labels for apps");
-        item(general, "configs", "Custom configurations", "Custom application configurations");
-        item(general, "blacklist_apps", "Blacklist", "Apps excluded from backup/restore");
+        PreferenceCategory general = category(s, getString(R.string.general));
+        toggle(general, "show_system_apps", getString(R.string.show_system_apps), null, false);
+        item(general, "swipe_actions", getString(R.string.swipe_actions), null);
+        item(general, "manage_labels", getString(R.string.manage_app_labels), getString(R.string.manage_labels_for_apps));
+        item(general, "configs", getString(R.string.custom_configurations), getString(R.string.custom_application_configurations));
+        item(general, "blacklist_apps", getString(R.string.blacklist), getString(R.string.apps_excluded_from_backup_restore));
 
-        PreferenceCategory multi = category(s, "Multiple backups");
-        item(multi, "multiple_backups_strategy", "Multiple backups strategy", null);
+        PreferenceCategory multi = category(s, getString(R.string.multiple_backups));
+        item(multi, "multiple_backups_strategy", getString(R.string.multiple_backups_strategy), null);
 
-        PreferenceCategory enc = category(s, "Encryption and compression");
-        Preference encryption = item(enc, "apps_encryption_on", "Encrypt app data",
-                "Backups encrypted with Aegis by default");
+        PreferenceCategory enc = category(s, getString(R.string.encryption_and_compression));
+        Preference encryption = item(enc, "apps_encryption_on", getString(R.string.encrypt_app_data),
+                getString(R.string.backups_encrypted_aegis));
         disabled(encryption);
-        item(enc, "compression_level_app_data", "Compression level", null);
+        item(enc, "compression_level_app_data", getString(R.string.compression_level), null);
 
-        PreferenceCategory data = category(s, "App data");
-        item(data, "restore_runtime_permissions", "Restore runtime permissions", null);
-        item(data, "restore_special_permissions", "Restore special data", "Special permissions");
-        toggle(data, "restore_ssaids", "Restore app SSAIDs", "Restores app SSAIDs", false);
-        item(data, "app_backup_limits", "App backup limits", null);
-        toggle(data, "backup_app_cache", "Backup cache", "Back up application cache", false);
-        toggle(data, "in_place_apk_downgrades", "In-place APK downgrades",
-                "Allow APK downgrades in place", false);
+        PreferenceCategory data = category(s, getString(R.string.app_data));
+        item(data, "restore_runtime_permissions", getString(R.string.restore_runtime_permissions), null);
+        item(data, "restore_special_permissions", getString(R.string.restore_special_data), getString(R.string.special_permissions));
+        toggle(data, "restore_ssaids", getString(R.string.restore_app_ssaids), getString(R.string.restores_app_ssaids), false);
+        item(data, "app_backup_limits", getString(R.string.app_backup_limits), null);
+        toggle(data, "backup_app_cache", getString(R.string.backup_cache), getString(R.string.back_up_application_cache), false);
+        toggle(data, "in_place_apk_downgrades", getString(R.string.in_place_apk_downgrades),
+                getString(R.string.allow_apk_downgrades_in_place), false);
 
         wire(s);
         refresh();
@@ -56,9 +56,9 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
 
         bindBoolean(s, prefs, "show_system_apps", false);
         bindBooleanWithWarning(s, prefs, "restore_ssaids", false,
-                "Note", R.string.restore_app_ssaids_note);
+                getString(R.string.note), R.string.restore_app_ssaids_note);
         bindBooleanWithWarning(s, prefs, "backup_app_cache", legacyBackupCacheDefault(prefs),
-                "Warning", R.string.backup_cache_warning);
+                getString(R.string.warning), R.string.backup_cache_warning);
         bindBoolean(s, prefs, "in_place_apk_downgrades", false);
 
         Preference multiple = s.findPreference("multiple_backups_strategy");
@@ -194,7 +194,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         int current = prefs.getInt("compression_level_app_data", 1);
         int selected = current == 0 ? 0 : 1;
         new AlertDialog.Builder(requireContext())
-                .setTitle("Compression level")
+                .setTitle(R.string.compression_level)
                 .setSingleChoiceItems(COMPRESSION_LABELS, selected, (dialog, which) -> {
                     prefs.edit().putInt("compression_level_app_data", COMPRESSION_LEVELS[which]).apply();
                     dialog.dismiss();
