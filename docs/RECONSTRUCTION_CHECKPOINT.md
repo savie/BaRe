@@ -1323,3 +1323,15 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - New implementation from Phase 6 opening: **NONE AUTHORIZED**
 - Runtime/build/install/backend execution: **NOT PERFORMED**
 - Next downstream boundary: **Phase 7 Runtime, permission-gated**
+
+
+### P5.5 R-A primary ZIP re-audit closure — 2026-10-03
+
+- Re-audited the exact R-A 26 F-ID assignment directly against the canonical Swift Backup 5.1.0 / versionCode 620 decompile ZIP.
+- Primary ZIP targeted evidence: **PASS**; representative anchors include IntroActivity, LocaleChangedReceiver, NoticeItem, blacklist_data, apps_multiple_backups_strategy, preferred_storage_dir, contributor/license resources, and the registered R-A state/configuration keys.
+- BaRe checkpoint `726e76591690620147c6da615186d507201a4eb7` cross-check: bounded R-A owners/contracts are present; no competing owner or later-batch dependency introduced.
+- Source mutation required by the re-audit: **NONE**.
+- Reference ZIP mutation: **0**.
+- Build/install/runtime/provider/backend/device execution: **NOT PERFORMED**.
+
+**R-A: 🟢 COMPLETE / PRIMARY-ZIP STATIC RE-AUDIT CLOSURE.** Next authorized batch: **R-B** (45 exact F-IDs).
