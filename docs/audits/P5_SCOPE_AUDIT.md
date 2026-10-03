@@ -2,7 +2,7 @@
 
 ## Status
 
-**P5.0 — SCOPE / ENTRY CONTROL — COMPLETE**
+**P5.0 — SCOPE / ENTRY CONTROL — 🟢 COMPLETE**
 
 This artifact records the evidence-backed P5 feature universe and entry boundary. It does **not** open the P5 gate, authorize feature implementation, or claim runtime/provider/backend parity.
 
