@@ -29,7 +29,7 @@ public final class RfArtifactContracts {
         public static final String BARE_METADATA = "meta.bare_v1.json";
         public boolean hasRequiredMetadata() {
             return SAI_METADATA.equals(saiMetadataEntry)
-                    && SWIFTBACKUP_METADATA.equals(bareMetadataEntry)
+                    && BARE_METADATA.equals(bareMetadataEntry)
                     && files != null && !files.isEmpty();
         }
     }
