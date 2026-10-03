@@ -220,10 +220,10 @@ public final class StorageSwitchActivity extends AppCompatActivity {
                 label.append(" — ").append(item.filesystemType.toUpperCase());
             }
             if (item.requiresRoot) {
-                label.append(" — root access needed");
+                label.append(" — ").append(holder.text.getContext().getString(R.string.root_access_needed));
             }
             if (!item.isValid()) {
-                label.append(" — unavailable");
+                label.append(" — ").append(holder.text.getContext().getString(R.string.storage_volume_unavailable));
             }
 
             holder.text.setText(label);
