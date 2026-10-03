@@ -671,4 +671,12 @@ Unable to read package information: %2$s</string>
     <string name="allow_apk_downgrades_in_place">Allow APK downgrades in place</string>
     <string name="enabled">Enabled</string>
     <string name="disabled">Disabled</string>
+    <string name="version">Version</string>
+    <string name="version_value">5.1.0 (620)</string>
+    <string name="changelog">Changelog</string>
+    <string name="announcements_from_developer">Announcements from developer</string>
+    <string name="privacy_legal">Privacy &amp; legal</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="terms_of_service">Terms of service</string>
+    <string name="notices">Notices</string>
 </resources>
