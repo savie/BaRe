@@ -98,4 +98,73 @@ public final class ConfigSettings {
             return allowInvalid&&labels!=null&&!labels.trim().isEmpty();
         }
     }
+
+    /** F09/F62/F121 local configuration repository and task projection. */
+    public static final class Repository {
+        private final android.content.SharedPreferences prefs;
+        public Repository(android.content.Context context){prefs=context.getApplicationContext().getSharedPreferences("app_configs_v1",android.content.Context.MODE_PRIVATE);}
+        public synchronized void save(ConfigSettings value){
+            if(value==null)throw new IllegalArgumentException("value");
+            org.json.JSONObject o=new org.json.JSONObject();
+            try{
+                o.put("version",value.version).put("id",value.id).put("appParts",value.appParts).put("locations",value.locations)
+                 .put("syncOption",value.syncOption).put("restorePermissionsMode",value.restorePermissionsMode)
+                 .put("restoreSpecialPermissions",value.restoreSpecialPermissions==null?org.json.JSONObject.NULL:value.restoreSpecialPermissions)
+                 .put("restoreSsaid",value.restoreSsaid==null?org.json.JSONObject.NULL:value.restoreSsaid)
+                 .put("compressionLevel",value.compressionLevel==null?org.json.JSONObject.NULL:value.compressionLevel)
+                 .put("cacheBackup",value.cacheBackup==null?org.json.JSONObject.NULL:value.cacheBackup)
+                 .put("enabled",value.enabled==null?org.json.JSONObject.NULL:value.enabled);
+                prefs.edit().putString(value.id,o.toString()).apply();
+            }catch(Exception e){throw new IllegalStateException("config serialization failed",e);}
+        }
+        public synchronized ConfigSettings get(String id){
+            String raw=prefs.getString(id,null);if(raw==null)return null;try{org.json.JSONObject o=new org.json.JSONObject(raw);
+                return new ConfigSettings(o.optInt("version",1),o.optString("id",id),null,o.optString("appParts",null),
+                    o.optString("locations",null),o.optString("syncOption",null),null,null,null,
+                    o.optString("restorePermissionsMode",null),nullable(o,"restoreSpecialPermissions"),nullable(o,"restoreSsaid"),
+                    nullable(o,"compressionLevel"),nullable(o,"cacheBackup"),null,nullable(o,"enabled"));
+            }catch(Exception e){return null;}
+        }
+        private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
+        public synchronized void remove(String id){prefs.edit().remove(id).apply();}
+    }
+    public static final class TaskInput {
+        public final String appId; public final List<String> parts,locations; public final String syncOption;
+        public final MultipleBackupStrategy multipleBackupStrategy; public final List<AppBackupLimitItem> backupLimits;
+        public final Integer restoreSpecialPermissions,restoreSsaid,compressionLevel,cacheBackup;
+        public TaskInput(ConfigSettings c,java.util.Set<String> labels){
+            if(c==null||!c.isValid(labels))throw new IllegalArgumentException("invalid config");
+            appId=c.id;parts=split(c.appParts);locations=split(c.locations);syncOption=c.syncOption;
+            multipleBackupStrategy=c.multipleBackupStrategy;backupLimits=c.backupLimits==null?java.util.Collections.emptyList():c.backupLimits;
+            restoreSpecialPermissions=c.restoreSpecialPermissions;restoreSsaid=c.restoreSsaid;compressionLevel=c.compressionLevel;cacheBackup=c.cacheBackup;
+        }
+        private static List<String> split(String s){if(s==null||s.trim().isEmpty())return java.util.Collections.emptyList();List<String> o=new ArrayList<>();for(String x:s.split(",\\s*"))if(!x.trim().isEmpty())o.add(x.trim());return java.util.Collections.unmodifiableList(o);}
+    }
+    public static final class LimitPolicy {
+        public boolean allowed(String part,long bytes,boolean local,boolean bypass,List<AppBackupLimitItem> limits){
+            if(bypass)return true;if(limits==null)return true;for(AppBackupLimitItem x:limits)if(x!=null&&x.getPart().equalsIgnoreCase(part)){long max=local?x.getLocalLimitBytes():x.getCloudLimitBytes();return max<=0||bytes<=max;}return true;
+        }
+    }
+    public static final class CachePolicy {
+        public static final String KEY="backup_app_cache",LEGACY_KEY="KEY_BACKUP_APP_CACHE";
+        public boolean enabled(android.content.SharedPreferences p){return p.getBoolean(KEY,p.getBoolean(LEGACY_KEY,false));}
+        public boolean includePath(android.content.SharedPreferences p,String path){if(enabled(p))return true;return path==null||!path.toLowerCase(java.util.Locale.ROOT).contains("/cache/");}
+        public String warning(){return "Backing up app cache may increase backup size and cache can be regenerated.";}
+    }
+    public static final class CompressionPolicy {
+        public static final String KEY="compression_level_app_data";
+        public int resolve(android.content.SharedPreferences p,int defaultValue,int min,int max){int v=p.getInt(KEY,defaultValue);return v<min||v>max?defaultValue:v;}
+    }
+    public static final class RestoreSpecialPolicy {
+        public static final String KEY="restore_special_permissions";
+        public boolean effective(android.content.SharedPreferences global,ConfigSettings config,boolean rootAvailable){
+            if(config!=null&&config.restoreSpecialPermissions!=null)return config.restoreSpecialPermissions!=0;
+            if(!rootAvailable)return false;return global.getBoolean(KEY,true);
+        }
+    }
+    public static final class TransferCodec {
+        public String encode(ConfigSettings c){if(c==null)throw new IllegalArgumentException("config");org.json.JSONObject o=new org.json.JSONObject();try{o.put("id",c.id).put("version",c.version).put("appParts",c.appParts).put("locations",c.locations).put("syncOption",c.syncOption);return o.toString();}catch(Exception e){throw new IllegalStateException(e);}}
+        public ConfigSettings decode(String raw){if(raw==null||raw.trim().isEmpty())return null;try{org.json.JSONObject o=new org.json.JSONObject(raw);String id=o.optString("id","");if(id.isEmpty())return null;return new ConfigSettings(o.optInt("version",1),id,null,o.optString("appParts",null),o.optString("locations",null),o.optString("syncOption",null),null,null,null,null,null,null,null,null,null,1);}catch(Exception e){return null;}}
+    }
+
 }
