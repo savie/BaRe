@@ -241,7 +241,7 @@ public final class RdCloudContracts {
             int retryCount, boolean localFilePresent,
             boolean mainFolderPresent, String state) {}
 
-    /** F138 — Swift Backup root/account migration lifecycle. */
+    /** F138 — BaRe root/account migration lifecycle. */
     public record F138CloudRootMigration(
             String rootId, String accountEmail, boolean created,
             boolean duplicateReconciled, boolean migrationRequired,
