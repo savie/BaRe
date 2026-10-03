@@ -1,1 +1,6 @@
-package com.bare.folders.task; public final class FolderRestoreResult { public enum Kind{FAILURE,SUCCESS} private final Kind kind; private final long restoredFiles,restoredBytes,durationMs; private final String message; public FolderRestoreResult(Kind kind,long restoredFiles,long restoredBytes,long durationMs,String message){if(kind==null)throw new IllegalArgumentException("kind");this.kind=kind;this.restoredFiles=Math.max(0,restoredFiles);this.restoredBytes=Math.max(0,restoredBytes);this.durationMs=Math.max(0,durationMs);this.message=message;} public Kind getKind(){return kind;} public long getRestoredFiles(){return restoredFiles;} public long getRestoredBytes(){return restoredBytes;} public long getDurationMs(){return durationMs;} public String getMessage(){return message;} }
+package com.bare.folders.task;
+public final class FolderRestoreResult {
+ public enum Kind{FAILURE,SUCCESS}private final Kind kind;private final long restoredFiles,restoredBytes,durationMs;private final String message;
+ public FolderRestoreResult(Kind k,long files,long bytes,long duration,String msg){if(k==null)throw new IllegalArgumentException("kind");kind=k;restoredFiles=Math.max(0,files);restoredBytes=Math.max(0,bytes);durationMs=Math.max(0,duration);message=msg;}
+ public Kind getKind(){return kind;}public long getRestoredFiles(){return restoredFiles;}public long getRestoredBytes(){return restoredBytes;}public long getDurationMs(){return durationMs;}public String getMessage(){return message;}
+}
