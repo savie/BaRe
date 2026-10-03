@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.TextView;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -36,7 +38,17 @@ public final class AppInfoActivity extends AppCompatActivity {
         }
 
         TextView info = findViewById(R.id.tv_info);
-        info.setText(R.string.app_info_received);
+        String pkg = getIntent().getStringExtra("package_name");
+        if(pkg!=null){
+            try{
+                PackageInfo pi=getPackageManager().getPackageInfo(pkg,0); ApplicationInfo ai=pi.applicationInfo;
+                StringBuilder b=new StringBuilder(); b.append("Name: ").append(ai==null?pkg:ai.loadLabel(getPackageManager())).append("\\n\\n");
+                b.append("Package: ").append(pkg).append("\\n\\n"); b.append("Version: ").append(pi.versionName).append(" (").append(pi.getLongVersionCode()).append(")\\n\\n");
+                if(ai!=null){b.append("App location: ").append(ai.sourceDir).append("\\n\\n");b.append("Data location: ").append(ai.dataDir==null?"":ai.dataDir).append("\\n\\n");}
+                if(ai!=null&&ai.splitSourceDirs!=null&&ai.splitSourceDirs.length>0){b.append(ai.splitSourceDirs.length).append(" Split APKs\\n");for(int i=0;i<ai.splitSourceDirs.length;i++)b.append(i+1).append(". ").append(ai.splitSourceDirs[i]).append("\\n");b.append("\\n");}
+                b.append("UID: ").append(ai==null?"":ai.uid); info.setText(b.toString());
+            }catch(Exception e){info.setText("Package: "+pkg+"\\n\\nUnable to read package information: "+e.getClass().getSimpleName());}
+        }else info.setText(R.string.app_info_received);
         ((TextView) findViewById(R.id.tv_contract_status))
                 .setText(R.string.app_info_contract_ready);
 
