@@ -141,9 +141,14 @@ public final class ConfigSettings {
         private static List<String> split(String s){if(s==null||s.trim().isEmpty())return java.util.Collections.emptyList();List<String> o=new ArrayList<>();for(String x:s.split(",\\s*"))if(!x.trim().isEmpty())o.add(x.trim());return java.util.Collections.unmodifiableList(o);}
     }
     public static final class LimitPolicy {
-        public boolean allowed(String part,long bytes,boolean local,boolean bypass,List<AppBackupLimitItem> limits){
-            if(bypass)return true;if(limits==null)return true;for(AppBackupLimitItem x:limits)if(x!=null&&x.getPart().equalsIgnoreCase(part)){long max=local?x.getLocalLimitBytes():x.getCloudLimitBytes();return max<=0||bytes<=max;}return true;
+        public static final long FAT32_MAX_FILE_BYTES=4294967296L;
+        public static final class Decision {public final boolean allowed;public final String warning;Decision(boolean a,String w){allowed=a;warning=w;}}
+        public Decision evaluate(String part,long bytes,boolean local,boolean bypass,boolean fat32,List<AppBackupLimitItem> limits){
+            if(fat32&&bytes>FAT32_MAX_FILE_BYTES)return new Decision(false,part+": FAT32 maximum single-file size exceeded");
+            if(bypass)return new Decision(true,null);if(limits!=null)for(AppBackupLimitItem x:limits)if(x!=null&&x.getPart().equalsIgnoreCase(part)){long max=local?x.getLocalLimitBytes():x.getCloudLimitBytes();if(max>0&&bytes>max)return new Decision(false,part+": user backup limit exceeded");}
+            return new Decision(true,null);
         }
+        public boolean allowed(String part,long bytes,boolean local,boolean bypass,List<AppBackupLimitItem> limits){return evaluate(part,bytes,local,bypass,false,limits).allowed;}
     }
     public static final class CachePolicy {
         public static final String KEY="backup_app_cache",LEGACY_KEY="KEY_BACKUP_APP_CACHE";
