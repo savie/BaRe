@@ -9,7 +9,7 @@ public final class AppInventoryItem {
     public final Long versionCode;
     public final boolean enabled,launchable,bundled,installed,cloudApp,favorite,hasBackup;
     public final long dateInstalled,dateUpdated,dateBackup,backupSizeBytes,appSizeBytes,dateUsed;
-    public final List<String> labelIds;
+    public final List<String> labelIds; public final String locale;
 
     public AppInventoryItem(String packageName,String name,String versionName,Long versionCode,
             boolean enabled,boolean launchable,boolean bundled,boolean installed,boolean cloudApp,boolean favorite) {
@@ -28,7 +28,7 @@ public final class AppInventoryItem {
         this.dateInstalled=Math.max(0,dateInstalled); this.dateUpdated=Math.max(0,dateUpdated);
         this.dateBackup=Math.max(0,dateBackup); this.backupSizeBytes=Math.max(0,backupSizeBytes);
         this.appSizeBytes=Math.max(0,appSizeBytes); this.dateUsed=Math.max(0,dateUsed);
-        this.labelIds=labelIds==null?Collections.emptyList():Collections.unmodifiableList(new ArrayList<>(labelIds));
+        this.labelIds=labelIds==null?Collections.emptyList():Collections.unmodifiableList(new ArrayList<>(labelIds)); this.locale=java.util.Locale.getDefault().toLanguageTag();
     }
     public String getItemId(){return packageName;}
 }
