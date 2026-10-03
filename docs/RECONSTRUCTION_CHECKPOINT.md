@@ -1357,3 +1357,42 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Build/install/runtime/provider/backend/device/filesystem/privileged/schedule execution: **NOT PERFORMED**.
 
 **R-C: 🟢 COMPLETE / PRIMARY-ZIP STATIC RE-AUDIT CLOSURE.** Next authorized batch: **R-D** (41 exact F-IDs).
+
+---
+
+## CURRENT CHECKPOINT — P5.5 SOURCE-ACTUAL RE-AUDIT (2026-10-03)
+
+- P5.5: 🟡 ACTIVE.
+- Previous R-A/R-B/R-C static closure claims: **INVALIDATED** because they did not establish current-source implementation parity.
+- Fresh source-actual audit confirmed concrete R-B/R-C gaps and started bounded implementation.
+- Implemented source slice:
+  - F04/F55 inventory + search wiring
+  - F05 batch selection wiring
+  - F07 detail action availability
+  - F78–F82 static task-engine decision boundaries
+  - F93 PackageInstaller result/source-verification adapter
+  - F124 repository-backed search provider
+- Still explicitly open from the audited set:
+  - F09, F12, F13, F15
+  - plus all R-A/R-B/R-C F-IDs not yet individually source-audited under this current checkpoint.
+- No build/install/runtime/provider/backend/device execution performed.
+- Primary Reference ZIP remains unchanged.
+
+### Source commits in this checkpoint
+
+- fcd78b02794c12232d38dd2c55c031922e0e321f
+- 25880044f5268df1aa415f841db7f8d32141bfba
+- 31a8f1923198433b91d79afb771a94cd15032144
+- 44e766e9da7d30180e4a6cff4a6141f34e9df647
+- 30ab7cbcbbe3db53b605726f275df59c3cf4c4ab
+- 988f6c498b23c05eae51acad25710afe68d5f0cb
+- 85bc37159bf82362bbe3ffa30969c2db6a7dd8e5
+- 070cf77f1238b5f0d6ac6d5bf3386b50afd955c1
+- 0ce5b329e6421126bdc8bd21306dd44a2accc6bc
+- ee21aa6ed06f21ab54ae43149867a61323eddb2a
+- 00fa369527a2ed017174a4b597a26214071d7c83
+- 9b27c98c27b68124079a0ac336e9d586ee131ff6
+- 08035d4e3006791b30fb9420122c27f14d54f58d
+- 75c347e6dd27a195d5ba100b0a10893e024cbc43
+- 46d5a429b8eab3884177956d196f0cedcc1911eb
+
