@@ -57,7 +57,7 @@ public final class AppBackupLimitsActivity extends AppCompatActivity {
         }
 
         bindPart(R.id.container_data, "DATA", R.string.data);
-        bindPart(R.id.container_extdata, "EXTERNAL_DATA", R.string.external_data);
+        bindPart(R.id.container_extdata, "EXTDATA", R.string.external_data);
         bindPart(R.id.container_media, "MEDIA", R.string.media);
         bindPart(R.id.container_expansion, "EXPANSION", R.string.expansion);
     }
@@ -123,7 +123,7 @@ public final class AppBackupLimitsActivity extends AppCompatActivity {
 
     private String partForContainer(View container) {
         if (container.getId() == R.id.container_data) return "DATA";
-        if (container.getId() == R.id.container_extdata) return "EXTERNAL_DATA";
+        if (container.getId() == R.id.container_extdata) return "EXTDATA";
         if (container.getId() == R.id.container_media) return "MEDIA";
         if (container.getId() == R.id.container_expansion) return "EXPANSION";
         return null;
