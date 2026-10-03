@@ -85,22 +85,22 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 static closure → P5.4 readiness closure → P5.5 R-A through R-F static closure → P5.6 Re-audit / Regression ACTIVE → P5.7 Feature Closure → P5 Gate NOT OPENED.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5 🟡 ACTIVE for total implementation of all P5.1 feature scope except explicitly authorized P6 deviations.**
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit closure, use `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md`. P5.6 is active under `docs/audits/P5.6_REAUDIT_REGRESSION.md`; P5.7 is next after P5.6 closure; the P5 Gate remains NOT OPENED.
+For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5/P5.6 implementation and regression evidence, use their respective audit authorities. P5.7 and the P5 Gate retain the recorded static evidence, but P5 remains 🟡 ACTIVE until total implementation of the P5.1 feature scope, except explicitly authorized P6 deviations.
 
 - **P5.6 targeted regression:** passes 01–04 complete; dependency/classification closure PASS.
-- **Next:** prepare P5.7 Feature Closure; do not open P5 Gate until P5.7 closure evidence is assembled.
+- **Current:** continue P5 total implementation against the frozen P5.1 feature register; P5 remains 🟡 ACTIVE.
 ### P5.7 Feature Closure
 
 - `docs/audits/P5.7_FEATURE_CLOSURE.md` — P5.7 feature-level static closure authority; 170 unique units, 168 GAP/PARTIAL static closures, F31/F168 authorized deviations, F94 reconciliation marker.
 - P5 Gate remains unopened pending explicit gate review.
 ### P5 Gate
 
-- `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **PASS — STATIC FEATURE RECONSTRUCTION CLOSURE**.
-- P5.7 closure authority: `docs/audits/P5.7_FEATURE_CLOSURE.md`.
+- `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **🟡 ACTIVE — TOTAL FEATURE IMPLEMENTATION PENDING**.
+- P5.7 closure authority: `docs/audits/P5.7_FEATURE_CLOSURE.md` — static evidence retained; total P5 closure pending.
 ### Phase 6 — Authorized Deviations
 
 - `docs/PHASE_6_GATE.md` — static authorized-deviation reconciliation; branding/Premium/Supabase target policy preserved without speculative backend/runtime execution.
