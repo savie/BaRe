@@ -1,132 +1,163 @@
 package com.bare.slog;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * F84 — concrete local structured-log persistence/retention boundary.
+ *
+ * Schema and query semantics are reconstructed from Reference SMessage/kv6/nv6.
+ * No remote/provider/backend delivery is implied here.
+ */
 public final class SLogRepository {
     private static final long RETENTION_MILLIS = 3L * 24L * 60L * 60L * 1000L;
     private static final int MAX_RETRIEVAL = 10_000;
 
-    private final File file;
-    private final List<SLogEntry> entries = new ArrayList<>();
-    private long nextId = 1L;
+    public interface Observer {
+        void onChanged(List<SLogEntry> entries);
+    }
+
+    private final SLogDatabase database;
+    private final Set<Observer> observers = new HashSet<>();
 
     public SLogRepository(Context context) {
-        file = new File(context.getApplicationContext().getFilesDir(), "slog/entries.json");
-        load();
+        database = new SLogDatabase(context);
     }
 
     public synchronized void insert(SLogEntry entry) {
         if (entry == null) throw new NullPointerException("entry");
-        long id = entry.id > 0 ? entry.id : nextId++;
-        entries.add(new SLogEntry(entry.time, entry.messageType, entry.title, entry.message, entry.color, id));
-        if (id >= nextId) nextId = id + 1L;
-        persist();
+
+        SQLiteDatabase db = database.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("time", entry.time);
+        values.put("messageType", entry.messageType);
+        values.put("title", entry.title);
+        values.put("msg", entry.message);
+        if (entry.color == null) values.putNull("color");
+        else values.put("color", entry.color);
+        if (entry.id > 0L) values.put("id", entry.id);
+
+        db.insertWithOnConflict(
+                "SMessage",
+                null,
+                values,
+                SQLiteDatabase.CONFLICT_REPLACE);
+        notifyObservers();
     }
 
     public synchronized List<SLogEntry> latest() {
-        return after(0L, null);
+        return query(
+                "SELECT time,messageType,title,msg,color,id " +
+                        "FROM (SELECT * FROM SMessage ORDER BY id DESC LIMIT ?) " +
+                        "ORDER BY id ASC",
+                new String[]{String.valueOf(MAX_RETRIEVAL)});
     }
 
     public synchronized List<SLogEntry> after(long timeMillis, Set<Integer> messageTypes) {
-        Set<Integer> filter = messageTypes == null ? null : new HashSet<>(messageTypes);
+        Set<Integer> filter = messageTypes == null
+                ? null
+                : new HashSet<>(messageTypes);
+
         List<SLogEntry> result = new ArrayList<>();
-        for (int i = entries.size() - 1; i >= 0 && result.size() < MAX_RETRIEVAL; i--) {
-            SLogEntry entry = entries.get(i);
-            if (entry.time < timeMillis) continue;
-            if (filter != null && !filter.contains(entry.messageType)) continue;
-            result.add(entry);
+        String selection = "time > ?";
+        List<String> args = new ArrayList<>();
+        args.add(String.valueOf(timeMillis));
+
+        if (filter != null && !filter.isEmpty()) {
+            StringBuilder placeholders = new StringBuilder();
+            for (Integer ignored : filter) {
+                if (placeholders.length() > 0) placeholders.append(',');
+                placeholders.append('?');
+                args.add(String.valueOf(ignored));
+            }
+            selection += " AND messageType IN (" + placeholders + ")";
+        }
+
+        SQLiteDatabase db = database.getReadableDatabase();
+        try (Cursor cursor = db.query(
+                "SMessage",
+                new String[]{"time","messageType","title","msg","color","id"},
+                selection,
+                args.toArray(new String[0]),
+                null,
+                null,
+                "id ASC",
+                null)) {
+            while (cursor.moveToNext() && result.size() < MAX_RETRIEVAL) {
+                result.add(readEntry(cursor));
+            }
         }
         return result;
     }
 
+    public synchronized void observeAfter(long timeMillis, Observer observer) {
+        if (observer == null) throw new NullPointerException("observer");
+        observers.add(observer);
+        observer.onChanged(after(timeMillis, null));
+    }
+
+    public synchronized void removeObserver(Observer observer) {
+        if (observer != null) observers.remove(observer);
+    }
+
     public synchronized int count() {
-        return entries.size();
+        SQLiteDatabase db = database.getReadableDatabase();
+        try (Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM SMessage", null)) {
+            return cursor.moveToFirst() ? cursor.getInt(0) : 0;
+        }
     }
 
     public synchronized void clearAll() {
-        entries.clear();
-        nextId = 1L;
-        persist();
+        database.getWritableDatabase().delete("SMessage", null, null);
+        notifyObservers();
     }
 
     public synchronized int deleteOlderThan(long cutoffMillis) {
-        int before = entries.size();
-        entries.removeIf(entry -> entry.time < cutoffMillis);
-        if (entries.size() != before) persist();
-        return before - entries.size();
+        int deleted = database.getWritableDatabase().delete(
+                "SMessage",
+                "time < ?",
+                new String[]{String.valueOf(cutoffMillis)});
+        if (deleted > 0) notifyObservers();
+        return deleted;
     }
 
     public synchronized int applyRetention(long nowMillis) {
         return deleteOlderThan(nowMillis - RETENTION_MILLIS);
     }
 
-    private void load() {
-        if (!file.isFile()) return;
-        try (FileInputStream input = new FileInputStream(file)) {
-            byte[] bytes = new byte[(int) file.length()];
-            int count = input.read(bytes);
-            if (count <= 0) return;
-            JSONArray array = new JSONArray(new String(bytes, 0, count, StandardCharsets.UTF_8));
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject item = array.optJSONObject(i);
-                if (item == null) continue;
-                long id = item.optLong("id", nextId++);
-                SLogEntry entry = new SLogEntry(
-                        item.optLong("time", 0L),
-                        item.optInt("messageType", 0),
-                        item.optString("title", ""),
-                        item.optString("message", ""),
-                        item.isNull("color") ? null : item.optString("color", null),
-                        id);
-                entries.add(entry);
-                if (id >= nextId) nextId = id + 1L;
+    private List<SLogEntry> query(String sql, String[] args) {
+        List<SLogEntry> result = new ArrayList<>();
+        SQLiteDatabase db = database.getReadableDatabase();
+        try (Cursor cursor = db.rawQuery(sql, args)) {
+            while (cursor.moveToNext() && result.size() < MAX_RETRIEVAL) {
+                result.add(readEntry(cursor));
             }
-        } catch (Exception ignored) {
-            entries.clear();
-            nextId = 1L;
         }
+        return result;
     }
 
-    private void persist() {
-        File parent = file.getParentFile();
-        if (parent != null && !parent.exists() && !parent.mkdirs() && !parent.isDirectory()) {
-            return;
-        }
+    private SLogEntry readEntry(Cursor cursor) {
+        return new SLogEntry(
+                cursor.getLong(0),
+                cursor.getInt(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.isNull(4) ? null : cursor.getString(4),
+                cursor.getLong(5));
+    }
 
-        JSONArray array = new JSONArray();
-        for (SLogEntry entry : entries) {
-            JSONObject item = new JSONObject();
-            try {
-                item.put("time", entry.time);
-                item.put("messageType", entry.messageType);
-                item.put("title", entry.title);
-                item.put("message", entry.message);
-                if (entry.color == null) item.put("color", JSONObject.NULL);
-                else item.put("color", entry.color);
-                item.put("id", entry.id);
-                array.put(item);
-            } catch (Exception ignored) {
-                // Keep remaining entries serializable.
-            }
-        }
-
-        try (FileOutputStream output = new FileOutputStream(file, false)) {
-            output.write(array.toString().getBytes(StandardCharsets.UTF_8));
-            output.flush();
-        } catch (Exception ignored) {
-            // Persistence failure is not reported as successful remote/log delivery.
+    private void notifyObservers() {
+        if (observers.isEmpty()) return;
+        List<SLogEntry> current = latest();
+        for (Observer observer : new HashSet<>(observers)) {
+            observer.onChanged(current);
         }
     }
 }
