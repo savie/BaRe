@@ -70,13 +70,13 @@ public final class AppInventoryRepository {
     }
 
     public static final class Filters {
-        public boolean includeSystem=true,favoritesOnly=false,installedOnly=false,enabledOnly=false;
+        public boolean includeSystem=true,favoritesOnly=false,installedOnly=false,enabledOnly=false,userAppsOnly=false,launchableOnly=false,backupMissingOnly=false,cloudSyncedOnly=false;
         public Boolean hasBackup,cloudOnly; public String labelId;
         public List<AppInventoryItem> apply(List<AppInventoryItem> source){
             List<AppInventoryItem> out=new ArrayList<>();if(source==null)return out;
             for(AppInventoryItem a:source){
                 if(a==null)continue;if(!includeSystem&&a.bundled)continue;if(favoritesOnly&&!a.favorite)continue;
-                if(installedOnly&&!a.installed)continue;if(enabledOnly&&!a.enabled)continue;
+                if(installedOnly&&!a.installed)continue;if(enabledOnly&&!a.enabled)continue;if(userAppsOnly&&a.bundled)continue;if(launchableOnly&&!a.launchable)continue;if(backupMissingOnly&&a.hasBackup)continue;if(cloudSyncedOnly&&!a.cloudApp)continue;
                 if(hasBackup!=null&&hasBackup.booleanValue()!=a.hasBackup)continue;if(cloudOnly!=null&&cloudOnly.booleanValue()!=a.cloudApp)continue;
                 if(labelId!=null&&!a.labelIds.contains(labelId))continue;out.add(a);
             }return out;
