@@ -28,7 +28,8 @@ public final class CloudConnectActivity extends AppCompatActivity {
   ((RecyclerView)findViewById(R.id.rv_cloud_connect)).setAdapter(new ProviderAdapter());
  }
  private final class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.H>{
-  final List<String> names=Arrays.asList("Google Drive","Google Drive (browser)","Dropbox","OneDrive","Box","MEGA","Yandex","pCloud","TeraBox","Filen");  @Override public H onCreateViewHolder(android.view.ViewGroup p,int t){return new H(getLayoutInflater().inflate(R.layout.cloud_connect_item,p,false));}
+  final List<String> names=Arrays.asList("Google Drive","Google Drive (browser)","Dropbox","OneDrive","Box","MEGA","Yandex","pCloud","TeraBox","Filen");
+  @Override public H onCreateViewHolder(android.view.ViewGroup p,int t){return new H(getLayoutInflater().inflate(R.layout.cloud_connect_item,p,false));}
   @Override public void onBindViewHolder(H h,int pos){
    h.title.setText(names.get(pos));h.subtitle.setText(R.string.connect_cloud_subtitle);h.button.setOnClickListener(v->launch(pos));
   }
