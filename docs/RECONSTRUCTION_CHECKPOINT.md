@@ -1272,3 +1272,15 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - No owner collision, circular dependency, backend invention, frozen P4 mutation, or runtime execution claim.
 - P5.6 remains **ACTIVE**; P5.7 and P5 Gate remain **NOT OPENED**.
 
+### P5.6 targeted regression pass 04 — 2026-10-03
+
+- P5.2/P5.3/P5.4 dependency/classification cross-check: **PASS**.
+- F156–F158 native archive/crypto execution: **DEFERRED / VALID**.
+- F162 cloud artifact reuse execution: **DEFERRED / VALID**.
+- F167 import → PackageInstaller execution: **DEFERRED / VALID**.
+- R-E ↔ R-F wiring: **DEFERRED / VALID**.
+- No GAP/PARTIAL → COMPLETE promotion merely from contract existence.
+- No DEFERRED → UNKNOWN promotion.
+- P5.6 targeted static regression passes authorized by the frozen P5 method are now complete.
+- P5.7 Feature Closure preparation is next; P5.7 itself remains **NOT OPENED** and P5 Gate remains **NOT OPENED**.
+
