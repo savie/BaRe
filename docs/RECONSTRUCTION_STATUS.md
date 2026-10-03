@@ -17,7 +17,7 @@ The short current project dashboard is `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
 P4 remains frozen at the static contract boundary under `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-P5.6 is the current lifecycle boundary: P5.5 R-A through R-F are statically implemented and closed; P5.6 static re-audit/regression pass 01 is PASS and remains ACTIVE for targeted cross-batch regression. P5.7 Feature Closure is next. The P5 Gate remains **NOT OPENED**.
+P5 is the current lifecycle boundary: P5.1 is the frozen feature evidence register, and P5.2–P5.7 record the owner, classification, readiness, bounded implementation, and regression evidence already completed. P5 remains **🟡 ACTIVE** because the full P5.1 feature scope is not yet totally implemented. Explicitly authorized P6 deviations remain excluded from the P5 completion target.
 
 Latest Activity depth audit:
 - 71/71 Reference-owned Activities covered/registered
@@ -28,9 +28,9 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 5.6 — RE-AUDIT / REGRESSION — ACTIVE / STATIC PASS 01**
+**PHASE 5 — TOTAL FEATURE IMPLEMENTATION — ACTIVE 🟡**
 
-P5.5 R-A through R-F are statically closed. P5.6 pass 01 is a static boundary/regression pass and does not claim build, install, runtime, provider, backend, archive/crypto engine, filesystem, privileged, or device execution.
+P5.1 is the frozen feature-scope authority. P5.5 R-A through R-F and P5.6 passes 01–04 remain recorded as completed bounded static implementation/regression work, but they do not close the full P5.1 scope. All P5.1 feature requirements remain active P5 work except explicitly authorized P6 deviations.
 
 P4 was closed after re-audit against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
@@ -1241,3 +1241,15 @@ Phase 6 opened as a static reconciliation boundary after P5 completion.
 - No new implementation is authorized by the Phase 6 opening review.
 - **Phase 6 decision: PASS — STATIC AUTHORIZED-DEVIATION RECONCILIATION.**
 - Phase 7 Runtime remains permission-gated.
+
+
+## Current P5 status reconciliation — 2026-10-03
+
+The earlier P5.7 static-closure and P5 Gate static-closure decisions are retained as historical records and are not deleted. They are superseded as the current control-plane status by this reconciliation:
+
+- **P5 = 🟡 ACTIVE.**
+- P5.1 remains the authoritative frozen feature scope: all identified P5.1 feature requirements are P5 work.
+- P5.2–P5.7 evidence, implementation batches, and regression results already recorded remain valid and are not discarded.
+- No known P5.1 feature requirement is promoted to final P5 completion solely because a static contract or bounded implementation exists.
+- **Explicitly authorized P6 deviations remain the only exclusions from the P5 completion target.**
+- The next implementation work therefore continues from the P5.1 register against the existing owner/boundary/classification evidence.
