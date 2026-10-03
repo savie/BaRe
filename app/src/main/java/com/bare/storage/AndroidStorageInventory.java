@@ -7,6 +7,7 @@ import android.os.storage.StorageManager;
 import android.os.storage.StorageVolume;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,8 @@ public final class AndroidStorageInventory implements StorageInventory {
             String displayName = volume.isRemovable()
                     ? safeDescription(volume)
                     : "Internal storage";
+            boolean readable = directory.canRead();
+            boolean writable = directory.canWrite();
 
             result.add(new StorageVolumeInfo(
                     rootPath,
@@ -50,8 +53,10 @@ public final class AndroidStorageInventory implements StorageInventory {
                     displayName,
                     volume.isRemovable(),
                     usb,
-                    directory.canRead(),
-                    directory.canWrite()));
+                    readable,
+                    writable,
+                    !readable || !writable,
+                    filesystemType(directory)));
         }
 
         return result;
@@ -63,6 +68,15 @@ public final class AndroidStorageInventory implements StorageInventory {
             return "External storage";
         }
         return description.toString();
+    }
+
+    private String filesystemType(File directory) {
+        try {
+            String type = Files.getFileStore(directory.toPath()).type();
+            return type == null || type.isEmpty() ? null : type;
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
     private UsbDevice findStorageUsbDevice() {
