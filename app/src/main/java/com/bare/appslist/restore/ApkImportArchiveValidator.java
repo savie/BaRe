@@ -1,6 +1,6 @@
 package com.bare.appslist.restore;
 
-import java.io.File;
+import android.content.Context;\n\nimport java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashSet;
@@ -36,9 +36,9 @@ public final class ApkImportArchiveValidator {
         public String getError() { return error; }
     }
 
-    public Result validate(File input, ApkImportIntake.Kind kind) {
+    public Result validate(Context context, File input, ApkImportIntake.Kind kind) {
         if (input == null || !input.isFile() || input.length() <= 0) {
-            return invalid("APK input is missing or empty.");
+            return invalid(context.getString(com.bare.R.string.apk_import_input_missing));
         }
 
         if (kind == ApkImportIntake.Kind.SINGLE_APK) {
@@ -58,7 +58,7 @@ public final class ApkImportArchiveValidator {
                 if (name == null || name.isEmpty() || entry.isDirectory()) continue;
 
                 if (!safeEntry(name) || !names.add(name)) {
-                    return invalid("Invalid or duplicate APKS entry.");
+                    return invalid(context.getString(com.bare.R.string.apk_import_invalid_entry));
                 }
 
                 long size = entry.getSize();
@@ -72,11 +72,11 @@ public final class ApkImportArchiveValidator {
                 }
             }
         } catch (IOException | SecurityException e) {
-            return invalid(e.getMessage() == null ? "Unable to read APKS archive." : e.getMessage());
+            return invalid(context.getString(com.bare.R.string.apk_import_archive_read_error));
         }
 
         if (!base || apkCount == 0) {
-            return invalid("APKS archive has no base APK.");
+            return invalid(context.getString(com.bare.R.string.apk_import_no_base));
         }
         return new Result(true, true, apkCount, total, null);
     }
