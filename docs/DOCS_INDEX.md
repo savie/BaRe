@@ -20,6 +20,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 | `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` | P5.3 gap/dependency/UNKNOWN classification and closure | **P5.3 static-analysis authority** |
 | `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` | P5.4 implementation readiness and batch selection | **P5.4 working authority** |
 | `docs/audits/P5.6.5_P6_HANDOFF_READINESS.md` | Pre-P5.7 backend/data/auth/credential/provider handoff audit | **P6 handoff evidence** |
+| `docs/audits/P5.7_FEATURE_CLOSURE.md` | P5.7 feature-level closure and final classification | **P5.7 closure evidence** |
 | `docs/RECONSTRUCTION_CHECKPOINT.md` | Short current project dashboard / phase position | **Dashboard only** |
 | `docs/RECONSTRUCTION_STATUS.md` | Detailed implementation notes, Reference findings, historical checkpoints | **Evidence/history ledger; not a queue** |
 | `docs/REFERENCE_AUDIT.md` | Reference artifact inventory/evidence | Reference evidence |
