@@ -570,6 +570,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="pending_payment">Pending payment</string>
     <string name="premium">Premium</string>
     <string name="premium_user_msg">You have Premium!</string>
+    <string name="premium_free_access_granted">Premium access is included with BΛR☰. No purchase is required.</string>
     <string name="processing">Processing</string>
     <string name="protect_backup">Protect backup</string>
     <string name="protected_backup">Protected backup</string>
