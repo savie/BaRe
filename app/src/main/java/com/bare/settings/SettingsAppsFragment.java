@@ -199,7 +199,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
                     dialog.dismiss();
                     refresh();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
