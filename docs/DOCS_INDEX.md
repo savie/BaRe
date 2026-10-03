@@ -90,3 +90,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
 For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit closure, use `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md`. P5.6 is active under `docs/audits/P5.6_REAUDIT_REGRESSION.md`; P5.7 is next after P5.6 closure; the P5 Gate remains NOT OPENED.
+
+- **P5.6 targeted regression:** passes 01–04 complete; dependency/classification closure PASS.
+- **Next:** prepare P5.7 Feature Closure; do not open P5 Gate until P5.7 closure evidence is assembled.
+
