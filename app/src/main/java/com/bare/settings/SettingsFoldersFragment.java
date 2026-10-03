@@ -9,15 +9,15 @@ import androidx.preference.PreferenceScreen;
 
 public final class SettingsFoldersFragment extends SettingsDetailBaseFragment {
     private static final int[] COMPRESSION_LEVELS = {0, 1};
-    private static final String[] COMPRESSION_LABELS = {"No compression", "Fastest"};
+    private static final String[] COMPRESSION_LABELS = {getString(R.string.no_compression), getString(R.string.fastest)};
 
     @Override
     protected void build(PreferenceScreen s) {
-        PreferenceCategory enc = category(s, "Encryption and compression");
-        Preference encryption = item(enc, "folders_encryption_on", "Encrypt backups",
-                "Backups encrypted with Aegis by default");
+        PreferenceCategory enc = category(s, getString(R.string.encryption_and_compression));
+        Preference encryption = item(enc, "folders_encryption_on", getString(R.string.encrypt_backups),
+                getString(R.string.backups_encrypted_aegis));
         disabled(encryption);
-        item(enc, "compression_level_folders", "Compression level", null);
+        item(enc, "compression_level_folders", getString(R.string.compression_level), null);
 
         Preference compression = s.findPreference("compression_level_folders");
         if (compression != null) {
@@ -34,13 +34,13 @@ public final class SettingsFoldersFragment extends SettingsDetailBaseFragment {
         int current = prefs.getInt("compression_level_folders", 1);
         int selected = current == 0 ? 0 : 1;
         new AlertDialog.Builder(requireContext())
-                .setTitle("Compression level")
+                .setTitle(R.string.compression_level)
                 .setSingleChoiceItems(COMPRESSION_LABELS, selected, (dialog, which) -> {
                     prefs.edit().putInt("compression_level_folders", COMPRESSION_LEVELS[which]).apply();
                     dialog.dismiss();
                     refresh();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
