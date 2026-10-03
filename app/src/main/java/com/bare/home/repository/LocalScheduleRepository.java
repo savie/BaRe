@@ -20,6 +20,16 @@ public final class LocalScheduleRepository implements ScheduleRepository {
         state.batteryPercentRequirement = prefs.getInt("battery_percent_requirement", 50);
         state.enabled = prefs.getBoolean("enabled", false);
         state.globalError = prefs.getString("global_error", null);
+        loadList(state.appsQuickActionIds, "apps_quick_actions");
+        loadList(state.appsLabelIds, "apps_labels");
+        loadList(state.appConfigIds, "app_configs");
+        loadList(state.messageIds, "messages");
+        loadList(state.callLogIds, "call_logs");
+        loadList(state.wallIds, "walls");
+        loadList(state.wifiIds, "wifi");
+        loadList(state.folderIds, "folders");
+        state.orderIds.clear();
+        loadList(state.orderIds, "order_ids");
         return state;
     }
 
@@ -31,7 +41,16 @@ public final class LocalScheduleRepository implements ScheduleRepository {
                 .putInt("battery_requirement", state.batteryRequirement)
                 .putInt("battery_percent_requirement", state.batteryPercentRequirement)
                 .putBoolean("enabled", state.enabled)
-                .putString("global_error", state.globalError)
+                 .putString("global_error", state.globalError)
+                .putString("apps_quick_actions", join(state.appsQuickActionIds))
+                .putString("apps_labels", join(state.appsLabelIds))
+                .putString("app_configs", join(state.appConfigIds))
+                .putString("messages", join(state.messageIds))
+                .putString("call_logs", join(state.callLogIds))
+                .putString("walls", join(state.wallIds))
+                .putString("wifi", join(state.wifiIds))
+                .putString("folders", join(state.folderIds))
+                .putString("order_ids", join(state.orderIds))
                 .apply();
     }
 }
