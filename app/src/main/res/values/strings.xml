@@ -681,4 +681,28 @@ Unable to read package information: %2$s</string>
     <string name="terms_of_service">Terms of service</string>
     <string name="notices">Notices</string>
     <string name="storage_volume_unavailable">Unavailable</string>
+
+    <string name="apk_import_missing_input">Missing APK import input.</string>
+    <string name="apk_import_directory_error">Unable to create APK import directory.</string>
+    <string name="apk_import_unsupported_file">Unsupported APK file.</string>
+    <string name="apk_import_empty">APK import is empty.</string>
+    <string name="apk_import_read_error">Unable to read APK file.</string>
+    <string name="apk_import_input_missing">APK input is missing or empty.</string>
+    <string name="apk_import_invalid_entry">Invalid or duplicate APKS entry.</string>
+    <string name="apk_import_archive_read_error">Unable to read APKS archive.</string>
+    <string name="apk_import_no_base">APKS archive has no base APK.</string>
+    <string name="apk_import_missing_result">Missing APK import result.</string>
+    <string name="apk_import_output_directory_error">Unable to create APK output directory.</string>
+    <string name="apk_import_base_empty">Base APK is empty.</string>
+    <string name="apk_import_base_size_changed">Base APK size changed while reading archive.</string>
+    <string name="apk_import_materialization_failed">Base APK materialization failed.</string>
+    <string name="apk_import_extract_error">Unable to extract base APK.</string>
+    <string name="apk_import_metadata_missing">APK is missing or empty.</string>
+    <string name="apk_import_metadata_unreadable">Android could not read APK package metadata.</string>
+    <string name="restore_task_missing_id">Missing task id.</string>
+    <string name="restore_task_invalid_id">Invalid task id.</string>
+    <string name="restore_task_root_error">Unable to create app task directory.</string>
+    <string name="restore_task_directory_error">Unable to create restore task directory.</string>
+    <string name="restore_task_invalid_path">Invalid restore task path.</string>
+    <string name="restore_task_create_error">Unable to create restore task directory.</string>
 </resources>
