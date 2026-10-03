@@ -23,6 +23,7 @@ public final class HomeSearchActivity extends AppCompatActivity {
     private int[] sourceBounds;
     private final HomeSearchEngine searchEngine = new HomeSearchEngine();
     private HomeSearchEngine.State lastSearchState;
+    private final java.util.List<com.bare.appslist.data.AppInventoryItem> searchApps=new java.util.ArrayList<>();
     private EditText query;
     private ImageButton clear;
 
@@ -69,6 +70,7 @@ public final class HomeSearchActivity extends AppCompatActivity {
 
         android.content.SharedPreferences prefs = getSharedPreferences("home_search", MODE_PRIVATE);
         searchEngine.setShowSystemApps(prefs.getBoolean("home_search_show_system_apps", true));
+        new Thread(() -> { try { searchApps.addAll(new com.bare.appslist.data.AppInventoryLoader(this).load()); } catch (RuntimeException ignored) {} }).start();
 
         TextView systemToggle = findViewById(R.id.btn_home_search_apps_system_toggle);
         systemToggle.setOnClickListener(v -> {
@@ -85,9 +87,8 @@ public final class HomeSearchActivity extends AppCompatActivity {
                 clear.setVisibility(s != null && s.length() > 0 ? View.VISIBLE : View.GONE);
                 // F03 owns normalization/ranking/limits/cancellation; concrete feature
                 // inventories are supplied by their respective repositories.
-                lastSearchState = searchEngine.search(s == null ? "" : s.toString(),
-                        java.util.Collections.emptyList(), java.util.Collections.emptyList(),
-                        java.util.Collections.emptyList(), java.util.Collections.emptyList());
+                java.util.List<HomeSearchEngine.Result> qa=new java.util.ArrayList<>(); for(String id:new com.bare.appsquickactions.AppsQuickActionsActivity.QuickActionCatalog().backup()) qa.add(new HomeSearchEngine.Result(HomeSearchEngine.Category.QUICK_ACTIONS,id,id,id,false)); for(String id:new com.bare.appsquickactions.AppsQuickActionsActivity.QuickActionCatalog().restore()) qa.add(new HomeSearchEngine.Result(HomeSearchEngine.Category.QUICK_ACTIONS,id,id,id,false));
+                lastSearchState = searchEngine.search(s == null ? "" : s.toString(), searchApps, java.util.Collections.emptyList(), java.util.Collections.emptyList(), qa);
             }
 
             @Override public void afterTextChanged(android.text.Editable s) {}
