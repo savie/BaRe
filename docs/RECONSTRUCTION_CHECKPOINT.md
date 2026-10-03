@@ -1448,3 +1448,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - No non-empty user-facing literal remains in those patterns; earlier Settings/Auth/App-Info surfaces are resource-backed.
 - No source mutation required.
 - P5.6 Pass 05: **PASS**.
+
+
+### P5.6 Pass 06 — broken-consumer + residual dynamic localization regression — 2026-10-03
+- Found a real R-F broken-consumer defect: F86ApksPackage.hasRequiredMetadata() referenced undeclared SWIFTBACKUP_METADATA; corrected it to the declared target-owned BARE_METADATA.
+- Re-swept dynamic storage-switch UI and found two user-facing literals outside the earlier setText/setTitle/setMessage pattern: "root access needed" and "unavailable". Reused/added Android resources without changing storage decision or migration logic.
+- Removed remaining Java-literal category titles from ManageSpaceInventoryRepository by resolving Apps/Messages/Calls/Folders/Wallpapers/Wi-Fi through existing Android resources.
+- Compare from Pass 05 checkpoint af5c688b1f0041525af67073e1d470ea0fdbae34 is bounded to four target files: RfArtifactContracts.java, StorageSwitchActivity.java, ManageSpaceInventoryRepository.java, and strings.xml.
+- No build/runtime/device/provider/backend/native execution performed; Reference ZIP remains unchanged.
+- P5.6 Pass 06: PASS — broken consumer corrected and residual dynamic localization debt closed.
+- P5.6 remains ACTIVE; P5.7 Feature Closure and the P5 Gate remain NOT OPENED pending final P5.6 exit review.
