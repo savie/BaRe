@@ -8,6 +8,9 @@ import com.bare.home.repository.BackendIdentity;
  *
  * The decompile directly supports identity/userInfo and current cloud-directory
  * path derivation. Provider SDK execution and backend mutation remain downstream.
+ *
+ * This interface is the BaRe-owned boundary; the eventual Supabase adapter belongs
+ * behind it and must not leak provider SDK types into feature consumers.
  */
 public interface BaReBackendRepository {
     BackendIdentity currentIdentity();
@@ -16,6 +19,6 @@ public interface BaReBackendRepository {
     boolean isRegisteredContributor(String uid);
     void signOut();
 
-    /** Reference re3 cloud_v1 path uses FireHelper.currentCloudDir metadata. */
+    /** Reference cloud-directory metadata; not a Supabase schema contract. */
     String currentCloudDirectory();
 }
