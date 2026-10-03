@@ -1200,3 +1200,9 @@ Cloud metadata → artifact reuse, archive/crypto → task-result execution brid
 
 P5.6 remains ACTIVE; P5.7 Feature Closure and the P5 Gate remain unopened.
 
+## P5.6 pass 04 — dependency/classification closure
+
+P5.2/P5.3/P5.4 cross-check confirms that the deferred findings from passes 02–03 are valid downstream classifications. No contract existence was used to claim runtime parity or promote GAP/PARTIAL to COMPLETE.
+
+P5.6 targeted static regression work is now complete under the frozen method. Next lifecycle step is preparation for P5.7 Feature Closure; P5.7 and the P5 Gate remain unopened.
+
