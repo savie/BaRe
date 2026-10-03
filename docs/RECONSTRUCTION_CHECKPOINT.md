@@ -24,7 +24,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 2 | Reference skeleton | **COMPLETE / FROZEN** |
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
-| 5 | Features | **P5.6 RE-AUDIT / REGRESSION ACTIVE / P5 GATE NOT OPENED** |
+| 5 | Features | **🟡 ACTIVE — P5.1 FEATURE SCOPE REMAINS TO BE FULLY IMPLEMENTED** |
 | 6 | Authorized deviations | **DEFINED / GATED** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
@@ -100,11 +100,11 @@ These remain outside P4 implementation:
 
 ## Current position
 
-> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete (static closure) → P5.3 active (static classification) → P5 gate not opened.**
+> **P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 classification complete → P5.4 readiness complete → P5.5/P5.6 bounded implementation + regression evidence retained → P5 remains 🟡 ACTIVE until all P5.1 feature requirements are implemented, except explicitly authorized P6 deviations.**
 
 Current package: **P5.3 — Gap / Dependency / UNKNOWN Classification — ACTIVE.**
 
-Current lifecycle boundary: **P5.3 — gap / dependency / UNKNOWN classification. P5 gate remains not opened.**
+Current lifecycle boundary: **P5 — total feature implementation. P5 Gate is not a final closure decision until the P5.1 scope is fully implemented, except explicitly authorized P6 deviations.**
 
 P4.1 blocker/dependency analysis is recorded in `docs/audits/P4_CONTRACT_REGISTER.md`; the scope remains C01–C16.
 
@@ -1300,8 +1300,8 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - P5 Gate: **NOT OPENED**
 ### P5 Gate — 2026-10-03
 
-- P5.7: **PASS — STATIC FEATURE CLOSURE**
-- P5 Gate: **PASS — STATIC FEATURE RECONSTRUCTION CLOSURE**
+- P5.7: **🟡 ACTIVE — static evidence retained; total implementation pending**
+- P5 Gate: **🟡 ACTIVE — P5 total implementation pending**
 - 170 unique feature-contract units: reviewed/closed at P5 static boundary.
 - 168 GAP/PARTIAL: statically closed; downstream execution remains deferred.
 - F31,F168: authorized deviations.
