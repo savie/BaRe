@@ -46,9 +46,9 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 4. `docs/PHASE_5_GUIDE.md` — P5 method and pre-implementation rules
 5. `docs/audits/P5_SCOPE_AUDIT.md` — P5.0 scope/entry evidence
 6. `docs/audits/P5_FEATURE_REGISTER.md` — P5.1 feature evidence
-7. `docs/RECONSTRUCTION_STATUS.md — detailed evidence/history
-6. `docs/bare.md` — roadmap/handoff/target definition
-7. Relevant `REFERENCE_*.md` — Reference evidence when needed
+7. `docs/RECONSTRUCTION_STATUS.md` — detailed evidence/history
+8. `docs/bare.md` — roadmap/handoff/target definition
+9. Relevant `REFERENCE_*.md` — Reference evidence when needed
 
 ### P5 pre-implementation work
 
@@ -61,7 +61,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 7. `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md` — P5.2 owner/boundary closure
 8. `docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md` — P5.3 static closure
 9. `docs/audits/P5.4_IMPLEMENTATION_READINESS.md` — active readiness checkpoint
-10. P5.5 implementation is not authorized until P5.4 exit
+10. P5.5 implementation authority: `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` — R-A through R-F statically closed
 
 ### Daily P3 work
 
@@ -83,8 +83,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete (static closure) → P5.3 active (static classification) → P5 gate not yet opened.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 static closure → P5.4 readiness closure → P5.5 R-A through R-F static closure → P5.6 Re-audit / Regression NEXT → P5.7 Feature Closure → P5 Gate NOT OPENED.**
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-For P5 method, use `docs/PHASE_5_GUIDE.md`. For the completed static contract boundary, use `docs/audits/P5.2_CONTRACT_OWNER_BOUNDARY.md`. P5.3 has not started and the guide does not authorize P5 implementation.
+For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit closure, use `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md`. P5.6 is the next lifecycle; the P5 Gate remains NOT OPENED.
