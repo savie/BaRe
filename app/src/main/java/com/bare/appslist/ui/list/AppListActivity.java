@@ -22,6 +22,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bare.R;
 import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
+import com.bare.appslist.data.AppInventoryItem;
+import com.bare.appslist.data.AppInventoryLoader;
+import com.bare.appslist.data.AppInventoryRepository;
 import com.bare.appslist.ui.listbatch.AppsBatchActivity;
 import com.bare.appslist.ui.AppListItemLayout;
 import com.bare.detail.DetailActivity;
@@ -49,6 +52,8 @@ public final class AppListActivity extends AppCompatActivity {
     private SearchView searchView;
     private DrawerLayout drawer;
     private boolean searchOpen;
+    private AppInventoryRepository inventoryRepository;
+    private InventoryAdapter inventoryAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -80,9 +85,10 @@ public final class AppListActivity extends AppCompatActivity {
                 ? (DrawerLayout) findViewById(R.id.drawer_container).getParent() : null;
 
         RecyclerView apps = findViewById(R.id.apps_recycler_view);
-        if (apps != null) {
-            apps.setAdapter(new EmptyAppsAdapter());
-        }
+        inventoryRepository = new AppInventoryRepository();
+        inventoryAdapter = new InventoryAdapter();
+        if (apps != null) apps.setAdapter(inventoryAdapter);
+        loadInventory();
 
         View error = findViewById(R.id.error_layout);
         if (error != null) {
@@ -202,11 +208,18 @@ public final class AppListActivity extends AppCompatActivity {
     }
 
     private void showSearchBoundary(String query) {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.search)
-                .setMessage(getString(R.string.apps_search_boundary, query))
-                .setPositiveButton(R.string.close, null)
-                .show();
+        if (inventoryAdapter != null) inventoryAdapter.setQuery(query);
+    }
+
+    private void loadInventory() {
+        new Thread(() -> {
+            try {
+                inventoryRepository.replace(new AppInventoryLoader(this).load());
+                runOnUiThread(() -> inventoryAdapter.setItems(inventoryRepository.list()));
+            } catch (RuntimeException ignored) {
+                runOnUiThread(() -> inventoryAdapter.setItems(java.util.Collections.emptyList()));
+            }
+        }).start();
     }
 
     private void showFilterBoundary() {
@@ -253,53 +266,21 @@ public final class AppListActivity extends AppCompatActivity {
         return true;
     }
 
-    private final class EmptyAppsAdapter extends RecyclerView.Adapter<EmptyAppsAdapter.Holder> {
-        @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.app_item, parent, false);
-            return new Holder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(Holder holder, int position) {
-            View root = holder.itemView;
-            View card = root.findViewById(R.id.item_card);
-            AppListItemLayout itemLayout = (AppListItemLayout) root;
-            itemLayout.bindSwipeTo(card);
-            View menu = root.findViewById(R.id.iv_menu_click_listener);
-            View menuIcon = root.findViewById(R.id.iv_menu);
-            View favorite = root.findViewById(R.id.iv_favorite);
-
-            card.setOnClickListener(v -> openDetailBoundary());
-            root.findViewById(R.id.btn_swipe_start_primary)
-                    .setOnClickListener(v -> showEngineBoundary(R.string.backup));
-            root.findViewById(R.id.btn_swipe_start_secondary)
-                    .setOnClickListener(v -> showEngineBoundary(R.string.restore));
-            root.findViewById(R.id.btn_swipe_end_primary)
-                    .setOnClickListener(v -> openDetailBoundary());
-            root.findViewById(R.id.btn_swipe_end_secondary)
-                    .setOnClickListener(v -> openAppInfoBoundary());
-            menu.setOnClickListener(v -> showAppActionsBoundary());
-            menuIcon.setOnClickListener(v -> showAppActionsBoundary());
-            favorite.setOnClickListener(v -> showFavoriteBoundary());
-
-            TextView title = root.findViewById(R.id.tv_title);
-            TextView subtitle = root.findViewById(R.id.tv_subtitle1);
-            title.setText(R.string.apps_list_pending);
-            subtitle.setText(R.string.app_item_pending_subtitle);
-        }
-
-        @Override public int getItemCount() { return 1; }
-
-        final class Holder extends RecyclerView.ViewHolder {
-            Holder(View itemView) { super(itemView); }
-        }
+    private final class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Holder> {
+        private final java.util.ArrayList<AppInventoryItem> all = new java.util.ArrayList<>();
+        private final java.util.ArrayList<AppInventoryItem> visible = new java.util.ArrayList<>();
+        private String query = "";
+        void setItems(List<AppInventoryItem> items){ all.clear(); if(items!=null) all.addAll(items); applyFilter(); }
+        void setQuery(String value){ query=value==null?"":value.trim().toLowerCase(java.util.Locale.ROOT); applyFilter(); }
+        private void applyFilter(){ visible.clear(); for(AppInventoryItem item:all) if(query.isEmpty()||item.name.toLowerCase(java.util.Locale.ROOT).contains(query)||item.packageName.toLowerCase(java.util.Locale.ROOT).contains(query)) visible.add(item); visible.sort((a,b)->a.name.compareToIgnoreCase(b.name)); notifyDataSetChanged(); }
+        @Override public Holder onCreateViewHolder(ViewGroup parent,int viewType){ View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.app_item,parent,false); return new Holder(view); }
+        @Override public void onBindViewHolder(Holder holder,int position){ AppInventoryItem item=visible.get(position); View root=holder.itemView; View card=root.findViewById(R.id.item_card); ((AppListItemLayout)root).bindSwipeTo(card); TextView title=root.findViewById(R.id.tv_title); TextView subtitle=root.findViewById(R.id.tv_subtitle1); if(title!=null) title.setText(item.name); if(subtitle!=null) subtitle.setText(item.packageName); card.setOnClickListener(v->openDetailBoundary(item.packageName)); root.findViewById(R.id.btn_swipe_start_primary).setOnClickListener(v->showEngineBoundary(R.string.backup)); root.findViewById(R.id.btn_swipe_start_secondary).setOnClickListener(v->showEngineBoundary(R.string.restore)); root.findViewById(R.id.btn_swipe_end_primary).setOnClickListener(v->openDetailBoundary(item.packageName)); root.findViewById(R.id.btn_swipe_end_secondary).setOnClickListener(v->openAppInfoBoundary(item.packageName)); root.findViewById(R.id.iv_menu_click_listener).setOnClickListener(v->showAppActionsBoundary(item.packageName)); View menuIcon=root.findViewById(R.id.iv_menu); if(menuIcon!=null) menuIcon.setOnClickListener(v->showAppActionsBoundary(item.packageName)); }
+        @Override public int getItemCount(){ return visible.size(); }
+        final class Holder extends RecyclerView.ViewHolder { Holder(View itemView){super(itemView);} }
     }
 
-    private void openDetailBoundary() {
-        startActivity(new Intent(this, DetailActivity.class));
-    }
+    private void openDetailBoundary(){ openDetailBoundary(null); }
+    private void openDetailBoundary(String packageName){ Intent intent=new Intent(this,DetailActivity.class); if(packageName!=null) intent.putExtra("package_name",packageName); startActivity(intent); }
 
     private void showEngineBoundary(int actionRes) {
         new MaterialAlertDialogBuilder(this)
@@ -309,9 +290,8 @@ public final class AppListActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void openAppInfoBoundary() {
-        startActivity(new Intent(this, AppInfoActivity.class));
-    }
+    private void openAppInfoBoundary(){ openAppInfoBoundary(null); }
+    private void openAppInfoBoundary(String packageName){ Intent intent=new Intent(this,AppInfoActivity.class); if(packageName!=null) intent.putExtra("package_name",packageName); startActivity(intent); }
 
     private void showFavoriteBoundary() {
         new MaterialAlertDialogBuilder(this)
@@ -321,7 +301,8 @@ public final class AppListActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void showAppActionsBoundary() {
+    private void showAppActionsBoundary(){ showAppActionsBoundary(null); }
+    private void showAppActionsBoundary(String packageName){
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.app_item_menu)
                 .setItems(new String[]{
