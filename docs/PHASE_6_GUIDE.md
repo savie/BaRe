@@ -70,9 +70,109 @@ The project-wide lifecycle remains:
 
 P6 applies this workflow to backend and authorized-deviation work.
 
-The backend boundary is:
+### P6 lifecycle flow
 
-`UI / feature consumer → provider-neutral domain/repository boundary → Supabase adapter → Supabase service/backend`
+```text
+                    ┌─────────────────┐
+                    │    P5 CLOSED    │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ P6.0 ENTRY      │
+                    │ SCOPE CONTROL   │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ P6.1 CONTRACT    │
+                    │ OWNERSHIP        │
+                    │ DATA CLASS       │
+                    └────────┬────────┘
+                             │
+                             ▼
+              ┌──────────────────────────────┐
+              │ P6.2 REFERENCE BACKEND       │
+              │ EVIDENCE → SUPABASE MODEL    │
+              └──────────────┬───────────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ P6.3 SUPABASE   │
+                    │ IMPLEMENTATION   │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ P6.4 AUTH /     │
+                    │ SESSION /       │
+                    │ CREDENTIAL      │
+                    └────────┬────────┘
+                             │
+                             ▼
+                    ┌─────────────────┐
+                    │ P6.5 RLS /     │
+                    │ STORAGE /      │
+                    │ SECURITY       │
+                    └────────┬────────┘
+                             │
+                ┌────────────┴────────────┐
+                ▼                         ▼
+        ┌───────────────┐         ┌───────────────┐
+        │ P6.6 BRANDING │         │ P6.7 PREMIUM  │
+        │ BΛR☰ / BaRe   │         │ FREE          │
+        └───────┬───────┘         └───────┬───────┘
+                └────────────┬────────────┘
+                             │
+                             ▼
+              ┌──────────────────────────────┐
+              │ P6.8 BACKEND STANDALONE      │
+              │ VERIFICATION                  │
+              │ Auth / CRUD / RLS / Isolation │
+              └──────────────┬───────────────┘
+                             │
+                       ┌─────┴─────┐
+                       │           │
+                    FAIL          PASS
+                       │           │
+                       ▼           ▼
+                  FIX / REWORK   P6.9
+                                 RE-AUDIT
+                                   │
+                                   ▼
+                              P6.10 CLOSURE
+                                   │
+                                   ▼
+                              ┌──────────┐
+                              │    P7    │
+                              │ APK/RUN  │
+                              └──────────┘
+```
+
+The lifecycle gate is:
+
+`P5 CLOSED → P6 implementation → standalone backend verification → re-audit → P6 CLOSED → P7`
+
+### Backend ownership flow
+
+The canonical backend ownership boundary is:
+
+```text
+UI / Feature Consumer
+        │
+        ▼
+Provider-Neutral Domain
+/ Repository Boundary
+        │
+        ▼
+Supabase Adapter
+        │
+        ▼
+Supabase Service
+ ┌──────┼──────┬──────┐
+ ▼      ▼      ▼      ▼
+Auth   DB     RLS   Storage
+```
 
 Account identity:
 
