@@ -1,17 +1,103 @@
 package com.bare.manage;
+
 import android.os.Bundle;
+import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bare.R;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.Collections;
+import java.util.List;
+
 public final class ManageSpaceActivity extends AppCompatActivity {
- @Override protected void onCreate(@Nullable Bundle state){super.onCreate(state);setContentView(R.layout.manage_space_activity);Toolbar t=findViewById(R.id.toolbar);setSupportActionBar(t);if(getSupportActionBar()!=null)getSupportActionBar().setDisplayHomeAsUpEnabled(true);((RecyclerView)findViewById(R.id.recycler_view)).setAdapter(new Adapter(this));}
- private void boundary(String title){new MaterialAlertDialogBuilder(this).setTitle(title).setMessage(R.string.p3_activity_boundary).setPositiveButton(R.string.close,null).show();}
- @Override public boolean onSupportNavigateUp(){finish();return true;}
- final class Adapter extends RecyclerView.Adapter<Adapter.H>{final android.content.Context c;final String[] items={getString(R.string.apps),getString(R.string.messages),getString(R.string.call_logs),getString(R.string.folders),getString(R.string.wallpapers),getString(R.string.wifi)};Adapter(android.content.Context c){this.c=c;}public H onCreateViewHolder(ViewGroup p,int t){View v=getLayoutInflater().inflate(R.layout.manage_space_item_normal,p,false);return new H(v);}public void onBindViewHolder(H h,int p){TextView title=h.v.findViewById(R.id.tv_title);title.setText(items[p]);h.v.findViewById(R.id.btn_action).setOnClickListener(v->boundary(items[p]));}public int getItemCount(){return items.length;}final class H extends RecyclerView.ViewHolder{final View v;H(View v){super(v);this.v=v;}}}
+    private ManageSpaceInventoryRepository inventoryRepository;
+
+    @Override
+    protected void onCreate(@Nullable Bundle state) {
+        super.onCreate(state);
+        setContentView(R.layout.manage_space_activity);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        inventoryRepository = new ManageSpaceInventoryRepository(this);
+        List<ManageSpaceReclaimItem> items = inventoryRepository.loadLocalInventory();
+
+        RecyclerView recycler = findViewById(R.id.recycler_view);
+        recycler.setAdapter(new Adapter(items));
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    final class Adapter extends RecyclerView.Adapter<Adapter.H> {
+        private final List<ManageSpaceReclaimItem> items;
+
+        Adapter(List<ManageSpaceReclaimItem> items) {
+            this.items = items == null ? Collections.emptyList() : items;
+        }
+
+        @Override
+        public H onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = getLayoutInflater()
+                    .inflate(R.layout.manage_space_item_normal, parent, false);
+            return new H(view);
+        }
+
+        @Override
+        public void onBindViewHolder(H holder, int position) {
+            ManageSpaceReclaimItem item = items.get(position);
+
+            TextView title = holder.view.findViewById(R.id.tv_title);
+            TextView summary = holder.view.findViewById(R.id.tv_summary);
+            Button action = holder.view.findViewById(R.id.btn_action);
+
+            title.setText(item.title);
+            if (summary != null) {
+                summary.setText(Formatter.formatFileSize(
+                        ManageSpaceActivity.this,
+                        item.bytes));
+            }
+
+            /*
+             * F125 owns inventory-to-reclaim routing; F105 owns protected-backup
+             * revalidation/deletion. Unknown protection therefore remains
+             * non-destructive until F105 supplies the authoritative decision.
+             */
+            action.setEnabled(item.cleanupAllowed());
+            action.setAlpha(item.cleanupAllowed() ? 1.0f : 0.5f);
+            action.setOnClickListener(v -> {
+                if (!item.cleanupAllowed()) return;
+                // F105 supplies the concrete delete/revalidation executor.
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return items.size();
+        }
+
+        final class H extends RecyclerView.ViewHolder {
+            final View view;
+
+            H(View view) {
+                super(view);
+                this.view = view;
+            }
+        }
+    }
 }
