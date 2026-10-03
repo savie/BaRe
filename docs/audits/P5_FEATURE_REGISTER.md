@@ -10,7 +10,7 @@ Reference is read-only. This register is evidence, not implementation approval, 
 
 **Scope note:** P5.1 static closure means the Reference evidence/register audit is closed. All P5.1 findings remain active P5 implementation scope except explicitly authorized P6 deviations (F31/F168); this register is the canonical evidence/backlog basis for that work.
 
-**P5.3 classification layer:** ACTIVE below. The P5.1 evidence table remains frozen; P5.3 adds classification without mutating the Reference evidence. Classification or downstream execution boundaries do not remove a known P5 finding from P5 implementation scope.
+**P5.3 classification layer:** COMPLETE / STATIC CLOSURE. The P5.1 evidence table remains frozen; P5.3 classification does not mutate the Reference evidence. Classification or downstream execution boundaries do not remove a known P5 finding from P5 implementation scope.
 
 ## Primary evidence
 
@@ -220,7 +220,7 @@ New finding workflow:
 
 # P5.3 CLASSIFICATION INDEX
 
-**Status:** 🔵 ACTIVE — STATIC CLASSIFICATION
+**Status:** 🟢 COMPLETE / STATIC CLASSIFICATION
 
 This section is the P5.3 classification layer for the frozen P5.1 feature evidence. The Reference evidence above is not modified.
 
