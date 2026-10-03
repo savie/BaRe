@@ -14,6 +14,17 @@ public final class StorageSwitchTransition {
         DESTINATION_UNAVAILABLE
     }
 
+    /**
+     * Reference exposes an explicit decision when files already exist at the
+     * destination. The decision is modeled here without performing filesystem
+     * copy/move/delete operations.
+     */
+    public enum ExistingDestinationDecision {
+        COPY,
+        MOVE,
+        DO_NOTHING
+    }
+
     private StorageSwitchTransition() {
     }
 
@@ -33,5 +44,16 @@ public final class StorageSwitchTransition {
             default:
                 return Decision.PROCEED;
         }
+    }
+
+    /**
+     * Resolves the presentation-level choice for an already-populated
+     * destination. Actual file operations remain downstream.
+     */
+    public static ExistingDestinationDecision resolveExistingDestination(
+            boolean destinationHasFiles) {
+        return destinationHasFiles
+                ? ExistingDestinationDecision.COPY
+                : ExistingDestinationDecision.DO_NOTHING;
     }
 }
