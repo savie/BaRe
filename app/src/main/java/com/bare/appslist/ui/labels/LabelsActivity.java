@@ -49,11 +49,13 @@ public final class LabelsActivity extends AppCompatActivity {
     private View emptyView;
     private int mode;
     private boolean appBoundary;
+    private com.bare.appslist.data.AppInventoryRepository.Labels labelRepository;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.labels_activity);
+        labelRepository = new com.bare.appslist.data.AppInventoryRepository.Labels(this);
 
         mode = getIntent() == null ? MODE_MANAGE
                 : getIntent().getIntExtra(EXTRA_MODE, MODE_MANAGE);
@@ -104,8 +106,13 @@ public final class LabelsActivity extends AppCompatActivity {
             restoreSelection(appLabelIds, state.getStringArrayList(STATE_APP_LABELS));
         }
 
+        if (state == null) loadPersistedLabels();
         refresh();
     }
+
+    private void loadPersistedLabels(){ labels.clear(); for(com.bare.appslist.data.AppInventoryRepository.Labels.Label l:labelRepository.list()) labels.add(new LabelItem(l.id,l.name,l.color)); appLabelIds.clear(); java.util.List<String> persisted=new java.util.ArrayList<>(); java.util.Map<String,java.util.List<String>> all=labelRepository.assignments(); if(getIntent()!=null){String pkg=getIntent().getStringExtra(EXTRA_APP); if(pkg!=null&&all.get(pkg)!=null)persisted.addAll(all.get(pkg));} appLabelIds.addAll(persisted); }
+
+    private void persistLabels(){ java.util.List<com.bare.appslist.data.AppInventoryRepository.Labels.Label> ls=new java.util.ArrayList<>(); for(LabelItem x:labels)ls.add(new com.bare.appslist.data.AppInventoryRepository.Labels.Label(x.id,x.name,x.color)); java.util.Map<String,java.util.List<String>> as=labelRepository.assignments(); if(getIntent()!=null){String pkg=getIntent().getStringExtra(EXTRA_APP);if(pkg!=null)as.put(pkg,new java.util.ArrayList<>(appLabelIds));} labelRepository.save(ls,as); }
 
     private int titleForMode() {
         if (mode == MODE_SET_APP) return R.string.set_app_labels;
@@ -234,6 +241,7 @@ public final class LabelsActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok, (d, which) -> {
                     if (appLabels) appLabelIds.clear();
                     else selectedIds.clear();
+                    persistLabels();
                     refresh();
                 }).show();
     }
@@ -247,6 +255,7 @@ public final class LabelsActivity extends AppCompatActivity {
                     labels.clear();
                     selectedIds.clear();
                     appLabelIds.clear();
+                    persistLabels();
                     refresh();
                 }).show();
     }
