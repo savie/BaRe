@@ -113,7 +113,12 @@ public final class RestorePreflight {
             invalid.addAll(request.getSelectedParts());
         }
 
-        Resolution uid = uidResolver.resolve(request.getIdentity().getPackageName());
+        // Reference xw resolves the installed UID only when data restore can proceed;
+        // do not probe the platform for an invalid/empty restore selection.
+        Resolution uid = Resolution.unavailable();
+        if (metadataValid && !valid.isEmpty()) {
+            uid = uidResolver.resolve(request.getIdentity().getPackageName());
+        }
         return new Result(metadataValid, valid, invalid, uid);
     }
 }
