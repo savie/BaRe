@@ -25,6 +25,7 @@ This file is **index only**. It maps documentation files to their purpose. It do
 | `docs/PHASE_4_GATE.md` | Phase 4 contract boundary, closure evidence, and P4 exit decision. |
 | `docs/PHASE_5_GUIDE.md` | Phase 5 feature-reconstruction method, evidence workflow, ownership rules, and phase boundaries. |
 | `docs/PHASE_5_GATE.md` | Final Phase 5 exit decision and authoritative P5 → P6 handoff surface. |
+| `docs/PHASE_6_GUIDE.md` | Phase 6 working method for authorized target deviations, Supabase backend integration, branding, Premium, security, and standalone backend verification. |
 
 ## Audit directory
 
