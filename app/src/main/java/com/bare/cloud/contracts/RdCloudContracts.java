@@ -15,13 +15,32 @@ public final class RdCloudContracts {
     private RdCloudContracts() {}
 
     /** F19 — provider selection, connection-entry routing and result presentation. */
+    public enum F19Provider {
+        GOOGLE_DRIVE,
+        GOOGLE_DRIVE_BROWSER,
+        DROPBOX,
+        ONEDRIVE,
+        BOX,
+        MEGA,
+        YANDEX,
+        PCLOUD,
+        TERABOX,
+        FILEN
+    }
     public record F19CloudConnection(
-            String providerId,
+            F19Provider provider,
             String connectionEntry,
             String resultState,
             String failureCode) {}
 
     /** F20 — provider-neutral cloud operations. */
+    public enum F20Operation { LIST, UPLOAD, DOWNLOAD, DELETE }
+    public record F20OperationRequest(
+            F20Operation operation, String providerId, String remotePath,
+            long expectedBytes, String requestId) {}
+    public record F20OperationResult(
+            F20Operation operation, boolean success, String state,
+            long transferredBytes, String remoteId, String error) {}
     public interface F20CloudOperations {
         Object list(Object request);
         Object upload(Object request);
@@ -30,18 +49,21 @@ public final class RdCloudContracts {
     }
 
     /** F21 — orphan discovery/selection/cleanup boundary. */
+    public enum F21State { IDLE, SCANNING, RESULTS, DELETING, ERROR }
     public record F21OrphanCleanupState(
-            String state, List<String> orphanIds, int selectedCount,
+            F21State state, List<String> orphanIds, int selectedCount,
             int deletedCount, String error) {}
 
     /** F41 — provider-neutral artifact/archive/crypto contract. */
+    public enum F41Format { SBA, TAR, SEVEN_ZIP }
     public record F41ArtifactSpec(
-            String format, int compressionLevel, String passwordStrategy,
+            F41Format format, int compressionLevel, String passwordStrategy,
             boolean encrypted, String readerVersion) {}
 
     /** F51 — provider abstraction/diagnostic transfer-test entry. */
+    public enum F51Operation { LIST, UPLOAD, DOWNLOAD, DELETE, TEST }
     public record F51ProviderTransferContext(
-            String providerId, String operation, String transferMode,
+            String providerId, F51Operation operation, String transferMode,
             String diagnosticRunId) {}
 
     /** F87 — credential persistence/export projection. */
@@ -56,26 +78,78 @@ public final class RdCloudContracts {
             F88State state, int progress, List<String> resultIds, String error) {}
 
     /** F95 — versioned AppSpecialData payload codec. */
+    public record F95Payload(
+            int version, String permissionStatesCsv, String ssaid,
+            String ntfAccessComponent, String accessibilityComponent,
+            String notificationPolicyXml) {
+        public boolean hasPayloads() {
+            return notEmpty(permissionStatesCsv) || notEmpty(ssaid)
+                    || notEmpty(ntfAccessComponent) || notEmpty(accessibilityComponent)
+                    || notEmpty(notificationPolicyXml);
+        }
+        private static boolean notEmpty(String value) {
+            return value != null && !value.isEmpty();
+        }
+    }
     public record F95SpecialDataPayload(
-            int version, String userBinding, byte[] encodedPayload,
-            int uncompressedSize, boolean compressed) {}
+            String formatVersion, String userBinding, byte[] encodedPayload,
+            int maxFileBytes, boolean compressed, boolean atomicReplace) {
+        public static final String FORMAT_VERSION_1 = "v1";
+        public static final String ENCRYPTED_STRING_SEPARATOR = ":::";
+        public static final int MAX_FILE_BYTES = 1_048_576;
+    }
 
     /** F96 — generic cloud login outcome taxonomy. */
+    public enum F96Outcome {
+        SUCCESS,
+        INVALID_CREDENTIALS,
+        TEMP_CONNECTION_ERROR,
+        UNKNOWN_ERROR,
+        UNKNOWN_HOST_KEY,
+        UNTRUSTED_CERTIFICATE,
+        FAILED
+    }
     public record F96LoginResult(
-            boolean success, String outcome, String message,
-            Map<String, String> properties) {}
+            F96Outcome outcome, String message, Map<String, String> properties) {
+        public boolean success() {
+            return outcome == F96Outcome.SUCCESS;
+        }
+    }
 
     /** F97 — MEGA MFA-required gate/session continuation. */
+    public enum F97State { SUCCESS, MFA_REQUIRED, FAILED }
     public record F97MegaAuthState(
-            boolean mfaRequired, String sessionState,
-            String continuationToken, String error) {}
+            F97State state, String sessionState,
+            String continuationToken, String error) {
+        public boolean mfaRequired() {
+            return state == F97State.MFA_REQUIRED;
+        }
+    }
 
     /** F98 — Filen persisted/restorable encrypted session state. */
     public record F98FilenSession(
-            String sessionId, String identity, boolean encryptedStatePresent,
-            boolean cryptoStateValid, String rehydrationState) {}
+            String email, String apiKey, int authVersion,
+            String encryptionKeyHex, List<String> metadataKeysHex,
+            String salt, String baseFolderUuid, String nameHmacKeyHex,
+            String legacyNameHmacKeyHex, int nameHmacKeyVersion,
+            boolean cryptoStateValid, String rehydrationState) {
+        public boolean hasIdentity() {
+            return email != null && !email.isEmpty()
+                    && apiKey != null && !apiKey.isEmpty()
+                    && baseFolderUuid != null && !baseFolderUuid.isEmpty();
+        }
+    }
 
     /** F102 — selectable cloud diagnostic transfer-test engine. */
+    public enum F102Test {
+        UPLOAD_DOWNLOAD_PREPARATION,
+        ROUND_TRIP_TRANSFER,
+        MULTITHREADED_DOWNLOAD,
+        PROVIDER_TRANSFER_MODE,
+        FILE_SIZE_HASH_VALIDATION,
+        THUMBNAIL_DOWNLOAD_VALIDATION,
+        CACHE_FILE_CLEANUP
+    }
     public enum F102DiagnosticState {
         NOT_RUN, RUNNING, PASSED, FAILED, ACTION_REQUIRED, SKIPPED
     }
@@ -90,8 +164,15 @@ public final class RdCloudContracts {
 
     /** F104 — MEGA saved-session persistence/rehydration. */
     public record F104MegaSavedSession(
-            String serializedSession, boolean valid, String decodedIdentity,
-            String rehydrationState) {}
+            String email, String sessionId, String masterKey, String userHandle,
+            boolean valid, String rehydrationState) {
+        public boolean validatesForEmail(String expectedEmail) {
+            return valid && expectedEmail != null && email != null
+                    && email.trim().equalsIgnoreCase(expectedEmail.trim())
+                    && sessionId != null && !sessionId.trim().isEmpty()
+                    && masterKey != null && !masterKey.trim().isEmpty();
+        }
+    }
 
     /** F105 — protected-backup deletion enforcement. */
     public record F105DeleteDecision(
@@ -255,6 +336,12 @@ public final class RdCloudContracts {
             String cloudServiceId, String identityFile,
             boolean created, boolean reconciled, boolean recovered,
             boolean generated, boolean protectedFile) {}
+
+    /**
+     * F-D provider credential state is contract-only. Tokens/keys are carried as
+     * data shapes for downstream adapters; this layer performs no network or secret
+     * storage operation.
+     */
 
     /** R-D traceability index: exact frozen scope, no F94 duplicate. */
     public static final Set<String> RD_SCOPE = Set.of(
