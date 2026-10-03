@@ -46,6 +46,7 @@ This file is **index only**. It maps documentation files to their purpose. It do
 | `docs/audits/P5.6_REAUDIT_REGRESSION.md` | P5.6 regression, hygiene, consumer, identity, localization, and cross-batch closure evidence. |
 | `docs/audits/P5.6.5_P6_HANDOFF_READINESS.md` | P5.6.5 static readiness audit for the later P6 backend/auth/provider/data handoff. |
 | `docs/audits/P5.7_FEATURE_CLOSURE.md` | P5.7 final feature-level closure and classification of all 170 unique P5 contracts. |
+| `docs/audits/P6.1_BACKEND_CONTRACT_OWNERSHIP.md` | P6.1 static backend contract, canonical ownership, identity/data/credential classification, and verification-boundary authority before Supabase target modeling. |
 | `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md` | Static audit separating Firebase Reference evidence from the authorized Supabase target backend policy. |
 
 ## N-domain total audits
