@@ -24,6 +24,7 @@ import com.bare.appconfigs.list.ConfigListActivity;
 import com.bare.appslist.ui.labels.LabelsActivity;
 import com.bare.appslist.data.AppInventoryItem;
 import com.bare.appslist.data.AppInventoryLoader;
+import com.bare.appslist.data.AppInventoryCache;
 import com.bare.appslist.data.AppInventoryRepository;
 import com.bare.appslist.ui.listbatch.AppsBatchActivity;
 import com.bare.appslist.ui.AppListItemLayout;
@@ -217,11 +218,13 @@ public final class AppListActivity extends AppCompatActivity {
     private void loadInventory() {
         new Thread(() -> {
             try {
-                inventoryRepository.replace(new AppInventoryLoader(this).load());
+                AppInventoryCache cache=new AppInventoryCache(this);
+                java.util.List<AppInventoryItem> cached=cache.read();
+                if(!cached.isEmpty())runOnUiThread(() -> inventoryAdapter.setItems(cached));
+                java.util.List<AppInventoryItem> fresh=new AppInventoryLoader(this).load();
+                cache.refresh(fresh); inventoryRepository.replace(fresh);
                 runOnUiThread(() -> inventoryAdapter.setItems(inventoryRepository.list()));
-            } catch (RuntimeException ignored) {
-                runOnUiThread(() -> inventoryAdapter.setItems(java.util.Collections.emptyList()));
-            }
+            } catch (RuntimeException ignored) { runOnUiThread(() -> inventoryAdapter.setItems(java.util.Collections.emptyList())); }
         }).start();
     }
 
