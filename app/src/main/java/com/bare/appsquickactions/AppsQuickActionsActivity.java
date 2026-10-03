@@ -20,6 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
  * catalog. Selecting an action reaches the engine boundary only.
  */
 public final class AppsQuickActionsActivity extends AppCompatActivity {
+    private static final String[] REFERENCE_ACTIONS = {"ID_BACKUP_ALL_APPS","ID_BACKUP_PENDING_APPS","ID_BACKUP_UPDATED_APPS","ID_BACKUP_REDO_APPS","ID_BACKUP_SYNC_APPS","ID_RESTORE_ALL_APPS","ID_RESTORE_MISSING_APPS","ID_RESTORE_NEW_VERSIONS_APPS","ID_DELETE_BACKUPS_UNINSTALLED_APPS","ID_ENABLE_DISABLE_APPS_APPS"};
     private static final int[] ACTION_IDS = {
             R.id.action_backup_all, R.id.action_backup_missing, R.id.action_backup_updated,
             R.id.action_backup_redo, R.id.action_backup_sync,
@@ -82,4 +83,10 @@ public final class AppsQuickActionsActivity extends AppCompatActivity {
         finish();
         return true;
     }
+    public static final class QuickActionCatalog {
+        public java.util.List<String> backup(){return java.util.Arrays.asList("ID_BACKUP_ALL_APPS","ID_BACKUP_PENDING_APPS","ID_BACKUP_UPDATED_APPS","ID_BACKUP_REDO_APPS","ID_BACKUP_SYNC_APPS");}
+        public java.util.List<String> restore(){return java.util.Arrays.asList("ID_RESTORE_ALL_APPS","ID_RESTORE_MISSING_APPS","ID_RESTORE_NEW_VERSIONS_APPS");}
+        public java.util.List<String> other(){return java.util.Arrays.asList("ID_DELETE_BACKUPS_UNINSTALLED_APPS","ID_ENABLE_DISABLE_APPS_APPS");}
+    }
+
 }
