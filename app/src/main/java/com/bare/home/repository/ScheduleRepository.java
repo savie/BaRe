@@ -16,7 +16,7 @@ public interface ScheduleRepository {
         public int batteryPercentRequirement = 50;
         public boolean enabled;
         public String globalError;
-        public final List<Integer> orderIds = new ArrayList<>();
+        public final List<String> orderIds = new ArrayList<>();
 
         public ScheduleState copy() {
             ScheduleState copy = new ScheduleState();
@@ -30,7 +30,7 @@ public interface ScheduleRepository {
             return copy;
         }
 
-        public List<Integer> getOrderIds() {
+        public List<String> getOrderIds() {
             return Collections.unmodifiableList(orderIds);
         }
     }
