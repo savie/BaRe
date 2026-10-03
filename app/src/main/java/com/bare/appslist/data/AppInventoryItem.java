@@ -30,5 +30,6 @@ public final class AppInventoryItem {
         this.appSizeBytes=Math.max(0,appSizeBytes); this.dateUsed=Math.max(0,dateUsed);
         this.labelIds=labelIds==null?Collections.emptyList():Collections.unmodifiableList(new ArrayList<>(labelIds)); this.locale=java.util.Locale.getDefault().toLanguageTag();
     }
+    public AppInventoryItem withLocale(String value){AppInventoryItem x=new AppInventoryItem(packageName,name,versionName,versionCode,enabled,launchable,bundled,installed,cloudApp,favorite,hasBackup,dateInstalled,dateUpdated,dateBackup,backupSizeBytes,appSizeBytes,dateUsed,labelIds);return x;}
     public String getItemId(){return packageName;}
 }
