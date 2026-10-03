@@ -54,6 +54,9 @@ public final class AppListActivity extends AppCompatActivity {
     private boolean searchOpen;
     private AppInventoryRepository inventoryRepository;
     private InventoryAdapter inventoryAdapter;
+    private final AppInventoryRepository.Filters filters = new AppInventoryRepository.Filters();
+    private AppInventoryRepository.Sort sort = AppInventoryRepository.Sort.NAME;
+    private boolean sortAscending = true;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -223,11 +226,10 @@ public final class AppListActivity extends AppCompatActivity {
     }
 
     private void showFilterBoundary() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.filter)
-                .setMessage(R.string.apps_filter_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
+        new MaterialAlertDialogBuilder(this).setTitle(R.string.filter)
+                .setMultiChoiceItems(new String[]{"System apps","Favorites","Installed only","Enabled only"},new boolean[]{filters.includeSystem,!filters.favoritesOnly,!filters.installedOnly,!filters.enabledOnly},(d,w,c)->{
+                    if(w==0)filters.includeSystem=!c;if(w==1)filters.favoritesOnly=c;if(w==2)filters.installedOnly=c;if(w==3)filters.enabledOnly=c;
+                    inventoryAdapter.applyContractFilter();}).setPositiveButton(R.string.close,null).show();
     }
 
     private void toggleDrawer() {
@@ -272,9 +274,10 @@ public final class AppListActivity extends AppCompatActivity {
         private String query = "";
         void setItems(List<AppInventoryItem> items){ all.clear(); if(items!=null) all.addAll(items); applyFilter(); }
         void setQuery(String value){ query=value==null?"":value.trim().toLowerCase(java.util.Locale.ROOT); applyFilter(); }
-        private void applyFilter(){ visible.clear(); for(AppInventoryItem item:all) if(query.isEmpty()||item.name.toLowerCase(java.util.Locale.ROOT).contains(query)||item.packageName.toLowerCase(java.util.Locale.ROOT).contains(query)) visible.add(item); visible.sort((a,b)->a.name.compareToIgnoreCase(b.name)); notifyDataSetChanged(); }
+        void applyContractFilter(){applyFilter();}
+        private void applyFilter(){ visible.clear(); for(AppInventoryItem item:filters.apply(all)) if(query.isEmpty()||item.name.toLowerCase(java.util.Locale.ROOT).contains(query)||item.packageName.toLowerCase(java.util.Locale.ROOT).contains(query)) visible.add(item); visible.clear(); visible.addAll(AppInventoryRepository.sort(filters.apply(all),sort,sortAscending)); if(!query.isEmpty()){visible.removeIf(x->!x.name.toLowerCase(java.util.Locale.ROOT).contains(query)&&!x.packageName.toLowerCase(java.util.Locale.ROOT).contains(query));} notifyDataSetChanged(); }
         @Override public Holder onCreateViewHolder(ViewGroup parent,int viewType){ View view=LayoutInflater.from(parent.getContext()).inflate(R.layout.app_item,parent,false); return new Holder(view); }
-        @Override public void onBindViewHolder(Holder holder,int position){ AppInventoryItem item=visible.get(position); View root=holder.itemView; View card=root.findViewById(R.id.item_card); ((AppListItemLayout)root).bindSwipeTo(card); TextView title=root.findViewById(R.id.tv_title); TextView subtitle=root.findViewById(R.id.tv_subtitle1); if(title!=null) title.setText(item.name); if(subtitle!=null) subtitle.setText(item.packageName); card.setOnClickListener(v->openDetailBoundary(item.packageName)); root.findViewById(R.id.btn_swipe_start_primary).setOnClickListener(v->showEngineBoundary(R.string.backup)); root.findViewById(R.id.btn_swipe_start_secondary).setOnClickListener(v->showEngineBoundary(R.string.restore)); root.findViewById(R.id.btn_swipe_end_primary).setOnClickListener(v->openDetailBoundary(item.packageName)); root.findViewById(R.id.btn_swipe_end_secondary).setOnClickListener(v->openAppInfoBoundary(item.packageName)); root.findViewById(R.id.iv_menu_click_listener).setOnClickListener(v->showAppActionsBoundary(item.packageName)); View menuIcon=root.findViewById(R.id.iv_menu); if(menuIcon!=null) menuIcon.setOnClickListener(v->showAppActionsBoundary(item.packageName)); }
+        @Override public void onBindViewHolder(Holder holder,int position){ AppInventoryItem item=visible.get(position); View root=holder.itemView; View card=root.findViewById(R.id.item_card); ((AppListItemLayout)root).bindSwipeTo(card); TextView title=root.findViewById(R.id.tv_title); TextView subtitle=root.findViewById(R.id.tv_subtitle1); if(title!=null) title.setText(item.name); if(subtitle!=null) subtitle.setText(item.packageName); card.setOnClickListener(v->openDetailBoundary(item.packageName)); root.findViewById(R.id.btn_swipe_start_primary).setOnClickListener(v->showRowAction(RowAction.BACKUP,item)); root.findViewById(R.id.btn_swipe_start_secondary).setOnClickListener(v->showRowAction(RowAction.RESTORE,item)); root.findViewById(R.id.btn_swipe_end_primary).setOnClickListener(v->showRowAction(RowAction.APP_INFO,item)); root.findViewById(R.id.btn_swipe_end_secondary).setOnClickListener(v->showRowAction(RowAction.LAUNCH,item)); root.findViewById(R.id.iv_menu_click_listener).setOnClickListener(v->showAppActionsBoundary(item.packageName)); View menuIcon=root.findViewById(R.id.iv_menu); if(menuIcon!=null) menuIcon.setOnClickListener(v->showAppActionsBoundary(item.packageName)); }
         @Override public int getItemCount(){ return visible.size(); }
         final class Holder extends RecyclerView.ViewHolder { Holder(View itemView){super(itemView);} }
     }
@@ -292,6 +295,10 @@ public final class AppListActivity extends AppCompatActivity {
 
     private void openAppInfoBoundary(){ openAppInfoBoundary(null); }
     private void openAppInfoBoundary(String packageName){ Intent intent=new Intent(this,AppInfoActivity.class); if(packageName!=null) intent.putExtra("package_name",packageName); startActivity(intent); }
+
+    private void showRowAction(RowAction action,AppInventoryItem item){ if(!action.isAvailable(item)){new MaterialAlertDialogBuilder(this).setTitle(action.id).setMessage(R.string.apps_engine_boundary).setPositiveButton(R.string.close,null).show();return;} if(action==RowAction.APP_INFO)openAppInfoBoundary(item.packageName);else if(action==RowAction.LAUNCH){Intent i=getPackageManager().getLaunchIntentForPackage(item.packageName);if(i!=null)startActivity(i);}else showEngineBoundary(R.string.backup); }
+
+    public enum RowAction { LAUNCH("launch"),ENABLE_DISABLE("enable_disable"),UNINSTALL("uninstall"),FORCE_STOP("force_stop"),PLAY_STORE("play_store"),CLEAR_DATA("clear_data"),APP_INFO("app_info"),SHARE_APK("share_apk"),BACKUP("backup"),RESTORE("restore"); final String id; RowAction(String i){id=i;} boolean isAvailable(AppInventoryItem a){switch(this){case LAUNCH:return a.installed&&a.enabled&&a.launchable;case ENABLE_DISABLE:return a.installed;case UNINSTALL:return a.installed&&!a.bundled;case FORCE_STOP:case PLAY_STORE:return a.installed&&a.enabled;case CLEAR_DATA:return true;case APP_INFO:case SHARE_APK:return a.installed;default:return true;}} }
 
     private void showFavoriteBoundary() {
         new MaterialAlertDialogBuilder(this)
