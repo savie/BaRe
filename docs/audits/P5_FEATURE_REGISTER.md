@@ -6,11 +6,9 @@
 
 **This is the canonical P5.1 evidence register.** Every numbered finding lives in the table below. The companion `P5_FEATURE_COVERAGE_GROUPING.md` is only the 24-domain coverage map.
 
-Reference is read-only. This register is evidence, not implementation approval, parity closure, runtime verification, or total P5 gate closure.
+Reference is read-only. This register is the canonical **feature information and Reference evidence register** for P5. It is not an implementation-status board, gap register, runtime verification record, or P5 gate.
 
-**Scope note:** P5.1 static closure means the Reference evidence/register audit is closed. All P5.1 findings remain active P5 implementation scope except explicitly authorized P6 deviations (F31/F168); this register is the canonical evidence/backlog basis for that work.
-
-**P5.3 classification layer:** COMPLETE / STATIC CLOSURE. The P5.1 evidence table remains frozen; P5.3 classification does not mutate the Reference evidence. Classification or downstream execution boundaries do not remove a known P5 finding from P5 implementation scope.
+**Scope note:** P5.1 records the Reference feature universe as reconstructed from the canonical evidence. The canonical table is the authoritative numbered feature table and is retained as the stable feature-information surface. Implementation work is performed from this feature information; this document does not assign GAP/PARTIAL status to features.
 
 ## Primary evidence
 
@@ -24,7 +22,7 @@ Reference is read-only. This register is evidence, not implementation approval, 
 
 ## Canonical table
 
-| ID | Feature unit | Reference evidence | Owner / boundary | Audit finding |
+| ID | Feature unit | Reference evidence | Owner / boundary | Feature notes |
 |---|---|---|---|---|
 | **F01** | Onboarding / first-start | `intro.IntroActivity` | `intro` lifecycle/account flow | Entry and state boundary are directly evidenced; execution of provider/backend restore remains downstream. |
 | **F02** | Home/dashboard orchestration | `home.HomeActivity` | `home` | Dashboard is a feature consumer/orchestrator; do not treat shell reconstruction as feature execution. |
@@ -61,7 +59,7 @@ Reference is read-only. This register is evidence, not implementation approval, 
 | **F33** | Contributor registration | `contributor/ContributorRegActivity.java`, `ContributorRegistration.java`, `ContributorRegistration.a` | `contributor` presentation/input surface | D23 forensic re-audit confirms F33 owns the contributor registration presentation/input surface: remote registration details are rendered into status/name/type/languages and contact fields; translator-specific Crowdin input is enabled only for translator registrations; the form exposes Telegram/Crowdin/PayPal values and submits through the contributor state owner. Validation semantics are owned by F91. Static-only. |
 | **F34** | Notices / licenses | `NoticeListActivity`, `NoticeViewActivity`, `LicensesActivity`, `NoticeItem`, `license_item` / notice resources | `notice` / `settings` presentation surfaces | D21 forensic re-audit confirms F34 owns the concrete notices/licenses presentation surfaces: NoticeList filters displayable notices, NoticeView renders a selected message with optional title, link-only notices route through the learn-more path, and LicensesActivity presents parsed OSS license rows. F34 remains presentation/selection; reusable content-loading/filtering and bundled-license parsing are captured by F92. Static-only. |
 | **F35** | Diagnostics / logging | `SLogActivity`, `cloud/diagnostics/CloudDiagnosticsActivity`, `settings/appvisibility/AppVisibilityDiagnosticsActivity`, `defpackage/vr6`, `cs6`, `q00`, `hf1` | `slog`, `cloud.diagnostics`, `settings.appvisibility` diagnostic surfaces/orchestration | D22 forensic re-audit confirms F35 is the broad diagnostics/logging presentation and orchestration boundary. SLog exposes structured log viewing, category filtering, clear, and share; CloudDiagnostics exposes selectable cloud diagnostic tests and report state; AppVisibilityDiagnostics exposes package-visibility snapshot/search/error state. Concrete persistence/execution boundaries remain F84 (SLog persistence), F64 (package-visibility snapshot), and F102 (cloud transfer-test engine). No independent D22 boundary was established. Static-only. |
-| **F36** | Manage space | `ManageSpaceActivity` | `manage` | Space-management behavior needs direct feature audit. |
+| **F36** | Manage space | `ManageSpaceActivity` | `manage` | Space-management feature surface is represented by `ManageSpaceActivity`. |
 | **F37** | Shortcuts | `ShortcutsActivity`, `ShortcutPinnedReceiver` | `shortcuts` / `detail` | Shortcut creation/pinning is a feature integration boundary. |
 | **F38** | Privileged permission / Root–Shizuku capability workflow | \| **P5-F38** \| Privileged permission / Root–Shizuku capability workflow \| reference.md §3.1; reference_apps_audit.md capability/precondition evidence \| permission/capability adapter; Intro/Settings/Tasks consume it \| Reference shows one confirmation surface but multiple mechanisms: runtime permissions, MANAGE_EXTERNAL_STORAGE/AppOps, installed-app capability handling, and Root/Shizuku. BaRe must not collapse these into one generic permission boolean. \|<br>\| **P5-F39** \| App backup planning / change detection / skip semantics \| reference.md §§28–30; Apps audit §§5–10, 17–18 \| app backup planner + artifact metadata boundary \| Reference distinguishes Single/Dated/Conditional backup strategy, identical-APK skip, per-part change detection, cache/source filtering, and non-delta/patch archive behavior. UI presence is insufficient to claim these semantics. \| | Canonical boundary recorded by the Reference evidence above. | Explicit Reference evidence recorded; static-only. |
 | **F39** | App backup planning / change detection / skip semantics | \| **P5-F39** \| App backup planning / change detection / skip semantics \| reference.md §§28–30; Apps audit §§5–10, 17–18 \| app backup planner + artifact metadata boundary \| Reference distinguishes Single/Dated/Conditional backup strategy, identical-APK skip, per-part change detection, cache/source filtering, and non-delta/patch archive behavior. UI presence is insufficient to claim these semantics. \|<br>\| **P5-F40** \| APK restore / split install / downgrade decision boundary \| reference.md §§30–31; Apps audit §§7, 10–11 \| restore planner + installer capability adapter + task boundary \| Reference evidence covers installer request construction, source-preserving install, split extraction/validation/retry, downgrade preparation/recovery, and secondary-user workaround paths. Runtime installation remains downstream/unverified. \| | Canonical boundary recorded by the Reference evidence above. | Explicit Reference evidence recorded; static-only. |
@@ -218,217 +216,30 @@ New finding workflow:
 - P5.2 contract/owner/boundary consolidation was completed and formally closed in the dedicated P5.2 static-analysis document; this register remains the frozen P5.1 evidence input.
 - Frozen P1–P4 authority is not changed from this register unless controlled re-audit is independently required.
 
-# P5.3 CLASSIFICATION INDEX
+## Register boundary
 
-**Status:** 🟢 COMPLETE / STATIC CLASSIFICATION
+This register intentionally contains **feature information only**:
 
-This section is the P5.3 classification layer for the frozen P5.1 feature evidence. The Reference evidence above is not modified.
+- feature identity and numbered F-ID;
+- Reference evidence surface;
+- canonical owner/boundary;
+- concise Reference feature notes;
+- reconciliation marker where an ID is retained for historical traceability.
 
-### Classification rules
+It does **not** contain:
+- GAP / PARTIAL implementation status;
+- implementation readiness classification;
+- implementation backlog state;
+- runtime/device/provider/backend verification status;
+- a feature completion score or ranking.
 
-- **MATCH** = current BaRe contract is statically reconciled to the verified Reference contract for the feature.
-- **GAP / PARTIAL** = Reference behavior is known, but current BaRe feature behavior is not yet fully reconstructed/reconciled. This is **not** UNKNOWN.
-- **AUTHORIZED DEVIATION** = intentional target difference already authorized by project policy.
-- **UNAUTHORIZED DEVIATION** = observed target difference without authorization.
-- **UNKNOWN** = unresolved Reference evidence boundary after targeted audit only.
-- **BLOCKED** = required work cannot proceed because an explicit prerequisite blocks it.
-- **DEFERRED / DOWNSTREAM** = execution intentionally belongs outside the current lifecycle boundary; this does not erase a known static feature gap.
+A feature listed here is part of the canonical P5 feature universe unless the lifecycle roadmap explicitly assigns the work to a later phase. A deferred item inherited from P1/P2/P3/P4 is not removed from this register and is not treated as an exclusion from P5.
 
-### Current static result
+## Static boundary
 
-- Numbered IDs: **171**
-- Unique feature-contract units: **170**
-- F94: **reconciliation marker for F69**
-- Initial P5.3 classification: **168 GAP / PARTIAL, 2 AUTHORIZED DEVIATION, 0 UNKNOWN, 0 UNAUTHORIZED DEVIATION**
-- F31 and F168: authorized Premium-free target deviation
-- Provider/backend/runtime/privileged execution limitations are recorded as boundary notes; they are not converted into evidence UNKNOWN.
-- No implementation is authorized by this classification.
-
-### Feature classification matrix
-
-| ID | Classification | Basis |
-|---|---|---|
-| F01 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F02 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F03 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F04 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F05 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F06 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F07 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F08 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F09 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F10 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F11 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F12 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F13 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F14 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F15 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F16 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F17 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F18 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F19 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F20 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F21 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F22 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F23 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F24 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F25 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F26 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F27 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F28 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F29 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F30 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F31 | AUTHORIZED DEVIATION | authorized Premium-free target deviation; Reference billing/premium behavior is evidence only |
-| F32 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F33 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F34 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F35 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F36 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F37 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F38 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F39 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F40 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F41 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F42 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F43 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F44 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F45 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F46 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F47 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F48 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F49 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F50 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F51 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F52 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F53 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F54 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F55 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F56 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F57 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F58 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F59 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F60 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F61 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F62 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F63 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F64 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F65 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F66 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F67 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F68 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F69 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F70 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F71 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F72 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F73 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F74 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F75 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F76 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F77 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F78 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F79 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F80 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F81 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F82 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F83 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F84 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F85 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F86 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F87 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F88 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F89 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F90 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F91 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F92 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F93 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F94 | RECONCILIATION MARKER | duplicate of F69; no unique contract |
-| F95 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F96 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F97 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F98 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F99 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F100 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F101 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F102 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F103 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F104 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F105 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F106 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F107 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F108 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F109 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F110 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F111 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F112 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F113 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F114 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F115 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F116 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F117 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F118 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F119 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F120 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F121 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F122 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F123 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F124 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F125 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F126 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F127 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F128 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F129 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F130 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F131 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F132 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F133 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F134 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F135 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F136 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F137 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F138 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F139 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F140 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F141 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F142 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F143 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F144 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F145 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F146 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F147 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F148 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F149 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F150 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F151 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F152 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F153 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F154 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F155 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F156 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F157 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F158 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F159 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F160 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F161 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F162 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F163 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F164 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F165 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F166 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F167 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F168 | AUTHORIZED DEVIATION | authorized Premium-free target deviation; Reference billing/premium behavior is evidence only |
-| F169 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F170 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-| F171 | GAP / PARTIAL | known Reference contract; current BaRe feature execution/parity is not yet fully reconstructed |
-
-### P5.3 interpretation
-
-This matrix establishes the implementation scope without reopening P5.1 or P5.2. GAP / PARTIAL means the contract is sufficiently known to scope implementation; it does not claim that implementation has started or that runtime parity exists.
-
-P5.3 exit remains gated on explicit dependency/readiness treatment for the classified gaps. No build/install/runtime/device/provider/backend execution is implied.
-
-
-## P5.3 dependency/readiness closure
-
-The P5.3 dependency/readiness treatment is recorded in docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md. The frozen F01–F171 classification index remains unchanged: 168 GAP / PARTIAL, F31/F168 AUTHORIZED DEVIATION, F94 reconciliation marker, 0 UNKNOWN, 0 UNAUTHORIZED DEVIATION, 0 BLOCKED. P5.3 adds no new F-ID and does not mutate P5.1 evidence.
-
-**P5.3 status: COMPLETE / STATIC CLOSURE. P5.4 readiness is also closed; implementation handoff is governed by the exact P5.4 batch assignment.**
+- Reference remains read-only.
+- This register does not authorize build/install/runtime/device execution.
+- This register does not authorize provider/backend execution.
+- This register does not replace the P5 Guide or P5 Gate.
+- P5 implementation must use this canonical feature table as the feature-information basis.
+- Later lifecycle phases own only the work explicitly assigned to them; they do not remove P5 features from the canonical table.
