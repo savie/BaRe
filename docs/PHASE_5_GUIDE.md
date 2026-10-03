@@ -43,9 +43,9 @@ P5 must preserve:
 
 This document is the **P5 method/guide**. Current P5.5 implementation status is maintained in `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` and the short project position is maintained in `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
-It is not the P5 gate and does not by itself close P5. The current P5 state remains 🟡 ACTIVE until total implementation of the P5.1 feature scope, except explicitly authorized P6 deviations.
+It is not the P5 gate and does not by itself close P5. The current P5 state remains 🟡 ACTIVE until the complete P5 feature implementation scope is reconstructed. P5 does not omit a Reference feature merely because a later phase exists. Only work explicitly owned by a later lifecycle phase is excluded from P5 implementation.
 
-`docs/PHASE_5_GATE.md` is the decision surface for P5 status. The gate is currently active as a control surface; P5.0–P5.4 are closed at their respective static scope/evidence/contract/classification/readiness boundaries, while total P5 remains 🟡 ACTIVE until the P5.1 implementation scope is actually completed, except explicitly authorized P6 deviations.
+`docs/PHASE_5_GATE.md` is the decision surface for P5 status. The gate is currently active as a control surface; P5.0–P5.4 are closed at their respective static scope/evidence/contract/classification/readiness boundaries, while total P5 remains 🟡 ACTIVE until the complete P5.1 feature implementation scope is actually completed. Later phases do not create implicit P5 exclusions.
 
 ## P5 workflow
 
@@ -156,6 +156,8 @@ Resolve evidence UNKNOWNs through targeted forensic audit before implementation 
 
 Known implementation gaps may remain GAP/PARTIAL only when their required behavior is already established by evidence.
 
+**Important:** `DEFERRED/DOWNSTREAM` is not a license to skip a P5 feature implementation. A feature remains P5 work when the Reference places the feature in P5, even if part of its execution later crosses a runtime/provider/backend boundary. Only work explicitly assigned to a later lifecycle phase is outside P5 implementation scope.
+
 **Exit:** implementation scope is explicit and evidence-backed.
 
 ### Frozen-phase protection
@@ -189,6 +191,28 @@ Before changing `app/`:
 If the feature is too large or dependency-heavy, split it into evidence-backed work packages. Do not split merely for administrative reasons.
 
 **Hard rule:** no P5 implementation before CEK/readiness is complete.
+
+### P5 implementation completeness rule
+
+The canonical roadmap defines the lifecycle boundaries as:
+
+- **P5 — FEATURES:** Backup / Restore + seluruh feature Reference
+- **P6 — AUTHORIZED DEVIATIONS:** BΛR☰ branding, Premium gratis, Supabase backend
+- **P7 — RUNTIME:** Build → APK → Install → Execute
+- **P8 — PARITY:** Visual + Behavior + Feature + Runtime
+- **P9 — DEVIATION AUDIT:** MATCH / AUTHORIZED DEVIATION / UNKNOWN / UNAUTHORIZED DEVIATION / BLOCKED
+
+Therefore, P5 must implement **all Reference features that belong to the P5 feature universe**. P6–P9 are not implicit reasons to leave a P5 feature unimplemented.
+
+The later phases mean:
+- P6 owns the explicitly authorized target deviations; it does not remove Reference features from P5 scope.
+- P7 owns runtime/build/install/execute verification and execution work assigned to that lifecycle boundary; P5 must still reconstruct the feature implementation and its static execution contracts.
+- P8 owns parity verification; it is not a substitute for implementing a P5 feature.
+- P9 owns the final deviation classification/audit; it is not a substitute for correcting an unimplemented P5 feature.
+
+If a P5 feature contains a downstream provider/backend/runtime operation that is not currently authorized, implement the evidenced P5-side contract, owner, state, flow, and boundary and record the downstream operation as deferred/permission-gated. Do not convert the entire feature into a later-phase exclusion merely because one execution step belongs downstream.
+
+The only valid exclusion from P5 implementation is work that the canonical roadmap or an explicit authorized handoff assigns to a later lifecycle phase. Do not invent additional phase exclusions.
 
 ### P5.5 — Feature implementation
 
@@ -349,10 +373,10 @@ P5 is not complete because:
 - a provider interface exists;
 - or a runtime path is assumed to work.
 
-P5 closure requires feature-level evidence, reconstruction, regression/re-audit, and explicit classification. Runtime/device/provider/backend verification remains governed by the later lifecycle boundaries unless explicitly authorized earlier.
+P5 closure requires feature-level evidence, reconstruction, regression/re-audit, and explicit classification. Runtime/device/provider/backend verification remains governed by the later lifecycle boundaries unless explicitly authorized earlier; this verification boundary does not reduce the set of P5 features that must be statically reconstructed.
 
 ## Current P5 status
 
 **GUIDE ACTIVE — P5 🟡 ACTIVE / P5.0–P5.4 STATIC CONTROL-PLANE CLOSED.**
 
-The guide establishes the method. P5.0 scope, P5.1 evidence/coverage, P5.2 contract/owner/boundary, P5.3 classification, and P5.4 readiness are closed at their documented static boundaries. P5 implementation proceeds from the exact P5.4 batch assignments; total P5 remains 🟡 ACTIVE until all non-P6 P5.1 implementation scope is actually completed.
+The guide establishes the method. P5.0 scope, P5.1 evidence/coverage, P5.2 contract/owner/boundary, P5.3 classification, and P5.4 readiness are closed at their documented static boundaries. P5 implementation proceeds from the exact P5.4 batch assignments; total P5 remains 🟡 ACTIVE until all Reference features in the P5 feature universe are actually implemented, excluding only work explicitly assigned to a later lifecycle phase.
