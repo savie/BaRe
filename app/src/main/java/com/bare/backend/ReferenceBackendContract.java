@@ -1,6 +1,12 @@
 package com.bare.backend;
 
-/** Evidence-backed backend paths recovered from Reference 5.1.0 (620) re3/ah8. */
+/**
+ * Evidence-only Reference backend path shapes recovered from Reference 5.1.0 (620).
+ *
+ * This class is not a Supabase schema, is not an application backend implementation,
+ * and must not be used as the target database model. Phase 6 derives the target
+ * backend model from approved BaRe contracts and target policy.
+ */
 public final class ReferenceBackendContract {
     private ReferenceBackendContract() { }
     public static final String ROOT_APP_DATA = "appData";
