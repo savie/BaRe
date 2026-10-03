@@ -616,4 +616,20 @@ In case you have enabled Multiple backups, BΛR☰ will not delete the protected
     <string name="task_successful">Task successful</string>
     <string name="task_error">Task error</string>
     <string name="task_complete_no_sound">Task completion (No sound)</string>
+    <string name="settings_support">Support</string>
+    <string name="settings_contact_bare_support">Contact BΛR☰ support</string>
+    <string name="settings_project_page">Project page</string>
+    <string name="no_browser_found_error">No browser found.</string>
+    <string name="google_drive">Google Drive</string>
+    <string name="google_drive_browser">Google Drive (browser)</string>
+    <string name="app_info_name">Name: %1$s</string>
+    <string name="app_info_package">Package: %1$s</string>
+    <string name="app_info_version">Version: %1$s (%2$d)</string>
+    <string name="app_info_app_location">App location: %1$s</string>
+    <string name="app_info_data_location">Data location: %1$s</string>
+    <string name="app_info_split_apks">%1$d Split APKs</string>
+    <string name="app_info_uid">UID: %1$s</string>
+    <string name="app_info_unable_read_package">Package: %1$s
+
+Unable to read package information: %2$s</string>
 </resources>
