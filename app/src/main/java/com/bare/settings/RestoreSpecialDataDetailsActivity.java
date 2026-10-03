@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bare.R;
+import com.bare.permission.PermissionAccessService;
+import com.bare.permission.PermissionCapability;
 import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.Arrays;
@@ -95,6 +97,9 @@ public final class RestoreSpecialDataDetailsActivity extends AppCompatActivity {
         }
 
         permissionsSwitch = findViewById(R.id.switch_permissions);
+        boolean rootAvailable = new PermissionAccessService(this).read().get(PermissionCapability.ROOT_SHIZUKU).isReady();
+        if (configSettings == null && !rootAvailable) restoreSpecialPermissions = false;
+        permissionsSwitch.setEnabled(rootAvailable || configSettings != null);
         permissionsSwitch.setChecked(restoreSpecialPermissions);
         permissionsSwitch.setOnCheckedChangeListener((button, checked) -> {
             restoreSpecialPermissions = checked;
