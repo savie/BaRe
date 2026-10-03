@@ -11,12 +11,12 @@ public final class NoGmsSignInActivity extends AppCompatActivity {
  @Override protected void onCreate(@Nullable Bundle state){
   super.onCreate(state);
   setContentView(R.layout.cloud_provider_signin_boundary);
-  ((android.widget.TextView)findViewById(R.id.tv_title)).setText("Google Drive (browser)");
+  ((android.widget.TextView)findViewById(R.id.tv_title)).setText(R.string.google_drive_browser);
   findViewById(R.id.btn_authenticate).setOnClickListener(v -> confirmAuth());
  }
  private void confirmAuth(){
   new MaterialAlertDialogBuilder(this)
-   .setTitle("Google Drive (browser)")
+   .setTitle(R.string.google_drive_browser)
    .setMessage(R.string.p3_cloud_auth_boundary)
    .setNegativeButton(R.string.close, null)
    .show();
