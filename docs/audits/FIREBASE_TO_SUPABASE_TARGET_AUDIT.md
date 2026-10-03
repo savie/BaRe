@@ -38,7 +38,7 @@ These were target artifacts and were removed/replaced.
 
 The target is now **Firebase-free at the inspected application/dependency surface** and uses Supabase as the named backend destination.
 
-This does **not** claim that the Supabase SDK/auth/database implementation is already complete. Actual Supabase integration remains a P4 backend/auth task.
+This does **not** claim that the Supabase SDK/auth/database implementation is already complete. Actual Supabase integration is a **later lifecycle/backend implementation task** and remains intentionally downstream until its authorized Phase 6 work is opened.
 
 ## Reference preservation
 
@@ -54,7 +54,6 @@ Direct fetch verification after edits:
 - `app/build.gradle`: no Firebase dependency/plugin.
 
 No build/install/runtime performed.
-
 
 ## Post-normalization re-audit — 2026-10-02
 
