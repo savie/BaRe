@@ -1251,3 +1251,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - P5.5: **ACTIVE — all six implementation batches statically closed**
 - Next lifecycle: **P5.6 Re-audit / Regression → P5.7 Feature Closure**
 - P5 Gate: **NOT OPENED**
+
+
+### P5.6 targeted regression pass 02 — 2026-10-03
+
+- High-risk cross-batch consumer regression completed statically.
+- R-A/R-B and P4 task/storage/password/restore consumer continuity: **PASS**.
+- R-D/R-E and R-D/R-F ownership boundaries: **PASS**.
+- R-D/R-E/R-F bounded contract classes have no external consumer imports yet; integration is therefore **contract-defined but execution-wiring DEFERRED / NOT PERFORMED**.
+- No new owner collision, frozen P4 mutation, build/manifest mutation, or unauthorized runtime execution detected.
+- P5.6 remains **ACTIVE**; P5.7 remains **NOT OPENED**; P5 Gate remains **NOT OPENED**.
