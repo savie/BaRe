@@ -38,10 +38,10 @@ public final class RestoreWorkingDirectory {
     public Result open(Context context, String taskId) {
         if (context == null) throw new IllegalArgumentException("context");
         if (taskId == null || taskId.trim().isEmpty()) {
-            return new Result(null, Access.INTERNAL, "Missing task id.");
+            return new Result(null, Access.INTERNAL, context.getString(com.bare.R.string.restore_task_missing_id));
         }
         if (!safeName(taskId)) {
-            return new Result(null, Access.INTERNAL, "Invalid task id.");
+            return new Result(null, Access.INTERNAL, context.getString(com.bare.R.string.restore_task_invalid_id));
         }
 
         File external = context.getExternalCacheDir();
@@ -53,21 +53,21 @@ public final class RestoreWorkingDirectory {
 
         try {
             if (!root.exists() && !root.mkdirs() && !root.isDirectory()) {
-                return new Result(null, access, "Unable to create app task directory.");
+                return new Result(null, access, context.getString(com.bare.R.string.restore_task_root_error));
             }
             if (!task.exists() && !task.mkdirs() && !task.isDirectory()) {
-                return new Result(null, access, "Unable to create restore task directory.");
+                return new Result(null, access, context.getString(com.bare.R.string.restore_task_directory_error));
             }
 
             String rootPath = root.getCanonicalPath();
             String taskPath = task.getCanonicalPath();
             if (!taskPath.startsWith(rootPath + File.separator)) {
-                return new Result(null, access, "Invalid restore task path.");
+                return new Result(null, access, context.getString(com.bare.R.string.restore_task_invalid_path));
             }
             return new Result(task, access, null);
         } catch (IOException | SecurityException e) {
             return new Result(null, access,
-                    e.getMessage() == null ? "Unable to create restore task directory." : e.getMessage());
+                    context.getString(com.bare.R.string.restore_task_create_error));
         }
     }
 
