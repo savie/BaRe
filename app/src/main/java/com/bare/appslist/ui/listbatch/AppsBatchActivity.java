@@ -165,11 +165,4 @@ public final class AppsBatchActivity extends AppCompatActivity {
         }
     }
 
-
-        @Override public void onBindViewHolder(Holder holder, int position) {}
-        @Override public int getItemCount() { return 0; }
-        static final class Holder extends RecyclerView.ViewHolder {
-            Holder(View itemView) { super(itemView); }
-        }
-    }
 }
