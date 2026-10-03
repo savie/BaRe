@@ -44,6 +44,8 @@ public class TaskService extends Service {
     /** F71 SBA app-data metadata envelope. */
     public static final class SbaAppDataArchiveMetadata {
         public final String appId,kind,packageName,versionName,compressionLevel; public final int version; public final Long versionCode;
+        public String toJson(){try{return new org.json.JSONObject().put("appId",appId).put("version",version).put("kind",kind).put("packageName",packageName).put("versionName",versionName).put("versionCode",versionCode==null?org.json.JSONObject.NULL:versionCode).put("backupCache",backupCache).put("encrypted",encrypted).put("compressionLevel",compressionLevel).put("includeDeviceProtectedData",includeDeviceProtectedData).put("dataSize",dataSize).put("deDataSize",deDataSize).put("entries",new org.json.JSONArray(entries)).toString();}catch(Exception e){throw new IllegalStateException(e);}}
+
         public final boolean backupCache,encrypted,includeDeviceProtectedData; public final long dataSize,deDataSize; public final java.util.List<String> entries;
         public SbaAppDataArchiveMetadata(String appId,int version,String kind,String packageName,String versionName,Long versionCode,
                 boolean backupCache,boolean encrypted,String compressionLevel,boolean includeDeviceProtectedData,long dataSize,long deDataSize,java.util.List<String> entries){
