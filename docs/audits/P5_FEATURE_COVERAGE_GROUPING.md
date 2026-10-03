@@ -13,6 +13,8 @@ Dokumen ini **hanya grouping**. Evidence/canonical detail ada di \`docs/audits/P
 - Temuan baru: Register dulu, lalu tambahkan F-ID ke domain di sini.
 - Jangan menyalin class, XML, method, forensic detail, atau reconciliation narrative ke dokumen ini.
 - Grouping bukan P5.2 contract grouping dan bukan implementation task.
+- **Static closure di sini hanya menutup coverage/grouping audit; ini bukan penutupan implementasi feature P5.**
+- Seluruh F-ID non-P6 tetap berada dalam scope implementasi P5 setelah P5.4 readiness.
 
 ## 3. Coverage buckets P5.1
 
