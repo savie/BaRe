@@ -48,12 +48,18 @@ public final class StorageSwitchTransition {
 
     /**
      * Resolves the presentation-level choice for an already-populated
-     * destination. Actual file operations remain downstream.
+     * destination. When no files exist, no copy/move action is required.
+     * Actual file operations remain downstream.
      */
     public static ExistingDestinationDecision resolveExistingDestination(
-            boolean destinationHasFiles) {
-        return destinationHasFiles
-                ? ExistingDestinationDecision.COPY
-                : ExistingDestinationDecision.DO_NOTHING;
+            boolean destinationHasFiles,
+            ExistingDestinationDecision requested) {
+        if (!destinationHasFiles) {
+            return ExistingDestinationDecision.DO_NOTHING;
+        }
+        if (requested == null) {
+            throw new NullPointerException("requested");
+        }
+        return requested;
     }
 }
