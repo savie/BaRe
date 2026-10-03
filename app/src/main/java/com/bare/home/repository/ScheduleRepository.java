@@ -17,6 +17,14 @@ public interface ScheduleRepository {
         public boolean enabled;
         public String globalError;
         public final List<String> orderIds = new ArrayList<>();
+        public final List<String> appsQuickActionIds = new ArrayList<>();
+        public final List<String> appsLabelIds = new ArrayList<>();
+        public final List<String> appConfigIds = new ArrayList<>();
+        public final List<String> messageIds = new ArrayList<>();
+        public final List<String> callLogIds = new ArrayList<>();
+        public final List<String> wallIds = new ArrayList<>();
+        public final List<String> wifiIds = new ArrayList<>();
+        public final List<String> folderIds = new ArrayList<>();
 
         public ScheduleState copy() {
             ScheduleState copy = new ScheduleState();
@@ -27,6 +35,14 @@ public interface ScheduleRepository {
             copy.enabled = enabled;
             copy.globalError = globalError;
             copy.orderIds.addAll(orderIds);
+            copy.appsQuickActionIds.addAll(appsQuickActionIds);
+            copy.appsLabelIds.addAll(appsLabelIds);
+            copy.appConfigIds.addAll(appConfigIds);
+            copy.messageIds.addAll(messageIds);
+            copy.callLogIds.addAll(callLogIds);
+            copy.wallIds.addAll(wallIds);
+            copy.wifiIds.addAll(wifiIds);
+            copy.folderIds.addAll(folderIds);
             return copy;
         }
 
