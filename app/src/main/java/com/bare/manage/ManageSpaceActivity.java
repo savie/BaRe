@@ -101,4 +101,12 @@ public final class ManageSpaceActivity extends AppCompatActivity {
             }
         }
     }
+    public static final class ManagedSpaceProjection {
+        public final java.util.Map<String,Long> bytes=new java.util.LinkedHashMap<>();
+        public boolean cloudCache;
+        public long total(){long n=0;for(Long v:bytes.values())if(v!=null)n+=Math.max(0,v);return n;}
+        public void put(String category,long value){bytes.put(category,Math.max(0,value));}
+        public String summary(){StringBuilder s=new StringBuilder();for(java.util.Map.Entry<String,Long> e:bytes.entrySet()){if(s.length()>0)s.append('\\n');s.append(e.getKey()).append(": ").append(e.getValue());}return s.toString();}
+    }
+
 }
