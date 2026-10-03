@@ -13,9 +13,11 @@
 
 ## Current control-plane status
 
-The current P3 decision surface is `docs/PHASE_3_GATE.md`.
+The short current project dashboard is `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
-The current P4 decision surface is `docs/PHASE_4_GATE.md`, with technical contract evidence in `docs/audits/P4_CONTRACT_REGISTER.md`.
+P4 remains frozen at the static contract boundary under `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
+
+P5.5 is the current implementation lifecycle boundary: R-A through R-F are statically implemented and re-audited. The next lifecycle is P5.6 Re-audit / Regression → P5.7 Feature Closure. The P5 Gate remains **NOT OPENED**.
 
 Latest Activity depth audit:
 - 71/71 Reference-owned Activities covered/registered
@@ -26,7 +28,9 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 4 — CORE BEHAVIOR / CONTRACT — CLOSED / FROZEN at static contract boundary**
+**PHASE 5.5 — FEATURE IMPLEMENTATION — ACTIVE / R-A THROUGH R-F STATIC CLOSURE**
+
+P5.5 is active with all six exact implementation batches statically closed. This does not claim build, install, runtime, provider, backend, archive/crypto engine, filesystem, privileged, or device execution.
 
 P4 was closed after re-audit against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
