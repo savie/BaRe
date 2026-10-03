@@ -26,10 +26,10 @@ public final class RfArtifactContracts {
             List<F86FileMetadata> files, String saiMetadataEntry,
             String bareMetadataEntry) {
         public static final String SAI_METADATA = "meta.sai_v2.json";
-        public static final String SWIFTBACKUP_METADATA = "meta.bare_v1.json";
+        public static final String BARE_METADATA = "meta.bare_v1.json";
         public boolean hasRequiredMetadata() {
             return SAI_METADATA.equals(saiMetadataEntry)
-                    && SWIFTBACKUP_METADATA.equals(swiftBackupMetadataEntry)
+                    && SWIFTBACKUP_METADATA.equals(bareMetadataEntry)
                     && files != null && !files.isEmpty();
         }
     }
