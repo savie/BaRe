@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * migration and transaction verification are intentionally outside P5.5.
  */
 public final class SLogDatabase extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "swiftbackup-db";
+    private static final String DATABASE_NAME = "bare-db";
     private static final int DATABASE_VERSION = 1;
 
     public SLogDatabase(Context context) {
