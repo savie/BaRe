@@ -9,14 +9,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
 
+import com.bare.R;
+
 public final class SettingsContactFragment extends SettingsDetailBaseFragment {
     private static final String SUPPORT_URL = "https://github.com/savie/BaRe/issues/new";
     private static final String PROJECT_URL = "https://github.com/savie/BaRe";
 
     @Override
     protected void build(PreferenceScreen s) {
-        item(s, "email", "Support", "Contact BΛR☰ support");
-        item(s, "telegram_group", "Project page", null);
+        item(s, "email", getString(R.string.settings_support), getString(R.string.settings_contact_bare_support));
+        item(s, "telegram_group", getString(R.string.settings_project_page), null);
 
         Preference email = s.findPreference("email");
         if (email != null) {
@@ -27,7 +29,7 @@ public final class SettingsContactFragment extends SettingsDetailBaseFragment {
                     startActivity(intent);
                 } catch (Exception ignored) {
                     new AlertDialog.Builder(requireContext())
-                            .setMessage("No browser found.")
+                            .setMessage(R.string.no_browser_found_error)
                             .setPositiveButton(android.R.string.ok, null)
                             .show();
                 }
@@ -43,7 +45,7 @@ public final class SettingsContactFragment extends SettingsDetailBaseFragment {
                     startActivity(intent);
                 } catch (Exception ignored) {
                     new AlertDialog.Builder(requireContext())
-                            .setMessage("No browser found.")
+                            .setMessage(R.string.no_browser_found_error)
                             .setPositiveButton(android.R.string.ok, null)
                             .show();
                 }
