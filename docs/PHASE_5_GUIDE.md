@@ -10,7 +10,7 @@ Phase 5 is the next lifecycle boundary after P4 and is defined by the canonical 
 
 P4 identifies the next lifecycle boundary as **Phase 5 — feature execution reconstruction**.
 
-This guide defines the P5 working method before implementation begins. It inherits the project-wide evidence-first workflow and the P4 discipline; it does not authorize runtime, provider, backend, or production execution by itself.
+This guide defines the P5 working method and remains the method authority during P5. It inherits the project-wide evidence-first workflow and the P4 discipline; it does not authorize runtime, provider, backend, or production execution by itself.
 
 ## Authority and boundaries
 
@@ -41,7 +41,7 @@ P5 must preserve:
 
 ## Important status distinction
 
-This document is the **P5 method/guide**.
+This document is the **P5 method/guide**. Current P5.5 implementation status is maintained in `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` and the short project position is maintained in `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
 It is not the P5 gate and does not mean P5 has been opened, audited, implemented, or closed.
 
