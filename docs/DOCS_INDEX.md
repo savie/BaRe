@@ -97,3 +97,7 @@ For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit clo
 
 - `docs/audits/P5.7_FEATURE_CLOSURE.md` — P5.7 feature-level static closure authority; 170 unique units, 168 GAP/PARTIAL static closures, F31/F168 authorized deviations, F94 reconciliation marker.
 - P5 Gate remains unopened pending explicit gate review.
+### P5 Gate
+
+- `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **PASS — STATIC FEATURE RECONSTRUCTION CLOSURE**.
+- P5.7 closure authority: `docs/audits/P5.7_FEATURE_CLOSURE.md`.
