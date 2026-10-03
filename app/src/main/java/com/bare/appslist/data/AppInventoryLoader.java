@@ -1,0 +1,45 @@
+package com.bare.appslist.data;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/** F04 local inventory assembly boundary. No backup/cloud execution. */
+public final class AppInventoryLoader {
+    private final Context context;
+
+    public AppInventoryLoader(Context context) {
+        if (context == null) throw new NullPointerException("context");
+        this.context = context.getApplicationContext();
+    }
+
+    public List<AppInventoryItem> load() {
+        PackageManager pm = context.getPackageManager();
+        List<PackageInfo> packages = pm.getInstalledPackages(0);
+        List<AppInventoryItem> result = new ArrayList<>();
+        for (PackageInfo info : packages) {
+            if (info == null || info.packageName == null) continue;
+            ApplicationInfo app = info.applicationInfo;
+            if (app == null) continue;
+            CharSequence label = app.loadLabel(pm);
+            boolean launchable = pm.getLaunchIntentForPackage(info.packageName) != null;
+            long versionCode = info.getLongVersionCode();
+            result.add(new AppInventoryItem(
+                    info.packageName,
+                    label == null ? info.packageName : label.toString(),
+                    info.versionName,
+                    versionCode,
+                    app.enabled,
+                    launchable,
+                    (app.flags & ApplicationInfo.FLAG_SYSTEM) != 0,
+                    true,
+                    false,
+                    false));
+        }
+        return result;
+    }
+}
