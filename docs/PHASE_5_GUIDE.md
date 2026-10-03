@@ -43,9 +43,9 @@ P5 must preserve:
 
 This document is the **P5 method/guide**. Current P5.5 implementation status is maintained in `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md` and the short project position is maintained in `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
-It is not the P5 gate and does not mean P5 has been opened, audited, implemented, or closed.
+It is not the P5 gate and does not by itself close P5. The current P5 state remains 🟡 ACTIVE until total implementation of the P5.1 feature scope, except explicitly authorized P6 deviations.
 
-A future `docs/PHASE_5_GATE.md` is the decision surface for P5 status. It must be created/revised only when the P5 entry evidence and scope are ready to be governed by an explicit gate.
+`docs/PHASE_5_GATE.md` is the decision surface for P5 status. The gate is currently active as a control surface, but it does not close P5 until the total P5.1 feature scope is implemented, except explicitly authorized P6 deviations.
 
 ## P5 workflow
 
