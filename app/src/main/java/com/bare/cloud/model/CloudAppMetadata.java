@@ -125,4 +125,31 @@ public final class CloudAppMetadata {
     private static boolean hasLink(String value) {
         return value != null && !value.isEmpty();
     }
+    public java.util.List<Long> getSBVersionCodesRequired(){
+        java.util.ArrayList<Long> out=new java.util.ArrayList<>();
+        Long[] values={apkSBVersionCodeRequired,splitsSBVersionCodeRequired,sharedLibsSBVersionCodeRequired,dataSBVersionCodeRequired,extDataSBVersionCodeRequired,mediaSBVersionCodeRequired,expSBVersionCodeRequired,minSBVersionCodeRequired};
+        for(Long v:values)if(v!=null&&v>0&&!out.contains(v))out.add(v);java.util.Collections.sort(out);return out;
+    }
+    public String getSBVersionNameRequired(){
+        return "v5.0.0";
+    }
+    public void stampRequiredVersionForBackupPart(String part){
+        if(part==null)return;String p=part.toUpperCase(java.util.Locale.ROOT);
+        if("APK".equals(p)){apkSBVersionCodeRequired=580L;apkSBVersionNameRequired="v5.0.0";}
+        else if("SPLITS".equals(p)){splitsSBVersionCodeRequired=580L;splitsSBVersionNameRequired="v5.0.0";}
+        else if("SHARED_LIBS".equals(p)){sharedLibsSBVersionCodeRequired=580L;sharedLibsSBVersionNameRequired="v5.0.0";}
+        else if("DATA".equals(p)){dataSBVersionCodeRequired=580L;dataSBVersionNameRequired="v5.0.0";}
+        else if("EXTDATA".equals(p)){extDataSBVersionCodeRequired=580L;extDataSBVersionNameRequired="v5.0.0";}
+        else if("MEDIA".equals(p)){mediaSBVersionCodeRequired=580L;mediaSBVersionNameRequired="v5.0.0";}
+        else if("EXPANSION".equals(p)){expSBVersionCodeRequired=580L;expSBVersionNameRequired="v5.0.0";}
+        if(hasBackups())minSBVersionCodeRequired=580L;
+    }
+    /** LocalMetadata-shaped required-version envelope used by local backup metadata consumers. */
+    public static final class LocalMetadata {
+        public Long apkSBVersionCodeRequired,splitsSBVersionCodeRequired,sharedLibsSBVersionCodeRequired,dataSBVersionCodeRequired,extDataSBVersionCodeRequired,mediaSBVersionCodeRequired,expSBVersionCodeRequired;
+        public String apkSBVersionNameRequired,splitsSBVersionNameRequired,sharedLibsSBVersionNameRequired,dataSBVersionNameRequired,extDataSBVersionNameRequired,mediaSBVersionNameRequired,expSBVersionNameRequired;
+        public java.util.List<Long> getSBVersionCodesRequired(){java.util.ArrayList<Long> out=new java.util.ArrayList<>();Long[] v={apkSBVersionCodeRequired,splitsSBVersionCodeRequired,sharedLibsSBVersionCodeRequired,dataSBVersionCodeRequired,extDataSBVersionCodeRequired,mediaSBVersionCodeRequired,expSBVersionCodeRequired};for(Long x:v)if(x!=null&&x>0&&!out.contains(x))out.add(x);java.util.Collections.sort(out);return out;}
+        public void stampAll(){apkSBVersionCodeRequired=splitsSBVersionCodeRequired=sharedLibsSBVersionCodeRequired=dataSBVersionCodeRequired=extDataSBVersionCodeRequired=mediaSBVersionCodeRequired=expSBVersionCodeRequired=580L;apkSBVersionNameRequired=splitsSBVersionNameRequired=sharedLibsSBVersionNameRequired=dataSBVersionNameRequired=extDataSBVersionNameRequired=mediaSBVersionNameRequired=expSBVersionNameRequired="v5.0.0";}
+    }
+
 }
