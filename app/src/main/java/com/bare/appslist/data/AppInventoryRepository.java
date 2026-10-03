@@ -129,4 +129,13 @@ public final class AppInventoryRepository {
         public InstallerPlan(String p,String i,List<Entry> e){packageName=p;installerPackage=i;entries=Collections.unmodifiableList(new ArrayList<>(e));long n=0;for(Entry x:e)n+=Math.max(0,x.size);totalSize=n;}
         public boolean verifySource(String installer,String initiating,String installing){return installerPackage!=null&&installerPackage.equals(installer)&&installerPackage.equals(initiating)&&installerPackage.equals(installing);}
     }
+    public static long dateUsed(Context context,String packageName,long since,long until){
+        if(context==null||packageName==null)return 0;
+        try{
+            android.app.usage.UsageStatsManager us=(android.app.usage.UsageStatsManager)context.getSystemService(Context.USAGE_STATS_SERVICE);
+            if(us==null)return 0;long latest=0;java.util.List<android.app.usage.UsageStats> stats=us.queryUsageStats(android.app.usage.UsageStatsManager.INTERVAL_DAILY,since,until);
+            if(stats==null)return 0;for(android.app.usage.UsageStats x:stats)if(packageName.equals(x.getPackageName()))latest=Math.max(latest,x.getLastTimeUsed());return latest;
+        }catch(Exception e){return 0;}
+    }
+
 }
