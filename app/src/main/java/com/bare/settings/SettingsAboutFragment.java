@@ -8,18 +8,19 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
 
 import com.bare.notice.NoticeListActivity;
+import com.bare.R;
 
 public final class SettingsAboutFragment extends SettingsDetailBaseFragment {
     @Override
     protected void build(PreferenceScreen s) {
-        item(s, "version", "Version", "5.1.0 (620)");
-        item(s, "changelog", "Changelog", null);
-        item(s, "notes_from_developer", "Announcements from developer", null);
+        item(s, "version", getString(R.string.version), getString(R.string.version_value));
+        item(s, "changelog", getString(R.string.changelog), null);
+        item(s, "notes_from_developer", getString(R.string.announcements_from_developer), null);
 
-        PreferenceCategory legal = category(s, "Privacy & legal");
-        item(legal, "privacy_policy", "Privacy policy", null);
-        item(legal, "tos", "Terms of service", null);
-        item(legal, "notices", "Notices", null);
+        PreferenceCategory legal = category(s, getString(R.string.privacy_legal));
+        item(legal, "privacy_policy", getString(R.string.privacy_policy), null);
+        item(legal, "tos", getString(R.string.terms_of_service), null);
+        item(legal, "notices", getString(R.string.notices), null);
 
         Preference notes = s.findPreference("notes_from_developer");
         if (notes != null) {
