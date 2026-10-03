@@ -42,12 +42,12 @@ public final class AppInfoActivity extends AppCompatActivity {
         if(pkg!=null){
             try{
                 PackageInfo pi=getPackageManager().getPackageInfo(pkg,0); ApplicationInfo ai=pi.applicationInfo;
-                StringBuilder b=new StringBuilder(); b.append("Name: ").append(ai==null?pkg:ai.loadLabel(getPackageManager())).append("\\n\\n");
-                b.append("Package: ").append(pkg).append("\\n\\n"); b.append("Version: ").append(pi.versionName).append(" (").append(pi.getLongVersionCode()).append(")\\n\\n");
-                if(ai!=null){b.append("App location: ").append(ai.sourceDir).append("\\n\\n");b.append("Data location: ").append(ai.dataDir==null?"":ai.dataDir).append("\\n\\n");}
-                if(ai!=null&&ai.splitSourceDirs!=null&&ai.splitSourceDirs.length>0){b.append(ai.splitSourceDirs.length).append(" Split APKs\\n");for(int i=0;i<ai.splitSourceDirs.length;i++)b.append(i+1).append(". ").append(ai.splitSourceDirs[i]).append("\\n");b.append("\\n");}
-                b.append("UID: ").append(ai==null?"":ai.uid); info.setText(b.toString());
-            }catch(Exception e){info.setText("Package: "+pkg+"\\n\\nUnable to read package information: "+e.getClass().getSimpleName());}
+                StringBuilder b=new StringBuilder(); b.append(getString(R.string.app_info_name, ai==null?pkg:ai.loadLabel(getPackageManager()))).append("\\n\\n");
+                b.append(getString(R.string.app_info_package, pkg)).append("\\n\\n"); b.append(getString(R.string.app_info_version, pi.versionName, pi.getLongVersionCode())).append("\\n\\n");
+                if(ai!=null){b.append(getString(R.string.app_info_app_location, ai.sourceDir)).append("\\n\\n");b.append(getString(R.string.app_info_data_location, ai.dataDir==null?"":ai.dataDir)).append("\\n\\n");}
+                if(ai!=null&&ai.splitSourceDirs!=null&&ai.splitSourceDirs.length>0){b.append(getString(R.string.app_info_split_apks, ai.splitSourceDirs.length)).append("\\n");for(int i=0;i<ai.splitSourceDirs.length;i++)b.append(i+1).append(". ").append(ai.splitSourceDirs[i]).append("\\n");b.append("\\n");}
+                b.append(getString(R.string.app_info_uid, ai==null?"":ai.uid)); info.setText(b.toString());
+            }catch(Exception e){info.setText(getString(R.string.app_info_unable_read_package, pkg, e.getClass().getSimpleName()));}
         }else info.setText(R.string.app_info_received);
         ((TextView) findViewById(R.id.tv_contract_status))
                 .setText(R.string.app_info_contract_ready);
