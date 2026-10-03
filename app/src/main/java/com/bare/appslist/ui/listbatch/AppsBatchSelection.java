@@ -22,6 +22,10 @@ public final class AppsBatchSelection {
         else select(packageName);
     }
 
+    public void selectAll(java.util.List<AppInventoryItem> items){if(items!=null)for(AppInventoryItem i:items)if(i!=null)select(i.packageName);}
+
+    public int size(){return selected.size();}
+
     public void clear() {
         selected.clear();
     }
