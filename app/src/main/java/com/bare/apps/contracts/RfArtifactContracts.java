@@ -24,9 +24,9 @@ public final class RfArtifactContracts {
             String packageName, String appName, String versionName, Long versionCode,
             String installerPackage, long exportedAt, String exportedBy,
             List<F86FileMetadata> files, String saiMetadataEntry,
-            String swiftBackupMetadataEntry) {
+            String bareMetadataEntry) {
         public static final String SAI_METADATA = "meta.sai_v2.json";
-        public static final String SWIFTBACKUP_METADATA = "meta.swiftbackup_v1.json";
+        public static final String SWIFTBACKUP_METADATA = "meta.bare_v1.json";
         public boolean hasRequiredMetadata() {
             return SAI_METADATA.equals(saiMetadataEntry)
                     && SWIFTBACKUP_METADATA.equals(swiftBackupMetadataEntry)
