@@ -63,25 +63,26 @@ public final class ManageSpaceActivity extends AppCompatActivity {
             ManageSpaceReclaimItem item = items.get(position);
 
             TextView title = holder.view.findViewById(R.id.tv_title);
-            TextView summary = holder.view.findViewById(R.id.tv_summary);
+            TextView size = holder.view.findViewById(R.id.tv_size);
+            TextView subtitle = holder.view.findViewById(R.id.tv_subtitle1);
             Button action = holder.view.findViewById(R.id.btn_action);
 
             title.setText(item.title);
-            if (summary != null) {
-                summary.setText(Formatter.formatFileSize(
-                        ManageSpaceActivity.this,
-                        item.bytes));
-            }
+            size.setText(Formatter.formatFileSize(
+                    ManageSpaceActivity.this,
+                    item.bytes));
+            subtitle.setText(item.root.getPath());
 
             /*
              * F125 owns inventory-to-reclaim routing; F105 owns protected-backup
              * revalidation/deletion. Unknown protection therefore remains
              * non-destructive until F105 supplies the authoritative decision.
              */
-            action.setEnabled(item.cleanupAllowed());
-            action.setAlpha(item.cleanupAllowed() ? 1.0f : 0.5f);
+            boolean cleanupAllowed = item.cleanupAllowed();
+            action.setEnabled(cleanupAllowed);
+            action.setAlpha(cleanupAllowed ? 1.0f : 0.5f);
             action.setOnClickListener(v -> {
-                if (!item.cleanupAllowed()) return;
+                if (!cleanupAllowed) return;
                 // F105 supplies the concrete delete/revalidation executor.
             });
         }
