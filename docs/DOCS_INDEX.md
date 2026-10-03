@@ -83,8 +83,8 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 
 ## Current state
 
-**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 static closure → P5.4 readiness closure → P5.5 R-A through R-F static closure → P5.6 Re-audit / Regression NEXT → P5.7 Feature Closure → P5 Gate NOT OPENED.**
+**P1 frozen → P2 frozen → P3 frozen → P4 frozen at the static contract boundary → P5.0 scope complete → P5.1 feature evidence + coverage/grouping complete → P5.2 contract/owner/boundary complete → P5.3 static closure → P5.4 readiness closure → P5.5 R-A through R-F static closure → P5.6 Re-audit / Regression ACTIVE → P5.7 Feature Closure → P5 Gate NOT OPENED.**
 
 For exact P4 status, use `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit closure, use `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md`. P5.6 is the next lifecycle; the P5 Gate remains NOT OPENED.
+For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit closure, use `docs/audits/P5.5_FEATURE_IMPLEMENTATION.md`. P5.6 is active under `docs/audits/P5.6_REAUDIT_REGRESSION.md`; P5.7 is next after P5.6 closure; the P5 Gate remains NOT OPENED.
