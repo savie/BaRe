@@ -101,10 +101,12 @@ public final class AppInventoryRepository {
         return new BackupPlan(conditionalNewBackup?BackupDecision.BACKUP:BackupDecision.UPDATE_LATEST,changedParts==null?Collections.emptyList():changedParts,apkChanged?"APK changed":"changed parts");
     }
 
-    public enum RestoreDecision { INSTALL, RESTORE_DATA, DOWNGRADE_REQUIRED, RETRY_SPLITS, BLOCKED }
+    public enum RestoreDecision { INSTALL, RESTORE_DATA, DOWNGRADE_REQUIRED, RETRY_SPLITS, SECONDARY_USER_WORKAROUND, BLOCKED }
     public static final class RestorePlan {public final RestoreDecision decision;public final List<String> parts;public final String reason;public RestorePlan(RestoreDecision d,List<String>p,String r){decision=d;parts=Collections.unmodifiableList(new ArrayList<>(p));reason=r;}}
-    public RestorePlan planRestore(List<String> selected,boolean installed,long installedVersion,long backupVersion,boolean splitsValid,boolean canDowngrade){
+    public RestorePlan planRestore(List<String> selected,boolean installed,long installedVersion,long backupVersion,boolean splitsValid,boolean canDowngrade){return planRestore(selected,installed,installedVersion,backupVersion,splitsValid,canDowngrade,false);}
+    public RestorePlan planRestore(List<String> selected,boolean installed,long installedVersion,long backupVersion,boolean splitsValid,boolean canDowngrade,boolean secondaryUser){
         List<String> p=selected==null?Collections.emptyList():selected;if(!splitsValid)return new RestorePlan(RestoreDecision.RETRY_SPLITS,p,"split extraction/validation requires retry");
+        if(secondaryUser&&p.contains("APK"))return new RestorePlan(RestoreDecision.SECONDARY_USER_WORKAROUND,p,"secondary-user installer path required");
         if(installed&&backupVersion<installedVersion){if(!canDowngrade)return new RestorePlan(RestoreDecision.BLOCKED,p,"downgrade unavailable");return new RestorePlan(RestoreDecision.DOWNGRADE_REQUIRED,p,"target version is lower than installed version");}
         return new RestorePlan(p.contains("APK")?RestoreDecision.INSTALL:RestoreDecision.RESTORE_DATA,p,"selected restore parts");
     }
