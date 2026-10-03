@@ -17,7 +17,7 @@ The short current project dashboard is `docs/RECONSTRUCTION_CHECKPOINT.md`.
 
 P4 remains frozen at the static contract boundary under `docs/PHASE_4_GATE.md` and `docs/audits/P4_CONTRACT_REGISTER.md`.
 
-P5 is the current lifecycle boundary: P5.1 is the frozen feature evidence register, and P5.2–P5.7 record the owner, classification, readiness, bounded implementation, and regression evidence already completed. P5 remains **🟡 ACTIVE** because the full P5.1 feature scope is not yet totally implemented. Explicitly authorized P6 deviations remain excluded from the P5 completion target.
+P5.7 is now **🟢 COMPLETE / STATIC FEATURE CLOSURE**. The frozen P5.1 feature universe is closed through the P5.5/P5.6 implementation and regression evidence plus the P5.7 closure audit. P5 overall remains at the **gate-finalization boundary** until `docs/PHASE_5_GATE.md` is finalized. Phase 6 implementation is not opened by P5.7.
 
 Latest Activity depth audit:
 - 71/71 Reference-owned Activities covered/registered
@@ -28,9 +28,20 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 5 — TOTAL FEATURE IMPLEMENTATION — ACTIVE 🟡**
+**PHASE 5.7 — FEATURE CLOSURE — COMPLETE 🟢**
 
-P5.1 is the frozen feature-scope authority. P5.5 R-A through R-F and P5.6 passes 01–04 remain recorded as completed bounded static implementation/regression work, but they do not close the full P5.1 scope. All P5.1 feature requirements remain active P5 work except explicitly authorized P6 deviations.
+### P5.7 closure checkpoint — 2026-10-03
+
+- 170 unique feature-contract units closed: 168 MATCH/bounded static reconstruction + 2 authorized deviations (F31/F168).
+- F94 remains a reconciliation marker for F69; it is not an additional contract.
+- UNKNOWN = 0; BLOCKED = 0; UNAUTHORIZED DEVIATION = 0.
+- Premium-free entitlement is statically represented by `PremiumAccessPolicy`; no billing or backend execution was added.
+- Reference ZIP remains unchanged.
+- Runtime/build/install/provider/backend/device/native verification remains unperformed.
+- P5.7 evidence: `docs/audits/P5.7_FEATURE_CLOSURE.md`.
+- Next control surface: `docs/PHASE_5_GATE.md`; P6 remains unopened.
+
+P5.1 remains the frozen feature-scope authority. P5.5 R-A through R-F and P5.6 regression passes provide the bounded implementation/re-audit evidence; P5.6.5 provides the P6 handoff guard; P5.7 closes all 170 unique feature contracts at the static boundary. The P5 Gate is the next control surface.
 
 P4 was closed after re-audit against `v1.0/rebaseline/reference/*`, the supplied Swift Backup 5.1.0 (620) decompile ZIP, current `rewrite` source, and N-07/N-08/N-09 evidence.
 
