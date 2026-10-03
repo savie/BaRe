@@ -1,0 +1,2 @@
+package com.bare.wifi;
+public final class WifiAccessContract {public enum Source{LEGACY,ROOT_XML,SHIZUKU}public enum Failure{NONE,ACCESS_UNAVAILABLE,SHIZUKU_STOPPED,PERMISSION_DENIED,LEGACY_READ_FAILED,ROOT_COPY_FAILED,ROOT_PARSE_FAILED,MAPPING_FAILED,INCOMPLETE_CREDENTIALS}public final Source source;public final Failure failure;public WifiAccessContract(Source s,Failure f){source=s;failure=f;}public boolean isReady(){return failure==Failure.NONE;}}
