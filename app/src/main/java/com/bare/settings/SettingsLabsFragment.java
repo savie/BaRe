@@ -12,7 +12,6 @@ import com.bare.cloud.orphans.CloudOrphanCleanerActivity;
 import com.bare.settings.appvisibility.AppVisibilityDiagnosticsActivity;
 
 public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
-    private static final String[] ONEDRIVE_AGENTS = {getString(R.string.webview), getString(R.string.browser)};
     private static final String[] ONEDRIVE_AGENT_VALUES = {"WEBVIEW", "BROWSER"};
 
     @Override
@@ -90,7 +89,7 @@ public final class SettingsLabsFragment extends SettingsDetailBaseFragment {
         int selected = "BROWSER".equals(current) ? 1 : 0;
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.onedrive_sign_in_agent)
-                .setSingleChoiceItems(ONEDRIVE_AGENTS, selected, (dialog, which) -> {
+                .setSingleChoiceItems(new String[]{getString(R.string.webview), getString(R.string.browser)}, selected, (dialog, which) -> {
                     prefs.edit().putString("onedrive_auth_agent", ONEDRIVE_AGENT_VALUES[which]).apply();
                     dialog.dismiss();
                     refresh();
