@@ -99,34 +99,29 @@ public final class ConfigSettings {
         }
     }
 
-    /** F09/F62/F121 local configuration repository and task projection. */
+    /** F09/F62/F121 local configuration repository using the complete transfer format. */
     public static final class Repository {
         private final android.content.SharedPreferences prefs;
-        public Repository(android.content.Context context){prefs=context.getApplicationContext().getSharedPreferences("app_configs_v1",android.content.Context.MODE_PRIVATE);}
-        public synchronized void save(ConfigSettings value){
-            if(value==null)throw new IllegalArgumentException("value");
-            org.json.JSONObject o=new org.json.JSONObject();
-            try{
-                o.put("version",value.version).put("id",value.id).put("appParts",value.appParts).put("locations",value.locations)
-                 .put("syncOption",value.syncOption).put("restorePermissionsMode",value.restorePermissionsMode)
-                 .put("restoreSpecialPermissions",value.restoreSpecialPermissions==null?org.json.JSONObject.NULL:value.restoreSpecialPermissions)
-                 .put("restoreSsaid",value.restoreSsaid==null?org.json.JSONObject.NULL:value.restoreSsaid)
-                 .put("compressionLevel",value.compressionLevel==null?org.json.JSONObject.NULL:value.compressionLevel)
-                 .put("cacheBackup",value.cacheBackup==null?org.json.JSONObject.NULL:value.cacheBackup)
-                 .put("enabled",value.enabled==null?org.json.JSONObject.NULL:value.enabled);
-                prefs.edit().putString(value.id,o.toString()).apply();
-            }catch(Exception e){throw new IllegalStateException("config serialization failed",e);}
+        private final TransferCodec codec = new TransferCodec();
+
+        public Repository(android.content.Context context) {
+            prefs = context.getApplicationContext().getSharedPreferences(
+                    "app_configs_v1", android.content.Context.MODE_PRIVATE);
         }
-        public synchronized ConfigSettings get(String id){
-            String raw=prefs.getString(id,null);if(raw==null)return null;try{org.json.JSONObject o=new org.json.JSONObject(raw);
-                return new ConfigSettings(o.optInt("version",1),o.optString("id",id),null,o.optString("appParts",null),
-                    o.optString("locations",null),o.optString("syncOption",null),null,null,null,
-                    o.optString("restorePermissionsMode",null),nullable(o,"restoreSpecialPermissions"),nullable(o,"restoreSsaid"),
-                    nullable(o,"compressionLevel"),nullable(o,"cacheBackup"),null,nullable(o,"enabled"));
-            }catch(Exception e){return null;}
+
+        public synchronized void save(ConfigSettings value) {
+            if (value == null) throw new IllegalArgumentException("value");
+            prefs.edit().putString(value.id, codec.encode(value)).apply();
         }
-        private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
-        public synchronized void remove(String id){prefs.edit().remove(id).apply();}
+
+        public synchronized ConfigSettings get(String id) {
+            if (id == null) return null;
+            return codec.decode(prefs.getString(id, null));
+        }
+
+        public synchronized void remove(String id) {
+            if (id != null) prefs.edit().remove(id).apply();
+        }
     }
     public static final class TaskInput {
         public final String appId; public final List<String> parts,locations; public final String syncOption;
@@ -235,7 +230,6 @@ public final class ConfigSettings {
         }
         private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
         private Long nullableLong(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optLong(k);}
-        private Integer nullable(org.json.JSONObject o,String k){return o.isNull(k)?null:o.optInt(k);}
         public boolean validate(ConfigSettings c,java.util.Set<String> labelIds){return c!=null&&c.isValid(labelIds);}
     }
 
