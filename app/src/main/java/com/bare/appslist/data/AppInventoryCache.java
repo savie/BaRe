@@ -19,7 +19,7 @@ public final class AppInventoryCache {
     public synchronized List<AppInventoryItem> read(){if(db==null)return new ArrayList<>(repository.list());List<AppInventoryItem> out=new ArrayList<>();Cursor c=db.getReadableDatabase().query("app_cached_data",new String[]{"pkgName","name","isInstalled","isEnabled","isLaunchable","locale"},null,null,null,null,"name COLLATE NOCASE");try{while(c.moveToNext()){out.add(new AppInventoryItem(c.getString(0),c.getString(1),null,null,c.isNull(3)||c.getInt(3)!=0,c.isNull(4)||c.getInt(4)!=0,false,c.isNull(2)||c.getInt(2)!=0,false,false));}}finally{c.close();}repository.replace(out);return out;}
     public synchronized void replaceFromPackageManager(List<AppInventoryItem> items){refresh(items);}
     private static final class Db extends SQLiteOpenHelper{
-        Db(Context c){super(c,"swiftbackup-db",null,1);}
+        Db(Context c){super(c,"bare-db",null,1);}
         @Override public void onCreate(SQLiteDatabase d){d.execSQL("CREATE TABLE IF NOT EXISTS app_cached_data (pkgName TEXT NOT NULL,name TEXT NOT NULL,isInstalled INTEGER,isEnabled INTEGER,isLaunchable INTEGER,locale TEXT,PRIMARY KEY(pkgName))");}
         @Override public void onUpgrade(SQLiteDatabase d,int oldVersion,int newVersion){onCreate(d);}
     }
