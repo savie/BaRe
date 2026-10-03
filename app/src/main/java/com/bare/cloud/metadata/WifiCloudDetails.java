@@ -1,18 +1,34 @@
 package com.bare.cloud.metadata;
 
-/** Wi-Fi summary metadata plus an external provider artifact reference. */
+/** Wi-Fi summary metadata; nullable fields match the recovered Reference model. */
 public final class WifiCloudDetails {
-    private final String driveId;
-    private final long fileSize;
-    private final int wifiNetworksCount;
-    public WifiCloudDetails(String driveId, long fileSize, int wifiNetworksCount) {
-        if (driveId == null || driveId.isEmpty()) throw new IllegalArgumentException("driveId");
-        if (fileSize < 0 || wifiNetworksCount < 0) throw new IllegalArgumentException("metadata");
+    private String driveId;
+    private Long fileSize;
+    private Integer wifiNetworksCount;
+
+    public WifiCloudDetails() {
+        this(null, null, null);
+    }
+
+    public WifiCloudDetails(String driveId, Long fileSize, Integer wifiNetworksCount) {
+        if (fileSize != null && fileSize < 0) throw new IllegalArgumentException("fileSize");
+        if (wifiNetworksCount != null && wifiNetworksCount < 0) throw new IllegalArgumentException("wifiNetworksCount");
         this.driveId = driveId;
         this.fileSize = fileSize;
         this.wifiNetworksCount = wifiNetworksCount;
     }
+
     public String getDriveId() { return driveId; }
-    public long getFileSize() { return fileSize; }
-    public int getWifiNetworksCount() { return wifiNetworksCount; }
+    public Long getFileSize() { return fileSize; }
+    public Integer getWifiNetworksCount() { return wifiNetworksCount; }
+
+    public void setDriveId(String value) { driveId = value; }
+    public void setFileSize(Long value) {
+        if (value != null && value < 0) throw new IllegalArgumentException("fileSize");
+        fileSize = value;
+    }
+    public void setWifiNetworksCount(Integer value) {
+        if (value != null && value < 0) throw new IllegalArgumentException("wifiNetworksCount");
+        wifiNetworksCount = value;
+    }
 }
