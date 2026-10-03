@@ -2,7 +2,7 @@
 
 ## Status
 
-**P5.1 — REFERENCE FEATURE AUDIT — COMPLETE / STATIC CLOSURE**
+**P5.1 — REFERENCE FEATURE AUDIT — 🟢 COMPLETE / STATIC CLOSURE**
 
 **This is the canonical P5.1 evidence register.** Every numbered finding lives in the table below. The companion `P5_FEATURE_COVERAGE_GROUPING.md` is only the 24-domain coverage map.
 
