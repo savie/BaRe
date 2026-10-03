@@ -48,6 +48,7 @@ This file is **index only**. It maps documentation files to their purpose. It do
 | `docs/audits/P5.7_FEATURE_CLOSURE.md` | P5.7 final feature-level closure and classification of all 170 unique P5 contracts. |
 | `docs/audits/P6.1_BACKEND_CONTRACT_OWNERSHIP.md` | P6.1 static backend contract, canonical ownership, identity/data/credential classification, and verification-boundary authority before Supabase target modeling. |
 | `docs/audits/P6.2_REFERENCE_BACKEND_TO_SUPABASE_MODEL.md` | P6.2 bounded Reference-backend-to-Supabase target model, resource ownership, relationships, persistence decisions, and explicit cloud-metadata quarantine. |
+| `docs/audits/P6.3_SUPABASE_IMPLEMENTATION.md` | P6.3 direct Supabase implementation record for the approved database model, verification evidence, and security handoff. |
 | `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md` | Static audit separating Firebase Reference evidence from the authorized Supabase target backend policy. |
 
 ## N-domain total audits
