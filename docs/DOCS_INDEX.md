@@ -81,7 +81,7 @@ Keep one document authoritative for each layer. Do not duplicate live status tab
 4. `docs/PHASE_3_GATE.md`
 5. `docs/PHASE_4_GATE.md`
 6. `docs/audits/P4_CONTRACT_REGISTER.md`
-7. `docs/PHASE_5_GUIDE.md` — method only; P5 gate is not yet opened
+7. `docs/PHASE_5_GUIDE.md` — method only; P5 gate is active and P5 remains 🟡 until total implementation
 
 ## Current state
 
@@ -96,7 +96,7 @@ For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5/P5.6 implementation and reg
 ### P5.7 Feature Closure
 
 - `docs/audits/P5.7_FEATURE_CLOSURE.md` — P5.7 feature-level static closure authority; 170 unique units, 168 GAP/PARTIAL static closures, F31/F168 authorized deviations, F94 reconciliation marker.
-- P5 Gate remains unopened pending explicit gate review.
+- P5 Gate is active as a control surface; total P5 implementation remains pending.
 ### P5 Gate
 
 - `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **🟡 ACTIVE — TOTAL FEATURE IMPLEMENTATION PENDING**.
