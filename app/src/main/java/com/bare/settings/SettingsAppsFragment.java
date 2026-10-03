@@ -18,7 +18,6 @@ import com.bare.R;
 
 public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
     private static final int[] COMPRESSION_LEVELS = {0, 1};
-    private static final String[] COMPRESSION_LABELS = {getString(R.string.no_compression), getString(R.string.fastest)};
 
     @Override
     protected void build(PreferenceScreen s) {
@@ -195,7 +194,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         int selected = current == 0 ? 0 : 1;
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.compression_level)
-                .setSingleChoiceItems(COMPRESSION_LABELS, selected, (dialog, which) -> {
+                .setSingleChoiceItems(new String[]{getString(R.string.no_compression), getString(R.string.fastest)}, selected, (dialog, which) -> {
                     prefs.edit().putInt("compression_level_app_data", COMPRESSION_LEVELS[which]).apply();
                     dialog.dismiss();
                     refresh();
@@ -209,7 +208,7 @@ public final class SettingsAppsFragment extends SettingsDetailBaseFragment {
         Preference compression = findPreference("compression_level_app_data");
         if (compression != null) {
             int level = prefs.getInt("compression_level_app_data", 1);
-            compression.setSummary(level == 0 ? COMPRESSION_LABELS[0] : COMPRESSION_LABELS[1]);
+            compression.setSummary(level == 0 ? getString(R.string.no_compression) : getString(R.string.fastest));
         }
         sync(prefs, "show_system_apps", false);
         sync(prefs, "restore_ssaids", false);
