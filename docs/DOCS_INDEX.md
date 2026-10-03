@@ -101,3 +101,7 @@ For P5 method, use `docs/PHASE_5_GUIDE.md`. For P5.5 implementation/re-audit clo
 
 - `docs/PHASE_5_GATE.md` — explicit P5 decision surface; **PASS — STATIC FEATURE RECONSTRUCTION CLOSURE**.
 - P5.7 closure authority: `docs/audits/P5.7_FEATURE_CLOSURE.md`.
+### Phase 6 — Authorized Deviations
+
+- `docs/PHASE_6_GATE.md` — static authorized-deviation reconciliation; branding/Premium/Supabase target policy preserved without speculative backend/runtime execution.
+- Phase 7 Runtime remains permission-gated.
