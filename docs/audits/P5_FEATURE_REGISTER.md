@@ -431,4 +431,4 @@ P5.3 exit remains gated on explicit dependency/readiness treatment for the class
 
 The P5.3 dependency/readiness treatment is recorded in docs/audits/P5.3_GAP_DEPENDENCY_CLASSIFICATION.md. The frozen F01–F171 classification index remains unchanged: 168 GAP / PARTIAL, F31/F168 AUTHORIZED DEVIATION, F94 reconciliation marker, 0 UNKNOWN, 0 UNAUTHORIZED DEVIATION, 0 BLOCKED. P5.3 adds no new F-ID and does not mutate P5.1 evidence.
 
-**P5.3 status: COMPLETE / STATIC CLOSURE. Next: P5.4 Implementation Readiness Checkpoint.**
+**P5.3 status: COMPLETE / STATIC CLOSURE. P5.4 readiness is also closed; implementation handoff is governed by the exact P5.4 batch assignment.**
