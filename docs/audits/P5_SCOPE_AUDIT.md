@@ -122,9 +122,17 @@ These are project-level target rules, not unresolved P5 parity defects:
 
 P5 must preserve these constraints and must not reintroduce Reference-only Firebase or Swift branding into target-owned feature implementation.
 
-## Deferred / excluded from P5.0 execution
+## Deferred work and later-phase exclusions
 
-P5.0 does not execute or verify:
+`DEFERRED` findings inherited from P1/P2/P3/P4 are **not excluded from P5** merely because they were deferred in an earlier phase. If the deferred behavior is part of a P5 feature or is a required dependency for reconstructing that feature, it must be carried forward and implemented during P5 to the extent supported by Reference evidence.
+
+The rule is:
+
+`DEFERRED in an earlier phase ≠ excluded from implementation`
+
+Only work that is explicitly owned by a later lifecycle phase is excluded from P5 implementation. Examples include P7 runtime/build/install/execute verification, P8 parity verification, and P9 final deviation audit. A downstream execution boundary inside a P5 feature does not exclude the feature itself from P5; the evidenced P5-side contract, owner, state, flow, and boundary still belong to P5.
+
+The following are **not executed or verified at the P5.0 scope-control stage**:
 - build;
 - APK generation;
 - install;
@@ -135,7 +143,19 @@ P5.0 does not execute or verify:
 - filesystem engine execution;
 - backup/restore engine runtime execution.
 
-These remain downstream or permission-gated according to the phase boundaries.
+These remain downstream or permission-gated according to the phase boundaries **only where the lifecycle roadmap explicitly assigns that execution/verification to a later phase or where current authorization does not permit execution**. Their existence must not be used to omit the corresponding P5 feature implementation.
+
+## P5 implementation completeness rule
+
+The P5 feature universe above is exhaustive at the domain level for the current scope audit. P5 implementation must cover all Reference features derived from this universe. Do not create an implicit exclusion for a feature because an earlier P2/P3/P4 artifact was marked `DEFERRED`.
+
+For each carried-forward deferred item, P5.1/P5.2/P5.3 must determine whether it is:
+- implemented as part of the P5 feature;
+- explicitly owned by a later lifecycle phase;
+- blocked/unknown pending evidence; or
+- an authorized deviation.
+
+It must not remain unworked solely because its predecessor phase called it `DEFERRED`.
 
 ## P5.0 exit decision
 
