@@ -90,6 +90,7 @@ public final class AppListActivity extends AppCompatActivity {
 
         RecyclerView apps = findViewById(R.id.apps_recycler_view);
         inventoryRepository = new AppInventoryRepository();
+        loadFilterState();
         inventoryAdapter = new InventoryAdapter();
         if (apps != null) apps.setAdapter(inventoryAdapter);
         loadInventory();
@@ -193,6 +194,8 @@ public final class AppListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void loadFilterState(){android.content.SharedPreferences p=getSharedPreferences("apps_list_filters",MODE_PRIVATE);filters.includeSystem=p.getBoolean("include_system",true);filters.favoritesOnly=p.getBoolean("favorites",false);filters.installedOnly=p.getBoolean("installed",false);filters.enabledOnly=p.getBoolean("enabled",false);}
+    private void saveFilterState(){getSharedPreferences("apps_list_filters",MODE_PRIVATE).edit().putBoolean("include_system",filters.includeSystem).putBoolean("favorites",filters.favoritesOnly).putBoolean("installed",filters.installedOnly).putBoolean("enabled",filters.enabledOnly).apply();}
     private void openSearch() {
         if (searchView == null) return;
         searchOpen = true;
@@ -231,8 +234,7 @@ public final class AppListActivity extends AppCompatActivity {
     private void showFilterBoundary() {
         new MaterialAlertDialogBuilder(this).setTitle(R.string.filter)
                 .setMultiChoiceItems(new String[]{"System apps","Favorites","Installed only","Enabled only"},new boolean[]{filters.includeSystem,!filters.favoritesOnly,!filters.installedOnly,!filters.enabledOnly},(d,w,c)->{
-                    if(w==0)filters.includeSystem=!c;if(w==1)filters.favoritesOnly=c;if(w==2)filters.installedOnly=c;if(w==3)filters.enabledOnly=c;
-                    inventoryAdapter.applyContractFilter();}).setPositiveButton(R.string.close,null).show();
+                    if(w==0)filters.includeSystem=!c;if(w==1)filters.favoritesOnly=c;if(w==2)filters.installedOnly=c;if(w==3)filters.enabledOnly=c;saveFilterState();inventoryAdapter.applyContractFilter();}).setPositiveButton(R.string.close,null).show();
     }
 
     private void toggleDrawer() {
