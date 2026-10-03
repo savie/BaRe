@@ -18,7 +18,6 @@ public final class AppInventoryLoader {
             CharSequence label=app.loadLabel(pm);boolean launchable=pm.getLaunchIntentForPackage(info.packageName)!=null;
             AppInventoryRepository.Measurement measured=AppInventoryRepository.measure(context,app);
             long updated=info.lastUpdateTime;long installed=0;
-            try{installed=new java.io.File(app.sourceDir).lastModified();}catch(Exception ignored){}
             long appSize=measured.measured&&measured.size!=null?measured.size.total():0;
             result.add(new AppInventoryItem(info.packageName,label==null?info.packageName:label.toString(),info.versionName,info.getLongVersionCode(),
                 app.enabled,launchable,(app.flags&ApplicationInfo.FLAG_SYSTEM)!=0,true,false,false,false,installed,updated,0,0,appSize,0,java.util.Collections.emptyList()));
