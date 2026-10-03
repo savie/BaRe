@@ -25,6 +25,7 @@ This file is **index only**. It maps documentation files to their purpose. It do
 | `docs/PHASE_4_GATE.md` | Phase 4 contract boundary, closure evidence, and P4 exit decision. |
 | `docs/PHASE_5_GUIDE.md` | Phase 5 feature-reconstruction method, evidence workflow, ownership rules, and phase boundaries. |
 | `docs/PHASE_5_GATE.md` | Final Phase 5 exit decision and authoritative P5 → P6 handoff surface. |
+| `docs/PHASE_6_SCOPE.md` | Phase 6 evidence-backed execution boundary: what authorized deviations and backend responsibilities are in scope or out of scope. |
 | `docs/PHASE_6_GUIDE.md` | Phase 6 working method for authorized target deviations, Supabase backend integration, branding, Premium, security, and standalone backend verification. |
 
 ## Audit directory
@@ -70,10 +71,11 @@ This file is **index only**. It maps documentation files to their purpose. It do
 ## Document relationship
 
 - **Project definition:** `bare.md`
+- **Phase scope:** `PHASE_*_SCOPE.md`
 - **Method guides:** `PHASE_*_GUIDE.md`
 - **Phase decision surfaces:** `PHASE_*_GATE.md`
 - **Detailed evidence:** `docs/audits/*.md`
 - **Dashboard/history:** `RECONSTRUCTION_CHECKPOINT.md` and `RECONSTRUCTION_STATUS.md`
 - **Reference evidence:** `REFERENCE_*.md` and Reference-scoped audit documents
 
-For a phase decision, use its gate. For implementation methodology, use its guide. For detailed evidence, use the relevant audit. This index only tells you **where the document is and what it is for**.
+For a phase decision, use its gate. For implementation methodology, use its guide. For scope boundaries, use its scope document. For detailed evidence, use the relevant audit. This index only tells you **where the document is and what it is for**.
