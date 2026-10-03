@@ -16,14 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bare.R;
 
 /**
- * P3 navigation/UI surface for the Reference home search screen.
- *
- * Search/index/data semantics remain a P4 handoff. This Activity owns the
- * Reference-shaped screen structure, result-surface containers, input state,
- * keyboard/back handling and close transition.
+ * F03 Home search consumer. Search semantics are delegated to HomeSearchEngine;
+ * the Activity owns the Reference-shaped result surfaces and dispatch origin.
  */
 public final class HomeSearchActivity extends AppCompatActivity {
     private int[] sourceBounds;
+    private final HomeSearchEngine searchEngine = new HomeSearchEngine();
+    private HomeSearchEngine.State lastSearchState;
     private EditText query;
     private ImageButton clear;
 
@@ -68,10 +67,15 @@ public final class HomeSearchActivity extends AppCompatActivity {
         apps.setItemAnimator(null);
         folders.setItemAnimator(null);
 
+        android.content.SharedPreferences prefs = getSharedPreferences("home_search", MODE_PRIVATE);
+        searchEngine.setShowSystemApps(prefs.getBoolean("home_search_show_system_apps", true));
+
         TextView systemToggle = findViewById(R.id.btn_home_search_apps_system_toggle);
         systemToggle.setOnClickListener(v -> {
-            // P3 owns the visible toggle affordance. Filtering/system-app
-            // inventory is a P4 data contract and is not faked here.
+            boolean next = !prefs.getBoolean("home_search_show_system_apps", true);
+            prefs.edit().putBoolean("home_search_show_system_apps", next).apply();
+            searchEngine.setShowSystemApps(next);
+            lastSearchState = null;
         });
 
         query.addTextChangedListener(new android.text.TextWatcher() {
@@ -79,6 +83,11 @@ public final class HomeSearchActivity extends AppCompatActivity {
 
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 clear.setVisibility(s != null && s.length() > 0 ? View.VISIBLE : View.GONE);
+                // F03 owns normalization/ranking/limits/cancellation; concrete feature
+                // inventories are supplied by their respective repositories.
+                lastSearchState = searchEngine.search(s == null ? "" : s.toString(),
+                        java.util.Collections.emptyList(), java.util.Collections.emptyList(),
+                        java.util.Collections.emptyList(), java.util.Collections.emptyList());
             }
 
             @Override public void afterTextChanged(android.text.Editable s) {}
