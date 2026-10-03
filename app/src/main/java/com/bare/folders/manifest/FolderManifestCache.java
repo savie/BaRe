@@ -1,0 +1,3 @@
+package com.bare.folders.manifest;
+import java.util.*;
+public final class FolderManifestCache {private final Map<String,Entry> cache=new HashMap<>();public static final class Entry{public final String folderId,manifestId,cloudLink;public final long expectedSize;public Entry(String f,String m,String l,long s){folderId=f;manifestId=m;cloudLink=l;expectedSize=Math.max(0,s);}}public synchronized Entry get(String id){return cache.get(id);}public synchronized boolean reusable(String id,long localSize,long expected){Entry e=cache.get(id);return e!=null&&localSize==expected&&expected>0;}public synchronized void put(Entry e){if(e!=null&&e.folderId!=null)cache.put(e.folderId,e);}}
