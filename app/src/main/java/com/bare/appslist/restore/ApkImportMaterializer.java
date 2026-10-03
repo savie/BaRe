@@ -1,6 +1,6 @@
 package com.bare.appslist.restore;
 
-import java.io.File;
+import android.content.Context;\n\nimport java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,13 +28,13 @@ public final class ApkImportMaterializer {
         public String getError() { return error; }
     }
 
-    public Result materialize(ApkImportIntake.Result input, File outputDirectory) {
+    public Result materialize(Context context, ApkImportIntake.Result input, File outputDirectory) {
         if (input == null || !input.isReady() || outputDirectory == null) {
-            return Result.error("Missing APK import result.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_missing_result));
         }
 
         if (!outputDirectory.exists() && !outputDirectory.mkdirs()) {
-            return Result.error("Unable to create APK output directory.");
+            return Result.error(context.getString(com.bare.R.string.apk_import_output_directory_error));
         }
 
         if (input.getKind() == ApkImportIntake.Kind.SINGLE_APK) {
@@ -45,12 +45,12 @@ public final class ApkImportMaterializer {
         try (ZipFile zip = new ZipFile(input.getFile())) {
             ZipEntry entry = zip.getEntry("base.apk");
             if (entry == null || entry.isDirectory()) {
-                return Result.error("APKS archive has no base APK.");
+                return Result.error(context.getString(com.bare.R.string.apk_import_no_base));
             }
 
             long expected = entry.getSize();
             if (expected == 0) {
-                return Result.error("Base APK is empty.");
+                return Result.error(context.getString(com.bare.R.string.apk_import_base_empty));
             }
 
             try (InputStream in = zip.getInputStream(entry);
@@ -68,18 +68,18 @@ public final class ApkImportMaterializer {
 
                 if (expected > 0 && written != expected) {
                     output.delete();
-                    return Result.error("Base APK size changed while reading archive.");
+                    return Result.error(context.getString(com.bare.R.string.apk_import_base_size_changed));
                 }
             }
 
             if (!output.isFile() || output.length() <= 0) {
                 output.delete();
-                return Result.error("Base APK materialization failed.");
+                return Result.error(context.getString(com.bare.R.string.apk_import_materialization_failed));
             }
             return Result.ready(output);
         } catch (IOException | SecurityException e) {
             output.delete();
-            return Result.error(e.getMessage() == null ? "Unable to extract base APK." : e.getMessage());
+            return Result.error(context.getString(com.bare.R.string.apk_import_extract_error));
         }
     }
 }
