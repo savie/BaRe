@@ -6,9 +6,11 @@
 
 **This is the canonical P5.1 evidence register.** Every numbered finding lives in the table below. The companion `P5_FEATURE_COVERAGE_GROUPING.md` is only the 24-domain coverage map.
 
-Reference is read-only. This register is evidence, not implementation approval, parity closure, runtime verification, or P5 gate closure.
+Reference is read-only. This register is evidence, not implementation approval, parity closure, runtime verification, or total P5 gate closure.
 
-**P5.3 classification layer:** ACTIVE below. The P5.1 evidence table remains frozen; P5.3 adds classification without mutating the Reference evidence.
+**Scope note:** P5.1 static closure means the Reference evidence/register audit is closed. All P5.1 findings remain active P5 implementation scope except explicitly authorized P6 deviations (F31/F168); this register is the canonical evidence/backlog basis for that work.
+
+**P5.3 classification layer:** ACTIVE below. The P5.1 evidence table remains frozen; P5.3 adds classification without mutating the Reference evidence. Classification or downstream execution boundaries do not remove a known P5 finding from P5 implementation scope.
 
 ## Primary evidence
 
