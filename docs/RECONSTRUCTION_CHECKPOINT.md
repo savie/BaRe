@@ -1396,3 +1396,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - 75c347e6dd27a195d5ba100b0a10893e024cbc43
 - 46d5a429b8eab3884177956d196f0cedcc1911eb
 
+
+
+### P5.6 Pass 01 — whole-P5 source hygiene + high-risk regression — 2026-10-03
+- Re-audited P5.5 R-A through R-F against the frozen P5.1–P5.4 authorities and primary Swift Backup 5.1.0/versionCode 620 decompile evidence.
+- Confirmed no later-batch ownership absorption across R-D/R-E/R-F and no new canonical-owner collision.
+- Found and fixed obfuscated Reference-type leakage: BaRe's local defpackage/q63.java was only a minimal FolderPicker wrapper, while primary Reference q63 is a broad filesystem abstraction. Replaced the single current BaRe use with semantic com.bare.folders.data.FolderSelection and removed the obsolete q63 wrapper.
+- Targeted localization scan found pre-existing hardcoded user-facing strings outside the R-F source diff; no new hardcoded user-facing strings were introduced by this P5.6 pass. Localization remains a regression guard and follow-up cleanup item.
+- Current P5.6 source diff from R-F is bounded to FolderSelection, FolderPickerActivity migration, q63 removal, and the P5.6 audit record.
+- P5.6 Pass 01: **PASS — targeted whole-P5 static re-audit/regression**.
+- P5.6 remains **ACTIVE**; P5.7 Feature Closure and the P5 Gate remain **NOT OPENED**.
