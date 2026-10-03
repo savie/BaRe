@@ -67,7 +67,7 @@ Status di atas hanya status coverage P5.1.
 - ZIP/decompile adalah primary evidence.
 - Tidak build/install/runtime/device verification.
 - Tidak provider/backend execution.
-- P5.2 sekarang aktif sebagai static contract/owner/boundary analysis; grouping tetap frozen dan tidak menjadi contract register.
+- P5.2, P5.3, dan P5.4 sudah closed pada static boundary masing-masing; grouping tetap frozen dan tidak menjadi contract register.
 
 ## Operating principle
 
