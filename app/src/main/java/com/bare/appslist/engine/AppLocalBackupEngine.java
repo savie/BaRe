@@ -423,31 +423,6 @@ public final class AppLocalBackupEngine {
         final List<String> changedParts = new ArrayList<>();
     }
 
-    /** Returns local backup package keys, including packages no longer installed. */
-    public List<String> listLocalBackupPackages() {
-        File accountRoot = packageBackupDirectory("placeholder");
-        File appsRoot = accountRoot.getParentFile();
-        if (appsRoot == null || !appsRoot.isDirectory()) return Collections.emptyList();
-        File[] files = appsRoot.listFiles();
-        if (files == null) return Collections.emptyList();
-        ArrayList<String> result = new ArrayList<>();
-        for (File file : files) {
-            if (file.isDirectory() && file.getName().length() > 0) result.add(file.getName());
-        }
-        Collections.sort(result);
-        return result;
-    }
-
-    /** Deletes one complete local backup record without touching neighboring backup IDs. */
-    public boolean deleteBackup(String packageName, String backupId) {
-        if (packageName == null || backupId == null || backupId.isEmpty()) {
-            throw new IllegalArgumentException("packageName/backupId");
-        }
-        BackupRecord record = findBackup(packageName, backupId);
-        deleteBackupArtifacts(record);
-        return !record.metadataFile.exists();
-    }
-
     public List<BackupRecord> listBackups(String packageName) {
         File dir = packageBackupDirectory(packageName);
         File[] files = dir.listFiles();
