@@ -119,6 +119,7 @@ public final class DashboardFragment extends Fragment {
         // existing dashboard/navigation surfaces rather than being promoted
         // into these Reference cards.
         actions.setVisibility(View.GONE);
+    }
 
     private static final class QuickActionSpec {
         final int titleRes;
