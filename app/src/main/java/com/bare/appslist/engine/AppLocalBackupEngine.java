@@ -163,7 +163,14 @@ public final class AppLocalBackupEngine {
                 }
             }
 
-            if (parts.contains(Part.DATA)) {
+            if (parts.contains(Part.SHARED_LIBS)) {
+            File archive = new File(record.directory, backupId + ".libs");
+            if (archive.isFile()) {
+                restored += restoreSharedLibraries(archive, record);
+            }
+        }
+
+        if (parts.contains(Part.DATA)) {
                 File archive = new File(packageDir, backupId + ".dat");
                 if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace data backup");
                 List<File> sources = stagePrivilegedData(info, temporary);
@@ -506,6 +513,37 @@ public final class AppLocalBackupEngine {
         }
 
         return new RestoreResult(packageName, backupId, restored);
+    }
+
+    /**
+     * Reference xw.u() final consumer: every extracted shared-library APK is
+     * consumed by the privileged package installer using the exact
+     * [1mpm install -t[0m path. The restore staging directory is the only
+     * intermediate location; the package manager is the final destination/
+     * consumer, so no synthetic /data/app-lib path is introduced.
+     */
+    private int restoreSharedLibraries(File archive, BackupRecord record) throws Exception {
+        File extracted = extractArchive(archive, "shared-libs-restore", record, false);
+        try {
+            List<File> apks = apkFiles(extracted);
+            if (apks.isEmpty()) return 0;
+            PrivilegedAppActionExecutor.RootCommandRunner runner =
+                    new PrivilegedAppActionExecutor.RootCommandRunner();
+            int installed = 0;
+            for (File apk : apks) {
+                String command = "pm install -t " + shell(apk.getAbsolutePath());
+                PrivilegedAppActionExecutor.Result result = runner.run(command);
+                if (!result.isSuccess()) {
+                    throw new IllegalStateException(
+                            "Shared library install failed: " + apk.getName()
+                                    + (result.getError() == null ? "" : " (" + result.getError() + ")"));
+                }
+                installed++;
+            }
+            return installed;
+        } finally {
+            deleteTree(extracted);
+        }
     }
 
     private int restoreArchivePart(
