@@ -1,16 +1,17 @@
-# BΛR☰ Phase 1 — Reference Target Inventory
+# BΛR☰ Tahap 1 — Inventaris Target Reference
 
-## 1. Phase 1 purpose
+## 1. Tujuan Tahap 1
 
-Phase 1 menetapkan **target reconstruction BΛR☰ terhadap Reference Swift Backup 5.1.0 (versionCode 620)**.
+Tahap 1 menetapkan **seluruh target rekonstruksi BΛR☰ terhadap Reference Swift Backup 5.1.0 (versionCode 620)**.
 
-Dokumen ini adalah **target inventory**, bukan laporan implementation progress.
+Dokumen ini adalah **dokumen inventaris target**, bukan laporan kemajuan implementasi.
 
-### Target rule
+### Aturan target
 
-> **Setiap component yang dideklarasikan oleh Reference AndroidManifest adalah target BΛR☰.**
+> **Setiap komponen yang dideklarasikan oleh Reference AndroidManifest adalah target BΛR☰.**
 
-Tidak ada exclusion berdasarkan:
+Tidak ada komponen yang dikeluarkan dari target hanya karena asalnya:
+
 - dependency
 - library
 - AndroidX
@@ -18,39 +19,39 @@ Tidak ada exclusion berdasarkan:
 - vendor SDK
 - native library
 - compatibility module
-- third-party implementation origin
+- implementasi pihak ketiga
 
-Origin/reference ownership boleh dicatat untuk forensic traceability, tetapi **tidak mengurangi target**.
+Asal implementasi Reference boleh dicatat untuk kebutuhan penelusuran forensik, tetapi **tidak mengurangi jumlah target BΛR☰**.
 
-### Target parity
+### Aturan kesetaraan
 
-Target reconstruction:
+Target rekonstruksi:
 
 **Reference → BΛR☰ = 1:1 + Authorized Deviations**
 
-Authorized Deviations hanya yang secara eksplisit ditetapkan oleh `docs/bare.md`.
+`Authorized Deviations` hanya boleh berasal dari ketentuan yang secara eksplisit diizinkan oleh `docs/bare.md`.
 
-Jika suatu Reference component tidak dapat direkonstruksi secara langsung karena berasal dari dependency/native/external surface, component tersebut **tetap target** dan harus memiliki mekanisme/owner BaRe yang mempertahankan contract yang relevan.
+Jika suatu komponen Reference berasal dari dependency, native library, atau permukaan eksternal dan tidak dapat dibuat dengan implementasi yang sama persis, komponen tersebut **tetap merupakan target**. BΛR☰ harus menyediakan mekanisme yang mempertahankan kontrak yang relevan.
 
 ---
 
-## 2. Authority
+## 2. Sumber Kewenangan dan Acuan
 
 - Reference: **Swift Backup 5.1.0**
 - Version code: **620**
 - Repository: `savie/BaRe`
 - Branch: `rewrite`
-- Project authority: `docs/bare.md`
-- Reference canonical:
+- Dokumen kewenangan proyek: `docs/bare.md`
+- Berkas Reference:
   - `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
   - `/mnt/data/5.1.0 (620).apk`
-- Repository `reference/`: read-only evidence mirror
+- Direktori `reference/`: cermin bukti Reference dan bersifat hanya-baca
 
-Reference adalah source of truth. Reference tidak dimodifikasi.
+Reference adalah sumber kebenaran untuk rekonstruksi. Reference tidak diubah.
 
 ---
 
-## 3. Verified Reference identity
+## 3. Identitas Reference yang Diverifikasi
 
 - Package: `org.swiftapps.swiftbackup`
 - Application class: `org.swiftapps.swiftbackup.SwiftApp`
@@ -62,11 +63,11 @@ Reference adalah source of truth. Reference tidak dimodifikasi.
 
 ---
 
-# 4. MASTER MANIFEST TARGET
+# 4. TARGET UTAMA ANDROIDMANIFEST
 
-Reference mendeklarasikan **119 manifest components**.
+Reference mendeklarasikan **119 komponen AndroidManifest**.
 
-| Component type | Reference | BΛR☰ target |
+| Jenis komponen | Reference | Target BΛR☰ |
 |---|---:|---:|
 | Activity | 95 | **95** |
 | Service | 10 | **10** |
@@ -74,15 +75,17 @@ Reference mendeklarasikan **119 manifest components**.
 | Provider | 4 | **4** |
 | **TOTAL** | **119** | **119** |
 
-**Tidak ada component yang dikeluarkan dari target berdasarkan asal dependency/library.**
+**Semua 119 komponen adalah target BΛR☰.**
 
-Angka pada tabel di atas adalah **target counts**, bukan pembagian ownership.
+Angka pada tabel ini adalah **jumlah target**, bukan pembagian berdasarkan kepemilikan aplikasi dan dependency.
+
+Tidak ada aturan yang mengubah komponen menjadi “bukan target” hanya karena komponen tersebut berasal dari library atau dependency.
 
 ---
 
-# 5. ACTIVITY TARGET — 95 / 95
+# 5. TARGET ACTIVITY — 95 / 95
 
-Semua nama berikut adalah target BΛR☰.
+Semua nama berikut adalah target BΛR☰ tanpa pengecualian berdasarkan asal implementasinya.
 
 1. `org.swiftapps.swiftbackup.intro.IntroActivity`
 2. `org.swiftapps.swiftbackup.home.HomeActivity`
@@ -182,7 +185,7 @@ Semua nama berikut adalah target BΛR☰.
 
 ---
 
-# 6. SERVICE TARGET — 10 / 10
+# 6. TARGET SERVICE — 10 / 10
 
 1. `org.swiftapps.swiftbackup.tasks.TaskService`
 2. `org.swiftapps.swiftbackup.home.schedule.ScheduleService`
@@ -197,7 +200,7 @@ Semua nama berikut adalah target BΛR☰.
 
 ---
 
-# 7. RECEIVER TARGET — 10 / 10
+# 7. TARGET RECEIVER — 10 / 10
 
 1. `org.swiftapps.swiftbackup.jobs.AlarmReceiver`
 2. `org.swiftapps.swiftbackup.common.LocaleChangedReceiver`
@@ -212,7 +215,7 @@ Semua nama berikut adalah target BΛR☰.
 
 ---
 
-# 8. PROVIDER TARGET — 4 / 4
+# 8. TARGET PROVIDER — 4 / 4
 
 1. `androidx.core.content.FileProvider`
 2. `rikka.shizuku.ShizukuProvider`
@@ -221,9 +224,9 @@ Semua nama berikut adalah target BΛR☰.
 
 ---
 
-# 9. NATIVE / LIBRARY / EXTERNAL SURFACES
+# 9. PERMUKAAN NATIVE / LIBRARY / EKSTERNAL
 
-Native dan library surfaces termasuk dalam Phase 1 target boundary apabila Reference menggunakannya sebagai bagian dari application contract.
+Permukaan native dan library termasuk dalam batas target Tahap 1 apabila Reference menggunakannya sebagai bagian dari kontrak aplikasi.
 
 Contoh:
 
@@ -235,24 +238,24 @@ Contoh:
 - Shizuku surfaces
 - AndroidX provider/service/receiver/activity surfaces
 
-Classification sebagai dependency/library hanya menjelaskan **asal Reference implementation**.
+Klasifikasi sebagai dependency/library hanya menjelaskan **asal implementasi Reference**.
 
-Classification tersebut **tidak mengubah target count** dan tidak boleh digunakan untuk menghapus component dari reconstruction target.
+Klasifikasi tersebut **tidak mengubah jumlah target** dan tidak boleh digunakan untuk menghapus komponen dari target rekonstruksi.
 
-Untuk native/library surface, target dapat diwujudkan melalui:
+Untuk permukaan native/library, target dapat diwujudkan melalui:
 - direct implementation
 - compatibility wrapper
 - preserved ABI/API boundary
 - integrated dependency
 - equivalent BaRe-owned implementation
 
-Pemilihannya harus berdasarkan evidence Reference dan contract yang harus dipertahankan.
+Pemilihannya harus berdasarkan bukti Reference dan kontrak yang harus dipertahankan.
 
 ---
 
-# 10. REFERENCE RESOURCE BASELINE
+# 10. BASELINE RESOURCE REFERENCE
 
-Reference resource inventory:
+Inventaris resource Reference:
 
 | Resource | Count |
 |---|---:|
@@ -272,13 +275,13 @@ Reference resource inventory:
 | animator | 42 |
 | color | 199 |
 
-Resource yang berasal dari library tetap diperlakukan sesuai Reference contract dan tidak otomatis dikeluarkan dari parity analysis.
+Resource yang berasal dari library tetap diperlakukan sesuai kontrak Reference dan tidak otomatis dikeluarkan dari analisis kesetaraan.
 
 ---
 
-# 11. MANIFEST BASELINE
+# 11. BASELINE ANDROIDMANIFEST
 
-Reference application baseline:
+Baseline aplikasi Reference:
 
 - application class: `org.swiftapps.swiftbackup.SwiftApp`
 - theme: `@style/SwiftTheme`
@@ -291,13 +294,13 @@ Reference application baseline:
 - `supportsRtl=true`
 - `enableOnBackInvokedCallback=true`
 
-Permission, intent, provider authority, service contract, receiver filter, activity export state, and other manifest attributes are part of the Reference parity target.
+Permission, intent, provider authority, service contract, receiver filter, activity export state, dan atribut AndroidManifest lainnya merupakan bagian dari target kesetaraan Reference.
 
 ---
 
-# 12. BΛR☰ AUTHORIZED BASELINE
+# 12. BASELINE YANG DIIZINKAN BΛR☰
 
-Authorized project-level deviations remain governed exclusively by `docs/bare.md`, including:
+Penyimpangan tingkat proyek yang diizinkan tetap hanya ditentukan oleh `docs/bare.md`, termasuk:
 
 - branding: Swift Backup → BΛR☰ / BaRe
 - BaRe package/application identity where explicitly authorized
@@ -307,26 +310,26 @@ Authorized project-level deviations remain governed exclusively by `docs/bare.md
 - Android Views/XML
 - other explicitly documented handoff deviations
 
-Authorized deviation tidak boleh dipakai untuk mengurangi jumlah Reference manifest target.
+Penyimpangan yang diizinkan tidak boleh digunakan untuk mengurangi jumlah target AndroidManifest Reference.
 
 ---
 
-# 13. PHASE 1 GATE
+# 13. GERBANG TAHAP 1
 
-### STATUS: **REQUALIFIED TARGET BASELINE**
+### STATUS: **BASELINE TARGET DIKUALIFIKASI ULANG**
 
-Phase 1 target is now defined as:
+Target Tahap 1 ditetapkan sebagai berikut:
 
 **95 Activities + 10 Services + 10 Receivers + 4 Providers = 119 Reference manifest components → 119 BΛR☰ target components**
 
-Tidak ada alternate target count.
+Tidak ada jumlah target alternatif.
 
-Tidak ada ownership-based reduction.
+Tidak ada pengurangan berdasarkan kepemilikan.
 
-Tidak ada dependency/library exclusion.
+Tidak ada pengecualian dependency/library.
 
-Tidak ada “library jadi bukan target”.
+Tidak ada aturan “library jadi bukan target”.
 
-P1 hanya menetapkan **what must exist as the reconstruction target**. P1 belum menyatakan implementation parity, runtime parity, build parity, atau feature parity.
+Tahap 1 hanya menetapkan **apa yang wajib ada sebagai target rekonstruksi**. Tahap 1 belum menyatakan kesetaraan implementasi, kesetaraan runtime, kesetaraan build, atau kesetaraan fitur.
 
-Phase 2 dan phase berikutnya wajib menggunakan **119-component target boundary** ini.
+Tahap 2 dan seluruh tahap berikutnya wajib menggunakan **batas target 119 komponen** ini.
