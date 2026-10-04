@@ -191,8 +191,8 @@ public final class DashboardFragment extends Fragment {
             try {
                 com.bare.appsquickactions.AppsQuickActionRequest request =
                         com.bare.appsquickactions.AppsQuickActionRequest.fromReferenceId(referenceId);
-                intent = new Intent(requireContext(), AppListActivity.class);
-                intent.putExtra("dashboard_quick_action", request);
+                intent = new Intent(requireContext(), com.bare.appslist.ui.listbatch.AppsBatchActivity.class);
+                intent.putExtra("quick_action_request", request);
             } catch (IllegalArgumentException ignored) {
                 return;
             }
