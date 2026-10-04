@@ -153,10 +153,10 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 try {
                     executor.extractAegis(
                             archive,
-                            e.entryHeaderOffset,
-                            e.storedSize,
                             e.payloadOffset,
                             e.storedSize,
+                            e.payloadOffset,
+                            e.compressedSize,
                             e.name,
                             e.flags,
                             null,
