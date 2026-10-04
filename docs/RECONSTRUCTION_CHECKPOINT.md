@@ -1676,3 +1676,8 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 ### P6.3 Apps remaining targeted gap — Shared Libraries restore
 
 Reference backup and extraction behavior is implemented through the SBA/native path. Final Shared Libraries restore destination/consumer ownership is still being traced from xw.u(); no guessed package-install or filesystem destination has been introduced.
+
+
+## P6.3 Apps Shared Libraries restore closure — 2026-10-04
+
+Reference `xw.u()` was re-read directly from the supplied decompile ZIP. The recovered consumer chain is now closed: archive listing → per-entry SBA extraction into `AppsWorkingDir` → enumerate decompressed `.apk` entries → `pm install -t <apk>` for each shared-library APK. BaRe implements this owner in `AppLocalBackupEngine.restoreSharedLibraries()`. No synthetic filesystem destination was introduced. Runtime/package-manager/privileged execution remains unverified.
