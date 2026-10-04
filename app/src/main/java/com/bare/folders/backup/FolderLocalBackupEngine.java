@@ -35,7 +35,7 @@ import java.util.Map;
  * Concrete local Folder backup engine aligned with Reference wj3/kj3/ry5.
  *
  * Reference local path:
- *   <storage>/SwiftBackup/accounts/<first-half-MD5(uid)>/backups/folders/local/Folder-<id>/
+ *   <storage>/BΛR☰/accounts/<first-half-MD5(uid)>/backups/folders/local/Folder-<id>/
  *
  * Reference artifacts:
  *   folder-base.fld / folder-base.flm
@@ -44,7 +44,7 @@ import java.util.Map;
  * Archive framing is delegated to the exact Reference SBA native creator.
  */
 public final class FolderLocalBackupEngine {
-    private static final String ROOT = "SwiftBackup";
+    private static final String ROOT = "BΛR☰";
     private static final String BACKUPS = "backups";
     private static final String FOLDERS = "folders";
     private static final String LOCAL = "local";
