@@ -2,7 +2,9 @@ package com.bare.home.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /** Persistence boundary for the Reference ScheduleData shape. */
 public interface ScheduleRepository {
@@ -92,14 +94,36 @@ public interface ScheduleRepository {
             copy.globalError = globalError;
             copy.orderIds.addAll(orderIds);
             copy.appsQuickActionIds.addAll(appsQuickActionIds);
-            copy.appsLabelIds.addAll(appsLabelIds);
             copy.appConfigIds.addAll(appConfigIds);
+            copy.appsLabelIds.addAll(appsLabelIds);
             copy.messageIds.addAll(messageIds);
             copy.callLogIds.addAll(callLogIds);
             copy.wallIds.addAll(wallIds);
             copy.wifiIds.addAll(wifiIds);
             copy.folderIds.addAll(folderIds);
+            for (ScheduleItemState item : items) {
+                if (item != null) copy.items.add(item.copy());
+            }
             return copy;
+        }
+
+        /**
+         * Mirrors Reference ScheduleData order normalization: keep existing valid
+         * IDs first, then append known item IDs that are not yet ordered.
+         */
+        public List<String> getNormalizedOrderIds() {
+            LinkedHashSet<String> validIds = new LinkedHashSet<>();
+            for (ScheduleItemState item : items) {
+                if (item != null && item.id != null && !item.id.isEmpty()) validIds.add(item.id);
+            }
+            LinkedHashSet<String> normalized = new LinkedHashSet<>();
+            for (String id : orderIds) {
+                if (id != null && validIds.contains(id)) normalized.add(id);
+            }
+            for (ScheduleItemState item : items) {
+                if (item != null && item.id != null && !item.id.isEmpty()) normalized.add(item.id);
+            }
+            return new ArrayList<>(normalized);
         }
 
         public List<String> getOrderIds() {
