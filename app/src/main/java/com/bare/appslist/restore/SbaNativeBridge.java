@@ -23,8 +23,8 @@ public final class SbaNativeBridge {
 
     public boolean isLoaded() { return loaded; }
 
-    /** Reference-compatible SBA archive creation JNI signature. */
-    public native long[] createArchive(
+    /** Delegates to the exact Reference JNI owner/class. */
+    public long[] createArchive(
             int archiveKind,
             String outputPath,
             byte[] entryPayload,
@@ -47,7 +47,32 @@ public final class SbaNativeBridge {
             byte[] nonce,
             byte[] aad,
             byte[] indexMacKey,
-            SbaNativeProgressListener progressListener);
+            SbaNativeProgressListener progressListener) {
+        return com.swiftapps.sba.SbaArchiveNative.INSTANCE.createArchive(
+                archiveKind,
+                outputPath,
+                entryPayload,
+                entrySources,
+                entryNames,
+                entryModes,
+                entryXattrs,
+                entryLinks,
+                compressionMode,
+                compressionLevel,
+                encryptionFlags,
+                tarFlags,
+                metadataFlags,
+                sparseFlags,
+                chunkSize,
+                workerCount,
+                ioBufferSize,
+                progressMode,
+                key,
+                nonce,
+                aad,
+                indexMacKey,
+                progressListener);
+    }
 
     /** Reference-compatible Zstd byte codec used by the special-data payload format. */
     public native byte[] compressZstdBytes(byte[] payload, int level);
