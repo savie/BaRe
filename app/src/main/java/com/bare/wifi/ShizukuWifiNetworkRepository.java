@@ -28,6 +28,7 @@ public final class ShizukuWifiNetworkRepository {
         if (Build.VERSION.SDK_INT < 30) return Result.failure(WifiAccessContract.Failure.ACCESS_UNAVAILABLE);
         try {
             if (!Shizuku.pingBinder()) return Result.failure(WifiAccessContract.Failure.SHIZUKU_STOPPED);
+            if (Shizuku.getUid() != 2000) return Result.failure(WifiAccessContract.Failure.MAPPING_FAILED);
             if (Shizuku.checkSelfPermission() != PackageManager.PERMISSION_GRANTED) {
                 return Result.failure(WifiAccessContract.Failure.PERMISSION_DENIED);
             }
