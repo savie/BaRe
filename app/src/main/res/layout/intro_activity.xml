@@ -50,7 +50,6 @@
                     android:id="@+id/iv_menu"
                     android:src="@drawable/ic_dots_vertical"
                     android:padding="12dp"
-                    android:contentDescription="@string/menu"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
