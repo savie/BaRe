@@ -1733,3 +1733,21 @@ The supplied Reference ZIP was re-extracted again for this pass and the remainin
 - No cloud backend, build, install, runtime, device, provider, privileged execution, or Supabase execution was performed.
 
 **Apps gate: STATIC-IMPLEMENTATION CLOSED.** All currently Reference-proven Apps gaps that can be implemented without crossing the declared provider/runtime boundary are closed. The remaining cloud-delete/cloud-sync/privileged effects are explicit downstream provider/execution contracts, not missing Apps semantics. Folders/Messages/Calls/Wi-Fi/Wallpapers may now proceed as separate audits; this pass does not claim their runtime/device verification.
+
+
+### P6.3 Folders forensic re-audit + disk-space consumer closure — 2026-10-04
+
+- Reference ZIP was re-extracted directly for this pass before tracing the Folders domain.
+- Reference Folders execution graph re-confirmed:
+  - `wj3` owns base/incremental folder backup and restore orchestration.
+  - `yn3` scans `FolderState(FileEntry(size,mtime), directories)` and computes file/directory additions, modifications, and deletions.
+  - `Manifest` carries backup id/type/parent, source path, current state, and changes.
+  - `folder-base.fld/.flm` and `folder-inc-<timestamp>.fld/.flm` form the local artifact chain.
+  - Restore walks the latest manifest back to BASE, selects the newest archive payload for each requested file, and delegates extraction through the native SBA path.
+- Fresh gap found: Reference `pj7` disk-space preflight is an execution consumer of the Folders engine, while BΛR☰ already had the F161 contract/helper but the concrete Folder backup/restore engines did not consume it.
+- Implemented:
+  - `FolderLocalBackupEngine` now evaluates required source payload bytes against the selected backup volume's usable space, honoring `skip_disk_space_checks`, with the existing F161 16 MiB/1% headroom and 50 MiB reserve policy.
+  - `FolderLocalRestoreEngine` now evaluates each planned archive extraction against target usable space, using the greater of archive size and selected final-file payload bytes, with the same F161 policy/override.
+- Consumer closure is static: F161 is now connected from the Folder execution owners to the existing preflight contract.
+- No build/install/runtime/device/filesystem mutation/provider/backend/Supabase execution performed.
+- **Folders gate: STATIC-IMPLEMENTATION CLOSED for the currently Reference-proven app-side gaps audited in this pass.**
