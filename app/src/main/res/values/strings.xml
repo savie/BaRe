@@ -728,3 +728,7 @@ Unable to read package information: %2$s</string>
     <string name="call_log_row">%1$s • %2$d</string>
     <string name="call_logs_local_backups_count">%1$d local call-log backup(s)</string>
 </resources>
+
+    <string name="folder_backup_result">Completed %1$d backup(s); %2$d folder(s) had no changes.</string>
+    <string name="folder_backup_failed">Last backup error: %1$s</string>
+    <string name="folder_deleted_artifacts">Deleted %1$d folder backup artifact(s).</string>
