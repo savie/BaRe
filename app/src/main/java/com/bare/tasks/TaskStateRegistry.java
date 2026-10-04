@@ -69,6 +69,14 @@ public final class TaskStateRegistry implements TaskStateRepository {
     }
 
     /** Downstream execution boundary publishes the observed service state. */
+    /** Starts a fresh task lifecycle, clearing previous cancellation requests. */
+    public void beginTask() {
+        cancelRequested = false;
+        forceStopRequested = false;
+        serviceState = TaskState.WAITING;
+        notifyObservers();
+    }
+
     public void publishServiceState(TaskState state) {
         if (state == null) throw new NullPointerException("state");
         serviceState = state;
