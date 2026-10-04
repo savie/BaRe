@@ -16,7 +16,9 @@ import com.bare.R;
 
 public final class AppInfoActivity extends AppCompatActivity {
     private static final String APP_PARCEL = "APP_PARCEL";
+    private static final String PACKAGE_NAME = "package_name";
     private Parcelable appParcel;
+    private String packageName;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -31,14 +33,17 @@ public final class AppInfoActivity extends AppCompatActivity {
         appParcel = state != null
                 ? state.getParcelable(APP_PARCEL)
                 : getIntent().getParcelableExtra(APP_PARCEL);
+        packageName = state != null
+                ? state.getString(PACKAGE_NAME)
+                : getIntent().getStringExtra(PACKAGE_NAME);
 
-        if (appParcel == null) {
+        if (appParcel == null && packageName == null) {
             finish();
             return;
         }
 
         TextView info = findViewById(R.id.tv_info);
-        String pkg = getIntent().getStringExtra("package_name");
+        String pkg = packageName;
         if(pkg!=null){
             try{
                 PackageInfo pi=getPackageManager().getPackageInfo(pkg,0); ApplicationInfo ai=pi.applicationInfo;
@@ -58,6 +63,7 @@ public final class AppInfoActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (appParcel != null) outState.putParcelable(APP_PARCEL, appParcel);
+        if (packageName != null) outState.putString(PACKAGE_NAME, packageName);
         super.onSaveInstanceState(outState);
     }
 
