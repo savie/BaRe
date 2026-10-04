@@ -1,0 +1,832 @@
+# APP IMPLEMENTATION AUDIT — REWRITE
+
+## Audit Metadata
+
+| Item | Nilai |
+|---|---|
+| Project | BΛR☰ / BaRe |
+| Repository | savie/BaRe |
+| Branch | rewrite |
+| Current HEAD | `6014cff87c406cf8bb545a7324d63d84d209c345` |
+| Supplied Base Checkpoint | `6014cff87c406cf8bb545a7324d63d84d209c345` |
+| Reference | Swift Backup 5.1.0 / versionCode 620 |
+| Primary Authority | `/mnt/data/bare.md` |
+| Primary Reference | `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip` + `/mnt/data/5.1.0 (620).apk` |
+| Audit Scope | `app/` implementation surface pada branch `rewrite` |
+| Audit Boundary | Static source/resource/manifest/build/native/backend-boundary inspection |
+| Build Execution | Tidak dilakukan |
+| CI Execution | Tidak dilakukan |
+| APK Generation | Tidak dilakukan |
+| Runtime / Device | Tidak dilakukan |
+| Supabase Execution | Tidak dilakukan |
+
+## Executive Decision
+
+**FINAL STATUS: NOT 1:1 / NOT STATIC-CLOSED / BLOCKED FOR BUILD AND NATIVE EXECUTION.**
+
+Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar. Namun berdasarkan audit current-state, project belum dapat dinyatakan sebagai:
+
+`BaRe = Reference + Authorized Deviations`
+
+Temuan paling penting:
+
+1. **Branch state mismatch terhadap instruksi audit:** `rewrite` saat ini menunjuk tepat ke supplied base checkpoint `6014cff...`. Tidak ditemukan commit implementation setelah checkpoint.
+2. **Build blocker candidate:** `app/build.gradle` adalah Groovy Gradle file tetapi berisi konstruksi Kotlin DSL seperti `val`, `isNullOrBlank()`, `create("...")`, dan `getByName(...)`.
+3. **Critical native packaging gap:** `app/` tidak memiliki `.so` native library, sementara source memanggil `System.loadLibrary("sba_archive")`. Reference APK memiliki `libsba_archive.so` untuk 4 ABI dan exported JNI symbol dengan namespace `Java_com_swiftapps_sba_...`.
+4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
+5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
+6. **Root status, notices, dan secondary-user warning belum wired** pada current Dashboard path.
+7. **Swift residue tidak boleh blind-replace:** `com.swiftapps.sba`, `SwiftBackup_Entity`, `swiftbackup.app-data`, `swiftbackup.folder.v1`, dan `swiftbackup.calls.v3` memiliki karakter JNI/protocol compatibility.
+8. **MMS restore current-state sudah diimplementasikan** pada `MessagesRestoreRepository`, termasuk MMS row, parts, addresses, dan cached binary payload handling.
+9. Source implementation tetap **Java-only** dan tidak ditemukan source Kotlin.
+10. Static search pada `app/` tidak menemukan Firebase implementation literal, TODO/FIXME, `UnsupportedOperationException`, `System.out`, `printStackTrace`, atau `NotImplemented`.
+
+## Authority And Evidence
+
+### Canonical Rules
+
+Audit menggunakan `/mnt/data/bare.md` sebagai authority. Rule yang menjadi dasar klasifikasi:
+
+- Reference adalah read-only source of truth.
+- Target implementation berada pada `app/`.
+- 1:1 berarti hanya Authorized Deviation yang boleh berbeda.
+- Status perbedaan: `MATCH`, `AUTHORIZED DEVIATION`, `UNAUTHORIZED DEVIATION`, `UNKNOWN`, `BLOCKED`.
+- Rewrite wajib Java.
+- UI wajib Android Views/XML.
+- Branding boleh berubah menjadi BΛR☰ / BaRe.
+- Premium boleh dianggap granted tanpa payment.
+- Firebase tidak digunakan pada target; backend BaRe menggunakan Supabase.
+- Supabase configuration yang belum terbukti tidak boleh diarang.
+- Build/runtime bukan bukti parity tanpa verification berlapis.
+
+### Reference Artifact Integrity
+
+SHA-256 evidence lokal:
+
+| Artifact | SHA-256 |
+|---|---|
+| `SwiftBackup-5.1.0-620-decompiled.zip` | `148e9b4ef265ead284cb4af060c89f44898dcb81747702ef6bef50c863f92948` |
+| `5.1.0 (620).apk` | `d04267dd0431c0b58d5ff04766696affd5c9ebd59c8b428c54f6ee6f1928621d` |
+| `bare.md` | `8c48cf22a9a759d439f082c726c9f6118fa717553420c5fbedff39afd8708981` |
+
+Reference decompile archive berisi 31.774 ZIP entries. Package utama `org.swiftapps.swiftbackup` pada JADX memiliki 259 Java source. Resource tree Reference memiliki 1.508 file pada `output/jadx/resources/res/`, termasuk 1.287 XML.
+
+Reference APK memiliki `libsba_archive.so` pada:
+
+- arm64-v8a
+- armeabi-v7a
+- x86
+- x86_64
+
+## Branch State Audit
+
+### Current Ref
+
+`refs/heads/rewrite` saat audit menunjuk ke:
+
+`6014cff87c406cf8bb545a7324d63d84d209c345`
+
+Commit tersebut memiliki parent:
+
+`816a64e538c09c10064af782cac8d53d3003cb53`
+
+Commit `6014cff...` hanya menghapus:
+
+`docs/P6.3_APP_IMPLEMENTATION_TOTAL_AUDIT.md`
+
+Tidak ada perubahan implementation `app/` pada commit tersebut.
+
+### Classification
+
+**BLOCKED / STATE NOTICE**
+
+Instruksi audit meminta inspeksi branch `rewrite` dan secara eksplisit membedakannya dari checkpoint. Remote branch yang tersedia saat audit tidak menunjukkan divergence dari checkpoint. Audit tetap dilakukan terhadap current branch state yang benar-benar tersedia; tidak ada asumsi tentang uncommitted/local state yang tidak terlihat melalui repository remote.
+
+## App Inventory
+
+Current `app/` pada branch:
+
+| Extension / Type | Count |
+|---|---:|
+| Java | 472 |
+| Kotlin | 0 |
+| XML | 622 |
+| WebP | 33 |
+| PNG | 3 |
+| OTF | 1 |
+| TTF | 6 |
+| JSON | 7 |
+| OGG | 2 |
+| TXT | 1 |
+| Extensionless | 2 |
+| **Total tracked app files** | **1.150** |
+
+Distribusi Java utama:
+
+| Domain | Java |
+|---|---:|
+| appslist | 93 |
+| home | 57 |
+| messagescalls | 51 |
+| cloud | 36 |
+| folders | 32 |
+| settings | 32 |
+| appconfigs | 18 |
+| tasks | 13 |
+| wifi | 13 |
+| walls | 11 |
+| core | 10 |
+| storage | 8 |
+| blacklist | 7 |
+| intro | 7 |
+| views | 7 |
+| contributor | 6 |
+| permission | 6 |
+| purchase | 6 |
+| account | 5 |
+| manage | 5 |
+| apps | 4 |
+| appsquickactions | 4 |
+| notice | 4 |
+| slog | 4 |
+| appinfo | 3 |
+| backend | 3 |
+| detail | 3 |
+| password | 3 |
+| apkshare | 2 |
+| common | 2 |
+| jobs | 2 |
+| premium | 2 |
+| shortcuts | 2 |
+| locale | 1 |
+| schedule | 1 |
+| telemetry | 1 |
+
+Jumlah Java target yang lebih besar daripada 259 Java package utama Reference tidak dianggap defect dengan sendirinya. BaRe memecah implementation menjadi contract, repository, model, owner, engine, adapter, dan compatibility layer.
+
+## Manifest Audit
+
+Reference application-owned component inventory:
+
+- Activity: 71
+- Service: 3
+- Receiver: 8
+
+Current BaRe manifest:
+
+- Activity: 71
+- Service: 3
+- Receiver: 8
+- Provider target-owned: 2
+
+### Activity / Service / Receiver
+
+**MATCH pada static count boundary.**
+
+Current manifest mempertahankan counterpart application-owned untuk seluruh 71 Activity, 3 Service, dan 8 Receiver Reference yang teridentifikasi pada Reference manifest.
+
+Provider target menambahkan:
+
+- `rikka.shizuku.ShizukuProvider`
+- `androidx.core.content.FileProvider`
+
+Keduanya tidak diperlakukan sebagai missing Reference component.
+
+### Branding Boundary
+
+Manifest sudah menormalisasi:
+
+- application package → `com.bare`
+- application class → `.BaReApp`
+- application label → `BΛR☰`
+- theme → `@style/BaReTheme`
+- launcher icon → `@drawable/bare_launcher_icon`
+
+**Classification: AUTHORIZED DEVIATION / MATCH.**
+
+## Build System Audit
+
+### app/build.gradle
+
+Current file menggunakan `app/build.gradle` sebagai Groovy Gradle file, tetapi terdapat konstruksi:
+
+`val stableDebugKeystorePath = ...`  
+`stableDebugKeystorePath.isNullOrBlank()`  
+`signingConfigs.create("stableDebug")`  
+`buildTypes.getByName("debug")`  
+`signingConfigs.getByName("stableDebug")`
+
+Konstruksi tersebut adalah Kotlin DSL style, bukan syntax/idiom valid untuk file Groovy `build.gradle`.
+
+Selain itu:
+
+`System.getenv("BARE_VERSION_CODE")?.toIntOrNull()`
+
+mengandalkan API Kotlin `toIntOrNull()` yang tidak tersedia pada Java/Groovy String secara langsung.
+
+### Classification
+
+**CRITICAL / BUILD BLOCKER CANDIDATE**
+
+Tidak boleh menyatakan build berhasil sebelum file ini direkonsiliasi menjadi syntax yang konsisten dengan Groovy Gradle atau file dipindahkan secara sengaja ke Kotlin DSL dengan seluruh lifecycle configuration yang sesuai.
+
+### Gradle Wrapper
+
+Tidak ditemukan:
+
+- `gradlew`
+- `gradlew.bat`
+- `gradle/wrapper/*`
+
+**Classification: BUILD/CI GAP.**
+
+### CI
+
+Tidak ditemukan `.github/workflows/*` pada repository tree current.
+
+**Classification: CI GAP.**
+
+## Java-Only Audit
+
+Current `app/`:
+
+- Java: 472
+- Kotlin: 0
+
+Static search tidak menemukan source `.kt`.
+
+**Classification: MATCH.**
+
+Tidak ditemukan alasan evidence-backed untuk mengganti implementation menjadi Kotlin atau Compose. UI tetap berbasis Android Views/XML.
+
+## Dashboard / Home Audit
+
+### Reference Contract
+
+Reference canonical `dash_fragment.xml` memiliki:
+
+- `dash_secondary_user_warning`
+- `dash_card_summary`
+- `root_status_container`
+- `tvRootAccess`
+- `tvRootProvider`
+- `iv_refresh_root_access`
+- `rvDashShortcutsDefault`
+- `rvDashShortcutsCompact`
+- `rv_notices`
+- Firebase connection-error surface
+- empat quick-action cards
+
+Reference `x92.java` juga mengikat root-status views, shortcut RecyclerViews, secondary-user warning, connection-error surface, dan notices RecyclerView sebagai bagian dari Dashboard view binding.
+
+### Current BaRe Implementation
+
+Current `DashboardFragment` meng-inflate:
+
+`@layout/home_dashboard_fragment`
+
+bukan canonical `@layout/dash_fragment`.
+
+`home_dashboard_fragment.xml` menggunakan:
+
+- MaterialCardView custom untuk storage summary
+- GridLayout untuk category shortcuts
+- empat quick-action cards
+- hidden `dashboard_actions`
+
+Implementasi tersebut tidak mengonsumsi canonical root-status subtree.
+
+### H01 — Canonical Dashboard Layout Bypass
+
+Reference layout tetap ada sebagai resource target, tetapi current owner menggunakan alternate layout.
+
+**Classification: UNAUTHORIZED DEVIATION / VISUAL-PARITY GAP.**
+
+Alasan:
+
+- `bare.md` tidak mengizinkan redesign Dashboard.
+- Reference layout sudah memberikan contract visual dan structural.
+- Alternate `home_dashboard_fragment.xml` mengubah view hierarchy dan shortcut rendering.
+- Tidak ada Authorized Deviation yang mengizinkan perubahan ini.
+
+### H02 — Root Status UI Not Wired
+
+Resource:
+
+- `root_status_container`
+- `tvRootAccess`
+- `tvRootProvider`
+- `iv_refresh_root_access`
+
+sudah tersedia, dan `RootPermissionCoordinator` juga ada.
+
+Namun current `DashboardFragment` tidak melakukan binding atau refresh terhadap view tersebut.
+
+**Classification: UNAUTHORIZED DEVIATION / IMPLEMENTATION GAP.**
+
+### H03 — Notices Not Wired
+
+`NoticeRepository` tersedia dan `rv_notices` tersedia pada canonical Dashboard resource, tetapi current Dashboard path tidak menghubungkan:
+
+`NoticeRepository → adapter → rv_notices`
+
+**Classification: IMPLEMENTATION GAP.**
+
+### H04 — Secondary User Warning Not Wired
+
+`dash_secondary_user_warning` tersedia pada target resource, tetapi current Dashboard owner tidak mengonsumsi state tersebut.
+
+**Classification: IMPLEMENTATION GAP.**
+
+### H05 — Shortcut Renderer Approximation
+
+Reference menggunakan:
+
+- `QuickRecyclerView`
+- `rvDashShortcutsDefault`
+- `rvDashShortcutsCompact`
+
+Current implementation membuat `MaterialButton` secara dinamis dalam `GridLayout`.
+
+**Classification: UNAUTHORIZED DEVIATION / VISUAL PARITY GAP.**
+
+Navigation intent mungkin tetap benar, tetapi visual/component behavior belum 1:1.
+
+## Feature Domain Audit
+
+### Intro / Onboarding
+
+Static owner dan state contracts tersedia untuk:
+
+- first-start lifecycle
+- anonymous identity
+- permissions
+- storage readiness
+- notification readiness
+- installed-app readiness
+- root/Shizuku state
+- password strategy
+- Home transition
+
+Namun Google sign-in dan first-run cloud restore masih provider/backend execution boundaries.
+
+**Classification: PARTIAL / DOWNSTREAM.**
+
+Tidak boleh mengubah boundary menjadi fake provider success.
+
+### Apps
+
+Current source memiliki owner untuk:
+
+- installed-app inventory
+- APK/split APK
+- app data
+- external data/media/expansion
+- retention
+- special data
+- installer boundary
+- quick actions
+- blacklist
+- storage measurement
+- restore planning
+
+Namun privileged/root execution, PackageInstaller commit/wait, dan native SBA execution masih bergantung pada downstream/runtime boundaries.
+
+**Classification: PARTIAL — STATIC IMPLEMENTATION PRESENT, RUNTIME UNVERIFIED.**
+
+### Folders
+
+Current source memiliki:
+
+- local backup engine
+- incremental/base chain
+- manifest/state structures
+- restore strategies
+- artifact discovery
+- disk-space predicates
+- folder task boundaries
+
+Tetapi filesystem mutation dan native/privileged extraction belum runtime-verified.
+
+**Classification: PARTIAL.**
+
+### Messages / SMS / MMS
+
+Current `MessagesRestoreRepository` sudah mengimplementasikan:
+
+- conversation payload parsing
+- SMS insertion
+- MMS insertion
+- MMS parts
+- MMS addresses
+- cached binary payload materialization
+- duplicate detection
+- thread mapping
+- archive entry lookup
+
+Ini adalah **current implementation**, bukan placeholder.
+
+**Classification: STATIC MATCH / RUNTIME UNVERIFIED** untuk MMS restore surface.
+
+Provider permissions, default-SMS role, actual Telephony provider behavior, dan native archive execution tetap runtime boundaries.
+
+### Calls
+
+Current source memiliki:
+
+- CallLog repository
+- local backup
+- compression policy
+- archive creation handoff
+- restore path
+- duplicate detection
+- subscription/SIM mapping
+
+Provider insertion dan native archive execution belum runtime-verified.
+
+**Classification: PARTIAL / RUNTIME UNVERIFIED.**
+
+### Wi-Fi
+
+Current source memiliki acquisition boundary untuk:
+
+- WifiManager
+- root XML
+- Shizuku hidden API
+- local encrypted artifact
+
+Root/Shizuku execution dan actual device state tetap downstream.
+
+**Classification: PARTIAL / RUNTIME UNVERIFIED.**
+
+### Wallpapers
+
+Current source memiliki local inventory, artifact, selection/delete, FileProvider, and WallApply owners.
+
+Actual wallpaper application and provider/cloud transfer remain runtime boundaries.
+
+**Classification: PARTIAL / RUNTIME UNVERIFIED.**
+
+### Tasks / Scheduling / SLog
+
+Current source memiliki TaskService, ScheduleService, AlarmReceiver, task state, SLog, and lifecycle contracts.
+
+Namun `AlarmReceiver` sendiri menyatakan scheduling/foreground-service execution masih downstream.
+
+**Classification: PARTIAL / EXECUTION GAP.**
+
+Ini bukan sekadar test gap; execution ownership belum selesai pada current app surface.
+
+### Settings / Password / Storage
+
+Static contracts tersedia untuk:
+
+- Settings graph
+- app visibility
+- backup limits
+- multiple backups
+- password strategy
+- storage selection
+- preferred storage
+- local secure-state boundaries
+
+Namun actual secure storage/runtime backup execution masih downstream.
+
+Ada juga duplicate class:
+
+`app/src/main/java/com/bare/home/service/StorageInfoService.java`
+
+yang mengembalikan `null` dan secara eksplisit menyatakan filesystem implementation masih downstream. Current Dashboard menggunakan `com.bare.core.storage.StorageInfoService`, sehingga class tersebut tampak sebagai orphan/dead boundary.
+
+**Classification: SOURCE HYGIENE / DEAD-BOUNDARY CANDIDATE.**
+
+Jangan menghapus tanpa consumer audit lebih lanjut.
+
+## Premium Audit
+
+`PremiumAccessPolicy.isGranted()` mengembalikan `true`.
+
+Reference Premium surface tetap ada, sedangkan purchase entitlement tidak diwajibkan.
+
+**Classification: AUTHORIZED DEVIATION.**
+
+Ini sesuai `bare.md`: Premium BaRe gratis, tetapi feature/UI/flow Premium tidak boleh dihapus.
+
+Runtime feature-gate coverage tetap belum diverifikasi.
+
+## Backend / Supabase Audit
+
+### Current App Boundary
+
+Current app memiliki:
+
+- `BaReBackendRepository`
+- `ReferenceBackendContract`
+- Cloud provider contracts
+- account/user-info repositories
+- cloud metadata models
+- diagnostics UI
+- Supabase-specific diagnostic strings
+
+Namun `BaReBackendRepository` sendiri mendeskripsikan eventual Supabase adapter sebagai downstream.
+
+### Missing Concrete Implementation
+
+Static search tidak menemukan:
+
+- Supabase SDK/client initialization
+- Supabase Auth adapter
+- PostgREST/database adapter
+- Supabase Storage adapter
+- concrete RLS client integration
+- Edge Function client integration
+- concrete remote repository wiring
+- target project URL usage in implementation
+- verified Supabase key/configuration
+
+Tidak ditemukan evidence yang cukup untuk mengarang schema, key, RLS, bucket, provider, atau Edge Function.
+
+**Classification: BLOCKED / SUPABASE EXECUTION GAP.**
+
+### Backend Rule
+
+Tidak boleh mengisi gap ini dengan mock/fake “connected” state. `bare.md` mensyaratkan actual Supabase state atau evidence yang diverifikasi sebelum configuration dibuat.
+
+## Firebase Audit
+
+Static search pada `app/` tidak menemukan Firebase implementation literal.
+
+Tidak ditemukan:
+
+- `com.google.firebase`
+- Firebase SDK implementation
+- Firebase client initialization
+
+Reference memang menggunakan Firebase sebagai backend/provider evidence. Target policy mengizinkan backend substitution menjadi Supabase.
+
+**Classification: MATCH terhadap backend policy pada sisi removal, tetapi Supabase replacement belum implemented.**
+
+UI target sudah mengganti connection-error surface menjadi Supabase wording. Wording tersebut tidak boleh dianggap sebagai bukti bahwa Supabase connectivity sudah benar-benar tersedia.
+
+## Branding / Static Hygiene Audit
+
+### Correctly Normalized
+
+Current target sudah menggunakan:
+
+- `com.bare`
+- `BaReApp`
+- `BΛR☰`
+- BaRe resources
+- BaRe theme
+- BaRe storage-root naming pada area yang sudah direkonstruksi
+
+### Swift Residue
+
+Static search menemukan technical residues:
+
+- `com.swiftapps.sba`
+- `SbaSwiftTarNative`
+- `SwiftBackup_Entity`
+- `swiftbackup.app-data`
+- `swiftbackup.folder.v1`
+- `swiftbackup.calls.v3`
+
+### JNI Ownership
+
+Reference APK `libsba_archive.so` mengekspor JNI symbols seperti:
+
+`Java_com_swiftapps_sba_SbaRuntimeNative_version`
+
+dan symbol untuk:
+
+- `SbaSwiftTarNative`
+- `SbaZstdNative`
+- `SbaArchiveNative`
+- `SbaNativeCrypto`
+- `SbaLibaegisCryptoNative`
+
+Current Java source mempertahankan namespace `com.swiftapps.sba` untuk compatibility terhadap ABI tersebut.
+
+**Classification: TECHNICAL EXTERNAL-PROTOCOL / PRESERVE-COMPATIBILITY CANDIDATE.**
+
+Tidak boleh melakukan blind/global replacement. Closure decision harus eksplisit.
+
+### Legacy Format Identifiers
+
+Identifier:
+
+- `SwiftBackup_Entity`
+- `swiftbackup.app-data`
+- `swiftbackup.folder.v1`
+- `swiftbackup.calls.v3`
+
+berfungsi sebagai archive/crypto metadata atau compatibility identity.
+
+**Classification: PROTOCOL / PRESERVE-COMPATIBILITY CANDIDATE.**
+
+Perubahan dapat merusak interoperability terhadap Reference artifacts.
+
+## Native SBA Audit
+
+### Reference
+
+Reference menyediakan:
+
+- `SbaRuntimeNative.java`
+- `SbaNativeCrypto.java`
+- `SbaNativeProgressListener.java`
+- `SbaTarEntryInfo.java`
+- `SbaArchiveNative.java`
+- `SbaLibaegisCryptoNative.java`
+- `SbaZstdNative.java`
+- `SbaSwiftTarNative.java`
+
+Reference APK menyediakan `libsba_archive.so` untuk 4 ABI.
+
+### Current Target
+
+Current target memiliki Java owner utama:
+
+- `SbaArchiveNative`
+- `SbaLibaegisCryptoNative`
+- `SbaNativeCrypto`
+- `SbaSwiftTarNative`
+- `SbaZstdNative`
+- `SbaNativeProgressListener`
+
+Namun tree `app/` tidak memiliki file `.so`.
+
+Tidak ditemukan:
+
+- `app/src/main/jniLibs/*/libsba_archive.so`
+- native build script yang membangun `sba_archive`
+- CMake/NDK owner
+- Gradle native packaging source
+
+### Runtime Consequence
+
+`SbaNativeBridge.load()` memang menangkap `UnsatisfiedLinkError` dan dapat mengembalikan `false`. Namun actual native archive creation/decryption/extraction tetap tidak tersedia jika library tidak dipackage.
+
+**Classification: CRITICAL BLOCKED / NATIVE PACKAGING GAP.**
+
+### Additional Parity Gap
+
+Reference memiliki `SbaRuntimeNative.version()`, sementara target tidak memiliki `SbaRuntimeNative.java`.
+
+Tidak ditemukan consumer target untuk owner tersebut, sehingga tidak langsung diklasifikasikan sebagai runtime blocker.
+
+**Classification: UNKNOWN / NATIVE OWNER PARITY GAP.**
+
+## Static Hygiene Scan
+
+Current `app/` tidak menunjukkan:
+
+- TODO
+- FIXME
+- UnsupportedOperationException
+- System.out
+- printStackTrace
+- NotImplemented
+- Kotlin source
+
+**Classification: MATCH untuk generic static hygiene scan.**
+
+Catatan: static hygiene ini tidak otomatis menutup branding/JNI/protocol residue karena residue tersebut memiliki compatibility semantics dan harus diaudit ownership-nya secara eksplisit.
+
+## Database / Migration Audit
+
+Current app memiliki local SQLite owners, termasuk:
+
+- `SLogDatabase`
+- `AppInventoryCache`
+
+Tidak ditemukan `ALTER TABLE`.
+
+`SLogDatabase.onUpgrade()` secara eksplisit tidak mendefinisikan migration schema baru.
+
+Beberapa nama class mengandung “Migration”, tetapi sebagian merupakan account/storage/cloud migration boundary yang merepresentasikan behavior Reference, bukan database migration otomatis.
+
+**Classification: NO VERIFIED SUPABASE DATABASE MIGRATION FOUND.**
+
+Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
+
+## Current Gap Register
+
+| ID | Surface | Finding | Classification | Priority |
+|---|---|---|---|---|
+| A01 | Branch | `rewrite` == supplied base checkpoint | BLOCKED / STATE NOTICE | P0 |
+| A02 | Build | Groovy file contains Kotlin DSL constructs | BUILD BLOCKER CANDIDATE | P0 |
+| A03 | Native | `libsba_archive.so` absent from `app/` | CRITICAL BLOCKED | P0 |
+| A04 | Backend | Concrete Supabase adapter/client absent | BLOCKED | P0 |
+| A05 | Dashboard | Current owner uses alternate non-Reference layout | UNAUTHORIZED DEVIATION | P1 |
+| A06 | Dashboard | Root status not wired | IMPLEMENTATION GAP | P1 |
+| A07 | Dashboard | Notices RecyclerView not wired | IMPLEMENTATION GAP | P1 |
+| A08 | Dashboard | Secondary-user warning not wired | IMPLEMENTATION GAP | P1 |
+| A09 | Dashboard | GridLayout replaces Reference QuickRecyclerView surfaces | UNAUTHORIZED DEVIATION | P1 |
+| A10 | Native | `com.swiftapps.sba` JNI namespace remains | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
+| A11 | Protocol | SwiftBackup archive/crypto identifiers remain | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
+| A12 | Scheduling | Alarm/scheduler execution downstream | EXECUTION GAP | P1 |
+| A13 | Storage | duplicate `StorageInfoService` null boundary | SOURCE HYGIENE | P2 |
+| A14 | Native | `SbaRuntimeNative` owner absent | UNKNOWN | P2 |
+| A15 | Build/CI | Gradle Wrapper absent | BUILD/CI GAP | P1 |
+| A16 | CI | workflow files absent | CI GAP | P1 |
+| A17 | Backend | Supabase diagnostic UI exists without concrete backend | BOUNDARY — DO NOT FAKE | P1 |
+| A18 | Runtime | root/Shizuku/provider/native execution unverified | UNKNOWN / BLOCKED | P1 |
+
+## Classification Summary
+
+### MATCH
+
+- Java-only source constraint
+- 71 Activity static manifest count
+- 3 Service static manifest count
+- 8 Receiver static manifest count
+- BaRe package/application branding
+- Firebase implementation removal from `app/`
+- generic static hygiene scan
+- large Reference reconstruction surface already present
+- MMS restore static owner exists
+
+### AUTHORIZED DEVIATION
+
+- BΛR☰ / BaRe branding
+- Premium entitlement granted without purchase
+- Firebase backend replacement policy → Supabase target
+
+### UNAUTHORIZED DEVIATION
+
+- Alternate Dashboard implementation surface
+- GridLayout shortcut renderer replacing Reference QuickRecyclerView structure
+- Missing Dashboard wiring for Reference-owned root/notices/secondary-user behavior
+
+### BLOCKED
+
+- build configuration validity
+- native SBA packaging
+- concrete Supabase execution
+- Dashboard canonical parity
+- runtime execution boundaries
+
+### UNKNOWN
+
+- native ABI owner parity beyond currently consumed methods
+- root/Shizuku runtime execution
+- provider runtime execution
+- scheduler runtime execution
+- exact external provider behavior
+
+## Corrective Order
+
+1. **Reconcile branch state.** Pastikan `rewrite` memang memiliki implementation state yang dimaksud; jangan mengaudit phantom local/uncommitted state sebagai repository state.
+2. **Fix `app/build.gradle`.** Gunakan syntax Groovy yang valid dan pertahankan dependency/runtime berdasarkan Reference evidence.
+3. **Restore reproducible build boundary.** Tambahkan/restore Gradle Wrapper dan CI hanya setelah configuration valid.
+4. **Resolve native SBA packaging.** Package exact compatible `libsba_archive.so` atau rebuild native ABI secara evidence-backed. Jangan rename JNI namespace secara blind.
+5. **Reconcile Dashboard terhadap canonical Reference layout.** Jangan mempertahankan `home_dashboard_fragment.xml` sebagai redesign jika tidak termasuk Authorized Deviation.
+6. **Wire root status, notices, and secondary-user warning.**
+7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.**
+8. **Implement concrete Supabase adapter only after actual Supabase state/configuration is verified.** Jangan membuat schema/key/RLS/bucket berdasarkan asumsi.
+9. **Complete execution boundaries** untuk scheduling, root/Shizuku, installer, storage, telephony, native, dan cloud.
+10. **Re-run static parity audit**, kemudian build, runtime, visual, behavior, feature, and deviation verification.
+
+## Verification Matrix
+
+| Verification | Current Result |
+|---|---|
+| Reference evidence inventory | PASS |
+| App inventory | PASS |
+| Manifest count reconciliation | PASS |
+| Java-only | PASS |
+| Generic static hygiene | PASS |
+| Branding normalization | PARTIAL |
+| Dashboard structural parity | FAIL |
+| Dashboard wiring | FAIL |
+| MMS static restore | PASS / UNVERIFIED RUNTIME |
+| Native ABI packaging | FAIL |
+| Build configuration | FAIL / BLOCKED |
+| Gradle reproducibility | BLOCKED |
+| CI | BLOCKED |
+| Supabase concrete implementation | BLOCKED |
+| Runtime/device | NOT RUN |
+| Visual comparison | NOT RUN |
+| Behavior comparison | NOT RUN |
+| Feature comparison | PARTIAL STATIC ONLY |
+| Final 1:1 qualification | **FAIL** |
+
+## Final Audit Decision
+
+**BΛR☰ / BaRe pada branch `rewrite` belum memenuhi 1:1 reconstruction qualification.**
+
+Project memiliki substantial reconstruction surface dan banyak contract/static implementation yang valid. Audit tidak merekomendasikan restart dari zero.
+
+Namun P0/P1 blocker harus ditutup sebelum status dapat dinaikkan:
+
+- build configuration
+- native packaging
+- Supabase implementation
+- Dashboard canonical parity
+- runtime execution boundaries
+
+Reference tetap read-only. Semua corrective implementation harus dilakukan pada target `app/` dan area BaRe yang relevan.
+
+**No build success, runtime success, or 1:1 claim is authorized by this audit.**
