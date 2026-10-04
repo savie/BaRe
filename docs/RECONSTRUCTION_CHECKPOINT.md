@@ -1605,3 +1605,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - The inspected native exports/string inventory does not expose SBA SevenZip AES, AES-256-GCM, or AES-256-GCM-SIV payload decrypt entry points. This strengthens the source-level conclusion that those methods are not enabled in the shipped native public backend.
 - The remaining possibility is an omitted/internal Java backend controlled by the Reference build flag; targeted decompile search has not yet recovered a concrete SBA payload implementation for that path. Keep it UNKNOWN/OPTIONAL rather than implementing a generic substitute.
 - Reference ZIP remains unchanged; no native execution was performed.
+### P6.3 SBA AEGIS/Zstd restore orchestration — 2026-10-04
+
+- Added `ReferenceSbaNativeRestoreOrchestrator` using the recovered Reference SBA header/index/footer contracts.
+- Exact v1/v2 header fields are now carried through: compression/encryption method, KDF, iterations, key-check, salt, nonce seed, v2 memory/parallelism, v2 index-MAC field, and chunk size.
+- Encrypted restore now performs Reference Argon2id → method key-check → v2 index-MAC verification before payload execution.
+- Public native encrypted methods are routed to `SbaNativeEntryExecutor` with Reference entry payload offsets, compression mode, encryption method, chunk size, derived key, nonce seed, entry-name AAD, entry flags, and tar size.
+- Unencrypted Zstd SBA entries now use the Reference native Zstd TAR extractor; unencrypted plain SBA continues through the Java framing reader.
+- Messages SBA restore now tries the Java framing reader first, then the recovered native Zstd/encrypted path, using the existing Reference-compatible password candidate set.
+- The three Reference optional/internal compatibility payload methods remain intentionally unimplemented because the supplied build still does not expose a concrete enabled backend implementation for them.
+- Runtime/native/device verification remains unperformed; Reference ZIP remains unchanged.
