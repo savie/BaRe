@@ -614,6 +614,9 @@ public final class AppLocalBackupEngine {
             File de = new File(root, "data_de");
             String dePath = deDataDirectory(info.packageName);
             if (privileged.copyTree(dePath, de.getAbsolutePath(), false) && de.isDirectory()) {
+                if (!Boolean.TRUE.equals(settings.getIsAppCacheBackupReq())) {
+                    deleteTree(new File(de, "cache"));
+                }
                 sources.add(de);
             }
         }
