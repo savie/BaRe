@@ -4,11 +4,8 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.media.AudioAttributes;
 import android.net.Uri;
-import android.os.Build;
-import android.os.LocaleList;
 
 public final class BaReApp extends Application {
     private static BaReApp instance;
@@ -41,15 +38,23 @@ public final class BaReApp extends Application {
                 NotificationManager.IMPORTANCE_LOW, false, null);
         create(manager, "task_completion_channel_success", getString(R.string.task_successful),
                 NotificationManager.IMPORTANCE_DEFAULT, true,
-                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+                resourceUri(R.raw.task_complete_sound_success));
         create(manager, "task_completion_channel_error", getString(R.string.task_error),
                 NotificationManager.IMPORTANCE_DEFAULT, true,
-                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+                resourceUri(R.raw.task_complete_sound_error));
         create(manager, "task_completion_channel_silent", getString(R.string.task_complete_no_sound),
                 NotificationManager.IMPORTANCE_LOW, true, null);
         create(manager, "crash_error_channel", "Crash notification",
                 NotificationManager.IMPORTANCE_DEFAULT, true,
-                android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
+                resourceUri(R.raw.task_complete_sound_error));
+
+        // Reference clears stale notifications when the process starts.
+        manager.cancelAll();
+    }
+
+    private Uri resourceUri(int resourceId) {
+        return Uri.parse(
+                "android.resource://" + getPackageName() + "/" + resourceId);
     }
 
     public void refreshLocalizedNotificationChannels() {
