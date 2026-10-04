@@ -34,7 +34,7 @@ Temuan paling penting:
 
 1. **Branch state mismatch terhadap instruksi audit:** `rewrite` saat ini menunjuk tepat ke supplied base checkpoint `6014cff...`. Tidak ditemukan commit implementation setelah checkpoint.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
-3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
+3. **WORK-02 native static finding resolved:** `app/` tidak memiliki `.so` native library, sementara source memanggil `System.loadLibrary("sba_archive")`. Reference APK memiliki `libsba_archive.so` untuk 4 ABI dan exported JNI symbol dengan namespace `Java_com_swiftapps_sba_...`.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
 5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
 6. **Root status, notices, dan secondary-user warning belum wired** pada current Dashboard path.
@@ -628,47 +628,772 @@ Perubahan dapat merusak interoperability terhadap Reference artifacts.
 
 ## Native SBA Audit
 
-### WORK-02 Result
+### Reference
 
-Reference static evidence confirms `libsba_archive.so` for:
-- arm64-v8a
-- armeabi-v7a
-- x86
-- x86_64
+Reference menyediakan:
 
-The exact Reference binary blobs already present in the repository's read-only `reference/` evidence tree were reused by blob identity and packaged under:
-`app/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
+- `SbaRuntimeNative.java`
+- `SbaNativeCrypto.java`
+- `SbaNativeProgressListener.java`
+- `SbaTarEntryInfo.java`
+- `SbaArchiveNative.java`
+- `SbaLibaegisCryptoNative.java`
+- `SbaZstdNative.java`
+- `SbaSwiftTarNative.java`
 
-Target blob SHA evidence:
-- arm64-v8a: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`
-- armeabi-v7a: `6c95db5bc7db43c22eda42b5e1d74401d64a5753`
-- x86: `3e3ee743d8633fd0799ececac6a898e67919025d`
-- x86_64: `9843aad7dda4618af9bc7a6f227f41006ca804bb`
+Reference APK menyediakan `libsba_archive.so` untuk 4 ABI.
 
-### JNI Owner Reconciliation
+### Current Target
 
-Reference arm64 static symbol inspection exposes Runtime, Argon2id, Zstd, archive creation, AEGIS, tar extraction, tar listing, and fused AEGIS extraction JNI owners under `Java_com_swiftapps_sba_...`.
+Current target memiliki Java owner utama:
 
-The target Java owner surface now includes `SbaRuntimeNative` and `SbaTarEntryInfo`, and `SbaSwiftTarNative` exposes the Reference tar listing/extraction JNI owner methods needed by the packaged binary. Existing `SbaArchiveNative`, `SbaNativeCrypto`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, and `SbaNativeProgressListener` remain under the Reference `com.swiftapps.sba` ABI namespace.
+- `SbaArchiveNative`
+- `SbaLibaegisCryptoNative`
+- `SbaNativeCrypto`
+- `SbaSwiftTarNative`
+- `SbaZstdNative`
+- `SbaNativeProgressListener`
+
+Namun tree `app/` tidak memiliki file `.so`.
+
+Tidak ditemukan:
+
+- `app/src/main/jniLibs/*/libsba_archive.so`
+- native build script yang membangun `sba_archive`
+- CMake/NDK owner
+- Gradle native packaging source
+
+### Runtime Consequence
+
+`SbaNativeBridge.load()` memang menangkap `UnsatisfiedLinkError` dan dapat mengembalikan `false`. Namun actual native archive creation/decryption/extraction tetap tidak tersedia jika library tidak dipackage.
+
+**Classification: CRITICAL BLOCKED / NATIVE PACKAGING GAP.**
+
+### Additional Parity Gap
+
+Reference memiliki `SbaRuntimeNative.version()`, sementara target tidak memiliki `SbaRuntimeNative.java`.
+
+Tidak ditemukan consumer target untuk owner tersebut, sehingga tidak langsung diklasifikasikan sebagai runtime blocker.
+
+**Classification: UNKNOWN / NATIVE OWNER PARITY GAP.**
+
+## Static Hygiene Scan
+
+Current `app/` tidak menunjukkan:
+
+- TODO
+- FIXME
+- UnsupportedOperationException
+- System.out
+- printStackTrace
+- NotImplemented
+- Kotlin source
+
+**Classification: MATCH untuk generic static hygiene scan.**
+
+Catatan: static hygiene ini tidak otomatis menutup branding/JNI/protocol residue karena residue tersebut memiliki compatibility semantics dan harus diaudit ownership-nya secara eksplisit.
+
+## Database / Migration Audit
+
+Current app memiliki local SQLite owners, termasuk:
+
+- `SLogDatabase`
+- `AppInventoryCache`
+
+Tidak ditemukan `ALTER TABLE`.
+
+`SLogDatabase.onUpgrade()` secara eksplisit tidak mendefinisikan migration schema baru.
+
+Beberapa nama class mengandung “Migration”, tetapi sebagian merupakan account/storage/cloud migration boundary yang merepresentasikan behavior Reference, bukan database migration otomatis.
+
+**Classification: NO VERIFIED SUPABASE DATABASE MIGRATION FOUND.**
+
+Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
+
+## Current Gap Register
+
+| ID | Surface | Finding | Classification | Priority |
+|---|---|---|---|---|
+| A01 | Branch | `rewrite` == supplied base checkpoint | BLOCKED / STATE NOTICE | P0 |
+| A02 | Build | Groovy file contains Kotlin DSL constructs | BUILD BLOCKER CANDIDATE | P0 |
+| A03 | Native | `libsba_archive.so` absent from `app/` | **RESOLVED — PASS (STATIC)** | P0 |
+| A04 | Backend | Concrete Supabase adapter/client absent | BLOCKED | P0 |
+| A05 | Dashboard | Current owner uses alternate non-Reference layout | UNAUTHORIZED DEVIATION | P1 |
+| A06 | Dashboard | Root status not wired | IMPLEMENTATION GAP | P1 |
+| A07 | Dashboard | Notices RecyclerView not wired | IMPLEMENTATION GAP | P1 |
+| A08 | Dashboard | Secondary-user warning not wired | IMPLEMENTATION GAP | P1 |
+| A09 | Dashboard | GridLayout replaces Reference QuickRecyclerView surfaces | UNAUTHORIZED DEVIATION | P1 |
+| A10 | Native | `com.swiftapps.sba` JNI namespace remains | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
+| A11 | Protocol | SwiftBackup archive/crypto identifiers remain | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
+| A12 | Scheduling | Alarm/scheduler execution downstream | EXECUTION GAP | P1 |
+| A13 | Storage | duplicate `StorageInfoService` null boundary | SOURCE HYGIENE | P2 |
+| A14 | Native | `SbaRuntimeNative` owner absent | **RESOLVED — PASS (STATIC)** | P2 |
+| A15 | Build/CI | Gradle Wrapper absent | BUILD/CI GAP | P1 |
+| A16 | CI | workflow files absent | CI GAP | P1 |
+| A17 | Backend | Supabase diagnostic UI exists without concrete backend | BOUNDARY — DO NOT FAKE | P1 |
+| A18 | Runtime | root/Shizuku/provider/native execution unverified | UNKNOWN / BLOCKED | P1 |
+
+## Classification Summary
+
+### MATCH
+
+- Java-only source constraint
+- 71 Activity static manifest count
+- 3 Service static manifest count
+- 8 Receiver static manifest count
+- BaRe package/application branding
+- Firebase implementation removal from `app/`
+- generic static hygiene scan
+- large Reference reconstruction surface already present
+- MMS restore static owner exists
+
+### AUTHORIZED DEVIATION
+
+- BΛR☰ / BaRe branding
+- Premium entitlement granted without purchase
+- Firebase backend replacement policy → Supabase target
+
+### UNAUTHORIZED DEVIATION
+
+- Alternate Dashboard implementation surface
+- GridLayout shortcut renderer replacing Reference QuickRecyclerView structure
+- Missing Dashboard wiring for Reference-owned root/notices/secondary-user behavior
+
+### BLOCKED
+
+- concrete Supabase execution
+- Dashboard canonical parity
+- runtime execution boundaries
+
+### UNKNOWN
+
+- native ABI owner parity beyond currently consumed methods
+- root/Shizuku runtime execution
+- provider runtime execution
+- scheduler runtime execution
+- exact external provider behavior
+
+## Corrective Order
+
+**Execution boundary:** seluruh corrective work di bawah ini dilakukan pada source/config/resource level. Build, APK generation, CI, device/runtime, dan live Supabase execution tidak dilakukan dan bukan acceptance gate.
+
+
+1. **Reconcile branch state.** Pastikan `rewrite` memang memiliki implementation state yang dimaksud; jangan mengaudit phantom local/uncommitted state sebagai repository state.
+2. **Fix `app/build.gradle`.** **DONE — PASS (STATIC).** Syntax Groovy telah direkonsiliasi; dependency/runtime configuration tidak diubah.
+3. **Restore reproducible build boundary.** Wrapper/CI tetap separate gap; jangan mengarang artifact/version tanpa evidence dan jangan menjalankan build/CI.
+4. **Resolve native SBA packaging.** **DONE — PASS (STATIC).** Exact Reference ABI blobs are packaged; JNI owner surface is reconciled; `com.swiftapps.sba` is explicitly PRESERVE-COMPATIBILITY.
+5. **Reconcile Dashboard terhadap canonical Reference layout.** Jangan mempertahankan `home_dashboard_fragment.xml` sebagai redesign jika tidak termasuk Authorized Deviation.
+6. **Wire root status, notices, and secondary-user warning.**
+7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.**
+8. **Implement concrete Supabase adapter only after actual Supabase state/configuration is verified.** Jangan membuat schema/key/RLS/bucket berdasarkan asumsi.
+9. **Complete execution boundaries** untuk scheduling, root/Shizuku, installer, storage, telephony, native, dan cloud.
+10. **Re-run static parity audit** setelah seluruh static work order selesai. Build/runtime/device execution tetap NOT PERMITTED pada work order ini.
+
+## Verification Matrix
+
+| Verification | Current Result |
+|---|---|
+| Reference evidence inventory | PASS |
+| App inventory | PASS |
+| Manifest count reconciliation | PASS |
+| Java-only | PASS |
+| Generic static hygiene | PASS |
+| Branding normalization | PARTIAL |
+| Dashboard structural parity | FAIL |
+| Dashboard wiring | FAIL |
+| MMS static restore | PASS / UNVERIFIED RUNTIME |
+| Native ABI packaging | FAIL |
+| Build configuration | PASS (STATIC) |
+| Gradle reproducibility | BLOCKED |
+| CI | BLOCKED |
+| Supabase concrete implementation | BLOCKED |
+| Runtime/device | NOT RUN |
+| Visual comparison | NOT RUN |
+| Behavior comparison | NOT RUN |
+| Feature comparison | PARTIAL STATIC ONLY |
+| Final 1:1 qualification | **FAIL** |
+
+## Final Audit Decision
+
+**BΛR☰ / BaRe pada branch `rewrite` belum memenuhi 1:1 reconstruction qualification.**
+
+Project memiliki substantial reconstruction surface dan banyak contract/static implementation yang valid. Audit tidak merekomendasikan restart dari zero.
+
+Work-01 build configuration sudah **PASS (STATIC)**. P0/P1 blocker yang masih terbuka:
+
+- native packaging
+- Supabase implementation
+- Dashboard canonical parity
+- runtime execution boundaries
+
+Reference tetap read-only. Semua corrective implementation harus dilakukan pada target `app/` dan area BaRe yang relevan.
+
+**No build success, runtime success, or 1:1 claim is authorized by this audit.**
+
+
+---
+
+# WORK ORDER — SINGLE ACTIVE IMPLEMENTATION DOCUMENT
+
+Dokumen ini adalah **dokumen kerja utama** untuk melanjutkan Project BΛR☰ pada branch rewrite.
+
+Mulai dari titik ini, engineer **tidak perlu membaca atau mengikuti dokumen phase/audit lain untuk menentukan pekerjaan berikutnya**.
+
+Cukup gunakan:
+
+1. **bare.md** — satu-satunya **Primary Authority / Canonical Authority**.
+2. **Dokumen ini** — satu-satunya **Active Work Order / Current Implementation Plan**.
+
+Reference ZIP/APK tetap menjadi evidence read-only sesuai aturan bare.md.
+
+Dokumen lain di docs/ boleh ada sebagai historical/evidence record, tetapi **tidak menjadi work queue atau sumber urutan pekerjaan** kecuali secara eksplisit dirujuk dari dokumen ini.
+
+## Operating Rule
+
+Urutan keputusan:
+
+bare.md → evidence Reference → current app/ → implementation → verification → update this document
+
+Bukan:
+
+docs/phase lain → interpretasi → implementation
+
+Jika dokumen lain bertentangan dengan bare.md atau dokumen ini:
+
+- bare.md menang untuk authority/canonical rules.
+- Dokumen ini menang untuk **urutan pekerjaan dan current work state**.
+- Evidence Reference menang untuk fakta parity terhadap Reference.
+- Jangan mengarang solusi apabila evidence belum cukup.
+
+## Critical Rule: Do Not Jump Ahead
+
+**Jangan mengerjakan task berikutnya sebelum Definition of Done task sebelumnya terpenuhi.**
+
+Dependency utama:
+
+BUILD → NATIVE → DASHBOARD → SUPABASE → RUNTIME → FULL PARITY AUDIT
+
+Pengecualian hanya jika task berikutnya diperlukan sebagai evidence langsung untuk menutup task sebelumnya.
+
+---
+
+# PRIORITIZED WORK QUEUE
+
+## WORK-00 — Reconcile Current Branch State
+
+### Objective
+
+Pastikan rewrite adalah state implementation yang benar-benar akan dikerjakan.
+
+### Current Evidence
+
+Saat audit:
+
+rewrite = 6014cff87c406cf8bb545a7324d63d84d209c345
+
+dan SHA tersebut sama dengan supplied base checkpoint.
+
+### Action
+
+- Jangan menganggap local/uncommitted implementation sebagai repository state.
+- Pastikan seluruh pekerjaan baru di-commit ke rewrite.
+- Jangan membuat branch implementation lain untuk menggantikan rewrite.
+
+### Definition of Done
+
+- rewrite adalah active implementation branch.
+- Perubahan berikutnya tercatat pada rewrite.
+- Tidak ada ambiguity antara checkpoint dan current implementation state.
+
+### Status
+
+**DONE AS STATE VERIFICATION / CONTINUE ON rewrite**
+
+---
+
+# WORK-01 — FIX BUILD SYSTEM
+
+## Priority
+
+**P0 — FIRST IMPLEMENTATION TASK**
+
+## Objective
+
+Mereparasi Gradle/build configuration secara static dan evidence-backed. Tidak menjalankan Gradle atau menghasilkan APK.
+
+## Scope
+
+Fokus hanya pada:
+
+- app/build.gradle
+- root Gradle configuration yang diperlukan
+- Gradle Wrapper bila evidence mendukung
+- dependency/plugin declarations
+- Android plugin compatibility secara source-level
+- Java compilation configuration
+- signing/build type configuration
+- version configuration
+
+## Result
+
+`app/build.gradle` telah direkonsiliasi dari campuran Kotlin DSL menjadi Groovy Gradle DSL.
+
+Perubahan tidak mengubah dependency list, SDK level, application identity, Java 17, signing semantics, native contract, backend behavior, atau feature scope.
+
+Wrapper tidak ditambahkan karena tidak ada evidence-backed wrapper version/artifact yang dapat direkonstruksi secara aman dari authority/evidence yang tersedia.
+
+## Definition of Done — STATIC
+
+1. Gradle configuration source konsisten dan tidak memiliki known Kotlin/Groovy DSL contradiction. **PASS**
+2. Wrapper/config artifacts hanya direkonstruksi bila didukung evidence. **PASS — no unsupported artifact invented**
+3. Dependency/plugin declarations tetap konsisten dengan existing evidence. **PASS**
+4. Java/resource/manifest/build-type configuration konsisten secara static. **PASS**
+5. Tidak ada fake/stub workaround. **PASS**
+
+**Build execution, dependency resolution execution, assembleDebug, APK generation, dan CI: NOT PERMITTED.**
+
+### Gate
+
+WORK-01 ditutup berdasarkan static evidence; tidak membutuhkan build PASS.
+
+### Current Status
+
+**PASS (STATIC)**
+
+# WORK-02 — RESTORE / RECONCILE NATIVE SBA BOUNDARY
+
+## Priority
+**P0**
+
+## Objective
+Mereconstruct/reconcile native archive/crypto boundary pada source/package/configuration level tanpa native runtime execution.
+
+## Result
+**PASS (STATIC)**
+
+Implemented:
+1. Exact Reference `libsba_archive.so` blobs for all four Reference ABIs are packaged under `app/src/main/jniLibs/...`.
+2. `SbaRuntimeNative` restored with Reference-compatible package, library identity, and `version()` JNI owner.
+3. `SbaTarEntryInfo` restored with the JNI-facing constructor descriptor and Reference accessor/constant surface needed by tar-entry native returns.
+4. `SbaSwiftTarNative` reconciled with Reference tar extraction, stats, and tar-entry listing native methods.
+5. Existing `SbaArchiveNative`, `SbaNativeCrypto`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, and progress listener remain on the exact `com.swiftapps.sba` ABI namespace.
+6. `System.loadLibrary("sba_archive")` remains consistent across the native owners.
+7. No native ABI was renamed, mocked, stubbed, or replaced.
+
+### Evidence
+Reference arm64 static symbol inspection exposed the expected `Java_com_swiftapps_sba_...` JNI owners, including Runtime, Argon2id, Zstd, archive creation, AEGIS, tar extraction, tar listing, and fused AEGIS extraction.
+
+Reference binary blob identities were reused directly from the repository's read-only `reference/` evidence tree rather than rebuilt or modified.
 
 ### Compatibility Decision
+`com.swiftapps.sba` → **PRESERVE-COMPATIBILITY**
+This is required by the native JNI ABI and therefore is not a branding deviation.
 
-`com.swiftapps.sba` is explicitly **PRESERVE-COMPATIBILITY**.
+### Definition of Done — STATIC
+- Native library available for required four ABI paths. **PASS**
+- `System.loadLibrary("sba_archive")` and library identity consistent. **PASS**
+- JNI owner classes/methods reconciled against static Reference symbol evidence. **PASS**
+- Native archive path has concrete packaged library + source owner/handoff. **PASS**
+- Compatibility residue explicitly classified. **PASS**
+- No fake/stub native implementation. **PASS**
 
-Reason: the packaged Reference native library exports JNI symbols using `Java_com_swiftapps_sba_...`. Renaming that package would break the binary JNI contract. This is an allowed technical compatibility boundary under `bare.md`; it is not a branding failure.
+**Native loading/execution, archive creation/decryption/extraction, device/runtime, build, and APK generation are NOT PERMITTED.**
 
-### Source-Level Handoff
+### Current Status
+**PASS (STATIC) — WORK-02 CLOSED**
 
-The application-level `SbaNativeBridge` continues to route through the exact JNI owner classes. The library identity remains `System.loadLibrary("sba_archive")`.
+---
+# WORK-03 — RESTORE CANONICAL DASHBOARD
 
-No parallel native ABI or fake native implementation was introduced.
+## Priority
 
-### Runtime Boundary
+**P1**
 
-No native library loading, archive creation, encryption, decryption, extraction, or device execution was performed.
+## Objective
 
-Therefore:
+Mengembalikan Dashboard ke structural/behavior contract Reference sebelum melakukan backend work.
 
-**WORK-02 = PASS (STATIC)**
+## Current Problem
 
-Runtime/native execution remains **NOT PERMITTED** and is not claimed as verified.
+Current:
+
+DashboardFragment → home_dashboard_fragment.xml
+
+Reference:
+
+DashboardFragment → dash_fragment.xml
+
+Current layout mengganti struktur Reference dengan:
+
+- custom MaterialCardView
+- GridLayout
+- dynamic MaterialButton
+
+## Required
+
+Reconcile current Dashboard terhadap Reference:
+
+### A. Canonical Layout
+
+Gunakan canonical Reference hierarchy sebagai baseline.
+
+### B. Root Status
+
+Wire:
+
+- root_status_container
+- tvRootAccess
+- tvRootProvider
+- iv_refresh_root_access
+
+ke RootPermissionCoordinator / owner yang sesuai.
+
+### C. Notices
+
+Wire:
+
+NoticeRepository → adapter → rv_notices
+
+### D. Secondary User
+
+Wire:
+
+dash_secondary_user_warning
+
+sesuai state contract Reference.
+
+### E. Shortcuts
+
+Reconcile:
+
+- rvDashShortcutsDefault
+- rvDashShortcutsCompact
+- QuickRecyclerView
+
+Jangan mempertahankan GridLayout + MaterialButton sebagai redesign tanpa Authorized Deviation.
+
+## Definition of Done
+
+- Dashboard memakai structural contract Reference.
+- Root status tampil dan state transition terhubung.
+- Notices terhubung.
+- Secondary-user warning terhubung.
+- Shortcut behavior menggunakan contract Reference.
+- Tidak ada redesign yang tidak diizinkan.
+- Tidak ada known static navigation/home lifecycle contradiction.
+
+### Gate
+
+**WORK-03 ditutup berdasarkan static source/resource reconciliation. Compile/runtime execution tetap NOT PERMITTED.**
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-04 — IMPLEMENT CONCRETE SUPABASE
+
+## Priority
+
+**P1**
+
+## Objective
+
+Mengubah backend boundary menjadi concrete Supabase source/configuration hanya sejauh dapat dibuktikan dari bare.md, Reference, dan evidence project yang tersedia. Live backend execution tidak dilakukan.
+
+## Canonical Backend
+
+Supabase project dari bare.md:
+
+https://fbiazqbrkwovzrirnzpb.supabase.co
+
+Firebase tidak digunakan.
+
+## Existing Boundary
+
+Current app sudah memiliki:
+
+- BaReBackendRepository
+- ReferenceBackendContract
+- cloud provider contracts
+- account/user-info repositories
+- cloud metadata models
+
+Tetapi concrete adapter belum tersedia.
+
+## Required Order
+
+1. Verifikasi actual Supabase project state.
+2. Identifikasi resource yang benar-benar dibutuhkan.
+3. Implement Auth hanya jika dibutuhkan.
+4. Implement database access hanya untuk resource yang terbukti dibutuhkan.
+5. Implement Storage hanya jika terbukti dibutuhkan.
+6. Implement server-side functionality hanya jika evidence membutuhkan.
+7. Wire concrete repository ke existing app contracts.
+8. Static-review error/loading/offline behavior.
+
+## Hard Constraint
+
+Jika informasi berikut belum dapat diverifikasi:
+
+- key
+- schema
+- table
+- column
+- relationship
+- RLS
+- policy
+- bucket
+- auth provider
+- Edge Function
+- trigger
+- secret
+
+maka:
+
+**UNKNOWN → STOP → GET EVIDENCE**
+
+Jangan membuat schema/configuration berdasarkan asumsi.
+
+## Do Not
+
+- jangan fake connected=true
+- jangan mock Supabase sebagai production implementation
+- jangan invent table
+- jangan invent RLS
+- jangan invent bucket
+- jangan menghapus cloud feature hanya karena backend belum siap
+- jangan mengubah behavior Reference yang tidak berkaitan dengan backend
+
+## Definition of Done
+
+- Concrete Supabase source adapter/boundary tersedia sejauh evidence mendukung.
+- Known project configuration/evidence terpetakan; live project execution tidak dilakukan.
+- Required backend operations memiliki source owner dan mapping yang jelas.
+- Error/loading/auth state terhubung.
+- Tidak ada Firebase dependency.
+- Tidak ada fabricated configuration.
+
+### Current Status
+
+BLOCKED / STATIC
+
+---
+
+# WORK-05 — CLOSE RUNTIME BOUNDARIES AT SOURCE LEVEL
+
+## Priority
+
+**P1**
+
+## Objective
+
+Menutup gap pada source-level execution boundaries: owner, consumer, state, error, permission, dan downstream handoff. Actual runtime/device execution tidak dilakukan.
+
+## Execution Surfaces
+
+Prioritas:
+
+1. Native SBA
+2. Root / Shizuku
+3. Storage/filesystem
+4. PackageInstaller
+5. SMS/MMS provider
+6. CallLog provider
+7. Wi-Fi acquisition
+8. Wallpaper application
+9. Scheduler / Alarm / Foreground service
+10. Cloud execution
+11. Account/authentication
+
+## Rule
+
+Static implementation ≠ runtime implementation.
+
+Karena runtime berada di luar boundary, hal yang tidak dapat dibuktikan dari source tetap UNKNOWN atau BLOCKED BY BOUNDARY.
+
+## Definition of Done
+
+Untuk setiap surface:
+
+- owner jelas,
+- consumer jelas,
+- state/error/loading path sesuai Reference secara source,
+- permission/prerequisite boundary jelas,
+- downstream handoff jelas,
+- limitation/UNKNOWN dicatat bila tidak dapat dibuktikan dari source,
+- tidak ada fake success,
+- state/error/loading sesuai Reference,
+- ownership jelas,
+- consumer verified.
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-06 — FULL PARITY VERIFICATION
+
+## Priority
+
+**P1 / FINAL**
+
+## Objective
+
+Memastikan:
+
+BaRe = Reference + Authorized Deviations
+
+## Verification Layers
+
+### 1. Static
+
+- source
+- resource
+- manifest
+- package
+- identifier
+- dependency
+- native
+- backend
+
+### 2. Build
+
+- clean build
+- debug APK
+- release-equivalent configuration jika diperlukan
+
+### 3. Runtime
+
+- install
+- launch
+- lifecycle
+- permissions
+- services
+- receivers
+- providers
+- native loading
+
+### 4. Visual
+
+- screen-by-screen
+- layout hierarchy
+- spacing
+- typography
+- icon
+- color
+- state
+- dialog
+- empty/loading/error
+
+### 5. Behavior
+
+- navigation
+- state transition
+- backup
+- restore
+- scheduling
+- account
+- settings
+- permissions
+- provider execution
+
+### 6. Feature
+
+Seluruh feature Reference yang menjadi scope.
+
+### 7. Deviation
+
+Setiap difference harus masuk:
+
+- MATCH
+- AUTHORIZED DEVIATION
+- UNKNOWN
+- UNAUTHORIZED DEVIATION
+- BLOCKED
+
+Tidak boleh ada difference tanpa classification.
+
+## Definition of Done
+
+**STATIC QUALIFICATION hanya boleh diberikan apabila tidak ada UNAUTHORIZED DEVIATION pada scope yang dapat diverifikasi dan critical UNKNOWN/BLOCKED telah closed atau explicitly dispositioned berdasarkan bare.md. Build/runtime/device success bukan evidence dan bukan acceptance gate.**
+
+### Current Status
+
+NOT STARTED
+
+---
+
+# ACTIVE STATUS BOARD
+
+| Work | Status | Next Gate |
+|---|---|---|
+| WORK-00 Branch State | DONE | — |
+| **WORK-01 Build Configuration** | **PASS (STATIC)** | — |
+| WORK-02 Native SBA | **PASS (STATIC)** | — |
+| WORK-03 Dashboard | BLOCKED / STATIC | Canonical Dashboard static parity |
+| WORK-04 Supabase | BLOCKED / STATIC | Concrete backend source boundary |
+| WORK-05 Runtime Boundaries | BLOCKED / STATIC | Source-level execution closure |
+| WORK-06 Static Parity | NOT STARTED | No unauthorized deviation |
+
+## SINGLE NEXT ACTION
+
+**WORK-02 selesai — PASS (STATIC).**
+
+Evidence:
+
+- native closure commit: `7257fa9ffe9b6a115f0e54f4963634b583bd086a`
+- empat ABI exact Reference `libsba_archive.so` terpasang
+- `SbaRuntimeNative` dan `SbaTarEntryInfo` dipulihkan
+- JNI tar/list/extraction owner direkonsiliasi
+- `com.swiftapps.sba` diklasifikasikan **PRESERVE-COMPATIBILITY**
+- native/runtime/build execution tidak dijalankan sesuai boundary
+
+**Next action tunggal: WORK-03 — Canonical Dashboard static parity.** Jangan melompat ke WORK-04.
+---
+
+# CHANGE CONTROL
+
+Setiap implementation batch wajib:
+
+1. dikerjakan pada branch rewrite;
+2. menggunakan bare.md sebagai authority;
+3. menggunakan Reference ZIP/APK sebagai read-only evidence;
+4. tidak memodifikasi reference/ sebagai implementation target;
+5. tidak melakukan blind/global replacement;
+6. tidak membuat fake/stub success;
+7. meng-update status Work Order ini setelah verification;
+8. mencatat blocker baru di dokumen ini;
+9. menjalankan regression terhadap work sebelumnya;
+10. tidak menandai PASS tanpa evidence.
+
+## Status Vocabulary
+
+Gunakan hanya:
+
+- NOT STARTED
+- IN PROGRESS
+- BLOCKED
+- PASS
+- FAIL
+- UNKNOWN
+- AUTHORIZED DEVIATION
+- UNAUTHORIZED DEVIATION
+
+## Boundary Rule
+
+**Build execution, APK generation, CI execution, device/runtime execution, dan live backend execution = NOT PERMITTED.** Jika suatu DoD membutuhkan salah satunya, ubah menjadi static/source evidence atau klasifikasikan UNKNOWN / BLOCKED BY BOUNDARY. Jangan membuat PASS palsu.
+
+## Final Rule
+
+**Jika bingung harus mengerjakan apa, lihat hanya bagian ACTIVE STATUS BOARD dan SINGLE NEXT ACTION pada dokumen ini.**
+
+Authority tetap:
+
+**bare.md**
+
+Work execution authority:
+
+**docs/audits/APP_IMPLEMENTATION_AUDIT_REWRITE_2026-10-04.md**
