@@ -887,11 +887,12 @@ Pastikan rewrite adalah state implementation yang benar-benar akan dikerjakan.
 
 ### Current Evidence
 
-Saat audit:
+`rewrite` adalah active implementation branch.
 
-rewrite = 6014cff87c406cf8bb545a7324d63d84d209c345
-
-dan SHA tersebut sama dengan supplied base checkpoint.
+Implementation state yang direkonsiliasi pada work order ini mencakup:
+- supplied base checkpoint: `6014cff87c406cf8bb545a7324d63d84d209c345`
+- native implementation closure: `7257fa9ffe9b6a115f0e54f4963634b583bd086a`
+- subsequent audit/work-order commits tetap berada pada branch `rewrite`.
 
 ### Action
 
