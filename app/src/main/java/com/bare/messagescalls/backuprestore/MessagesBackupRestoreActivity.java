@@ -127,10 +127,41 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
             return;
         }
         if (!restoreMode) {
+            MessagesTaskEngine.TaskPlan plan = new MessagesTaskEngine().buildPlan(
+                    MessagesTaskEngine.Operation.BACKUP,
+                    adapter.conversations.size(),
+                    countSelectedMessages(),
+                    isMmsBackupEnabled(),
+                    readMessagesCompressionLevel(),
+                    false);
+            if (!plan.isReady()) {
+                Toast.makeText(this, plan.decision().name(), Toast.LENGTH_LONG).show();
+                return;
+            }
             showBoundary(R.string.backup_options);
             return;
         }
         requestDefaultSmsApp();
+    }
+
+    private int countSelectedMessages() {
+        int count = 0;
+        for (Integer index : adapter.selected) {
+            if (index != null && index >= 0 && index < adapter.conversations.size()) {
+                count += Math.max(0, adapter.conversations.get(index).getMessageCount());
+            }
+        }
+        return count;
+    }
+
+    private boolean isMmsBackupEnabled() {
+        return getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE)
+                .getBoolean("messages_backup_mms", true);
+    }
+
+    private int readMessagesCompressionLevel() {
+        return getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE)
+                .getInt("compression_level_msgs", -1);
     }
 
     private void requestDefaultSmsApp() {
