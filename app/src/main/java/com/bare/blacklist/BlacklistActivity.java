@@ -4,15 +4,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bare.R;
+import com.bare.blacklist.data.BlacklistApp;
+import com.bare.blacklist.data.BlacklistData;
+import com.bare.blacklist.repository.BlacklistRepository;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BlacklistActivity extends AppCompatActivity {
     private BlacklistRepository blacklistRepository;
+    private BlacklistAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle state) {
         super.onCreate(state);
@@ -24,20 +36,21 @@ public final class BlacklistActivity extends AppCompatActivity {
 
         blacklistRepository = new BlacklistRepository(this);
         RecyclerView list = findViewById(R.id.rv_blacklist);
-        list.setAdapter(new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-            @Override public RecyclerView.ViewHolder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
-                View v = new View(parent.getContext());
-                v.setLayoutParams(new RecyclerView.LayoutParams(1, 1));
-                return new RecyclerView.ViewHolder(v) {};
-            }
-            @Override public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {}
-            @Override public int getItemCount() { return 0; }
-        });
+        list.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new BlacklistAdapter();
+        list.setAdapter(adapter);
+        reload();
 
         View add = findViewById(R.id.btn_add_apps);
         if (add != null) add.setOnClickListener(v -> addAppsBoundary());
         View fab = findViewById(R.id.fab_add);
         if (fab != null) fab.setOnClickListener(v -> addAppsBoundary());
+    }
+
+    private void reload() {
+        BlacklistData data = blacklistRepository.load();
+        adapter.replace(data.getItems());
+        invalidateOptionsMenu();
     }
 
     private void addAppsBoundary() {
@@ -51,34 +64,72 @@ public final class BlacklistActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_blacklist_apps, menu);
+        MenuItem clear = menu.findItem(R.id.action_clear);
+        if (clear != null) clear.setVisible(adapter != null && adapter.getItemCount() > 0);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_clear) {
+            if (adapter == null || adapter.getItemCount() == 0) return true;
             new MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.clear_all)
-                    .setMessage(R.string.p3_blacklist_clear_boundary)
-                    .setPositiveButton(R.string.close, null)
+                    .setMessage(R.string.sure_to_proceed)
+                    .setNegativeButton(R.string.no, null)
+                    .setPositiveButton(R.string.yes, (d, which) -> {
+                        blacklistRepository.clear();
+                        reload();
+                    })
                     .show();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    public static final class BlacklistRepository {
-        public enum Mode { HIDE, NO_DATA }
-        public static final int MAX_APPS=100;
-        private final android.content.SharedPreferences prefs;
-        public BlacklistRepository(android.content.Context c){prefs=c.getApplicationContext().getSharedPreferences("blacklist_v1",android.content.Context.MODE_PRIVATE);}
-        private org.json.JSONObject root(){try{return new org.json.JSONObject(prefs.getString("data","{}"));}catch(Exception e){return new org.json.JSONObject();}}
-        public synchronized java.util.Map<String,Mode> list(){java.util.Map<String,Mode> out=new java.util.LinkedHashMap<>();org.json.JSONObject o=root();for(String k:o.keySet()){try{out.put(k,Mode.valueOf(o.optString(k,Mode.HIDE.name())));}catch(Exception e){out.put(k,Mode.HIDE);}}return out;}
-        public synchronized boolean add(String packageName,Mode mode){if(packageName==null||packageName.trim().isEmpty())return false;java.util.Map<String,Mode> m=list();if(!m.containsKey(packageName)&&m.size()>=MAX_APPS)return false;m.put(packageName,mode==null?Mode.HIDE:mode);save(m);return true;}
-        public synchronized void remove(String packageName){java.util.Map<String,Mode> m=list();m.remove(packageName);save(m);}
-        public synchronized void clear(){prefs.edit().remove("data").apply();}
-        public synchronized void setMode(String packageName,Mode mode){java.util.Map<String,Mode> m=list();if(m.containsKey(packageName)){m.put(packageName,mode);save(m);}}
-        public synchronized boolean excluded(String packageName,Mode mode){Mode x=list().get(packageName);return x==mode;}
-        private void save(java.util.Map<String,Mode> m){org.json.JSONObject o=new org.json.JSONObject();try{for(java.util.Map.Entry<String,Mode> e:m.entrySet())o.put(e.getKey(),e.getValue().name());prefs.edit().putString("data",o.toString()).apply();}catch(Exception e){throw new IllegalStateException(e);}}
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
+    private final class BlacklistAdapter extends RecyclerView.Adapter<BlacklistAdapter.Holder> {
+        private final List<BlacklistApp> items = new ArrayList<>();
+
+        void replace(List<BlacklistApp> values) {
+            items.clear();
+            if (values != null) items.addAll(values);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
+            TextView view = new TextView(parent.getContext());
+            int p = (int) (parent.getResources().getDisplayMetrics().density * 16f);
+            view.setPadding(p, p, p, p);
+            view.setMinHeight((int) (parent.getResources().getDisplayMetrics().density * 56f));
+            return new Holder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            BlacklistApp item = items.get(position);
+            String mode = item.isNoData() ? "NO_DATA" : "HIDE";
+            holder.view.setText(item.getName() + "\n" + item.getPackageName() + " • " + mode);
+            holder.view.setOnClickListener(v -> {
+                blacklistRepository.remove(item.getPackageName());
+                reload();
+            });
+        }
+
+        @Override public int getItemCount() { return items.size(); }
+
+        final class Holder extends RecyclerView.ViewHolder {
+            final TextView view;
+            Holder(TextView view) {
+                super(view);
+                this.view = view;
+            }
+        }
+    }
 }
