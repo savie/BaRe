@@ -10,7 +10,7 @@ public final class NotificationPolicyState {
  public static String extractPackagePayload(String xml,String packageName){
    if(xml==null||packageName==null||xml.length()==0)return null;
    byte[] full=xml.getBytes(java.nio.charset.StandardCharsets.UTF_8);if(full.length>MAX_FULL_PAYLOAD_BYTES)return null;
-   String escaped=packageName.replace("&","&amp;").replace(""","&quot;").replace("<","&lt;").replace(">","&gt;");
+   String escaped=packageName.replace("&","&amp;").replace("\"","&quot;").replace("<","&lt;").replace(">","&gt;");
    String open="<package name=\""+escaped+"\"";int start=xml.indexOf(open);if(start<0)return null;int gt=xml.indexOf('>',start);if(gt<0)return null;
    int close=xml.indexOf("</package>",gt+1);String block=close>=0?xml.substring(start,close+10):xml.substring(start,gt+1);
    String rankingOpen=xml.indexOf("<ranking")>=0?xml.substring(xml.indexOf("<ranking"),Math.max(xml.indexOf('>',xml.indexOf("<ranking"))+1,xml.indexOf("<ranking"))):"";
