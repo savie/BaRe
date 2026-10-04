@@ -2,11 +2,12 @@ package com.bare.messagescalls.restore;
 
 import android.content.Context;
 import com.bare.home.repository.AnonymousIdentityStore;
-import com.facebook.crypto.cipher.NativeGCMCipher;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 /** Exact Reference w14 -> y32 -> x32 legacy JSON crypto boundary. */
 public final class ReferenceLegacyCallLogCrypto {
@@ -24,32 +25,29 @@ public final class ReferenceLegacyCallLogCrypto {
         byte[] key = keyForUid(new AnonymousIdentityStore(context).getOrCreateUid());
         byte[] iv = Arrays.copyOfRange(encoded, 2, 14);
         byte[] aad = aad();
-        byte[] output = new byte[encoded.length - 30];
-        NativeGCMCipher cipher = new NativeGCMCipher();
         try {
-            cipher.decryptInit(key, iv);
-            cipher.updateAad(aad);
-            int written = cipher.update(encoded, 14, encoded.length - 30, output, 0);
-            cipher.decryptFinal(Arrays.copyOfRange(encoded, encoded.length - TAG_LENGTH, encoded.length));
-            return Arrays.copyOf(output, written);
-        } catch (SecurityException e) {
-            throw new IOException("Legacy call-log authentication failed", e);
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"),
+                    new GCMParameterSpec(TAG_LENGTH * 8, iv));
+            cipher.updateAAD(aad);
+            return cipher.doFinal(encoded, 14, encoded.length - 14);
+        } catch (Exception e) {
+            throw new IOException("Legacy call-log authentication/decryption failed", e);
         } finally {
-            try { cipher.destroy(); } catch (RuntimeException ignored) {}
             Arrays.fill(key, (byte) 0);
             Arrays.fill(iv, (byte) 0);
             Arrays.fill(aad, (byte) 0);
-            Arrays.fill(output, (byte) 0);
         }
     }
 
     private static byte[] keyForUid(String uid) {
         if (uid == null) uid = "";
         if (uid.length() < 32) {
-            StringBuilder b = new StringBuilder(uid);
-            while (b.length() < 32) b.append(uid.substring(0, Math.min(uid.length(), 32 - b.length())));
-            uid = b.toString();
-        } else if (uid.length() > 32) uid = uid.substring(0, 32);
+            if (uid.isEmpty()) throw new IllegalArgumentException("Reference UID is empty");
+            uid = uid.concat(uid.substring(0, 32 - uid.length()));
+        } else if (uid.length() > 32) {
+            uid = uid.substring(0, 32);
+        }
         return uid.getBytes(StandardCharsets.UTF_8);
     }
 
