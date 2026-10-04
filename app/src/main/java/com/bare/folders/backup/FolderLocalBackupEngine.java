@@ -361,6 +361,7 @@ public final class FolderLocalBackupEngine {
                                DirectoryChanges directoryChanges) throws Exception {
         JSONObject root = new JSONObject();
         root.put("manifestVersion", 1);
+        root.put("directoryStateVersion", 1);
         root.put("backupId", backupId);
         root.put("backupType", type);
         if (parent != null) root.put("parentBackupId", parent);
