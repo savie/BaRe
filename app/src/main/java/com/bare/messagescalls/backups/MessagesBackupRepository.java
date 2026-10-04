@@ -108,18 +108,12 @@ public final class MessagesBackupRepository {
                 + messageCount + "." + device + ".msg";
         File output = new File(root, fileName);
 
+        // Reference mz6.e passes the whole messages_backup directory as one
+        // root-inclusive SBA entry, not each child as a flat archive entry.
         List<File> sources = new ArrayList<>();
         List<String> names = new ArrayList<>();
-        sources.add(encrypted);
-        names.add("conversations");
-        File[] mmsFiles = mmsData.listFiles();
-        if (mmsFiles != null) {
-            for (File file : mmsFiles) {
-                if (!file.isFile() || file.length() <= 0) continue;
-                sources.add(file);
-                names.add(file.getName());
-            }
-        }
+        sources.add(work);
+        names.add(work.getName());
 
         char[] passwordChars = CallsBackupRepository.referencePassword(context);
         byte[] salt = new byte[16];
@@ -143,6 +137,7 @@ public final class MessagesBackupRepository {
             byte[][] metadata = new byte[sources.size()][];
             String[] sourcePaths = new String[sources.size()];
             int[] flags = new int[sources.size()];
+            flags[0] = 8; // Reference Basic + includeRootDirectory.
             String[][] xattrs = new String[sources.size()][];
             String[][] links = new String[sources.size()][];
             for (int i = 0; i < sources.size(); i++) {
@@ -211,7 +206,8 @@ public final class MessagesBackupRepository {
                             conversation = new JSONObjectThread(thread);
                             byThread.put(thread, conversation);
                         }
-                        conversation.mms.put(toMmsJson(mms, mmsData));
+                        JSONObject mmsJson = toMmsJson(mms, mmsData);
+                        if (mmsJson != null) conversation.mms.put(mmsJson);
                     }
                 } finally { mms.close(); }
             }
@@ -220,7 +216,9 @@ public final class MessagesBackupRepository {
         for (JSONObjectThread conversation : byThread.values()) {
             conversation.finish(resolver);
         }
-        return new ArrayList<>(byThread.values());
+        ArrayList<JSONObjectThread> result = new ArrayList<>(byThread.values());
+        result.sort((a, b) -> Long.compare(b.lastSmsDate, a.lastSmsDate));
+        return result;
     }
 
     private JSONObject toSmsJson(Cursor c) throws Exception {
@@ -373,6 +371,9 @@ public final class MessagesBackupRepository {
             } finally { part.close(); }
         }
         o.put("partItems", parts);
+        // Reference wg5.c only retains MMS items that have both part and
+        // address rows after loading the provider graph.
+        if (parts.length() == 0 || addresses.length() == 0) return null;
         return o;
     }
 
@@ -413,6 +414,7 @@ public final class MessagesBackupRepository {
         final org.json.JSONArray sms = new org.json.JSONArray();
         final org.json.JSONArray mms = new org.json.JSONArray();
         int messageCount;
+        long lastSmsDate;
         JSONObject value;
         JSONObjectThread(long threadId) { this.threadId = threadId; }
         void finish(ContentResolver resolver) throws Exception {
@@ -445,6 +447,7 @@ public final class MessagesBackupRepository {
             if(address!=null) value.put("address",address);
             value.put("smsItemList",sms);
             value.put("mmsItemList",mms);
+            lastSmsDate = latest;
             value.put("lastSmsDate",latest);
             value.put("displayName",JSONObject.NULL);
             value.put("photoUri",JSONObject.NULL);
