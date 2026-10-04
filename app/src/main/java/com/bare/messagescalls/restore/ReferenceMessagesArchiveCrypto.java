@@ -54,7 +54,11 @@ public final class ReferenceMessagesArchiveCrypto {
     public java.util.Map<String, byte[]> readArchiveEntries(File backupFile) throws Exception {
         java.util.Map<String, byte[]> result = new java.util.LinkedHashMap<>();
         if (backupFile == null || !backupFile.isFile()) return result;
-        if (isEncryptedEnvelope(Files.readAllBytes(backupFile.toPath()))) return result;
+        byte[] direct = Files.readAllBytes(backupFile.toPath());
+        if (isEncryptedEnvelope(direct)) return result;
+        if (ReferenceSbaArchiveReader.isSba(backupFile)) {
+            return ReferenceSbaArchiveReader.readEntries(backupFile);
+        }
 
         try (ZipFile zip = new ZipFile(backupFile)) {
             java.util.Enumeration<? extends ZipEntry> entries = zip.entries();
@@ -108,6 +112,14 @@ public final class ReferenceMessagesArchiveCrypto {
         byte[] direct = Files.readAllBytes(backupFile.toPath());
         if (isEncryptedEnvelope(direct)) {
             return decryptEnvelope(direct);
+        }
+        if (ReferenceSbaArchiveReader.isSba(backupFile)) {
+            java.util.Map<String, byte[]> entries = ReferenceSbaArchiveReader.readEntries(backupFile);
+            byte[] conversations = findEntry(entries, "conversations");
+            if (!isEncryptedEnvelope(conversations)) {
+                throw new IOException("Reference SBA1 conversations artifact not found");
+            }
+            return decryptEnvelope(conversations);
         }
 
         byte[] conversations = extractConversations(backupFile);
@@ -164,6 +176,18 @@ public final class ReferenceMessagesArchiveCrypto {
             }
         } catch (java.util.zip.ZipException notZip) {
             return null;
+        }
+        return null;
+    }
+
+    private static byte[] findEntry(java.util.Map<String, byte[]> entries, String name) {
+        if (entries == null || name == null) return null;
+        byte[] direct = entries.get(name);
+        if (direct != null) return direct;
+        for (java.util.Map.Entry<String, byte[]> entry : entries.entrySet()) {
+            if (entry.getKey() != null && entry.getKey().endsWith("/" + name)) {
+                return entry.getValue();
+            }
         }
         return null;
     }
