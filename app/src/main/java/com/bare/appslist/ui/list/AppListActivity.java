@@ -31,6 +31,11 @@ import com.bare.appslist.ui.AppListItemLayout;
 import com.bare.detail.DetailActivity;
 import com.bare.appinfo.AppInfoActivity;
 import com.bare.blacklist.BlacklistActivity;
+import com.bare.blacklist.data.BlacklistApp;
+import com.bare.blacklist.data.BlacklistData;
+import com.bare.blacklist.repository.BlacklistRepository;
+import com.bare.appslist.data.FavoriteApp;
+import com.bare.appslist.data.FavoriteAppsRepository;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -301,17 +306,77 @@ public final class AppListActivity extends AppCompatActivity {
     private void openAppInfoBoundary(){ openAppInfoBoundary(null); }
     private void openAppInfoBoundary(String packageName){ Intent intent=new Intent(this,AppInfoActivity.class); if(packageName!=null) intent.putExtra("package_name",packageName); startActivity(intent); }
 
-    private void showRowAction(RowAction action,AppInventoryItem item){ boolean rootAvailable=new com.bare.permission.PermissionAccessService(this).read().get(com.bare.permission.PermissionCapability.ROOT_SHIZUKU).isReady(); if(!action.isAvailable(item,rootAvailable)){new MaterialAlertDialogBuilder(this).setTitle(action.id).setMessage(R.string.apps_engine_boundary).setPositiveButton(R.string.close,null).show();return;} if(action==RowAction.APP_INFO)openAppInfoBoundary(item.packageName);else if(action==RowAction.LAUNCH){Intent i=getPackageManager().getLaunchIntentForPackage(item.packageName);if(i!=null)startActivity(i);}else if(action==RowAction.UNINSTALL){Intent i=new Intent(Intent.ACTION_DELETE,android.net.Uri.parse("package:"+item.packageName));startActivity(i);}else if(action==RowAction.PLAY_STORE){Intent i=new Intent(Intent.ACTION_VIEW,android.net.Uri.parse("market://details?id="+item.packageName));if(i.resolveActivity(getPackageManager())!=null)startActivity(i);}else showEngineBoundary(R.string.backup); }
+    private void showRowAction(RowAction action,AppInventoryItem item){ boolean rootAvailable=new com.bare.permission.PermissionAccessService(this).read().get(com.bare.permission.PermissionCapability.ROOT_SHIZUKU).isReady(); if(!action.isAvailable(item,rootAvailable)){new MaterialAlertDialogBuilder(this).setTitle(action.id).setMessage(R.string.apps_engine_boundary).setPositiveButton(R.string.close,null).show();return;} if(action==RowAction.APP_INFO)openAppInfoBoundary(item.packageName);else if(action==RowAction.LAUNCH){Intent i=getPackageManager().getLaunchIntentForPackage(item.packageName);if(i!=null)startActivity(i);}else if(action==RowAction.UNINSTALL){Intent i=new Intent(Intent.ACTION_DELETE,android.net.Uri.parse("package:"+item.packageName));startActivity(i);}else if(action==RowAction.PLAY_STORE){Intent i=new Intent(Intent.ACTION_VIEW,android.net.Uri.parse("market://details?id="+item.packageName));if(i.resolveActivity(getPackageManager())!=null)startActivity(i);}else if(action==RowAction.SHARE_APK){shareApk(item.packageName);}else showEngineBoundary(action==RowAction.RESTORE?R.string.restore:R.string.backup); }
 
     public enum RowAction { LAUNCH("launch"),ENABLE_DISABLE("enable_disable"),UNINSTALL("uninstall"),FORCE_STOP("force_stop"),PLAY_STORE("play_store"),CLEAR_DATA("clear_data"),APP_INFO("app_info"),SHARE_APK("share_apk"),BACKUP("backup"),RESTORE("restore"); final String id; RowAction(String i){id=i;} boolean isAvailable(AppInventoryItem a){return isAvailable(a,false);}
-        boolean isAvailable(AppInventoryItem a,boolean root){switch(this){case LAUNCH:return a.installed&&a.enabled&&a.launchable;case ENABLE_DISABLE:return root&&a.installed;case UNINSTALL:return a.installed&&!a.bundled;case FORCE_STOP:case PLAY_STORE:return root&&a.installed&&a.enabled;case CLEAR_DATA:return true;case APP_INFO:case SHARE_APK:return a.installed;default:return true;}} }
+        boolean isAvailable(AppInventoryItem a,boolean root){switch(this){case LAUNCH:return a.installed&&a.enabled&&a.launchable;case ENABLE_DISABLE:return root&&a.installed;case UNINSTALL:return a.installed&&!a.bundled;case FORCE_STOP:return root&&a.installed&&a.enabled;case PLAY_STORE:return a.installed;case CLEAR_DATA:return true;case APP_INFO:case SHARE_APK:return a.installed;default:return true;}} }
 
-    private void showFavoriteBoundary() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.favorite)
-                .setMessage(R.string.app_favorite_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
+    private void toggleFavorite(String packageName) {
+        if (packageName == null) return;
+        FavoriteAppsRepository repository = new FavoriteAppsRepository(this);
+        repository.loadLocal();
+        repository.setFavorite(new FavoriteApp(packageName, packageLabel(packageName)));
+        if (inventoryAdapter != null) inventoryAdapter.applyContractFilter();
+    }
+
+    private void openLabelsForApp(String packageName) {
+        if (packageName == null) return;
+        Intent i = new Intent(this, LabelsActivity.class);
+        i.putExtra("labels_activity_mode", LabelsActivity.MODE_SET_APP);
+        i.putExtra(LabelsActivity.EXTRA_APP, packageName);
+        startActivity(i);
+    }
+
+    private void addToBlacklist(String packageName) {
+        if (packageName == null) return;
+        BlacklistRepository repository = new BlacklistRepository(this);
+        BlacklistData current = repository.load();
+        java.util.Map<String, BlacklistApp> values =
+                new java.util.LinkedHashMap<>(current.getDataMap());
+        values.put(packageName,
+                new BlacklistApp(packageLabel(packageName), packageName, BlacklistApp.HIDE));
+        repository.save(new BlacklistData(values));
+    }
+
+    private String packageLabel(String packageName) {
+        try {
+            android.content.pm.ApplicationInfo ai =
+                    getPackageManager().getApplicationInfo(packageName, 0);
+            return String.valueOf(ai.loadLabel(getPackageManager()));
+        } catch (Exception ignored) {
+            return packageName;
+        }
+    }
+
+    private void launchPackage(String packageName) {
+        if (packageName == null) return;
+        Intent i = getPackageManager().getLaunchIntentForPackage(packageName);
+        if (i != null) startActivity(i);
+    }
+
+    private void openPlayStore(String packageName) {
+        if (packageName == null) return;
+        Intent i = new Intent(Intent.ACTION_VIEW,
+                android.net.Uri.parse("market://details?id=" + packageName));
+        if (i.resolveActivity(getPackageManager()) != null) startActivity(i);
+    }
+
+    private void shareApk(String packageName) {
+        if (packageName == null) return;
+        try {
+            android.content.pm.ApplicationInfo ai =
+                    getPackageManager().getApplicationInfo(packageName, 0);
+            java.io.File apk = new java.io.File(ai.sourceDir);
+            android.net.Uri uri = androidx.core.content.FileProvider.getUriForFile(
+                    this, getPackageName() + ".fileprovider", apk);
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("application/vnd.android.package-archive");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(Intent.createChooser(share, getString(R.string.share_apk)));
+        } catch (Exception ignored) {
+            showEngineBoundary(R.string.share_apk);
+        }
     }
 
     private void showAppActionsBoundary(){ showAppActionsBoundary(null); }
@@ -322,15 +387,35 @@ public final class AppListActivity extends AppCompatActivity {
                         getString(R.string.app_detail),
                         getString(R.string.app_info),
                         getString(R.string.favorite),
+                        getString(R.string.set_app_labels),
+                        getString(R.string.add_to_blacklist),
+                        getString(R.string.launch),
+                        getString(R.string.play_store),
+                        getString(R.string.share_apk),
+                        getString(R.string.add_to_homescreen),
                         getString(R.string.backup),
-                        getString(R.string.restore)
+                        getString(R.string.restore),
+                        getString(R.string.settings)
                 }, (dialog, which) -> {
                     switch (which) {
-                        case 0: openDetailBoundary(); break;
-                        case 1: openAppInfoBoundary(); break;
-                        case 2: showFavoriteBoundary(); break;
-                        case 3: showEngineBoundary(R.string.backup); break;
-                        default: showEngineBoundary(R.string.restore); break;
+                        case 0: openDetailBoundary(packageName); break;
+                        case 1: openAppInfoBoundary(packageName); break;
+                        case 2: toggleFavorite(packageName); break;
+                        case 3: openLabelsForApp(packageName); break;
+                        case 4: addToBlacklist(packageName); break;
+                        case 5: launchPackage(packageName); break;
+                        case 6: openPlayStore(packageName); break;
+                        case 7: shareApk(packageName); break;
+                        case 8: {
+                            Intent i = new Intent(this, com.bare.shortcuts.ShortcutsActivity.class);
+                            i.putExtra("cmd", "pin_detail");
+                            i.putExtra("package_name", packageName);
+                            startActivity(i);
+                            break;
+                        }
+                        case 9: showEngineBoundary(R.string.backup); break;
+                        case 10: showEngineBoundary(R.string.restore); break;
+                        default: startActivity(new Intent(this, SettingsActivity.class)); break;
                     }
                 })
                 .show();
