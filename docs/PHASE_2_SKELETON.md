@@ -125,9 +125,9 @@ Normalisasi dilakukan berdasarkan ownership dan contract, bukan blind/global rep
 
 ### B. Firebase
 
-Firebase **bukan backend target BΛR☰**.
+Firebase **bukan implementation/backend target BΛR☰**.
 
-P2 tetap wajib mempertahankan setiap component/contract Reference yang berasal dari Firebase sebagai **target structural contract**, karena P1 menetapkan seluruh 119 component sebagai target. Namun target BΛR☰ harus direalisasikan melalui mekanisme BaRe yang sesuai, bukan dengan menjadikan Firebase sebagai backend BaRe.
+P2 tetap wajib mempertahankan setiap component/contract Reference yang berasal dari Firebase sebagai **Reference structural requirement**, karena P1 menetapkan seluruh 119 component sebagai target. Yang dipertahankan adalah fungsi/kontrak strukturalnya, bukan Firebase sebagai implementasi. Target BΛR☰ harus direalisasikan melalui mekanisme BaRe yang sesuai. Firebase tidak digunakan sebagai backend maupun implementation dependency BaRe.
 
 Untuk setiap Firebase-origin identifier/surface:
 
@@ -135,7 +135,7 @@ Untuk setiap Firebase-origin identifier/surface:
 - `MIGRATE` jika fungsi perlu dipindahkan ke mekanisme BaRe/Supabase;
 - `PRESERVE-COMPATIBILITY` hanya jika evidence membuktikan identifier external tersebut wajib dipertahankan pada boundary tertentu.
 
-Firebase tidak boleh dipertahankan sekadar karena nama/class Reference sudah demikian.
+Identifier Firebase tidak boleh dipertahankan pada target BaRe kecuali evidence membuktikan `PRESERVE-COMPATIBILITY`; fungsi yang membutuhkan backend/auth harus dimigrasikan ke boundary BaRe/Supabase sesuai `docs/bare.md`.
 
 ### C. Supabase
 
@@ -166,7 +166,7 @@ Ini merupakan bagian dari target rekonstruksi, bukan pilihan implementasi bebas.
 
 Komponen external/dependency/library tetap target 119, tetapi **target tidak berarti menyalin identitas dependency secara buta**.
 
-Setiap identifier external yang mengandung Swift/Firebase atau identitas produk harus diklasifikasikan sebagai:
+Setiap identifier external yang mengandung Swift/Firebase atau identitas produk harus diklasifikasikan sebelum dipakai pada target:
 
 1. `RENAME`;
 2. `MIGRATE`; atau
@@ -279,7 +279,7 @@ Semua 95 Activity berikut adalah **target BΛR☰**.
 | 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | Target Microsoft Identity compatibility boundary |
 | 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | Target Microsoft Identity compatibility boundary |
 | 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | BaRe-owned authentication/identity structural target replacing the Firebase-origin contract |
-| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | Target Firebase Auth compatibility boundary |
+| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | BΛR☰ authentication/verification structural target; Firebase implementation is not a BΛR☰ target |
 | 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | Target Credentials compatibility boundary |
 | 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | Target Credentials compatibility boundary |
 | 86 | `com.google.android.gms.auth.api.signin.internal.SignInHubActivity` | Target Google Sign-In compatibility boundary |
@@ -414,7 +414,7 @@ Termasuk:
 - cloud SDK boundary;
 - Shizuku;
 - AndroidX;
-- Google/Firebase surfaces;
+- Google / identity / external dependency surfaces; Firebase-origin contracts are migration targets, not Firebase implementation targets;
 - dependency lain yang menghasilkan component atau structural contract pada Reference.
 
 Untuk dependency/library component, target berarti:
