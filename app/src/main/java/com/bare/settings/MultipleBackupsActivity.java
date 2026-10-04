@@ -1,6 +1,5 @@
 package com.bare.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -11,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bare.R;
+import com.bare.core.state.LocalState;
+import com.bare.settings.model.AppSettings;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.slider.Slider;
 
 public final class MultipleBackupsActivity extends AppCompatActivity {
     private static final String STATE_STRATEGY = "state_multiple_backups_strategy";
-    private static final String EXTRA_STRATEGY = "extra_multiple_backups_strategy";
 
     private MaterialCardView singleCard;
     private MaterialCardView datedCard;
@@ -46,8 +46,7 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
                     savedInstanceState.getParcelable(STATE_STRATEGY);
             strategy = restored != null ? restored : loadStrategy();
         } else {
-            MultipleBackupStrategy fromIntent = getIntent().getParcelableExtra(EXTRA_STRATEGY);
-            strategy = fromIntent != null ? fromIntent : loadStrategy();
+            strategy = loadStrategy();
         }
 
         bindViews();
@@ -85,13 +84,12 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
             render();
         });
         datedCard.setOnClickListener(v -> {
-            int count = Math.round(datedSlider.getValue());
-            strategy = MultipleBackupStrategy.datedBackups(count);
+            strategy = MultipleBackupStrategy.datedBackups(Math.round(datedSlider.getValue()));
             render();
         });
         conditionalCard.setOnClickListener(v -> {
-            int count = Math.round(conditionalSlider.getValue());
-            strategy = MultipleBackupStrategy.conditionalBackup(count, selectedCondition());
+            strategy = MultipleBackupStrategy.conditionalBackup(
+                    Math.round(conditionalSlider.getValue()), selectedCondition());
             render();
         });
 
@@ -183,14 +181,17 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
     }
 
     private MultipleBackupStrategy loadStrategy() {
-        return MultipleBackupStrategy.fromPreferences(
-                getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE));
+        AppSettings settings = new SettingsRepository(new LocalState(this)).read();
+        MultipleBackupStrategy configured = settings.getAppsMultipleBackupStrategy();
+        return configured != null ? configured : MultipleBackupStrategy.singleBackup();
     }
 
     private void applyStrategy() {
-        strategy.saveTo(getSharedPreferences("bare_settings", MODE_PRIVATE));
-        Intent result = new Intent().putExtra(EXTRA_STRATEGY, strategy);
-        setResult(RESULT_OK, result);
+        SettingsRepository repository = new SettingsRepository(new LocalState(this));
+        AppSettings settings = repository.read();
+        settings.setAppsMultipleBackupStrategy(strategy);
+        repository.save(settings);
+        setResult(RESULT_OK);
         finish();
     }
 
