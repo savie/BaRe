@@ -127,11 +127,11 @@ public final class CallsRestoreRepository {
         for(int i=0;i<array.length();i++)result.add(fromJson(array.getJSONObject(i))); return result;
     }
     private static CallLogItem fromJson(JSONObject o){return new CallLogItem(
-        o.optLong("_id"),o.optInt("type"),o.optInt("features"),opt(o,"number"),o.optInt("number_presentation"),opt(o,"countryiso"),
+        o.optLong("_id"),o.optInt("type"),o.optInt("features"),opt(o,"number"),o.has("presentation") ? o.optInt("presentation") : o.optInt("number_presentation"),opt(o,"countryiso"),
         o.optLong("date"),o.optLong("duration"),o.optLong("data_usage"),o.optInt("new"),opt(o,"name"),o.optInt("numbertype"),
         opt(o,"voicemail_uri"),o.optInt("is_read"),opt(o,"geocoded_location"),opt(o,"lookup_uri"),opt(o,"matched_number"),
         opt(o,"normalized_number"),o.optLong("photo_id"),opt(o,"photo_uri"),opt(o,"formatted_number"),
-        opt(o,"phone_account_component_name"),opt(o,"subscription_id"),
+        opt(o,"subscription_component_name") != null ? opt(o,"subscription_component_name") : opt(o,"phone_account_component_name"),opt(o,"subscription_id"),
         o.has("sourceSimSlotIndex")&&!o.isNull("sourceSimSlotIndex")?o.optInt("sourceSimSlotIndex"):null);}
     private static String opt(JSONObject o,String k){return o.has(k)&&!o.isNull(k)?o.optString(k,null):null;}
     public static final class Result{
