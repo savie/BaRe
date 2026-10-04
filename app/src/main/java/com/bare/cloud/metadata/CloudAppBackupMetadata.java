@@ -80,7 +80,6 @@ public final class CloudAppBackupMetadata {
         this.backupId = backupId;
         this.name = name == null ? "" : name;
         this.versionCode = versionCode;
-        this.versionName = null;
         this.backupDate = backupDate;
         this.updateDate = updateDate;
         this.minRequiredVersionCode = minRequiredVersionCode == null
@@ -96,6 +95,8 @@ public final class CloudAppBackupMetadata {
         for (Part part : parts) {
             if (part == null || part.id.trim().isEmpty()) return false;
             if (part.size != null && part.size < 0) return false;
+            if (part.sizeMirrored != null && part.sizeMirrored < 0) return false;
+            if (part.requiredVersionCode != null && part.requiredVersionCode < 0) return false;
         }
         return true;
     }
