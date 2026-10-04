@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.bare.appslist.data.AppInventoryItem;
+import com.bare.blacklist.data.BlacklistApp;
+import com.bare.blacklist.repository.BlacklistRepository;
 import com.bare.appslist.restore.SbaArchiveCreationExecutor;
 import com.bare.appslist.actions.PrivilegedAppActionExecutor;
 import com.bare.appslist.restore.SbaNativeArchiveBackend;
@@ -95,6 +97,7 @@ public final class AppLocalBackupEngine {
         java.util.LinkedHashSet<Part> parts = requested == null || requested.isEmpty()
                 ? new java.util.LinkedHashSet<>(Collections.singleton(Part.APK))
                 : new java.util.LinkedHashSet<>(requested);
+        applyBlacklistPolicy(info.packageName, parts);
         enforceLocalLimits(info, parts, settings.getAppBackupLimits());
         ChangeState changes = compareCurrentState(info, latest, parts);
         AppBackupStrategyPlanner.Plan plan = AppBackupStrategyPlanner.plan(
@@ -264,6 +267,24 @@ public final class AppLocalBackupEngine {
             File file = new File(record.directory, record.id + suffix);
             if (file.isFile()) file.delete();
         }
+    }
+
+    /**
+     * Reference gs0/g00/xw/qk0 blacklist consumption.
+     * Hide removes the app from inventory; a direct engine request is rejected.
+     * NoData preserves the APK-related parts but suppresses data-bearing parts.
+     */
+    private void applyBlacklistPolicy(String packageName, Set<Part> parts) {
+        BlacklistRepository repository = new BlacklistRepository(context);
+        if (repository.isHidden(packageName)) {
+            throw new IllegalStateException("App is blacklisted with Hide mode");
+        }
+        if (!repository.suppressesData(packageName)) return;
+        parts.remove(Part.DATA);
+        parts.remove(Part.EXTERNAL_DATA);
+        parts.remove(Part.MEDIA);
+        parts.remove(Part.EXPANSION);
+        parts.remove(Part.SPECIAL_DATA);
     }
 
     private void enforceLocalLimits(
@@ -455,6 +476,7 @@ public final class AppLocalBackupEngine {
         Set<Part> parts = requested == null || requested.isEmpty()
                 ? parseParts(record.metadata.optJSONArray("parts"))
                 : new LinkedHashSet<>(requested);
+        applyBlacklistPolicy(packageName, parts);
         long backupVersionCode = record.metadata.optLong("versionCode", -1L);
         if (installed != null && backupVersionCode >= 0
                 && backupVersionCode < installed.getLongVersionCode()
