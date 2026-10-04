@@ -16,6 +16,24 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 - P5.1 feature register: `docs/audits/P5_FEATURE_REGISTER.md`
 - Detailed status/history: `docs/RECONSTRUCTION_STATUS.md`
 
+## Current active execution — 2026-10-04
+
+**P6.3 🟡 ACTIVE — APP-ONLY IMPLEMENTATION LOOP**
+
+Current natural target: **Folder Restore until root**.
+
+- Reference chain re-audited directly from the canonical decompile ZIP: base → incremental chain → strategy filtering → native SBA extraction → FULL_RESTORE filesystem reconciliation.
+- /app now contains the concrete FolderLocalRestoreEngine with MISSING_ONLY, OVERWRITE, and FULL_RESTORE strategies.
+- Folder restore now resolves the persisted base/incremental manifest chain, selects the latest archive payload for each required file, and delegates extraction to the reconstructed native SBA path with the canonical destination semantics.
+- Folder detail and folder batch restore consumers now invoke the strategy-aware app engine.
+- Folder manifests now retain directory state and directory add/delete deltas so FULL_RESTORE can reconcile extra directories without deleting valid backup directories.
+- SBA folder archive creation now uses the Reference entry-name/destination contract and the shared Reference-compatible folder archive password owner.
+- Reference ZIP remains unchanged.
+- No build/install/runtime/device/backend/Supabase execution was performed.
+- Restore remains UNVERIFIED at runtime/device/native execution; static implementation is the current app-side closure target.
+
+Next P6.3 loop action: re-audit B01–B27 and the folder restore app graph, then continue only if a Reference-proven /app gap remains.
+
 ## Roadmap status
 
 | Phase | Scope | Current status |
@@ -25,7 +43,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 | 3 | UI + Navigation + P3 closure | **COMPLETE / FROZEN** |
 | 4 | Core behavior / contracts | **COMPLETE / FROZEN — P4.0 CLOSED / P4.1 CLOSED / P4.2 CLOSED / P4.3 CLOSED / P4.4 CLOSED / P4.5 CLOSED** |
 | 5 | Features | **🟢 P5.7 COMPLETE / STATIC FEATURE CLOSURE — P5 GATE NEXT** |
-| 6 | Authorized deviations | **DEFINED / GATED** |
+| 6 | Authorized deviations | **🟡 P6.3 ACTIVE — APP-ONLY IMPLEMENTATION LOOP** |
 | 7 | Runtime | **BLOCKED / GATED** |
 | 8 | Parity | **NOT EXECUTED** |
 | 9 | Deviation audit | **NOT FINAL** |
