@@ -1311,3 +1311,11 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 - Reference UID-key normalization: `aa6f28fa695d3afc9ec87361a1b5240e7009b823`.
 - Reference JSON null omission: `752e2b3bedaaf775f1c2eeee1b7a443196782530`.
 - Reference modern-Android source priority: `33a92e82a3481ffc1be84095cab5b149b41a928f`.
+
+### P6.3 Messages app-side closure — 2026-10-04
+
+- Messages provider surface is no longer an empty UI-only stub: conversation inventory and SMS message reads are implemented from the recovered `qv1`/`ki7` contracts.
+- Messages backup inventory/retention/delete is implemented for the recovered local `vd5` metadata/path contract.
+- `SmsReceiver` now performs the Reference inbound SMS persistence path; `HeadlessSmsSendService` matches the Reference bind behavior.
+- `MessagesBackupRestoreActivity` backup mode now consumes actual device conversation data; file-restore execution remains tied to the Reference encrypted/compressed artifact boundary and is not faked.
+- No build/install/runtime/device/provider/Supabase execution was performed.
