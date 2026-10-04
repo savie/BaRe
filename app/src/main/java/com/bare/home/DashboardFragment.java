@@ -17,6 +17,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bare.R;
 import com.bare.home.data.DashboardViewModel;
 import com.bare.appslist.ui.list.AppListActivity;
+import com.bare.messagescalls.dash.MessagesDashActivity;
+import com.bare.messagescalls.dash.CallsDashActivity;
+import com.bare.folders.ui.FoldersDashActivity;
+import com.bare.walls.WallsDashActivity;
+import com.bare.wifi.WifiActivity;
 
 public final class DashboardFragment extends Fragment {
     private DashboardViewModel model;
@@ -46,12 +51,27 @@ public final class DashboardFragment extends Fragment {
                 TextView item = (TextView) getLayoutInflater().inflate(
                         R.layout.home_dashboard_action, actions, false);
                 item.setText(action.title);
-                if (getString(R.string.apps).contentEquals(action.title)) {
-                    item.setOnClickListener(v ->
-                            startActivity(new Intent(requireContext(), AppListActivity.class)));
-                }
+                item.setOnClickListener(v -> openQuickAction(action.title));
                 actions.addView(item);
             }
         });
+    }
+
+    private void openQuickAction(String title) {
+        Intent intent = null;
+        if (getString(R.string.apps).contentEquals(title)) {
+            intent = new Intent(requireContext(), AppListActivity.class);
+        } else if (getString(R.string.messages).contentEquals(title)) {
+            intent = new Intent(requireContext(), MessagesDashActivity.class);
+        } else if (getString(R.string.call_logs).contentEquals(title)) {
+            intent = new Intent(requireContext(), CallsDashActivity.class);
+        } else if (getString(R.string.folders).contentEquals(title)) {
+            intent = new Intent(requireContext(), FoldersDashActivity.class);
+        } else if (getString(R.string.wallpapers).contentEquals(title)) {
+            intent = new Intent(requireContext(), WallsDashActivity.class);
+        } else if (getString(R.string.wifi).contentEquals(title)) {
+            intent = new Intent(requireContext(), WifiActivity.class);
+        }
+        if (intent != null) startActivity(intent);
     }
 }
