@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bare.R;
+import com.bare.messagescalls.conversations.ConversationState;
+import com.bare.messagescalls.conversations.MessagesConversationRepository;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -73,6 +75,16 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         stateView.setText(R.string.loading);
         stateView.setVisibility(View.VISIBLE);
 
+        if (!restoreMode) {
+            new Thread(() -> {
+                List<ConversationState> conversations =
+                        new MessagesConversationRepository(this).getConversations(true);
+                runOnUiThread(() -> {
+                    adapter.submit(conversations);
+                    updateModeUi();
+                });
+            }).start();
+        }
         updateModeUi();
     }
 
@@ -232,26 +244,52 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         private final List<String> items = new ArrayList<>();
         private final Set<Integer> selected = new LinkedHashSet<>();
 
-        @Override
-        public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
-            View view = new View(parent.getContext());
-            view.setLayoutParams(new RecyclerView.LayoutParams(1, 1));
-            return new Holder(view);
+        private final List<ConversationState> conversations = new ArrayList<>();
+
+        void submit(List<ConversationState> value) {
+            conversations.clear();
+            if (value != null) conversations.addAll(value);
+            items.clear();
+            for (ConversationState conversation : conversations) items.add(conversation.getThreadId());
+            selected.clear();
+            notifyDataSetChanged();
         }
 
         @Override
-        public void onBindViewHolder(Holder holder, int position) { }
+        public Holder onCreateViewHolder(android.view.ViewGroup parent, int viewType) {
+            android.widget.LinearLayout row = new android.widget.LinearLayout(parent.getContext());
+            row.setOrientation(android.widget.LinearLayout.VERTICAL);
+            row.setPadding(32, 24, 32, 24);
+            android.widget.TextView title = new android.widget.TextView(parent.getContext());
+            android.widget.TextView summary = new android.widget.TextView(parent.getContext());
+            row.addView(title);
+            row.addView(summary);
+            return new Holder(row, title, summary);
+        }
+
+        @Override
+        public void onBindViewHolder(Holder holder, int position) {
+            ConversationState conversation = conversations.get(position);
+            String title = conversation.getTitle();
+            holder.title.setText(title == null || title.isEmpty()
+                    ? holder.itemView.getContext().getString(R.string.messages) : title);
+            holder.summary.setText(String.valueOf(conversation.getMessageCount()));
+            holder.itemView.setOnClickListener(v -> {
+                if (selected.contains(position)) selected.remove(position);
+                else selected.add(position);
+                notifyItemChanged(position);
+            });
+            holder.itemView.setAlpha(selected.contains(position) ? 0.55f : 1.0f);
+        }
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return conversations.size();
         }
 
         void selectAll(boolean checked) {
             selected.clear();
-            if (checked) {
-                for (int i = 0; i < items.size(); i++) selected.add(i);
-            }
+            if (checked) for (int i = 0; i < conversations.size(); i++) selected.add(i);
             notifyDataSetChanged();
         }
 
@@ -268,7 +306,13 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         }
 
         static final class Holder extends RecyclerView.ViewHolder {
-            Holder(View itemView) { super(itemView); }
+            final android.widget.TextView title;
+            final android.widget.TextView summary;
+            Holder(View itemView, android.widget.TextView title, android.widget.TextView summary) {
+                super(itemView);
+                this.title = title;
+                this.summary = summary;
+            }
         }
     }
 }
