@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bare.R;
 import com.bare.messagescalls.conversations.ConversationState;
 import com.bare.messagescalls.conversations.MessagesConversationRepository;
+import com.bare.messagescalls.restore.MessagesRestoreRepository;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.io.File;
 
 public final class MessagesBackupRestoreActivity extends AppCompatActivity {
     public static final String EXTRA_BACKUP_FILE_PATH = "EXTRA_BACKUP_FILE_PATH";
@@ -75,16 +77,31 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         stateView.setText(R.string.loading);
         stateView.setVisibility(View.VISIBLE);
 
-        if (!restoreMode) {
-            new Thread(() -> {
-                List<ConversationState> conversations =
-                        new MessagesConversationRepository(this).getConversations(true);
-                runOnUiThread(() -> {
-                    adapter.submit(conversations);
-                    updateModeUi();
-                });
-            }).start();
-        }
+        new Thread(() -> {
+            try {
+                if (restoreMode) {
+                    List<MessagesRestoreRepository.ConversationPreview> preview =
+                            new MessagesRestoreRepository(this).readConversations(new File(backupFilePath));
+                    List<ConversationState> conversations = new ArrayList<>();
+                    for (MessagesRestoreRepository.ConversationPreview item : preview) {
+                        conversations.add(new ConversationState(
+                                item.getThreadId(), item.getTitle(), item.getMessageCount(),
+                                item.getLastDate(), null));
+                    }
+                    runOnUiThread(() -> adapter.submit(conversations));
+                } else {
+                    List<ConversationState> conversations =
+                            new MessagesConversationRepository(this).getConversations(true);
+                    runOnUiThread(() -> adapter.submit(conversations));
+                }
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this,
+                        e.getMessage() == null ? getString(R.string.no_messages_available) : e.getMessage(),
+                        Toast.LENGTH_LONG).show());
+            } finally {
+                runOnUiThread(this::updateModeUi);
+            }
+        }).start();
         updateModeUi();
     }
 
@@ -118,7 +135,7 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
 
     private void requestDefaultSmsApp() {
         if (isDefaultSmsApp()) {
-            showBoundary(R.string.restore_messages);
+            restoreSelectedMessages();
             return;
         }
 
@@ -172,6 +189,38 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void restoreSelectedMessages() {
+        if (backupFilePath == null || backupFilePath.trim().isEmpty()) {
+            Toast.makeText(this, R.string.no_messages_available, Toast.LENGTH_LONG).show();
+            return;
+        }
+        List<String> selected = adapter.selectedThreadIds();
+        if (selected.isEmpty()) {
+            Toast.makeText(this, R.string.select_some_messages, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        actionButton.setEnabled(false);
+        stateView.setText(R.string.restoring);
+        stateView.setVisibility(View.VISIBLE);
+        new Thread(() -> {
+            MessagesRestoreRepository.Result result =
+                    new MessagesRestoreRepository(this).restore(new File(backupFilePath), selected);
+            runOnUiThread(() -> {
+                actionButton.setEnabled(true);
+                if (!result.isSuccess()) {
+                    Toast.makeText(this, result.getError(), Toast.LENGTH_LONG).show();
+                    updateModeUi();
+                    return;
+                }
+                Toast.makeText(this,
+                        getString(R.string.x_messages, String.valueOf(result.getInserted())),
+                        Toast.LENGTH_LONG).show();
+                setResult(Activity.RESULT_OK);
+                finish();
+            });
+        }).start();
+    }
+
     private void showBoundary(int title) {
         new MaterialAlertDialogBuilder(this)
                 .setTitle(title)
@@ -185,7 +234,7 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SMS_ROLE_REQUEST || requestCode == SMS_ROLE_LEGACY_REQUEST) {
             if (isDefaultSmsApp() || resultCode == RESULT_OK) {
-                showBoundary(R.string.restore_messages);
+                restoreSelectedMessages();
             } else {
                 showDefaultSmsRationale(true);
             }
@@ -296,6 +345,14 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
 
         boolean allSelected() {
             return !items.isEmpty() && selected.size() == items.size();
+        }
+
+        List<String> selectedThreadIds() {
+            List<String> result = new ArrayList<>();
+            for (Integer index : selected) {
+                if (index >= 0 && index < items.size()) result.add(items.get(index));
+            }
+            return result;
         }
 
         boolean[] selectionState() {
