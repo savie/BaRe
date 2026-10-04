@@ -114,7 +114,7 @@ public final class AppLocalBackupEngine {
                     File archive = new File(packageDir, backupId + ".splits");
                     createArchive(
                             archive,
-                            "splits",
+                            splitNames(splits),
                             splitSourcesForArchive(splits),
                             temporary);
                     metadata.put("splits", new JSONArray(splitNames(splits)));
@@ -127,7 +127,7 @@ public final class AppLocalBackupEngine {
                 List<File> libraries = sharedLibraries(info);
                 if (!libraries.isEmpty()) {
                     File archive = new File(packageDir, backupId + ".libs");
-                    createArchive(archive, "libs", libraries, temporary);
+                    createArchive(archive, fileNames(libraries), libraries, temporary);
                     metadata.put("sharedLibs", new JSONArray(fileNames(libraries)));
                     metadata.put("sharedLibsSize", archive.length());
                     completed.add("SHARED_LIBS");
@@ -138,7 +138,7 @@ public final class AppLocalBackupEngine {
                 File archive = new File(packageDir, backupId + ".dat");
                 List<File> sources = stagePrivilegedData(info, temporary);
                 if (!sources.isEmpty()) {
-                    createArchive(archive, "data", sources, temporary);
+                    createArchive(archive, dataEntryNames(sources), sources, temporary);
                     metadata.put("dataSize", archive.length());
                     metadata.put("dataEntries", new JSONArray(new String[]{"data"}));
                     completed.add("DATA");
@@ -149,7 +149,7 @@ public final class AppLocalBackupEngine {
                 File source = externalDataDirectory(info.packageName);
                 if (source.isDirectory()) {
                     File archive = new File(packageDir, backupId + ".extdat");
-                    createArchive(archive, info.packageName, Collections.singletonList(source), temporary);
+                    createArchive(archive, Collections.singletonList(info.packageName), Collections.singletonList(source), temporary);
                     metadata.put("extDataSize", archive.length());
                     completed.add("EXTERNAL_DATA");
                 }
@@ -293,7 +293,8 @@ public final class AppLocalBackupEngine {
             File archive, String name, BackupRecord record, boolean privileged) throws Exception {
         File root = new File(context.getCacheDir(), "app-restore-" + name + "-" + System.nanoTime());
         if (!root.mkdirs()) throw new IllegalStateException("Cannot create restore staging directory");
-        String password = new String(CallsBackupRepository.referencePassword(context));
+        char[] passwordChars = CallsBackupRepository.referencePassword(context);
+        String password = new String(passwordChars);
         try {
             com.bare.messagescalls.restore.ReferenceSbaNativeRestoreOrchestrator.extractToDirectory(
                     archive, password, root, null);
@@ -304,8 +305,11 @@ public final class AppLocalBackupEngine {
     }
 
     private void createArchive(
-            File output, String entryName, List<File> sources, List<File> temporary) throws Exception {
-        if (sources == null || sources.isEmpty()) throw new IllegalArgumentException("No SBA source");
+            File output, List<String> entryNames, List<File> sources, List<File> temporary) throws Exception {
+        if (sources == null || sources.isEmpty() || entryNames == null
+                || sources.size() != entryNames.size()) {
+            throw new IllegalArgumentException("SBA source/name list mismatch");
+        }
         byte[] salt = new byte[16];
         byte[] nonce = new byte[16];
         byte[] key = null;
@@ -325,8 +329,7 @@ public final class AppLocalBackupEngine {
             String[] sourcePaths = new String[sources.size()];
             int[] flags = new int[sources.size()];
             for (int i = 0; i < sources.size(); i++) {
-                metadata[i] = (i == 0 ? entryName : (entryName + "_" + i))
-                        .getBytes(StandardCharsets.UTF_8);
+                metadata[i] = entryNames.get(i).getBytes(StandardCharsets.UTF_8);
                 sourcePaths[i] = sources.get(i).getAbsolutePath();
                 flags[i] = 0;
             }
@@ -402,6 +405,14 @@ public final class AppLocalBackupEngine {
         return result;
     }
 
+    private List<String> dataEntryNames(List<File> sources) {
+        ArrayList<String> result = new ArrayList<>();
+        for (File file : sources) {
+            result.add("data".equals(file.getName()) ? "data" : "data_de");
+        }
+        return result;
+    }
+
     private List<String> splitNames(List<String> sources) {
         ArrayList<String> result = new ArrayList<>();
         for (String path : sources) result.add(new File(path).getName());
@@ -472,8 +483,13 @@ public final class AppLocalBackupEngine {
         }
     }
 
-    private static long currentVersionCode() {
-        return 620;
+    private long currentVersionCode() {
+        try {
+            return context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), 0).getLongVersionCode();
+        } catch (Exception e) {
+            return 0L;
+        }
     }
 
     private static File dataDirectory(String packageName) {
