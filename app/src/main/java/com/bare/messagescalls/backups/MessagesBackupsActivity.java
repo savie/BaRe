@@ -39,7 +39,7 @@ public final class MessagesBackupsActivity extends AppCompatActivity {
         repository = new MessagesBackupRepository(this);
         RecyclerView list = findViewById(R.id.recycler_view);
         list.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BackupAdapter(repository.listLocal(), item -> {\n            android.content.Intent intent = new android.content.Intent(this, com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);\n            intent.putExtra(com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.EXTRA_BACKUP_FILE_PATH, item.getLocalFile().getAbsolutePath());\n            startActivity(intent);\n        });
+        adapter = new BackupAdapter(repository.listLocal(), item -> {\n            android.content.Intent intent = new android.content.Intent(this, com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);\n            intent.putExtra(com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.EXTRA_BACKUP_FILE_PATH, repository.fileFor(item).getAbsolutePath());\n            startActivity(intent);\n        });
         list.setAdapter(adapter);    }
 
     @Override
