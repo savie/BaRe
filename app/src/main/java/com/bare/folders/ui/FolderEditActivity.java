@@ -23,7 +23,9 @@ public final class FolderEditActivity extends AppCompatActivity {
   if(p.isEmpty()){pathLayout.setError(getString(R.string.invalid_folder_path));return;}
   String id=existing!=null?existing.getId():Integer.toHexString((n+":"+p+":"+System.currentTimeMillis()).hashCode()).toUpperCase(java.util.Locale.ROOT);
   FolderItem item=new FolderItem(id,n,p,existing!=null?existing.getSetupCreationTime():System.currentTimeMillis());
-  Intent result=new Intent().putExtra("extra_folder_item",item).putExtra("saveLocalItemFromCloud",false); setResult(Activity.RESULT_OK,result); finish();
+  new com.bare.folders.repository.LocalFolderSetupRepository(this).save(item);
+  Intent result=new Intent().putExtra("extra_folder_item",item).putExtra("saveLocalItemFromCloud",false);
+  setResult(Activity.RESULT_OK,result); finish();
  }
  @Override protected void onSaveInstanceState(Bundle out){if(existing!=null)out.putParcelable("extra_folder_item",existing);super.onSaveInstanceState(out);}
  @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
