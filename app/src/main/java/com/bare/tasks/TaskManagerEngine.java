@@ -70,7 +70,7 @@ public final class TaskManagerEngine {
         if (running || cancelling || providers.isEmpty()) return false;
         running = true;
         cancelling = false;
-        stateRegistry.publishServiceState(TaskState.WAITING);
+        stateRegistry.beginTask();
         return true;
     }
 
