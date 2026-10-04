@@ -28,8 +28,7 @@ public final class MessagesConversationRepository {
         List<ConversationState> result = new ArrayList<>(byThread.size());
         for (MutableConversation item : byThread.values()) {
             if (item.threadId == null) continue;
-            String title = item.address == null || item.address.isEmpty()
-                    ? "Name not found" : item.address;
+            String title = item.address;
             result.add(new ConversationState(
                     String.valueOf(item.threadId),
                     title,
