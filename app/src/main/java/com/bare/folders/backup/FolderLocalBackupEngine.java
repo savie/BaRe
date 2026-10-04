@@ -90,6 +90,7 @@ public final class FolderLocalBackupEngine {
         String archiveName;
         String manifestName;
         Map<String, EntryState> payload = snapshot.entries;
+        List<String> payloadDirectories = new ArrayList<>();
         List<String> added = new ArrayList<>();
         List<String> modified = new ArrayList<>();
         List<String> deleted = new ArrayList<>();
@@ -100,7 +101,10 @@ public final class FolderLocalBackupEngine {
             added.addAll(diff.added);
             modified.addAll(diff.modified);
             deleted.addAll(diff.deleted);
-            if (diff.added.isEmpty() && diff.modified.isEmpty() && diff.deleted.isEmpty()) {
+            payloadDirectories.addAll(diff.directoriesAdded);
+            if (diff.added.isEmpty() && diff.modified.isEmpty()
+                    && diff.deleted.isEmpty() && diff.directoriesAdded.isEmpty()
+                    && diff.directoriesDeleted.isEmpty()) {
                 return Result.noChange(existing.manifestFile, existing.archiveFile, snapshot.entries.size());
             }
             String timestamp = new java.text.SimpleDateFormat(
@@ -116,15 +120,16 @@ public final class FolderLocalBackupEngine {
             archiveName = "folder-base.fld";
             manifestName = "folder-base.flm";
             added.addAll(snapshot.entries.keySet());
+            payloadDirectories.addAll(snapshot.directories);
         }
 
         File archive = new File(backupDir, archiveName);
         File manifest = new File(backupDir, manifestName);
 
-        createArchive(archive, source, payload);
+        createArchive(archive, source, payload, payloadDirectories, createBase);
         writeManifest(manifest, item, snapshot, backupId,
                 createBase ? "BASE" : "INCREMENTAL", parent,
-                added, modified, deleted);
+                added, modified, deleted, createBase ? snapshot.directories : diffDirectories(snapshot, existing));
 
         if (!archive.isFile() || archive.length() <= 0L || !manifest.isFile() || manifest.length() <= 0L) {
             throw new IllegalStateException("Folder backup artifacts are incomplete");
@@ -140,48 +145,15 @@ public final class FolderLocalBackupEngine {
             throw new IllegalArgumentException("Folder backup artifacts are missing");
         }
 
-        JSONObject manifest = new JSONObject(readUtf8(manifestFile));
-        JSONArray files = manifest.optJSONArray("files");
-        if (files == null) throw new IllegalArgumentException("Folder manifest has no files");
-
-        File target = new File(item.getSourceFolder());
-        if (!target.exists() && !target.mkdirs()) throw new IllegalStateException("Cannot create target folder");
-
-        Map<String, JSONObject> state = new LinkedHashMap<>();
-        for (int i = 0; i < files.length(); i++) {
-            JSONObject file = files.optJSONObject(i);
-            if (file != null) state.put(file.optString("path", ""), file);
+        if (manifestFile == null || archiveFile == null) {
+            throw new IllegalArgumentException("Folder backup artifacts are missing");
         }
-
-        Map<String, byte[]> entries = com.bare.messagescalls.restore.ReferenceSbaNativeRestoreOrchestrator
-                .readEntries(archiveFile, referencePassword());
-
-        int restored = 0;
-        for (Map.Entry<String, byte[]> entry : entries.entrySet()) {
-            String relative = safeRelative(entry.getKey());
-            if (relative == null || !state.containsKey(relative)) continue;
-            File destination = new File(target, relative);
-            File parent = destination.getParentFile();
-            if (parent != null && !parent.exists() && !parent.mkdirs()) {
-                throw new IllegalStateException("Cannot create restore directory");
-            }
-            try (FileOutputStream out = new FileOutputStream(destination)) {
-                out.write(entry.getValue());
-            }
-            restored++;
-        }
-
-        JSONArray deleted = manifest.optJSONArray("deleted");
-        int removed = 0;
-        if (deleted != null) {
-            for (int i = 0; i < deleted.length(); i++) {
-                String relative = safeRelative(deleted.optString(i, ""));
-                if (relative == null) continue;
-                File targetFile = new File(target, relative);
-                if (targetFile.isFile() && targetFile.delete()) removed++;
-            }
-        }
-        return new RestoreResult(restored, removed);
+        com.bare.folders.restore.FolderLocalRestoreEngine engine =
+                new com.bare.folders.restore.FolderLocalRestoreEngine(context);
+        com.bare.folders.restore.FolderLocalRestoreEngine.RestoreOutcome outcome =
+                engine.restore(item, new File(item.getSourceFolder()),
+                        com.bare.folders.restore.FolderRestoreStrategy.MISSING_ONLY);
+        return new RestoreResult(outcome.restoredFiles, outcome.removedFiles);
     }
 
     public List<BackupInfo> listBackups(FolderItem item) {
@@ -232,15 +204,24 @@ public final class FolderLocalBackupEngine {
         }
     }
 
-    private void createArchive(File output, File source, Map<String, EntryState> payload) throws Exception {
+    private void createArchive(
+            File output, File source, Map<String, EntryState> payload,
+            List<String> payloadDirectories, boolean createBase) throws Exception {
         File archiveSource = source;
         File staging = null;
-        boolean fullSource = payload.size() > 0 && payload.size() == countFiles(source);
+        boolean fullSource = createBase;
         try {
             if (!fullSource) {
                 staging = new File(context.getCacheDir(),
                         "folder-sba-stage-" + System.nanoTime());
                 if (!staging.mkdirs()) throw new IllegalStateException("Cannot create folder archive staging directory");
+                for (String relative : payloadDirectories) {
+                    File directory = new File(source, relative);
+                    if (directory.isDirectory() && !new File(staging, relative).mkdirs()
+                            && !new File(staging, relative).isDirectory()) {
+                        throw new IllegalStateException("Cannot create folder archive staging directory");
+                    }
+                }
                 for (String relative : payload.keySet()) {
                     File from = new File(source, relative);
                     File to = new File(staging, relative);
@@ -253,7 +234,7 @@ public final class FolderLocalBackupEngine {
                 archiveSource = staging;
             }
 
-            String[] entryNames = new String[]{archiveSource.getAbsolutePath()};
+            String[] entryNames = new String[]{output.getName()};
             int[] flags = new int[]{0};
             char[] passwordChars = referencePasswordChars();
             byte[] salt = new byte[16];
@@ -324,25 +305,33 @@ public final class FolderLocalBackupEngine {
 
     private Snapshot scan(File source) throws Exception {
         LinkedHashMap<String, EntryState> entries = new LinkedHashMap<>();
-        scanDir(source, source, entries);
-        return new Snapshot(entries);
+        ArrayList<String> directories = new ArrayList<>();
+        scanDir(source, source, entries, directories);
+        Collections.sort(directories);
+        return new Snapshot(entries, directories);
     }
 
-    private void scanDir(File root, File dir, Map<String, EntryState> out) throws Exception {
+    private void scanDir(
+            File root, File dir, Map<String, EntryState> out, List<String> directories) throws Exception {
         File[] files = dir.listFiles();
         if (files == null) return;
         Arrays.sort(files, (a,b) -> a.getAbsolutePath().compareTo(b.getAbsolutePath()));
         for (File file : files) {
             String relative = root.toPath().relativize(file.toPath()).toString().replace(File.separatorChar, '/');
             if (file.isDirectory()) {
-                scanDir(root, file, out);
+                String relative = root.toPath().relativize(file.toPath()).toString()
+                        .replace(File.separatorChar, '/');
+                if (!relative.isEmpty()) directories.add(relative);
+                scanDir(root, file, out, directories);
             } else if (file.isFile()) {
                 out.put(relative, new EntryState(file.length(), file.lastModified()));
             }
         }
     }
 
-    private Diff diff(Map<String, EntryState> oldState, Map<String, EntryState> newState) {
+    private Diff diff(
+            Map<String, EntryState> oldState, Map<String, EntryState> newState,
+            List<String> oldDirectories, List<String> newDirectories) {
         ArrayList<String> added = new ArrayList<>();
         ArrayList<String> modified = new ArrayList<>();
         ArrayList<String> deleted = new ArrayList<>();
@@ -352,12 +341,19 @@ public final class FolderLocalBackupEngine {
             else if (!old.same(e.getValue())) modified.add(e.getKey());
         }
         for (String path : oldState.keySet()) if (!newState.containsKey(path)) deleted.add(path);
-        return new Diff(added, modified, deleted);
+        ArrayList<String> directoriesAdded = new ArrayList<>();
+        ArrayList<String> directoriesDeleted = new ArrayList<>();
+        Set<String> oldDirs = new java.util.LinkedHashSet<>(oldDirectories);
+        Set<String> newDirs = new java.util.LinkedHashSet<>(newDirectories);
+        for (String path : newDirectories) if (!oldDirs.contains(path)) directoriesAdded.add(path);
+        for (String path : oldDirectories) if (!newDirs.contains(path)) directoriesDeleted.add(path);
+        return new Diff(added, modified, deleted, directoriesAdded, directoriesDeleted);
     }
 
-    private boolean sameState(Map<String, EntryState> a, Map<String, EntryState> b) {
-        return a.size() == b.size() && diff(a,b).added.isEmpty()
-                && diff(a,b).modified.isEmpty() && diff(a,b).deleted.isEmpty();
+    private boolean sameState(Snapshot a, Snapshot b) {
+        Diff d = diff(a.entries, b.entries, a.directories, b.directories);
+        return d.added.isEmpty() && d.modified.isEmpty() && d.deleted.isEmpty()
+                && d.directoriesAdded.isEmpty() && d.directoriesDeleted.isEmpty();
     }
 
     private void writeManifest(File file, FolderItem item, Snapshot snapshot, String backupId,
@@ -384,10 +380,16 @@ public final class FolderLocalBackupEngine {
         root.put("filesAdded", new JSONArray(added));
         root.put("filesModified", new JSONArray(modified));
         root.put("filesDeleted", new JSONArray(deleted));
-        root.put("directories", new JSONArray());
-        root.put("directoriesAdded", new JSONArray());
-        root.put("directoriesDeleted", new JSONArray());
+        root.put("directories", new JSONArray(snapshot.directories));
+        root.put("directoriesAdded", new JSONArray(directoryChanges.added));
+        root.put("directoriesDeleted", new JSONArray(directoryChanges.deleted));
         writeUtf8(file, root.toString());
+    }
+
+    private DirectoryChanges diffDirectories(
+            Snapshot snapshot, Existing existing) {
+        Diff d = diff(existing.entries, snapshot.entries, existing.directories, snapshot.directories);
+        return new DirectoryChanges(d.directoriesAdded, d.directoriesDeleted);
     }
 
     private File backupDir(FolderItem item) {
@@ -399,22 +401,10 @@ public final class FolderLocalBackupEngine {
     }
 
     private String referencePassword() {
-        String uid = new AnonymousIdentityStore(context).getOrCreateUid();
-        String base = referenceHash(new StringBuilder(uid).reverse().toString());
-        PasswordStrategyRepository repo = new PasswordStrategyRepository(new PreferenceState(context));
-        String value = base;
-        if (repo.read() == PasswordStrategy.USER_PASSWORD) {
-            String user = repo.readUserPassword();
-            if (user != null && !user.isEmpty()) value += referenceHash(user);
-        }
-        return value;
+        return FolderBackupPasswordProvider.get(context);
     }
 
     private char[] referencePasswordChars() { return referencePassword().toCharArray(); }
-
-    private static String referenceHash(String value) {
-        return com.bare.messagescalls.backups.CallsBackupRepository.referenceHash(value);
-    }
 
     private static String md5(String value) {
         try {
@@ -471,10 +461,30 @@ public final class FolderLocalBackupEngine {
         public final int restored, removed;
         RestoreResult(int r,int d){restored=r;removed=d;}
     }
-    private static final class Snapshot { final Map<String,EntryState> entries; Snapshot(Map<String,EntryState> e){entries=e;} }
+    private static final class Snapshot {
+        final Map<String,EntryState> entries;
+        final List<String> directories;
+        Snapshot(Map<String,EntryState> e, List<String> d){entries=e;directories=d;}
+    }
     private static final class EntryState { final long size,mtime; EntryState(long s,long m){size=s;mtime=m;} boolean same(EntryState o){return o!=null&&size==o.size&&mtime==o.mtime;} }
-    private static final class Existing { final File manifestFile,archiveFile; final JSONObject manifest; final Map<String,EntryState> entries; Existing(File m,File a,JSONObject j,Map<String,EntryState> e){manifestFile=m;archiveFile=a;manifest=j;entries=e;} }
-    private static final class Diff { final List<String> added,modified,deleted; Diff(List<String>a,List<String>m,List<String>d){added=a;modified=m;deleted=d;} }
+    private static final class Existing {
+        final File manifestFile,archiveFile; final JSONObject manifest;
+        final Map<String,EntryState> entries; final List<String> directories;
+        Existing(File m,File a,JSONObject j,Map<String,EntryState> e){
+            manifestFile=m;archiveFile=a;manifest=j;entries=e;
+            directories=parseDirectories(j.optJSONArray("directories"));
+        }
+    }
+    private static final class Diff {
+        final List<String> added,modified,deleted,directoriesAdded,directoriesDeleted;
+        Diff(List<String>a,List<String>m,List<String>d,List<String>da,List<String>dd){
+            added=a;modified=m;deleted=d;directoriesAdded=da;directoriesDeleted=dd;
+        }
+    }
+    private static final class DirectoryChanges {
+        final List<String> added,deleted;
+        DirectoryChanges(List<String>a,List<String>d){added=a;deleted=d;}
+    }
     private static final class StorageRoot {
         final Context context;
         StorageRoot(Context c){context=c;}
