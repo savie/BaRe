@@ -61,7 +61,7 @@ Evidence Manifest Reference yang terverifikasi:
 Evidence source app-owned yang tersedia di JADX:
 - Activity app-owned: **71** source class
 - Service app-owned: **3** source class
-- Receiver app-owned: **7** source class
+- Receiver app-owned: **8** source class
 - Application: `org/swiftapps/swiftbackup/SwiftApp.java`
 
 Contoh source yang benar-benar tersedia di Reference:
