@@ -107,7 +107,7 @@ public final class ReferenceSbaArchiveReader {
             // chunkSize, encryption KDF/mode fields and a 32-byte value,
             // followed by eight reserved bytes. We only need the already
             // validated compression/encryption methods for the reader.
-            int v2ChunkSize = chunkSize;
+            int v2ChunkSize = raf.readInt();
             raf.readUnsignedShort();
             raf.readUnsignedShort();
             raf.readUnsignedShort();
