@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import com.bare.settings.MultipleBackupStrategy;
+import com.bare.appslist.planning.AppBackupStrategyPlanner;
 
 /** Canonical local Apps inventory owner for R-B. */
 public final class AppInventoryRepository {
@@ -99,6 +101,34 @@ public final class AppInventoryRepository {
         if(identicalApk&&!anyChanged&&!protectedLatest)return new BackupPlan(BackupDecision.SKIP_IDENTICAL,Collections.emptyList(),"identical APK and no changed parts");
         if(!anyChanged)return new BackupPlan(conditionalNewBackup?BackupDecision.UPDATE_LATEST:BackupDecision.SKIP_UNCHANGED,Collections.emptyList(),"no changed parts");
         return new BackupPlan(conditionalNewBackup?BackupDecision.BACKUP:BackupDecision.UPDATE_LATEST,changedParts==null?Collections.emptyList():changedParts,apkChanged?"APK changed":"changed parts");
+    }
+
+    /** Strategy-aware backup decision using the Reference multi-backup rules. */
+    public BackupPlan planBackup(
+            MultipleBackupStrategy strategy,
+            boolean identicalApk,
+            boolean anyChanged,
+            boolean apkChanged,
+            boolean dataChanged,
+            List<String> changedParts) {
+        AppBackupStrategyPlanner.Plan plan = AppBackupStrategyPlanner.plan(
+                strategy, identicalApk, anyChanged, apkChanged, dataChanged, changedParts);
+        BackupDecision decision;
+        switch (plan.getDecision()) {
+            case CREATE_NEW_BACKUP:
+                decision = BackupDecision.BACKUP;
+                break;
+            case UPDATE_LATEST_BACKUP:
+                decision = BackupDecision.UPDATE_LATEST;
+                break;
+            case SKIP_IDENTICAL:
+                decision = BackupDecision.SKIP_IDENTICAL;
+                break;
+            default:
+                decision = BackupDecision.SKIP_UNCHANGED;
+                break;
+        }
+        return new BackupPlan(decision, plan.getChangedParts(), plan.getReason());
     }
 
     public enum RestoreDecision { INSTALL, RESTORE_DATA, DOWNGRADE_REQUIRED, RETRY_SPLITS, SECONDARY_USER_WORKAROUND, BLOCKED }
