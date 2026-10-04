@@ -233,13 +233,10 @@ public final class AppLocalBackupEngine {
 
     private void cleanupNormalBackups(File packageDir, MultipleBackupStrategy strategy) {
         if (strategy == null || !strategy.isMultipleBackups()) return;
-        int keep = strategy.getMaxNumOfBackups();
         List<BackupRecord> records = listBackups(packageDir.getName());
-        if (records.size() <= keep) return;
-        for (int i = keep; i < records.size(); i++) {
-            BackupRecord record = records.get(i);
-            deleteBackupArtifacts(record);
-        }
+        com.bare.appslist.planning.AppBackupRetentionPlanner.CleanupPlan<BackupRecord> plan =
+                com.bare.appslist.planning.AppBackupRetentionPlanner.plan(strategy, records);
+        for (BackupRecord record : plan.getDeletable()) deleteBackupArtifacts(record);
     }
 
     private void deleteBackupArtifacts(BackupRecord record) {
@@ -790,13 +787,16 @@ public final class AppLocalBackupEngine {
         root.delete();
     }
 
-    public static final class BackupRecord {
+    public static final class BackupRecord implements com.bare.appslist.planning.AppBackupRetentionPlanner.BackupEntry {
         public final String id;
         public final File metadataFile;
         public final JSONObject metadata;
         public final File directory;
         BackupRecord(String i, File m, JSONObject j, File d) {
             id = i; metadataFile = m; metadata = j; directory = d;
+        }
+        @Override public boolean isProtectedBackup() {
+            return metadata.optBoolean("protectedBackup", false);
         }
     }
 
