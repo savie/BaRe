@@ -732,3 +732,6 @@ Unable to read package information: %2$s</string>
     <string name="folder_backup_result">Completed %1$d backup(s); %2$d folder(s) had no changes.</string>
     <string name="folder_backup_failed">Last backup error: %1$s</string>
     <string name="folder_deleted_artifacts">Deleted %1$d folder backup artifact(s).</string>
+
+    <string name="no_changes">No changes detected since the last backup.</string>
+    <string name="delete_folder_confirmation">Delete this folder setup? Existing backup artifacts are not automatically removed.</string>
