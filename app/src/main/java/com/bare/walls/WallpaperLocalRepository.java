@@ -1,6 +1,8 @@
 package com.bare.walls;
 
-import com.bare.account.local.AccountNamespace;
+import com.bare.storage.AndroidStorageInventory;
+import com.bare.storage.LocalStorageCoordinator;
+import com.bare.storage.StorageSelection;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +47,32 @@ public final class WallpaperLocalRepository {
         return Collections.unmodifiableList(result);
     }
 
+    public List<Item> list(android.content.Context context) {
+        StorageSelection selection = new LocalStorageCoordinator(
+                context.getApplicationContext(), new AndroidStorageInventory(context)).resolveSelection();
+        if (selection == null || selection.selected == null) return Collections.emptyList();
+        return list(selection.selected.rootPath, selection.selected.uid);
+    }
+
+    public File localRoot(android.content.Context context) {
+        StorageSelection selection = new LocalStorageCoordinator(
+                context.getApplicationContext(), new AndroidStorageInventory(context)).resolveSelection();
+        if (selection == null || selection.selected == null) {
+            throw new IllegalStateException("No selected local storage");
+        }
+        return localRoot(selection.selected.rootPath, selection.selected.uid);
+    }
+
+    public File appliedRoot(android.content.Context context) {
+        StorageSelection selection = new LocalStorageCoordinator(
+                context.getApplicationContext(), new AndroidStorageInventory(context)).resolveSelection();
+        if (selection == null || selection.selected == null) {
+            throw new IllegalStateException("No selected local storage");
+        }
+        return new File(new File(new File(new File(new File(selection.selected.rootPath,
+                "BaRe"), "backups"), "walls"), "applied");
+    }
+
     public File localRoot(File storageRoot, String uid) {
         if (storageRoot == null) throw new IllegalArgumentException("storageRoot");
         if (uid == null || uid.isEmpty()) throw new IllegalArgumentException("uid");
@@ -55,7 +83,7 @@ public final class WallpaperLocalRepository {
                                 new File(
                                         new File(storageRoot, ROOT_DIR),
                                         "accounts"),
-                                AccountNamespace.keyForUid(uid)),
+                                uid),
                         BACKUPS_DIR),
                 WALLS_DIR + File.separator + LOCAL_DIR);
     }
