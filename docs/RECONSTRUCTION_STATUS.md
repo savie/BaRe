@@ -1452,3 +1452,21 @@ Reference IntroActivity, intro.d, and the canonical Swift Backup 5.1.0 (620) dec
 
 **Loop A status: CLOSED — static/source parity acceptance.**
 **Runtime/device/provider/build verification: UNVERIFIED / BOUNDARY.**
+
+## Loop B — SBA native restore contract hardening — 2026-10-04
+
+Current P6.3 remained the active loop; P6.4 is still unopened. Loop B therefore continued the highest-priority open P6.3 app-side gap at the Reference SBA/native restore boundary.
+
+- Re-audited the canonical Reference `z07` / `us2` / `iz1` SBA parser contracts directly against the supplied 5.1.0-620 decompile.
+- Corrected the encrypted-index verification call to use the Reference footer index CRC rather than the footer version as the MAC input.
+- Tightened Reference v1 SBA Argon2 header validation: encrypted v1 archives require the observed iteration count `3`, 16 MiB memory and parallelism `1`.
+- Added strict UTF-8 decoding for SBA index and entry-header names instead of Java replacement-character decoding.
+- Added Reference-compatible entry-name safety validation: non-empty, no NUL, relative paths only, `/` separators only, and no empty/`.`/`..` path components.
+- Added overflow-safe entry-header/payload boundary arithmetic.
+- Added Reference compressed-payload non-empty validation and encrypted stored-size checks for SevenZip AES and AEAD chunked payloads.
+- Added validation that payload-HMAC fields are zero for unencrypted and AEAD methods, matching the recovered Reference consumer contract.
+- Reference ZIP remained read-only. No runtime/native/device execution was performed.
+
+**Loop B status: IMPLEMENTED / STATIC — re-audit target closed for this parser-hardening slice.**
+**P6.3 remains ACTIVE / LOOP MODE; P6.4 remains NOT OPENED.**
+**Build/CI/runtime/device/native/provider/Supabase verification: UNVERIFIED / BOUNDARY.**
