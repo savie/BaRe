@@ -1,201 +1,61 @@
 # BΛR☰ Tahap 2 — Reference Skeleton Target
 
-## 1. Tujuan
+## 1. TUJUAN
 
-Tahap 2 menetapkan **target kerangka struktural Reference → BΛR☰** berdasarkan:
+Tahap 2 menetapkan **target skeleton BΛR☰** untuk rekonstruksi Reference Swift Backup 5.1.0 (620).
 
+Dasar:
 1. `docs/bare.md`
 2. `docs/PHASE_1_INVENTORY.md`
-3. Reference Swift Backup 5.1.0 (versionCode 620)
+3. Reference Swift Backup 5.1.0 (620)
 
-Tahap 2 menjawab:
+P2 adalah **target contract**, bukan laporan implementasi.
 
-> **Struktur apa saja yang wajib tersedia sebagai skeleton BΛR☰ untuk merekonstruksi Reference?**
+## 2. ATURAN TARGET
 
-Tahap 2 adalah **target definition / structural contract**. Dokumen ini tidak digunakan untuk menyatakan progres implementasi `app/`.
+Formula:
 
----
+`BΛR☰ = Reference + Authorized Deviations`
 
-## 2. Batas Target
+Authorized Deviations yang berlaku:
 
-P1 telah membekukan batas:
+- **Branding:** Swift Backup → BΛR☰ / BaRe
+- **Backend:** Firebase → Supabase
+- **Premium:** gratis / entitlement granted
+- **Source:** Java
+- **UI:** Android Views/XML
 
-| Komponen | Reference | Target BΛR☰ |
-|---|---:|---:|
-| Activity | 95 | 95 |
-| Service | 10 | 10 |
-| Receiver | 10 | 10 |
-| Provider | 4 | 4 |
-| **TOTAL** | **119** | **119** |
+Selain deviation tersebut, struktur, contract, feature, dan behavior mengikuti Reference.
 
-Aturan:
+Tidak ada komponen Reference yang dikeluarkan dari target karena berasal dari dependency, library, AndroidX, Google, Firebase, vendor SDK, native library, atau pihak ketiga.
 
-> Setiap komponen yang dideklarasikan oleh Reference AndroidManifest adalah target BΛR☰.
+## 3. TARGET MANIFEST
 
-Tidak ada pengurangan karena komponen berasal dari:
+| Komponen | Target |
+|---|---:|
+| Activity | 95 |
+| Service | 10 |
+| Receiver | 10 |
+| Provider | 4 |
+| **Total** | **119** |
 
-- dependency;
-- library;
-- AndroidX;
-- Google / identity / external dependency surfaces;
-- vendor SDK;
-- native library;
-- compatibility module;
-- pihak ketiga.
+Semua 119 komponen adalah target skeleton BΛR☰.
 
-Asal implementasi tidak mengubah target.
+## 4. APPLICATION TARGET
 
----
-
-## 3. Definisi Skeleton
-
-Skeleton adalah **target struktur** yang harus mempunyai representasi yang dapat dipetakan di BΛR☰.
-
-Bentuk target dapat berupa:
-
-- Java class;
-- Application owner;
-- Activity;
-- Fragment;
-- Service;
-- Receiver;
-- Provider;
-- AndroidManifest declaration;
-- compatibility boundary;
-- API/ABI boundary;
-- dependency integration boundary;
-- resource/structural owner.
-
-Skeleton tidak sama dengan implementasi behavior.
-
----
-
-# 4. APPLICATION TARGET
-
-Reference Application:
-
+Reference:
 `org.swiftapps.swiftbackup.SwiftApp`
 
-Target BΛR☰:
+Target:
+**Application owner BΛR☰ di namespace BaRe.**
 
-**BaRe-owned Application class under the BaRe namespace.**
+Kontrak Application Reference tetap dipertahankan; identitas app-owned Swift dinormalisasi ke BaRe.
 
-Exact class identity is not invented by P2; it must follow the actual BaRe implementation/evidence.
+Reference theme/launcher/application attributes tetap menjadi target dengan perubahan branding/package yang diizinkan.
 
-Application target juga mempertahankan kontrak struktural Reference untuk:
+## 5. ACTIVITY TARGET — 95
 
-- application lifecycle;
-- initialization boundary;
-- application metadata;
-- theme;
-- launcher;
-- konfigurasi Application;
-- dependency initialization yang menjadi bagian dari struktur aplikasi.
-
-Identitas package/application milik BaRe wajib dinormalisasi sesuai authorized deviation pada `docs/bare.md`; identitas external yang wajib dipertahankan hanya boleh berada pada compatibility boundary yang terbukti.
-
----
-
-
-# 4A. AUTHORIZED DEVIATION DAN IDENTITY NORMALIZATION
-
-P2 wajib menerapkan deviation yang sudah ditetapkan P1 dan `docs/bare.md` ke **target**, bukan menunda deviation tersebut sampai sesudah skeleton.
-
-### A. Branding dan identitas aplikasi
-
-Semua **app-owned identity** yang berasal dari Swift Backup harus dinormalisasi menjadi identitas BΛR☰/BaRe atau identitas teknis netral jika memang tidak memerlukan branding.
-
-Cakupan minimum:
-
-- application name;
-- application/package identity yang dimiliki BaRe;
-- namespace/package source BaRe;
-- class/interface/method/field milik BaRe;
-- resource name dan XML reference milik BaRe;
-- resource ID dan key milik BaRe;
-- filename milik BaRe;
-- URL, deep link, callback identity dan product identity milik BaRe;
-- configuration dan internal constant milik BaRe;
-- internal storage/database identifier milik BaRe;
-- comment/dokumentasi yang merupakan bagian dari source BaRe.
-
-**Tidak boleh ada target identity app-owned yang tetap membawa identitas Swift Backup hanya karena skeleton mengikuti nama Reference.**
-
-Normalisasi dilakukan berdasarkan ownership dan contract, bukan blind/global replacement.
-
-### B. Firebase
-
-Firebase **bukan implementation/backend target BΛR☰**.
-
-P2 tetap wajib mempertahankan setiap component/contract Reference yang berasal dari Firebase sebagai **Reference structural requirement**, karena P1 menetapkan seluruh 119 component sebagai target. Yang dipertahankan adalah fungsi/kontrak strukturalnya, bukan Firebase sebagai implementasi. Target BΛR☰ harus direalisasikan melalui mekanisme BaRe yang sesuai. Firebase tidak digunakan sebagai backend maupun implementation dependency BaRe.
-
-Untuk setiap Firebase-origin identifier/surface:
-
-- `RENAME` jika dapat menjadi identitas BaRe tanpa merusak contract;
-- `MIGRATE` jika fungsi perlu dipindahkan ke mekanisme BaRe/Supabase;
-- `PRESERVE-COMPATIBILITY` hanya jika evidence membuktikan identifier external tersebut wajib dipertahankan pada boundary tertentu.
-
-Identifier Firebase tidak boleh dipertahankan pada target BaRe kecuali evidence membuktikan `PRESERVE-COMPATIBILITY`; fungsi yang membutuhkan backend/auth harus dimigrasikan ke boundary BaRe/Supabase sesuai `docs/bare.md`.
-
-### C. Supabase
-
-Supabase adalah backend yang diizinkan untuk kebutuhan backend BΛR☰.
-
-Supabase **bukan pengganti seluruh behavior Reference**. Hanya fungsi backend yang memang diperlukan yang dipindahkan/direalisasikan melalui Supabase; behavior lain tetap mengikuti Reference.
-
-Konfigurasi Supabase yang belum terbukti dari actual state/evidence tetap `UNKNOWN` dan tidak boleh dikarang.
-
-### D. Premium
-
-Premium BΛR☰ adalah **gratis / entitlement granted**.
-
-P2 mempertahankan Premium sebagai structural target; yang berubah hanya entitlement/payment requirement sesuai authorized deviation. UI, flow, dan feature Premium tidak boleh dihapus hanya karena gratis.
-
-### E. Bahasa dan UI implementation
-
-Target implementation:
-
-- Java;
-- Android Views/XML;
-- bukan Kotlin source;
-- bukan Jetpack Compose.
-
-Ini merupakan bagian dari target rekonstruksi, bukan pilihan implementasi bebas.
-
-### F. External/dependency/native identity
-
-Komponen external/dependency/library tetap target 119, tetapi **target tidak berarti menyalin identitas dependency secara buta**.
-
-Setiap identifier external yang mengandung Swift/Firebase atau identitas produk harus diklasifikasikan sebelum dipakai pada target:
-
-1. `RENAME`;
-2. `MIGRATE`; atau
-3. `PRESERVE-COMPATIBILITY` dengan alasan contract yang terbukti.
-
-Target akhir static hygiene untuk area yang dapat dinormalisasi:
-
-> `app/ → 0 Swift/swift + 0 Firebase/firebase`
-
-Occurrence yang masih wajib ada karena compatibility harus tercatat sebagai `PRESERVE-COMPATIBILITY`, bukan dibiarkan tanpa klasifikasi.
-
-### G. Prinsip mapping
-
-Mapping P2 harus dibaca sebagai:
-
-> **Reference component → BΛR☰ structural target + required authorized normalization**
-
-Bukan:
-
-> Reference component → salinan package/class Firebase/Swift apa adanya.
-
-Exact identity yang belum dapat ditentukan dari evidence tidak boleh diarang; statusnya `UNKNOWN` sampai evidence tersedia.
-
-
-# 5. ACTIVITY TARGET — 95 / 95
-
-Semua 95 Activity berikut adalah **target BΛR☰**.
-
-| # | Reference Activity | Target BΛR☰ |
+| # | Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.intro.IntroActivity` | `com.bare.intro.IntroActivity` |
 | 2 | `org.swiftapps.swiftbackup.home.HomeActivity` | `com.bare.home.HomeActivity` |
@@ -268,53 +128,49 @@ Semua 95 Activity berikut adalah **target BΛR☰**.
 | 69 | `org.swiftapps.swiftbackup.cloud.connect.CsActivity` | `com.bare.cloud.connect.CsActivity` |
 | 70 | `org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity` | `com.bare.cloud.connect.FilenSignInActivity` |
 | 71 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity` | `com.bare.messagescalls.defaulthandler.ComposeSmsActivity` |
-| 72 | `net.openid.appauth.RedirectUriReceiverActivity` | Target AppAuth compatibility boundary |
-| 73 | `com.gun0912.tedpermission.TedPermissionActivity` | Target TedPermission compatibility boundary |
-| 74 | `com.microsoft.identity.client.BrowserTabActivity` | Target Microsoft Identity compatibility boundary |
-| 75 | `com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity` | Target Microsoft Identity compatibility boundary |
-| 76 | `com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity` | Target Microsoft Identity compatibility boundary |
-| 77 | `com.microsoft.identity.client.helper.BrokerHelperActivity` | Target Microsoft Identity compatibility boundary |
-| 78 | `com.microsoft.identity.client.CurrentTaskBrowserTabActivity` | Target Microsoft Identity compatibility boundary |
-| 79 | `com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity` | Target Microsoft Identity compatibility boundary |
-| 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | Target Microsoft Identity compatibility boundary |
-| 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | Target Microsoft Identity compatibility boundary |
-| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | BaRe-owned authentication/identity structural target replacing the Firebase-origin contract |
-| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | BΛR☰ authentication/verification structural target; Firebase implementation is not a BΛR☰ target |
-| 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | Target Credentials compatibility boundary |
-| 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | Target Credentials compatibility boundary |
-| 86 | `com.google.android.gms.auth.api.signin.internal.SignInHubActivity` | Target Google Sign-In compatibility boundary |
-| 87 | `net.openid.appauth.AuthorizationManagementActivity` | Target AppAuth compatibility boundary |
-| 88 | `com.android.billingclient.api.ProxyBillingActivity` | Target Billing compatibility boundary |
-| 89 | `com.android.billingclient.api.ProxyBillingActivityV2` | Target Billing compatibility boundary |
-| 90 | `com.google.android.gms.common.api.GoogleApiActivity` | Target Google Play Services compatibility boundary |
-| 91 | `com.pcloud.sdk.AuthorizationActivity` | Target pCloud compatibility boundary |
-| 92 | `com.pcloud.sdk.CustomTabActivity` | Target pCloud compatibility boundary |
-| 93 | `com.yubico.yubikit.android.ui.OtpActivity` | Target YubiKey compatibility boundary |
-| 94 | `com.yubico.yubikit.android.ui.YubiKeyPromptActivity` | Target YubiKey compatibility boundary |
-| 95 | `com.google.android.play.core.common.PlayCoreDialogWrapperActivity` | Target Play Core compatibility boundary |
+| 72 | `net.openid.appauth.RedirectUriReceiverActivity` | AppAuth component contract |
+| 73 | `com.gun0912.tedpermission.TedPermissionActivity` | TedPermission component contract |
+| 74 | `com.microsoft.identity.client.BrowserTabActivity` | Microsoft Identity component contract |
+| 75 | `com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity` | Microsoft Identity component contract |
+| 76 | `com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity` | Microsoft Identity component contract |
+| 77 | `com.microsoft.identity.client.helper.BrokerHelperActivity` | Microsoft Identity component contract |
+| 78 | `com.microsoft.identity.client.CurrentTaskBrowserTabActivity` | Microsoft Identity component contract |
+| 79 | `com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity` | Microsoft Identity component contract |
+| 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | Microsoft Identity component contract |
+| 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | Microsoft Identity component contract |
+| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | BaRe authentication/identity contract; backend Firebase → Supabase |
+| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | BaRe authentication/verification contract; backend Firebase → Supabase |
+| 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | Credentials component contract |
+| 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | Credentials component contract |
+| 86 | `com.google.android.gms.auth.api.signin.internal.SignInHubActivity` | Google Sign-In component contract |
+| 87 | `net.openid.appauth.AuthorizationManagementActivity` | AppAuth component contract |
+| 88 | `com.android.billingclient.api.ProxyBillingActivity` | Billing component contract |
+| 89 | `com.android.billingclient.api.ProxyBillingActivityV2` | Billing component contract |
+| 90 | `com.google.android.gms.common.api.GoogleApiActivity` | Google Play Services component contract |
+| 91 | `com.pcloud.sdk.AuthorizationActivity` | pCloud component contract |
+| 92 | `com.pcloud.sdk.CustomTabActivity` | pCloud component contract |
+| 93 | `com.yubico.yubikit.android.ui.OtpActivity` | YubiKey component contract |
+| 94 | `com.yubico.yubikit.android.ui.YubiKeyPromptActivity` | YubiKey component contract |
+| 95 | `com.google.android.play.core.common.PlayCoreDialogWrapperActivity` | Play Core component contract |
 
----
+## 6. SERVICE TARGET — 10
 
-# 6. SERVICE TARGET — 10 / 10
-
-| # | Reference Service | Target BΛR☰ |
+| # | Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.tasks.TaskService` | `com.bare.tasks.TaskService` |
 | 2 | `org.swiftapps.swiftbackup.home.schedule.ScheduleService` | `com.bare.home.schedule.ScheduleService` |
 | 3 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService` | `com.bare.messagescalls.defaulthandler.HeadlessSmsSendService` |
-| 4 | `com.google.firebase.components.ComponentDiscoveryService` | BaRe-owned service structural target replacing the Firebase-origin contract |
-| 5 | `androidx.credentials.playservices.CredentialProviderMetadataHolder` | Target Credentials compatibility boundary |
-| 6 | `com.google.android.gms.auth.api.signin.RevocationBoundService` | Target Google Sign-In compatibility boundary |
-| 7 | `com.google.firebase.sessions.SessionLifecycleService` | BaRe-owned session-lifecycle structural target replacing the Firebase-origin contract |
-| 8 | `androidx.room.MultiInstanceInvalidationService` | Target Room compatibility boundary |
-| 9 | `com.google.android.datatransport.runtime.backends.TransportBackendDiscovery` | Target DataTransport compatibility boundary |
-| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService` | Target DataTransport compatibility boundary |
+| 4 | `com.google.firebase.components.ComponentDiscoveryService` | BaRe component-discovery contract; Firebase → Supabase where backend functionality is required |
+| 5 | `androidx.credentials.playservices.CredentialProviderMetadataHolder` | Credentials component contract |
+| 6 | `com.google.android.gms.auth.api.signin.RevocationBoundService` | Google Sign-In component contract |
+| 7 | `com.google.firebase.sessions.SessionLifecycleService` | BaRe session-lifecycle contract; Firebase → Supabase where backend functionality is required |
+| 8 | `androidx.room.MultiInstanceInvalidationService` | Room component contract |
+| 9 | `com.google.android.datatransport.runtime.backends.TransportBackendDiscovery` | DataTransport component contract |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService` | DataTransport component contract |
 
----
+## 7. RECEIVER TARGET — 10
 
-# 7. RECEIVER TARGET — 10 / 10
-
-| # | Reference Receiver | Target BΛR☰ |
+| # | Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.jobs.AlarmReceiver` | `com.bare.jobs.AlarmReceiver` |
 | 2 | `org.swiftapps.swiftbackup.common.LocaleChangedReceiver` | `com.bare.common.LocaleChangedReceiver` |
@@ -324,191 +180,106 @@ Semua 95 Activity berikut adalah **target BΛR☰**.
 | 6 | `org.swiftapps.swiftbackup.detail.ShortcutPinnedReceiver` | `com.bare.detail.ShortcutPinnedReceiver` |
 | 7 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.SmsReceiver` | `com.bare.messagescalls.defaulthandler.SmsReceiver` |
 | 8 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver` | `com.bare.messagescalls.defaulthandler.MmsReceiver` |
-| 9 | `androidx.profileinstaller.ProfileInstallReceiver` | Target ProfileInstaller compatibility boundary |
-| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver` | Target DataTransport compatibility boundary |
+| 9 | `androidx.profileinstaller.ProfileInstallReceiver` | ProfileInstaller component contract |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver` | DataTransport component contract |
 
----
+## 8. PROVIDER TARGET — 4
 
-# 8. PROVIDER TARGET — 4 / 4
-
-| # | Reference Provider | Target BΛR☰ |
+| # | Reference | Target BΛR☰ |
 |---:|---|---|
-| 1 | `androidx.core.content.FileProvider` | Target FileProvider contract |
-| 2 | `rikka.shizuku.ShizukuProvider` | Target Shizuku provider contract |
-| 3 | `com.gun0912.tedpermission.provider.TedPermissionProvider` | Target TedPermission provider contract |
-| 4 | `androidx.startup.InitializationProvider` | Target AndroidX Startup compatibility boundary |
+| 1 | `androidx.core.content.FileProvider` | FileProvider contract |
+| 2 | `rikka.shizuku.ShizukuProvider` | Shizuku provider contract |
+| 3 | `com.gun0912.tedpermission.provider.TedPermissionProvider` | TedPermission provider contract |
+| 4 | `androidx.startup.InitializationProvider` | AndroidX Startup component contract |
 
----
+## 9. FRAGMENT TARGET
 
-# 9. FRAGMENT TARGET
+Seluruh Fragment yang terbukti menjadi bagian dari struktur Reference adalah target BΛR☰.
 
-Fragment merupakan bagian dari skeleton internal sesuai roadmap `docs/bare.md`.
+Aturan:
+- struktur dan behavior mengikuti Reference;
+- identifier app-owned dinormalisasi ke BaRe;
+- tidak mengarang Fragment yang tidak didukung evidence.
 
-Target P2:
+## 10. MANIFEST TARGET
 
-> **Seluruh Fragment yang menjadi bagian dari struktur Reference harus mempunyai pasangan target BΛR☰.**
-
-P2 tidak menetapkan jumlah Fragment tanpa inventory Reference yang eksplisit.
-
-Inventaris Fragment harus mengikuti evidence Reference dan dipetakan satu per satu pada tahap inventory struktur Fragment.
-
-Tidak diperbolehkan:
-
-- menghapus Fragment karena tidak ada di AndroidManifest;
-- mengarang jumlah Fragment;
-- menyamakan jumlah Fragment dengan jumlah Activity.
-
----
-
-# 10. MANIFEST STRUCTURAL TARGET
-
-Selain 119 component target, skeleton wajib mempertahankan struktur Manifest Reference yang relevan:
-
-- Application class
-- theme
-- launcher
-- Activity declaration
-- Service declaration
-- Receiver declaration
-- Provider declaration
+Manifest BΛR☰ mempertahankan kontrak Reference untuk:
+- Application
+- Activity
+- Service
+- Receiver
+- Provider
 - permission
 - intent-filter
-- exported
-- enabled
+- exported/enabled
 - authority
 - metadata
-- service type
-- activity attributes
-- provider attributes
-- receiver filters
+- service/activity/provider attributes
 - application attributes
-- queries dan deklarasi struktural lain
+- queries dan deklarasi struktural lainnya.
 
-Reference baseline Application:
+Perubahan identitas yang diizinkan:
+- Swift Backup → BΛR☰ / BaRe
+- Firebase backend → Supabase
 
-- `org.swiftapps.swiftbackup.SwiftApp`
-- `BaRe-owned theme identity`
-- launcher `org.swiftapps.swiftbackup.intro.IntroActivity`
-- post-intro `org.swiftapps.swiftbackup.home.HomeActivity`
-- `allowBackup=false`
-- `allowClearUserData=false`
-- `largeHeap=true`
-- `requestLegacyExternalStorage=true`
-- `supportsRtl=true`
-- `enableOnBackInvokedCallback=true`
+## 11. RESOURCE TARGET
 
-Perbedaan hanya boleh berasal dari authorized deviation `docs/bare.md`.
+Seluruh resource Reference yang masuk reconstruction adalah target BΛR☰.
 
----
+Baseline Reference:
+- layout: 341
+- layout-land: 2
+- layout-sw600dp: 2
+- layout-w600dp: 1
+- layout-watch: 2
+- drawable: 445
+- drawable-anydpi: 2
+- drawable-anydpi-v31: 1
+- menu: 44
+- xml: 18
+- raw: 12
+- font: 7
+- anim: 41
+- animator: 42
+- color: 199
 
-# 11. NATIVE / LIBRARY / EXTERNAL TARGET
+Resource app-owned mengikuti identitas BaRe.
 
-Native, library, dan external surface yang menjadi bagian dari struktur Reference tetap masuk target.
+## 12. NATIVE / LIBRARY / EXTERNAL TARGET
+
+Native, library, dan external surface yang terbukti menjadi bagian Reference tetap target.
 
 Termasuk:
-
-- SBA native runtime;
-- native `.so` ABI payload;
-- OAuth / identity boundary;
-- billing boundary;
-- cloud SDK boundary;
+- SBA native runtime dan ABI;
+- OAuth/identity;
+- cloud integration;
+- billing;
 - Shizuku;
 - AndroidX;
-- Google / identity / external dependency surfaces; Firebase-origin contracts are migration targets, not Firebase implementation targets;
-- dependency lain yang menghasilkan component atau structural contract pada Reference.
+- Google/dependency component;
+- Firebase-origin component contract yang fungsi backend-nya direalisasikan tanpa Firebase dan menggunakan Supabase bila membutuhkan backend.
 
-Untuk dependency/library component, target berarti:
+Tidak ada dependency yang otomatis dikeluarkan dari target.
 
-> BΛR☰ harus memiliki boundary struktural yang mempertahankan kontrak Reference.
+## 13. P2 FREEZE
 
-Bentuk boundary dapat berupa implementation, wrapper, compatibility layer, preserved API/ABI, atau integration boundary yang ditetapkan pada fase implementasi.
-
----
-
-# 12. RESOURCE STRUCTURAL TARGET
-
-P1 menetapkan baseline Reference:
-
-| Resource | Target baseline |
-|---|---:|
-| layout | 341 |
-| layout-land | 2 |
-| layout-sw600dp | 2 |
-| layout-w600dp | 1 |
-| layout-watch | 2 |
-| drawable | 445 |
-| drawable-anydpi | 2 |
-| drawable-anydpi-v31 | 1 |
-| menu | 44 |
-| xml | 18 |
-| raw | 12 |
-| font | 7 |
-| anim | 41 |
-| animator | 42 |
-| color | 199 |
-
-Angka tersebut adalah **target baseline Reference**, bukan status implementasi BΛR☰.
-
-Resource behavior/UI detail masuk fase UI berikutnya, tetapi keberadaan resource sebagai structural surface tidak boleh dihilangkan dari target rekonstruksi.
-
----
-
-# 13. ATURAN TARGET
-
-1. Reference adalah source of truth.
-2. P1 adalah target boundary.
-3. Authorized deviation dari `docs/bare.md` sudah berlaku pada definisi target P2, bukan baru setelah skeleton selesai.
-4. Setiap target harus dapat ditelusuri ke Reference evidence.
-5. Dependency/library tidak otomatis dikecualikan.
-6. Authorized deviation hanya yang ditetapkan `docs/bare.md`.
-7. Target tidak boleh diperkecil karena kondisi implementasi saat ini.
-8. P2 tidak boleh mengubah target menjadi status implementasi.
-9. Jika evidence Reference tidak cukup, status harus UNKNOWN; jangan mengarang.
-
----
-
-# 14. BATAS TAHAP 2
-
-Tahap 2 menetapkan **skeleton target**.
-
-Tahap 2 tidak menyatakan:
-
-- UI parity;
-- behavior parity;
-- feature parity;
-- runtime parity;
-- build parity;
-- backend parity;
-- device verification.
-
-Tahap berikutnya menggunakan target P2 ini sebagai baseline dan mengimplementasikan target tersebut sesuai roadmap.
-
----
-
-# 15. P2 FREEZE
-
-Target yang dibekukan:
+P2 membekukan:
 
 **95 Activity + 10 Service + 10 Receiver + 4 Provider = 119 target Manifest components.**
 
 Ditambah:
+- Application;
+- Fragment;
+- Manifest structure;
+- resources;
+- native/library/external surfaces.
 
-- Application target;
-- Fragment target;
-- Manifest structural target;
-- resource structural target;
-- native/library/external boundaries.
+P2 tidak berisi status implementasi, jumlah yang sudah dibuat, gap, PASS berdasarkan kondisi `app/`, build, runtime, atau device.
 
-**Target P2 tidak boleh dikurangi berdasarkan implementasi yang sudah ada atau belum ada.**
-
----
-
-## 16. SUMBER KEWENANGAN
+## 14. SUMBER
 
 1. `docs/bare.md`
 2. `docs/PHASE_1_INVENTORY.md`
 3. Reference Swift Backup 5.1.0 (620)
 
-Jika terjadi konflik, Reference evidence + `docs/bare.md` + P1 target boundary menjadi acuan.
-
-P2 adalah **target skeleton contract**, bukan work report.
+P2 = **target skeleton BΛR☰**, bukan work report.
