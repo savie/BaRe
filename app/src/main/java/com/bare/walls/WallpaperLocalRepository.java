@@ -1,5 +1,6 @@
 package com.bare.walls;
 
+import com.bare.account.local.AccountNamespace;
 import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
 import com.bare.storage.StorageSelection;
@@ -83,7 +84,7 @@ public final class WallpaperLocalRepository {
                                 new File(
                                         new File(storageRoot, ROOT_DIR),
                                         "accounts"),
-                                uid),
+                                AccountNamespace.keyForUid(uid)),
                         BACKUPS_DIR),
                 WALLS_DIR + File.separator + LOCAL_DIR);
     }
