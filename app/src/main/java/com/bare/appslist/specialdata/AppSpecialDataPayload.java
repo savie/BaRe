@@ -125,7 +125,7 @@ public final class AppSpecialDataPayload {
         if (length > MAX_FILE_BYTES) return null;
         if (length == 0) return null;
 
-        String encoded = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+        String encoded = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         return decodeV1(encoded, expectedUserBinding, nativeBridge);
     }
 
@@ -160,7 +160,7 @@ public final class AppSpecialDataPayload {
         File temp = new File(file.getPath() + ".tmp-" + System.nanoTime());
         try {
             String encoded = payload.encodeV1(userBinding, nativeBridge);
-            Files.writeString(temp.toPath(), encoded, StandardCharsets.UTF_8);
+            Files.write(temp.toPath(), encoded.getBytes(StandardCharsets.UTF_8));
             Files.move(
                     temp.toPath(),
                     file.toPath(),
