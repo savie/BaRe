@@ -254,8 +254,8 @@ public final class FolderLocalBackupEngine {
                 SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
                         output,
                         METADATA.getBytes(StandardCharsets.UTF_8),
-                        new byte[][]{null},
-                        entryNames,
+                        new byte[][]{output.getName().getBytes(StandardCharsets.UTF_8)},
+                        new String[]{archiveSource.getAbsolutePath()},
                         flags,
                         new String[][]{null},
                         new String[][]{null},
