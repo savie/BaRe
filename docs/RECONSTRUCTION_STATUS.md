@@ -1334,3 +1334,14 @@ MMS restore is implemented against the Reference `wg5/xg5/vg5` model and provide
 ### SBA native backend — 2026-10-04
 
 SBA native infrastructure is now materially implemented: exact Reference `libsba_archive.so` binaries are packaged for all four ABIs; exact JNI owner classes expose Argon2id, Zstd, AEGIS chunked decryption, tar extraction and archive creation; app-side key-check/creation handoff and Root/Shizuku protected-data gating are present. Full encrypted archive restore orchestration is still static-only until the header/index parser is wired end-to-end to every Reference encryption variant. No runtime/native/device execution was performed.
+
+
+### P6.3 Calls backup/restore closure — 2026-10-04
+
+- Implemented Reference call-log acquisition from CallLogItem/r92/d01, including the null-projection provider query, API 37 VOIP URI, and API 33 source-SIM slot derivation.
+- Implemented Reference v3 call backup metadata/inventory from rz0/d01: backups/calls/local, v3 timestamp/count/device filename, legacy inventory parsing, local delete and max_call_backups retention.
+- Implemented Reference call artifact creation from d01/z11/mz6/tu0: sz0 items wrapper, swiftbackup.calls.v3 metadata, native SBA v2, Zstd FASTEST/default setting, Argon2id, AEGIS-256, and Reference password candidate derivation.
+- Implemented Reference call restore from z11: duplicate predicate, ContentValues field names, phone-account restoration, restore URI fallback, and persistent retry-ID sequence.
+- Calls dashboard, backup inventory and backup/restore selection surfaces now route to concrete app-side call-log owners.
+- Legacy v2 encrypted JSON remains a separate secure-local y32/NativeGCMCipher boundary; current implementation intentionally targets the shipped v3 SBA path and does not claim a substitute legacy keystore implementation.
+- No build/install/runtime/device/provider/native execution was performed; Reference ZIP remains unchanged.
