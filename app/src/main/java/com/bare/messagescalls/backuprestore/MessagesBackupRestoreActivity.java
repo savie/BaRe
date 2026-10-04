@@ -273,7 +273,8 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
             String title = conversation.getTitle();
             holder.title.setText(title == null || title.isEmpty()
                     ? holder.itemView.getContext().getString(R.string.messages) : title);
-            holder.summary.setText(String.valueOf(conversation.getMessageCount()));
+            holder.summary.setText(holder.itemView.getContext().getString(
+                    R.string.x_messages, String.valueOf(conversation.getMessageCount())));
             holder.itemView.setOnClickListener(v -> {
                 if (selected.contains(position)) selected.remove(position);
                 else selected.add(position);
