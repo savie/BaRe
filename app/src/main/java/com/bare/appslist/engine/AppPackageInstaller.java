@@ -3,6 +3,9 @@ package com.bare.appslist.engine;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.app.PendingIntent;
 import android.content.pm.InstallSourceInfo;
 import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
@@ -12,7 +15,6 @@ import android.os.Parcel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -94,32 +96,27 @@ public final class AppPackageInstaller {
     }
 
     private IntentSender resultSender() throws Exception {
-        ResultReceiver receiver = new ResultReceiver();
-        Parcel parcel = Parcel.obtain();
-        try {
-            parcel.writeStrongBinder(receiver.binder);
-            parcel.setDataPosition(0);
-            IntentSender sender = IntentSender.readIntentSenderOrNullFromParcel(parcel);
-            if (sender == null) throw new IllegalStateException("Cannot create installer result sender");
-            return sender;
-        } finally {
-            parcel.recycle();
-        }
+        ResultReceiver receiver = new ResultReceiver(context);
+        return receiver.sender();
     }
 
     private Result awaitResult() throws InterruptedException {
         ResultReceiver receiver = ResultReceiver.LAST.get();
-        if (!receiver.latch.await(RESULT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {
-            return Result.failure(8, "Timed out waiting for PackageInstaller result");
+        try {
+            if (!receiver.latch.await(RESULT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)) {
+                return Result.failure(8, "Timed out waiting for PackageInstaller result");
+            }
+            Intent intent = receiver.intent;
+            if (intent == null) return Result.failure(1, "PackageInstaller result was missing");
+            int status = intent.getIntExtra("android.content.pm.extra.STATUS", 1);
+            String message = intent.getStringExtra("android.content.pm.extra.STATUS_MESSAGE");
+            String installedPackage = intent.getStringExtra("android.content.pm.extra.PACKAGE_NAME");
+            return status == PackageInstaller.STATUS_SUCCESS
+                    ? Result.success(installedPackage)
+                    : Result.failure(status, message);
+        } finally {
+            receiver.close();
         }
-        Intent intent = receiver.intent;
-        if (intent == null) return Result.failure(1, "PackageInstaller result was missing");
-        int status = intent.getIntExtra("android.content.pm.extra.STATUS", 1);
-        String message = intent.getStringExtra("android.content.pm.extra.STATUS_MESSAGE");
-        String installedPackage = intent.getStringExtra("android.content.pm.extra.PACKAGE_NAME");
-        return status == PackageInstaller.STATUS_SUCCESS
-                ? Result.success(installedPackage)
-                : Result.failure(status, message);
     }
 
     private Result verifyInstallSource(String packageName) throws Exception {
@@ -184,14 +181,44 @@ public final class AppPackageInstaller {
      */
     private static final class ResultReceiver {
         static final ThreadLocal<ResultReceiver> LAST = new ThreadLocal<>();
-        final android.os.IBinder binder = new android.os.Binder();
+        final Context context;
+        final String action;
         final CountDownLatch latch = new CountDownLatch(1);
+        final BroadcastReceiver receiver;
+        final PendingIntent pendingIntent;
         volatile Intent intent;
 
-        ResultReceiver() {
+        ResultReceiver(Context context) {
+            this.context = context;
+            this.action = context.getPackageName() + ".SB_INSTALL_" + System.nanoTime();
+            this.receiver = new BroadcastReceiver() {
+                @Override public void onReceive(Context ignored, Intent value) {
+                    intent = value;
+                    latch.countDown();
+                }
+            };
+            IntentFilter filter = new IntentFilter(action);
+            if (Build.VERSION.SDK_INT >= 33) {
+                context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+            } else {
+                context.registerReceiver(receiver, filter);
+            }
+            int flags = PendingIntent.FLAG_UPDATE_CURRENT;
+            if (Build.VERSION.SDK_INT >= 23) flags |= PendingIntent.FLAG_MUTABLE;
+            Intent callback = new Intent(action).setPackage(context.getPackageName());
+            pendingIntent = PendingIntent.getBroadcast(
+                    context, action.hashCode(), callback, flags);
             LAST.set(this);
-            // Binder callback dispatch is supplied by the platform transaction.
-            // No runtime claim is made here; the object remains the execution owner.
+        }
+
+        IntentSender sender() {
+            return pendingIntent.getIntentSender();
+        }
+
+        void close() {
+            try { context.unregisterReceiver(receiver); } catch (Exception ignored) {}
+            pendingIntent.cancel();
+            LAST.remove();
         }
     }
 }
