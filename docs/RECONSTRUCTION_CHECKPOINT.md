@@ -1685,3 +1685,8 @@ Reference `xw.u()` was re-read directly from the supplied decompile ZIP. The rec
 ### P6.3 AppsTask provider orchestration closure — 2026-10-04
 
 Reference c40 (AppsTask) establishes the multi-app provider boundary above individual app engines: it owns the ordered app task list, backup/restore mode dispatch, cooperative cancellation, and terminal task-state handoff, while lower-level app backup/restore managers own artifact/archive/install details. BΛR☰ now has com.bare.appslist.task.AppsTaskEngine as the corresponding static owner. It dispatches items sequentially to AppLocalBackupEngine, exposes cooperative cancellation, aggregates completed/failed/skipped items, and maps terminal outcomes to the existing TaskResult contract. Scheduler/foreground-service invocation, cloud transfer execution, privileged runtime and device verification remain outside this static boundary.
+
+
+### P6.3 Shared TaskManager/provider lifecycle closure — 2026-10-04
+
+Reference hy7 + pw6 + TaskService establishes the shared task-manager spine: reject overlapping/cancelling runs, register the provider list, execute providers sequentially, observe cancellation between providers, publish provider/task progress state, and reconcile terminal completion/cancellation. BΛR☰ now has TaskManagerEngine above domain providers and TaskStateRegistry now exposes a fresh-run lifecycle reset. This closes the static provider-manager boundary without claiming Android foreground-service startup, quota enforcement, wake-lock behavior, notification runtime, or device execution.
