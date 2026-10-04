@@ -1550,3 +1550,11 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - `83ee4cc6dae309abfb335ebdac005ff77f87f988` / `fe2d635bacbe5ca9326339b7f12261bb8a23f7ba` / `92fab4ecde23c9e79c3832fc6013e8d0209f3740` / `3e99b7d7078e6ce47bf203c7d2007a0fbb07baad`: implemented local Messages backup metadata, local inventory/delete, and max-backup retention policy.
 - Restore-from-file artifact execution remains bounded to the Reference `ud5.k → mz6/Packer/y32` crypto/compression/native path; no substitute format was invented.
 - P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
+### P6.3 Messages `EXTRA_BACKUP_FILE_PATH` restore closure — 2026-10-04
+
+- `f2c40a52532996fc3e5b8dd96c40425677fba477`: reconstructed Reference Messages archive/crypto reader: `mz6.e` archive semantics, `yx5` password candidate derivation, `sz8.E` password hash, and `y32/x32/NativeGCMCipher` inner AES-GCM envelope.
+- `96314d84f11e11332854cad71da0cb1408252591`: implemented `ff5`/`ki7` SMS restore into the Android SMS provider with Reference duplicate predicate and thread-id resolution.
+- `5b18faf5e928bcdaf692487d0e63181b9feba394`: `MessagesBackupRestoreActivity` now consumes `EXTRA_BACKUP_FILE_PATH`, previews decrypted backup conversations, preserves selection, gates on default-SMS role, and executes restore.
+- `0ab73731faf5e41a676f23c5ad1613cef2b59258`: added Commons Compress for local 7z extraction.
+- `19895ae88a4ddc8b9201373f50e6252cc1cae98f`: exposed decrypted backup conversation preview.
+- MMS restore is intentionally not claimed complete; privileged SBA1-family archive extraction remains a Root/Shizuku boundary. P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
