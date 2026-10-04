@@ -44,7 +44,7 @@ import java.util.Set;
  * Concrete local Apps backup/restore owner.
  *
  * Reference storage shape:
- * SwiftBackup/accounts/<uid-half-md5>/backups/apps/local/<package>/<backupId>.<part>
+ * BΛR☰/accounts/<uid-half-md5>/backups/apps/local/<package>/<backupId>.<part>
  * with .app/.splits/.libs/.dat/.extdat/.med/.extra and a metadata .xml.
  *
  * Archive creation uses the Reference SBA native ABI. Privileged app-private
@@ -715,7 +715,7 @@ public final class AppLocalBackupEngine {
         String uid = new AnonymousIdentityStore(context).getOrCreateUid();
         String account = md5(uid).substring(0, 16);
         return new File(selection.selected.rootPath,
-                "SwiftBackup/accounts/" + account + "/backups/apps/local/" + packageName);
+                "BΛR☰/accounts/" + account + "/backups/apps/local/" + packageName);
     }
 
     private String nextBackupId(File packageDir) {
