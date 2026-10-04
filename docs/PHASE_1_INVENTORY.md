@@ -11,7 +11,9 @@
 
 ## Inventory status
 
-**PHASE 1 — COMPLETE (100% evidence inventory).**
+**PHASE 1 — REOPENED / REQUALIFIED.**
+
+The Reference manifest inventory itself is verified against the canonical decompile archive. The previous Phase 1 ownership split (71/3/8 application-owned versus dependency/library exclusions) is **superseded as a target-scope rule**. Origin/ownership is still recorded for traceability, but it no longer removes a Reference manifest component from the BaRe reconstruction target.
 
 The Reference JADX/APKTool snapshot is present in the `rewrite` branch and was audited directly. Phase 1 is considered complete when the baseline identity, source/resource inventory, manifest baseline, component inventory, major feature/package domains, reconstruction deviations, and implementation gate are explicitly recorded.
 
@@ -21,11 +23,11 @@ The Reference JADX/APKTool snapshot is present in the `rewrite` branch and was a
 | Reference source/class structure | COMPLETE | JADX + Smali snapshot inventoried |
 | Reference package structure | COMPLETE | `org.swiftapps.swiftbackup` package domains recorded |
 | AndroidManifest | COMPLETE | APKTool manifest audited |
-| Activities | COMPLETE | 95 total / 71 Reference-package activities |
+| Activities | VERIFIED | 95 total; **all 95 are reconstruction target surfaces** |
 | Fragments / UI classes | COMPLETE | Major UI domains and reconstruction boundaries mapped; unresolved behavior remains UNKNOWN |
-| Services | COMPLETE | 10 total / 3 Reference-package services |
-| Receivers | COMPLETE | 10 total / 8 Reference-package receivers |
-| Providers | COMPLETE | 4 total, all dependency/library providers; 0 Reference-package providers |
+| Services | VERIFIED | 10 total; **all 10 are reconstruction target surfaces** |
+| Receivers | VERIFIED | 10 total; **all 10 are reconstruction target surfaces** |
+| Providers | VERIFIED | 4 total; **all 4 are reconstruction target surfaces** |
 | Layout XML | COMPLETE | 341 layout + 2 land + 2 sw600dp + 1 w600dp + 2 watch |
 | Drawables / vectors | COMPLETE | Resource snapshot inventoried; application/library distinction retained |
 | Menus | COMPLETE | 44 menu resources inventoried |
@@ -50,7 +52,22 @@ The Reference JADX/APKTool snapshot is present in the `rewrite` branch and was a
 
 ## Full Reference manifest component inventory
 
-This is the complete Phase 1 manifest component ledger. It records **all** Reference manifest declarations in one place and classifies each component as application-owned or dependency/library. The application-owned lists are the 71/3/8 component subset carried into the Phase 2 skeleton; the dependency/library lists remain recorded here for later P3/P4/P5 reconciliation.
+This is the complete Phase 1 manifest component ledger. It records **all** Reference manifest declarations in one place and classifies each component by Reference origin for traceability.
+
+### Current target rule — 1:1 + authorized deviations
+
+Every Reference manifest component is now a **BaRe/BΛR☰ reconstruction target**, regardless of whether its Reference origin is application-owned or dependency/library.
+
+Therefore the frozen target counts are:
+
+- **Activities: 95 / 95 target**
+- **Services: 10 / 10 target**
+- **Receivers: 10 / 10 target**
+- **Providers: 4 / 4 target**
+
+The target is **1:1 with Reference**, except only the deviations explicitly authorized by `docs/bare.md`. A dependency/library classification is an ownership/origin fact, **not an exclusion from the reconstruction target**.
+
+For a dependency/native surface, the required reconstruction mechanism may be integration, compatibility boundary, preserved ABI/API contract, or equivalent target implementation as supported by Reference evidence. It must still have an explicit BaRe target owner and may not be discarded as “dependency” without reconciliation.
 
 ### Activity = 95
 
@@ -199,7 +216,7 @@ No Reference provider belongs to `org.swiftapps.swiftbackup.*`.
 
 ### Inventory boundary
 
-The dependency/library components above are recorded Reference manifest components, but are not application-owned BaRe Phase 2 skeleton components. Their classification here does **not** by itself declare any capability or integration surface irrelevant to later reconstruction. Any capability dependency exposed through them remains subject to Phase 3, Phase 4, and Phase 5 reconciliation.
+The dependency/library classification above records Reference origin only. Under the current target rule, these components **remain in the BaRe reconstruction target**. Their exact target mechanism/owner must be established from Reference evidence before downstream phases are qualified. No component may be excluded solely because its Reference implementation originates from a dependency, library, AndroidX, Google/Firebase, vendor SDK, or native compatibility surface.
 
 ## Resource inventory
 
@@ -262,9 +279,11 @@ The Reference manifest declares storage, notification, SMS, contacts, call-log, 
 
 ## Phase 1 completion gate
 
-All evidence/inventory gates are closed.
+**Current status: REOPENED.**
 
-Phase 1 does **not** claim runtime parity, feature parity, or build parity. Those belong to later phases.
+The canonical Reference manifest inventory is verified: **95 Activities, 10 Services, 10 Receivers, 4 Providers**. The previous exclusion of dependency/library components from the reconstruction target is invalidated and superseded by the current **1:1 + authorized deviations** target rule.
 
-Phase 1 is now frozen as the baseline for Phase 2 and subsequent vertical reconstruction.
+Phase 1 does **not** claim implementation parity, runtime parity, feature parity, or build parity. Those belong to subsequent verification gates.
+
+Phase 2 and downstream phases remain blocked from treating the old 71/3/8/0 ownership subset as the target boundary until this requalified P1 baseline is accepted.
 
