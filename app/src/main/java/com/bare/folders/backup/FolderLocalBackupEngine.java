@@ -233,50 +233,93 @@ public final class FolderLocalBackupEngine {
     }
 
     private void createArchive(File output, File source, Map<String, EntryState> payload) throws Exception {
-        List<String> names = new ArrayList<>(payload.keySet());
-        String[] entryNames = names.toArray(new String[0]);
-        String[] sources = new String[entryNames.length];
-        int[] flags = new int[entryNames.length];
-        for (int i = 0; i < entryNames.length; i++) {
-            File file = new File(source, entryNames[i]);
-            if (!file.isFile()) throw new IllegalStateException("Missing source file: " + entryNames[i]);
-            sources[i] = file.getAbsolutePath();
-            flags[i] = 0;
-        }
-
-        char[] passwordChars = referencePassword();
-        byte[] salt = new byte[16];
-        byte[] nonce = new byte[16];
-        byte[] key = null;
-        byte[] keyCheck = null;
+        File archiveSource = source;
+        File staging = null;
+        boolean fullSource = payload.size() > 0 && payload.size() == countFiles(source);
         try {
-            new java.security.SecureRandom().nextBytes(salt);
-            new java.security.SecureRandom().nextBytes(nonce);
-            key = new SbaNativeArchiveBackend().deriveArgon2id(
-                    new String(passwordChars), salt, ARGON_ITERATIONS,
-                    ARGON_MEMORY_KIB, ARGON_PARALLELISM, 32);
-            keyCheck = SbaArchiveCreationExecutor.keyCheck(
-                    "SBA1-AEGIS256-key-check-v1", key, salt, nonce);
-            SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
-                    output,
-                    METADATA.getBytes(StandardCharsets.UTF_8),
-                    new byte[entryNames.length][],
-                    entryNames,
-                    flags,
-                    new String[entryNames.length][],
-                    new String[entryNames.length][],
-                    SBA_VERSION, COMPRESSION_METHOD, COMPRESSION_LEVEL, ENCRYPTION_METHOD,
-                    KDF, ARGON_ITERATIONS, ARGON_MEMORY_KIB, ARGON_PARALLELISM, CHUNK_SIZE,
-                    1, 0, key, keyCheck, salt, nonce, null);
-            if (!result.isSuccess()) throw new IllegalStateException(result.getError());
-            key = null; keyCheck = null;
+            if (!fullSource) {
+                staging = new File(context.getCacheDir(),
+                        "folder-sba-stage-" + System.nanoTime());
+                if (!staging.mkdirs()) throw new IllegalStateException("Cannot create folder archive staging directory");
+                for (String relative : payload.keySet()) {
+                    File from = new File(source, relative);
+                    File to = new File(staging, relative);
+                    File parent = to.getParentFile();
+                    if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                        throw new IllegalStateException("Cannot create folder archive staging path");
+                    }
+                    if (from.isFile()) copyFile(from, to);
+                }
+                archiveSource = staging;
+            }
+
+            String[] entryNames = new String[]{archiveSource.getAbsolutePath()};
+            int[] flags = new int[]{0};
+            char[] passwordChars = referencePasswordChars();
+            byte[] salt = new byte[16];
+            byte[] nonce = new byte[16];
+            byte[] key = null;
+            byte[] keyCheck = null;
+            try {
+                java.security.SecureRandom random = new java.security.SecureRandom();
+                random.nextBytes(salt);
+                random.nextBytes(nonce);
+                key = new SbaNativeArchiveBackend().deriveArgon2id(
+                        new String(passwordChars), salt, ARGON_ITERATIONS,
+                        ARGON_MEMORY_KIB, ARGON_PARALLELISM, 32);
+                keyCheck = SbaArchiveCreationExecutor.keyCheck(
+                        "SBA1-AEGIS256-key-check-v1", key, salt, nonce);
+                SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
+                        output,
+                        METADATA.getBytes(StandardCharsets.UTF_8),
+                        new byte[][]{null},
+                        entryNames,
+                        flags,
+                        new String[][]{null},
+                        new String[][]{null},
+                        SBA_VERSION, COMPRESSION_METHOD, COMPRESSION_LEVEL, ENCRYPTION_METHOD,
+                        KDF, ARGON_ITERATIONS, ARGON_MEMORY_KIB, ARGON_PARALLELISM, CHUNK_SIZE,
+                        1, 0, key, keyCheck, salt, nonce, null);
+                if (!result.isSuccess()) throw new IllegalStateException(result.getError());
+                key = null;
+                keyCheck = null;
+            } finally {
+                Arrays.fill(passwordChars, '\\0');
+                if (key != null) Arrays.fill(key, (byte) 0);
+                if (keyCheck != null) Arrays.fill(keyCheck, (byte) 0);
+                Arrays.fill(salt, (byte) 0);
+                Arrays.fill(nonce, (byte) 0);
+            }
         } finally {
-            Arrays.fill(passwordChars, ' ');
-            if (key != null) Arrays.fill(key, (byte) 0);
-            if (keyCheck != null) Arrays.fill(keyCheck, (byte) 0);
-            Arrays.fill(salt, (byte) 0);
-            Arrays.fill(nonce, (byte) 0);
+            if (staging != null) deleteTree(staging);
         }
+    }
+
+    private static int countFiles(File root) {
+        int count = 0;
+        File[] files = root.listFiles();
+        if (files == null) return 0;
+        for (File file : files) count += file.isDirectory() ? countFiles(file) : 1;
+        return count;
+    }
+
+    private static void copyFile(File from, File to) throws Exception {
+        try (FileInputStream in = new FileInputStream(from);
+             FileOutputStream out = new FileOutputStream(to)) {
+            byte[] buffer = new byte[262144];
+            int n;
+            while ((n = in.read(buffer)) != -1) out.write(buffer, 0, n);
+        }
+    }
+
+    private static void deleteTree(File root) {
+        if (root == null || !root.exists()) return;
+        File[] files = root.listFiles();
+        if (files != null) for (File file : files) {
+            if (file.isDirectory()) deleteTree(file);
+            else file.delete();
+        }
+        root.delete();
     }
 
     private Snapshot scan(File source) throws Exception {
