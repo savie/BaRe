@@ -143,20 +143,18 @@ public final class FolderLocalBackupEngine {
     }
 
     public RestoreResult restore(FolderItem item, File manifestFile, File archiveFile) throws Exception {
-        if (item == null || !item.isValid()) throw new IllegalArgumentException("Invalid folder item");
-        if (manifestFile == null || !manifestFile.isFile() || archiveFile == null || !archiveFile.isFile()) {
-            throw new IllegalArgumentException("Folder backup artifacts are missing");
-        }
+        return restore(item, com.bare.folders.restore.FolderRestoreStrategy.MISSING_ONLY);
+    }
 
-        if (manifestFile == null || archiveFile == null) {
-            throw new IllegalArgumentException("Folder backup artifacts are missing");
-        }
+    public RestoreResult restore(
+            FolderItem item, com.bare.folders.restore.FolderRestoreStrategy strategy) throws Exception {
+        if (item == null || !item.isValid()) throw new IllegalArgumentException("Invalid folder item");
         com.bare.folders.restore.FolderLocalRestoreEngine engine =
                 new com.bare.folders.restore.FolderLocalRestoreEngine(context);
         com.bare.folders.restore.FolderLocalRestoreEngine.RestoreOutcome outcome =
-                engine.restore(item, new File(item.getSourceFolder()),
-                        com.bare.folders.restore.FolderRestoreStrategy.MISSING_ONLY);
-        return new RestoreResult(outcome.restoredFiles, outcome.removedFiles);
+                engine.restore(item, new File(item.getSourceFolder()), strategy);
+        return new RestoreResult(outcome.restoredFiles,
+                outcome.removedFiles + outcome.removedDirectories);
     }
 
     public List<BackupInfo> listBackups(FolderItem item) {
