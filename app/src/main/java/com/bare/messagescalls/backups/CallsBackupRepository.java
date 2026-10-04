@@ -74,18 +74,21 @@ public final class CallsBackupRepository {
         char[] passwordChars = referencePassword(context);
         byte[] salt = new byte[16];
         byte[] nonceSeed = new byte[16];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(salt);
-        random.nextBytes(nonceSeed);
-
-        SbaNativeArchiveBackend backend = new SbaNativeArchiveBackend();
-        int compressionLevel = compressionLevel(context);
-        int compressionMethod = compressionLevel == 0 ? 0 : 1;
-        byte[] key = backend.deriveArgon2id(
-                new String(passwordChars), salt, 3, 16384, 1, 32);
-        byte[] keyCheck = SbaArchiveCreationExecutor.keyCheck(
-                "SBA1-AEGIS256-key-check-v1", key, salt, nonceSeed);
+        byte[] key = null;
+        byte[] keyCheck = null;
         try {
+            SecureRandom random = new SecureRandom();
+            random.nextBytes(salt);
+            random.nextBytes(nonceSeed);
+
+            int compressionLevel = compressionLevel(context);
+            int compressionMethod = compressionLevel == 0 ? 0 : 1;
+            SbaNativeArchiveBackend backend = new SbaNativeArchiveBackend();
+            key = backend.deriveArgon2id(
+                    new String(passwordChars), salt, 3, 16384, 1, 32);
+            keyCheck = SbaArchiveCreationExecutor.keyCheck(
+                    "SBA1-AEGIS256-key-check-v1", key, salt, nonceSeed);
+
             SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
                     output,
                     ARCHIVE_METADATA.getBytes(StandardCharsets.UTF_8),
@@ -96,6 +99,8 @@ public final class CallsBackupRepository {
                     new String[][]{null},
                     2, compressionMethod, compressionLevel, 4, 1, 3, 16384, 1, 1048576,
                     1, 32, key, keyCheck, salt, nonceSeed, null);
+            key = null;
+            keyCheck = null;
             if (!result.isSuccess()) {
                 if (output.exists()) output.delete();
                 throw new IllegalStateException(result.getError());
@@ -104,7 +109,15 @@ public final class CallsBackupRepository {
                     context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
                     .getInt("max_call_backups", -1);
             if (maxBackups > 0) enforceRetention(maxBackups);
-            return new CallLogBackupItem(fileName, now, calls.size(), device, output);
+        } finally {
+            Arrays.fill(passwordChars, '\0');
+            if (key != null) Arrays.fill(key, (byte) 0);
+            if (keyCheck != null) Arrays.fill(keyCheck, (byte) 0);
+            Arrays.fill(salt, (byte) 0);
+            Arrays.fill(nonceSeed, (byte) 0);
+            if (source.exists()) source.delete();
+        }
+        return new CallLogBackupItem(fileName, now, calls.size(), device, output);
         } finally {
             Arrays.fill(passwordChars, '\0');
             if (source.exists()) source.delete();
