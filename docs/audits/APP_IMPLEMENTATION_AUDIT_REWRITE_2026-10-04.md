@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Current HEAD | `c67beba2c2d08e9c4f1799817775a242147626c2` |
+| Latest implementation commit | `c67beba2c2d08e9c4f1799817775a242147626c2` |
 | Supplied Base Checkpoint | `6014cff87c406cf8bb545a7324d63d84d209c345` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -761,7 +761,6 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 ### BLOCKED
 
-- build configuration validity
 - native SBA packaging
 - concrete Supabase execution
 - Dashboard canonical parity
@@ -821,9 +820,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 Project memiliki substantial reconstruction surface dan banyak contract/static implementation yang valid. Audit tidak merekomendasikan restart dari zero.
 
-Namun P0/P1 blocker harus ditutup sebelum status dapat dinaikkan:
+Work-01 build configuration sudah **PASS (STATIC)**. P0/P1 blocker yang masih terbuka:
 
-- build configuration
 - native packaging
 - Supabase implementation
 - Dashboard canonical parity
