@@ -304,6 +304,13 @@ public final class AppLocalBackupEngine {
             restored += restoreArchivePart(
                     record, backupId + ".exp", expansionDirectory(packageName), false);
         }
+        if (parts.contains(Part.SPECIAL_DATA)) {
+            File special = new File(record.directory, backupId + ".extra");
+            if (special.isFile()) {
+                restoreSpecialData(packageName, special);
+                restored++;
+            }
+        }
 
         return new RestoreResult(packageName, backupId, restored);
     }
