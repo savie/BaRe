@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.text.format.Formatter;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bare.R;
 import com.bare.home.data.DashboardViewModel;
+import com.bare.core.model.StorageInfoLocal;
+import com.bare.core.storage.StorageInfoService;
 import com.bare.appslist.ui.list.AppListActivity;
 import com.bare.messagescalls.dash.MessagesDashActivity;
 import com.bare.messagescalls.dash.CallsDashActivity;
@@ -34,6 +40,26 @@ public final class DashboardFragment extends Fragment {
     @Override public void onViewCreated(@NonNull View view, @Nullable Bundle state) {
         model = new ViewModelProvider(this).get(DashboardViewModel.class);
         LinearLayout actions = view.findViewById(R.id.dashboard_actions);
+        TextView storageSummary = view.findViewById(R.id.storage_summary_value);
+        View storageCard = view.findViewById(R.id.storage_summary_card);
+        SharedPreferences homePrefs = requireContext().getSharedPreferences(
+                requireContext().getPackageName() + "_preferences", 0);
+        boolean compactStorage = homePrefs.getBoolean("compact_storage_info", false);
+
+        renderStorageSummary(storageSummary, new StorageInfoService(requireContext()).readCached(), compactStorage);
+        storageCard.setOnLongClickListener(v -> {
+            boolean next = !homePrefs.getBoolean("compact_storage_info", false);
+            homePrefs.edit().putBoolean("compact_storage_info", next).apply();
+            renderStorageSummary(storageSummary, new StorageInfoService(requireContext()).readCached(), next);
+            return true;
+        });
+        StorageInfoLocal cachedStorage = new StorageInfoService(requireContext()).readCached();
+        if (cachedStorage == null) {
+            long appUsage = calculateInstalledAppUsage();
+            StorageInfoLocal measured = new StorageInfoService(requireContext())
+                    .read(requireContext().getFilesDir(), appUsage);
+            renderStorageSummary(storageSummary, measured, compactStorage);
+        }
 
         boolean telephony = requireContext().getPackageManager().hasSystemFeature("android.hardware.telephony");
         boolean wallpaper = WallpaperManager.getInstance(requireContext()).isWallpaperSupported();
@@ -55,6 +81,40 @@ public final class DashboardFragment extends Fragment {
                 actions.addView(item);
             }
         });
+    }
+
+    private void renderStorageSummary(TextView target, StorageInfoLocal value, boolean compact) {
+        if (value instanceof StorageInfoLocal.Success) {
+            StorageInfoLocal.Success s = (StorageInfoLocal.Success) value;
+            String used = Formatter.formatFileSize(requireContext(), s.getUsedMemory());
+            String total = Formatter.formatFileSize(requireContext(), s.getTotalMemory());
+            String appUsage = Formatter.formatFileSize(requireContext(), s.getAppUsage());
+            if (compact) {
+                target.setText(getString(R.string.storage_summary_compact, used, total, s.getUsedPercent()));
+            } else {
+                target.setText(getString(R.string.storage_summary_detail, used, total, s.getUsedPercent(), appUsage));
+            }
+        } else {
+            target.setText(R.string.storage_summary_pending);
+        }
+    }
+
+    private long calculateInstalledAppUsage() {
+        long total = 0L;
+        PackageManager pm = requireContext().getPackageManager();
+        for (ApplicationInfo info : pm.getInstalledApplications(0)) {
+            total += fileLength(info.sourceDir);
+            if (info.splitSourceDirs != null) {
+                for (String split : info.splitSourceDirs) total += fileLength(split);
+            }
+        }
+        return total;
+    }
+
+    private long fileLength(String path) {
+        if (path == null) return 0L;
+        java.io.File file = new java.io.File(path);
+        return file.isFile() ? file.length() : 0L;
     }
 
     private void openQuickAction(String title) {
