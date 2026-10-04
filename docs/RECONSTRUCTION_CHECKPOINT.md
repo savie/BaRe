@@ -1718,3 +1718,18 @@ F76 is STATIC-IMPLEMENTATION CLOSED at the authorized boundary.
 
 **Apps gate:** NOT YET CLEAN. The remaining Reference-backed lower-level gap is Quick Action execution semantics for maintenance actions (delete-uninstalled-backups / enable-disable) plus cloud-sync action execution. These must remain owned by the Apps task/provider boundary; no Folders/Messages/Calls/Wi-Fi/Wallpapers expansion is opened from this pass.
 
+
+
+### P6.3 Apps gate closure — Quick Actions + blacklist + data-change parity — 2026-10-04
+
+The supplied Reference ZIP was re-extracted again for this pass and the remaining Apps gate was traced directly from the extracted JADX/APKTool tree.
+
+- Reference eq.b()/nm6.b() data-change semantics are now represented: DATA change detection checks files modified after the backup timestamp and excludes the canonical app-cache subtree when app-cache backup is disabled. The scan is conservative on privileged-scan failure.
+- Reference yc6/zc6 shows ID_DELETE_BACKUPS_UNINSTALLED_APPS is a CLOUD action. The target Quick Action consumer now models the exact provider boundary: enumerate cloud package backups, select only packages absent from the installed inventory, filter protected/latest backups according to the ly7 toggles, then hand the selected records to a cloud delete provider.
+- Reference py7 -> g00.d() enable/disable semantics are now concrete through the existing privileged executor: current-user pm disable-user --user <userId> <package> / pm enable --user <userId> <package>. The Reference manufacturer workaround remains inside the privileged boundary and is not guessed.
+- Reference ScheduleAppsLoader for ID_BACKUP_SYNC_APPS is now represented by a provider-neutral sync plan: installed apps that already have local backups are selected and their latest local backup ID/parts are carried into the cloud upload provider boundary.
+- Reference blacklist consumption is now closed on the Apps path: Hide entries are excluded from AppInventoryLoader, while NoData suppresses DATA/EXTERNAL_DATA/MEDIA/EXPANSION/SPECIAL_DATA in local backup/restore planning.
+- Storage re-audit remains closed: Dashboard measures the selected storage volume and the BΛR☰ backup-root footprint, not installed APK source sizes.
+- No cloud backend, build, install, runtime, device, provider, privileged execution, or Supabase execution was performed.
+
+**Apps gate: STATIC-IMPLEMENTATION CLOSED.** All currently Reference-proven Apps gaps that can be implemented without crossing the declared provider/runtime boundary are closed. The remaining cloud-delete/cloud-sync/privileged effects are explicit downstream provider/execution contracts, not missing Apps semantics. Folders/Messages/Calls/Wi-Fi/Wallpapers may now proceed as separate audits; this pass does not claim their runtime/device verification.
