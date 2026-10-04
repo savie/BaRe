@@ -112,14 +112,6 @@ public final class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (viewPager != null && viewPager.l0 != null) {
-            viewPager.l0.clear();
-        }
-    }
-
-    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putInt("saved_fragment", navigation.getSelectedItemId());
         super.onSaveInstanceState(outState);
