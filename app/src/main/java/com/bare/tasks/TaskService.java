@@ -3,6 +3,10 @@ package com.bare.tasks;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Build;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.pm.ServiceInfo;
 
 import com.bare.core.model.TaskErrorSummary;
 import com.bare.core.model.TaskState;
@@ -33,9 +37,33 @@ public final class TaskService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         stateRegistry.beginTask();
+        boolean foregroundStarted = false;
+        try {
+            Notification notification = new Notification.Builder(this, "normal_channel")
+                    .setSmallIcon(com.bare.R.drawable.ic_stat)
+                    .setContentTitle("BΛR☰")
+                    .setContentText("Running backup task")
+                    .setOngoing(true)
+                    .build();
+            if (Build.VERSION.SDK_INT >= 29) {
+                startForeground(
+                        12,
+                        notification,
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC);
+            } else {
+                startForeground(12, notification);
+            }
+            foregroundStarted = true;
+        } catch (RuntimeException error) {
+            stateRegistry.publishErrorSummary(
+                    new TaskErrorSummary(message(error), true));
+            stateRegistry.publishServiceState(TaskState.COMPLETE);
+            return;
+        }
 
         if (stateRegistry.isCancelRequested() || stateRegistry.isForceStopRequested()) {
             stateRegistry.publishServiceState(TaskState.CANCELLED);
+            if (foregroundStarted) stopForeground(STOP_FOREGROUND_REMOVE);
             return;
         }
 
@@ -44,6 +72,7 @@ public final class TaskService extends IntentService {
             stateRegistry.publishErrorSummary(
                     new TaskErrorSummary("No registered task provider for this execution request.", true));
             stateRegistry.publishServiceState(TaskState.COMPLETE);
+            if (foregroundStarted) stopForeground(STOP_FOREGROUND_REMOVE);
             return;
         }
 
@@ -74,6 +103,7 @@ public final class TaskService extends IntentService {
         } else {
             stateRegistry.publishServiceState(TaskState.COMPLETE);
         }
+        if (foregroundStarted) stopForeground(STOP_FOREGROUND_REMOVE);
     }
 
     public void publishState(TaskState state) {
