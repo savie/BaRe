@@ -78,8 +78,8 @@ public final class AppSpecialDataPayload {
 
         String encodedCompressed = Base64.encodeToString(compressed, Base64.NO_WRAP);
         return FORMAT_VERSION_1 + ENCRYPTED_STRING_SEPARATOR
-                + SpecialDataCrypto.encrypt(userBinding) + ENCRYPTED_STRING_SEPARATOR
-                + SpecialDataCrypto.encrypt(encodedCompressed);
+                + SpecialDataCrypto.encrypt(userBinding, userBinding) + ENCRYPTED_STRING_SEPARATOR
+                + SpecialDataCrypto.encrypt(encodedCompressed, userBinding);
     }
 
     public static AppSpecialDataPayload decodeV1(
@@ -93,7 +93,7 @@ public final class AppSpecialDataPayload {
         }
         String actualBinding;
         try {
-            actualBinding = SpecialDataCrypto.decrypt(parts[1]);
+            actualBinding = SpecialDataCrypto.decrypt(parts[1], expectedUserBinding);
         } catch (GeneralSecurityException e) {
             throw new IOException("Unable to decrypt special data user binding.", e);
         }
@@ -104,7 +104,7 @@ public final class AppSpecialDataPayload {
 
         final byte[] compressed;
         try {
-            String encodedCompressed = SpecialDataCrypto.decrypt(parts[2]);
+            String encodedCompressed = SpecialDataCrypto.decrypt(parts[2], expectedUserBinding);
             compressed = Base64.decode(encodedCompressed, Base64.DEFAULT);
         } catch (IllegalArgumentException e) {
             throw new IOException("Invalid special data payload encoding.", e);
@@ -206,8 +206,8 @@ public final class AppSpecialDataPayload {
         private static final byte CIPHER_ID = 2;
         private static final byte[] AAD = "SwiftBackup_Entity".getBytes(StandardCharsets.UTF_8);
 
-        static String encrypt(String value) throws GeneralSecurityException {
-            byte[] key = key();
+        static String encrypt(String value, String userBinding) throws GeneralSecurityException {
+            byte[] key = key(userBinding);
             byte[] iv = new byte[12];
             new java.security.SecureRandom().nextBytes(iv);
             try {
@@ -230,12 +230,12 @@ public final class AppSpecialDataPayload {
             }
         }
 
-        static String decrypt(String encoded) throws GeneralSecurityException {
+        static String decrypt(String encoded, String userBinding) throws GeneralSecurityException {
             byte[] packed = Base64.decode(encoded, Base64.DEFAULT);
             if (packed.length < 2 + 12 + 16 || packed[0] != FORMAT_VERSION || packed[1] != CIPHER_ID) {
                 throw new GeneralSecurityException("Invalid special-data cipher envelope");
             }
-            byte[] key = key();
+            byte[] key = key(userBinding);
             byte[] iv = Arrays.copyOfRange(packed, 2, 14);
             byte[] ciphertext = Arrays.copyOfRange(packed, 14, packed.length);
             try {
@@ -253,14 +253,11 @@ public final class AppSpecialDataPayload {
             }
         }
 
-        private static byte[] key() {
-            // Reference f45: Firebase UID is padded/truncated to exactly 32 UTF-8 bytes.
-            // BaRe's local identity store supplies the same stable user-bound identity role.
-            String value = new com.bare.home.repository.AnonymousIdentityStore(
-                    com.bare.BaReApplication.getInstance()).getOrCreateUid();
+        private static byte[] key(String value) {
+            if (value == null || value.isEmpty()) throw new IllegalArgumentException("User identity is required");
             if (value.length() < 32) {
                 int need = 32 - value.length();
-                if (need > value.length()) throw new IllegalStateException("User identity is too short");
+                if (need > value.length()) throw new IllegalArgumentException("User identity is too short");
                 value = value + value.substring(0, need);
             } else if (value.length() > 32) {
                 value = value.substring(0, 32);
