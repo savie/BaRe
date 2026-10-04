@@ -750,6 +750,7 @@ Unable to read package information: %2$s</string>
     <string name="backup_part_external_data">External app data</string>
     <string name="backup_part_media">Media</string>
     <string name="backup_part_expansion">Expansion files</string>
+    <string name="backup_part_special_data">Special app state</string>
     <string name="app_backup_success">Backed up %1$d part(s), %2$d bytes.</string>
     <string name="app_backup_failed">App backup failed: %1$s</string>
     <string name="app_restore_success">Restored %1$d part(s).</string>
