@@ -502,6 +502,14 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 throw new IOException("Unencrypted SBA stored/compressed size mismatch");
             }
 
+            if (h.encryptionMethod == 0 || (h.encryptionMethod >= 2 && h.encryptionMethod <= 5)) {
+                for (byte b : payloadHmac) {
+                    if (b != 0) {
+                        throw new IOException("SBA payload HMAC must be zero for this encryption method: " + name);
+                    }
+                }
+            }
+
             if (h.encryptionMethod == 1) {
                 if (storedSize == 0 || storedSize % 16 != 0) {
                     throw new IOException("SevenZip AES SBA entry is not AES-block-aligned: " + name);
