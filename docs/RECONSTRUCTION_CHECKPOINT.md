@@ -1568,3 +1568,21 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - BΛR☰ now parses the Reference SBA1/SAE1/SAI1/SAF1 framing and can restore the exact unencrypted + uncompressed SBA subset into the existing Messages archive reader.
 - Encrypted or zstd-compressed SBA payloads remain intentionally unclaimed: Reference `z07` routes these through `libsba_archive` native Argon2id/AEAD/zstd backends. No substitute crypto was invented.
 - Runtime/device/provider verification has not been performed.
+
+
+### P6.3 SBA native backend deepening — 2026-10-04
+
+- Reference forensic pass recovered the complete native SBA owner set from the uploaded 5.1.0-620 artifact:
+  - `SbaNativeCrypto.deriveArgon2id()`
+  - `SbaZstdNative.compressZstdBytes()/decompressZstdBytes()`
+  - `SbaLibaegisCryptoNative.decryptAegis256/128X2ChunkedEntryFdRaw()`
+  - `SbaSwiftTarNative.extractTar*()` and `extractAegisArchiveEntry*()`
+  - `SbaArchiveNative.createArchive()`
+- Exact `libsba_archive.so` blobs from the Reference tree are now packaged under BΛR☰ `app/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}`.
+- BΛR☰ now uses the exact Reference JNI owner class names/signatures instead of declaring a parallel native ABI.
+- Reference Argon2id constraints are preserved: 16-byte salt; iterations 1..100; memory 16,384..65,536 KiB; parallelism 1..8; positive output length.
+- Reference SBA key-check material and method labels are ported for archive creation handoff; sensitive key/salt/nonce material is wiped after native creation.
+- Reference native AEGIS payload execution is exposed for AEGIS-256 and AEGIS-128X2 with FD/chunked entry semantics; plain and Zstd tar extraction are also exposed.
+- Root/Shizuku capability is now an explicit protected-app-data gate. The native SBA engine itself remains in-process; Root/Shizuku covers access to protected app-data trees, matching the Reference separation of archive crypto from privileged filesystem access.
+- Encrypted/zstd SBA **native primitives are now implemented and packaged**, but full end-to-end archive restore orchestration still requires wiring the recovered SBA index/header parser to these primitives for every encryption variant. Reference itself marks SevenZip AES/AES-GCM/AES-GCM-SIV as optional/internal compatibility backends in this build; AEGIS-256/Aegis-128X2 are the public native encrypted paths.
+- Runtime/device/native execution remains unverified.
