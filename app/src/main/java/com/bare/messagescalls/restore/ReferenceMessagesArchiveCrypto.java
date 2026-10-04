@@ -57,7 +57,27 @@ public final class ReferenceMessagesArchiveCrypto {
         byte[] direct = Files.readAllBytes(backupFile.toPath());
         if (isEncryptedEnvelope(direct)) return result;
         if (ReferenceSbaArchiveReader.isSba(backupFile)) {
-            return ReferenceSbaArchiveReader.readEntries(backupFile);
+            try {
+                return ReferenceSbaArchiveReader.readEntries(backupFile);
+            } catch (Exception referenceReaderFailure) {
+                Exception last = referenceReaderFailure;
+                try {
+                    return ReferenceSbaNativeRestoreOrchestrator.readEntries(backupFile, null);
+                } catch (Exception nativeUnencryptedFailure) {
+                    last = nativeUnencryptedFailure;
+                }
+                for (char[] candidate : passwordCandidates()) {
+                    try {
+                        return ReferenceSbaNativeRestoreOrchestrator.readEntries(
+                                backupFile, new String(candidate));
+                    } catch (Exception nativeFailure) {
+                        last = nativeFailure;
+                    } finally {
+                        java.util.Arrays.fill(candidate, (char) 0);
+                    }
+                }
+                throw last;
+            }
         }
 
         try (ZipFile zip = new ZipFile(backupFile)) {
@@ -114,7 +134,35 @@ public final class ReferenceMessagesArchiveCrypto {
             return decryptEnvelope(direct);
         }
         if (ReferenceSbaArchiveReader.isSba(backupFile)) {
-            java.util.Map<String, byte[]> entries = ReferenceSbaArchiveReader.readEntries(backupFile);
+            java.util.Map<String, byte[]> entries = null;
+            Exception last = null;
+            try {
+                entries = ReferenceSbaArchiveReader.readEntries(backupFile);
+            } catch (Exception referenceReaderFailure) {
+                last = referenceReaderFailure;
+                try {
+                    entries = ReferenceSbaNativeRestoreOrchestrator.readEntries(backupFile, null);
+                } catch (Exception nativeUnencryptedFailure) {
+                    last = nativeUnencryptedFailure;
+                }
+                if (entries == null) {
+                    for (char[] candidate : passwordCandidates()) {
+                        try {
+                            entries = ReferenceSbaNativeRestoreOrchestrator.readEntries(
+                                    backupFile, new String(candidate));
+                            break;
+                        } catch (Exception nativeFailure) {
+                            last = nativeFailure;
+                        } finally {
+                            java.util.Arrays.fill(candidate, (char) 0);
+                        }
+                    }
+                }
+            }
+            if (entries == null) {
+                if (last != null) throw last;
+                throw new IOException("Unable to read Reference SBA archive");
+            }
             byte[] conversations = findEntry(entries, "conversations");
             if (!isEncryptedEnvelope(conversations)) {
                 throw new IOException("Reference SBA1 conversations artifact not found");
