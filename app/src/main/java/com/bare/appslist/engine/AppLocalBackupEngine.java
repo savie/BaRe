@@ -13,6 +13,8 @@ import com.bare.messagescalls.backups.CallsBackupRepository;
 import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
 import com.bare.storage.StorageSelection;
+import com.bare.settings.MultipleBackupStrategy;
+import com.bare.appslist.planning.AppBackupStrategyPlanner;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -78,12 +80,31 @@ public final class AppLocalBackupEngine {
             throw new IllegalStateException("Cannot create app backup directory");
         }
 
-        String backupId = nextBackupId(packageDir);
+        BackupRecord latest = listBackups(item.packageName).isEmpty()
+                ? null : listBackups(item.packageName).get(0);
+        MultipleBackupStrategy strategy = MultipleBackupStrategy.fromPreferences(
+                context.getSharedPreferences("app_backup_preferences", Context.MODE_PRIVATE));
+        java.util.LinkedHashSet<Part> parts = requested == null || requested.isEmpty()
+                ? new java.util.LinkedHashSet<>(Collections.singleton(Part.APK))
+                : new java.util.LinkedHashSet<>(requested);
+        ChangeState changes = compareCurrentState(info, latest, parts);
+        AppBackupStrategyPlanner.Plan plan = AppBackupStrategyPlanner.plan(
+                strategy, changes.identicalApk, changes.anyChanged, changes.apkChanged,
+                changes.dataChanged, changes.changedParts);
+        if (plan.skips() && latest != null) {
+            return new BackupResult(item.packageName, latest.id, latest.directory,
+                    Collections.<String>emptyList(), 0L, true, plan.getDecision().name());
+        }
+
+        String backupId = latest != null && plan.updatesLatestBackup()
+                ? latest.id : nextBackupId(packageDir);
         ArrayList<String> completed = new ArrayList<>();
         ArrayList<File> temporary = new ArrayList<>();
         JSONObject metadata = new JSONObject();
 
         metadata.put("formatVersion", 1);
+        metadata.put("strategyDecision", plan.getDecision().name());
+        metadata.put("changedParts", new JSONArray(plan.getChangedParts()));
         metadata.put("backupId", backupId);
         metadata.put("packageName", info.packageName);
         metadata.put("versionName", info.versionName);
@@ -96,13 +117,10 @@ public final class AppLocalBackupEngine {
         metadata.put("requiredVersionName", "v5.0.0");
 
         try {
-            Set<Part> parts = requested == null || requested.isEmpty()
-                    ? new LinkedHashSet<>(Collections.singleton(Part.APK))
-                    : new LinkedHashSet<>(requested);
-
             if (parts.contains(Part.APK)) {
                 File source = new File(info.applicationInfo.sourceDir);
                 File destination = new File(packageDir, backupId + ".app");
+                if (destination.exists() && !destination.delete()) throw new IllegalStateException("Cannot replace APK backup");
                 copyFile(source, destination);
                 metadata.put("apkSize", destination.length());
                 completed.add("APK");
@@ -112,6 +130,7 @@ public final class AppLocalBackupEngine {
                 List<String> splits = splitSources(info);
                 if (!splits.isEmpty()) {
                     File archive = new File(packageDir, backupId + ".splits");
+                    if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace split backup");
                     createArchive(
                             archive,
                             splitNames(splits),
@@ -127,6 +146,7 @@ public final class AppLocalBackupEngine {
                 List<File> libraries = sharedLibraries(info);
                 if (!libraries.isEmpty()) {
                     File archive = new File(packageDir, backupId + ".libs");
+                    if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace library backup");
                     createArchive(archive, fileNames(libraries), libraries, temporary);
                     metadata.put("sharedLibs", new JSONArray(fileNames(libraries)));
                     metadata.put("sharedLibsSize", archive.length());
@@ -136,6 +156,7 @@ public final class AppLocalBackupEngine {
 
             if (parts.contains(Part.DATA)) {
                 File archive = new File(packageDir, backupId + ".dat");
+                if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace data backup");
                 List<File> sources = stagePrivilegedData(info, temporary);
                 if (!sources.isEmpty()) {
                     createArchive(archive, dataEntryNames(sources), sources, temporary);
@@ -149,6 +170,7 @@ public final class AppLocalBackupEngine {
                 File source = externalDataDirectory(info.packageName);
                 if (source.isDirectory()) {
                     File archive = new File(packageDir, backupId + ".extdat");
+                    if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace external-data backup");
                     createArchive(archive, Collections.singletonList(info.packageName), Collections.singletonList(source), temporary);
                     metadata.put("extDataSize", archive.length());
                     completed.add("EXTERNAL_DATA");
@@ -159,6 +181,7 @@ public final class AppLocalBackupEngine {
                 File source = mediaDirectory(info.packageName);
                 if (source.isDirectory()) {
                     File archive = new File(packageDir, backupId + ".med");
+                    if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace media backup");
                     createArchive(archive, info.packageName, Collections.singletonList(source), temporary);
                     metadata.put("mediaSize", archive.length());
                     completed.add("MEDIA");
@@ -169,6 +192,7 @@ public final class AppLocalBackupEngine {
                 File source = expansionDirectory(info.packageName);
                 if (source.isDirectory()) {
                     File archive = new File(packageDir, backupId + ".exp");
+                    if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace expansion backup");
                     createArchive(archive, Collections.singletonList(info.packageName),
                             Collections.singletonList(source), temporary);
                     metadata.put("expansionSize", archive.length());
@@ -178,6 +202,7 @@ public final class AppLocalBackupEngine {
 
             if (parts.contains(Part.SPECIAL_DATA)) {
                 File special = new File(packageDir, backupId + ".extra");
+                if (special.exists() && !special.delete()) throw new IllegalStateException("Cannot replace special-data backup");
                 if (writeSpecialData(info.packageName, special)) {
                     metadata.put("specialDataSize", special.length());
                     completed.add("SPECIAL_DATA");
@@ -188,6 +213,8 @@ public final class AppLocalBackupEngine {
             File xml = new File(packageDir, backupId + ".xml");
             writeAtomic(xml, metadata.toString());
 
+            metadata.put("sourceSizes", sourceSizes(info, parts));
+            File metadataFile = new File(packageDir, backupId + ".xml");
             return new BackupResult(
                     item.packageName, backupId, packageDir, completed,
                     metadata.optLong("apkSize", 0L)
@@ -197,10 +224,109 @@ public final class AppLocalBackupEngine {
                             + metadata.optLong("extDataSize", 0L)
                             + metadata.optLong("mediaSize", 0L)
                             + metadata.optLong("expansionSize", 0L)
-                            + metadata.optLong("specialDataSize", 0L));
+                            + metadata.optLong("specialDataSize", 0L),
+                    false, plan.getDecision().name());
         } finally {
             for (File file : temporary) deleteTree(file);
         }
+    }
+
+    private ChangeState compareCurrentState(
+            PackageInfo info, BackupRecord latest, Set<Part> parts) {
+        ChangeState state = new ChangeState();
+        if (latest == null) {
+            state.anyChanged = true; state.apkChanged = true; state.dataChanged = true;
+            state.changedParts.addAll(partNames(parts));
+            return state;
+        }
+        JSONObject sizes = latest.metadata.optJSONObject("sourceSizes");
+        long apkSize = new File(info.applicationInfo.sourceDir).length();
+        state.apkChanged = info.getLongVersionCode() != latest.metadata.optLong("versionCode", -1L)
+                || apkSize != sizeOf(sizes, "APK");
+        state.identicalApk = !state.apkChanged;
+        state.dataChanged = false;
+        for (Part part : parts) {
+            if (part == Part.APK && state.apkChanged) state.changedParts.add("APK");
+            else if (part == Part.SPLITS && sourceSize(info, part) != sizeOf(sizes, "SPLITS")) state.changedParts.add("SPLITS");
+            else if (part == Part.SHARED_LIBS && sourceSize(info, part) != sizeOf(sizes, "SHARED_LIBS")) state.changedParts.add("SHARED_LIBS");
+            else if (part == Part.DATA && sourceSize(info, part) != sizeOf(sizes, "DATA")) { state.dataChanged = true; state.changedParts.add("DATA"); }
+            else if (part == Part.EXTERNAL_DATA && sourceSize(info, part) != sizeOf(sizes, "EXTERNAL_DATA")) state.changedParts.add("EXTERNAL_DATA");
+            else if (part == Part.MEDIA && sourceSize(info, part) != sizeOf(sizes, "MEDIA")) state.changedParts.add("MEDIA");
+            else if (part == Part.EXPANSION && sourceSize(info, part) != sizeOf(sizes, "EXPANSION")) state.changedParts.add("EXPANSION");
+            else if (part == Part.SPECIAL_DATA) state.changedParts.add("SPECIAL_DATA");
+        }
+        state.anyChanged = !state.changedParts.isEmpty();
+        return state;
+    }
+
+    private JSONObject sourceSizes(PackageInfo info, Set<Part> parts) throws Exception {
+        JSONObject o = new JSONObject();
+        for (Part part : parts) o.put(part.name(), sourceSize(info, part));
+        return o;
+    }
+
+    private long sourceSize(PackageInfo info, Part part) {
+        switch (part) {
+            case APK: return new File(info.applicationInfo.sourceDir).length();
+            case SPLITS: return sumFiles(splitSourcesForArchive(splitSources(info)));
+            case SHARED_LIBS: return sumFiles(sharedLibraries(info));
+            case DATA: return privilegedSize(dataDirectory(info.packageName))
+                    + privilegedSize(new File(deDataDirectory(info.packageName)));
+            case EXTERNAL_DATA: return treeSize(externalDataDirectory(info.packageName));
+            case MEDIA: return treeSize(mediaDirectory(info.packageName));
+            case EXPANSION: return treeSize(expansionDirectory(info.packageName));
+            case SPECIAL_DATA: return 1L;
+            default: return 0L;
+        }
+    }
+
+    private long privilegedSize(File file) {
+        try {
+            PrivilegedAppActionExecutor.Result result =
+                    new PrivilegedAppActionExecutor.RootCommandRunner().run(
+                            "du -sb " + shell(file.getAbsolutePath()) + " 2>/dev/null");
+            if (!result.isSuccess() || result.getOutput().isEmpty()) return 0L;
+            String first = result.getOutput().get(0).trim();
+            int space = first.indexOf(' ');
+            return Long.parseLong(space > 0 ? first.substring(0, space) : first);
+        } catch (Exception ignored) { return 0L; }
+    }
+
+    private static long treeSize(File file) {
+        if (file == null || !file.exists()) return 0L;
+        if (file.isFile()) return file.length();
+        long total = 0L;
+        File[] children = file.listFiles();
+        if (children != null) for (File child : children) total = safeAdd(total, treeSize(child));
+        return total;
+    }
+
+    private static long sumFiles(List<File> files) {
+        long total = 0L;
+        for (File file : files) if (file != null && file.isFile()) total = safeAdd(total, file.length());
+        return total;
+    }
+
+    private static long sizeOf(JSONObject object, String key) {
+        return object == null ? -1L : object.optLong(key, -1L);
+    }
+
+    private static List<String> partNames(Set<Part> parts) {
+        ArrayList<String> result = new ArrayList<>();
+        for (Part part : parts) result.add(part.name());
+        return result;
+    }
+
+    private static String shell(String path) {
+        return "'" + path.replace("'", "'\\''") + "'";
+    }
+
+    private static final class ChangeState {
+        boolean identicalApk;
+        boolean anyChanged;
+        boolean apkChanged;
+        boolean dataChanged;
+        final List<String> changedParts = new ArrayList<>();
     }
 
     public List<BackupRecord> listBackups(String packageName) {
@@ -660,9 +786,12 @@ public final class AppLocalBackupEngine {
         public final File directory;
         public final List<String> parts;
         public final long size;
-        BackupResult(String p, String i, File d, List<String> r, long s) {
+        public final boolean skipped;
+        public final String decision;
+        BackupResult(String p, String i, File d, List<String> r, long s, boolean k, String decision) {
             packageName = p; backupId = i; directory = d;
             parts = Collections.unmodifiableList(new ArrayList<>(r)); size = s;
+            skipped = k; this.decision = decision;
         }
     }
 
