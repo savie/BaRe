@@ -37,7 +37,7 @@ Tidak ada pengurangan karena komponen berasal dari:
 - dependency;
 - library;
 - AndroidX;
-- Google/Firebase;
+- Google / identity / external dependency surfaces;
 - vendor SDK;
 - native library;
 - compatibility module;
