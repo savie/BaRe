@@ -1798,3 +1798,11 @@ Reference ZIP re-search was repeated after implementation.
 - Static hardening committed on `rewrite`: encrypted-index MAC input corrected to footer index CRC; v1 iteration count fixed to Reference value 3; strict UTF-8 and entry-name safety validation added; entry/payload overflow and stored-size checks tightened; payload-HMAC zero rules aligned for unencrypted/AEAD methods.
 - Source structural check confirms balanced Java braces and all new helper methods are present.
 - No build/CI/runtime/device/native/provider/Supabase execution was performed.
+
+### Loop C checkpoint — 2026-10-04
+
+- Re-audited Reference x92 → u10 → nd6.j → yc6 → zc6 → r54 for dashboard quick-action structure, catalog, operation buttons, and Apps More quick actions.
+- Replaced the active BΛR☰ dashboard shortcut-list shell with four Reference quick-action cards and action rows.
+- Added local/device and cloud operation buttons for each Reference action; existing feature Activity owners are reused.
+- Apps More action routes to the existing Apps Quick Actions catalog.
+- Static owner routing and resource structure are verified from source; runtime/build/device verification remains unperformed.
