@@ -384,7 +384,7 @@ public final class FolderLocalRestoreEngine {
             throw new IllegalStateException("No selected local storage");
         }
         return new File(selection.selected.rootPath,
-                "SwiftBackup/accounts/" + account
+                "BΛR☰/accounts/" + account
                         + "/backups/folders/local/Folder-" + item.getId());
     }
 
