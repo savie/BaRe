@@ -68,7 +68,7 @@ public final class DashboardFragment extends Fragment {
                 long appUsage = com.bare.home.storageswitch.StorageBackupFootprint.measure(
                         backupRoot);
                 measured = new StorageInfoService(requireContext())
-                        .read(selection.selected.rootFile(), appUsage);
+                        .read(new java.io.File(selection.selected.rootPath), appUsage);
             }
             renderStorageSummary(storageSummary, measured, compactStorage);
         }
