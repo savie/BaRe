@@ -131,7 +131,7 @@ public final class MessagesBackupRepository {
             random.nextBytes(salt);
             random.nextBytes(nonceSeed);
 
-            int compressionLevel = configuredCompression == 0 ? 0 : 1;
+            int compressionLevel = configuredCompression >= 0 ? configuredCompression : 1;
             int compressionMethod = compressionLevel == 0 ? 0 : 1;
             com.bare.appslist.restore.SbaNativeArchiveBackend backend =
                     new com.bare.appslist.restore.SbaNativeArchiveBackend();
