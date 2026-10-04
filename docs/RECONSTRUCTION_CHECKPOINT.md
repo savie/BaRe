@@ -1681,3 +1681,7 @@ Reference backup and extraction behavior is implemented through the SBA/native p
 ## P6.3 Apps Shared Libraries restore closure — 2026-10-04
 
 Reference `xw.u()` was re-read directly from the supplied decompile ZIP. The recovered consumer chain is now closed: archive listing → per-entry SBA extraction into `AppsWorkingDir` → enumerate decompressed `.apk` entries → `pm install -t <apk>` for each shared-library APK. BaRe implements this owner in `AppLocalBackupEngine.restoreSharedLibraries()`. No synthetic filesystem destination was introduced. Runtime/package-manager/privileged execution remains unverified.
+
+### P6.3 AppsTask provider orchestration closure — 2026-10-04
+
+Reference c40 (AppsTask) establishes the multi-app provider boundary above individual app engines: it owns the ordered app task list, backup/restore mode dispatch, cooperative cancellation, and terminal task-state handoff, while lower-level app backup/restore managers own artifact/archive/install details. BΛR☰ now has com.bare.appslist.task.AppsTaskEngine as the corresponding static owner. It dispatches items sequentially to AppLocalBackupEngine, exposes cooperative cancellation, aggregates completed/failed/skipped items, and maps terminal outcomes to the existing TaskResult contract. Scheduler/foreground-service invocation, cloud transfer execution, privileged runtime and device verification remain outside this static boundary.
