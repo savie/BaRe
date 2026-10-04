@@ -15,8 +15,44 @@ public final class FolderDetailActivity extends AppCompatActivity {
   ((TextView)findViewById(R.id.tv_folder_path)).setText(folderItem.getSourceFolder());
   ((TextView)findViewById(R.id.tv_last_modified)).setText(Long.toString(folderItem.getSetupCreationTime()));
   findViewById(R.id.btn_open).setOnClickListener(v->boundary(R.string.open_folder));
+  findViewById(R.id.btn_restore).setOnClickListener(v->chooseRestoreStrategy());
   findViewById(R.id.btn_backup).setOnClickListener(v->backupFolder());
   findViewById(R.id.btn_delete).setOnClickListener(v->deleteSetup());
+ }
+ private void chooseRestoreStrategy(){
+  final int[] selected={0};
+  String[] options=new String[]{
+    getString(R.string.folder_restore_strategy_missing),
+    getString(R.string.folder_restore_strategy_overwrite),
+    getString(R.string.folder_restore_strategy_full_restore)
+  };
+  new MaterialAlertDialogBuilder(this).setTitle(R.string.folder_restore_strategy)
+    .setSingleChoiceItems(options,0,(dialog,which)->selected[0]=which)
+    .setNegativeButton(R.string.cancel,null)
+    .setPositiveButton(R.string.restore,(dialog,which)->{
+      com.bare.folders.restore.FolderRestoreStrategy strategy;
+      if(selected[0]==1) strategy=com.bare.folders.restore.FolderRestoreStrategy.OVERWRITE;
+      else if(selected[0]==2) strategy=com.bare.folders.restore.FolderRestoreStrategy.FULL_RESTORE;
+      else strategy=com.bare.folders.restore.FolderRestoreStrategy.MISSING_ONLY;
+      restoreFolder(strategy);
+    }).show();
+ }
+ private void restoreFolder(com.bare.folders.restore.FolderRestoreStrategy strategy){
+  new Thread(()->{
+   try{
+    FolderLocalBackupEngine.RestoreResult result =
+      new FolderLocalBackupEngine(this).restore(folderItem,strategy);
+    runOnUiThread(()->new MaterialAlertDialogBuilder(this)
+      .setTitle(R.string.restore_folders)
+      .setMessage(getString(R.string.folder_restore_success,result.restored,result.removed))
+      .setPositiveButton(R.string.close,null).show());
+   }catch(Exception e){
+    runOnUiThread(()->new MaterialAlertDialogBuilder(this).setTitle(R.string.restore_folders)
+      .setMessage(getString(R.string.folder_restore_failed,
+        e.getMessage()==null?e.getClass().getSimpleName():e.getMessage()))
+      .setPositiveButton(R.string.close,null).show());
+   }
+  },"folder-detail-restore").start();
  }
  private void backupFolder(){
   new Thread(() -> {
