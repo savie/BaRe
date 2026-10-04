@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 
 import com.bare.appslist.data.AppInventoryItem;
 import com.bare.appslist.restore.SbaArchiveCreationExecutor;
+import com.bare.appslist.actions.PrivilegedAppActionExecutor;
 import com.bare.appslist.restore.SbaNativeArchiveBackend;
 import com.bare.home.repository.AnonymousIdentityStore;
 import com.bare.messagescalls.backups.CallsBackupRepository;
