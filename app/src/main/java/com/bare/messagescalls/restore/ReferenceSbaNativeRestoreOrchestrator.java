@@ -113,6 +113,7 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
     private static Map<String, byte[]> readUnencrypted(
             File archive, Header h, Footer footer, byte[] index) throws Exception {
         if (h.compressionMethod == 0) {
+            validateEntryHeaders(archive, h, footer, parseEntries(index, h, footer));
             return ReferenceSbaArchiveReader.readEntries(archive);
         }
 
@@ -121,7 +122,9 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
         }
 
         Map<String, byte[]> result = new LinkedHashMap<>();
-        for (Entry e : parseEntries(index, h, footer)) {
+        java.util.List<Entry> entries = parseEntries(index, h, footer);
+        validateEntryHeaders(archive, h, footer, entries);
+        for (Entry e : entries) {
             Path temp = Files.createTempDirectory("bare-sba-");
             try {
                 new SbaNativeEntryExecutor().extractZstd(
@@ -139,8 +142,10 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
             File archive, Header h, Footer footer, byte[] index, byte[] key) throws Exception {
         Map<String, byte[]> result = new LinkedHashMap<>();
         SbaNativeEntryExecutor executor = new SbaNativeEntryExecutor();
+        java.util.List<Entry> entries = parseEntries(index, h, footer);
+        validateEntryHeaders(archive, h, footer, entries);
 
-        for (Entry e : parseEntries(index, h, footer)) {
+        for (Entry e : entries) {
             Path temp = Files.createTempDirectory("bare-sba-");
             try {
                 int compressionMode = h.compressionMethod == 0 ? 0 : 1;
@@ -250,26 +255,43 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
             }
         }
 
-        if (compressionMethod == 0) {
-            if (compressionLevel != 0) throw new IOException("Compression level must be zero");
-        } else if (compressionMethod == 1) {
-            if (compressionLevel < 1 || compressionLevel > 22) {
-                throw new IOException("Invalid SBA zstd compression level");
-            }
-        } else {
-            throw new IOException("Unsupported SBA compression method: " + compressionMethod);
+        if ((compressionMethod != 0 && compressionMethod != 1)
+                || (compressionMethod == 0 && compressionLevel != 0)
+                || (compressionMethod == 1 && (compressionLevel < 1 || compressionLevel > 22))) {
+            throw new IOException("Invalid SBA compression fields");
+        }
+        if ((compressionMethod != 0) != ((flags & 1) != 0)) {
+            throw new IOException("Inconsistent SBA compression header flags");
+        }
+
+        if (encryptionMethod < 0 || encryptionMethod > 5) {
+            throw new IOException("Unsupported SBA encryption method: " + encryptionMethod);
+        }
+        if ((encryptionMethod != 0) != ((flags & 2) != 0)) {
+            throw new IOException("Inconsistent SBA encryption header flags");
         }
 
         if (encryptionMethod != 0) {
-            if (kdfMethod != 1 || keyCheckLength != 16 || saltLength != 16
-                    || nonceSeedLength != 16 || macLength != 0) {
+            if (kdfMethod != 1 || iterations < 1 || iterations > 100
+                    || keyCheckLength != 16 || saltLength != 16 || nonceSeedLength != 16) {
                 throw new IOException("Invalid SBA encrypted header fields");
             }
-            if (chunkSize < 4096 || chunkSize > 16_777_216) {
-                throw new IOException("Invalid SBA chunk size");
+            if (version == 1) {
+                if (memoryKiB != 16_384 || parallelism != 1) {
+                    throw new IOException("Invalid SBA v1 Argon2 defaults");
+                }
+            } else if (memoryKiB < 16_384 || memoryKiB > 65_536
+                    || parallelism < 1 || parallelism > 8) {
+                throw new IOException("Invalid SBA v2 Argon2 parameters");
             }
-            if (version == 1 && (memoryKiB != 16_384 || parallelism != 1)) {
-                throw new IOException("Invalid SBA v1 Argon2 defaults");
+            if (encryptionMethod == 1) {
+                if (macLength != 32 || chunkSize != 0) {
+                    throw new IOException("Invalid SBA SevenZip AES fields");
+                }
+            } else {
+                if (macLength != 0 || chunkSize < 4096 || chunkSize > 16_777_216) {
+                    throw new IOException("Invalid SBA AEAD chunk/MAC fields");
+                }
             }
         } else {
             if (kdfMethod != 0 || iterations != 0 || keyCheckLength != 0
@@ -277,6 +299,10 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                     || chunkSize != 0 || memoryKiB != 0 || parallelism != 0) {
                 throw new IOException("SBA encryption fields must be zero when disabled");
             }
+            for (byte b : salt) if (b != 0) throw new IOException("SBA salt must be zero when encryption is disabled");
+            for (byte b : nonceSeed) if (b != 0) throw new IOException("SBA nonce seed must be zero when encryption is disabled");
+            for (byte b : keyCheck) if (b != 0) throw new IOException("SBA key check must be zero when encryption is disabled");
+            for (byte b : indexMac) if (b != 0) throw new IOException("SBA index MAC must be zero when encryption is disabled");
         }
 
         return new Header(version, headerSize, flags, compressionMethod, compressionLevel,
@@ -390,6 +416,50 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
 
         if (in.available() != 0) throw new IOException("Trailing bytes after SBA index records");
         return entries;
+    }
+
+    private static void validateEntryHeaders(
+            File archive, Header h, Footer footer, java.util.List<Entry> entries) throws IOException {
+        long expectedOffset = h.headerSize;
+        try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(archive, "r")) {
+            for (Entry e : entries) {
+                if (e.entryHeaderOffset != expectedOffset) {
+                    throw new IOException("SBA entries are not contiguous");
+                }
+                raf.seek(e.entryHeaderOffset);
+                int headerSize = raf.readUnsignedShort();
+                int headerFlags = raf.readUnsignedShort();
+                int headerEntryFlags = raf.readInt();
+                int nameLength = raf.readUnsignedShort();
+                int metadataLength = raf.readInt();
+                byte[] reserved = new byte[6];
+                raf.readFully(reserved);
+                byte[] nameBytes = new byte[nameLength];
+                raf.readFully(nameBytes);
+                String headerName = new String(nameBytes, StandardCharsets.UTF_8);
+                for (byte b : reserved) if (b != 0) throw new IOException("Non-zero SBA entry reserved bytes");
+                if (headerSize != 24 || headerFlags != 0 || metadataLength != 0
+                        || !e.name.equals(headerName)
+                        || headerEntryFlags != expectedEntryFlags(h.compressionMethod, h.encryptionMethod)
+                        || raf.getFilePointer() != e.payloadOffset) {
+                    throw new IOException("SBA entry header/index mismatch: " + e.name);
+                }
+                long end = e.payloadOffset + e.storedSize;
+                if (end < e.payloadOffset || end > footer.indexOffset) {
+                    throw new IOException("SBA entry payload exceeds index boundary: " + e.name);
+                }
+                expectedOffset = end;
+            }
+        }
+        if (expectedOffset != footer.indexOffset) {
+            throw new IOException("SBA entries do not end at index");
+        }
+    }
+
+    private static int expectedEntryFlags(int compressionMethod, int encryptionMethod) {
+        int base = compressionMethod == 0 ? 1 : 3;
+        if (encryptionMethod == 0) return base;
+        return base | (encryptionMethod == 1 ? 12 : 20);
     }
 
     private static void collectFiles(Path root, Map<String, byte[]> result) throws IOException {
