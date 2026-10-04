@@ -1236,14 +1236,13 @@ NOT STARTED
 
 Evidence:
 
-- `rewrite` = supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`
-- empat ABI exact Reference `libsba_archive.so` terpasang di `native-compat`
-- target Git blob SHA: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`, `6c95db5bc7db43c22eda42b5e1d74401d64a5753`, `3e3ee743d8633fd0799ececac6a898e67919025d`, `9843aad7dda4618af9bc7a6f227f41006ca804bb`
-- Reference canonical ZIP menghasilkan Git blob SHA yang sama untuk keempat ABI
-- `SbaRuntimeNative` dan `SbaTarEntryInfo` dipulihkan pada `native-compat`
-- `native-compat` wired ke `app` melalui `implementation project(':native-compat')`
-- legacy JNI namespace diklasifikasikan **MIGRATE / isolated compatibility boundary**
-- native/runtime/build execution tidak dijalankan sesuai boundary
+- `rewrite` implementation baseline berasal dari supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`
+- WORK-02 native compatibility: empat ABI exact Reference `libsba_archive.so` terpasang dan SHA cocok dengan Reference canonical ZIP
+- WORK-03 Dashboard: `DashboardFragment` sekarang memakai canonical `dash_fragment.xml` dan seluruh owner wiring utama static PASS
+- WORK-04 Supabase: concrete Java REST adapter tersedia untuk `auth.users` session boundary, `public.user_profiles`, dan `public.contributor_registrations`
+- Work-04 tidak membuat speculative `cloud_v1`, billing, credential, Storage, Edge Function, trigger, atau RLS implementation
+- Project URL yang diketahui berasal dari `bare.md`; publishable key tetap injected/UNKNOWN dan tidak di-hardcode
+- live Supabase mutation, build, APK, CI, runtime, dan device execution tidak dilakukan
 
 **Next action tunggal: WORK-05 — Close runtime boundaries at source level.** Jangan melompat ke WORK-06.
 ---
