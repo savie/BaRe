@@ -43,7 +43,7 @@ public final class ReferenceSbaCryptoOrchestrator {
             byte[] header,
             long indexOffset,
             long indexSize,
-            int indexVersion,
+            int indexCrc,
             byte[] indexBytes) {
         require(indexMacKey, "indexMacKey");
         require(header, "header");
@@ -61,7 +61,7 @@ public final class ReferenceSbaCryptoOrchestrator {
             mac.update(macHeader);
             updateLong(mac, indexOffset);
             updateLong(mac, indexSize);
-            updateInt(mac, indexVersion);
+            updateInt(mac, indexCrc);
             mac.update(indexBytes);
             return mac.doFinal();
         } catch (Exception e) {
@@ -76,12 +76,12 @@ public final class ReferenceSbaCryptoOrchestrator {
             byte[] header,
             long indexOffset,
             long indexSize,
-            int indexVersion,
+            int indexCrc,
             byte[] indexBytes,
             byte[] expectedMac) {
         requireLength(expectedMac, 32, "expected index MAC");
         byte[] actual = computeIndexMetadataMac(
-                indexMacKey, header, indexOffset, indexSize, indexVersion, indexBytes);
+                indexMacKey, header, indexOffset, indexSize, indexCrc, indexBytes);
         try {
             if (!MessageDigest.isEqual(actual, expectedMac)) {
                 throw new IllegalArgumentException("SBA encrypted index MAC mismatch");
