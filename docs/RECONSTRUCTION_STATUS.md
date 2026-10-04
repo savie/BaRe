@@ -1356,3 +1356,16 @@ SBA native infrastructure is now materially implemented: exact Reference `libsba
 - `CallsRestoreRepository` now falls back from SBA parsing to the recovered legacy encrypted-file format, so v2/legacy call backups can be decoded into the same `sz0.items` wrapper used by the existing restore pipeline.
 - Legacy v2/v1 filename parsing remains supported through the call-backup inventory boundary.
 - No build/install/runtime/device/native execution was performed. Reference ZIP remains unchanged.
+
+
+### P6.3 Wallpapers execution closure — 2026-10-04
+
+- Reference `tv7` system-wallpaper capture was re-audited from the decompile ZIP: home and lock are acquired from `WallpaperManager.getWallpaperFile(FLAG_SYSTEM/FLAG_LOCK)` on SDK 24+, with home built-in-drawable fallback and lock→home fallback when no lock descriptor exists.
+- Reference applied artifacts are `backups/walls/applied/home_wall.wal` and `backups/walls/applied/lock_wall.wal`; local backup artifacts are materialized under the account-scoped `backups/walls/local/` path with timestamp-randomized `.wal` names from `rv7`/`up8`.
+- BΛR☰ now implements `SystemWallpaperRepository` for the capture/materialization boundary and `WallpaperBackupRepository` for concrete local backup copies, preserving size-match reuse and the Reference home/lock fallback behavior.
+- `WallpaperLocalRepository` now resolves the selected local storage and Reference account namespace rather than using the app-private files directory for inventory.
+- `WallsDashActivity` now performs the concrete device backup path and reports local inventory count; cloud selection remains behind the provider-neutral cloud boundary because no concrete BaRe provider adapter is available for wallpaper artifacts.
+- `WallsManageActivity` now reads the selected-storage local inventory and deletes selected `.wal` artifacts.
+- `WallApplyActivity` now applies a selected local wallpaper to Home, Lock, or Both using `WallpaperManager.setStream`, in addition to the Reference external/share actions.
+- Reference cloud upload semantics were also recovered (`jo8`): deduplicate by artifact path/size, construct `yn8` metadata, skip already-uploaded cloud artifacts by size, and use the existing cloud transfer scheduler. The actual BaRe provider adapter is intentionally not invented here.
+- No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
