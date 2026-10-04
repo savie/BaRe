@@ -1414,3 +1414,8 @@ SBA native infrastructure is now materially implemented: exact Reference `libsba
 - Restore-chain semantics remain explicitly conservative: Reference builds base→incremental manifest chains and applies restore strategy against current filesystem state. BΛR☰ manifest/state generation is implemented, but encrypted SBA extraction remains subject to the already-documented native restore orchestration verification boundary; no runtime restore claim is made.
 - Cloud folder metadata remains provider-neutral per B04: FolderMetadata/BaseBackup/IncrementalBackup reconciliation is already frozen; concrete provider transfer is not invented.
 - No build/install/runtime/device/provider execution was performed. Reference ZIP remains unchanged.
+
+
+## P6.3 Apps Shared Libraries restore closure — 2026-10-04
+
+Reference `xw.u()` was re-read directly from the supplied decompile ZIP. The recovered consumer chain is now closed: archive listing → per-entry SBA extraction into `AppsWorkingDir` → enumerate decompressed `.apk` entries → `pm install -t <apk>` for each shared-library APK. BaRe implements this owner in `AppLocalBackupEngine.restoreSharedLibraries()`. No synthetic filesystem destination was introduced. Runtime/package-manager/privileged execution remains unverified.
