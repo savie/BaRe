@@ -1264,3 +1264,21 @@ The earlier P5.7 static-closure and P5 Gate static-closure decisions are retaine
 - No known P5.1 feature requirement is promoted to final P5 completion solely because a static contract or bounded implementation exists.
 - **Explicitly authorized P6 deviations remain the only exclusions from the P5 completion target.**
 - The next implementation work therefore continues from the P5.1 register against the existing owner/boundary/classification evidence.
+
+
+## P6.3 app-only implementation loop — 2026-10-04
+
+P6.3 remains the active implementation loop. The current rule is: if Reference evidence establishes behavior that can be authored in /app, implement it now. DEFERRED identifies a later execution owner, not a prohibition on app-side implementation.
+
+### Implemented in this loop
+
+- TaskActivity SLog view is backed by SLogRepository and its observer; the former zero-item SLog adapter is removed from the active path.
+- WallpaperLocalRepository reconstructs the Reference backups/walls/local/ inventory under the BΛR☰ account namespace. WallsManageActivity now loads local items, supports selection/delete and hands a selected local artifact to WallApplyActivity through the existing FileProvider.
+- WifiSystemNetworkRepository ports the Reference legacy WifiManager.getConfiguredNetworks() mapping, including SSID, PSK, hidden state and configuration bitsets. WifiActivity now renders the system inventory rather than an unconditional zero-item adapter.
+- SBA creation app-side ownership was deepened from a generic bridge to the Reference JNI owner com.swiftapps.sba.SbaArchiveNative, exact SbaNativeProgressListener, and SbaArchiveCreationExecutor.
+
+### Remaining P6.3 guard
+
+- Local/cloud Wi-Fi backup artifact parsing, Root XML/Shizuku acquisition, wallpaper cloud/provider operations, full app backup task orchestration, and full restore-part execution still require targeted Reference-to-BaRe comparison before classification. Do not replace these with invented behavior.
+- No Supabase dashboard/backend implementation was performed.
+- No build/CI or runtime/device/E2E execution was performed.

@@ -1,6 +1,6 @@
 package com.bare.appslist.restore;
 
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import java.io.File;
 
 /**
  * Reference-compatible entry point for the native SBA archive engine.
@@ -22,57 +22,6 @@ public final class SbaNativeBridge {
     }
 
     public boolean isLoaded() { return loaded; }
-
-    /** Delegates to the exact Reference JNI owner/class. */
-    public long[] createArchive(
-            int archiveKind,
-            String outputPath,
-            byte[] entryPayload,
-            byte[][] entrySources,
-            String[] entryNames,
-            int[] entryModes,
-            String[][] entryXattrs,
-            String[][] entryLinks,
-            int compressionMode,
-            int compressionLevel,
-            int encryptionFlags,
-            int tarFlags,
-            int metadataFlags,
-            int sparseFlags,
-            int chunkSize,
-            int workerCount,
-            int ioBufferSize,
-            int progressMode,
-            byte[] key,
-            byte[] nonce,
-            byte[] aad,
-            byte[] indexMacKey,
-            SbaNativeProgressListener progressListener) {
-        return com.swiftapps.sba.SbaArchiveNative.INSTANCE.createArchive(
-                archiveKind,
-                outputPath,
-                entryPayload,
-                entrySources,
-                entryNames,
-                entryModes,
-                entryXattrs,
-                entryLinks,
-                compressionMode,
-                compressionLevel,
-                encryptionFlags,
-                tarFlags,
-                metadataFlags,
-                sparseFlags,
-                chunkSize,
-                workerCount,
-                ioBufferSize,
-                progressMode,
-                key,
-                nonce,
-                aad,
-                indexMacKey,
-                progressListener);
-    }
 
     /** Reference-compatible Zstd byte codec used by the special-data payload format. */
     public native byte[] compressZstdBytes(byte[] payload, int level);

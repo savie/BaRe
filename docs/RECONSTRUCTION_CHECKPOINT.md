@@ -1487,3 +1487,23 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Build/install/runtime/provider/backend/device/native execution: **NOT PERFORMED**.
 - Premium-free entitlement policy is now statically represented by `PremiumAccessPolicy`; Supabase remains gated and untouched.
 - **Next control action: finalize `docs/PHASE_5_GATE.md`; do not open P6 before that gate is closed.**
+
+
+### P6.3 app-only implementation loop — 2026-10-04
+
+- P6.3 remains **ACTIVE / LOOP MODE**.
+- Current execution policy is explicit: complete all evidence-supported /app implementation before P6.4; “downstream” does not mean “do not implement app-side code”.
+- Completed app-side slices in this loop:
+  - TaskActivity embedded SLog now consumes the canonical SLogRepository/observer instead of the empty SLog adapter.
+  - Local wallpaper inventory now has a canonical app-side WallpaperLocalRepository, selection/delete flow, thumbnail binding and FileProvider handoff to WallApplyActivity for local backups.
+  - Wi-Fi system inventory now has a Reference-compatible legacy WifiManager.getConfiguredNetworks() reader and a concrete system-card adapter; WifiCredentialState preserves the Reference configuration fields required by that reader.
+  - SBA archive creation now has the exact Reference JNI owner com.swiftapps.sba.SbaArchiveNative, the exact SbaNativeProgressListener callback contract, a bridge delegation, and an app-side SbaArchiveCreationExecutor.
+- Reference ZIP remains unchanged.
+- Supabase/dashboard, build/CI, and runtime/device/E2E execution remain outside this pass.
+- Static implementation is not runtime verification.
+
+### P6.3 current source checkpoint — 2026-10-04
+
+- Latest implementation commit before this documentation record: 4eda5f632946a915c175cb134512c8675a07942b.
+- P6.3 loop continues from the canonical B01–B27 table.
+- P6.4 is **NOT OPENED** yet.
