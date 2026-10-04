@@ -1597,3 +1597,11 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Targeted Reference-wide search for sbaEnableInternalEncryptionBackends, SevenZipAes, Aes256Gcm, Aes256GcmSiv, and related decryptor symbols did not recover an enabled internal SBA payload backend implementation from the supplied build. These remain a genuine evidence boundary, not an implementation omission in BΛR☰.
 - This pass therefore advances the known common encrypted orchestration layer without inventing the three internal compatibility cipher implementations.
 - Reference ZIP remains unchanged. Build/install/runtime/device/native execution remains unperformed.
+
+### P6.3 SBA native binary unknown-boundary probe — 2026-10-04
+
+- Direct static inspection of the supplied Reference `libsba_archive.so` blobs (all four ABIs) recovered JNI exports for `SbaNativeCrypto`, `SbaZstdNative`, `SbaArchiveNative`, `SbaSwiftTarNative`, and `SbaLibaegisCryptoNative`.
+- Native string/symbol inventory exposes Argon2id, Zstd, AEGIS-256 and AEGIS-128X2 SBA paths, including AEGIS entry chunk nonce/AAD labels and fused extraction errors.
+- The inspected native exports/string inventory does not expose SBA SevenZip AES, AES-256-GCM, or AES-256-GCM-SIV payload decrypt entry points. This strengthens the source-level conclusion that those methods are not enabled in the shipped native public backend.
+- The remaining possibility is an omitted/internal Java backend controlled by the Reference build flag; targeted decompile search has not yet recovered a concrete SBA payload implementation for that path. Keep it UNKNOWN/OPTIONAL rather than implementing a generic substitute.
+- Reference ZIP remains unchanged; no native execution was performed.
