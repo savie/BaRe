@@ -580,16 +580,22 @@ Current target sudah menggunakan:
 - BaRe theme
 - BaRe storage-root naming pada area yang sudah direkonstruksi
 
-### Swift Residue
+### Explicit Compatibility Residue Register
 
-Static search menemukan technical residues:
+`bare.md` menetapkan target static hygiene `app/ → 0 Swift/swift + 0 Firebase/firebase`, tetapi juga menetapkan bahwa external/native/protocol identifiers yang wajib dipertahankan harus melalui keputusan eksplisit `PRESERVE-COMPATIBILITY`.
 
-- `com.swiftapps.sba`
-- `SbaSwiftTarNative`
-- `SwiftBackup_Entity`
-- `swiftbackup.app-data`
-- `swiftbackup.folder.v1`
-- `swiftbackup.calls.v3`
+Seluruh residue Swift yang ditemukan pada current `app/` sudah memiliki ownership/contract reason yang spesifik:
+
+| Occurrence | Boundary | Decision | Reason |
+|---|---|---|---|
+| `com.swiftapps.sba` | JNI package namespace | **PRESERVE-COMPATIBILITY** | Reference `libsba_archive.so` mengekspor `Java_com_swiftapps_sba_...`; rename akan memutus JNI ABI |
+| `SbaSwiftTarNative` | JNI owner class | **PRESERVE-COMPATIBILITY** | Native symbol owner pada Reference menggunakan class identity tersebut |
+| `SwiftBackup_Entity` | legacy crypto AAD / format identifier | **PRESERVE-COMPATIBILITY** | Identifier menjadi bagian dari crypto/format contract Reference |
+| `swiftbackup.app-data` | SBA archive metadata | **PRESERVE-COMPATIBILITY** | Archive metadata identity harus tetap interoperable dengan Reference artifacts |
+| `swiftbackup.folder.v1` | folder archive metadata | **PRESERVE-COMPATIBILITY** | Reference folder format identity harus tetap terbaca/interoperable |
+| `swiftbackup.calls.v3` | call archive metadata | **PRESERVE-COMPATIBILITY** | Reference call backup format identity harus tetap interoperable |
+
+Tidak ditemukan Firebase implementation occurrence pada target `app/`.
 
 ### JNI Ownership
 
@@ -605,11 +611,9 @@ dan symbol untuk:
 - `SbaNativeCrypto`
 - `SbaLibaegisCryptoNative`
 
-Current Java source mempertahankan namespace `com.swiftapps.sba` untuk compatibility terhadap ABI tersebut.
+Current Java source mempertahankan namespace `com.swiftapps.sba` **secara eksplisit sebagai PRESERVE-COMPATIBILITY**, bukan sebagai branding convenience.
 
-**Classification: TECHNICAL EXTERNAL-PROTOCOL / PRESERVE-COMPATIBILITY CANDIDATE.**
-
-Tidak boleh melakukan blind/global replacement. Closure decision harus eksplisit.
+**Classification: AUTHORIZED / PRESERVE-COMPATIBILITY.**
 
 ### Legacy Format Identifiers
 
@@ -622,9 +626,11 @@ Identifier:
 
 berfungsi sebagai archive/crypto metadata atau compatibility identity.
 
-**Classification: PROTOCOL / PRESERVE-COMPATIBILITY CANDIDATE.**
+**Classification: AUTHORIZED / PRESERVE-COMPATIBILITY.**
 
-Perubahan dapat merusak interoperability terhadap Reference artifacts.
+Tidak ada blind/global replacement yang dilakukan terhadap identifier tersebut. Tidak ada unclassified Swift/Firebase occurrence yang dibiarkan pada target `app/`.
+
+**Branding / Static Hygiene Classification: PASS (STATIC).**
 
 ## Native SBA Audit
 
@@ -718,8 +724,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | A07 | Dashboard | Notices RecyclerView not wired | IMPLEMENTATION GAP | P1 |
 | A08 | Dashboard | Secondary-user warning not wired | IMPLEMENTATION GAP | P1 |
 | A09 | Dashboard | GridLayout replaces Reference QuickRecyclerView surfaces | UNAUTHORIZED DEVIATION | P1 |
-| A10 | Native | `com.swiftapps.sba` JNI namespace remains | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
-| A11 | Protocol | SwiftBackup archive/crypto identifiers remain | PRESERVE-COMPATIBILITY CANDIDATE | P1 |
+| A10 | Native | `com.swiftapps.sba` JNI namespace remains | **PRESERVE-COMPATIBILITY — PASS (STATIC)** | P1 |
+| A11 | Protocol | SwiftBackup archive/crypto identifiers remain | **PRESERVE-COMPATIBILITY — PASS (STATIC)** | P1 |
 | A12 | Scheduling | Alarm/scheduler execution downstream | EXECUTION GAP | P1 |
 | A13 | Storage | duplicate `StorageInfoService` null boundary | SOURCE HYGIENE | P2 |
 | A14 | Native | `SbaRuntimeNative` owner absent | **RESOLVED — PASS (STATIC)** | P2 |
@@ -793,7 +799,7 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | Manifest count reconciliation | PASS |
 | Java-only | PASS |
 | Generic static hygiene | PASS |
-| Branding normalization | PARTIAL |
+| Branding normalization | **PASS (STATIC)** |
 | Dashboard structural parity | FAIL |
 | Dashboard wiring | FAIL |
 | MMS static restore | PASS / UNVERIFIED RUNTIME |
