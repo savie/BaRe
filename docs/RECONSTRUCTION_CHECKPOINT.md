@@ -1690,3 +1690,18 @@ Reference c40 (AppsTask) establishes the multi-app provider boundary above indiv
 ### P6.3 Shared TaskManager/provider lifecycle closure — 2026-10-04
 
 Reference hy7 + pw6 + TaskService establishes the shared task-manager spine: reject overlapping/cancelling runs, register the provider list, execute providers sequentially, observe cancellation between providers, publish provider/task progress state, and reconcile terminal completion/cancellation. BΛR☰ now has TaskManagerEngine above domain providers and TaskStateRegistry now exposes a fresh-run lifecycle reset. This closes the static provider-manager boundary without claiming Android foreground-service startup, quota enforcement, wake-lock behavior, notification runtime, or device execution.
+
+
+## F76 DataSync FGS ledger closure — 2026-10-04
+
+F76 was re-audited directly against Reference kc2, DataSyncFgsRuntimeLedger$Entry, jc2, and TaskService.
+
+- DataSyncFgsRuntimeLedger now models the observed session fields: id, service name, start/end time, schedule/forced flags, run mode, outcome, and note.
+- Added explicit session-start, quota-blocked-start, terminal-finish, rolling-24-hour usage, process-restart reconciliation, and retention operations.
+- Rolling usage uses the Reference interval-clipping semantics rather than simply summing raw durations.
+- Interrupted sessions are closed with PROCESS_RESTARTED; quota-blocked starts use START_BLOCKED_QUOTA; retention is bounded to the observed 200-entry cap.
+- ReScheduleContracts.F76Outcome now preserves the observed Reference outcome taxonomy: COMPLETED, CANCELLED, ERROR, TIMEOUT, START_BLOCKED_QUOTA, PROCESS_RESTARTED, HANDED_OFF.
+- Persistence, Android foreground-service startup/quota enforcement, wakelock, notification, process-launch and runtime/device execution remain downstream and unverified by design.
+- Reference ZIP remains unchanged. No build/install/runtime/device/backend/Supabase execution was performed.
+
+F76 is STATIC-IMPLEMENTATION CLOSED at the authorized boundary.
