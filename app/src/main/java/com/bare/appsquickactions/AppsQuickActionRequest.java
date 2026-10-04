@@ -58,6 +58,13 @@ public final class AppsQuickActionRequest implements Parcelable {
 
     public boolean isBackup() { return operation == Operation.BACKUP; }
     public boolean isRestore() { return operation == Operation.RESTORE; }
+    public boolean isSync() { return "ID_BACKUP_SYNC_APPS".equals(actionId); }
+    public boolean isDeleteUninstalledBackups() {
+        return "ID_DELETE_BACKUPS_UNINSTALLED_APPS".equals(actionId);
+    }
+    public boolean isEnableDisable() {
+        return "ID_ENABLE_DISABLE_APPS_APPS".equals(actionId);
+    }
 
     @Override public int describeContents() { return 0; }
 
