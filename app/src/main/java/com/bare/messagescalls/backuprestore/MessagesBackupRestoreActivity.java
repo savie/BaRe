@@ -26,7 +26,6 @@ import com.bare.messagescalls.restore.MessagesRestoreRepository;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -212,9 +211,11 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
                     updateModeUi();
                     return;
                 }
-                Toast.makeText(this,
-                        getString(R.string.x_messages, String.valueOf(result.getInserted())),
-                        Toast.LENGTH_LONG).show();
+                String summary = getString(R.string.x_messages, String.valueOf(result.getInserted()))
+                        + " · MMS " + result.getMmsInserted()
+                        + " · parts " + result.getPartsInserted()
+                        + " · skipped " + result.getSkipped();
+                Toast.makeText(this, summary, Toast.LENGTH_LONG).show();
                 setResult(Activity.RESULT_OK);
                 finish();
             });
