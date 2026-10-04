@@ -22,6 +22,9 @@ import com.bare.R;
 import com.bare.home.data.DashboardViewModel;
 import com.bare.core.model.StorageInfoLocal;
 import com.bare.core.storage.StorageInfoService;
+import com.bare.storage.AndroidStorageInventory;
+import com.bare.storage.LocalStorageCoordinator;
+import com.bare.storage.StorageSelection;
 import com.bare.appslist.ui.list.AppListActivity;
 import com.bare.messagescalls.dash.MessagesDashActivity;
 import com.bare.messagescalls.dash.CallsDashActivity;
@@ -55,9 +58,18 @@ public final class DashboardFragment extends Fragment {
         });
         StorageInfoLocal cachedStorage = new StorageInfoService(requireContext()).readCached();
         if (cachedStorage == null) {
-            long appUsage = calculateInstalledAppUsage();
-            StorageInfoLocal measured = new StorageInfoService(requireContext())
-                    .read(requireContext().getFilesDir(), appUsage);
+            StorageSelection selection = new LocalStorageCoordinator(
+                    requireContext(),
+                    new AndroidStorageInventory(requireContext())).resolveSelection();
+            StorageInfoLocal measured = null;
+            if (selection != null && selection.selected != null) {
+                java.io.File backupRoot = new java.io.File(
+                        selection.selected.rootPath, "BΛR☰");
+                long appUsage = com.bare.home.storageswitch.StorageBackupFootprint.measure(
+                        backupRoot);
+                measured = new StorageInfoService(requireContext())
+                        .read(selection.selected.rootFile(), appUsage);
+            }
             renderStorageSummary(storageSummary, measured, compactStorage);
         }
 
@@ -97,24 +109,6 @@ public final class DashboardFragment extends Fragment {
         } else {
             target.setText(R.string.storage_summary_pending);
         }
-    }
-
-    private long calculateInstalledAppUsage() {
-        long total = 0L;
-        PackageManager pm = requireContext().getPackageManager();
-        for (ApplicationInfo info : pm.getInstalledApplications(0)) {
-            total += fileLength(info.sourceDir);
-            if (info.splitSourceDirs != null) {
-                for (String split : info.splitSourceDirs) total += fileLength(split);
-            }
-        }
-        return total;
-    }
-
-    private long fileLength(String path) {
-        if (path == null) return 0L;
-        java.io.File file = new java.io.File(path);
-        return file.isFile() ? file.length() : 0L;
     }
 
     private void openQuickAction(String title) {
