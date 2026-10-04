@@ -30,8 +30,8 @@ import org.apache.commons.compress.archivers.sevenz.SevenZFile;
  * Reference y32/x32 + mz6/Packer reader for the Messages restore path.
  *
  * The inner conversations artifact is always the Reference AES-GCM envelope:
- * version=1, cipher=2, 12-byte IV, AAD=(1,2,"SwiftBackup_Entity").
- * The 32-byte key is the UTF-8 hex MD5("SwiftBackup") value returned by ne6.
+ * version=1, cipher=2, 12-byte IV, Reference entity AAD.
+ * The 32-byte key is the UTF-8 hex MD5 value defined by the Reference protocol.
  */
 public final class ReferenceMessagesArchiveCrypto {
     private static final byte VERSION = 1;
