@@ -59,16 +59,8 @@ public final class SupabaseBackendRepository implements BaReBackendRepository {
 
     @Override
     public void signOut() {
-        try {
-            SupabaseRestClient client = null;
-            if (sessionSource.current() != null) {
-                throw new UnsupportedOperationException(
-                        "Use the injected Supabase session owner's signOut implementation");
-            }
-            sessionSource.signOut();
-        } finally {
-            // Local/session lifecycle remains owned by the injected session source.
-        }
+        // Auth/session lifecycle is deliberately owned by the injected session source.
+        sessionSource.signOut();
     }
 
     @Override
