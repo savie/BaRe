@@ -169,3 +169,44 @@ These blockers are evidence blockers, not implementation permission to guess.
 ## Next allowed step
 
 Proceed only when the next evidence source or explicit project decision resolves the blocked dependency versions/contracts. Until then, preserve the dependency boundary and do not clone dependency classes into `app/`.
+
+
+## P2 direct-dependency version reconciliation
+
+A separate static comparison was performed for dependencies already declared directly in the target app/build.gradle.
+
+Reference version metadata proves the following exact versions:
+
+| Direct target dependency | Previous target version | Reference evidence | Action |
+|---|---:|---:|---|
+| androidx.appcompat:appcompat | 1.7.0 | 1.7.1 | aligned |
+| androidx.constraintlayout:constraintlayout | 2.2.0 | 2.2.1 | aligned |
+| androidx.viewpager:viewpager | 1.1.0 | 1.0.0 | aligned |
+| androidx.swiperefreshlayout:swiperefreshlayout | 1.1.0 | 1.2.0 | aligned |
+| com.google.android.material:material | 1.12.0 | 1.14.0 | aligned |
+| androidx.preference:preference | 1.2.1 | 1.2.1 | already aligned |
+| androidx.credentials:credentials | 1.6.0 | 1.6.0 | already aligned |
+| androidx.credentials:credentials-play-services-auth | 1.6.0 | 1.6.0 | already aligned |
+| androidx.room:room-runtime | 2.8.4 | 2.8.4 | already aligned |
+| androidx.profileinstaller:profileinstaller | 1.4.0 | 1.4.0 | already aligned |
+| com.android.billingclient:billing | 8.3.0 | 8.3.0 | already aligned |
+| com.google.android.play:integrity | 1.3.0 | 1.3.0 | already aligned |
+
+The Reference also exposes exact metadata for numerous transitive/library surfaces, including Activity 1.13.0, Core 1.18.0, Fragment 1.8.9, Lifecycle 2.10.0, RecyclerView 1.4.0, ViewPager2 1.1.0-beta02, WebKit 1.16.0, and Coroutines 1.11.0. These are not automatically added as direct target dependencies because the supplied artifact does not prove the original direct-vs-transitive Gradle declaration boundary.
+
+### Remaining direct-dependency version evidence
+
+The following existing target direct declarations still lack exact version metadata in the supplied Reference artifact:
+
+- dev.rikka.shizuku:api:13.1.5
+- dev.rikka.shizuku:provider:13.1.5
+- org.apache.commons:commons-compress:1.28.0
+
+Their exact versions remain UNKNOWN from the current ZIP evidence and are not changed.
+
+### Static verification
+
+- Reference ZIP/APK remains read-only.
+- Only target app/build.gradle was changed.
+- No build/install/runtime/device verification was performed.
+- No Supabase/backend mutation was performed.
