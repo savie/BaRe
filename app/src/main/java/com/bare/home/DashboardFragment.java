@@ -72,25 +72,150 @@ public final class DashboardFragment extends Fragment {
         }
 
         boolean telephony = requireContext().getPackageManager().hasSystemFeature("android.hardware.telephony");
-        boolean wallpaper = WallpaperManager.getInstance(requireContext()).isWallpaperSupported();
 
-        model.configureQuickActions(
-                telephony, wallpaper,
-                getString(R.string.apps), getString(R.string.messages), getString(R.string.call_logs),
-                getString(R.string.folders), getString(R.string.wallpapers), getString(R.string.wifi),
-                android.R.drawable.ic_menu_view, android.R.drawable.ic_menu_send, android.R.drawable.ic_menu_call,
-                android.R.drawable.ic_menu_gallery, android.R.drawable.ic_menu_gallery, android.R.drawable.ic_menu_manage);
+        configureQuickActionCard(
+                view, R.id.dash_card_quick_actions_apps,
+                R.string.quick_actions_apps, R.drawable.ic_app,
+                new QuickActionSpec[]{
+                        new QuickActionSpec(R.string.backup_all_apps, R.string.backup_all_apps_summary, "ID_BACKUP_ALL_APPS"),
+                        new QuickActionSpec(R.string.restore_all_apps, R.string.restore_all_apps_summary, "ID_RESTORE_ALL_APPS")
+                },
+                true);
 
-        model.getQuickActions().observe(getViewLifecycleOwner(), list -> {
-            actions.removeAllViews();
-            for (DashboardViewModel.QuickAction action : list) {
-                TextView item = (TextView) getLayoutInflater().inflate(
-                        R.layout.home_dashboard_action, actions, false);
-                item.setText(action.title);
-                item.setOnClickListener(v -> openQuickAction(action.title));
-                actions.addView(item);
+        if (telephony) {
+            configureQuickActionCard(
+                    view, R.id.dash_card_quick_actions_messages,
+                    R.string.quick_actions_messages, R.drawable.ic_message_full,
+                    new QuickActionSpec[]{
+                            new QuickActionSpec(R.string.backup_messages, 0, "ID_BACKUP_MESSAGES"),
+                            new QuickActionSpec(R.string.restore_messages, 0, "ID_RESTORE_MESSAGES")
+                    },
+                    false);
+
+            configureQuickActionCard(
+                    view, R.id.dash_card_quick_actions_calls,
+                    R.string.quick_actions_calls, R.drawable.ic_call_log,
+                    new QuickActionSpec[]{
+                            new QuickActionSpec(R.string.backup_call_logs, 0, "ID_BACKUP_CALLS"),
+                            new QuickActionSpec(R.string.restore_call_logs, 0, "ID_RESTORE_CALLS")
+                    },
+                    false);
+        } else {
+            view.findViewById(R.id.dash_card_quick_actions_messages).setVisibility(View.GONE);
+            view.findViewById(R.id.dash_card_quick_actions_calls).setVisibility(View.GONE);
+        }
+
+        configureQuickActionCard(
+                view, R.id.dash_card_quick_actions_folders,
+                R.string.quick_actions_folders, R.drawable.ic_folder_full,
+                new QuickActionSpec[]{
+                        new QuickActionSpec(R.string.backup_folders, 0, "ID_BACKUP_FOLDERS"),
+                        new QuickActionSpec(R.string.restore_folders, 0, "ID_RESTORE_FOLDERS")
+                },
+                false);
+
+        // The Reference dashboard uses four fixed quick-action cards. The
+        // separate Wallpapers/Wi-Fi category shortcuts remain owned by their
+        // existing dashboard/navigation surfaces rather than being promoted
+        // into these Reference cards.
+        actions.setVisibility(View.GONE);
+
+    private static final class QuickActionSpec {
+        final int titleRes;
+        final int summaryRes;
+        final String referenceId;
+        QuickActionSpec(int titleRes, int summaryRes, String referenceId) {
+            this.titleRes = titleRes;
+            this.summaryRes = summaryRes;
+            this.referenceId = referenceId;
+        }
+    }
+
+    private void configureQuickActionCard(
+            View root, int cardId, int titleRes, int iconRes,
+            QuickActionSpec[] specs, boolean showMore) {
+        View card = root.findViewById(cardId);
+        if (card == null) return;
+        card.setVisibility(View.VISIBLE);
+
+        TextView title = card.findViewById(R.id.tv_card_title);
+        android.widget.ImageView icon = card.findViewById(R.id.iv_icon);
+        android.widget.LinearLayout items = card.findViewById(R.id.quick_action_items);
+        if (title == null || icon == null || items == null) return;
+
+        title.setText(titleRes);
+        icon.setImageResource(iconRes);
+        icon.setVisibility(View.VISIBLE);
+        items.removeAllViews();
+
+        for (QuickActionSpec spec : specs) {
+            View row = getLayoutInflater().inflate(R.layout.home_dashboard_quick_action_item, items, false);
+            TextView rowTitle = row.findViewById(R.id.tv_action_title);
+            TextView rowSummary = row.findViewById(R.id.tv_action_summary);
+            com.google.android.material.button.MaterialButton local = row.findViewById(R.id.btn_local);
+            com.google.android.material.button.MaterialButton cloud = row.findViewById(R.id.btn_cloud);
+
+            rowTitle.setText(spec.titleRes);
+            if (spec.summaryRes != 0) {
+                rowSummary.setText(spec.summaryRes);
+                rowSummary.setVisibility(View.VISIBLE);
+            } else {
+                rowSummary.setVisibility(View.GONE);
             }
-        });
+
+            boolean restore = spec.referenceId.startsWith("ID_RESTORE_");
+            local.setText(restore ? R.string.from_device : R.string.to_device);
+            cloud.setText(restore ? R.string.from_cloud : R.string.to_cloud);
+            local.setOnClickListener(v -> dispatchDashboardAction(spec.referenceId, false));
+            cloud.setOnClickListener(v -> dispatchDashboardAction(spec.referenceId, true));
+            items.addView(row);
+        }
+
+        if (showMore) {
+            com.google.android.material.button.MaterialButton more =
+                    new com.google.android.material.button.MaterialButton(requireContext(), null,
+                            com.google.android.material.R.attr.materialButtonOutlinedStyle);
+            more.setText(R.string.more_quick_actions);
+            more.setOnClickListener(v -> startActivity(
+                    new Intent(requireContext(), com.bare.appsquickactions.AppsQuickActionsActivity.class)));
+            android.widget.LinearLayout.LayoutParams lp =
+                    new android.widget.LinearLayout.LayoutParams(-1, -2);
+            lp.topMargin = (int) (8 * requireContext().getResources().getDisplayMetrics().density);
+            items.addView(more, lp);
+        }
+    }
+
+    private void dispatchDashboardAction(String referenceId, boolean cloud) {
+        Intent intent = null;
+        if ("ID_BACKUP_ALL_APPS".equals(referenceId) || "ID_RESTORE_ALL_APPS".equals(referenceId)) {
+            try {
+                com.bare.appsquickactions.AppsQuickActionRequest request =
+                        com.bare.appsquickactions.AppsQuickActionRequest.fromReferenceId(referenceId);
+                intent = new Intent(requireContext(), AppListActivity.class);
+                intent.putExtra("dashboard_quick_action", request);
+            } catch (IllegalArgumentException ignored) {
+                return;
+            }
+        } else if ("ID_BACKUP_MESSAGES".equals(referenceId) || "ID_RESTORE_MESSAGES".equals(referenceId)) {
+            if (cloud) {
+                intent = new Intent(requireContext(), MessagesDashActivity.class);
+                intent.putExtra("highlight_cloud_card", true);
+            } else {
+                intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);
+            }
+        } else if ("ID_BACKUP_CALLS".equals(referenceId) || "ID_RESTORE_CALLS".equals(referenceId)) {
+            if (cloud) {
+                intent = new Intent(requireContext(), CallsDashActivity.class);
+                intent.putExtra("highlight_cloud_card", true);
+            } else {
+                intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.CallsBackupRestoreActivity.class);
+            }
+        } else if ("ID_BACKUP_FOLDERS".equals(referenceId) || "ID_RESTORE_FOLDERS".equals(referenceId)) {
+            intent = new Intent(requireContext(), FoldersDashActivity.class);
+            intent.putExtra("action_id",
+                    referenceId.contains("RESTORE") ? "Restore" : "Backup");
+        }
+        if (intent != null) startActivity(intent);
     }
 
     private void renderStorageSummary(TextView target, StorageInfoLocal value, boolean compact) {
