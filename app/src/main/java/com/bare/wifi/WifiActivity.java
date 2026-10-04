@@ -77,11 +77,20 @@ public final class WifiActivity extends AppCompatActivity {
         }
 
         new Thread(() -> {
-            WifiSystemNetworkRepository.Result result =
+            WifiSystemNetworkRepository.Result legacy =
                     new WifiSystemNetworkRepository(manager).read();
+
+            if (legacy.isSuccess() && !legacy.getItems().isEmpty()) {
+                runOnUiThread(() -> systemAdapter.submit(legacy.getItems()));
+                return;
+            }
+
+            WifiRootXmlRepository.Result root = new WifiRootXmlRepository().read();
             runOnUiThread(() -> {
-                if (result.isSuccess()) {
-                    systemAdapter.submit(result.getItems());
+                if (root.isSuccess()) {
+                    systemAdapter.submit(root.getItems());
+                } else if (legacy.isSuccess()) {
+                    systemAdapter.submit(legacy.getItems());
                 } else {
                     systemAdapter.showError(getString(R.string.wifi_device_read_failed));
                 }
