@@ -20,6 +20,9 @@ import androidx.core.content.ContextCompat;
 
 import com.bare.R;
 import com.bare.home.HomeActivity;
+import com.bare.home.repository.AnonymousIdentityStore;
+import com.bare.password.PasswordStateRepository;
+import com.bare.password.UserPasswordActivity;
 import com.bare.permission.PermissionAccessService;
 import com.bare.permission.PermissionCapability;
 import com.bare.permission.PermissionState;
@@ -39,7 +42,8 @@ public final class IntroActivity extends Activity {
     private boolean restoreFlow;
 
     private static final String KEY_SIGNED_IN = "P3_SIGNED_IN";
-    private static final String KEY_PASSWORD_MODE = "P3_PASSWORD_MODE";
+    private static final String KEY_PASSWORD_MODE = PasswordStateRepository.KEY_PASSWORD_MODE;
+    private static final int REQUEST_USER_PASSWORD = 1981811;
 
     private static final int REQUEST_NOTIFICATIONS = 1003;
     private static final int REQUEST_STORAGE = 1004;
@@ -131,14 +135,17 @@ public final class IntroActivity extends Activity {
     }
 
     private void beginP3SignIn(boolean anonymous) {
-        // P3 boundary: real Google/Supabase/anonymous auth belongs to P4.
-        prefs.edit().putBoolean(KEY_SIGNED_IN, true).apply();
         if (anonymous) {
-            Toast.makeText(this, R.string.p3_anonymous_stub, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, R.string.p3_google_stub, Toast.LENGTH_SHORT).show();
+            new AnonymousIdentityStore(this).getOrCreateUid();
+            prefs.edit().putBoolean(KEY_SIGNED_IN, true).apply();
+            showPermissionsStage();
+            return;
         }
-        showPermissionsStage();
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.continue_with_google)
+                .setMessage(R.string.p3_google_stub)
+                .setNegativeButton(R.string.close, null)
+                .show();
     }
 
     private void showPermissionsStage() {
@@ -328,6 +335,7 @@ public final class IntroActivity extends Activity {
     }
 
     private void showPasswordBoundary() {
+        PasswordStateRepository passwordState = new PasswordStateRepository(this);
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.password_setup_title)
                 .setMessage(R.string.p3_password_boundary)
@@ -336,10 +344,19 @@ public final class IntroActivity extends Activity {
                                 getString(R.string.password_mode_standard),
                                 getString(R.string.password_mode_user)
                         },
-                        prefs.getInt(KEY_PASSWORD_MODE, 0),
+                        passwordState.getMode(),
                         (dialog, which) -> prefs.edit().putInt(KEY_PASSWORD_MODE, which).apply())
                 .setNegativeButton(R.string.keep_setup, null)
-                .setPositiveButton(R.string.continue_label, (dialog, which) -> showGettingStarted())
+                .setPositiveButton(R.string.continue_label, (dialog, which) -> {
+                    if (passwordState.getMode() == PasswordStateRepository.USER_PASSWORD) {
+                        startActivityForResult(
+                                new Intent(this, UserPasswordActivity.class)
+                                        .putExtra("extra_is_restoring", restoreFlow),
+                                REQUEST_USER_PASSWORD);
+                    } else {
+                        showGettingStarted();
+                    }
+                })
                 .show();
     }
 
@@ -390,6 +407,18 @@ public final class IntroActivity extends Activity {
                 .setMessage(message)
                 .setPositiveButton(R.string.close, null)
                 .show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_USER_PASSWORD) {
+            PasswordStateRepository passwordState = new PasswordStateRepository(this);
+            if (passwordState.getMode() == PasswordStateRepository.USER_PASSWORD
+                    && passwordState.hasActiveUserPassword()) {
+                showGettingStarted();
+            }
+        }
     }
 
     @Override
