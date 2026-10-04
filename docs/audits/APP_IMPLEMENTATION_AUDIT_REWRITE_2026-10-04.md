@@ -718,8 +718,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 | ID | Surface | Finding | Classification | Priority |
 |---|---|---|---|---|
-| A01 | Branch | `rewrite` == supplied base checkpoint | BLOCKED / STATE NOTICE | P0 |
-| A02 | Build | Groovy file contains Kotlin DSL constructs | BUILD BLOCKER CANDIDATE | P0 |
+| A01 | Branch | `rewrite` advanced beyond supplied base checkpoint | **RESOLVED — STATE RECONCILED** | P0 |
+| A02 | Build | `app/build.gradle` Groovy/Kotlin DSL mix | **RESOLVED — PASS (STATIC)** | P0 |
 | A03 | Native | `libsba_archive.so` absent from `app/` | **RESOLVED — PASS (STATIC)** | P0 |
 | A04 | Backend | Concrete Supabase adapter/client absent | BLOCKED | P0 |
 | A05 | Dashboard | Current owner uses alternate non-Reference layout | UNAUTHORIZED DEVIATION | P1 |
