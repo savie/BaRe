@@ -201,14 +201,22 @@ public final class DashboardFragment extends Fragment {
                 intent = new Intent(requireContext(), MessagesDashActivity.class);
                 intent.putExtra("highlight_cloud_card", true);
             } else {
-                intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);
+                if (referenceId.startsWith("ID_RESTORE_")) {
+                    intent = new Intent(requireContext(), com.bare.messagescalls.backups.MessagesBackupsActivity.class);
+                } else {
+                    intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);
+                }
             }
         } else if ("ID_BACKUP_CALLS".equals(referenceId) || "ID_RESTORE_CALLS".equals(referenceId)) {
             if (cloud) {
                 intent = new Intent(requireContext(), CallsDashActivity.class);
                 intent.putExtra("highlight_cloud_card", true);
             } else {
-                intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.CallsBackupRestoreActivity.class);
+                if (referenceId.startsWith("ID_RESTORE_")) {
+                    intent = new Intent(requireContext(), com.bare.messagescalls.backups.CallsBackupsActivity.class);
+                } else {
+                    intent = new Intent(requireContext(), com.bare.messagescalls.backuprestore.CallsBackupRestoreActivity.class);
+                }
             }
         } else if ("ID_BACKUP_FOLDERS".equals(referenceId) || "ID_RESTORE_FOLDERS".equals(referenceId)) {
             intent = new Intent(requireContext(), FoldersDashActivity.class);
