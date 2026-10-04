@@ -16,6 +16,7 @@ import com.bare.R;
 import com.bare.appslist.data.AppInventoryItem;
 import com.bare.appslist.data.AppInventoryLoader;
 import com.bare.appslist.engine.AppLocalBackupEngine;
+import com.bare.appsquickactions.AppsQuickActionRequest;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 public final class AppsBatchActivity extends AppCompatActivity {
     private android.os.Parcelable batchActionItem;
     private android.os.Parcelable quickActionItem;
+    private AppsQuickActionRequest quickActionRequest;
     private boolean replaceExistingLabels = true;
     private final AppsBatchSelection selection = new AppsBatchSelection();
     private final ArrayList<AppInventoryItem> inventory = new ArrayList<>();
@@ -45,6 +47,7 @@ public final class AppsBatchActivity extends AppCompatActivity {
         if (getIntent() != null) {
             batchActionItem = getIntent().getParcelableExtra("batch_action_item");
             quickActionItem = getIntent().getParcelableExtra("quick_action_item");
+            quickActionRequest = getIntent().getParcelableExtra("quick_action_request");
             replaceExistingLabels = getIntent().getBooleanExtra("select_mode_replace_existing_labels", true);
         }
 
@@ -70,6 +73,18 @@ public final class AppsBatchActivity extends AppCompatActivity {
     }
 
     private void showBatchActions() {
+        if (quickActionRequest != null) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(quickActionRequest.actionId)
+                    .setMessage(
+                            "Reference Quick Action "
+                                    + quickActionRequest.actionCode
+                                    + " is mapped to the Apps task boundary. "
+                                    + "Execution remains owned by the task engine.")
+                    .setPositiveButton(R.string.close, null)
+                    .show();
+            return;
+        }
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.apps_batch_actions)
                 .setItems(new String[]{
