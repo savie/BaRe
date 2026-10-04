@@ -71,8 +71,10 @@ public final class WallpaperLocalRepository {
         if (selection == null || selection.selected == null) {
             throw new IllegalStateException("No selected local storage");
         }
-        return new File(new File(new File(new File(new File(selection.selected.rootPath,
-                "BaRe"), "backups"), "walls"), "applied");
+        File base = new File(selection.selected.rootPath, "BaRe");
+        base = new File(base, "backups");
+        base = new File(base, "walls");
+        return new File(base, "applied");
     }
 
     public File localRoot(File storageRoot, String uid) {
