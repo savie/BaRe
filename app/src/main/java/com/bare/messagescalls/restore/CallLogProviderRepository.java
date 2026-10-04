@@ -82,7 +82,8 @@ public final class CallLogProviderRepository {
         if (slot < 0) return null;
         try {
             if (Build.VERSION.SDK_INT >= 34) {
-                return String.valueOf(SubscriptionManager.getSubscriptionId(slot));
+                int id = SubscriptionManager.getSubscriptionId(slot);
+                return id >= 0 ? String.valueOf(id) : null;
             }
             if (Build.VERSION.SDK_INT >= 29) {
                 SubscriptionManager manager = context.getSystemService(SubscriptionManager.class);
