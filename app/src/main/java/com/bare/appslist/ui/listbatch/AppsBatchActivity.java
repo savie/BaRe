@@ -111,7 +111,8 @@ public final class AppsBatchActivity extends AppCompatActivity {
                             AppLocalBackupEngine.Part.DATA,
                             AppLocalBackupEngine.Part.EXTERNAL_DATA,
                             AppLocalBackupEngine.Part.MEDIA,
-                            AppLocalBackupEngine.Part.EXPANSION));
+                            AppLocalBackupEngine.Part.EXPANSION,
+                            AppLocalBackupEngine.Part.SPECIAL_DATA));
             AppLocalBackupEngine engine = new AppLocalBackupEngine(this);
             for (AppInventoryItem item : work) {
                 try {
