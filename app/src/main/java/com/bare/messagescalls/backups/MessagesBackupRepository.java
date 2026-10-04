@@ -288,7 +288,10 @@ public final class MessagesBackupRepository {
             try {
                 while (addr.moveToNext()) {
                     String address = stringColumn(addr, "address");
-                    if (address != null && !address.isEmpty()) recipients.put(address);
+                    Integer type = integerColumn(addr, "type");
+                    if (address != null && !address.isEmpty() && type != null && type == 151) {
+                        recipients.put(address);
+                    }
                 }
             } finally { addr.close(); }
         }
@@ -371,6 +374,17 @@ public final class MessagesBackupRepository {
                 }
             } finally { part.close(); }
         }
+        String text = null;
+        for (int i = 0; i < parts.length(); i++) {
+            JSONObject partJson = parts.optJSONObject(i);
+            if (partJson == null) continue;
+            String type = partJson.optString("contentType", null);
+            if (type != null && type.startsWith("text")) {
+                text = partJson.optString("text", null);
+                if (text != null) break;
+            }
+        }
+        if (text != null) o.put("text", text);
         o.put("partItems", parts);
         // Reference wg5.c only retains MMS items that have both part and
         // address rows after loading the provider graph.
