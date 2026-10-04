@@ -103,6 +103,41 @@ Target dependency was added:
 
 This is an evidence-backed dependency addition, not a backend change.
 
+
+## Deep forensic pass — ZIP/APK metadata
+
+A second forensic pass inspected the canonical ZIP and APK for additional version-bearing surfaces, including:
+
+- META-INF/*.version
+- dependency .properties files
+- META-INF/version-control-info.textproto
+- APK/DEX strings around the three dependency package namespaces
+- decompiled source trees for version-like literals
+- third-party license metadata
+- dependency-owned resource names/styles/layouts
+
+Observed result:
+
+- APK contains explicit version files for several AndroidX/Google/Firebase/other libraries, demonstrating that this artifact does preserve version metadata for some dependencies.
+- No corresponding AppAuth, TedPermission, or YubiKit version file was found.
+- META-INF/version-control-info.textproto identifies the APK build revision, not dependency versions.
+- The AppAuth/TedPermission/YubiKit decompiled package trees expose only the dependency implementation classes used by the Reference; no version literal was recovered from those package source trees.
+- Third-party license metadata identifies the libraries but carries no dependency version for these three libraries.
+- YubiKit resources/styles/layouts are present in the Reference, confirming the dependency-owned UI surface, but still do not establish the Maven version.
+
+Therefore the previous UNKNOWN/BLOCKED classification is **reconfirmed after deeper artifact inspection**. This is not a missing-search-effort issue inside the supplied ZIP/APK; the supplied artifacts do not expose enough evidence to prove those exact versions.
+
+## Evidence boundary for target dependency declarations
+
+The target may only add an exact dependency version when one of the following becomes available:
+
+1. explicit version metadata in the supplied Reference artifact;
+2. an explicit project decision/source authorizing that exact version; or
+3. another evidence source explicitly permitted by the project scope.
+
+Until then, adding a guessed version would violate the evidence-first reconstruction rule.
+
+
 ## Important distinction
 
 The presence of dependency source inside the decompile archive proves that the Reference APK contains those dependency surfaces. It does **not** by itself prove the Maven version.
