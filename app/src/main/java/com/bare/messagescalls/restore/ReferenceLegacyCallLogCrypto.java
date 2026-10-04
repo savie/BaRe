@@ -5,6 +5,7 @@ import com.bare.home.repository.AnonymousIdentityStore;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.security.SecureRandom;
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -33,6 +34,33 @@ public final class ReferenceLegacyCallLogCrypto {
             return cipher.doFinal(encoded, 14, encoded.length - 14);
         } catch (Exception e) {
             throw new IOException("Legacy call-log authentication/decryption failed", e);
+        } finally {
+            Arrays.fill(key, (byte) 0);
+            Arrays.fill(iv, (byte) 0);
+            Arrays.fill(aad, (byte) 0);
+        }
+    }
+
+    public static byte[] encrypt(Context context, byte[] plain) throws IOException {
+        byte[] key = keyForUid(new AnonymousIdentityStore(context).getOrCreateUid());
+        byte[] iv = new byte[IV_LENGTH];
+        byte[] aad = aad();
+        new SecureRandom().nextBytes(iv);
+        try {
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"),
+                    new GCMParameterSpec(TAG_LENGTH * 8, iv));
+            cipher.updateAAD(aad);
+            byte[] encrypted = cipher.doFinal(plain == null ? new byte[0] : plain);
+            byte[] result = new byte[2 + IV_LENGTH + encrypted.length];
+            result[0] = VERSION;
+            result[1] = CIPHER_ID;
+            System.arraycopy(iv, 0, result, 2, IV_LENGTH);
+            System.arraycopy(encrypted, 0, result, 14, encrypted.length);
+            Arrays.fill(encrypted, (byte) 0);
+            return result;
+        } catch (Exception e) {
+            throw new IOException("Legacy call-log encryption failed", e);
         } finally {
             Arrays.fill(key, (byte) 0);
             Arrays.fill(iv, (byte) 0);
