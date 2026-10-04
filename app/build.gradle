@@ -10,7 +10,9 @@ android {
         applicationId = "com.bare"
         minSdk = 26
         targetSdk = 37
-        versionCode = System.getenv("BARE_VERSION_CODE")?.toIntOrNull() ?: 1
+
+        def bareVersionCode = System.getenv("BARE_VERSION_CODE")
+        versionCode = bareVersionCode?.isInteger() ? bareVersionCode.toInteger() : 1
         versionName = "1.0"
     }
 
@@ -19,18 +21,20 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    val stableDebugKeystorePath = System.getenv("BARE_DEBUG_KEYSTORE_PATH")
-    if (!stableDebugKeystorePath.isNullOrBlank()) {
+    def stableDebugKeystorePath = System.getenv("BARE_DEBUG_KEYSTORE_PATH")
+    if (stableDebugKeystorePath?.trim()) {
         signingConfigs {
-            create("stableDebug") {
-                storeFile = File(stableDebugKeystorePath)
+            stableDebug {
+                storeFile = file(stableDebugKeystorePath)
                 storePassword = System.getenv("BARE_DEBUG_KEYSTORE_PASSWORD") ?: "android"
                 keyAlias = System.getenv("BARE_DEBUG_KEY_ALIAS") ?: "androiddebugkey"
                 keyPassword = System.getenv("BARE_DEBUG_KEY_PASSWORD") ?: "android"
             }
         }
-        buildTypes.getByName("debug") {
-            signingConfig = signingConfigs.getByName("stableDebug")
+        buildTypes {
+            debug {
+                signingConfig = signingConfigs.stableDebug
+            }
         }
     }
 
