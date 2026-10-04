@@ -1558,3 +1558,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - `0ab73731faf5e41a676f23c5ad1613cef2b59258`: added Commons Compress for local 7z extraction.
 - `19895ae88a4ddc8b9201373f50e6252cc1cae98f`: exposed decrypted backup conversation preview.
 - MMS restore is intentionally not claimed complete; privileged SBA1-family archive extraction remains a Root/Shizuku boundary. P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
+
+### P6.3 Messages MMS + SBA framing restore — 2026-10-04
+
+- MMS restore path now reconstructs Reference `wg5` MMS rows, `xg5` parts and `vg5` address rows into the device MMS provider.
+- MMS duplicate detection follows Reference `wg5.isMmsOnDevice`: `date = ? AND date_sent = ? AND m_type = ?`.
+- Binary MMS parts are materialized from archive entries using serialized `cachedFileName` / filename metadata when present; provider-generated `_data` is not copied into the restored row.
+- Reference SBA container framing was recovered from `zv1`: `SBA1` file header, `SAE1` entry header, `SAI1` index, and `SAF1` footer.
+- BΛR☰ now parses the Reference SBA1/SAE1/SAI1/SAF1 framing and can restore the exact unencrypted + uncompressed SBA subset into the existing Messages archive reader.
+- Encrypted or zstd-compressed SBA payloads remain intentionally unclaimed: Reference `z07` routes these through `libsba_archive` native Argon2id/AEAD/zstd backends. No substitute crypto was invented.
+- Runtime/device/provider verification has not been performed.
