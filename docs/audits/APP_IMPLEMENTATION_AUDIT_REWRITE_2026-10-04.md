@@ -22,7 +22,9 @@
 
 ## Executive Decision
 
-**FINAL STATUS: NOT 1:1 / NOT STATIC-CLOSED / BLOCKED FOR BUILD AND NATIVE EXECUTION.**
+**FINAL STATUS: NOT 1:1 / NOT STATIC-CLOSED. STATIC-ONLY WORK BOUNDARY APPLIES.**
+
+**Boundary:** build execution, APK generation, CI execution, device/runtime execution, and live backend execution are NOT PERMITTED. They are never DoD or PASS evidence in this work order.
 
 Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar. Namun berdasarkan audit current-state, project belum dapat dinyatakan sebagai:
 
@@ -778,6 +780,9 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 ## Corrective Order
 
+**Execution boundary:** seluruh corrective work di bawah ini dilakukan pada source/config/resource level. Build, APK generation, CI, device/runtime, dan live Supabase execution tidak dilakukan dan bukan acceptance gate.
+
+
 1. **Reconcile branch state.** Pastikan `rewrite` memang memiliki implementation state yang dimaksud; jangan mengaudit phantom local/uncommitted state sebagai repository state.
 2. **Fix `app/build.gradle`.** Gunakan syntax Groovy yang valid dan pertahankan dependency/runtime berdasarkan Reference evidence.
 3. **Restore reproducible build boundary.** Tambahkan/restore Gradle Wrapper dan CI hanya setelah configuration valid.
@@ -920,7 +925,7 @@ dan SHA tersebut sama dengan supplied base checkpoint.
 
 ## Objective
 
-Membuat project dapat diproses oleh Gradle secara reproducible.
+Mereparasi Gradle/build configuration secara static dan evidence-backed. Tidak menjalankan Gradle atau menghasilkan APK.
 
 ## Scope
 
@@ -964,31 +969,27 @@ Dependency, plugin, SDK level, library, dan behavior configuration harus mengiku
 - jangan mengubah backend behavior
 - jangan menyatakan PASS hanya karena Gradle configuration terlihat valid
 
-## Definition of Done
+## Definition of Done — STATIC
 
-Semua harus PASS:
+1. Gradle configuration source konsisten dan tidak memiliki known syntax contradiction.
+2. Wrapper/config artifacts direkonstruksi hanya bila didukung evidence.
+3. Dependency/plugin declarations konsisten dengan evidence.
+4. Java/resource/manifest/build-type configuration konsisten secara static.
+5. Tidak ada fake/stub workaround.
 
-1. Gradle configuration valid.
-2. Gradle Wrapper tersedia.
-3. Dependency resolution berhasil.
-4. Java compilation berhasil.
-5. Resource processing berhasil.
-6. Manifest merge berhasil.
-7. assembleDebug berhasil.
-8. APK debug berhasil dihasilkan.
-9. Tidak ada workaround fake/stub untuk menutup error build.
+**Build execution, dependency resolution execution, assembleDebug, APK generation, dan CI: NOT PERMITTED.**
 
 ### Gate
 
-**Tidak boleh lanjut ke WORK-02 sebelum WORK-01 PASS.**
+WORK-01 ditutup berdasarkan static evidence; tidak membutuhkan build PASS.
 
 ### Current Status
 
-BLOCKED
+IN PROGRESS / STATIC
 
 ---
 
-# WORK-02 — RESTORE / VERIFY NATIVE SBA
+# WORK-02 — RESTORE / RECONCILE NATIVE SBA BOUNDARY
 
 ## Priority
 
@@ -996,7 +997,7 @@ BLOCKED
 
 ## Objective
 
-Membuat native archive/crypto boundary yang dibutuhkan Reference tersedia secara actual pada target.
+Merekonstruksi/reconcile native archive/crypto boundary pada source/package/configuration level tanpa native runtime execution.
 
 ## Reference Evidence
 
@@ -1052,15 +1053,15 @@ harus diputuskan secara eksplisit.
 ## Definition of Done
 
 - Native library tersedia untuk required ABI.
-- System.loadLibrary("sba_archive") berhasil pada supported runtime.
+- Call site `System.loadLibrary("sba_archive")` dan expected library identity konsisten secara static.
 - JNI contract terverifikasi.
 - Native archive path tidak lagi sekadar downstream placeholder.
-- Backup/restore native dependency dapat dipanggil secara actual.
+- Backup/restore native dependency memiliki owner/consumer/source handoff yang jelas.
 - Compatibility residue yang tetap dipertahankan tercatat di dokumen ini.
 
 ### Gate
 
-**Tidak boleh lanjut ke WORK-03 sebelum native boundary PASS atau seluruh blocker native memiliki evidence-backed disposition.**
+**Lanjut ke WORK-03 setelah native static boundary selesai atau unresolved item explicitly classified UNKNOWN / BLOCKED BY BOUNDARY. Native execution tetap NOT PERMITTED.**
 
 ### Current Status
 
@@ -1145,11 +1146,11 @@ Jangan mempertahankan GridLayout + MaterialButton sebagai redesign tanpa Authori
 - Secondary-user warning terhubung.
 - Shortcut behavior menggunakan contract Reference.
 - Tidak ada redesign yang tidak diizinkan.
-- Dashboard compile dan tidak merusak navigation/home lifecycle.
+- Tidak ada known static navigation/home lifecycle contradiction.
 
 ### Gate
 
-**WORK-03 PASS sebelum WORK-04.**
+**WORK-03 ditutup berdasarkan static source/resource reconciliation. Compile/runtime execution tetap NOT PERMITTED.**
 
 ### Current Status
 
@@ -1165,7 +1166,7 @@ BLOCKED
 
 ## Objective
 
-Mengubah backend boundary saat ini menjadi actual Supabase implementation hanya sejauh dibutuhkan Reference/BaRe.
+Mengubah backend boundary menjadi concrete Supabase source/configuration hanya sejauh dapat dibuktikan dari bare.md, Reference, dan evidence project yang tersedia. Live backend execution tidak dilakukan.
 
 ## Canonical Backend
 
@@ -1196,7 +1197,7 @@ Tetapi concrete adapter belum tersedia.
 5. Implement Storage hanya jika terbukti dibutuhkan.
 6. Implement server-side functionality hanya jika evidence membutuhkan.
 7. Wire concrete repository ke existing app contracts.
-8. Verify error/loading/offline behavior.
+8. Static-review error/loading/offline behavior.
 
 ## Hard Constraint
 
@@ -1233,20 +1234,20 @@ Jangan membuat schema/configuration berdasarkan asumsi.
 
 ## Definition of Done
 
-- Concrete Supabase adapter berjalan.
-- Actual project state terverifikasi.
-- App dapat melakukan operation backend yang memang required.
+- Concrete Supabase source adapter/boundary tersedia sejauh evidence mendukung.
+- Known project configuration/evidence terpetakan; live project execution tidak dilakukan.
+- Required backend operations memiliki source owner dan mapping yang jelas.
 - Error/loading/auth state terhubung.
 - Tidak ada Firebase dependency.
 - Tidak ada fabricated configuration.
 
 ### Current Status
 
-BLOCKED
+BLOCKED / STATIC
 
 ---
 
-# WORK-05 — COMPLETE RUNTIME EXECUTION BOUNDARIES
+# WORK-05 — CLOSE RUNTIME BOUNDARIES AT SOURCE LEVEL
 
 ## Priority
 
@@ -1254,7 +1255,7 @@ BLOCKED
 
 ## Objective
 
-Menutup implementation yang secara static sudah ada tetapi masih downstream, UNKNOWN, atau runtime-unverified.
+Menutup gap pada source-level execution boundaries: owner, consumer, state, error, permission, dan downstream handoff. Actual runtime/device execution tidak dilakukan.
 
 ## Execution Surfaces
 
@@ -1276,14 +1277,18 @@ Prioritas:
 
 Static implementation ≠ runtime implementation.
 
-Setiap surface harus diuji actual pada environment yang sesuai.
+Karena runtime berada di luar boundary, hal yang tidak dapat dibuktikan dari source tetap UNKNOWN atau BLOCKED BY BOUNDARY.
 
 ## Definition of Done
 
 Untuk setiap surface:
 
-- execution berhasil, atau
-- limitation documented dengan evidence,
+- owner jelas,
+- consumer jelas,
+- state/error/loading path sesuai Reference secara source,
+- permission/prerequisite boundary jelas,
+- downstream handoff jelas,
+- limitation/UNKNOWN dicatat bila tidak dapat dibuktikan dari source,
 - tidak ada fake success,
 - state/error/loading sesuai Reference,
 - ownership jelas,
@@ -1379,7 +1384,7 @@ Tidak boleh ada difference tanpa classification.
 
 ## Definition of Done
 
-**FINAL QUALIFICATION hanya boleh diberikan apabila tidak ada UNAUTHORIZED DEVIATION dan seluruh critical UNKNOWN/BLOCKED telah closed atau explicitly dispositioned berdasarkan bare.md.**
+**STATIC QUALIFICATION hanya boleh diberikan apabila tidak ada UNAUTHORIZED DEVIATION pada scope yang dapat diverifikasi dan critical UNKNOWN/BLOCKED telah closed atau explicitly dispositioned berdasarkan bare.md. Build/runtime/device success bukan evidence dan bukan acceptance gate.**
 
 ### Current Status
 
@@ -1392,12 +1397,12 @@ NOT STARTED
 | Work | Status | Next Gate |
 |---|---|---|
 | WORK-00 Branch State | DONE | — |
-| **WORK-01 Build System** | **BLOCKED / NEXT** | assembleDebug = PASS |
-| WORK-02 Native SBA | BLOCKED | Native execution PASS |
-| WORK-03 Dashboard | BLOCKED | Canonical Dashboard PASS |
-| WORK-04 Supabase | BLOCKED | Concrete backend PASS |
-| WORK-05 Runtime | BLOCKED | Runtime matrix PASS |
-| WORK-06 Final Parity | NOT STARTED | No unauthorized deviation |
+| **WORK-01 Build Configuration** | **IN PROGRESS / NEXT** | Static configuration closure |
+| WORK-02 Native SBA | BLOCKED / STATIC | Static native boundary closure |
+| WORK-03 Dashboard | BLOCKED / STATIC | Canonical Dashboard static parity |
+| WORK-04 Supabase | BLOCKED / STATIC | Concrete backend source boundary |
+| WORK-05 Runtime Boundaries | BLOCKED / STATIC | Source-level execution closure |
+| WORK-06 Static Parity | NOT STARTED | No unauthorized deviation |
 
 ## SINGLE NEXT ACTION
 
@@ -1440,6 +1445,10 @@ Gunakan hanya:
 - UNKNOWN
 - AUTHORIZED DEVIATION
 - UNAUTHORIZED DEVIATION
+
+## Boundary Rule
+
+**Build execution, APK generation, CI execution, device/runtime execution, dan live backend execution = NOT PERMITTED.** Jika suatu DoD membutuhkan salah satunya, ubah menjadi static/source evidence atau klasifikasikan UNKNOWN / BLOCKED BY BOUNDARY. Jangan membuat PASS palsu.
 
 ## Final Rule
 
