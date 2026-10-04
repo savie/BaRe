@@ -46,8 +46,8 @@ public final class SbaNativeEntryExecutor {
                                  boolean fused) {
         if (fused) {
             return new SbaSwiftTarNative().extractAegisArchiveEntryFused(
-                    archive.getAbsolutePath(), entryHeaderOffset, payloadOffset,
-                    storedSize, compressedSize, entryName, destination, flags, selected, cryptoMode,
+                    destination, entryHeaderOffset, payloadOffset,
+                    storedSize, compressedSize, entryName, flags, selected, cryptoMode,
                     chunkSize, key, nonce, aad, totalBytes, progressMode, listener);
         }
         return new SbaSwiftTarNative().extractAegisArchiveEntry(
