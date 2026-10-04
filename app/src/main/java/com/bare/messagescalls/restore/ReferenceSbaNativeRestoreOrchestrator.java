@@ -36,10 +36,6 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
         if (archive == null || !archive.isFile()) {
             throw new IOException("SBA archive does not exist");
         }
-        if (password == null || password.isEmpty()) {
-            throw new IOException("SBA encryption password required");
-        }
-
         Header h;
         Footer footer;
         byte[] index;
@@ -64,6 +60,9 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
 
         if (h.encryptionMethod == 0) {
             return readUnencrypted(archive, h, footer, index);
+        }
+        if (password == null || password.isEmpty()) {
+            throw new IOException("SBA encryption password required");
         }
 
         if (h.kdfMethod != 1) {
