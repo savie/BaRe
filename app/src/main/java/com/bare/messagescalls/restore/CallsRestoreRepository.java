@@ -13,7 +13,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,15 @@ public final class CallsRestoreRepository {
         }
         if (last != null) {
             try {
-                byte[] encrypted = Files.readAllBytes(backupFile.toPath());
+                byte[] encrypted;
+                try (FileInputStream in = new FileInputStream(backupFile);
+                     ByteArrayOutputStream out = new ByteArrayOutputStream((int) Math.min(
+                             backupFile.length(), Integer.MAX_VALUE))) {
+                    byte[] buffer = new byte[8192];
+                    int read;
+                    while ((read = in.read(buffer)) != -1) out.write(buffer, 0, read);
+                    encrypted = out.toByteArray();
+                }
                 return parseWrapper(new String(
                         ReferenceLegacyCallLogCrypto.decrypt(context, encrypted),
                         StandardCharsets.UTF_8));
