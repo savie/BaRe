@@ -30,7 +30,7 @@ public final class SbaArchiveCreationExecutor {
             File output,
             byte[] archiveMetadata,
             byte[][] entryMetadata,
-            String[] entryNames,
+            String[] entrySources,
             int[] entryFlags,
             String[][] xattrNames,
             String[][] linkNames,
@@ -51,7 +51,7 @@ public final class SbaArchiveCreationExecutor {
             byte[] nonceSeed,
             SbaNativeProgressListener listener) {
         if (output == null) return Result.failure("SBA output is null");
-        if (entryNames == null || entryFlags == null || entryNames.length != entryFlags.length) {
+        if (entrySources == null || entryFlags == null || entrySources.length != entryFlags.length) {
             return Result.failure("SBA entry metadata is inconsistent");
         }
         if (output.getParentFile() != null && !output.getParentFile().exists()
@@ -62,7 +62,7 @@ public final class SbaArchiveCreationExecutor {
         try {
             long[] nativeResult = nativeBridge.createArchive(
                     version, output.getAbsolutePath(), archiveMetadata, entryMetadata,
-                    entryNames, entryFlags, xattrNames, linkNames,
+                    entrySources, entryFlags, xattrNames, linkNames,
                     compressionMethod, compressionLevel, encryptionMethod, kdfMethod,
                     iterations, memoryKiB, parallelism, chunkSize, keyCheckLength, macLength,
                     key, keyCheck, salt, nonceSeed, listener);
