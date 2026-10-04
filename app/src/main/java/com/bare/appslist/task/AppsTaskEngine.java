@@ -32,19 +32,12 @@ public final class AppsTaskEngine {
         public Item(AppInventoryItem app, String backupId,
                     Set<AppLocalBackupEngine.Part> parts) {
             if (app == null) throw new IllegalArgumentException("app");
-            if (modeRequiresBackupId(backupId, parts)) {
-                // Restore callers must provide an explicit backup identity.
-            }
             this.app = app;
             this.backupId = backupId;
             this.parts = Collections.unmodifiableSet(new LinkedHashSet<>(
                     parts == null ? Collections.<AppLocalBackupEngine.Part>emptySet() : parts));
         }
 
-        private static boolean modeRequiresBackupId(String backupId,
-                                                     Set<AppLocalBackupEngine.Part> parts) {
-            return backupId != null && backupId.length() == 0;
-        }
     }
 
     public static final class Outcome {
@@ -135,7 +128,7 @@ public final class AppsTaskEngine {
         } else if (failed == 0) {
             terminal = cancelled ? TaskResult.CANCELLED : TaskResult.COMPLETED;
         } else if (completed > 0) {
-            terminal = TaskResult.PARTIAL_FAILURE;
+            terminal = TaskResult.ERROR;
         } else {
             terminal = TaskResult.ERROR;
         }
