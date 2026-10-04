@@ -179,6 +179,7 @@ public final class IntroActivity extends Activity {
 
     private void showPermissionsStage() {
         findViewById(R.id.intro_bottom_actions).setVisibility(View.GONE);
+        findViewById(R.id.intro_bottom_actions).setVisibility(View.GONE);
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
         signInWarning.setVisibility(View.GONE);
