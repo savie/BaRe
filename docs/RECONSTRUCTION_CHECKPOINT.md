@@ -1586,3 +1586,14 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Root/Shizuku capability is now an explicit protected-app-data gate. The native SBA engine itself remains in-process; Root/Shizuku covers access to protected app-data trees, matching the Reference separation of archive crypto from privileged filesystem access.
 - Encrypted/zstd SBA **native primitives are now implemented and packaged**, but full end-to-end archive restore orchestration still requires wiring the recovered SBA index/header parser to these primitives for every encryption variant. Reference itself marks SevenZip AES/AES-GCM/AES-GCM-SIV as optional/internal compatibility backends in this build; AEGIS-256/Aegis-128X2 are the public native encrypted paths.
 - Runtime/device/native execution remains unverified.
+
+### P6.3 SBA encrypted-orchestration forensic deepening — 2026-10-04
+
+- `ReferenceSbaCryptoOrchestrator` now ports the exact Reference sy6 common crypto layer: method-specific 16-byte key-check labels, SBA2-index-mac-key-v1, SBA2-index-metadata-mac-v1, SHA-256 index-MAC-key derivation, and HMAC-SHA256 v2 index metadata verification with the 32-byte header MAC field zeroed at offsets 104..135 before MAC calculation.
+- Reference z07.G() was re-read end-to-end: Argon2id derives 32 bytes for all methods except SevenZip AES (16 bytes), key-check is verified before backend selection, and v2 derives a separate index-MAC key from derivedKey + salt + nonceSeed.
+- Reference z07.U() was resolved exactly: index MAC input is label || header(with bytes 104..135 zeroed) || big-endian indexOffset || big-endian indexSize || big-endian indexVersion || indexBytes, keyed by the v2 index-MAC key.
+- Reference z07.a() / xh8.i() confirms public encrypted payload execution is native FD-based for AEGIS-256/Aegis-128X2; the native call receives entry name as AAD, entry flags, derived key, nonce seed, compression mode, KDF method, and chunk size according to the recovered JNI contract.
+- Reference z07.b() confirms SevenZip AES, AES-GCM and AES-GCM-SIV compatibility paths are not active in the shipped public backend path: SevenZip/AES-GCM throw the optional-backend guard; AES-GCM-SIV requires native FD output but the recovered public build still does not provide a concrete enabled backend implementation.
+- Targeted Reference-wide search for sbaEnableInternalEncryptionBackends, SevenZipAes, Aes256Gcm, Aes256GcmSiv, and related decryptor symbols did not recover an enabled internal SBA payload backend implementation from the supplied build. These remain a genuine evidence boundary, not an implementation omission in BΛR☰.
+- This pass therefore advances the known common encrypted orchestration layer without inventing the three internal compatibility cipher implementations.
+- Reference ZIP remains unchanged. Build/install/runtime/device/native execution remains unperformed.
