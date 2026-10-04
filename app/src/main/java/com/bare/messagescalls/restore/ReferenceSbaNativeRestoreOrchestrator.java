@@ -118,7 +118,7 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 byte[] aad = e.name.getBytes(StandardCharsets.UTF_8);
                 try {
                     String[] result = new SbaNativeEntryExecutor().extractAegis(
-                            archive, e.entryHeaderOffset, e.storedSize, e.payloadOffset, e.compressedSize,
+                            archive, e.entryHeaderOffset, e.payloadOffset, e.storedSize, e.compressedSize,
                             e.name, destination.getCanonicalPath(), e.flags, selectedArray,
                             h.encryptionMethod, h.chunkSize, key, h.nonceSeed, aad,
                             e.tarSize, 511, new NoopProgress(), true);
