@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bare.R;
-import com.bare.home.repository.AnonymousIdentityStore;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
@@ -65,14 +64,9 @@ public final class WallsManageActivity extends AppCompatActivity {
     }
 
     private void loadLocalInventory() {
-        final String uid = getIntent().getStringExtra("user_uid");
-        final String effectiveUid = uid == null || uid.isEmpty()
-                ? new AnonymousIdentityStore(this).getOrCreateUid()
-                : uid;
-
         new Thread(() -> {
             List<WallpaperLocalRepository.Item> items =
-                    localRepository.list(getFilesDir(), effectiveUid);
+                    localRepository.list(this);
             runOnUiThread(() -> adapter.submit(items));
         }).start();
     }
