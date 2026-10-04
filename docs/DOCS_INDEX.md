@@ -50,6 +50,7 @@ This file is **index only**. It maps documentation files to their purpose. It do
 | `docs/audits/P6.2_REFERENCE_BACKEND_TO_SUPABASE_MODEL.md` | P6.2 bounded Reference-backend-to-Supabase target model, resource ownership, relationships, persistence decisions, and explicit cloud-metadata quarantine. |
 | `docs/audits/P6.3_SUPABASE_IMPLEMENTATION.md` | P6.3 direct Supabase implementation record for the approved database model, verification evidence, and security handoff. |
 | `docs/audits/FIREBASE_TO_SUPABASE_TARGET_AUDIT.md` | Static audit separating Firebase Reference evidence from the authorized Supabase target backend policy. |
+| `docs/audits/APP_IMPLEMENTATION_AUDIT_REWRITE_2026-10-04.md` | Current-state static audit of the complete `app/` implementation surface on branch `rewrite`, including blockers, parity gaps, native ABI, build, backend, and execution boundaries. |
 
 ## N-domain total audits
 
