@@ -759,4 +759,5 @@ Unable to read package information: %2$s</string>
     <string name="app_restore_failed">App restore failed: %1$s</string>
     <string name="messages_backup_created">Messages backup created: %1$s</string>
     <string name="messages_backup_failed">Messages backup failed: %1$s</string>
+    <string name="messages_restore_result">Restored %1$d SMS, %2$d MMS, %3$d parts; skipped %4$d.</string>
 </resources>
