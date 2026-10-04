@@ -22,8 +22,7 @@ public class SmsReceiver extends BroadcastReceiver {
         if (action == null) return;
         Log.i(TAG, "Intent recieved: " + action);
 
-        if (!"android.provider.Telephony.SMS_RECEIVED".equals(action)
-                && !"android.provider.Telephony.SMS_DELIVER".equals(action)) {
+        if (!"android.provider.Telephony.SMS_RECEIVED".equals(action)) {
             return;
         }
         if (intent.getExtras() == null) return;
