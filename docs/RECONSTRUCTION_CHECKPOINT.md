@@ -1627,3 +1627,12 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Calls dashboard -> backup activity, local backup inventory -> restore activity, backup creation, selection, restore and delete-all are now wired to concrete app-side owners.
 - The shipped Reference APK and decompile ZIP were cross-checked for the SBA optional/internal cipher boundary before this implementation pass; SevenZip AES, AES-256-GCM and AES-256-GCM-SIV remain optional/internal and are not substituted.
 - No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
+
+
+### P6.3 Legacy Call Logs crypto — 2026-10-04
+- `w14 -> y32 -> x32 -> NativeGCMCipher` is confirmed in the Reference decompile ZIP; it is not a missing/decompiler-only boundary.
+- Legacy format is version `1`, cipher `2`, 12-byte IV, AES-GCM payload with a 16-byte tag; AAD is `[1,2] || UTF-8("SwiftBackup_Entity")`.
+- `f45` is the key source: authenticated UID normalized to exactly 32 UTF-8 bytes by Reference concatenate/truncate semantics.
+- BΛR☰ now has `ReferenceLegacyCallLogCrypto` for Reference-equivalent AES-GCM encryption/decryption and `CallsRestoreRepository` falls back to this format after SBA parsing fails, covering the pre-v3/v2 call-log archive family.
+- Exact `NativeGCMCipher` Java JNI surface is preserved separately; Reference `libconceal.so` exports the expected JNI symbols in all four Reference ABIs. Native binary packaging is not claimed here because no binary write was performed through the repository connector.
+- No build/install/runtime/device/native execution was performed. Reference ZIP remains unchanged.
