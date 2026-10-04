@@ -24,6 +24,9 @@ public final class ReferenceSbaArchiveReader {
     public static boolean isSba(java.io.File file) throws IOException {
         if (file == null || !file.isFile() || file.length() < 4) return false;
         try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(file, "r")) {
+            byte[] magic = new byte[4];
+            raf.readFully(magic);
+            if (!"SBA1".equals(new String(magic, StandardCharsets.US_ASCII))) return false;
             int version = raf.readUnsignedShort();
             int headerSize = raf.readUnsignedShort();
             return (version == 1 && headerSize == 96) || (version == 2 && headerSize == 144);
