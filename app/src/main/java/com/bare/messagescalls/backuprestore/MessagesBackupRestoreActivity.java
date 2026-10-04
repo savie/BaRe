@@ -23,6 +23,7 @@ import com.bare.R;
 import com.bare.messagescalls.conversations.ConversationState;
 import com.bare.messagescalls.conversations.MessagesConversationRepository;
 import com.bare.messagescalls.restore.MessagesRestoreRepository;
+import com.bare.messagescalls.task.MessagesTaskEngine;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -194,6 +195,12 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
             return;
         }
         List<String> selected = adapter.selectedThreadIds();
+        MessagesTaskEngine.Decision taskDecision = new MessagesTaskEngine().plan(
+                selected.size(), isDefaultSmsApp(), true);
+        if (taskDecision != MessagesTaskEngine.Decision.READY) {
+            Toast.makeText(this, taskDecision.name(), Toast.LENGTH_LONG).show();
+            return;
+        }
         if (selected.isEmpty()) {
             Toast.makeText(this, R.string.select_some_messages, Toast.LENGTH_SHORT).show();
             return;
