@@ -24,22 +24,32 @@ public final class CallsRestoreRepository {
     public CallsRestoreRepository(Context context) { this.context = context.getApplicationContext(); }
 
     public List<CallLogItem> readBackup(File backupFile) throws Exception {
-        if (backupFile == null || !backupFile.isFile()) throw new IOException("Call backup file does not exist");
-        char[] password = CallsBackupRepository.referencePassword(context);
-        try {
-            java.util.Map<String, byte[]> entries =
-                    ReferenceSbaNativeRestoreOrchestrator.readEntries(backupFile, new String(password));
-            byte[] payload = entries.get("call_logs");
-            if (payload == null) for (java.util.Map.Entry<String, byte[]> entry : entries.entrySet()) {
-                if (entry.getKey() != null && entry.getKey().endsWith("/call_logs")) {
-                    payload = entry.getValue(); break;
-                }
-            }
-            if (payload == null) throw new IOException("Reference call_logs entry not found");
-            return parseWrapper(new String(payload, StandardCharsets.UTF_8));
-        } finally {
-            java.util.Arrays.fill(password, '\0');
+        if (backupFile == null || !backupFile.isFile()) {
+            throw new IOException("Call backup file does not exist");
         }
+        Exception last = null;
+        for (char[] password : CallsBackupRepository.referencePasswordCandidates(context)) {
+            try {
+                java.util.Map<String, byte[]> entries =
+                        ReferenceSbaNativeRestoreOrchestrator.readEntries(
+                                backupFile, new String(password));
+                byte[] payload = entries.get("call_logs");
+                if (payload == null) for (java.util.Map.Entry<String, byte[]> entry : entries.entrySet()) {
+                    if (entry.getKey() != null && entry.getKey().endsWith("/call_logs")) {
+                        payload = entry.getValue();
+                        break;
+                    }
+                }
+                if (payload == null) throw new IOException("Reference call_logs entry not found");
+                return parseWrapper(new String(payload, StandardCharsets.UTF_8));
+            } catch (Exception e) {
+                last = e;
+            } finally {
+                java.util.Arrays.fill(password, '\0');
+            }
+        }
+        if (last != null) throw last;
+        throw new IOException("Unable to read Reference call-log archive");
     }
 
     public Result restore(List<CallLogItem> items) {
