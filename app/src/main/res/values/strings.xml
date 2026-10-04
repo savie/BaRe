@@ -753,6 +753,8 @@ Unable to read package information: %2$s</string>
     <string name="backup_part_special_data">Special app state</string>
     <string name="app_backup_success">Backed up %1$d part(s), %2$d bytes.</string>
     <string name="app_backup_failed">App backup failed: %1$s</string>
+    <string name="app_backup_detail_summary">Create a local backup of this app and its selected APK, data and special-state parts.</string>
+    <string name="app_restore_detail_summary">Restore the latest local backup, including selected APK, data and special-state parts.</string>
     <string name="app_restore_success">Restored %1$d part(s).</string>
     <string name="app_restore_failed">App restore failed: %1$s</string>
 </resources>
