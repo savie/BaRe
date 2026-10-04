@@ -73,13 +73,13 @@ public final class RootPermissionCoordinator {
     public void refresh(Listener listener) {
         executor.execute(() -> {
             boolean available = hasRoot() || hasShizukuPermission();
-            synchronized (this) { ready = available && requiredPermissionsGranted(); }
+            synchronized (this) { ready = available; }
             notifyState(listener);
         });
     }
 
     private void finish(boolean granted, Listener listener) {
-        boolean complete = granted && requiredPermissionsGranted();
+        boolean complete = hasRoot() || hasShizukuPermission();
         synchronized (this) {
             ready = complete;
             state = State.IDLE;
