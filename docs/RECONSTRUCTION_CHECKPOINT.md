@@ -1507,3 +1507,17 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Latest implementation commit before this documentation record: 4eda5f632946a915c175cb134512c8675a07942b.
 - P6.3 loop continues from the canonical B01–B27 table.
 - P6.4 is **NOT OPENED** yet.
+
+
+### P6.3 Wi-Fi acquisition deepening — 2026-10-04
+
+- Added Reference-backed Root WifiConfigStore.xml acquisition/parsing in app code.
+- Reference path split is preserved: API >= 30 uses /data/misc/apexdata/com.android.wifi/WifiConfigStore.xml; older supported versions use /data/misc/wifi/WifiConfigStore.xml.
+- Root parser preserves SSID/PSK plus enterprise EAP/Phase2/Identity/AnonIdentity/Password/CaCert fields and Reference key-management classification.
+- WifiActivity now attempts the public legacy reader first and falls back to Root XML when legacy inventory is unavailable/empty.
+- Root/Shizuku execution remains capability/runtime dependent; no root command was executed during this pass.
+- Reference ZIP remains unchanged; build/runtime/device/backend execution remains unperformed.
+
+### Latest P6.3 source checkpoint — 2026-10-04
+
+- Latest implementation commit before this documentation record: 2691dbfb7efe3d23bb572b60549abeaa93b8cb43.

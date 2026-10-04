@@ -1282,3 +1282,15 @@ P6.3 remains the active implementation loop. The current rule is: if Reference e
 - Local/cloud Wi-Fi backup artifact parsing, Root XML/Shizuku acquisition, wallpaper cloud/provider operations, full app backup task orchestration, and full restore-part execution still require targeted Reference-to-BaRe comparison before classification. Do not replace these with invented behavior.
 - No Supabase dashboard/backend implementation was performed.
 - No build/CI or runtime/device/E2E execution was performed.
+
+
+## P6.3 Wi-Fi acquisition deepening — 2026-10-04
+
+The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Reference two-source acquisition path that can be implemented without inventing behavior.
+
+- WifiSystemNetworkRepository: Reference gt4 legacy source.
+- WifiRootXmlRepository: Reference gt8/kn3/lq6 Root XML source, including exact OS-version path split, Network block parsing, SSID/PSK extraction and enterprise fields.
+- WifiActivity: legacy-first inventory with Root XML fallback.
+- The Root XML command runner is injectable; actual su execution remains runtime verification and was not performed.
+- Shizuku acquisition remains a separate capability integration and was not fabricated without an established target-side API.
+- Encrypted local wifi_networks.wfi parsing remains open because Reference w14/y32 uses the Facebook Conceal NativeGCMCipher/key boundary and no equivalent target dependency/API is established in current BaRe source. Do not substitute an unproven cipher.
