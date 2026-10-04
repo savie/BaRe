@@ -1279,7 +1279,8 @@ P6.3 remains the active implementation loop. The current rule is: if Reference e
 
 ### Remaining P6.3 guard
 
-- Local/cloud Wi-Fi backup artifact parsing, Root XML/Shizuku acquisition, wallpaper cloud/provider operations, full app backup task orchestration, and full restore-part execution still require targeted Reference-to-BaRe comparison before classification. Do not replace these with invented behavior.
+- Wi-Fi local acquisition/artifact app-side implementation is closed for the currently recovered Reference surface. Remaining work is verification/execution boundary: privileged/root/Shizuku runtime, cloud-provider transfer, Supabase execution, build/CI, and runtime/device/E2E.
+- Other feature surfaces remain subject to the canonical B01–B27 loop; do not promote P6.3 to P6.4 until the complete loop re-audit has no remaining Reference-proven /app code gap.
 - No Supabase dashboard/backend implementation was performed.
 - No build/CI or runtime/device/E2E execution was performed.
 
@@ -1292,5 +1293,13 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 - WifiRootXmlRepository: Reference gt8/kn3/lq6 Root XML source, including exact OS-version path split, Network block parsing, SSID/PSK extraction and enterprise fields.
 - WifiActivity: legacy-first inventory with Root XML fallback.
 - The Root XML command runner is injectable; actual su execution remains runtime verification and was not performed.
-- Shizuku acquisition remains a separate capability integration and was not fabricated without an established target-side API.
-- Encrypted local wifi_networks.wfi parsing remains open because Reference w14/y32 uses the Facebook Conceal NativeGCMCipher/key boundary and no equivalent target dependency/API is established in current BaRe source. Do not substitute an unproven cipher.
+- Shizuku acquisition is now implemented app-side through the existing Shizuku API dependency, matching the Reference we7/li/d76/c76 privileged IWifiManager binder path; privileged availability remains runtime verification.
+- Encrypted local wifi_networks.wfi read/write/delete is now implemented app-side with the Reference GCM envelope, UID-derived key and AAD semantics; cryptographic/runtime compatibility remains runtime verification.
+
+
+### P6.3 Wi-Fi app-side closure — 2026-10-04
+
+- Implemented Shizuku privileged Wi-Fi acquisition, including the Reference hidden IWifiManager binder path and API 33 attribution handling.
+- Implemented encrypted local wifi_networks.wfi read/write/delete, including the Reference version/cipher/IV/GCM envelope, UID-derived key and entity AAD.
+- Added WifiBackupCoordinator for app-side acquisition → local artifact creation/deletion; provider/cloud execution remains downstream.
+- Reference ZIP remains unchanged. No build, CI, runtime/device, provider, Supabase, or E2E execution was performed.
