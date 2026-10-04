@@ -32,9 +32,9 @@ Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar
 
 Temuan paling penting:
 
-1. **Branch state mismatch terhadap instruksi audit:** `rewrite` saat ini menunjuk tepat ke supplied base checkpoint `6014cff...`. Tidak ditemukan commit implementation setelah checkpoint.
+1. **Branch state reconciled:** `rewrite` now contains implementation commits after the supplied checkpoint; current work remains on `rewrite`.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
-3. **WORK-02 native static finding resolved:** `app/` tidak memiliki `.so` native library, sementara source memanggil `System.loadLibrary("sba_archive")`. Reference APK memiliki `libsba_archive.so` untuk 4 ABI dan exported JNI symbol dengan namespace `Java_com_swiftapps_sba_...`.
+3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
 5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
 6. **Root status, notices, dan secondary-user warning belum wired** pada current Dashboard path.
@@ -628,55 +628,50 @@ Perubahan dapat merusak interoperability terhadap Reference artifacts.
 
 ## Native SBA Audit
 
-### Reference
+### WORK-02 Result
 
-Reference menyediakan:
+Reference static evidence confirms `libsba_archive.so` for:
+- arm64-v8a
+- armeabi-v7a
+- x86
+- x86_64
 
-- `SbaRuntimeNative.java`
-- `SbaNativeCrypto.java`
-- `SbaNativeProgressListener.java`
-- `SbaTarEntryInfo.java`
-- `SbaArchiveNative.java`
-- `SbaLibaegisCryptoNative.java`
-- `SbaZstdNative.java`
-- `SbaSwiftTarNative.java`
+The exact Reference binary blobs already present in the repository's read-only `reference/` evidence tree were reused by blob identity and packaged under:
+`app/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
 
-Reference APK menyediakan `libsba_archive.so` untuk 4 ABI.
+Target blob SHA evidence:
+- arm64-v8a: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`
+- armeabi-v7a: `6c95db5bc7db43c22eda42b5e1d74401d64a5753`
+- x86: `3e3ee743d8633fd0799ececac6a898e67919025d`
+- x86_64: `9843aad7dda4618af9bc7a6f227f41006ca804bb`
 
-### Current Target
+### JNI Owner Reconciliation
 
-Current target memiliki Java owner utama:
+Reference arm64 static symbol inspection exposes Runtime, Argon2id, Zstd, archive creation, AEGIS, tar extraction, tar listing, and fused AEGIS extraction JNI owners under `Java_com_swiftapps_sba_...`.
 
-- `SbaArchiveNative`
-- `SbaLibaegisCryptoNative`
-- `SbaNativeCrypto`
-- `SbaSwiftTarNative`
-- `SbaZstdNative`
-- `SbaNativeProgressListener`
+The target Java owner surface now includes `SbaRuntimeNative` and `SbaTarEntryInfo`, and `SbaSwiftTarNative` exposes the Reference tar listing/extraction JNI owner methods needed by the packaged binary. Existing `SbaArchiveNative`, `SbaNativeCrypto`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, and `SbaNativeProgressListener` remain under the Reference `com.swiftapps.sba` ABI namespace.
 
-Namun tree `app/` tidak memiliki file `.so`.
+### Compatibility Decision
 
-Tidak ditemukan:
+`com.swiftapps.sba` is explicitly **PRESERVE-COMPATIBILITY**.
 
-- `app/src/main/jniLibs/*/libsba_archive.so`
-- native build script yang membangun `sba_archive`
-- CMake/NDK owner
-- Gradle native packaging source
+Reason: the packaged Reference native library exports JNI symbols using `Java_com_swiftapps_sba_...`. Renaming that package would break the binary JNI contract. This is an allowed technical compatibility boundary under `bare.md`; it is not a branding failure.
 
-### Runtime Consequence
+### Source-Level Handoff
 
-`SbaNativeBridge.load()` memang menangkap `UnsatisfiedLinkError` dan dapat mengembalikan `false`. Namun actual native archive creation/decryption/extraction tetap tidak tersedia jika library tidak dipackage.
+The application-level `SbaNativeBridge` continues to route through the exact JNI owner classes. The library identity remains `System.loadLibrary("sba_archive")`.
 
-**Classification: CRITICAL BLOCKED / NATIVE PACKAGING GAP.**
+No parallel native ABI or fake native implementation was introduced.
 
-### Additional Parity Gap
+### Runtime Boundary
 
-Reference memiliki `SbaRuntimeNative.version()`, sementara target tidak memiliki `SbaRuntimeNative.java`.
+No native library loading, archive creation, encryption, decryption, extraction, or device execution was performed.
 
-Tidak ditemukan consumer target untuk owner tersebut, sehingga tidak langsung diklasifikasikan sebagai runtime blocker.
+Therefore:
 
-**Classification: UNKNOWN / NATIVE OWNER PARITY GAP.**
+**WORK-02 = PASS (STATIC)**
 
+Runtime/native execution remains **NOT PERMITTED** and is not claimed as verified.
 ## Static Hygiene Scan
 
 Current `app/` tidak menunjukkan:
