@@ -164,6 +164,17 @@ public final class AppLocalBackupEngine {
                     createArchive(archive, dataEntryNames(sources), sources, temporary);
                     metadata.put("dataSize", archive.length());
                     metadata.put("dataEntries", new JSONArray(dataEntryNames(sources)));
+                    com.bare.tasks.TaskService.SbaAppDataArchiveMetadata archiveMetadata =
+                            new com.bare.tasks.TaskService.SbaAppDataArchiveMetadata(
+                                    backupId, 0, "data", info.packageName, info.versionName,
+                                    info.getLongVersionCode(), false, true, "1",
+                                    dataEntryNames(sources).contains("data_de"),
+                                    sourceSize(info, Part.DATA),
+                                    dataEntryNames(sources).contains("data_de")
+                                            ? privilegedSize(new File(deDataDirectory(info.packageName))) : 0L,
+                                    dataEntryNames(sources));
+                    metadata.put("dataArchiveMetadata",
+                            new JSONObject(archiveMetadata.toJson()));
                     completed.add("DATA");
                 }
             }
