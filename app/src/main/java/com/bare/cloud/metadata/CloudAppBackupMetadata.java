@@ -15,21 +15,39 @@ public final class CloudAppBackupMetadata {
         public final String id;
         public final String providerLocator;
         public final Long size;
+        public final Long sizeMirrored;
+        public final Long backupDate;
+        public final Boolean encrypted;
+        public final Long requiredVersionCode;
+        public final String requiredVersionName;
         public final String encryptionMethod;
         public final String passwordHash;
 
         public Part(String id, String providerLocator, Long size,
                     String encryptionMethod, String passwordHash) {
+            this(id, providerLocator, size, null, null, null, null, null,
+                    encryptionMethod, passwordHash);
+        }
+
+        public Part(String id, String providerLocator, Long size, Long sizeMirrored,
+                    Long backupDate, Boolean encrypted, Long requiredVersionCode,
+                    String requiredVersionName, String encryptionMethod, String passwordHash) {
             if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("Part id is required.");
             this.id = id;
             this.providerLocator = providerLocator;
             this.size = size;
+            this.sizeMirrored = sizeMirrored;
+            this.backupDate = backupDate;
+            this.encrypted = encrypted;
+            this.requiredVersionCode = requiredVersionCode;
+            this.requiredVersionName = requiredVersionName;
             this.encryptionMethod = encryptionMethod;
             this.passwordHash = passwordHash;
         }
 
         public Part withoutLocalState() {
-            return new Part(id, providerLocator, size, encryptionMethod, passwordHash);
+            return new Part(id, providerLocator, size, sizeMirrored, backupDate, encrypted,
+                    requiredVersionCode, requiredVersionName, encryptionMethod, passwordHash);
         }
     }
 
@@ -37,6 +55,7 @@ public final class CloudAppBackupMetadata {
     public final String backupId;
     public final String name;
     public final Long versionCode;
+    public final String versionName;
     public final Long backupDate;
     public final Long updateDate;
     public final long minRequiredVersionCode;
@@ -61,6 +80,7 @@ public final class CloudAppBackupMetadata {
         this.backupId = backupId;
         this.name = name == null ? "" : name;
         this.versionCode = versionCode;
+        this.versionName = null;
         this.backupDate = backupDate;
         this.updateDate = updateDate;
         this.minRequiredVersionCode = minRequiredVersionCode == null
