@@ -1,162 +1,338 @@
-# BΛR☰ Tahap 2 — Kerangka Struktural Reference
+# BΛR☰ Tahap 2 — Reference Skeleton Target
 
-## 1. Tujuan Tahap 2
+## 1. Tujuan
 
-Tahap 2 menetapkan **kerangka struktural rekonstruksi BΛR☰** berdasarkan seluruh kontrak yang telah ditetapkan pada Tahap 1 dan `docs/bare.md`.
+Tahap 2 menetapkan **target kerangka struktural Reference → BΛR☰** berdasarkan:
 
-Tahap 2 bukan tahap implementasi fitur penuh dan bukan tahap verifikasi runtime.
+1. `docs/bare.md`
+2. `docs/PHASE_1_INVENTORY.md`
+3. Reference Swift Backup 5.1.0 (versionCode 620)
 
-Pertanyaan utama Tahap 2:
+Tahap 2 menjawab:
 
-> **Apakah seluruh permukaan struktural yang diwajibkan oleh Reference sudah memiliki target BΛR☰, pemetaan, dan status evidence yang jelas?**
+> **Struktur apa saja yang wajib tersedia sebagai skeleton BΛR☰ untuk merekonstruksi Reference?**
 
-Tahap 2 harus mencakup, sesuai roadmap `docs/bare.md`:
-
-- Application
-- Activity
-- Fragment
-- Service
-- Receiver
-- Provider
-- AndroidManifest
-- layout dan struktur resource
-- navigasi struktural
-- dialog
-- permission
-- intent
-- configuration
-- dependency/library boundary
-- native/ABI boundary
-- integration boundary yang diperlukan oleh struktur aplikasi
-
-Tahap 2 **tidak boleh menyatakan parity perilaku, parity UI, parity runtime, parity fitur, parity build, atau parity perangkat** hanya berdasarkan keberadaan skeleton.
+Tahap 2 adalah **target definition / structural contract**. Dokumen ini tidak digunakan untuk menyatakan progres implementasi `app/`.
 
 ---
 
-## 2. Kedudukan Tahap 2 terhadap Tahap 1
+## 2. Batas Target
 
-Tahap 2 adalah turunan langsung dari:
-
-1. `docs/PHASE_1_INVENTORY.md`
-2. `docs/bare.md`
-3. Reference Swift Backup 5.1.0 (versionCode 620)
-
-Tahap 2 **tidak berwenang mengubah batas target Tahap 1**.
-
-Batas target yang dibekukan pada Tahap 1:
+P1 telah membekukan batas:
 
 | Komponen | Reference | Target BΛR☰ |
 |---|---:|---:|
-| Activity | 95 | **95** |
-| Service | 10 | **10** |
-| Receiver | 10 | **10** |
-| Provider | 4 | **4** |
+| Activity | 95 | 95 |
+| Service | 10 | 10 |
+| Receiver | 10 | 10 |
+| Provider | 4 | 4 |
 | **TOTAL** | **119** | **119** |
 
-Aturan mutlak:
+Aturan:
 
-> **Setiap komponen yang dideklarasikan oleh Reference AndroidManifest adalah target BΛR☰.**
+> Setiap komponen yang dideklarasikan oleh Reference AndroidManifest adalah target BΛR☰.
 
-Tidak ada pengurangan karena:
+Tidak ada pengurangan karena komponen berasal dari:
 
-- dependency
-- library
-- AndroidX
-- Google/Firebase
-- vendor SDK
-- native library
-- compatibility module
-- implementasi pihak ketiga
+- dependency;
+- library;
+- AndroidX;
+- Google/Firebase;
+- vendor SDK;
+- native library;
+- compatibility module;
+- pihak ketiga.
 
-Asal implementasi hanya boleh dicatat sebagai evidence forensik. Asal tersebut **tidak mengubah target**.
-
----
-
-## 3. Definisi Skeleton pada Tahap 2
-
-Yang dimaksud **skeleton** pada Tahap 2 adalah keberadaan struktur yang diperlukan agar suatu kontrak Reference mempunyai tempat implementasi yang jelas di BΛR☰.
-
-Skeleton dapat berupa:
-
-- implementasi langsung BΛR☰;
-- kelas Java yang menjadi pemilik target;
-- kelas compatibility/wrapper;
-- boundary API/ABI yang dipertahankan;
-- dependency yang diintegrasikan sebagai bagian dari target BΛR☰;
-- struktur resource yang menjadi pasangan kontrak Reference;
-- deklarasi AndroidManifest yang mempertahankan kontrak struktural.
-
-Skeleton **bukan** bukti bahwa behavior sudah benar.
-
-### 3.1. Status yang diperbolehkan
-
-Setiap permukaan struktural harus menggunakan salah satu status:
-
-- **ADA** — evidence struktural sudah ditemukan.
-- **SEBAGIAN** — sebagian struktur sudah ada tetapi belum lengkap.
-- **BELUM ADA** — target belum memiliki struktur yang diperlukan.
-- **UNKNOWN** — evidence belum cukup untuk menyatakan ada/tidak.
-- **BLOCKED** — pemeriksaan membutuhkan langkah yang dilarang oleh guardrail proyek.
-
-Tidak boleh mengubah `UNKNOWN`, `BELUM ADA`, atau `BLOCKED` menjadi PASS hanya berdasarkan asumsi.
+Asal implementasi tidak mengubah target.
 
 ---
 
-# 4. BATAS STRUKTURAL YANG DIWARISKAN DARI P1
+## 3. Definisi Skeleton
 
-Tahap 2 mewarisi seluruh inventaris P1 berikut.
+Skeleton adalah **target struktur** yang harus mempunyai representasi yang dapat dipetakan di BΛR☰.
 
-## 4.1. Komponen AndroidManifest
+Bentuk target dapat berupa:
 
-### Activity — 95 target
+- Java class;
+- Application owner;
+- Activity;
+- Fragment;
+- Service;
+- Receiver;
+- Provider;
+- AndroidManifest declaration;
+- compatibility boundary;
+- API/ABI boundary;
+- dependency integration boundary;
+- resource/structural owner.
 
-Seluruh 95 Activity pada `docs/PHASE_1_INVENTORY.md` tetap menjadi target P2.
-
-Termasuk:
-
-- 71 Activity dari package aplikasi Reference;
-- 24 Activity dari boundary dependency/library/eksternal.
-
-24 Activity tersebut **bukan dikeluarkan dari P2**.
-
-### Service — 10 target
-
-Seluruh 10 Service pada P1 menjadi target P2.
-
-Termasuk:
-
-- 3 Service dari package aplikasi Reference;
-- 7 Service dari dependency/library.
-
-### Receiver — 10 target
-
-Seluruh 10 Receiver pada P1 menjadi target P2.
-
-Termasuk:
-
-- 8 Receiver dari package aplikasi Reference;
-- 2 Receiver dari dependency/library.
-
-### Provider — 4 target
-
-Seluruh 4 Provider pada P1 menjadi target P2.
-
-Termasuk:
-
-- `androidx.core.content.FileProvider`
-- `rikka.shizuku.ShizukuProvider`
-- `com.gun0912.tedpermission.provider.TedPermissionProvider`
-- `androidx.startup.InitializationProvider`
-
-Provider tidak boleh dikeluarkan dari target hanya karena implementation class berasal dari library.
+Skeleton tidak sama dengan implementasi behavior.
 
 ---
 
-## 4.2. Baseline resource Reference
+# 4. APPLICATION TARGET
 
-P2 juga mewarisi inventaris resource P1:
+Reference Application:
 
-| Resource | Reference |
+`org.swiftapps.swiftbackup.SwiftApp`
+
+Target BΛR☰:
+
+`com.bare.BaReApp`
+
+Application target juga mempertahankan kontrak struktural Reference untuk:
+
+- application lifecycle;
+- initialization boundary;
+- application metadata;
+- theme;
+- launcher;
+- konfigurasi Application;
+- dependency initialization yang menjadi bagian dari struktur aplikasi.
+
+Perubahan identitas package/application mengikuti authorized deviation pada `docs/bare.md`.
+
+---
+
+# 5. ACTIVITY TARGET — 95 / 95
+
+Semua 95 Activity berikut adalah **target BΛR☰**.
+
+| # | Reference Activity | Target BΛR☰ |
+|---:|---|---|
+| 1 | `org.swiftapps.swiftbackup.intro.IntroActivity` | `com.bare.intro.IntroActivity` |
+| 2 | `org.swiftapps.swiftbackup.home.HomeActivity` | `com.bare.home.HomeActivity` |
+| 3 | `org.swiftapps.swiftbackup.home.search.HomeSearchActivity` | `com.bare.home.search.HomeSearchActivity` |
+| 4 | `org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity` | `com.bare.appsquickactions.AppsQuickActionsActivity` |
+| 5 | `org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity` | `com.bare.appslist.ui.list.AppListActivity` |
+| 6 | `org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity` | `com.bare.appslist.ui.listbatch.AppsBatchActivity` |
+| 7 | `org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity` | `com.bare.appslist.ui.listconfig.AppsConfigRunActivity` |
+| 8 | `org.swiftapps.swiftbackup.detail.DetailActivity` | `com.bare.detail.DetailActivity` |
+| 9 | `org.swiftapps.swiftbackup.apkshare.ApkImportActivity` | `com.bare.apkshare.ApkImportActivity` |
+| 10 | `org.swiftapps.swiftbackup.appinfo.AppInfoActivity` | `com.bare.appinfo.AppInfoActivity` |
+| 11 | `org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity` | `com.bare.appconfigs.list.ConfigListActivity` |
+| 12 | `org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity` | `com.bare.appconfigs.edit.ConfigEditActivity` |
+| 13 | `org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity` | `com.bare.appconfigs.settings.ConfigSettingsActivity` |
+| 14 | `org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity` | `com.bare.home.schedule.ScheduleLabelsSelectActivity` |
+| 15 | `org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity` | `com.bare.home.schedule.ui.ScheduleFolderSelectActivity` |
+| 16 | `org.swiftapps.swiftbackup.settings.SettingsActivity` | `com.bare.settings.SettingsActivity` |
+| 17 | `org.swiftapps.swiftbackup.blacklist.BlacklistActivity` | `com.bare.blacklist.BlacklistActivity` |
+| 18 | `org.swiftapps.swiftbackup.notice.NoticeListActivity` | `com.bare.notice.NoticeListActivity` |
+| 19 | `org.swiftapps.swiftbackup.settings.SettingsDetailActivity` | `com.bare.settings.SettingsDetailActivity` |
+| 20 | `org.swiftapps.swiftbackup.settings.AppSwipeActionsActivity` | `com.bare.settings.AppSwipeActionsActivity` |
+| 21 | `org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity` | `com.bare.cloud.diagnostics.CloudDiagnosticsActivity` |
+| 22 | `org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity` | `com.bare.cloud.orphans.CloudOrphanCleanerActivity` |
+| 23 | `org.swiftapps.swiftbackup.settings.appvisibility.AppVisibilityDiagnosticsActivity` | `com.bare.settings.appvisibility.AppVisibilityDiagnosticsActivity` |
+| 24 | `org.swiftapps.swiftbackup.locale.LocaleActivity` | `com.bare.locale.LocaleActivity` |
+| 25 | `org.swiftapps.swiftbackup.contributor.ContributorRegActivity` | `com.bare.contributor.ContributorRegActivity` |
+| 26 | `org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity` | `com.bare.appslist.ui.labels.LabelsActivity` |
+| 27 | `org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity` | `com.bare.appslist.ui.labels.LabelEditActivity` |
+| 28 | `org.swiftapps.swiftbackup.manage.ManageSpaceActivity` | `com.bare.manage.ManageSpaceActivity` |
+| 29 | `org.swiftapps.swiftbackup.shortcuts.ShortcutsActivity` | `com.bare.shortcuts.ShortcutsActivity` |
+| 30 | `org.swiftapps.swiftbackup.premium.PremiumActivity` | `com.bare.premium.PremiumActivity` |
+| 31 | `org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity` | `com.bare.cloud.connect.GmsSignInActivity` |
+| 32 | `org.swiftapps.swiftbackup.cloud.connect.NoGmsSignInActivity` | `com.bare.cloud.connect.NoGmsSignInActivity` |
+| 33 | `org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity` | `com.bare.messagescalls.dash.MessagesDashActivity` |
+| 34 | `org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity` | `com.bare.messagescalls.backups.MessagesBackupsActivity` |
+| 35 | `org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity` | `com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity` |
+| 36 | `org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity` | `com.bare.messagescalls.dash.CallsDashActivity` |
+| 37 | `org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity` | `com.bare.messagescalls.backups.CallsBackupsActivity` |
+| 38 | `org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity` | `com.bare.messagescalls.backuprestore.CallsBackupRestoreActivity` |
+| 39 | `org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity` | `com.bare.messagescalls.conversationsview.ConversationsActivity` |
+| 40 | `org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity` | `com.bare.messagescalls.conversationsview.ChatActivity` |
+| 41 | `org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity` | `com.bare.folders.ui.FoldersDashActivity` |
+| 42 | `org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity` | `com.bare.folders.ui.batch.FoldersBatchActivity` |
+| 43 | `org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity` | `com.bare.folders.ui.FolderPickerActivity` |
+| 44 | `org.swiftapps.swiftbackup.folders.ui.FolderEditActivity` | `com.bare.folders.ui.FolderEditActivity` |
+| 45 | `org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity` | `com.bare.folders.ui.FolderDetailActivity` |
+| 46 | `org.swiftapps.swiftbackup.slog.SLogActivity` | `com.bare.slog.SLogActivity` |
+| 47 | `org.swiftapps.swiftbackup.wifi.WifiActivity` | `com.bare.wifi.WifiActivity` |
+| 48 | `org.swiftapps.swiftbackup.walls.WallsDashActivity` | `com.bare.walls.WallsDashActivity` |
+| 49 | `org.swiftapps.swiftbackup.walls.WallsManageActivity` | `com.bare.walls.WallsManageActivity` |
+| 50 | `org.swiftapps.swiftbackup.walls.WallApplyActivity` | `com.bare.walls.WallApplyActivity` |
+| 51 | `org.swiftapps.swiftbackup.notice.NoticeViewActivity` | `com.bare.notice.NoticeViewActivity` |
+| 52 | `org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity` | `com.bare.home.storageswitch.StorageSwitchActivity` |
+| 53 | `org.swiftapps.swiftbackup.password.PasswordStrategyActivity` | `com.bare.password.PasswordStrategyActivity` |
+| 54 | `org.swiftapps.swiftbackup.password.UserPasswordActivity` | `com.bare.password.UserPasswordActivity` |
+| 55 | `org.swiftapps.swiftbackup.settings.MultipleBackupsActivity` | `com.bare.settings.MultipleBackupsActivity` |
+| 56 | `org.swiftapps.swiftbackup.settings.RestoreSpecialDataDetailsActivity` | `com.bare.settings.RestoreSpecialDataDetailsActivity` |
+| 57 | `org.swiftapps.swiftbackup.tasks.ui.TaskActivity` | `com.bare.tasks.ui.TaskActivity` |
+| 58 | `org.swiftapps.swiftbackup.tasks.PreconditionsActivity` | `com.bare.tasks.PreconditionsActivity` |
+| 59 | `org.swiftapps.swiftbackup.settings.LicensesActivity` | `com.bare.settings.LicensesActivity` |
+| 60 | `org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity` | `com.bare.cloud.connect.common.CloudConnectActivity` |
+| 61 | `org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity` | `com.bare.settings.appbackuplimits.AppBackupLimitsActivity` |
+| 62 | `org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity` | `com.bare.cloud.connect.DropboxSignInActivity` |
+| 63 | `org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity` | `com.bare.cloud.connect.OneDriveSignInActivity` |
+| 64 | `org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity` | `com.bare.cloud.connect.BoxSignInActivity` |
+| 65 | `org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity` | `com.bare.cloud.connect.MegaSignInActivity` |
+| 66 | `org.swiftapps.swiftbackup.cloud.connect.YandexSignInActivity` | `com.bare.cloud.connect.YandexSignInActivity` |
+| 67 | `org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity` | `com.bare.cloud.connect.PCloudSignInActivity` |
+| 68 | `org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity` | `com.bare.cloud.connect.TeraBoxSignInActivity` |
+| 69 | `org.swiftapps.swiftbackup.cloud.connect.CsActivity` | `com.bare.cloud.connect.CsActivity` |
+| 70 | `org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity` | `com.bare.cloud.connect.FilenSignInActivity` |
+| 71 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity` | `com.bare.messagescalls.defaulthandler.ComposeSmsActivity` |
+| 72 | `net.openid.appauth.RedirectUriReceiverActivity` | Target AppAuth compatibility boundary |
+| 73 | `com.gun0912.tedpermission.TedPermissionActivity` | Target TedPermission compatibility boundary |
+| 74 | `com.microsoft.identity.client.BrowserTabActivity` | Target Microsoft Identity compatibility boundary |
+| 75 | `com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity` | Target Microsoft Identity compatibility boundary |
+| 76 | `com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity` | Target Microsoft Identity compatibility boundary |
+| 77 | `com.microsoft.identity.client.helper.BrokerHelperActivity` | Target Microsoft Identity compatibility boundary |
+| 78 | `com.microsoft.identity.client.CurrentTaskBrowserTabActivity` | Target Microsoft Identity compatibility boundary |
+| 79 | `com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity` | Target Microsoft Identity compatibility boundary |
+| 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | Target Microsoft Identity compatibility boundary |
+| 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | Target Microsoft Identity compatibility boundary |
+| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | Target Firebase Auth compatibility boundary |
+| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | Target Firebase Auth compatibility boundary |
+| 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | Target Credentials compatibility boundary |
+| 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | Target Credentials compatibility boundary |
+| 86 | `com.google.android.gms.auth.api.signin.internal.SignInHubActivity` | Target Google Sign-In compatibility boundary |
+| 87 | `net.openid.appauth.AuthorizationManagementActivity` | Target AppAuth compatibility boundary |
+| 88 | `com.android.billingclient.api.ProxyBillingActivity` | Target Billing compatibility boundary |
+| 89 | `com.android.billingclient.api.ProxyBillingActivityV2` | Target Billing compatibility boundary |
+| 90 | `com.google.android.gms.common.api.GoogleApiActivity` | Target Google Play Services compatibility boundary |
+| 91 | `com.pcloud.sdk.AuthorizationActivity` | Target pCloud compatibility boundary |
+| 92 | `com.pcloud.sdk.CustomTabActivity` | Target pCloud compatibility boundary |
+| 93 | `com.yubico.yubikit.android.ui.OtpActivity` | Target YubiKey compatibility boundary |
+| 94 | `com.yubico.yubikit.android.ui.YubiKeyPromptActivity` | Target YubiKey compatibility boundary |
+| 95 | `com.google.android.play.core.common.PlayCoreDialogWrapperActivity` | Target Play Core compatibility boundary |
+
+---
+
+# 6. SERVICE TARGET — 10 / 10
+
+| # | Reference Service | Target BΛR☰ |
+|---:|---|---|
+| 1 | `org.swiftapps.swiftbackup.tasks.TaskService` | `com.bare.tasks.TaskService` |
+| 2 | `org.swiftapps.swiftbackup.home.schedule.ScheduleService` | `com.bare.home.schedule.ScheduleService` |
+| 3 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService` | `com.bare.messagescalls.defaulthandler.HeadlessSmsSendService` |
+| 4 | `com.google.firebase.components.ComponentDiscoveryService` | Target Firebase compatibility boundary |
+| 5 | `androidx.credentials.playservices.CredentialProviderMetadataHolder` | Target Credentials compatibility boundary |
+| 6 | `com.google.android.gms.auth.api.signin.RevocationBoundService` | Target Google Sign-In compatibility boundary |
+| 7 | `com.google.firebase.sessions.SessionLifecycleService` | Target Firebase Sessions compatibility boundary |
+| 8 | `androidx.room.MultiInstanceInvalidationService` | Target Room compatibility boundary |
+| 9 | `com.google.android.datatransport.runtime.backends.TransportBackendDiscovery` | Target DataTransport compatibility boundary |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService` | Target DataTransport compatibility boundary |
+
+---
+
+# 7. RECEIVER TARGET — 10 / 10
+
+| # | Reference Receiver | Target BΛR☰ |
+|---:|---|---|
+| 1 | `org.swiftapps.swiftbackup.jobs.AlarmReceiver` | `com.bare.jobs.AlarmReceiver` |
+| 2 | `org.swiftapps.swiftbackup.common.LocaleChangedReceiver` | `com.bare.common.LocaleChangedReceiver` |
+| 3 | `org.swiftapps.swiftbackup.jobs.BootReceiver` | `com.bare.jobs.BootReceiver` |
+| 4 | `org.swiftapps.swiftbackup.tasks.NotificationTaskCancelReceiver` | `com.bare.tasks.NotificationTaskCancelReceiver` |
+| 5 | `org.swiftapps.swiftbackup.common.PackageInstallResultReceiver` | `com.bare.common.PackageInstallResultReceiver` |
+| 6 | `org.swiftapps.swiftbackup.detail.ShortcutPinnedReceiver` | `com.bare.detail.ShortcutPinnedReceiver` |
+| 7 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.SmsReceiver` | `com.bare.messagescalls.defaulthandler.SmsReceiver` |
+| 8 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver` | `com.bare.messagescalls.defaulthandler.MmsReceiver` |
+| 9 | `androidx.profileinstaller.ProfileInstallReceiver` | Target ProfileInstaller compatibility boundary |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver` | Target DataTransport compatibility boundary |
+
+---
+
+# 8. PROVIDER TARGET — 4 / 4
+
+| # | Reference Provider | Target BΛR☰ |
+|---:|---|---|
+| 1 | `androidx.core.content.FileProvider` | Target FileProvider contract |
+| 2 | `rikka.shizuku.ShizukuProvider` | Target Shizuku provider contract |
+| 3 | `com.gun0912.tedpermission.provider.TedPermissionProvider` | Target TedPermission provider contract |
+| 4 | `androidx.startup.InitializationProvider` | Target AndroidX Startup compatibility boundary |
+
+---
+
+# 9. FRAGMENT TARGET
+
+Fragment merupakan bagian dari skeleton internal sesuai roadmap `docs/bare.md`.
+
+Target P2:
+
+> **Seluruh Fragment yang menjadi bagian dari struktur Reference harus mempunyai pasangan target BΛR☰.**
+
+P2 tidak menetapkan jumlah Fragment tanpa inventory Reference yang eksplisit.
+
+Inventaris Fragment harus mengikuti evidence Reference dan dipetakan satu per satu pada tahap inventory struktur Fragment.
+
+Tidak diperbolehkan:
+
+- menghapus Fragment karena tidak ada di AndroidManifest;
+- mengarang jumlah Fragment;
+- menyamakan jumlah Fragment dengan jumlah Activity.
+
+---
+
+# 10. MANIFEST STRUCTURAL TARGET
+
+Selain 119 component target, skeleton wajib mempertahankan struktur Manifest Reference yang relevan:
+
+- Application class
+- theme
+- launcher
+- Activity declaration
+- Service declaration
+- Receiver declaration
+- Provider declaration
+- permission
+- intent-filter
+- exported
+- enabled
+- authority
+- metadata
+- service type
+- activity attributes
+- provider attributes
+- receiver filters
+- application attributes
+- queries dan deklarasi struktural lain
+
+Reference baseline Application:
+
+- `org.swiftapps.swiftbackup.SwiftApp`
+- `@style/SwiftTheme`
+- launcher `org.swiftapps.swiftbackup.intro.IntroActivity`
+- post-intro `org.swiftapps.swiftbackup.home.HomeActivity`
+- `allowBackup=false`
+- `allowClearUserData=false`
+- `largeHeap=true`
+- `requestLegacyExternalStorage=true`
+- `supportsRtl=true`
+- `enableOnBackInvokedCallback=true`
+
+Perbedaan hanya boleh berasal dari authorized deviation `docs/bare.md`.
+
+---
+
+# 11. NATIVE / LIBRARY / EXTERNAL TARGET
+
+Native, library, dan external surface yang menjadi bagian dari struktur Reference tetap masuk target.
+
+Termasuk:
+
+- SBA native runtime;
+- native `.so` ABI payload;
+- OAuth / identity boundary;
+- billing boundary;
+- cloud SDK boundary;
+- Shizuku;
+- AndroidX;
+- Google/Firebase surfaces;
+- dependency lain yang menghasilkan component atau structural contract pada Reference.
+
+Untuk dependency/library component, target berarti:
+
+> BΛR☰ harus memiliki boundary struktural yang mempertahankan kontrak Reference.
+
+Bentuk boundary dapat berupa implementation, wrapper, compatibility layer, preserved API/ABI, atau integration boundary yang ditetapkan pada fase implementasi.
+
+---
+
+# 12. RESOURCE STRUCTURAL TARGET
+
+P1 menetapkan baseline Reference:
+
+| Resource | Target baseline |
 |---|---:|
 | layout | 341 |
 | layout-land | 2 |
@@ -174,611 +350,67 @@ P2 juga mewarisi inventaris resource P1:
 | animator | 42 |
 | color | 199 |
 
-Jumlah tersebut adalah **baseline Reference**, bukan klaim jumlah implementasi BΛR☰ saat ini.
+Angka tersebut adalah **target baseline Reference**, bukan status implementasi BΛR☰.
 
-P2 harus menjaga agar inventaris resource tidak hilang dari batas rekonstruksi.
-
----
-
-## 4.3. Baseline Application dan Manifest
-
-Reference:
-
-- Application class: `org.swiftapps.swiftbackup.SwiftApp`
-- Theme: `@style/SwiftTheme`
-- Launcher: `org.swiftapps.swiftbackup.intro.IntroActivity`
-- Primary post-intro Activity: `org.swiftapps.swiftbackup.home.HomeActivity`
-- `allowBackup=false`
-- `allowClearUserData=false`
-- `largeHeap=true`
-- `requestLegacyExternalStorage=true`
-- `supportsRtl=true`
-- `enableOnBackInvokedCallback=true`
-
-Selain atribut di atas, seluruh:
-
-- permission
-- intent
-- provider authority
-- service contract
-- receiver filter
-- activity export state
-- metadata
-- configuration
-
-tetap merupakan bagian dari kontrak struktural Reference.
-
-Perbedaan yang diizinkan hanya berasal dari `docs/bare.md`.
+Resource behavior/UI detail masuk fase UI berikutnya, tetapi keberadaan resource sebagai structural surface tidak boleh dihilangkan dari target rekonstruksi.
 
 ---
 
-# 5. APPLICATION SKELETON
+# 13. ATURAN TARGET
 
-## 5.1. Kontrak Reference
-
-Reference memiliki:
-
-`org.swiftapps.swiftbackup.SwiftApp`
-
-## 5.2. Target BΛR☰
-
-BΛR☰ memiliki:
-
-`com.bare.BaReApp`
-
-Evidence statis menunjukkan kelas `BaReApp` sudah ada dan Manifest BΛR☰ menunjuk ke:
-
-`android:name=".BaReApp"`
-
-Perubahan identitas Application tersebut termasuk perubahan identitas internal yang diizinkan oleh handoff.
-
-### Status
-
-**ADA — structural owner ditemukan.**
-
-### Batas klaim
-
-Keberadaan `BaReApp` hanya membuktikan skeleton Application.
-
-P2 tidak menyatakan bahwa seluruh lifecycle, initialization order, service initialization, dependency initialization, atau runtime behavior Reference sudah parity.
+1. Reference adalah source of truth.
+2. P1 adalah target boundary.
+3. Setiap target harus dapat ditelusuri ke Reference evidence.
+4. Dependency/library tidak otomatis dikecualikan.
+5. Authorized deviation hanya yang ditetapkan `docs/bare.md`.
+6. Target tidak boleh diperkecil karena kondisi implementasi saat ini.
+7. P2 tidak boleh mengubah target menjadi status implementasi.
+8. Jika evidence Reference tidak cukup, status harus UNKNOWN; jangan mengarang.
 
 ---
 
-# 6. ACTIVITY SKELETON
+# 14. BATAS TAHAP 2
 
-## 6.1. Target
+Tahap 2 menetapkan **skeleton target**.
 
-**95 Activity Reference = 95 target BΛR☰.**
+Tahap 2 tidak menyatakan:
 
-Daftar canonical lengkap tetap berada pada `docs/PHASE_1_INVENTORY.md`, bagian Target Activity.
+- UI parity;
+- behavior parity;
+- feature parity;
+- runtime parity;
+- build parity;
+- backend parity;
+- device verification.
 
-Tidak boleh menggunakan daftar 71 Activity sebagai batas target.
-
-## 6.2. Evidence saat ini
-
-Manifest BΛR☰ secara statis telah mendeklarasikan:
-
-- **71 / 95 Activity**
-- **24 / 95 Activity belum terdaftar**
-
-Dengan demikian:
-
-**Status Activity skeleton: SEBAGIAN**
-
-71 Activity yang sudah terdaftar merupakan evidence struktural, bukan bukti parity penuh.
-
-24 Activity yang belum terdaftar tetap merupakan target terbuka P2.
-
-## 6.3. Activity dependency/library
-
-Activity berikut tetap target walaupun berasal dari dependency/library:
-
-- AppAuth
-- TedPermission
-- Microsoft Identity
-- Firebase Auth
-- AndroidX Credentials
-- Google Play Services
-- Billing
-- pCloud
-- Yubico
-- Play Core
-- dan seluruh Activity dependency lain yang tercantum pada P1
-
-Target untuk permukaan tersebut harus mempunyai mekanisme BΛR☰ yang eksplisit:
-
-- implementasi langsung,
-- integrasi dependency,
-- compatibility boundary,
-- atau mekanisme setara yang mempertahankan kontrak Reference.
-
-Tidak boleh diberi status “bukan target”.
+Tahap berikutnya menggunakan target P2 ini sebagai baseline dan mengimplementasikan target tersebut sesuai roadmap.
 
 ---
 
-# 7. FRAGMENT SKELETON
+# 15. P2 FREEZE
 
-## 7.1. Mengapa Fragment wajib masuk P2
+Target yang dibekukan:
 
-`docs/bare.md` secara eksplisit mendefinisikan P2 sebagai:
+**95 Activity + 10 Service + 10 Receiver + 4 Provider = 119 target Manifest components.**
 
-> **REFERENCE SKELETON — Application / Activity / Fragment / Service / etc.**
+Ditambah:
 
-Karena itu Fragment tidak boleh dihilangkan hanya karena Fragment tidak dihitung dalam 119 AndroidManifest components.
+- Application target;
+- Fragment target;
+- Manifest structural target;
+- resource structural target;
+- native/library/external boundaries.
 
-119 adalah **batas komponen Manifest**, sedangkan Fragment adalah **permukaan struktur internal aplikasi**.
-
-## 7.2. Evidence BΛR☰
-
-Source Java BΛR☰ saat ini sudah memiliki Fragment, antara lain:
-
-- `DashboardFragment`
-- `CloudFragment`
-- `ScheduleFragment`
-- `AccountFragment`
-- `AppSwipeActionsFragment`
-- `SettingsFragment`
-- `SettingsLabsFragment`
-- `SettingsCloudFragment`
-- dan Fragment lain pada source tree BΛR☰
-
-Evidence tersebut membuktikan bahwa skeleton Fragment sudah ada.
-
-Namun P2 **belum memiliki inventaris lengkap Reference-vs-BΛR☰ untuk seluruh Fragment**.
-
-### Status
-
-**SEBAGIAN / UNKNOWN untuk parity inventory Fragment.**
-
-### Aturan berikutnya
-
-Sebelum menyatakan skeleton Fragment lengkap, harus tersedia:
-
-1. inventaris Fragment Reference;
-2. inventaris Fragment BΛR☰;
-3. mapping Reference → BΛR☰;
-4. klasifikasi setiap gap;
-5. evidence source untuk setiap mapping.
-
-Tidak boleh mengarang jumlah Fragment Reference.
+**Target P2 tidak boleh dikurangi berdasarkan implementasi yang sudah ada atau belum ada.**
 
 ---
 
-# 8. SERVICE SKELETON
+## 16. SUMBER KEWENANGAN
 
-## 8.1. Target
+1. `docs/bare.md`
+2. `docs/PHASE_1_INVENTORY.md`
+3. Reference Swift Backup 5.1.0 (620)
 
-**10 / 10 Service adalah target.**
+Jika terjadi konflik, Reference evidence + `docs/bare.md` + P1 target boundary menjadi acuan.
 
-Canonical list berada pada P1.
-
-## 8.2. Evidence saat ini
-
-Manifest BΛR☰ telah mendeklarasikan:
-
-- `TaskService`
-- `ScheduleService`
-- `HeadlessSmsSendService`
-
-Sehingga status statis:
-
-**3 / 10 Service**
-
-**7 / 10 Service belum terdaftar.**
-
-### Status
-
-**SEBAGIAN**
-
-`TaskService` sendiri telah memiliki source Java BΛR☰.
-
-Keberadaan source class tidak berarti lifecycle dan behavior Service sudah parity.
-
-Service dependency/library tetap target.
-
----
-
-# 9. RECEIVER SKELETON
-
-## 9.1. Target
-
-**10 / 10 Receiver adalah target.**
-
-## 9.2. Evidence saat ini
-
-Manifest BΛR☰ telah mendeklarasikan 8 Receiver:
-
-- `AlarmReceiver`
-- `LocaleChangedReceiver`
-- `BootReceiver`
-- `NotificationTaskCancelReceiver`
-- `PackageInstallResultReceiver`
-- `ShortcutPinnedReceiver`
-- `SmsReceiver`
-- `MmsReceiver`
-
-Sehingga:
-
-- **8 / 10 ada secara struktural**
-- **2 / 10 belum terdaftar**
-
-Dua Receiver dependency/library tetap target:
-
-- `androidx.profileinstaller.ProfileInstallReceiver`
-- `com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver`
-
-### Status
-
-**SEBAGIAN**
-
----
-
-# 10. PROVIDER SKELETON
-
-## 10.1. Target
-
-**4 / 4 Provider adalah target.**
-
-## 10.2. Evidence saat ini
-
-Manifest BΛR☰ saat ini memiliki:
-
-- `rikka.shizuku.ShizukuProvider`
-- `androidx.core.content.FileProvider`
-
-Sehingga:
-
-- **2 / 4 ada secara struktural**
-- **2 / 4 belum terdaftar**
-
-Provider yang masih terbuka:
-
-- `com.gun0912.tedpermission.provider.TedPermissionProvider`
-- `androidx.startup.InitializationProvider`
-
-### Status
-
-**SEBAGIAN**
-
-Tidak boleh menggunakan angka 0 Provider sebagai target.
-
----
-
-# 11. ANDROIDMANIFEST SKELETON
-
-P2 memperlakukan AndroidManifest sebagai kontrak struktural, bukan sekadar daftar nama class.
-
-Yang harus dipetakan terhadap Reference:
-
-- Application identity
-- Application class
-- theme
-- label
-- icon
-- launcher
-- Activity
-- Service
-- Receiver
-- Provider
-- authority
-- permission
-- intent-filter
-- exported
-- enabled
-- launchMode
-- parentActivityName
-- foregroundServiceType
-- metadata
-- queries
-- application flags
-- konfigurasi lain
-
-## Status saat ini
-
-Manifest BΛR☰ sudah memiliki baseline identitas BΛR☰ dan sebagian besar komponen internal.
-
-Namun karena masih terdapat:
-
-**35 / 119 target Manifest components yang belum terdaftar**
-
-maka Manifest skeleton:
-
-**SEBAGIAN — BELUM LENGKAP**
-
-Perbedaan Manifest yang bersifat dependency/toolchain hanya boleh diklasifikasikan setelah evidence tersedia. Jangan menebak.
-
----
-
-# 12. RESOURCE SKELETON
-
-Resource Reference merupakan bagian dari batas P2 karena P1 menetapkan baseline:
-
-- 341 layout
-- 7 varian/qualifier layout tambahan sesuai inventory P1
-- 448 drawable-family entries pada baseline P1
-- 44 menu
-- 18 xml
-- 12 raw
-- 7 font
-- 41 anim
-- 42 animator
-- 199 color
-
-P2 tidak boleh menyederhanakan resource menjadi “UI nanti”.
-
-Struktur resource mencakup:
-
-- layout
-- layout qualifier
-- drawable
-- vector
-- menu
-- values
-- styles
-- themes
-- color
-- font
-- anim
-- animator
-- raw
-- xml
-- konfigurasi resource lain
-
-### Status
-
-P1 memberikan baseline Reference, tetapi P2 ini **belum menyatakan parity resource lengkap**.
-
-Status:
-
-**UNKNOWN / SEBAGIAN**
-
-Audit resource lengkap harus menggunakan inventory Reference canonical dan inventory target BΛR☰, bukan asumsi berdasarkan jumlah file yang terlihat.
-
----
-
-# 13. NAVIGASI, DIALOG, INTENT, PERMISSION, CONFIGURATION
-
-Permukaan berikut merupakan bagian dari skeleton struktural karena Reference menjadikannya bagian dari kontrak aplikasi:
-
-### Navigasi
-
-- Activity → Activity
-- Activity → Fragment
-- Fragment → Fragment
-- parent/child Activity relation
-- launcher flow
-- deep-link / external entry point
-
-### Dialog
-
-- dialog owner
-- dialog resource
-- dialog entry point
-- callback boundary
-- permission dialog boundary
-
-### Intent
-
-- action
-- category
-- data
-- MIME type
-- extras
-- explicit/implicit target
-- result contract
-
-### Permission
-
-- Manifest permission
-- runtime permission surface
-- permission-dependent entry point
-
-### Configuration
-
-- application configuration
-- metadata
-- resource configuration
-- storage configuration
-- external integration configuration
-
-### Status
-
-**BELUM DINYATAKAN LENGKAP PADA P2**
-
-P2 hanya boleh menyatakan mapping yang telah mempunyai evidence.
-
-Behavior dan runtime verification tetap berada di fase berikutnya sesuai roadmap.
-
----
-
-# 14. NATIVE / LIBRARY / EXTERNAL SKELETON
-
-P1 menetapkan bahwa permukaan native/library/external tetap target.
-
-P2 karena itu harus mempertahankan boundary berikut sebagai bagian dari skeleton:
-
-- SBA native runtime
-- native `.so` ABI
-- OAuth / identity
-- billing
-- cloud SDK
-- Shizuku
-- AndroidX provider/service/receiver/activity
-- dependency lain yang memunculkan kontrak Manifest atau application structure
-
-## SBA native
-
-Evidence BΛR☰ menunjukkan:
-
-- exact Reference `libsba_archive.so` tersedia untuk ABI yang relevan;
-- native payload ditempatkan pada `native-compat/src/main/jniLibs`;
-- terdapat compatibility boundary `SbaRuntimeNative`.
-
-### Status
-
-**ADA — structural/native boundary evidence**
-
-P2 tidak menyatakan native behavior sudah runtime-verified.
-
-## Dependency component boundary
-
-Untuk dependency component yang menjadi target P1, mekanisme target harus dicatat secara eksplisit.
-
-Bentuk mekanisme boleh:
-
-- dependency integration;
-- wrapper;
-- compatibility implementation;
-- preserved ABI/API boundary;
-- equivalent BaRe-owned implementation.
-
-Tetapi status target tetap ada.
-
----
-
-# 15. PEMETAAN IDENTITAS REFERENCE → BΛR☰
-
-Perubahan identitas berikut adalah bagian dari deviation yang diizinkan:
-
-| Reference | BΛR☰ | Klasifikasi |
-|---|---|---|
-| `org.swiftapps.swiftbackup` | `com.bare` | AUTHORIZED |
-| `SwiftApp` | `BaReApp` | AUTHORIZED |
-| Swift Backup branding | BΛR☰ / BaRe | AUTHORIZED |
-| SwiftTheme | BaReTheme | AUTHORIZED branding/identity surface |
-| Premium entitlement | gratis | AUTHORIZED |
-| Firebase backend | Supabase jika memang diwajibkan handoff | AUTHORIZED |
-
-Perubahan lain tidak otomatis sah.
-
-Setiap perbedaan yang belum terbukti harus:
-
-- AUTHORIZED DEVIATION
-- UNAUTHORIZED DEVIATION
-- atau UNKNOWN
-
----
-
-# 16. BATAS YANG TIDAK BOLEH DILAKUKAN PADA P2
-
-Tahap 2 **tidak melakukan**:
-
-- build
-- assemble
-- packaging APK
-- CI execution
-- install APK
-- runtime device test
-- emulator test
-- live Supabase execution
-- live Supabase mutation
-- Auth execution
-- klaim runtime PASS
-- klaim feature parity
-- klaim behavior parity
-
-Jika pemeriksaan membutuhkan salah satu langkah tersebut:
-
-**STATUS = BLOCKED**
-
-Jangan memalsukan hasil.
-
----
-
-# 17. KRITERIA PENERIMAAN P2
-
-P2 baru dapat dinyatakan lengkap jika seluruh kategori struktural berikut memiliki evidence dan mapping yang memadai:
-
-| Area | Target / Kontrak | Status saat ini |
-|---|---|---|
-| Application | Reference Application → BΛR☰ Application | **ADA** |
-| Activity | 95 / 95 | **SEBAGIAN — 71 / 95** |
-| Fragment | seluruh Fragment Reference yang relevan | **UNKNOWN / SEBAGIAN** |
-| Service | 10 / 10 | **SEBAGIAN — 3 / 10** |
-| Receiver | 10 / 10 | **SEBAGIAN — 8 / 10** |
-| Provider | 4 / 4 | **SEBAGIAN — 2 / 4** |
-| Manifest | seluruh struktur Manifest Reference | **SEBAGIAN** |
-| Resource | seluruh baseline resource P1 | **UNKNOWN / SEBAGIAN** |
-| Navigation | contract struktural Reference | **BELUM LENGKAP** |
-| Dialog | contract struktural Reference | **BELUM LENGKAP** |
-| Intent | contract struktural Reference | **BELUM LENGKAP** |
-| Permission | contract struktural Reference | **BELUM LENGKAP** |
-| Configuration | contract struktural Reference | **BELUM LENGKAP** |
-| Native / ABI | SBA + boundary native Reference | **ADA — boundary** |
-| Library / external | seluruh target dependency/external | **SEBAGIAN** |
-
----
-
-# 18. HASIL GERBANG TAHAP 2
-
-## STATUS: **BELUM LULUS / SKELETON BELUM LENGKAP**
-
-Alasan utama:
-
-1. 24 / 95 Activity target belum terdaftar.
-2. 7 / 10 Service target belum terdaftar.
-3. 2 / 10 Receiver target belum terdaftar.
-4. 2 / 4 Provider target belum terdaftar.
-5. Inventaris lengkap Fragment Reference → BΛR☰ belum tersedia pada evidence P2.
-6. Audit penuh struktur resource Reference → BΛR☰ belum dinyatakan selesai.
-7. Mapping lengkap navigation/dialog/intent/permission/configuration belum selesai.
-8. Dependency/library/external target boundary belum seluruhnya memiliki mekanisme target yang terdokumentasi.
-
-Dengan demikian:
-
-**P2 tidak boleh dinyatakan COMPLETE.**
-
----
-
-# 19. TARGET P2 BERIKUTNYA
-
-Urutan kerja setelah dokumen ini:
-
-1. Lengkapi inventaris Fragment Reference.
-2. Lengkapi mapping Fragment Reference → BΛR☰.
-3. Lengkapi 24 Activity yang belum memiliki skeleton.
-4. Lengkapi 7 Service yang belum memiliki skeleton.
-5. Lengkapi 2 Receiver yang belum memiliki skeleton.
-6. Lengkapi 2 Provider yang belum memiliki skeleton.
-7. Audit struktur Manifest terhadap seluruh 119 target.
-8. Audit resource Reference → BΛR☰.
-9. Audit navigation/dialog/intent/permission/configuration sebagai kontrak struktural.
-10. Audit mekanisme target seluruh dependency/library/external surface.
-11. Re-evaluasi gate P2 berdasarkan evidence baru.
-
-Tidak ada langkah di atas yang boleh diganti dengan klaim build/runtime.
-
----
-
-# 20. ATURAN PARITY UNTUK FASE BERIKUTNYA
-
-Setelah P2 selesai, seluruh fase berikutnya tetap menggunakan:
-
-**Reference → BΛR☰ = 1:1 + Authorized Deviations**
-
-P2 tidak boleh digunakan untuk menghapus target.
-
-Khusus dependency/library:
-
-> **“Berasal dari library” bukan alasan untuk mengeluarkan komponen dari target.**
-
-P2 hanya menentukan struktur dan ownership/mechanism target.
-
-Behavior, UI fidelity, feature parity, runtime, dan verification dilakukan pada fase yang sesuai dengan roadmap `docs/bare.md`.
-
----
-
-## 21. SUMBER KEWENANGAN
-
-Dokumen ini harus dibaca bersama:
-
-1. `docs/bare.md` — kewenangan dan aturan rekonstruksi.
-2. `docs/PHASE_1_INVENTORY.md` — batas target canonical.
-3. Reference Swift Backup 5.1.0 (620) — source of truth.
-4. `docs/audits/APP_IMPLEMENTATION_AUDIT_REWRITE_2026-10-04.md` — bukti audit implementasi yang telah dilakukan.
-
-Jika terjadi konflik:
-
-**Reference evidence + `docs/bare.md` + P1 target boundary** menjadi acuan klasifikasi.
-
-P2 tidak boleh mengubah target P1 secara sepihak.
+P2 adalah **target skeleton contract**, bukan work report.
