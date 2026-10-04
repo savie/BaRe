@@ -28,17 +28,6 @@ public final class BaReApp extends Application {
         createNotificationChannels();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration configuration) {
-        super.onConfigurationChanged(configuration);
-        if (Build.VERSION.SDK_INT >= 33) {
-            LocaleList locales = configuration.getLocales();
-            if (locales != null) {
-                com.bare.locale.LocaleStateBridge.onConfigurationChanged(this, locales);
-            }
-        }
-    }
-
     private void createNotificationChannels() {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
