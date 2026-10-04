@@ -32,6 +32,103 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
 
     private ReferenceSbaNativeRestoreOrchestrator() {}
 
+    /**
+     * Extract selected TAR members directly into the Reference destination directory.
+     * The Reference native AEGIS path receives the canonical destination separately
+     * from the SBA entry name; it must not be emulated by reading payload bytes into
+     * a temporary map.
+     */
+    public static java.util.List<String> extractToDirectory(
+            File archive, String password, File destination, java.util.List<String> selected) throws Exception {
+        if (archive == null || !archive.isFile()) throw new IOException("SBA archive does not exist");
+        if (destination == null) throw new IOException("SBA extraction destination is missing");
+        if (!destination.exists() && !destination.mkdirs()) throw new IOException("Unable to create SBA extraction destination");
+        if (!destination.isDirectory()) throw new IOException("SBA extraction destination is not a directory");
+
+        Header h;
+        Footer footer;
+        byte[] index;
+        try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(archive, "r")) {
+            h = readHeader(raf);
+            footer = readFooter(raf, h.version);
+            if (footer.indexOffset < h.headerSize || footer.indexSize <= 0
+                    || footer.indexSize > MAX_INDEX_SIZE
+                    || footer.indexOffset + footer.indexSize > raf.length() - FOOTER_SIZE) {
+                throw new IOException("Invalid SBA index bounds");
+            }
+            index = new byte[(int) footer.indexSize];
+            raf.seek(footer.indexOffset);
+            raf.readFully(index);
+        }
+        CRC32 crc = new CRC32();
+        crc.update(index);
+        if ((int) crc.getValue() != footer.indexCrc) throw new IOException("SBA index CRC mismatch");
+
+        java.util.List<Entry> entries = parseEntries(index, h, footer);
+        validateEntryHeaders(archive, h, footer, entries);
+        String[] selectedArray = null;
+        if (selected != null && !selected.isEmpty()) {
+            selectedArray = selected.toArray(new String[0]);
+        }
+
+        if (h.encryptionMethod == 0) {
+            java.util.ArrayList<String> extracted = new java.util.ArrayList<>();
+            for (Entry e : entries) {
+                String[] result;
+                if (h.compressionMethod == 0) {
+                    result = new SbaNativeEntryExecutor().extractPlain(
+                            archive, e.payloadOffset, e.storedSize, destination.getCanonicalPath(),
+                            e.flags, selectedArray, new NoopProgress());
+                } else if (h.compressionMethod == 1) {
+                    result = new SbaNativeEntryExecutor().extractZstd(
+                            archive, e.payloadOffset, e.storedSize, destination.getCanonicalPath(),
+                            e.flags, selectedArray, new NoopProgress());
+                } else {
+                    throw new IOException("Unsupported Reference SBA compression: " + h.compressionMethod);
+                }
+                if (result != null) java.util.Collections.addAll(extracted, result);
+            }
+            return extracted;
+        }
+
+        if (password == null || password.isEmpty()) throw new IOException("SBA encryption password required");
+        if (h.kdfMethod != 1) throw new IOException("Unsupported Reference SBA KDF: " + h.kdfMethod);
+        int outputBytes = h.encryptionMethod == 1 ? 16 : 32;
+        SbaNativeArchiveBackend backend = new SbaNativeArchiveBackend();
+        byte[] key = backend.deriveArgon2id(password, h.salt, h.iterations, h.memoryKiB, h.parallelism, outputBytes);
+        try {
+            byte[] expectedKeyCheck = ReferenceSbaCryptoOrchestrator.keyCheck(
+                    h.encryptionMethod, key, h.salt, h.nonceSeed);
+            try {
+                if (!MessageDigest.isEqual(expectedKeyCheck, h.keyCheck)) throw new IOException("Invalid SBA archive key");
+            } finally { Arrays.fill(expectedKeyCheck, (byte) 0); }
+            if (h.version >= 2) {
+                byte[] indexMacKey = ReferenceSbaCryptoOrchestrator.deriveIndexMacKey(key, h.salt, h.nonceSeed);
+                try {
+                    ReferenceSbaCryptoOrchestrator.verifyIndexMetadataMac(
+                            indexMacKey, h.rawHeader, footer.indexOffset, footer.indexSize,
+                            footer.indexCrc, index, h.indexMac);
+                } finally { Arrays.fill(indexMacKey, (byte) 0); }
+            }
+            if (!ReferenceSbaCryptoOrchestrator.isPublicNativeAead(h.encryptionMethod)) {
+                throw new IOException("Reference SBA optional encryption backend is not enabled for method " + h.encryptionMethod);
+            }
+            java.util.ArrayList<String> extracted = new java.util.ArrayList<>();
+            for (Entry e : entries) {
+                byte[] aad = e.name.getBytes(StandardCharsets.UTF_8);
+                try {
+                    String[] result = new SbaNativeEntryExecutor().extractAegis(
+                            archive, e.entryHeaderOffset, e.storedSize, e.payloadOffset, e.compressedSize,
+                            e.name, destination.getCanonicalPath(), e.flags, selectedArray,
+                            h.encryptionMethod, h.chunkSize, key, h.nonceSeed, aad,
+                            e.tarSize, 511, new NoopProgress(), true);
+                    if (result != null) java.util.Collections.addAll(extracted, result);
+                } finally { Arrays.fill(aad, (byte) 0); }
+            }
+            return extracted;
+        } finally { Arrays.fill(key, (byte) 0); }
+    }
+
     public static Map<String, byte[]> readEntries(File archive, String password) throws Exception {
         if (archive == null || !archive.isFile()) {
             throw new IOException("SBA archive does not exist");
