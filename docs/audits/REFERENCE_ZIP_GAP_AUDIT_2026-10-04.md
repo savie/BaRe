@@ -51,3 +51,51 @@ No build, APK, install, runtime/device, or live Supabase execution is performed 
 **Status:** IMPLEMENTED / STATIC
 
 **Next:** continue Reference ZIP → current `app/` gap reconciliation through the remaining core/feature owners; do not create manifest dependency clones without dependency evidence.
+
+## Implementation loop update
+
+### Batch A — Application notification contract
+Reference ZIP evidence from common/NotificationHelper.java + SwiftApp.java proves:
+- success channel uses task_complete_sound_success
+- error/crash channel uses the Reference error sound
+- task completion channels use notification audio attributes
+- application startup calls NotificationManager.cancelAll()
+
+BaRe reconciliation:
+- BaReApp now resolves the shipped success/error raw resources to Android resource URIs.
+- startup cancelAll() is aligned with Reference.
+- existing BaRe singleton/channel ownership is preserved.
+
+Commit: fb6ca5cbdee5d5d1ed97eb5372b526d0b049323c
+
+### Batch B — Home Search result pipeline
+Reference ZIP evidence from home/search/HomeSearchActivity.java proves:
+- Apps, Folders, and Quick Actions have dedicated RecyclerView adapters.
+- Search results control section/card visibility.
+- App result opens DetailActivity with the package as target.
+- Folder result opens FolderDetailActivity with FolderItem.
+- Quick Actions dispatch into corresponding backup/restore surfaces.
+- system-app visibility is part of the result state.
+
+BaRe reconciliation:
+- existing HomeSearchEngine is retained as the search/ranking owner.
+- result adapters are now attached to the existing Reference-shaped RecyclerViews.
+- app and folder indexes are loaded from existing BaRe repositories.
+- result card visibility and system-app toggle are driven by HomeSearchEngine.State.
+- Reference-proven app/folder/quick-action dispatch is wired to existing BaRe owners.
+- no new manifest component or fake dependency class was introduced.
+
+Commits:
+- 76c82cae79994e035e09ce43ef18721e08805687
+- 1e079380ff0ee6f1ce478901bc513f446b904c5e
+
+### Static guard
+These batches were reviewed statically only. No build, APK generation, install, runtime/device execution, or live Supabase mutation was performed.
+
+## Current loop
+
+Batch: Application → Home/Search
+
+Status: IMPLEMENTED / STATIC
+
+Next: continue Reference ZIP → current app/ gap reconciliation through the remaining core/feature owners; do not create manifest dependency clones without dependency evidence.
