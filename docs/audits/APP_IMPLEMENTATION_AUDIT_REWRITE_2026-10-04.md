@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Current HEAD | `6014cff87c406cf8bb545a7324d63d84d209c345` |
+| Current HEAD | `c67beba2c2d08e9c4f1799817775a242147626c2` |
 | Supplied Base Checkpoint | `6014cff87c406cf8bb545a7324d63d84d209c345` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -33,7 +33,7 @@ Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar
 Temuan paling penting:
 
 1. **Branch state mismatch terhadap instruksi audit:** `rewrite` saat ini menunjuk tepat ke supplied base checkpoint `6014cff...`. Tidak ditemukan commit implementation setelah checkpoint.
-2. **Build blocker candidate:** `app/build.gradle` adalah Groovy Gradle file tetapi berisi konstruksi Kotlin DSL seperti `val`, `isNullOrBlank()`, `create("...")`, dan `getByName(...)`.
+2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
 3. **Critical native packaging gap:** `app/` tidak memiliki `.so` native library, sementara source memanggil `System.loadLibrary("sba_archive")`. Reference APK memiliki `libsba_archive.so` untuk 4 ABI dan exported JNI symbol dengan namespace `Java_com_swiftapps_sba_...`.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
 5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
@@ -208,29 +208,26 @@ Manifest sudah menormalisasi:
 
 ## Build System Audit
 
-### app/build.gradle
+### app/build.gradle — WORK-01 RESULT
 
-Current file menggunakan `app/build.gradle` sebagai Groovy Gradle file, tetapi terdapat konstruksi:
+Konfigurasi telah direkonsiliasi menjadi Groovy Gradle DSL tanpa redesign dependency, SDK, atau feature behavior.
 
-`val stableDebugKeystorePath = ...`  
-`stableDebugKeystorePath.isNullOrBlank()`  
-`signingConfigs.create("stableDebug")`  
-`buildTypes.getByName("debug")`  
-`signingConfigs.getByName("stableDebug")`
+Perubahan static:
 
-Konstruksi tersebut adalah Kotlin DSL style, bukan syntax/idiom valid untuk file Groovy `build.gradle`.
+- `val` → `def`
+- `isNullOrBlank()` → safe `trim()` check
+- `signingConfigs.create(...)` → Groovy named configuration
+- `buildTypes.getByName(...)` → Groovy `buildTypes { debug { ... } }`
+- Kotlin `toIntOrNull()` → Groovy `isInteger()` + `toInteger()` fallback
+- file ditutup dengan newline normal
 
-Selain itu:
-
-`System.getenv("BARE_VERSION_CODE")?.toIntOrNull()`
-
-mengandalkan API Kotlin `toIntOrNull()` yang tidak tersedia pada Java/Groovy String secara langsung.
+Root `build.gradle`, `settings.gradle`, dan `gradle.properties` tetap konsisten dengan konfigurasi existing. Tidak ditemukan evidence-backed wrapper version/artifact yang wajib direkonstruksi dari `bare.md`/Reference pada scope ini, sehingga wrapper tidak diarang.
 
 ### Classification
 
-**CRITICAL / BUILD BLOCKER CANDIDATE**
+**PASS (STATIC)**
 
-Tidak boleh menyatakan build berhasil sebelum file ini direkonsiliasi menjadi syntax yang konsisten dengan Groovy Gradle atau file dipindahkan secara sengaja ke Kotlin DSL dengan seluruh lifecycle configuration yang sesuai.
+Ini adalah static configuration closure saja. Build/dependency resolution/assembleDebug/APK/CI tidak dijalankan dan tidak digunakan sebagai evidence.
 
 ### Gradle Wrapper
 
@@ -240,7 +237,7 @@ Tidak ditemukan:
 - `gradlew.bat`
 - `gradle/wrapper/*`
 
-**Classification: BUILD/CI GAP.**
+**Classification: BUILD/CI GAP — OUTSIDE WORK-01 STATIC PASS.**
 
 ### CI
 
@@ -784,15 +781,15 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 
 1. **Reconcile branch state.** Pastikan `rewrite` memang memiliki implementation state yang dimaksud; jangan mengaudit phantom local/uncommitted state sebagai repository state.
-2. **Fix `app/build.gradle`.** Gunakan syntax Groovy yang valid dan pertahankan dependency/runtime berdasarkan Reference evidence.
-3. **Restore reproducible build boundary.** Tambahkan/restore Gradle Wrapper dan CI hanya setelah configuration valid.
+2. **Fix `app/build.gradle`.** **DONE — PASS (STATIC).** Syntax Groovy telah direkonsiliasi; dependency/runtime configuration tidak diubah.
+3. **Restore reproducible build boundary.** Wrapper/CI tetap separate gap; jangan mengarang artifact/version tanpa evidence dan jangan menjalankan build/CI.
 4. **Resolve native SBA packaging.** Package exact compatible `libsba_archive.so` atau rebuild native ABI secara evidence-backed. Jangan rename JNI namespace secara blind.
 5. **Reconcile Dashboard terhadap canonical Reference layout.** Jangan mempertahankan `home_dashboard_fragment.xml` sebagai redesign jika tidak termasuk Authorized Deviation.
 6. **Wire root status, notices, and secondary-user warning.**
 7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.**
 8. **Implement concrete Supabase adapter only after actual Supabase state/configuration is verified.** Jangan membuat schema/key/RLS/bucket berdasarkan asumsi.
 9. **Complete execution boundaries** untuk scheduling, root/Shizuku, installer, storage, telephony, native, dan cloud.
-10. **Re-run static parity audit**, kemudian build, runtime, visual, behavior, feature, and deviation verification.
+10. **Re-run static parity audit** setelah seluruh static work order selesai. Build/runtime/device execution tetap NOT PERMITTED pada work order ini.
 
 ## Verification Matrix
 
@@ -808,7 +805,7 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | Dashboard wiring | FAIL |
 | MMS static restore | PASS / UNVERIFIED RUNTIME |
 | Native ABI packaging | FAIL |
-| Build configuration | FAIL / BLOCKED |
+| Build configuration | PASS (STATIC) |
 | Gradle reproducibility | BLOCKED |
 | CI | BLOCKED |
 | Supabase concrete implementation | BLOCKED |
@@ -933,49 +930,28 @@ Fokus hanya pada:
 
 - app/build.gradle
 - root Gradle configuration yang diperlukan
-- Gradle Wrapper
-- dependency resolution
-- Android plugin compatibility
+- Gradle Wrapper bila evidence mendukung
+- dependency/plugin declarations
+- Android plugin compatibility secara source-level
 - Java compilation configuration
 - signing/build type configuration
 - version configuration
 
-## Known Finding
+## Result
 
-app/build.gradle menggunakan file Groovy tetapi memiliki konstruksi Kotlin DSL seperti:
+`app/build.gradle` telah direkonsiliasi dari campuran Kotlin DSL menjadi Groovy Gradle DSL.
 
-- val
-- isNullOrBlank()
-- signingConfigs.create(...)
-- buildTypes.getByName(...)
-- signingConfigs.getByName(...)
-- Kotlin safe-call / toIntOrNull() expression
+Perubahan tidak mengubah dependency list, SDK level, application identity, Java 17, signing semantics, native contract, backend behavior, atau feature scope.
 
-Ini harus diperbaiki menjadi syntax yang benar untuk configuration yang digunakan.
-
-## Important Constraint
-
-**Jangan melakukan redesign dependency hanya agar build lewat.**
-
-Dependency, plugin, SDK level, library, dan behavior configuration harus mengikuti evidence Reference dan bare.md.
-
-## Do Not
-
-- jangan pindah source implementation ke Kotlin
-- jangan migrasi UI ke Compose
-- jangan menambahkan fake dependency
-- jangan menghapus feature hanya untuk menghilangkan compile error
-- jangan mengubah native contract
-- jangan mengubah backend behavior
-- jangan menyatakan PASS hanya karena Gradle configuration terlihat valid
+Wrapper tidak ditambahkan karena tidak ada evidence-backed wrapper version/artifact yang dapat direkonstruksi secara aman dari authority/evidence yang tersedia.
 
 ## Definition of Done — STATIC
 
-1. Gradle configuration source konsisten dan tidak memiliki known syntax contradiction.
-2. Wrapper/config artifacts direkonstruksi hanya bila didukung evidence.
-3. Dependency/plugin declarations konsisten dengan evidence.
-4. Java/resource/manifest/build-type configuration konsisten secara static.
-5. Tidak ada fake/stub workaround.
+1. Gradle configuration source konsisten dan tidak memiliki known Kotlin/Groovy DSL contradiction. **PASS**
+2. Wrapper/config artifacts hanya direkonstruksi bila didukung evidence. **PASS — no unsupported artifact invented**
+3. Dependency/plugin declarations tetap konsisten dengan existing evidence. **PASS**
+4. Java/resource/manifest/build-type configuration konsisten secara static. **PASS**
+5. Tidak ada fake/stub workaround. **PASS**
 
 **Build execution, dependency resolution execution, assembleDebug, APK generation, dan CI: NOT PERMITTED.**
 
@@ -985,9 +961,7 @@ WORK-01 ditutup berdasarkan static evidence; tidak membutuhkan build PASS.
 
 ### Current Status
 
-IN PROGRESS / STATIC
-
----
+**PASS (STATIC)**
 
 # WORK-02 — RESTORE / RECONCILE NATIVE SBA BOUNDARY
 
@@ -1397,7 +1371,7 @@ NOT STARTED
 | Work | Status | Next Gate |
 |---|---|---|
 | WORK-00 Branch State | DONE | — |
-| **WORK-01 Build Configuration** | **IN PROGRESS / NEXT** | Static configuration closure |
+| **WORK-01 Build Configuration** | **PASS (STATIC)** | — |
 | WORK-02 Native SBA | BLOCKED / STATIC | Static native boundary closure |
 | WORK-03 Dashboard | BLOCKED / STATIC | Canonical Dashboard static parity |
 | WORK-04 Supabase | BLOCKED / STATIC | Concrete backend source boundary |
@@ -1406,15 +1380,17 @@ NOT STARTED
 
 ## SINGLE NEXT ACTION
 
-**Kerjakan hanya WORK-01.**
+**WORK-01 selesai — PASS (STATIC).**
 
-Target pertama:
+Evidence:
 
-app/build.gradle → valid Gradle configuration → Gradle Wrapper → assembleDebug PASS
+- commit implementation: `c67beba2c2d08e9c4f1799817775a242147626c2`
+- `app/build.gradle` sekarang konsisten sebagai Groovy Gradle DSL
+- dependency/plugin/SDK configuration tidak diubah
+- tidak ada fake/stub workaround
+- build/assemble/APK/CI tidak dijalankan sesuai boundary
 
-Setelah WORK-01 PASS, update bagian **ACTIVE STATUS BOARD** dan lanjut ke WORK-02.
-
-**Jangan mengerjakan WORK-02/03/04 secara paralel hanya karena sudah terlihat di audit.**
+**Next action tunggal: WORK-02 — Native SBA static boundary.** Jangan melompat ke WORK-03/04.
 
 ---
 
