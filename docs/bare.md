@@ -34,8 +34,9 @@ Reference canonical yang digunakan project adalah decompile archive Swift Backup
 
 Path canonical Reference:
 `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`
+`/mnt/data/5.1.0 (620).apk`
 
-Archive tersebut merupakan sumber evidence utama dan bersifat read-only.
+Archive dan apk tersebut merupakan sumber evidence utama dan bersifat read-only.
 
 ### 0.2. Repository `reference/`
 
@@ -62,7 +63,7 @@ Repository "savie/BaRe" branch "rewrite" merupakan target implementation dari re
 
 ---
 
-## 1. HARD SCOPE RULE — REFERENCE READ-ONLY / APP IMPLEMENTATION ONLY
+## 1. HARD SCOPE RULE
 
 **Reference adalah evidence/source of truth dan selalu read-only. Reference tidak pernah menjadi target implementasi.**
 
@@ -81,85 +82,11 @@ Bukan:
 
 ---
 
-## 2. MASTER WORKFLOW — AUDIT → CATAT → CEK → IMPLEMENTASI → RE-AUDIT
+## 2. MASTER WORKFLOW 
 
-Pola ini wajib dipahami sebelum mengerjakan N-domain mana pun.
+Master Workflow yang digunakan 
 
-### 2.1. Urutan Dasar Workflow
-
-`AUDIT → CATAT → CEK → IMPLEMENTASI → RE-AUDIT → CLOSURE`
-
-1. **AUDIT**
-   - bongkar evidence sesuai scope;
-   - gunakan Reference canonical atau mirror lokal yang sudah diverifikasi identik;
-   - untuk N-domain selain N-01, baca hasil **N-01 TOTAL AUDIT terlebih dahulu** agar dependency/resource scope sudah diketahui;
-   - setelah itu baru bongkar/inspeksi ZIP canonical secara spesifik untuk domain tersebut.
-
-2. **CATAT**
-   - catat seluruh finding;
-   - catat evidence;
-   - catat ownership;
-   - catat dependency;
-   - catat classification;
-   - catat pekerjaan yang perlu dilakukan;
-   - jangan melakukan mutation implementation sebelum register audit cukup lengkap.
-
-3. **CEK**
-   - tentukan apakah hasil audit bisa dikerjakan **sekali jalan**;
-   - jika volume, dependency, risiko, atau scope terlalu besar, pecah menjadi `N-X-1`, `N-X-2`, `N-X-3`, dan seterusnya;
-   - pembagian hanya dibuat jika memang diperlukan, bukan administratif.
-
-4. **IMPLEMENTASI**
-   - baru setelah tahap CEK selesai;
-   - implementasikan pada `app/`/implementation surface BaRe;
-   - Reference tetap read-only;
-   - ikuti ownership N-domain agar tidak terjadi double mutation.
-
-5. **RE-AUDIT**
-   - audit kembali hasil implementasi terhadap Reference;
-   - verifikasi semua finding yang ditargetkan;
-   - pastikan tidak ada regression di scope terkait.
-
-6. **CLOSURE**
-   - hanya tandai `🟢` jika exit criterion domain benar-benar terpenuhi;
-   - jika belum, tetap `🟡`, `🔴`, `UNKNOWN`, atau `BLOCKED` sesuai evidence.
-
-### 2.2. Skenario Eksekusi
-
-* **Jika bisa sekali jalan:**
-  `AUDIT → CATAT → CEK: SEKALI JALAN → IMPLEMENTASI → RE-AUDIT → 🟢`
-
-* **Jika harus dipecah:**
-  `AUDIT → CATAT → CEK: PECAH → N-X-1 → RE-AUDIT → N-X-2 → RE-AUDIT → ... → TOTAL RE-AUDIT → CLOSURE`
-
-**Jangan implementasi sebelum tahap CEK selesai.**
-
-### 2.3. Dependency Rule Lintas N
-
-**N-01 adalah master resource/dependency audit.**
-
-N-01 bukan berarti seluruh resource harus diimplementasikan sebagai pekerjaan N-01.
-
-N-01 menyediakan:
-- resource inventory;
-- logical resource inventory;
-- qualifier/variant;
-- resource graph;
-- ownership;
-- orphan/unknown register;
-- cross-domain mapping.
-
-Sebelum audit N-02 sampai N-15:
-`BACA N-01 TOTAL AUDIT → AMBIL FINDING YANG MENJADI SCOPE N → BONGKAR ZIP SECARA SPESIFIK → TOTAL AUDIT N`
-
-Temuan N-01 dapat menjadi pekerjaan N-domain lain. Contoh:
-- `N-01 resource → N-02 string`
-- `N-01 resource → N-03 dimension`
-- `N-01 resource → N-04 style/color/attr`
-- `N-01 resource → N-05 manifest XML`
-- `N-01 resource → N-08 navigation resource`
-
-Setelah N-domain selesai, N-01 dapat ditutup melalui **closure verification** terhadap finding yang ditransfer kepadanya. Jangan melakukan duplicate implementation di N-01 hanya agar status N-01 hijau.
+ /mnt/data/FULL_LIFECYCLE_SYSTEM_ENGINEER_MASTER_v2.md
 
 ---
 
@@ -239,19 +166,70 @@ Termasuk:
 - dokumentasi
 - branding yang terlihat pengguna
 
-Identifier internal yang mengandung nama Swift bukan alasan untuk membiarkannya tetap berada di target `app/`. Setiap identifier internal app-owned harus dianalisis berdasarkan fungsi dan dependency-nya, lalu dinormalisasi ke identitas BaRe/BΛR☰ apabila merupakan residue Swift Backup.
+#### App-Owned Identifier Normalization
 
-Aturan normalisasi target `app/`:
-- seluruh occurrence `Swift` / `swift` di target `app/` harus mencapai **0** setelah audit dan implementasi selesai;
-- seluruh occurrence `Firebase` / `firebase` di target `app/` harus mencapai **0** setelah audit dan implementasi selesai;
-- class, method, field, resource, XML reference, ID, key, filename, URL, callback identity, comment, dan konfigurasi app-owned yang membawa identitas Swift/Firebase harus dinormalisasi apabila memang merupakan residue target;
-- rename wajib dilakukan berdasarkan ownership/dependency dan harus diikuti seluruh consumer/resource/reference yang terdampak;
-- identifier dependency-owned, Reference-only, atau external protocol yang bukan app-owned tidak boleh diubah secara blind dan harus diklasifikasikan secara eksplisit.
+Seluruh identifier yang berada di bawah target `app/` dan merupakan bagian dari implementasi BaRe wajib dinormalisasi dari identitas `Swift` / `Swift Backup` / `Firebase` menjadi identitas BaRe/BΛR☰ atau identitas teknis yang netral apabila identifier tersebut tidak memerlukan branding.
+
+Ini mencakup:
+- class
+- interface
+- method
+- field
+- resource
+- XML reference
+- ID
+- key
+- filename
+- package/namespace
+- URL
+- callback identity
+- configuration
+- comment
+- internal constant
+- internal storage identifier
+- internal database identifier
+
+Normalisasi wajib dilakukan berdasarkan ownership dan fungsi identifier, bukan melalui blind/global text replacement.
+
+#### Dependency / Reference / External Identifier
+
+Identifier yang berasal dari dependency, Reference-only implementation, external API/ABI, native library, atau external protocol/format wajib dianalisis terlebih dahulu.
+
+Jika identifier tersebut masih mengandung `Swift` / `Swift Backup` / `Firebase`, maka identifier tersebut tidak boleh dibiarkan hanya karena dianggap "dependency-owned".
+
+Identifier tersebut harus melalui salah satu keputusan eksplisit:
+
+1. `RENAME`
+   - identifier dapat diubah tanpa merusak contract;
+   - seluruh consumer/reference terkait ikut diperbarui.
+
+2. `PRESERVE-COMPATIBILITY`
+   - identifier merupakan bagian dari contract yang harus dipertahankan untuk compatibility;
+   - identifier boleh tetap digunakan pada boundary tersebut;
+   - occurrence tersebut harus dicatat dan diklasifikasikan secara eksplisit.
+
+3. `MIGRATE`
+   - identifier merupakan protocol/format/internal compatibility identifier yang memang ingin dipindahkan ke BaRe;
+   - migration harus mempertahankan compatibility terhadap format Reference yang masih diperlukan;
+   - tidak boleh dilakukan melalui blind/global replacement.
+
+Dengan demikian, keberadaan dependency-owned, Reference-only, atau external identifier bukan otomatis alasan untuk mempertahankan branding Swift di seluruh target `app/`.
+
+#### Static Hygiene
+
+Target akhir static hygiene:
+
+`app/ → 0 Swift/swift + 0 Firebase/firebase`
+
+Target tersebut berlaku terhadap seluruh source/resource/configuration yang dapat dinormalisasi atau dimigrasikan oleh BaRe.
+
+Setiap occurrence yang masih tersisa setelah implementasi harus memiliki klasifikasi eksplisit:
+- `PRESERVE-COMPATIBILITY`
+- atau status lain yang secara eksplisit diotorisasi.
+
+Tidak boleh ada occurrence Swift/Firebase yang tersisa hanya karena belum dianalisis.
 
 **Jangan melakukan blind/global text replacement.**
-
-Target static hygiene adalah:
-`app/ → 0 Swift/swift + 0 Firebase/firebase`
 
 ### 5.2. Swift-Specific Identity
 
@@ -264,6 +242,8 @@ Referensi eksternal yang memang merupakan identitas Swift Backup dapat diganti d
 - deep link
 - product URL
 - branding-related identity
+
+Untuk setiap external identity yang diganti, seluruh consumer/reference terkait harus ikut diperbarui.
 
 Jangan melakukan global text replacement.
 
@@ -410,7 +390,6 @@ Target akhir adalah:
 ## 10. CANONICAL ROADMAP
 
 ```
-CURRENT
 savie/BaRe
 └── rewrite
 
