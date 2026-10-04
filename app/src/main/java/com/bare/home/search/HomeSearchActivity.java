@@ -29,6 +29,8 @@ import com.bare.messagescalls.backups.MessagesBackupsActivity;
 import com.bare.messagescalls.dash.MessagesDashActivity;
 import com.bare.walls.WallsDashActivity;
 import com.bare.wifi.WifiActivity;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * F03 Home search consumer. Search semantics are delegated to HomeSearchEngine;
