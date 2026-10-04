@@ -525,7 +525,7 @@ public final class MessagesRestoreRepository {
 
     private static final class MmsPartRow {
         Long id, mid;
-        Integer charset, contentId, contentLocation, contentStartType, dataLocation, seq;
+        Integer contentId, contentLocation, contentStartType, dataLocation, seq;
         String charset, contentDisposition, contentType, contentTypeType, fileName, name, text;
 
         static MmsPartRow from(JSONObject o) {
