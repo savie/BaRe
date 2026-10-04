@@ -31,6 +31,12 @@ public final class MessagesBackupRepository {
     private final Context context;
     public MessagesBackupRepository(Context context){this.context=context.getApplicationContext();}
 
+    public File fileFor(MessageBackupItem item) {
+        if (item == null) return null;
+        File file = new File(localRoot(), item.getFileName());
+        return file.isFile() ? file : null;
+    }
+
     public List<MessageBackupItem> listLocal() {
         File root=localRoot();
         if(root==null||!root.isDirectory()) return Collections.emptyList();
