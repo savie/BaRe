@@ -518,7 +518,7 @@ public final class AppLocalBackupEngine {
     /**
      * Reference xw.u() final consumer: every extracted shared-library APK is
      * consumed by the privileged package installer using the exact
-     * [1mpm install -t[0m path. The restore staging directory is the only
+     * pm install -t path. The restore staging directory is the only
      * intermediate location; the package manager is the final destination/
      * consumer, so no synthetic /data/app-lib path is introduced.
      */
