@@ -123,7 +123,8 @@ public final class AppListActivity extends AppCompatActivity {
                 }
 
                 @Override public boolean onQueryTextChange(String newText) {
-                    return false;
+                    if (inventoryAdapter != null) inventoryAdapter.setQuery(newText);
+                    return true;
                 }
             });
         }
@@ -131,8 +132,8 @@ public final class AppListActivity extends AppCompatActivity {
         SwipeRefreshLayout refresh = findViewById(R.id.swipe_layout);
         if (refresh != null) {
             refresh.setOnRefreshListener(() -> {
+                loadInventory();
                 refresh.setRefreshing(false);
-                Toast.makeText(this, R.string.apps_refresh_boundary, Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -238,7 +239,7 @@ public final class AppListActivity extends AppCompatActivity {
 
     private void showFilterBoundary() {
         new MaterialAlertDialogBuilder(this).setTitle(R.string.filter)
-                .setMultiChoiceItems(new String[]{"System apps","Favorites","Installed only","Enabled only"},new boolean[]{filters.includeSystem,!filters.favoritesOnly,!filters.installedOnly,!filters.enabledOnly},(d,w,c)->{
+                .setMultiChoiceItems(new String[]{"System apps","Favorites","Installed only","Enabled only"},new boolean[]{filters.includeSystem,filters.favoritesOnly,filters.installedOnly,filters.enabledOnly},(d,w,c)->{
                     if(w==0)filters.includeSystem=!c;if(w==1)filters.favoritesOnly=c;if(w==2)filters.installedOnly=c;if(w==3)filters.enabledOnly=c;saveFilterState();inventoryAdapter.applyContractFilter();}).setPositiveButton(R.string.close,null).show();
     }
 
@@ -354,6 +355,14 @@ public final class AppListActivity extends AppCompatActivity {
         if (i != null) startActivity(i);
     }
 
+    private void openBatteryOptimization() {
+        try {
+            startActivity(new Intent("android.settings.IGNORE_BATTERY_OPTIMIZATION_SETTINGS"));
+        } catch (Exception ignored) {
+            showEngineBoundary(R.string.battery_optimization);
+        }
+    }
+
     private void openPlayStore(String packageName) {
         if (packageName == null) return;
         Intent i = new Intent(Intent.ACTION_VIEW,
@@ -393,6 +402,7 @@ public final class AppListActivity extends AppCompatActivity {
                         getString(R.string.play_store),
                         getString(R.string.share_apk),
                         getString(R.string.add_to_homescreen),
+                        getString(R.string.battery_optimization),
                         getString(R.string.backup),
                         getString(R.string.restore),
                         getString(R.string.settings)
@@ -413,8 +423,9 @@ public final class AppListActivity extends AppCompatActivity {
                             startActivity(i);
                             break;
                         }
-                        case 9: showEngineBoundary(R.string.backup); break;
-                        case 10: showEngineBoundary(R.string.restore); break;
+                        case 9: openBatteryOptimization(); break;
+                        case 10: showEngineBoundary(R.string.backup); break;
+                        case 11: showEngineBoundary(R.string.restore); break;
                         default: startActivity(new Intent(this, SettingsActivity.class)); break;
                     }
                 })
