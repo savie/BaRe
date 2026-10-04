@@ -142,14 +142,22 @@ public final class CallsBackupRepository {
     private static CallLogBackupItem parse(String name, File file) {
         try {
             String[] p = name.split("\\.", -1);
-            if (p.length < 5) return null;
-            if (!("v3".equals(p[0]) || "v2".equals(p[0]))) return null;
-            long time = Long.parseLong(p[1]);
-            int count = Integer.parseInt(p[2]);
-            return new CallLogBackupItem(name, time, count, p[3], file);
+            if (p.length >= 5 && ("v3".equals(p[0]) || "v2".equals(p[0]))) {
+                return new CallLogBackupItem(name, Long.parseLong(p[1]),
+                        Integer.parseInt(p[2]), p[3], file);
+            }
+            if (name.endsWith(".cls")) {
+                String legacy = name.substring(0, name.length() - 4);
+                int split = legacy.lastIndexOf('_');
+                if (split > 0) {
+                    long time = Long.parseLong(legacy.substring(0, split));
+                    int count = Integer.parseInt(legacy.substring(split + 1));
+                    return new CallLogBackupItem(name, time, count, "Unknown", file);
+                }
+            }
         } catch (RuntimeException ignored) {
-            return null;
         }
+        return null;
     }
 
     private void writeWrapper(File source, List<CallLogItem> calls) throws Exception {
