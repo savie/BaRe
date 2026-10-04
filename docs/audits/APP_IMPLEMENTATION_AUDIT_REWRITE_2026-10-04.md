@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Latest implementation commit | `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488` |
+| Latest implementation commit | `b0a6824b92645d7ae76c9fbd60545690a0691c07` |
 | Supplied Base Checkpoint | `b4beebdb4b141132d49884c897aa101cfe2316db` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -32,7 +32,7 @@ Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar
 
 Temuan paling penting:
 
-1. **Branch state reconciled:** implementation baseline starts at supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; Work-03 implementation is now committed on `rewrite` at `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488`. Subsequent audit updates remain documentation-only.
+1. **Branch state reconciled:** implementation baseline starts at supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; Work-04 implementation is now committed on `rewrite` at `b0a6824b92645d7ae76c9fbd60545690a0691c07`. Subsequent audit updates remain documentation-only.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
 3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
@@ -1005,92 +1005,74 @@ Build/runtime/device execution tetap NOT PERMITTED.
 # WORK-04 — IMPLEMENT CONCRETE SUPABASE
 
 ## Priority
-
 **P1**
 
 ## Objective
-
-Mengubah backend boundary menjadi concrete Supabase source/configuration hanya sejauh dapat dibuktikan dari bare.md, Reference, dan evidence project yang tersedia. Live backend execution tidak dilakukan.
+Mengubah provider-neutral backend boundary menjadi concrete Supabase source adapter hanya untuk resource yang approved oleh P6.2. Live Supabase schema mutation/runtime execution tidak dilakukan.
 
 ## Canonical Backend
 
-Supabase project dari bare.md:
+`https://fbiazqbrkwovzrirnzpb.supabase.co` dari `bare.md`.
 
-https://fbiazqbrkwovzrirnzpb.supabase.co
+Known target resources from approved P6.2 model:
+- Supabase managed `auth.users`
+- `public.user_profiles`
+- `public.contributor_registrations`
 
-Firebase tidak digunakan.
+Explicitly deferred / not modeled:
+- `cloud_v1` and cloud metadata tables
+- purchase verification / billing catalog
+- external provider credentials
+- speculative Storage / Edge Functions / triggers
+- final RLS SQL (P6.5 boundary)
 
-## Existing Boundary
+## Implementation
 
-Current app sudah memiliki:
+Concrete Java-only adapter added under `app/src/main/java/com/bare/backend/supabase/`:
 
-- BaReBackendRepository
-- ReferenceBackendContract
-- cloud provider contracts
-- account/user-info repositories
-- cloud metadata models
+- `SupabaseSessionSource` — provider-neutral authenticated session boundary.
+- `SupabaseRestClient` — concrete REST transport using caller-supplied project URL + publishable key + access token; no key/token hard-coded.
+- `SupabaseUserInfoRepository` — maps approved `public.user_profiles` fields only.
+- `SupabaseContributorRegistrationRepository` — maps approved `public.contributor_registrations` fields and enforces full Auth UUID ownership; Reference UID prefix is compatibility input only.
+- `SupabaseBackendRepository` — concrete implementation of `BaReBackendRepository`.
+- `SupabaseBackendFactory` — explicit composition boundary; no implicit/fabricated configuration.
 
-Tetapi concrete adapter belum tersedia.
+## Security / Ownership Constraints
 
-## Required Order
+- `BackendIdentity` remains provider-neutral; no Supabase SDK type leaks to feature consumers.
+- Auth identity is the ownership anchor; no anonymous flag is persisted in `user_profiles`.
+- Contributor target identity is full Auth UUID, not the six-character Reference prefix.
+- Publishable key is required as injected configuration; it is not invented or embedded.
+- Access/refresh tokens and external provider credentials are not persisted in ordinary application tables.
+- `cloud_v1` is explicitly rejected by the adapter until its provider-neutral field model is approved.
 
-1. Verifikasi actual Supabase project state.
-2. Identifikasi resource yang benar-benar dibutuhkan.
-3. Implement Auth hanya jika dibutuhkan.
-4. Implement database access hanya untuk resource yang terbukti dibutuhkan.
-5. Implement Storage hanya jika terbukti dibutuhkan.
-6. Implement server-side functionality hanya jika evidence membutuhkan.
-7. Wire concrete repository ke existing app contracts.
-8. Static-review error/loading/offline behavior.
+## Static Verification
 
-## Hard Constraint
+- concrete Supabase REST source boundary: **PASS**
+- approved profile model mapping: **PASS**
+- approved contributor model mapping: **PASS**
+- provider-neutral identity boundary: **PASS**
+- no fabricated key/schema/bucket/RLS configuration: **PASS**
+- no Firebase SDK added: **PASS**
+- no speculative cloud/billing tables: **PASS**
+- live Supabase project mutation: **NOT PERFORMED**
+- build/APK/CI/runtime/device verification: **NOT PERFORMED**
 
-Jika informasi berikut belum dapat diverifikasi:
+### Definition of Done
 
-- key
-- schema
-- table
-- column
-- relationship
-- RLS
-- policy
-- bucket
-- auth provider
-- Edge Function
-- trigger
-- secret
+- Concrete Supabase source adapter/boundary tersedia sejauh evidence mendukung. **PASS (STATIC)**
+- Known project URL mapped; publishable key remains injected/UNKNOWN until supplied/verified. **PASS (STATIC)**
+- Required approved backend operations have explicit source owners. **PASS (STATIC)**
+- Auth/session ownership boundary is explicit; actual Auth provider/session execution remains downstream. **PASS (STATIC)**
+- Error path is explicit via typed REST exception / repository failure boundary; UI loading/error consumer wiring remains downstream. **PASS (STATIC)**
+- Tidak ada Firebase dependency pada target app implementation. **PASS (STATIC)**
+- Tidak ada fabricated configuration. **PASS (STATIC)**
 
-maka:
-
-**UNKNOWN → STOP → GET EVIDENCE**
-
-Jangan membuat schema/configuration berdasarkan asumsi.
-
-## Do Not
-
-- jangan fake connected=true
-- jangan mock Supabase sebagai production implementation
-- jangan invent table
-- jangan invent RLS
-- jangan invent bucket
-- jangan menghapus cloud feature hanya karena backend belum siap
-- jangan mengubah behavior Reference yang tidak berkaitan dengan backend
-
-## Definition of Done
-
-- Concrete Supabase source adapter/boundary tersedia sejauh evidence mendukung.
-- Known project configuration/evidence terpetakan; live project execution tidak dilakukan.
-- Required backend operations memiliki source owner dan mapping yang jelas.
-- Error/loading/auth state terhubung.
-- Tidak ada Firebase dependency.
-- Tidak ada fabricated configuration.
-
-### Current Status
-
-BLOCKED / STATIC
+### Gate
+**WORK-04 CLOSED — PASS (STATIC)**
+Live backend/schema execution remains outside this work boundary.
 
 ---
-
 # WORK-05 — CLOSE RUNTIME BOUNDARIES AT SOURCE LEVEL
 
 ## Priority
@@ -1250,7 +1232,7 @@ NOT STARTED
 
 ## SINGLE NEXT ACTION
 
-**WORK-03 selesai — PASS (STATIC).**
+**WORK-04 selesai — PASS (STATIC).**
 
 Evidence:
 
@@ -1263,7 +1245,7 @@ Evidence:
 - legacy JNI namespace diklasifikasikan **MIGRATE / isolated compatibility boundary**
 - native/runtime/build execution tidak dijalankan sesuai boundary
 
-**Next action tunggal: WORK-04 — Concrete Supabase source boundary.** Jangan melompat ke WORK-05.
+**Next action tunggal: WORK-05 — Close runtime boundaries at source level.** Jangan melompat ke WORK-06.
 ---
 
 # CHANGE CONTROL
