@@ -44,7 +44,7 @@ import java.util.Set;
  * archive creation and copied back through the same boundary during restore.
  */
 public final class AppLocalBackupEngine {
-    public enum Part { APK, SPLITS, SHARED_LIBS, DATA, EXTERNAL_DATA, MEDIA, EXPANSION }
+    public enum Part { APK, SPLITS, SHARED_LIBS, DATA, EXTERNAL_DATA, MEDIA, EXPANSION, SPECIAL_DATA }
 
     private static final int SBA_VERSION = 2;
     private static final int COMPRESSION_METHOD = 1;
