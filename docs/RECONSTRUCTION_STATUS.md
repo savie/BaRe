@@ -1303,3 +1303,11 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 - Implemented encrypted local wifi_networks.wfi read/write/delete, including the Reference version/cipher/IV/GCM envelope, UID-derived key and entity AAD.
 - Added WifiBackupCoordinator for app-side acquisition → local artifact creation/deletion; provider/cloud execution remains downstream.
 - Reference ZIP remains unchanged. No build, CI, runtime/device, provider, Supabase, or E2E execution was performed.
+
+
+### P6.3 Wi-Fi parity refinement commits — 2026-10-04
+
+- Shizuku UID contract: `1eb74eee27d4bb61cb38cfc309686b58f143e474`.
+- Reference UID-key normalization: `aa6f28fa695d3afc9ec87361a1b5240e7009b823`.
+- Reference JSON null omission: `752e2b3bedaaf775f1c2eeee1b7a443196782530`.
+- Reference modern-Android source priority: `33a92e82a3481ffc1be84095cab5b149b41a928f`.
