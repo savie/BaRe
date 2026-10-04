@@ -22,7 +22,7 @@ public final class SbaNativeEntryExecutor {
                                  String destination, int flags, String[] selected,
                                  SbaNativeProgressListener listener) throws IOException {
         try (FileInputStream input = new FileInputStream(archive)) {
-            return SbaSwiftTarNative.extract(
+            return SbaSwiftTarNative.b(
                     input.getFD(), payloadOffset, destination, flags, selected, listener);
         }
     }
@@ -31,7 +31,7 @@ public final class SbaNativeEntryExecutor {
                                 String destination, int flags, String[] selected,
                                 SbaNativeProgressListener listener) throws IOException {
         try (FileInputStream input = new FileInputStream(archive)) {
-            return SbaSwiftTarNative.extractZstd(
+            return SbaSwiftTarNative.c(
                     input.getFD(), payloadOffset, payloadLength, destination,
                     flags, selected, listener);
         }
