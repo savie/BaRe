@@ -92,10 +92,6 @@ public final class AppsBatchActivity extends AppCompatActivity {
     }
 
     private void executeQuickAction() {
-        if (inventory.isEmpty()) {
-            showSelectionBoundary();
-            return;
-        }
         com.bare.appsquickactions.AppsQuickActionExecutionEngine quick =
                 new com.bare.appsquickactions.AppsQuickActionExecutionEngine(this);
 
