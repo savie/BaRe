@@ -1504,7 +1504,7 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 
 ### P6.3 current source checkpoint — 2026-10-04
 
-- Latest implementation commit before this documentation record: 4eda5f632946a915c175cb134512c8675a07942b.
+- Latest app implementation commits in this P6.3 loop: 5ecc351549a7004a6ff8e4687a146e60e5f86872, 78620b0c887cf49a1fd2cafb425d8f97314c7925, c2dbc399a6bd6786e1797a040b3f7838b7d9f729, a6761508c0dd8525b270b34e8c10d59a6dc47f96, 92fa337626c1fb347a39f58094c214c794ca1da5, 6184fca6b2089c21bccf9875c7e4d21a2aa183c1.
 - P6.3 loop continues from the canonical B01–B27 table.
 - P6.4 is **NOT OPENED** yet.
 
@@ -1521,3 +1521,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 ### Latest P6.3 source checkpoint — 2026-10-04
 
 - Latest implementation commit before this documentation record: 2691dbfb7efe3d23bb572b60549abeaa93b8cb43.
+
+
+### Latest P6.3 Wi-Fi closure — 2026-10-04
+
+- Shizuku privileged Wi-Fi source is implemented from Reference we7/li/d76/c76, including Shizuku provider registration and hidden IWifiManager binder routing.
+- Encrypted local wifi_networks.wfi is implemented from Reference w14/y32/x32/pu/f45, including the version/cipher/IV/GCM envelope, UID-derived 32-byte key, entity AAD, JSON item/password-info mapping, write/read/delete lifecycle, and BΛR☰ local account namespace.
+- WifiBackupCoordinator now provides app-side acquisition → local encrypted artifact creation/deletion. Cloud/provider transfer remains a downstream boundary.
+- Static targeted re-search found no remaining Reference-proven Wi-Fi app-code gap within the audited producer/consumer set.
+- Reference ZIP is unchanged. Build/CI, runtime/device/E2E, privileged execution, cloud-provider execution and Supabase execution remain unverified boundaries.
+- P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
