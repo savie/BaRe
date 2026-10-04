@@ -54,4 +54,15 @@ dependencies {
     implementation 'dev.rikka.shizuku:api:13.1.5'
     implementation 'dev.rikka.shizuku:provider:13.1.5'
     implementation 'org.apache.commons:commons-compress:1.28.0'
+
+    // Reference ZIP/APK dependency evidence:
+    implementation 'com.microsoft.identity.client:msal:8.3.2'
+    implementation 'com.pcloud.sdk:android:1.11.0'
+    implementation 'androidx.credentials:credentials:1.6.0'
+    implementation 'androidx.credentials:credentials-play-services-auth:1.6.0'
+    implementation 'androidx.room:room-runtime:2.8.4'
+    implementation 'androidx.profileinstaller:profileinstaller:1.4.0'
+    implementation 'com.android.billingclient:billing:8.3.0'
+    implementation 'com.google.android.gms:play-services-auth:21.5.1'
+    implementation 'com.google.android.datatransport:transport-runtime:3.3.0'
 }
