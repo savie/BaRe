@@ -31,6 +31,22 @@ This file is a **detailed evidence / implementation history ledger**. Entries be
 ## Current phase
 **PHASE 6.3 — APP-ONLY IMPLEMENTATION LOOP — ACTIVE 🟡**
 
+### Apps lifecycle deepening — 2026-10-04
+
+**Implemented / static:**
+- Concrete local Apps backup engine for APK/splits/shared-libs/DATA/de-data/EXTDATA/MEDIA/EXPANSION.
+- Reference storage hierarchy and backup-id naming.
+- SBA native archive creation with corrected source-path/entry-name separation.
+- SBA native restore through the reconstructed parser/Aegis extraction owner.
+- PackageInstaller session bridge with multi-entry streaming, fsync, result wait and source verification.
+- Version requirement gate and Reference password-history restore candidates.
+- Detail, list-row and batch Apps Backup/Restore flows now invoke the engine.
+- Existing call-backup duplicate-finally syntax defect repaired.
+
+**Still active in P6.3:** special-data semantic capture/restore and the remaining lower-level Apps configuration/task subgraphs must be re-audited against the primary ZIP before P6.4.
+
+**Explicit boundaries:** no Supabase, no build/CI, no install, no runtime/device execution.
+
 ### P6.3 folder restore deepening — 2026-10-04
 
 The active P6.3 loop is implementing Reference-supported app behavior instead of stopping at task/provider boundaries.
