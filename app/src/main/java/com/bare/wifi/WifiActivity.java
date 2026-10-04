@@ -40,7 +40,7 @@ public final class WifiActivity extends AppCompatActivity {
         }
 
         bindSystemCard();
-        bindEmptyCard(R.id.wifi_card_local, R.string.device_backups);
+        bindLocalCard();
         bindEmptyCard(R.id.wifi_card_cloud, R.string.cloud_backups);
 
         boolean notice = Build.VERSION.SDK_INT == 29
@@ -86,13 +86,44 @@ public final class WifiActivity extends AppCompatActivity {
             }
 
             WifiRootXmlRepository.Result root = new WifiRootXmlRepository().read();
+            if (root.isSuccess() && !root.getItems().isEmpty()) {
+                runOnUiThread(() -> systemAdapter.submit(root.getItems()));
+                return;
+            }
+
+            ShizukuWifiNetworkRepository.Result shizuku =
+                    new ShizukuWifiNetworkRepository().read();
             runOnUiThread(() -> {
                 if (root.isSuccess()) {
                     systemAdapter.submit(root.getItems());
+                } else if (shizuku.isSuccess()) {
+                    systemAdapter.submit(shizuku.getItems());
                 } else if (legacy.isSuccess()) {
                     systemAdapter.submit(legacy.getItems());
                 } else {
                     systemAdapter.showError(getString(R.string.wifi_device_read_failed));
+                }
+            });
+        }).start();
+    }
+
+    private void bindLocalCard() {
+        View card = findViewById(R.id.wifi_card_local);
+        ((TextView) card.findViewById(R.id.tv_card_title)).setText(R.string.device_backups);
+        RecyclerView list = card.findViewById(R.id.recycler_view);
+        WifiNetworkAdapter adapter = new WifiNetworkAdapter();
+        list.setAdapter(adapter);
+        card.findViewById(R.id.shortcuts_container).setVisibility(View.GONE);
+        card.findViewById(R.id.error_container_parent).setVisibility(View.GONE);
+
+        new Thread(() -> {
+            WifiLocalEncryptedRepository.Result local =
+                    new WifiLocalEncryptedRepository(this).read();
+            runOnUiThread(() -> {
+                if (local.isSuccess()) {
+                    adapter.submit(local.getItems());
+                } else {
+                    adapter.showError(getString(R.string.wifi_device_read_failed));
                 }
             });
         }).start();
