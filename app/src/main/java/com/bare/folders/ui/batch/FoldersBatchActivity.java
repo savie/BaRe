@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bare.R;
 import com.bare.folders.data.FolderItem;
 import com.bare.folders.ui.FolderEditActivity;
+import com.bare.folders.repository.LocalFolderSetupRepository;
+import com.bare.folders.backup.FolderLocalBackupEngine;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ public final class FoldersBatchActivity extends AppCompatActivity {
             }
         }
 
+        folders.addAll(new LocalFolderSetupRepository(this).list());
         adapter = new FolderAdapter();
         RecyclerView list = findViewById(R.id.rv_folders);
         list.setLayoutManager(new LinearLayoutManager(this));
@@ -65,7 +68,7 @@ public final class FoldersBatchActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.tv_empty);
         actionButton = findViewById(R.id.btn_actions);
         actionButton.setText(actionTitle == null ? actionLabel(actionId) : actionTitle);
-        actionButton.setOnClickListener(v -> performBoundary());
+        actionButton.setOnClickListener(v -> performAction());
         render();
     }
 
@@ -83,19 +86,70 @@ public final class FoldersBatchActivity extends AppCompatActivity {
         return getString(R.string.backup_folders);
     }
 
-    private void performBoundary() {
+    private void performAction() {
         if (selectedIds.isEmpty()) {
             new MaterialAlertDialogBuilder(this).setTitle(R.string.select_folder_setups)
                     .setMessage(R.string.select_some_items).setPositiveButton(R.string.close, null).show();
             return;
         }
+        if ("Backup".equals(actionId)) {
+            actionButton.setEnabled(false);
+            new Thread(() -> {
+                int success = 0, noChange = 0;
+                String error = null;
+                FolderLocalBackupEngine engine = new FolderLocalBackupEngine(this);
+                for (FolderItem item : folders) {
+                    if (!selectedIds.contains(item.getId())) continue;
+                    try {
+                        FolderLocalBackupEngine.Result result = engine.backup(item);
+                        if (result.kind == FolderLocalBackupEngine.Result.Kind.SUCCESS) success++;
+                        else noChange++;
+                    } catch (Exception e) {
+                        error = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
+                    }
+                }
+                final int ok = success, unchanged = noChange;
+                final String failure = error;
+                runOnUiThread(() -> {
+                    actionButton.setEnabled(true);
+                    String message = getString(R.string.folder_backup_result, ok, unchanged);
+                    if (failure != null) message += "\n" + getString(R.string.folder_backup_failed, failure);
+                    new MaterialAlertDialogBuilder(this).setTitle(R.string.backup_folders)
+                            .setMessage(message).setPositiveButton(R.string.close, null).show();
+                });
+            }, "folder-backup").start();
+            return;
+        }
+        if ("Delete backups".equals(actionId)) {
+            new MaterialAlertDialogBuilder(this).setTitle(R.string.delete_folder_backups)
+                    .setMessage(R.string.p3_folder_delete_boundary)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.delete, (d, w) -> deleteSelectedBackups()).show();
+            return;
+        }
         int message = "Restore".equals(actionId) ? R.string.p3_folder_restore_boundary
-                : "Delete backups".equals(actionId) ? R.string.p3_folder_delete_boundary
-                : "Copy folder setups".equals(actionId) ? R.string.p3_folder_copy_boundary
-                : R.string.p3_folder_backup_boundary;
+                : R.string.p3_folder_copy_boundary;
         new MaterialAlertDialogBuilder(this).setTitle(actionLabel(actionId))
-                .setMessage(message).setNegativeButton(R.string.cancel, null)
-                .setPositiveButton(R.string.close, null).show();
+                .setMessage(message).setPositiveButton(R.string.close, null).show();
+    }
+
+    private void deleteSelectedBackups() {
+        new Thread(() -> {
+            int deleted = 0;
+            FolderLocalBackupEngine engine = new FolderLocalBackupEngine(this);
+            for (FolderItem item : folders) {
+                if (!selectedIds.contains(item.getId())) continue;
+                for (FolderLocalBackupEngine.BackupInfo info : engine.listBackups(item)) {
+                    if (info.manifestFile.delete()) deleted++;
+                    if (info.archiveFile.delete()) deleted++;
+                }
+            }
+            final int count = deleted;
+            runOnUiThread(() -> new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.delete_folder_backups)
+                    .setMessage(getString(R.string.folder_deleted_artifacts, count))
+                    .setPositiveButton(R.string.close, null).show());
+        }, "folder-delete-backups").start();
     }
 
     private void editFolder(FolderItem item) {
@@ -149,6 +203,7 @@ public final class FoldersBatchActivity extends AppCompatActivity {
                     }
                 }
                 if (!replaced) folders.add(item);
+                new LocalFolderSetupRepository(this).save(item);
                 render();
             }
             return;
