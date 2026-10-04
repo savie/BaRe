@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/intro_surface"
+    android:background="?attr/colorSurfaceContainer"
     android:clipChildren="false"
     android:clipToPadding="false"
     android:layout_width="match_parent"
@@ -11,22 +11,30 @@
     <ScrollView
         android:paddingTop="@dimen/spacing_normal"
         android:paddingHorizontal="@dimen/spacing_normal_more"
-        android:paddingBottom="@dimen/spacing_normal_more"
         android:scrollbars="none"
+        android:fadingEdgeLength="48dp"
+        android:requiresFadingEdge="vertical"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
+            android:paddingBottom="@dimen/spacing_normal_more"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/intro_header"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="48dp">
+                android:layout_height="48dp"
+                android:layout_marginBottom="@dimen/spacing_normal">
 
                 <TextView
                     android:id="@+id/intro_logo"
@@ -38,11 +46,11 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/iv_menu"
-                    android:text="⋮"
-                    android:textSize="28sp"
-                    android:gravity="center"
+                    android:src="@drawable/ic_dots_vertical"
+                    android:padding="12dp"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:focusable="true"
                     android:layout_width="48dp"
@@ -199,11 +207,25 @@
     <LinearLayout
         android:id="@+id/intro_bottom_actions"
         android:orientation="vertical"
+        android:background="@drawable/intro_sticky_bottom_background"
         android:paddingTop="@dimen/spacing_normal_more"
-        android:paddingBottom="@dimen/spacing_normal_more"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingHorizontal="@dimen/spacing_large"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_sign_in_subtitle2"
+            android:text="@string/backups_tied_warning"
+            android:textSize="12sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_continue"

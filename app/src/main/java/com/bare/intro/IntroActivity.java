@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import androidx.core.content.ContextCompat;
 
 import com.bare.R;
 import com.bare.home.HomeActivity;
+import com.bare.locale.LocaleActivity;
+import com.bare.slog.SLogActivity;
 import com.bare.home.repository.AnonymousIdentityStore;
 import com.bare.password.PasswordStateRepository;
 import com.bare.password.UserPasswordActivity;
@@ -52,6 +55,7 @@ public final class IntroActivity extends Activity {
     private SharedPreferences prefs;
     private LocalState localState;
     private AccountMigrationRepository accountMigrationRepository;
+    private FirstRunCloudRestoreCoordinator firstRunCloudRestoreCoordinator;
     private PermissionAccessService permissionAccessService;
     private RootPermissionCoordinator rootPermissionCoordinator;
 
@@ -64,8 +68,10 @@ public final class IntroActivity extends Activity {
     private MaterialButton continueButton;
     private MaterialButton anonymousButton;
     private View privacyPolicy;
+    private View signInWarning;
     private View menuButton;
     private android.widget.TextView flowStatus;
+    private boolean gettingStartedShown;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -77,12 +83,23 @@ public final class IntroActivity extends Activity {
 
         localState = new LocalState(this);
         accountMigrationRepository = new LocalAccountMigrationRepository(localState);
+        firstRunCloudRestoreCoordinator = new FirstRunCloudRestoreCoordinator(localState);
         permissionAccessService = new PermissionAccessService(this);
         rootPermissionCoordinator = new RootPermissionCoordinator(this);
         prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
         if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
-            openHome();
-            return;
+            boolean hasLocalAnonymousIdentity =
+                    new AnonymousIdentityStore(this).getStoredUid() != null
+                            && prefs.getBoolean(KEY_SIGNED_IN, false);
+            if (hasLocalAnonymousIdentity) {
+                openHome();
+                return;
+            }
+
+            // Reference re-enters onboarding when persisted first-start state
+            // no longer has a usable local identity.
+            localState.remove(LocalState.KEY_FIRST_START);
+            firstRunCloudRestoreCoordinator.reset();
         }
 
         setContentView(R.layout.intro_activity);
@@ -96,6 +113,7 @@ public final class IntroActivity extends Activity {
         continueButton = findViewById(R.id.btn_continue);
         anonymousButton = findViewById(R.id.btn_anonymous);
         privacyPolicy = findViewById(R.id.tv_privacy_policy);
+        signInWarning = findViewById(R.id.tv_sign_in_subtitle2);
         menuButton = findViewById(R.id.iv_menu);
         flowStatus = findViewById(R.id.tv_flow_status);
 
@@ -144,6 +162,11 @@ public final class IntroActivity extends Activity {
         if (anonymous) {
             new AnonymousIdentityStore(this).getOrCreateUid();
             prefs.edit().putBoolean(KEY_SIGNED_IN, true).apply();
+
+            // Reference d.l(): anonymous identity bypasses backend/cloud-settings
+            // restore and returns terminal success. C10 owns the completion key.
+            firstRunCloudRestoreCoordinator.recordResult(FirstRunCloudRestoreResult.SUCCESS);
+
             showPermissionsStage();
             return;
         }
@@ -155,8 +178,11 @@ public final class IntroActivity extends Activity {
     }
 
     private void showPermissionsStage() {
+        findViewById(R.id.intro_bottom_actions).setVisibility(View.GONE);
+        findViewById(R.id.intro_bottom_actions).setVisibility(View.GONE);
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
+        signInWarning.setVisibility(View.GONE);
         anonymousButton.setVisibility(View.GONE);
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
@@ -288,8 +314,10 @@ public final class IntroActivity extends Activity {
 
         boolean signedIn = prefs.getBoolean(KEY_SIGNED_IN, false);
         if (!signedIn) {
+            findViewById(R.id.intro_bottom_actions).setVisibility(View.VISIBLE);
             signInContainer.setVisibility(View.VISIBLE);
             permissionsContainer.setVisibility(View.GONE);
+            signInWarning.setVisibility(View.VISIBLE);
             anonymousButton.setVisibility(View.VISIBLE);
             continueButton.setText(R.string.continue_with_google);
             flowStatus.setText(R.string.intro_flow_status_sign_in);
@@ -298,6 +326,7 @@ public final class IntroActivity extends Activity {
 
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
+        signInWarning.setVisibility(View.GONE);
         anonymousButton.setVisibility(View.GONE);
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
@@ -315,6 +344,14 @@ public final class IntroActivity extends Activity {
                 installedApps.isReady() ? R.string.ready_p3 : R.string.grant_installed_apps_permission);
         rootButton.setText(
                 root.isReady() ? R.string.ready_p3 : R.string.root_grant_permissions);
+
+        if (!gettingStartedShown
+                && storage.isReady()
+                && notifications.isReady()
+                && installedApps.isReady()) {
+            gettingStartedShown = true;
+            showGettingStarted();
+        }
     }
 
     private boolean isStorageGranted() {
@@ -390,8 +427,8 @@ public final class IntroActivity extends Activity {
 
     private void completeIntro() {
         localState.putBoolean(LocalState.KEY_FIRST_START, false);
-        // Cloud-restore completion is owned by the first-run restore contract (C10).
-        // Do not fabricate completion from the Intro UI transition.
+        // C10 owns cloud-restore completion; anonymous onboarding records terminal
+        // success from the Reference-equivalent anonymous bypass path.
         openHome();
     }
 
@@ -401,22 +438,31 @@ public final class IntroActivity extends Activity {
     }
 
     private void showIntroMenu() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.intro_menu_title)
-                .setItems(new String[]{
-                        getString(R.string.reset_onboarding),
-                        getString(R.string.close)
-                }, (dialog, which) -> {
-                    if (which == 0) {
-                        localState.remove(LocalState.KEY_FIRST_START);
-                        localState.remove(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED);
-                        prefs.edit()
-                                .remove(KEY_SIGNED_IN)
-                                        .apply();
-                        recreate();
-                    }
-                })
-                .show();
+        PopupMenu menu = new PopupMenu(this, menuButton);
+        menu.getMenuInflater().inflate(R.menu.menu_intro, menu.getMenu());
+        menu.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.action_language) {
+                startActivity(new Intent(this, LocaleActivity.class));
+                return true;
+            }
+            if (id == R.id.action_barelogger) {
+                startActivity(new Intent(this, SLogActivity.class));
+                return true;
+            }
+            if (id == R.id.action_restart) {
+                Intent launch = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                if (launch != null) {
+                    launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(launch);
+                } else {
+                    recreate();
+                }
+                return true;
+            }
+            return false;
+        });
+        menu.show();
     }
 
     private void showInfoDialog(int title, int message) {
