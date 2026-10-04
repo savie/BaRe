@@ -51,8 +51,8 @@ public final class SbaNativeEntryExecutor {
                     chunkSize, key, nonce, aad, totalBytes, progressMode, listener);
         }
         return new SbaSwiftTarNative().extractAegisArchiveEntry(
-                archive.getAbsolutePath(), archiveOffset, archiveLength,
-                entryOffset, entryLength, entryName, flags, selected, cryptoMode,
+                archive.getAbsolutePath(), entryHeaderOffset, payloadOffset,
+                storedSize, compressedSize, entryName, destination, flags, selected, cryptoMode,
                 chunkSize, key, nonce, aad, totalBytes, progressMode, listener);
     }
 }
