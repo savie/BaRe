@@ -744,6 +744,8 @@ Unable to read package information: %2$s</string>
     <string name="folder_restore_failed">Folder restore failed: %1$s</string>
     <string name="backup_parts">Backup parts</string>
     <string name="backup_part_apk">APK</string>
+    <string name="backup_part_splits">Split APKs</string>
+    <string name="backup_part_shared_libs">Shared libraries</string>
     <string name="backup_part_data">App data</string>
     <string name="backup_part_external_data">External app data</string>
     <string name="backup_part_media">Media</string>
