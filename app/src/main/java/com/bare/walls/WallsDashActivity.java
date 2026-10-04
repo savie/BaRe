@@ -62,44 +62,50 @@ public final class WallsDashActivity extends AppCompatActivity {
         title.setText(R.string.currently_applied);
         subtitle.setText(R.string.applied_walls_summary);
 
-        File home = null;
-        File lock = null;
-        try {
-            SystemWallpaperRepository.Result current =
-                    new SystemWallpaperRepository(this).capture();
-            home = current.getHome();
-            lock = current.getLock();
-        } catch (Exception ignored) {
-        }
-        boolean hasHome = home != null && home.isFile();
-        boolean hasLock = lock != null && lock.isFile();
-
-        if (hasHome) {
-            homePreview.setImageBitmap(BitmapFactory.decodeFile(home.getAbsolutePath()));
-        } else {
-            homePreview.setImageDrawable(null);
-        }
-        if (hasLock) {
-            lockPreview.setImageBitmap(BitmapFactory.decodeFile(lock.getAbsolutePath()));
-        } else if (hasHome) {
-            lockPreview.setImageBitmap(BitmapFactory.decodeFile(home.getAbsolutePath()));
-        } else {
-            lockPreview.setImageDrawable(null);
-        }
-
-        if (!hasHome && !hasLock) {
+        new Thread(() -> {
+            File home = null;
+            File lock = null;
             try {
-                WallpaperManager manager = WallpaperManager.getInstance(this);
-                if (manager.getWallpaperId(WallpaperManager.FLAG_SYSTEM) != -1) {
-                    subtitle.setText(R.string.current_wallpaper_is_managed_by_android);
-                } else {
-                    subtitle.setText(R.string.no_wallpapers_found);
-                }
-            } catch (RuntimeException ignored) {
-                subtitle.setText(R.string.no_wallpapers_found);
+                SystemWallpaperRepository.Result current =
+                        new SystemWallpaperRepository(this).capture();
+                home = current.getHome();
+                lock = current.getLock();
+            } catch (Exception ignored) {
             }
-        }
-        refresh.setEnabled(true);
+            final File homeFile = home;
+            final File lockFile = lock;
+            runOnUiThread(() -> {
+                boolean hasHome = homeFile != null && homeFile.isFile();
+                boolean hasLock = lockFile != null && lockFile.isFile();
+
+                if (hasHome) {
+                    homePreview.setImageBitmap(BitmapFactory.decodeFile(homeFile.getAbsolutePath()));
+                } else {
+                    homePreview.setImageDrawable(null);
+                }
+                if (hasLock) {
+                    lockPreview.setImageBitmap(BitmapFactory.decodeFile(lockFile.getAbsolutePath()));
+                } else if (hasHome) {
+                    lockPreview.setImageBitmap(BitmapFactory.decodeFile(homeFile.getAbsolutePath()));
+                } else {
+                    lockPreview.setImageDrawable(null);
+                }
+
+                if (!hasHome && !hasLock) {
+                    try {
+                        WallpaperManager manager = WallpaperManager.getInstance(this);
+                        if (manager.getWallpaperId(WallpaperManager.FLAG_SYSTEM) != -1) {
+                            subtitle.setText(R.string.current_wallpaper_is_managed_by_android);
+                        } else {
+                            subtitle.setText(R.string.no_wallpapers_found);
+                        }
+                    } catch (RuntimeException ignored) {
+                        subtitle.setText(R.string.no_wallpapers_found);
+                    }
+                }
+                refresh.setEnabled(true);
+            });
+        }, "wallpaper-current-capture").start();
     }
 
     private void showBackupLocations() {
