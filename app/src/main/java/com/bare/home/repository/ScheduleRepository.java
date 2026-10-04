@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /** Persistence boundary for the Reference ScheduleData shape. */
 public interface ScheduleRepository {
@@ -113,6 +112,14 @@ public interface ScheduleRepository {
          */
         public List<String> getNormalizedOrderIds() {
             LinkedHashSet<String> validIds = new LinkedHashSet<>();
+            addIds(validIds, appsQuickActionIds);
+            addIds(validIds, appsLabelIds);
+            addIds(validIds, appConfigIds);
+            addIds(validIds, messageIds);
+            addIds(validIds, callLogIds);
+            addIds(validIds, wallIds);
+            addIds(validIds, wifiIds);
+            addIds(validIds, folderIds);
             for (ScheduleItemState item : items) {
                 if (item != null && item.id != null && !item.id.isEmpty()) validIds.add(item.id);
             }
@@ -124,6 +131,13 @@ public interface ScheduleRepository {
                 if (item != null && item.id != null && !item.id.isEmpty()) normalized.add(item.id);
             }
             return new ArrayList<>(normalized);
+        }
+
+        private static void addIds(LinkedHashSet<String> target, List<String> values) {
+            if (values == null) return;
+            for (String value : values) {
+                if (value != null && !value.isEmpty()) target.add(value);
+            }
         }
 
         public List<String> getOrderIds() {
