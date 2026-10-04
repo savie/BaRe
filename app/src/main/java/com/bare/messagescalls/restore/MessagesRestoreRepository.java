@@ -34,6 +34,27 @@ public final class MessagesRestoreRepository {
         this.archiveCrypto = new ReferenceMessagesArchiveCrypto(this.context);
     }
 
+    public List<ConversationPreview> readConversations(File backupFile) throws Exception {
+        byte[] plaintext = archiveCrypto.readConversations(backupFile);
+        JSONObject root = new JSONObject(new String(
+                plaintext, java.nio.charset.StandardCharsets.UTF_8));
+        JSONArray conversations = root.optJSONArray("items");
+        if (conversations == null) return Collections.emptyList();
+        List<ConversationPreview> result = new ArrayList<>();
+        for (int i = 0; i < conversations.length(); i++) {
+            JSONObject o = conversations.optJSONObject(i);
+            if (o == null) continue;
+            String threadId = string(o, "threadId");
+            String title = string(o, "displayName");
+            if (title == null || title.isEmpty()) title = string(o, "address");
+            int count = o.optInt("messageCount", 0);
+            long date = o.optLong("lastSmsDate", o.optLong("date", 0L));
+            result.add(new ConversationPreview(threadId, title, count, date));
+        }
+        result.sort((a,b) -> Long.compare(b.lastDate, a.lastDate));
+        return result;
+    }
+
     public Result restore(File backupFile, List<String> selectedConversationThreadIds) {
         if (backupFile == null || !backupFile.isFile()) {
             return Result.failure("Backup file does not exist");
@@ -204,6 +225,20 @@ public final class MessagesRestoreRepository {
             else if (value instanceof Integer) v.put(key, (Integer) value);
             else if (value instanceof Long) v.put(key, (Long) value);
         }
+    }
+
+    public static final class ConversationPreview {
+        private final String threadId;
+        private final String title;
+        private final int messageCount;
+        private final long lastDate;
+        ConversationPreview(String threadId,String title,int messageCount,long lastDate){
+            this.threadId=threadId;this.title=title;this.messageCount=messageCount;this.lastDate=lastDate;
+        }
+        public String getThreadId(){return threadId;}
+        public String getTitle(){return title;}
+        public int getMessageCount(){return messageCount;}
+        public long getLastDate(){return lastDate;}
     }
 
     public static final class Result {
