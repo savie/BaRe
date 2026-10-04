@@ -1,6 +1,6 @@
 package com.bare.appslist.restore;
 
-import java.io.File;
+import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
 
 /**
  * Reference-compatible entry point for the native SBA archive engine.
@@ -22,6 +22,32 @@ public final class SbaNativeBridge {
     }
 
     public boolean isLoaded() { return loaded; }
+
+    /** Reference-compatible SBA archive creation JNI signature. */
+    public native long[] createArchive(
+            int archiveKind,
+            String outputPath,
+            byte[] entryPayload,
+            byte[][] entrySources,
+            String[] entryNames,
+            int[] entryModes,
+            String[][] entryXattrs,
+            String[][] entryLinks,
+            int compressionMode,
+            int compressionLevel,
+            int encryptionFlags,
+            int tarFlags,
+            int metadataFlags,
+            int sparseFlags,
+            int chunkSize,
+            int workerCount,
+            int ioBufferSize,
+            int progressMode,
+            byte[] key,
+            byte[] nonce,
+            byte[] aad,
+            byte[] indexMacKey,
+            SbaNativeProgressListener progressListener);
 
     /** Reference-compatible Zstd byte codec used by the special-data payload format. */
     public native byte[] compressZstdBytes(byte[] payload, int level);
