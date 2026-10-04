@@ -1705,3 +1705,16 @@ F76 was re-audited directly against Reference kc2, DataSyncFgsRuntimeLedger$Entr
 - Reference ZIP remains unchanged. No build/install/runtime/device/backend/Supabase execution was performed.
 
 F76 is STATIC-IMPLEMENTATION CLOSED at the authorized boundary.
+
+### P6.3 Apps lower-level + Quick Actions + Storage re-audit — 2026-10-04
+
+- Reference ZIP was re-extracted from `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip`; this pass used the extracted JADX/APKTool tree directly.
+- Lower-level Apps audit closed an additional APK change-detection mismatch: Reference `eq.a()` compares APK size, version code, version name, split presence and shared-library presence. BΛR☰ `AppLocalBackupEngine` now persists and compares those fields.
+- Shared Libraries restore placement was repaired so the `.libs` restore consumer remains inside the restore flow before DATA handling; final consumer remains the Reference `pm install -t <apk>` privileged path.
+- Apps Quick Actions were re-audited against Reference `yc6/zc6/id6/ox`. BΛR☰ now has a Parcelable `AppsQuickActionRequest` preserving the ten Reference action IDs/codes and routes the interactive surface into the Apps batch request boundary instead of showing a dead-only dialog.
+- Quick Action request consumption is explicit in `AppsBatchActivity`. Actual Quick Action side effects remain task/privileged/provider-owned; this pass does not claim runtime execution.
+- Storage re-audit found a real consumer mismatch: Dashboard app-usage was measured from installed APK/split source sizes and `getFilesDir()`, while Reference `StorageInfoLocal` measures the selected storage volume and the active backup-root footprint. Dashboard now resolves the selected storage and measures the BΛR☰ root through `StorageBackupFootprint`.
+- Storage filesystem probing remains static-only; no device/filesystem runtime verification was performed.
+
+**Apps gate:** NOT YET CLEAN. The remaining Reference-backed lower-level gap is Quick Action execution semantics for maintenance actions (delete-uninstalled-backups / enable-disable) plus cloud-sync action execution. These must remain owned by the Apps task/provider boundary; no Folders/Messages/Calls/Wi-Fi/Wallpapers expansion is opened from this pass.
+
