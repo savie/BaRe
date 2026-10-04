@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Latest implementation commit | `b0a6824b92645d7ae76c9fbd60545690a0691c07` |
+| Latest implementation commit | `02dc5a9b4e560996e8fd1d7e903cd2e46b158a10` |
 | Supplied Base Checkpoint | `b4beebdb4b141132d49884c897aa101cfe2316db` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -35,13 +35,13 @@ Temuan paling penting:
 1. **Branch state reconciled:** implementation baseline starts at supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; Work-04 implementation is now committed on `rewrite` at `b0a6824b92645d7ae76c9fbd60545690a0691c07`. Subsequent audit updates remain documentation-only.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
 3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
-4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
+4. **WORK-04 concrete Supabase boundary resolved:** Java REST transport + session boundary + approved `user_profiles`/`contributor_registrations` repositories are present. Publishable key remains injected/UNKNOWN; live Supabase execution is not performed.
 5. **WORK-03 Dashboard static finding resolved:** `DashboardFragment` now inflates canonical `dash_fragment.xml`, binds the Reference root-status surface through `RootPermissionCoordinator`, wires `rv_notices` through `NoticeRepository`, wires `dash_secondary_user_warning`, and uses the canonical shortcut RecyclerView surfaces.
 6. **Dashboard static parity is closed only at source/resource level:** build/runtime/device verification remains outside the work boundary.
 7. **Branding migration completed on target `app/`:** seluruh Swift/Firebase occurrence yang dapat dinormalisasi sudah dikeluarkan dari `/app`. Legacy JNI owner classes dan exact native blobs sekarang diisolasi pada module `native-compat`, di luar target `app/`; format/crypto compatibility di `/app` memakai neutral BaRe identifiers plus encoded legacy compatibility values.
 8. **MMS restore current-state sudah diimplementasikan** pada `MessagesRestoreRepository`, termasuk MMS row, parts, addresses, dan cached binary payload handling.
 9. Source implementation tetap **Java-only** dan tidak ditemukan source Kotlin.
-10. Static search pada `app/` tidak menemukan Firebase implementation literal, TODO/FIXME, `UnsupportedOperationException`, `System.out`, `printStackTrace`, atau `NotImplemented`.
+10. **WORK-05 scheduler/task execution boundary resolved:** exact-alarm controller, boot recovery, alarm→schedule→task handoff, task-provider ownership, cancellation, and data-sync foreground-service lifecycle are now explicit. Runtime/device execution remains unperformed.
 
 ## Authority And Evidence
 
@@ -97,7 +97,6 @@ Compare implementation baseline terhadap supplied checkpoint menghasilkan `ident
 ### Classification
 
 **PASS — STATE RECONCILED**
-
 Implementation state tetap sesuai supplied base checkpoint; perbedaan setelah checkpoint terbatas pada dokumen audit/work-order.
 ## App Inventory
 
@@ -105,7 +104,7 @@ Current `app/` pada branch:
 
 | Extension / Type | Count |
 |---|---:|
-| Java | 472 |
+| Java | 474 |
 | Kotlin | 0 |
 | XML | 622 |
 | WebP | 33 |
@@ -123,13 +122,13 @@ Distribusi Java utama:
 | Domain | Java |
 |---|---:|
 | appslist | 93 |
-| home | 57 |
+| home | 58 |
 | messagescalls | 51 |
 | cloud | 36 |
 | folders | 32 |
 | settings | 32 |
 | appconfigs | 18 |
-| tasks | 13 |
+| tasks | 14 |
 | wifi | 13 |
 | walls | 11 |
 | core | 10 |
@@ -198,7 +197,6 @@ Manifest sudah menormalisasi:
 - application label → `BΛR☰`
 - theme → `@style/BaReTheme`
 - launcher icon → `@drawable/bare_launcher_icon`
-
 **Classification: AUTHORIZED DEVIATION / MATCH.**
 
 ## Build System Audit
@@ -297,8 +295,7 @@ The old `home_dashboard_fragment.xml` resource is retained as an unowned/legacy 
 - current owner inflates `dash_fragment`
 - required canonical Dashboard IDs are consumed by the owner
 - root/notices/secondary-user/shortcut bindings have explicit source owners
-- four quick-action card owners remain wired
-- no build, APK, CI, runtime/device, or backend execution was performed
+- four quick-action card owners remain wired- no build, APK, CI, runtime/device, or backend execution was performed
 
 **Classification: PASS (STATIC)**
 ## Feature Domain Audit
@@ -398,7 +395,6 @@ Provider insertion dan native archive execution belum runtime-verified.
 ### Wi-Fi
 
 Current source memiliki acquisition boundary untuk:
-
 - WifiManager
 - root XML
 - Shizuku hidden API
@@ -418,13 +414,21 @@ Actual wallpaper application and provider/cloud transfer remain runtime boundari
 
 ### Tasks / Scheduling / SLog
 
-Current source memiliki TaskService, ScheduleService, AlarmReceiver, task state, SLog, and lifecycle contracts.
+WORK-05 closes the source-level execution ownership that was previously missing:
 
-Namun `AlarmReceiver` sendiri menyatakan scheduling/foreground-service execution masih downstream.
+- `ScheduleAlarmController` owns exact-alarm scheduling/cancellation and explicit `SCHEDULED / SKIPPED / BLOCKED / FAILED` results.
+- `BootReceiver` owns persisted-schedule boot recovery.
+- `AlarmReceiver` owns alarm delivery and hands off to `ScheduleService`.
+- `ScheduleService` owns schedule enabled/forced state, battery prerequisite checks, normalized schedule-item selection, terminal schedule outcome, and handoff to `TaskService`.
+- `TaskProviderRegistry` owns the concrete feature-provider list consumed by `TaskService`.
+- `TaskManagerEngine` remains the sequential provider executor with overlap/cancellation/error aggregation.
+- `TaskService` now owns the data-sync foreground-service lifecycle and publishes task state/error through `TaskStateRegistry`.
+- `NotificationTaskCancelReceiver` owns cancel/force-stop intent handoff.
 
-**Classification: PARTIAL / EXECUTION GAP.**
+An empty provider registry is treated as an execution error boundary, never as successful task completion. Feature-provider registration and actual Android runtime execution remain unverified by design.
 
-Ini bukan sekadar test gap; execution ownership belum selesai pada current app surface.
+**Classification: PASS (STATIC) — EXECUTION BOUNDARY CLOSED; RUNTIME UNVERIFIED.**
+
 
 ### Settings / Password / Storage
 
@@ -467,39 +471,44 @@ Runtime feature-gate coverage tetap belum diverifikasi.
 
 ### Current App Boundary
 
-Current app memiliki:
+Current app has a concrete provider-neutral backend boundary plus the approved Supabase source adapter:
 
 - `BaReBackendRepository`
-- `ReferenceBackendContract`
-- Cloud provider contracts
-- account/user-info repositories
-- cloud metadata models
-- diagnostics UI
-- Supabase-specific diagnostic strings
+- `SupabaseSessionSource`
+- `SupabaseRestClient`
+- `SupabaseUserInfoRepository`
+- `SupabaseContributorRegistrationRepository`
+- `SupabaseBackendRepository`
+- `SupabaseBackendFactory`
 
-Namun `BaReBackendRepository` sendiri mendeskripsikan eventual Supabase adapter sebagai downstream.
+The feature layer does not receive Supabase SDK types. Authentication/session ownership remains injected through `SupabaseSessionSource`.
 
-### Missing Concrete Implementation
+### Approved Concrete Surface
 
-Static search tidak menemukan:
+Static implementation is limited to the approved P6.2 resources:
 
-- Supabase SDK/client initialization
-- Supabase Auth adapter
-- PostgREST/database adapter
-- Supabase Storage adapter
-- concrete RLS client integration
-- Edge Function client integration
-- concrete remote repository wiring
-- target project URL usage in implementation
-- verified Supabase key/configuration
+- Supabase managed `auth.users` session identity
+- `public.user_profiles`
+- `public.contributor_registrations`
 
-Tidak ditemukan evidence yang cukup untuk mengarang schema, key, RLS, bucket, provider, atau Edge Function.
+`cloud_v1`, billing/purchase verification, external provider credentials, speculative Storage/Edge Functions/triggers, and final RLS SQL remain deferred because their evidence/model was not approved.
 
-**Classification: BLOCKED / SUPABASE EXECUTION GAP.**
+### Verification
+
+- concrete Supabase REST transport: **PASS (STATIC)**
+- session/identity ownership boundary: **PASS (STATIC)**
+- approved profile mapping: **PASS (STATIC)**
+- approved contributor mapping: **PASS (STATIC)**
+- injected publishable key; no hard-coded secret: **PASS (STATIC)**
+- no fabricated schema/bucket/RLS/Edge Function: **PASS (STATIC)**
+- live Supabase mutation/auth execution: **NOT PERFORMED**
+
+**Classification: PASS (STATIC) for approved source boundary; live backend state remains UNVERIFIED by boundary.**
 
 ### Backend Rule
 
-Tidak boleh mengisi gap ini dengan mock/fake “connected” state. `bare.md` mensyaratkan actual Supabase state atau evidence yang diverifikasi sebelum configuration dibuat.
+No connected/success state is fabricated. Runtime authentication and actual Supabase state must remain evidence from the downstream provider/session boundary.
+
 
 ## Firebase Audit
 
@@ -597,8 +606,7 @@ Reference static evidence confirms `libsba_archive.so` for:
 - x86
 - x86_64
 
-The exact Reference binary blobs already present in the repository's read-only `reference/` evidence tree were reused by blob identity and packaged under:
-`native-compat/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
+The exact Reference binary blobs already present in the repository's read-only `reference/` evidence tree were reused by blob identity and packaged under:`native-compat/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
 
 Target blob SHA evidence:
 - arm64-v8a: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`
@@ -697,8 +705,7 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 - 8 Receiver static manifest count
 - BaRe package/application branding
 - Firebase implementation removal from `app/`
-- generic static hygiene scan
-- large Reference reconstruction surface already present
+- generic static hygiene scan- large Reference reconstruction surface already present
 - MMS restore static owner exists
 
 ### AUTHORIZED DEVIATION
@@ -757,12 +764,12 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | Build configuration | PASS (STATIC) |
 | Gradle reproducibility | BLOCKED |
 | CI | BLOCKED |
-| Supabase concrete implementation | BLOCKED |
+| Supabase concrete implementation | PASS (STATIC) |
 | Runtime/device | NOT RUN |
 | Visual comparison | NOT RUN |
 | Behavior comparison | NOT RUN |
 | Feature comparison | PARTIAL STATIC ONLY |
-| Final 1:1 qualification | **FAIL** |
+| Final 1:1 qualification | **FAIL / WORK-06 NOT STARTED** |
 
 ## Final Audit Decision
 
@@ -798,7 +805,6 @@ Reference ZIP/APK tetap menjadi evidence read-only sesuai aturan bare.md.
 Dokumen lain di docs/ boleh ada sebagai historical/evidence record, tetapi **tidak menjadi work queue atau sumber urutan pekerjaan** kecuali secara eksplisit dirujuk dari dokumen ini.
 
 ## Operating Rule
-
 Urutan keputusan:
 
 bare.md → evidence Reference → current app/ → implementation → verification → update this document
@@ -897,8 +903,7 @@ Wrapper tidak ditambahkan karena tidak ada evidence-backed wrapper version/artif
 
 1. Gradle configuration source konsisten dan tidak memiliki known Kotlin/Groovy DSL contradiction. **PASS**
 2. Wrapper/config artifacts hanya direkonstruksi bila didukung evidence. **PASS — no unsupported artifact invented**
-3. Dependency/plugin declarations tetap konsisten dengan existing evidence. **PASS**
-4. Java/resource/manifest/build-type configuration konsisten secara static. **PASS**
+3. Dependency/plugin declarations tetap konsisten dengan existing evidence. **PASS**4. Java/resource/manifest/build-type configuration konsisten secara static. **PASS**
 5. Tidak ada fake/stub workaround. **PASS**
 
 **Build execution, dependency resolution execution, assembleDebug, APK generation, dan CI: NOT PERMITTED.**
@@ -997,8 +1002,7 @@ Implemented on `rewrite` in commit `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488`.
 - Tidak ada redesign Dashboard aktif pada owner path. **PASS (STATIC)**
 - Tidak ada known static navigation/home lifecycle contradiction. **PASS (STATIC)**
 
-### Gate
-**WORK-03 CLOSED — PASS (STATIC)**
+### Gate**WORK-03 CLOSED — PASS (STATIC)**
 Build/runtime/device execution tetap NOT PERMITTED.
 
 ---
@@ -1081,50 +1085,59 @@ Live backend/schema execution remains outside this work boundary.
 
 ## Objective
 
-Menutup gap pada source-level execution boundaries: owner, consumer, state, error, permission, dan downstream handoff. Actual runtime/device execution tidak dilakukan.
+Menutup gap pada source-level execution boundaries: owner, consumer, state, error, permission, prerequisite, dan downstream handoff. Actual runtime/device execution tetap tidak dilakukan.
 
-## Execution Surfaces
+## Execution Surface Result
 
-Prioritas:
+| Surface | Source-level owner / consumer | State / error boundary | Status |
+|---|---|---|---|
+| Native SBA | `SbaNativeBridge` → SBA executors | explicit load/probe failure; no fake native success | **PASS (STATIC)** |
+| Root / Shizuku | `RootPermissionCoordinator`, `SbaPrivilegeGate` | root/Shizuku detection + grant failure state | **PASS (STATIC)** |
+| Storage/filesystem | `AndroidStorageInventory`, `LocalStorageCoordinator`, storage preflight/executors | volume validity, selection, mutation errors | **PASS (STATIC)** |
+| PackageInstaller | `PackageInstallerExecutor` | session/result/timeout/error result | **PASS (STATIC)** |
+| SMS/MMS | `MessagesRestoreRepository` | permission/provider insertion failures + result counts | **PASS (STATIC)** |
+| CallLog | `CallLogProviderRepository` / restore repositories | provider/security boundary + restore result | **PASS (STATIC)** |
+| Wi-Fi | Wi-Fi access repositories + `SensitiveWifiPolicy` | legacy/root/Shizuku source + explicit failure states | **PASS (STATIC)** |
+| Wallpaper | `SystemWallpaperRepository` / `WallApplyActivity` | source/stream/apply failure path | **PASS (STATIC)** |
+| Scheduler / Alarm / FGS | `ScheduleAlarmController` → `AlarmReceiver` → `ScheduleService` → `TaskService` | scheduled/skipped/blocked/failed + task state/error/cancel | **PASS (STATIC)** |
+| Cloud execution | `CloudProviderRepository` / `CloudAccessService` | connected/not-connected/network/temporary/unknown states | **PASS (STATIC)** |
+| Account/authentication | `SupabaseSessionSource` → `SupabaseBackendRepository` | authenticated-session required; no fake identity | **PASS (STATIC)** |
 
-1. Native SBA
-2. Root / Shizuku
-3. Storage/filesystem
-4. PackageInstaller
-5. SMS/MMS provider
-6. CallLog provider
-7. Wi-Fi acquisition
-8. Wallpaper application
-9. Scheduler / Alarm / Foreground service
-10. Cloud execution
-11. Account/authentication
+### Implemented in WORK-05
 
-## Rule
+1. Added `ScheduleAlarmController` for exact-alarm scheduling/cancellation with explicit `SCHEDULED`, `SKIPPED`, `BLOCKED`, and `FAILED` results.
+2. Replaced `AlarmReceiver` skeleton with concrete next-alarm rescheduling and `ScheduleService` handoff.
+3. Replaced `BootReceiver` skeleton with persisted schedule boot recovery.
+4. Replaced `ScheduleService` skeleton with schedule enabled/forced state, Reference battery prerequisite mapping (`NONE`, `CHARGING`, `MINIMUM_PERCENT`), normalized schedule-item selection, terminal outcome persistence, and TaskService handoff.
+5. Added `TaskProviderRegistry` as the source-level owner for concrete feature task providers.
+6. Replaced `TaskService` skeleton with data-sync foreground-service lifecycle, provider consumption, task-manager registration/execution, cancellation/error publication, and no-provider error handling.
+7. Replaced `NotificationTaskCancelReceiver` skeleton with explicit cancel/force-stop handoff to `TaskStateRegistry`.
 
-Static implementation ≠ runtime implementation.
+### Boundary Discipline
 
-Karena runtime berada di luar boundary, hal yang tidak dapat dibuktikan dari source tetap UNKNOWN atau BLOCKED BY BOUNDARY.
+- No runtime/device/build/CI/APK execution was performed.
+- No provider execution is claimed as runtime PASS.
+- Empty provider registration is an explicit error boundary, not success.
+- Supabase session/auth execution remains injected; no anonymous/fake connected state is created.
+- Existing concrete native, storage, installer, telephony, Wi-Fi, and wallpaper adapters remain the downstream execution owners.
 
-## Definition of Done
+### Definition of Done — STATIC
 
-Untuk setiap surface:
+- owner jelas: **PASS**
+- consumer jelas: **PASS**
+- state/error/loading path explicit: **PASS**
+- permission/prerequisite boundary explicit: **PASS**
+- downstream handoff explicit: **PASS**
+- limitation/runtime UNKNOWN recorded: **PASS**
+- no fake success: **PASS**
+- consumer verified by source inspection: **PASS**
 
-- owner jelas,
-- consumer jelas,
-- state/error/loading path sesuai Reference secara source,
-- permission/prerequisite boundary jelas,
-- downstream handoff jelas,
-- limitation/UNKNOWN dicatat bila tidak dapat dibuktikan dari source,
-- tidak ada fake success,
-- state/error/loading sesuai Reference,
-- ownership jelas,
-- consumer verified.
+### Gate
 
-### Current Status
+**WORK-05 CLOSED — PASS (STATIC)**
 
-BLOCKED
+Runtime/device execution remains NOT PERFORMED and is not acceptance evidence under the active boundary.
 
----
 
 # WORK-06 — FULL PARITY VERIFICATION
 
@@ -1197,7 +1210,6 @@ BaRe = Reference + Authorized Deviations
 Seluruh feature Reference yang menjadi scope.
 
 ### 7. Deviation
-
 Setiap difference harus masuk:
 
 - MATCH
@@ -1226,25 +1238,27 @@ NOT STARTED
 | **WORK-01 Build Configuration** | **PASS (STATIC)** | — |
 | WORK-02 Native SBA | **PASS (STATIC)** | — |
 | WORK-03 Dashboard | **PASS (STATIC)** | — |
-| WORK-04 Supabase | BLOCKED / STATIC | Concrete backend source boundary |
-| WORK-05 Runtime Boundaries | BLOCKED / STATIC | Source-level execution closure |
+| WORK-04 Supabase | **PASS (STATIC)** | — |
+| **WORK-05 Runtime Boundaries** | **PASS (STATIC)** | — |
 | WORK-06 Static Parity | NOT STARTED | No unauthorized deviation |
 
 ## SINGLE NEXT ACTION
 
-**WORK-04 selesai — PASS (STATIC).**
+**WORK-05 selesai — PASS (STATIC).**
 
 Evidence:
 
-- `rewrite` implementation baseline berasal dari supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`
+- `rewrite` active implementation head before this audit update: `02dc5a9b4e560996e8fd1d7e903cd2e46b158a10`
 - WORK-02 native compatibility: empat ABI exact Reference `libsba_archive.so` terpasang dan SHA cocok dengan Reference canonical ZIP
-- WORK-03 Dashboard: `DashboardFragment` sekarang memakai canonical `dash_fragment.xml` dan seluruh owner wiring utama static PASS
-- WORK-04 Supabase: concrete Java REST adapter tersedia untuk `auth.users` session boundary, `public.user_profiles`, dan `public.contributor_registrations`
-- Work-04 tidak membuat speculative `cloud_v1`, billing, credential, Storage, Edge Function, trigger, atau RLS implementation
-- Project URL yang diketahui berasal dari `bare.md`; publishable key tetap injected/UNKNOWN dan tidak di-hardcode
-- live Supabase mutation, build, APK, CI, runtime, dan device execution tidak dilakukan
+- WORK-03 Dashboard: canonical `dash_fragment.xml` + root/notices/secondary-user/shortcut wiring static PASS
+- WORK-04 Supabase: concrete Java REST/session boundary tersedia untuk approved `auth.users`, `public.user_profiles`, dan `public.contributor_registrations`; key tetap injected/UNKNOWN; live backend tidak dijalankan
+- WORK-05 scheduler/task boundary: exact alarm, boot recovery, alarm→schedule→task handoff, provider registry, cancellation, and data-sync FGS lifecycle static PASS
+- Native/storage/PackageInstaller/telephony/Wi-Fi/wallpaper/cloud/auth surfaces memiliki owner + consumer + explicit error/state boundaries; runtime tetap tidak dijalankan
+- Tidak ada fake success, speculative schema, atau fabricated credential
 
-**Next action tunggal: WORK-05 — Close runtime boundaries at source level.** Jangan melompat ke WORK-06.
+**Next action tunggal: WORK-06 — FULL PARITY VERIFICATION. Jangan melompat ke FINAL claim.**
+
+
 ---
 
 # CHANGE CONTROL
