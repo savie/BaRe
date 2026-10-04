@@ -25,40 +25,8 @@ public final class CallLogProviderRepository {
 
     public List<CallLogItem> readCurrent() {
         ContentResolver resolver = context.getContentResolver();
-        String[] projection = {
-                "_id", "type", "features", "number", "number_presentation", "countryiso",
-                "date", "duration", "data_usage", "new", "name", "numbertype",
-                "voicemail_uri", "is_read", "geocoded_location", "lookup_uri",
-                "matched_number", "normalized_number", "photo_id", "photo_uri",
-                "formatted_number", "phone_account_component_name", "subscription_id"
-        };
-        ArrayList<CallLogItem> result = new ArrayList<>();
-        try (Cursor cursor = resolver.query(contentUriForSdk(Build.VERSION.SDK_INT),
-                projection, null, null, "date DESC")) {
-            if (cursor == null) return result;
-            int id = cursor.getColumnIndex("_id");
-            int type = cursor.getColumnIndex("type");
-            int features = cursor.getColumnIndex("features");
-            int number = cursor.getColumnIndex("number");
-            int presentation = cursor.getColumnIndex("number_presentation");
-            int countryIso = cursor.getColumnIndex("countryiso");
-            int date = cursor.getColumnIndex("date");
-            int duration = cursor.getColumnIndex("duration");
-            int dataUsage = cursor.getColumnIndex("data_usage");
-            int newCall = cursor.getColumnIndex("new");
-            int name = cursor.getColumnIndex("name");
-            int numberType = cursor.getColumnIndex("numbertype");
-            int voicemailUri = cursor.getColumnIndex("voicemail_uri");
-            int isRead = cursor.getColumnIndex("is_read");
-            int geo = cursor.getColumnIndex("geocoded_location");
-            int lookup = cursor.getColumnIndex("lookup_uri");
-            int matched = cursor.getColumnIndex("matched_number");
-            int normalized = cursor.getColumnIndex("normalized_number");
-            int photoId = cursor.getColumnIndex("photo_id");
-            int photoUri = cursor.getColumnIndex("photo_uri");
-            int formatted = cursor.getColumnIndex("formatted_number");
-            int accountComponent = cursor.getColumnIndex("phone_account_component_name");
-            int accountId = cursor.getColumnIndex("subscription_id");
+        // Reference r92.a queries the provider with a null projection; preserve that
+        // behavior so OEM/provider-specific CallLog columns remain available.
             while (cursor.moveToNext()) {
                 String component = getString(cursor, accountComponent);
                 String subscriptionId = getString(cursor, accountId);
