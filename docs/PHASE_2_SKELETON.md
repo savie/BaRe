@@ -78,7 +78,9 @@ Reference Application:
 
 Target BΛR☰:
 
-`com.bare.BaReApp`
+**BaRe-owned Application class under the BaRe namespace.**
+
+Exact class identity is not invented by P2; it must follow the actual BaRe implementation/evidence.
 
 Application target juga mempertahankan kontrak struktural Reference untuk:
 
@@ -90,9 +92,104 @@ Application target juga mempertahankan kontrak struktural Reference untuk:
 - konfigurasi Application;
 - dependency initialization yang menjadi bagian dari struktur aplikasi.
 
-Perubahan identitas package/application mengikuti authorized deviation pada `docs/bare.md`.
+Identitas package/application milik BaRe wajib dinormalisasi sesuai authorized deviation pada `docs/bare.md`; identitas external yang wajib dipertahankan hanya boleh berada pada compatibility boundary yang terbukti.
 
 ---
+
+
+# 4A. AUTHORIZED DEVIATION DAN IDENTITY NORMALIZATION
+
+P2 wajib menerapkan deviation yang sudah ditetapkan P1 dan `docs/bare.md` ke **target**, bukan menunda deviation tersebut sampai sesudah skeleton.
+
+### A. Branding dan identitas aplikasi
+
+Semua **app-owned identity** yang berasal dari Swift Backup harus dinormalisasi menjadi identitas BΛR☰/BaRe atau identitas teknis netral jika memang tidak memerlukan branding.
+
+Cakupan minimum:
+
+- application name;
+- application/package identity yang dimiliki BaRe;
+- namespace/package source BaRe;
+- class/interface/method/field milik BaRe;
+- resource name dan XML reference milik BaRe;
+- resource ID dan key milik BaRe;
+- filename milik BaRe;
+- URL, deep link, callback identity dan product identity milik BaRe;
+- configuration dan internal constant milik BaRe;
+- internal storage/database identifier milik BaRe;
+- comment/dokumentasi yang merupakan bagian dari source BaRe.
+
+**Tidak boleh ada target identity app-owned yang tetap membawa identitas Swift Backup hanya karena skeleton mengikuti nama Reference.**
+
+Normalisasi dilakukan berdasarkan ownership dan contract, bukan blind/global replacement.
+
+### B. Firebase
+
+Firebase **bukan backend target BΛR☰**.
+
+P2 tetap wajib mempertahankan setiap component/contract Reference yang berasal dari Firebase sebagai **target structural contract**, karena P1 menetapkan seluruh 119 component sebagai target. Namun target BΛR☰ harus direalisasikan melalui mekanisme BaRe yang sesuai, bukan dengan menjadikan Firebase sebagai backend BaRe.
+
+Untuk setiap Firebase-origin identifier/surface:
+
+- `RENAME` jika dapat menjadi identitas BaRe tanpa merusak contract;
+- `MIGRATE` jika fungsi perlu dipindahkan ke mekanisme BaRe/Supabase;
+- `PRESERVE-COMPATIBILITY` hanya jika evidence membuktikan identifier external tersebut wajib dipertahankan pada boundary tertentu.
+
+Firebase tidak boleh dipertahankan sekadar karena nama/class Reference sudah demikian.
+
+### C. Supabase
+
+Supabase adalah backend yang diizinkan untuk kebutuhan backend BΛR☰.
+
+Supabase **bukan pengganti seluruh behavior Reference**. Hanya fungsi backend yang memang diperlukan yang dipindahkan/direalisasikan melalui Supabase; behavior lain tetap mengikuti Reference.
+
+Konfigurasi Supabase yang belum terbukti dari actual state/evidence tetap `UNKNOWN` dan tidak boleh dikarang.
+
+### D. Premium
+
+Premium BΛR☰ adalah **gratis / entitlement granted**.
+
+P2 mempertahankan Premium sebagai structural target; yang berubah hanya entitlement/payment requirement sesuai authorized deviation. UI, flow, dan feature Premium tidak boleh dihapus hanya karena gratis.
+
+### E. Bahasa dan UI implementation
+
+Target implementation:
+
+- Java;
+- Android Views/XML;
+- bukan Kotlin source;
+- bukan Jetpack Compose.
+
+Ini merupakan bagian dari target rekonstruksi, bukan pilihan implementasi bebas.
+
+### F. External/dependency/native identity
+
+Komponen external/dependency/library tetap target 119, tetapi **target tidak berarti menyalin identitas dependency secara buta**.
+
+Setiap identifier external yang mengandung Swift/Firebase atau identitas produk harus diklasifikasikan sebagai:
+
+1. `RENAME`;
+2. `MIGRATE`; atau
+3. `PRESERVE-COMPATIBILITY` dengan alasan contract yang terbukti.
+
+Target akhir static hygiene untuk area yang dapat dinormalisasi:
+
+> `app/ → 0 Swift/swift + 0 Firebase/firebase`
+
+Occurrence yang masih wajib ada karena compatibility harus tercatat sebagai `PRESERVE-COMPATIBILITY`, bukan dibiarkan tanpa klasifikasi.
+
+### G. Prinsip mapping
+
+Mapping P2 harus dibaca sebagai:
+
+> **Reference component → BΛR☰ structural target + required authorized normalization**
+
+Bukan:
+
+> Reference component → salinan package/class Firebase/Swift apa adanya.
+
+Exact identity yang belum dapat ditentukan dari evidence tidak boleh diarang; statusnya `UNKNOWN` sampai evidence tersedia.
+
 
 # 5. ACTIVITY TARGET — 95 / 95
 
@@ -181,7 +278,7 @@ Semua 95 Activity berikut adalah **target BΛR☰**.
 | 79 | `com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity` | Target Microsoft Identity compatibility boundary |
 | 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | Target Microsoft Identity compatibility boundary |
 | 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | Target Microsoft Identity compatibility boundary |
-| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | Target Firebase Auth compatibility boundary |
+| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | BaRe-owned authentication/identity structural target replacing the Firebase-origin contract |
 | 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | Target Firebase Auth compatibility boundary |
 | 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | Target Credentials compatibility boundary |
 | 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | Target Credentials compatibility boundary |
@@ -205,10 +302,10 @@ Semua 95 Activity berikut adalah **target BΛR☰**.
 | 1 | `org.swiftapps.swiftbackup.tasks.TaskService` | `com.bare.tasks.TaskService` |
 | 2 | `org.swiftapps.swiftbackup.home.schedule.ScheduleService` | `com.bare.home.schedule.ScheduleService` |
 | 3 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService` | `com.bare.messagescalls.defaulthandler.HeadlessSmsSendService` |
-| 4 | `com.google.firebase.components.ComponentDiscoveryService` | Target Firebase compatibility boundary |
+| 4 | `com.google.firebase.components.ComponentDiscoveryService` | BaRe-owned service structural target replacing the Firebase-origin contract |
 | 5 | `androidx.credentials.playservices.CredentialProviderMetadataHolder` | Target Credentials compatibility boundary |
 | 6 | `com.google.android.gms.auth.api.signin.RevocationBoundService` | Target Google Sign-In compatibility boundary |
-| 7 | `com.google.firebase.sessions.SessionLifecycleService` | Target Firebase Sessions compatibility boundary |
+| 7 | `com.google.firebase.sessions.SessionLifecycleService` | BaRe-owned session-lifecycle structural target replacing the Firebase-origin contract |
 | 8 | `androidx.room.MultiInstanceInvalidationService` | Target Room compatibility boundary |
 | 9 | `com.google.android.datatransport.runtime.backends.TransportBackendDiscovery` | Target DataTransport compatibility boundary |
 | 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService` | Target DataTransport compatibility boundary |
@@ -290,7 +387,7 @@ Selain 119 component target, skeleton wajib mempertahankan struktur Manifest Ref
 Reference baseline Application:
 
 - `org.swiftapps.swiftbackup.SwiftApp`
-- `@style/SwiftTheme`
+- `BaRe-owned theme identity`
 - launcher `org.swiftapps.swiftbackup.intro.IntroActivity`
 - post-intro `org.swiftapps.swiftbackup.home.HomeActivity`
 - `allowBackup=false`
@@ -360,12 +457,13 @@ Resource behavior/UI detail masuk fase UI berikutnya, tetapi keberadaan resource
 
 1. Reference adalah source of truth.
 2. P1 adalah target boundary.
-3. Setiap target harus dapat ditelusuri ke Reference evidence.
-4. Dependency/library tidak otomatis dikecualikan.
-5. Authorized deviation hanya yang ditetapkan `docs/bare.md`.
-6. Target tidak boleh diperkecil karena kondisi implementasi saat ini.
-7. P2 tidak boleh mengubah target menjadi status implementasi.
-8. Jika evidence Reference tidak cukup, status harus UNKNOWN; jangan mengarang.
+3. Authorized deviation dari `docs/bare.md` sudah berlaku pada definisi target P2, bukan baru setelah skeleton selesai.
+4. Setiap target harus dapat ditelusuri ke Reference evidence.
+5. Dependency/library tidak otomatis dikecualikan.
+6. Authorized deviation hanya yang ditetapkan `docs/bare.md`.
+7. Target tidak boleh diperkecil karena kondisi implementasi saat ini.
+8. P2 tidak boleh mengubah target menjadi status implementasi.
+9. Jika evidence Reference tidak cukup, status harus UNKNOWN; jangan mengarang.
 
 ---
 
