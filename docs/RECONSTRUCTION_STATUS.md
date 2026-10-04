@@ -44,7 +44,7 @@ This file is a **detailed evidence / implementation history ledger**. Entries be
 - Detail, list-row and batch Apps Backup/Restore flows now invoke the engine.
 - Existing call-backup duplicate-finally syntax defect repaired.
 
-**Still active in P6.3:** Shared Libraries final restore destination/consumer chain and any remaining lower-level Apps configuration/task subgraphs must be re-audited against the primary ZIP before P6.4.
+**Closed in P6.3:** Shared Libraries final restore destination/consumer chain is now reconstructed from the primary ZIP. The remaining lower-level Apps configuration/task subgraphs stay subject to the normal P6.3 static re-audit; no P6.4 opening is implied.
 
 **Explicit boundaries:** no Supabase, no build/CI, no install, no runtime/device execution.
 
