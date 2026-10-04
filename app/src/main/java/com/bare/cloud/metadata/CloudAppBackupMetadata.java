@@ -55,7 +55,6 @@ public final class CloudAppBackupMetadata {
     public final String backupId;
     public final String name;
     public final Long versionCode;
-    public final String versionName;
     public final Long backupDate;
     public final Long updateDate;
     public final long minRequiredVersionCode;
