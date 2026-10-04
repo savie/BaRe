@@ -62,8 +62,10 @@ public final class FolderLocalRestoreEngine {
 
         Map<String, EntryState> finalFiles =
                 parseFiles(latest.manifest.optJSONArray("files"));
-        Set<String> finalDirectories =
-                normalizePaths(parsePaths(latest.manifest.optJSONArray("directories")));
+        boolean hasDirectoryState = latest.manifest.optInt("directoryStateVersion", 0) >= 1;
+        Set<String> finalDirectories = hasDirectoryState
+                ? normalizePaths(parsePaths(latest.manifest.optJSONArray("directories")))
+                : deriveParentDirectories(finalFiles.keySet());
 
         if (!target.exists() && !target.mkdirs()) {
             throw new IllegalStateException("Cannot create restore target folder");
@@ -110,7 +112,8 @@ public final class FolderLocalRestoreEngine {
         int removedFiles = 0;
         int removedDirectories = 0;
         if (strategy == FolderRestoreStrategy.FULL_RESTORE) {
-            DeletionResult deleted = deleteExtras(target, finalFiles.keySet(), finalDirectories);
+            DeletionResult deleted = deleteExtras(
+                    target, finalFiles.keySet(), finalDirectories, hasDirectoryState);
             removedFiles = deleted.files;
             removedDirectories = deleted.directories;
         }
@@ -284,6 +287,19 @@ public final class FolderLocalRestoreEngine {
         return result;
     }
 
+    private static Set<String> deriveParentDirectories(Set<String> files) {
+        LinkedHashSet<String> result = new LinkedHashSet<>();
+        for (String file : files) {
+            String current = file;
+            int slash;
+            while ((slash = current.lastIndexOf('/')) > 0) {
+                current = current.substring(0, slash);
+                result.add(current);
+            }
+        }
+        return result;
+    }
+
     private static Set<String> normalizePaths(Set<String> paths) {
         LinkedHashSet<String> result = new LinkedHashSet<>();
         for (String path : paths) {
@@ -320,7 +336,8 @@ public final class FolderLocalRestoreEngine {
     }
 
     private static DeletionResult deleteExtras(
-            File root, Set<String> finalFiles, Set<String> finalDirectories) throws Exception {
+            File root, Set<String> finalFiles, Set<String> finalDirectories,
+            boolean reconcileDirectories) throws Exception {
         CurrentState current = scan(root);
         int filesDeleted = 0;
         int directoriesDeleted = 0;
@@ -333,6 +350,10 @@ public final class FolderLocalRestoreEngine {
         for (String path : extraFiles) {
             File file = safeFile(root, path);
             if (file != null && file.isFile() && file.delete()) filesDeleted++;
+        }
+
+        if (!reconcileDirectories) {
+            return new DeletionResult(filesDeleted, 0);
         }
 
         ArrayList<String> extraDirectories = new ArrayList<>();
