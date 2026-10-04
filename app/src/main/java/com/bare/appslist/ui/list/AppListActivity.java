@@ -34,6 +34,7 @@ import com.bare.blacklist.BlacklistActivity;
 import com.bare.blacklist.data.BlacklistApp;
 import com.bare.blacklist.data.BlacklistData;
 import com.bare.blacklist.repository.BlacklistRepository;
+import com.bare.appslist.actions.PrivilegedAppActionExecutor;
 import com.bare.appslist.data.FavoriteApp;
 import com.bare.appslist.data.FavoriteAppsRepository;
 import com.bare.settings.SettingsActivity;
@@ -389,6 +390,69 @@ public final class AppListActivity extends AppCompatActivity {
     }
 
     private void showAppActionsBoundary(){ showAppActionsBoundary(null); }
+    private void runPrivilegedAppAction(PrivilegedAppActionExecutor.Action action, String packageName) {
+        if (packageName == null) return;
+        boolean ready = new com.bare.permission.PermissionAccessService(this)
+                .read().get(com.bare.permission.PermissionCapability.ROOT_SHIZUKU).isReady();
+        if (!ready) {
+            showEngineBoundary(R.string.apps_engine_boundary);
+            return;
+        }
+        try {
+            PrivilegedAppActionExecutor.Result result =
+                    new PrivilegedAppActionExecutor().execute(action, packageName);
+            if (!result.isSuccess()) {
+                showEngineBoundary(action == PrivilegedAppActionExecutor.Action.CLEAR_DATA
+                        ? R.string.clear_data : R.string.force_stop);
+            } else if (inventoryAdapter != null) {
+                loadInventory();
+            }
+        } catch (Exception e) {
+            showEngineBoundary(action == PrivilegedAppActionExecutor.Action.CLEAR_DATA
+                    ? R.string.clear_data : R.string.force_stop);
+        }
+    }
+
+    private void showDisableEnable(String packageName) {
+        if (packageName == null) return;
+        try {
+            android.content.pm.ApplicationInfo info =
+                    getPackageManager().getApplicationInfo(packageName, 0);
+            boolean enable = !info.enabled;
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(enable ? R.string.enable_disable_apps : R.string.disable_apps)
+                    .setMessage(enable ? R.string.enable_disable_apps : R.string.disable_apps)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.yes, (d, w) ->
+                            runPrivilegedAppAction(
+                                    enable
+                                            ? PrivilegedAppActionExecutor.Action.ENABLE
+                                            : PrivilegedAppActionExecutor.Action.DISABLE,
+                                    packageName))
+                    .show();
+        } catch (Exception ignored) {
+            showEngineBoundary(R.string.enable_disable_apps);
+        }
+    }
+
+    private void showClearData(String packageName) {
+        if (packageName == null) return;
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.clear_data)
+                .setMessage(R.string.sure_to_proceed)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes, (d, w) ->
+                        runPrivilegedAppAction(
+                                PrivilegedAppActionExecutor.Action.CLEAR_DATA, packageName))
+                .show();
+    }
+
+    private void showForceStop(String packageName) {
+        if (packageName == null) return;
+        runPrivilegedAppAction(
+                PrivilegedAppActionExecutor.Action.FORCE_STOP, packageName);
+    }
+
     private void showAppActionsBoundary(String packageName){
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.app_item_menu)
@@ -401,6 +465,9 @@ public final class AppListActivity extends AppCompatActivity {
                         getString(R.string.launch),
                         getString(R.string.play_store),
                         getString(R.string.share_apk),
+                        getString(R.string.enable_disable_apps),
+                        getString(R.string.force_stop),
+                        getString(R.string.clear_data),
                         getString(R.string.add_to_homescreen),
                         getString(R.string.battery_optimization),
                         getString(R.string.backup),
@@ -416,16 +483,19 @@ public final class AppListActivity extends AppCompatActivity {
                         case 5: launchPackage(packageName); break;
                         case 6: openPlayStore(packageName); break;
                         case 7: shareApk(packageName); break;
-                        case 8: {
+                        case 8: showDisableEnable(packageName); break;
+                        case 9: showForceStop(packageName); break;
+                        case 10: showClearData(packageName); break;
+                        case 11: {
                             Intent i = new Intent(this, com.bare.shortcuts.ShortcutsActivity.class);
                             i.putExtra("cmd", "pin_detail");
                             i.putExtra("package_name", packageName);
                             startActivity(i);
                             break;
                         }
-                        case 9: openBatteryOptimization(); break;
-                        case 10: showEngineBoundary(R.string.backup); break;
-                        case 11: showEngineBoundary(R.string.restore); break;
+                        case 12: openBatteryOptimization(); break;
+                        case 13: showEngineBoundary(R.string.backup); break;
+                        case 14: showEngineBoundary(R.string.restore); break;
                         default: startActivity(new Intent(this, SettingsActivity.class)); break;
                     }
                 })
