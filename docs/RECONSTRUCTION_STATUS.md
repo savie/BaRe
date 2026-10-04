@@ -43,7 +43,7 @@ This file is a **detailed evidence / implementation history ledger**. Entries be
 - Detail, list-row and batch Apps Backup/Restore flows now invoke the engine.
 - Existing call-backup duplicate-finally syntax defect repaired.
 
-**Still active in P6.3:** notification-policy XML system owner and the remaining lower-level Apps configuration/task subgraphs must be re-audited against the primary ZIP before P6.4.
+**Still active in P6.3:** remaining lower-level Apps configuration/task subgraphs must be re-audited against the primary ZIP before P6.4.
 
 **Explicit boundaries:** no Supabase, no build/CI, no install, no runtime/device execution.
 
