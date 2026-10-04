@@ -21,14 +21,13 @@ import java.util.zip.CRC32;
 public final class ReferenceSbaArchiveReader {
     private ReferenceSbaArchiveReader() {}
 
-    public static boolean isSba(FileLike file) throws IOException {
-        byte[] h = new byte[4];
-        try (java.io.InputStream in = file.open()) {
-            if (in.read(h) != 4) return false;
+    public static boolean isSba(java.io.File file) throws IOException {
+        if (file == null || !file.isFile() || file.length() < 4) return false;
+        try (java.io.RandomAccessFile raf = new java.io.RandomAccessFile(file, "r")) {
+            int version = raf.readUnsignedShort();
+            int headerSize = raf.readUnsignedShort();
+            return (version == 1 && headerSize == 96) || (version == 2 && headerSize == 144);
         }
-        int version = u16(h, 0);
-        int headerSize = u16(h, 2);
-        return (version == 1 && headerSize == 96) || (version == 2 && headerSize == 144);
     }
 
     public static Map<String, byte[]> readEntries(java.io.File file) throws Exception {
@@ -180,7 +179,7 @@ public final class ReferenceSbaArchiveReader {
             byte[] nameBytes = new byte[nameLength];
             in.readFully(nameBytes);
             String entryName = new String(nameBytes, StandardCharsets.UTF_8);
-            if ((flags & 0xffff) == 0) {
+            if (flags != 1) {
                 // Reference unencrypted entries use flags=1 for uncompressed and
                 // flags=3 for compressed; reject malformed zero flags.
                 throw new IOException("Invalid SBA1 entry flags for " + entryName);
@@ -292,9 +291,5 @@ public final class ReferenceSbaArchiveReader {
         Footer(long indexOffset,long indexSize,int indexCrc){
             this.indexOffset=indexOffset;this.indexSize=indexSize;this.indexCrc=indexCrc;
         }
-    }
-
-    public interface FileLike {
-        java.io.InputStream open() throws IOException;
     }
 }
