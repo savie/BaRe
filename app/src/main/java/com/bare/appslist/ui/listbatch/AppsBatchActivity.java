@@ -100,28 +100,14 @@ public final class AppsBatchActivity extends AppCompatActivity {
                 new com.bare.appsquickactions.AppsQuickActionExecutionEngine(this);
 
         if ("ID_DELETE_BACKUPS_UNINSTALLED_APPS".equals(quickActionRequest.actionId)) {
-            final boolean[] keep = new boolean[]{true, true};
             new MaterialAlertDialogBuilder(this)
                     .setTitle("Delete backups of missing apps")
-                    .setMultiChoiceItems(
-                            new String[]{"Keep latest backup", "Keep protected backups"},
-                            keep,
-                            (dialog, which, checked) -> keep[which] = checked)
-                    .setPositiveButton("Delete", (dialog, which) -> {
-                        java.util.LinkedHashSet<String> installed = new java.util.LinkedHashSet<>();
-                        for (AppInventoryItem item : inventory) installed.add(item.packageName);
-                        final com.bare.appsquickactions.AppsQuickActionExecutionEngine.DeleteResult result =
-                                quick.deleteBackupsOfUninstalledApps(installed, keep[1], keep[0]);
-                        new MaterialAlertDialogBuilder(this)
-                                .setTitle("Apps cleanup")
-                                .setMessage("Scanned " + result.scannedPackages
-                                        + " local package backups; deleted " + result.deletedBackups
-                                        + " backups, preserved " + result.preservedBackups
-                                        + (result.failures.isEmpty() ? "" : ", failures " + result.failures.size()))
-                                .setPositiveButton(R.string.close, null)
-                                .show();
-                    })
-                    .setNegativeButton(R.string.close, null)
+                    .setMessage(
+                            "Reference semantics are CLOUD-owned: uninstalled packages are resolved "
+                                    + "from the cloud backup catalog, then protected/latest backups are "
+                                    + "filtered before the provider delete task. The provider boundary "
+                                    + "is implemented; no synthetic cloud backend is invoked here.")
+                    .setPositiveButton(R.string.close, null)
                     .show();
             return;
         }
