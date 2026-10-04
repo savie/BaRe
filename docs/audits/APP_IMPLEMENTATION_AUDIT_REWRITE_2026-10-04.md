@@ -671,44 +671,4 @@ Therefore:
 
 **WORK-02 = PASS (STATIC)**
 
-Runtime/native execution remains **NOT PERMITTED** and is not claimed as verified.# WORK-02 — RESTORE / RECONCILE NATIVE SBA BOUNDARY
-
-## Priority
-**P0**
-
-## Objective
-Mereconstruct/reconcile native archive/crypto boundary pada source/package/configuration level tanpa native runtime execution.
-
-## Result
-**PASS (STATIC)**
-
-Implemented:
-1. Exact Reference `libsba_archive.so` blobs for all four Reference ABIs are packaged under `app/src/main/jniLibs/...`.
-2. `SbaRuntimeNative` restored with Reference-compatible package, library identity, and `version()` JNI owner.
-3. `SbaTarEntryInfo` restored with the JNI-facing constructor descriptor and Reference accessor/constant surface needed by tar-entry native returns.
-4. `SbaSwiftTarNative` reconciled with Reference tar extraction, stats, and tar-entry listing native methods.
-5. Existing `SbaArchiveNative`, `SbaNativeCrypto`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, and progress listener remain on the exact `com.swiftapps.sba` ABI namespace.
-6. `System.loadLibrary("sba_archive")` remains consistent across the native owners.
-7. No native ABI was renamed, mocked, stubbed, or replaced.
-
-### Evidence
-Reference arm64 static symbol inspection exposed the expected `Java_com_swiftapps_sba_...` JNI owners, including Runtime, Argon2id, Zstd, archive creation, AEGIS, tar extraction, tar listing, and fused AEGIS extraction.
-
-Reference binary blob identities were reused directly from the repository's read-only `reference/` evidence tree rather than rebuilt or modified.
-
-### Compatibility Decision
-`com.swiftapps.sba` → **PRESERVE-COMPATIBILITY**
-This is required by the native JNI ABI and therefore is not a branding deviation.
-
-### Definition of Done — STATIC
-- Native library available for required four ABI paths. **PASS**
-- `System.loadLibrary("sba_archive")` and library identity consistent. **PASS**
-- JNI owner classes/methods reconciled against static Reference symbol evidence. **PASS**
-- Native archive path has concrete packaged library + source owner/handoff. **PASS**
-- Compatibility residue explicitly classified. **PASS**
-- No fake/stub native implementation. **PASS**
-
-**Native loading/execution, archive creation/decryption/extraction, device/runtime, build, and APK generation are NOT PERMITTED.**
-
-### Current Status
-**PASS (STATIC) — WORK-02 CLOSED**
+Runtime/native execution remains **NOT PERMITTED** and is not claimed as verified.
