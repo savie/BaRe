@@ -68,6 +68,11 @@ public final class ReferenceSbaArchiveReader {
 
     private static Header readHeader(RandomAccessFile raf) throws IOException {
         raf.seek(0);
+        byte[] magic = new byte[4];
+        raf.readFully(magic);
+        if (!"SBA1".equals(new String(magic, StandardCharsets.US_ASCII))) {
+            throw new IOException("Not a Reference SBA1 archive");
+        }
         int version = raf.readUnsignedShort();
         int headerSize = raf.readUnsignedShort();
         if ((version != 1 && version != 2) || headerSize != (version == 1 ? 96 : 144)) {
@@ -118,6 +123,11 @@ public final class ReferenceSbaArchiveReader {
         long footerOffset = raf.length() - 32;
         if (footerOffset < 0) throw new IOException("SBA1 footer missing");
         raf.seek(footerOffset);
+        byte[] magic = new byte[4];
+        raf.readFully(magic);
+        if (!"SAF1".equals(new String(magic, StandardCharsets.US_ASCII))) {
+            throw new IOException("Reference SBA1 footer signature missing");
+        }
         int footerSize = raf.readUnsignedShort();
         int footerVersion = raf.readUnsignedShort();
         if (footerSize != 32 || footerVersion != version) {
@@ -142,6 +152,11 @@ public final class ReferenceSbaArchiveReader {
     private static Map<String, byte[]> readIndexEntries(
             RandomAccessFile raf, byte[] index, long indexOffset, long indexEnd) throws IOException {
         DataInputStream in = new DataInputStream(new ByteArrayInputStream(index));
+        byte[] magic = new byte[4];
+        in.readFully(magic);
+        if (!"SAI1".equals(new String(magic, StandardCharsets.US_ASCII))) {
+            throw new IOException("Reference SBA1 index signature missing");
+        }
         int indexHeaderSize = in.readUnsignedShort();
         int indexVersion = in.readUnsignedShort();
         int entryCount = in.readInt();
@@ -194,6 +209,16 @@ public final class ReferenceSbaArchiveReader {
             // subset, so stored/compressed/tar sizes must agree.
             if (storedSize != compressedSize || storedSize != tarSize) {
                 throw new IOException("SBA1 entry is compressed or transformed: " + entryName);
+            }
+            raf.seek(entryHeaderOffset);
+            byte[] entryMagic = new byte[4];
+            raf.readFully(entryMagic);
+            if (!"SAE1".equals(new String(entryMagic, StandardCharsets.US_ASCII))) {
+                throw new IOException("Reference SBA1 entry signature missing for " + entryName);
+            }
+            int entryHeaderSize = raf.readUnsignedShort();
+            if (entryHeaderSize != 24) {
+                throw new IOException("Invalid SBA1 entry header for " + entryName);
             }
             byte[] tar = new byte[(int) storedSize];
             if (storedSize > Integer.MAX_VALUE) {
