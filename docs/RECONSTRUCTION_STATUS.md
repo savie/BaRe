@@ -1329,3 +1329,8 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 ### Messages restore extension — 2026-10-04
 
 MMS restore is implemented against the Reference `wg5/xg5/vg5` model and provider insertion path. The archive reader also recognizes the Reference `SBA1` / `SAE1` / `SAI1` / `SAF1` container framing. Only the unencrypted + uncompressed SBA subset is claimed; Reference-native encrypted/zstd SBA backends remain outside the current runtime claim.
+
+
+### SBA native backend — 2026-10-04
+
+SBA native infrastructure is now materially implemented: exact Reference `libsba_archive.so` binaries are packaged for all four ABIs; exact JNI owner classes expose Argon2id, Zstd, AEGIS chunked decryption, tar extraction and archive creation; app-side key-check/creation handoff and Root/Shizuku protected-data gating are present. Full encrypted archive restore orchestration is still static-only until the header/index parser is wired end-to-end to every Reference encryption variant. No runtime/native/device execution was performed.
