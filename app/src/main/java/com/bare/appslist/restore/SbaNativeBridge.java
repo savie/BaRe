@@ -23,6 +23,11 @@ public final class SbaNativeBridge {
 
     public boolean isLoaded() { return loaded; }
 
+    /** Reference-compatible Zstd byte codec used by the special-data payload format. */
+    public native byte[] compressZstdBytes(byte[] payload, int level);
+
+    public native byte[] decompressZstdBytes(byte[] payload);
+
     public native byte[] deriveArgon2id(
             byte[] password, byte[] salt, int iterations,
             int memoryKiB, int parallelism, int outputBytes);
