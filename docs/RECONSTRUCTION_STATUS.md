@@ -1489,3 +1489,11 @@ The previously recorded Home Dashboard Quick Actions gap was re-audited directly
 
 **Loop C status: IMPLEMENTED / STATIC — Reference Dashboard Quick Actions app-side gap closed.**
 **Runtime visual/execution verification: UNVERIFIED / BOUNDARY.**
+
+
+### Loop C active-layout correction — 2026-10-04
+
+- Re-audit found the first Loop C implementation was populating Reference card IDs that were not yet present in the actually active home_dashboard_fragment layout.
+- Corrected the active Home layout to include the four Reference quick-action card instances directly; the old dashboard_actions category list is now hidden.
+- Re-checked DashboardFragment structural balance after the correction.
+- Device/build/runtime verification remains unperformed.
