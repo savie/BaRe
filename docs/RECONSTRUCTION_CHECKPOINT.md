@@ -1644,3 +1644,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - BΛR☰ implementation now has concrete system capture, local artifact creation, selected-storage inventory, deletion, dashboard backup, and Home/Lock/Both wallpaper application.
 - Reference cloud transfer metadata/dedup contract is documented but no provider adapter is fabricated; cloud execution remains provider-bound.
 - No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
+
+
+### P6.3 Folders — 2026-10-04
+- Exact Reference local folder path recovered: `SwiftBackup/accounts/<first-half-MD5(uid)>/backups/folders/local/Folder-<folderId>/`.
+- Exact artifact names recovered: `folder-base.fld`, `folder-base.flm`, `folder-inc-yyyyMMdd-HHmmss-SSS.fld`, `folder-inc-yyyyMMdd-HHmmss-SSS.flm`.
+- Base/incremental scan semantics implemented around Reference `FolderState(FileEntry(size,mtime))`, diffing, manifest state, and deletion lists.
+- Local FolderItem persistence and concrete batch backup/delete UI are now wired to the engine.
+- Archive creation uses the exact reconstructed `SbaArchiveNative` JNI ABI with Reference public AEGIS-256/Argon2id/Zstd parameters.
+- Encrypted restore is not promoted to runtime-tested/full fidelity; the native extraction orchestration still needs its final on-disk destination/chain verification before being called closed.
+- No build/install/runtime/device/provider execution was performed. Reference ZIP remains unchanged.
