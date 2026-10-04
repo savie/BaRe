@@ -58,6 +58,11 @@ public final class ReScheduleContracts {
     }
 
     /** F76 — DataSync FGS runtime-ledger boundary. */
+    public enum F76Outcome {
+        COMPLETED, CANCELLED, ERROR, TIMEOUT, START_BLOCKED_QUOTA,
+        PROCESS_RESTARTED, HANDED_OFF
+    }
+
     public record F76RuntimeLedgerEntry(
             String id, String serviceName, long startTimeMillis,
             Long endTimeMillis, boolean scheduleRun, boolean forcedRun,
