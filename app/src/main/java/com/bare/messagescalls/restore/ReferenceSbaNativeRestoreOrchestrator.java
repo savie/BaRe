@@ -189,7 +189,7 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 try {
                     ReferenceSbaCryptoOrchestrator.verifyIndexMetadataMac(
                             indexMacKey, h.rawHeader, footer.indexOffset, footer.indexSize,
-                            footer.version, index, h.indexMac);
+                            footer.indexCrc, index, h.indexMac);
                 } finally {
                     Arrays.fill(indexMacKey, (byte) 0);
                 }
@@ -374,7 +374,7 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 throw new IOException("Invalid SBA encrypted header fields");
             }
             if (version == 1) {
-                if (memoryKiB != 16_384 || parallelism != 1) {
+                if (iterations != 3 || memoryKiB != 16_384 || parallelism != 1) {
                     throw new IOException("Invalid SBA v1 Argon2 defaults");
                 }
             } else if (memoryKiB < 16_384 || memoryKiB > 65_536
@@ -484,16 +484,37 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
 
             byte[] nameBytes = new byte[nameLength];
             in.readFully(nameBytes);
-            String name = new String(nameBytes, StandardCharsets.UTF_8);
+            String name = decodeUtf8Strict(nameBytes, "index record " + i);
+            validateEntryName(name);
 
-            if (entryHeaderOffset < h.headerSize || payloadOffset < entryHeaderOffset + 24
+            long headerEnd = safeAdd(entryHeaderOffset, 24L, "SBA entry header");
+            if (entryHeaderOffset < h.headerSize || payloadOffset < headerEnd
                     || storedSize < 0 || compressedSize < 0 || tarSize < 1024
                     || tarSize % 512 != 0) {
                 throw new IOException("Invalid SBA entry offsets/sizes: " + name);
             }
 
+            if (h.compressionMethod != 0 && compressedSize == 0) {
+                throw new IOException("Compressed SBA entry has an empty compressed payload");
+            }
+
             if (h.encryptionMethod == 0 && storedSize != compressedSize) {
                 throw new IOException("Unencrypted SBA stored/compressed size mismatch");
+            }
+
+            if (h.encryptionMethod == 1) {
+                if (storedSize == 0 || storedSize % 16 != 0) {
+                    throw new IOException("SevenZip AES SBA entry is not AES-block-aligned: " + name);
+                }
+                long expectedStored = compressedSize == 0 ? 0 : ((compressedSize + 15) / 16) * 16;
+                if (storedSize != expectedStored) {
+                    throw new IOException("SevenZip AES SBA stored size mismatch: " + name);
+                }
+            } else if (h.encryptionMethod >= 2 && h.encryptionMethod <= 5) {
+                long expectedStored = paddedChunkSize(h.chunkSize, compressedSize);
+                if (storedSize != expectedStored) {
+                    throw new IOException("AEAD SBA stored size mismatch: " + name);
+                }
             }
 
             if (h.compressionMethod == 0 && compressedSize != tarSize) {
@@ -533,7 +554,8 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 raf.readFully(reserved);
                 byte[] nameBytes = new byte[nameLength];
                 raf.readFully(nameBytes);
-                String headerName = new String(nameBytes, StandardCharsets.UTF_8);
+                String headerName = decodeUtf8Strict(nameBytes, "entry header " + e.name);
+                validateEntryName(headerName);
                 for (byte b : reserved) if (b != 0) throw new IOException("Non-zero SBA entry reserved bytes");
                 if (headerSize != 24 || headerFlags != 0 || metadataLength != 0
                         || !e.name.equals(headerName)
@@ -541,7 +563,7 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                         || raf.getFilePointer() != e.payloadOffset) {
                     throw new IOException("SBA entry header/index mismatch: " + e.name);
                 }
-                long end = e.payloadOffset + e.storedSize;
+                long end = safeAdd(e.payloadOffset, e.storedSize, "SBA entry payload");
                 if (end < e.payloadOffset || end > footer.indexOffset) {
                     throw new IOException("SBA entry payload exceeds index boundary: " + e.name);
                 }
@@ -581,6 +603,45 @@ public final class ReferenceSbaNativeRestoreOrchestrator {
                 try { Files.deleteIfExists(path); }
                 catch (IOException ignored) { }
             });
+        }
+    }
+
+    private static long safeAdd(long left, long right, String label) throws IOException {
+        long result = left + right;
+        if (((left ^ result) & (right ^ result)) < 0) {
+            throw new IOException("Integer overflow while computing " + label);
+        }
+        return result;
+    }
+
+    private static long paddedChunkSize(int chunkSize, long compressedSize) throws IOException {
+        if (compressedSize == 0) return 0;
+        if (chunkSize <= 0) throw new IOException("Invalid SBA chunk size");
+        long chunks = (compressedSize + chunkSize - 1) / chunkSize;
+        return safeAdd(0, chunks * 16L, "AEAD stored size");
+    }
+
+    private static String decodeUtf8Strict(byte[] bytes, String label) throws IOException {
+        try {
+            java.nio.charset.CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder()
+                    .onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                    .onUnmappableCharacter(java.nio.charset.CodingErrorAction.REPORT);
+            return decoder.decode(java.nio.ByteBuffer.wrap(bytes)).toString();
+        } catch (java.nio.charset.CharacterCodingException e) {
+            throw new IOException("Malformed UTF-8 in " + label, e);
+        }
+    }
+
+    private static void validateEntryName(String name) throws IOException {
+        if (name == null || name.isEmpty()) throw new IOException("SBA entry name must not be empty");
+        if (name.indexOf('\u0000') >= 0) throw new IOException("SBA entry name must not contain NUL");
+        if (name.startsWith("/")) throw new IOException("SBA entry name must be relative: " + name);
+        if (name.indexOf('\\') >= 0) throw new IOException("SBA entry name must use '/' separators only: " + name);
+        String[] parts = name.split("/", -1);
+        for (String part : parts) {
+            if (part.isEmpty() || ".".equals(part) || "..".equals(part)) {
+                throw new IOException("Unsafe SBA entry name: " + name);
+            }
         }
     }
 
