@@ -11,8 +11,6 @@ public final class WifiCloudDetails {
     }
 
     public WifiCloudDetails(String driveId, Long fileSize, Integer wifiNetworksCount) {
-        if (fileSize != null && fileSize < 0) throw new IllegalArgumentException("fileSize");
-        if (wifiNetworksCount != null && wifiNetworksCount < 0) throw new IllegalArgumentException("wifiNetworksCount");
         this.driveId = driveId;
         this.fileSize = fileSize;
         this.wifiNetworksCount = wifiNetworksCount;
@@ -24,11 +22,9 @@ public final class WifiCloudDetails {
 
     public void setDriveId(String value) { driveId = value; }
     public void setFileSize(Long value) {
-        if (value != null && value < 0) throw new IllegalArgumentException("fileSize");
         fileSize = value;
     }
     public void setWifiNetworksCount(Integer value) {
-        if (value != null && value < 0) throw new IllegalArgumentException("wifiNetworksCount");
         wifiNetworksCount = value;
     }
 }
