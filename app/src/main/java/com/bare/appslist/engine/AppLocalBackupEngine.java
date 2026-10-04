@@ -294,8 +294,15 @@ public final class AppLocalBackupEngine {
         }
         JSONObject sizes = latest.metadata.optJSONObject("sourceSizes");
         long apkSize = new File(info.applicationInfo.sourceDir).length();
+        String currentVersionName = info.versionName == null ? "Empty" : info.versionName;
+        String backupVersionName = latest.metadata.optString("versionName", "Empty");
+        boolean hasSplits = !splitSources(info).isEmpty();
+        boolean hasSharedLibs = !sharedLibraries(info).isEmpty();
         state.apkChanged = info.getLongVersionCode() != latest.metadata.optLong("versionCode", -1L)
-                || apkSize != sizeOf(sizes, "APK");
+                || !currentVersionName.equals(backupVersionName)
+                || apkSize != sizeOf(sizes, "APK")
+                || hasSplits != latest.metadata.optBoolean("hasSplits", sizeOf(sizes, "SPLITS") > 0)
+                || hasSharedLibs != latest.metadata.optBoolean("hasSharedLibs", sizeOf(sizes, "SHARED_LIBS") > 0);
         state.identicalApk = !state.apkChanged;
         state.dataChanged = false;
         for (Part part : parts) {
