@@ -1319,3 +1319,9 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 - `SmsReceiver` now performs the Reference inbound SMS persistence path; `HeadlessSmsSendService` matches the Reference bind behavior.
 - `MessagesBackupRestoreActivity` backup mode now consumes actual device conversation data; file-restore execution remains tied to the Reference encrypted/compressed artifact boundary and is not faked.
 - No build/install/runtime/device/provider/Supabase execution was performed.
+### P6.3 Messages restore execution — 2026-10-04
+
+- `EXTRA_BACKUP_FILE_PATH` is now wired through archive extraction, Reference crypto decryption, backup preview/selection, default-SMS gating, duplicate detection, thread resolution, and `Telephony.Sms` insertion.
+- Standard local ZIP/7z archive paths are handled app-side. Reference SBA1-family privileged containers remain Root/Shizuku-only and are not represented as a fake local extractor.
+- MMS restore remains a separate incomplete branch because its Reference execution requires MMS media archive restoration and `Telephony.Mms`/Part/Addr semantics.
+- No build/install/runtime/device/provider/Supabase execution was performed.
