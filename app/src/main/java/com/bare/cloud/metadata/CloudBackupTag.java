@@ -10,13 +10,14 @@ public final class CloudBackupTag {
     private final boolean userCreated;
     private final boolean toBeDeleted;
     private final List<String> cloudBackupsList;
-    private final int smsBackupsCount;
-    private final int callLogBackupsCount;
+    private final Integer smsBackupsCount;
+    private final Integer callLogBackupsCount;
 
     public CloudBackupTag(String cloudTag, boolean userCreated, boolean toBeDeleted,
-                          List<String> cloudBackupsList, int smsBackupsCount, int callLogBackupsCount) {
+                          List<String> cloudBackupsList, Integer smsBackupsCount, Integer callLogBackupsCount) {
         if (cloudTag == null || cloudTag.isEmpty()) throw new IllegalArgumentException("cloudTag");
-        if (smsBackupsCount < 0 || callLogBackupsCount < 0) throw new IllegalArgumentException("counts");
+        if (smsBackupsCount != null && smsBackupsCount < 0) throw new IllegalArgumentException("smsBackupsCount");
+        if (callLogBackupsCount != null && callLogBackupsCount < 0) throw new IllegalArgumentException("callLogBackupsCount");
         this.cloudTag = cloudTag;
         this.userCreated = userCreated;
         this.toBeDeleted = toBeDeleted;
@@ -32,6 +33,6 @@ public final class CloudBackupTag {
     public List<String> getCloudBackupsList() {
         return Collections.unmodifiableList(cloudBackupsList);
     }
-    public int getSmsBackupsCount() { return smsBackupsCount; }
-    public int getCallLogBackupsCount() { return callLogBackupsCount; }
+    public Integer getSmsBackupsCount() { return smsBackupsCount; }
+    public Integer getCallLogBackupsCount() { return callLogBackupsCount; }
 }
