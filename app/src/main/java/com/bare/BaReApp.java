@@ -4,14 +4,39 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build;
+import android.os.LocaleList;
 
 public final class BaReApp extends Application {
+    private static BaReApp instance;
+
+    public static BaReApp getInstance() {
+        BaReApp app = instance;
+        if (app == null) {
+            throw new IllegalStateException("BaReApp is not initialized");
+        }
+        return app;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         createNotificationChannels();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        if (Build.VERSION.SDK_INT >= 33) {
+            LocaleList locales = configuration.getLocales();
+            if (locales != null) {
+                com.bare.locale.LocaleStateBridge.onConfigurationChanged(this, locales);
+            }
+        }
     }
 
     private void createNotificationChannels() {
@@ -38,10 +63,6 @@ public final class BaReApp extends Application {
                 android.provider.Settings.System.DEFAULT_NOTIFICATION_URI);
     }
 
-    /**
-     * F90 locale-change consumer. Recreates the Reference-observed channels so
-     * their names resolve from the currently active resources.
-     */
     public void refreshLocalizedNotificationChannels() {
         NotificationManager manager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
