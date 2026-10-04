@@ -5,6 +5,8 @@ import android.content.Context;
 import com.bare.folders.backup.FolderBackupPasswordProvider;
 import com.bare.folders.data.FolderItem;
 import com.bare.messagescalls.restore.ReferenceSbaNativeRestoreOrchestrator;
+import com.bare.schedule.contracts.ReScheduleContracts;
+import com.bare.storage.DiskSpacePreflight;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -90,6 +92,12 @@ public final class FolderLocalRestoreEngine {
         Map<BackupRecord, List<String>> extractionPlan = planExtraction(chain, desired);
         for (Map.Entry<BackupRecord, List<String>> plan : extractionPlan.entrySet()) {
             if (plan.getValue().isEmpty()) continue;
+            long requiredBytes = plan.getKey().archiveFile.length();
+            for (String path : plan.getValue()) {
+                EntryState expected = finalFiles.get(path);
+                if (expected != null) requiredBytes = safeAdd(requiredBytes, expected.size);
+            }
+            ensureDiskSpace(target, requiredBytes);
             ReferenceSbaNativeRestoreOrchestrator.extractToDirectory(
                     plan.getKey().archiveFile,
                     FolderBackupPasswordProvider.get(context),
@@ -436,6 +444,22 @@ public final class FolderLocalRestoreEngine {
         if (!candidatePath.equals(rootPath)
                 && !candidatePath.startsWith(rootPath + File.separator)) return null;
         return candidate;
+    }
+
+    private void ensureDiskSpace(File target, long artifactBytes) {
+        boolean skip = context.getSharedPreferences(
+                context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                .getBoolean("skip_disk_space_checks", false);
+        ReScheduleContracts.F161DiskPreflight decision =
+                DiskSpacePreflight.evaluate(
+                        Math.max(0L, artifactBytes),
+                        Math.max(0L, target.getUsableSpace()),
+                        skip);
+        if (!skip && !"PASS".equals(decision.decision())) {
+            throw new IllegalStateException(
+                    "Folder restore blocked by disk-space preflight: "
+                            + decision.decision() + " (" + decision.reason() + ")");
+        }
     }
 
     private static long safeAdd(long a, long b) {
