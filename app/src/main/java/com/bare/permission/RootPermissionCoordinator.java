@@ -48,7 +48,18 @@ public final class RootPermissionCoordinator {
                 return;
             }
             setState(State.AWAITING_SHIZUKU, listener);
-            if (requestShizukuPermission()) {
+            if (!requestShizukuPermission()) {
+                finish(false, listener);
+                return;
+            }
+            for (int i = 0; i < 10 && !hasShizukuPermission(); i++) {
+                try { Thread.sleep(500L); } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    finish(false, listener);
+                    return;
+                }
+            }
+            if (hasShizukuPermission()) {
                 setState(State.GRANTING_PERMISSIONS, listener);
                 boolean granted = grantWithShizuku();
                 finish(granted, listener);
