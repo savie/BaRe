@@ -84,8 +84,8 @@ public final class MessagesBackupRepository {
             throw new IllegalStateException("No messages available");
         }
 
-        File plain = new File(work, "conversations");
-        File encrypted = new File(work, "conversations.enc");
+        File plain = new File(work, "conversations_plain");
+        File encrypted = new File(work, "conversations");
         FileOutputStream plainOut = new FileOutputStream(plain);
         try {
             JSONObject rootObject = new JSONObject();
