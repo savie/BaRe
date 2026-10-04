@@ -46,6 +46,60 @@ public final class ReferenceMessagesArchiveCrypto {
         this.context = context.getApplicationContext();
     }
 
+    /**
+     * Extract every archive entry by basename. Reference MMS backup stores binary
+     * MMS parts alongside the encrypted conversations artifact; cachedFileName is
+     * a transient field on xg5 but is serialized by the message payload.
+     */
+    public java.util.Map<String, byte[]> readArchiveEntries(File backupFile) throws Exception {
+        java.util.Map<String, byte[]> result = new java.util.LinkedHashMap<>();
+        if (backupFile == null || !backupFile.isFile()) return result;
+        if (isEncryptedEnvelope(Files.readAllBytes(backupFile.toPath()))) return result;
+
+        try (ZipFile zip = new ZipFile(backupFile)) {
+            java.util.Enumeration<? extends ZipEntry> entries = zip.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = entries.nextElement();
+                if (entry.isDirectory()) continue;
+                try (java.io.InputStream in = zip.getInputStream(entry)) {
+                    result.put(basename(entry.getName()), readAll(in));
+                }
+            }
+            if (!result.isEmpty()) return result;
+        } catch (java.util.zip.ZipException ignored) {
+            // Fall through to Reference-compatible 7z handling.
+        }
+
+        Exception last = null;
+        for (char[] password : passwordCandidates()) {
+            try (SevenZFile sevenZ = new SevenZFile(backupFile, password)) {
+                SevenZArchiveEntry entry;
+                byte[] buffer = new byte[8192];
+                while ((entry = sevenZ.getNextEntry()) != null) {
+                    if (entry.isDirectory()) continue;
+                    ByteArrayOutputStream out = new ByteArrayOutputStream(
+                            entry.getSize() > 0 && entry.getSize() < Integer.MAX_VALUE
+                                    ? (int) entry.getSize() : 8192);
+                    int read;
+                    while ((read = sevenZ.read(buffer)) != -1) out.write(buffer, 0, read);
+                    result.put(basename(entry.getName()), out.toByteArray());
+                }
+                return result;
+            } catch (Exception e) {
+                last = e;
+            }
+        }
+        if (last != null) throw last;
+        return result;
+    }
+
+    private static String basename(String name) {
+        if (name == null) return "";
+        String normalized = name.replace('\\\\', '/');
+        int slash = normalized.lastIndexOf('/');
+        return slash >= 0 ? normalized.substring(slash + 1) : normalized;
+    }
+
     public byte[] readConversations(File backupFile) throws Exception {
         if (backupFile == null || !backupFile.isFile()) {
             throw new IOException("Backup file does not exist");
