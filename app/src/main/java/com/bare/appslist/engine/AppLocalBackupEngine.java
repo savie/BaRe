@@ -175,6 +175,14 @@ public final class AppLocalBackupEngine {
                 }
             }
 
+            if (parts.contains(Part.SPECIAL_DATA)) {
+                File special = new File(packageDir, backupId + ".extra");
+                if (writeSpecialData(info.packageName, special)) {
+                    metadata.put("specialDataSize", special.length());
+                    completed.add("SPECIAL_DATA");
+                }
+            }
+
             metadata.put("parts", new JSONArray(completed));
             File xml = new File(packageDir, backupId + ".xml");
             writeAtomic(xml, metadata.toString());
@@ -187,7 +195,8 @@ public final class AppLocalBackupEngine {
                             + metadata.optLong("dataSize", 0L)
                             + metadata.optLong("extDataSize", 0L)
                             + metadata.optLong("mediaSize", 0L)
-                            + metadata.optLong("expansionSize", 0L));
+                            + metadata.optLong("expansionSize", 0L)
+                            + metadata.optLong("specialDataSize", 0L));
         } finally {
             for (File file : temporary) deleteTree(file);
         }
@@ -526,6 +535,36 @@ public final class AppLocalBackupEngine {
                     context.getPackageName(), 0).getLongVersionCode();
         } catch (Exception e) {
             return 0L;
+        }
+    }
+
+    private boolean writeSpecialData(String packageName, File file) {
+        try {
+            com.bare.appslist.specialdata.AppSpecialDataCollector collector =
+                    new com.bare.appslist.specialdata.AppSpecialDataCollector(context, privileged);
+            com.bare.appslist.specialdata.AppSpecialDataCollector.Capture capture =
+                    collector.capture(packageName);
+            String binding = new AnonymousIdentityStore(context).getOrCreateUid();
+            return com.bare.appslist.specialdata.AppSpecialDataPayload.write(
+                    file, binding, capture.permissionStatesCsv, capture.ssaid,
+                    capture.ntfAccessComponent, capture.accessibilityComponent,
+                    capture.notificationPolicyXml,
+                    new com.bare.appslist.restore.SbaNativeBridge());
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private void restoreSpecialData(String packageName, File file) {
+        try {
+            String binding = new AnonymousIdentityStore(context).getOrCreateUid();
+            com.bare.appslist.specialdata.AppSpecialDataPayload payload =
+                    com.bare.appslist.specialdata.AppSpecialDataPayload.read(
+                            file, binding, new com.bare.appslist.restore.SbaNativeBridge());
+            if (payload == null) return;
+            new com.bare.appslist.specialdata.AppSpecialDataRestorer(
+                    context, privileged).restore(packageName, payload);
+        } catch (Exception ignored) {
         }
     }
 
