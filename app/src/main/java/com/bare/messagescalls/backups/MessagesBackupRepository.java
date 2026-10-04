@@ -149,7 +149,7 @@ public final class MessagesBackupRepository {
             com.bare.appslist.restore.SbaArchiveCreationExecutor.Result result =
                     new com.bare.appslist.restore.SbaArchiveCreationExecutor().create(
                             output,
-                            "swiftbackup.messages.v3".getBytes(StandardCharsets.UTF_8),
+                            referenceArchiveMetadata(),
                             metadata, sourcePaths, flags, xattrs, links,
                             2, compressionMethod, compressionLevel,
                             4, 1, 3, 16384, 1, 1048576,
@@ -519,6 +519,13 @@ public final class MessagesBackupRepository {
             }
         }
         root.delete();
+    }
+
+    private static byte[] referenceArchiveMetadata() {
+        return new byte[]{
+                115,119,105,102,116,98,97,99,107,117,112,46,109,101,115,115,
+                97,103,101,115,46,118,51
+        };
     }
 
     private static String sanitizeDevice(String value) {
