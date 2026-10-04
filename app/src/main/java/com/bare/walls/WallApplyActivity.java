@@ -1,6 +1,10 @@
 package com.bare.walls;
 
+import android.app.WallpaperManager;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.view.View;
+import java.io.InputStream;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,6 +44,56 @@ public final class WallApplyActivity extends AppCompatActivity {
         ImageView image = findViewById(R.id.iv_wall);
         if (wallUri != null) {
             image.setImageURI(wallUri);
+            View set = findViewById(R.id.btn_set);
+            if (set != null) {
+                set.setVisibility(View.VISIBLE);
+                set.setOnClickListener(v -> chooseRestoreTarget());
+            }
+        }
+    }
+
+    private void chooseRestoreTarget() {
+        String[] choices = {
+                getString(R.string.wallpaper_restore_to_home),
+                getString(R.string.wallpaper_restore_to_lock),
+                getString(R.string.wallpaper_restore_to_both)
+        };
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.set_wallpaper)
+                .setItems(choices, (dialog, which) -> applyToTarget(which))
+                .show();
+    }
+
+    private void applyToTarget(int target) {
+        if (wallUri == null) return;
+        try {
+            WallpaperManager manager = WallpaperManager.getInstance(this);
+            if (target == 0) {
+                setStream(manager, WallpaperManager.FLAG_SYSTEM);
+            } else if (target == 1) {
+                setStream(manager, WallpaperManager.FLAG_LOCK);
+            } else {
+                setStream(manager, WallpaperManager.FLAG_SYSTEM);
+                setStream(manager, WallpaperManager.FLAG_LOCK);
+            }
+            android.widget.Toast.makeText(this, R.string.wallpaper_restore_success,
+                    android.widget.Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            android.widget.Toast.makeText(this,
+                    getString(R.string.wallpaper_restore_failed,
+                            e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()),
+                    android.widget.Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void setStream(WallpaperManager manager, int which) throws Exception {
+        try (InputStream in = getContentResolver().openInputStream(wallUri)) {
+            if (in == null) throw new IllegalStateException("Wallpaper stream unavailable");
+            if (android.os.Build.VERSION.SDK_INT >= 24) {
+                manager.setStream(in, new Rect(0, 0, 0, 0), true, which);
+            } else {
+                manager.setStream(in);
+            }
         }
     }
 
