@@ -830,3 +830,625 @@ Namun P0/P1 blocker harus ditutup sebelum status dapat dinaikkan:
 Reference tetap read-only. Semua corrective implementation harus dilakukan pada target `app/` dan area BaRe yang relevan.
 
 **No build success, runtime success, or 1:1 claim is authorized by this audit.**
+
+
+---
+
+# WORK ORDER — SINGLE ACTIVE IMPLEMENTATION DOCUMENT
+
+Dokumen ini adalah **dokumen kerja utama** untuk melanjutkan Project BΛR☰ pada branch rewrite.
+
+Mulai dari titik ini, engineer **tidak perlu membaca atau mengikuti dokumen phase/audit lain untuk menentukan pekerjaan berikutnya**.
+
+Cukup gunakan:
+
+1. **bare.md** — satu-satunya **Primary Authority / Canonical Authority**.
+2. **Dokumen ini** — satu-satunya **Active Work Order / Current Implementation Plan**.
+
+Reference ZIP/APK tetap menjadi evidence read-only sesuai aturan bare.md.
+
+Dokumen lain di docs/ boleh ada sebagai historical/evidence record, tetapi **tidak menjadi work queue atau sumber urutan pekerjaan** kecuali secara eksplisit dirujuk dari dokumen ini.
+
+## Operating Rule
+
+Urutan keputusan:
+
+bare.md → evidence Reference → current app/ → implementation → verification → update this document
+
+Bukan:
+
+docs/phase lain → interpretasi → implementation
+
+Jika dokumen lain bertentangan dengan bare.md atau dokumen ini:
+
+- bare.md menang untuk authority/canonical rules.
+- Dokumen ini menang untuk **urutan pekerjaan dan current work state**.
+- Evidence Reference menang untuk fakta parity terhadap Reference.
+- Jangan mengarang solusi apabila evidence belum cukup.
+
+## Critical Rule: Do Not Jump Ahead
+
+**Jangan mengerjakan task berikutnya sebelum Definition of Done task sebelumnya terpenuhi.**
+
+Dependency utama:
+
+BUILD → NATIVE → DASHBOARD → SUPABASE → RUNTIME → FULL PARITY AUDIT
+
+Pengecualian hanya jika task berikutnya diperlukan sebagai evidence langsung untuk menutup task sebelumnya.
+
+---
+
+# PRIORITIZED WORK QUEUE
+
+## WORK-00 — Reconcile Current Branch State
+
+### Objective
+
+Pastikan rewrite adalah state implementation yang benar-benar akan dikerjakan.
+
+### Current Evidence
+
+Saat audit:
+
+rewrite = 6014cff87c406cf8bb545a7324d63d84d209c345
+
+dan SHA tersebut sama dengan supplied base checkpoint.
+
+### Action
+
+- Jangan menganggap local/uncommitted implementation sebagai repository state.
+- Pastikan seluruh pekerjaan baru di-commit ke rewrite.
+- Jangan membuat branch implementation lain untuk menggantikan rewrite.
+
+### Definition of Done
+
+- rewrite adalah active implementation branch.
+- Perubahan berikutnya tercatat pada rewrite.
+- Tidak ada ambiguity antara checkpoint dan current implementation state.
+
+### Status
+
+**DONE AS STATE VERIFICATION / CONTINUE ON rewrite**
+
+---
+
+# WORK-01 — FIX BUILD SYSTEM
+
+## Priority
+
+**P0 — FIRST IMPLEMENTATION TASK**
+
+## Objective
+
+Membuat project dapat diproses oleh Gradle secara reproducible.
+
+## Scope
+
+Fokus hanya pada:
+
+- app/build.gradle
+- root Gradle configuration yang diperlukan
+- Gradle Wrapper
+- dependency resolution
+- Android plugin compatibility
+- Java compilation configuration
+- signing/build type configuration
+- version configuration
+
+## Known Finding
+
+app/build.gradle menggunakan file Groovy tetapi memiliki konstruksi Kotlin DSL seperti:
+
+- val
+- isNullOrBlank()
+- signingConfigs.create(...)
+- buildTypes.getByName(...)
+- signingConfigs.getByName(...)
+- Kotlin safe-call / toIntOrNull() expression
+
+Ini harus diperbaiki menjadi syntax yang benar untuk configuration yang digunakan.
+
+## Important Constraint
+
+**Jangan melakukan redesign dependency hanya agar build lewat.**
+
+Dependency, plugin, SDK level, library, dan behavior configuration harus mengikuti evidence Reference dan bare.md.
+
+## Do Not
+
+- jangan pindah source implementation ke Kotlin
+- jangan migrasi UI ke Compose
+- jangan menambahkan fake dependency
+- jangan menghapus feature hanya untuk menghilangkan compile error
+- jangan mengubah native contract
+- jangan mengubah backend behavior
+- jangan menyatakan PASS hanya karena Gradle configuration terlihat valid
+
+## Definition of Done
+
+Semua harus PASS:
+
+1. Gradle configuration valid.
+2. Gradle Wrapper tersedia.
+3. Dependency resolution berhasil.
+4. Java compilation berhasil.
+5. Resource processing berhasil.
+6. Manifest merge berhasil.
+7. assembleDebug berhasil.
+8. APK debug berhasil dihasilkan.
+9. Tidak ada workaround fake/stub untuk menutup error build.
+
+### Gate
+
+**Tidak boleh lanjut ke WORK-02 sebelum WORK-01 PASS.**
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-02 — RESTORE / VERIFY NATIVE SBA
+
+## Priority
+
+**P0**
+
+## Objective
+
+Membuat native archive/crypto boundary yang dibutuhkan Reference tersedia secara actual pada target.
+
+## Reference Evidence
+
+Reference APK memiliki:
+
+- libsba_archive.so
+- arm64-v8a
+- armeabi-v7a
+- x86
+- x86_64
+
+Reference Java/native boundary mencakup:
+
+- SbaRuntimeNative
+- SbaNativeCrypto
+- SbaNativeProgressListener
+- SbaTarEntryInfo
+- SbaArchiveNative
+- SbaLibaegisCryptoNative
+- SbaZstdNative
+- SbaSwiftTarNative
+
+## Current Finding
+
+Target Java owner sudah memiliki sebagian besar boundary, tetapi app/ tidak memiliki native library.
+
+SbaNativeBridge.load() menangkap UnsatisfiedLinkError, tetapi itu bukan implementation success.
+
+## Required Investigation
+
+Tentukan berdasarkan evidence:
+
+### Option A — Compatible Native Artifact
+
+Jika libsba_archive.so Reference dapat digunakan sebagai compatibility artifact untuk target, package exact compatible ABI.
+
+### Option B — Native Reconstruction
+
+Jika native binary tidak dapat digunakan langsung, reconstruct/build native implementation dengan ABI dan JNI contract yang setara.
+
+### Mandatory JNI Decision
+
+Untuk setiap com.swiftapps.sba occurrence:
+
+- RENAME, atau
+- PRESERVE-COMPATIBILITY, atau
+- MIGRATE
+
+harus diputuskan secara eksplisit.
+
+**Tidak boleh blind rename.**
+
+## Definition of Done
+
+- Native library tersedia untuk required ABI.
+- System.loadLibrary("sba_archive") berhasil pada supported runtime.
+- JNI contract terverifikasi.
+- Native archive path tidak lagi sekadar downstream placeholder.
+- Backup/restore native dependency dapat dipanggil secara actual.
+- Compatibility residue yang tetap dipertahankan tercatat di dokumen ini.
+
+### Gate
+
+**Tidak boleh lanjut ke WORK-03 sebelum native boundary PASS atau seluruh blocker native memiliki evidence-backed disposition.**
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-03 — RESTORE CANONICAL DASHBOARD
+
+## Priority
+
+**P1**
+
+## Objective
+
+Mengembalikan Dashboard ke structural/behavior contract Reference sebelum melakukan backend work.
+
+## Current Problem
+
+Current:
+
+DashboardFragment → home_dashboard_fragment.xml
+
+Reference:
+
+DashboardFragment → dash_fragment.xml
+
+Current layout mengganti struktur Reference dengan:
+
+- custom MaterialCardView
+- GridLayout
+- dynamic MaterialButton
+
+## Required
+
+Reconcile current Dashboard terhadap Reference:
+
+### A. Canonical Layout
+
+Gunakan canonical Reference hierarchy sebagai baseline.
+
+### B. Root Status
+
+Wire:
+
+- root_status_container
+- tvRootAccess
+- tvRootProvider
+- iv_refresh_root_access
+
+ke RootPermissionCoordinator / owner yang sesuai.
+
+### C. Notices
+
+Wire:
+
+NoticeRepository → adapter → rv_notices
+
+### D. Secondary User
+
+Wire:
+
+dash_secondary_user_warning
+
+sesuai state contract Reference.
+
+### E. Shortcuts
+
+Reconcile:
+
+- rvDashShortcutsDefault
+- rvDashShortcutsCompact
+- QuickRecyclerView
+
+Jangan mempertahankan GridLayout + MaterialButton sebagai redesign tanpa Authorized Deviation.
+
+## Definition of Done
+
+- Dashboard memakai structural contract Reference.
+- Root status tampil dan state transition terhubung.
+- Notices terhubung.
+- Secondary-user warning terhubung.
+- Shortcut behavior menggunakan contract Reference.
+- Tidak ada redesign yang tidak diizinkan.
+- Dashboard compile dan tidak merusak navigation/home lifecycle.
+
+### Gate
+
+**WORK-03 PASS sebelum WORK-04.**
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-04 — IMPLEMENT CONCRETE SUPABASE
+
+## Priority
+
+**P1**
+
+## Objective
+
+Mengubah backend boundary saat ini menjadi actual Supabase implementation hanya sejauh dibutuhkan Reference/BaRe.
+
+## Canonical Backend
+
+Supabase project dari bare.md:
+
+https://fbiazqbrkwovzrirnzpb.supabase.co
+
+Firebase tidak digunakan.
+
+## Existing Boundary
+
+Current app sudah memiliki:
+
+- BaReBackendRepository
+- ReferenceBackendContract
+- cloud provider contracts
+- account/user-info repositories
+- cloud metadata models
+
+Tetapi concrete adapter belum tersedia.
+
+## Required Order
+
+1. Verifikasi actual Supabase project state.
+2. Identifikasi resource yang benar-benar dibutuhkan.
+3. Implement Auth hanya jika dibutuhkan.
+4. Implement database access hanya untuk resource yang terbukti dibutuhkan.
+5. Implement Storage hanya jika terbukti dibutuhkan.
+6. Implement server-side functionality hanya jika evidence membutuhkan.
+7. Wire concrete repository ke existing app contracts.
+8. Verify error/loading/offline behavior.
+
+## Hard Constraint
+
+Jika informasi berikut belum dapat diverifikasi:
+
+- key
+- schema
+- table
+- column
+- relationship
+- RLS
+- policy
+- bucket
+- auth provider
+- Edge Function
+- trigger
+- secret
+
+maka:
+
+**UNKNOWN → STOP → GET EVIDENCE**
+
+Jangan membuat schema/configuration berdasarkan asumsi.
+
+## Do Not
+
+- jangan fake connected=true
+- jangan mock Supabase sebagai production implementation
+- jangan invent table
+- jangan invent RLS
+- jangan invent bucket
+- jangan menghapus cloud feature hanya karena backend belum siap
+- jangan mengubah behavior Reference yang tidak berkaitan dengan backend
+
+## Definition of Done
+
+- Concrete Supabase adapter berjalan.
+- Actual project state terverifikasi.
+- App dapat melakukan operation backend yang memang required.
+- Error/loading/auth state terhubung.
+- Tidak ada Firebase dependency.
+- Tidak ada fabricated configuration.
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-05 — COMPLETE RUNTIME EXECUTION BOUNDARIES
+
+## Priority
+
+**P1**
+
+## Objective
+
+Menutup implementation yang secara static sudah ada tetapi masih downstream, UNKNOWN, atau runtime-unverified.
+
+## Execution Surfaces
+
+Prioritas:
+
+1. Native SBA
+2. Root / Shizuku
+3. Storage/filesystem
+4. PackageInstaller
+5. SMS/MMS provider
+6. CallLog provider
+7. Wi-Fi acquisition
+8. Wallpaper application
+9. Scheduler / Alarm / Foreground service
+10. Cloud execution
+11. Account/authentication
+
+## Rule
+
+Static implementation ≠ runtime implementation.
+
+Setiap surface harus diuji actual pada environment yang sesuai.
+
+## Definition of Done
+
+Untuk setiap surface:
+
+- execution berhasil, atau
+- limitation documented dengan evidence,
+- tidak ada fake success,
+- state/error/loading sesuai Reference,
+- ownership jelas,
+- consumer verified.
+
+### Current Status
+
+BLOCKED
+
+---
+
+# WORK-06 — FULL PARITY VERIFICATION
+
+## Priority
+
+**P1 / FINAL**
+
+## Objective
+
+Memastikan:
+
+BaRe = Reference + Authorized Deviations
+
+## Verification Layers
+
+### 1. Static
+
+- source
+- resource
+- manifest
+- package
+- identifier
+- dependency
+- native
+- backend
+
+### 2. Build
+
+- clean build
+- debug APK
+- release-equivalent configuration jika diperlukan
+
+### 3. Runtime
+
+- install
+- launch
+- lifecycle
+- permissions
+- services
+- receivers
+- providers
+- native loading
+
+### 4. Visual
+
+- screen-by-screen
+- layout hierarchy
+- spacing
+- typography
+- icon
+- color
+- state
+- dialog
+- empty/loading/error
+
+### 5. Behavior
+
+- navigation
+- state transition
+- backup
+- restore
+- scheduling
+- account
+- settings
+- permissions
+- provider execution
+
+### 6. Feature
+
+Seluruh feature Reference yang menjadi scope.
+
+### 7. Deviation
+
+Setiap difference harus masuk:
+
+- MATCH
+- AUTHORIZED DEVIATION
+- UNKNOWN
+- UNAUTHORIZED DEVIATION
+- BLOCKED
+
+Tidak boleh ada difference tanpa classification.
+
+## Definition of Done
+
+**FINAL QUALIFICATION hanya boleh diberikan apabila tidak ada UNAUTHORIZED DEVIATION dan seluruh critical UNKNOWN/BLOCKED telah closed atau explicitly dispositioned berdasarkan bare.md.**
+
+### Current Status
+
+NOT STARTED
+
+---
+
+# ACTIVE STATUS BOARD
+
+| Work | Status | Next Gate |
+|---|---|---|
+| WORK-00 Branch State | DONE | — |
+| **WORK-01 Build System** | **BLOCKED / NEXT** | assembleDebug = PASS |
+| WORK-02 Native SBA | BLOCKED | Native execution PASS |
+| WORK-03 Dashboard | BLOCKED | Canonical Dashboard PASS |
+| WORK-04 Supabase | BLOCKED | Concrete backend PASS |
+| WORK-05 Runtime | BLOCKED | Runtime matrix PASS |
+| WORK-06 Final Parity | NOT STARTED | No unauthorized deviation |
+
+## SINGLE NEXT ACTION
+
+**Kerjakan hanya WORK-01.**
+
+Target pertama:
+
+app/build.gradle → valid Gradle configuration → Gradle Wrapper → assembleDebug PASS
+
+Setelah WORK-01 PASS, update bagian **ACTIVE STATUS BOARD** dan lanjut ke WORK-02.
+
+**Jangan mengerjakan WORK-02/03/04 secara paralel hanya karena sudah terlihat di audit.**
+
+---
+
+# CHANGE CONTROL
+
+Setiap implementation batch wajib:
+
+1. dikerjakan pada branch rewrite;
+2. menggunakan bare.md sebagai authority;
+3. menggunakan Reference ZIP/APK sebagai read-only evidence;
+4. tidak memodifikasi reference/ sebagai implementation target;
+5. tidak melakukan blind/global replacement;
+6. tidak membuat fake/stub success;
+7. meng-update status Work Order ini setelah verification;
+8. mencatat blocker baru di dokumen ini;
+9. menjalankan regression terhadap work sebelumnya;
+10. tidak menandai PASS tanpa evidence.
+
+## Status Vocabulary
+
+Gunakan hanya:
+
+- NOT STARTED
+- IN PROGRESS
+- BLOCKED
+- PASS
+- FAIL
+- UNKNOWN
+- AUTHORIZED DEVIATION
+- UNAUTHORIZED DEVIATION
+
+## Final Rule
+
+**Jika bingung harus mengerjakan apa, lihat hanya bagian ACTIVE STATUS BOARD dan SINGLE NEXT ACTION pada dokumen ini.**
+
+Authority tetap:
+
+**bare.md**
+
+Work execution authority:
+
+**docs/audits/APP_IMPLEMENTATION_AUDIT_REWRITE_2026-10-04.md**
