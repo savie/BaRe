@@ -71,6 +71,7 @@ public final class IntroActivity extends Activity {
     private View signInWarning;
     private View menuButton;
     private android.widget.TextView flowStatus;
+    private boolean gettingStartedShown;
 
     @Override
     protected void onCreate(@Nullable Bundle state) {
@@ -177,6 +178,7 @@ public final class IntroActivity extends Activity {
     }
 
     private void showPermissionsStage() {
+        findViewById(R.id.intro_bottom_actions).setVisibility(View.GONE);
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
         signInWarning.setVisibility(View.GONE);
@@ -311,6 +313,7 @@ public final class IntroActivity extends Activity {
 
         boolean signedIn = prefs.getBoolean(KEY_SIGNED_IN, false);
         if (!signedIn) {
+            findViewById(R.id.intro_bottom_actions).setVisibility(View.VISIBLE);
             signInContainer.setVisibility(View.VISIBLE);
             permissionsContainer.setVisibility(View.GONE);
             signInWarning.setVisibility(View.VISIBLE);
@@ -340,6 +343,14 @@ public final class IntroActivity extends Activity {
                 installedApps.isReady() ? R.string.ready_p3 : R.string.grant_installed_apps_permission);
         rootButton.setText(
                 root.isReady() ? R.string.ready_p3 : R.string.root_grant_permissions);
+
+        if (!gettingStartedShown
+                && storage.isReady()
+                && notifications.isReady()
+                && installedApps.isReady()) {
+            gettingStartedShown = true;
+            showGettingStarted();
+        }
     }
 
     private boolean isStorageGranted() {
@@ -415,8 +426,8 @@ public final class IntroActivity extends Activity {
 
     private void completeIntro() {
         localState.putBoolean(LocalState.KEY_FIRST_START, false);
-        // Cloud-restore completion is owned by the first-run restore contract (C10).
-        // Do not fabricate completion from the Intro UI transition.
+        // C10 owns cloud-restore completion; anonymous onboarding records terminal
+        // success from the Reference-equivalent anonymous bypass path.
         openHome();
     }
 
