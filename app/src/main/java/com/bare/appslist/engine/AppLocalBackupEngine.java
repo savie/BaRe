@@ -309,7 +309,12 @@ public final class AppLocalBackupEngine {
             if (part == Part.APK && state.apkChanged) state.changedParts.add("APK");
             else if (part == Part.SPLITS && sourceSize(info, part) != sizeOf(sizes, "SPLITS")) state.changedParts.add("SPLITS");
             else if (part == Part.SHARED_LIBS && sourceSize(info, part) != sizeOf(sizes, "SHARED_LIBS")) state.changedParts.add("SHARED_LIBS");
-            else if (part == Part.DATA && sourceSize(info, part) != sizeOf(sizes, "DATA")) { state.dataChanged = true; state.changedParts.add("DATA"); }
+            else if (part == Part.DATA
+                    && (sourceSize(info, part) != sizeOf(sizes, "DATA")
+                    || modifiedDataSince(info.packageName, latest.metadata.optLong("backupDate", 0L)))) {
+                state.dataChanged = true;
+                state.changedParts.add("DATA");
+            }
             else if (part == Part.EXTERNAL_DATA && sourceSize(info, part) != sizeOf(sizes, "EXTERNAL_DATA")) state.changedParts.add("EXTERNAL_DATA");
             else if (part == Part.MEDIA && sourceSize(info, part) != sizeOf(sizes, "MEDIA")) state.changedParts.add("MEDIA");
             else if (part == Part.EXPANSION && sourceSize(info, part) != sizeOf(sizes, "EXPANSION")) state.changedParts.add("EXPANSION");
@@ -337,6 +342,35 @@ public final class AppLocalBackupEngine {
             case EXPANSION: return treeSize(expansionDirectory(info.packageName));
             case SPECIAL_DATA: return 1L;
             default: return 0L;
+        }
+    }
+
+    /**
+     * Reference eq.b()/nm6.b() parity: data is changed when files under the
+     * app data root were modified after the last backup. Cache is excluded
+     * when the canonical app-cache-backup setting is disabled.
+     */
+    private boolean modifiedDataSince(String packageName, long backupDate) {
+        if (backupDate <= 0L) return true;
+        try {
+            AppSettings settings = new SettingsRepository(new LocalState(context)).read();
+            boolean includeCache = Boolean.TRUE.equals(settings.getIsAppCacheBackupReq());
+            String path = dataDirectory(packageName).getAbsolutePath();
+            long seconds = backupDate / 1000L;
+            String command = "find " + shell(path)
+                    + " -type f -newermt '@" + seconds + "'"
+                    + (includeCache ? "" : " ! -path " + shell(path + "/cache/*"))
+                    + " -print";
+            PrivilegedAppActionExecutor.Result result =
+                    new PrivilegedAppActionExecutor.RootCommandRunner().run(command);
+            if (!result.isSuccess()) return true;
+            for (String line : result.getOutput()) {
+                if (line != null && !line.trim().isEmpty()) return true;
+            }
+            return false;
+        } catch (Exception ignored) {
+            // Reference treats an unavailable modification scan conservatively.
+            return true;
         }
     }
 
@@ -387,6 +421,31 @@ public final class AppLocalBackupEngine {
         boolean apkChanged;
         boolean dataChanged;
         final List<String> changedParts = new ArrayList<>();
+    }
+
+    /** Returns local backup package keys, including packages no longer installed. */
+    public List<String> listLocalBackupPackages() {
+        File accountRoot = packageBackupDirectory("placeholder");
+        File appsRoot = accountRoot.getParentFile();
+        if (appsRoot == null || !appsRoot.isDirectory()) return Collections.emptyList();
+        File[] files = appsRoot.listFiles();
+        if (files == null) return Collections.emptyList();
+        ArrayList<String> result = new ArrayList<>();
+        for (File file : files) {
+            if (file.isDirectory() && file.getName().length() > 0) result.add(file.getName());
+        }
+        Collections.sort(result);
+        return result;
+    }
+
+    /** Deletes one complete local backup record without touching neighboring backup IDs. */
+    public boolean deleteBackup(String packageName, String backupId) {
+        if (packageName == null || backupId == null || backupId.isEmpty()) {
+            throw new IllegalArgumentException("packageName/backupId");
+        }
+        BackupRecord record = findBackup(packageName, backupId);
+        deleteBackupArtifacts(record);
+        return !record.metadataFile.exists();
     }
 
     public List<BackupRecord> listBackups(String packageName) {
