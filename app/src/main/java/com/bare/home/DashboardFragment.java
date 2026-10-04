@@ -303,6 +303,11 @@ public final class DashboardFragment extends Fragment {
         Intent intent = null;
         if (getString(R.string.apps).contentEquals(title)) {
             intent = new Intent(requireContext(), AppListActivity.class);
+            String savedSection = requireContext().getSharedPreferences("apps_list_section", 0)
+                    .getString("last_used_apps_section", null);
+            AppListActivity.AppSection section = AppListActivity.AppSection.LOCAL;
+            if ("CLOUD".equals(savedSection)) section = AppListActivity.AppSection.CLOUD;
+            intent.putExtra("KEY_SECTION", section);
         } else if (getString(R.string.messages).contentEquals(title)) {
             intent = new Intent(requireContext(), MessagesDashActivity.class);
         } else if (getString(R.string.call_logs).contentEquals(title)) {
