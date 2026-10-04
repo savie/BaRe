@@ -1531,3 +1531,12 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Static targeted re-search found no remaining Reference-proven Wi-Fi app-code gap within the audited producer/consumer set.
 - Reference ZIP is unchanged. Build/CI, runtime/device/E2E, privileged execution, cloud-provider execution and Supabase execution remain unverified boundaries.
 - P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
+
+
+### P6.3 Wi-Fi parity refinements — 2026-10-04
+
+- 1eb74eee27d4bb61cb38cfc309686b58f143e474: preserved the Reference Shizuku shell UID=2000 contract.
+- aa6f28fa695d3afc9ec87361a1b5240e7009b823: matched Reference UID key normalization for the encrypted Wi-Fi artifact.
+- 752e2b3bedaaf775f1c2eeee1b7a443196782530: matched Reference Gson-style null omission in encrypted Wi-Fi JSON output.
+- 33a92e82a3481ffc1be84095cab5b149b41a928f: matched Reference modern-Android Wi-Fi backup source priority (Root XML → Shizuku → legacy).
+- These are static app-side changes only; no build/runtime/device/backend execution was performed.
