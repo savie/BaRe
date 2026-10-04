@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bare.R;
+import com.bare.appslist.ui.listbatch.AppsBatchActivity;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -43,16 +44,31 @@ public final class AppsQuickActionsActivity extends AppCompatActivity {
 
         for (int id : ACTION_IDS) {
             View action = findViewById(id);
-            if (action != null) action.setOnClickListener(v -> showBoundary(((android.widget.TextView) v).getText()));
+            if (action != null) action.setOnClickListener(v -> launchQuickAction(v.getId()));
         }
     }
 
-    private void showBoundary(CharSequence action) {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(action)
-                .setMessage(R.string.p3_quick_action_boundary)
-                .setPositiveButton(R.string.close, null)
-                .show();
+    private void launchQuickAction(int viewId) {
+        String actionId = null;
+        for (int i = 0; i < ACTION_IDS.length; i++) {
+            if (ACTION_IDS[i] == viewId) {
+                actionId = REFERENCE_ACTIONS[i];
+                break;
+            }
+        }
+        if (actionId == null) return;
+        try {
+            AppsQuickActionRequest request = AppsQuickActionRequest.fromReferenceId(actionId);
+            Intent intent = new Intent(this, AppsBatchActivity.class);
+            intent.putExtra("quick_action_request", request);
+            startActivity(intent);
+        } catch (IllegalArgumentException ignored) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle(actionId)
+                    .setMessage(R.string.p3_quick_action_boundary)
+                    .setPositiveButton(R.string.close, null)
+                    .show();
+        }
     }
 
     @Override
