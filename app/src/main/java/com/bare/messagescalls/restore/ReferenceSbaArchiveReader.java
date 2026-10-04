@@ -91,28 +91,24 @@ public final class ReferenceSbaArchiveReader {
         raf.readFully(nonceSeed);
         raf.readFully(mac);
         int macLength = raf.readUnsignedShort();
-        int chunkSize = raf.readUnsignedShort();
-        // Reference actually stores chunkSize as a 32-bit field after these
-        // two shorts; the v1/v2 validation is performed before payload reads.
-        int chunkSizeHigh = raf.readUnsignedShort();
-        int chunkSizeLow = raf.readUnsignedShort();
-        int actualChunkSize = (chunkSizeHigh << 16) | chunkSizeLow;
-        // Keep the stream aligned with the Reference 96/144-byte header.
-        int consumed = 2 + 2 + 4 + 8 + 16 + 16 + 16 + 2 + 2 + 4;
+        int chunkSize = raf.readInt();
         if (version == 1) {
             byte[] reserved = new byte[4];
             raf.readFully(reserved);
         } else {
-            int v2ChunkSize = raf.readInt();
+            // Reference v2 appends six v2 fields after the common header:
+            // chunkSize, encryption KDF/mode fields and a 32-byte value,
+            // followed by eight reserved bytes. We only need the already
+            // validated compression/encryption methods for the reader.
+            int v2ChunkSize = chunkSize;
             raf.readUnsignedShort();
             raf.readUnsignedShort();
             raf.readUnsignedShort();
             raf.readUnsignedShort();
-            byte[] v2Reserved = new byte[32];
+            byte[] v2Value = new byte[32];
+            raf.readFully(v2Value);
+            byte[] v2Reserved = new byte[8];
             raf.readFully(v2Reserved);
-            byte[] v2Tail = new byte[8];
-            raf.readFully(v2Tail);
-            actualChunkSize = v2ChunkSize;
         }
         return new Header(version, headerSize, flags, creationTime, compressionMethod,
                 compressionLevel, encryptionMethod, kdfMethod, iterations, keyCheckLength,
