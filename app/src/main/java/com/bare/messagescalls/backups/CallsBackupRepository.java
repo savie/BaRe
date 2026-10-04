@@ -165,7 +165,7 @@ public final class CallsBackupRepository {
     private static JSONObject toJson(CallLogItem c) throws Exception {
         JSONObject o = new JSONObject();
         put(o, "_id", c.id); put(o, "type", c.type); put(o, "features", c.features);
-        put(o, "number", c.number); put(o, "number_presentation", c.numberPresentation);
+        put(o, "number", c.number); put(o, "presentation", c.numberPresentation);
         put(o, "countryiso", c.countryIso); put(o, "date", c.date); put(o, "duration", c.duration);
         put(o, "data_usage", c.dataUsage); put(o, "new", c.newCall); put(o, "name", c.name);
         put(o, "numbertype", c.numberType); put(o, "voicemail_uri", c.voiceMailUri);
@@ -173,7 +173,7 @@ public final class CallsBackupRepository {
         put(o, "lookup_uri", c.lookupUri); put(o, "matched_number", c.matchedNumber);
         put(o, "normalized_number", c.normalizedNumber); put(o, "photo_id", c.photoId);
         put(o, "photo_uri", c.photoUri); put(o, "formatted_number", c.formattedNumber);
-        put(o, "phone_account_component_name", c.phoneAccountComponentName);
+        put(o, "subscription_component_name", c.phoneAccountComponentName);
         put(o, "subscription_id", c.phoneAccountId); put(o, "sourceSimSlotIndex", c.sourceSimSlotIndex);
         return o;
     }
