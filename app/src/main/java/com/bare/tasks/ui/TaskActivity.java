@@ -16,13 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bare.R;
 import com.bare.core.model.TaskSnapshot;
 import com.bare.core.model.TaskState;
+import com.bare.slog.SLogEntry;
+import com.bare.slog.SLogRepository;
 import com.bare.tasks.TaskStateRegistry;
 import com.bare.tasks.TaskStateRepository;
 import com.bare.tasks.TaskStateService;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public final class TaskActivity extends AppCompatActivity {
@@ -30,6 +34,9 @@ public final class TaskActivity extends AppCompatActivity {
     private MaterialButtonState actionState = MaterialButtonState.CANCEL;
     private TaskStateService taskStateService;
     private TaskSnapshotAdapter taskAdapter;
+    private SLogRepository slogRepository;
+    private SLogAdapter slogAdapter;
+    private SLogRepository.Observer slogObserver;
 
     private enum MaterialButtonState { CANCEL, DONE }
 
@@ -62,8 +69,12 @@ public final class TaskActivity extends AppCompatActivity {
         RecyclerView tasks = findViewById(R.id.rv_tasks);
         tasks.setAdapter(taskAdapter);
 
+        slogAdapter = new SLogAdapter();
         RecyclerView slog = findViewById(R.id.rv_slog);
-        slog.setAdapter(new EmptyTaskAdapter());
+        slog.setAdapter(slogAdapter);
+        slogRepository = new SLogRepository(this);
+        slogObserver = entries -> runOnUiThread(() -> slogAdapter.submit(entries));
+        slogRepository.observeAfter(0L, slogObserver);
 
         findViewById(R.id.btn_action).setOnClickListener(v -> {
             if (actionState == MaterialButtonState.DONE) {
@@ -84,6 +95,9 @@ public final class TaskActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (taskStateService != null) taskStateService.removeObserver(taskObserver);
+        if (slogRepository != null && slogObserver != null) {
+            slogRepository.removeObserver(slogObserver);
+        }
         super.onDestroy();
     }
 
@@ -148,7 +162,7 @@ public final class TaskActivity extends AppCompatActivity {
 
         void submit(List<TaskSnapshot> snapshots) {
             items.clear();
-            items.addAll(snapshots);
+            if (snapshots != null) items.addAll(snapshots);
             notifyDataSetChanged();
         }
 
@@ -196,16 +210,40 @@ public final class TaskActivity extends AppCompatActivity {
         }
     }
 
-    private static final class EmptyTaskAdapter extends RecyclerView.Adapter<EmptyTaskAdapter.Holder> {
-        @Override public Holder onCreateViewHolder(ViewGroup parent, int type) {
-            View v = new View(parent.getContext());
-            v.setLayoutParams(new RecyclerView.LayoutParams(1, 1));
-            return new Holder(v);
+    private static final class SLogAdapter extends RecyclerView.Adapter<SLogAdapter.Holder> {
+        private final List<SLogEntry> items = new ArrayList<>();
+        private final DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+
+        void submit(List<SLogEntry> entries) {
+            items.clear();
+            if (entries != null) items.addAll(entries);
+            notifyDataSetChanged();
         }
-        @Override public void onBindViewHolder(Holder holder, int position) {}
-        @Override public int getItemCount() { return 0; }
+
+        @Override public Holder onCreateViewHolder(ViewGroup parent, int type) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.slog_item, parent, false);
+            return new Holder(view);
+        }
+
+        @Override public void onBindViewHolder(Holder holder, int position) {
+            SLogEntry entry = items.get(position);
+            holder.time.setText(timeFormat.format(new Date(entry.time)));
+            holder.message.setText(entry.title.isEmpty()
+                    ? entry.message
+                    : entry.title + ": " + entry.message);
+        }
+
+        @Override public int getItemCount() { return items.size(); }
+
         static final class Holder extends RecyclerView.ViewHolder {
-            Holder(View item) { super(item); }
+            final TextView time;
+            final TextView message;
+
+            Holder(View item) {
+                super(item);
+                time = item.findViewById(R.id.tv_time);
+                message = item.findViewById(R.id.tv_message);
+            }
         }
     }
 }
