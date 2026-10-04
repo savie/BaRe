@@ -1,5 +1,7 @@
 package com.bare.folders.backup;
 
+import com.bare.compat.ReferenceCompatibilityIdentifiers;
+
 import android.content.Context;
 import android.os.Build;
 
@@ -50,7 +52,7 @@ public final class FolderLocalBackupEngine {
     private static final String BACKUPS = "backups";
     private static final String FOLDERS = "folders";
     private static final String LOCAL = "local";
-    private static final String METADATA = "swiftbackup.folder.v1";
+    private static final byte[] METADATA = ReferenceCompatibilityIdentifiers.BARE_FOLDER_METADATA;
     private static final int SBA_VERSION = 2;
     private static final int COMPRESSION_METHOD = 1;
     private static final int COMPRESSION_LEVEL = 1;
@@ -267,7 +269,7 @@ public final class FolderLocalBackupEngine {
                         "SBA1-AEGIS256-key-check-v1", key, salt, nonce);
                 SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
                         output,
-                        METADATA.getBytes(StandardCharsets.UTF_8),
+                        METADATA,
                         new byte[][]{output.getName().getBytes(StandardCharsets.UTF_8)},
                         new String[]{archiveSource.getAbsolutePath()},
                         flags,

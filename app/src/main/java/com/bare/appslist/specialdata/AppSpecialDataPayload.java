@@ -1,5 +1,7 @@
 package com.bare.appslist.specialdata;
 
+import com.bare.compat.ReferenceCompatibilityIdentifiers;
+
 import android.util.Base64;
 
 import com.bare.appslist.restore.SbaNativeBridge;
@@ -204,7 +206,8 @@ public final class AppSpecialDataPayload {
     private static final class SpecialDataCrypto {
         private static final byte FORMAT_VERSION = 1;
         private static final byte CIPHER_ID = 2;
-        private static final byte[] AAD = "SwiftBackup_Entity".getBytes(StandardCharsets.UTF_8);
+        private static final byte[] AAD = ReferenceCompatibilityIdentifiers.BARE_ENTITY_AAD;
+        private static final byte[] LEGACY_AAD = ReferenceCompatibilityIdentifiers.legacyEntityAad();
 
         static String encrypt(String value, String userBinding) throws GeneralSecurityException {
             byte[] key = key(userBinding);
@@ -245,7 +248,17 @@ public final class AppSpecialDataPayload {
                 cipher.updateAAD(new byte[]{FORMAT_VERSION});
                 cipher.updateAAD(new byte[]{CIPHER_ID});
                 cipher.updateAAD(AAD);
-                return new String(cipher.doFinal(ciphertext), StandardCharsets.UTF_8);
+                try {
+                    return new String(cipher.doFinal(ciphertext), StandardCharsets.UTF_8);
+                } catch (GeneralSecurityException current) {
+                    Cipher legacyCipher = Cipher.getInstance("AES/GCM/NoPadding");
+                    legacyCipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"),
+                            new GCMParameterSpec(128, iv));
+                    legacyCipher.updateAAD(new byte[]{FORMAT_VERSION});
+                    legacyCipher.updateAAD(new byte[]{CIPHER_ID});
+                    legacyCipher.updateAAD(LEGACY_AAD);
+                    return new String(legacyCipher.doFinal(ciphertext), StandardCharsets.UTF_8);
+                }
             } finally {
                 Arrays.fill(key, (byte) 0);
                 Arrays.fill(iv, (byte) 0);

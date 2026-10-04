@@ -1,6 +1,6 @@
 package com.bare.appslist.restore;
 
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bare.nativecompat.SbaNativeProgressListener;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * Concrete app-side SBA creation handoff.
  *
  * The actual archive framing/compression/encryption is owned by the exact
- * Reference SbaArchiveNative JNI ABI. This class owns only validation,
+ * Reference SBA JNI archive ABI. This class owns only validation,
  * key-check derivation and temporary-output lifecycle inputs.
  */
 public final class SbaArchiveCreationExecutor {

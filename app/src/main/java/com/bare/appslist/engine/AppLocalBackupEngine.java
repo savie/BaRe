@@ -1,5 +1,7 @@
 package com.bare.appslist.engine;
 
+import com.bare.compat.ReferenceCompatibilityIdentifiers;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -684,7 +686,7 @@ public final class AppLocalBackupEngine {
 
             SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
                     output,
-                    "swiftbackup.app-data".getBytes(StandardCharsets.UTF_8),
+                    ReferenceCompatibilityIdentifiers.BARE_APP_DATA_METADATA,
                     metadata, sourcePaths, flags,
                     new String[sources.size()][],
                     new String[sources.size()][],

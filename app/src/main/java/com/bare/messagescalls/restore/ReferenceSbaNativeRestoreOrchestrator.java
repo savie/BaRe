@@ -3,7 +3,7 @@ package com.bare.messagescalls.restore;
 import com.bare.appslist.restore.ReferenceSbaCryptoOrchestrator;
 import com.bare.appslist.restore.SbaNativeArchiveBackend;
 import com.bare.appslist.restore.SbaNativeEntryExecutor;
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bare.nativecompat.SbaNativeProgressListener;
 
 import java.io.File;
 import java.io.IOException;

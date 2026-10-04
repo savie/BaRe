@@ -1,5 +1,7 @@
 package com.bare.messagescalls.backups;
 
+import com.bare.compat.ReferenceCompatibilityIdentifiers;
+
 import android.content.Context;
 import android.os.Build;
 
@@ -32,7 +34,7 @@ import java.util.LinkedHashSet;
 /** Reference d01/z11 + mz6.e call-log backup owner. */
 public final class CallsBackupRepository {
     private static final String ENTRY_NAME = "call_logs";
-    private static final String ARCHIVE_METADATA = "swiftbackup.calls.v3";
+    private static final byte[] ARCHIVE_METADATA = ReferenceCompatibilityIdentifiers.BARE_CALLS_METADATA;
     private final Context context;
 
     public CallsBackupRepository(Context context) {
@@ -91,7 +93,7 @@ public final class CallsBackupRepository {
 
             SbaArchiveCreationExecutor.Result result = new SbaArchiveCreationExecutor().create(
                     output,
-                    ARCHIVE_METADATA.getBytes(StandardCharsets.UTF_8),
+                    ARCHIVE_METADATA,
                     new byte[][]{ENTRY_NAME.getBytes(StandardCharsets.UTF_8)},
                     new String[]{source.getAbsolutePath()},
                     new int[]{0},

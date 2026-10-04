@@ -1,7 +1,7 @@
 package com.bare.appslist.restore;
 
-import com.swiftapps.sba.SbaSwiftTarNative;
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bare.nativecompat.SbaTarNative;
+import com.bare.nativecompat.SbaNativeProgressListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,9 +10,9 @@ import java.io.IOException;
 /**
  * Native payload executor for Reference SBA entry formats.
  *
- * - unencrypted + zstd: SbaSwiftTarNative.extractTarZstdFromFdRaw
- * - unencrypted + plain: SbaSwiftTarNative.extractTarFromFdRaw
- * - AEGIS-256 / AEGIS-128X2: SbaSwiftTarNative.extractAegisArchiveEntry*
+ * - unencrypted + zstd: SbaTarNative.extractTarZstdFromFdRaw
+ * - unencrypted + plain: SbaTarNative.extractTarFromFdRaw
+ * - AEGIS-256 / AEGIS-128X2: SbaTarNative.extractAegisArchiveEntry*
  *
  * Offsets/sizes are supplied by the Reference SBA index parser; this class
  * deliberately does not reinterpret the on-disk index contract.
@@ -22,7 +22,7 @@ public final class SbaNativeEntryExecutor {
                                  String destination, int flags, String[] selected,
                                  SbaNativeProgressListener listener) throws IOException {
         try (FileInputStream input = new FileInputStream(archive)) {
-            return SbaSwiftTarNative.b(
+            return SbaTarNative.b(
                     input.getFD(), payloadOffset, destination, flags, selected, listener);
         }
     }
@@ -31,7 +31,7 @@ public final class SbaNativeEntryExecutor {
                                 String destination, int flags, String[] selected,
                                 SbaNativeProgressListener listener) throws IOException {
         try (FileInputStream input = new FileInputStream(archive)) {
-            return SbaSwiftTarNative.c(
+            return SbaTarNative.c(
                     input.getFD(), payloadOffset, payloadLength, destination,
                     flags, selected, listener);
         }
@@ -45,12 +45,12 @@ public final class SbaNativeEntryExecutor {
                                  SbaNativeProgressListener listener,
                                  boolean fused) {
         if (fused) {
-            return new SbaSwiftTarNative().extractAegisArchiveEntryFused(
+            return new SbaTarNative().extractAegisArchiveEntryFused(
                     destination, entryHeaderOffset, payloadOffset,
                     storedSize, compressedSize, entryName, flags, selected, cryptoMode,
                     chunkSize, key, nonce, aad, totalBytes, progressMode, listener);
         }
-        return new SbaSwiftTarNative().extractAegisArchiveEntry(
+        return new SbaTarNative().extractAegisArchiveEntry(
                 archive.getAbsolutePath(), entryHeaderOffset, payloadOffset,
                 storedSize, compressedSize, entryName, destination, flags, selected, cryptoMode,
                 chunkSize, key, nonce, aad, totalBytes, progressMode, listener);

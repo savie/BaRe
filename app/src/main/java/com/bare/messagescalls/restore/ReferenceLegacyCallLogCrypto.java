@@ -1,5 +1,7 @@
 package com.bare.messagescalls.restore;
 
+import com.bare.compat.ReferenceCompatibilityIdentifiers;
+
 import android.content.Context;
 import com.bare.home.repository.AnonymousIdentityStore;
 import java.io.IOException;
@@ -13,7 +15,7 @@ import javax.crypto.spec.SecretKeySpec;
 /** Exact Reference w14 -> y32 -> x32 legacy JSON crypto boundary. */
 public final class ReferenceLegacyCallLogCrypto {
     private static final byte VERSION = 1, CIPHER_ID = 2;
-    private static final byte[] ENTITY = "SwiftBackup_Entity".getBytes(StandardCharsets.UTF_8);
+    private static final byte[] ENTITY = ReferenceCompatibilityIdentifiers.legacyEntityAad();
     private static final int IV_LENGTH = 12, TAG_LENGTH = 16;
 
     private ReferenceLegacyCallLogCrypto() {}

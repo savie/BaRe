@@ -1,10 +1,10 @@
 package com.bare.appslist.restore;
 
-import com.swiftapps.sba.SbaArchiveNative;
-import com.swiftapps.sba.SbaLibaegisCryptoNative;
-import com.swiftapps.sba.SbaNativeCrypto;
-import com.swiftapps.sba.SbaZstdNative;
-import com.swiftapps.sba.internal.progress.SbaNativeProgressListener;
+import com.bare.nativecompat.SbaArchiveNative;
+import com.bare.nativecompat.SbaLibaegisCryptoNative;
+import com.bare.nativecompat.SbaNativeCrypto;
+import com.bare.nativecompat.SbaZstdNative;
+import com.bare.nativecompat.SbaNativeProgressListener;
 
 import java.io.File;
 
