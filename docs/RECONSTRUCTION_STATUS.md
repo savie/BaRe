@@ -1325,3 +1325,7 @@ The Wi-Fi app-side owner was deepened from a public WifiManager reader to the Re
 - Standard local ZIP/7z archive paths are handled app-side. Reference SBA1-family privileged containers remain Root/Shizuku-only and are not represented as a fake local extractor.
 - MMS restore remains a separate incomplete branch because its Reference execution requires MMS media archive restoration and `Telephony.Mms`/Part/Addr semantics.
 - No build/install/runtime/device/provider/Supabase execution was performed.
+
+### Messages restore extension — 2026-10-04
+
+MMS restore is implemented against the Reference `wg5/xg5/vg5` model and provider insertion path. The archive reader also recognizes the Reference `SBA1` / `SAE1` / `SAI1` / `SAF1` container framing. Only the unencrypted + uncompressed SBA subset is claimed; Reference-native encrypted/zstd SBA backends remain outside the current runtime claim.
