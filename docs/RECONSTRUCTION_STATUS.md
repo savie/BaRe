@@ -29,6 +29,17 @@ Latest Activity depth audit:
 
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
+
+### Home category shortcut closure — 2026-10-04
+
+Reference re-audit confirmed that the Home dashboard has a separate category-shortcut surface inside the summary card, distinct from the four quick-action cards. Reference category IDs and routes are: Apps → AppListActivity (last-used local/cloud section), Messages → MessagesDashActivity, Call Logs → CallsDashActivity, Folders → FoldersDashActivity (local section), Wallpapers → WallsDashActivity, and Wi-Fi → WifiActivity. Messages/Call Logs are gated by telephony support; Wallpapers are gated by WallpaperManager support; Apps/Folders/Wi-Fi remain available.
+
+BaRe rewrite now implements this missing Home entry layer in home_dashboard_fragment.xml and DashboardFragment.java, including Reference-shaped category colors/icons and direct Intent routing to the existing downstream owners. The existing four quick-action cards remain separate and continue to route into their already audited batch/backup surfaces.
+
+Downstream static audit for this Home layer: Apps → AppListActivity → DetailActivity → AppLocalBackupEngine; Apps quick actions → AppsBatchActivity / AppsQuickActionExecutionEngine; Messages → MessagesDashActivity / MessagesBackupRestoreActivity / MessagesBackupsActivity; Calls → CallsDashActivity / CallsBackupRestoreActivity / CallsBackupsActivity; Folders → FoldersDashActivity / FolderEditActivity / FoldersBatchActivity; Wallpapers → WallsDashActivity / WallsManageActivity; Wi-Fi → WifiActivity and its existing inventory/local repositories. Provider/backend/cloud execution remains bounded where already documented; no synthetic provider was added.
+
+Acceptance: STATIC IMPLEMENTED + RE-AUDITED. Runtime/visual/build/device verification remains unperformed under the current execution guard.
+
 ## Current phase
 **PHASE 6.3 — APP-ONLY IMPLEMENTATION LOOP — ACTIVE 🟡**
 
