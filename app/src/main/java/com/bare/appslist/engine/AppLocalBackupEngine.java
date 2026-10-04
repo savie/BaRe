@@ -484,9 +484,12 @@ public final class AppLocalBackupEngine {
                     record, backupId + ".exp", expansionDirectory(packageName), false);
         }
         if (parts.contains(Part.SPECIAL_DATA)) {
+            AppSettings settings = new SettingsRepository(new LocalState(context)).read();
+            boolean restoreSpecial = !Boolean.FALSE.equals(settings.getRestoreSpecialAppPerms());
+            boolean restoreSsaid = !Boolean.FALSE.equals(settings.getIsRestoreSsaids());
             File special = new File(record.directory, backupId + ".extra");
-            if (special.isFile()) {
-                restoreSpecialData(packageName, special);
+            if (special.isFile() && restoreSpecial) {
+                restoreSpecialData(packageName, special, restoreSsaid);
                 restored++;
             }
         }
@@ -757,7 +760,7 @@ public final class AppLocalBackupEngine {
         }
     }
 
-    private void restoreSpecialData(String packageName, File file) {
+    private void restoreSpecialData(String packageName, File file, boolean restoreSsaid) {
         try {
             String binding = new AnonymousIdentityStore(context).getOrCreateUid();
             com.bare.appslist.specialdata.AppSpecialDataPayload payload =
@@ -765,7 +768,7 @@ public final class AppLocalBackupEngine {
                             file, binding, new com.bare.appslist.restore.SbaNativeBridge());
             if (payload == null) return;
             new com.bare.appslist.specialdata.AppSpecialDataRestorer(
-                    context, privileged).restore(packageName, payload);
+                    context, privileged).restore(packageName, payload, restoreSsaid);
         } catch (Exception ignored) {
         }
     }
