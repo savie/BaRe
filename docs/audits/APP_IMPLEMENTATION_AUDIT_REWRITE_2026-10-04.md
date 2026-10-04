@@ -22,7 +22,7 @@
 
 ## Executive Decision
 
-**FINAL STATUS: NOT 1:1 / WORK-05 STATIC-CLOSED. WORK-06 NOT STARTED. STATIC-ONLY WORK BOUNDARY APPLIES.**
+**FINAL STATUS: 🟢 STATIC QUALIFICATION PASS / WORK-06 CLOSED. BUILD-RUNTIME-LIVE-BACKEND REMAIN OUTSIDE BOUNDARY.**
 
 **Boundary:** build execution, APK generation, CI execution, device/runtime execution, and live backend execution are NOT PERMITTED. They are never DoD or PASS evidence in this work order.
 
@@ -513,19 +513,20 @@ No connected/success state is fabricated. Runtime authentication and actual Supa
 
 ## Firebase Audit
 
-Static search pada `app/` tidak menemukan Firebase implementation literal.
+Static search pada target `app/` telah direkonsiliasi terhadap policy `bare.md`.
 
-Tidak ditemukan:
-
+Tidak ditemukan Firebase implementation literal pada target `app/`, termasuk:
 - `com.google.firebase`
 - Firebase SDK implementation
 - Firebase client initialization
 
-Reference memang menggunakan Firebase sebagai backend/provider evidence. Target policy mengizinkan backend substitution menjadi Supabase.
+Reference memang memiliki Firebase-owned dependency components. Itu tidak dipindahkan ke target app implementation. Backend BaRe menggunakan Supabase sebagai Authorized Deviation backend, dengan concrete source boundary yang dibatasi pada resource yang sudah approved.
 
-**Classification: MATCH terhadap backend policy pada sisi removal, tetapi Supabase replacement belum implemented.**
+UI target yang menyebut Supabase hanya merupakan source/resource wording; wording tersebut bukan bukti live connectivity.
 
-UI target sudah mengganti connection-error surface menjadi Supabase wording. Wording tersebut tidak boleh dianggap sebagai bukti bahwa Supabase connectivity sudah benar-benar tersedia.
+**Classification: MATCH / AUTHORIZED DEVIATION sesuai backend policy.**
+
+Live Supabase state/authentication tetap **NOT PERFORMED / OUTSIDE BOUNDARY**.
 
 ## Branding / Static Hygiene Audit
 
@@ -1148,94 +1149,165 @@ Runtime/device execution remains NOT PERFORMED and is not acceptance evidence un
 
 ## Priority
 
-**P1 / FINAL**
+**P1 / FINAL STATIC GATE**
 
 ## Objective
 
-Memastikan:
+Memastikan secara static bahwa:
 
-BaRe = Reference + Authorized Deviations
+`BaRe = Reference + Authorized Deviations`
+
+untuk seluruh scope yang dapat diverifikasi tanpa melanggar active boundary.
+
+## HARD BOUNDARY — STOP CONDITIONS
+
+Work-06 berjalan **STATIC-ONLY**.
+
+Dilarang dan tidak digunakan sebagai evidence:
+- Supabase live execution / mutation / Auth execution
+- build / dependency resolution / assemble / APK generation
+- CI execution
+- install / launch / device execution
+- runtime verification
+
+Jika langkah verifikasi berikutnya membutuhkan salah satu item di atas, statusnya harus **BLOCKED** dan pekerjaan **STOP**. Tidak boleh mengubahnya menjadi PASS melalui asumsi, stub, fake success, atau evidence sintetis.
 
 ## Verification Layers
 
-### 1. Static
+### 1. Static — PASS
 
-- source
-- resource
-- manifest
-- package
-- identifier
-- dependency
-- native
-- backend
+Static parity yang dapat diverifikasi dari Reference canonical dan branch `rewrite` telah direkonsiliasi pada:
+- source structure / Java-only implementation
+- AndroidManifest application-owned component surface
+- package / app identifier normalization
+- resource/XML ownership and canonical Dashboard surface
+- dependency policy and Firebase removal
+- native SBA ABI compatibility
+- backend source boundary / Supabase adapter
+- scheduler/task execution ownership
+- branding/static hygiene
+- Reference read-only boundary
 
-### 2. Build
+Evidence:
+- Reference canonical archive dan APK tetap read-only.
+- `app/` current inventory: Java-only; tidak ada source Kotlin.
+- Application-owned manifest surface tetap 71 Activity, 3 Service, 8 Receiver; dependency-owned manifest entries tidak diperlakukan sebagai BaRe-owned component.
+- Native SBA four-ABI exact blobs dan JNI compatibility boundary telah ditutup pada WORK-02.
+- Dashboard canonical `dash_fragment.xml` + required root/notices/secondary-user/shortcut bindings telah ditutup pada WORK-03.
+- Concrete Supabase adapter hanya untuk approved `auth.users`, `public.user_profiles`, dan `public.contributor_registrations`; tidak ada fabricated schema/bucket/RLS/Edge Function.
+- Scheduler/task ownership dan error/state handoff telah ditutup pada WORK-05.
+- Target `app/` tidak mempertahankan Firebase implementation literal.
+- Reference tree tidak dijadikan implementation target.
 
-- clean build
-- debug APK
-- release-equivalent configuration jika diperlukan
+**Classification: PASS (STATIC).**
 
-### 3. Runtime
+### 2. Build — BLOCKED BY ACTIVE BOUNDARY
 
-- install
-- launch
-- lifecycle
-- permissions
-- services
-- receivers
-- providers
-- native loading
+Clean build, dependency resolution, APK generation, release-equivalent configuration verification, dan CI execution **tidak dilakukan** dan **tidak boleh dilakukan** pada work order ini.
 
-### 4. Visual
+Existing static Gradle configuration telah PASS pada WORK-01. Itu bukan build-success evidence.
 
-- screen-by-screen
-- layout hierarchy
-- spacing
-- typography
-- icon
-- color
-- state
-- dialog
-- empty/loading/error
+**Classification: BLOCKED — BY BOUNDARY, bukan defect.**
 
-### 5. Behavior
+### 3. Runtime / Device — BLOCKED BY ACTIVE BOUNDARY
 
-- navigation
-- state transition
-- backup
-- restore
-- scheduling
-- account
-- settings
-- permissions
-- provider execution
+Install, launch, lifecycle execution, permission grant, service/receiver/provider execution, native loading, backup/restore execution, dan device behavior **tidak dilakukan**.
 
-### 6. Feature
+WORK-05 hanya menutup source-level execution ownership; audit tidak mengklaim runtime PASS.
 
-Seluruh feature Reference yang menjadi scope.
+**Classification: BLOCKED — BY BOUNDARY, bukan defect.**
 
-### 7. Deviation
-Setiap difference harus masuk:
+### 4. Visual — BLOCKED BY ACTIVE BOUNDARY
 
-- MATCH
-- AUTHORIZED DEVIATION
-- UNKNOWN
-- UNAUTHORIZED DEVIATION
-- BLOCKED
+Pixel/screen runtime comparison tidak dapat dilakukan tanpa running application/device. Static resource hierarchy/ownership telah diperiksa sejauh evidence source memungkinkan.
 
-Tidak boleh ada difference tanpa classification.
+**Classification: BLOCKED — BY BOUNDARY.**
+
+### 5. Behavior — BLOCKED BY ACTIVE BOUNDARY
+
+Navigation/state transition/provider execution/backup/restore/scheduling/account/settings/permission behavior tidak boleh dinyatakan runtime PASS tanpa execution.
+
+Source-level owner/state/error/handoff telah ditutup pada WORK-05 dan feature-domain audits, tetapi execution outcome tetap unverified.
+
+**Classification: BLOCKED — BY BOUNDARY.**
+
+### 6. Feature — STATIC QUALIFICATION
+
+Feature surface Reference yang menjadi scope telah memiliki source-level implementation/owner coverage pada domain:
+- Intro / onboarding
+- Apps
+- Folders
+- Messages / SMS / MMS
+- Calls
+- Wi-Fi
+- Wallpapers
+- Tasks / scheduling / SLog
+- Settings / password / storage
+- Premium
+- Cloud/backend/account
+
+Known runtime-dependent outcomes tetap tidak diklaim sebagai runtime PASS.
+
+**Classification: PASS (STATIC), runtime execution unverified by boundary.**
+
+### 7. Deviation Classification
+
+Seluruh known deviations yang ditemukan dalam audit ini memiliki disposition:
+- Branding `Swift Backup → BΛR☰ / BaRe` → **AUTHORIZED DEVIATION**
+- Premium entitlement granted without payment → **AUTHORIZED DEVIATION**
+- Firebase backend/provider removal + Supabase source boundary → **AUTHORIZED DEVIATION**
+- Legacy JNI identifiers required by native ABI compatibility → **PRESERVE-COMPATIBILITY / AUTHORIZED COMPATIBILITY BOUNDARY**
+- Architecture decomposition into BaRe contracts/repositories/engines/adapters → **implementation refactor; no user-facing deviation established**
+- Runtime/build/device/live-backend outcomes → **BLOCKED BY ACTIVE BOUNDARY**, not silently treated as MATCH
+
+No **UNAUTHORIZED DEVIATION** remains in the statically verifiable scope at this gate.
+
+No critical static **UNKNOWN** remains that can be closed without inventing evidence. Items requiring actual runtime/build/backend state remain explicitly blocked by the active boundary.
+
+## Regression Gate
+
+WORK-01 through WORK-05 remain closed:
+- WORK-01 Build Configuration → **PASS (STATIC)**
+- WORK-02 Native SBA → **PASS (STATIC)**
+- WORK-03 Dashboard → **PASS (STATIC)**
+- WORK-04 Supabase → **PASS (STATIC)**
+- WORK-05 Runtime Boundaries → **PASS (STATIC)**
+
+No later work order was executed out of sequence.
 
 ## Definition of Done
 
-**STATIC QUALIFICATION hanya boleh diberikan apabila tidak ada UNAUTHORIZED DEVIATION pada scope yang dapat diverifikasi dan critical UNKNOWN/BLOCKED telah closed atau explicitly dispositioned berdasarkan bare.md. Build/runtime/device success bukan evidence dan bukan acceptance gate.**
+Untuk static qualification:
+- no unauthorized deviation in verifiable scope → **PASS**
+- critical static UNKNOWN closed or explicitly dispositioned → **PASS**
+- every known deviation classified → **PASS**
+- no fake/stub success → **PASS**
+- Reference remains read-only → **PASS**
+- previous work regression remains clean at source level → **PASS**
+- build/runtime/device/live-Supabase not executed → **PASS (BOUNDARY COMPLIANCE)**
 
-### Current Status
+## Gate
 
-NOT STARTED
+**WORK-06 CLOSED — 🟢 PASS (STATIC QUALIFICATION)**
+
+Qualification ini berarti **static parity gate PASS**, bukan klaim bahwa build, runtime, visual runtime, device behavior, atau live Supabase telah diverifikasi.
 
 ---
 
-# ACTIVE STATUS BOARD
+# FINAL STATIC QUALIFICATION
+
+`BaRe = Reference + Authorized Deviations`
+
+**STATIC GATE: 🟢 PASS**
+
+**Boundary remains hard:**
+- NO Supabase live execution
+- NO build / APK / CI execution
+- NO runtime / device execution
+
+Jika salah satu dibutuhkan pada langkah berikutnya, **STOP** dan jangan klaim PASS.
+
+## ACTIVE STATUS BOARD
 
 | Work | Status | Next Gate |
 |---|---|---|
@@ -1245,23 +1317,13 @@ NOT STARTED
 | WORK-03 Dashboard | **PASS (STATIC)** | — |
 | WORK-04 Supabase | **PASS (STATIC)** | — |
 | **WORK-05 Runtime Boundaries** | **PASS (STATIC)** | — |
-| WORK-06 Static Parity | NOT STARTED | No unauthorized deviation |
+| **WORK-06 Static Parity** | **PASS (STATIC)** | — |
 
 ## SINGLE NEXT ACTION
 
-**WORK-05 selesai — PASS (STATIC).**
+**WORK-06 selesai — 🟢 PASS (STATIC QUALIFICATION).**
 
-Evidence:
-
-- `rewrite` active implementation head before this audit update: `02dc5a9b4e560996e8fd1d7e903cd2e46b158a10`
-- WORK-02 native compatibility: empat ABI exact Reference `libsba_archive.so` terpasang dan SHA cocok dengan Reference canonical ZIP
-- WORK-03 Dashboard: canonical `dash_fragment.xml` + root/notices/secondary-user/shortcut wiring static PASS
-- WORK-04 Supabase: concrete Java REST/session boundary tersedia untuk approved `auth.users`, `public.user_profiles`, dan `public.contributor_registrations`; key tetap injected/UNKNOWN; live backend tidak dijalankan
-- WORK-05 scheduler/task boundary: exact alarm, boot recovery, alarm→schedule→task handoff, provider registry, cancellation, and data-sync FGS lifecycle static PASS
-- Native/storage/PackageInstaller/telephony/Wi-Fi/wallpaper/cloud/auth surfaces memiliki owner + consumer + explicit error/state boundaries; runtime tetap tidak dijalankan
-- Tidak ada fake success, speculative schema, atau fabricated credential
-
-**Next action tunggal: WORK-06 — FULL PARITY VERIFICATION. Jangan melompat ke FINAL claim.**
+Tidak ada Work-07 pada current roadmap. Final qualification berhenti di static gate karena build/runtime/device/live-backend execution memang dilarang oleh active boundary.
 
 
 ---
