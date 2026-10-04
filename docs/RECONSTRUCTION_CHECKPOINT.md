@@ -1591,7 +1591,7 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 
 - `ReferenceSbaCryptoOrchestrator` now ports the exact Reference sy6 common crypto layer: method-specific 16-byte key-check labels, SBA2-index-mac-key-v1, SBA2-index-metadata-mac-v1, SHA-256 index-MAC-key derivation, and HMAC-SHA256 v2 index metadata verification with the 32-byte header MAC field zeroed at offsets 104..135 before MAC calculation.
 - Reference z07.G() was re-read end-to-end: Argon2id derives 32 bytes for all methods except SevenZip AES (16 bytes), key-check is verified before backend selection, and v2 derives a separate index-MAC key from derivedKey + salt + nonceSeed.
-- Reference z07.U() was resolved exactly: index MAC input is label || header(with bytes 104..135 zeroed) || big-endian indexOffset || big-endian indexSize || big-endian indexVersion || indexBytes, keyed by the v2 index-MAC key.
+- Reference z07.U() was resolved exactly: index MAC input is label || header(with bytes 104..135 zeroed) || big-endian indexOffset || big-endian indexSize || big-endian footer indexCrc || indexBytes, keyed by the v2 index-MAC key.
 - Reference z07.a() / xh8.i() confirms public encrypted payload execution is native FD-based for AEGIS-256/Aegis-128X2; the native call receives entry name as AAD, entry flags, derived key, nonce seed, compression mode, KDF method, and chunk size according to the recovered JNI contract.
 - Reference z07.b() confirms SevenZip AES, AES-GCM and AES-GCM-SIV compatibility paths are not active in the shipped public backend path: SevenZip/AES-GCM throw the optional-backend guard; AES-GCM-SIV requires native FD output but the recovered public build still does not provide a concrete enabled backend implementation.
 - Targeted Reference-wide search for sbaEnableInternalEncryptionBackends, SevenZipAes, Aes256Gcm, Aes256GcmSiv, and related decryptor symbols did not recover an enabled internal SBA payload backend implementation from the supplied build. These remain a genuine evidence boundary, not an implementation omission in BΛR☰.
@@ -1615,3 +1615,15 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Messages SBA restore now tries the Java framing reader first, then the recovered native Zstd/encrypted path, using the existing Reference-compatible password candidate set.
 - The three Reference optional/internal compatibility payload methods remain intentionally unimplemented because the supplied build still does not expose a concrete enabled backend implementation for them.
 - Runtime/native/device verification remains unperformed; Reference ZIP remains unchanged.
+
+### P6.3 Calls backup/restore implementation — 2026-10-04
+
+- Reference call-log acquisition is now implemented from d01.g + CallLogItem: the app queries the Reference CallLog URI, preserves the provider field set, and derives sourceSimSlotIndex for API 33+ telephony phone-account rows.
+- Reference v3 local artifact semantics are implemented from d01/z11/rz0: local root is backups/calls/local, filename shape is v3.<timestamp>.<count>.<device>.cls, and inventory is sorted by backup time.
+- Call backup JSON matches the Reference sz0 { items: [...] } wrapper and the Reference @zl1 provider field names; null fields are omitted to match Gson default serialization.
+- Call archive creation now uses the recovered Reference SBA native ABI: archive metadata swiftbackup.calls.v3, one call_logs source entry, Basic flags, Zstd FASTEST/default level 1 unless the existing compression_level_calls setting selects no-compression, SBA v2, Argon2id (3 / 16384 / 1), AEGIS-256, 1 MiB chunking, and the Reference UID/user/old-password derivation chain.
+- max_call_backups retention is applied after successful local creation, matching the Reference local retention boundary.
+- Call restore now uses the Reference SBA native restore path, exact date = ? AND number = ? AND type = ? duplicate predicate, API 37 VOIP URI fallback chain, telephony phone-account slot remapping, original-ID insertion with the Reference retry sequence, and Reference password candidates.
+- Calls dashboard -> backup activity, local backup inventory -> restore activity, backup creation, selection, restore and delete-all are now wired to concrete app-side owners.
+- The shipped Reference APK and decompile ZIP were cross-checked for the SBA optional/internal cipher boundary before this implementation pass; SevenZip AES, AES-256-GCM and AES-256-GCM-SIV remain optional/internal and are not substituted.
+- No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
