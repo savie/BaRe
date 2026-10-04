@@ -24,13 +24,18 @@ public final class AppSpecialDataRestorer {
     }
 
     public void restore(String packageName, AppSpecialDataPayload payload) throws Exception {
+        restore(packageName, payload, true);
+    }
+
+    public void restore(String packageName, AppSpecialDataPayload payload, boolean restoreSsaid)
+            throws Exception {
         if (payload == null || packageName == null || !payload.hasPayloads()) return;
         restorePermissions(packageName, payload.getPermissionStatesCsv());
         restoreComponent(Settings.Secure.ENABLED_NOTIFICATION_LISTENERS,
                 packageName, payload.getNtfAccessComponent());
         restoreComponent(Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
                 packageName, payload.getAccessibilityComponent());
-        if (payload.getSsaid() != null) {
+        if (restoreSsaid && payload.getSsaid() != null) {
             restoreSsaid(packageName, payload.getSsaid());
         }
         if (payload.getNotificationPolicyXml() != null) {
