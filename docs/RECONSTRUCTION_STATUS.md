@@ -1436,3 +1436,19 @@ Reference ZIP re-search was repeated after implementation.
 
 **Messages archive producer: IMPLEMENTED / STATIC.**
 **Messages runtime/native verification: UNVERIFIED / BOUNDARY.**
+
+
+## Loop A — Intro / First-Run lifecycle closure — 2026-10-04
+
+Reference IntroActivity, intro.d, and the canonical Swift Backup 5.1.0 (620) decompile were re-traced for the complete first-run surface.
+
+- Intro sticky sign-in surface now matches the Reference structure more closely, including the sticky background, overflow menu, account-continuity warning, and Reference-backed sign-in/anonymous action resources already present in BaRe.
+- Intro overflow menu now follows the Reference contract: language, BaRe logger, and restart entry points; the onboarding reset dialog was removed from this surface.
+- Anonymous onboarding now creates the local anonymous identity and records the C10 terminal restore success through FirstRunCloudRestoreCoordinator, matching Reference d.l()'s anonymous bypass path without fabricating provider/cloud execution.
+- Persisted KEY_FIRST_START=false without a usable local anonymous identity no longer strands the app directly on Home; Intro re-enters the onboarding boundary and resets the C10 completion state.
+- Permission completion now transitions into the existing Getting Started boundary once the required Intro permission capabilities are ready, while the sign-in action surface remains hidden after the identity stage, matching the Reference separation between sign-in actions and permission/setup content.
+- C10 remains provider/backend-neutral: authenticated Google sign-in, backend readiness, cloud-settings reads, and concrete remote restore execution remain downstream boundaries and were not faked.
+- Reference archive remained read-only; implementation changes were limited to IntroActivity.java, intro_activity.xml, and the existing Intro string surface.
+
+**Loop A status: CLOSED — static/source parity acceptance.**
+**Runtime/device/provider/build verification: UNVERIFIED / BOUNDARY.**
