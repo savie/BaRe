@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Build;
 import android.provider.Telephony;
+import android.provider.ContactsContract;
 
 import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
@@ -449,9 +450,49 @@ public final class MessagesBackupRepository {
             value.put("mmsItemList",mms);
             lastSmsDate = latest;
             value.put("lastSmsDate",latest);
-            value.put("displayName",JSONObject.NULL);
-            value.put("photoUri",JSONObject.NULL);
+            String[] contact = contactFor(resolver, address);
+            if (contact[0] != null) value.put("displayName", contact[0]);
+            if (contact[1] != null) value.put("photoUri", contact[1]);
         }
+    }
+
+
+    private static String[] contactFor(ContentResolver resolver, String address) {
+        if (address == null || address.isEmpty()) return new String[]{null, null};
+        Cursor cursor = null;
+        try {
+            cursor = resolver.query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    new String[]{
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER,
+                            ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER
+                    },
+                    null, null, null);
+            if (cursor == null) return new String[]{null, null};
+            int name = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            int photo = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI);
+            int number = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            int normalized = cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Phone.NORMALIZED_NUMBER);
+            while (cursor.moveToNext()) {
+                String candidate = number >= 0 && !cursor.isNull(number)
+                        ? cursor.getString(number) : null;
+                String candidateNormalized = normalized >= 0 && !cursor.isNull(normalized)
+                        ? cursor.getString(normalized) : null;
+                if (!address.equals(candidate) && !address.equals(candidateNormalized)) continue;
+                return new String[]{
+                        name >= 0 && !cursor.isNull(name) ? cursor.getString(name) : null,
+                        photo >= 0 && !cursor.isNull(photo) ? cursor.getString(photo) : null
+                };
+            }
+        } catch (Exception ignored) {
+            return new String[]{null, null};
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return new String[]{null, null};
     }
 
     private static void deleteTree(File root) {
