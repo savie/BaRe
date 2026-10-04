@@ -1369,3 +1369,13 @@ SBA native infrastructure is now materially implemented: exact Reference `libsba
 - `WallApplyActivity` now applies a selected local wallpaper to Home, Lock, or Both using `WallpaperManager.setStream`, in addition to the Reference external/share actions.
 - Reference cloud upload semantics were also recovered (`jo8`): deduplicate by artifact path/size, construct `yn8` metadata, skip already-uploaded cloud artifacts by size, and use the existing cloud transfer scheduler. The actual BaRe provider adapter is intentionally not invented here.
 - No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
+
+
+### P6.3 Folders execution deepening — 2026-10-04
+- Reference folder storage was rechecked from `ry5`/`qy5`/`kj3`: local folder artifacts live under `<storage>/SwiftBackup/accounts/<first-half-MD5(uid)>/backups/folders/local/Folder-<folderId>/`; base artifacts are `folder-base.fld` + `folder-base.flm`; incremental artifacts are `folder-inc-yyyyMMdd-HHmmss-SSS.fld/.flm`.
+- Reference `wj3` backup semantics were recovered: scan source folder into `FolderState` using file size + mtime, create a base archive when none exists, otherwise compare against the latest manifest and create an incremental backup containing added/modified files plus deletion lists; no-change returns `BackupResult.NoChange`.
+- Reference folder archive creation is delegated through the generic SBA engine (`mz6` → `SbaArchiveNative`) with password/encryption/compression selected by the archive pipeline. BΛR☰ now routes concrete local folder archive creation through the exact Reference `SbaArchiveNative` JNI creator with AEGIS-256/Argon2id/Zstd defaults already reconstructed for P6.3.
+- `LocalFolderSetupRepository` now persists local FolderItem setups, and FolderEdit/FolderBatch/FoldersDashboard are connected to that local model and concrete backup/deletion flow.
+- Restore-chain semantics remain explicitly conservative: Reference builds base→incremental manifest chains and applies restore strategy against current filesystem state. BΛR☰ manifest/state generation is implemented, but encrypted SBA extraction remains subject to the already-documented native restore orchestration verification boundary; no runtime restore claim is made.
+- Cloud folder metadata remains provider-neutral per B04: FolderMetadata/BaseBackup/IncrementalBackup reconciliation is already frozen; concrete provider transfer is not invented.
+- No build/install/runtime/device/provider execution was performed. Reference ZIP remains unchanged.
