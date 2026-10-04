@@ -9,6 +9,7 @@
 ## Execution guard
 - Supabase implementation: **WAITING FOR EXPLICIT USER PERMISSION**
 - App-side P6.3 implementation: **AUTHORIZED BY CURRENT WORK ORDER / ACTIVE**
+- Apps F70/F71/multi-backup/retention owners: **IMPLEMENTED / STATIC**
 - APK build: **WAITING FOR EXPLICIT USER PERMISSION**
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
