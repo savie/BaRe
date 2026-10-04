@@ -1789,3 +1789,12 @@ Reference ZIP re-search was repeated after implementation.
 
 **Messages archive producer: IMPLEMENTED / STATIC.**
 **Messages runtime/native verification: UNVERIFIED / BOUNDARY.**
+
+
+### Loop B checkpoint — 2026-10-04
+
+- Current active implementation loop remains P6.3; P6.4 is not opened.
+- SBA native restore parser was re-audited directly against Reference `z07` / `us2` / `iz1`.
+- Static hardening committed on `rewrite`: encrypted-index MAC input corrected to footer index CRC; v1 iteration count fixed to Reference value 3; strict UTF-8 and entry-name safety validation added; entry/payload overflow and stored-size checks tightened; payload-HMAC zero rules aligned for unencrypted/AEAD methods.
+- Source structural check confirms balanced Java braces and all new helper methods are present.
+- No build/CI/runtime/device/native/provider/Supabase execution was performed.
