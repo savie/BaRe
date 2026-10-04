@@ -160,11 +160,13 @@ public final class WifiLocalEncryptedRepository {
     }
 
     private static byte[] uidKey(String uid) {
-        byte[] raw = uid.getBytes(StandardCharsets.UTF_8);
-        byte[] key = new byte[32];
-        if (raw.length >= 32) System.arraycopy(raw, 0, key, 0, 32);
-        else { System.arraycopy(raw, 0, key, 0, raw.length); System.arraycopy(raw, 0, key, raw.length, 32 - raw.length); }
-        return key;
+        String normalized = uid;
+        if (normalized.length() < 32) {
+            normalized = normalized + normalized.substring(0, 32 - normalized.length());
+        } else if (normalized.length() > 32) {
+            normalized = normalized.substring(0, 32);
+        }
+        return normalized.getBytes(StandardCharsets.UTF_8);
     }
 
     static List<WifiCredentialState> parse(byte[] plaintext) throws Exception {
