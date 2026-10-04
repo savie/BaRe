@@ -95,7 +95,7 @@ public final class WifiLocalEncryptedRepository {
                 putNullable(passwordInfo, "entAnonIdentity", item.getAnonymousIdentity());
                 putNullable(passwordInfo, "entPassword", item.getEnterprisePassword());
                 putNullable(passwordInfo, "entCaCert", item.getCaCertificate());
-                value.put("passwordInfo", passwordInfo);
+                if (passwordInfo.length() > 0) value.put("passwordInfo", passwordInfo);
                 array.put(value);
             }
             root.put("items", array);
@@ -142,7 +142,8 @@ public final class WifiLocalEncryptedRepository {
     }
 
     private static void putNullable(JSONObject object, String key, String value) {
-        try { object.put(key, value == null ? JSONObject.NULL : value); }
+        if (value == null) return;
+        try { object.put(key, value); }
         catch (Exception e) { throw new IllegalStateException(e); }
     }
 
