@@ -3,6 +3,7 @@ package com.bare.messagescalls.backups;
 import android.content.Context;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.os.Build;
 import android.provider.Telephony;
 
 import com.bare.storage.AndroidStorageInventory;
@@ -21,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.nio.charset.StandardCharsets;
+import org.json.JSONObject;
 
 /** Reference vd5-compatible local Messages backup inventory/retention surface. */
 public final class MessagesBackupRepository {
@@ -253,6 +256,9 @@ public final class MessagesBackupRepository {
         put(o, "read", integerColumn(c, "read"));
         put(o, "seen", integerColumn(c, "seen"));
         put(o, "textOnly", integerColumn(c, "text_only"));
+        put(o, "contentClass", integerColumn(c, "ct_cls"));
+        put(o, "deliveryReport", integerColumn(c, "d_rpt"));
+        put(o, "deliveryTime", integerColumn(c, "d_tm"));
         put(o, "subject", stringColumn(c, "sub"));
         put(o, "subjectCharset", integerColumn(c, "sub_cs"));
         put(o, "contentType", stringColumn(c, "ct_t"));
