@@ -405,6 +405,7 @@ public final class AppLocalBackupEngine {
             String packageName, String backupId, Set<Part> requested) throws Exception {
         BackupRecord record = findBackup(packageName, backupId);
         PackageInfo installed = installedOrNull(packageName);
+        AppSettings settings = new SettingsRepository(new LocalState(context)).read();
         long requiredVersion = record.metadata.optLong("requiredVersionCode", 0L);
         if (requiredVersion > 0 && currentVersionCode() < requiredVersion) {
             throw new IllegalStateException("Backup requires a newer BaRe version");
@@ -413,6 +414,16 @@ public final class AppLocalBackupEngine {
         Set<Part> parts = requested == null || requested.isEmpty()
                 ? parseParts(record.metadata.optJSONArray("parts"))
                 : new LinkedHashSet<>(requested);
+        long backupVersionCode = record.metadata.optLong("versionCode", -1L);
+        if (installed != null && backupVersionCode >= 0
+                && backupVersionCode < installed.getLongVersionCode()
+                && !Boolean.TRUE.equals(settings.getIsInPlaceApkDowngradeEnabled())) {
+            parts.remove(Part.APK);
+            parts.remove(Part.SPLITS);
+            if (parts.isEmpty()) {
+                throw new IllegalStateException("APK downgrade is disabled for this restore");
+            }
+        }
 
         int restored = 0;
         if (parts.contains(Part.APK)) {
