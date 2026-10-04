@@ -41,8 +41,7 @@ public final class WifiLocalEncryptedRepository {
     public Result read() {
         try {
             String uid = new AnonymousIdentityStore(context).getOrCreateUid();
-            File storageRoot = resolveStorageRoot();
-            File file = new File(new File(new File(new File(new File(storageRoot, "BΛR☰"), "accounts"), AccountNamespace.keyForUid(uid)), "backups/wifi/local"), FILE_NAME);
+            File file = artifactFile(resolveStorageRoot(), uid);
             if (!file.isFile()) return Result.success(Collections.emptyList());
 
             byte[] encrypted = Files.readAllBytes(file.toPath());
@@ -64,6 +63,94 @@ public final class WifiLocalEncryptedRepository {
         } catch (GeneralSecurityException | java.io.IOException | RuntimeException e) {
             return Result.failure(WifiAccessContract.Failure.MAPPING_FAILED);
         }
+    }
+
+    public Result write(List<WifiCredentialState> items) {
+        if (items == null) return Result.failure(WifiAccessContract.Failure.MAPPING_FAILED);
+        try {
+            String uid = new AnonymousIdentityStore(context).getOrCreateUid();
+            File file = artifactFile(resolveStorageRoot(), uid);
+            File parent = file.getParentFile();
+            if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                return Result.failure(WifiAccessContract.Failure.MAPPING_FAILED);
+            }
+
+            JSONObject root = new JSONObject();
+            JSONArray array = new JSONArray();
+            for (WifiCredentialState item : items) {
+                if (item == null || item.getSsid() == null || item.getSsid().isEmpty()) continue;
+                JSONObject value = new JSONObject();
+                value.put("SSID", item.getSsid());
+                value.put("preSharedKey", item.getCredential());
+                value.put("hiddenSSID", item.isHiddenSsid());
+                value.put("allowedKeyManagement", bitSetForWrite(item.getAllowedKeyManagement()));
+                value.put("allowedProtocols", bitSetForWrite(item.getAllowedProtocols()));
+                value.put("allowedPairwiseCiphers", bitSetForWrite(item.getAllowedPairwiseCiphers()));
+                value.put("allowedGroupCiphers", bitSetForWrite(item.getAllowedGroupCiphers()));
+
+                JSONObject passwordInfo = new JSONObject();
+                putNullable(passwordInfo, "entEapMethod", item.getEapMethod());
+                putNullable(passwordInfo, "entPhase2Method", item.getPhase2Method());
+                putNullable(passwordInfo, "entIdentity", item.getIdentity());
+                putNullable(passwordInfo, "entAnonIdentity", item.getAnonymousIdentity());
+                putNullable(passwordInfo, "entPassword", item.getEnterprisePassword());
+                putNullable(passwordInfo, "entCaCert", item.getCaCertificate());
+                value.put("passwordInfo", passwordInfo);
+                array.put(value);
+            }
+            root.put("items", array);
+
+            byte[] plaintext = root.toString().getBytes(StandardCharsets.UTF_8);
+            byte[] iv = new byte[12];
+            new java.security.SecureRandom().nextBytes(iv);
+            byte[] aad = new byte[2 + ENTITY_AAD.length];
+            aad[0] = VERSION;
+            aad[1] = CIPHER_ID;
+            System.arraycopy(ENTITY_AAD, 0, aad, 2, ENTITY_AAD.length);
+
+            Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(uidKey(uid), "AES"),
+                    new GCMParameterSpec(128, iv));
+            cipher.updateAAD(aad);
+            byte[] ciphertextAndTag = cipher.doFinal(plaintext);
+
+            byte[] envelope = new byte[2 + iv.length + ciphertextAndTag.length];
+            envelope[0] = VERSION;
+            envelope[1] = CIPHER_ID;
+            System.arraycopy(iv, 0, envelope, 2, iv.length);
+            System.arraycopy(ciphertextAndTag, 0, envelope, 14, ciphertextAndTag.length);
+            Files.write(file.toPath(), envelope);
+            return Result.success(Collections.unmodifiableList(new ArrayList<>(items)));
+        } catch (GeneralSecurityException | java.io.IOException | RuntimeException e) {
+            return Result.failure(WifiAccessContract.Failure.MAPPING_FAILED);
+        }
+    }
+
+    public boolean delete() {
+        try {
+            String uid = new AnonymousIdentityStore(context).getOrCreateUid();
+            return !artifactFile(resolveStorageRoot(), uid).exists()
+                    || artifactFile(resolveStorageRoot(), uid).delete();
+        } catch (RuntimeException ignored) {
+            return false;
+        }
+    }
+
+    private File artifactFile(File storageRoot, String uid) {
+        return new File(new File(new File(new File(new File(storageRoot, "BΛR☰"), "accounts"),
+                AccountNamespace.keyForUid(uid)), "backups/wifi/local"), FILE_NAME);
+    }
+
+    private static void putNullable(JSONObject object, String key, String value) {
+        try { object.put(key, value == null ? JSONObject.NULL : value); }
+        catch (Exception e) { throw new IllegalStateException(e); }
+    }
+
+    private static JSONArray bitSetForWrite(BitSet value) {
+        JSONArray array = new JSONArray();
+        if (value == null) return array;
+        for (int i = 0; i < value.length(); i++) array.put(value.get(i) ? 1 : 0);
+        return array;
     }
 
     private File resolveStorageRoot() {
@@ -114,7 +201,19 @@ public final class WifiLocalEncryptedRepository {
     private static BitSet bitSet(JSONArray array) {
         if (array == null) return null;
         BitSet result = new BitSet();
-        for (int i = 0; i < array.length(); i++) { int index = array.optInt(i, -1); if (index >= 0) result.set(index); }
+        boolean positional = true;
+        for (int i = 0; i < array.length(); i++) {
+            int value = array.optInt(i, -1);
+            if (value != 0 && value != 1) { positional = false; break; }
+        }
+        if (positional) {
+            for (int i = 0; i < array.length(); i++) if (array.optInt(i, 0) != 0) result.set(i);
+        } else {
+            for (int i = 0; i < array.length(); i++) {
+                int index = array.optInt(i, -1);
+                if (index >= 0) result.set(index);
+            }
+        }
         return result;
     }
 
