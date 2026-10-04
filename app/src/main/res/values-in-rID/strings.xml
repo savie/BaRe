@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="schedule_backup_summary">Pencadangan berulang otomatis terjadwal ke lokal atau cloud</string>
+    <string name="schedule_battery_error_message">Diblokir karena level baterai di bawah persyaratan (Level baterai = %1$s, Wajib = %2$s)</string>
+    <string name="schedule_charging_error_message">Diblokir karena perangkat tidak mengisi daya</string>
+    <string name="schedule_controls">Kontrol jadwal</string>
+    <string name="schedule_count">%1$d dari %2$d</string>
+    <string name="schedule_error_notification_subtitle">Kesalahan saat menjalankan beberapa jadwal</string>
+    <string name="schedule_fgs_quota_notification_message">Android menghentikan pencadangan terjadwal karena batas waktu layanan latar depan sinkronisasi data telah habis. Gunakan Jalankan jadwal sekarang untuk memulainya secara manual.</string>
+</resources>
