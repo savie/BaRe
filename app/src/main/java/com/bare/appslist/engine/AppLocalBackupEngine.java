@@ -168,8 +168,9 @@ public final class AppLocalBackupEngine {
             if (parts.contains(Part.EXPANSION)) {
                 File source = expansionDirectory(info.packageName);
                 if (source.isDirectory()) {
-                    File archive = new File(packageDir, backupId + ".extra");
-                    createArchive(archive, info.packageName, Collections.singletonList(source), temporary);
+                    File archive = new File(packageDir, backupId + ".exp");
+                    createArchive(archive, Collections.singletonList(info.packageName),
+                            Collections.singletonList(source), temporary);
                     metadata.put("expansionSize", archive.length());
                     completed.add("EXPANSION");
                 }
@@ -301,7 +302,7 @@ public final class AppLocalBackupEngine {
         }
         if (parts.contains(Part.EXPANSION)) {
             restored += restoreArchivePart(
-                    record, backupId + ".extra", expansionDirectory(packageName), false);
+                    record, backupId + ".exp", expansionDirectory(packageName), false);
         }
 
         return new RestoreResult(packageName, backupId, restored);
