@@ -1672,3 +1672,7 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - Archive creation uses the exact reconstructed `SbaArchiveNative` JNI ABI with Reference public AEGIS-256/Argon2id/Zstd parameters.
 - Encrypted restore is not promoted to runtime-tested/full fidelity; the native extraction orchestration still needs its final on-disk destination/chain verification before being called closed.
 - No build/install/runtime/device/provider execution was performed. Reference ZIP remains unchanged.
+
+### P6.3 Apps remaining targeted gap — Shared Libraries restore
+
+Reference backup and extraction behavior is implemented through the SBA/native path. Final Shared Libraries restore destination/consumer ownership is still being traced from xw.u(); no guessed package-install or filesystem destination has been introduced.
