@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bare.R;
+import com.bare.messagescalls.backups.MessageBackupItem;
 import com.bare.messagescalls.conversations.ConversationState;
 import com.bare.messagescalls.conversations.MessagesConversationRepository;
 import com.bare.messagescalls.restore.MessagesRestoreRepository;
@@ -138,7 +139,32 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
                 Toast.makeText(this, plan.decision().name(), Toast.LENGTH_LONG).show();
                 return;
             }
-            showBoundary(R.string.backup_options);
+            actionButton.setEnabled(false);
+            stateView.setText(R.string.backing_up);
+            stateView.setVisibility(View.VISIBLE);
+            final List<String> selectedThreads = adapter.selectedThreadIds();
+            new Thread(() -> {
+                try {
+                    MessageBackupItem backup = new MessagesTaskEngine().executeBackup(
+                            this, selectedThreads, isMmsBackupEnabled(), readMessagesCompressionLevel());
+                    runOnUiThread(() -> {
+                        actionButton.setEnabled(true);
+                        Toast.makeText(this,
+                                getString(R.string.messages_backup_created, backup.getFileName()),
+                                Toast.LENGTH_LONG).show();
+                        updateModeUi();
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(() -> {
+                        actionButton.setEnabled(true);
+                        Toast.makeText(this,
+                                getString(R.string.messages_backup_failed,
+                                        e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()),
+                                Toast.LENGTH_LONG).show();
+                        updateModeUi();
+                    });
+                }
+            }).start();
             return;
         }
         requestDefaultSmsApp();
