@@ -257,6 +257,14 @@ public final class AppLocalBackupEngine {
                             installed == null);
                     restored++;
                 }
+                File dataDe = new File(extracted, "data_de");
+                if (dataDe.exists()) {
+                    privileged.copyTree(
+                            dataDe.getAbsolutePath(),
+                            deDataDirectory(packageName),
+                            installed == null);
+                    restored++;
+                }
             }
         }
 
