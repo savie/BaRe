@@ -33,8 +33,13 @@ public final class AppSpecialDataRestorer {
         if (payload.getSsaid() != null) {
             restoreSsaid(packageName, payload.getSsaid());
         }
-        // Notification policy XML requires the Reference NotificationPolicyProxy
-        // system owner. Do not fabricate a shell equivalent.
+        if (payload.getNotificationPolicyXml() != null) {
+            try {
+                NotificationPolicyProxy.restore(
+                        UserHandle.myUserId(), packageName, payload.getNotificationPolicyXml());
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     private void restorePermissions(String packageName, String csv) throws Exception {
