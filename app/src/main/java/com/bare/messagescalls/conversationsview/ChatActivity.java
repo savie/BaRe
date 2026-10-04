@@ -77,7 +77,7 @@ public final class ChatActivity extends AppCompatActivity {
         }
         @Override public void onBindViewHolder(Holder holder,int position){
             SmsMessageState item=items.get(position);
-            holder.view.setText(item.getBody()==null?"":item.getBody());
+            holder.view.setText(item.getBody());
         }
         @Override public int getItemCount(){return items.size();}
         final class Holder extends RecyclerView.ViewHolder { final android.widget.TextView view; Holder(android.view.View v){super(v);view=(android.widget.TextView)v;} }
