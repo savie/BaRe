@@ -119,7 +119,7 @@ public final class ReferenceSbaArchiveReader {
         }
         return new Header(version, headerSize, flags, creationTime, compressionMethod,
                 compressionLevel, encryptionMethod, kdfMethod, iterations, keyCheckLength,
-                saltLength, nonceSeedLength, macLength, actualChunkSize);
+                saltLength, nonceSeedLength, macLength, chunkSize);
     }
 
     private static Footer readFooter(RandomAccessFile raf, int version) throws IOException {
