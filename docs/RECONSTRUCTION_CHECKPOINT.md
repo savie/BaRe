@@ -1751,3 +1751,24 @@ The supplied Reference ZIP was re-extracted again for this pass and the remainin
 - Consumer closure is static: F161 is now connected from the Folder execution owners to the existing preflight contract.
 - No build/install/runtime/device/filesystem mutation/provider/backend/Supabase execution performed.
 - **Folders gate: STATIC-IMPLEMENTATION CLOSED for the currently Reference-proven app-side gaps audited in this pass.**
+
+
+### P6.3 Messages forensic re-audit + task consumer deepening — 2026-10-04
+
+- Reference ZIP was re-extracted directly before this Messages pass.
+- Reference graph re-confirmed:
+  - `ff5` is the concrete MessagesTask provider over `pw6`.
+  - Backup consumes selected SMS/MMS conversation state, `messages_backup_mms`, `compression_level_msgs`, creates the `v3.<timestamp>.<conversationCount>.<messageCount>.<device>.msg` artifact, then delegates SBA/native archive creation and optional cloud handoff.
+  - Restore entry uses `EXTRA_BACKUP_FILE_PATH`, requires the default-SMS role, and routes selected conversations into the Messages task/restore path.
+  - `ud5.k` reconstructs v3 archive contents through Reference SBA/Packer paths and restores serialized conversation state; `mz6`/native execution remains the archive/runtime boundary.
+- Fresh target gap found: BΛR☰ `MessagesTaskEngine` was only a four-state stub and was not consumed by the Messages backup/restore surface.
+- Implemented:
+  - Reference-shaped MessagesTask plan/result contract with BACKUP/RESTORE, conversation/message counts, MMS policy, compression-level projection, v3 artifact naming, and optional cloud-handoff boundary.
+  - Backup surface now builds the task plan from selected conversations and persisted `messages_backup_mms` / `compression_level_msgs` policy before crossing the archive boundary.
+  - Restore surface now routes default-SMS + selected-conversation readiness through the same task boundary before provider insertion.
+  - MMS part field typing was aligned to the recovered Reference `xg5` contract.
+- TRACE AGAIN:
+  - `MessagesTaskEngine` is now consumed by `MessagesBackupRestoreActivity`.
+  - Reference settings keys are consumed at the task-plan boundary.
+  - `ReferenceMessagesArchiveCrypto` remains the explicit archive/native reader boundary; no invented archive format or runtime-native execution was added.
+- **Messages is NOT yet CLOSED**: the remaining app-side gap is the concrete backup producer/restore archive execution parity behind the Reference `ff5 → mz6/Packer/native SBA` boundary. That boundary is deliberately not claimed runtime-verified.
