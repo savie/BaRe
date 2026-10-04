@@ -52,6 +52,7 @@ public final class DashboardFragment extends Fragment {
             boolean next = !homePrefs.getBoolean("compact_storage_info", false);
             homePrefs.edit().putBoolean("compact_storage_info", next).apply();
             renderStorageSummary(storageSummary, new StorageInfoService(requireContext()).readCached(), next);
+            renderCategoryShortcuts(view, next);
             return true;
         });
         StorageInfoLocal cachedStorage = new StorageInfoService(requireContext()).readCached();
@@ -116,10 +117,8 @@ public final class DashboardFragment extends Fragment {
 
         renderCategoryShortcuts(view, compactStorage);
 
-        // The Reference dashboard uses four fixed quick-action cards. The
-        // separate Wallpapers/Wi-Fi category shortcuts remain owned by their
-        // existing dashboard/navigation surfaces rather than being promoted
-        // into these Reference cards.
+        // The Reference dashboard keeps the six category shortcuts in the
+        // summary surface, while the four quick-action cards remain separate.
         actions.setVisibility(View.GONE);
     }
 
