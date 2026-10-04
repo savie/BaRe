@@ -275,10 +275,9 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
                     updateModeUi();
                     return;
                 }
-                String summary = getString(R.string.x_messages, String.valueOf(result.getInserted()))
-                        + " · MMS " + result.getMmsInserted()
-                        + " · parts " + result.getPartsInserted()
-                        + " · skipped " + result.getSkipped();
+                String summary = getString(R.string.messages_restore_result,
+                        result.getInserted(), result.getMmsInserted(),
+                        result.getPartsInserted(), result.getSkipped());
                 Toast.makeText(this, summary, Toast.LENGTH_LONG).show();
                 setResult(Activity.RESULT_OK);
                 finish();
@@ -298,7 +297,7 @@ public final class MessagesBackupRestoreActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SMS_ROLE_REQUEST || requestCode == SMS_ROLE_LEGACY_REQUEST) {
-            if (isDefaultSmsApp() || resultCode == RESULT_OK) {
+            if (isDefaultSmsApp()) {
                 restoreSelectedMessages();
             } else {
                 showDefaultSmsRationale(true);
