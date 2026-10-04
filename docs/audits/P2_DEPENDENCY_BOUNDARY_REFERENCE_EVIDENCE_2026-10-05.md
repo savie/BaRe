@@ -210,3 +210,25 @@ Their exact versions remain UNKNOWN from the current ZIP evidence and are not ch
 - Only target app/build.gradle was changed.
 - No build/install/runtime/device verification was performed.
 - No Supabase/backend mutation was performed.
+
+
+## P2 toolchain evidence boundary
+
+Reference app metadata also exposes:
+
+- Android Gradle Plugin: 9.2.1
+- compileSdk: 37
+- targetSdk: 37
+- minSdk: 26
+- Reference versionName/versionCode: 5.1.0 / 620
+
+The target already matches compileSdk 37, targetSdk 37, and minSdk 26 in app/build.gradle.
+
+The target root build.gradle currently declares Android Gradle Plugin 8.7.3. Reference evidence therefore establishes a **toolchain-version difference**, but the supplied artifact does not establish the target Gradle wrapper/distribution compatibility required to change AGP safely. No AGP change is made in this evidence-only pass.
+
+Classification:
+
+- SDK contract: MATCH
+- AGP version: EVIDENCE MISMATCH / BLOCKED FOR CHANGE until wrapper/toolchain compatibility is evidenced
+- Runtime/build verification: not performed
+
