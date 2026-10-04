@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,8 +50,17 @@ public final class CallsRestoreRepository {
                 java.util.Arrays.fill(password, '\0');
             }
         }
-        if (last != null) throw last;
-        throw new IOException("Unable to read Reference call-log archive");
+        if (last != null) {
+            try {
+                byte[] encrypted = Files.readAllBytes(backupFile.toPath());
+                return parseWrapper(new String(
+                        ReferenceLegacyCallLogCrypto.decrypt(context, encrypted),
+                        StandardCharsets.UTF_8));
+            } catch (Exception legacy) {
+                last.addSuppressed(legacy);
+            }
+        }
+        throw last != null ? last : new IOException("Unable to read Reference call-log archive");
     }
 
     public Result restore(List<CallLogItem> items) {
