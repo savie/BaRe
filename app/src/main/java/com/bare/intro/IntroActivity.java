@@ -64,6 +64,7 @@ public final class IntroActivity extends Activity {
     private MaterialButton continueButton;
     private MaterialButton anonymousButton;
     private View privacyPolicy;
+    private View signInWarning;
     private View menuButton;
     private android.widget.TextView flowStatus;
 
@@ -96,6 +97,7 @@ public final class IntroActivity extends Activity {
         continueButton = findViewById(R.id.btn_continue);
         anonymousButton = findViewById(R.id.btn_anonymous);
         privacyPolicy = findViewById(R.id.tv_privacy_policy);
+        signInWarning = findViewById(R.id.tv_sign_in_subtitle2);
         menuButton = findViewById(R.id.iv_menu);
         flowStatus = findViewById(R.id.tv_flow_status);
 
@@ -157,6 +159,7 @@ public final class IntroActivity extends Activity {
     private void showPermissionsStage() {
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
+        signInWarning.setVisibility(View.GONE);
         anonymousButton.setVisibility(View.GONE);
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
@@ -290,6 +293,7 @@ public final class IntroActivity extends Activity {
         if (!signedIn) {
             signInContainer.setVisibility(View.VISIBLE);
             permissionsContainer.setVisibility(View.GONE);
+            signInWarning.setVisibility(View.VISIBLE);
             anonymousButton.setVisibility(View.VISIBLE);
             continueButton.setText(R.string.continue_with_google);
             flowStatus.setText(R.string.intro_flow_status_sign_in);
@@ -298,6 +302,7 @@ public final class IntroActivity extends Activity {
 
         signInContainer.setVisibility(View.GONE);
         permissionsContainer.setVisibility(View.VISIBLE);
+        signInWarning.setVisibility(View.GONE);
         anonymousButton.setVisibility(View.GONE);
         continueButton.setText(R.string.continue_setup);
         flowStatus.setText(R.string.intro_flow_status_permissions);
