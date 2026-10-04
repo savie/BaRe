@@ -1540,3 +1540,13 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - 752e2b3bedaaf775f1c2eeee1b7a443196782530: matched Reference Gson-style null omission in encrypted Wi-Fi JSON output.
 - 33a92e82a3481ffc1be84095cab5b149b41a928f: matched Reference modern-Android Wi-Fi backup source priority (Root XML → Shizuku → legacy).
 - These are static app-side changes only; no build/runtime/device/backend execution was performed.
+
+### P6.3 Messages closure — 2026-10-04
+
+- `0dad6f7fee34a7da77a5e3f5e4c6d613a9bbdeb9` / `e08f0fa87ec7179fddcf6dd811b0cb815fe74ada`: implemented and corrected the Reference `SmsReceiver` action/content-provider behavior.
+- `bcde2852858a11c3ce94459ff0a5cc2ea789cf07`: matched the Reference `HeadlessSmsSendService` bind contract.
+- `39708b3ea6aa3da014ee9a3c9cc8b2f6a578b497` / `a7aa265d1a46bf61b97a7d5ef85cfa81a5c11273` / `c50da6718ceb1214599eaa9e7f6052b6ccab778d`: implemented the qv1/ki7-derived local conversation projection.
+- `36bd738a1096e55b47e85308d8e3b6b83c3b438f` / `1dcbb6bc753dbd470a7466ae6abc9ec6631712f7` / `98e9533149bd49a8fd347a5531b22a88d4b50897`: wired Messages backup/restore selection, Conversations, and Chat to real app-side SMS provider state.
+- `83ee4cc6dae309abfb335ebdac005ff77f87f988` / `fe2d635bacbe5ca9326339b7f12261bb8a23f7ba` / `92fab4ecde23c9e79c3832fc6013e8d0209f3740` / `3e99b7d7078e6ce47bf203c7d2007a0fbb07baad`: implemented local Messages backup metadata, local inventory/delete, and max-backup retention policy.
+- Restore-from-file artifact execution remains bounded to the Reference `ud5.k → mz6/Packer/y32` crypto/compression/native path; no substitute format was invented.
+- P6.3 remains ACTIVE / LOOP MODE; P6.4 is not opened.
