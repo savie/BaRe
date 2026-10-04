@@ -163,14 +163,7 @@ public final class AppLocalBackupEngine {
                 }
             }
 
-            if (parts.contains(Part.SHARED_LIBS)) {
-            File archive = new File(record.directory, backupId + ".libs");
-            if (archive.isFile()) {
-                restored += restoreSharedLibraries(archive, record);
-            }
-        }
-
-        if (parts.contains(Part.DATA)) {
+            if (parts.contains(Part.DATA)) {
                 File archive = new File(packageDir, backupId + ".dat");
                 if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace data backup");
                 List<File> sources = stagePrivilegedData(info, temporary);
@@ -459,6 +452,13 @@ public final class AppLocalBackupEngine {
                 }
             } finally {
                 deleteTree(splitDir);
+            }
+        }
+
+        if (parts.contains(Part.SHARED_LIBS)) {
+            File archive = new File(record.directory, backupId + ".libs");
+            if (archive.isFile()) {
+                restored += restoreSharedLibraries(archive, record);
             }
         }
 
