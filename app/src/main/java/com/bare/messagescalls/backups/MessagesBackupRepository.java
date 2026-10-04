@@ -55,25 +55,25 @@ public final class MessagesBackupRepository {
     public MessageBackupItem createLocalBackup(
             List<String> selectedThreadIds, boolean includeMms, int configuredCompression) throws Exception {
         if (selectedThreadIds == null || selectedThreadIds.isEmpty()) {
-            throw new IllegalArgumentException("No messages selected");
+            throw new IllegalArgumentException(context.getString(R.string.messages_backup_no_selection));
         }
         File root = localRoot();
-        if (root == null) throw new IllegalStateException("No selected local storage");
+        if (root == null) throw new IllegalStateException(context.getString(R.string.messages_backup_no_storage));
         if (!root.exists() && !root.mkdirs()) {
-            throw new IllegalStateException("Cannot create messages backup directory");
+            throw new IllegalStateException(context.getString(R.string.messages_backup_directory_error));
         }
 
         Set<Long> threads = new LinkedHashSet<>();
         for (String id : selectedThreadIds) {
             try { threads.add(Long.parseLong(id)); } catch (NumberFormatException ignored) { }
         }
-        if (threads.isEmpty()) throw new IllegalArgumentException("No valid message threads selected");
+        if (threads.isEmpty()) throw new IllegalArgumentException(context.getString(R.string.messages_backup_no_valid_threads));
 
         File work = new File(context.getCacheDir(), "messages_backup");
         deleteTree(work);
-        if (!work.mkdirs()) throw new IllegalStateException("Cannot create messages backup cache");
+        if (!work.mkdirs()) throw new IllegalStateException(context.getString(R.string.messages_backup_cache_error));
         File mmsData = new File(work, "mms_data");
-        if (!mmsData.mkdirs()) throw new IllegalStateException("Cannot create MMS cache");
+        if (!mmsData.mkdirs()) throw new IllegalStateException(context.getString(R.string.messages_backup_mms_cache_error));
 
         long now = System.currentTimeMillis();
         List<JSONObjectThread> conversations = readConversations(threads, includeMms, mmsData);
@@ -81,7 +81,7 @@ public final class MessagesBackupRepository {
         for (JSONObjectThread c : conversations) messageCount += c.messageCount;
         if (messageCount <= 0) {
             deleteTree(work);
-            throw new IllegalStateException("No messages available");
+            throw new IllegalStateException(context.getString(R.string.no_messages_available));
         }
 
         File plain = new File(work, "conversations_plain");
