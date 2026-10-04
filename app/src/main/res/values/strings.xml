@@ -727,11 +727,19 @@ Unable to read package information: %2$s</string>
     <string name="unknown_number">Unknown number</string>
     <string name="call_log_row">%1$s • %2$d</string>
     <string name="call_logs_local_backups_count">%1$d local call-log backup(s)</string>
-</resources>
-
     <string name="folder_backup_result">Completed %1$d backup(s); %2$d folder(s) had no changes.</string>
     <string name="folder_backup_failed">Last backup error: %1$s</string>
     <string name="folder_deleted_artifacts">Deleted %1$d folder backup artifact(s).</string>
 
     <string name="no_changes">No changes detected since the last backup.</string>
     <string name="delete_folder_confirmation">Delete this folder setup? Existing backup artifacts are not automatically removed.</string>
+    <string name="folder_restore_strategy">Restore strategy</string>
+    <string name="folder_restore_strategy_missing">Restore missing files only</string>
+    <string name="folder_restore_strategy_missing_description">Only restore files that do not exist on your device. Do not modify existing files.</string>
+    <string name="folder_restore_strategy_overwrite">Overwrite changed files</string>
+    <string name="folder_restore_strategy_overwrite_description">Update existing files with backup versions. Only restores missing and changed files. Keeps new files on your device.</string>
+    <string name="folder_restore_strategy_full_restore">Full restore</string>
+    <string name="folder_restore_strategy_full_restore_description">Synchronize folder with backup. Restores missing and changed files, removes extra files. Skips unchanged files.</string>
+    <string name="folder_restore_success">Restored %1$d file(s), removed %2$d extra item(s).</string>
+    <string name="folder_restore_failed">Folder restore failed: %1$s</string>
+</resources>
