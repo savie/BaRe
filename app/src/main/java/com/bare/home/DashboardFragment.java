@@ -114,11 +114,68 @@ public final class DashboardFragment extends Fragment {
                 },
                 false);
 
+        renderCategoryShortcuts(view, compactStorage);
+
         // The Reference dashboard uses four fixed quick-action cards. The
         // separate Wallpapers/Wi-Fi category shortcuts remain owned by their
         // existing dashboard/navigation surfaces rather than being promoted
         // into these Reference cards.
         actions.setVisibility(View.GONE);
+    }
+
+    private void renderCategoryShortcuts(View root, boolean compact) {
+        android.widget.GridLayout grid = root.findViewById(R.id.summary_shortcuts_segment);
+        if (grid == null) return;
+        grid.removeAllViews();
+        addCategoryShortcut(grid, R.string.apps, R.drawable.ic_app, R.color.apps,
+                v -> openQuickAction(getString(R.string.apps)), compact);
+        boolean telephony = requireContext().getPackageManager().hasSystemFeature("android.hardware.telephony");
+        if (telephony) {
+            addCategoryShortcut(grid, R.string.messages, R.drawable.ic_message_full, R.color.messages,
+                    v -> openQuickAction(getString(R.string.messages)), compact);
+            addCategoryShortcut(grid, R.string.call_logs, R.drawable.ic_call_log, R.color.calls,
+                    v -> openQuickAction(getString(R.string.call_logs)), compact);
+        }
+        addCategoryShortcut(grid, R.string.folders, R.drawable.ic_folder_full, R.color.folders,
+                v -> openQuickAction(getString(R.string.folders)), compact);
+        boolean wallpapersSupported = false;
+        try {
+            WallpaperManager manager = WallpaperManager.getInstance(requireContext());
+            wallpapersSupported = manager != null && manager.isWallpaperSupported();
+        } catch (Exception ignored) {}
+        if (wallpapersSupported) {
+            addCategoryShortcut(grid, R.string.wallpapers, R.drawable.ic_photo_full, R.color.walls,
+                    v -> openQuickAction(getString(R.string.wallpapers)), compact);
+        }
+        addCategoryShortcut(grid, R.string.wifi, R.drawable.ic_wifi_full, R.color.wifi,
+                v -> openQuickAction(getString(R.string.wifi)), compact);
+    }
+
+    private void addCategoryShortcut(android.widget.GridLayout grid, int titleRes, int iconRes,
+            int colorRes, View.OnClickListener listener, boolean compact) {
+        com.google.android.material.button.MaterialButton button =
+                new com.google.android.material.button.MaterialButton(
+                        requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
+        int color = requireContext().getColor(colorRes);
+        button.setText(titleRes);
+        button.setTextColor(requireContext().getColor(android.R.color.secondary_text_light));
+        button.setIcon(requireContext().getDrawable(iconRes));
+        button.setIconTint(android.content.res.ColorStateList.valueOf(color));
+        button.setIconSize((int) (20 * getResources().getDisplayMetrics().density));
+        button.setStrokeWidth(1);
+        button.setStrokeColor(android.content.res.ColorStateList.valueOf(color));
+        button.setBackgroundTintList(android.content.res.ColorStateList.valueOf(
+                android.graphics.Color.argb(12, android.graphics.Color.red(color),
+                        android.graphics.Color.green(color), android.graphics.Color.blue(color))));
+        button.setMinHeight((int) ((compact ? 48 : 56) * getResources().getDisplayMetrics().density));
+        button.setAllCaps(false);
+        button.setOnClickListener(listener);
+        android.widget.GridLayout.LayoutParams params = new android.widget.GridLayout.LayoutParams();
+        params.width = 0;
+        params.height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
+        params.columnSpec = android.widget.GridLayout.spec(android.widget.GridLayout.UNDEFINED, 1f);
+        params.setMargins(4, 4, 4, 4);
+        grid.addView(button, params);
     }
 
     private static final class QuickActionSpec {
