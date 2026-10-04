@@ -1,6 +1,7 @@
 package com.bare.walls;
 
 import com.bare.account.local.AccountNamespace;
+import com.bare.home.repository.AnonymousIdentityStore;
 import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
 import com.bare.storage.StorageSelection;
@@ -52,7 +53,7 @@ public final class WallpaperLocalRepository {
         StorageSelection selection = new LocalStorageCoordinator(
                 context.getApplicationContext(), new AndroidStorageInventory(context)).resolveSelection();
         if (selection == null || selection.selected == null) return Collections.emptyList();
-        return list(selection.selected.rootPath, selection.selected.uid);
+        return list(selection.selected.rootPath, new AnonymousIdentityStore(context).getOrCreateUid());
     }
 
     public File localRoot(android.content.Context context) {
@@ -61,7 +62,7 @@ public final class WallpaperLocalRepository {
         if (selection == null || selection.selected == null) {
             throw new IllegalStateException("No selected local storage");
         }
-        return localRoot(selection.selected.rootPath, selection.selected.uid);
+        return localRoot(selection.selected.rootPath, new AnonymousIdentityStore(context).getOrCreateUid());
     }
 
     public File appliedRoot(android.content.Context context) {
