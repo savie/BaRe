@@ -1,5 +1,6 @@
 package com.bare.appslist.restore;
 
+import com.swiftapps.sba.SbaArchiveNative;
 import com.swiftapps.sba.SbaLibaegisCryptoNative;
 import com.swiftapps.sba.SbaNativeCrypto;
 import com.swiftapps.sba.SbaZstdNative;
@@ -43,6 +44,38 @@ public final class SbaNativeBridge {
                                  int memoryKiB, int parallelism, int outputBytes) {
         return SbaNativeCrypto.a.deriveArgon2id(
                 password, salt, iterations, memoryKiB, parallelism, outputBytes);
+    }
+
+    public long[] createArchive(
+            int version,
+            String path,
+            byte[] archiveMetadata,
+            byte[][] entryMetadata,
+            String[] entryNames,
+            int[] entryFlags,
+            String[][] xattrNames,
+            String[][] linkNames,
+            int compressionMethod,
+            int compressionLevel,
+            int encryptionMethod,
+            int kdfMethod,
+            int iterations,
+            int memoryKiB,
+            int parallelism,
+            int chunkSize,
+            int keyCheckLength,
+            int macLength,
+            byte[] key,
+            byte[] keyCheck,
+            byte[] salt,
+            byte[] nonceSeed,
+            SbaNativeProgressListener listener) {
+        if (!load()) throw new IllegalStateException("Reference SBA native backend is unavailable");
+        return SbaArchiveNative.a.createArchive(
+                version, path, archiveMetadata, entryMetadata, entryNames, entryFlags,
+                xattrNames, linkNames, compressionMethod, compressionLevel,
+                encryptionMethod, kdfMethod, iterations, memoryKiB, parallelism,
+                chunkSize, keyCheckLength, macLength, key, keyCheck, salt, nonceSeed, listener);
     }
 
     public boolean isAegisAvailable() {
