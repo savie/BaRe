@@ -326,7 +326,7 @@ public final class AppLocalBackupEngine {
                     archive, password, root, null);
             return root;
         } finally {
-            Arrays.fill(password.toCharArray(), '\0');
+            Arrays.fill(passwordChars, '\0');
         }
     }
 
