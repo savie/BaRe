@@ -159,7 +159,7 @@ public final class WifiActivity extends AppCompatActivity {
                     new MaterialAlertDialogBuilder(WifiActivity.this)
                             .setTitle(item.getSsid())
                             .setMessage(item.isHiddenSsid()
-                                    ? getString(R.string.wifi_networks_backup) + " • hidden"
+                                    ? getString(R.string.wifi_hidden_network, item.getSsid())
                                     : getString(R.string.wifi_networks_backup))
                             .setPositiveButton(R.string.close, null)
                             .show());
