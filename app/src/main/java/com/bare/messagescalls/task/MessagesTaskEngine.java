@@ -35,7 +35,10 @@ public final class MessagesTaskEngine {
     }
 
     public Decision plan(int messages, boolean permission, boolean provider) {
-        return buildPlan(Operation.BACKUP, 0, messages, true, -1, false).decision();
+        if (!permission) return Decision.PERMISSION_REQUIRED;
+        if (messages <= 0) return Decision.NO_DATA;
+        if (!provider) return Decision.PROVIDER_UNAVAILABLE;
+        return Decision.READY;
     }
 
     public TaskPlan buildPlan(
