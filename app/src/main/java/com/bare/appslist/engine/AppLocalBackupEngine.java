@@ -319,15 +319,26 @@ public final class AppLocalBackupEngine {
             File archive, String name, BackupRecord record, boolean privileged) throws Exception {
         File root = new File(context.getCacheDir(), "app-restore-" + name + "-" + System.nanoTime());
         if (!root.mkdirs()) throw new IllegalStateException("Cannot create restore staging directory");
-        char[] passwordChars = CallsBackupRepository.referencePassword(context);
-        String password = new String(passwordChars);
-        try {
-            com.bare.messagescalls.restore.ReferenceSbaNativeRestoreOrchestrator.extractToDirectory(
-                    archive, password, root, null);
-            return root;
-        } finally {
-            Arrays.fill(passwordChars, '\0');
+        Exception last = null;
+        for (char[] passwordChars : CallsBackupRepository.referencePasswordCandidates(context)) {
+            try {
+                String password = new String(passwordChars);
+                try {
+                    com.bare.messagescalls.restore.ReferenceSbaNativeRestoreOrchestrator.extractToDirectory(
+                            archive, password, root, null);
+                    return root;
+                } finally {
+                    Arrays.fill(passwordChars, '\0');
+                }
+            } catch (Exception e) {
+                last = e;
+                deleteTree(root);
+                if (!root.mkdirs()) throw new IllegalStateException(
+                        "Cannot recreate restore staging directory");
+            }
         }
+        deleteTree(root);
+        throw last == null ? new IllegalStateException("No SBA password candidates") : last;
     }
 
     private void createArchive(
