@@ -1345,3 +1345,14 @@ SBA native infrastructure is now materially implemented: exact Reference `libsba
 - Calls dashboard, backup inventory and backup/restore selection surfaces now route to concrete app-side call-log owners.
 - Legacy v2 encrypted JSON remains a separate secure-local y32/NativeGCMCipher boundary; current implementation intentionally targets the shipped v3 SBA path and does not claim a substitute legacy keystore implementation.
 - No build/install/runtime/device/provider/native execution was performed; Reference ZIP remains unchanged.
+
+
+### P6.3 Legacy Call Logs crypto closure — 2026-10-04
+
+- Reference `w14 -> y32 -> x32 -> NativeGCMCipher` was verified directly in the decompile ZIP. `w14.a()` decrypts legacy encrypted JSON, while `w14.f()` writes it; `d01.i()` uses this path for non-v3 call backups.
+- Exact legacy framing recovered from `x32`: version byte `1`, cipher ID `2`, 12-byte IV, AES-GCM payload/tag; AAD is `[1,2] || UTF-8("SwiftBackup_Entity")`.
+- Exact key boundary recovered from `f45`: current authenticated UID is normalized to 32 UTF-8 bytes by the Reference truncate/concatenate rule. No hash is substituted.
+- `NativeGCMCipher` JNI symbols were verified in the Reference `libconceal.so` for all four ABIs. BΛR☰ preserves the exact Java JNI surface, while the active legacy restore path uses platform AES/GCM/NoPadding with the same key/IV/AAD/tag contract; cryptographic equivalence is intentional because the Reference native layer is AES-GCM.
+- `CallsRestoreRepository` now falls back from SBA parsing to the recovered legacy encrypted-file format, so v2/legacy call backups can be decoded into the same `sz0.items` wrapper used by the existing restore pipeline.
+- Legacy v2/v1 filename parsing remains supported through the call-backup inventory boundary.
+- No build/install/runtime/device/native execution was performed. Reference ZIP remains unchanged.
