@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bare.R;
 import com.bare.appslist.data.AppInventoryItem;
 import com.bare.appslist.data.AppInventoryLoader;
+import com.bare.appslist.engine.AppLocalBackupEngine;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -75,12 +76,103 @@ public final class AppsBatchActivity extends AppCompatActivity {
                         getString(R.string.apps_batch_backup),
                         getString(R.string.apps_batch_restore),
                         getString(R.string.apps_batch_boundary)
-                }, (dialog, which) -> new MaterialAlertDialogBuilder(this)
-                        .setTitle(which == 0 ? R.string.apps_batch_backup : (which == 1 ? R.string.apps_batch_restore : R.string.apps_batch_actions))
-                        .setMessage(which == 2 ? R.string.p3_batch_selection_boundary : R.string.apps_engine_boundary)
-                        .setPositiveButton(R.string.close, null)
-                        .show())
+                }, (dialog, which) -> {
+                    if (which == 0) executeBatchBackup();
+                    else if (which == 1) executeBatchRestore();
+                    else showSelectionBoundary();
+                })
                 .show();
+    }
+
+    private List<AppInventoryItem> selectedInventory() {
+        java.util.LinkedHashSet<String> ids = new java.util.LinkedHashSet<>(selection.snapshot());
+        List<AppInventoryItem> result = new ArrayList<>();
+        for (AppInventoryItem item : inventory) {
+            if (ids.contains(item.packageName)) result.add(item);
+        }
+        return result;
+    }
+
+    private void executeBatchBackup() {
+        List<AppInventoryItem> selected = selectedInventory();
+        if (selected.isEmpty()) {
+            selected = new ArrayList<>(inventory);
+        }
+        final List<AppInventoryItem> work = selected;
+        new Thread(() -> {
+            int ok = 0;
+            long bytes = 0L;
+            String error = null;
+            java.util.LinkedHashSet<AppLocalBackupEngine.Part> parts =
+                    new java.util.LinkedHashSet<>(Arrays.asList(
+                            AppLocalBackupEngine.Part.APK,
+                            AppLocalBackupEngine.Part.SPLITS,
+                            AppLocalBackupEngine.Part.SHARED_LIBS,
+                            AppLocalBackupEngine.Part.DATA,
+                            AppLocalBackupEngine.Part.EXTERNAL_DATA,
+                            AppLocalBackupEngine.Part.MEDIA,
+                            AppLocalBackupEngine.Part.EXPANSION));
+            AppLocalBackupEngine engine = new AppLocalBackupEngine(this);
+            for (AppInventoryItem item : work) {
+                try {
+                    AppLocalBackupEngine.BackupResult result = engine.backup(item, parts);
+                    ok++;
+                    bytes += result.size;
+                } catch (Exception e) {
+                    error = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
+                }
+            }
+            final int count = ok;
+            final long total = bytes;
+            final String failure = error;
+            runOnUiThread(() -> new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.apps_batch_backup)
+                    .setMessage(failure == null
+                            ? getString(R.string.app_backup_success, count, total)
+                            : getString(R.string.app_backup_failed, failure))
+                    .setPositiveButton(R.string.close, null)
+                    .show());
+        }, "apps-batch-backup").start();
+    }
+
+    private void executeBatchRestore() {
+        List<AppInventoryItem> selected = selectedInventory();
+        if (selected.isEmpty()) selected = new ArrayList<>(inventory);
+        final List<AppInventoryItem> work = selected;
+        new Thread(() -> {
+            int ok = 0;
+            String error = null;
+            java.util.LinkedHashSet<AppLocalBackupEngine.Part> parts =
+                    new java.util.LinkedHashSet<>(Arrays.asList(
+                            AppLocalBackupEngine.Part.APK,
+                            AppLocalBackupEngine.Part.SPLITS,
+                            AppLocalBackupEngine.Part.SHARED_LIBS,
+                            AppLocalBackupEngine.Part.DATA,
+                            AppLocalBackupEngine.Part.EXTERNAL_DATA,
+                            AppLocalBackupEngine.Part.MEDIA,
+                            AppLocalBackupEngine.Part.EXPANSION));
+            AppLocalBackupEngine engine = new AppLocalBackupEngine(this);
+            for (AppInventoryItem item : work) {
+                try {
+                    List<AppLocalBackupEngine.BackupRecord> backups =
+                            engine.listBackups(item.packageName);
+                    if (backups.isEmpty()) continue;
+                    engine.restore(item.packageName, backups.get(0).id, parts);
+                    ok++;
+                } catch (Exception e) {
+                    error = e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage();
+                }
+            }
+            final int count = ok;
+            final String failure = error;
+            runOnUiThread(() -> new MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.apps_batch_restore)
+                    .setMessage(failure == null
+                            ? getString(R.string.app_restore_success, count)
+                            : getString(R.string.app_restore_failed, failure))
+                    .setPositiveButton(R.string.close, null)
+                    .show());
+        }, "apps-batch-restore").start();
     }
 
     @Override
