@@ -52,6 +52,7 @@ public final class IntroActivity extends Activity {
     private SharedPreferences prefs;
     private LocalState localState;
     private AccountMigrationRepository accountMigrationRepository;
+    private FirstRunCloudRestoreCoordinator firstRunCloudRestoreCoordinator;
     private PermissionAccessService permissionAccessService;
     private RootPermissionCoordinator rootPermissionCoordinator;
 
@@ -78,12 +79,23 @@ public final class IntroActivity extends Activity {
 
         localState = new LocalState(this);
         accountMigrationRepository = new LocalAccountMigrationRepository(localState);
+        firstRunCloudRestoreCoordinator = new FirstRunCloudRestoreCoordinator(localState);
         permissionAccessService = new PermissionAccessService(this);
         rootPermissionCoordinator = new RootPermissionCoordinator(this);
         prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
         if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
-            openHome();
-            return;
+            boolean hasLocalAnonymousIdentity =
+                    new AnonymousIdentityStore(this).getStoredUid() != null
+                            && prefs.getBoolean(KEY_SIGNED_IN, false);
+            if (hasLocalAnonymousIdentity) {
+                openHome();
+                return;
+            }
+
+            // Reference re-enters onboarding when persisted first-start state
+            // no longer has a usable local identity.
+            localState.remove(LocalState.KEY_FIRST_START);
+            firstRunCloudRestoreCoordinator.reset();
         }
 
         setContentView(R.layout.intro_activity);
@@ -146,6 +158,11 @@ public final class IntroActivity extends Activity {
         if (anonymous) {
             new AnonymousIdentityStore(this).getOrCreateUid();
             prefs.edit().putBoolean(KEY_SIGNED_IN, true).apply();
+
+            // Reference d.l(): anonymous identity bypasses backend/cloud-settings
+            // restore and returns terminal success. C10 owns the completion key.
+            firstRunCloudRestoreCoordinator.recordResult(FirstRunCloudRestoreResult.SUCCESS);
+
             showPermissionsStage();
             return;
         }
