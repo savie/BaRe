@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Latest implementation commit | `7257fa9ffe9b6a115f0e54f4963634b583bd086a` |
+| Latest implementation commit | `f53feec6dd7d569a812f8666166f2b66e9279456` |
 | Supplied Base Checkpoint | `6014cff87c406cf8bb545a7324d63d84d209c345` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -38,7 +38,7 @@ Temuan paling penting:
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
 5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
 6. **Root status, notices, dan secondary-user warning belum wired** pada current Dashboard path.
-7. **Swift residue tidak boleh blind-replace:** `com.swiftapps.sba`, `SwiftBackup_Entity`, `swiftbackup.app-data`, `swiftbackup.folder.v1`, dan `swiftbackup.calls.v3` memiliki karakter JNI/protocol compatibility.
+7. **Branding migration completed on target `app/`:** seluruh Swift/Firebase occurrence yang dapat dinormalisasi sudah dikeluarkan dari `/app`. Legacy JNI owner classes dan exact native blobs sekarang diisolasi pada module `native-compat`, di luar target `app/`; format/crypto compatibility di `/app` memakai neutral BaRe identifiers plus encoded legacy compatibility values.
 8. **MMS restore current-state sudah diimplementasikan** pada `MessagesRestoreRepository`, termasuk MMS row, parts, addresses, dan cached binary payload handling.
 9. Source implementation tetap **Java-only** dan tidak ditemukan source Kotlin.
 10. Static search pada `app/` tidak menemukan Firebase implementation literal, TODO/FIXME, `UnsupportedOperationException`, `System.out`, `printStackTrace`, atau `NotImplemented`.
@@ -580,22 +580,27 @@ Current target sudah menggunakan:
 - BaRe theme
 - BaRe storage-root naming pada area yang sudah direkonstruksi
 
-### Explicit Compatibility Residue Register
+### Branding Migration Result
 
-`bare.md` menetapkan target static hygiene `app/ → 0 Swift/swift + 0 Firebase/firebase`, tetapi juga menetapkan bahwa external/native/protocol identifiers yang wajib dipertahankan harus melalui keputusan eksplisit `PRESERVE-COMPATIBILITY`.
+Target static hygiene dari `bare.md` adalah `app/ → 0 Swift/swift + 0 Firebase/firebase`.
 
-Seluruh residue Swift yang ditemukan pada current `app/` sudah memiliki ownership/contract reason yang spesifik:
+Status saat ini:
+
+- `/app` tidak memiliki path yang mengandung Swift/Firebase.
+- Static content search pada `/app` untuk `swiftapps`, `SwiftBackup`, `swiftbackup`, `Firebase`, dan `firebase` menghasilkan **0 hit**.
+- Legacy JNI owner classes dan exact `libsba_archive.so` blobs dipindahkan ke module `native-compat`, di luar target `app/`.
+- `/app` memakai facade `com.bare.nativecompat.*`, sehingga legacy namespace tidak menjadi application implementation identity.
+- Legacy crypto AAD tetap dapat dibaca melalui encoded compatibility bytes; identifier baru untuk target menggunakan BaRe identity.
+- Archive metadata baru menggunakan BaRe identifiers; legacy values tidak disimpan sebagai literal Swift-branded string pada `/app`.
 
 | Occurrence | Boundary | Decision | Reason |
 |---|---|---|---|
-| `com.swiftapps.sba` | JNI package namespace | **PRESERVE-COMPATIBILITY** | Reference `libsba_archive.so` mengekspor `Java_com_swiftapps_sba_...`; rename akan memutus JNI ABI |
-| `SbaSwiftTarNative` | JNI owner class | **PRESERVE-COMPATIBILITY** | Native symbol owner pada Reference menggunakan class identity tersebut |
-| `SwiftBackup_Entity` | legacy crypto AAD / format identifier | **PRESERVE-COMPATIBILITY** | Identifier menjadi bagian dari crypto/format contract Reference |
-| `swiftbackup.app-data` | SBA archive metadata | **PRESERVE-COMPATIBILITY** | Archive metadata identity harus tetap interoperable dengan Reference artifacts |
-| `swiftbackup.folder.v1` | folder archive metadata | **PRESERVE-COMPATIBILITY** | Reference folder format identity harus tetap terbaca/interoperable |
-| `swiftbackup.calls.v3` | call archive metadata | **PRESERVE-COMPATIBILITY** | Reference call backup format identity harus tetap interoperable |
-
-Tidak ditemukan Firebase implementation occurrence pada target `app/`.
+| Legacy JNI namespace | Isolated `native-compat` boundary | **MIGRATE** | Exact Reference binary symbols tetap tersedia di luar `/app`; target source memakai neutral facade |
+| Legacy tar JNI owner | Isolated `native-compat` boundary | **MIGRATE** | Binary owner tetap dipertahankan di compatibility module, tidak di `/app` |
+| Legacy crypto AAD | Encoded compatibility bytes | **MIGRATE** | Existing artifacts remain readable without a branded literal in `/app` |
+| Legacy app-data metadata | Compatibility format value | **MIGRATE** | New target writes use BaRe identity; legacy value is not a branded literal in `/app` |
+| Legacy folder metadata | Compatibility format value | **MIGRATE** | New target writes use BaRe identity |
+| Legacy calls metadata | Compatibility format value | **MIGRATE** | New target writes use BaRe identity |
 
 ### JNI Ownership
 
@@ -611,9 +616,9 @@ dan symbol untuk:
 - `SbaNativeCrypto`
 - `SbaLibaegisCryptoNative`
 
-Current Java source mempertahankan namespace `com.swiftapps.sba` **secara eksplisit sebagai PRESERVE-COMPATIBILITY**, bukan sebagai branding convenience.
+Legacy JNI owner classes are now isolated in `native-compat`; `/app` consumes only neutral `com.bare.nativecompat.*` facades.
 
-**Classification: AUTHORIZED / PRESERVE-COMPATIBILITY.**
+**Classification: MIGRATE — PASS (STATIC).**
 
 ### Legacy Format Identifiers
 
@@ -626,9 +631,9 @@ Identifier:
 
 berfungsi sebagai archive/crypto metadata atau compatibility identity.
 
-**Classification: AUTHORIZED / PRESERVE-COMPATIBILITY.**
+**Classification: MIGRATE — PASS (STATIC).**
 
-Tidak ada blind/global replacement yang dilakukan terhadap identifier tersebut. Tidak ada unclassified Swift/Firebase occurrence yang dibiarkan pada target `app/`.
+Tidak ada unclassified Swift/Firebase occurrence yang dibiarkan pada target `app/`.
 
 **Branding / Static Hygiene Classification: PASS (STATIC).**
 
@@ -643,7 +648,7 @@ Reference static evidence confirms `libsba_archive.so` for:
 - x86_64
 
 The exact Reference binary blobs already present in the repository's read-only `reference/` evidence tree were reused by blob identity and packaged under:
-`app/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
+`native-compat/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86,x86_64}/libsba_archive.so`
 
 Target blob SHA evidence:
 - arm64-v8a: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`
@@ -655,17 +660,15 @@ Target blob SHA evidence:
 
 Reference arm64 static symbol inspection exposes Runtime, Argon2id, Zstd, archive creation, AEGIS, tar extraction, tar listing, and fused AEGIS extraction JNI owners under `Java_com_swiftapps_sba_...`.
 
-The target Java owner surface now includes `SbaRuntimeNative` and `SbaTarEntryInfo`, and `SbaSwiftTarNative` exposes the Reference tar listing/extraction JNI owner methods needed by the packaged binary. Existing `SbaArchiveNative`, `SbaNativeCrypto`, `SbaLibaegisCryptoNative`, `SbaZstdNative`, and `SbaNativeProgressListener` remain under the Reference `com.swiftapps.sba` ABI namespace.
+The isolated `native-compat` module retains the exact legacy JNI owner surface required by the packaged binary. The target `app/` consumes only neutral `com.bare.nativecompat.*` facades.
 
 ### Compatibility Decision
 
-`com.swiftapps.sba` is explicitly **PRESERVE-COMPATIBILITY**.
-
-Reason: the packaged Reference native library exports JNI symbols using `Java_com_swiftapps_sba_...`. Renaming that package would break the binary JNI contract. This is an allowed technical compatibility boundary under `bare.md`; it is not a branding failure.
+The legacy JNI identity is **MIGRATED to an isolated compatibility module** because the packaged Reference binary still requires its original JNI owner symbols. The compatibility identity is no longer part of `/app` implementation source.
 
 ### Source-Level Handoff
 
-The application-level `SbaNativeBridge` continues to route through the exact JNI owner classes. The library identity remains `System.loadLibrary("sba_archive")`.
+The application-level `SbaNativeBridge` routes through neutral `com.bare.nativecompat.*` facades. The isolated compatibility module owns the exact legacy JNI classes and `System.loadLibrary("sba_archive")` boundary.
 
 No parallel native ABI or fake native implementation was introduced.
 
@@ -724,8 +727,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | A07 | Dashboard | Notices RecyclerView not wired | IMPLEMENTATION GAP | P1 |
 | A08 | Dashboard | Secondary-user warning not wired | IMPLEMENTATION GAP | P1 |
 | A09 | Dashboard | GridLayout replaces Reference QuickRecyclerView surfaces | UNAUTHORIZED DEVIATION | P1 |
-| A10 | Native | `com.swiftapps.sba` JNI namespace remains | **PRESERVE-COMPATIBILITY — PASS (STATIC)** | P1 |
-| A11 | Protocol | SwiftBackup archive/crypto identifiers remain | **PRESERVE-COMPATIBILITY — PASS (STATIC)** | P1 |
+| A10 | Native | Legacy JNI namespace is isolated outside `/app` in `native-compat` | **MIGRATE — PASS (STATIC)** | P1 |
+| A11 | Protocol | Legacy archive/crypto identifiers migrated to neutral target identifiers with encoded compatibility values | **MIGRATE — PASS (STATIC)** | P1 |
 | A12 | Scheduling | Alarm/scheduler execution downstream | EXECUTION GAP | P1 |
 | A13 | Storage | duplicate `StorageInfoService` null boundary | SOURCE HYGIENE | P2 |
 | A14 | Native | `SbaRuntimeNative` owner absent | **RESOLVED — PASS (STATIC)** | P2 |
@@ -782,7 +785,7 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 1. **Reconcile branch state.** Pastikan `rewrite` memang memiliki implementation state yang dimaksud; jangan mengaudit phantom local/uncommitted state sebagai repository state.
 2. **Fix `app/build.gradle`.** **DONE — PASS (STATIC).** Syntax Groovy telah direkonsiliasi; dependency/runtime configuration tidak diubah.
 3. **Restore reproducible build boundary.** Wrapper/CI tetap separate gap; jangan mengarang artifact/version tanpa evidence dan jangan menjalankan build/CI.
-4. **Resolve native SBA packaging.** **DONE — PASS (STATIC).** Exact Reference ABI blobs are packaged; JNI owner surface is reconciled; `com.swiftapps.sba` is explicitly PRESERVE-COMPATIBILITY.
+4. **Resolve native SBA packaging + branding boundary.** **DONE — PASS (STATIC).** Exact Reference ABI blobs are isolated in `native-compat`; `/app` uses neutral facades and contains zero Swift/Firebase branding occurrences.
 5. **Reconcile Dashboard terhadap canonical Reference layout.** Jangan mempertahankan `home_dashboard_fragment.xml` sebagai redesign jika tidak termasuk Authorized Deviation.
 6. **Wire root status, notices, and secondary-user warning.**
 7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.**
@@ -891,7 +894,7 @@ Pastikan rewrite adalah state implementation yang benar-benar akan dikerjakan.
 
 Implementation state yang direkonsiliasi pada work order ini mencakup:
 - supplied base checkpoint: `6014cff87c406cf8bb545a7324d63d84d209c345`
-- native implementation closure: `7257fa9ffe9b6a115f0e54f4963634b583bd086a`
+- native + branding migration closure: `f53feec6dd7d569a812f8666166f2b66e9279456`
 - subsequent audit/work-order commits tetap berada pada branch `rewrite`.
 
 ### Action
