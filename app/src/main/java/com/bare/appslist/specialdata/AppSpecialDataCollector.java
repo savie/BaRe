@@ -80,7 +80,13 @@ public final class AppSpecialDataCollector {
         String accessibility = captureComponent(
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES, packageName);
         String ssaid = captureSsaid(packageName);
-        return new Capture(permissions, ssaid, notification, accessibility, null);
+        String notificationPolicy = null;
+        try {
+            notificationPolicy = NotificationPolicyProxy.backup(
+                    UserHandle.myUserId(), packageName);
+        } catch (Exception ignored) {
+        }
+        return new Capture(permissions, ssaid, notification, accessibility, notificationPolicy);
     }
 
     private String capturePermissionStates(PackageInfo info, String packageName) {
