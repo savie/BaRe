@@ -15,6 +15,10 @@ import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
 import com.bare.storage.StorageSelection;
 import com.bare.settings.MultipleBackupStrategy;
+import com.bare.settings.SettingsRepository;
+import com.bare.settings.model.AppSettings;
+import com.bare.core.state.LocalState;
+import com.bare.settings.appbackuplimits.AppBackupLimitItem;
 import com.bare.tasks.TaskService;
 import com.bare.appslist.planning.AppBackupStrategyPlanner;
 
@@ -84,11 +88,14 @@ public final class AppLocalBackupEngine {
 
         BackupRecord latest = listBackups(item.packageName).isEmpty()
                 ? null : listBackups(item.packageName).get(0);
-        MultipleBackupStrategy strategy = MultipleBackupStrategy.fromPreferences(
-                context.getSharedPreferences("app_backup_preferences", Context.MODE_PRIVATE));
+        AppSettings settings = new SettingsRepository(new LocalState(context)).read();
+        MultipleBackupStrategy strategy = settings.getAppsMultipleBackupStrategy() == null
+                ? MultipleBackupStrategy.singleBackup()
+                : settings.getAppsMultipleBackupStrategy();
         java.util.LinkedHashSet<Part> parts = requested == null || requested.isEmpty()
                 ? new java.util.LinkedHashSet<>(Collections.singleton(Part.APK))
                 : new java.util.LinkedHashSet<>(requested);
+        enforceLocalLimits(info, parts, settings.getAppBackupLimits());
         ChangeState changes = compareCurrentState(info, latest, parts);
         AppBackupStrategyPlanner.Plan plan = AppBackupStrategyPlanner.plan(
                 strategy, changes.identicalApk, changes.anyChanged, changes.apkChanged,
@@ -256,6 +263,24 @@ public final class AppLocalBackupEngine {
         for (String suffix : suffixes) {
             File file = new File(record.directory, record.id + suffix);
             if (file.isFile()) file.delete();
+        }
+    }
+
+    private void enforceLocalLimits(
+            PackageInfo info, java.util.Set<Part> parts, java.util.List<AppBackupLimitItem> limits) {
+        if (limits == null || limits.isEmpty()) return;
+        java.util.Iterator<Part> iterator = parts.iterator();
+        while (iterator.hasNext()) {
+            Part part = iterator.next();
+            String normalized = part == Part.EXTERNAL_DATA ? "EXTDATA" : part.name();
+            for (AppBackupLimitItem limit : limits) {
+                if (limit == null || !limit.getPart().equalsIgnoreCase(normalized)) continue;
+                long max = limit.getLocalLimitBytes();
+                if (max > 0 && sourceSize(info, part) > max) {
+                    iterator.remove();
+                }
+                break;
+            }
         }
     }
 
@@ -575,9 +600,15 @@ public final class AppLocalBackupEngine {
         if (!root.mkdirs()) throw new IllegalStateException("Cannot create app data stage");
         temporary.add(workspace.directory);
 
+        AppSettings settings = new SettingsRepository(new LocalState(context)).read();
         File data = new File(root, "data");
         privileged.copyTree(dataDirectory(info.packageName), data.getAbsolutePath(), false);
-        if (data.isDirectory()) sources.add(data);
+        if (data.isDirectory()) {
+            if (!Boolean.TRUE.equals(settings.getIsAppCacheBackupReq())) {
+                deleteTree(new File(data, "cache"));
+            }
+            sources.add(data);
+        }
 
         if (android.os.Build.VERSION.SDK_INT >= 24) {
             File de = new File(root, "data_de");
