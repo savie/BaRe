@@ -9,16 +9,16 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Local-only backup discovery rooted in the canonical Reference account namespace.
+ * Local-only backup discovery rooted in the canonical BΛR☰ account namespace.
  *
- * Reference layout:
- *   SwiftBackup/accounts/{derived-account-key}/backups/apps/local/{package}/{backup-id}
+ * Layout:
+ *   BΛR☰/accounts/{derived-account-key}/backups/apps/local/{package}/{backup-id}
  *
  * This class discovers filesystem identity only. It does not parse backup
  * metadata, mutate files, or access any cloud/backend service.
  */
 public final class LocalBackupDiscoveryRepository {
-    public static final String ROOT_DIR = "SwiftBackup";
+    public static final String ROOT_DIR = "BΛR☰";
     public static final String ACCOUNTS_DIR = "accounts";
     public static final String BACKUPS_DIR = "backups";
     public static final String APPS_DIR = "apps";
