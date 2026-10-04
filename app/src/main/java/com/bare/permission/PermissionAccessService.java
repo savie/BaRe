@@ -134,10 +134,10 @@ public final class PermissionAccessService {
          * CHECKING_ROOT/AWAITING_SHIZUKU/GRANTING_PERMISSIONS states.
          * Detection/grant callbacks stay outside this P4 contract adapter.
          */
-        return new PermissionState(
-                PermissionCapability.ROOT_SHIZUKU,
-                PermissionCurrentState.UNKNOWN,
-                PermissionResult.NOT_REQUESTED,
-                false);
+        boolean ready = context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE).getBoolean(RootPermissionCoordinator.PREF_ROOT_READY, false);
+        return new PermissionState(PermissionCapability.ROOT_SHIZUKU,
+                ready ? PermissionCurrentState.GRANTED : PermissionCurrentState.UNKNOWN,
+                ready ? PermissionResult.GRANTED : PermissionResult.NOT_REQUESTED,
+                !ready);
     }
 }
