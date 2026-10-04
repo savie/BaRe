@@ -2,7 +2,6 @@ package com.bare.walls;
 
 import android.app.WallpaperManager;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.view.View;
 import java.io.InputStream;
 import android.net.Uri;
@@ -90,7 +89,7 @@ public final class WallApplyActivity extends AppCompatActivity {
         try (InputStream in = getContentResolver().openInputStream(wallUri)) {
             if (in == null) throw new IllegalStateException("Wallpaper stream unavailable");
             if (android.os.Build.VERSION.SDK_INT >= 24) {
-                manager.setStream(in, new Rect(0, 0, 0, 0), true, which);
+                manager.setStream(in, null, true, which);
             } else {
                 manager.setStream(in);
             }
