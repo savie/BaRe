@@ -81,7 +81,7 @@ public final class SystemWallpaperRepository {
         if (bitmap == null) return false;
 
         try (OutputStream out = new FileOutputStream(destination)) {
-            if (!bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
+            if (!bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)) {
                 throw new IllegalStateException("Unable to materialize built-in wallpaper");
             }
         }
