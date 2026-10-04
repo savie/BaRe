@@ -1636,3 +1636,11 @@ P5.5 R-A through R-F implementation is now under the P5.6 post-implementation re
 - BΛR☰ now has `ReferenceLegacyCallLogCrypto` for Reference-equivalent AES-GCM encryption/decryption and `CallsRestoreRepository` falls back to this format after SBA parsing fails, covering the pre-v3/v2 call-log archive family.
 - Exact `NativeGCMCipher` Java JNI surface is preserved separately; Reference `libconceal.so` exports the expected JNI symbols in all four Reference ABIs. Native binary packaging is not claimed here because no binary write was performed through the repository connector.
 - No build/install/runtime/device/native execution was performed. Reference ZIP remains unchanged.
+
+
+### P6.3 Wallpapers — 2026-10-04
+- Reference `tv7` capture boundary recovered: `WallpaperManager.getWallpaperFile` for home/lock, home built-in fallback, lock→home fallback, descriptor copy with size-match reuse.
+- Reference storage boundary recovered from `ry5`, `rv7`, `c05`, `up8`: `walls/applied/{home_wall.wal,lock_wall.wal}` plus account-scoped `walls/local/*.wal` inventory.
+- BΛR☰ implementation now has concrete system capture, local artifact creation, selected-storage inventory, deletion, dashboard backup, and Home/Lock/Both wallpaper application.
+- Reference cloud transfer metadata/dedup contract is documented but no provider adapter is fabricated; cloud execution remains provider-bound.
+- No build/install/runtime/device/provider/native execution was performed. Reference ZIP remains unchanged.
