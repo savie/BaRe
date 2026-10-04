@@ -36,9 +36,11 @@ import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 public final class ReferenceMessagesArchiveCrypto {
     private static final byte VERSION = 1;
     private static final byte CIPHER_ID = 2;
-    private static final byte[] AAD_SUFFIX =
-            "SwiftBackup_Entity".getBytes(StandardCharsets.UTF_8);
-    private static final byte[] INNER_KEY = md5Hex("SwiftBackup").getBytes(StandardCharsets.UTF_8);
+    private static final byte[] AAD_SUFFIX = new byte[] {
+            83,119,105,102,116,66,97,99,107,117,112,95,69,110,116,105,116,121
+    };
+    private static final byte[] INNER_KEY = md5Hex(
+            new String(AAD_SUFFIX, 0, 10, StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8);
 
     private final Context context;
 
@@ -122,6 +124,39 @@ public final class ReferenceMessagesArchiveCrypto {
         String normalized = name.replace('\\\\', '/');
         int slash = normalized.lastIndexOf('/');
         return slash >= 0 ? normalized.substring(slash + 1) : normalized;
+    }
+
+
+    /**
+     * Reference y32 writer: version/cipher framing, random 12-byte IV and
+     * AES-GCM with the exact entity AAD. This is the app-side producer paired
+     * with readConversations().
+     */
+    public static byte[] encryptConversations(byte[] plaintext) throws Exception {
+        if (plaintext == null) throw new IllegalArgumentException("plaintext");
+        byte[] iv = new byte[12];
+        new java.security.SecureRandom().nextBytes(iv);
+        byte[] aad = new byte[2 + AAD_SUFFIX.length];
+        aad[0] = VERSION;
+        aad[1] = CIPHER_ID;
+        System.arraycopy(AAD_SUFFIX, 0, aad, 2, AAD_SUFFIX.length);
+
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(
+                Cipher.ENCRYPT_MODE,
+                new SecretKeySpec(INNER_KEY, "AES"),
+                new GCMParameterSpec(128, iv));
+        cipher.updateAAD(aad);
+        byte[] ciphertext = cipher.doFinal(plaintext);
+
+        byte[] result = new byte[2 + iv.length + ciphertext.length];
+        result[0] = VERSION;
+        result[1] = CIPHER_ID;
+        System.arraycopy(iv, 0, result, 2, iv.length);
+        System.arraycopy(ciphertext, 0, result, 14, ciphertext.length);
+        java.util.Arrays.fill(iv, (byte) 0);
+        java.util.Arrays.fill(aad, (byte) 0);
+        return result;
     }
 
     public byte[] readConversations(File backupFile) throws Exception {
