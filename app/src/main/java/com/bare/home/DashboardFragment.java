@@ -10,8 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.text.format.Formatter;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
