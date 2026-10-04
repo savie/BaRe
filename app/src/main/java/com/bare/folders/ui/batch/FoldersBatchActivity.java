@@ -127,10 +127,79 @@ public final class FoldersBatchActivity extends AppCompatActivity {
                     .setPositiveButton(R.string.delete, (d, w) -> deleteSelectedBackups()).show();
             return;
         }
-        int message = "Restore".equals(actionId) ? R.string.p3_folder_restore_boundary
-                : R.string.p3_folder_copy_boundary;
+        if ("Restore".equals(actionId)) {
+            chooseRestoreStrategy();
+            return;
+        }
         new MaterialAlertDialogBuilder(this).setTitle(actionLabel(actionId))
-                .setMessage(message).setPositiveButton(R.string.close, null).show();
+                .setMessage(R.string.p3_folder_copy_boundary)
+                .setPositiveButton(R.string.close, null).show();
+    }
+
+    private void chooseRestoreStrategy() {
+        final int[] selected = {0};
+        String[] options = new String[] {
+                getString(R.string.folder_restore_strategy_missing),
+                getString(R.string.folder_restore_strategy_overwrite),
+                getString(R.string.folder_restore_strategy_full_restore)
+        };
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.folder_restore_strategy)
+                .setSingleChoiceItems(options, 0, (dialog, which) -> selected[0] = which)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.restore, (dialog, which) -> {
+                    com.bare.folders.restore.FolderRestoreStrategy strategy;
+                    if (selected[0] == 1) {
+                        strategy = com.bare.folders.restore.FolderRestoreStrategy.OVERWRITE;
+                    } else if (selected[0] == 2) {
+                        strategy = com.bare.folders.restore.FolderRestoreStrategy.FULL_RESTORE;
+                    } else {
+                        strategy = com.bare.folders.restore.FolderRestoreStrategy.MISSING_ONLY;
+                    }
+                    restoreSelected(strategy);
+                })
+                .show();
+    }
+
+    private void restoreSelected(
+            com.bare.folders.restore.FolderRestoreStrategy strategy) {
+        actionButton.setEnabled(false);
+        new Thread(() -> {
+            int restored = 0;
+            int removed = 0;
+            String error = null;
+            FolderLocalBackupEngine engine = new FolderLocalBackupEngine(this);
+            for (FolderItem item : folders) {
+                if (!selectedIds.contains(item.getId())) continue;
+                try {
+                    FolderLocalBackupEngine.RestoreResult result = engine.restore(item, strategy);
+                    restored += result.restored;
+                    removed += result.removed;
+                } catch (Exception e) {
+                    error = e.getMessage() == null
+                            ? e.getClass().getSimpleName() : e.getMessage();
+                }
+            }
+            final int restoredCount = restored;
+            final int removedCount = removed;
+            final String failure = error;
+            runOnUiThread(() -> {
+                actionButton.setEnabled(true);
+                if (failure == null) {
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.restore_folders)
+                            .setMessage(getString(
+                                    R.string.folder_restore_success,
+                                    restoredCount, removedCount))
+                            .setPositiveButton(R.string.close, null).show();
+                } else {
+                    new MaterialAlertDialogBuilder(this)
+                            .setTitle(R.string.restore_folders)
+                            .setMessage(getString(R.string.folder_restore_failed, failure))
+                            .setPositiveButton(R.string.close, null).show();
+                }
+            });
+        }, "folder-restore").start();
     }
 
     private void deleteSelectedBackups() {
