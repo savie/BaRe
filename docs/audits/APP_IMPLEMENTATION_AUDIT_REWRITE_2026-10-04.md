@@ -797,7 +797,7 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | Dashboard structural parity | FAIL |
 | Dashboard wiring | FAIL |
 | MMS static restore | PASS / UNVERIFIED RUNTIME |
-| Native ABI packaging | FAIL |
+| Native ABI packaging | PASS (STATIC) |
 | Build configuration | PASS (STATIC) |
 | Gradle reproducibility | BLOCKED |
 | CI | BLOCKED |
@@ -814,9 +814,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 Project memiliki substantial reconstruction surface dan banyak contract/static implementation yang valid. Audit tidak merekomendasikan restart dari zero.
 
-Work-01 build configuration sudah **PASS (STATIC)**. P0/P1 blocker yang masih terbuka:
+Work-01 and Work-02 static closures sudah **PASS (STATIC)**. P0/P1 blocker yang masih terbuka:
 
-- native packaging
 - Supabase implementation
 - Dashboard canonical parity
 - runtime execution boundaries
