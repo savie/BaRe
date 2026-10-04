@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import androidx.core.content.ContextCompat;
 
 import com.bare.R;
 import com.bare.home.HomeActivity;
+import com.bare.locale.LocaleActivity;
+import com.bare.slog.SLogActivity;
 import com.bare.home.repository.AnonymousIdentityStore;
 import com.bare.password.PasswordStateRepository;
 import com.bare.password.UserPasswordActivity;
@@ -423,22 +426,31 @@ public final class IntroActivity extends Activity {
     }
 
     private void showIntroMenu() {
-        new MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.intro_menu_title)
-                .setItems(new String[]{
-                        getString(R.string.reset_onboarding),
-                        getString(R.string.close)
-                }, (dialog, which) -> {
-                    if (which == 0) {
-                        localState.remove(LocalState.KEY_FIRST_START);
-                        localState.remove(LocalState.KEY_FIRST_RUN_CLOUD_RESTORE_COMPLETED);
-                        prefs.edit()
-                                .remove(KEY_SIGNED_IN)
-                                        .apply();
-                        recreate();
-                    }
-                })
-                .show();
+        PopupMenu menu = new PopupMenu(this, menuButton);
+        menu.getMenuInflater().inflate(R.menu.menu_intro, menu.getMenu());
+        menu.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.action_language) {
+                startActivity(new Intent(this, LocaleActivity.class));
+                return true;
+            }
+            if (id == R.id.action_barelogger) {
+                startActivity(new Intent(this, SLogActivity.class));
+                return true;
+            }
+            if (id == R.id.action_restart) {
+                Intent launch = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                if (launch != null) {
+                    launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(launch);
+                } else {
+                    recreate();
+                }
+                return true;
+            }
+            return false;
+        });
+        menu.show();
     }
 
     private void showInfoDialog(int title, int message) {
