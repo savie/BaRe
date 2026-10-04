@@ -233,15 +233,25 @@ public final class AppLocalBackupEngine {
                 entries.add(new AppPackageInstaller.Entry("base.apk", apk));
             }
             File splitArchive = new File(record.directory, backupId + ".splits");
-            if (parts.contains(Part.SPLITS) && splitArchive.isFile()) {
-                File splitDir = extractArchive(splitArchive, "splits-restore", record, false);
-                for (File file : apkFiles(splitDir)) {
-                    entries.add(new AppPackageInstaller.Entry(file.getName(), file));
+            File splitDir = null;
+            try {
+                if (parts.contains(Part.SPLITS) && splitArchive.isFile()) {
+                    splitDir = extractArchive(splitArchive, "splits-restore", record, false);
+                    for (File file : apkFiles(splitDir)) {
+                        entries.add(new AppPackageInstaller.Entry(file.getName(), file));
+                    }
                 }
-            }
-            if (!entries.isEmpty()) {
-                new AppPackageInstaller(context).install(packageName, entries);
-                restored++;
+                if (!entries.isEmpty()) {
+                    AppPackageInstaller.Result install =
+                            new AppPackageInstaller(context).install(packageName, entries);
+                    if (!install.isSuccess()) {
+                        throw new IllegalStateException(
+                                install.message == null ? "Package installation failed" : install.message);
+                    }
+                    restored++;
+                }
+            } finally {
+                deleteTree(splitDir);
             }
         }
 
@@ -249,21 +259,25 @@ public final class AppLocalBackupEngine {
             File archive = new File(record.directory, backupId + ".dat");
             if (archive.isFile()) {
                 File extracted = extractArchive(archive, "data-restore", record, true);
-                File data = new File(extracted, "data");
-                if (data.exists()) {
-                    privileged.copyTree(
-                            data.getAbsolutePath(),
-                            dataDirectory(packageName),
-                            installed == null);
-                    restored++;
-                }
-                File dataDe = new File(extracted, "data_de");
-                if (dataDe.exists()) {
-                    privileged.copyTree(
-                            dataDe.getAbsolutePath(),
-                            deDataDirectory(packageName),
-                            installed == null);
-                    restored++;
+                try {
+                    File data = new File(extracted, "data");
+                    if (data.exists()) {
+                        privileged.copyTree(
+                                data.getAbsolutePath(),
+                                dataDirectory(packageName),
+                                installed == null);
+                        restored++;
+                    }
+                    File dataDe = new File(extracted, "data_de");
+                    if (dataDe.exists()) {
+                        privileged.copyTree(
+                                dataDe.getAbsolutePath(),
+                                deDataDirectory(packageName),
+                                installed == null);
+                        restored++;
+                    }
+                } finally {
+                    deleteTree(extracted);
                 }
             }
         }
@@ -290,11 +304,15 @@ public final class AppLocalBackupEngine {
         File archive = new File(record.directory, fileName);
         if (!archive.isFile()) return 0;
         File extracted = extractArchive(archive, "part-restore", record, privilegedCopy);
-        File source = new File(extracted, record.metadata.optString("packageName", ""));
-        if (!source.exists()) source = extracted;
-        if (privilegedCopy) privileged.copyTree(source.getAbsolutePath(), destination.getAbsolutePath(), true);
-        else copyTree(source, destination);
-        return 1;
+        try {
+            File source = new File(extracted, record.metadata.optString("packageName", ""));
+            if (!source.exists()) source = extracted;
+            if (privilegedCopy) privileged.copyTree(source.getAbsolutePath(), destination.getAbsolutePath(), true);
+            else copyTree(source, destination);
+            return 1;
+        } finally {
+            deleteTree(extracted);
+        }
     }
 
     private File extractArchive(
