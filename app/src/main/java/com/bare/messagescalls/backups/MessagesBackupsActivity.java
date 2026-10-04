@@ -39,7 +39,7 @@ public final class MessagesBackupsActivity extends AppCompatActivity {
         repository = new MessagesBackupRepository(this);
         RecyclerView list = findViewById(R.id.recycler_view);
         list.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new BackupAdapter(repository.listLocal());
+        adapter = new BackupAdapter(repository.listLocal(), item -> {\n            android.content.Intent intent = new android.content.Intent(this, com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.class);\n            intent.putExtra(com.bare.messagescalls.backuprestore.MessagesBackupRestoreActivity.EXTRA_BACKUP_FILE_PATH, item.getLocalFile().getAbsolutePath());\n            startActivity(intent);\n        });
         list.setAdapter(adapter);    }
 
     @Override
@@ -68,8 +68,8 @@ public final class MessagesBackupsActivity extends AppCompatActivity {
     }
 
     private static final class BackupAdapter extends RecyclerView.Adapter<BackupAdapter.Holder> {
-        private final List<MessageBackupItem> items = new ArrayList<>();
-        BackupAdapter(List<MessageBackupItem> value) { submit(value); }
+        private final List<MessageBackupItem> items = new ArrayList<>();\n        private final OnClick listener;
+        BackupAdapter(List<MessageBackupItem> value, OnClick listener) { this.listener = listener; submit(value); }
         void submit(List<MessageBackupItem> value) {
             items.clear();
             if (value != null) items.addAll(value);
@@ -88,10 +88,10 @@ public final class MessagesBackupsActivity extends AppCompatActivity {
         @Override public void onBindViewHolder(Holder holder,int position) {
             MessageBackupItem item=items.get(position);
             holder.title.setText(holder.itemView.getContext().getString(R.string.x_messages, String.valueOf(item.getTotalSms())));
-            holder.summary.setText(DateFormat.getDateTimeInstance().format(new Date(item.getBackupTime())));
+            holder.summary.setText(DateFormat.getDateTimeInstance().format(new Date(item.getBackupTime())));\n            holder.itemView.setOnClickListener(v -> listener.onClick(item));
         }
         @Override public int getItemCount(){return items.size();}
-        static final class Holder extends RecyclerView.ViewHolder {
+        interface OnClick { void onClick(MessageBackupItem item); }\n        static final class Holder extends RecyclerView.ViewHolder {
             final android.widget.TextView title,summary;
             Holder(android.view.View v,android.widget.TextView title,android.widget.TextView summary){super(v);this.title=title;this.summary=summary;}
         }
