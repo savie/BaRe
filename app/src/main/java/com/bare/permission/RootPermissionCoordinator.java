@@ -20,6 +20,7 @@ public final class RootPermissionCoordinator {
     }
 
     private static final int REQUEST_CODE = 6201;
+    public static final String PREF_ROOT_READY = "root_permission_ready";
     private final Context context;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler main = new Handler(Looper.getMainLooper());
@@ -83,6 +84,8 @@ public final class RootPermissionCoordinator {
             ready = complete;
             state = State.IDLE;
         }
+        context.getSharedPreferences(context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                .edit().putBoolean(PREF_ROOT_READY, complete).apply();
         notifyState(listener);
     }
 
