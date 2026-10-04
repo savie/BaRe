@@ -74,7 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_medium"
-                        android:text="@string/apps_engine_boundary"
+                        android:text="@string/app_backup_detail_summary"
                         android:textColor="?android:textColorSecondary" />
 
                     <com.google.android.material.button.MaterialButton
@@ -110,7 +110,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_medium"
-                        android:text="@string/apps_engine_boundary"
+                        android:text="@string/app_restore_detail_summary"
                         android:textColor="?android:textColorSecondary" />
 
                     <com.google.android.material.button.MaterialButton
