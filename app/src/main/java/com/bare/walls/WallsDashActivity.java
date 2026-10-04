@@ -3,6 +3,7 @@ package com.bare.walls;
 import android.app.WallpaperManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.widget.Toast;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +54,7 @@ public final class WallsDashActivity extends AppCompatActivity {
 
         loadCurrentWallpapers();
         wireManageCards();
+        refreshLocalBackupCount();
     }
 
     private void loadCurrentWallpapers() {
@@ -99,13 +101,67 @@ public final class WallsDashActivity extends AppCompatActivity {
 
     private void showBackupLocations() {
         String[] items = {getString(R.string.device), getString(R.string.cloud)};
+        boolean[] checked = {true, false};
         new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.select_backup_locations)
-                .setMultiChoiceItems(items, new boolean[]{false, false}, null)
-                .setPositiveButton(R.string.backup, (d, which) ->
-                        showBoundary(R.string.wallpaper_backup_boundary))
+                .setMultiChoiceItems(items, checked, (dialog, which, isChecked) -> checked[which] = isChecked)
+                .setPositiveButton(R.string.backup, (d, which) -> {
+                    if (checked[0]) {
+                        backupToDevice();
+                    } else if (checked[1]) {
+                        showBoundary(R.string.wallpaper_backup_boundary);
+                    } else {
+                        Toast.makeText(this, R.string.select_some_items, Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .setNegativeButton(R.string.close, null)
                 .show();
+    }
+
+    private void backupToDevice() {
+        backup.setEnabled(false);
+        new Thread(() -> {
+            try {
+                WallpaperBackupRepository.Result result =
+                        new WallpaperBackupRepository(this).backupLocal();
+                runOnUiThread(() -> {
+                    backup.setEnabled(true);
+                    Toast.makeText(this,
+                            getString(R.string.wallpaper_backup_success, result.getCount()),
+                            Toast.LENGTH_LONG).show();
+                    refreshLocalBackupCount();
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    backup.setEnabled(true);
+                    Toast.makeText(this,
+                            getString(R.string.wallpaper_backup_failed,
+                                    e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()),
+                            Toast.LENGTH_LONG).show();
+                });
+            }
+        }, "wallpaper-backup").start();
+    }
+
+    private void refreshLocalBackupCount() {
+        new Thread(() -> {
+            int count;
+            try {
+                count = new WallpaperBackupRepository(this).listLocal().size();
+            } catch (Exception ignored) {
+                count = 0;
+            }
+            final int finalCount = count;
+            runOnUiThread(() -> {
+                View card = findViewById(R.id.wall_card_local);
+                if (card != null) {
+                    TextView shortcut = card.findViewById(R.id.tv_shortcut);
+                    if (shortcut != null) {
+                        shortcut.setText(getString(R.string.wallpaper_local_backups_count, finalCount));
+                    }
+                }
+            });
+        }, "wallpaper-inventory").start();
     }
 
     private void wireManageCards() {
