@@ -20,7 +20,7 @@ Current project dashboard. Detailed evidence/history remains in `docs/RECONSTRUC
 
 **P6.3 🟡 ACTIVE — APP-ONLY IMPLEMENTATION LOOP**
 
-Current natural target: **Folder Restore until root**.
+Current natural target: **Apps lower-level static re-audit after Shared Libraries restore closure**.
 
 - Reference chain re-audited directly from the canonical decompile ZIP: base → incremental chain → strategy filtering → native SBA extraction → FULL_RESTORE filesystem reconciliation.
 - /app now contains the concrete FolderLocalRestoreEngine with MISSING_ONLY, OVERWRITE, and FULL_RESTORE strategies.
@@ -32,7 +32,7 @@ Current natural target: **Folder Restore until root**.
 - No build/install/runtime/device/backend/Supabase execution was performed.
 - Restore remains UNVERIFIED at runtime/device/native execution; static implementation is the current app-side closure target.
 
-Next P6.3 loop action: re-audit B01–B27 and the folder restore app graph, then continue only if a Reference-proven /app gap remains.
+Next P6.3 loop action: re-audit B01–B27 and the Apps lower-level task/configuration graph, then continue only where a Reference-proven /app gap remains.
 
 ## Roadmap status
 
