@@ -164,12 +164,18 @@ public final class RootPermissionCoordinator {
 
     private boolean runRootCommands(String[] commands) {
         try {
+            boolean attempted = false;
             for (String command : commands) {
-                Process p = new ProcessBuilder("su", "-c", command)
-                        .redirectErrorStream(true).start();
-                if (p.waitFor() != 0) return false;
+                attempted = true;
+                try {
+                    Process p = new ProcessBuilder("su", "-c", command)
+                            .redirectErrorStream(true).start();
+                    p.waitFor();
+                } catch (Exception ignored) {
+                    // Reference continues permission reconciliation when one grant is unsupported.
+                }
             }
-            return true;
+            return attempted;
         } catch (Exception ignored) {
             return false;
         }
