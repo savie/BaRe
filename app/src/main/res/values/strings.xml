@@ -767,4 +767,7 @@ Unable to read package information: %2$s</string>
     <string name="messages_backup_mms_cache_error">Unable to create the MMS backup cache.</string>
     <string name="messages_backup_failed">Messages backup failed: %1$s</string>
     <string name="messages_restore_result">Restored %1$d SMS, %2$d MMS, %3$d parts; skipped %4$d.</string>
+    <string name="to_device">To device</string>
+    <string name="to_cloud">To cloud</string>
+    <string name="more_quick_actions">More quick actions</string>
 </resources>
