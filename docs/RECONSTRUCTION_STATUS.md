@@ -1470,3 +1470,22 @@ Current P6.3 remained the active loop; P6.4 is still unopened. Loop B therefore 
 **Loop B status: IMPLEMENTED / STATIC — re-audit target closed for this parser-hardening slice.**
 **P6.3 remains ACTIVE / LOOP MODE; P6.4 remains NOT OPENED.**
 **Build/CI/runtime/device/native/provider/Supabase verification: UNVERIFIED / BOUNDARY.**
+
+## Loop C — Home Dashboard Quick Actions reconstruction — 2026-10-04
+
+The previously recorded Home Dashboard Quick Actions gap was re-audited directly against Reference x92, u10, nd6, yc6, zc6, and r54, then implemented on the active rewrite branch.
+
+- Reference dashboard structure is four fixed quick-action cards: Apps, Messages, Calls, Folders.
+- Reference action catalog is preserved: Apps backup/restore actions from yc6.a()/b(), Messages from yc6.e(), Calls from yc6.c(), and Folders from yc6.d().
+- Reference action rows expose device/cloud operation buttons; BΛR☰ now renders the same two-operation shape per action using the existing Material button surface.
+- Apps includes the Reference More quick actions entry and routes to the existing AppsQuickActionsActivity catalog.
+- Apps BACKUP_ALL_APPS / RESTORE_ALL_APPS route through the existing AppsQuickActionRequest → AppsBatchActivity owner.
+- Messages backup/restore routes through the existing MessagesBackupRestoreActivity; cloud selection routes through the existing MessagesDashActivity cloud surface rather than inventing a provider.
+- Calls backup/restore routes through the existing CallsBackupRestoreActivity; cloud selection routes through CallsDashActivity cloud surface.
+- Folder backup/restore routes through the existing FoldersBatchActivity owner with its existing action IDs.
+- Wallpapers/Wi-Fi remain category shortcuts owned by their existing navigation surfaces and are not incorrectly promoted into the four Reference dashboard quick-action cards.
+- Reference ZIP remains read-only.
+- No build/install/runtime/device/provider/Supabase execution was performed.
+
+**Loop C status: IMPLEMENTED / STATIC — Reference Dashboard Quick Actions app-side gap closed.**
+**Runtime visual/execution verification: UNVERIFIED / BOUNDARY.**
