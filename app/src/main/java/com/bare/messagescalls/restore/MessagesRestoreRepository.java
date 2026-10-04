@@ -208,8 +208,7 @@ public final class MessagesRestoreRepository {
                                 .build(),
                         partValues);
                 if (partUri == null) {
-                    invalid++;
-                    continue;
+                    return new MmsRestoreResult(true, partsInserted, 0, 1);
                 }
                 partsInserted++;
 
@@ -525,12 +524,12 @@ public final class MessagesRestoreRepository {
     private static final class MmsPartRow {
         Long id, mid;
         Integer charset, contentId, contentLocation, contentStartType, dataLocation, seq;
-        String contentDisposition, contentType, contentTypeType, fileName, name, text;
+        String charset, contentDisposition, contentType, contentTypeType, fileName, name, text;
 
         static MmsPartRow from(JSONObject o) {
             MmsPartRow r=new MmsPartRow();
             r.id=longValue(o,"id"); r.mid=longValue(o,"mid");
-            r.charset=stringInt(o,"charset"); r.contentId=intValue(o,"contentId");
+            r.charset=string(o,"charset"); r.contentId=intValue(o,"contentId");
             r.contentLocation=intValue(o,"contentLocation"); r.contentStartType=intValue(o,"contentStartType");
             r.dataLocation=intValue(o,"dataLocation"); r.seq=intValue(o,"seq");
             r.contentDisposition=string(o,"contentDisposition"); r.contentType=string(o,"contentType");
