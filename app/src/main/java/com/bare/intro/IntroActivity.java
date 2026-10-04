@@ -26,6 +26,7 @@ import com.bare.password.UserPasswordActivity;
 import com.bare.permission.PermissionAccessService;
 import com.bare.permission.PermissionCapability;
 import com.bare.permission.PermissionState;
+import com.bare.permission.RootPermissionCoordinator;
 import com.bare.core.state.LocalState;
 import com.bare.account.repository.AccountMigrationRepository;
 import com.bare.account.repository.LocalAccountMigrationRepository;
@@ -52,6 +53,7 @@ public final class IntroActivity extends Activity {
     private LocalState localState;
     private AccountMigrationRepository accountMigrationRepository;
     private PermissionAccessService permissionAccessService;
+    private RootPermissionCoordinator rootPermissionCoordinator;
 
     private View signInContainer;
     private View permissionsContainer;
@@ -76,6 +78,7 @@ public final class IntroActivity extends Activity {
         localState = new LocalState(this);
         accountMigrationRepository = new LocalAccountMigrationRepository(localState);
         permissionAccessService = new PermissionAccessService(this);
+        rootPermissionCoordinator = new RootPermissionCoordinator(this);
         prefs = getSharedPreferences(getPackageName() + "_preferences", MODE_PRIVATE);
         if (!localState.getBoolean(LocalState.KEY_FIRST_START, true)) {
             openHome();
@@ -104,7 +107,7 @@ public final class IntroActivity extends Activity {
         storageCard.getActionButton().setOnClickListener(v -> requestStorageAccess());
         notificationsCard.getActionButton().setOnClickListener(v -> requestNotificationAccess());
         installedAppsCard.getActionButton().setOnClickListener(v -> refreshState());
-        rootButton.setOnClickListener(v -> grantRootBoundary());
+        rootButton.setOnClickListener(v -> grantRootPermissions());
 
         continueButton.setOnClickListener(v -> {
             if (prefs.getBoolean(KEY_SIGNED_IN, false)) {
@@ -123,7 +126,10 @@ public final class IntroActivity extends Activity {
     protected void onResume() {
         super.onResume();
         if (prefs == null || localState == null || !localState.getBoolean(LocalState.KEY_FIRST_START, true)) return;
-        if (storageCard != null) refreshState();
+        if (storageCard != null) {
+            refreshState();
+            if (rootPermissionCoordinator != null) rootPermissionCoordinator.refresh((stateValue, ready) -> refreshState());
+        }
     }
 
     private void resumeGoogleMigrationIfNeeded() {
@@ -259,10 +265,22 @@ public final class IntroActivity extends Activity {
         }
     }
 
-    private void grantRootBoundary() {
-        // Root/Shizuku execution is a separate Reference coordinator boundary.
-        Toast.makeText(this, R.string.p3_root_stub, Toast.LENGTH_SHORT).show();
-        refreshState();
+    private void grantRootPermissions() {
+        if (rootPermissionCoordinator == null) return;
+        rootPermissionCoordinator.grantAll((stateValue, ready) -> {
+            if (stateValue == RootPermissionCoordinator.State.AWAITING_SHIZUKU) {
+                rootButton.setText(R.string.root_grant_permissions);
+                return;
+            }
+            if (stateValue == RootPermissionCoordinator.State.GRANTING_PERMISSIONS) {
+                rootButton.setText(R.string.grant_permissions);
+                return;
+            }
+            refreshState();
+            if (!ready) {
+                Toast.makeText(this, R.string.p3_permission_not_granted, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void refreshState() {
