@@ -6,7 +6,6 @@ import com.bare.appslist.engine.AppLocalBackupEngine;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,33 +14,18 @@ import java.util.Set;
  * Concrete Reference-shaped Quick Action consumer.
  *
  * Reference semantics:
- * - delete missing/uninstalled-app backups is owned by AppsTask/oy7 -> jk -> ik;
- * - enable/disable is owned by AppsTask/py7 -> g00.d();
- * - "sync device backups to cloud" selects installed apps that already have
- *   local backups and then enters the normal Apps backup/upload task with the
- *   latest local backup as the sync source.
+ * - ID_DELETE_BACKUPS_UNINSTALLED_APPS is a CLOUD action: the Reference
+ *   builds an oy7 delete task with q05.CLOUD and filters protected/latest
+ *   cloud backups before handing them to the cloud delete provider.
+ * - ID_ENABLE_DISABLE_APPS_APPS is local/privileged and routes through
+ *   py7 -> g00.d(), using the current Android user ID.
+ * - ID_BACKUP_SYNC_APPS selects installed apps that already have local
+ *   backups and carries each latest local backup into the normal Apps upload
+ *   task.
  *
- * The cloud leg is deliberately an injected provider contract; no cloud
- * backend is fabricated here.
+ * Cloud operations are provider contracts only. No backend is fabricated.
  */
 public final class AppsQuickActionExecutionEngine {
-
-    public static final class DeleteResult {
-        public final int scannedPackages;
-        public final int deletedPackages;
-        public final int deletedBackups;
-        public final int preservedBackups;
-        public final List<String> failures;
-
-        DeleteResult(int scannedPackages, int deletedPackages, int deletedBackups,
-                     int preservedBackups, List<String> failures) {
-            this.scannedPackages = scannedPackages;
-            this.deletedPackages = deletedPackages;
-            this.deletedBackups = deletedBackups;
-            this.preservedBackups = preservedBackups;
-            this.failures = Collections.unmodifiableList(new ArrayList<>(failures));
-        }
-    }
 
     public static final class EnableDisableResult {
         public final int changed;
@@ -52,6 +36,37 @@ public final class AppsQuickActionExecutionEngine {
             this.changed = changed;
             this.skipped = skipped;
             this.failures = Collections.unmodifiableList(new ArrayList<>(failures));
+        }
+    }
+
+    public static final class CloudBackupRef {
+        public final String id;
+        public final boolean protectedBackup;
+        public final boolean latest;
+
+        public CloudBackupRef(String id, boolean protectedBackup, boolean latest) {
+            if (id == null || id.isEmpty()) throw new IllegalArgumentException("id");
+            this.id = id;
+            this.protectedBackup = protectedBackup;
+            this.latest = latest;
+        }
+    }
+
+    public static final class CloudDeleteItem {
+        public final String packageName;
+        public final List<CloudBackupRef> backups;
+
+        CloudDeleteItem(String packageName, List<CloudBackupRef> backups) {
+            this.packageName = packageName;
+            this.backups = Collections.unmodifiableList(new ArrayList<>(backups));
+        }
+    }
+
+    public static final class CloudDeletePlan {
+        public final List<CloudDeleteItem> items;
+
+        CloudDeletePlan(List<CloudDeleteItem> items) {
+            this.items = Collections.unmodifiableList(new ArrayList<>(items));
         }
     }
 
@@ -78,7 +93,14 @@ public final class AppsQuickActionExecutionEngine {
         }
     }
 
-    /** Cloud/provider downstream boundary; no provider is assumed or created here. */
+    /** Provider-owned cloud delete boundary. */
+    public interface CloudDeleteProvider {
+        List<String> listBackupPackageNames() throws Exception;
+        List<CloudBackupRef> listBackups(String packageName) throws Exception;
+        void deleteBackups(String packageName, List<CloudBackupRef> backups) throws Exception;
+    }
+
+    /** Provider-owned cloud sync boundary. */
     public interface CloudSyncProvider {
         void syncLocalBackup(SyncItem item) throws Exception;
     }
@@ -99,59 +121,56 @@ public final class AppsQuickActionExecutionEngine {
     }
 
     /**
-     * Reference ly7 semantics: optionally preserve the latest backup and/or
-     * protected backups while sweeping package directories that no longer
-     * exist in the installed-app inventory.
+     * Reference ik.b()/ly7 filtering: preserve the latest cloud backup and/or
+     * protected cloud backups according to the two Quick Action toggles.
      */
-    public DeleteResult deleteBackupsOfUninstalledApps(
-            Set<String> installedPackages, boolean keepProtected, boolean keepLatest) {
+    public CloudDeletePlan buildDeleteUninstalledCloudPlan(
+            Set<String> installedPackages,
+            boolean keepProtected,
+            boolean keepLatest,
+            CloudDeleteProvider provider) throws Exception {
+        if (provider == null) throw new IllegalArgumentException("provider");
         Set<String> installed = installedPackages == null
-                ? Collections.<String>emptySet() : new HashSet<>(installedPackages);
-        List<String> packages = local.listLocalBackupPackages();
-        int deletedPackages = 0;
-        int deletedBackups = 0;
-        int preserved = 0;
-        List<String> failures = new ArrayList<>();
+                ? Collections.<String>emptySet() : new LinkedHashSet<>(installedPackages);
+        List<CloudDeleteItem> items = new ArrayList<>();
 
-        for (String packageName : packages) {
-            if (installed.contains(packageName)) continue;
+        for (String packageName : provider.listBackupPackageNames()) {
+            if (packageName == null || installed.contains(packageName)) continue;
+            List<CloudBackupRef> all = provider.listBackups(packageName);
+            if (all == null || all.isEmpty()) continue;
+
+            List<CloudBackupRef> deletable = new ArrayList<>();
+            for (CloudBackupRef backup : all) {
+                if (keepLatest && backup.latest) continue;
+                if (keepProtected && backup.protectedBackup) continue;
+                deletable.add(backup);
+            }
+            if (!deletable.isEmpty()) items.add(new CloudDeleteItem(packageName, deletable));
+        }
+        return new CloudDeletePlan(items);
+    }
+
+    public List<String> executeCloudDelete(
+            CloudDeletePlan plan, CloudDeleteProvider provider) {
+        if (plan == null) throw new IllegalArgumentException("plan");
+        if (provider == null) throw new IllegalArgumentException("provider");
+        List<String> failures = new ArrayList<>();
+        for (CloudDeleteItem item : plan.items) {
             try {
-                List<AppLocalBackupEngine.BackupRecord> backups = local.listBackups(packageName);
-                int deletedForPackage = 0;
-                for (int i = 0; i < backups.size(); i++) {
-                    AppLocalBackupEngine.BackupRecord record = backups.get(i);
-                    if (keepLatest && i == 0) {
-                        preserved++;
-                        continue;
-                    }
-                    if (keepProtected && record.isProtectedBackup()) {
-                        preserved++;
-                        continue;
-                    }
-                    if (local.deleteBackup(packageName, record.id)) {
-                        deletedBackups++;
-                        deletedForPackage++;
-                    } else {
-                        failures.add(packageName + "/" + record.id + ": delete incomplete");
-                    }
-                }
-                if (deletedForPackage > 0 && local.listBackups(packageName).isEmpty()) {
-                    // The package directory is intentionally left to the local
-                    // engine's filesystem owner; no synthetic cleanup path is added.
-                    deletedPackages++;
-                }
+                provider.deleteBackups(item.packageName, item.backups);
             } catch (Exception e) {
-                failures.add(packageName + ": "
+                failures.add(item.packageName + ": "
                         + (e.getMessage() == null ? e.getClass().getSimpleName() : e.getMessage()));
             }
         }
-        return new DeleteResult(packages.size(), deletedPackages, deletedBackups, preserved, failures);
+        return failures;
     }
 
     /**
      * Reference py7/g00.d parity. The executor resolves the current Android
-     * user ID and emits pm enable / pm disable-user commands; the workaround
-     * for manufacturer restrictions remains downstream of the executor.
+     * user ID and emits pm enable / pm disable-user commands; the Reference
+     * also has a manufacturer workaround after enable, which remains inside
+     * the privileged boundary rather than being guessed here.
      */
     public EnableDisableResult enableDisable(
             List<AppInventoryItem> apps, boolean enable) {
@@ -185,7 +204,7 @@ public final class AppsQuickActionExecutionEngine {
     /**
      * Reference ScheduleAppsLoader ID_BACKUP_SYNC_APPS selection:
      * installed apps + at least one local backup, then use the latest local
-     * backup as the sync source.
+     * backup as the sync source for the cloud upload task.
      */
     public SyncPlan buildSyncPlan(List<AppInventoryItem> inventory) {
         List<SyncItem> items = new ArrayList<>();
@@ -203,8 +222,8 @@ public final class AppsQuickActionExecutionEngine {
                 items.add(new SyncItem(app.packageName, latest.id, parts,
                         latest.isProtectedBackup()));
             } catch (Exception ignored) {
-                // Reference loader simply omits an app when its local backup
-                // representation cannot be compiled.
+                // Reference loader omits an app when its local-backup model
+                // cannot be compiled into a valid task entry.
             }
         }
         return new SyncPlan(items);
