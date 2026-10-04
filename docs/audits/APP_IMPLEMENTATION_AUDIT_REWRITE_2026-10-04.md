@@ -7,7 +7,7 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Latest implementation commit | `b4beebdb4b141132d49884c897aa101cfe2316db` |
+| Latest implementation commit | `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488` |
 | Supplied Base Checkpoint | `b4beebdb4b141132d49884c897aa101cfe2316db` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
@@ -32,12 +32,12 @@ Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar
 
 Temuan paling penting:
 
-1. **Branch state reconciled:** implementation baseline `rewrite` matches supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; the only post-checkpoint commit is this audit-only document update.
+1. **Branch state reconciled:** implementation baseline starts at supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; Work-03 implementation is now committed on `rewrite` at `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488`. Subsequent audit updates remain documentation-only.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
 3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
-5. **Dashboard menggunakan implementation surface alternatif**, `home_dashboard_fragment.xml`, yang secara struktural berbeda dari canonical Reference `dash_fragment.xml`.
-6. **Root status, notices, dan secondary-user warning belum wired** pada current Dashboard path.
+5. **WORK-03 Dashboard static finding resolved:** `DashboardFragment` now inflates canonical `dash_fragment.xml`, binds the Reference root-status surface through `RootPermissionCoordinator`, wires `rv_notices` through `NoticeRepository`, wires `dash_secondary_user_warning`, and uses the canonical shortcut RecyclerView surfaces.
+6. **Dashboard static parity is closed only at source/resource level:** build/runtime/device verification remains outside the work boundary.
 7. **Branding migration completed on target `app/`:** seluruh Swift/Firebase occurrence yang dapat dinormalisasi sudah dikeluarkan dari `/app`. Legacy JNI owner classes dan exact native blobs sekarang diisolasi pada module `native-compat`, di luar target `app/`; format/crypto compatibility di `/app` memakai neutral BaRe identifiers plus encoded legacy compatibility values.
 8. **MMS restore current-state sudah diimplementasikan** pada `MessagesRestoreRepository`, termasuk MMS row, parts, addresses, dan cached binary payload handling.
 9. Source implementation tetap **Java-only** dan tidak ditemukan source Kotlin.
@@ -257,7 +257,7 @@ Tidak ditemukan alasan evidence-backed untuk mengganti implementation menjadi Ko
 
 ### Reference Contract
 
-Reference canonical `dash_fragment.xml` memiliki:
+Reference canonical `dash_fragment.xml` owns:
 
 - `dash_secondary_user_warning`
 - `dash_card_summary`
@@ -268,84 +268,39 @@ Reference canonical `dash_fragment.xml` memiliki:
 - `rvDashShortcutsDefault`
 - `rvDashShortcutsCompact`
 - `rv_notices`
-- Firebase connection-error surface
-- empat quick-action cards
+- Supabase connection-error surface
+- four quick-action cards
 
-Reference `x92.java` juga mengikat root-status views, shortcut RecyclerViews, secondary-user warning, connection-error surface, dan notices RecyclerView sebagai bagian dari Dashboard view binding.
+Reference `x92.java` binds the same Dashboard hierarchy, including root-status views, shortcut RecyclerViews, secondary-user warning, notices, and quick-action cards.
 
-### Current BaRe Implementation
+### WORK-03 Result
 
-Current `DashboardFragment` meng-inflate:
+**PASS (STATIC)**
 
-`@layout/home_dashboard_fragment`
+Current `DashboardFragment` now inflates `@layout/dash_fragment` instead of `@layout/home_dashboard_fragment`.
 
-bukan canonical `@layout/dash_fragment`.
+Root status is wired through the existing `RootPermissionCoordinator`: `root_status_container`, `tvRootAccess`, `tvRootProvider`, and `iv_refresh_root_access`. The refresh control calls the coordinator's existing `refresh(...)` boundary; no root/Shizuku runtime success is claimed.
 
-`home_dashboard_fragment.xml` menggunakan:
+Notices are wired through `NoticeRepository → NoticeAdapter → rv_notices`. The adapter consumes `NoticeRepository.getVisibleNotices()` and keeps the canonical notice RecyclerView hidden when there are no visible items. Backend notice loading remains downstream and is not fabricated.
 
-- MaterialCardView custom untuk storage summary
-- GridLayout untuk category shortcuts
-- empat quick-action cards
-- hidden `dashboard_actions`
+Secondary-user warning is wired to the current Android user identity boundary and toggles `dash_secondary_user_warning`.
 
-Implementasi tersebut tidak mengonsumsi canonical root-status subtree.
+Shortcuts are reconciled to the canonical Dashboard surfaces: `rvDashShortcutsDefault` uses `QuickRecyclerView`; `rvDashShortcutsCompact` uses `RecyclerView`.
 
-### H01 — Canonical Dashboard Layout Bypass
+The six Reference category routes remain Apps → `AppListActivity`, Messages → `MessagesDashActivity`, Call Logs → `CallsDashActivity`, Folders → `FoldersDashActivity`, Wallpapers → `WallsDashActivity`, and Wi-Fi → `WifiActivity`. Telephony and WallpaperManager capability gates remain source-level.
 
-Reference layout tetap ada sebagai resource target, tetapi current owner menggunakan alternate layout.
+The old `home_dashboard_fragment.xml` resource is retained as an unowned/legacy resource; `DashboardFragment` no longer inflates it. No blind deletion was performed.
 
-**Classification: UNAUTHORIZED DEVIATION / VISUAL-PARITY GAP.**
+### Static Regression
 
-Alasan:
+- no current `DashboardFragment` inflation of `home_dashboard_fragment`
+- current owner inflates `dash_fragment`
+- required canonical Dashboard IDs are consumed by the owner
+- root/notices/secondary-user/shortcut bindings have explicit source owners
+- four quick-action card owners remain wired
+- no build, APK, CI, runtime/device, or backend execution was performed
 
-- `bare.md` tidak mengizinkan redesign Dashboard.
-- Reference layout sudah memberikan contract visual dan structural.
-- Alternate `home_dashboard_fragment.xml` mengubah view hierarchy dan shortcut rendering.
-- Tidak ada Authorized Deviation yang mengizinkan perubahan ini.
-
-### H02 — Root Status UI Not Wired
-
-Resource:
-
-- `root_status_container`
-- `tvRootAccess`
-- `tvRootProvider`
-- `iv_refresh_root_access`
-
-sudah tersedia, dan `RootPermissionCoordinator` juga ada.
-
-Namun current `DashboardFragment` tidak melakukan binding atau refresh terhadap view tersebut.
-
-**Classification: UNAUTHORIZED DEVIATION / IMPLEMENTATION GAP.**
-
-### H03 — Notices Not Wired
-
-`NoticeRepository` tersedia dan `rv_notices` tersedia pada canonical Dashboard resource, tetapi current Dashboard path tidak menghubungkan:
-
-`NoticeRepository → adapter → rv_notices`
-
-**Classification: IMPLEMENTATION GAP.**
-
-### H04 — Secondary User Warning Not Wired
-
-`dash_secondary_user_warning` tersedia pada target resource, tetapi current Dashboard owner tidak mengonsumsi state tersebut.
-
-**Classification: IMPLEMENTATION GAP.**
-
-### H05 — Shortcut Renderer Approximation
-
-Reference menggunakan:
-
-- `QuickRecyclerView`
-- `rvDashShortcutsDefault`
-- `rvDashShortcutsCompact`
-
-Current implementation membuat `MaterialButton` secara dinamis dalam `GridLayout`.
-
-**Classification: UNAUTHORIZED DEVIATION / VISUAL PARITY GAP.**
-
-Navigation intent mungkin tetap benar, tetapi visual/component behavior belum 1:1.
-
+**Classification: PASS (STATIC)**
 ## Feature Domain Audit
 
 ### Intro / Onboarding
@@ -754,14 +709,11 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 ### UNAUTHORIZED DEVIATION
 
-- Alternate Dashboard implementation surface
-- GridLayout shortcut renderer replacing Reference QuickRecyclerView structure
-- Missing Dashboard wiring for Reference-owned root/notices/secondary-user behavior
+- No remaining Dashboard UNAUTHORIZED DEVIATION identified within the static Work-03 scope
 
 ### BLOCKED
 
 - concrete Supabase execution
-- Dashboard canonical parity
 - runtime execution boundaries
 
 ### UNKNOWN
@@ -781,9 +733,9 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 2. **Fix `app/build.gradle`.** **DONE — PASS (STATIC).** Syntax Groovy telah direkonsiliasi; dependency/runtime configuration tidak diubah.
 3. **Restore reproducible build boundary.** Wrapper/CI tetap separate gap; jangan mengarang artifact/version tanpa evidence dan jangan menjalankan build/CI.
 4. **Resolve native SBA packaging + branding boundary.** **DONE — PASS (STATIC).** Exact Reference ABI blobs are isolated in `native-compat`; `/app` uses neutral facades and contains zero Swift/Firebase branding occurrences.
-5. **Reconcile Dashboard terhadap canonical Reference layout.** Jangan mempertahankan `home_dashboard_fragment.xml` sebagai redesign jika tidak termasuk Authorized Deviation.
-6. **Wire root status, notices, and secondary-user warning.**
-7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.**
+5. **Reconcile Dashboard terhadap canonical Reference layout.** **DONE — PASS (STATIC).** `DashboardFragment` now inflates `dash_fragment.xml`.
+6. **Wire root status, notices, and secondary-user warning.** **DONE — PASS (STATIC)**.
+7. **Reconcile shortcut renderer terhadap Reference RecyclerView/QuickRecyclerView behavior.** **DONE — PASS (STATIC)**.
 8. **Implement concrete Supabase adapter only after actual Supabase state/configuration is verified.** Jangan membuat schema/key/RLS/bucket berdasarkan asumsi.
 9. **Complete execution boundaries** untuk scheduling, root/Shizuku, installer, storage, telephony, native, dan cloud.
 10. **Re-run static parity audit** setelah seluruh static work order selesai. Build/runtime/device execution tetap NOT PERMITTED pada work order ini.
@@ -798,8 +750,8 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 | Java-only | PASS |
 | Generic static hygiene | PASS |
 | Branding normalization | **PASS (STATIC)** |
-| Dashboard structural parity | FAIL |
-| Dashboard wiring | FAIL |
+| Dashboard structural parity | **PASS (STATIC)** |
+| Dashboard wiring | **PASS (STATIC)** |
 | MMS static restore | PASS / UNVERIFIED RUNTIME |
 | Native ABI packaging | PASS (STATIC) |
 | Build configuration | PASS (STATIC) |
@@ -821,7 +773,6 @@ Project memiliki substantial reconstruction surface dan banyak contract/static i
 Work-01 and Work-02 static closures sudah **PASS (STATIC)**. P0/P1 blocker yang masih terbuka:
 
 - Supabase implementation
-- Dashboard canonical parity
 - runtime execution boundaries
 
 Reference tetap read-only. Semua corrective implementation harus dilakukan pada target `app/` dan area BaRe yang relevan.
@@ -1006,92 +957,51 @@ This is required by the native JNI ABI and therefore is not a branding deviation
 # WORK-03 — RESTORE CANONICAL DASHBOARD
 
 ## Priority
-
 **P1**
 
 ## Objective
-
 Mengembalikan Dashboard ke structural/behavior contract Reference sebelum melakukan backend work.
 
-## Current Problem
+## Result
+**PASS (STATIC)**
 
-Current:
+Implemented on `rewrite` in commit `5d17b23e6fc3c0f0a3157c333d0e0a2c182b9488`.
 
-DashboardFragment → home_dashboard_fragment.xml
+1. `DashboardFragment` now inflates canonical `@layout/dash_fragment`.
+2. Root status surface is explicitly wired: `root_status_container`, `tvRootAccess`, `tvRootProvider`, `iv_refresh_root_access`, and the existing `RootPermissionCoordinator.refresh(...)` boundary.
+3. Notices are wired: `NoticeRepository`, `NoticeAdapter`, and `rv_notices`.
+4. Secondary-user warning is wired to the current Android user boundary: `dash_secondary_user_warning`.
+5. Shortcut surfaces are reconciled to the canonical RecyclerView contract: `rvDashShortcutsDefault` uses `QuickRecyclerView`; `rvDashShortcutsCompact` uses `RecyclerView`.
+6. The six Reference category routes remain source-wired with the existing capability gates.
+7. Existing four quick-action cards remain owned by `DashboardFragment`.
+8. `home_dashboard_fragment.xml` is no longer the active Dashboard owner and is retained only as an unowned/legacy resource; it was not blindly deleted.
 
-Reference:
+## Static Verification
 
-DashboardFragment → dash_fragment.xml
+- current owner → `dash_fragment.xml`: **PASS**
+- root status binding: **PASS**
+- notices binding: **PASS**
+- secondary-user warning binding: **PASS**
+- shortcut RecyclerView surfaces: **PASS**
+- quick-action card wiring: **PASS**
+- no fake backend/root success added: **PASS**
+- build/runtime/device/backend execution: **NOT PERFORMED**
 
-Current layout mengganti struktur Reference dengan:
+### Definition of Done
 
-- custom MaterialCardView
-- GridLayout
-- dynamic MaterialButton
-
-## Required
-
-Reconcile current Dashboard terhadap Reference:
-
-### A. Canonical Layout
-
-Gunakan canonical Reference hierarchy sebagai baseline.
-
-### B. Root Status
-
-Wire:
-
-- root_status_container
-- tvRootAccess
-- tvRootProvider
-- iv_refresh_root_access
-
-ke RootPermissionCoordinator / owner yang sesuai.
-
-### C. Notices
-
-Wire:
-
-NoticeRepository → adapter → rv_notices
-
-### D. Secondary User
-
-Wire:
-
-dash_secondary_user_warning
-
-sesuai state contract Reference.
-
-### E. Shortcuts
-
-Reconcile:
-
-- rvDashShortcutsDefault
-- rvDashShortcutsCompact
-- QuickRecyclerView
-
-Jangan mempertahankan GridLayout + MaterialButton sebagai redesign tanpa Authorized Deviation.
-
-## Definition of Done
-
-- Dashboard memakai structural contract Reference.
-- Root status tampil dan state transition terhubung.
-- Notices terhubung.
-- Secondary-user warning terhubung.
-- Shortcut behavior menggunakan contract Reference.
-- Tidak ada redesign yang tidak diizinkan.
-- Tidak ada known static navigation/home lifecycle contradiction.
+- Dashboard memakai structural contract Reference. **PASS (STATIC)**
+- Root status terhubung. **PASS (STATIC)**
+- Notices terhubung. **PASS (STATIC)**
+- Secondary-user warning terhubung. **PASS (STATIC)**
+- Shortcut behavior memakai canonical RecyclerView surfaces. **PASS (STATIC)**
+- Tidak ada redesign Dashboard aktif pada owner path. **PASS (STATIC)**
+- Tidak ada known static navigation/home lifecycle contradiction. **PASS (STATIC)**
 
 ### Gate
-
-**WORK-03 ditutup berdasarkan static source/resource reconciliation. Compile/runtime execution tetap NOT PERMITTED.**
-
-### Current Status
-
-BLOCKED
+**WORK-03 CLOSED — PASS (STATIC)**
+Build/runtime/device execution tetap NOT PERMITTED.
 
 ---
-
 # WORK-04 — IMPLEMENT CONCRETE SUPABASE
 
 ## Priority
@@ -1333,14 +1243,14 @@ NOT STARTED
 | WORK-00 Branch State | DONE | — |
 | **WORK-01 Build Configuration** | **PASS (STATIC)** | — |
 | WORK-02 Native SBA | **PASS (STATIC)** | — |
-| WORK-03 Dashboard | BLOCKED / STATIC | Canonical Dashboard static parity |
+| WORK-03 Dashboard | **PASS (STATIC)** | — |
 | WORK-04 Supabase | BLOCKED / STATIC | Concrete backend source boundary |
 | WORK-05 Runtime Boundaries | BLOCKED / STATIC | Source-level execution closure |
 | WORK-06 Static Parity | NOT STARTED | No unauthorized deviation |
 
 ## SINGLE NEXT ACTION
 
-**WORK-02 selesai — PASS (STATIC).**
+**WORK-03 selesai — PASS (STATIC).**
 
 Evidence:
 
@@ -1353,7 +1263,7 @@ Evidence:
 - legacy JNI namespace diklasifikasikan **MIGRATE / isolated compatibility boundary**
 - native/runtime/build execution tidak dijalankan sesuai boundary
 
-**Next action tunggal: WORK-03 — Canonical Dashboard static parity.** Jangan melompat ke WORK-04.
+**Next action tunggal: WORK-04 — Concrete Supabase source boundary.** Jangan melompat ke WORK-05.
 ---
 
 # CHANGE CONTROL
