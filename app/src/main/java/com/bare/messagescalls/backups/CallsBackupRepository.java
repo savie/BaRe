@@ -118,10 +118,6 @@ public final class CallsBackupRepository {
             if (source.exists()) source.delete();
         }
         return new CallLogBackupItem(fileName, now, calls.size(), device, output);
-        } finally {
-            Arrays.fill(passwordChars, '\0');
-            if (source.exists()) source.delete();
-        }
     }
 
     public boolean deleteAllLocal() {
