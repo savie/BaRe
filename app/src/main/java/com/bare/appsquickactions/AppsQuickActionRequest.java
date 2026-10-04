@@ -51,7 +51,7 @@ public final class AppsQuickActionRequest implements Parcelable {
         if ("ID_RESTORE_ALL_APPS".equals(id)) return new AppsQuickActionRequest(id, 201, Operation.RESTORE, true, true);
         if ("ID_RESTORE_MISSING_APPS".equals(id)) return new AppsQuickActionRequest(id, 202, Operation.RESTORE, true, true);
         if ("ID_RESTORE_NEW_VERSIONS_APPS".equals(id)) return new AppsQuickActionRequest(id, 203, Operation.RESTORE, true, true);
-        if ("ID_DELETE_BACKUPS_UNINSTALLED_APPS".equals(id)) return new AppsQuickActionRequest(id, 301, Operation.MAINTENANCE, false, true);
+        if ("ID_DELETE_BACKUPS_UNINSTALLED_APPS".equals(id)) return new AppsQuickActionRequest(id, 301, Operation.MAINTENANCE, true, false);
         if ("ID_ENABLE_DISABLE_APPS_APPS".equals(id)) return new AppsQuickActionRequest(id, 302, Operation.MAINTENANCE, false, true);
         throw new IllegalArgumentException("Unknown Apps Quick Action: " + id);
     }
