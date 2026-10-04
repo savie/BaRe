@@ -1,38 +1,81 @@
-# BΛR☰ Phase 2 — Reference Skeleton Gate
+# BΛR☰ Tahap 2 — Baseline Skeleton Reference
 
-## Scope
+## 1. Tujuan Tahap 2
 
-Phase 2 is the structural skeleton phase defined by `docs/bare.md`.
+Tahap 2 menetapkan dan mengaudit **kerangka struktural seluruh 119 komponen AndroidManifest Reference** sebagai batas kerja rekonstruksi BΛR☰.
 
-Acceptance is based on the Reference component boundaries and their required BaRe registration/source presence. It does **not** claim implementation behavior or runtime parity.
+Tahap 2 menjawab satu pertanyaan:
 
-## Gate result
+> **Apakah setiap komponen Reference sudah memiliki target struktural yang jelas di BΛR☰?**
 
-**PHASE 2 — COMPLETE (100% structural skeleton coverage).**
+Tahap 2 **belum** membuktikan kesetaraan perilaku, UI, runtime, build, backend, atau eksekusi perangkat.
 
-Audit source:
-- Reference: `reference/apktool/AndroidManifest.xml`
-- BaRe: `app/src/main/AndroidManifest.xml`
-- BaRe Java source tree under `app/src/main/java`
+Tahap 2 wajib mengikuti batas target yang telah dibekukan pada `docs/PHASE_1_INVENTORY.md`:
 
-## Component coverage
+**95 Activity + 10 Service + 10 Receiver + 4 Provider = 119 target BΛR☰.**
 
-| Component | Reference package count | BaRe registered | BaRe Java source | Result |
+---
+
+## 2. Koreksi terhadap dokumen P2 sebelumnya
+
+Dokumen P2 sebelumnya menggunakan batas:
+
+- 71 Activity
+- 3 Service
+- 8 Receiver
+- 0 Provider
+
+Batas tersebut adalah **inventaris komponen yang berasal dari package aplikasi Reference**, bukan seluruh target rekonstruksi.
+
+Dengan aturan P1 yang baru, pembagian tersebut **tidak lagi boleh digunakan sebagai batas target**.
+
+Mulai dari dokumen ini:
+
+- 95 Activity = target
+- 10 Service = target
+- 10 Receiver = target
+- 4 Provider = target
+- dependency/library tetap target
+- komponen pihak ketiga tetap target
+- tidak ada pengurangan berdasarkan asal implementasi
+
+---
+
+## 3. Sumber pemeriksaan
+
+- Reference AndroidManifest: `reference/apktool/AndroidManifest.xml`
+- Manifest BΛR☰: `app/src/main/AndroidManifest.xml`
+- Source Java BΛR☰: `app/src/main/java`
+- Baseline target: `docs/PHASE_1_INVENTORY.md`
+- Aturan proyek: `docs/bare.md`
+
+Reference tetap menjadi sumber kebenaran untuk batas struktural.
+
+---
+
+## 4. Status struktural saat ini
+
+Berdasarkan keadaan statis yang telah diaudit:
+
+| Jenis | Target Reference | Sudah terdaftar di BΛR☰ | Belum terdaftar | Status |
 |---|---:|---:|---:|---|
-| Activities | 71 | 71 | 71 | MATCH |
-| Services | 3 | 3 | 3 | MATCH |
-| Receivers | 8 | 8 | 8 | MATCH |
-| Providers owned by Reference package | 0 | 0 | 0 | MATCH |
+| Activity | 95 | 71 | 24 | BELUM LENGKAP |
+| Service | 10 | 3 | 7 | BELUM LENGKAP |
+| Receiver | 10 | 8 | 2 | BELUM LENGKAP |
+| Provider | 4 | 2 | 2 | BELUM LENGKAP |
+| **TOTAL** | **119** | **84** | **35** | **BELUM LENGKAP** |
 
-## Canonical Reference component inventory
+**P2 tidak boleh dinyatakan COMPLETE.**
 
-**Important:** the counts above are counts of **Reference-package Android manifest components**, not counts of all decoded APK/library components.
+Angka 84 hanya menunjukkan komponen yang saat ini telah ditemukan/terdaftar secara statis. Angka tersebut **bukan target baru**.
 
-The following list is the authoritative Phase 2 component inventory for the 5.1.0 (620) Reference manifest.
+---
 
-### Activities — 71
+# 5. TARGET ACTIVITY — 95 / 95
 
-| # | Reference Activity | BaRe Activity |
+Semua 95 Activity berikut adalah target BΛR☰.
+
+| # | Activity Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.intro.IntroActivity` | `com.bare.intro.IntroActivity` |
 | 2 | `org.swiftapps.swiftbackup.home.HomeActivity` | `com.bare.home.HomeActivity` |
@@ -105,18 +148,59 @@ The following list is the authoritative Phase 2 component inventory for the 5.1.
 | 69 | `org.swiftapps.swiftbackup.cloud.connect.CsActivity` | `com.bare.cloud.connect.CsActivity` |
 | 70 | `org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity` | `com.bare.cloud.connect.FilenSignInActivity` |
 | 71 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity` | `com.bare.messagescalls.defaulthandler.ComposeSmsActivity` |
+| 72 | `net.openid.appauth.RedirectUriReceiverActivity` | TARGET: BaRe-owned AppAuth compatibility boundary |
+| 73 | `com.gun0912.tedpermission.TedPermissionActivity` | TARGET: BaRe-owned TedPermission compatibility boundary |
+| 74 | `com.microsoft.identity.client.BrowserTabActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 75 | `com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 76 | `com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 77 | `com.microsoft.identity.client.helper.BrokerHelperActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 78 | `com.microsoft.identity.client.CurrentTaskBrowserTabActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 79 | `com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 80 | `com.microsoft.identity.common.internal.broker.BrokerActivity` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 81 | `com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher` | TARGET: BaRe-owned Microsoft Identity compatibility boundary |
+| 82 | `com.google.firebase.auth.internal.GenericIdpActivity` | TARGET: BaRe-owned Firebase Auth compatibility boundary |
+| 83 | `com.google.firebase.auth.internal.RecaptchaActivity` | TARGET: BaRe-owned Firebase Auth compatibility boundary |
+| 84 | `androidx.credentials.playservices.controllers.identityauth.HiddenActivity` | TARGET: BaRe-owned Credentials compatibility boundary |
+| 85 | `androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity` | TARGET: BaRe-owned Credentials compatibility boundary |
+| 86 | `com.google.android.gms.auth.api.signin.internal.SignInHubActivity` | TARGET: BaRe-owned Google Sign-In compatibility boundary |
+| 87 | `net.openid.appauth.AuthorizationManagementActivity` | TARGET: BaRe-owned AppAuth compatibility boundary |
+| 88 | `com.android.billingclient.api.ProxyBillingActivity` | TARGET: BaRe-owned Billing compatibility boundary |
+| 89 | `com.android.billingclient.api.ProxyBillingActivityV2` | TARGET: BaRe-owned Billing compatibility boundary |
+| 90 | `com.google.android.gms.common.api.GoogleApiActivity` | TARGET: BaRe-owned Google Play Services compatibility boundary |
+| 91 | `com.pcloud.sdk.AuthorizationActivity` | TARGET: BaRe-owned pCloud compatibility boundary |
+| 92 | `com.pcloud.sdk.CustomTabActivity` | TARGET: BaRe-owned pCloud compatibility boundary |
+| 93 | `com.yubico.yubikit.android.ui.OtpActivity` | TARGET: BaRe-owned YubiKey compatibility boundary |
+| 94 | `com.yubico.yubikit.android.ui.YubiKeyPromptActivity` | TARGET: BaRe-owned YubiKey compatibility boundary |
+| 95 | `com.google.android.play.core.common.PlayCoreDialogWrapperActivity` | TARGET: BaRe-owned Play Core compatibility boundary |
 
-### Services — 3
+**Catatan:** Untuk Activity yang berasal dari dependency/library, kolom target menggunakan istilah **batas kompatibilitas milik BΛR☰**. Bentuk implementasinya belum dianggap selesai hanya karena dependency asalnya tersedia.
 
-| # | Reference Service | BaRe Service |
+---
+
+# 6. TARGET SERVICE — 10 / 10
+
+Semua 10 Service berikut adalah target BΛR☰.
+
+| # | Service Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.tasks.TaskService` | `com.bare.tasks.TaskService` |
 | 2 | `org.swiftapps.swiftbackup.home.schedule.ScheduleService` | `com.bare.home.schedule.ScheduleService` |
 | 3 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService` | `com.bare.messagescalls.defaulthandler.HeadlessSmsSendService` |
+| 4 | `com.google.firebase.components.ComponentDiscoveryService` | TARGET: BaRe-owned Firebase compatibility boundary |
+| 5 | `androidx.credentials.playservices.CredentialProviderMetadataHolder` | TARGET: BaRe-owned Credentials compatibility boundary |
+| 6 | `com.google.android.gms.auth.api.signin.RevocationBoundService` | TARGET: BaRe-owned Google Sign-In compatibility boundary |
+| 7 | `com.google.firebase.sessions.SessionLifecycleService` | TARGET: BaRe-owned Firebase Sessions compatibility boundary |
+| 8 | `androidx.room.MultiInstanceInvalidationService` | TARGET: BaRe-owned Room compatibility boundary |
+| 9 | `com.google.android.datatransport.runtime.backends.TransportBackendDiscovery` | TARGET: BaRe-owned DataTransport compatibility boundary |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService` | TARGET: BaRe-owned DataTransport compatibility boundary |
 
-### Receivers — 8
+---
 
-| # | Reference Receiver | BaRe Receiver |
+# 7. TARGET RECEIVER — 10 / 10
+
+Semua 10 Receiver berikut adalah target BΛR☰.
+
+| # | Receiver Reference | Target BΛR☰ |
 |---:|---|---|
 | 1 | `org.swiftapps.swiftbackup.jobs.AlarmReceiver` | `com.bare.jobs.AlarmReceiver` |
 | 2 | `org.swiftapps.swiftbackup.common.LocaleChangedReceiver` | `com.bare.common.LocaleChangedReceiver` |
@@ -126,132 +210,136 @@ The following list is the authoritative Phase 2 component inventory for the 5.1.
 | 6 | `org.swiftapps.swiftbackup.detail.ShortcutPinnedReceiver` | `com.bare.detail.ShortcutPinnedReceiver` |
 | 7 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.SmsReceiver` | `com.bare.messagescalls.defaulthandler.SmsReceiver` |
 | 8 | `org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver` | `com.bare.messagescalls.defaulthandler.MmsReceiver` |
+| 9 | `androidx.profileinstaller.ProfileInstallReceiver` | TARGET: BaRe-owned ProfileInstaller compatibility boundary |
+| 10 | `com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver` | TARGET: BaRe-owned DataTransport compatibility boundary |
 
-### Reference-owned Providers — 0
+---
 
-The Reference manifest has **4 providers total**, but all 4 are dependency/library providers. None is under `org.swiftapps.swiftbackup.*`. Therefore the Phase 2 application-owned provider count is **0**.
+# 8. TARGET PROVIDER — 4 / 4
 
-### How to read this inventory
+Semua 4 Provider berikut adalah target BΛR☰.
 
-- **Phase 2 MATCH** means only: the component boundary exists in BaRe Java source + manifest registration.
-- It does **not** mean UI, state, behavior, feature execution, backend, or runtime parity.
-- An Activity listed here may already have P3 work, may only have a skeleton, or may still require P3/P4/P5 reconstruction.
-- Do not use the 71 count as “71 features complete”.
-- The current vertical reconstruction checkpoint is tracked separately in `docs/RECONSTRUCTION_CHECKPOINT.md`.
+| # | Provider Reference | Target BΛR☰ |
+|---:|---|---|
+| 1 | `androidx.core.content.FileProvider` | TARGET: BaRe-owned FileProvider contract |
+| 2 | `rikka.shizuku.ShizukuProvider` | TARGET: BaRe-owned Shizuku provider contract |
+| 3 | `com.gun0912.tedpermission.provider.TedPermissionProvider` | TARGET: BaRe-owned TedPermission provider contract |
+| 4 | `androidx.startup.InitializationProvider` | TARGET: BaRe-owned AndroidX Startup compatibility boundary |
 
-### Provider boundary
+---
 
-The Reference APK manifest contains 4 providers total, but all 4 are dependency/library providers and none belongs to `org.swiftapps.swiftbackup`.
+# 9. ATURAN UNTUK KOMPONEN DEPENDENCY / LIBRARY
 
-Phase 2's application skeleton gate therefore requires 0 Reference-owned providers. Dependency provider declarations remain a dependency integration concern and are not silently reclassified as BaRe-owned components.
+Komponen dependency/library **bukan pengecualian**.
 
-## Activity coverage
+Jika Reference mendeklarasikan suatu komponen di AndroidManifest, maka BΛR☰ wajib memiliki target struktural untuk komponen tersebut.
 
-All 71 Reference-package Activities have a corresponding `com.bare.*` Activity source and manifest registration.
+Target dapat diwujudkan melalui:
 
-Reference → BaRe package substitution is limited to the application identity migration:
+1. implementasi langsung;
+2. wrapper kompatibilitas;
+3. batas API/ABI yang dipertahankan;
+4. integrasi dependency yang secara eksplisit dikendalikan sebagai bagian dari target BΛR☰;
+5. implementasi ekuivalen milik BΛR☰.
 
-`org.swiftapps.swiftbackup.*` → `com.bare.*`
+Namun, sekadar memasukkan dependency belum otomatis berarti target selesai.
 
-No Activity was omitted from the structural skeleton.
+---
 
-## Service coverage
+# 10. DEFINISI “SUDAH ADA” PADA TAHAP 2
 
-All 3 Reference-package Services are present and registered:
+Komponen hanya boleh dihitung **terdaftar** apabila terdapat bukti statis yang cukup untuk menunjukkan bahwa batas strukturalnya memang tersedia di BΛR☰.
 
-- `TaskService`
-- `ScheduleService`
-- `HeadlessSmsSendService`
+Minimal harus dapat ditelusuri ke:
 
-The current manifest also preserves the Reference foreground-service type boundary for the task/schedule services.
+- source atau implementation boundary yang relevan; dan
+- registrasi AndroidManifest yang relevan, bila komponen tersebut membutuhkan deklarasi manifest.
 
-## Receiver coverage
+Tahap 2 tidak menggunakan asumsi:
 
-All 8 Reference-package Receivers are present and registered:
+- “dependency sudah ada berarti komponen selesai”;
+- “library yang sama sudah dipakai berarti target selesai”;
+- “nama class Reference sudah dikenal berarti target selesai”.
 
-- `AlarmReceiver`
-- `LocaleChangedReceiver`
-- `BootReceiver`
-- `NotificationTaskCancelReceiver`
-- `PackageInstallResultReceiver`
-- `ShortcutPinnedReceiver`
-- `SmsReceiver`
-- `MmsReceiver`
+---
 
-The audited intent, export, permission, and boot/locale/SMS/MMS boundaries are preserved where reconstructed.
+# 11. YANG TIDAK DINILAI PADA TAHAP 2
 
-## Manifest structural audit
+Tahap 2 **tidak** menyatakan:
 
-Reference and BaRe were compared directly.
+- kesetaraan UI;
+- kesetaraan layout;
+- kesetaraan Fragment;
+- kesetaraan state;
+- kesetaraan perilaku Activity;
+- kesetaraan perilaku Service;
+- kesetaraan efek Receiver;
+- kesetaraan Provider;
+- kesetaraan cloud/backend;
+- kesetaraan backup/restore;
+- kesetaraan runtime;
+- kesetaraan perangkat;
+- kesetaraan build;
+- kesiapan produksi.
 
-### Component result
+Semua hal tersebut menjadi tanggung jawab tahap berikutnya sesuai pembagian fase.
 
-- Reference internal Activities: 71
-- BaRe internal Activities: 71
-- Missing internal Activities: 0
-- Reference internal Services: 3
-- BaRe internal Services: 3
-- Missing internal Services: 0
-- Reference internal Receivers: 8
-- BaRe internal Receivers: 8
-- Missing internal Receivers: 0
-- Reference internal Providers: 0
-- BaRe internal Providers: 0
+---
 
-### Permission delta
+# 12. ATURAN FREEZE
 
-The Reference manifest contains 34 `uses-permission` declarations; the current BaRe manifest contains 30.
+Setelah baseline P2 dikualifikasi:
 
-The four Reference-only declarations are:
+1. batas target tetap **119 komponen**;
+2. target tidak boleh kembali menjadi 71/3/8/0;
+3. dependency/library tidak boleh dikeluarkan dari target;
+4. penambahan atau perubahan implementation harus mengikuti target yang sudah dibekukan;
+5. status “belum ada”, “sebagian”, “lengkap”, atau “terverifikasi” harus didukung bukti;
+6. tidak boleh mengubah status menjadi PASS hanya untuk menutup gap.
 
-1. `android.permission.QUERY_ADVANCED_PROTECTION_MODE`
-2. `com.google.android.providers.gsf.permission.READ_GSERVICES`
-3. `org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`
-4. `moe.shizuku.manager.permission.API_V23`
+---
 
-These are **not counted as missing Phase 2 application-owned component boundaries**.
+# 13. GERBANG TAHAP 2
 
-Interpretation is evidence-bound:
-- `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` is a Reference-defined permission tied to the Reference package identity and dependency/runtime setup.
-- GSF and Shizuku permissions are dependency/integration surface.
-- `QUERY_ADVANCED_PROTECTION_MODE` is a Reference permission declaration but its runtime requirement has not been separately verified in BaRe.
+### STATUS: **BELUM LULUS — REKONSTRUKSI SKELETON 119 TARGET BELUM LENGKAP**
 
-No behavior is inferred from these declarations. They remain an explicit manifest/dependency audit item for the later integration/runtime stages.
+Target resmi:
 
-### Feature declarations
+**119 Reference components → 119 target BΛR☰**
 
-Reference and BaRe both expose the audited 4 hardware feature declarations. No feature declaration was missing in the structural audit.
+Status statis saat ini:
 
-## Structural duplication check
+**84 terdaftar / 35 belum terdaftar**
 
-The rewrite manifest was audited for duplicate Activity registrations during the reconstruction batch.
+Rinciannya:
 
-Result:
-- 71 internal Reference Activities registered
-- no duplicate Activity names
-- duplicate/misnamed Home Search registration removed during reconstruction
-- Services and Receivers retain one registration per Reference component boundary
+- Activity: **71 / 95**
+- Service: **3 / 10**
+- Receiver: **8 / 10**
+- Provider: **2 / 4**
 
-## Phase 2 freeze rule
+Karena masih terdapat **35 target struktural yang belum terdaftar**, Tahap 2 **tidak boleh dinyatakan selesai**.
 
-The following are intentionally **not** part of the Phase 2 completion claim:
+---
 
-- Activity UI parity
-- Fragment behavior parity
-- service implementation behavior
-- receiver side effects
-- provider SDK behavior
-- cloud/backend implementation
-- backup/restore implementation
-- runtime verification
-- visual parity
+## 14. Batas kerja setelah P2
 
-Those belong to later phases and remain UNKNOWN/BLOCKED where evidence has not yet been reconstructed.
+Pekerjaan berikutnya harus menyelesaikan 35 target yang masih kosong:
 
-## Phase 2 completion statement
+- 24 Activity
+- 7 Service
+- 2 Receiver
+- 2 Provider
 
-**Phase 2 is frozen at 100% structural skeleton coverage.**
+Untuk setiap target, harus ditetapkan:
 
-No known Reference-owned Activity, Service, Receiver, or Provider boundary is missing from the BaRe rewrite skeleton.
+1. nama Reference;
+2. target BΛR☰;
+3. bentuk implementasi/compatibility boundary;
+4. kebutuhan AndroidManifest;
+5. source owner;
+6. status bukti.
 
-Next work starts from the frozen P1/P2 baseline and moves into Phase 3 + Phase 4 dependency-driven reconstruction without reopening the inventory from zero.
+Setelah seluruh 119 target memiliki batas struktural yang dapat diverifikasi, barulah P2 dapat diajukan kembali sebagai **COMPLETE**.
+
+**P2 tidak melakukan build, assemble, APK, install, runtime, device test, atau eksekusi Supabase.**
