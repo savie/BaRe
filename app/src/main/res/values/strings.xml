@@ -710,4 +710,5 @@ Unable to read package information: %2$s</string>
     <string name="restore_task_directory_error">Unable to create restore task directory.</string>
     <string name="restore_task_invalid_path">Invalid restore task path.</string>
     <string name="restore_task_create_error">Unable to create restore task directory.</string>
+    <string name="wifi_hidden_network">%1$s • hidden</string>
 </resources>
