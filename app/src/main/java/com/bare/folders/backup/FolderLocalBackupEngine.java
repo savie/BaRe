@@ -103,9 +103,11 @@ public final class FolderLocalBackupEngine {
             if (diff.added.isEmpty() && diff.modified.isEmpty() && diff.deleted.isEmpty()) {
                 return Result.noChange(existing.manifestFile, existing.archiveFile, snapshot.entries.size());
             }
-            backupId = "inc-" + Instant.now().toString();
-            archiveName = "folder-inc-" + safeTimestamp(backupId.substring(4)) + ".fld";
-            manifestName = "folder-inc-" + safeTimestamp(backupId.substring(4)) + ".flm";
+            String timestamp = new java.text.SimpleDateFormat(
+                    "yyyyMMdd-HHmmss-SSS", Locale.ROOT).format(new java.util.Date());
+            backupId = "inc-" + timestamp;
+            archiveName = "folder-inc-" + timestamp + ".fld";
+            manifestName = "folder-inc-" + timestamp + ".flm";
             payload = new LinkedHashMap<>();
             for (String path : diff.added) payload.put(path, snapshot.entries.get(path));
             for (String path : diff.modified) payload.put(path, snapshot.entries.get(path));
@@ -387,10 +389,6 @@ public final class FolderLocalBackupEngine {
         if (value == null || value.isEmpty() || value.startsWith("/")
                 || value.contains("..") || value.indexOf('\0') >= 0) return null;
         return value.replace('\\', '/');
-    }
-
-    private static String safeTimestamp(String value) {
-        return value.replace(":", "-").replace(".", "-").replace("Z", "");
     }
 
     private static String readUtf8(File file) throws Exception {
