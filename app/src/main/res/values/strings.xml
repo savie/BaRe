@@ -62,6 +62,11 @@
     <string name="delete_active_tag">Delete tag '%s' and associated backups</string>
     <string name="scheduled_backups">Scheduled backups</string>
     <string name="schedule_backup_summary">Scheduled automatic recurring backups to local or cloud</string>
+    <string name="schedule_battery_error_message">Blocked as battery level was below requirement (Battery level = %1$s, Required = %2$s)</string>
+    <string name="schedule_charging_error_message">Blocked as device was not charging</string>
+    <string name="schedule_count">%1$d of %2$d</string>
+    <string name="schedule_error_notification_subtitle">Error when executing some schedules</string>
+    <string name="schedule_fgs_quota_notification_message">Android stopped scheduled backups because the data sync foreground service time limit is exhausted. Use Run schedule now to start it manually.</string>
     <string name="run_all_schedules">Run all schedules</string>
     <string name="get_premium">Get premium</string>
     <string name="device">Device</string>
