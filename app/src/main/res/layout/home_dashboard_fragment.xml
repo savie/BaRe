@@ -6,78 +6,22 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:overScrollMode="never">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="@string/overview"
-            style="@style/SegmentCategoryCaption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/storage_summary_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:text="@string/storage_summary"
-                    android:textStyle="bold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/storage_summary_value"
-                    android:text="@string/storage_summary_pending"
-                    android:layout_marginTop="8dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+    <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView android:text="@string/overview" style="@style/SegmentCategoryCaption" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.card.MaterialCardView android:id="@+id/storage_summary_card" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp">
+            <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <LinearLayout android:orientation="vertical" android:padding="16dp" android:layout_width="match_parent" android:layout_height="wrap_content">
+                    <TextView android:text="@string/storage_summary" android:textStyle="bold" android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/storage_summary_value" android:text="@string/storage_summary_pending" android:layout_marginTop="8dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
+                </LinearLayout>
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?attr/colorOutlineVariant" />
+                <android.widget.GridLayout android:id="@+id/summary_shortcuts_segment" android:columnCount="3" android:alignmentMode="alignMargins" android:useDefaultMargins="false" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="12dp" android:paddingBottom="12dp" android:layout_width="match_parent" android:layout_height="wrap_content" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <include
-            android:id="@+id/dash_card_quick_actions_apps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            layout="@layout/quick_action_card" />
-
-        <include
-            android:id="@+id/dash_card_quick_actions_messages"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            layout="@layout/quick_action_card" />
-
-        <include
-            android:id="@+id/dash_card_quick_actions_calls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            layout="@layout/quick_action_card" />
-
-        <include
-            android:id="@+id/dash_card_quick_actions_folders"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            layout="@layout/quick_action_card" />
-
-        <LinearLayout
-            android:id="@+id/dashboard_actions"
-            android:visibility="gone"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <include android:id="@+id/dash_card_quick_actions_apps" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/activity_vertical_margin" layout="@layout/quick_action_card" />
+        <include android:id="@+id/dash_card_quick_actions_messages" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/activity_vertical_margin" layout="@layout/quick_action_card" />
+        <include android:id="@+id/dash_card_quick_actions_calls" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/activity_vertical_margin" layout="@layout/quick_action_card" />
+        <include android:id="@+id/dash_card_quick_actions_folders" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/activity_vertical_margin" layout="@layout/quick_action_card" />
+        <LinearLayout android:id="@+id/dashboard_actions" android:visibility="gone" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
