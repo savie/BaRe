@@ -182,6 +182,7 @@ public final class MessagesRestoreRepository {
         }
 
         int partsInserted = 0;
+        int invalid = 0;
         JSONArray partItems = o.optJSONArray("partItems");
         if (partItems != null) {
             for (int i = 0; i < partItems.length(); i++) {
@@ -208,7 +209,8 @@ public final class MessagesRestoreRepository {
                                 .build(),
                         partValues);
                 if (partUri == null) {
-                    return new MmsRestoreResult(true, partsInserted, 0, 1);
+                    invalid++;
+                    continue;
                 }
                 partsInserted++;
 
@@ -259,7 +261,7 @@ public final class MessagesRestoreRepository {
             }
         }
 
-        return new MmsRestoreResult(true, partsInserted, 0, 0);
+        return new MmsRestoreResult(true, partsInserted, 0, invalid);
     }
 
     private Long getOrCreateThreadId(List<String> addresses) {
