@@ -9,12 +9,6 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Reference gt4-compatible legacy Wi-Fi configuration reader.
- *
- * This adapter intentionally owns only the public WifiManager source. Root
- * XML and Shizuku readers remain separate adapters behind WifiAccessContract.
- */
 public final class WifiSystemNetworkRepository {
     private final WifiManager wifiManager;
 
@@ -26,27 +20,21 @@ public final class WifiSystemNetworkRepository {
     public Result read() {
         try {
             List<WifiConfiguration> configured = wifiManager.getConfiguredNetworks();
-            if (configured == null) {
-                return Result.failure(WifiAccessContract.Failure.LEGACY_READ_FAILED);
-            }
+            if (configured == null) return Result.failure(WifiAccessContract.Failure.LEGACY_READ_FAILED);
 
             List<WifiCredentialState> result = new ArrayList<>(configured.size());
             for (WifiConfiguration config : configured) {
                 if (config == null) continue;
-
-                String ssid = !TextUtils.isEmpty(config.SSID) ? config.SSID : "Unknown";
+                String ssid = !TextUtils.isEmpty(config.SSID) ? config.SSID : null;
+                if (ssid == null) continue;
                 String psk = config.preSharedKey == null ? "" : config.preSharedKey;
                 result.add(new WifiCredentialState(
-                        ssid,
-                        psk,
-                        true,
-                        config.hiddenSSID,
+                        ssid, psk, true, config.hiddenSSID,
                         copy(config.allowedKeyManagement),
                         copy(config.allowedProtocols),
                         copy(config.allowedPairwiseCiphers),
                         copy(config.allowedGroupCiphers)));
             }
-
             return Result.success(result);
         } catch (SecurityException e) {
             return Result.failure(WifiAccessContract.Failure.ACCESS_UNAVAILABLE);
@@ -69,9 +57,7 @@ public final class WifiSystemNetworkRepository {
         }
 
         public static Result success(List<WifiCredentialState> items) {
-            return new Result(
-                    Collections.unmodifiableList(new ArrayList<>(items)),
-                    WifiAccessContract.Failure.NONE);
+            return new Result(Collections.unmodifiableList(new ArrayList<>(items)), WifiAccessContract.Failure.NONE);
         }
 
         public static Result failure(WifiAccessContract.Failure failure) {
