@@ -8,6 +8,7 @@
 
 ## Execution guard
 - Supabase implementation: **WAITING FOR EXPLICIT USER PERMISSION**
+- App-side P6.3 implementation: **AUTHORIZED BY CURRENT WORK ORDER / ACTIVE**
 - APK build: **WAITING FOR EXPLICIT USER PERMISSION**
 - Current work is limited to Reference audit and GitHub reconstruction/contracts.
 
@@ -28,7 +29,24 @@ Latest Activity depth audit:
 This file is a **detailed evidence / implementation history ledger**. Entries below are historical records unless explicitly marked as current. Do not use historical counts or intermediate checkpoints as the current P3 status.
 
 ## Current phase
-**PHASE 5.7 — FEATURE CLOSURE — COMPLETE 🟢**
+**PHASE 6.3 — APP-ONLY IMPLEMENTATION LOOP — ACTIVE 🟡**
+
+### P6.3 folder restore deepening — 2026-10-04
+
+The active P6.3 loop is implementing Reference-supported app behavior instead of stopping at task/provider boundaries.
+
+- Re-read the canonical Swift Backup 5.1.0 / 620 folder restore path (wj3, pn3, z07, SbaSwiftTarNative, FolderRestoreStrategy) directly from the supplied decompile ZIP.
+- Implemented FolderLocalRestoreEngine: base → incremental chain construction, parent/cycle validation, final-state comparison, strategy filtering, latest-payload selection, native SBA extraction, and FULL_RESTORE extra-file/directory reconciliation.
+- Implemented the Reference native AEGIS destination/offset contract in SbaNativeEntryExecutor and ReferenceSbaNativeRestoreOrchestrator.
+- Extended local folder manifests with directory state and directory add/delete deltas.
+- Corrected local SBA folder archive entry naming to the Reference archive-entry contract.
+- Centralized the Reference-compatible local folder archive password derivation for backup/restore.
+- Wired strategy-aware restore into FoldersBatchActivity and FolderDetailActivity using localized string resources.
+- Repaired the existing base string-resource placement so the new folder-restore resources remain inside the canonical <resources> document.
+- Reference ZIP remains unchanged. No build/install/runtime/device/backend/Supabase execution was performed.
+- Static implementation is IMPLEMENTED / UNVERIFIED at the runtime/native boundary; P6.3 remains open until the re-audit proves no Reference-backed /app gap remains.
+
+
 
 ### P5.7 closure checkpoint — 2026-10-03
 
