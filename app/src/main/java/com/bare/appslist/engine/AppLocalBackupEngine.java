@@ -210,9 +210,6 @@ public final class AppLocalBackupEngine {
             }
 
             metadata.put("parts", new JSONArray(completed));
-            File xml = new File(packageDir, backupId + ".xml");
-            writeAtomic(xml, metadata.toString());
-
             metadata.put("sourceSizes", sourceSizes(info, parts));
             File xml = new File(packageDir, backupId + ".xml");
             writeAtomic(xml, metadata.toString());
