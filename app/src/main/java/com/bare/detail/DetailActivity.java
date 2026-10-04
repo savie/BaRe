@@ -10,7 +10,7 @@ public final class DetailActivity extends AppCompatActivity {
   for(int i=0;i<values.length;i++)checked[i]=true;
   new MaterialAlertDialogBuilder(this).setTitle(R.string.backup_parts)
     .setMultiChoiceItems(new String[]{
-      getString(R.string.backup_part_apk),getString(R.string.backup_part_data),
+      getString(R.string.backup_part_apk),getString(R.string.backup_part_splits),getString(R.string.backup_part_shared_libs),getString(R.string.backup_part_data),
       getString(R.string.backup_part_external_data),getString(R.string.backup_part_media),
       getString(R.string.backup_part_expansion)},checked,(d,w,isChecked)->checked[w]=isChecked)
     .setNegativeButton(R.string.cancel,null)
@@ -19,10 +19,12 @@ public final class DetailActivity extends AppCompatActivity {
  private void backupSelected(boolean[] checked){
   final java.util.LinkedHashSet<AppLocalBackupEngine.Part> parts=new java.util.LinkedHashSet<>();
   if(checked[0])parts.add(AppLocalBackupEngine.Part.APK);
-  if(checked[1])parts.add(AppLocalBackupEngine.Part.DATA);
-  if(checked[2])parts.add(AppLocalBackupEngine.Part.EXTERNAL_DATA);
-  if(checked[3])parts.add(AppLocalBackupEngine.Part.MEDIA);
-  if(checked[4])parts.add(AppLocalBackupEngine.Part.EXPANSION);
+  if(checked[1])parts.add(AppLocalBackupEngine.Part.SPLITS);
+  if(checked[2])parts.add(AppLocalBackupEngine.Part.SHARED_LIBS);
+  if(checked[3])parts.add(AppLocalBackupEngine.Part.DATA);
+  if(checked[4])parts.add(AppLocalBackupEngine.Part.EXTERNAL_DATA);
+  if(checked[5])parts.add(AppLocalBackupEngine.Part.MEDIA);
+  if(checked[6])parts.add(AppLocalBackupEngine.Part.EXPANSION);
   if(parts.isEmpty()){boundary(R.string.backup);return;}
   new Thread(()->{
    try{
@@ -45,6 +47,8 @@ public final class DetailActivity extends AppCompatActivity {
   final java.util.LinkedHashSet<AppLocalBackupEngine.Part> parts=new java.util.LinkedHashSet<>();
   for(RestorePart p:selectedParts){
    if(p==RestorePart.APK)parts.add(AppLocalBackupEngine.Part.APK);
+   else if(p==RestorePart.SPLITS)parts.add(AppLocalBackupEngine.Part.SPLITS);
+   else if(p==RestorePart.SHARED_LIBS)parts.add(AppLocalBackupEngine.Part.SHARED_LIBS);
    else if(p==RestorePart.DATA)parts.add(AppLocalBackupEngine.Part.DATA);
    else if(p==RestorePart.EXTERNAL_DATA)parts.add(AppLocalBackupEngine.Part.EXTERNAL_DATA);
    else if(p==RestorePart.MEDIA)parts.add(AppLocalBackupEngine.Part.MEDIA);
@@ -67,9 +71,9 @@ public final class DetailActivity extends AppCompatActivity {
    }
   },"app-restore").start();
  }
- private void restoreBoundary(){ final RestorePart[] values=RestorePart.values(); boolean[] checked=new boolean[values.length]; for(int i=0;i<values.length;i++)checked[i]=selectedParts.contains(values[i]); new MaterialAlertDialogBuilder(this).setTitle(R.string.restore).setMultiChoiceItems(new String[]{getString(R.string.backup_part_apk),getString(R.string.backup_part_data),getString(R.string.backup_part_external_data),getString(R.string.backup_part_media),getString(R.string.backup_part_expansion)},checked,(d,w,isChecked)->{if(isChecked)selectedParts.add(values[w]);else selectedParts.remove(values[w]);}).setPositiveButton(android.R.string.ok,(d,w)->{if(selectedParts.isEmpty())selectedParts.add(RestorePart.APK);restoreSelected();}).setNegativeButton(R.string.cancel,null).show(); }
+ private void restoreBoundary(){ final RestorePart[] values=RestorePart.values(); boolean[] checked=new boolean[values.length]; for(int i=0;i<values.length;i++)checked[i]=selectedParts.contains(values[i]); new MaterialAlertDialogBuilder(this).setTitle(R.string.restore).setMultiChoiceItems(new String[]{getString(R.string.backup_part_apk),getString(R.string.backup_part_splits),getString(R.string.backup_part_shared_libs),getString(R.string.backup_part_data),getString(R.string.backup_part_external_data),getString(R.string.backup_part_media),getString(R.string.backup_part_expansion)},checked,(d,w,isChecked)->{if(isChecked)selectedParts.add(values[w]);else selectedParts.remove(values[w]);}).setPositiveButton(android.R.string.ok,(d,w)->{if(selectedParts.isEmpty())selectedParts.add(RestorePart.APK);restoreSelected();}).setNegativeButton(R.string.cancel,null).show(); }
  @Override protected void onSaveInstanceState(Bundle out){if(appParcel!=null)out.putParcelable(APP_PARCEL,appParcel); if(packageName!=null)out.putString(PACKAGE_NAME,packageName);out.putStringArrayList("restore_parts",new java.util.ArrayList<>(java.util.Arrays.asList(selectedParts.stream().map(Enum::name).toArray(String[]::new))));super.onSaveInstanceState(out);}
- public enum RestorePart { APK, DATA, EXTERNAL_DATA, MEDIA, EXPANSION }
+ public enum RestorePart { APK, SPLITS, SHARED_LIBS, DATA, EXTERNAL_DATA, MEDIA, EXPANSION }
  @Override public boolean onSupportNavigateUp(){setResult(Activity.RESULT_CANCELED);finish();return true;}
  @Override protected void onNewIntent(Intent intent){super.onNewIntent(intent);setIntent(intent); if(intent.getBooleanExtra(SHORTCUT,false)){appParcel=intent.getParcelableExtra(APP_PARCEL); packageName=intent.getStringExtra(PACKAGE_NAME);}}
 }
