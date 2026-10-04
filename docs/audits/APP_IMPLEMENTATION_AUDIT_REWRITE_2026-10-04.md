@@ -7,8 +7,8 @@
 | Project | BΛR☰ / BaRe |
 | Repository | savie/BaRe |
 | Branch | rewrite |
-| Latest implementation commit | `f53feec6dd7d569a812f8666166f2b66e9279456` |
-| Supplied Base Checkpoint | `6014cff87c406cf8bb545a7324d63d84d209c345` |
+| Latest implementation commit | `b4beebdb4b141132d49884c897aa101cfe2316db` |
+| Supplied Base Checkpoint | `b4beebdb4b141132d49884c897aa101cfe2316db` |
 | Reference | Swift Backup 5.1.0 / versionCode 620 |
 | Primary Authority | `/mnt/data/bare.md` |
 | Primary Reference | `/mnt/data/SwiftBackup-5.1.0-620-decompiled.zip` + `/mnt/data/5.1.0 (620).apk` |
@@ -32,7 +32,7 @@ Current `app/` bukan kosong dan sudah memiliki reconstruction surface yang besar
 
 Temuan paling penting:
 
-1. **Branch state reconciled:** `rewrite` now contains implementation commits after the supplied checkpoint; current work remains on `rewrite`.
+1. **Branch state reconciled:** `rewrite` exactly matches the supplied base checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`; no branch divergence is present.
 2. **WORK-01 static finding resolved:** `app/build.gradle` semula mencampur Groovy dengan konstruksi Kotlin DSL; konfigurasi tersebut sekarang telah direkonsiliasi ke Groovy DSL tanpa perubahan dependency/SDK/feature behavior.
 3. **WORK-02 native static finding resolved:** exact Reference `libsba_archive.so` blobs are now packaged for `arm64-v8a`, `armeabi-v7a`, `x86`, and `x86_64`; `SbaRuntimeNative` is restored; and the Java JNI owner surface is reconciled against the Reference symbols.
 4. **Concrete Supabase implementation belum ada:** target hanya memiliki provider-neutral contracts/boundaries dan UI/diagnostic strings. Tidak ditemukan Supabase SDK/client, Auth adapter, database adapter, Storage adapter, atau concrete remote repository wiring.
@@ -86,24 +86,19 @@ Reference APK memiliki `libsba_archive.so` pada:
 
 `refs/heads/rewrite` saat audit menunjuk ke:
 
-`6014cff87c406cf8bb545a7324d63d84d209c345`
+`b4beebdb4b141132d49884c897aa101cfe2316db`
 
-Commit tersebut memiliki parent:
+Supplied base checkpoint juga:
 
-`816a64e538c09c10064af782cac8d53d3003cb53`
+`b4beebdb4b141132d49884c897aa101cfe2316db`
 
-Commit `6014cff...` hanya menghapus:
-
-`docs/P6.3_APP_IMPLEMENTATION_TOTAL_AUDIT.md`
-
-Tidak ada perubahan implementation `app/` pada commit tersebut.
+`compare_commits(base, rewrite)` menghasilkan `identical`, dengan ahead/behind = `0/0` dan tidak ada changed files.
 
 ### Classification
 
-**BLOCKED / STATE NOTICE**
+**PASS — STATE RECONCILED**
 
-Instruksi audit meminta inspeksi branch `rewrite` dan secara eksplisit membedakannya dari checkpoint. Remote branch yang tersedia saat audit tidak menunjukkan divergence dari checkpoint. Audit tetap dilakukan terhadap current branch state yang benar-benar tersedia; tidak ada asumsi tentang uncommitted/local state yang tidak terlihat melalui repository remote.
-
+Tidak ada divergence antara branch `rewrite` dan supplied base checkpoint. Tidak ada asumsi tentang uncommitted/local state yang tidak terlihat melalui repository remote.
 ## App Inventory
 
 Current `app/` pada branch:
@@ -718,9 +713,9 @@ Tetap jangan menyamakan local SQLite lifecycle dengan Supabase schema migration.
 
 | ID | Surface | Finding | Classification | Priority |
 |---|---|---|---|---|
-| A01 | Branch | `rewrite` advanced beyond supplied base checkpoint | **RESOLVED — STATE RECONCILED** | P0 |
+| A01 | Branch | `rewrite` exactly matches supplied base checkpoint | **RESOLVED — STATE RECONCILED** | P0 |
 | A02 | Build | `app/build.gradle` Groovy/Kotlin DSL mix | **RESOLVED — PASS (STATIC)** | P0 |
-| A03 | Native | `libsba_archive.so` absent from `app/` | **RESOLVED — PASS (STATIC)** | P0 |
+| A03 | Native | Exact `libsba_archive.so` blobs are isolated in `native-compat` rather than `app/` | **RESOLVED — PASS (STATIC)** | P0 |
 | A04 | Backend | Concrete Supabase adapter/client absent | BLOCKED | P0 |
 | A05 | Dashboard | Current owner uses alternate non-Reference layout | UNAUTHORIZED DEVIATION | P1 |
 | A06 | Dashboard | Root status not wired | IMPLEMENTATION GAP | P1 |
@@ -893,9 +888,9 @@ Pastikan rewrite adalah state implementation yang benar-benar akan dikerjakan.
 `rewrite` adalah active implementation branch.
 
 Implementation state yang direkonsiliasi pada work order ini mencakup:
-- supplied base checkpoint: `6014cff87c406cf8bb545a7324d63d84d209c345`
-- native + branding migration closure: `f53feec6dd7d569a812f8666166f2b66e9279456`
-- subsequent audit/work-order commits tetap berada pada branch `rewrite`.
+- supplied base checkpoint: `b4beebdb4b141132d49884c897aa101cfe2316db`
+- current `rewrite` ref: `b4beebdb4b141132d49884c897aa101cfe2316db`
+- compare result: `identical` — ahead/behind `0/0`.
 
 ### Action
 
@@ -976,7 +971,7 @@ Mereconstruct/reconcile native archive/crypto boundary pada source/package/confi
 **PASS (STATIC)**
 
 Implemented:
-1. Exact Reference `libsba_archive.so` blobs for all four Reference ABIs are packaged under `app/src/main/jniLibs/...`.
+1. Exact Reference `libsba_archive.so` blobs for all four Reference ABIs are packaged under `native-compat/src/main/jniLibs/...`, which is wired into `app` through `implementation project(':native-compat')`.
 2. `SbaRuntimeNative` restored with Reference-compatible package, library identity, and `version()` JNI owner.
 3. `SbaTarEntryInfo` restored with the JNI-facing constructor descriptor and Reference accessor/constant surface needed by tar-entry native returns.
 4. `SbaSwiftTarNative` reconciled with Reference tar extraction, stats, and tar-entry listing native methods.
@@ -1348,10 +1343,12 @@ NOT STARTED
 
 Evidence:
 
-- native + branding migration closure: `f53feec6dd7d569a812f8666166f2b66e9279456`
-- empat ABI exact Reference `libsba_archive.so` terpasang
-- `SbaRuntimeNative` dan `SbaTarEntryInfo` dipulihkan
-- JNI tar/list/extraction owner direkonsiliasi
+- `rewrite` = supplied checkpoint `b4beebdb4b141132d49884c897aa101cfe2316db`
+- empat ABI exact Reference `libsba_archive.so` terpasang di `native-compat`
+- target Git blob SHA: `bb8ff9db67cc691ebabd58633a3ab56928c42d2a`, `6c95db5bc7db43c22eda42b5e1d74401d64a5753`, `3e3ee743d8633fd0799ececac6a898e67919025d`, `9843aad7dda4618af9bc7a6f227f41006ca804bb`
+- Reference canonical ZIP menghasilkan Git blob SHA yang sama untuk keempat ABI
+- `SbaRuntimeNative` dan `SbaTarEntryInfo` dipulihkan pada `native-compat`
+- `native-compat` wired ke `app` melalui `implementation project(':native-compat')`
 - legacy JNI namespace diklasifikasikan **MIGRATE / isolated compatibility boundary**
 - native/runtime/build execution tidak dijalankan sesuai boundary
 
