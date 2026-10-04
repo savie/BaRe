@@ -30,4 +30,8 @@ public final class SbaLibaegisCryptoNative {
             byte[] key, byte[] nonce, byte[] aad, long plainSize, long storedSize,
             int chunkSize, SbaNativeProgressListener listener);
     public native boolean isAvailable();
+
+    public native long[] encryptAegis256ChunkedEntryFdRaw(int fd, long offset, int progressMode,
+            byte[] key, byte[] nonce, byte[] aad, long plainSize, long storedSize,
+            int chunkSize, SbaNativeProgressListener listener);
 }
