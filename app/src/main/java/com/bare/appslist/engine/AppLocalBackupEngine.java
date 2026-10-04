@@ -15,6 +15,7 @@ import com.bare.storage.AndroidStorageInventory;
 import com.bare.storage.LocalStorageCoordinator;
 import com.bare.storage.StorageSelection;
 import com.bare.settings.MultipleBackupStrategy;
+import com.bare.tasks.TaskService;
 import com.bare.appslist.planning.AppBackupStrategyPlanner;
 
 import org.json.JSONArray;
@@ -553,9 +554,15 @@ public final class AppLocalBackupEngine {
 
     private List<File> stagePrivilegedData(PackageInfo info, List<File> temporary) throws Exception {
         ArrayList<File> sources = new ArrayList<>();
-        File root = new File(context.getCacheDir(), "app-data-stage-" + System.nanoTime());
+        TaskService.AppsWorkingDir.Result workspace =
+                new TaskService.AppsWorkingDir().open(context.getFilesDir(), null, System.nanoTime(), false);
+        if (!workspace.created || workspace.directory == null) {
+            throw new IllegalStateException(
+                    workspace.error == null ? "Cannot create app task workspace" : workspace.error);
+        }
+        File root = new File(workspace.directory, "data-stage");
         if (!root.mkdirs()) throw new IllegalStateException("Cannot create app data stage");
-        temporary.add(root);
+        temporary.add(workspace.directory);
 
         File data = new File(root, "data");
         privileged.copyTree(dataDirectory(info.packageName), data.getAbsolutePath(), false);
