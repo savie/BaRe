@@ -17,6 +17,7 @@ import androidx.core.widget.NestedScrollView;
 import com.bare.R;
 import com.bare.messagescalls.backuprestore.CallsBackupRestoreActivity;
 import com.bare.messagescalls.backups.CallsBackupsActivity;
+import com.bare.messagescalls.backups.CallsBackupRepository;
 import com.bare.settings.SettingsActivity;
 import com.bare.settings.SettingsDetailActivity;
 
@@ -53,6 +54,15 @@ public final class CallsDashActivity extends AppCompatActivity {
                     scrollView.smoothScrollTo(0, findViewById(R.id.cloud_card).getTop()));
         }
         requestCallPermissions();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CallsBackupRepository repository = new CallsBackupRepository(this);
+        int count = repository.listLocal().size();
+        ((TextView) findViewById(R.id.tv_local_state)).setText(
+                getString(R.string.call_logs_local_backups_count, count));
     }
 
     private void requestCallPermissions() {
