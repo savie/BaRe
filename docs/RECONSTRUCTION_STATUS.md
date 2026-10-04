@@ -1419,3 +1419,20 @@ SBA native infrastructure is now materially implemented: exact Reference `libsba
 ## P6.3 Apps Shared Libraries restore closure — 2026-10-04
 
 Reference `xw.u()` was re-read directly from the supplied decompile ZIP. The recovered consumer chain is now closed: archive listing → per-entry SBA extraction into `AppsWorkingDir` → enumerate decompressed `.apk` entries → `pm install -t <apk>` for each shared-library APK. BaRe implements this owner in `AppLocalBackupEngine.restoreSharedLibraries()`. No synthetic filesystem destination was introduced. Runtime/package-manager/privileged execution remains unverified.
+
+## P6.3 Messages ff5 → mz6/Packer producer closure — 2026-10-04
+
+Reference ZIP re-search was repeated after implementation.
+
+- ff5 backup producer was re-traced from conversation loading through y32.f(...), yx5.h(yx5.j()), mz6.e(..., "swiftbackup.messages.v3"), and ud5.c(false).
+- mz6.e was decompiled at the native handoff: hz6(sourceRoot, includeRootDirectory=true) becomes one SBA entry with root-inclusive flag 8; tu0 converts entry descriptors into SbaArchiveNative.createArchive(...) arguments.
+- Reference xp1 compression levels are 0,1,3,5,7,9; BaRe now preserves the configured level instead of collapsing non-zero values to 1, with 1 as the unresolved/default fallback.
+- BaRe now produces the complete app-side Messages artifact: selected-thread SMS/MMS projection, Reference field names, contact enrichment, Reference MMS recipient/type filtering, text-part projection, cached binary MMS parts, Reference inner AES-GCM envelope, v3 filename, root-inclusive SBA entry, Reference Argon2id/Aegis parameters, and local retention.
+- MessagesTaskEngine is now the execution owner used by MessagesBackupRestoreActivity; the Activity no longer stops at the previous boundary dialog for local Messages backup.
+- Restore callback safety was tightened: successful role result is accepted only after isDefaultSmsApp() confirms actual role ownership.
+- All newly added user-facing backup/restore result text is localized through strings.xml.
+- Static re-search found no additional ff5 Messages producer gap beyond the implemented archive creation path.
+- Runtime/device/native SBA execution, concrete authenticated identity provider wiring, backend/Supabase execution, build/install and E2E remain outside the authorized boundary.
+
+**Messages archive producer: IMPLEMENTED / STATIC.**
+**Messages runtime/native verification: UNVERIFIED / BOUNDARY.**
