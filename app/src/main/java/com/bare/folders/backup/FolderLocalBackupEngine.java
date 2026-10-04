@@ -10,6 +10,8 @@ import com.bare.folders.manifest.FolderManifest;
 import com.bare.folders.manifest.FolderManifestEntry;
 import com.bare.folders.repository.LocalFolderSetupRepository;
 import com.bare.home.repository.AnonymousIdentityStore;
+import com.bare.schedule.contracts.ReScheduleContracts;
+import com.bare.storage.DiskSpacePreflight;
 import com.bare.settings.PasswordStrategy;
 import com.bare.settings.PasswordStrategyRepository;
 import com.bare.core.state.SecureLocalState;
@@ -125,6 +127,18 @@ public final class FolderLocalBackupEngine {
 
         File archive = new File(backupDir, archiveName);
         File manifest = new File(backupDir, manifestName);
+
+        long requiredBytes = 0L;
+        for (EntryState entry : payload.values()) {
+            requiredBytes = safeAdd(requiredBytes, entry == null ? 0L : entry.size);
+        }
+        if (createBase) {
+            requiredBytes = 0L;
+            for (EntryState entry : snapshot.entries.values()) {
+                requiredBytes = safeAdd(requiredBytes, entry == null ? 0L : entry.size);
+            }
+        }
+        ensureDiskSpace(backupDir, requiredBytes);
 
         createArchive(archive, source, payload, payloadDirectories, createBase);
         DirectoryChanges directoryChanges = createBase
@@ -275,6 +289,27 @@ public final class FolderLocalBackupEngine {
         } finally {
             if (staging != null) deleteTree(staging);
         }
+    }
+
+    private void ensureDiskSpace(File target, long artifactBytes) {
+        boolean skip = context.getSharedPreferences(
+                context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                .getBoolean("skip_disk_space_checks", false);
+        ReScheduleContracts.F161DiskPreflight decision =
+                DiskSpacePreflight.evaluate(
+                        Math.max(0L, artifactBytes),
+                        Math.max(0L, target.getUsableSpace()),
+                        skip);
+        if (!skip && !"PASS".equals(decision.decision())) {
+            throw new IllegalStateException(
+                    "Folder backup blocked by disk-space preflight: "
+                            + decision.decision() + " (" + decision.reason() + ")");
+        }
+    }
+
+    private static long safeAdd(long a, long b) {
+        if (b < 0L || Long.MAX_VALUE - a < b) return Long.MAX_VALUE;
+        return a + b;
     }
 
     private static int countFiles(File root) {
