@@ -39,7 +39,7 @@ public final class SbaNativeEntryExecutor {
 
     public String[] extractAegis(File archive, long archiveOffset, long archiveLength,
                                  long entryOffset, long entryLength, String entryName,
-                                 int flags, String[] selected, int cryptoMode,
+                                 String destination, int flags, String[] selected, int cryptoMode,
                                  int chunkSize, byte[] key, byte[] nonce, byte[] aad,
                                  long totalBytes, int progressMode,
                                  SbaNativeProgressListener listener,
@@ -47,7 +47,7 @@ public final class SbaNativeEntryExecutor {
         if (fused) {
             return new SbaSwiftTarNative().extractAegisArchiveEntryFused(
                     archive.getAbsolutePath(), archiveOffset, archiveLength,
-                    entryOffset, entryLength, entryName, flags, selected, cryptoMode,
+                    entryOffset, entryLength, entryName, destination, flags, selected, cryptoMode,
                     chunkSize, key, nonce, aad, totalBytes, progressMode, listener);
         }
         return new SbaSwiftTarNative().extractAegisArchiveEntry(
