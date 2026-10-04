@@ -62,10 +62,17 @@ public final class WallsDashActivity extends AppCompatActivity {
         title.setText(R.string.currently_applied);
         subtitle.setText(R.string.applied_walls_summary);
 
-        File home = wallpaperFile(HOME_WALL);
-        File lock = wallpaperFile(LOCK_WALL);
-        boolean hasHome = home.isFile();
-        boolean hasLock = lock.isFile();
+        File home = null;
+        File lock = null;
+        try {
+            SystemWallpaperRepository.Result current =
+                    new SystemWallpaperRepository(this).capture();
+            home = current.getHome();
+            lock = current.getLock();
+        } catch (Exception ignored) {
+        }
+        boolean hasHome = home != null && home.isFile();
+        boolean hasLock = lock != null && lock.isFile();
 
         if (hasHome) {
             homePreview.setImageBitmap(BitmapFactory.decodeFile(home.getAbsolutePath()));
@@ -93,10 +100,6 @@ public final class WallsDashActivity extends AppCompatActivity {
             }
         }
         refresh.setEnabled(true);
-    }
-
-    private File wallpaperFile(String name) {
-        return new File(getFilesDir(), name);
     }
 
     private void showBackupLocations() {
