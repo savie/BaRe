@@ -41,6 +41,42 @@ Tidak ada komponen Reference yang dikeluarkan dari target karena berasal dari de
 
 Semua 119 komponen adalah target skeleton BΛR☰.
 
+## 3A. REFERENCE EVIDENCE — HASIL BONGKAR
+
+P2 diturunkan langsung dari artefak Reference 5.1.0 (versionCode 620), bukan dari asumsi nama class.
+
+Artefak yang dibongkar:
+- `output/jadx/resources/AndroidManifest.xml`
+- `output/jadx/sources/`
+- `output/apktool/AndroidManifest.xml`
+- `output/apktool/smali/` dan `smali_classes*/`
+
+Evidence Manifest Reference yang terverifikasi:
+- Activity: **95**
+- Service: **10**
+- Receiver: **10**
+- Provider: **4**
+- Total: **119**
+
+Evidence source app-owned yang tersedia di JADX:
+- Activity app-owned: **71** source class
+- Service app-owned: **3** source class
+- Receiver app-owned: **7** source class
+- Application: `org/swiftapps/swiftbackup/SwiftApp.java`
+
+Contoh source yang benar-benar tersedia di Reference:
+- `org/swiftapps/swiftbackup/intro/IntroActivity.java`
+- `org/swiftapps/swiftbackup/home/HomeActivity.java`
+- `org/swiftapps/swiftbackup/tasks/TaskService.java`
+- `org/swiftapps/swiftbackup/jobs/BootReceiver.java`
+
+Aturan P2 setelah bongkar Reference:
+1. Nama, package, inheritance, method, field, dan manifest attribute target app-owned harus diturunkan dari source/evidence Reference.
+2. Hanya identitas app-owned yang dinormalisasi ke BaRe sesuai `docs/bare.md`.
+3. Component external/dependency tidak boleh dibuatkan class BaRe fiktif hanya untuk memenuhi angka 119; yang ditargetkan adalah contract/boundary Reference yang terbukti.
+4. Jika source implementation tidak berasal dari source app-owned Reference, P2 mencatat contract-nya dan tidak mengarang implementation class.
+5. Deviation Firebase → Supabase berlaku pada fungsi backend; Firebase bukan implementation target.
+
 ## 4. APPLICATION TARGET
 
 Reference:
