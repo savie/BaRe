@@ -420,8 +420,8 @@ public final class AppListActivity extends AppCompatActivity {
                     getPackageManager().getApplicationInfo(packageName, 0);
             boolean enable = !info.enabled;
             new MaterialAlertDialogBuilder(this)
-                    .setTitle(enable ? R.string.enable_disable_apps : R.string.disable_apps)
-                    .setMessage(enable ? R.string.enable_disable_apps : R.string.disable_apps)
+                    .setTitle(R.string.enable_disable_apps)
+                    .setMessage(R.string.enable_disable_apps)
                     .setNegativeButton(R.string.cancel, null)
                     .setPositiveButton(R.string.yes, (d, w) ->
                             runPrivilegedAppAction(
