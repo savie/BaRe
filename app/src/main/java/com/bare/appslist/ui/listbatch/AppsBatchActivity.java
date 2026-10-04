@@ -74,15 +74,7 @@ public final class AppsBatchActivity extends AppCompatActivity {
 
     private void showBatchActions() {
         if (quickActionRequest != null) {
-            new MaterialAlertDialogBuilder(this)
-                    .setTitle(quickActionRequest.actionId)
-                    .setMessage(
-                            "Reference Quick Action "
-                                    + quickActionRequest.actionCode
-                                    + " is mapped to the Apps task boundary. "
-                                    + "Execution remains owned by the task engine.")
-                    .setPositiveButton(R.string.close, null)
-                    .show();
+            executeQuickAction();
             return;
         }
         new MaterialAlertDialogBuilder(this)
@@ -96,6 +88,90 @@ public final class AppsBatchActivity extends AppCompatActivity {
                     else if (which == 1) executeBatchRestore();
                     else showSelectionBoundary();
                 })
+                .show();
+    }
+
+    private void executeQuickAction() {
+        if (inventory.isEmpty()) {
+            showSelectionBoundary();
+            return;
+        }
+        com.bare.appsquickactions.AppsQuickActionExecutionEngine quick =
+                new com.bare.appsquickactions.AppsQuickActionExecutionEngine(this);
+
+        if ("ID_DELETE_BACKUPS_UNINSTALLED_APPS".equals(quickActionRequest.actionId)) {
+            final boolean[] keep = new boolean[]{true, true};
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Delete backups of missing apps")
+                    .setMultiChoiceItems(
+                            new String[]{"Keep latest backup", "Keep protected backups"},
+                            keep,
+                            (dialog, which, checked) -> keep[which] = checked)
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        java.util.LinkedHashSet<String> installed = new java.util.LinkedHashSet<>();
+                        for (AppInventoryItem item : inventory) installed.add(item.packageName);
+                        final com.bare.appsquickactions.AppsQuickActionExecutionEngine.DeleteResult result =
+                                quick.deleteBackupsOfUninstalledApps(installed, keep[1], keep[0]);
+                        new MaterialAlertDialogBuilder(this)
+                                .setTitle("Apps cleanup")
+                                .setMessage("Scanned " + result.scannedPackages
+                                        + " local package backups; deleted " + result.deletedBackups
+                                        + " backups, preserved " + result.preservedBackups
+                                        + (result.failures.isEmpty() ? "" : ", failures " + result.failures.size()))
+                                .setPositiveButton(R.string.close, null)
+                                .show();
+                    })
+                    .setNegativeButton(R.string.close, null)
+                    .show();
+            return;
+        }
+
+        if ("ID_ENABLE_DISABLE_APPS_APPS".equals(quickActionRequest.actionId)) {
+            final List<AppInventoryItem> selected = selectedInventory();
+            if (selected.isEmpty()) {
+                showSelectionBoundary();
+                return;
+            }
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Enable / Disable apps")
+                    .setItems(new String[]{"Enable selected", "Disable selected"},
+                            (dialog, which) -> {
+                                final boolean enable = which == 0;
+                                new Thread(() -> {
+                                    com.bare.appsquickactions.AppsQuickActionExecutionEngine.EnableDisableResult result =
+                                            quick.enableDisable(selected, enable);
+                                    runOnUiThread(() -> new MaterialAlertDialogBuilder(this)
+                                            .setTitle("Apps state")
+                                            .setMessage("Changed " + result.changed
+                                                    + ", skipped " + result.skipped
+                                                    + (result.failures.isEmpty() ? "" : ", failures " + result.failures.size()))
+                                            .setPositiveButton(R.string.close, null)
+                                            .show());
+                                }, "apps-quick-enable-disable").start();
+                            })
+                    .setNegativeButton(R.string.close, null)
+                    .show();
+            return;
+        }
+
+        if ("ID_BACKUP_SYNC_APPS".equals(quickActionRequest.actionId)) {
+            com.bare.appsquickactions.AppsQuickActionExecutionEngine.SyncPlan plan =
+                    quick.buildSyncPlan(inventory);
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Sync device backups to cloud")
+                    .setMessage("Reference sync selection: " + plan.items.size()
+                            + " installed apps with local backups. "
+                            + "Each item carries its latest local backup ID into the cloud-provider task boundary.")
+                    .setPositiveButton(R.string.close, null)
+                    .show();
+            return;
+        }
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(quickActionRequest.actionId)
+                .setMessage("Quick Action " + quickActionRequest.actionCode
+                        + " is routed to the Apps task boundary.")
+                .setPositiveButton(R.string.close, null)
                 .show();
     }
 
