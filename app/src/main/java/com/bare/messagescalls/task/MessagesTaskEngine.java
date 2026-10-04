@@ -1,5 +1,10 @@
 package com.bare.messagescalls.task;
 
+import android.content.Context;
+
+import com.bare.messagescalls.backups.MessageBackupItem;
+import com.bare.messagescalls.backups.MessagesBackupRepository;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -78,6 +83,15 @@ public final class MessagesTaskEngine {
      * levels. The exact supported-level list is intentionally kept at the
      * settings owner; -1 means unresolved/default here.
      */
+
+    public MessageBackupItem executeBackup(
+            Context context, List<String> selectedThreadIds,
+            boolean includeMms, int compressionLevel) throws Exception {
+        if (context == null) throw new IllegalArgumentException("context");
+        return new MessagesBackupRepository(context).createLocalBackup(
+                selectedThreadIds, includeMms, compressionLevel);
+    }
+
     public static int normalizeCompression(int level) {
         return level > 0 ? level : -1;
     }
