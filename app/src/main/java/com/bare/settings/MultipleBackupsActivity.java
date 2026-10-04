@@ -1,5 +1,6 @@
 package com.bare.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -17,6 +18,7 @@ import com.google.android.material.slider.Slider;
 
 public final class MultipleBackupsActivity extends AppCompatActivity {
     private static final String STATE_STRATEGY = "state_multiple_backups_strategy";
+    private static final String EXTRA_STRATEGY = "extra_multiple_backups_strategy";
 
     private MaterialCardView singleCard;
     private MaterialCardView datedCard;
@@ -46,7 +48,9 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
                     savedInstanceState.getParcelable(STATE_STRATEGY);
             strategy = restored != null ? restored : loadStrategy();
         } else {
-            strategy = loadStrategy();
+            MultipleBackupStrategy fromIntent =
+                    getIntent().getParcelableExtra(EXTRA_STRATEGY);
+            strategy = fromIntent != null ? fromIntent : loadStrategy();
         }
 
         bindViews();
@@ -191,7 +195,8 @@ public final class MultipleBackupsActivity extends AppCompatActivity {
         AppSettings settings = repository.read();
         settings.setAppsMultipleBackupStrategy(strategy);
         repository.save(settings);
-        setResult(RESULT_OK);
+
+        setResult(RESULT_OK, new Intent().putExtra(EXTRA_STRATEGY, strategy));
         finish();
     }
 
