@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.LinkedHashSet;
 
 /** Reference d01/z11 + mz6.e call-log backup owner. */
 public final class CallsBackupRepository {
@@ -78,6 +79,8 @@ public final class CallsBackupRepository {
         random.nextBytes(nonceSeed);
 
         SbaNativeArchiveBackend backend = new SbaNativeArchiveBackend();
+        int compressionLevel = compressionLevel(context);
+        int compressionMethod = compressionLevel == 0 ? 0 : 1;
         byte[] key = backend.deriveArgon2id(
                 new String(passwordChars), salt, 3, 16384, 1, 32);
         byte[] keyCheck = SbaArchiveCreationExecutor.keyCheck(
@@ -91,12 +94,16 @@ public final class CallsBackupRepository {
                     new int[]{0},
                     new String[][]{null},
                     new String[][]{null},
-                    2, 1, 1, 4, 1, 3, 16384, 1, 1048576,
+                    2, compressionMethod, compressionLevel, 4, 1, 3, 16384, 1, 1048576,
                     1, 32, key, keyCheck, salt, nonceSeed, null);
             if (!result.isSuccess()) {
                 if (output.exists()) output.delete();
                 throw new IllegalStateException(result.getError());
             }
+            int maxBackups = context.getSharedPreferences(
+                    context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                    .getInt("max_call_backups", -1);
+            if (maxBackups > 0) enforceRetention(maxBackups);
             return new CallLogBackupItem(fileName, now, calls.size(), device, output);
         } finally {
             Arrays.fill(passwordChars, '\0');
@@ -176,15 +183,26 @@ public final class CallsBackupRepository {
     }
 
     public static char[] referencePassword(Context context) {
+        return referencePasswordCandidates(context).get(0);
+    }
+
+    public static List<char[]> referencePasswordCandidates(Context context) {
         String uid = new AnonymousIdentityStore(context).getOrCreateUid();
         String base = referenceHash(new StringBuilder(uid).reverse().toString());
         PasswordStrategyRepository repo = new PasswordStrategyRepository(
                 new PreferenceSecureLocalState(context));
+        LinkedHashSet<String> values = new LinkedHashSet<>();
+        values.add(base);
         if (repo.read() == PasswordStrategy.USER_PASSWORD) {
             String user = repo.readUserPassword();
-            if (user != null && !user.isEmpty()) base += referenceHash(user);
+            if (user != null && !user.isEmpty()) values.add(base + referenceHash(user));
         }
-        return base.toCharArray();
+        for (String old : repo.readOldUserPasswords()) {
+            if (old != null && !old.isEmpty()) values.add(base + referenceHash(old));
+        }
+        ArrayList<char[]> result = new ArrayList<>();
+        for (String value : values) result.add(value.toCharArray());
+        return result;
     }
 
     static String referenceHash(String value) {
@@ -214,6 +232,13 @@ public final class CallsBackupRepository {
 
     private static long littleEndianLong(byte[] bytes, int offset) {
         long value=0L; for(int i=0;i<8;i++) value|=((long)bytes[offset+i]&255L)<<(i*8); return value;
+    }
+
+    private static int compressionLevel(Context context) {
+        int configured = context.getSharedPreferences(
+                context.getPackageName() + "_preferences", Context.MODE_PRIVATE)
+                .getInt("compression_level_calls", -1);
+        return configured == 0 ? 0 : 1;
     }
 
     private static String sanitizeDevice(String value) {
