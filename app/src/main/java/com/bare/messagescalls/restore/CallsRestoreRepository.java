@@ -21,6 +21,7 @@ import java.util.List;
 /** Reference z11/d01 call-log restore path. */
 public final class CallsRestoreRepository {
     private final Context context;
+    private Long nextRetryId;
     public CallsRestoreRepository(Context context) { this.context = context.getApplicationContext(); }
 
     public List<CallLogItem> readBackup(File backupFile) throws Exception {
@@ -73,17 +74,22 @@ public final class CallsRestoreRepository {
     }
 
     private boolean insertWithRetry(CallLogItem original) throws Exception {
-        long id=original.id;
+        long id = original.id;
         for (int attempt=0; attempt<10; attempt++) {
-            CallLogItem candidate=prepareForRestore(original);
-            if (attempt>0) candidate=withId(candidate,id);
+            CallLogItem candidate = prepareForRestore(original);
+            if (attempt > 0) candidate = withId(candidate, id);
             try {
-                android.net.Uri inserted=insertFallback(toContentValues(candidate));
-                if (inserted!=null) return true;
+                android.net.Uri inserted = insertFallback(toContentValues(candidate));
+                if (inserted != null) return true;
             } catch (Exception e) {
-                if (attempt==9) throw e;
+                if (attempt == 9) throw e;
             }
-            id=attempt==0 ? original.id+1000L : id+1L;
+            if (nextRetryId == null) {
+                nextRetryId = original.id + 1000L;
+            } else {
+                nextRetryId = nextRetryId + 1L;
+            }
+            id = nextRetryId;
         }
         return false;
     }
@@ -108,14 +114,14 @@ public final class CallsRestoreRepository {
     private static ContentValues toContentValues(CallLogItem c) {
         ContentValues v=new ContentValues();
         v.put("_id",c.id); v.put("type",c.type); v.put("features",c.features);
-        put(v,"number",c.number); v.put("number_presentation",c.numberPresentation);
+        put(v,"number",c.number); v.put("presentation",c.numberPresentation);
         put(v,"countryiso",c.countryIso); v.put("date",c.date); v.put("duration",c.duration);
         v.put("data_usage",c.dataUsage); v.put("new",c.newCall); put(v,"name",c.name);
         v.put("numbertype",c.numberType); put(v,"voicemail_uri",c.voiceMailUri); v.put("is_read",c.isRead);
         put(v,"geocoded_location",c.geoCodedLocation); put(v,"lookup_uri",c.lookupUri);
         put(v,"matched_number",c.matchedNumber); put(v,"normalized_number",c.normalizedNumber);
         v.put("photo_id",c.photoId); put(v,"photo_uri",c.photoUri); put(v,"formatted_number",c.formattedNumber);
-        put(v,"phone_account_component_name",c.phoneAccountComponentName); put(v,"subscription_id",c.phoneAccountId);
+        put(v,"subscription_component_name",c.phoneAccountComponentName); put(v,"subscription_id",c.phoneAccountId);
         return v;
     }
     private static void put(ContentValues v,String k,String s){if(s!=null)v.put(k,s);}
