@@ -990,7 +990,7 @@ Reference arm64 static symbol inspection exposed the expected `Java_com_swiftapp
 Reference binary blob identities were reused directly from the repository's read-only `reference/` evidence tree rather than rebuilt or modified.
 
 ### Compatibility Decision
-`com.swiftapps.sba` → **PRESERVE-COMPATIBILITY**
+legacy JNI namespace → **MIGRATE / isolated compatibility boundary**
 This is required by the native JNI ABI and therefore is not a branding deviation.
 
 ### Definition of Done — STATIC
@@ -1348,11 +1348,11 @@ NOT STARTED
 
 Evidence:
 
-- native closure commit: `7257fa9ffe9b6a115f0e54f4963634b583bd086a`
+- native + branding migration closure: `f53feec6dd7d569a812f8666166f2b66e9279456`
 - empat ABI exact Reference `libsba_archive.so` terpasang
 - `SbaRuntimeNative` dan `SbaTarEntryInfo` dipulihkan
 - JNI tar/list/extraction owner direkonsiliasi
-- `com.swiftapps.sba` diklasifikasikan **PRESERVE-COMPATIBILITY**
+- legacy JNI namespace diklasifikasikan **MIGRATE / isolated compatibility boundary**
 - native/runtime/build execution tidak dijalankan sesuai boundary
 
 **Next action tunggal: WORK-03 — Canonical Dashboard static parity.** Jangan melompat ke WORK-04.
