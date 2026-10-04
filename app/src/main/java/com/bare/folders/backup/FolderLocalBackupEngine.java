@@ -80,7 +80,7 @@ public final class FolderLocalBackupEngine {
         Snapshot snapshot = scan(source);
         Existing existing = readLatest(backupDir);
 
-        if (existing != null && sameState(existing.entries, snapshot.entries)) {
+        if (existing != null && sameState(existing, snapshot)) {
             return Result.noChange(existing.manifestFile, existing.archiveFile, snapshot.entries.size());
         }
 
@@ -97,7 +97,7 @@ public final class FolderLocalBackupEngine {
 
         if (!createBase) {
             parent = existing.manifest.optString("backupId", null);
-            Diff diff = diff(existing.entries, snapshot.entries);
+            Diff diff = diff(existing.entries, snapshot.entries, existing.directories, snapshot.directories);
             added.addAll(diff.added);
             modified.addAll(diff.modified);
             deleted.addAll(diff.deleted);
@@ -127,9 +127,12 @@ public final class FolderLocalBackupEngine {
         File manifest = new File(backupDir, manifestName);
 
         createArchive(archive, source, payload, payloadDirectories, createBase);
+        DirectoryChanges directoryChanges = createBase
+                ? new DirectoryChanges(new ArrayList<>(snapshot.directories), Collections.emptyList())
+                : diffDirectories(snapshot, existing);
         writeManifest(manifest, item, snapshot, backupId,
                 createBase ? "BASE" : "INCREMENTAL", parent,
-                added, modified, deleted, createBase ? snapshot.directories : diffDirectories(snapshot, existing));
+                added, modified, deleted, directoryChanges);
 
         if (!archive.isFile() || archive.length() <= 0L || !manifest.isFile() || manifest.length() <= 0L) {
             throw new IllegalStateException("Folder backup artifacts are incomplete");
@@ -265,7 +268,7 @@ public final class FolderLocalBackupEngine {
                 key = null;
                 keyCheck = null;
             } finally {
-                Arrays.fill(passwordChars, '\\0');
+                Arrays.fill(passwordChars, '\0');
                 if (key != null) Arrays.fill(key, (byte) 0);
                 if (keyCheck != null) Arrays.fill(keyCheck, (byte) 0);
                 Arrays.fill(salt, (byte) 0);
@@ -319,8 +322,6 @@ public final class FolderLocalBackupEngine {
         for (File file : files) {
             String relative = root.toPath().relativize(file.toPath()).toString().replace(File.separatorChar, '/');
             if (file.isDirectory()) {
-                String relative = root.toPath().relativize(file.toPath()).toString()
-                        .replace(File.separatorChar, '/');
                 if (!relative.isEmpty()) directories.add(relative);
                 scanDir(root, file, out, directories);
             } else if (file.isFile()) {
@@ -358,7 +359,8 @@ public final class FolderLocalBackupEngine {
 
     private void writeManifest(File file, FolderItem item, Snapshot snapshot, String backupId,
                                String type, String parent, List<String> added,
-                               List<String> modified, List<String> deleted) throws Exception {
+                               List<String> modified, List<String> deleted,
+                               DirectoryChanges directoryChanges) throws Exception {
         JSONObject root = new JSONObject();
         root.put("manifestVersion", 1);
         root.put("backupId", backupId);
