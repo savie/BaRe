@@ -9,6 +9,7 @@
     <string name="notifications_perm_title">Notifications permission</string>
     <string name="notifications_perm_subtitle">Show backup, restore, schedule, and error notifications.</string>
     <string name="grant_notifications_permission">Grant Notifications permission</string>
+    <string name="backups_tied_warning">Backups are linked to the BΛR☰ account used to create them. Use the same account to restore them later.</string>
     <string name="tos_privacy_agreement">By continuing you agree with our Terms of Service &amp; Privacy Policy.</string>
     <string name="intro_benefit_cloud_title">Cloud backups</string>
     <string name="intro_benefit_cloud_subtitle">Keep backups available across supported storage.</string>
