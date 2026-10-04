@@ -161,7 +161,7 @@ public final class AppLocalBackupEngine {
                 if (!sources.isEmpty()) {
                     createArchive(archive, dataEntryNames(sources), sources, temporary);
                     metadata.put("dataSize", archive.length());
-                    metadata.put("dataEntries", new JSONArray(new String[]{"data"}));
+                    metadata.put("dataEntries", new JSONArray(dataEntryNames(sources)));
                     completed.add("DATA");
                 }
             }
@@ -182,7 +182,7 @@ public final class AppLocalBackupEngine {
                 if (source.isDirectory()) {
                     File archive = new File(packageDir, backupId + ".med");
                     if (archive.exists() && !archive.delete()) throw new IllegalStateException("Cannot replace media backup");
-                    createArchive(archive, info.packageName, Collections.singletonList(source), temporary);
+                    createArchive(archive, Collections.singletonList(info.packageName), Collections.singletonList(source), temporary);
                     metadata.put("mediaSize", archive.length());
                     completed.add("MEDIA");
                 }
@@ -214,7 +214,9 @@ public final class AppLocalBackupEngine {
             writeAtomic(xml, metadata.toString());
 
             metadata.put("sourceSizes", sourceSizes(info, parts));
-            File metadataFile = new File(packageDir, backupId + ".xml");
+            File xml = new File(packageDir, backupId + ".xml");
+            writeAtomic(xml, metadata.toString());
+            cleanupNormalBackups(packageDir, strategy);
             return new BackupResult(
                     item.packageName, backupId, packageDir, completed,
                     metadata.optLong("apkSize", 0L)
@@ -228,6 +230,25 @@ public final class AppLocalBackupEngine {
                     false, plan.getDecision().name());
         } finally {
             for (File file : temporary) deleteTree(file);
+        }
+    }
+
+    private void cleanupNormalBackups(File packageDir, MultipleBackupStrategy strategy) {
+        if (strategy == null || !strategy.isMultipleBackups()) return;
+        int keep = strategy.getMaxNumOfBackups();
+        List<BackupRecord> records = listBackups(packageDir.getName());
+        if (records.size() <= keep) return;
+        for (int i = keep; i < records.size(); i++) {
+            BackupRecord record = records.get(i);
+            deleteBackupArtifacts(record);
+        }
+    }
+
+    private void deleteBackupArtifacts(BackupRecord record) {
+        String[] suffixes = {".app",".splits",".libs",".dat",".extdat",".med",".exp",".extra",".xml"};
+        for (String suffix : suffixes) {
+            File file = new File(record.directory, record.id + suffix);
+            if (file.isFile()) file.delete();
         }
     }
 
