@@ -74,7 +74,6 @@ runtime: DEFERRED
 
 Phase 2 remains NOT VERIFIED until dependency delegation is proven and an actual Android project build succeeds.
 
-
 ### PH2-DEPENDENCY-IDENTITY-002
 - Claim: Additional external dependency identity can be extracted from the Reference artifact.
 - Observed:
@@ -89,7 +88,25 @@ Phase 2 remains NOT VERIFIED until dependency delegation is proven and an actual
 ### PH2-DEPENDENCY-WEB-001
 - Claim: Public Maven coordinates exist for selected dependency families.
 - Source: external web research.
-- Observed: AppAuth 0.11.1, Shizuku provider 13.1.5, MSAL publications, Google Play Services publications, and YubiKit publications.
-- Result: CANDIDATE ONLY.
-- State: UNKNOWN for Reference parity.
-- Rule: public/current availability is not treated as Reference version evidence.
+- Observed: AppAuth 0.11.1, Shizuku provider 13.1.5, MSAL 8.3.2, Play Billing 8.3.0, pCloud Android 1.11.0, TedPermission 3.4.2, and YubiKit Android publications.
+- Result: CANDIDATE ONLY, except MSAL/Billing/pCloud where the public coordinate version agrees with a Reference-side identity signal.
+- State: UNKNOWN for Reference parity; MSAL/Billing/pCloud are CANDIDATE — VERSION MATCH.
+- Rule: public availability does not prove BaRe class resolution or complete Reference transitive parity.
+
+### PH2-DEPENDENCY-USAGE-003
+- Claim: Dependency families are actually referenced by Reference source, not only present in the manifest.
+- Source: Reference JADX Java source imports.
+- Observed:
+  - AppAuth: net.openid.appauth.*
+  - TedPermission: com.gun0912.tedpermission.*
+  - MSAL: com.microsoft.identity.*
+  - Firebase: Auth, Components, Crashlytics, Database, Installations, Sessions and Firebase/DataTransport registrar packages
+  - Google Play Services: Auth/Sign-In, Common, Tasks, FIDO and Identity Credentials
+  - Play Billing: com.android.billingclient.api.*
+  - pCloud: com.pcloud.sdk.*
+  - YubiKit: com.yubico.yubikit.*
+  - Play Core: com.google.android.play.core.*
+  - DataTransport: com.google.android.datatransport.*
+- Result: MATCH for Reference-side usage evidence.
+- State: EVIDENCE RECORDED.
+- Limitation: package usage identifies API families but does not alone prove exact Gradle modules or versions.
