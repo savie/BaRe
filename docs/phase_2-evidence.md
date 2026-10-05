@@ -96,91 +96,165 @@
 
 ---
 
-## SYMBOL-LEVEL OBFUSCATION INVENTORY
+## CLASS / TYPE — OBFUSCATED REFERENCE
 
-This table is supplemental to the file audit above. The existing file-level table is preserved unchanged. This register adds the symbol-level layer for the currently identified unclear/obfuscated Reference files.
+Class/type inventory is tracked separately from the FILES table. The Reference name is retained exactly; the BaRe column records the current repository condition. No target name is invented before semantic inspection.
 
-Rule: short/obfuscated names are recorded as candidates only. No semantic target name is invented here. Until the symbol is inspected and mapped, the status remains UNKNOWN.
+| # | Reference | BaRe aktual | Kondisi sekarang | Status |
+|---|---|---|---|---|
+| 001 | `org/swiftapps/filesystem/a.java::class a` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Class already semantically renamed; method still needs separate verification | MATCH |
+| 002 | `org/swiftapps/swiftbackup/apkshare/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 017 | `org/swiftapps/swiftbackup/common/V.java::class V` | `same path V.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 019 | `org/swiftapps/swiftbackup/contributor/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 021 | `org/swiftapps/swiftbackup/contributor/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 022 | `org/swiftapps/swiftbackup/folders/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 023 | `org/swiftapps/swiftbackup/folders/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 024 | `org/swiftapps/swiftbackup/folders/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 025 | `org/swiftapps/swiftbackup/home/schedule/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 026 | `org/swiftapps/swiftbackup/home/schedule/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 027 | `org/swiftapps/swiftbackup/home/schedule/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 028 | `org/swiftapps/swiftbackup/home/schedule/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 030 | `org/swiftapps/swiftbackup/home/schedule/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 031 | `org/swiftapps/swiftbackup/home/schedule/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 033 | `org/swiftapps/swiftbackup/home/schedule/data/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java::class f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::class l` | `same path l.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | `same path m.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | `same path n.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | `same path o.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 048 | `org/swiftapps/swiftbackup/intro/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 049 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 050 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::class a,b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 051 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 052 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 053 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 054 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::class a,f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 058 | `org/swiftapps/swiftbackup/settings/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 062 | `org/swiftapps/swiftbackup/settings/f.java::class f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 063 | `org/swiftapps/swiftbackup/settings/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 064 | `org/swiftapps/swiftbackup/settings/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 
-| # | Reference file | Obfuscated class / type candidates | Obfuscated method/function candidates | Current BaRe condition | Status |
-|---|---|---|---|---|---|
-| 001 | org/swiftapps/filesystem/a.java | a | - | org/swiftapps/filesystem/RandomAccessFileWriter.java | UNKNOWN |
-| 002 | org/swiftapps/swiftbackup/apkshare/a.java | a | b,c,d | same path a.java | UNKNOWN |
-| 003 | org/swiftapps/swiftbackup/appconfigs/data/a.java | a | - | same path a.java | UNKNOWN |
-| 004 | org/swiftapps/swiftbackup/appconfigs/data/b.java | b | - | same path b.java | UNKNOWN |
-| 005 | org/swiftapps/swiftbackup/appconfigs/edit/a.java | a | - | same path a.java | UNKNOWN |
-| 006 | org/swiftapps/swiftbackup/appconfigs/list/a.java | a,b | j,k,l | same path a.java | UNKNOWN |
-| 007 | org/swiftapps/swiftbackup/appconfigs/list/b.java | b | - | same path b.java | UNKNOWN |
-| 008 | org/swiftapps/swiftbackup/apptasks/notifications/a.java | a | - | same path a.java | UNKNOWN |
-| 009 | org/swiftapps/swiftbackup/apptasks/notifications/b.java | b | - | same path b.java | UNKNOWN |
-| 010 | org/swiftapps/swiftbackup/apptasks/notifications/c.java | c | - | same path c.java | UNKNOWN |
-| 011 | org/swiftapps/swiftbackup/apptasks/sba/a.java | a | - | same path a.java | UNKNOWN |
-| 012 | org/swiftapps/swiftbackup/cloud/orphans/a.java | a | b,j,k,l,m,n,o,p,q,r,s,t | same path a.java | UNKNOWN |
-| 013 | org/swiftapps/swiftbackup/cloud/orphans/b.java | b | a,c,d | same path b.java | UNKNOWN |
-| 014 | org/swiftapps/swiftbackup/cloud/orphans/c.java | c | - | same path c.java | UNKNOWN |
-| 015 | org/swiftapps/swiftbackup/cloud/protocols/a.java | a | b | same path a.java | UNKNOWN |
-| 016 | org/swiftapps/swiftbackup/cloud/protocols/filen/c.java | c | a,b,d,e | same path c.java | UNKNOWN |
-| 017 | org/swiftapps/swiftbackup/common/V.java | V | - | same path V.java | UNKNOWN |
-| 018 | org/swiftapps/swiftbackup/common/a.java | a | - | same path a.java | UNKNOWN |
-| 019 | org/swiftapps/swiftbackup/contributor/a.java | a | - | same path a.java | UNKNOWN |
-| 020 | org/swiftapps/swiftbackup/contributor/b.java | b | - | same path b.java | UNKNOWN |
-| 021 | org/swiftapps/swiftbackup/contributor/c.java | c | - | same path c.java | UNKNOWN |
-| 022 | org/swiftapps/swiftbackup/folders/data/a.java | a | - | same path a.java | UNKNOWN |
-| 023 | org/swiftapps/swiftbackup/folders/data/b.java | b | - | same path b.java | UNKNOWN |
-| 024 | org/swiftapps/swiftbackup/folders/data/c.java | c | - | same path c.java | UNKNOWN |
-| 025 | org/swiftapps/swiftbackup/home/schedule/a.java | a | b | same path a.java | UNKNOWN |
-| 026 | org/swiftapps/swiftbackup/home/schedule/b.java | b | - | same path b.java | UNKNOWN |
-| 027 | org/swiftapps/swiftbackup/home/schedule/c.java | c | - | same path c.java | UNKNOWN |
-| 028 | org/swiftapps/swiftbackup/home/schedule/d.java | d | - | same path d.java | UNKNOWN |
-| 029 | org/swiftapps/swiftbackup/home/schedule/data/a.java | a | b,c,d | same path a.java | UNKNOWN |
-| 030 | org/swiftapps/swiftbackup/home/schedule/data/b.java | b | - | same path b.java | UNKNOWN |
-| 031 | org/swiftapps/swiftbackup/home/schedule/data/c.java | c | - | same path c.java | UNKNOWN |
-| 032 | org/swiftapps/swiftbackup/home/schedule/data/d.java | d | a | same path d.java | UNKNOWN |
-| 033 | org/swiftapps/swiftbackup/home/schedule/data/e.java | e | - | same path e.java | UNKNOWN |
-| 034 | org/swiftapps/swiftbackup/home/schedule/data/f.java | f | - | same path f.java | UNKNOWN |
-| 035 | org/swiftapps/swiftbackup/home/schedule/data/g.java | g | - | same path g.java | UNKNOWN |
-| 036 | org/swiftapps/swiftbackup/home/schedule/data/h.java | h | - | same path h.java | UNKNOWN |
-| 037 | org/swiftapps/swiftbackup/home/schedule/data/i.java | i | - | same path i.java | UNKNOWN |
-| 038 | org/swiftapps/swiftbackup/home/schedule/data/j.java | j | a,b | same path j.java | UNKNOWN |
-| 039 | org/swiftapps/swiftbackup/home/schedule/data/k.java | k | - | same path k.java | UNKNOWN |
-| 040 | org/swiftapps/swiftbackup/home/schedule/data/l.java | l | - | same path l.java | UNKNOWN |
-| 041 | org/swiftapps/swiftbackup/home/schedule/data/m.java | m | - | same path m.java | UNKNOWN |
-| 042 | org/swiftapps/swiftbackup/home/schedule/data/n.java | n | - | same path n.java | UNKNOWN |
-| 043 | org/swiftapps/swiftbackup/home/schedule/data/o.java | o | a,b,c,d | same path o.java | UNKNOWN |
-| 044 | org/swiftapps/swiftbackup/intro/a.java | a | - | same path a.java | UNKNOWN |
-| 045 | org/swiftapps/swiftbackup/intro/b.java | b | - | same path b.java | UNKNOWN |
-| 046 | org/swiftapps/swiftbackup/intro/c.java | c | - | same path c.java | UNKNOWN |
-| 047 | org/swiftapps/swiftbackup/intro/d.java | a,b,d | j,k,l,m,n,o,p | same path d.java | UNKNOWN |
-| 048 | org/swiftapps/swiftbackup/intro/e.java | e | - | same path e.java | UNKNOWN |
-| 049 | org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java | a | - | same path a.java | UNKNOWN |
-| 050 | org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java | a,b | - | same path b.java | UNKNOWN |
-| 051 | org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java | c | - | same path c.java | UNKNOWN |
-| 052 | org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java | d | - | same path d.java | UNKNOWN |
-| 053 | org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java | e | - | same path e.java | UNKNOWN |
-| 054 | org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java | a,f | - | same path f.java | UNKNOWN |
-| 055 | org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java | g | - | same path g.java | UNKNOWN |
-| 056 | org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java | h | - | same path h.java | UNKNOWN |
-| 057 | org/swiftapps/swiftbackup/settings/a.java | a | d,l,q,r,s,t,u,v | same path a.java | UNKNOWN |
-| 058 | org/swiftapps/swiftbackup/settings/b.java | b | a,c,d | same path b.java | UNKNOWN |
-| 059 | org/swiftapps/swiftbackup/settings/c.java | c | - | same path c.java | UNKNOWN |
-| 060 | org/swiftapps/swiftbackup/settings/d.java | d | - | same path d.java | UNKNOWN |
-| 061 | org/swiftapps/swiftbackup/settings/e.java | e | - | same path e.java | UNKNOWN |
-| 062 | org/swiftapps/swiftbackup/settings/f.java | f | a,b | same path f.java | UNKNOWN |
-| 063 | org/swiftapps/swiftbackup/settings/g.java | g | - | same path g.java | UNKNOWN |
-| 064 | org/swiftapps/swiftbackup/settings/h.java | h | a | same path h.java | UNKNOWN |
-| 065 | org/swiftapps/swiftbackup/settings/i.java | i | a | same path i.java | UNKNOWN |
-| 066 | org/swiftapps/swiftbackup/settings/j.java | j | - | same path j.java | UNKNOWN |
-| 067 | org/swiftapps/swiftbackup/settings/k.java | k | j | same path k.java | UNKNOWN |
-| 068 | org/swiftapps/swiftbackup/views/a.java | a | - | same path a.java | UNKNOWN |
-| 069 | defpackage/q63.java | q63 | A,B,C,D,E,F,G,H,I,J,K,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,v,w,x,y,z | MISSING from current BaRe source; unresolved consumers remain | UNKNOWN |
+
+## FUNCTION / METHOD — OBFUSCATED REFERENCE
+
+| # | Reference | BaRe aktual | Kondisi sekarang | Status |
+|---|---|---|---|---|
+| 001 | `org/swiftapps/swiftbackup/apkshare/a.java::b(...)` | `org/swiftapps/swiftbackup/apkshare/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 002 | `org/swiftapps/swiftbackup/apkshare/a.java::c(...)` | `org/swiftapps/swiftbackup/apkshare/a.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 003 | `org/swiftapps/swiftbackup/apkshare/a.java::d(...)` | `org/swiftapps/swiftbackup/apkshare/a.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 004 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 005 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 007 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::b(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 008 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 009 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 010 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 011 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 013 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::o(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::o(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 014 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::p(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::p(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 015 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::q(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::q(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 016 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 017 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 018 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 019 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a(...)` | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 020 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c(...)` | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 021 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d(...)` | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 022 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(...)` | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 023 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::a(...)` | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 024 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::b(...)` | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 025 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::d(...)` | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 026 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::e(...)` | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::e(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 027 | `org/swiftapps/swiftbackup/home/schedule/a.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 028 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/data/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::c(...)` | `org/swiftapps/swiftbackup/home/schedule/data/a.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 030 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::d(...)` | `org/swiftapps/swiftbackup/home/schedule/data/a.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 031 | `org/swiftapps/swiftbackup/home/schedule/data/d.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/d.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 032 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 033 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 034 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 035 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 036 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::c(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 037 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::d(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 038 | `org/swiftapps/swiftbackup/intro/d.java::j(...)` | `org/swiftapps/swiftbackup/intro/d.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 039 | `org/swiftapps/swiftbackup/intro/d.java::k(...)` | `org/swiftapps/swiftbackup/intro/d.java::k(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 040 | `org/swiftapps/swiftbackup/intro/d.java::l(...)` | `org/swiftapps/swiftbackup/intro/d.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 041 | `org/swiftapps/swiftbackup/intro/d.java::m(...)` | `org/swiftapps/swiftbackup/intro/d.java::m(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 042 | `org/swiftapps/swiftbackup/intro/d.java::n(...)` | `org/swiftapps/swiftbackup/intro/d.java::n(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 043 | `org/swiftapps/swiftbackup/intro/d.java::o(...)` | `org/swiftapps/swiftbackup/intro/d.java::o(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 044 | `org/swiftapps/swiftbackup/intro/d.java::p(...)` | `org/swiftapps/swiftbackup/intro/d.java::p(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 045 | `org/swiftapps/swiftbackup/settings/a.java::d(...)` | `org/swiftapps/swiftbackup/settings/a.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 046 | `org/swiftapps/swiftbackup/settings/a.java::l(...)` | `org/swiftapps/swiftbackup/settings/a.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 047 | `org/swiftapps/swiftbackup/settings/a.java::q(...)` | `org/swiftapps/swiftbackup/settings/a.java::q(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 048 | `org/swiftapps/swiftbackup/settings/a.java::r(...)` | `org/swiftapps/swiftbackup/settings/a.java::r(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 049 | `org/swiftapps/swiftbackup/settings/a.java::s(...)` | `org/swiftapps/swiftbackup/settings/a.java::s(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 050 | `org/swiftapps/swiftbackup/settings/a.java::t(...)` | `org/swiftapps/swiftbackup/settings/a.java::t(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 051 | `org/swiftapps/swiftbackup/settings/a.java::u(...)` | `org/swiftapps/swiftbackup/settings/a.java::u(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 052 | `org/swiftapps/swiftbackup/settings/a.java::v(...)` | `org/swiftapps/swiftbackup/settings/a.java::v(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 053 | `org/swiftapps/swiftbackup/settings/b.java::a(...)` | `org/swiftapps/swiftbackup/settings/b.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 054 | `org/swiftapps/swiftbackup/settings/b.java::c(...)` | `org/swiftapps/swiftbackup/settings/b.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 055 | `org/swiftapps/swiftbackup/settings/b.java::d(...)` | `org/swiftapps/swiftbackup/settings/b.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 056 | `org/swiftapps/swiftbackup/settings/f.java::a(...)` | `org/swiftapps/swiftbackup/settings/f.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 057 | `org/swiftapps/swiftbackup/settings/f.java::b(...)` | `org/swiftapps/swiftbackup/settings/f.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 058 | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 059 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 060 | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+
+
+## FIELD / MEMBER — OBFUSCATED REFERENCE
+
+| # | Reference | BaRe aktual | Kondisi sekarang | Status |
+|---|---|---|---|---|
+| — | — | — | Field/member inventory has not yet been independently extracted from the Reference | UNKNOWN |
+
+Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
 ### SYMBOL-LEVEL GATE
 
 | Requirement | State |
 |---|---|
-| Existing file-level audit above preserved | PASS |
-| Unclear Reference file rows expanded with class/function candidates | PASS |
-| defpackage/q63.java explicitly included | PASS |
+| Existing FILES table preserved | PASS |
+| Class/type layer separated from file audit | PASS |
+| Function/method layer separated from file audit | PASS |
+| Field/member layer reserved without invented entries | PASS |
+| Standalone defpackage/q63 row | NOT INCLUDED — no current BaRe condition |
 | Semantic target names invented | NO |
-| Symbol mapping / implementation work performed by this table | NO |
-| Current symbol status default | UNKNOWN |
+| Symbol reconstruction performed by this ledger | NO |
+| Current unverified symbol status | UNKNOWN |
