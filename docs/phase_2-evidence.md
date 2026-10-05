@@ -59,7 +59,7 @@
 | 044 | `org/swiftapps/swiftbackup/intro/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic switch-map covering `IntroActivity` card types and `IntroActivity` state enum values | **CANDIDATE** |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic callback receiving `IntroViewModel` sign-in state; calls `IntroActivity.Y(true)` when state is `SIGNED_IN` | **CANDIDATE** |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java`** | Synthetic callback for first-run cloud-restore state; resets state and routes SUCCESS to `IntroActivity.V()` and FAILED to `IntroActivity.X()` | **CANDIDATE** |
-| 047 | `org/swiftapps/swiftbackup/intro/d.java` | **UNKNOWN** | Intro flow state/ViewModel/coordination class | **UNKNOWN** |
+| 047 | `org/swiftapps/swiftbackup/intro/d.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java`** | Intro ViewModel coordinating sign-in, first-run cloud-settings restore, storage setup, root/Shizuku permission state and intro prerequisite state | **CANDIDATE** |
 | 048 | `org/swiftapps/swiftbackup/intro/e.java` | **UNKNOWN** | Coroutine continuation for first-run cloud settings restore | **UNKNOWN** |
 | 049 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java` | **UNKNOWN** | Synthetic enum switch-map Calls backup/restore state | **UNKNOWN** |
 | 050 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java` | **UNKNOWN** | Calls backup/restore state/ViewModel | **UNKNOWN** |
@@ -193,6 +193,9 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic enum switch-map for intro state and card type | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic `mt3` callback bound to `IntroActivity` for sign-in state changes | CANDIDATE |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java`** | Synthetic `mt3` callback bound to `IntroActivity` for first-run cloud-restore state | CANDIDATE |
+| 047 | `org/swiftapps/swiftbackup/intro/d.java::class d` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java`** | Intro ViewModel/coordinator with sign-in, restore, permission and storage-setup state | CANDIDATE |
+| 048 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
+| 049 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -410,6 +413,14 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 126 | `org/swiftapps/swiftbackup/intro/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java::<clinit>`** | Initializes state mapping `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4`, and card mapping `ConnectionCard→1`, `FirstRunRestore→2` | CANDIDATE |
 | 127 | `org/swiftapps/swiftbackup/intro/b.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java::invoke(Object)`** | On `SIGNED_IN`, invokes `IntroActivity.Y(true)`; otherwise no action | CANDIDATE |
 | 128 | `org/swiftapps/swiftbackup/intro/c.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java::invoke(Object)`** | Routes first-run restore `SUCCESS` to completion and `FAILED` to error handling; IDLE/RUNNING remain active | CANDIDATE |
+| 129 | `org/swiftapps/swiftbackup/intro/d.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onCleared()`** | Resets/cancels storage and permission coordinator state, cancels active restore coroutine, then delegates lifecycle cleanup | CANDIDATE |
+| 130 | `org/swiftapps/swiftbackup/intro/d.java::j()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::hasIntroPrerequisites()`** | Checks backend presence plus required root/notification/device capability states | CANDIDATE |
+| 131 | `org/swiftapps/swiftbackup/intro/d.java::k(boolean)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onShizukuPermissionResult(boolean)`** | Advances or resets pending Shizuku/root permission flow based on result | CANDIDATE |
+| 132 | `org/swiftapps/swiftbackup/intro/d.java::l(kv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::restoreFirstRunCloudSettings(kv1)`** | Waits for Firebase availability, restores labels/configs/schedules/favorites/blacklist, and reports success/failure | CANDIDATE |
+| 133 | `org/swiftapps/swiftbackup/intro/d.java::m(boolean,IntroActivity)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::startSignIn(boolean,IntroActivity)`** | Starts Google or anonymous sign-in and updates sign-in state/progress | CANDIDATE |
+| 134 | `org/swiftapps/swiftbackup/intro/d.java::n(Intent,boolean,mt3)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::runIntroAction(Intent,boolean,mt3)`** | Executes supplied intent/action callback and hides progress when requested action fails | CANDIDATE |
+| 135 | `org/swiftapps/swiftbackup/intro/d.java::o()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::refreshPermissionState()`** | Refreshes backend/root, notification and capability state holders | CANDIDATE |
+| 136 | `org/swiftapps/swiftbackup/intro/d.java::p(b)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::updateSignInState(b)`** | Updates sign-in state and progress presentation | CANDIDATE |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -469,6 +480,18 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 052 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::q` | **UNKNOWN** | Captured operation/job handle `qh4` | UNKNOWN |
 | 053 | `org/swiftapps/swiftbackup/intro/a.java::a` | **UNKNOWN** | Synthetic `int[]` switch-map for `d.a` state enum; `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4` | UNKNOWN |
 | 054 | `org/swiftapps/swiftbackup/intro/a.java::b` | **UNKNOWN** | Synthetic `int[]` switch-map for `IntroActivity.a`; `ConnectionCard→1`, `FirstRunRestore→2` | UNKNOWN |
+| 055 | `org/swiftapps/swiftbackup/intro/d.java::e` | **UNKNOWN** | Active first-run cloud-settings restore coroutine/job handle `bl7` | UNKNOWN |
+| 056 | `org/swiftapps/swiftbackup/intro/d.java::f` | **UNKNOWN** | Sign-in state publisher `ex6` | UNKNOWN |
+| 057 | `org/swiftapps/swiftbackup/intro/d.java::g` | **UNKNOWN** | Backend/Firebase availability state holder `ex6` | UNKNOWN |
+| 058 | `org/swiftapps/swiftbackup/intro/d.java::h` | **UNKNOWN** | Notification permission state holder `ex6` | UNKNOWN |
+| 059 | `org/swiftapps/swiftbackup/intro/d.java::i` | **UNKNOWN** | Device/root capability state holder `ex6` | UNKNOWN |
+| 060 | `org/swiftapps/swiftbackup/intro/d.java::j` | **UNKNOWN** | Aggregate intro-prerequisite state holder `ix6` | UNKNOWN |
+| 061 | `org/swiftapps/swiftbackup/intro/d.java::k` | **UNKNOWN** | First-run cloud-restore state holder `ex6` | UNKNOWN |
+| 062 | `org/swiftapps/swiftbackup/intro/d.java::l` | **UNKNOWN** | Storage-setup state holder `ix6` | UNKNOWN |
+| 063 | `org/swiftapps/swiftbackup/intro/d.java::m` | **UNKNOWN** | Root/Shizuku permission state holder `ix6` | UNKNOWN |
+| 064 | `org/swiftapps/swiftbackup/intro/d.java::n` | **UNKNOWN** | Auxiliary intro state publisher `ex6` | UNKNOWN |
+| 065 | `org/swiftapps/swiftbackup/intro/d.java::o` | **UNKNOWN** | Storage-setup coordinator `qf4` | UNKNOWN |
+| 066 | `org/swiftapps/swiftbackup/intro/d.java::p` | **UNKNOWN** | Root-permission coordinator `nf4` | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
