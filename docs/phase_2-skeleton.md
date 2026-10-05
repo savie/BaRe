@@ -263,3 +263,21 @@ BaRe now contains `app/src/main/AndroidManifest.xml` with the same 120 manifest-
 This is a structural P2 implementation step. It does not claim full manifest parity yet: permissions, intent filters, metadata, authorities, exported/configuration flags, and resource contracts still require evidence-backed reconstruction.
 
 Therefore the entity gate remains 83/120 Java implementations, with 37 dependency-owned entities BLOCKED pending valid delegation and Android build verification.
+## 17. R8/JADX `defpackage` Finding
+
+Reference artifact inspection established that the apparent `defpackage` namespace is a JADX source-reconstruction namespace, not evidence that the original application classes were declared in Java package `defpackage`.
+
+Direct apktool evidence:
+- `er6.smali`: `.class public abstract Ler6;` and `.super Lsa1;`
+- `il0.smali`: `.class public abstract Lil0;` and `.super Lk28;`
+- `zm.smali`: `.class public abstract Lzm;` and `.super Landroidx/fragment/app/u;`
+
+The class descriptors have no package component. JADX therefore emits these classes under `package defpackage;` to produce compilable Java source.
+
+Reference scale observed: 9,897 JADX Java files are under `sources/defpackage`.
+
+Engineering consequence: BaRe must not treat `defpackage` as a Reference package identity. However, Java source in named packages cannot directly extend/import classes from the Java unnamed package. The current `defpackage` compatibility namespace is therefore retained as a source-level reconstruction mechanism and must not be silently claimed as binary-name parity.
+
+Classification: SOURCE-RECONSTRUCTION CONSTRAINT / BINARY-NAME PARITY UNKNOWN.
+
+Scope decision for Phase 2: reconstruct only internal base classes required by the manifest-facing inheritance contract; do not blindly import all 9,897 decompiled `defpackage` classes into BaRe. Additional classes are added only when Reference evidence proves they are required by the Phase 2 structural contract.
