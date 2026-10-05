@@ -96,6 +96,7 @@
 | 081 | `defpackage/w14.java` | **UNKNOWN** | Direct dependency used for Gson serialization | **UNKNOWN** |
 | 082 | `defpackage/x50.java` | **UNKNOWN** | Direct dependency used for digest/string formatting | **UNKNOWN** |
 | 083 | `defpackage/xs1.java` | **UNKNOWN** | Direct dependency used for q63-related error message formatting | **UNKNOWN** |
+| 084 | `defpackage/jm1.java` | **UNKNOWN** | Reference caller of `org.swiftapps.swiftbackup.apkshare.a.c(...)`; APKS creation paths observed in static methods `l(...)` and `m(...)` | **UNKNOWN** |
 
 ## GATE
 
@@ -106,7 +107,7 @@
 | Semantic inspection used instead of filename equality | PASS |
 | Unsupported target names invented | NO |
 | Confirmed semantic rename already present | `org/swiftapps/filesystem/a.java` → `org/swiftapps/filesystem/RandomAccessFileWriter.java` = MATCH |
-| Remaining UNKNOWN mappings | 82 (including 15 newly discovered direct dependencies) |
+| Remaining UNKNOWN mappings | 83 (including 16 newly discovered direct dependencies) |
 | Build/runtime verification | NOT STARTED — OUT OF CURRENT SCOPE |
 
 ---
@@ -207,6 +208,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 088 | `defpackage/el1.java::class el1` | `same path el1.java` | String/collection formatting helper used by ai selector 3 | UNKNOWN |
 | 089 | `defpackage/fl1.java::class fl1` | `same path fl1.java` | Varargs-to-list helper used by ai selector 3 | UNKNOWN |
 | 090 | `defpackage/hc1.java::class hc1` | `same path hc1.java` | Synthetic `mt3` implementation instantiated by ai selector 3 | UNKNOWN |
+| 091 | `defpackage/jm1.java::class jm1` | `same path jm1.java` | Obfuscated caller class; static methods `l(...)` and `m(...)` directly call `org.swiftapps.swiftbackup.apkshare.a.c(...)` for APKS creation | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -283,6 +285,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 069 | `defpackage/c6.java::f(String)` | **UNKNOWN** | Throws `IllegalArgumentException` with supplied message; direct archive-entry validation/error path | UNKNOWN |
 | 070 | `defpackage/c6.java::g(String,Object,Object,Object,Object,Object)` | **UNKNOWN** | Throws `IllegalArgumentException` from concatenated arguments; direct validation/error helper | UNKNOWN |
 | 071 | `defpackage/cy0.java::j(InputStream,OutputStream,int)` | **UNKNOWN** | Copies input using supplied buffer size and returns byte count; apkshare/a.java passes 262144 | UNKNOWN |
+| 072 | `defpackage/jm1.java::l(k55,mt3)` | **UNKNOWN** | Direct caller path: when split APKs exist, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
+| 073 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Direct caller path: after split APK extraction/metadata resolution, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
