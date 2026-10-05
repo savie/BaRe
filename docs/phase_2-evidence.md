@@ -46,7 +46,7 @@
 | 031 | `org/swiftapps/swiftbackup/home/schedule/data/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleDataConditionSwitchMap.java`** | Synthetic enum switch-map for `ScheduleData.a`: `NONE→1`, `CHARGING→2`, `MINIMUM_PERCENT→3` | **CANDIDATE** |
 | 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleDataNormalizer.java`** | Normalizes `ScheduleData` child schedules by clearing disabled/root/permission-ineligible items according to current capability state, then returns a copied `ScheduleData` | **CANDIDATE** |
 | 033 | `org/swiftapps/swiftbackup/home/schedule/data/e.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppConfigCreator.java`** | Parcelable.Creator for `ScheduleItem.AppConfig`; reconstructs package/name/type/config identifiers and enabled flag | **CANDIDATE** |
-| 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.AppsLabels | **UNKNOWN** |
+| 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsLabelsCreator.java`** | Parcelable.Creator for `ScheduleItem.AppsLabels`; reconstructs label/type/app selection strings and enabled flag | **CANDIDATE** |
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java` | **UNKNOWN** | Synthetic enum switch-map ScheduleItem.AppsQuickActions type | **UNKNOWN** |
 | 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.AppsQuickActions | **UNKNOWN** |
 | 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.CallLogs | **UNKNOWN** |
@@ -180,7 +180,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 031 | `org/swiftapps/swiftbackup/home/schedule/data/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleDataConditionSwitchMap.java` | Synthetic switch-map bound to `ScheduleData.a` condition enum | CANDIDATE |
 | 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java::class d` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleDataNormalizer.java` | Static ScheduleData normalization/copy helper | CANDIDATE |
 | 033 | `org/swiftapps/swiftbackup/home/schedule/data/e.java::class e` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppConfigCreator.java` | Parcelable.Creator bound to `ScheduleItem.AppConfig` | CANDIDATE |
-| 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java::class f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java::class f` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsLabelsCreator.java` | Parcelable.Creator bound to `ScheduleItem.AppsLabels` | CANDIDATE |
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
