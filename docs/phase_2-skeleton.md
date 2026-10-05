@@ -1,6 +1,6 @@
 # Phase 2 — Reference Skeleton Contract
 
-**State:** SPECIFICATION — NOT VERIFIED
+**State:** IN PROGRESS — IMPLEMENTED TRANCHE / VERIFICATION BLOCKED
 
 ## 1. Purpose
 
@@ -193,3 +193,31 @@ Phase 2 VERIFIED
 ```
 
 Runtime execution is intentionally deferred to the Runtime phase.
+
+
+## 13. Executed P2 Tranche
+
+Reference inheritance evidence was inspected from the decompiled JADX sources.
+
+Observed internal base hierarchy used by the skeleton:
+`zm ← k28 ← il0 ← sa1`, with specialized branches `er6 ← {dt}`, `je5`, `x01`, `oo8`, and `fq5 ← il0`.
+
+Implemented:
+- Application: 1
+- Internal manifest components: 82
+- Total Java skeleton entities implemented: 83
+
+Structural compile:
+- Java compiler: `javac`
+- Android/AndroidX types were represented by explicit compile-only contract stubs.
+- Result: PASS.
+- This is **structural compilation evidence**, not an Android APK build.
+
+Dependency-owned components:
+- 37 remain BLOCKED pending BaRe dependency declarations and verified delegation contracts.
+- No fake replacement classes were created for these components.
+
+Current Phase 2 gate:
+`83/120 IMPLEMENTED` → `37/120 BLOCKED` → **P2 NOT VERIFIED**.
+
+The blocker is specifically dependency/build-contract verification, not Java syntax of the implemented skeleton.
