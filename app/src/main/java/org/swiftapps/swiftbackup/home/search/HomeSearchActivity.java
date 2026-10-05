@@ -1,2 +1,4 @@
-package org.swiftapps.swiftbackup.home.search;
-public class HomeSearchActivity extends defpackage.sa1 { }
+package org\.swiftapps\.swiftbackup\.home\.search;
+
+public final class HomeSearchActivity extends sa1 {
+}
