@@ -1,2 +1,4 @@
-package org.swiftapps.swiftbackup.home;
-public class HomeActivity extends defpackage.er6 { }
+package org\.swiftapps\.swiftbackup\.home;
+
+public final class HomeActivity extends er6 {
+}
