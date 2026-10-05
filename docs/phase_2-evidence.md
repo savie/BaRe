@@ -1,19 +1,19 @@
 # Phase 2 — Evidence Ledger
 
-**State:** IN PROGRESS — NOT VERIFIED
+**State:** IN PROGRESS — BUILD CONTRACT CREATED / NOT VERIFIED
 
 ## Executed Evidence
 
 ### PH2-INHERITANCE-001
 - Claim: Internal Activity inheritance is reconstructed from Reference evidence.
 - Source: Decompiled JADX Java sources.
-- Observed: 71 internal Activities map to the observed Reference superclass chain, including `il0`, `sa1`, `er6`, `dt`, `je5`, `x01`, `oo8`, `fq5`, and direct `android.app.Activity`.
+- Observed: 71 internal Activities map to the observed Reference superclass chain, including il0, sa1, er6, dt, je5, x01, oo8, fq5, and direct android.app.Activity.
 - Result: MATCH for implemented internal skeleton.
 - State: IMPLEMENTED.
 
 ### PH2-APPLICATION-001
 - Claim: Reference Application class is represented.
-- Observed: `org.swiftapps.swiftbackup.SwiftApp` skeleton exists.
+- Observed: org.swiftapps.swiftbackup.SwiftApp skeleton exists.
 - Result: MATCH.
 - State: IMPLEMENTED.
 
@@ -25,27 +25,51 @@
 
 ### PH2-STRUCTURAL-COMPILE-001
 - Claim: Implemented Java skeleton is syntactically/type structurally compilable against its declared platform/base contracts.
-- Method: `javac` with explicit compile-only Android/AndroidX contract stubs.
+- Method: javac with explicit compile-only Android/AndroidX contract stubs.
 - Observed: compilation PASS.
 - Result: MATCH for structural compile.
 - State: COMPILED.
 - Limitation: this is not an Android Gradle/APK build.
 
+### PH2-TOOLCHAIN-001
+- Claim: Reference Android build toolchain baseline is known.
+- Source: Reference META-INF/com/android/build/gradle/app-metadata.properties.
+- Observed: androidGradlePluginVersion=9.2.1.
+- Additional Reference baseline: compileSdk 37, minSdk 26, targetSdk 37, versionName 5.1.0, versionCode 620.
+- Result: MATCH for captured Reference build metadata.
+- State: IMPLEMENTED / EVIDENCE RECORDED.
+
+### PH2-BUILD-CONTRACT-001
+- Claim: BaRe has an explicit Android Gradle project contract.
+- Observed: settings.gradle, build.gradle, gradle.properties, and app/build.gradle created.
+- Declared Reference-evidenced dependency families: AppCompat 1.7.1, Core 1.18.0, Fragment 1.8.9, Credentials 1.6.0, Credentials Play Services Auth 1.6.0, ProfileInstaller 1.4.0, Room Runtime 2.8.4, Startup Runtime 1.2.0, Material 1.14.0.
+- Result: DECLARED, not verified.
+- State: IMPLEMENTED.
+
 ### PH2-DEPENDENCY-001
 - Claim: 37 external manifest components can be validly delegated.
 - Expected: dependency declared, class resolves, manifest contract matches, configuration/authority matches, behavior verifiable.
-- Observed: BaRe currently has no dependency/build contract establishing those 37 components.
+- Observed: 37 components remain without a proven BaRe dependency declaration/class-resolution contract.
 - Result: BLOCKED.
 - State: BLOCKED.
 
+### PH2-ENVIRONMENT-001
+- Claim: Android Gradle build can be executed in the current environment.
+- Observed: Java 21 is available; no gradle executable and no detected Android SDK environment.
+- Result: BLOCKED.
+- State: BLOCKED.
+- Limitation: no Android Gradle/APK build evidence can be claimed from this environment.
+
 ## Current Gate
 
-```
 83/120 entities represented
 37/120 entities dependency-blocked
+Reference toolchain evidence: PASS
+BaRe build contract: CREATED
+AndroidX declarations: DECLARED
 structural compile: PASS
 Android build: NOT VERIFIED
+APK build: NOT VERIFIED
 runtime: DEFERRED
-```
 
-Phase 2 remains **NOT VERIFIED** until the 37 dependency-owned entities have verified delegation/build contracts and the actual Android project build succeeds.
+Phase 2 remains NOT VERIFIED until dependency delegation is proven and an actual Android project build succeeds.
