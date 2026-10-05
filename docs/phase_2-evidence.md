@@ -82,6 +82,26 @@
 | 067 | `org/swiftapps/swiftbackup/settings/k.java` | **UNKNOWN** | MultipleBackupStrategy settings ViewModel/state holder | **UNKNOWN** |
 | 068 | `org/swiftapps/swiftbackup/views/a.java` | **UNKNOWN** | Synthetic enum switch-map SwiftSegmentedCardGroup position | **UNKNOWN** |
 
+### DISCOVERED DURING APKSHARE/A.JAVA RECONSTRUCTION
+
+These Reference files were encountered directly from the import/dependency graph of `org/swiftapps/swiftbackup/apkshare/a.java`. They extend the existing FILES inventory; no target names are invented.
+
+| 069 | `defpackage/ai.java` | **UNKNOWN** | Direct dependency used by SHA-256 digest formatting path; semantic target not yet reconstructed | **UNKNOWN** |
+| 070 | `defpackage/c6.java` | **UNKNOWN** | Direct dependency used for archive validation/error reporting | **UNKNOWN** |
+| 071 | `defpackage/cy0.java` | **UNKNOWN** | Direct dependency used for buffered InputStream → OutputStream copy | **UNKNOWN** |
+| 072 | `defpackage/f51.java` | **UNKNOWN** | Direct dependency providing Charset used for archive metadata bytes | **UNKNOWN** |
+| 073 | `defpackage/f6.java` | **UNKNOWN** | Direct dependency used for archive validation/error reporting | **UNKNOWN** |
+| 074 | `defpackage/gv7.java` | **UNKNOWN** | Direct dependency referenced around Gson serialization state | **UNKNOWN** |
+| 075 | `defpackage/hl1.java` | **UNKNOWN** | Direct dependency used for collection capacity calculation | **UNKNOWN** |
+| 076 | `defpackage/nq7.java` | **UNKNOWN** | Direct dependency used for string/entry-name validation | **UNKNOWN** |
+| 077 | `defpackage/q63.java` | **UNKNOWN** | Filesystem abstraction used for archive output/input, existence and size; counterpart absent from current BaRe source | **UNKNOWN** |
+| 078 | `defpackage/rs9.java` | **UNKNOWN** | Direct dependency used for closeable exception-safe cleanup | **UNKNOWN** |
+| 079 | `defpackage/uh.java` | **UNKNOWN** | Enum defining APK share file role: BASE / SPLIT | **UNKNOWN** |
+| 080 | `defpackage/vh.java` | **UNKNOWN** | Reference model identified as `ApkShareFile(sourceFile, archiveName, role)`; BaRe target not mapped | **UNKNOWN** |
+| 081 | `defpackage/w14.java` | **UNKNOWN** | Direct dependency used for Gson serialization | **UNKNOWN** |
+| 082 | `defpackage/x50.java` | **UNKNOWN** | Direct dependency used for digest/string formatting | **UNKNOWN** |
+| 083 | `defpackage/xs1.java` | **UNKNOWN** | Direct dependency used for q63-related error message formatting | **UNKNOWN** |
+
 ## GATE
 
 | Requirement | State |
@@ -91,7 +111,7 @@
 | Semantic inspection used instead of filename equality | PASS |
 | Unsupported target names invented | NO |
 | Confirmed semantic rename already present | `org/swiftapps/filesystem/a.java` → `org/swiftapps/filesystem/RandomAccessFileWriter.java` = MATCH |
-| Remaining UNKNOWN mappings | 67 |
+| Remaining UNKNOWN mappings | 82 (including 15 newly discovered direct dependencies) |
 | Build/runtime verification | NOT STARTED — OUT OF CURRENT SCOPE |
 
 ---
@@ -171,6 +191,28 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 
+| 069 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
+| 070 | `defpackage/c6.java::class c6` | `same path c6.java` | Synthetic multi-interface validation/error helper; `f(String)` and `g(...)` throw `IllegalArgumentException` | UNKNOWN |
+| 071 | `defpackage/cy0.java::class cy0` | `same path cy0.java` | Abstract stream-copy helper implementing buffered InputStream → OutputStream transfer | UNKNOWN |
+| 072 | `defpackage/f51.java::class f51` | `same path f51.java` | Abstract holder with UTF-8 Charset field used by archive metadata path | UNKNOWN |
+| 073 | `defpackage/f6.java::class f6` | `same path f6.java` | Direct validation/error dependency encountered from apkshare/a.java | UNKNOWN |
+| 074 | `defpackage/gv7.java::class gv7` | `same path gv7.java` | Gson-serialization dependency encountered from apkshare/a.java | UNKNOWN |
+| 075 | `defpackage/hl1.java::class hl1` | `same path hl1.java` | Collection-capacity helper dependency encountered from apkshare/a.java | UNKNOWN |
+| 076 | `defpackage/nq7.java::class nq7` | `same path nq7.java` | String/archive-entry validation dependency encountered from apkshare/a.java | UNKNOWN |
+| 077 | `defpackage/q63.java::class q63` | `same path q63.java` | Filesystem abstraction used for archive input/output, existence, and size | UNKNOWN |
+| 078 | `defpackage/rs9.java::class rs9` | `same path rs9.java` | Closeable exception-safe cleanup dependency | UNKNOWN |
+| 079 | `defpackage/uh.java::enum uh` | `same path uh.java` | Enum defining APK share file role: BASE / SPLIT | UNKNOWN |
+| 080 | `defpackage/vh.java::class vh` | `same path vh.java` | Model identity proven by `toString()` as `ApkShareFile(sourceFile, archiveName, role)` | UNKNOWN |
+| 081 | `defpackage/w14.java::class w14` | `same path w14.java` | Gson serialization dependency encountered from apkshare/a.java | UNKNOWN |
+| 082 | `defpackage/x50.java::class x50` | `same path x50.java` | Digest/string formatting dependency encountered from apkshare/a.java | UNKNOWN |
+| 083 | `defpackage/xs1.java::class xs1` | `same path xs1.java` | q63-related error-message formatting dependency | UNKNOWN |
+| 084 | `defpackage/mt3.java::interface mt3` | `same path mt3.java` | Functional callback interface exposing `invoke(Object)`; directly implemented by ai | UNKNOWN |
+| 085 | `defpackage/be8.java::class be8` | `same path be8.java` | Singleton returned by ai selector 2/default; semantic filename remains unproven | UNKNOWN |
+| 086 | `defpackage/tb1.java::class tb1` | `same path tb1.java` | Static/global cloud-state abstraction referenced by ai selector 2 | UNKNOWN |
+| 087 | `defpackage/qb1.java::class qb1` | `same path qb1.java` | Static cloud helper; `t(String)` invoked by ai selector 2 | UNKNOWN |
+| 088 | `defpackage/el1.java::class el1` | `same path el1.java` | String/collection formatting helper used by ai selector 3 | UNKNOWN |
+| 089 | `defpackage/fl1.java::class fl1` | `same path fl1.java` | Varargs-to-list helper used by ai selector 3 | UNKNOWN |
+| 090 | `defpackage/hc1.java::class hc1` | `same path hc1.java` | Synthetic `mt3` implementation instantiated by ai selector 3 | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -237,12 +279,27 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 059 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 060 | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
 
+| 061 | `defpackage/uh.java::values()` | **UNKNOWN** | Enum API observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 062 | `defpackage/vh.java::vh(q63,String,uh)` | **UNKNOWN** | Constructor observed; establishes `sourceFile`, `archiveName`, and `role` members | UNKNOWN |
+| 063 | `defpackage/vh.java::equals(Object)` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 064 | `defpackage/vh.java::hashCode()` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 065 | `defpackage/vh.java::toString()` | **UNKNOWN** | Explicitly emits `ApkShareFile(...)` identity | UNKNOWN |
+| 066 | `defpackage/ai.java::ai(int)` | **UNKNOWN** | Stores selector used by `invoke` | UNKNOWN |
+| 067 | `defpackage/ai.java::invoke(Object)` | **UNKNOWN** | Selector 0 formats Byte as two-digit hex; 1 maps File to q63; 2 calls qb1.t(String) and returns be8.a; 3 formats dotted IPv4; default sleeps on Long and returns be8.a | UNKNOWN |
+| 068 | `defpackage/c6.java::f(String)` | **UNKNOWN** | Throws `IllegalArgumentException` with supplied message; direct archive-entry validation/error path | UNKNOWN |
+| 069 | `defpackage/c6.java::g(String,Object,Object,Object,Object,Object)` | **UNKNOWN** | Throws `IllegalArgumentException` from concatenated arguments; direct validation/error helper | UNKNOWN |
+| 070 | `defpackage/cy0.java::j(InputStream,OutputStream,int)` | **UNKNOWN** | Copies input using supplied buffer size and returns byte count; apkshare/a.java passes 262144 | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
 | # | Reference | BaRe aktual | Kondisi sekarang | Status |
 |---|---|---|---|---|
-| — | — | — | Field/member inventory has not yet been independently extracted from the Reference | UNKNOWN |
+| 001 | `defpackage/vh.java::a` | **UNKNOWN** | Reference field type `q63`; constructor/toString establish semantic member `sourceFile` | UNKNOWN |
+| 002 | `defpackage/vh.java::b` | **UNKNOWN** | Reference field type `String`; constructor/toString establish semantic member `archiveName` | UNKNOWN |
+| 003 | `defpackage/vh.java::c` | **UNKNOWN** | Reference field type `uh`; constructor/toString establish semantic member `role` | UNKNOWN |
+| 004 | `defpackage/ai.java::a` | **UNKNOWN** | Synthetic integer selector | UNKNOWN |
+| 005 | `defpackage/c6.java::a` | **UNKNOWN** | Synthetic integer selector stored by constructor | UNKNOWN |
+| 006 | `defpackage/f51.java::a` | **UNKNOWN** | Charset field initialized to UTF-8 and used by apkshare/a.java | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
