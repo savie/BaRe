@@ -26,7 +26,7 @@
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java`** | Builds serialized SBA app-data archive metadata JSON from app identity/version, backup mode flags, compression level, data/de-data sizes, and included `data`/`data_de` parts | **CANDIDATE** |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java`** | Cloud-orphan cleaner ViewModel/state coordinator; tracks cloud identity, cleaner state, scan/delete progress, coroutine handle, and publishes updated orphan state | **CANDIDATE** |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java`** | Immutable cleaner state value object; `toString()` identity is `State(...)`; carries provider/cloud metadata, phase, orphan files, selected IDs, status and scan/reference counts | **CANDIDATE** |
-| 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **UNKNOWN** | Coroutine continuation untuk cloud orphan processing | **UNKNOWN** |
+| 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanScanContinuation.java`** | Coroutine continuation for cloud-orphan scan processing; captures cleaner, orphan collection, operation token/identity and coroutine handle; `invokeSuspend` contains the scan state machine | **CANDIDATE** |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **UNKNOWN** | CloudCredentials export/import file helper | **UNKNOWN** |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | **UNKNOWN** | Filen session/cloud operations implementation | **UNKNOWN** |
 | 017 | `org/swiftapps/swiftbackup/common/V.java` | **UNKNOWN** | Singleton secure-preferences/crypto helper; key generation and secure state | **UNKNOWN** |
@@ -159,7 +159,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java` | Stateless static builder producing JSON for `SbaAppDataArchiveMetadata` | CANDIDATE |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java` | Cloud-orphan cleaner ViewModel/state coordinator | CANDIDATE |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java` | Immutable cleaner state value object; semantic identity proven by `State(...)`, copy-like factory and state predicates | CANDIDATE |
-| 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanScanContinuation.java` | Coroutine continuation/state-machine class used by cloud-orphan scan | CANDIDATE |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 017 | `org/swiftapps/swiftbackup/common/V.java::class V` | `same path V.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -378,6 +378,9 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 104 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::b()` | **UNKNOWN** | True when connected, phase is `RESULTS`, and selected orphan list is non-empty | UNKNOWN |
 | 105 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c()` | **UNKNOWN** | Filters orphan files whose provider/type+identifier key exists in selected ID set | UNKNOWN |
 | 106 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d()` | **UNKNOWN** | True while phase is `SCANNING` or `DELETING` | UNKNOWN |
+| 107 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::create(Object,jv1)` | **UNKNOWN** | Creates a new continuation instance preserving captured scan state | UNKNOWN |
+| 108 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invoke(Object,Object)` | **UNKNOWN** | Invokes the continuation state machine with coroutine context and completion | UNKNOWN |
+| 109 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine state-machine body for cloud-orphan scan; JADX body is unavailable/unsupported in this decompile | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -425,6 +428,16 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 040 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::k` | **UNKNOWN** | Status message | UNKNOWN |
 | 041 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::l` | **UNKNOWN** | Scanned file count | UNKNOWN |
 | 042 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::m` | **UNKNOWN** | Firebase reference count | UNKNOWN |
+| 043 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::a` | **UNKNOWN** | Coroutine completion/state-machine field `jd4` | UNKNOWN |
+| 044 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::b` | **UNKNOWN** | Coroutine label/state integer | UNKNOWN |
+| 045 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::c` | **UNKNOWN** | Synthetic coroutine receiver/context object | UNKNOWN |
+| 046 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::d` | **UNKNOWN** | Captured cloud/session helper `kc` | UNKNOWN |
+| 047 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::e` | **UNKNOWN** | Captured orphan file collection `ArrayList` | UNKNOWN |
+| 048 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::f` | **UNKNOWN** | Captured cleaner ViewModel `a` | UNKNOWN |
+| 049 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::k` | **UNKNOWN** | Captured operation token | UNKNOWN |
+| 050 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::n` | **UNKNOWN** | Captured cloud identity string | UNKNOWN |
+| 051 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::p` | **UNKNOWN** | Captured scan parameter/size value | UNKNOWN |
+| 052 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::q` | **UNKNOWN** | Captured operation/job handle `qh4` | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
