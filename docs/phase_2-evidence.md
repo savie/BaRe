@@ -17,7 +17,7 @@
 | 002 | `org/swiftapps/swiftbackup/apkshare/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apkshare/ApkShareArchiveWriter.java`** | APKS/archive utility: SHA-256, archive-entry validation, ZIP/APKS construction; writes `meta.sai_v2.json` and `meta.swiftbackup_v1.json`; records APK metadata including SHA-256; Reference direct caller evidence: `defpackage/jm1.java` calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` at two call sites (around lines 565 and 777), for APKS creation | **CANDIDATE** |
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java`** | Parcelable.Creator khusus `ConfigSettings.ApplyData`; `createFromParcel()` membaca satu String dan membentuk `new ConfigSettings.ApplyData(...)`; `newArray()` membuat array `ApplyData` | **CANDIDATE** |
 | 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java`** | Parcelable.Creator untuk `ConfigSettings`; `createFromParcel()` membaca seluruh field parcel sesuai constructor `ConfigSettings(...)`, termasuk `ApplyData`, `AppBackupLimitItem` list, dan `MultipleBackupStrategy`; `newArray()` membuat array `ConfigSettings` | **CANDIDATE** |
-| 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **UNKNOWN** | Synthetic enum switch-map untuk ConfigEditActivity action | **UNKNOWN** |
+| 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java`** | Synthetic enum switch-map for `ConfigEditActivity.a`: `Run→1`, `Save→2`, `Hide→3`; no independent domain logic | **CANDIDATE** |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | **UNKNOWN** | Config list state/ViewModel; sorting/filtering ConfigsData | **UNKNOWN** |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | **UNKNOWN** | Synthetic enum switch-map untuk field sorting ConfigList | **UNKNOWN** |
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | **UNKNOWN** | Parser request notification policy: mode, userId, packageName, payload file | **UNKNOWN** |
@@ -150,7 +150,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 002 | `org/swiftapps/swiftbackup/apkshare/a.java::class a` | `same path a.java` | Role proven as APKS/archive utility; meaningful original class name not proven; no rename authorized | UNKNOWN |
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java` | `Parcelable.Creator` untuk nested `ConfigSettings.ApplyData`; semantic identity proven from `ApplyData.CREATOR = new a()` | CANDIDATE |
 | 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java` | `Parcelable.Creator<ConfigSettings>`; semantic identity proven from `ConfigSettings.CREATOR = new b()` and parcel reconstruction matching `ConfigSettings` constructor fields | CANDIDATE |
-| 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java` | Synthetic enum switch-map bound to `ConfigEditActivity.a` actions `Run`, `Save`, `Hide` | CANDIDATE |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -369,6 +369,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 006 | `defpackage/f51.java::a` | **UNKNOWN** | Charset field initialized to UTF-8 and used by apkshare/a.java | UNKNOWN |
 | 007 | `defpackage/q63.java::d` | **UNKNOWN** | Static boolean read by apkshare/a.java before stream operations; value not otherwise consumed in this class | UNKNOWN |
 | 008 | `defpackage/w14.java::a` | **UNKNOWN** | Static holder accessed before `w14.d()` during Gson metadata serialization | UNKNOWN |
+| 009 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::a` | **UNKNOWN** | Synthetic `int[]` switch-map indexed by `ConfigEditActivity.a.ordinal()`; entries map `Run`, `Save`, `Hide` to `1`, `2`, `3` | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
