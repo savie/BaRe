@@ -210,3 +210,295 @@ Open blockers:
 - dependency delegation/build verification.
 
 P3 remains gated by these items.
+
+
+---
+
+# Consolidated Phase 2 Registers
+
+# Phase 2 — Source Disposition Register
+
+**State:** IN PROGRESS — AUDIT BASELINE
+
+## Purpose
+
+This register answers the practical P2 question:
+
+> Which current files are kept, reconstructed, delegated, generated, renamed/re-homed, or deleted?
+
+Disposition is based on Reference semantics, not filename appearance.
+
+## Confirmed Dispositions
+
+| Current path / family | Disposition | Reason |
+|---|---|---|
+| old `defpackage/` source tree | DELETE | intentionally removed decompiler namespace; semantics must still be reconstructed |
+| `org/swiftapps/filesystem/a.java` | REVISE / RENAME-CANDIDATE | Reference class is a filesystem utility; current name is R8/JADX-obfuscated |
+| `org/swiftapps/swiftbackup/apkshare/a.java` | REVISE / RENAME-CANDIDATE | Reference class implements SHA-256/file archive utility behavior around `q63` |
+| `org/swiftapps/swiftbackup/apkshare/ApkImportActivity.java` | KEEP / RECONSTRUCT | Reference feature component; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/apptasks/AppsWorkingDir.java` | KEEP / RECONSTRUCT | Reference working-directory contract; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/folders/data/BackupInfo.java` | KEEP / RECONSTRUCT | Reference domain contract; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/folders/data/BackupResult.java` | KEEP / RECONSTRUCT | Reference domain contract; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/folders/data/ManifestInfo.java` | KEEP / RECONSTRUCT | Reference domain contract; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/apkreader/ApkManifestParser.java` | KEEP / RECONSTRUCT | Reference parser; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/compress/Packer.java` | KEEP / RECONSTRUCT | Reference compression flow; currently depends on unresolved `q63` |
+| `org/swiftapps/swiftbackup/anonymous/MFirebaseUser.java` | KEEP in P2 | internal Reference Firebase contract; migration is a later authorized deviation |
+| `org/swiftapps/swiftbackup/model/firebase/*` | KEEP in P2 | Reference model contract; Firebase→Supabase migration deferred |
+| `org/swiftapps/swiftbackup/SwiftApp.java` | KEEP / RECONSTRUCT | Reference Application contract |
+| `com/swiftapps/sba/*` | KEEP / VERIFY | native/reference ABI boundary; do not remove from P2 without evidence |
+| `androidx/*` source copies | DELEGATE-CANDIDATE | dependency-owned; delete only after dependency verification |
+| `com/google/*` source copies | DELEGATE-CANDIDATE | dependency-owned; delete only after dependency verification |
+| `com/android/billingclient/*` | DELEGATE-CANDIDATE | dependency-owned; delete only after dependency verification |
+| `com/microsoft/identity/*` | DELEGATE-CANDIDATE | dependency-owned; delete only after dependency verification |
+| `com/pcloud/*` | DELEGATE-CANDIDATE | dependency-owned; delete only after dependency verification |
+| `net/openid/appauth/*` | DELEGATE-CANDIDATE | dependency-owned; exact Reference version still unresolved |
+| `com/gun0912/tedpermission/*` | DELEGATE-CANDIDATE | dependency-owned; exact Reference version still unresolved |
+| `com/yubico/*` | DELEGATE-CANDIDATE | dependency-owned; exact Reference version still unresolved |
+| `rikka/shizuku/*` | DELEGATE-CANDIDATE | dependency-owned; exact Reference version still unresolved |
+| `MDatabase_Impl.java` | GENERATED-CANDIDATE | Room-generated implementation; remove only after Room generation/build reproduces the contract |
+| short `a/b/c...` synthetic enum helpers | RECONSTRUCT / GENERATED | inspect consumers; inline/replace only when Reference switch semantics are preserved |
+
+## Short Filename Rule
+
+The current repository has 68 one/two-character Java filenames.
+
+They are **not** a deletion batch.
+
+Each is individually classified as:
+- semantic internal class;
+- generated/synthetic helper;
+- dependency-owned class;
+- obsolete artifact;
+- UNKNOWN/BLOCKED.
+
+## Immediate P2 Revision Targets
+
+Highest-priority internal reconstruction targets are the high fan-out unresolved classes, beginning with:
+1. `q63`;
+2. internal base hierarchy represented by `il0`, `sa1`, `zm`, `er6` and related classes;
+3. filesystem helpers;
+4. data/storage models;
+5. task/service primitives;
+6. remaining `defpackage.*` imports.
+
+## Deletion Gate
+
+A source file may move to DELETE only when:
+- Reference counterpart is identified;
+- ownership is established;
+- consumers are mapped;
+- replacement/reconstruction exists where needed;
+- no Reference contract is lost;
+- verification evidence is recorded.
+
+**No mass deletion by filename pattern is authorized.**
+
+
+# Phase 2 — Dependency Artifact Map
+
+**State:** REFERENCE MAPPED — DELEGATION NOT VERIFIED
+
+## Rule
+
+Reference dependency identity is evidence. It is not automatically a valid BaRe dependency declaration.
+
+| Family | Reference evidence | P2 treatment |
+|---|---|---|
+| AndroidX | versions observed | delegate after resolution |
+| MSAL | 8.3.2 observed | delegate after resolution |
+| Billing | 8.3.0 observed | delegate after resolution |
+| pCloud | 1.11.0 observed | delegate after resolution |
+| Firebase Auth | 24.1.0 observed | preserve P2 baseline; migration deferred |
+| Firebase Sessions | 3.0.6 observed | preserve P2 baseline; migration deferred |
+| Firebase Database | 22.0.1 observed | preserve P2 baseline; migration deferred |
+| Firebase Crashlytics | 20.0.6 observed | preserve P2 baseline; migration deferred |
+| Google Sign-In/GMS | versions observed | delegate after resolution |
+| Play Core/Integrity | versions observed | delegate after resolution |
+| DataTransport | 3.3.0 observed | delegate after resolution |
+| AppAuth | family observed; exact version unresolved | UNKNOWN/BLOCKED |
+| TedPermission | family observed; exact version unresolved | UNKNOWN/BLOCKED |
+| YubiKit | Android/Core/Piv family observed; exact version unresolved | UNKNOWN/BLOCKED |
+| Shizuku | family observed; exact version unresolved | UNKNOWN/BLOCKED |
+
+## P2 Boundary
+
+Firebase→Supabase migration is an authorized deviation but is **not executed in P2**.
+
+No dependency is removed merely because a current public coordinate exists.
+
+## Exit
+
+Every dependency-owned Reference contract must be delegated and verified, reconstructed where appropriate, or explicitly UNKNOWN/BLOCKED.
+
+
+# Phase 2 — Dependency / Delegation Register
+
+**State:** NOT VERIFIED
+
+## Delegation Contract
+
+A dependency-owned Reference component is delegated only when all are proven:
+1. dependency declaration;
+2. class resolution;
+3. package/class identity;
+4. manifest registration;
+5. authority/metadata/configuration;
+6. relevant runtime behavior;
+7. required compatibility identifiers.
+
+## Current Dependency-Owned Set
+
+The existing 37 dependency-owned manifest entities remain BLOCKED until the contract above is proven.
+
+Families include:
+- AppAuth;
+- TedPermission;
+- MSAL;
+- Firebase Auth/Sessions;
+- AndroidX Credentials/ProfileInstaller/Room/Startup/Core;
+- Google Sign-In/GMS;
+- Billing;
+- pCloud;
+- YubiKit;
+- Play Core;
+- DataTransport;
+- Shizuku.
+
+## Source Deletion Rule
+
+Dependency-owned Java source in `app/src/main/java` is not deleted merely because a Gradle coordinate exists.
+
+Delete only after delegation is verified and no Reference contract is lost.
+
+## Per-Entity Evidence
+
+| Field | Required |
+|---|---|
+| Reference symbol | yes |
+| Owner family | yes |
+| Exact version evidence | yes or UNKNOWN |
+| BaRe coordinate | yes or BLOCKED |
+| Class resolution | yes |
+| Manifest parity | yes |
+| Runtime evidence | yes |
+| Source disposition | KEEP / DELEGATE / DELETE / BLOCKED |
+
+## Current Gate
+
+No dependency-owned component is VERIFIED solely from source presence or declared coordinates.
+
+
+# Phase 2 — Android Build Contract
+
+**State:** BUILD CONTRACT — NOT VERIFIED
+
+## Purpose
+
+Define the executable build boundary required to verify the Reference reconstruction.
+
+## Reference Baseline
+
+- AGP 9.2.1
+- compileSdk 37
+- minSdk 26
+- targetSdk 37
+- versionName 5.1.0
+- versionCode 620
+
+These are Reference facts, not proof of BaRe parity.
+
+## Valid Build Evidence
+
+A P2 build is valid only when:
+1. Gradle executes;
+2. Android SDK/API 37 is available;
+3. dependencies resolve;
+4. required Reference classes resolve;
+5. manifest and authorities resolve;
+6. resources compile;
+7. APK packaging succeeds.
+
+A javac structural compile is not an Android build.
+
+## Dependency Verification
+
+A dependency becomes VERIFIED only after:
+- declaration;
+- class resolution;
+- package/class identity match;
+- manifest/configuration match;
+- relevant runtime verification.
+
+## Current State
+
+Gradle project files and dependency declarations exist, but a real Android Gradle/APK build has not been verified.
+
+**State:** BLOCKED / NOT VERIFIED.
+
+## Required Evidence
+
+Record Gradle/JDK/SDK versions, resolved dependency graph, build command/result, APK artifact and manifest/resource compilation result.
+
+
+# Phase 2 — Reference Materialization Register
+
+**State:** IN PROGRESS — REFERENCE INVENTORY RECORDED / BARe PARITY OPEN
+
+## Reference Manifest
+
+Baseline:
+- 1 Application;
+- 95 Activities;
+- 10 Services;
+- 10 Receivers;
+- 4 Providers;
+- 34 permissions;
+- 4 features;
+- 22 intent-filters;
+- 23 metadata entries;
+- 2 uses-library entries.
+
+Reference manifest SHA-256:
+`287cdbf168ca6b95b842ae15deb7e908c552f3f823723bc9518e44df4f4833f`
+
+## Reference Resources
+
+Reference `res/` contains 1,491 files:
+- layout 341
+- layout-land 2
+- layout-sw600dp 2
+- layout-w600dp 1
+- layout-watch 2
+- drawable 445
+- drawable-anydpi 2
+- drawable-anydpi-v31 1
+- menu 44
+- xml 18
+- raw 12
+- font 7
+- anim 41
+- animator 42
+- color 199
+
+## Reconstruction Rule
+
+Do not create dummy resources.
+
+For each required Reference resource:
+1. locate the actual definition;
+2. trace consumers;
+3. materialize it;
+4. preserve dependencies;
+5. compile;
+6. classify deviations.
+
+## Current State
+
+Reference inventory is recorded. BaRe resource parity is not verified.
+
+**State:** NOT VERIFIED.
+
+
+## Consolidation Rule
+
+This is the single operational contract for Phase 2. The companion evidence document records execution evidence and the manifest-facing matrix.
