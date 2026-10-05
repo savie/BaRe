@@ -115,6 +115,7 @@
 | 100 | `defpackage/nh.java` | **UNKNOWN** | UI/task caller invoking `jm1.l(...)` asynchronously for APK export | **UNKNOWN** |
 | 101 | `defpackage/b7.java` | **UNKNOWN** | Callback/selector passed to split-APK extraction operation | **UNKNOWN** |
 | 102 | `defpackage/l0.java` | **UNKNOWN** | Error/logging helper used on split export/extraction failures | **UNKNOWN** |
+| 103 | `defpackage/rh.java` | **UNKNOWN** | APK share export result value: output q63 file plus MIME type; `toString()` identity is `ApkShareExportResult` | **UNKNOWN** |
 
 ## GATE
 
@@ -245,6 +246,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 107 | `defpackage/nh.java::class nh` | `same path nh.java` | Asynchronous UI/task caller of `jm1.l` | UNKNOWN |
 | 108 | `defpackage/b7.java::class b7` | `same path b7.java` | Selector/callback passed to split extraction | UNKNOWN |
 | 109 | `defpackage/l0.java::class l0` | `same path l0.java` | Export/extraction error logger | UNKNOWN |
+| 110 | `defpackage/rh.java::class rh` | `same path rh.java` | APK share export result value object | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
