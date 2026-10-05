@@ -50,7 +50,7 @@
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleAppsQuickActionsTypeSwitchMap.java`** | Synthetic enum switch-map for `ScheduleItem.AppsQuickActions.a`: `System→1`, `User→2`, `Fav→3` | **CANDIDATE** |
 | 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator for `ScheduleItem.AppsQuickActions`; reconstructs id, type, quick-action IDs, allowed apps, app parts, locations, sync option, repeat days and enabled flag from Parcel | **CANDIDATE** |
 | 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator for `ScheduleItem.CallLogs`; reconstructs id, type, three call-log strings and enabled flag from Parcel | **CANDIDATE** |
-| 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java` | **UNKNOWN** | Schedule-item collection/helper operations | **UNKNOWN** |
+| 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java`** | Static schedule-item defaults helper: returns APP-only or APP+DATA parts depending on root capability, and DEVICE as default location | **CANDIDATE** |
 | 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.Folders | **UNKNOWN** |
 | 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.Messages | **UNKNOWN** |
 | 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.Wallpapers | **UNKNOWN** |
@@ -270,6 +270,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 119 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
 | 120 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.AppsQuickActions` | CANDIDATE |
 | 121 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.CallLogs` | CANDIDATE |
+| 122 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java`** | Static helper providing default app parts and default device location for ScheduleItem | CANDIDATE |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -390,6 +391,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 113 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.AppsQuickActions[]` array | CANDIDATE |
 | 114 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::createFromParcel(Parcel)`** | Reads six `CallLogs` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
 | 115 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.CallLogs[]` array | CANDIDATE |
+| 116 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultAppParts(j)`** | Returns APP+DATA when root capability is available; otherwise APP only | CANDIDATE |
+| 117 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultLocations(j)`** | Returns DEVICE as the default schedule-item location | CANDIDATE |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
