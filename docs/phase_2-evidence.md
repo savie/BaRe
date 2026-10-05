@@ -27,7 +27,7 @@
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java`** | Cloud-orphan cleaner ViewModel/state coordinator; tracks cloud identity, cleaner state, scan/delete progress, coroutine handle, and publishes updated orphan state | **CANDIDATE** |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java`** | Immutable cleaner state value object; `toString()` identity is `State(...)`; carries provider/cloud metadata, phase, orphan files, selected IDs, status and scan/reference counts | **CANDIDATE** |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanScanContinuation.java`** | Coroutine continuation for cloud-orphan scan processing; captures cleaner, orphan collection, operation token/identity and coroutine handle; `invokeSuspend` contains the scan state machine | **CANDIDATE** |
-| 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **UNKNOWN** | CloudCredentials export/import file helper | **UNKNOWN** |
+| 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/protocols/CloudCredentialsPersistence.java`** | CloudCredentials persistence/export helper; exports credentials JSON to a document URI and reconstructs saved credentials from SharedPreferences with decoded password/private key | **CANDIDATE** |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | **UNKNOWN** | Filen session/cloud operations implementation | **UNKNOWN** |
 | 017 | `org/swiftapps/swiftbackup/common/V.java` | **UNKNOWN** | Singleton secure-preferences/crypto helper; key generation and secure state | **UNKNOWN** |
 | 018 | `org/swiftapps/swiftbackup/common/a.java` | **UNKNOWN** | Gson URI adapter factory/configuration | **UNKNOWN** |
@@ -160,7 +160,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java` | Cloud-orphan cleaner ViewModel/state coordinator | CANDIDATE |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java` | Immutable cleaner state value object; semantic identity proven by `State(...)`, copy-like factory and state predicates | CANDIDATE |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanScanContinuation.java` | Coroutine continuation/state-machine class used by cloud-orphan scan | CANDIDATE |
-| 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/protocols/CloudCredentialsPersistence.java` | Stateless persistence/export helper for `CloudCredentials` | CANDIDATE |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 017 | `org/swiftapps/swiftbackup/common/V.java::class V` | `same path V.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -381,6 +381,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 107 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::create(Object,jv1)` | **UNKNOWN** | Creates a new continuation instance preserving captured scan state | UNKNOWN |
 | 108 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invoke(Object,Object)` | **UNKNOWN** | Invokes the continuation state machine with coroutine context and completion | UNKNOWN |
 | 109 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine state-machine body for cloud-orphan scan; JADX body is unavailable/unsupported in this decompile | UNKNOWN |
+| 110 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::a(CloudCredentials,tn2)` | **UNKNOWN** | Exports serialized `CloudCredentials` JSON to the selected document URI; writes using default charset and closes stream safely | UNKNOWN |
+| 111 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(dd1)` | **UNKNOWN** | Loads saved credential JSON/password/private key from SharedPreferences and reconstructs `CloudCredentials` for the requested cloud type | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
