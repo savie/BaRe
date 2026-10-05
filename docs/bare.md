@@ -286,7 +286,7 @@ Completion claims require evidence.
 ## 14. Roadmap
 
 1. Foundation
-2. Reference Skeleton
+2. Reference Reconstruction / Semantic Reconstruction
 3. UI + Navigation
 4. Core Behavior
 5. Features
