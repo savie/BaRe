@@ -41,7 +41,7 @@
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeMultipleSchedulesCreator.java`** | Parcelable.Creator for `ScheduleService.RunMode.MultipleSchedules`; reconstructs the Parcelable list and creates arrays of that type | **CANDIDATE** |
 | 027 | `org/swiftapps/swiftbackup/home/schedule/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSchedulesCreator.java`** | Parcelable.Creator for singleton `ScheduleService.RunMode.Schedules`; consumes parcel marker and returns `Schedules.INSTANCE`, with typed array creation | **CANDIDATE** |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSingleScheduleCreator.java`** | Parcelable.Creator for `ScheduleService.RunMode.SingleSchedule`; reconstructs the contained `ScheduleItem` and creates typed arrays | **CANDIDATE** |
-| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java` | **UNKNOWN** | ScheduleItem → sync/request model factory helpers | **UNKNOWN** |
+| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemBackupOptionFactory.java`** | Builds `y37` schedule-item option rows for AppParts, Locations, RepeatDays and SyncOptions, converting selected values to display-label items and attaching resource/icon metadata | **CANDIDATE** |
 | 030 | `org/swiftapps/swiftbackup/home/schedule/data/b.java` | **UNKNOWN** | Schedule item UI/state data model | **UNKNOWN** |
 | 031 | `org/swiftapps/swiftbackup/home/schedule/data/c.java` | **UNKNOWN** | Synthetic enum switch-map ScheduleData condition | **UNKNOWN** |
 | 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java` | **UNKNOWN** | ScheduleData copy/normalization helper | **UNKNOWN** |
@@ -175,7 +175,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeMultipleSchedulesCreator.java` | Parcelable.Creator bound to `RunMode.MultipleSchedules` | CANDIDATE |
 | 027 | `org/swiftapps/swiftbackup/home/schedule/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSchedulesCreator.java` | Parcelable.Creator bound to singleton `RunMode.Schedules` | CANDIDATE |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java::class d` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSingleScheduleCreator.java` | Parcelable.Creator bound to `RunMode.SingleSchedule` | CANDIDATE |
-| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemBackupOptionFactory.java` | Static factory for schedule-item backup option presentation models | CANDIDATE |
 | 030 | `org/swiftapps/swiftbackup/home/schedule/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 031 | `org/swiftapps/swiftbackup/home/schedule/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
