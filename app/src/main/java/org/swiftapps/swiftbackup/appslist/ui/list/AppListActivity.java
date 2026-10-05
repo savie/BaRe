@@ -1,2 +1,4 @@
-package org.swiftapps.swiftbackup.appslist.ui.list;
-public class AppListActivity extends defpackage.dt { }
+package org\.swiftapps\.swiftbackup\.appslist\.ui\.list;
+
+public final class AppListActivity extends dt {
+}
