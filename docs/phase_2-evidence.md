@@ -18,7 +18,7 @@
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java`** | Parcelable.Creator khusus `ConfigSettings.ApplyData`; `createFromParcel()` membaca satu String dan membentuk `new ConfigSettings.ApplyData(...)`; `newArray()` membuat array `ApplyData` | **CANDIDATE** |
 | 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java`** | Parcelable.Creator untuk `ConfigSettings`; `createFromParcel()` membaca seluruh field parcel sesuai constructor `ConfigSettings(...)`, termasuk `ApplyData`, `AppBackupLimitItem` list, dan `MultipleBackupStrategy`; `newArray()` membuat array `ConfigSettings` | **CANDIDATE** |
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java`** | Synthetic enum switch-map for `ConfigEditActivity.a`: `Run→1`, `Save→2`, `Hide→3`; no independent domain logic | **CANDIDATE** |
-| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | **UNKNOWN** | Config list state/ViewModel; sorting/filtering ConfigsData | **UNKNOWN** |
+| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/list/ConfigListViewModel.java`** | Config-list state/ViewModel; stores `ConfigsData`, persists sort preference, sorts by `Name`/`LastUpdated` with `Asc`/`Desc`, and publishes sorted values | **CANDIDATE** |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | **UNKNOWN** | Synthetic enum switch-map untuk field sorting ConfigList | **UNKNOWN** |
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | **UNKNOWN** | Parser request notification policy: mode, userId, packageName, payload file | **UNKNOWN** |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | **UNKNOWN** | Notification policy request data model | **UNKNOWN** |
@@ -151,7 +151,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java` | `Parcelable.Creator` untuk nested `ConfigSettings.ApplyData`; semantic identity proven from `ApplyData.CREATOR = new a()` | CANDIDATE |
 | 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java` | `Parcelable.Creator<ConfigSettings>`; semantic identity proven from `ConfigSettings.CREATOR = new b()` and parcel reconstruction matching `ConfigSettings` constructor fields | CANDIDATE |
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java` | Synthetic enum switch-map bound to `ConfigEditActivity.a` actions `Run`, `Save`, `Hide` | CANDIDATE |
-| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/list/ConfigListViewModel.java` | Main class is Config-list state/ViewModel; nested enums define sort direction (`Asc`, `Desc`) and sort field (`Name`, `LastUpdated`) | CANDIDATE |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -214,6 +214,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 069 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class EnumC0012a` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-direction enum: `Asc`, `Desc`; each carries display string resource | CANDIDATE |
+| 070 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class b` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-field enum: `Name`, `LastUpdated`; each carries display string resource | CANDIDATE |
 | 069 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
 | 070 | `defpackage/c6.java::class c6` | `same path c6.java` | Synthetic multi-interface validation/error helper; `f(String)` and `g(...)` throw `IllegalArgumentException` | UNKNOWN |
 | 071 | `defpackage/cy0.java::class cy0` | `same path cy0.java` | Abstract stream-copy helper implementing buffered InputStream → OutputStream transfer | UNKNOWN |
@@ -356,6 +358,9 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 084 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings.ApplyData[i]` | UNKNOWN |
 | 085 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings>`; reconstructs version, id, optional `ApplyData`, app parts, locations, sync option, backup limits, strategy, restore settings and enabled flags in constructor order | UNKNOWN |
 | 086 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings[i]` | UNKNOWN |
+| 087 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j()` | **UNKNOWN** | Loads `configs_list_sort_options` from SharedPreferences; defaults to `Name:Asc`; returns sort field/direction pair | UNKNOWN |
+| 088 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(b,EnumC0012a)` | **UNKNOWN** | Persists selected sort field/direction and reapplies sorting to current `ConfigsData` | UNKNOWN |
+| 089 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -370,6 +375,10 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 007 | `defpackage/q63.java::d` | **UNKNOWN** | Static boolean read by apkshare/a.java before stream operations; value not otherwise consumed in this class | UNKNOWN |
 | 008 | `defpackage/w14.java::a` | **UNKNOWN** | Static holder accessed before `w14.d()` during Gson metadata serialization | UNKNOWN |
 | 009 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::a` | **UNKNOWN** | Synthetic `int[]` switch-map indexed by `ConfigEditActivity.a.ordinal()`; entries map `Run`, `Save`, `Hide` to `1`, `2`, `3` | UNKNOWN |
+| 010 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::e` | **UNKNOWN** | Boolean state flag; exact semantic purpose not independently proven beyond class usage | UNKNOWN |
+| 011 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::f` | **UNKNOWN** | Current `ConfigsData` held by the ViewModel | UNKNOWN |
+| 012 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::g` | **UNKNOWN** | `ex6` state/helper holder initialized by constructor | UNKNOWN |
+| 013 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::h` | **UNKNOWN** | `u95` state publisher/holder receiving sorted config list | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
