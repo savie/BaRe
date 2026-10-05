@@ -1,2 +1,4 @@
-package org.swiftapps.swiftbackup.appsquickactions;
-public class AppsQuickActionsActivity extends defpackage.sa1 { }
+package org\.swiftapps\.swiftbackup\.appsquickactions;
+
+public final class AppsQuickActionsActivity extends sa1 {
+}
