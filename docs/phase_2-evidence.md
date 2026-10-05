@@ -9,6 +9,7 @@
 | 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable MultipleBackupStrategy settings state | CANDIDATE |
 | 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Duplicate synthetic Type switch-map; shared-target decision with `e.java` remains UNKNOWN | CANDIDATE |
 | 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | MultipleBackupStrategy settings ViewModel | CANDIDATE |
+| 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic SwiftSegmentedCardGroup position switch-map | CANDIDATE |
 
 | Field | Value |
 |---|---|
@@ -90,7 +91,7 @@
 | 065 | `org/swiftapps/swiftbackup/settings/i.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable state containing single/dated/conditional strategies and selected strategy type | **CANDIDATE** |
 | 066 | `org/swiftapps/swiftbackup/settings/j.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic switch-map for the same `MultipleBackupStrategy.Type` enum; whether Reference `e` and `j` require separate artifacts remains UNKNOWN | **CANDIDATE** |
 | 067 | `org/swiftapps/swiftbackup/settings/k.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | ViewModel updating selected strategy type and per-type strategy values in `MultipleBackupStrategyState` | **CANDIDATE** |
-| 068 | `org/swiftapps/swiftbackup/views/a.java` | **UNKNOWN** | Synthetic enum switch-map SwiftSegmentedCardGroup position | **UNKNOWN** |
+| 068 | `org/swiftapps/swiftbackup/views/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic switch-map for `SwiftSegmentedCardGroup` position: `Single→1`, `Top→2`, `Middle→3`, `Bottom→4` | **CANDIDATE** |
 | 069 | `defpackage/ai.java` | **UNKNOWN** | Direct dependency used by SHA-256 digest formatting path; semantic target not yet reconstructed | **UNKNOWN** |
 | 070 | `defpackage/c6.java` | **UNKNOWN** | Direct dependency used for archive validation/error reporting | **UNKNOWN** |
 | 071 | `defpackage/cy0.java` | **UNKNOWN** | Direct dependency used for buffered InputStream → OutputStream copy | **UNKNOWN** |
@@ -481,6 +482,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 174 | `org/swiftapps/swiftbackup/settings/j.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java::<clinit>`** | Initializes Type mapping `SingleBackup→1`, `DatedBackups→2`, `ConditionalBackup→3` | CANDIDATE |
 | 175 | `org/swiftapps/swiftbackup/settings/k.java::j(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setSelectedType(MultipleBackupStrategy)`** | Updates selected strategy type in current state | CANDIDATE |
 | 176 | `org/swiftapps/swiftbackup/settings/k.java::k(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setStrategyForType(MultipleBackupStrategy)`** | Replaces single/dated/conditional strategy according to resolved type | CANDIDATE |
+| 177 | `org/swiftapps/swiftbackup/views/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java::<clinit>`** | Initializes position mapping `Single→1`, `Top→2`, `Middle→3`, `Bottom→4` | CANDIDATE |
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
 | # | Reference | BaRe aktual | Kondisi sekarang | Status |
