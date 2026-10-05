@@ -32,8 +32,8 @@
 | 017 | `org/swiftapps/swiftbackup/common/V.java` | **CANDIDATE: `org/swiftapps/swiftbackup/common/SecurePreferencesManager.java`** | Singleton secure-preferences manager; selects encrypted vs fallback secure preferences, generates/loads AES/HMAC key material, and stores typed application security state | **CANDIDATE** |
 | 018 | `org/swiftapps/swiftbackup/common/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/common/GsonUriAdapterFactory.java`** | Gson factory supplier registering a custom `Uri` JSON adapter and configuring the Gson `Excluder` with `v14` strategy | **CANDIDATE** |
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationViewModel.java`** | Contributor registration state/ViewModel; persists contributor details identity, exposes state holder, and initializes registration loading coroutine | **CANDIDATE** |
-| 020 | `org/swiftapps/swiftbackup/contributor/b.java` | **UNKNOWN** | Synthetic enum switch-map ContributorRegistration type | **UNKNOWN** |
-| 021 | `org/swiftapps/swiftbackup/contributor/c.java` | **UNKNOWN** | Synthetic enum switch-map ContributorRegistration type | **UNKNOWN** |
+| 020 | `org/swiftapps/swiftbackup/contributor/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java`** | Synthetic enum switch-map: `Translator→1`, `CommunityHelper→2`; semantically identical to Reference `c.java`; whether BaRe requires one shared target or two artifacts remains UNKNOWN | **CANDIDATE** |
+| 021 | `org/swiftapps/swiftbackup/contributor/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java`** | Synthetic enum switch-map: `Translator→1`, `CommunityHelper→2`; source body is identical to Reference `b.java`; shared-target/duplicate-artifact decision remains UNKNOWN | **CANDIDATE** |
 | 022 | `org/swiftapps/swiftbackup/folders/data/a.java` | **UNKNOWN** | FolderItem → folder metadata/helper conversion | **UNKNOWN** |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
@@ -166,8 +166,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 018 | `org/swiftapps/swiftbackup/common/a.java::invoke()` | **UNKNOWN** | Builds Gson instance with custom `Uri` read/write adapter and adds `v14` exclusion strategy | UNKNOWN |
 | 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/common/GsonUriAdapterFactory.java` | Synthetic Gson factory supplier; embedded adapter is explicitly identified as `GsonHelper$UriAdapter` | CANDIDATE |
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationViewModel.java` | Contributor registration state/ViewModel extending `qo0` | CANDIDATE |
-| 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 021 | `org/swiftapps/swiftbackup/contributor/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java` | Synthetic switch-map for `ContributorRegistration.a` | CANDIDATE |
+| 021 | `org/swiftapps/swiftbackup/contributor/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java` | Duplicate synthetic switch-map with identical mapping to `b.java` | CANDIDATE |
 | 022 | `org/swiftapps/swiftbackup/folders/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
