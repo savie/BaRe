@@ -16,7 +16,7 @@
 | 001 | `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Utility menulis byte ke FileChannel pada offset tertentu / random-access file writer | **MATCH** |
 | 002 | `org/swiftapps/swiftbackup/apkshare/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apkshare/ApkShareArchiveWriter.java`** | APKS/archive utility: SHA-256, archive-entry validation, ZIP/APKS construction; writes `meta.sai_v2.json` and `meta.swiftbackup_v1.json`; records APK metadata including SHA-256; Reference direct caller evidence: `defpackage/jm1.java` calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` at two call sites (around lines 565 and 777), for APKS creation | **CANDIDATE** |
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java`** | Parcelable.Creator khusus `ConfigSettings.ApplyData`; `createFromParcel()` membaca satu String dan membentuk `new ConfigSettings.ApplyData(...)`; `newArray()` membuat array `ApplyData` | **CANDIDATE** |
-| 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | **UNKNOWN** | Parcelable.Creator untuk ConfigSettings | **UNKNOWN** |
+| 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java`** | Parcelable.Creator untuk `ConfigSettings`; `createFromParcel()` membaca seluruh field parcel sesuai constructor `ConfigSettings(...)`, termasuk `ApplyData`, `AppBackupLimitItem` list, dan `MultipleBackupStrategy`; `newArray()` membuat array `ConfigSettings` | **CANDIDATE** |
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **UNKNOWN** | Synthetic enum switch-map untuk ConfigEditActivity action | **UNKNOWN** |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | **UNKNOWN** | Config list state/ViewModel; sorting/filtering ConfigsData | **UNKNOWN** |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | **UNKNOWN** | Synthetic enum switch-map untuk field sorting ConfigList | **UNKNOWN** |
@@ -149,7 +149,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 001 | `org/swiftapps/filesystem/a.java::class a` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Class already semantically renamed; method still needs separate verification | MATCH |
 | 002 | `org/swiftapps/swiftbackup/apkshare/a.java::class a` | `same path a.java` | Role proven as APKS/archive utility; meaningful original class name not proven; no rename authorized | UNKNOWN |
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsApplyDataCreator.java` | `Parcelable.Creator` untuk nested `ConfigSettings.ApplyData`; semantic identity proven from `ApplyData.CREATOR = new a()` | CANDIDATE |
-| 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/data/ConfigSettingsCreator.java` | `Parcelable.Creator<ConfigSettings>`; semantic identity proven from `ConfigSettings.CREATOR = new b()` and parcel reconstruction matching `ConfigSettings` constructor fields | CANDIDATE |
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -354,6 +354,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 082 | `defpackage/lh.java::...` | **UNKNOWN** | Displays `preparing_apks` during APK preparation | UNKNOWN |
 | 083 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings.ApplyData>`; validates Parcel, reads String, returns `new ConfigSettings.ApplyData(...)` | UNKNOWN |
 | 084 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings.ApplyData[i]` | UNKNOWN |
+| 085 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings>`; reconstructs version, id, optional `ApplyData`, app parts, locations, sync option, backup limits, strategy, restore settings and enabled flags in constructor order | UNKNOWN |
+| 086 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings[i]` | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
