@@ -23,7 +23,7 @@
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequestParser.java`** | Parses 4-part notification policy request (`mode`, `userId`, `packageName`, `payloadFile`), validates mode/user/package, and returns notification request data | **CANDIDATE** |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequest.java`** | Immutable notification policy request value object: mode, userId, packageName, payload `File`; `toString()` identity is `Request(...)` | **CANDIDATE** |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java`** | Synthetic enum switch-map for `NotificationPolicyProxy.a`: `Backup→1`, `Restore→2` | **CANDIDATE** |
-| 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **UNKNOWN** | SBA app-data archive metadata/request helper | **UNKNOWN** |
+| 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java`** | Builds serialized SBA app-data archive metadata JSON from app identity/version, backup mode flags, compression level, data/de-data sizes, and included `data`/`data_de` parts | **CANDIDATE** |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **UNKNOWN** | Cloud orphan cleaner state/ViewModel | **UNKNOWN** |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **UNKNOWN** | Cloud orphan item/data model | **UNKNOWN** |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **UNKNOWN** | Coroutine continuation untuk cloud orphan processing | **UNKNOWN** |
@@ -156,7 +156,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequestParser.java` | Stateless parser/validator for notification policy request arguments | CANDIDATE |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequest.java` | Immutable request value object; semantic identity proven from constructor, equality/hashCode and `toString()` | CANDIDATE |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java` | Synthetic switch-map bound to notification policy mode enum | CANDIDATE |
-| 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java` | Stateless static builder producing JSON for `SbaAppDataArchiveMetadata` | CANDIDATE |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -362,6 +362,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 088 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(b,EnumC0012a)` | **UNKNOWN** | Persists selected sort field/direction and reapplies sorting to current `ConfigsData` | UNKNOWN |
 | 089 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
 | 090 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::a(String[])` | **UNKNOWN** | Parses mode/userId/packageName/payloadFile; accepts `backup`/`restore`, validates non-negative userId and safe package name, returns notification request object or null | UNKNOWN |
+| 091 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::a(ji,boolean,boolean,xp1)` | **UNKNOWN** | Serializes `SbaAppDataArchiveMetadata` JSON using package/app/version, data and de-data sizes, compression level, backup flags, and `data`/`data_de` part names | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
