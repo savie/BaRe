@@ -89,3 +89,23 @@ Do not fabricate missing coordinates/versions for:
 - DataTransport
 
 **P2 blocker:** BaRe needs an explicit Android build/dependency contract before these 37 entities can transition from BLOCKED to DELEGATED/VERIFIED.
+
+
+## Newly Extracted Reference-Side Identity Evidence
+
+The Reference artifact contains additional identity signals beyond the earlier META-INF version files:
+
+- Play Billing manifest metadata: `com.google.android.play.billingclient.version = 8.3.0`.
+- MSAL client code sends `sdkVersion("8.3.2")` in `com.microsoft.identity.client.internal.MsalUtils`.
+- pCloud SDK code contains the marker `pCloud-SDK-1.11.0`.
+- Google Play Services manifest resource `google_play_services_version = 12451000` is present. This is an embedded compatibility integer, not by itself a unique published artifact version, so it is not converted to a Gradle version.
+
+These are stronger Reference-side signals and may be used to narrow exact dependency resolution, but they still do not prove every transitive dependency coordinate.
+
+## Outside-Reference Candidate Coordinates
+
+Web research identifies valid published coordinates for several families, for example AppAuth `net.openid:appauth:0.11.1`, Shizuku provider `dev.rikka.shizuku:provider:13.1.5`, and current YubiKit Android artifacts. These are **external candidates only** and are not treated as Reference versions without a direct match to the Reference artifact.
+
+Likewise, current MSAL and Google Play Services publications exist, but current publication versions are not evidence that the Reference APK used them.
+
+Therefore the entity states remain BLOCKED until the Reference-to-coordinate match is proven.
