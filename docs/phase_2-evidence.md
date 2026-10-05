@@ -58,7 +58,7 @@
 | 043 | `net/openid/appauth/AuthorizationManagementActivity.java` | `net/openid/appauth/AuthorizationManagementActivity.java` | Same Reference/BaRe file path | MATCH |
 | 044 | `net/openid/appauth/RedirectUriReceiverActivity.java` | `net/openid/appauth/RedirectUriReceiverActivity.java` | Same Reference/BaRe file path | MATCH |
 | 045 | `org/swiftapps/filesystem/File$FileType.java` | `org/swiftapps/filesystem/File$FileType.java` | Same Reference/BaRe file path | MATCH |
-| 046 | `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Random-access FileChannel writer | MATCH |
+| 046 | `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Reference counterpart exists as `a.java`; BaRe filename currently differs | FILENAME MISMATCH |
 | 047 | `org/swiftapps/rootservice/ShellHelper.java` | `org/swiftapps/rootservice/ShellHelper.java` | Same Reference/BaRe file path | MATCH |
 | 048 | `org/swiftapps/rootservice/ShizukuAidlService.java` | `org/swiftapps/rootservice/ShizukuAidlService.java` | Same Reference/BaRe file path | MATCH |
 | 049 | `org/swiftapps/swiftbackup/SwiftApp.java` | `org/swiftapps/swiftbackup/SwiftApp.java` | Same Reference/BaRe file path | MATCH |
@@ -327,96 +327,24 @@
 |---|---:|
 | BaRe Java files inspected | 307 |
 | Same-path Reference counterparts | 306 |
-| Explicit renamed/re-homed counterpart | 1 |
+| Filename mismatch against Reference | 1 |
 | Unmapped BaRe Java files | 0 |
 | File-level UNKNOWN | 0 |
 | File-level BLOCKED | 0 |
 
-## EXPLICIT FILE RENAME
+## FILE-LEVEL MISMATCH
 
-| Reference File | BaRe File | Reason | Status |
-|---|---|---|---|
-| `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Reference role was inspected and identified as random-access `FileChannel` writer | MATCH |
+| Reference File | BaRe File | Status |
+|---|---|---|
+| `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | FILENAME MISMATCH — BaRe must follow Reference filename |
 
 ## FILE-LEVEL GATE
 
 | Requirement | State |
 |---|---|
 | Every current `app/src/main/java` file has a Reference counterpart | PASS |
-| 1:1 file mapping preserved | PASS |
+| 1:1 Reference → BaRe file rows recorded | PASS |
 | No files grouped into a new replacement file | PASS |
-| File audit scope complete | PASS |
+| File audit scope complete | PASS — 307 rows |
 | Class/function audit | NOT STARTED — OUT OF CURRENT SCOPE |
 | Runtime/build verification | NOT STARTED — OUT OF CURRENT SCOPE |
-
-## OBFUSCATED / UNCLEAR FILE NAMES
-
-| # | Reference File | BaRe File | Status |
-|---|---|---|---|
-| 01 | `org/swiftapps/swiftbackup/apkshare/a.java` | `org/swiftapps/swiftbackup/apkshare/a.java` | TO AUDIT FROM REFERENCE |
-| 02 | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | TO AUDIT FROM REFERENCE |
-| 03 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | TO AUDIT FROM REFERENCE |
-| 04 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | TO AUDIT FROM REFERENCE |
-| 05 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | TO AUDIT FROM REFERENCE |
-| 06 | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | TO AUDIT FROM REFERENCE |
-| 07 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | TO AUDIT FROM REFERENCE |
-| 08 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | TO AUDIT FROM REFERENCE |
-| 09 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | TO AUDIT FROM REFERENCE |
-| 10 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | TO AUDIT FROM REFERENCE |
-| 11 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | TO AUDIT FROM REFERENCE |
-| 12 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | TO AUDIT FROM REFERENCE |
-| 13 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | TO AUDIT FROM REFERENCE |
-| 14 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | TO AUDIT FROM REFERENCE |
-| 15 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | TO AUDIT FROM REFERENCE |
-| 16 | `org/swiftapps/swiftbackup/common/V.java` | `org/swiftapps/swiftbackup/common/V.java` | TO AUDIT FROM REFERENCE |
-| 17 | `org/swiftapps/swiftbackup/common/a.java` | `org/swiftapps/swiftbackup/common/a.java` | TO AUDIT FROM REFERENCE |
-| 18 | `org/swiftapps/swiftbackup/contributor/a.java` | `org/swiftapps/swiftbackup/contributor/a.java` | TO AUDIT FROM REFERENCE |
-| 19 | `org/swiftapps/swiftbackup/contributor/b.java` | `org/swiftapps/swiftbackup/contributor/b.java` | TO AUDIT FROM REFERENCE |
-| 20 | `org/swiftapps/swiftbackup/contributor/c.java` | `org/swiftapps/swiftbackup/contributor/c.java` | TO AUDIT FROM REFERENCE |
-| 21 | `org/swiftapps/swiftbackup/folders/data/a.java` | `org/swiftapps/swiftbackup/folders/data/a.java` | TO AUDIT FROM REFERENCE |
-| 22 | `org/swiftapps/swiftbackup/folders/data/b.java` | `org/swiftapps/swiftbackup/folders/data/b.java` | TO AUDIT FROM REFERENCE |
-| 23 | `org/swiftapps/swiftbackup/folders/data/c.java` | `org/swiftapps/swiftbackup/folders/data/c.java` | TO AUDIT FROM REFERENCE |
-| 24 | `org/swiftapps/swiftbackup/home/schedule/a.java` | `org/swiftapps/swiftbackup/home/schedule/a.java` | TO AUDIT FROM REFERENCE |
-| 25 | `org/swiftapps/swiftbackup/home/schedule/b.java` | `org/swiftapps/swiftbackup/home/schedule/b.java` | TO AUDIT FROM REFERENCE |
-| 26 | `org/swiftapps/swiftbackup/home/schedule/c.java` | `org/swiftapps/swiftbackup/home/schedule/c.java` | TO AUDIT FROM REFERENCE |
-| 27 | `org/swiftapps/swiftbackup/home/schedule/d.java` | `org/swiftapps/swiftbackup/home/schedule/d.java` | TO AUDIT FROM REFERENCE |
-| 28 | `org/swiftapps/swiftbackup/home/schedule/data/a.java` | `org/swiftapps/swiftbackup/home/schedule/data/a.java` | TO AUDIT FROM REFERENCE |
-| 29 | `org/swiftapps/swiftbackup/home/schedule/data/b.java` | `org/swiftapps/swiftbackup/home/schedule/data/b.java` | TO AUDIT FROM REFERENCE |
-| 30 | `org/swiftapps/swiftbackup/home/schedule/data/c.java` | `org/swiftapps/swiftbackup/home/schedule/data/c.java` | TO AUDIT FROM REFERENCE |
-| 31 | `org/swiftapps/swiftbackup/home/schedule/data/d.java` | `org/swiftapps/swiftbackup/home/schedule/data/d.java` | TO AUDIT FROM REFERENCE |
-| 32 | `org/swiftapps/swiftbackup/home/schedule/data/e.java` | `org/swiftapps/swiftbackup/home/schedule/data/e.java` | TO AUDIT FROM REFERENCE |
-| 33 | `org/swiftapps/swiftbackup/home/schedule/data/f.java` | `org/swiftapps/swiftbackup/home/schedule/data/f.java` | TO AUDIT FROM REFERENCE |
-| 34 | `org/swiftapps/swiftbackup/home/schedule/data/g.java` | `org/swiftapps/swiftbackup/home/schedule/data/g.java` | TO AUDIT FROM REFERENCE |
-| 35 | `org/swiftapps/swiftbackup/home/schedule/data/h.java` | `org/swiftapps/swiftbackup/home/schedule/data/h.java` | TO AUDIT FROM REFERENCE |
-| 36 | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | TO AUDIT FROM REFERENCE |
-| 37 | `org/swiftapps/swiftbackup/home/schedule/data/j.java` | `org/swiftapps/swiftbackup/home/schedule/data/j.java` | TO AUDIT FROM REFERENCE |
-| 38 | `org/swiftapps/swiftbackup/home/schedule/data/k.java` | `org/swiftapps/swiftbackup/home/schedule/data/k.java` | TO AUDIT FROM REFERENCE |
-| 39 | `org/swiftapps/swiftbackup/home/schedule/data/l.java` | `org/swiftapps/swiftbackup/home/schedule/data/l.java` | TO AUDIT FROM REFERENCE |
-| 40 | `org/swiftapps/swiftbackup/home/schedule/data/m.java` | `org/swiftapps/swiftbackup/home/schedule/data/m.java` | TO AUDIT FROM REFERENCE |
-| 41 | `org/swiftapps/swiftbackup/home/schedule/data/n.java` | `org/swiftapps/swiftbackup/home/schedule/data/n.java` | TO AUDIT FROM REFERENCE |
-| 42 | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | TO AUDIT FROM REFERENCE |
-| 43 | `org/swiftapps/swiftbackup/intro/a.java` | `org/swiftapps/swiftbackup/intro/a.java` | TO AUDIT FROM REFERENCE |
-| 44 | `org/swiftapps/swiftbackup/intro/b.java` | `org/swiftapps/swiftbackup/intro/b.java` | TO AUDIT FROM REFERENCE |
-| 45 | `org/swiftapps/swiftbackup/intro/c.java` | `org/swiftapps/swiftbackup/intro/c.java` | TO AUDIT FROM REFERENCE |
-| 46 | `org/swiftapps/swiftbackup/intro/d.java` | `org/swiftapps/swiftbackup/intro/d.java` | TO AUDIT FROM REFERENCE |
-| 47 | `org/swiftapps/swiftbackup/intro/e.java` | `org/swiftapps/swiftbackup/intro/e.java` | TO AUDIT FROM REFERENCE |
-| 48 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java` | TO AUDIT FROM REFERENCE |
-| 49 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java` | TO AUDIT FROM REFERENCE |
-| 50 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java` | TO AUDIT FROM REFERENCE |
-| 51 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java` | TO AUDIT FROM REFERENCE |
-| 52 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java` | TO AUDIT FROM REFERENCE |
-| 53 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java` | TO AUDIT FROM REFERENCE |
-| 54 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java` | TO AUDIT FROM REFERENCE |
-| 55 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java` | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java` | TO AUDIT FROM REFERENCE |
-| 56 | `org/swiftapps/swiftbackup/settings/a.java` | `org/swiftapps/swiftbackup/settings/a.java` | TO AUDIT FROM REFERENCE |
-| 57 | `org/swiftapps/swiftbackup/settings/b.java` | `org/swiftapps/swiftbackup/settings/b.java` | TO AUDIT FROM REFERENCE |
-| 58 | `org/swiftapps/swiftbackup/settings/c.java` | `org/swiftapps/swiftbackup/settings/c.java` | TO AUDIT FROM REFERENCE |
-| 59 | `org/swiftapps/swiftbackup/settings/d.java` | `org/swiftapps/swiftbackup/settings/d.java` | TO AUDIT FROM REFERENCE |
-| 60 | `org/swiftapps/swiftbackup/settings/e.java` | `org/swiftapps/swiftbackup/settings/e.java` | TO AUDIT FROM REFERENCE |
-| 61 | `org/swiftapps/swiftbackup/settings/f.java` | `org/swiftapps/swiftbackup/settings/f.java` | TO AUDIT FROM REFERENCE |
-| 62 | `org/swiftapps/swiftbackup/settings/g.java` | `org/swiftapps/swiftbackup/settings/g.java` | TO AUDIT FROM REFERENCE |
-| 63 | `org/swiftapps/swiftbackup/settings/h.java` | `org/swiftapps/swiftbackup/settings/h.java` | TO AUDIT FROM REFERENCE |
-| 64 | `org/swiftapps/swiftbackup/settings/i.java` | `org/swiftapps/swiftbackup/settings/i.java` | TO AUDIT FROM REFERENCE |
-| 65 | `org/swiftapps/swiftbackup/settings/j.java` | `org/swiftapps/swiftbackup/settings/j.java` | TO AUDIT FROM REFERENCE |
-| 66 | `org/swiftapps/swiftbackup/settings/k.java` | `org/swiftapps/swiftbackup/settings/k.java` | TO AUDIT FROM REFERENCE |
-| 67 | `org/swiftapps/swiftbackup/views/a.java` | `org/swiftapps/swiftbackup/views/a.java` | TO AUDIT FROM REFERENCE |
