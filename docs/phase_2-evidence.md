@@ -1,16 +1,4 @@
 # Phase 2 — Reconstruction Evidence
-| 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java`** | Apps settings PreferenceFragment/controller | CANDIDATE |
-| 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
-| 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
-| 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic MultipleBackupStrategy.Type switch-map | CANDIDATE |
-| 062 | `org/swiftapps/swiftbackup/settings/f.java::class f` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java`** | MultipleBackupStrategy representation/type mapper | CANDIDATE |
-| 063 | `org/swiftapps/swiftbackup/settings/g.java::class g` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyConditionSwitchMap.java`** | Synthetic NewBackupCondition switch-map | CANDIDATE |
-| 064 | `org/swiftapps/swiftbackup/settings/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java`** | Multiple-backup strategy card UI binder | CANDIDATE |
-| 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable MultipleBackupStrategy settings state | CANDIDATE |
-| 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Duplicate synthetic Type switch-map; shared-target decision with `e.java` remains UNKNOWN | CANDIDATE |
-| 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | MultipleBackupStrategy settings ViewModel | CANDIDATE |
-| 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic SwiftSegmentedCardGroup position switch-map | CANDIDATE |
-
 | Field | Value |
 |---|---|
 | Phase | P2 — Reference Reconstruction |
@@ -174,7 +162,6 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/protocols/CloudCredentialsPersistence.java` | Stateless persistence/export helper for `CloudCredentials` | CANDIDATE |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/protocols/filen/FilenCloudStorageClient.java` | Stateful Filen cloud storage client with API wrapper, operation handlers, TTL cache and root item | CANDIDATE |
 | 017 | `org/swiftapps/swiftbackup/common/V.java::class V` | `CANDIDATE: org/swiftapps/swiftbackup/common/SecurePreferencesManager.java` | Singleton secure-preferences/crypto state manager with encrypted-preferences fallback and typed getters/setters | CANDIDATE |
-| 018 | `org/swiftapps/swiftbackup/common/a.java::invoke()` | **UNKNOWN** | Builds Gson instance with custom `Uri` read/write adapter and adds `v14` exclusion strategy | UNKNOWN |
 | 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/common/GsonUriAdapterFactory.java` | Synthetic Gson factory supplier; embedded adapter is explicitly identified as `GsonHelper$UriAdapter` | CANDIDATE |
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationViewModel.java` | Contributor registration state/ViewModel extending `qo0` | CANDIDATE |
 | 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java` | Synthetic switch-map for `ContributorRegistration.a` | CANDIDATE |
@@ -226,62 +213,62 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Duplicate synthetic Type switch-map; shared-target decision with `e.java` remains UNKNOWN | CANDIDATE |
 | 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | MultipleBackupStrategy settings ViewModel | CANDIDATE |
 | 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic SwiftSegmentedCardGroup position switch-map | CANDIDATE |
-| 048 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
-| 049 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
+| 069 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
+| 070 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
 
-| 069 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class EnumC0012a` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-direction enum: `Asc`, `Desc`; each carries display string resource | CANDIDATE |
-| 070 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class b` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-field enum: `Name`, `LastUpdated`; each carries display string resource | CANDIDATE |
-| 069 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
-| 070 | `defpackage/c6.java::class c6` | `same path c6.java` | Synthetic multi-interface validation/error helper; `f(String)` and `g(...)` throw `IllegalArgumentException` | UNKNOWN |
-| 071 | `defpackage/cy0.java::class cy0` | `same path cy0.java` | Abstract stream-copy helper implementing buffered InputStream → OutputStream transfer | UNKNOWN |
-| 072 | `defpackage/f51.java::class f51` | `same path f51.java` | Abstract holder with UTF-8 Charset field used by archive metadata path | UNKNOWN |
-| 073 | `defpackage/f6.java::class f6` | `same path f6.java` | Direct validation/error dependency encountered from apkshare/a.java | UNKNOWN |
-| 074 | `defpackage/gv7.java::class gv7` | `same path gv7.java` | Gson-serialization dependency encountered from apkshare/a.java | UNKNOWN |
-| 075 | `defpackage/hl1.java::class hl1` | `same path hl1.java` | Collection-capacity helper dependency encountered from apkshare/a.java | UNKNOWN |
-| 076 | `defpackage/nq7.java::class nq7` | `same path nq7.java` | String/archive-entry validation dependency encountered from apkshare/a.java | UNKNOWN |
-| 077 | `defpackage/q63.java::class q63` | `same path q63.java` | Filesystem abstraction used for archive input/output, existence, and size | UNKNOWN |
-| 078 | `defpackage/rs9.java::class rs9` | `same path rs9.java` | Closeable exception-safe cleanup dependency | UNKNOWN |
-| 079 | `defpackage/uh.java::enum uh` | `same path uh.java` | Enum defining APK share file role: BASE / SPLIT | UNKNOWN |
-| 080 | `defpackage/vh.java::class vh` | `same path vh.java` | Model identity proven by `toString()` as `ApkShareFile(sourceFile, archiveName, role)` | UNKNOWN |
-| 081 | `defpackage/w14.java::class w14` | `same path w14.java` | Gson serialization dependency encountered from apkshare/a.java | UNKNOWN |
-| 082 | `defpackage/x50.java::class x50` | `same path x50.java` | Digest/string formatting dependency encountered from apkshare/a.java | UNKNOWN |
-| 083 | `defpackage/xs1.java::class xs1` | `same path xs1.java` | q63-related error-message formatting dependency | UNKNOWN |
-| 084 | `defpackage/mt3.java::interface mt3` | `same path mt3.java` | Functional callback interface exposing `invoke(Object)`; directly implemented by ai | UNKNOWN |
-| 085 | `defpackage/be8.java::class be8` | `same path be8.java` | Singleton returned by ai selector 2/default; semantic filename remains unproven | UNKNOWN |
-| 086 | `defpackage/tb1.java::class tb1` | `same path tb1.java` | Static/global cloud-state abstraction referenced by ai selector 2 | UNKNOWN |
-| 087 | `defpackage/qb1.java::class qb1` | `same path qb1.java` | Static cloud helper; `t(String)` invoked by ai selector 2 | UNKNOWN |
-| 088 | `defpackage/el1.java::class el1` | `same path el1.java` | String/collection formatting helper used by ai selector 3 | UNKNOWN |
-| 089 | `defpackage/fl1.java::class fl1` | `same path fl1.java` | Varargs-to-list helper used by ai selector 3 | UNKNOWN |
-| 090 | `defpackage/hc1.java::class hc1` | `same path hc1.java` | Synthetic `mt3` implementation instantiated by ai selector 3 | UNKNOWN |
-| 091 | `defpackage/jm1.java::class jm1` | `same path jm1.java` | Multi-purpose obfuscated static utility class; class-wide semantic rename not proven; APK export role proven only for `l/m` | UNKNOWN |
-| 092 | `defpackage/k55.java::class k55` | `same path k55.java` | Base type for export source variants `Installed`, `LocalBackup`, `CloudBackup` | UNKNOWN |
-| 093 | `defpackage/xh.java::class xh` | `same path xh.java` | `Installed(app)` source variant | UNKNOWN |
-| 094 | `defpackage/yh.java::class yh` | `same path yh.java` | `LocalBackup(app, backup)` source variant | UNKNOWN |
-| 095 | `defpackage/wh.java::class wh` | `same path wh.java` | `CloudBackup(app, backup)` source variant | UNKNOWN |
-| 096 | `defpackage/ji.java::class ji` | `same path ji.java` | App descriptor consumed for package/name/version/installer metadata | UNKNOWN |
-| 097 | `defpackage/hk.java::class hk` | `same path hk.java` | Backup APK handle consumed by local/cloud export path | UNKNOWN |
-| 098 | `defpackage/ov2.java::class ov2` | `same path ov2.java` | Empty-list singleton/fallback | UNKNOWN |
-| 099 | `defpackage/nc8.java::class nc8` | `same path nc8.java` | Collection singleton/list helper | UNKNOWN |
-| 100 | `defpackage/io4.java::class io4` | `same path io4.java` | Nullable-long/size normalization helper | UNKNOWN |
-| 101 | `defpackage/fo2.java::class fo2` | `same path fo2.java` | APK/split download work item | UNKNOWN |
-| 102 | `defpackage/kh6.java::class kh6` | `same path kh6.java` | Mutable byte-progress accumulator | UNKNOWN |
-| 103 | `defpackage/oh.java::class oh` | `same path oh.java` | Progress snapshot value | UNKNOWN |
-| 104 | `defpackage/ph.java::class ph` | `same path ph.java` | Terminal progress marker/value | UNKNOWN |
-| 105 | `defpackage/ky.java::class ky` | `same path ky.java` | Split-APK extraction helper | UNKNOWN |
-| 106 | `defpackage/xg.java::class xg` | `same path xg.java` | Comparator for extracted split APK files | UNKNOWN |
-| 107 | `defpackage/nh.java::class nh` | `same path nh.java` | Asynchronous UI/task caller of `jm1.l` | UNKNOWN |
-| 108 | `defpackage/b7.java::class b7` | `same path b7.java` | Selector/callback passed to split extraction | UNKNOWN |
-| 109 | `defpackage/l0.java::class l0` | `same path l0.java` | Export/extraction error logger | UNKNOWN |
-| 110 | `defpackage/rh.java::class rh` | `same path rh.java` | APK share export result value object | UNKNOWN |
-| 111 | `defpackage/ni.java::class ni` | `same path ni.java` | App action menu builder; ShareApk entry available for installed apps | UNKNOWN |
-| 112 | `defpackage/oy.java::class oy` | `same path oy.java` | App action enum containing `ShareApk` | UNKNOWN |
-| 113 | `defpackage/ts.java::class ts` | `same path ts.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
-| 114 | `defpackage/ny.java::class ny` | `same path ny.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
-| 115 | `defpackage/tj.java::class tj` | `same path tj.java` | Share-APK action caller | UNKNOWN |
-| 116 | `defpackage/ss.java::class ss` | `same path ss.java` | Share-APK action caller | UNKNOWN |
-| 117 | `defpackage/ij.java::class ij` | `same path ij.java` | Share-APK action caller | UNKNOWN |
-| 118 | `defpackage/mh.java::class mh` | `same path mh.java` | Share-result UI handler | UNKNOWN |
-| 119 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
+| 071 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class EnumC0012a` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-direction enum: `Asc`, `Desc`; each carries display string resource | CANDIDATE |
+| 072 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class b` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-field enum: `Name`, `LastUpdated`; each carries display string resource | CANDIDATE |
+| 073 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
+| 074 | `defpackage/c6.java::class c6` | `same path c6.java` | Synthetic multi-interface validation/error helper; `f(String)` and `g(...)` throw `IllegalArgumentException` | UNKNOWN |
+| 075 | `defpackage/cy0.java::class cy0` | `same path cy0.java` | Abstract stream-copy helper implementing buffered InputStream → OutputStream transfer | UNKNOWN |
+| 076 | `defpackage/f51.java::class f51` | `same path f51.java` | Abstract holder with UTF-8 Charset field used by archive metadata path | UNKNOWN |
+| 077 | `defpackage/f6.java::class f6` | `same path f6.java` | Direct validation/error dependency encountered from apkshare/a.java | UNKNOWN |
+| 078 | `defpackage/gv7.java::class gv7` | `same path gv7.java` | Gson-serialization dependency encountered from apkshare/a.java | UNKNOWN |
+| 079 | `defpackage/hl1.java::class hl1` | `same path hl1.java` | Collection-capacity helper dependency encountered from apkshare/a.java | UNKNOWN |
+| 080 | `defpackage/nq7.java::class nq7` | `same path nq7.java` | String/archive-entry validation dependency encountered from apkshare/a.java | UNKNOWN |
+| 081 | `defpackage/q63.java::class q63` | `same path q63.java` | Filesystem abstraction used for archive input/output, existence, and size | UNKNOWN |
+| 082 | `defpackage/rs9.java::class rs9` | `same path rs9.java` | Closeable exception-safe cleanup dependency | UNKNOWN |
+| 083 | `defpackage/uh.java::enum uh` | `same path uh.java` | Enum defining APK share file role: BASE / SPLIT | UNKNOWN |
+| 084 | `defpackage/vh.java::class vh` | `same path vh.java` | Model identity proven by `toString()` as `ApkShareFile(sourceFile, archiveName, role)` | UNKNOWN |
+| 085 | `defpackage/w14.java::class w14` | `same path w14.java` | Gson serialization dependency encountered from apkshare/a.java | UNKNOWN |
+| 086 | `defpackage/x50.java::class x50` | `same path x50.java` | Digest/string formatting dependency encountered from apkshare/a.java | UNKNOWN |
+| 087 | `defpackage/xs1.java::class xs1` | `same path xs1.java` | q63-related error-message formatting dependency | UNKNOWN |
+| 088 | `defpackage/mt3.java::interface mt3` | `same path mt3.java` | Functional callback interface exposing `invoke(Object)`; directly implemented by ai | UNKNOWN |
+| 089 | `defpackage/be8.java::class be8` | `same path be8.java` | Singleton returned by ai selector 2/default; semantic filename remains unproven | UNKNOWN |
+| 090 | `defpackage/tb1.java::class tb1` | `same path tb1.java` | Static/global cloud-state abstraction referenced by ai selector 2 | UNKNOWN |
+| 091 | `defpackage/qb1.java::class qb1` | `same path qb1.java` | Static cloud helper; `t(String)` invoked by ai selector 2 | UNKNOWN |
+| 092 | `defpackage/el1.java::class el1` | `same path el1.java` | String/collection formatting helper used by ai selector 3 | UNKNOWN |
+| 093 | `defpackage/fl1.java::class fl1` | `same path fl1.java` | Varargs-to-list helper used by ai selector 3 | UNKNOWN |
+| 094 | `defpackage/hc1.java::class hc1` | `same path hc1.java` | Synthetic `mt3` implementation instantiated by ai selector 3 | UNKNOWN |
+| 095 | `defpackage/jm1.java::class jm1` | `same path jm1.java` | Multi-purpose obfuscated static utility class; class-wide semantic rename not proven; APK export role proven only for `l/m` | UNKNOWN |
+| 096 | `defpackage/k55.java::class k55` | `same path k55.java` | Base type for export source variants `Installed`, `LocalBackup`, `CloudBackup` | UNKNOWN |
+| 097 | `defpackage/xh.java::class xh` | `same path xh.java` | `Installed(app)` source variant | UNKNOWN |
+| 098 | `defpackage/yh.java::class yh` | `same path yh.java` | `LocalBackup(app, backup)` source variant | UNKNOWN |
+| 099 | `defpackage/wh.java::class wh` | `same path wh.java` | `CloudBackup(app, backup)` source variant | UNKNOWN |
+| 100 | `defpackage/ji.java::class ji` | `same path ji.java` | App descriptor consumed for package/name/version/installer metadata | UNKNOWN |
+| 101 | `defpackage/hk.java::class hk` | `same path hk.java` | Backup APK handle consumed by local/cloud export path | UNKNOWN |
+| 102 | `defpackage/ov2.java::class ov2` | `same path ov2.java` | Empty-list singleton/fallback | UNKNOWN |
+| 103 | `defpackage/nc8.java::class nc8` | `same path nc8.java` | Collection singleton/list helper | UNKNOWN |
+| 104 | `defpackage/io4.java::class io4` | `same path io4.java` | Nullable-long/size normalization helper | UNKNOWN |
+| 105 | `defpackage/fo2.java::class fo2` | `same path fo2.java` | APK/split download work item | UNKNOWN |
+| 106 | `defpackage/kh6.java::class kh6` | `same path kh6.java` | Mutable byte-progress accumulator | UNKNOWN |
+| 107 | `defpackage/oh.java::class oh` | `same path oh.java` | Progress snapshot value | UNKNOWN |
+| 108 | `defpackage/ph.java::class ph` | `same path ph.java` | Terminal progress marker/value | UNKNOWN |
+| 109 | `defpackage/ky.java::class ky` | `same path ky.java` | Split-APK extraction helper | UNKNOWN |
+| 110 | `defpackage/xg.java::class xg` | `same path xg.java` | Comparator for extracted split APK files | UNKNOWN |
+| 111 | `defpackage/nh.java::class nh` | `same path nh.java` | Asynchronous UI/task caller of `jm1.l` | UNKNOWN |
+| 112 | `defpackage/b7.java::class b7` | `same path b7.java` | Selector/callback passed to split extraction | UNKNOWN |
+| 113 | `defpackage/l0.java::class l0` | `same path l0.java` | Export/extraction error logger | UNKNOWN |
+| 114 | `defpackage/rh.java::class rh` | `same path rh.java` | APK share export result value object | UNKNOWN |
+| 115 | `defpackage/ni.java::class ni` | `same path ni.java` | App action menu builder; ShareApk entry available for installed apps | UNKNOWN |
+| 116 | `defpackage/oy.java::class oy` | `same path oy.java` | App action enum containing `ShareApk` | UNKNOWN |
+| 117 | `defpackage/ts.java::class ts` | `same path ts.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
+| 118 | `defpackage/ny.java::class ny` | `same path ny.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
+| 119 | `defpackage/tj.java::class tj` | `same path tj.java` | Share-APK action caller | UNKNOWN |
+| 120 | `defpackage/ss.java::class ss` | `same path ss.java` | Share-APK action caller | UNKNOWN |
+| 121 | `defpackage/ij.java::class ij` | `same path ij.java` | Share-APK action caller | UNKNOWN |
+| 122 | `defpackage/mh.java::class mh` | `same path mh.java` | Share-result UI handler | UNKNOWN |
+| 123 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -291,7 +278,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 002 | `org/swiftapps/swiftbackup/apkshare/a.java::b(String)` | `org/swiftapps/swiftbackup/apkshare/a.java::b(String)` | Rejects blank names and names containing `/`, `\\`, or `..`; errors via `c6.f`/`f6.g` | MATCH |
 | 003 | `org/swiftapps/swiftbackup/apkshare/a.java::c(...)` | `org/swiftapps/swiftbackup/apkshare/a.java::c(...)` | Requires non-empty APK list; creates ZIP/APKS; validates/copies entries; records name/role/size/SHA-256; writes `meta.sai_v2.json` and `meta.swiftbackup_v1.json`; exception-safe close | MATCH |
 | 004 | `org/swiftapps/swiftbackup/apkshare/a.java::d(...)` | `org/swiftapps/swiftbackup/apkshare/a.java::d(...)` | Validates name; requires `q63.j()`; creates `ZipEntry`; copies via `cy0.j(..., 262144)` | MATCH |
-| 004 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 005 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(...)` | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 008 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::b(...)` | `org/swiftapps/swiftbackup/cloud/orphans/a.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
@@ -345,126 +332,124 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 056 | `org/swiftapps/swiftbackup/settings/b.java::d(...)` | `org/swiftapps/swiftbackup/settings/b.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 057 | `org/swiftapps/swiftbackup/settings/f.java::a(...)` | `org/swiftapps/swiftbackup/settings/f.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 058 | `org/swiftapps/swiftbackup/settings/f.java::b(...)` | `org/swiftapps/swiftbackup/settings/f.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 059 | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 060 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 061 | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 062 | `defpackage/uh.java::values()` | **UNKNOWN** | Enum API observed in Reference; BaRe counterpart not proven | UNKNOWN |
-| 063 | `defpackage/vh.java::vh(q63,String,uh)` | **UNKNOWN** | Constructor observed; establishes `sourceFile`, `archiveName`, and `role` members | UNKNOWN |
-| 064 | `defpackage/vh.java::equals(Object)` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
-| 065 | `defpackage/vh.java::hashCode()` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
-| 066 | `defpackage/vh.java::toString()` | **UNKNOWN** | Explicitly emits `ApkShareFile(...)` identity | UNKNOWN |
-| 067 | `defpackage/ai.java::ai(int)` | **UNKNOWN** | Stores selector used by `invoke` | UNKNOWN |
-| 068 | `defpackage/ai.java::invoke(Object)` | **UNKNOWN** | Selector 0 formats Byte as two-digit hex; 1 maps File to q63; 2 calls qb1.t(String) and returns be8.a; 3 formats dotted IPv4; default sleeps on Long and returns be8.a | UNKNOWN |
-| 069 | `defpackage/c6.java::f(String)` | **UNKNOWN** | Throws `IllegalArgumentException` with supplied message; direct archive-entry validation/error path | UNKNOWN |
-| 070 | `defpackage/c6.java::g(String,Object,Object,Object,Object,Object)` | **UNKNOWN** | Throws `IllegalArgumentException` from concatenated arguments; direct validation/error helper | UNKNOWN |
-| 071 | `defpackage/cy0.java::j(InputStream,OutputStream,int)` | **UNKNOWN** | Copies input using supplied buffer size and returns byte count; apkshare/a.java passes 262144 | UNKNOWN |
-| 072 | `defpackage/jm1.java::l(k55,mt3)` | **UNKNOWN** | Direct caller path: when split APKs exist, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
-| 073 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Local/cloud backup APK export: validates backup APK, extracts split backup, resolves metadata, constructs base/split `vh` entries and delegates APKS assembly to `apkshare.a.c(...)` | UNKNOWN |
-| 074 | `defpackage/jm1.java::G(long,String)` | `same path jm1.java::G(...)` | Creates/ensures `apk_share` working directory sized for export; returns q63 target directory | UNKNOWN |
-| 075 | `defpackage/jm1.java::V(ji)` | `same path jm1.java::V(...)` | Sanitizes app display name into filesystem-safe export basename; falls back to package name | UNKNOWN |
-| 076 | `defpackage/ni.java::build action list` | **UNKNOWN** | Adds `Share APK` action for installed apps via `R.string.share_apk` | UNKNOWN |
-| 077 | `defpackage/oy.java::ShareApk` | **UNKNOWN** | Enum constant identity `ShareApk`; id `share_apk`; title resource `R.string.share_apk` | UNKNOWN |
-| 078 | `defpackage/tj.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
-| 079 | `defpackage/ss.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
-| 080 | `defpackage/ij.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
-| 081 | `defpackage/mh.java::...` | **UNKNOWN** | Builds SEND chooser from `rh`; selects `share_apks` for `application/octet-stream`, otherwise `share_apk` | UNKNOWN |
-| 082 | `defpackage/lh.java::...` | **UNKNOWN** | Displays `preparing_apks` during APK preparation | UNKNOWN |
-| 083 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings.ApplyData>`; validates Parcel, reads String, returns `new ConfigSettings.ApplyData(...)` | UNKNOWN |
-| 084 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings.ApplyData[i]` | UNKNOWN |
-| 085 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings>`; reconstructs version, id, optional `ApplyData`, app parts, locations, sync option, backup limits, strategy, restore settings and enabled flags in constructor order | UNKNOWN |
-| 086 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings[i]` | UNKNOWN |
-| 087 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j()` | **UNKNOWN** | Loads `configs_list_sort_options` from SharedPreferences; defaults to `Name:Asc`; returns sort field/direction pair | UNKNOWN |
-| 088 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(b,EnumC0012a)` | **UNKNOWN** | Persists selected sort field/direction and reapplies sorting to current `ConfigsData` | UNKNOWN |
-| 089 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
-| 090 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::a(String[])` | **UNKNOWN** | Parses mode/userId/packageName/payloadFile; accepts `backup`/`restore`, validates non-negative userId and safe package name, returns notification request object or null | UNKNOWN |
-| 091 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::a(ji,boolean,boolean,xp1)` | **UNKNOWN** | Serializes `SbaAppDataArchiveMetadata` JSON using package/app/version, data and de-data sizes, compression level, backup flags, and `data`/`data_de` part names | UNKNOWN |
-| 092 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j(pe4,a)` | **UNKNOWN** | Dispatches cloud orphan event type to state/action handlers; handles idle marker, `hi1`, `ii1` | UNKNOWN |
-| 093 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k(a,long,qh4)` | **UNKNOWN** | Clears matching active scan coroutine state under synchronization and signals completion | UNKNOWN |
-| 094 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l(a,long,String,bt3,kv1)` | **UNKNOWN** | Coroutine scan operation; executes orphan scan and returns scan success boolean | UNKNOWN |
-| 095 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m()` | **UNKNOWN** | Starts a new cancellable operation token/job and returns token/job pair | UNKNOWN |
-| 096 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n(String)` | **UNKNOWN** | Builds initial cloud-orphan cleaner state from current cloud connection and display metadata | UNKNOWN |
-| 097 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::o()` | **UNKNOWN** | Builds stable cloud/session identity string from connection state, account/provider details and cleaner VM persistence identity | UNKNOWN |
-| 098 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::p(b)` | **UNKNOWN** | Tests whether current orphan state matches cleaner identity and has no pending invalidation | UNKNOWN |
-| 099 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::q()` | **UNKNOWN** | Reconciles current cloud identity/state; resets or updates orphan cleaner state as needed | UNKNOWN |
-| 100 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(String)` | **UNKNOWN** | Resets cleaner transient state and publishes fresh initial state | UNKNOWN |
-| 101 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(mt3)` | **UNKNOWN** | Applies state transformation callback to current cleaner state and publishes it | UNKNOWN |
-| 102 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(b)` | **UNKNOWN** | Stores current cleaner state and publishes it through `ex6` | UNKNOWN |
-| 103 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a(b,EnumC0013a,List,Set,String,int,int,int)` | **UNKNOWN** | Copy/default factory for cleaner state; selectively replaces phase, files, selected IDs, status and counters | UNKNOWN |
-| 104 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::b()` | **UNKNOWN** | True when connected, phase is `RESULTS`, and selected orphan list is non-empty | UNKNOWN |
-| 105 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c()` | **UNKNOWN** | Filters orphan files whose provider/type+identifier key exists in selected ID set | UNKNOWN |
-| 106 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d()` | **UNKNOWN** | True while phase is `SCANNING` or `DELETING` | UNKNOWN |
-| 107 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::create(Object,jv1)` | **UNKNOWN** | Creates a new continuation instance preserving captured scan state | UNKNOWN |
-| 108 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invoke(Object,Object)` | **UNKNOWN** | Invokes the continuation state machine with coroutine context and completion | UNKNOWN |
-| 109 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine state-machine body for cloud-orphan scan; JADX body is unavailable/unsupported in this decompile | UNKNOWN |
-| 110 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::a(CloudCredentials,tn2)` | **UNKNOWN** | Exports serialized `CloudCredentials` JSON to the selected document URI; writes using default charset and closes stream safely | UNKNOWN |
-| 111 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(dd1)` | **UNKNOWN** | Loads saved credential JSON/password/private key from SharedPreferences and reconstructs `CloudCredentials` for the requested cloud type | UNKNOWN |
-| 112 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::createFromParcel(Parcel)`** | Reads all nine `AppsQuickActions` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
-| 113 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.AppsQuickActions[]` array | CANDIDATE |
-| 114 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::createFromParcel(Parcel)`** | Reads six `CallLogs` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
-| 115 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.CallLogs[]` array | CANDIDATE |
-| 116 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultAppParts(j)`** | Returns APP+DATA when root capability is available; otherwise APP only | CANDIDATE |
-| 117 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultLocations(j)`** | Returns DEVICE as the default schedule-item location | CANDIDATE |
-| 118 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java::createFromParcel(Parcel)`** | Reads folder schedule item fields and reconstructs nested `FolderItem` values through `FolderItem.CREATOR` | CANDIDATE |
-| 119 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Folders[]` array | CANDIDATE |
-| 120 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java::createFromParcel(Parcel)`** | Reads six `Messages` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
-| 121 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Messages[]` array | CANDIDATE |
-| 122 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java::createFromParcel(Parcel)`** | Reads six `Wallpapers` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
-| 123 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wallpapers[]` array | CANDIDATE |
-| 124 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::createFromParcel(Parcel)`** | Reads six `Wifi` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
-| 125 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wifi[]` array | CANDIDATE |
-| 126 | `org/swiftapps/swiftbackup/intro/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java::<clinit>`** | Initializes state mapping `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4`, and card mapping `ConnectionCard→1`, `FirstRunRestore→2` | CANDIDATE |
-| 127 | `org/swiftapps/swiftbackup/intro/b.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java::invoke(Object)`** | On `SIGNED_IN`, invokes `IntroActivity.Y(true)`; otherwise no action | CANDIDATE |
-| 128 | `org/swiftapps/swiftbackup/intro/c.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java::invoke(Object)`** | Routes first-run restore `SUCCESS` to completion and `FAILED` to error handling; IDLE/RUNNING remain active | CANDIDATE |
-| 129 | `org/swiftapps/swiftbackup/intro/d.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onCleared()`** | Resets/cancels storage and permission coordinator state, cancels active restore coroutine, then delegates lifecycle cleanup | CANDIDATE |
-| 130 | `org/swiftapps/swiftbackup/intro/d.java::j()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::hasIntroPrerequisites()`** | Checks backend presence plus required root/notification/device capability states | CANDIDATE |
-| 131 | `org/swiftapps/swiftbackup/intro/d.java::k(boolean)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onShizukuPermissionResult(boolean)`** | Advances or resets pending Shizuku/root permission flow based on result | CANDIDATE |
-| 132 | `org/swiftapps/swiftbackup/intro/d.java::l(kv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::restoreFirstRunCloudSettings(kv1)`** | Waits for Firebase availability, restores labels/configs/schedules/favorites/blacklist, and reports success/failure | CANDIDATE |
-| 133 | `org/swiftapps/swiftbackup/intro/d.java::m(boolean,IntroActivity)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::startSignIn(boolean,IntroActivity)`** | Starts Google or anonymous sign-in and updates sign-in state/progress | CANDIDATE |
-| 134 | `org/swiftapps/swiftbackup/intro/d.java::n(Intent,boolean,mt3)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::runIntroAction(Intent,boolean,mt3)`** | Executes supplied intent/action callback and hides progress when requested action fails | CANDIDATE |
-| 135 | `org/swiftapps/swiftbackup/intro/d.java::o()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::refreshPermissionState()`** | Refreshes backend/root, notification and capability state holders | CANDIDATE |
-| 136 | `org/swiftapps/swiftbackup/intro/d.java::p(b)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::updateSignInState(b)`** | Updates sign-in state and progress presentation | CANDIDATE |
-| 137 | `org/swiftapps/swiftbackup/intro/e.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::create(Object,jv1)`** | Creates a continuation preserving the captured `IntroViewModel` | CANDIDATE |
-| 138 | `org/swiftapps/swiftbackup/intro/e.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::invoke(Object,Object)`** | Invokes the coroutine continuation and delegates to `invokeSuspend` | CANDIDATE |
-| 139 | `org/swiftapps/swiftbackup/intro/e.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine body is present only as JADX reconstructed control flow with `UnsupportedOperationException`; exact executable mapping is not verified | UNKNOWN |
+| 059 | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | `org/swiftapps/swiftbackup/settings/k.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 060 | `defpackage/uh.java::values()` | **UNKNOWN** | Enum API observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 061 | `defpackage/vh.java::vh(q63,String,uh)` | **UNKNOWN** | Constructor observed; establishes `sourceFile`, `archiveName`, and `role` members | UNKNOWN |
+| 062 | `defpackage/vh.java::equals(Object)` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 063 | `defpackage/vh.java::hashCode()` | **UNKNOWN** | Method observed in Reference; BaRe counterpart not proven | UNKNOWN |
+| 064 | `defpackage/vh.java::toString()` | **UNKNOWN** | Explicitly emits `ApkShareFile(...)` identity | UNKNOWN |
+| 065 | `defpackage/ai.java::ai(int)` | **UNKNOWN** | Stores selector used by `invoke` | UNKNOWN |
+| 066 | `defpackage/ai.java::invoke(Object)` | **UNKNOWN** | Selector 0 formats Byte as two-digit hex; 1 maps File to q63; 2 calls qb1.t(String) and returns be8.a; 3 formats dotted IPv4; default sleeps on Long and returns be8.a | UNKNOWN |
+| 067 | `defpackage/c6.java::f(String)` | **UNKNOWN** | Throws `IllegalArgumentException` with supplied message; direct archive-entry validation/error path | UNKNOWN |
+| 068 | `defpackage/c6.java::g(String,Object,Object,Object,Object,Object)` | **UNKNOWN** | Throws `IllegalArgumentException` from concatenated arguments; direct validation/error helper | UNKNOWN |
+| 069 | `defpackage/cy0.java::j(InputStream,OutputStream,int)` | **UNKNOWN** | Copies input using supplied buffer size and returns byte count; apkshare/a.java passes 262144 | UNKNOWN |
+| 070 | `defpackage/jm1.java::l(k55,mt3)` | **UNKNOWN** | Direct caller path: when split APKs exist, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
+| 071 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Local/cloud backup APK export: validates backup APK, extracts split backup, resolves metadata, constructs base/split `vh` entries and delegates APKS assembly to `apkshare.a.c(...)` | UNKNOWN |
+| 072 | `defpackage/jm1.java::G(long,String)` | `same path jm1.java::G(...)` | Creates/ensures `apk_share` working directory sized for export; returns q63 target directory | UNKNOWN |
+| 073 | `defpackage/jm1.java::V(ji)` | `same path jm1.java::V(...)` | Sanitizes app display name into filesystem-safe export basename; falls back to package name | UNKNOWN |
+| 074 | `defpackage/ni.java::build action list` | **UNKNOWN** | Adds `Share APK` action for installed apps via `R.string.share_apk` | UNKNOWN |
+| 075 | `defpackage/oy.java::ShareApk` | **UNKNOWN** | Enum constant identity `ShareApk`; id `share_apk`; title resource `R.string.share_apk` | UNKNOWN |
+| 076 | `defpackage/tj.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 077 | `defpackage/ss.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 078 | `defpackage/ij.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 079 | `defpackage/mh.java::...` | **UNKNOWN** | Builds SEND chooser from `rh`; selects `share_apks` for `application/octet-stream`, otherwise `share_apk` | UNKNOWN |
+| 080 | `defpackage/lh.java::...` | **UNKNOWN** | Displays `preparing_apks` during APK preparation | UNKNOWN |
+| 081 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings.ApplyData>`; validates Parcel, reads String, returns `new ConfigSettings.ApplyData(...)` | UNKNOWN |
+| 082 | `org/swiftapps/swiftbackup/appconfigs/data/a.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings.ApplyData[i]` | UNKNOWN |
+| 083 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::createFromParcel(Parcel)` | **UNKNOWN** | `Parcelable.Creator<ConfigSettings>`; reconstructs version, id, optional `ApplyData`, app parts, locations, sync option, backup limits, strategy, restore settings and enabled flags in constructor order | UNKNOWN |
+| 084 | `org/swiftapps/swiftbackup/appconfigs/data/b.java::newArray(int)` | **UNKNOWN** | Returns `new ConfigSettings[i]` | UNKNOWN |
+| 085 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j()` | **UNKNOWN** | Loads `configs_list_sort_options` from SharedPreferences; defaults to `Name:Asc`; returns sort field/direction pair | UNKNOWN |
+| 086 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(b,EnumC0012a)` | **UNKNOWN** | Persists selected sort field/direction and reapplies sorting to current `ConfigsData` | UNKNOWN |
+| 087 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
+| 088 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::a(String[])` | **UNKNOWN** | Parses mode/userId/packageName/payloadFile; accepts `backup`/`restore`, validates non-negative userId and safe package name, returns notification request object or null | UNKNOWN |
+| 089 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::a(ji,boolean,boolean,xp1)` | **UNKNOWN** | Serializes `SbaAppDataArchiveMetadata` JSON using package/app/version, data and de-data sizes, compression level, backup flags, and `data`/`data_de` part names | UNKNOWN |
+| 090 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j(pe4,a)` | **UNKNOWN** | Dispatches cloud orphan event type to state/action handlers; handles idle marker, `hi1`, `ii1` | UNKNOWN |
+| 091 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k(a,long,qh4)` | **UNKNOWN** | Clears matching active scan coroutine state under synchronization and signals completion | UNKNOWN |
+| 092 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l(a,long,String,bt3,kv1)` | **UNKNOWN** | Coroutine scan operation; executes orphan scan and returns scan success boolean | UNKNOWN |
+| 093 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m()` | **UNKNOWN** | Starts a new cancellable operation token/job and returns token/job pair | UNKNOWN |
+| 094 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n(String)` | **UNKNOWN** | Builds initial cloud-orphan cleaner state from current cloud connection and display metadata | UNKNOWN |
+| 095 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::o()` | **UNKNOWN** | Builds stable cloud/session identity string from connection state, account/provider details and cleaner VM persistence identity | UNKNOWN |
+| 096 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::p(b)` | **UNKNOWN** | Tests whether current orphan state matches cleaner identity and has no pending invalidation | UNKNOWN |
+| 097 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::q()` | **UNKNOWN** | Reconciles current cloud identity/state; resets or updates orphan cleaner state as needed | UNKNOWN |
+| 098 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(String)` | **UNKNOWN** | Resets cleaner transient state and publishes fresh initial state | UNKNOWN |
+| 099 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(mt3)` | **UNKNOWN** | Applies state transformation callback to current cleaner state and publishes it | UNKNOWN |
+| 100 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(b)` | **UNKNOWN** | Stores current cleaner state and publishes it through `ex6` | UNKNOWN |
+| 101 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a(b,EnumC0013a,List,Set,String,int,int,int)` | **UNKNOWN** | Copy/default factory for cleaner state; selectively replaces phase, files, selected IDs, status and counters | UNKNOWN |
+| 102 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::b()` | **UNKNOWN** | True when connected, phase is `RESULTS`, and selected orphan list is non-empty | UNKNOWN |
+| 103 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c()` | **UNKNOWN** | Filters orphan files whose provider/type+identifier key exists in selected ID set | UNKNOWN |
+| 104 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d()` | **UNKNOWN** | True while phase is `SCANNING` or `DELETING` | UNKNOWN |
+| 105 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::create(Object,jv1)` | **UNKNOWN** | Creates a new continuation instance preserving captured scan state | UNKNOWN |
+| 106 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invoke(Object,Object)` | **UNKNOWN** | Invokes the continuation state machine with coroutine context and completion | UNKNOWN |
+| 107 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine state-machine body for cloud-orphan scan; JADX body is unavailable/unsupported in this decompile | UNKNOWN |
+| 108 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::a(CloudCredentials,tn2)` | **UNKNOWN** | Exports serialized `CloudCredentials` JSON to the selected document URI; writes using default charset and closes stream safely | UNKNOWN |
+| 109 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(dd1)` | **UNKNOWN** | Loads saved credential JSON/password/private key from SharedPreferences and reconstructs `CloudCredentials` for the requested cloud type | UNKNOWN |
+| 110 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::createFromParcel(Parcel)`** | Reads all nine `AppsQuickActions` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 111 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.AppsQuickActions[]` array | CANDIDATE |
+| 112 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::createFromParcel(Parcel)`** | Reads six `CallLogs` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 113 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.CallLogs[]` array | CANDIDATE |
+| 114 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultAppParts(j)`** | Returns APP+DATA when root capability is available; otherwise APP only | CANDIDATE |
+| 115 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(j)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java::defaultLocations(j)`** | Returns DEVICE as the default schedule-item location | CANDIDATE |
+| 116 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java::createFromParcel(Parcel)`** | Reads folder schedule item fields and reconstructs nested `FolderItem` values through `FolderItem.CREATOR` | CANDIDATE |
+| 117 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Folders[]` array | CANDIDATE |
+| 118 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java::createFromParcel(Parcel)`** | Reads six `Messages` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 119 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Messages[]` array | CANDIDATE |
+| 120 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java::createFromParcel(Parcel)`** | Reads six `Wallpapers` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 121 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wallpapers[]` array | CANDIDATE |
+| 122 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::createFromParcel(Parcel)`** | Reads six `Wifi` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 123 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wifi[]` array | CANDIDATE |
+| 124 | `org/swiftapps/swiftbackup/intro/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java::<clinit>`** | Initializes state mapping `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4`, and card mapping `ConnectionCard→1`, `FirstRunRestore→2` | CANDIDATE |
+| 125 | `org/swiftapps/swiftbackup/intro/b.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java::invoke(Object)`** | On `SIGNED_IN`, invokes `IntroActivity.Y(true)`; otherwise no action | CANDIDATE |
+| 126 | `org/swiftapps/swiftbackup/intro/c.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java::invoke(Object)`** | Routes first-run restore `SUCCESS` to completion and `FAILED` to error handling; IDLE/RUNNING remain active | CANDIDATE |
+| 127 | `org/swiftapps/swiftbackup/intro/d.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onCleared()`** | Resets/cancels storage and permission coordinator state, cancels active restore coroutine, then delegates lifecycle cleanup | CANDIDATE |
+| 128 | `org/swiftapps/swiftbackup/intro/d.java::j()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::hasIntroPrerequisites()`** | Checks backend presence plus required root/notification/device capability states | CANDIDATE |
+| 129 | `org/swiftapps/swiftbackup/intro/d.java::k(boolean)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::onShizukuPermissionResult(boolean)`** | Advances or resets pending Shizuku/root permission flow based on result | CANDIDATE |
+| 130 | `org/swiftapps/swiftbackup/intro/d.java::l(kv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::restoreFirstRunCloudSettings(kv1)`** | Waits for Firebase availability, restores labels/configs/schedules/favorites/blacklist, and reports success/failure | CANDIDATE |
+| 131 | `org/swiftapps/swiftbackup/intro/d.java::m(boolean,IntroActivity)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::startSignIn(boolean,IntroActivity)`** | Starts Google or anonymous sign-in and updates sign-in state/progress | CANDIDATE |
+| 132 | `org/swiftapps/swiftbackup/intro/d.java::n(Intent,boolean,mt3)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::runIntroAction(Intent,boolean,mt3)`** | Executes supplied intent/action callback and hides progress when requested action fails | CANDIDATE |
+| 133 | `org/swiftapps/swiftbackup/intro/d.java::o()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::refreshPermissionState()`** | Refreshes backend/root, notification and capability state holders | CANDIDATE |
+| 134 | `org/swiftapps/swiftbackup/intro/d.java::p(b)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::updateSignInState(b)`** | Updates sign-in state and progress presentation | CANDIDATE |
+| 135 | `org/swiftapps/swiftbackup/intro/e.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::create(Object,jv1)`** | Creates a continuation preserving the captured `IntroViewModel` | CANDIDATE |
+| 136 | `org/swiftapps/swiftbackup/intro/e.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::invoke(Object,Object)`** | Invokes the coroutine continuation and delegates to `invokeSuspend` | CANDIDATE |
+| 137 | `org/swiftapps/swiftbackup/intro/e.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine body is present only as JADX reconstructed control flow with `UnsupportedOperationException`; exact executable mapping is not verified | UNKNOWN |
 
-| 140 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::onCallsTaskComplete(c21)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreViewModel.java::onCallsTaskComplete(c21)`** | MAIN-thread task completion handler | CANDIDATE |
-| 141 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving ViewModel and backup-file path | CANDIDATE |
-| 142 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::invoke(Object,Object)`** | Invokes backup-file call-log reader continuation | CANDIDATE |
-| 143 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::invokeSuspend(Object)`** | Reads backup-file call logs and publishes empty/received state | CANDIDATE |
-| 144 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving Calls ViewModel | CANDIDATE |
-| 145 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::invoke(Object,Object)`** | Invokes device call-log reader continuation | CANDIDATE |
-| 146 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::invokeSuspend(Object)`** | Reads device call logs and publishes empty/received state | CANDIDATE |
-| 147 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::onMessagesTaskComplete(jf5)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreViewModel.java::onMessagesTaskComplete(jf5)`** | MAIN-thread task completion handler | CANDIDATE |
-| 148 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving ViewModel and backup-file path | CANDIDATE |
-| 149 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::invoke(Object,Object)`** | Invokes backup-file message reader continuation | CANDIDATE |
-| 150 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::invokeSuspend(Object)`** | Reads backup-file messages and publishes empty/received state | CANDIDATE |
-| 151 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving Messages ViewModel | CANDIDATE |
-| 152 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invoke(Object,Object)`** | Invokes device message reader continuation | CANDIDATE |
-| 153 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invokeSuspend(Object)`** | Reads device messages and publishes empty/received state | CANDIDATE |
-| 154 | `org/swiftapps/swiftbackup/settings/a.java::d(Preference)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onPreferenceClick(Preference)`** | Handles app-settings preference actions including multiple-backup strategy, backup limits, cache, labels, configs, blacklist, permissions and swipe actions | CANDIDATE |
-| 155 | `org/swiftapps/swiftbackup/settings/a.java::l()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onCreatePreferences()`** | Inflates `settings_apps`, binds preferences and initializes app-setting values | CANDIDATE |
-| 156 | `org/swiftapps/swiftbackup/settings/a.java::onResume()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onResume()`** | Refreshes relevant preference state when fragment resumes | CANDIDATE |
-| 157 | `org/swiftapps/swiftbackup/settings/a.java::q()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getSettingsActivity()`** | Returns hosting `SettingsDetailActivity` | CANDIDATE |
-| 158 | `org/swiftapps/swiftbackup/settings/a.java::r()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getRestoreSsaidsPreference()`** | Returns the restore-SSAIDs switch preference | CANDIDATE |
-| 159 | `org/swiftapps/swiftbackup/settings/a.java::s()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getBackupCachePreference()`** | Returns the backup-cache switch preference | CANDIDATE |
-| 160 | `org/swiftapps/swiftbackup/settings/a.java::t()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshAppBackupLimits()`** | Refreshes app-backup-limits summary from configured limits | CANDIDATE |
-| 161 | `org/swiftapps/swiftbackup/settings/a.java::u()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshCompressionLevel()`** | Refreshes compression-level preference summary | CANDIDATE |
-| 162 | `org/swiftapps/swiftbackup/settings/a.java::v()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshSwipeActionsSummary()`** | Updates swipe-action summary text for left/right actions | CANDIDATE |
-| 163 | `org/swiftapps/swiftbackup/settings/b.java::a()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::defaultStrategy()`** | Returns `MultipleBackupStrategy.defaultStrategy` | CANDIDATE |
-| 164 | `org/swiftapps/swiftbackup/settings/b.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::legacyArchiveStrategy()`** | Returns legacy archive strategy | CANDIDATE |
-| 165 | `org/swiftapps/swiftbackup/settings/b.java::c()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::loadStrategy()`** | Loads persisted strategy and handles premium gating/legacy migration | CANDIDATE |
-| 166 | `org/swiftapps/swiftbackup/settings/b.java::d(Integer)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::clampMaxBackups(Integer)`** | Clamps maximum backups to 2..10 with default 2 | CANDIDATE |
-| 167 | `org/swiftapps/swiftbackup/settings/f.java::a(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::toRepresentation(MultipleBackupStrategy)`** | Maps strategy to Single/Dated/Conditional UI representation | CANDIDATE |
-| 168 | `org/swiftapps/swiftbackup/settings/f.java::b(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::getType(MultipleBackupStrategy)`** | Resolves strategy type from stored integer with default fallback | CANDIDATE |
-| 169 | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java::bind(...)`** | Binds representation, max-backup slider and condition radio-group listeners | CANDIDATE |
-| 170 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::copy(...)`** | Copy/default factory for strategy state | CANDIDATE |
-| 171 | `org/swiftapps/swiftbackup/settings/i.java::equals(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::equals(Object)`** | Value equality over three strategies and selected type | CANDIDATE |
-| 172 | `org/swiftapps/swiftbackup/settings/i.java::hashCode()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::hashCode()`** | Value hash over state fields | CANDIDATE |
-| 173 | `org/swiftapps/swiftbackup/settings/i.java::toString()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::toString()`** | Explicit state identity `State(singleBackupStrategy=..., datedBackupStrategy=..., conditionalBackupStrategy=..., selectedType=...)` | CANDIDATE |
-| 174 | `org/swiftapps/swiftbackup/settings/j.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java::<clinit>`** | Initializes Type mapping `SingleBackup→1`, `DatedBackups→2`, `ConditionalBackup→3` | CANDIDATE |
-| 175 | `org/swiftapps/swiftbackup/settings/k.java::j(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setSelectedType(MultipleBackupStrategy)`** | Updates selected strategy type in current state | CANDIDATE |
-| 176 | `org/swiftapps/swiftbackup/settings/k.java::k(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setStrategyForType(MultipleBackupStrategy)`** | Replaces single/dated/conditional strategy according to resolved type | CANDIDATE |
-| 177 | `org/swiftapps/swiftbackup/views/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java::<clinit>`** | Initializes position mapping `Single→1`, `Top→2`, `Middle→3`, `Bottom→4` | CANDIDATE |
+| 138 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::onCallsTaskComplete(c21)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreViewModel.java::onCallsTaskComplete(c21)`** | MAIN-thread task completion handler | CANDIDATE |
+| 139 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving ViewModel and backup-file path | CANDIDATE |
+| 140 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::invoke(Object,Object)`** | Invokes backup-file call-log reader continuation | CANDIDATE |
+| 141 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::invokeSuspend(Object)`** | Reads backup-file call logs and publishes empty/received state | CANDIDATE |
+| 142 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving Calls ViewModel | CANDIDATE |
+| 143 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::invoke(Object,Object)`** | Invokes device call-log reader continuation | CANDIDATE |
+| 144 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java::invokeSuspend(Object)`** | Reads device call logs and publishes empty/received state | CANDIDATE |
+| 145 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::onMessagesTaskComplete(jf5)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreViewModel.java::onMessagesTaskComplete(jf5)`** | MAIN-thread task completion handler | CANDIDATE |
+| 146 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving ViewModel and backup-file path | CANDIDATE |
+| 147 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::invoke(Object,Object)`** | Invokes backup-file message reader continuation | CANDIDATE |
+| 148 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java::invokeSuspend(Object)`** | Reads backup-file messages and publishes empty/received state | CANDIDATE |
+| 149 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving Messages ViewModel | CANDIDATE |
+| 150 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invoke(Object,Object)`** | Invokes device message reader continuation | CANDIDATE |
+| 151 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invokeSuspend(Object)`** | Reads device messages and publishes empty/received state | CANDIDATE |
+| 152 | `org/swiftapps/swiftbackup/settings/a.java::d(Preference)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onPreferenceClick(Preference)`** | Handles app-settings preference actions including multiple-backup strategy, backup limits, cache, labels, configs, blacklist, permissions and swipe actions | CANDIDATE |
+| 153 | `org/swiftapps/swiftbackup/settings/a.java::l()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onCreatePreferences()`** | Inflates `settings_apps`, binds preferences and initializes app-setting values | CANDIDATE |
+| 154 | `org/swiftapps/swiftbackup/settings/a.java::onResume()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onResume()`** | Refreshes relevant preference state when fragment resumes | CANDIDATE |
+| 155 | `org/swiftapps/swiftbackup/settings/a.java::q()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getSettingsActivity()`** | Returns hosting `SettingsDetailActivity` | CANDIDATE |
+| 156 | `org/swiftapps/swiftbackup/settings/a.java::r()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getRestoreSsaidsPreference()`** | Returns the restore-SSAIDs switch preference | CANDIDATE |
+| 157 | `org/swiftapps/swiftbackup/settings/a.java::s()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getBackupCachePreference()`** | Returns the backup-cache switch preference | CANDIDATE |
+| 158 | `org/swiftapps/swiftbackup/settings/a.java::t()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshAppBackupLimits()`** | Refreshes app-backup-limits summary from configured limits | CANDIDATE |
+| 159 | `org/swiftapps/swiftbackup/settings/a.java::u()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshCompressionLevel()`** | Refreshes compression-level preference summary | CANDIDATE |
+| 160 | `org/swiftapps/swiftbackup/settings/a.java::v()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshSwipeActionsSummary()`** | Updates swipe-action summary text for left/right actions | CANDIDATE |
+| 161 | `org/swiftapps/swiftbackup/settings/b.java::a()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::defaultStrategy()`** | Returns `MultipleBackupStrategy.defaultStrategy` | CANDIDATE |
+| 162 | `org/swiftapps/swiftbackup/settings/b.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::legacyArchiveStrategy()`** | Returns legacy archive strategy | CANDIDATE |
+| 163 | `org/swiftapps/swiftbackup/settings/b.java::c()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::loadStrategy()`** | Loads persisted strategy and handles premium gating/legacy migration | CANDIDATE |
+| 164 | `org/swiftapps/swiftbackup/settings/b.java::d(Integer)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::clampMaxBackups(Integer)`** | Clamps maximum backups to 2..10 with default 2 | CANDIDATE |
+| 165 | `org/swiftapps/swiftbackup/settings/f.java::a(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::toRepresentation(MultipleBackupStrategy)`** | Maps strategy to Single/Dated/Conditional UI representation | CANDIDATE |
+| 166 | `org/swiftapps/swiftbackup/settings/f.java::b(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::getType(MultipleBackupStrategy)`** | Resolves strategy type from stored integer with default fallback | CANDIDATE |
+| 167 | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java::bind(...)`** | Binds representation, max-backup slider and condition radio-group listeners | CANDIDATE |
+| 168 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::copy(...)`** | Copy/default factory for strategy state | CANDIDATE |
+| 169 | `org/swiftapps/swiftbackup/settings/i.java::equals(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::equals(Object)`** | Value equality over three strategies and selected type | CANDIDATE |
+| 170 | `org/swiftapps/swiftbackup/settings/i.java::hashCode()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::hashCode()`** | Value hash over state fields | CANDIDATE |
+| 171 | `org/swiftapps/swiftbackup/settings/i.java::toString()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::toString()`** | Explicit state identity `State(singleBackupStrategy=..., datedBackupStrategy=..., conditionalBackupStrategy=..., selectedType=...)` | CANDIDATE |
+| 172 | `org/swiftapps/swiftbackup/settings/j.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java::<clinit>`** | Initializes Type mapping `SingleBackup→1`, `DatedBackups→2`, `ConditionalBackup→3` | CANDIDATE |
+| 173 | `org/swiftapps/swiftbackup/settings/k.java::j(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setSelectedType(MultipleBackupStrategy)`** | Updates selected strategy type in current state | CANDIDATE |
+| 174 | `org/swiftapps/swiftbackup/settings/k.java::k(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setStrategyForType(MultipleBackupStrategy)`** | Replaces single/dated/conditional strategy according to resolved type | CANDIDATE |
+| 175 | `org/swiftapps/swiftbackup/views/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java::<clinit>`** | Initializes position mapping `Single→1`, `Top→2`, `Middle→3`, `Bottom→4` | CANDIDATE |
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
 | # | Reference | BaRe aktual | Kondisi sekarang | Status |
