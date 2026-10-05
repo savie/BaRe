@@ -25,7 +25,7 @@
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java`** | Synthetic enum switch-map for `NotificationPolicyProxy.a`: `Backup→1`, `Restore→2` | **CANDIDATE** |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java`** | Builds serialized SBA app-data archive metadata JSON from app identity/version, backup mode flags, compression level, data/de-data sizes, and included `data`/`data_de` parts | **CANDIDATE** |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java`** | Cloud-orphan cleaner ViewModel/state coordinator; tracks cloud identity, cleaner state, scan/delete progress, coroutine handle, and publishes updated orphan state | **CANDIDATE** |
-| 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **UNKNOWN** | Cloud orphan item/data model | **UNKNOWN** |
+| 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java`** | Immutable cleaner state value object; `toString()` identity is `State(...)`; carries provider/cloud metadata, phase, orphan files, selected IDs, status and scan/reference counts | **CANDIDATE** |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **UNKNOWN** | Coroutine continuation untuk cloud orphan processing | **UNKNOWN** |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **UNKNOWN** | CloudCredentials export/import file helper | **UNKNOWN** |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | **UNKNOWN** | Filen session/cloud operations implementation | **UNKNOWN** |
@@ -158,7 +158,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java` | Synthetic switch-map bound to notification policy mode enum | CANDIDATE |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java` | Stateless static builder producing JSON for `SbaAppDataArchiveMetadata` | CANDIDATE |
 | 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java` | Cloud-orphan cleaner ViewModel/state coordinator | CANDIDATE |
-| 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerState.java` | Immutable cleaner state value object; semantic identity proven by `State(...)`, copy-like factory and state predicates | CANDIDATE |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
