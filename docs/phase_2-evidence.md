@@ -13,3 +13,19 @@
 - Observed: compileSdkVersion 37 / platformBuildVersion 37; 34 uses-permission entries; 4 optional uses-feature entries; one package-query block; Application attributes include allowBackup=false, allowClearUserData=false, appComponentFactory=androidx.core.app.CoreComponentFactory, enableOnBackInvokedCallback=true, extractNativeLibs=true, largeHeap=true, localeConfig=@xml/locales_config, networkSecurityConfig=@xml/network_security_config, requestLegacyExternalStorage=true, supportsRtl=true, theme=@style/SwiftTheme; provider authorities include fileprovider, shizuku, tedpermissionprovider, and androidx-startup.
 - Result: REFERENCE EVIDENCE CAPTURED.
 - State: IMPLEMENTED in the BaRe manifest at structural-contract level; full child-level manifest parity remains open.
+
+### PH2-MATERIALIZATION-010
+- Claim: The complete Reference manifest and resource inventory have been directly measured from the decompiled Reference artifact.
+- Source: Reference apktool output.
+- Observed: AndroidManifest.xml is 39,762 bytes; SHA-256 `287cdbf168ca6b95b842ae15deb7e908c552f3f823723bc9518e44df4f4833f0`; 95 Activities, 10 Services, 10 Receivers, 4 Providers, 34 uses-permission entries, 4 uses-feature entries, 22 intent-filters, 23 meta-data entries, 2 uses-library entries; 1,491 resource files.
+- Result: REFERENCE BASELINE RECORDED.
+- State: EVIDENCE RECORDED.
+- Limitation: the BaRe tree still does not contain the complete Reference resource set and the current manifest is not yet byte-for-byte the Reference artifact.
+
+### PH2-MODIFIER-011
+- Claim: Internal manifest-facing Java component modifiers can be reconstructed from Reference source evidence.
+- Source: Reference JADX Java sources.
+- Observed: internal Activities and Services are declared `public final class`; `SmsReceiver` is public non-final while `MmsReceiver` is final; internal Activity superclass mapping remains as previously recorded.
+- Result: STRUCTURAL CONTRACT EVIDENCE.
+- State: PARTIALLY IMPLEMENTED.
+- Limitation: modifier alignment is only a structural tranche; lifecycle/business methods are intentionally not copied into Phase 2 skeletons.
