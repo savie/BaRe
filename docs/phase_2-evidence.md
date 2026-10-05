@@ -14,7 +14,7 @@
 | # | Reference File | BaRe File / Target | Role | Status |
 |---|---|---|---|---|
 | 001 | `org/swiftapps/filesystem/a.java` | `org/swiftapps/filesystem/RandomAccessFileWriter.java` | Utility menulis byte ke FileChannel pada offset tertentu / random-access file writer | **MATCH** |
-| 002 | `org/swiftapps/swiftbackup/apkshare/a.java` | **UNKNOWN** | APKS/archive utility: SHA-256, archive-entry validation, ZIP/APKS construction; writes `meta.sai_v2.json` and `meta.swiftbackup_v1.json`; records APK metadata including SHA-256; Reference direct caller evidence: `defpackage/jm1.java` calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` at two call sites (around lines 565 and 777), for APKS creation | **UNKNOWN** |
+| 002 | `org/swiftapps/swiftbackup/apkshare/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apkshare/ApkShareArchiveWriter.java`** | APKS/archive utility: SHA-256, archive-entry validation, ZIP/APKS construction; writes `meta.sai_v2.json` and `meta.swiftbackup_v1.json`; records APK metadata including SHA-256; Reference direct caller evidence: `defpackage/jm1.java` calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` at two call sites (around lines 565 and 777), for APKS creation | **CANDIDATE** |
 | 003 | `org/swiftapps/swiftbackup/appconfigs/data/a.java` | **UNKNOWN** | Parcelable.Creator untuk ConfigSettings.ApplyData | **UNKNOWN** |
 | 004 | `org/swiftapps/swiftbackup/appconfigs/data/b.java` | **UNKNOWN** | Parcelable.Creator untuk ConfigSettings | **UNKNOWN** |
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **UNKNOWN** | Synthetic enum switch-map untuk ConfigEditActivity action | **UNKNOWN** |
@@ -96,7 +96,7 @@
 | 081 | `defpackage/w14.java` | **UNKNOWN** | Direct dependency used for Gson serialization | **UNKNOWN** |
 | 082 | `defpackage/x50.java` | **UNKNOWN** | Direct dependency used for digest/string formatting | **UNKNOWN** |
 | 083 | `defpackage/xs1.java` | **UNKNOWN** | Direct dependency used for q63-related error message formatting | **UNKNOWN** |
-| 084 | `defpackage/jm1.java` | **UNKNOWN** | Obfuscated multi-purpose static utility class; methods `l(...)`/`m(...)` are proven APK/APKS export orchestration paths | **UNKNOWN** |
+| 084 | `defpackage/jm1.java` | **CANDIDATE: `defpackage/ApkShareExportOrchestrator.java`** | Obfuscated multi-purpose static utility class; methods `l(...)`/`m(...)` are proven APK/APKS export orchestration paths; Share APK/APKS resource/caller trace supports export-orchestrator semantics | **CANDIDATE** |
 | 085 | `defpackage/k55.java` | **UNKNOWN** | Base type for APK export source variants; `xh`=Installed, `yh`=LocalBackup, `wh`=CloudBackup | **UNKNOWN** |
 | 086 | `defpackage/xh.java` | **UNKNOWN** | Installed-app export source wrapper; carries `ji` app metadata | **UNKNOWN** |
 | 087 | `defpackage/yh.java` | **UNKNOWN** | Local-backup export source wrapper; carries `ji` app metadata and `hk` backup | **UNKNOWN** |
