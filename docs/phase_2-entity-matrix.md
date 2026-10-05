@@ -161,3 +161,14 @@ The matrix is complete only when all 120 rows have an explicit state and evidenc
 - 37 external/dependency-owned components: `BLOCKED`.
 - Structural Java compile: PASS using explicit compile-only Android/AndroidX contract stubs.
 - Full Android build: NOT VERIFIED because BaRe has no declared dependency/build contract for the 37 external entities yet.
+
+
+## Dependency Evidence Reference
+
+All 37 dependency-owned rows use the executed evidence register:
+`docs/phase_2-dependency-register.md`
+
+Current state for all 37:
+`BLOCKED` — Reference contract observed, BaRe dependency/build contract missing.
+
+No dependency-owned row is claimed `VERIFIED`.
