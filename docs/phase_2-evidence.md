@@ -56,7 +56,7 @@
 | 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java`** | Parcelable.Creator for `ScheduleItem.Wallpapers`; reconstructs id, type, wallpaper fields and enabled flag | **CANDIDATE** |
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java`** | Parcelable.Creator for `ScheduleItem.Wifi`; reconstructs id, type, Wi-Fi fields and enabled flag | **CANDIDATE** |
 | 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Formats run timestamps using app locale, loads/stores `ScheduleLastRunDetails` through SharedPreferences + Gson type metadata, and builds the persistence key | **CANDIDATE** |
-| 044 | `org/swiftapps/swiftbackup/intro/a.java` | **UNKNOWN** | Synthetic enum switch-map Intro state/card type | **UNKNOWN** |
+| 044 | `org/swiftapps/swiftbackup/intro/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic switch-map covering `IntroActivity` card types and `IntroActivity` state enum values | **CANDIDATE** |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java` | **UNKNOWN** | IntroActivity sign-in state callback/lambda | **UNKNOWN** |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java` | **UNKNOWN** | IntroActivity state callback/lambda | **UNKNOWN** |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java` | **UNKNOWN** | Intro flow state/ViewModel/coordination class | **UNKNOWN** |
@@ -190,7 +190,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | `same path m.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | `same path n.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Static persistence/formatting helper for `ScheduleLastRunDetails` | CANDIDATE |
-| 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic enum switch-map for intro state and card type | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -405,6 +405,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 123 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wallpapers[]` array | CANDIDATE |
 | 124 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::createFromParcel(Parcel)`** | Reads six `Wifi` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
 | 125 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wifi[]` array | CANDIDATE |
+| 126 | `org/swiftapps/swiftbackup/intro/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java::<clinit>`** | Initializes state mapping `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4`, and card mapping `ConnectionCard→1`, `FirstRunRestore→2` | CANDIDATE |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -462,6 +463,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 050 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::n` | **UNKNOWN** | Captured cloud identity string | UNKNOWN |
 | 051 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::p` | **UNKNOWN** | Captured scan parameter/size value | UNKNOWN |
 | 052 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::q` | **UNKNOWN** | Captured operation/job handle `qh4` | UNKNOWN |
+| 053 | `org/swiftapps/swiftbackup/intro/a.java::a` | **UNKNOWN** | Synthetic `int[]` switch-map for `d.a` state enum; `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4` | UNKNOWN |
+| 054 | `org/swiftapps/swiftbackup/intro/a.java::b` | **UNKNOWN** | Synthetic `int[]` switch-map for `IntroActivity.a`; `ConnectionCard→1`, `FirstRunRestore→2` | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
