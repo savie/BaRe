@@ -39,7 +39,7 @@
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | BaRe counterpart is empty; no independent Reference semantic role or safe target identity proven | **UNKNOWN** |
 | 025 | `org/swiftapps/swiftbackup/home/schedule/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleServiceLauncher.java`** | ScheduleService launcher/helper; classifies foreground-service start exceptions, checks task-busy state, maps run mode to service identity, builds Intent extras, starts `ScheduleService`, and reports blocked starts | **CANDIDATE** |
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeMultipleSchedulesCreator.java`** | Parcelable.Creator for `ScheduleService.RunMode.MultipleSchedules`; reconstructs the Parcelable list and creates arrays of that type | **CANDIDATE** |
-| 027 | `org/swiftapps/swiftbackup/home/schedule/c.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.Schedules | **UNKNOWN** |
+| 027 | `org/swiftapps/swiftbackup/home/schedule/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSchedulesCreator.java`** | Parcelable.Creator for singleton `ScheduleService.RunMode.Schedules`; consumes parcel marker and returns `Schedules.INSTANCE`, with typed array creation | **CANDIDATE** |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.SingleSchedule | **UNKNOWN** |
 | 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java` | **UNKNOWN** | ScheduleItem → sync/request model factory helpers | **UNKNOWN** |
 | 030 | `org/swiftapps/swiftbackup/home/schedule/data/b.java` | **UNKNOWN** | Schedule item UI/state data model | **UNKNOWN** |
@@ -173,7 +173,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 025 | `org/swiftapps/swiftbackup/home/schedule/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleServiceLauncher.java` | Static ScheduleService startup/error-handling utility | CANDIDATE |
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeMultipleSchedulesCreator.java` | Parcelable.Creator bound to `RunMode.MultipleSchedules` | CANDIDATE |
-| 027 | `org/swiftapps/swiftbackup/home/schedule/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 027 | `org/swiftapps/swiftbackup/home/schedule/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleRunModeSchedulesCreator.java` | Parcelable.Creator bound to singleton `RunMode.Schedules` | CANDIDATE |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 029 | `org/swiftapps/swiftbackup/home/schedule/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 030 | `org/swiftapps/swiftbackup/home/schedule/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
