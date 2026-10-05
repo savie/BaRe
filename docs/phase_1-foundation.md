@@ -1,6 +1,6 @@
 # Phase 1 — Foundation / Reference Baseline
 
-**State:** SPECIFICATION — NOT VERIFIED
+**State:** VERIFIED — REFERENCE BASELINE LOCKED
 
 ## 1. Purpose
 
@@ -26,7 +26,7 @@ Candidate baseline to be evidence-locked:
 | Version code | `620` |
 | minSdk | 26 |
 | targetSdk | 37 |
-| Manifest compile baseline | 37 |
+| Manifest compile baseline | NOT ASSERTED — not required for Phase 1 gate |
 
 ## 4. Manifest Baseline
 
@@ -173,3 +173,74 @@ Allowed states:
 Phase 1 is **not PASS** merely because the inventory is written.
 
 Phase 2 may start only when Phase 1 has a sufficiently complete Reference contract and no unresolved blocker that affects skeleton construction.
+
+
+## 14. Evidence-Locked Reference Results
+
+Evidence source:
+- APK: `5.1.0 (620).apk`
+- Decompiled manifest: `output/apktool/AndroidManifest.xml`
+- Decompiled sources: `output/jadx/sources/`
+- Apktool metadata: `output/apktool/apktool.yml`
+
+Observed and verified:
+- package = `org.swiftapps.swiftbackup`
+- Application = `org.swiftapps.swiftbackup.SwiftApp`
+- versionName = `5.1.0`
+- versionCode = `620`
+- minSdkVersion = `26`
+- targetSdkVersion = `37`
+- Activities = `95`
+- Services = `10`
+- Receivers = `10`
+- Providers = `4`
+- Manifest components = `119`
+- Application + manifest components = `120`
+- launcher = `org.swiftapps.swiftbackup.intro.IntroActivity`
+- theme = `@style/SwiftTheme`
+- allowBackup = `false`
+- allowClearUserData = `false`
+- largeHeap = `true`
+- requestLegacyExternalStorage = `true`
+- supportsRtl = `true`
+- enableOnBackInvokedCallback = `true`
+
+Source-presence / ownership observation:
+- Reference source representation found for all 119 manifest components.
+- 82 components are under `org.swiftapps.swiftbackup.*`.
+- 37 components are outside that package and are therefore treated as external/dependency-owned for Phase 1 mapping.
+- This ownership classification is a reconstruction aid; it is not a runtime or dependency-contract verification.
+
+Resource baseline verified for the canonical top-level resource directories:
+- layout 341
+- layout-land 2
+- layout-sw600dp 2
+- layout-w600dp 1
+- layout-watch 2
+- drawable 445
+- drawable-anydpi 2
+- drawable-anydpi-v31 1
+- menu 44
+- xml 18
+- raw 12
+- font 7
+- anim 41
+- animator 42
+- color 199
+
+Additional qualifier-specific resource directories exist in the Reference and are not collapsed into the counts above.
+
+## 15. Phase 1 Gate Result
+
+**VERIFIED / PASS — REFERENCE BASELINE LOCKED**
+
+This PASS applies only to the Reference baseline and Phase 1 evidence.
+
+It does **not** mean:
+- BaRe source exists;
+- BaRe compiles;
+- BaRe APK exists;
+- BaRe runtime works;
+- parity is verified.
+
+Phase 2 may consume this locked baseline.
