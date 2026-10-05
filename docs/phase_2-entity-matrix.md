@@ -1,8 +1,10 @@
-# Phase 2 — 120 Entity Matrix
+# Phase 2 — Reference Reconstruction Matrix
 
-**State:** TEMPLATE — NOT VERIFIED
+**State:** EXECUTION REGISTER — NOT VERIFIED
 
-This matrix is the execution register for Phase 2. Every target entity must have an explicit mapping, strategy, evidence and state. A shorthand aggregate is not sufficient for a Phase 2 gate.
+## Purpose
+
+This is the manifest-facing component register for P2, but a row is accepted only when its Reference semantics, ownership, consumers/dependencies and implementation/delegation are traceable.
 
 ## Target Set
 
@@ -11,9 +13,27 @@ This matrix is the execution register for Phase 2. Every target entity must have
 - 10 Services
 - 10 Receivers
 - 4 Providers
-- **120 total entities**
+- **120 manifest-facing entities**
 
-## Matrix
+## Required Fields
+
+| Field | Requirement |
+|---|---|
+| Entity ID | required |
+| Reference symbol | required |
+| Ownership | internal / dependency / platform / generated / unknown |
+| Semantic role | required |
+| BaRe symbol | required |
+| Strategy | reconstruct / rehome / delegate / generated / blocked |
+| Reference evidence | required |
+| Consumers/dependencies | required |
+| Verification evidence | required |
+| State | required |
+| Disposition | required |
+
+## Existing Manifest Inventory
+
+The 120 Reference rows below remain the manifest inventory baseline. Their previous skeleton-only status is not sufficient for P2 verification.
 
 | ID | Type | Reference Symbol | Ownership | BaRe Symbol | Strategy | Evidence | State | Result |
 |---|---|---|---|---|---|---|---|---|
@@ -138,37 +158,28 @@ This matrix is the execution register for Phase 2. Every target entity must have
 | PRV-003 | Provider | `com.gun0912.tedpermission.provider.TedPermissionProvider` | PH2-DEPENDENCY-BLOCKED | ... | direct/delegated | ... | BLOCKED | ... |
 | PRV-004 | Provider | `androidx.startup.InitializationProvider` | PH2-DEPENDENCY-BLOCKED | ... | direct/delegated | ... | BLOCKED | ... |
 
-## State Rule
-
-Allowed progression:
+## State Rules
 
 `PLANNED → IMPLEMENTED → COMPILED → TESTED → VERIFIED`
 
-Alternative terminal states:
+Alternative states:
+- UNKNOWN
+- BLOCKED
+- AUTHORIZED DEVIATION
 
-`UNKNOWN` / `BLOCKED` / `AUTHORIZED DEVIATION`
+A Java file does not make an entity VERIFIED.
 
-A delegated entity requires delegation evidence. Dependency presence alone is insufficient.
+## P2 Acceptance
 
-## Completion Rule
+A row becomes VERIFIED only when:
+- Reference semantics are mapped;
+- inheritance/contracts are proven;
+- consumers/dependencies are traced;
+- manifest/resource relationships are proven;
+- implementation or delegation is verified.
 
-The matrix is complete only when all 120 rows have an explicit state and evidence reference. No aggregate claim such as “all 120 done” is valid while individual rows remain unresolved.
+## Current Gate
 
+**120 entities inventoried; existing skeleton status is not final P2 verification.**
 
-## Executed P2 Status
-
-- Application + 82 internal components: `IMPLEMENTED`.
-- 37 external/dependency-owned components: `BLOCKED`.
-- Structural Java compile: PASS using explicit compile-only Android/AndroidX contract stubs.
-- Full Android build: NOT VERIFIED because BaRe has no declared dependency/build contract for the 37 external entities yet.
-
-
-## Dependency Evidence Reference
-
-All 37 dependency-owned rows use the executed evidence register:
-`docs/phase_2-dependency-register.md`
-
-Current state for all 37:
-`BLOCKED` — Reference contract observed, BaRe dependency/build contract missing.
-
-No dependency-owned row is claimed `VERIFIED`.
+Internal entities require semantic reconstruction evidence. Dependency-owned entities require delegation evidence. Ambiguous entities require explicit UNKNOWN/BLOCKED state.
