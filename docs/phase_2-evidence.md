@@ -37,7 +37,7 @@
 | 022 | `org/swiftapps/swiftbackup/folders/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/folders/data/FolderMetadataFactory.java`** | Validates `FolderItem`, constructs `kj3` folder metadata handle, optionally loads existing `FolderMetadata`, and creates/writes or refreshes metadata when absent | **CANDIDATE** |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java` | **UNKNOWN** | BaRe counterpart is empty; no independent Reference semantic role or safe target identity proven | **UNKNOWN** |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | BaRe counterpart is empty; no independent Reference semantic role or safe target identity proven | **UNKNOWN** |
-| 025 | `org/swiftapps/swiftbackup/home/schedule/a.java` | **UNKNOWN** | ScheduleService run-mode/helper operations | **UNKNOWN** |
+| 025 | `org/swiftapps/swiftbackup/home/schedule/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/ScheduleServiceLauncher.java`** | ScheduleService launcher/helper; classifies foreground-service start exceptions, checks task-busy state, maps run mode to service identity, builds Intent extras, starts `ScheduleService`, and reports blocked starts | **CANDIDATE** |
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.MultipleSchedules | **UNKNOWN** |
 | 027 | `org/swiftapps/swiftbackup/home/schedule/c.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.Schedules | **UNKNOWN** |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.SingleSchedule | **UNKNOWN** |
@@ -171,7 +171,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 022 | `org/swiftapps/swiftbackup/folders/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/folders/data/FolderMetadataFactory.java` | Static folder metadata/helper conversion utility | CANDIDATE |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 025 | `org/swiftapps/swiftbackup/home/schedule/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 025 | `org/swiftapps/swiftbackup/home/schedule/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/ScheduleServiceLauncher.java` | Static ScheduleService startup/error-handling utility | CANDIDATE |
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 027 | `org/swiftapps/swiftbackup/home/schedule/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 028 | `org/swiftapps/swiftbackup/home/schedule/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
