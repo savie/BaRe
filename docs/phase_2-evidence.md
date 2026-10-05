@@ -73,3 +73,23 @@ APK build: NOT VERIFIED
 runtime: DEFERRED
 
 Phase 2 remains NOT VERIFIED until dependency delegation is proven and an actual Android project build succeeds.
+
+
+### PH2-DEPENDENCY-IDENTITY-002
+- Claim: Additional external dependency identity can be extracted from the Reference artifact.
+- Observed:
+  - Play Billing manifest metadata: 8.3.0.
+  - MSAL SDK marker in MsalUtils: 8.3.2.
+  - pCloud SDK marker: 1.11.0.
+  - Google Play Services compatibility integer: 12451000.
+- Result: MATCH for Reference-side identity evidence.
+- State: EVIDENCE RECORDED.
+- Limitation: these signals do not by themselves prove the complete Gradle coordinate graph or all transitive versions.
+
+### PH2-DEPENDENCY-WEB-001
+- Claim: Public Maven coordinates exist for selected dependency families.
+- Source: external web research.
+- Observed: AppAuth 0.11.1, Shizuku provider 13.1.5, MSAL publications, Google Play Services publications, and YubiKit publications.
+- Result: CANDIDATE ONLY.
+- State: UNKNOWN for Reference parity.
+- Rule: public/current availability is not treated as Reference version evidence.
