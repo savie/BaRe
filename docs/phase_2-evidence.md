@@ -28,6 +28,63 @@ Reference evidence identifies AndroidX, Firebase, Google Play Services, Billing,
 
 **Classification:** REFERENCE EVIDENCE.
 
+## Semantic Mapping Register
+
+**State:** REQUIRED — EXECUTION NOT COMPLETE
+
+This register records the identity relationship between Reference symbols and BaRe symbols whenever reconstruction changes names, paths, packages, ownership, implementation mechanism, or representation.
+
+### Required Granularity
+
+Mapping is required at every applicable level: file/path, package, class/interface/enum, superclass/interfaces, field, constructor, method/function, parameter, return type, referenced dependency/type, resource, and manifest/component configuration.
+
+### Required Record
+
+Each non-trivial mapping must record:
+
+```text
+Reference symbol
+Reference file/package
+Reference descriptor/signature
+Reference semantic role
+Reference evidence
+Consumers/callers
+Dependencies/types
+BaRe target file/package
+BaRe target symbol
+BaRe descriptor/signature
+Mapping reason
+Implementation/delegation
+Verification evidence
+Classification
+State
+```
+
+### Ambiguous / Obfuscated / Obsolete Coverage
+
+This register explicitly covers short filenames such as `a.java`, short classes such as `q63`, short methods/functions such as `z()`, short fields and parameters, decompiler-only symbols, generated/synthetic symbols, dependency-owned symbols, renamed or moved symbols, merged/split symbols, and symbols proposed for deletion.
+
+**Short or ugly naming is evidence of ambiguity, not evidence of obsolescence.**
+
+### Mapping Example
+
+The following names are format examples only and are not implementation claims:
+
+| Reference | BaRe target | Evidence required |
+|---|---|---|
+| `a.java` | `Folder.java` | role, hierarchy, callers, fields, methods, resources |
+| class `a` | class `Folder` | semantic identity and contract |
+| field `b` | field `path` | field usage and type |
+| constructor `a(...)` | constructor `Folder(...)` | signature and initialization contract |
+| method `z(...)` | method `exists(...)` | descriptor, callers, control flow and behavior |
+| parameter `x` | parameter `entry` | position, type and semantic role |
+
+### No Silent Symbol Disappearance
+
+If a Reference symbol has no direct BaRe symbol, the evidence ledger must explicitly classify the reason: proven obsolete, generated/reproduced, delegated to a verified dependency, merged into another symbol, split across multiple symbols, authorized deviation, UNKNOWN, or BLOCKED.
+
+A missing symbol without such a record is incomplete reconstruction, not PASS.
+
 ## Semantic Findings
 
 ### PH2-SEM-001 — `defpackage`
