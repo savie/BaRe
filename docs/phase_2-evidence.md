@@ -30,7 +30,7 @@
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/protocols/CloudCredentialsPersistence.java`** | CloudCredentials persistence/export helper; exports credentials JSON to a document URI and reconstructs saved credentials from SharedPreferences with decoded password/private key | **CANDIDATE** |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/protocols/filen/FilenCloudStorageClient.java`** | Filen cloud storage client/manager; lists directory contents with cache, resolves paths, parses file/folder metadata, and performs permanent file/directory deletion | **CANDIDATE** |
 | 017 | `org/swiftapps/swiftbackup/common/V.java` | **CANDIDATE: `org/swiftapps/swiftbackup/common/SecurePreferencesManager.java`** | Singleton secure-preferences manager; selects encrypted vs fallback secure preferences, generates/loads AES/HMAC key material, and stores typed application security state | **CANDIDATE** |
-| 018 | `org/swiftapps/swiftbackup/common/a.java` | **UNKNOWN** | Gson URI adapter factory/configuration | **UNKNOWN** |
+| 018 | `org/swiftapps/swiftbackup/common/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/common/GsonUriAdapterFactory.java`** | Gson factory supplier registering a custom `Uri` JSON adapter and configuring the Gson `Excluder` with `v14` strategy | **CANDIDATE** |
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java` | **UNKNOWN** | ContributorRegistration state/ViewModel | **UNKNOWN** |
 | 020 | `org/swiftapps/swiftbackup/contributor/b.java` | **UNKNOWN** | Synthetic enum switch-map ContributorRegistration type | **UNKNOWN** |
 | 021 | `org/swiftapps/swiftbackup/contributor/c.java` | **UNKNOWN** | Synthetic enum switch-map ContributorRegistration type | **UNKNOWN** |
@@ -163,7 +163,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/protocols/CloudCredentialsPersistence.java` | Stateless persistence/export helper for `CloudCredentials` | CANDIDATE |
 | 016 | `org/swiftapps/swiftbackup/cloud/protocols/filen/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/protocols/filen/FilenCloudStorageClient.java` | Stateful Filen cloud storage client with API wrapper, operation handlers, TTL cache and root item | CANDIDATE |
 | 017 | `org/swiftapps/swiftbackup/common/V.java::class V` | `CANDIDATE: org/swiftapps/swiftbackup/common/SecurePreferencesManager.java` | Singleton secure-preferences/crypto state manager with encrypted-preferences fallback and typed getters/setters | CANDIDATE |
-| 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 018 | `org/swiftapps/swiftbackup/common/a.java::invoke()` | **UNKNOWN** | Builds Gson instance with custom `Uri` read/write adapter and adds `v14` exclusion strategy | UNKNOWN |
+| 018 | `org/swiftapps/swiftbackup/common/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/common/GsonUriAdapterFactory.java` | Synthetic Gson factory supplier; embedded adapter is explicitly identified as `GsonHelper$UriAdapter` | CANDIDATE |
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 021 | `org/swiftapps/swiftbackup/contributor/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
