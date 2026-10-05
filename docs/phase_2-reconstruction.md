@@ -39,19 +39,106 @@ Required parity:
 
 Equivalent Java syntax and meaningful BaRe names are allowed only when the Reference contract remains equivalent.
 
-## 3. Source Acceptance
+## 3. Source and Symbol Acceptance
 
-Every retained BaRe-owned source must identify:
-- Reference counterpart;
-- semantic role;
+Every retained or reconstructed BaRe-owned source must be traceable to the Reference at **both source-unit and semantic-symbol level**.
+
+Source-unit traceability covers:
+- Reference file/path;
+- Reference package;
+- BaRe file/path;
+- BaRe package;
 - ownership;
-- consumers;
-- dependencies;
-- reconstruction;
-- verification evidence;
-- classification.
+- disposition;
+- reconstruction/delegation strategy.
 
-A source file is not accepted merely because it exists, resembles decompiled code, or compiles.
+Symbol-level traceability covers, where present:
+- class/interface/enum/annotation;
+- superclass and implemented interfaces;
+- fields/properties;
+- constructors;
+- methods/functions;
+- parameters;
+- return types;
+- thrown/handled contract where relevant;
+- referenced types;
+- caller/callee relationships;
+- resource references;
+- manifest/component relationships.
+
+A source file is not accepted merely because it exists, resembles decompiled code, or compiles. A symbol is not considered reconstructed merely because a similarly named symbol exists.
+
+### 3.1 Reference → BaRe Semantic Mapping
+
+Every renamed, re-homed, reconstructed, normalized, replaced, generated, delegated, or otherwise transformed Reference symbol must have a deterministic mapping:
+
+```
+Reference symbol
+→ Evidence
+→ Semantic identity / role
+→ BaRe target symbol
+→ Implementation / delegation
+→ Verification evidence
+→ Classification
+→ State
+```
+
+The mapping applies to **all levels**, not only filenames:
+
+```
+a.java
+  → Folder.java
+
+class a
+  → class Folder
+
+field b
+  → field path
+
+constructor a(...)
+  → constructor Folder(...)
+
+method z(...)
+  → method exists(...)
+
+parameter q63 x
+  → parameter FileSystemEntry entry
+```
+
+The example names above are illustrative only. They must never be inferred without evidence.
+
+If a Reference symbol is still ambiguous, the BaRe target remains UNKNOWN or BLOCKED until evidence establishes its identity. An engineer must not invent a meaningful name merely to make the source readable.
+
+### 3.2 Symbol Mapping Is Required for Ambiguous / Obfuscated / Obsolete Material
+
+This rule explicitly covers:
+- a.java, b.java, c.java, etc.;
+- short/obfuscated classes such as q63, il0, sa1, zm, er6;
+- one-letter or short method/function names such as z(), a(), b();
+- short/obfuscated fields and parameters;
+- synthetic and generated symbols;
+- classes that appear obsolete;
+- classes that appear to be decompiler artifacts;
+- dependency-looking classes;
+- symbols moved between packages;
+- symbols split, merged, replaced, or delegated during reconstruction.
+
+For each such item, the evidence must establish **what it is, why it exists, who owns it, who uses it, what contract it provides, and what it becomes in BaRe**.
+
+### 3.3 No Silent Symbol Loss
+
+A Reference symbol must not silently disappear during reconstruction.
+
+If a Reference class/method/field/constructor is not present in BaRe, the mapping must explicitly classify the disposition as one of:
+- proven obsolete;
+- proven duplicate;
+- generated/reproduced by another mechanism;
+- delegated to an external dependency;
+- intentionally replaced under an authorized deviation;
+- UNKNOWN;
+- BLOCKED.
+
+Deletion without this classification is not accepted as P2 reconstruction.
 
 ## 4. Obfuscated / Ambiguous Source
 
