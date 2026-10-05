@@ -49,7 +49,7 @@
 | 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsLabelsCreator.java`** | Parcelable.Creator for `ScheduleItem.AppsLabels`; reconstructs label/type/app selection strings and enabled flag | **CANDIDATE** |
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleAppsQuickActionsTypeSwitchMap.java`** | Synthetic enum switch-map for `ScheduleItem.AppsQuickActions.a`: `System→1`, `User→2`, `Fav→3` | **CANDIDATE** |
 | 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator for `ScheduleItem.AppsQuickActions`; reconstructs id, type, quick-action IDs, allowed apps, app parts, locations, sync option, repeat days and enabled flag from Parcel | **CANDIDATE** |
-| 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.CallLogs | **UNKNOWN** |
+| 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator for `ScheduleItem.CallLogs`; reconstructs id, type, three call-log strings and enabled flag from Parcel | **CANDIDATE** |
 | 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java` | **UNKNOWN** | Schedule-item collection/helper operations | **UNKNOWN** |
 | 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.Folders | **UNKNOWN** |
 | 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleItem.Messages | **UNKNOWN** |
@@ -182,7 +182,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 033 | `org/swiftapps/swiftbackup/home/schedule/data/e.java::class e` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppConfigCreator.java` | Parcelable.Creator bound to `ScheduleItem.AppConfig` | CANDIDATE |
 | 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java::class f` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsLabelsCreator.java` | Parcelable.Creator bound to `ScheduleItem.AppsLabels` | CANDIDATE |
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java::class g` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleAppsQuickActionsTypeSwitchMap.java` | Synthetic switch-map bound to `ScheduleItem.AppsQuickActions.a` | CANDIDATE |
-| 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.AppsQuickActions` | CANDIDATE |
 | 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -269,6 +269,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 118 | `defpackage/mh.java::class mh` | `same path mh.java` | Share-result UI handler | UNKNOWN |
 | 119 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
 | 120 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.AppsQuickActions` | CANDIDATE |
+| 121 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.CallLogs` | CANDIDATE |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -387,6 +388,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 111 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::b(dd1)` | **UNKNOWN** | Loads saved credential JSON/password/private key from SharedPreferences and reconstructs `CloudCredentials` for the requested cloud type | UNKNOWN |
 | 112 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::createFromParcel(Parcel)`** | Reads all nine `AppsQuickActions` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
 | 113 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.AppsQuickActions[]` array | CANDIDATE |
+| 114 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::createFromParcel(Parcel)`** | Reads six `CallLogs` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
+| 115 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java::newArray(int)`** | Creates typed `ScheduleItem.CallLogs[]` array | CANDIDATE |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
