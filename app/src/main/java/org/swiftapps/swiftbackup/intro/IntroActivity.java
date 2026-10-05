@@ -1,2 +1,4 @@
-package org.swiftapps.swiftbackup.intro;
-public class IntroActivity extends defpackage.il0 { }
+package org\.swiftapps\.swiftbackup\.intro;
+
+public final class IntroActivity extends il0 {
+}
