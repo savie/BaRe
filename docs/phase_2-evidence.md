@@ -116,6 +116,15 @@
 | 101 | `defpackage/b7.java` | **UNKNOWN** | Callback/selector passed to split-APK extraction operation | **UNKNOWN** |
 | 102 | `defpackage/l0.java` | **UNKNOWN** | Error/logging helper used on split export/extraction failures | **UNKNOWN** |
 | 103 | `defpackage/rh.java` | **UNKNOWN** | APK share export result value: output q63 file plus MIME type; `toString()` identity is `ApkShareExportResult` | **UNKNOWN** |
+| 104 | `defpackage/ni.java` | **UNKNOWN** | App action menu builder; exposes `Share APK` for installed apps | **UNKNOWN** |
+| 105 | `defpackage/oy.java` | **UNKNOWN** | App action enum; `ShareApk` maps id `share_apk` to `R.string.share_apk` | **UNKNOWN** |
+| 106 | `defpackage/ts.java` | **UNKNOWN** | Synthetic action switch-map; maps `oy.ShareApk` to action id 8 | **UNKNOWN** |
+| 107 | `defpackage/ny.java` | **UNKNOWN** | Synthetic action switch-map; maps `oy.ShareApk` to action id 8 | **UNKNOWN** |
+| 108 | `defpackage/tj.java` | **UNKNOWN** | Share-APK action caller; constructs `xh(ji)` and dispatches to `nh.n(...)` | **UNKNOWN** |
+| 109 | `defpackage/ss.java` | **UNKNOWN** | Share-APK action caller; constructs `xh(ji)` and dispatches to `nh.n(...)` | **UNKNOWN** |
+| 110 | `defpackage/ij.java` | **UNKNOWN** | Share-APK action caller; constructs `xh(ji)` and dispatches to `nh.n(...)` | **UNKNOWN** |
+| 111 | `defpackage/mh.java` | **UNKNOWN** | Share result UI; maps MIME `application/octet-stream` to `share_apks`, otherwise `share_apk` | **UNKNOWN** |
+| 112 | `defpackage/lh.java` | **UNKNOWN** | UI progress handler displaying `preparing_apks` during APK preparation | **UNKNOWN** |
 
 ## GATE
 
@@ -247,6 +256,15 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 108 | `defpackage/b7.java::class b7` | `same path b7.java` | Selector/callback passed to split extraction | UNKNOWN |
 | 109 | `defpackage/l0.java::class l0` | `same path l0.java` | Export/extraction error logger | UNKNOWN |
 | 110 | `defpackage/rh.java::class rh` | `same path rh.java` | APK share export result value object | UNKNOWN |
+| 111 | `defpackage/ni.java::class ni` | `same path ni.java` | App action menu builder; ShareApk entry available for installed apps | UNKNOWN |
+| 112 | `defpackage/oy.java::class oy` | `same path oy.java` | App action enum containing `ShareApk` | UNKNOWN |
+| 113 | `defpackage/ts.java::class ts` | `same path ts.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
+| 114 | `defpackage/ny.java::class ny` | `same path ny.java` | Synthetic action switch-map for `oy.ShareApk` | UNKNOWN |
+| 115 | `defpackage/tj.java::class tj` | `same path tj.java` | Share-APK action caller | UNKNOWN |
+| 116 | `defpackage/ss.java::class ss` | `same path ss.java` | Share-APK action caller | UNKNOWN |
+| 117 | `defpackage/ij.java::class ij` | `same path ij.java` | Share-APK action caller | UNKNOWN |
+| 118 | `defpackage/mh.java::class mh` | `same path mh.java` | Share-result UI handler | UNKNOWN |
+| 119 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -327,6 +345,13 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 073 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Local/cloud backup APK export: validates backup APK, extracts split backup, resolves metadata, constructs base/split `vh` entries and delegates APKS assembly to `apkshare.a.c(...)` | UNKNOWN |
 | 074 | `defpackage/jm1.java::G(long,String)` | `same path jm1.java::G(...)` | Creates/ensures `apk_share` working directory sized for export; returns q63 target directory | UNKNOWN |
 | 075 | `defpackage/jm1.java::V(ji)` | `same path jm1.java::V(...)` | Sanitizes app display name into filesystem-safe export basename; falls back to package name | UNKNOWN |
+| 076 | `defpackage/ni.java::build action list` | **UNKNOWN** | Adds `Share APK` action for installed apps via `R.string.share_apk` | UNKNOWN |
+| 077 | `defpackage/oy.java::ShareApk` | **UNKNOWN** | Enum constant identity `ShareApk`; id `share_apk`; title resource `R.string.share_apk` | UNKNOWN |
+| 078 | `defpackage/tj.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 079 | `defpackage/ss.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 080 | `defpackage/ij.java::...` | **UNKNOWN** | Dispatches installed app `xh(ji)` into `nh.n(...)` for Share APK flow | UNKNOWN |
+| 081 | `defpackage/mh.java::...` | **UNKNOWN** | Builds SEND chooser from `rh`; selects `share_apks` for `application/octet-stream`, otherwise `share_apk` | UNKNOWN |
+| 082 | `defpackage/lh.java::...` | **UNKNOWN** | Displays `preparing_apks` during APK preparation | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
