@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.swiftapps.swiftbackup">
-    <application android:name="org.swiftapps.swiftbackup.SwiftApp" android:theme="@style/SwiftTheme">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="37" android:compileSdkVersionCodename="17" package="org.swiftapps.swiftbackup" platformBuildVersionCode="37" platformBuildVersionName="17">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ADVANCED_PROTECTION_MODE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT"/>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="moe.shizuku.manager.permission.API_V23"/>
+    <permission android:name="org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
+    <uses-permission android:name="org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <uses-feature android:name="android.hardware.screen.portrait" android:required="false"/>
+    <uses-feature android:name="android.hardware.telephony" android:required="false"/>
+    <uses-feature android:name="android.hardware.wifi" android:required="false"/>
+    <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
+    <queries>
+        <package android:name="com.azure.authenticator"/>
+        <package android:name="com.microsoft.identity.testuserapp"/>
+        <package android:name="com.microsoft.windowsintune.companyportal"/>
+        <package android:name="com.microsoft.mockauthapp"/>
+        <package android:name="com.microsoft.mockcp"/>
+        <package android:name="com.microsoft.mockltw"/>
+        <package android:name="com.microsoft.appmanager"/>
+        <intent><action android:name="android.intent.action.VIEW"/><category android:name="android.intent.category.BROWSABLE"/><data android:scheme="https"/></intent>
+        <intent><action android:name="android.support.customtabs.action.CustomTabsService"/></intent>
+        <intent><action android:name="com.android.vending.billing.InAppBillingService.BIND"/></intent>
+        <intent><action android:name="com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND"/></intent>
+    </queries>
+    <application android:allowBackup="false" android:allowClearUserData="false" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:enableOnBackInvokedCallback="true" android:extractNativeLibs="true" android:icon="@mipmap/ic_launcher" android:label="@string/swift_backup" android:largeHeap="true" android:localeConfig="@xml/locales_config" android:name="org.swiftapps.swiftbackup.SwiftApp" android:networkSecurityConfig="@xml/network_security_config" android:requestLegacyExternalStorage="true" android:supportsRtl="true" android:theme="@style/SwiftTheme">
         <activity android:name="org.swiftapps.swiftbackup.intro.IntroActivity"/>
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity"/>
         <activity android:name="org.swiftapps.swiftbackup.home.HomeActivity"/>
@@ -86,8 +138,8 @@
         <receiver android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver"/>
         <activity android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity"/>
         <service android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService"/>
-        <provider android:name="androidx.core.content.FileProvider"/>
-        <provider android:name="rikka.shizuku.ShizukuProvider"/>
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="org.swiftapps.swiftbackup.fileprovider" android:exported="false"/>
+        <provider android:name="rikka.shizuku.ShizukuProvider" android:authorities="org.swiftapps.swiftbackup.shizuku" android:enabled="true" android:exported="true" android:multiprocess="false" android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"/>
         <activity android:name="com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity"/>
         <activity android:name="com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity"/>
         <activity android:name="com.microsoft.identity.client.helper.BrokerHelperActivity"/>
@@ -104,12 +156,12 @@
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"/>
         <service android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"/>
         <activity android:name="net.openid.appauth.AuthorizationManagementActivity"/>
-        <provider android:name="com.gun0912.tedpermission.provider.TedPermissionProvider"/>
+        <provider android:name="com.gun0912.tedpermission.provider.TedPermissionProvider" android:authorities="org.swiftapps.swiftbackup.tedpermissionprovider" android:exported="false"/>
         <activity android:name="com.android.billingclient.api.ProxyBillingActivity"/>
         <activity android:name="com.android.billingclient.api.ProxyBillingActivityV2"/>
         <activity android:name="com.google.android.gms.common.api.GoogleApiActivity"/>
         <service android:name="com.google.firebase.sessions.SessionLifecycleService"/>
-        <provider android:name="androidx.startup.InitializationProvider"/>
+        <provider android:name="androidx.startup.InitializationProvider" android:authorities="org.swiftapps.swiftbackup.androidx-startup" android:exported="false"/>
         <activity android:name="com.pcloud.sdk.AuthorizationActivity"/>
         <activity android:name="com.pcloud.sdk.CustomTabActivity"/>
         <service android:name="androidx.room.MultiInstanceInvalidationService"/>
