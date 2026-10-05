@@ -60,7 +60,7 @@
 | 045 | `org/swiftapps/swiftbackup/intro/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic callback receiving `IntroViewModel` sign-in state; calls `IntroActivity.Y(true)` when state is `SIGNED_IN` | **CANDIDATE** |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java`** | Synthetic callback for first-run cloud-restore state; resets state and routes SUCCESS to `IntroActivity.V()` and FAILED to `IntroActivity.X()` | **CANDIDATE** |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java`** | Intro ViewModel coordinating sign-in, first-run cloud-settings restore, storage setup, root/Shizuku permission state and intro prerequisite state | **CANDIDATE** |
-| 048 | `org/swiftapps/swiftbackup/intro/e.java` | **UNKNOWN** | Coroutine continuation for first-run cloud settings restore | **UNKNOWN** |
+| 048 | `org/swiftapps/swiftbackup/intro/e.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java`** | Coroutine continuation wrapping `IntroViewModel.restoreFirstRunCloudSettings`; `invokeSuspend` decompile remains unsupported | **CANDIDATE** |
 | 049 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java` | **UNKNOWN** | Synthetic enum switch-map Calls backup/restore state | **UNKNOWN** |
 | 050 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java` | **UNKNOWN** | Calls backup/restore state/ViewModel | **UNKNOWN** |
 | 051 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java` | **UNKNOWN** | Coroutine continuation for calls backup/restore | **UNKNOWN** |
@@ -196,6 +196,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class d` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java`** | Intro ViewModel/coordinator with sign-in, restore, permission and storage-setup state | CANDIDATE |
 | 048 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
 | 049 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
+| 050 | `org/swiftapps/swiftbackup/intro/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java`** | Coroutine continuation capturing `IntroViewModel` for first-run cloud settings restore | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -421,6 +422,9 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 134 | `org/swiftapps/swiftbackup/intro/d.java::n(Intent,boolean,mt3)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::runIntroAction(Intent,boolean,mt3)`** | Executes supplied intent/action callback and hides progress when requested action fails | CANDIDATE |
 | 135 | `org/swiftapps/swiftbackup/intro/d.java::o()` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::refreshPermissionState()`** | Refreshes backend/root, notification and capability state holders | CANDIDATE |
 | 136 | `org/swiftapps/swiftbackup/intro/d.java::p(b)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java::updateSignInState(b)`** | Updates sign-in state and progress presentation | CANDIDATE |
+| 137 | `org/swiftapps/swiftbackup/intro/e.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::create(Object,jv1)`** | Creates a continuation preserving the captured `IntroViewModel` | CANDIDATE |
+| 138 | `org/swiftapps/swiftbackup/intro/e.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::invoke(Object,Object)`** | Invokes the coroutine continuation and delegates to `invokeSuspend` | CANDIDATE |
+| 139 | `org/swiftapps/swiftbackup/intro/e.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine body is present only as JADX reconstructed control flow with `UnsupportedOperationException`; exact executable mapping is not verified | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -492,6 +496,8 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 064 | `org/swiftapps/swiftbackup/intro/d.java::n` | **UNKNOWN** | Auxiliary intro state publisher `ex6` | UNKNOWN |
 | 065 | `org/swiftapps/swiftbackup/intro/d.java::o` | **UNKNOWN** | Storage-setup coordinator `qf4` | UNKNOWN |
 | 066 | `org/swiftapps/swiftbackup/intro/d.java::p` | **UNKNOWN** | Root-permission coordinator `nf4` | UNKNOWN |
+| 067 | `org/swiftapps/swiftbackup/intro/e.java::a` | **UNKNOWN** | Coroutine label/state integer | UNKNOWN |
+| 068 | `org/swiftapps/swiftbackup/intro/e.java::b` | **UNKNOWN** | Captured `IntroViewModel` instance | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
