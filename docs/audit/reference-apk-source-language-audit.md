@@ -30,21 +30,63 @@ Total class yang terdeteksi: **14.217**.
 
 ### Swift Backup
 
-Pada namespace `org.swiftapps.swiftbackup` ditemukan **346 class**, dan **127 class** mempunyai evidence Kotlin yang kuat.
+Audit diperdalam terhadap **346 class** pada namespace `org.swiftapps.swiftbackup`, satu per satu. Class tidak lagi dibagi hanya menjadi Kotlin vs non-Kotlin.
 
-Contoh class Swift Backup dengan evidence Kotlin kuat:
+| Classifier | Jumlah | Keputusan |
+|---|---:|---|
+| **Kotlin** | **127** | Evidence compiler/runtime Kotlin kuat |
+| **Java** | **0** | Belum ada signature bytecode yang cukup decisif untuk membuktikan Java-origin |
+| **UNKNOWN** | **219** | Tidak cukup evidence untuk membedakan Java vs Kotlin secara aman |
 
-- `org.swiftapps.swiftbackup.apkshare.ApkSharePackageMetadata`
-- `org.swiftapps.swiftbackup.appconfigs.data.Config`
-- `org.swiftapps.swiftbackup.appslist.data.FavoriteApp`
-- `org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials`
-- `org.swiftapps.swiftbackup.folders.data.BackupResult`
-- `org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem`
-- `org.swiftapps.swiftbackup.intro.IntroBenefitCardView`
+### Evidence Kotlin pada 127 class
+
+Classifier Kotlin tidak hanya bergantung pada `kotlin.Metadata`. Dari hasil DEX/decompile lokal ditemukan pola compiler/runtime Kotlin pada **118 source outputs** yang mencakup **127 class** Swift Backup, termasuk:
+
+- `DefaultConstructorMarker` pada **69 source outputs**
+- Kotlin `Companion` / companion-object artifacts pada **79 source outputs**
+- delegated-property artifact seperti `$delegate`
+- Kotlin `Intrinsics`
+- Kotlin function/lambda/runtime types
+- nested/synthetic classes yang merupakan bagian dari output compiler Kotlin
+
+Contoh yang terkonfirmasi kuat:
+
+- `org.swiftapps.swiftbackup.settings.MultipleBackupStrategy`
 - `org.swiftapps.swiftbackup.model.app.CloudMetadata`
 - `org.swiftapps.swiftbackup.model.app.LocalMetadata`
-- `org.swiftapps.swiftbackup.settings.MultipleBackupStrategy`
-- `org.swiftapps.swiftbackup.views.SwiftSegmentedCardGroup`
+- `org.swiftapps.swiftbackup.home.schedule.data.ScheduleItem`
+- `org.swiftapps.swiftbackup.appslist.ui.AppItemContentLayout`
+- `org.swiftapps.swiftbackup.intro.IntroBenefitCardView`
+- `org.swiftapps.swiftbackup.cloud.protocols.CloudCredentials`
+- `org.swiftapps.swiftbackup.folders.data.BackupResult`
+
+### Java classifier
+
+Tidak ada class dari 346 class yang dinaikkan menjadi **Java** hanya karena:
+
+- JADX menghasilkan file `.java`
+- tidak ditemukan `DefaultConstructorMarker`
+- tidak ditemukan `kotlin.Metadata`
+
+Setelah compilation menjadi DEX, source Java dan Kotlin dapat menghasilkan bytecode yang sangat mirip. Karena itu evidence negatif saja tidak cukup untuk menyatakan Java-origin.
+
+Contoh `org.swiftapps.swiftbackup.apkshare.a` tidak menunjukkan artefak Kotlin yang menentukan dan bentuk bytecode/decompile konsisten dengan Java-style implementation, tetapi tetap dicatat **UNKNOWN**, bukan dipaksa Java.
+
+### UNKNOWN
+
+**219 class** masih UNKNOWN. Ini bukan berarti 219 class tersebut Kotlin, dan bukan berarti 219 class tersebut Java.
+
+UNKNOWN dipertahankan supaya keputusan bahasa BaRe tidak dibuat dari asumsi.
+
+### Keputusan bahasa BaRe
+
+Untuk reconstruction:
+
+1. **Kotlin (127)** → Kotlin diperbolehkan dan menjadi pilihan utama bila faithful reconstruction lebih mudah/akurat.
+2. **Java (0 proven)** → belum ada class yang diwajibkan Java berdasarkan audit bytecode ini.
+3. **UNKNOWN (219)** → Java atau Kotlin masih boleh dipilih berdasarkan semantic reconstruction berikutnya; bahasa tidak boleh ditentukan hanya dari output JADX.
+4. Source BaRe yang sudah ada **tidak dimass-convert**.
+5. Target baru mengikuti evidence Reference dan kebutuhan faithful reconstruction.
 
 ## Evidence Kotlin
 
