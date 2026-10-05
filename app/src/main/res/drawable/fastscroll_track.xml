@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <n0:solid android:color="#cccccc"
+      xmlns:n0="http://schemas.android.com/tools" />
+    <size android:width="@dimen/fastscroll_track_width" />
+</shape>

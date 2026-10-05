@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include android:id="@id/appbar_layout" layout="@layout/appbar" />
+    <androidx.core.widget.NestedScrollView android:id="@id/scroll_view" android:paddingBottom="@dimen/spacing_largest2" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <include android:id="@id/mbs_single_item" layout="@layout/multiple_backups_strategy_item" />
+            <include android:id="@id/mbs_dated_item" layout="@layout/multiple_backups_strategy_item" />
+            <include android:id="@id/mbs_conditional_item" layout="@layout/multiple_backups_strategy_item" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:layout_gravity="center|bottom" android:id="@id/btn_action" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more" android:text="@string/apply" app:icon="@drawable/ic_check" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

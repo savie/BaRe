@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="false" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout android:id="@id/content" android:layout_width="match_parent" android:layout_height="match_parent">
+        <com.github.chrisbanes.photoview.PhotoView android:id="@id/iv_wall" android:layout_width="match_parent" android:layout_height="match_parent" android:transitionName="wall" />
+        <com.google.android.material.appbar.AppBarLayout android:theme="@style/SwiftTheme.AppBarOverlay" android:id="@id/appbar_layout" android:background="@color/blk30" android:layout_width="match_parent" android:layout_height="wrap_content" app:elevation="0.0dp">
+            <androidx.appcompat.widget.Toolbar android:id="@id/toolbar" android:layout_width="match_parent" android:layout_height="?actionBarSize" app:contentInsetStartWithNavigation="0.0dp" app:popupTheme="?mPopupTheme" app:subtitleTextAppearance="@style/Toolbar.SubtitleText" app:titleTextAppearance="@style/Toolbar.TitleText" />
+        </com.google.android.material.appbar.AppBarLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@id/btn_set" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="@dimen/spacing_normal_more" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" app:backgroundTint="@color/wht" app:rippleColor="?dividerColor" app:srcCompat="@drawable/ic_check" app:tint="?android:textColorPrimary" style="@style/FloatingActionButtonPrimaryStyle" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

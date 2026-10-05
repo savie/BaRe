@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@drawable/ic_bug" android:id="@id/action_swiftlogger" android:title="@string/swiftlogger" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_save" android:id="@id/action_save_settings" android:visible="false" android:title="@string/save_settings" app:showAsAction="never" />
+    <item android:icon="@drawable/ic_settings_backup_restore" android:id="@id/action_load_settings" android:visible="false" android:title="@string/load_settings" app:showAsAction="never" />
+</menu>

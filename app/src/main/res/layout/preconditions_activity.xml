@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@id/container" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout android:orientation="vertical" android:background="?cardBackgroundColor" android:paddingTop="@dimen/spacing_larger" android:paddingBottom="@dimen/spacing_medium" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="@dimen/spacing_large" android:paddingEnd="@dimen/spacing_large" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <ImageView android:layout_width="32.0dp" android:layout_height="32.0dp" android:src="@drawable/ic_check" app:tint="?colorPrimary" />
+        <TextView android:textSize="@dimen/title_largest" android:textColor="?colorPrimary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" android:text="@string/grant_permissions" android:fontFamily="@font/main_medium" style="@style/Title" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_medium" android:text="@string/permission_request_message" style="@style/Subtitle.Large" />
+        <RelativeLayout android:orientation="vertical" android:id="@id/sms_permission_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+            <include android:id="@id/sms_permission_dropdown" layout="@layout/common_dropdown_item" />
+        </RelativeLayout>
+        <RelativeLayout android:orientation="vertical" android:id="@id/calls_permission_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+            <include android:id="@id/calls_permission_dropdown" layout="@layout/common_dropdown_item" />
+        </RelativeLayout>
+        <RelativeLayout android:orientation="vertical" android:id="@id/walls_permission_container" android:visibility="gone" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal">
+            <include android:id="@id/walls_permission_dropdown" layout="@layout/common_dropdown_item" />
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout android:layout_gravity="bottom" android:id="@id/bottom_actions" android:layout_width="match_parent" android:layout_height="wrap_content">
+        <View style="@style/DividerThinNoMargins" />
+        <ImageView android:id="@id/iv_back" android:padding="@dimen/spacing_normal" android:layout_width="56.0dp" android:layout_height="56.0dp" android:src="@drawable/ic_chevron_down" android:layout_centerVertical="true" android:rotation="90.0" android:tintMode="src_in" app:tint="?android:textColorSecondary" />
+        <com.google.android.material.button.MaterialButton android:id="@id/btn_done" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/done" android:paddingStart="@dimen/spacing_large" android:paddingEnd="@dimen/spacing_large" android:layout_alignParentEnd="true" android:layout_marginHorizontal="@dimen/activity_horizontal_margin" android:layout_marginVertical="@dimen/spacing_medium" app:iconPadding="@dimen/spacing_medium" style="@style/M3ButtonFilled.Large" />
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:id="@id/container" android:layout_width="match_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <ImageView android:layout_gravity="end" android:id="@id/iv_cancel" android:padding="12.0dp" android:layout_width="48.0dp" android:layout_height="48.0dp" android:layout_margin="@dimen/spacing_medium" android:src="@drawable/ic_close_black_24dp" app:tint="?android:textColorPrimary" />
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingHorizontal="@dimen/spacing_normal_more" android:paddingVertical="@dimen/spacing_normal_more">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Scan report" style="@style/M3DialogTitle" />
+            <TextView android:textSize="@dimen/subtitle_small" android:id="@id/tv_dialog_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="v5.0.2" style="@style/Subtitle" />
+            <com.google.android.material.card.MaterialCardView android:id="@id/note" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal" app:cardBackgroundColor="?colorBackgroundActivated" app:cardCornerRadius="16.0dp" app:cardElevation="0.0dp" app:strokeColor="?colorBackgroundActivated" style="?cardStyle">
+                <TextView android:textSize="@dimen/subtitle_small" android:textColor="?colorPrimary" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Swift Backup is not able to find my backups!!! What's wrong?" android:lineSpacingExtra="4.0dp" android:fontFamily="@font/main_medium" android:layout_marginEnd="48.0dp" android:paddingHorizontal="@dimen/spacing_normal" android:paddingVertical="@dimen/spacing_medium" />
+                <ImageView android:layout_gravity="end" android:padding="10.0dp" android:layout_width="48.0dp" android:layout_height="48.0dp" android:src="@drawable/ic_arrow_forward" app:tint="?colorPrimary" />
+            </com.google.android.material.card.MaterialCardView>
+            <TextView android:textSize="@dimen/subtitle_small" android:id="@id/tv_report" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/spacing_normal_more" android:fontFamily="@font/main_regular" />
+        </LinearLayout>
+    </FrameLayout>
+</androidx.core.widget.NestedScrollView>

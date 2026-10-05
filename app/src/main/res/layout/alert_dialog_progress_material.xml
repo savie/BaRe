@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:paddingTop="18.0dp" android:paddingBottom="18.0dp" android:layout_width="wrap_content" android:layout_height="match_parent" android:paddingStart="?dialogPreferredPadding" android:paddingEnd="?dialogPreferredPadding"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <ProgressBar android:id="@id/progress" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_centerHorizontal="true" style="?android:progressBarStyleHorizontal" />
+    <TextView android:id="@id/progress_percent" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/progress" android:layout_alignParentStart="true" style="@style/Subtitle" />
+    <TextView android:id="@id/progress_number" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@id/progress" android:layout_alignParentEnd="true" style="@style/Subtitle" />
+</RelativeLayout>
