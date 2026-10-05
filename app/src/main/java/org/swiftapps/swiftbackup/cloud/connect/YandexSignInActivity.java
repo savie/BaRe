@@ -1,2 +1,8 @@
 package org.swiftapps.swiftbackup.cloud.connect;
-public class YandexSignInActivity extends defpackage.fq5 { }
+
+import defpackage.fq5;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes2.dex */
+public final class YandexSignInActivity extends fq5 {
+}
