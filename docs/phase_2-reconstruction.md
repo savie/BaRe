@@ -10,6 +10,89 @@ P2 reconstructs the Reference into BaRe **1:1 at contract and semantic level**.
 
 P2 is not a skeleton-only, cleanup, branding, backend-migration, entitlement, or UI-redesign phase.
 
+
+## P2 Working Pattern — Session Handoff
+
+This is the canonical operational pattern for continuing P2 across sessions. The **Reference remains the source of truth**: Swift Backup 5.1.0 / versionCode 620. The 120 manifest-facing entities are **anchors/gates**, not the complete universe of P2.
+
+```
+REFERENCE
+   │
+   ▼
+120 MANIFEST ANCHORS
+   │
+   ▼
+/app COUNTERPART
+   │
+   ▼
+SEMANTIC DEPENDENCY GRAPH
+   │
+   ├── class / interface / enum
+   ├── constructor
+   ├── method / function
+   ├── field
+   ├── parameter
+   ├── return type
+   ├── superclass / interface
+   ├── resource
+   └── manifest relationship
+   │
+   ▼
+EVIDENCE
+   │
+   ▼
+SEMANTIC MAPPING
+Reference symbol
+        ↓
+BaRe target symbol
+        ↓
+Implementation / Delegation
+   │
+   ├───────────────┐
+   ▼               ▼
+RECONSTRUCT      DELEGATE
+   │               │
+   │        dependency-owned?
+   │        contract verified?
+   │        package/class match?
+   │        manifest/config match?
+   │        runtime compatible?
+   │
+   └───────┬───────┘
+           ▼
+      VERIFICATION
+           │
+           ▼
+ MATCH / AUTHORIZED DEVIATION
+ UNKNOWN / BLOCKED
+```
+
+### P2 Working Rule
+
+Work starts from the existing `/app` source, using the 120 manifest anchors to establish coverage, then follows the semantic dependency graph outward. Every encountered class, interface, enum, constructor, method/function, field, parameter, return contract, resource, manifest relationship, or dependency is mapped back to the Reference before it is reconstructed, renamed, delegated, replaced, generated, or deleted.
+
+```
+120 anchors
+   ↓
+/app counterpart
+   ↓
+semantic dependency graph
+   ↓
+Reference evidence
+   ↓
+Reference → BaRe semantic mapping
+   ↓
+RECONSTRUCT or DELEGATE
+   ↓
+verification
+   ↓
+MATCH / AUTHORIZED DEVIATION / UNKNOWN / BLOCKED
+```
+
+A dependency family is **not** automatically delegated merely because it has a Gradle coordinate. Delegation requires the dependency contract defined in this document to be proven. Likewise, an unclear or obfuscated symbol is **not** deleted merely because its name is short or ugly.
+
+For session handoff, use this pattern as the P2 operating procedure. Do not switch to branding, Firebase→Supabase migration, UI redesign, or P3 work while this gate is open.
+
 ```
 Reference
  → Evidence
