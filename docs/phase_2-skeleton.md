@@ -251,3 +251,15 @@ Reference AGP metadata proves Android Gradle Plugin 9.2.1. Reference application
 Reference-evidenced AndroidX dependency declarations have been added to app/build.gradle.
 
 This does not close the Phase 2 gate. Dependency delegation remains BLOCKED until the external classes resolve from the declared graph and the Android project builds successfully.
+
+## 16. Reference Manifest Materialization Tranche
+
+Reference apktool evidence was inspected directly.
+
+Observed Reference inventory: 95 Activities, 10 Services, 10 Receivers, 4 Providers, plus 1 Application.
+
+BaRe now contains `app/src/main/AndroidManifest.xml` with the same 120 manifest-facing component names and the Reference package/Application identity.
+
+This is a structural P2 implementation step. It does not claim full manifest parity yet: permissions, intent filters, metadata, authorities, exported/configuration flags, and resource contracts still require evidence-backed reconstruction.
+
+Therefore the entity gate remains 83/120 Java implementations, with 37 dependency-owned entities BLOCKED pending valid delegation and Android build verification.
