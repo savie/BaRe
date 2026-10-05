@@ -96,7 +96,25 @@
 | 081 | `defpackage/w14.java` | **UNKNOWN** | Direct dependency used for Gson serialization | **UNKNOWN** |
 | 082 | `defpackage/x50.java` | **UNKNOWN** | Direct dependency used for digest/string formatting | **UNKNOWN** |
 | 083 | `defpackage/xs1.java` | **UNKNOWN** | Direct dependency used for q63-related error message formatting | **UNKNOWN** |
-| 084 | `defpackage/jm1.java` | **UNKNOWN** | Reference caller of `org.swiftapps.swiftbackup.apkshare.a.c(...)`; APKS creation paths observed in static methods `l(...)` and `m(...)` | **UNKNOWN** |
+| 084 | `defpackage/jm1.java` | **UNKNOWN** | Obfuscated multi-purpose static utility class; methods `l(...)`/`m(...)` are proven APK/APKS export orchestration paths | **UNKNOWN** |
+| 085 | `defpackage/k55.java` | **UNKNOWN** | Base type for APK export source variants; `xh`=Installed, `yh`=LocalBackup, `wh`=CloudBackup | **UNKNOWN** |
+| 086 | `defpackage/xh.java` | **UNKNOWN** | Installed-app export source wrapper; carries `ji` app metadata | **UNKNOWN** |
+| 087 | `defpackage/yh.java` | **UNKNOWN** | Local-backup export source wrapper; carries `ji` app metadata and `hk` backup | **UNKNOWN** |
+| 088 | `defpackage/wh.java` | **UNKNOWN** | Cloud-backup export source wrapper; carries `ji` app metadata and `AppCloudBackup` | **UNKNOWN** |
+| 089 | `defpackage/ji.java` | **UNKNOWN** | Parcelable app descriptor used for package/source APK metadata | **UNKNOWN** |
+| 090 | `defpackage/hk.java` | **UNKNOWN** | Local APK backup handle used by APK/APKS export path | **UNKNOWN** |
+| 091 | `defpackage/ov2.java` | **UNKNOWN** | Empty immutable-list fallback/singleton used when no split APK list exists | **UNKNOWN** |
+| 092 | `defpackage/nc8.java` | **UNKNOWN** | Collection helper used to create singleton base-APK list | **UNKNOWN** |
+| 093 | `defpackage/io4.java` | **UNKNOWN** | Nullable-long normalization helper used for backup/split size accounting | **UNKNOWN** |
+| 094 | `defpackage/fo2.java` | **UNKNOWN** | Download/extraction work item carrying source/link, expected size and target q63 path | **UNKNOWN** |
+| 095 | `defpackage/kh6.java` | **UNKNOWN** | Mutable progress accumulator for downloaded/exported byte count | **UNKNOWN** |
+| 096 | `defpackage/oh.java` | **UNKNOWN** | Progress value object carrying current/total byte counts | **UNKNOWN** |
+| 097 | `defpackage/ph.java` | **UNKNOWN** | Terminal progress value emitted after cloud APK download/extraction | **UNKNOWN** |
+| 098 | `defpackage/ky.java` | **UNKNOWN** | Split-APK extraction helper used to unpack backed-up split APKs | **UNKNOWN** |
+| 099 | `defpackage/xg.java` | **UNKNOWN** | Comparator used to order extracted split APK files before APKS packaging | **UNKNOWN** |
+| 100 | `defpackage/nh.java` | **UNKNOWN** | UI/task caller invoking `jm1.l(...)` asynchronously for APK export | **UNKNOWN** |
+| 101 | `defpackage/b7.java` | **UNKNOWN** | Callback/selector passed to split-APK extraction operation | **UNKNOWN** |
+| 102 | `defpackage/l0.java` | **UNKNOWN** | Error/logging helper used on split export/extraction failures | **UNKNOWN** |
 
 ## GATE
 
@@ -208,7 +226,25 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 088 | `defpackage/el1.java::class el1` | `same path el1.java` | String/collection formatting helper used by ai selector 3 | UNKNOWN |
 | 089 | `defpackage/fl1.java::class fl1` | `same path fl1.java` | Varargs-to-list helper used by ai selector 3 | UNKNOWN |
 | 090 | `defpackage/hc1.java::class hc1` | `same path hc1.java` | Synthetic `mt3` implementation instantiated by ai selector 3 | UNKNOWN |
-| 091 | `defpackage/jm1.java::class jm1` | `same path jm1.java` | Obfuscated caller class; static methods `l(...)` and `m(...)` directly call `org.swiftapps.swiftbackup.apkshare.a.c(...)` for APKS creation | UNKNOWN |
+| 091 | `defpackage/jm1.java::class jm1` | `same path jm1.java` | Multi-purpose obfuscated static utility class; class-wide semantic rename not proven; APK export role proven only for `l/m` | UNKNOWN |
+| 092 | `defpackage/k55.java::class k55` | `same path k55.java` | Base type for export source variants `Installed`, `LocalBackup`, `CloudBackup` | UNKNOWN |
+| 093 | `defpackage/xh.java::class xh` | `same path xh.java` | `Installed(app)` source variant | UNKNOWN |
+| 094 | `defpackage/yh.java::class yh` | `same path yh.java` | `LocalBackup(app, backup)` source variant | UNKNOWN |
+| 095 | `defpackage/wh.java::class wh` | `same path wh.java` | `CloudBackup(app, backup)` source variant | UNKNOWN |
+| 096 | `defpackage/ji.java::class ji` | `same path ji.java` | App descriptor consumed for package/name/version/installer metadata | UNKNOWN |
+| 097 | `defpackage/hk.java::class hk` | `same path hk.java` | Backup APK handle consumed by local/cloud export path | UNKNOWN |
+| 098 | `defpackage/ov2.java::class ov2` | `same path ov2.java` | Empty-list singleton/fallback | UNKNOWN |
+| 099 | `defpackage/nc8.java::class nc8` | `same path nc8.java` | Collection singleton/list helper | UNKNOWN |
+| 100 | `defpackage/io4.java::class io4` | `same path io4.java` | Nullable-long/size normalization helper | UNKNOWN |
+| 101 | `defpackage/fo2.java::class fo2` | `same path fo2.java` | APK/split download work item | UNKNOWN |
+| 102 | `defpackage/kh6.java::class kh6` | `same path kh6.java` | Mutable byte-progress accumulator | UNKNOWN |
+| 103 | `defpackage/oh.java::class oh` | `same path oh.java` | Progress snapshot value | UNKNOWN |
+| 104 | `defpackage/ph.java::class ph` | `same path ph.java` | Terminal progress marker/value | UNKNOWN |
+| 105 | `defpackage/ky.java::class ky` | `same path ky.java` | Split-APK extraction helper | UNKNOWN |
+| 106 | `defpackage/xg.java::class xg` | `same path xg.java` | Comparator for extracted split APK files | UNKNOWN |
+| 107 | `defpackage/nh.java::class nh` | `same path nh.java` | Asynchronous UI/task caller of `jm1.l` | UNKNOWN |
+| 108 | `defpackage/b7.java::class b7` | `same path b7.java` | Selector/callback passed to split extraction | UNKNOWN |
+| 109 | `defpackage/l0.java::class l0` | `same path l0.java` | Export/extraction error logger | UNKNOWN |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
@@ -286,7 +322,9 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 070 | `defpackage/c6.java::g(String,Object,Object,Object,Object,Object)` | **UNKNOWN** | Throws `IllegalArgumentException` from concatenated arguments; direct validation/error helper | UNKNOWN |
 | 071 | `defpackage/cy0.java::j(InputStream,OutputStream,int)` | **UNKNOWN** | Copies input using supplied buffer size and returns byte count; apkshare/a.java passes 262144 | UNKNOWN |
 | 072 | `defpackage/jm1.java::l(k55,mt3)` | **UNKNOWN** | Direct caller path: when split APKs exist, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
-| 073 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Direct caller path: after split APK extraction/metadata resolution, constructs `ApkSharePackageMetadata` and `vh` base/split entries, then calls `org.swiftapps.swiftbackup.apkshare.a.c(...)` to create `.apks` | UNKNOWN |
+| 073 | `defpackage/jm1.java::m(ji,hk,CloudMetadata)` | **UNKNOWN** | Local/cloud backup APK export: validates backup APK, extracts split backup, resolves metadata, constructs base/split `vh` entries and delegates APKS assembly to `apkshare.a.c(...)` | UNKNOWN |
+| 074 | `defpackage/jm1.java::G(long,String)` | `same path jm1.java::G(...)` | Creates/ensures `apk_share` working directory sized for export; returns q63 target directory | UNKNOWN |
+| 075 | `defpackage/jm1.java::V(ji)` | `same path jm1.java::V(...)` | Sanitizes app display name into filesystem-safe export basename; falls back to package name | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
