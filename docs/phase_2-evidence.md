@@ -215,7 +215,6 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic SwiftSegmentedCardGroup position switch-map | CANDIDATE |
 | 069 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
 | 070 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
-
 | 071 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class EnumC0012a` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-direction enum: `Asc`, `Desc`; each carries display string resource | CANDIDATE |
 | 072 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class b` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-field enum: `Name`, `LastUpdated`; each carries display string resource | CANDIDATE |
 | 073 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
@@ -411,7 +410,6 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 135 | `org/swiftapps/swiftbackup/intro/e.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::create(Object,jv1)`** | Creates a continuation preserving the captured `IntroViewModel` | CANDIDATE |
 | 136 | `org/swiftapps/swiftbackup/intro/e.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java::invoke(Object,Object)`** | Invokes the coroutine continuation and delegates to `invokeSuspend` | CANDIDATE |
 | 137 | `org/swiftapps/swiftbackup/intro/e.java::invokeSuspend(Object)` | **UNKNOWN** | Coroutine body is present only as JADX reconstructed control flow with `UnsupportedOperationException`; exact executable mapping is not verified | UNKNOWN |
-
 | 138 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::onCallsTaskComplete(c21)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreViewModel.java::onCallsTaskComplete(c21)`** | MAIN-thread task completion handler | CANDIDATE |
 | 139 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving ViewModel and backup-file path | CANDIDATE |
 | 140 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java::invoke(Object,Object)`** | Invokes backup-file call-log reader continuation | CANDIDATE |
