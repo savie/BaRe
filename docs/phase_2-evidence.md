@@ -135,6 +135,41 @@ If a Reference symbol has no direct BaRe symbol, the evidence ledger must explic
 
 A missing symbol without such a record is incomplete reconstruction, not PASS.
 
+
+## P2 Execution — First Semantic Reconstruction
+
+### PH2-MAP-001 — `org.swiftapps.filesystem.a` → `RandomAccessFileWriter`
+
+**Reference source:** `org/swiftapps/filesystem/a.java`  
+**Reference symbol:** `class a` with static `a(FileChannel,long,byte[],int,int)`  
+**BaRe target:** `org.swiftapps.filesystem.RandomAccessFileWriter`  
+**Target symbol:** `RandomAccessFileWriter.write(FileChannel,long,byte[],int,int)`  
+**Semantic role:** random-access byte writer over a `FileChannel`.
+
+**Evidence:**
+- Reference implementation validates non-negative offset;
+- validates buffer offset/length bounds;
+- wraps the requested byte range in a `ByteBuffer`;
+- repeatedly writes through `FileChannel.write(..., position)` until the buffer is exhausted;
+- reports invalid range / failed write through existing error helpers;
+- Reference consumers `ws3` and `vs3` call this helper from their `xs3.k(...)` implementations.
+
+**Disposition:** RENAME / REHOME — semantic identity proven.  
+**Classification:** MATCH at contract/role level; meaningful BaRe-owned class name introduced.  
+**State:** IMPLEMENTED — verification/build pending.
+
+The old obfuscated file `a.java` was not retained after this mapping because its semantic identity is now established and the replacement preserves the observed contract. This does **not** authorize deletion of other `a.java` files.
+
+### PH2-MAP-002 — `org.swiftapps.swiftbackup.apkshare.a`
+
+**Reference source:** `org/swiftapps/swiftbackup/apkshare/a.java`  
+**Observed role:** SHA-256 calculation plus APKS archive construction and archive-entry validation.  
+**Dependencies:** `q63`, `ApkSharePackageMetadata`, `SaiApksMetadata`, `ZipOutputStream`.
+
+**Disposition:** RECONSTRUCT / RENAME-CANDIDATE.  
+**State:** BLOCKED pending `q63` semantic reconstruction and caller/consumer verification.  
+**Rule:** do not assign a final target name until its Reference consumers and full contract are mapped.
+
 ## Semantic Findings
 
 ### PH2-SEM-001 — `defpackage`
