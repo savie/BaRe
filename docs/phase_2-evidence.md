@@ -412,6 +412,19 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 027 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l` | **UNKNOWN** | Active operation token | UNKNOWN |
 | 028 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m` | **UNKNOWN** | State/reset/update counter | UNKNOWN |
 | 029 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n` | **UNKNOWN** | Pending cloud identity string awaiting reconciliation | UNKNOWN |
+| 030 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a` | **UNKNOWN** | Cloud type descriptor `dd1` | UNKNOWN |
+| 031 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::b` | **UNKNOWN** | Provider title | UNKNOWN |
+| 032 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c` | **UNKNOWN** | Provider icon resource ID | UNKNOWN |
+| 033 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d` | **UNKNOWN** | Whether provider icon is a preset icon | UNKNOWN |
+| 034 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::e` | **UNKNOWN** | Provider subtitle | UNKNOWN |
+| 035 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::f` | **UNKNOWN** | Cloud-connected flag | UNKNOWN |
+| 036 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::g` | **UNKNOWN** | Provider identity key | UNKNOWN |
+| 037 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::h` | **UNKNOWN** | Cleaner phase/state enum | UNKNOWN |
+| 038 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::i` | **UNKNOWN** | Orphan file list | UNKNOWN |
+| 039 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::j` | **UNKNOWN** | Selected orphan ID set | UNKNOWN |
+| 040 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::k` | **UNKNOWN** | Status message | UNKNOWN |
+| 041 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::l` | **UNKNOWN** | Scanned file count | UNKNOWN |
+| 042 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::m` | **UNKNOWN** | Firebase reference count | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
