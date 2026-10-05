@@ -1,6 +1,6 @@
 # Phase 2 — Evidence Ledger
 
-**State:** IN PROGRESS — DEPENDENCY MAP EXPANDED / BUILD NOT VERIFIED
+**State:** IN PROGRESS — DEPENDENCY FINGERPRINTING EXPANDED / BUILD NOT VERIFIED
 
 ## Executed Evidence
 
@@ -47,7 +47,7 @@
 ### PH2-DEPENDENCY-001
 - Claim: 37 external manifest components can be validly delegated.
 - Expected: dependency declared, class resolves, manifest contract matches, configuration/authority matches, behavior verifiable.
-- Observed: Reference identity has now been expanded, but BaRe has no real Android Gradle build execution in the current environment.
+- Observed: Reference identity has been substantially expanded, but BaRe has no real Android Gradle build execution in the current environment.
 - Result: BLOCKED.
 - State: BLOCKED.
 
@@ -60,52 +60,46 @@
 
 ### PH2-DEPENDENCY-IDENTITY-002
 - Claim: Additional external dependency identity can be extracted from the Reference artifact.
-- Observed:
-  - Play Billing 8.3.0
-  - MSAL 8.3.2
-  - pCloud SDK 1.11.0
-  - Firebase Auth 24.1.0
-  - Firebase Sessions 3.0.6
-  - Firebase Database 22.0.1
-  - Firebase Crashlytics 20.0.6
-  - Google Sign-In 21.5.1
-  - Google Play Services Base 18.5.0
-  - Google Play Services Basement 18.9.0
-  - Google Play Services Tasks 18.4.0
-  - Google Play Services Auth Base 18.0.10
-  - Google Play Services FIDO 21.0.0
-  - Google Play Services Identity Credentials 16.0.0-alpha08
-  - Google Play Services Auth BlockStore 16.4.0
-  - Google Play Services Auth API Phone 18.0.2
-  - Google ID 1.1.1
-  - Play Core Common 2.0.3
-  - Play Integrity 1.3.0
-  - DataTransport Runtime 3.3.0
-  - Firebase Auth interop 20.0.0
-  - Firebase Database Collection 18.0.1
-  - Firebase Encoders 17.0.0 / Proto 16.0.0
-  - Firebase Measurement Connector 20.0.1
-  - Recaptcha 18.6.1
+- Observed: Billing 8.3.0; MSAL 8.3.2; pCloud 1.11.0; Firebase Auth 24.1.0; Firebase Sessions 3.0.6; Firebase Database 22.0.1; Firebase Crashlytics 20.0.6; GMS Auth 21.5.1; GMS Base 18.5.0; GMS Basement 18.9.0; GMS Tasks 18.4.0; GMS Auth Base 18.0.10; GMS FIDO 21.0.0; GMS Identity Credentials 16.0.0-alpha08; GMS Auth BlockStore 16.4.0; GMS Auth API Phone 18.0.2; Google ID 1.1.1; Play Core Common 2.0.3; Play Integrity 1.3.0; DataTransport Runtime 3.3.0; Firebase Auth interop 20.0.0; Firebase Database Collection 18.0.1; Firebase Encoders 17.0.0 / Proto 16.0.0; Firebase Measurement Connector 20.0.1; Recaptcha 18.6.1.
 - Source: Reference unknown/*.properties plus Reference JADX source/runtime markers.
 - Result: MATCH for Reference-side identity evidence.
 - State: EVIDENCE RECORDED.
-- Limitation: this still does not prove the original complete Gradle declaration/BOM or every transitive dependency version.
+- Limitation: this does not prove the original complete Gradle declaration/BOM or every transitive dependency version.
 
 ### PH2-DEPENDENCY-USAGE-003
 - Claim: Dependency families are actually referenced by Reference source, not only present in the manifest.
 - Source: Reference JADX Java source imports and embedded implementation.
-- Observed:
-  - Firebase Auth, Database, Crashlytics, Sessions, Installations, Components and Firebase/DataTransport registrars.
-  - Google Play Services Auth/Sign-In, Common, Tasks, FIDO and Identity Credentials.
-  - Play Billing, pCloud, Play Core/Integrity, DataTransport, YubiKit, AppAuth, TedPermission, Shizuku.
+- Observed: Firebase, Google Play Services, Billing, pCloud, Play Core/Integrity, DataTransport, YubiKit, AppAuth, TedPermission and Shizuku families.
 - Result: MATCH for Reference-side usage evidence.
 - State: EVIDENCE RECORDED.
-- Limitation: package usage alone does not prove unresolved exact coordinates.
+
+### PH2-DEPENDENCY-LICENSE-005
+- Claim: Reference third-party license inventory independently confirms several remaining external families.
+- Source: Reference res/raw/third_party_license_metadata.
+- Observed: Yubico YubiKit Android/Core/Piv; Shizuku API aidl/API/provider/shared; TedPermission/TedPermission-Normal; AppAuth for Android.
+- Result: MATCH for embedded third-party inventory.
+- State: EVIDENCE RECORDED.
+- Limitation: license inventory does not expose exact versions.
+
+### PH2-DEPENDENCY-FINGERPRINT-006
+- Claim: Public API documentation can narrow YubiKit family compatibility.
+- Source: external YubiKit JavaDoc.
+- Observed: Reference YubiKeyPromptActivity/OtpActivity matches the YubiKit Android UI family documented across 2.x and 3.2.0; the API alone does not uniquely identify the Reference version.
+- Result: FAMILY MATCH / VERSION UNKNOWN.
+- State: UNKNOWN for exact Reference version.
+
+### PH2-DEPENDENCY-CANDIDATE-007
+- Claim: Public coordinates exist for remaining unresolved families.
+- Source: Maven Central / public YubiKit documentation.
+- Observed: AppAuth 0.11.1, TedPermission-Normal 3.4.2, Shizuku provider/API 13.1.5; YubiKit Android/Core/Piv artifact families.
+- Result: CANDIDATE ONLY.
+- State: UNKNOWN for Reference parity.
+- Rule: these are not promoted to Reference versions without direct version evidence.
 
 ### PH2-DEPENDENCY-METADATA-004
 - Claim: Reference contains embedded artifact identity metadata beyond META-INF version files.
 - Source: Reference apktool unknown/*.properties and decompiled implementation strings.
-- Observed: explicit artifact version files for Billing, Firebase Auth, GMS families, Google ID, Integrity, Play Core Common, and Recaptcha; explicit runtime/source version markers for Firebase Sessions, Firebase Database, Firebase Crashlytics and DataTransport Runtime.
+- Observed: explicit artifact version files for Billing, Firebase Auth, GMS families, Google ID, Integrity, Play Core Common, and Recaptcha; explicit runtime/source version markers for Firebase Sessions, Firebase Database, Firebase Crashlytics and DataTransport Runtime; explicit third-party license inventory for AppAuth/TedPermission/YubiKit/Shizuku.
 - Result: MATCH.
 - State: EVIDENCE RECORDED.
 
@@ -114,6 +108,7 @@
 83/120 entities represented
 37/120 entities dependency-blocked
 Reference dependency identity: SUBSTANTIALLY EXPANDED
+Remaining unresolved exact-version families: AppAuth, TedPermission, YubiKit, Shizuku, selected Firebase transitive/common/installations modules
 BaRe dependency declarations: EXPANDED
 structural compile: PASS
 Android build: NOT VERIFIED
