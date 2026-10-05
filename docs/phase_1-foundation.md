@@ -172,7 +172,7 @@ Allowed states:
 
 Phase 1 is **not PASS** merely because the inventory is written.
 
-Phase 2 may start only when Phase 1 has a sufficiently complete Reference contract and no unresolved blocker that affects skeleton construction.
+Phase 2 may start only when Phase 1 has a sufficiently complete Reference contract and no unresolved blocker that prevents evidence-backed Reference reconstruction.
 
 
 ## 14. Evidence-Locked Reference Results
