@@ -6,6 +6,56 @@
 
 This ledger records evidence for Reference reconstruction. Source existence and structural compilation are not semantic verification.
 
+
+## P2 Working Pattern — Session Handoff
+
+The evidence ledger follows the canonical P2 operating pattern. **Reference:** Swift Backup 5.1.0 / versionCode 620. The 120 manifest-facing entities are coverage anchors; the semantic dependency graph determines the reconstruction scope.
+
+```
+REFERENCE
+   │
+   ▼
+120 MANIFEST ANCHORS
+   │
+   ▼
+/app COUNTERPART
+   │
+   ▼
+SEMANTIC DEPENDENCY GRAPH
+   │
+   ├── class / interface / enum
+   ├── constructor
+   ├── method / function
+   ├── field
+   ├── parameter
+   ├── return type
+   ├── superclass / interface
+   ├── resource
+   └── manifest relationship
+   │
+   ▼
+EVIDENCE
+   │
+   ▼
+SEMANTIC MAPPING
+Reference symbol → BaRe target symbol
+   │
+   ├───────────────┐
+   ▼               ▼
+RECONSTRUCT      DELEGATE
+   │               │
+   └───────┬───────┘
+           ▼
+      VERIFICATION
+           │
+           ▼
+ MATCH / AUTHORIZED DEVIATION
+ UNKNOWN / BLOCKED
+```
+
+Every evidence entry must support the Reference→BaRe mapping or an explicit disposition. A file's existence or a declared dependency coordinate alone does not resolve a symbol.
+
+
 ## Reference Baselines
 
 ### PH2-REF-001 — Manifest
