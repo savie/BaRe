@@ -374,6 +374,10 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 100 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(String)` | **UNKNOWN** | Resets cleaner transient state and publishes fresh initial state | UNKNOWN |
 | 101 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(mt3)` | **UNKNOWN** | Applies state transformation callback to current cleaner state and publishes it | UNKNOWN |
 | 102 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(b)` | **UNKNOWN** | Stores current cleaner state and publishes it through `ex6` | UNKNOWN |
+| 103 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::a(b,EnumC0013a,List,Set,String,int,int,int)` | **UNKNOWN** | Copy/default factory for cleaner state; selectively replaces phase, files, selected IDs, status and counters | UNKNOWN |
+| 104 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::b()` | **UNKNOWN** | True when connected, phase is `RESULTS`, and selected orphan list is non-empty | UNKNOWN |
+| 105 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::c()` | **UNKNOWN** | Filters orphan files whose provider/type+identifier key exists in selected ID set | UNKNOWN |
+| 106 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::d()` | **UNKNOWN** | True while phase is `SCANNING` or `DELETING` | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
