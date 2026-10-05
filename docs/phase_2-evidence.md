@@ -55,7 +55,7 @@
 | 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java`** | Parcelable.Creator for `ScheduleItem.Messages`; reconstructs id, type, message fields and enabled flag | **CANDIDATE** |
 | 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java`** | Parcelable.Creator for `ScheduleItem.Wallpapers`; reconstructs id, type, wallpaper fields and enabled flag | **CANDIDATE** |
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java`** | Parcelable.Creator for `ScheduleItem.Wifi`; reconstructs id, type, Wi-Fi fields and enabled flag | **CANDIDATE** |
-| 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | **UNKNOWN** | ScheduleLastRunDetails persistence/serialization helper | **UNKNOWN** |
+| 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Formats run timestamps using app locale, loads/stores `ScheduleLastRunDetails` through SharedPreferences + Gson type metadata, and builds the persistence key | **CANDIDATE** |
 | 044 | `org/swiftapps/swiftbackup/intro/a.java` | **UNKNOWN** | Synthetic enum switch-map Intro state/card type | **UNKNOWN** |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java` | **UNKNOWN** | IntroActivity sign-in state callback/lambda | **UNKNOWN** |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java` | **UNKNOWN** | IntroActivity state callback/lambda | **UNKNOWN** |
@@ -189,7 +189,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::class l` | `same path l.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | `same path m.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | `same path n.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | `same path o.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Static persistence/formatting helper for `ScheduleLastRunDetails` | CANDIDATE |
 | 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -314,10 +314,10 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 032 | `org/swiftapps/swiftbackup/home/schedule/data/d.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/d.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 033 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/j.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 034 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/data/j.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 035 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::a(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::a(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 036 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::b(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::b(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 037 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::c(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::c(...)` | Not semantically reconstructed yet | UNKNOWN |
-| 038 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::d(...)` | `org/swiftapps/swiftbackup/home/schedule/data/o.java::d(...)` | Not semantically reconstructed yet | UNKNOWN |
+| 035 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::a(long)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java::formatTimestamp(long)`** | Combines `Const.s(long)` with localized date/time formatting | CANDIDATE |
+| 036 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::b(String)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java::load(String)`** | Reads stored subtype, resolves registered `ScheduleLastRunDetails` class, deserializes JSON, and returns the typed details or null | CANDIDATE |
+| 037 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::c(String)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java::preferenceKey(String)`** | Prefixes schedule item ID with `schedule_last_run_msg_` | CANDIDATE |
+| 038 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::d(String,ScheduleLastRunDetails)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java::save(String,ScheduleLastRunDetails)`** | Stores subtype name in SharedPreferences and serializes the details through Gson | CANDIDATE |
 | 039 | `org/swiftapps/swiftbackup/intro/d.java::j(...)` | `org/swiftapps/swiftbackup/intro/d.java::j(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 040 | `org/swiftapps/swiftbackup/intro/d.java::k(...)` | `org/swiftapps/swiftbackup/intro/d.java::k(...)` | Not semantically reconstructed yet | UNKNOWN |
 | 041 | `org/swiftapps/swiftbackup/intro/d.java::l(...)` | `org/swiftapps/swiftbackup/intro/d.java::l(...)` | Not semantically reconstructed yet | UNKNOWN |
