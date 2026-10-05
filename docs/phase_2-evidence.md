@@ -20,7 +20,7 @@
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java`** | Synthetic enum switch-map for `ConfigEditActivity.a`: `Run→1`, `Save→2`, `Hide→3`; no independent domain logic | **CANDIDATE** |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/list/ConfigListViewModel.java`** | Config-list state/ViewModel; stores `ConfigsData`, persists sort preference, sorts by `Name`/`LastUpdated` with `Asc`/`Desc`, and publishes sorted values | **CANDIDATE** |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/appconfigs/list/ConfigListSortFieldSwitchMap.java`** | Synthetic enum switch-map for ConfigList sort field: `Name→1`, `LastUpdated→2` | **CANDIDATE** |
-| 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | **UNKNOWN** | Parser request notification policy: mode, userId, packageName, payload file | **UNKNOWN** |
+| 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequestParser.java`** | Parses 4-part notification policy request (`mode`, `userId`, `packageName`, `payloadFile`), validates mode/user/package, and returns notification request data | **CANDIDATE** |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | **UNKNOWN** | Notification policy request data model | **UNKNOWN** |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | **UNKNOWN** | Synthetic enum switch-map NotificationPolicyProxy mode | **UNKNOWN** |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **UNKNOWN** | SBA app-data archive metadata/request helper | **UNKNOWN** |
@@ -153,7 +153,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 005 | `org/swiftapps/swiftbackup/appconfigs/edit/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/edit/ConfigEditActivityActionSwitchMap.java` | Synthetic enum switch-map bound to `ConfigEditActivity.a` actions `Run`, `Save`, `Hide` | CANDIDATE |
 | 006 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class a,b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/list/ConfigListViewModel.java` | Main class is Config-list state/ViewModel; nested enums define sort direction (`Asc`, `Desc`) and sort field (`Name`, `LastUpdated`) | CANDIDATE |
 | 007 | `org/swiftapps/swiftbackup/appconfigs/list/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/appconfigs/list/ConfigListSortFieldSwitchMap.java` | Synthetic switch-map bound to ConfigList sort-field enum `a.b` | CANDIDATE |
-| 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 008 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequestParser.java` | Stateless parser/validator for notification policy request arguments | CANDIDATE |
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -361,6 +361,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 087 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::j()` | **UNKNOWN** | Loads `configs_list_sort_options` from SharedPreferences; defaults to `Name:Asc`; returns sort field/direction pair | UNKNOWN |
 | 088 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::k(b,EnumC0012a)` | **UNKNOWN** | Persists selected sort field/direction and reapplies sorting to current `ConfigsData` | UNKNOWN |
 | 089 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
+| 090 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::a(String[])` | **UNKNOWN** | Parses mode/userId/packageName/payloadFile; accepts `backup`/`restore`, validates non-negative userId and safe package name, returns notification request object or null | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
