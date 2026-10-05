@@ -1,31 +1,76 @@
-# Phase 2 — Evidence Ledger\n\n**State:** IN PROGRESS — REFERENCE MANIFEST MATERIALIZED / DEPENDENCY BUILD VERIFICATION BLOCKED\n\n## Executed Evidence\n\n### PH2-INHERITANCE-001\n- Claim: Internal Activity inheritance is reconstructed from Reference evidence.\n- Source: Decompiled JADX Java sources.\n- Observed: 71 internal Activities map to the observed Reference superclass chain, including il0, sa1, er6, dt, je5, x01, oo8, fq5, and direct android.app.Activity.\n- Result: MATCH for implemented internal skeleton.\n- State: IMPLEMENTED.\n\n### PH2-APPLICATION-001\n- Claim: Reference Application class is represented.\n- Observed: org.swiftapps.swiftbackup.SwiftApp skeleton exists.\n- Result: MATCH.\n- State: IMPLEMENTED.\n\n### PH2-SOURCE-001\n- Claim: All 82 internal manifest components have Java skeleton representation.\n- Observed: 82 internal components plus Application are represented in source.\n- Result: MATCH.\n- State: IMPLEMENTED.\n\n### PH2-MANIFEST-002\n- Claim: Reference manifest component inventory is materialized into the BaRe skeleton.\n- Source: Reference apktool AndroidManifest.xml.\n- Observed: 1 Application + 95 Activities + 10 Services + 10 Receivers + 4 Providers = 120 manifest-facing entities; BaRe now contains app/src/main/AndroidManifest.xml with the same 120 component names and Reference package/Application identity.\n- Result: MATCH for structural component inventory.\n- State: IMPLEMENTED.\n- Limitation: this tranche intentionally materializes the component skeleton; the full Reference permissions, intent filters, metadata, authorities, exported/configuration flags, and resource contracts are not yet claimed MATCH. Those remain part of the P2 contract verification work.\n\n### PH2-STRUCTURAL-COMPILE-001\n- Claim: Implemented Java skeleton is syntactically/type structurally compilable against its declared platform/base contracts.\n- Method: javac with explicit compile-only Android/AndroidX contract stubs.\n- Observed: compilation PASS.\n- Result: MATCH for structural compile.\n- State: COMPILED.\n- Limitation: this is not an Android Gradle/APK build.\n\n### PH2-TOOLCHAIN-001\n- Claim: Reference Android build toolchain baseline is known.\n- Source: Reference META-INF/com/android/build/gradle/app-metadata.properties.\n- Observed: androidGradlePluginVersion=9.2.1; compileSdk 37; minSdk 26; targetSdk 37; versionName 5.1.0; versionCode 620.\n- Result: MATCH for captured Reference build metadata.\n- State: IMPLEMENTED / EVIDENCE RECORDED.\n\n### PH2-BUILD-CONTRACT-001\n- Claim: BaRe has an explicit Android Gradle project contract.\n- Observed: settings.gradle, build.gradle, gradle.properties, and app/build.gradle created.\n- Result: DECLARED, not verified.\n- State: IMPLEMENTED.\n\n### PH2-DEPENDENCY-001\n- Claim: 37 external manifest components can be validly delegated.\n- Expected: dependency declared, class resolves, manifest contract matches, configuration/authority matches, behavior verifiable.\n- Observed: Reference identity has been substantially expanded, but BaRe has no real Android Gradle build execution in the current environment.\n- Result: BLOCKED.\n- State: BLOCKED.\n\n### PH2-ENVIRONMENT-001\n- Claim: Android Gradle build can be executed in the current environment.\n- Observed: Java 21 is available; no gradle executable and no detected Android SDK environment.\n- Result: BLOCKED.\n- State: BLOCKED.\n- Limitation: no Android Gradle/APK build evidence can be claimed from this environment.\n\n### PH2-DEPENDENCY-IDENTITY-002\n- Claim: Additional external dependency identity can be extracted from the Reference artifact.\n- Observed: Billing 8.3.0; MSAL 8.3.2; pCloud 1.11.0; Firebase Auth 24.1.0; Firebase Sessions 3.0.6; Firebase Database 22.0.1; Firebase Crashlytics 20.0.6; GMS Auth 21.5.1; GMS Base 18.5.0; GMS Basement 18.9.0; GMS Tasks 18.4.0; GMS Auth Base 18.0.10; GMS FIDO 21.0.0; GMS Identity Credentials 16.0.0-alpha08; GMS Auth BlockStore 16.4.0; GMS Auth API Phone 18.0.2; Google ID 1.1.1; Play Core Common 2.0.3; Play Integrity 1.3.0; DataTransport Runtime 3.3.0; Firebase Auth interop 20.0.0; Firebase Database Collection 18.0.1; Firebase Encoders 17.0.0 / Proto 16.0.0; Firebase Measurement Connector 20.0.1; Recaptcha 18.6.1.\n- Source: Reference unknown/*.properties plus Reference JADX source/runtime markers.\n- Result: MATCH for Reference-side identity evidence.\n- State: EVIDENCE RECORDED.\n- Limitation: this does not prove the original complete Gradle declaration/BOM or every transitive dependency version.\n\n### PH2-DEPENDENCY-USAGE-003\n- Claim: Dependency families are actually referenced by Reference source, not only present in the manifest.\n- Source: Reference JADX Java source imports and embedded implementation.\n- Observed: Firebase, Google Play Services, Billing, pCloud, Play Core/Integrity, DataTransport, YubiKit, AppAuth, TedPermission and Shizuku families.\n- Result: MATCH for Reference-side usage evidence.\n- State: EVIDENCE RECORDED.\n\n### PH2-DEPENDENCY-LICENSE-005\n- Claim: Reference third-party license inventory independently confirms several remaining external families.\n- Source: Reference res/raw/third_party_license_metadata.\n- Observed: Yubico YubiKit Android/Core/Piv; Shizuku API aidl/API/provider/shared; TedPermission/TedPermission-Normal; AppAuth for Android.\n- Result: MATCH for embedded third-party inventory.\n- State: EVIDENCE RECORDED.\n- Limitation: license inventory does not expose exact versions.\n\n### PH2-DEPENDENCY-FINGERPRINT-006\n- Claim: Public API documentation can narrow YubiKit family compatibility.\n- Source: external YubiKit JavaDoc.\n- Observed: Reference YubiKeyPromptActivity/OtpActivity matches the YubiKit Android UI family documented across 2.x and 3.2.0; the API alone does not uniquely identify the Reference version.\n- Result: FAMILY MATCH / VERSION UNKNOWN.\n- State: UNKNOWN for exact Reference version.\n\n### PH2-DEPENDENCY-CANDIDATE-007\n- Claim: Public coordinates exist for remaining unresolved families.\n- Source: Maven Central / public YubiKit documentation.\n- Observed: AppAuth 0.11.1, TedPermission-Normal 3.4.2, Shizuku provider/API 13.1.5; YubiKit Android/Core/Piv artifact families.\n- Result: CANDIDATE ONLY.\n- State: UNKNOWN for Reference parity.\n- Rule: these are not promoted to Reference versions without direct version evidence.\n\n### PH2-DEPENDENCY-METADATA-004\n- Claim: Reference contains embedded artifact identity metadata beyond META-INF version files.\n- Source: Reference apktool unknown/*.properties and decompiled implementation strings.\n- Observed: explicit artifact version files for Billing, Firebase Auth, GMS families, Google ID, Integrity, Play Core Common, and Recaptcha; explicit runtime/source version markers for Firebase Sessions, Firebase Database, Firebase Crashlytics and DataTransport Runtime; explicit third-party license inventory for AppAuth/TedPermission/YubiKit/Shizuku.\n- Result: MATCH.\n- State: EVIDENCE RECORDED.\n\n## Current Gate\n\n83/120 entities have Java skeleton implementation.\n120/120 manifest-facing entities are now structurally represented in app/src/main/AndroidManifest.xml.\n37/120 entities remain dependency-blocked for valid delegation.\nReference dependency identity: SUBSTANTIALLY EXPANDED\nRemaining unresolved exact-version families: AppAuth, TedPermission, YubiKit, Shizuku, selected Firebase transitive/common/installations modules\nBaRe dependency declarations: EXPANDED\nstructural compile: PASS\nAndroid build: NOT VERIFIED\nAPK build: NOT VERIFIED\nruntime: DEFERRED\n\nPhase 2 remains NOT VERIFIED until class resolution, full manifest/delegation verification, and an actual Android project build succeed.
-### PH2-R8-PACKAGE-008
-- Claim: The Reference `defpackage` directory is a decompiler namespace rather than the original binary package for the obfuscated internal base classes.
-- Source: Reference apktool smali and JADX output.
-- Observed: `er6.smali` declares `.class public abstract Ler6;` and `.super Lsa1;`; `il0.smali` declares `Lil0;`; `zm.smali` declares `Lzm;`. These descriptors have no package component, while JADX emits `package defpackage;`.
-- Scale: 9,897 JADX Java source files are under `sources/defpackage`.
-- Result: MATCH for the observed R8/JADX reconstruction behavior; binary-name parity for BaRe Java source remains UNKNOWN because Java named packages cannot directly reference unnamed-package classes.
-- State: EVIDENCE RECORDED / CONSTRAINT.
+# Phase 2 — Reconstruction Evidence Ledger
 
-### PH2-MANIFEST-CONTRACT-009
-- Claim: Reference manifest contract extends beyond the 120 component names.
-- Source: Reference apktool AndroidManifest.xml.
-- Observed: compileSdkVersion 37 / platformBuildVersion 37; 34 uses-permission entries; 4 optional uses-feature entries; one package-query block; Application attributes include allowBackup=false, allowClearUserData=false, appComponentFactory=androidx.core.app.CoreComponentFactory, enableOnBackInvokedCallback=true, extractNativeLibs=true, largeHeap=true, localeConfig=@xml/locales_config, networkSecurityConfig=@xml/network_security_config, requestLegacyExternalStorage=true, supportsRtl=true, theme=@style/SwiftTheme; provider authorities include fileprovider, shizuku, tedpermissionprovider, and androidx-startup.
-- Result: REFERENCE EVIDENCE CAPTURED.
-- State: IMPLEMENTED in the BaRe manifest at structural-contract level; full child-level manifest parity remains open.
+**State:** IN PROGRESS — NOT VERIFIED
 
-### PH2-MATERIALIZATION-010
-- Claim: The complete Reference manifest and resource inventory have been directly measured from the decompiled Reference artifact.
-- Source: Reference apktool output.
-- Observed: AndroidManifest.xml is 39,762 bytes; SHA-256 `287cdbf168ca6b95b842ae15deb7e908c552f3f823723bc9518e44df4f4833f0`; 95 Activities, 10 Services, 10 Receivers, 4 Providers, 34 uses-permission entries, 4 uses-feature entries, 22 intent-filters, 23 meta-data entries, 2 uses-library entries; 1,491 resource files.
-- Result: REFERENCE BASELINE RECORDED.
-- State: EVIDENCE RECORDED.
-- Limitation: the BaRe tree still does not contain the complete Reference resource set and the current manifest is not yet byte-for-byte the Reference artifact.
+## Purpose
 
-### PH2-MODIFIER-011
-- Claim: Internal manifest-facing Java component modifiers can be reconstructed from Reference source evidence.
-- Source: Reference JADX Java sources.
-- Observed: internal Activities and Services are declared `public final class`; `SmsReceiver` is public non-final while `MmsReceiver` is final; internal Activity superclass mapping remains as previously recorded.
-- Result: STRUCTURAL CONTRACT EVIDENCE.
-- State: PARTIALLY IMPLEMENTED.
-- Limitation: modifier alignment is only a structural tranche; lifecycle/business methods are intentionally not copied into Phase 2 skeletons.
+This ledger records evidence for Reference reconstruction. Source existence and structural compilation are not semantic verification.
+
+## Reference Baselines
+
+### PH2-REF-001 — Manifest
+Reference contains 1 Application, 95 Activities, 10 Services, 10 Receivers and 4 Providers, plus 34 permissions, 4 features, 22 intent-filters, 23 metadata entries and 2 uses-library entries.
+
+**Classification:** REFERENCE EVIDENCE.
+
+### PH2-REF-002 — Resources
+Reference `res/` inventory contains 1,491 files.
+
+**Classification:** REFERENCE EVIDENCE.
+
+### PH2-REF-003 — Build Metadata
+Reference records AGP 9.2.1, compileSdk 37, minSdk 26, targetSdk 37, versionName 5.1.0 and versionCode 620.
+
+**Classification:** REFERENCE EVIDENCE.
+
+### PH2-REF-004 — Dependency Families
+Reference evidence identifies AndroidX, Firebase, Google Play Services, Billing, MSAL, pCloud, YubiKit, AppAuth, TedPermission, Shizuku, Play Core/Integrity and DataTransport families.
+
+**Classification:** REFERENCE EVIDENCE.
+
+## Semantic Findings
+
+### PH2-SEM-001 — `defpackage`
+JADX emits `defpackage` for classes whose binary descriptors do not contain a package component.
+
+**Result:** decompiler namespace, not sufficient proof of original Java package identity.
+
+### PH2-SEM-002 — `q63`
+Reference `q63` is a filesystem abstraction used across APK import, working directories, storage/folder models, manifest parsing and compression.
+
+**Result:** required internal semantic component.
+
+**Classification:** MATCH for semantic identification; BaRe rehome/reconstruction pending.
+
+### PH2-SRC-003 — Remaining `defpackage.*`
+Current BaRe source still imports `defpackage.*` after the old namespace was intentionally deleted.
+
+**Result:** reconstruction incomplete.
+
+**Classification:** BLOCKED until each import is resolved.
+
+### PH2-SRC-004 — Short/obfuscated filenames
+Current repository contains 68 one/two-character Java filenames.
+
+**Result:** filename alone cannot establish obsolescence.
+
+**Classification:** UNKNOWN until semantic mapping.
+
+### PH2-DEP-005 — Embedded dependency source
+Current repository contains source under third-party/dependency namespaces.
+
+**Result:** ownership must be classified before deletion.
+
+**Classification:** UNKNOWN/BLOCKED until delegation is verified.
+
+## Structural Compile
+
+Previous javac evidence proves only structural compilation against explicit compile-only Android/AndroidX stubs.
+
+It does not prove Android Gradle build, dependency resolution, runtime behavior or semantic parity.
+
+**Classification:** COMPILED only.
+
+## Current Gate
+
+P2 is **NOT VERIFIED** until semantic mapping, reconstruction, dependency delegation and real Android build evidence are complete.
