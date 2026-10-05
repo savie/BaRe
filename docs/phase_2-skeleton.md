@@ -221,3 +221,16 @@ Current Phase 2 gate:
 `83/120 IMPLEMENTED` → `37/120 BLOCKED` → **P2 NOT VERIFIED**.
 
 The blocker is specifically dependency/build-contract verification, not Java syntax of the implemented skeleton.
+
+
+## 14. Dependency Gate Update
+
+Reference-side dependency evidence has now been inspected directly from the decompiled artifact.
+
+Verified Reference families include AndroidX AppCompat 1.7.1, Core 1.18.0, Credentials 1.6.0, Fragment 1.8.9, ProfileInstaller 1.4.0, Room 2.8.4, Startup 1.2.0, Material 1.14.0, and Coroutines 1.11.0.
+
+The 37 external manifest components are now individually registered in `docs/phase_2-dependency-register.md`.
+
+Their Reference manifest/class contracts are known, but BaRe still has no Android build/dependency graph. Therefore these entities remain BLOCKED rather than being falsely marked delegated.
+
+Next required artifact: actual BaRe Android build contract (Gradle/settings/module/dependency declarations) sufficient to resolve and compile the 37 external components.
