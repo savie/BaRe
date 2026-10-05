@@ -57,7 +57,7 @@
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java`** | Parcelable.Creator for `ScheduleItem.Wifi`; reconstructs id, type, Wi-Fi fields and enabled flag | **CANDIDATE** |
 | 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Formats run timestamps using app locale, loads/stores `ScheduleLastRunDetails` through SharedPreferences + Gson type metadata, and builds the persistence key | **CANDIDATE** |
 | 044 | `org/swiftapps/swiftbackup/intro/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic switch-map covering `IntroActivity` card types and `IntroActivity` state enum values | **CANDIDATE** |
-| 045 | `org/swiftapps/swiftbackup/intro/b.java` | **UNKNOWN** | IntroActivity sign-in state callback/lambda | **UNKNOWN** |
+| 045 | `org/swiftapps/swiftbackup/intro/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic callback receiving `IntroViewModel` sign-in state; calls `IntroActivity.Y(true)` when state is `SIGNED_IN` | **CANDIDATE** |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java` | **UNKNOWN** | IntroActivity state callback/lambda | **UNKNOWN** |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java` | **UNKNOWN** | Intro flow state/ViewModel/coordination class | **UNKNOWN** |
 | 048 | `org/swiftapps/swiftbackup/intro/e.java` | **UNKNOWN** | Coroutine continuation for first-run cloud settings restore | **UNKNOWN** |
@@ -191,6 +191,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | `same path n.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Static persistence/formatting helper for `ScheduleLastRunDetails` | CANDIDATE |
 | 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic enum switch-map for intro state and card type | CANDIDATE |
+| 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic `mt3` callback bound to `IntroActivity` for sign-in state changes | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -406,6 +407,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 124 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::createFromParcel(Parcel)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::createFromParcel(Parcel)`** | Reads six `Wifi` constructor values in Parcel order and reconstructs the schedule item | CANDIDATE |
 | 125 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::newArray(int)` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java::newArray(int)`** | Creates typed `ScheduleItem.Wifi[]` array | CANDIDATE |
 | 126 | `org/swiftapps/swiftbackup/intro/a.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java::<clinit>`** | Initializes state mapping `IDLE→1`, `RUNNING→2`, `SUCCESS→3`, `FAILED→4`, and card mapping `ConnectionCard→1`, `FirstRunRestore→2` | CANDIDATE |
+| 127 | `org/swiftapps/swiftbackup/intro/b.java::invoke(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java::invoke(Object)`** | On `SIGNED_IN`, invokes `IntroActivity.Y(true)`; otherwise no action | CANDIDATE |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
