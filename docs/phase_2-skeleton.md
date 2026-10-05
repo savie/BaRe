@@ -234,3 +234,20 @@ The 37 external manifest components are now individually registered in `docs/pha
 Their Reference manifest/class contracts are known, but BaRe still has no Android build/dependency graph. Therefore these entities remain BLOCKED rather than being falsely marked delegated.
 
 Next required artifact: actual BaRe Android build contract (Gradle/settings/module/dependency declarations) sufficient to resolve and compile the 37 external components.
+
+
+## 15. Android Build Contract Tranche
+
+The BaRe Android project contract is now represented by:
+
+- settings.gradle
+- build.gradle
+- gradle.properties
+- app/build.gradle
+- docs/phase_2-build-contract.md
+
+Reference AGP metadata proves Android Gradle Plugin 9.2.1. Reference application metadata proves compileSdk 37, minSdk 26, targetSdk 37, versionName 5.1.0, and versionCode 620.
+
+Reference-evidenced AndroidX dependency declarations have been added to app/build.gradle.
+
+This does not close the Phase 2 gate. Dependency delegation remains BLOCKED until the external classes resolve from the declared graph and the Android project builds successfully.
