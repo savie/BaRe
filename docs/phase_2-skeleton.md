@@ -281,3 +281,19 @@ Engineering consequence: BaRe must not treat `defpackage` as a Reference package
 Classification: SOURCE-RECONSTRUCTION CONSTRAINT / BINARY-NAME PARITY UNKNOWN.
 
 Scope decision for Phase 2: reconstruct only internal base classes required by the manifest-facing inheritance contract; do not blindly import all 9,897 decompiled `defpackage` classes into BaRe. Additional classes are added only when Reference evidence proves they are required by the Phase 2 structural contract.
+
+## 18. Reference Materialization Baseline
+
+A direct artifact audit now records the complete Reference manifest/resource baseline in `docs/phase_2-reference-materialization.md`.
+
+The Reference manifest is 39,762 bytes with 120 manifest-facing entities (1 Application + 95 Activities + 10 Services + 10 Receivers + 4 Providers), 34 permissions, 4 features, 22 intent-filters, 23 metadata entries, and 2 optional uses-library entries. The Reference `res/` tree contains 1,491 files.
+
+This changes the reconstruction rule for the remaining P2 work: the Reference manifest/resource definitions are to be materialized from the artifact, not recreated from the 120-name inventory.
+
+## 19. Modifier Contract Tranche
+
+Reference JADX inspection confirms the internal Activity/Service declarations are predominantly `public final class`; receiver evidence distinguishes final and non-final classes where observed.
+
+A first structural tranche aligned five internal Activity declarations to the observed `public final class` contract. No Reference business methods were copied into the skeleton.
+
+P2 remains NOT VERIFIED because complete manifest/resource materialization, dependency resolution, and real Android build verification remain open.
