@@ -194,52 +194,41 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 034 | `org/swiftapps/swiftbackup/home/schedule/data/f.java::class f` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsLabelsCreator.java` | Parcelable.Creator bound to `ScheduleItem.AppsLabels` | CANDIDATE |
 | 035 | `org/swiftapps/swiftbackup/home/schedule/data/g.java::class g` | `CANDIDATE: org/swiftapps/swiftbackup/home/schedule/data/ScheduleAppsQuickActionsTypeSwitchMap.java` | Synthetic switch-map bound to `ScheduleItem.AppsQuickActions.a` | CANDIDATE |
 | 036 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.AppsQuickActions` | CANDIDATE |
-| 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::class l` | `same path l.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | `same path m.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | `same path n.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 037 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.CallLogs` | CANDIDATE |
+| 038 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java`** | Static helper providing default app parts and default device location for ScheduleItem | CANDIDATE |
+| 039 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Folders` | CANDIDATE |
+| 040 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::class l` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Messages` | CANDIDATE |
+| 041 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Wallpapers` | CANDIDATE |
+| 042 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Wifi` | CANDIDATE |
 | 043 | `org/swiftapps/swiftbackup/home/schedule/data/o.java::class o` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleLastRunDetailsPersistence.java`** | Static persistence/formatting helper for `ScheduleLastRunDetails` | CANDIDATE |
 | 044 | `org/swiftapps/swiftbackup/intro/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroStateCardTypeSwitchMap.java`** | Synthetic enum switch-map for intro state and card type | CANDIDATE |
 | 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivitySignInStateCallback.java`** | Synthetic `mt3` callback bound to `IntroActivity` for sign-in state changes | CANDIDATE |
 | 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroActivityFirstRunRestoreStateCallback.java`** | Synthetic `mt3` callback bound to `IntroActivity` for first-run cloud-restore state | CANDIDATE |
 | 047 | `org/swiftapps/swiftbackup/intro/d.java::class d` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroViewModel.java`** | Intro ViewModel/coordinator with sign-in, restore, permission and storage-setup state | CANDIDATE |
+| 048 | `org/swiftapps/swiftbackup/intro/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java`** | Coroutine continuation capturing `IntroViewModel` for first-run cloud settings restore | CANDIDATE |
+| 049 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreStateSwitchMap.java`** | Synthetic Calls backup/restore state switch-map | CANDIDATE |
+| 050 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreViewModel.java`** | Calls backup/restore ViewModel | CANDIDATE |
+| 051 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::class c` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java`** | Calls backup-file read continuation | CANDIDATE |
+| 052 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::class d` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java`** | Calls device read continuation | CANDIDATE |
+| 053 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreStateSwitchMap.java`** | Synthetic Messages backup/restore state switch-map | CANDIDATE |
+| 054 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::class f` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreViewModel.java`** | Messages backup/restore ViewModel | CANDIDATE |
+| 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::class g` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java`** | Messages backup-file read continuation | CANDIDATE |
+| 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java`** | Messages device read continuation | CANDIDATE |
+| 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java`** | Apps settings PreferenceFragment/controller | CANDIDATE |
+| 058 | `org/swiftapps/swiftbackup/settings/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java`** | MultipleBackupStrategy defaults, migration and persistence helper | CANDIDATE |
+| 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
+| 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
+| 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic MultipleBackupStrategy.Type switch-map | CANDIDATE |
+| 062 | `org/swiftapps/swiftbackup/settings/f.java::class f` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java`** | MultipleBackupStrategy representation/type mapper | CANDIDATE |
+| 063 | `org/swiftapps/swiftbackup/settings/g.java::class g` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyConditionSwitchMap.java`** | Synthetic NewBackupCondition switch-map | CANDIDATE |
+| 064 | `org/swiftapps/swiftbackup/settings/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java`** | Multiple-backup strategy card UI binder | CANDIDATE |
+| 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable MultipleBackupStrategy settings state | CANDIDATE |
+| 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Duplicate synthetic Type switch-map; shared-target decision with `e.java` remains UNKNOWN | CANDIDATE |
+| 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | MultipleBackupStrategy settings ViewModel | CANDIDATE |
+| 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/views/SwiftSegmentedCardGroupPositionSwitchMap.java`** | Synthetic SwiftSegmentedCardGroup position switch-map | CANDIDATE |
 | 048 | `org/swiftapps/swiftbackup/intro/d.java::enum a` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunRestoreState.java`** | State enum: `IDLE`, `RUNNING`, `SUCCESS`, `FAILED` | CANDIDATE |
 | 049 | `org/swiftapps/swiftbackup/intro/d.java::enum b` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroSignInState.java`** | Sign-in state enum: `RUNNING`, `SIGNED_IN`, `NOT_SIGNED_IN` | CANDIDATE |
-| 050 | `org/swiftapps/swiftbackup/intro/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/intro/IntroFirstRunCloudSettingsRestoreContinuation.java`** | Coroutine continuation capturing `IntroViewModel` for first-run cloud settings restore | CANDIDATE |
 
-| 051 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreStateSwitchMap.java`** | Synthetic Calls backup/restore state switch-map | CANDIDATE |
-| 052 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallsBackupRestoreViewModel.java`** | Calls backup/restore ViewModel | CANDIDATE |
-| 053 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::class c` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsBackupFileReadContinuation.java`** | Calls backup-file read continuation | CANDIDATE |
-| 054 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::class d` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/CallLogsDeviceReadContinuation.java`** | Calls device read continuation | CANDIDATE |
-| 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreStateSwitchMap.java`** | Synthetic Messages backup/restore state switch-map | CANDIDATE |
-| 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::class f` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreViewModel.java`** | Messages backup/restore ViewModel | CANDIDATE |
-| 057 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::class g` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java`** | Messages backup-file read continuation | CANDIDATE |
-| 058 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java`** | Messages device read continuation | CANDIDATE || 045 | `org/swiftapps/swiftbackup/intro/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 046 | `org/swiftapps/swiftbackup/intro/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 047 | `org/swiftapps/swiftbackup/intro/d.java::class a,b,d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 048 | `org/swiftapps/swiftbackup/intro/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 049 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 050 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/b.java::class a,b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 051 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 052 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 053 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 054 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java::class a,f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 058 | `org/swiftapps/swiftbackup/settings/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java`** | MultipleBackupStrategy defaults, migration and persistence helper | CANDIDATE |
-| 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 062 | `org/swiftapps/swiftbackup/settings/f.java::class f` | `same path f.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 063 | `org/swiftapps/swiftbackup/settings/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 064 | `org/swiftapps/swiftbackup/settings/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | `same path i.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | `same path j.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | `same path k.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 068 | `org/swiftapps/swiftbackup/views/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 069 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class EnumC0012a` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-direction enum: `Asc`, `Desc`; each carries display string resource | CANDIDATE |
 | 070 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::class b` | `CANDIDATE: nested in ConfigListViewModel.java` | Sort-field enum: `Name`, `LastUpdated`; each carries display string resource | CANDIDATE |
 | 069 | `defpackage/ai.java::class ai` | `same path ai.java` | Synthetic `mt3` implementation; selector-driven utility callback | UNKNOWN |
@@ -293,13 +282,6 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 117 | `defpackage/ij.java::class ij` | `same path ij.java` | Share-APK action caller | UNKNOWN |
 | 118 | `defpackage/mh.java::class mh` | `same path mh.java` | Share-result UI handler | UNKNOWN |
 | 119 | `defpackage/lh.java::class lh` | `same path lh.java` | APK preparation progress handler | UNKNOWN |
-| 120 | `org/swiftapps/swiftbackup/home/schedule/data/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemAppsQuickActionsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.AppsQuickActions` | CANDIDATE |
-| 121 | `org/swiftapps/swiftbackup/home/schedule/data/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemCallLogsCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.CallLogs` | CANDIDATE |
-| 122 | `org/swiftapps/swiftbackup/home/schedule/data/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemDefaults.java`** | Static helper providing default app parts and default device location for ScheduleItem | CANDIDATE |
-| 123 | `org/swiftapps/swiftbackup/home/schedule/data/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemFoldersCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Folders` | CANDIDATE |
-| 124 | `org/swiftapps/swiftbackup/home/schedule/data/l.java::class l` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemMessagesCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Messages` | CANDIDATE |
-| 125 | `org/swiftapps/swiftbackup/home/schedule/data/m.java::class m` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWallpapersCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Wallpapers` | CANDIDATE |
-| 126 | `org/swiftapps/swiftbackup/home/schedule/data/n.java::class n` | **CANDIDATE: `org/swiftapps/swiftbackup/home/schedule/data/ScheduleItemWifiCreator.java`** | Parcelable.Creator implementation for `ScheduleItem.Wifi` | CANDIDATE |
 
 ## FUNCTION / METHOD — OBFUSCATED REFERENCE
 
