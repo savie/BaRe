@@ -34,7 +34,7 @@
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationViewModel.java`** | Contributor registration state/ViewModel; persists contributor details identity, exposes state holder, and initializes registration loading coroutine | **CANDIDATE** |
 | 020 | `org/swiftapps/swiftbackup/contributor/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java`** | Synthetic enum switch-map: `Translator→1`, `CommunityHelper→2`; semantically identical to Reference `c.java`; whether BaRe requires one shared target or two artifacts remains UNKNOWN | **CANDIDATE** |
 | 021 | `org/swiftapps/swiftbackup/contributor/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java`** | Synthetic enum switch-map: `Translator→1`, `CommunityHelper→2`; source body is identical to Reference `b.java`; shared-target/duplicate-artifact decision remains UNKNOWN | **CANDIDATE** |
-| 022 | `org/swiftapps/swiftbackup/folders/data/a.java` | **UNKNOWN** | FolderItem → folder metadata/helper conversion | **UNKNOWN** |
+| 022 | `org/swiftapps/swiftbackup/folders/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/folders/data/FolderMetadataFactory.java`** | Validates `FolderItem`, constructs `kj3` folder metadata handle, optionally loads existing `FolderMetadata`, and creates/writes or refreshes metadata when absent | **CANDIDATE** |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
 | 025 | `org/swiftapps/swiftbackup/home/schedule/a.java` | **UNKNOWN** | ScheduleService run-mode/helper operations | **UNKNOWN** |
@@ -168,7 +168,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 019 | `org/swiftapps/swiftbackup/contributor/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationViewModel.java` | Contributor registration state/ViewModel extending `qo0` | CANDIDATE |
 | 020 | `org/swiftapps/swiftbackup/contributor/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java` | Synthetic switch-map for `ContributorRegistration.a` | CANDIDATE |
 | 021 | `org/swiftapps/swiftbackup/contributor/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java` | Duplicate synthetic switch-map with identical mapping to `b.java` | CANDIDATE |
-| 022 | `org/swiftapps/swiftbackup/folders/data/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 022 | `org/swiftapps/swiftbackup/folders/data/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/folders/data/FolderMetadataFactory.java` | Static folder metadata/helper conversion utility | CANDIDATE |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 024 | `org/swiftapps/swiftbackup/folders/data/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 025 | `org/swiftapps/swiftbackup/home/schedule/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
