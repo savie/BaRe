@@ -261,7 +261,8 @@ Do not delete a generated/synthetic class merely because its source is ugly.
 ## 12. Outputs
 
 - semantic source inventory;
-- Reference→BaRe mapping;
+- Reference→BaRe source-unit mapping;
+- Reference→BaRe symbol mapping for classes, interfaces, fields, constructors, methods/functions, parameters, return contracts and other applicable symbols;
 - obfuscated-class registry;
 - `defpackage` reconstruction registry;
 - dependency/delegation register;
@@ -275,6 +276,8 @@ Do not delete a generated/synthetic class merely because its source is ugly.
 
 P2 PASS requires:
 - every retained BaRe-owned source traceable to Reference;
+- every renamed, moved, reconstructed, replaced, generated, delegated, merged or split semantic symbol traceable from Reference to its BaRe target or explicit disposition;
+- no Reference class, field, constructor, method/function, parameter or other applicable symbol silently disappears from the reconstruction record;
 - every required internal dependency reconstructed or explicitly blocked;
 - no unexplained `defpackage.*` imports;
 - ambiguous classes semantically identified or explicitly UNKNOWN/BLOCKED;
