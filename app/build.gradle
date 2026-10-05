@@ -47,6 +47,13 @@ dependencies {
     implementation "com.google.android.play:integrity:1.3.0"
     implementation "com.google.android.datatransport:transport-runtime:3.3.0"
 
+    // External families recovered from Reference JADX/license evidence.
+    implementation "net.openid:appauth:0.11.1"
+    implementation "io.github.ParkSangGyu:TedPermission:3.4.2"
+    implementation "dev.rikka.shizuku:api:13.1.5"
+    implementation "dev.rikka.shizuku:provider:13.1.5"
+
+    // YubiKit remains unresolved until the exact Reference artifact version is evidenced.
     // Remaining external dependency families remain unresolved and are intentionally not fabricated.
     // See docs/phase_2-dependency-register.md and docs/phase_2-dependency-map.md.
 }
