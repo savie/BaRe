@@ -24,7 +24,7 @@
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequest.java`** | Immutable notification policy request value object: mode, userId, packageName, payload `File`; `toString()` identity is `Request(...)` | **CANDIDATE** |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java`** | Synthetic enum switch-map for `NotificationPolicyProxy.a`: `Backup→1`, `Restore→2` | **CANDIDATE** |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java`** | Builds serialized SBA app-data archive metadata JSON from app identity/version, backup mode flags, compression level, data/de-data sizes, and included `data`/`data_de` parts | **CANDIDATE** |
-| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **UNKNOWN** | Cloud orphan cleaner state/ViewModel | **UNKNOWN** |
+| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java`** | Cloud-orphan cleaner ViewModel/state coordinator; tracks cloud identity, cleaner state, scan/delete progress, coroutine handle, and publishes updated orphan state | **CANDIDATE** |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java` | **UNKNOWN** | Cloud orphan item/data model | **UNKNOWN** |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java` | **UNKNOWN** | Coroutine continuation untuk cloud orphan processing | **UNKNOWN** |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java` | **UNKNOWN** | CloudCredentials export/import file helper | **UNKNOWN** |
@@ -157,7 +157,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 009 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::class b` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyRequest.java` | Immutable request value object; semantic identity proven from constructor, equality/hashCode and `toString()` | CANDIDATE |
 | 010 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::class c` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/notifications/NotificationPolicyModeSwitchMap.java` | Synthetic switch-map bound to notification policy mode enum | CANDIDATE |
 | 011 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/apptasks/sba/SbaAppDataArchiveMetadataBuilder.java` | Stateless static builder producing JSON for `SbaAppDataArchiveMetadata` | CANDIDATE |
-| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 012 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::class a` | `CANDIDATE: org/swiftapps/swiftbackup/cloud/orphans/CloudOrphanCleanerViewModel.java` | Cloud-orphan cleaner ViewModel/state coordinator | CANDIDATE |
 | 013 | `org/swiftapps/swiftbackup/cloud/orphans/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 014 | `org/swiftapps/swiftbackup/cloud/orphans/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 015 | `org/swiftapps/swiftbackup/cloud/protocols/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -363,6 +363,17 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 089 | `org/swiftapps/swiftbackup/appconfigs/list/a.java::l(ConfigsData)` | **UNKNOWN** | Applies Name/LastUpdated comparator and Asc/Desc direction, then publishes sorted config values | UNKNOWN |
 | 090 | `org/swiftapps/swiftbackup/apptasks/notifications/a.java::a(String[])` | **UNKNOWN** | Parses mode/userId/packageName/payloadFile; accepts `backup`/`restore`, validates non-negative userId and safe package name, returns notification request object or null | UNKNOWN |
 | 091 | `org/swiftapps/swiftbackup/apptasks/sba/a.java::a(ji,boolean,boolean,xp1)` | **UNKNOWN** | Serializes `SbaAppDataArchiveMetadata` JSON using package/app/version, data and de-data sizes, compression level, backup flags, and `data`/`data_de` part names | UNKNOWN |
+| 092 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j(pe4,a)` | **UNKNOWN** | Dispatches cloud orphan event type to state/action handlers; handles idle marker, `hi1`, `ii1` | UNKNOWN |
+| 093 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k(a,long,qh4)` | **UNKNOWN** | Clears matching active scan coroutine state under synchronization and signals completion | UNKNOWN |
+| 094 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l(a,long,String,bt3,kv1)` | **UNKNOWN** | Coroutine scan operation; executes orphan scan and returns scan success boolean | UNKNOWN |
+| 095 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m()` | **UNKNOWN** | Starts a new cancellable operation token/job and returns token/job pair | UNKNOWN |
+| 096 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n(String)` | **UNKNOWN** | Builds initial cloud-orphan cleaner state from current cloud connection and display metadata | UNKNOWN |
+| 097 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::o()` | **UNKNOWN** | Builds stable cloud/session identity string from connection state, account/provider details and cleaner VM persistence identity | UNKNOWN |
+| 098 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::p(b)` | **UNKNOWN** | Tests whether current orphan state matches cleaner identity and has no pending invalidation | UNKNOWN |
+| 099 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::q()` | **UNKNOWN** | Reconciles current cloud identity/state; resets or updates orphan cleaner state as needed | UNKNOWN |
+| 100 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::r(String)` | **UNKNOWN** | Resets cleaner transient state and publishes fresh initial state | UNKNOWN |
+| 101 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::s(mt3)` | **UNKNOWN** | Applies state transformation callback to current cleaner state and publishes it | UNKNOWN |
+| 102 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::t(b)` | **UNKNOWN** | Stores current cleaner state and publishes it through `ex6` | UNKNOWN |
 
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
@@ -387,6 +398,16 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 017 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::c` | **UNKNOWN** | Package name string | UNKNOWN |
 | 018 | `org/swiftapps/swiftbackup/apptasks/notifications/b.java::d` | **UNKNOWN** | Payload `File` | UNKNOWN |
 | 019 | `org/swiftapps/swiftbackup/apptasks/notifications/c.java::a` | **UNKNOWN** | Synthetic `int[]` switch-map indexed by notification policy mode; `Backup→1`, `Restore→2` | UNKNOWN |
+| 020 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::e` | **UNKNOWN** | `ex6` state publisher | UNKNOWN |
+| 021 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::f` | **UNKNOWN** | `ix6` auxiliary state/helper holder | UNKNOWN |
+| 022 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::g` | **UNKNOWN** | Current cloud-orphan state object `b` | UNKNOWN |
+| 023 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::h` | **UNKNOWN** | Cloud/session helper `kc` | UNKNOWN |
+| 024 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::i` | **UNKNOWN** | Cloud identity string | UNKNOWN |
+| 025 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::j` | **UNKNOWN** | Active operation/coroutine handle `qh4` | UNKNOWN |
+| 026 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::k` | **UNKNOWN** | Monotonic operation token counter | UNKNOWN |
+| 027 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::l` | **UNKNOWN** | Active operation token | UNKNOWN |
+| 028 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::m` | **UNKNOWN** | State/reset/update counter | UNKNOWN |
+| 029 | `org/swiftapps/swiftbackup/cloud/orphans/a.java::n` | **UNKNOWN** | Pending cloud identity string awaiting reconciliation | UNKNOWN |
 
 Field/member rows will be added only from actual Reference evidence. No fields are inferred from class or method names.
 
