@@ -36,7 +36,7 @@
 | 021 | `org/swiftapps/swiftbackup/contributor/c.java` | **CANDIDATE: `org/swiftapps/swiftbackup/contributor/ContributorRegistrationTypeSwitchMap.java`** | Synthetic enum switch-map: `Translator→1`, `CommunityHelper→2`; source body is identical to Reference `b.java`; shared-target/duplicate-artifact decision remains UNKNOWN | **CANDIDATE** |
 | 022 | `org/swiftapps/swiftbackup/folders/data/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/folders/data/FolderMetadataFactory.java`** | Validates `FolderItem`, constructs `kj3` folder metadata handle, optionally loads existing `FolderMetadata`, and creates/writes or refreshes metadata when absent | **CANDIDATE** |
 | 023 | `org/swiftapps/swiftbackup/folders/data/b.java` | **UNKNOWN** | BaRe counterpart is empty; no independent Reference semantic role or safe target identity proven | **UNKNOWN** |
-| 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
+| 024 | `org/swiftapps/swiftbackup/folders/data/c.java` | **UNKNOWN** | BaRe counterpart is empty; no independent Reference semantic role or safe target identity proven | **UNKNOWN** |
 | 025 | `org/swiftapps/swiftbackup/home/schedule/a.java` | **UNKNOWN** | ScheduleService run-mode/helper operations | **UNKNOWN** |
 | 026 | `org/swiftapps/swiftbackup/home/schedule/b.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.MultipleSchedules | **UNKNOWN** |
 | 027 | `org/swiftapps/swiftbackup/home/schedule/c.java` | **UNKNOWN** | Parcelable.Creator untuk ScheduleService.RunMode.Schedules | **UNKNOWN** |
