@@ -33,6 +33,11 @@ dependencies {
     implementation "androidx.startup:startup-runtime:1.2.0"
     implementation "com.google.android.material:material:1.14.0"
 
-    // External dependency families are intentionally NOT fabricated here.
-    // See docs/phase_2-dependency-register.md.
+    // Strong Reference identity matches; build resolution is still unverified.
+    implementation "com.microsoft.identity.client:msal:8.3.2"
+    implementation "com.android.billingclient:billing:8.3.0"
+    implementation "com.pcloud.sdk:android:1.11.0"
+
+    // Remaining external dependency families are intentionally NOT fabricated here.
+    // See docs/phase_2-dependency-register.md and docs/phase_2-dependency-map.md.
 }
