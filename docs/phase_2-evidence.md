@@ -1,4 +1,14 @@
 # Phase 2 — Reconstruction Evidence
+| 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java`** | Apps settings PreferenceFragment/controller | CANDIDATE |
+| 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
+| 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | UNKNOWN |
+| 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic MultipleBackupStrategy.Type switch-map | CANDIDATE |
+| 062 | `org/swiftapps/swiftbackup/settings/f.java::class f` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java`** | MultipleBackupStrategy representation/type mapper | CANDIDATE |
+| 063 | `org/swiftapps/swiftbackup/settings/g.java::class g` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyConditionSwitchMap.java`** | Synthetic NewBackupCondition switch-map | CANDIDATE |
+| 064 | `org/swiftapps/swiftbackup/settings/h.java::class h` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java`** | Multiple-backup strategy card UI binder | CANDIDATE |
+| 065 | `org/swiftapps/swiftbackup/settings/i.java::class i` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable MultipleBackupStrategy settings state | CANDIDATE |
+| 066 | `org/swiftapps/swiftbackup/settings/j.java::class j` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Duplicate synthetic Type switch-map; shared-target decision with `e.java` remains UNKNOWN | CANDIDATE |
+| 067 | `org/swiftapps/swiftbackup/settings/k.java::class k` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | MultipleBackupStrategy settings ViewModel | CANDIDATE |
 
 | Field | Value |
 |---|---|
@@ -69,17 +79,17 @@
 | 054 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/f.java` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupRestoreViewModel.java`** | ViewModel holding Messages restore state/data and reacting to messages task completion | **CANDIDATE** |
 | 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesBackupFileReadContinuation.java`** | Coroutine continuation reading message data from a backup file | **CANDIDATE** |
 | 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java`** | Coroutine continuation reading message data from the device | **CANDIDATE** |
-| 057 | `org/swiftapps/swiftbackup/settings/a.java` | **UNKNOWN** | Settings preference/UI controller class | **UNKNOWN** |
-| 058 | `org/swiftapps/swiftbackup/settings/b.java` | **UNKNOWN** | MultipleBackupStrategy default/legacy strategy helper | **UNKNOWN** |
+| 057 | `org/swiftapps/swiftbackup/settings/a.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java`** | Apps settings PreferenceFragment; handles settings-app preference clicks, preference refresh, resume state and navigation to app settings screens | **CANDIDATE** |
+| 058 | `org/swiftapps/swiftbackup/settings/b.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java`** | Provides default/legacy strategies, loads persisted strategy with premium gating/migration, and clamps backup-count range | **CANDIDATE** |
 | 059 | `org/swiftapps/swiftbackup/settings/c.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
 | 060 | `org/swiftapps/swiftbackup/settings/d.java` | **UNKNOWN** | Empty generated/reference class; semantic role not independently proven | **UNKNOWN** |
-| 061 | `org/swiftapps/swiftbackup/settings/e.java` | **UNKNOWN** | Synthetic enum switch-map MultipleBackupStrategy.Type | **UNKNOWN** |
-| 062 | `org/swiftapps/swiftbackup/settings/f.java` | **UNKNOWN** | MultipleBackupStrategy representation conversion helper | **UNKNOWN** |
-| 063 | `org/swiftapps/swiftbackup/settings/g.java` | **UNKNOWN** | Synthetic enum switch-map MultipleBackupStrategy.NewBackupCondition | **UNKNOWN** |
-| 064 | `org/swiftapps/swiftbackup/settings/h.java` | **UNKNOWN** | MultipleBackupStrategy settings UI helper/controller | **UNKNOWN** |
-| 065 | `org/swiftapps/swiftbackup/settings/i.java` | **UNKNOWN** | MultipleBackupStrategy settings state model | **UNKNOWN** |
-| 066 | `org/swiftapps/swiftbackup/settings/j.java` | **UNKNOWN** | Synthetic enum switch-map MultipleBackupStrategy.Type | **UNKNOWN** |
-| 067 | `org/swiftapps/swiftbackup/settings/k.java` | **UNKNOWN** | MultipleBackupStrategy settings ViewModel/state holder | **UNKNOWN** |
+| 061 | `org/swiftapps/swiftbackup/settings/e.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic switch-map for `MultipleBackupStrategy.Type` | **CANDIDATE** |
+| 062 | `org/swiftapps/swiftbackup/settings/f.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java`** | Maps persisted `MultipleBackupStrategy` to UI representation and resolves strategy type/condition | **CANDIDATE** |
+| 063 | `org/swiftapps/swiftbackup/settings/g.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyConditionSwitchMap.java`** | Synthetic switch-map for `NewBackupCondition`: `ApkChanges→1`, `DataChanges→2`, `ApkOrDataChanges→3` | **CANDIDATE** |
+| 064 | `org/swiftapps/swiftbackup/settings/h.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java`** | Binds a `MultipleBackupStrategy` to the multiple-backups card UI, slider and condition radio buttons | **CANDIDATE** |
+| 065 | `org/swiftapps/swiftbackup/settings/i.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java`** | Immutable state containing single/dated/conditional strategies and selected strategy type | **CANDIDATE** |
+| 066 | `org/swiftapps/swiftbackup/settings/j.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java`** | Synthetic switch-map for the same `MultipleBackupStrategy.Type` enum; whether Reference `e` and `j` require separate artifacts remains UNKNOWN | **CANDIDATE** |
+| 067 | `org/swiftapps/swiftbackup/settings/k.java` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java`** | ViewModel updating selected strategy type and per-type strategy values in `MultipleBackupStrategyState` | **CANDIDATE** |
 | 068 | `org/swiftapps/swiftbackup/views/a.java` | **UNKNOWN** | Synthetic enum switch-map SwiftSegmentedCardGroup position | **UNKNOWN** |
 | 069 | `defpackage/ai.java` | **UNKNOWN** | Direct dependency used by SHA-256 digest formatting path; semantic target not yet reconstructed | **UNKNOWN** |
 | 070 | `defpackage/c6.java` | **UNKNOWN** | Direct dependency used for archive validation/error reporting | **UNKNOWN** |
@@ -218,7 +228,7 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 055 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/g.java::class g` | `same path g.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 056 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::class h` | `same path h.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 057 | `org/swiftapps/swiftbackup/settings/a.java::class a` | `same path a.java` | Class has not been semantically reconstructed yet | UNKNOWN |
-| 058 | `org/swiftapps/swiftbackup/settings/b.java::class b` | `same path b.java` | Class has not been semantically reconstructed yet | UNKNOWN |
+| 058 | `org/swiftapps/swiftbackup/settings/b.java::class b` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java`** | MultipleBackupStrategy defaults, migration and persistence helper | CANDIDATE |
 | 059 | `org/swiftapps/swiftbackup/settings/c.java::class c` | `same path c.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 060 | `org/swiftapps/swiftbackup/settings/d.java::class d` | `same path d.java` | Class has not been semantically reconstructed yet | UNKNOWN |
 | 061 | `org/swiftapps/swiftbackup/settings/e.java::class e` | `same path e.java` | Class has not been semantically reconstructed yet | UNKNOWN |
@@ -448,6 +458,29 @@ Class/type inventory is tracked separately from the FILES table. The Reference n
 | 151 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::create(Object,jv1)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::create(Object,jv1)`** | Creates continuation preserving Messages ViewModel | CANDIDATE |
 | 152 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invoke(Object,Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invoke(Object,Object)`** | Invokes device message reader continuation | CANDIDATE |
 | 153 | `org/swiftapps/swiftbackup/messagescalls/backuprestore/h.java::invokeSuspend(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/messagescalls/backuprestore/MessagesDeviceReadContinuation.java::invokeSuspend(Object)`** | Reads device messages and publishes empty/received state | CANDIDATE |
+| 154 | `org/swiftapps/swiftbackup/settings/a.java::d(Preference)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onPreferenceClick(Preference)`** | Handles app-settings preference actions including multiple-backup strategy, backup limits, cache, labels, configs, blacklist, permissions and swipe actions | CANDIDATE |
+| 155 | `org/swiftapps/swiftbackup/settings/a.java::l()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onCreatePreferences()`** | Inflates `settings_apps`, binds preferences and initializes app-setting values | CANDIDATE |
+| 156 | `org/swiftapps/swiftbackup/settings/a.java::onResume()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::onResume()`** | Refreshes relevant preference state when fragment resumes | CANDIDATE |
+| 157 | `org/swiftapps/swiftbackup/settings/a.java::q()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getSettingsActivity()`** | Returns hosting `SettingsDetailActivity` | CANDIDATE |
+| 158 | `org/swiftapps/swiftbackup/settings/a.java::r()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getRestoreSsaidsPreference()`** | Returns the restore-SSAIDs switch preference | CANDIDATE |
+| 159 | `org/swiftapps/swiftbackup/settings/a.java::s()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::getBackupCachePreference()`** | Returns the backup-cache switch preference | CANDIDATE |
+| 160 | `org/swiftapps/swiftbackup/settings/a.java::t()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshAppBackupLimits()`** | Refreshes app-backup-limits summary from configured limits | CANDIDATE |
+| 161 | `org/swiftapps/swiftbackup/settings/a.java::u()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshCompressionLevel()`** | Refreshes compression-level preference summary | CANDIDATE |
+| 162 | `org/swiftapps/swiftbackup/settings/a.java::v()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/SettingsAppsFragment.java::refreshSwipeActionsSummary()`** | Updates swipe-action summary text for left/right actions | CANDIDATE |
+| 163 | `org/swiftapps/swiftbackup/settings/b.java::a()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::defaultStrategy()`** | Returns `MultipleBackupStrategy.defaultStrategy` | CANDIDATE |
+| 164 | `org/swiftapps/swiftbackup/settings/b.java::b()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::legacyArchiveStrategy()`** | Returns legacy archive strategy | CANDIDATE |
+| 165 | `org/swiftapps/swiftbackup/settings/b.java::c()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::loadStrategy()`** | Loads persisted strategy and handles premium gating/legacy migration | CANDIDATE |
+| 166 | `org/swiftapps/swiftbackup/settings/b.java::d(Integer)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyStore.java::clampMaxBackups(Integer)`** | Clamps maximum backups to 2..10 with default 2 | CANDIDATE |
+| 167 | `org/swiftapps/swiftbackup/settings/f.java::a(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::toRepresentation(MultipleBackupStrategy)`** | Maps strategy to Single/Dated/Conditional UI representation | CANDIDATE |
+| 168 | `org/swiftapps/swiftbackup/settings/f.java::b(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyMapper.java::getType(MultipleBackupStrategy)`** | Resolves strategy type from stored integer with default fallback | CANDIDATE |
+| 169 | `org/swiftapps/swiftbackup/settings/h.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyCardBinder.java::bind(...)`** | Binds representation, max-backup slider and condition radio-group listeners | CANDIDATE |
+| 170 | `org/swiftapps/swiftbackup/settings/i.java::a(...)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::copy(...)`** | Copy/default factory for strategy state | CANDIDATE |
+| 171 | `org/swiftapps/swiftbackup/settings/i.java::equals(Object)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::equals(Object)`** | Value equality over three strategies and selected type | CANDIDATE |
+| 172 | `org/swiftapps/swiftbackup/settings/i.java::hashCode()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::hashCode()`** | Value hash over state fields | CANDIDATE |
+| 173 | `org/swiftapps/swiftbackup/settings/i.java::toString()` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyState.java::toString()`** | Explicit state identity `State(singleBackupStrategy=..., datedBackupStrategy=..., conditionalBackupStrategy=..., selectedType=...)` | CANDIDATE |
+| 174 | `org/swiftapps/swiftbackup/settings/j.java::<clinit>` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyTypeSwitchMap.java::<clinit>`** | Initializes Type mapping `SingleBackup→1`, `DatedBackups→2`, `ConditionalBackup→3` | CANDIDATE |
+| 175 | `org/swiftapps/swiftbackup/settings/k.java::j(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setSelectedType(MultipleBackupStrategy)`** | Updates selected strategy type in current state | CANDIDATE |
+| 176 | `org/swiftapps/swiftbackup/settings/k.java::k(MultipleBackupStrategy)` | **CANDIDATE: `org/swiftapps/swiftbackup/settings/MultipleBackupStrategyViewModel.java::setStrategyForType(MultipleBackupStrategy)`** | Replaces single/dated/conditional strategy according to resolved type | CANDIDATE |
 ## FIELD / MEMBER — OBFUSCATED REFERENCE
 
 | # | Reference | BaRe aktual | Kondisi sekarang | Status |
