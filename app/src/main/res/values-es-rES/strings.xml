@@ -129,19 +129,16 @@
     <string name="backup_updated_apps">Respaldar aplicaciones actualizadas</string>
     <string name="backup_updated_apps_summary">Copia de seguridad de las aplicaciones que tienen APKs con nuevas versiones instaladas en el dispositivo</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Cifrado con AEGIS-256 por defecto</string>
-    <string name="backups_tagged_with">"Copias de seguridad etiquetadas con '%s'"</string>
+    <string name="backups_tagged_with">Copias de seguridad etiquetadas con \'%s\'</string>
     <string name="backups_tied_warning">Nota: todas las copias de seguridad (locales/en la nube) están vinculadas a una cuenta de Google específica. No se puede acceder a las copias de seguridad de una cuenta de Google con otra.</string>
     <string name="backups_with_notes">Backups with notes</string>
     <string name="base_backup">Copia de seguridad básica</string>
     <string name="batch_actions">Acciones por lotes</string>
     <string name="battery_optimization">Optimización de batería</string>
-    <string name="battery_optimization_message">"Desactivar optimizaciones de batería para asegurarse de que las copias de seguridad programadas funcionen bien después de que el dispositivo entre en modo reposo. 
-Nota: También puede tener que desactivar manualmente, si las hay, otras optimizaciones específicas de batería del dispositivo"</string>
+    <string name="battery_optimization_message">Desactivar optimizaciones de batería para asegurarse de que las copias de seguridad programadas funcionen bien después de que el dispositivo entre en modo reposo. \nNota: También puede tener que desactivar manualmente, si las hay, otras optimizaciones específicas de batería del dispositivo</string>
     <string name="beta">Beta</string>
     <string name="billed_yearly">Facturado anualmente</string>
-    <string name="billing_initialization_error">"Facturación todavía no iniciada. 
-- Compruebe su conexión a Internet 
-- Compruebe si Google Play Store está instalado y funcionando"</string>
+    <string name="billing_initialization_error">Facturación todavía no iniciada. \n- Compruebe su conexión a Internet \n- Compruebe si Google Play Store está instalado y funcionando</string>
     <string name="blacklist">Lista negra</string>
     <string name="blacklist_apps">Apps en lista negra</string>
     <string name="blacklist_apps_msg">Ocultar o forzar copias de seguridad sólo de APK de las aplicaciones seleccionadas</string>
@@ -179,25 +176,18 @@ Nota: También puede tener que desactivar manualmente, si las hay, otras optimiz
     <string name="cloud_backup_for_apps">Desbloquear el soporte de copia de seguridad en la nube para tus aplicaciones</string>
     <string name="cloud_backup_limit">Límite de copia de seguridad en la nube</string>
     <string name="cloud_backup_tag">Etiqueta de respaldo en la nube</string>
-    <string name="cloud_backup_tag_message">"Aplicaciones, mensajes &amp; registros de llamada están asociados a una etiqueta de copia de seguridad. Puede usar esta función para cambiar las etiquetas si está usando Swift Backup en más de un dispositivo. 
-
-Nota: No se pueden etiquetar fondos de pantalla y contraseñas WiFi."</string>
+    <string name="cloud_backup_tag_message">Aplicaciones, mensajes &amp; registros de llamada están asociados a una etiqueta de copia de seguridad. Puede usar esta función para cambiar las etiquetas si está usando Swift Backup en más de un dispositivo. \n\nNota: No se pueden etiquetar fondos de pantalla y contraseñas WiFi.</string>
     <string name="cloud_backups">Copias de seguridad en la nube</string>
     <string name="cloud_backups_settings_summary">Diagnósticos, transferencias, descargas, fragmentos</string>
     <string name="cloud_connection_failed">Ocurrió un error al conectar con su cuenta en la nube</string>
     <string name="cloud_connection_successful">¡Conectado exitosamente a su cuenta en la nube!</string>
     <string name="cloud_error">Error en la nube</string>
     <string name="cloud_folder">Carpeta en la nube</string>
-    <string name="cloud_folder_creation_error_message">"La aplicación no tiene permiso para crear una carpeta en la ruta actual de tu servidor. 
-
-Por favor, añada el nombre de una carpeta existente en el campo Ruta de acceso."</string>
+    <string name="cloud_folder_creation_error_message">La aplicación no tiene permiso para crear una carpeta en la ruta actual de tu servidor. \n\nPor favor, añada el nombre de una carpeta existente en el campo Ruta de acceso.</string>
     <string name="cloud_folder_creation_failed">Error al crear la carpeta</string>
-    <string name="cloud_folder_edit_warning">"Por favor, NO elimine, modifique o mueva archivos o carpetas de la nube manualmente desde la aplicación o desde el sitio web del servicio cloud. 
-
-Swift Backup mantiene una base de datos de las rutas e identificadores de los archivos en la nube en su servidor para reducir la cantidad de peticiones de red y mejorar el rendimiento. Si elimina, modifica o mueve archivos o carpetas manualmente, tendrá problemas al usar la aplicación y perderá acceso a sus copias de seguridad en la nube."</string>
+    <string name="cloud_folder_edit_warning">Por favor, NO elimine, modifique o mueva archivos o carpetas de la nube manualmente desde la aplicación o desde el sitio web del servicio cloud. \n\nSwift Backup mantiene una base de datos de las rutas e identificadores de los archivos en la nube en su servidor para reducir la cantidad de peticiones de red y mejorar el rendimiento. Si elimina, modifica o mueve archivos o carpetas manualmente, tendrá problemas al usar la aplicación y perderá acceso a sus copias de seguridad en la nube.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Create and use external app password instead of your regular account password:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Create and use external app password instead of your regular account password:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">La nube Mail.Ru necesita que los usuarios tengan un plan de almacenamiento de pago con ellos para esta opción</string>
     <string name="cloud_maintenance_running_message">El mantenimiento de la nube está en curso. Inténtalo de nuevo cuando finalice.</string>
     <string name="cloud_not_connected_summary">Swift Backup no está conectado con un servicio en la nube</string>
@@ -261,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Datos</string>
     <string name="data_encryption_smb_3">Data Encryption (SMB 3+)</string>
     <string name="date_used">Fecha de uso</string>
-    <string name="default_sms_app_rationale">"Para restaurar los mensajes en su dispositivo, Swift Backup necesita ser la aplicación SMS predeterminada.
-
-Cuando la restauración se complete, se le pedirá que vuelva a establecer como aplicación SMS la actual."</string>
+    <string name="default_sms_app_rationale">Para restaurar los mensajes en su dispositivo, Swift Backup necesita ser la aplicación SMS predeterminada.\n\nCuando la restauración se complete, se le pedirá que vuelva a establecer como aplicación SMS la actual.</string>
     <string name="default_word">Predeterminado</string>
     <string name="delete">Eliminar</string>
-    <string name="delete_active_tag">"Eliminar etiqueta '%s' y copias de seguridad asociadas"</string>
-    <string name="delete_active_tag_message">"Nota: ¡Esto eliminará todos los archivos de copia de seguridad de la nube asociados con la etiqueta '%s'!"</string>
+    <string name="delete_active_tag">Eliminar etiqueta \'%s\' y copias de seguridad asociadas</string>
+    <string name="delete_active_tag_message">Nota: ¡Esto eliminará todos los archivos de copia de seguridad de la nube asociados con la etiqueta \'%s\'!</string>
     <string name="delete_all">Eliminar todo</string>
     <string name="delete_all_data">Eliminar todos los datos</string>
     <string name="delete_all_data_summary">Eliminar todos los datos utilizados por la aplicación en el dispositivo para esta cuenta, incluyendo archivos de copia de seguridad y caché. Esto también restablecerá la aplicación a su estado predeterminado y borrará todos los ajustes sincronizados de copia de seguridad de Swift Backup.</string>
@@ -343,12 +331,8 @@ Cuando la restauración se complete, se le pedirá que vuelva a establecer como 
     <string name="external_storage">Almacenamiento externo</string>
     <string name="favorite_apps">Aplicaciones favoritas</string>
     <string name="favorites">Favoritos</string>
-    <string name="feature_requires_root_access_message">"Esta característica requiere acceso root para funcionar.
-
-Compruebe si su dispositivo está rooteado y se ha concedido acceso root a la copia de seguridad de Swift Backup."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Esta función requiere acceso root o Shizuku para funcionar.
-
-Compruebe si su dispositivo está rooteado y si la copia de seguridad de Swift tiene acceso root o si el servicio Shizuku se está ejecutando."</string>
+    <string name="feature_requires_root_access_message">Esta característica requiere acceso root para funcionar.\n\nCompruebe si su dispositivo está rooteado y se ha concedido acceso root a la copia de seguridad de Swift Backup.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Esta función requiere acceso root o Shizuku para funcionar.\n\nCompruebe si su dispositivo está rooteado y si la copia de seguridad de Swift tiene acceso root o si el servicio Shizuku se está ejecutando.</string>
     <string name="filen_two_factor_authentication">Autenticación de dos factores de Filen</string>
     <string name="filen_two_factor_code_hint">Código 2FA o código de recuperación</string>
     <string name="files">Archivos</string>
@@ -372,8 +356,7 @@ Compruebe si su dispositivo está rooteado y si la copia de seguridad de Swift t
     <string name="folder_creation_failed">No se pudo crear la carpeta</string>
     <string name="folder_items_empty_list_error">No hay elementos de carpetas para enumerar con los criterios seleccionados.</string>
     <string name="folder_name">Nombre de la carpeta</string>
-    <string name="folder_name_already_used_message">"Ya existe una configuración de carpeta con este nombre para mostrar. 
-Aún puedes continuar, pero puede que sea más difícil diferenciarlos."</string>
+    <string name="folder_name_already_used_message">Ya existe una configuración de carpeta con este nombre para mostrar. \nAún puedes continuar, pero puede que sea más difícil diferenciarlos.</string>
     <string name="folder_name_already_used_title">Nombre para mostrar duplicado</string>
     <string name="folder_not_found">Carpeta no encontrada</string>
     <string name="folder_path">Ruta de la carpeta</string>
@@ -429,9 +412,7 @@ Aún puedes continuar, pero puede que sea más difícil diferenciarlos."</string
     <string name="in_place_apk_downgrades">Volver a versiones anteriores sin desinstalar apps</string>
     <string name="in_place_apk_downgrades_summary">Utiliza la compatibilidad de la ROM o de módulos, como CorePatch, para volver a una versión anterior de las aplicaciones sin desinstalarlas.</string>
     <string name="incompatible_launcher">Lanzador incompatible</string>
-    <string name="incompatible_launcher_msg">"'%s' se ha probado y es incompatible para hacer copia de los fondos de pantalla.
-
-Por favor, usa un lanzador alternativo para hacer la copia correctamente de los fondos de pantalla."</string>
+    <string name="incompatible_launcher_msg">\'%s\' se ha probado y es incompatible para hacer copia de los fondos de pantalla.\n\nPor favor, usa un lanzador alternativo para hacer la copia correctamente de los fondos de pantalla.</string>
     <string name="incremental_backup">Copia de seguridad incremental</string>
     <string name="incremental_backups">Copias de seguridad incrementales</string>
     <string name="initializing">Iniciando</string>
@@ -546,7 +527,7 @@ Por favor, usa un lanzador alternativo para hacer la copia correctamente de los 
     <string name="multiple_backups_strategy_dated_title">Nueva copia de seguridad cada vez</string>
     <string name="multiple_backups_strategy_single_description">Keep a single backup and update/overwrite the changed parts when you perform a backup.</string>
     <string name="multiple_backups_strategy_single_title">Single backup</string>
-    <string name="multithreaded_downloads_description">Use multiple connections to download a file (>100 MB) in chunks for faster speeds</string>
+    <string name="multithreaded_downloads_description">Use multiple connections to download a file (&gt;100 MB) in chunks for faster speeds</string>
     <string name="multithreaded_downloads_title">Multithreaded Downloads</string>
     <string name="name">Nombre</string>
     <string name="navigation_drawer_open">Abrir panel de navegación</string>
@@ -571,11 +552,7 @@ Por favor, usa un lanzador alternativo para hacer la copia correctamente de los 
     <string name="no_backups_synced">No hay copias de seguridad sincronizadas en la nube</string>
     <string name="no_backups_with_active_tag">Aún no hay copias con esta etiqueta</string>
     <string name="no_backups_with_active_tag_message">Las copias creadas con esta etiqueta aparecerán aquí.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 no tiene las API necesarias para restaurar las redes WiFi por lotes (incluso cuando el acceso root está disponible). 
-
-1. Haga clic en la copia de seguridad wifi y seleccione 'Restaurar' en la ventana emergente. Esto copiará la contraseña al portapapeles. 
-
-2. En el diálogo WiFi del sistema que aparece después, seleccione la red WiFi y pegue la contraseña copiada."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 no tiene las API necesarias para restaurar las redes WiFi por lotes (incluso cuando el acceso root está disponible). \n\n1. Haga clic en la copia de seguridad wifi y seleccione \'Restaurar\' en la ventana emergente. Esto copiará la contraseña al portapapeles. \n\n2. En el diálogo WiFi del sistema que aparece después, seleccione la red WiFi y pegue la contraseña copiada.</string>
     <string name="no_browser_found_error">¡No se ha encontrado ningún navegador para abrir el enlace!</string>
     <string name="no_call_logs_found">No se ha encontrado registro de llamadas en el dispositivo</string>
     <string name="no_cloud_connected">Cuenta en la nube no conectada</string>
@@ -589,8 +566,7 @@ Por favor, usa un lanzador alternativo para hacer la copia correctamente de los 
     <string name="no_messages_found">No se encontraron mensajes en el dispositivo</string>
     <string name="no_purchases_found">¡No se han encontrado compras!</string>
     <string name="no_saved_wifi_networks_found">No se encontraron redes WiFi guardadas en el dispositivo</string>
-    <string name="no_schedules_added_message">"Ninguna tarea programada añadida
-Haga clic abajo para crear una nueva"</string>
+    <string name="no_schedules_added_message">Ninguna tarea programada añadida\nHaga clic abajo para crear una nueva</string>
     <string name="no_tasks_to_perform_in_schedule">No hay tareas que realizar en el calendario</string>
     <string name="no_wallpapers_found">¡No se encontraron fondos de pantalla!</string>
     <string name="none">Ninguno</string>
@@ -608,8 +584,7 @@ Haga clic abajo para crear una nueva"</string>
     <string name="note">Nota</string>
     <string name="notices">Aviso de terceros</string>
     <string name="notifications">Notificaciones</string>
-    <string name="notifications_perm_subtitle">"- Permitir que la aplicación muestre notificaciones para tareas como copia de seguridad/restauración, copias de seguridad programadas y errores en las tareas si los hay. 
-- Swift Backup solo mostrará notificaciones que sean absolutamente esenciales."</string>
+    <string name="notifications_perm_subtitle">- Permitir que la aplicación muestre notificaciones para tareas como copia de seguridad/restauración, copias de seguridad programadas y errores en las tareas si los hay. \n- Swift Backup solo mostrará notificaciones que sean absolutamente esenciales.</string>
     <string name="notifications_perm_title">Permiso para recibir notificaciones</string>
     <string name="ok">Ok</string>
     <string name="old_password">Contraseña anterior</string>
@@ -631,13 +606,9 @@ Haga clic abajo para crear una nueva"</string>
     <string name="password_copied_to_clipboard">Contraseña copiada al portapapeles</string>
     <string name="password_remember_warning">Por favor, recuerde o anote la contraseña ya que no podrá recuperarla más tarde.</string>
     <string name="password_saved">Contraseña guardada</string>
-    <string name="password_strategy_standard_description">"Permita que Swift Backup gestione la generación de contraseñas para sus copias de seguridad cifradas. Las contraseñas son únicas en tu cuenta Swift Backup y son diferentes dependiendo de la característica a respaldar (Mensajes, Registros de llamadas, paquete de aplicaciones a respaldar, etc). 
-Las contraseñas generadas contienen caracteres alfanuméricos al azar y tienen el siguiente aspecto bfb69f180e4e1db7671c3188f90881d7. 
-Para usuarios anónimos (usuarios que utilizan la aplicación sin una cuenta), la estrategia de generación de contraseñas es común y no única. Por favor, utilice la estrategia avanzada si desea mantener sus contraseñas únicas."</string>
+    <string name="password_strategy_standard_description">Permita que Swift Backup gestione la generación de contraseñas para sus copias de seguridad cifradas. Las contraseñas son únicas en tu cuenta Swift Backup y son diferentes dependiendo de la característica a respaldar (Mensajes, Registros de llamadas, paquete de aplicaciones a respaldar, etc). \nLas contraseñas generadas contienen caracteres alfanuméricos al azar y tienen el siguiente aspecto bfb69f180e4e1db7671c3188f90881d7. \nPara usuarios anónimos (usuarios que utilizan la aplicación sin una cuenta), la estrategia de generación de contraseñas es común y no única. Por favor, utilice la estrategia avanzada si desea mantener sus contraseñas únicas.</string>
     <string name="password_strategy_standard_title">Estándar</string>
-    <string name="password_strategy_user_password_description">"Igual que la estrategia estándar, pero además utiliza una contraseña introducida por el usuario para generar la contraseña final de cifrado. Si pierde su contraseña, las copias de seguridad no pueden ser descifradas/restauradas. 
-Swift Backup almacenará su contraseña cifrada sólo localmente en su directorio privado de datos. 
-Cuando configura Swift Backup, necesita introducir su contraseña de nuevo para que se pueda descifrar y restaurar sus copias de seguridad cifradas."</string>
+    <string name="password_strategy_user_password_description">Igual que la estrategia estándar, pero además utiliza una contraseña introducida por el usuario para generar la contraseña final de cifrado. Si pierde su contraseña, las copias de seguridad no pueden ser descifradas/restauradas. \nSwift Backup almacenará su contraseña cifrada sólo localmente en su directorio privado de datos. \nCuando configura Swift Backup, necesita introducir su contraseña de nuevo para que se pueda descifrar y restaurar sus copias de seguridad cifradas.</string>
     <string name="password_strategy_user_password_title">Avanzado</string>
     <string name="passwords_matching_error">Las contraseñas no coinciden</string>
     <string name="path">Ruta de acceso</string>
@@ -681,9 +652,7 @@ Cuando configura Swift Backup, necesita introducir su contraseña de nuevo para 
     <string name="processing_please_wait">Procesando, por favor espere, esto puede tardar un rato…</string>
     <string name="protect_backup">Protect backup</string>
     <string name="protected_backup">Protected backup</string>
-    <string name="protected_backup_description">"Protected backups are backups that you want to keep safe from updates and deletion.
-
-In case you have enabled Multiple backups, Swift Backup will not delete the protected backups when maximum number of backups limit is reached."</string>
+    <string name="protected_backup_description">Protected backups are backups that you want to keep safe from updates and deletion.\n\nIn case you have enabled Multiple backups, Swift Backup will not delete the protected backups when maximum number of backups limit is reached.</string>
     <string name="protocol">Protocolo</string>
     <string name="purchase">Comprar</string>
     <string name="purchase_plan">Comprar %1$s</string>
@@ -715,10 +684,8 @@ In case you have enabled Multiple backups, Swift Backup will not delete the prot
     <string name="reset_app">Restablecer aplicación</string>
     <string name="reset_app_summary">Restablecer la aplicación a su estado predeterminado. Esto borrará todos los ajustes sincronizados de Swift Backup. No se eliminarán los archivos de copia de seguridad o de la nube.</string>
     <string name="reset_filters">Limpiar filtros</string>
-    <string name="reset_sms_app_warning">"¡No podrá recibir mensajes si no establece una aplicación SMS predeterminada! ¡Por favor, seleccione 'Sí' en la siguiente ventana!"</string>
-    <string name="reset_sms_app_warning_q">"¡No podrá recibir mensajes si no establece una aplicación SMS predeterminada!
-
-¡Por favor, seleccione 'Sí' en la siguiente ventana!"</string>
+    <string name="reset_sms_app_warning">¡No podrá recibir mensajes si no establece una aplicación SMS predeterminada! ¡Por favor, seleccione \'Sí\' en la siguiente ventana!</string>
+    <string name="reset_sms_app_warning_q">¡No podrá recibir mensajes si no establece una aplicación SMS predeterminada!\n\n¡Por favor, seleccione \'Sí\' en la siguiente ventana!</string>
     <string name="restart_app">Reiniciar aplicación</string>
     <string name="restart_app_settings_summary">Recargar Swift Backup</string>
     <string name="restore">Restaurar</string>
@@ -726,12 +693,8 @@ In case you have enabled Multiple backups, Swift Backup will not delete the prot
     <string name="restore_all_apps">Restaurar todas las aplicaciones</string>
     <string name="restore_all_apps_summary">Restaurar todas las aplicaciones</string>
     <string name="restore_app_ssaids">Restaurar SSAIDs de aplicación (Android 8 Oreo y posteriores)</string>
-    <string name="restore_app_ssaids_note">"Las aplicaciones todavía pueden detectar un cambio de dispositivo, un restablecimiento de fábrica o cambio de ROMs de muchas otras formas.
-
-No se garantiza la restauración de los datos de estas aplicaciones."</string>
-    <string name="restore_app_ssaids_summary">"Restaurar IDs de dispositivo Android por aplicación. Esto es útil para aplicaciones que no se restauran correctamente si el ID del dispositivo ha cambiado.
-
-Nota: Si lo activas, también tienes que reiniciar el dispositivo después de restaurar estas aplicaciones."</string>
+    <string name="restore_app_ssaids_note">Las aplicaciones todavía pueden detectar un cambio de dispositivo, un restablecimiento de fábrica o cambio de ROMs de muchas otras formas.\n\nNo se garantiza la restauración de los datos de estas aplicaciones.</string>
+    <string name="restore_app_ssaids_summary">Restaurar IDs de dispositivo Android por aplicación. Esto es útil para aplicaciones que no se restauran correctamente si el ID del dispositivo ha cambiado.\n\nNota: Si lo activas, también tienes que reiniciar el dispositivo después de restaurar estas aplicaciones.</string>
     <string name="restore_call_logs">Restaurar registro de llamadas</string>
     <string name="restore_call_logs_summary">Restaurar registro de llamada desde la copia de seguridad más reciente</string>
     <string name="restore_folder">Restaurar carpeta</string>
@@ -794,8 +757,7 @@ Nota: Si lo activas, también tienes que reiniciar el dispositivo después de re
     <string name="right_swipe">Deslizar hacia la derecha</string>
     <string name="root_access_needed">Se necesita acceso root</string>
     <string name="root_access_or_shizuku_needed">Se necesita acceso root o Shizuku</string>
-    <string name="root_grant_permissions">"Conceder todos los permisos a Swift Backup
-Se necesita acceso root o Shizuku"</string>
+    <string name="root_grant_permissions">Conceder todos los permisos a Swift Backup\nSe necesita acceso root o Shizuku</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Conceder los siguientes permisos a Swift Backup con un solo clic usando acceso Root o Shizuku.</string>
     <string name="root_grant_permissions_dialog_title">Conceder permisos cd acceso root o Shizuku</string>
     <string name="root_provider">Proveedor</string>
@@ -910,7 +872,7 @@ Se necesita acceso root o Shizuku"</string>
     <string name="subscriptions_fetch_failed_msg">Error al obtener la lista de planes premium.</string>
     <string name="successful">Completado</string>
     <string name="sure_to_cancel_task">¿Está seguro de que desea cancelar?</string>
-    <string name="sure_to_proceed">"¿Está seguro de que quiere continuar? Presione 'Si' para confirmar."</string>
+    <string name="sure_to_proceed">¿Está seguro de que quiere continuar? Presione \'Si\' para confirmar.</string>
     <string name="swift_backup_is_busy">Swift Backup está ocupado</string>
     <string name="swift_labs_settings_summary">Características experimentales de las que no está garantizado su funcionamiento. ¡Estas características pueden desaparecer en cualquier momento!</string>
     <string name="swiftlogger_info">Registros importantes que podrían ayudar a informar de errores</string>
@@ -940,11 +902,10 @@ Se necesita acceso root o Shizuku"</string>
     <string name="terms_of_service">Términos del servicio</string>
     <string name="test">Prueba</string>
     <string name="test_anyway">Probar de todos modos</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 limita el tamaño máximo de un archivo a 4GB. 
-Solución: Formatee su almacenamiento con exFAT y utilice un kernel que soporte el tipo de almacenamientos exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 limita el tamaño máximo de un archivo a 4GB. \nSolución: Formatee su almacenamiento con exFAT y utilice un kernel que soporte el tipo de almacenamientos exFAT.</string>
     <string name="to_cloud">A la nube</string>
     <string name="to_device">Al dispositivo</string>
-    <string name="tos_privacy_agreement">Si continúa, significa que acepta nuestros &lt;a href=https://www.swiftapps.org/tos>Términos de servicio&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Política de privacidad&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Si continúa, significa que acepta nuestros &lt;a href=https://www.swiftapps.org/tos&gt;Términos de servicio&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Política de privacidad&lt;/a&gt;.</string>
     <string name="translation_project">Proyecto de traducción</string>
     <string name="translation_project_summary">Ayuda a traducir la aplicación a tu idioma</string>
     <string name="turn_off">Desactivar</string>
@@ -1017,8 +978,7 @@ Solución: Formatee su almacenamiento con exFAT y utilice un kernel que soporte 
     <string name="x_schedules">%s Programaciones</string>
     <string name="x_walls">%s Fondos de pantalla</string>
     <string name="x_wifi_networks">%s Redes Wi-Fi</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Permita que Swift Backup lea la lista de aplicaciones instaladas en este dispositivo.
-- Esto es necesario para mostrar todas las aplicaciones para realizar copias de seguridad y restaurarlas."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Permita que Swift Backup lea la lista de aplicaciones instaladas en este dispositivo.\n- Esto es necesario para mostrar todas las aplicaciones para realizar copias de seguridad y restaurarlas.</string>
     <string name="xiaomi_installed_apps_perm_title">Obtener permiso de aplicaciones instaladas</string>
     <string name="xiaomi_installed_apps_permission_not_supported">El acceso a apps instaladas solo está disponible en dispositivos Xiaomi/HyperOS.</string>
     <string name="yandex_disk">Yandex.Disk</string>

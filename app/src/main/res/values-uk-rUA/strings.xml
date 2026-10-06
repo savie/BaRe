@@ -83,7 +83,7 @@
     <string name="authentication">Автентифікація</string>
     <string name="authentication_type">Тип автентифікації</string>
     <string name="authentication_type_private_key">Файл закритого ключа</string>
-    <string name="authentication_type_username_password">"Ім'я користувача та пароль"</string>
+    <string name="authentication_type_username_password">Ім\'я користувача та пароль</string>
     <string name="back">Назад</string>
     <string name="backed_up_on_device">Резервну копію збережено на пристрої</string>
     <string name="backing_up">Резервне копіювання</string>
@@ -129,7 +129,7 @@
     <string name="backup_updated_apps">Резервне копіювання оновлених додатків</string>
     <string name="backup_updated_apps_summary">Резервне копіювання додатків, на яких встановлено новіші версії APK на цьому пристрої</string>
     <string name="backups_encrypted_with_aegis_by_default_message">За замовчуванням зашифровано за допомогою AEGIS-256</string>
-    <string name="backups_tagged_with">"Резервні копії з тегом '%s'"</string>
+    <string name="backups_tagged_with">Резервні копії з тегом \'%s\'</string>
     <string name="backups_tied_warning">Резервні копії пов’язані з акаунтом Swift Backup, який використовується для їх створення. Використовуйте той самий акаунт, щоб відновити їх пізніше.</string>
     <string name="backups_with_notes">Резервні копії з нотатками</string>
     <string name="base_backup">Базова резервна копія</string>
@@ -138,9 +138,7 @@
     <string name="battery_optimization_message">Допомагає надійно виконувати заплановане резервне копіювання</string>
     <string name="beta">Бета</string>
     <string name="billed_yearly">Щорічна оплата</string>
-    <string name="billing_initialization_error">"Платежі ще не ініціалізовано. 
-- Перевірте підключення до Інтернету 
-- Перевірте, чи Google Play Store встановлено та працює"</string>
+    <string name="billing_initialization_error">Платежі ще не ініціалізовано. \n- Перевірте підключення до Інтернету \n- Перевірте, чи Google Play Store встановлено та працює</string>
     <string name="blacklist">Чорний список</string>
     <string name="blacklist_apps">Чорний список додатків</string>
     <string name="blacklist_apps_msg">Приховати додатки або створити резервну копію лише APK</string>
@@ -178,25 +176,18 @@
     <string name="cloud_backup_for_apps">Хмарне резервне копіювання додатків і папок</string>
     <string name="cloud_backup_limit">Ліміт резервного копіювання в хмарі</string>
     <string name="cloud_backup_tag">Тег хмарного резервного копіювання</string>
-    <string name="cloud_backup_tag_message">"Резервні копії додатків, повідомлень, журналів викликів і папок згруповано під тегом резервного копіювання. Це допоможе вам керувати резервними копіями під час використання Swift Backup на кількох пристроях. 
-
-Примітка: шпалери та резервні копії Wi-Fi неможливо позначити тегами."</string>
+    <string name="cloud_backup_tag_message">Резервні копії додатків, повідомлень, журналів викликів і папок згруповано під тегом резервного копіювання. Це допоможе вам керувати резервними копіями під час використання Swift Backup на кількох пристроях. \n\nПримітка: шпалери та резервні копії Wi-Fi неможливо позначити тегами.</string>
     <string name="cloud_backups">Хмарні резервні копії</string>
     <string name="cloud_backups_settings_summary">Діагностика, передачі, завантаження, фрагменти</string>
     <string name="cloud_connection_failed">Не вдалося підключитися до хмарного акаунту</string>
     <string name="cloud_connection_successful">Успішно підключено до вашого хмарного акаунта!</string>
     <string name="cloud_error">Помилка хмари</string>
     <string name="cloud_folder">Хмарна папка</string>
-    <string name="cloud_folder_creation_error_message">"Додаток не має доступу для створення папки на поточному шляху вашого сервера. 
-
-Будь ласка, додайте назву наявної папки в поле «Шлях»."</string>
+    <string name="cloud_folder_creation_error_message">Додаток не має доступу для створення папки на поточному шляху вашого сервера. \n\nБудь ласка, додайте назву наявної папки в поле «Шлях».</string>
     <string name="cloud_folder_creation_failed">Помилка створення папки</string>
-    <string name="cloud_folder_edit_warning">"Будь ласка, НЕ видаляйте, не змінюйте та не переміщуйте хмарні файли чи папки, якими керує Swift Backup, із додатка хмарної служби, веб-сайту чи інформаційної панелі. 
-
-Swift Backup зберігає базу даних шляхів/ідентифікаторів хмарних файлів на своєму сервері для зменшення кількості мережевих запитів і підвищення продуктивності. Якщо ви видаляєте, змінюєте або переміщуєте хмарні файли чи папки вручну, у вас виникнуть проблеми під час використання програми та ви втратите доступ до резервних копій у хмарі."</string>
+    <string name="cloud_folder_edit_warning">Будь ласка, НЕ видаляйте, не змінюйте та не переміщуйте хмарні файли чи папки, якими керує Swift Backup, із додатка хмарної служби, веб-сайту чи інформаційної панелі. \n\nSwift Backup зберігає базу даних шляхів/ідентифікаторів хмарних файлів на своєму сервері для зменшення кількості мережевих запитів і підвищення продуктивності. Якщо ви видаляєте, змінюєте або переміщуєте хмарні файли чи папки вручну, у вас виникнуть проблеми під час використання програми та ви втратите доступ до резервних копій у хмарі.</string>
     <string name="cloud_mail_ru">Хмара Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Створіть і використовуйте пароль зовнішнього додатка замість звичайного пароля акаунта:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Створіть і використовуйте пароль зовнішнього додатка замість звичайного пароля акаунта:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru вимагає, щоб користувачі мали платний план зберігання для цієї опції</string>
     <string name="cloud_maintenance_running_message">Триває технічне обслуговування хмари. Спробуйте ще раз після його завершення.</string>
     <string name="cloud_not_connected_summary">Swift Backup не підключено до хмарної служби</string>
@@ -221,7 +212,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="config_updated">Конфігурацію оновлено</string>
     <string name="configs">Конфігурації</string>
     <string name="confirm_password">Підтвердьте пароль</string>
-    <string name="connect_anyway">"Все одно під'єднатися"</string>
+    <string name="connect_anyway">Все одно під\'єднатися</string>
     <string name="connect_cloud_account">Підключіть хмарний акаунт</string>
     <string name="connect_cloud_subtitle">Підключіть акаунт хмарної служби, щоб створити резервну копію файлів у хмарі.</string>
     <string name="connect_previous_cloud_service_message">Бажаєте підключитися до хмарної служби, якою користувалися раніше?</string>
@@ -260,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Дані</string>
     <string name="data_encryption_smb_3">Шифрування даних (SMB 3+)</string>
     <string name="date_used">Дата використання</string>
-    <string name="default_sms_app_rationale">"Щоб відновити повідомлення на вашому пристрої, Swift Backup має бути додатком для SMS за замовчуванням.
-
-Після завершення відновлення вам буде запропоновано скинути налаштування додатка для SMS до поточного."</string>
+    <string name="default_sms_app_rationale">Щоб відновити повідомлення на вашому пристрої, Swift Backup має бути додатком для SMS за замовчуванням.\n\nПісля завершення відновлення вам буде запропоновано скинути налаштування додатка для SMS до поточного.</string>
     <string name="default_word">За замовчуванням</string>
     <string name="delete">Видалити</string>
-    <string name="delete_active_tag">"Видалити тег '%s' та пов’язані резервні копії"</string>
-    <string name="delete_active_tag_message">"Примітка: це призведе до видалення всіх файлів хмарних резервних копій, пов’язаних із тегом '%s'!"</string>
+    <string name="delete_active_tag">Видалити тег \'%s\' та пов’язані резервні копії</string>
+    <string name="delete_active_tag_message">Примітка: це призведе до видалення всіх файлів хмарних резервних копій, пов’язаних із тегом \'%s\'!</string>
     <string name="delete_all">Видалити все</string>
     <string name="delete_all_data">Видалити всі дані</string>
     <string name="delete_all_data_summary">Видалити всі дані, які використовує додаток на пристрої для цього акаунта, включно з файлами резервного копіювання/кешу. Це також скине додаток до стандартного стану та очистить усі синхронізовані налаштування Swift Backup.</string>
@@ -300,8 +289,8 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="disabled">Вимкнено</string>
     <string name="discard_changes_confirmation">Скасувати зміни?</string>
     <string name="disconnect_cloud">Відключитися</string>
-    <string name="display_name">"Відображуване ім'я"</string>
-    <string name="display_name_too_long">"Відображуване ім'я задовге"</string>
+    <string name="display_name">Відображуване ім\'я</string>
+    <string name="display_name_too_long">Відображуване ім\'я задовге</string>
     <string name="do_nothing">Нічого не робити</string>
     <string name="done">Готово</string>
     <string name="download">Завантажити</string>
@@ -339,15 +328,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="export_settings">Експорт налаштувань</string>
     <string name="export_settings_summary">Поточні налаштування</string>
     <string name="external_data">Зовн. дані</string>
-    <string name="external_storage">"Зовнішня пам'ять"</string>
+    <string name="external_storage">Зовнішня пам\'ять</string>
     <string name="favorite_apps">Обрані додатки</string>
     <string name="favorites">Обране</string>
-    <string name="feature_requires_root_access_message">"Для роботи цієї функції потрібен root-доступ.
-
-Будь ласка, перевірте, чи ваш пристрій має root-доступ, і чи Swift Backup отримав root-доступ."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Для роботи цієї функції потрібен root-доступ або Shizuku.
-
-Будь ласка, перевірте, чи ваш пристрій має root-доступ, і чи Swift Backup отримав root-доступ, або чи запущено службу Shizuku."</string>
+    <string name="feature_requires_root_access_message">Для роботи цієї функції потрібен root-доступ.\n\nБудь ласка, перевірте, чи ваш пристрій має root-доступ, і чи Swift Backup отримав root-доступ.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Для роботи цієї функції потрібен root-доступ або Shizuku.\n\nБудь ласка, перевірте, чи ваш пристрій має root-доступ, і чи Swift Backup отримав root-доступ, або чи запущено службу Shizuku.</string>
     <string name="filen_two_factor_authentication">Двофакторна аутентифікація Filen</string>
     <string name="filen_two_factor_code_hint">Код 2FA або код відновлення</string>
     <string name="files">Файли</string>
@@ -371,8 +356,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="folder_creation_failed">Не вдалося створити папку</string>
     <string name="folder_items_empty_list_error">Немає папок, що відповідають вибраним критеріям.</string>
     <string name="folder_name">Назва папки</string>
-    <string name="folder_name_already_used_message">"Налаштування папки з такою відображуваною назвою вже існує. 
-Ви все ще можете продовжувати, але їх може бути важче відрізнити."</string>
+    <string name="folder_name_already_used_message">Налаштування папки з такою відображуваною назвою вже існує. \nВи все ще можете продовжувати, але їх може бути важче відрізнити.</string>
     <string name="folder_name_already_used_title">Дублікат відображуваного імені</string>
     <string name="folder_not_found">Папка не знайдена</string>
     <string name="folder_path">Шлях до папки</string>
@@ -428,9 +412,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="in_place_apk_downgrades">Зниження версії додатків без видалення</string>
     <string name="in_place_apk_downgrades_summary">Використовуйте підтримку прошивки або модуля, наприклад CorePatch, щоб знижувати версію додатків без їх видалення.</string>
     <string name="incompatible_launcher">Несумісний лаунчер</string>
-    <string name="incompatible_launcher_msg">"'%s' перевірено та визнано несумісним для резервного копіювання шпалер.
-
-Будь ласка, скористайтеся альтернативним засобом запуску для правильного резервного копіювання шпалер."</string>
+    <string name="incompatible_launcher_msg">\'%s\' перевірено та визнано несумісним для резервного копіювання шпалер.\n\nБудь ласка, скористайтеся альтернативним засобом запуску для правильного резервного копіювання шпалер.</string>
     <string name="incremental_backup">Інкрементне резервне копіювання</string>
     <string name="incremental_backups">Інкрементні резервні копії</string>
     <string name="initializing">Ініціалізація</string>
@@ -443,7 +425,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="installed_apps_with_older_backups">Резервні копії зі старішими APK файлами</string>
     <string name="installed_from_google_play">Встановлено з Google Play</string>
     <string name="installed_time_or_duration">Встановлено: %s</string>
-    <string name="internal_storage">"Внутрішня пам'ять"</string>
+    <string name="internal_storage">Внутрішня пам\'ять</string>
     <string name="intro_benefit_cloud_subtitle">Підключіть хмарне сховище для резервного копіювання та відновлення</string>
     <string name="intro_benefit_cloud_title">Хмарні резервні копії</string>
     <string name="intro_benefit_keys_subtitle">Використовуйте ключі на основі акаунту для зашифрованих резервних копій</string>
@@ -456,7 +438,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="invalid_config">Недійсна конфігурація</string>
     <string name="invalid_config_msg">Будь ласка, переконайтеся, що конфігурація має дійсну назву та принаймні 1 дійсне спеціальне налаштування.</string>
     <string name="invalid_config_name">Недійсна назва конфігурації</string>
-    <string name="invalid_display_name">"Недійсне відображуване ім'я"</string>
+    <string name="invalid_display_name">Недійсне відображуване ім\'я</string>
     <string name="invalid_email_address">Недійсна адреса електронної пошти</string>
     <string name="invalid_folder_name">Недійсна назва папки</string>
     <string name="invalid_folder_path">Недійсний шлях до папки</string>
@@ -547,7 +529,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="multiple_backups_strategy_single_title">Одна резервна копія</string>
     <string name="multithreaded_downloads_description">Використовувати кілька підключень для завантаження великих файлів (100 МБ+)</string>
     <string name="multithreaded_downloads_title">Багатопотокові завантаження</string>
-    <string name="name">"Ім'я"</string>
+    <string name="name">Ім\'я</string>
     <string name="navigation_drawer_open">Відкрити панель навігації</string>
     <string name="never">Ніколи</string>
     <string name="new_backup_conditions">Нові умови резервного копіювання</string>
@@ -570,11 +552,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_backups_synced">Немає резервних копій, синхронізованих у хмарі</string>
     <string name="no_backups_with_active_tag">Резервних копій із цим тегом ще немає</string>
     <string name="no_backups_with_active_tag_message">Резервні копії, створені з цим тегом, відображатимуться тут.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 не має необхідних API для пакетного відновлення мереж Wi-Fi (навіть за наявності root-доступу). 
-
-1. Натисніть на резервні копії елементів Wi-Fi та виберіть «Відновити» у спливаючому вікні. Це скопіює пароль у буфер обміну. 
-
-2. У діалоговому вікні системного Wi-Fi, яке з'явиться згодом, виберіть мережу Wi-Fi та вставте скопійований пароль."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 не має необхідних API для пакетного відновлення мереж Wi-Fi (навіть за наявності root-доступу). \n\n1. Натисніть на резервні копії елементів Wi-Fi та виберіть «Відновити» у спливаючому вікні. Це скопіює пароль у буфер обміну. \n\n2. У діалоговому вікні системного Wi-Fi, яке з\'явиться згодом, виберіть мережу Wi-Fi та вставте скопійований пароль.</string>
     <string name="no_browser_found_error">Не знайдено браузера, щоб відкрити посилання!</string>
     <string name="no_call_logs_found">На пристрої не знайдено журналів викликів</string>
     <string name="no_cloud_connected">Хмарний акаунт не підключено</string>
@@ -588,8 +566,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_messages_found">На пристрої не знайдено повідомлень</string>
     <string name="no_purchases_found">Покупок не знайдено!</string>
     <string name="no_saved_wifi_networks_found">На пристрої не знайдено збережених мереж Wi-Fi</string>
-    <string name="no_schedules_added_message">"Розклад не додано
-Натисніть нижче, щоб створити новий розклад"</string>
+    <string name="no_schedules_added_message">Розклад не додано\nНатисніть нижче, щоб створити новий розклад</string>
     <string name="no_tasks_to_perform_in_schedule">Немає завдань для виконання в розкладі</string>
     <string name="no_wallpapers_found">Шпалери не знайдено!</string>
     <string name="none">Жодного</string>
@@ -627,15 +604,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="parallel_uploads_downloads_title">Паралельні завантаження</string>
     <string name="password">Пароль</string>
     <string name="password_copied_to_clipboard">Пароль скопійовано в буфер обміну</string>
-    <string name="password_remember_warning">"Будь ласка, запам'ятайте або запишіть пароль, оскільки ви не зможете відновити його пізніше."</string>
+    <string name="password_remember_warning">Будь ласка, запам\'ятайте або запишіть пароль, оскільки ви не зможете відновити його пізніше.</string>
     <string name="password_saved">Пароль збережено</string>
-    <string name="password_strategy_standard_description">"Дозволити Swift Backup генерувати паролі для ваших зашифрованих резервних копій. Паролі є унікальними для вашого акаунта Swift Backup і відрізняються залежно від функції, для якої потрібно створити резервну копію (повідомлення, журнали викликів, пакет додатка, для якого створюється резервна копія тощо). 
-Згенеровані паролі містять випадкові буквено-цифрові символи та виглядають приблизно так: bfb69f180e4e1db7671c3188f90881d7. 
-Для анонімних користувачів (користувачів, які використовують додаток без акаунта), стратегія генерації пароля є звичайною, а не унікальною. Будь ласка, використовуйте розширену стратегію, якщо ви хочете, щоб ваші паролі були унікальними."</string>
+    <string name="password_strategy_standard_description">Дозволити Swift Backup генерувати паролі для ваших зашифрованих резервних копій. Паролі є унікальними для вашого акаунта Swift Backup і відрізняються залежно від функції, для якої потрібно створити резервну копію (повідомлення, журнали викликів, пакет додатка, для якого створюється резервна копія тощо). \nЗгенеровані паролі містять випадкові буквено-цифрові символи та виглядають приблизно так: bfb69f180e4e1db7671c3188f90881d7. \nДля анонімних користувачів (користувачів, які використовують додаток без акаунта), стратегія генерації пароля є звичайною, а не унікальною. Будь ласка, використовуйте розширену стратегію, якщо ви хочете, щоб ваші паролі були унікальними.</string>
     <string name="password_strategy_standard_title">Стандартний</string>
-    <string name="password_strategy_user_password_description">"Така сама, як стандартна стратегія, але додатково використовує пароль, введений користувачем, для створення остаточного пароля шифрування. Якщо ви втратите пароль, резервні копії не можна буде розшифрувати/відновити. 
-Swift Backup зберігатиме ваш пароль лише локально в каталозі приватних даних програми в зашифрованому вигляді. 
-Під час налаштування Swift Backup потрібно ще раз ввести пароль, щоб він міг розшифрувати та відновити ваші зашифровані резервні копії."</string>
+    <string name="password_strategy_user_password_description">Така сама, як стандартна стратегія, але додатково використовує пароль, введений користувачем, для створення остаточного пароля шифрування. Якщо ви втратите пароль, резервні копії не можна буде розшифрувати/відновити. \nSwift Backup зберігатиме ваш пароль лише локально в каталозі приватних даних програми в зашифрованому вигляді. \nПід час налаштування Swift Backup потрібно ще раз ввести пароль, щоб він міг розшифрувати та відновити ваші зашифровані резервні копії.</string>
     <string name="password_strategy_user_password_title">Розширений</string>
     <string name="passwords_matching_error">Паролі не збігаються</string>
     <string name="path">Шлях</string>
@@ -679,9 +652,7 @@ Swift Backup зберігатиме ваш пароль лише локальн�
     <string name="processing_please_wait">Обробка, зачекайте, оскільки це може зайняти деякий час…</string>
     <string name="protect_backup">Захистити резервну копію</string>
     <string name="protected_backup">Захищена резервна копія</string>
-    <string name="protected_backup_description">"Захищені резервні копії – це резервні копії, які ви хочете захистити від оновлень і видалення.
-
-Якщо ви ввімкнули кілька резервних копій, Swift Backup не видалятиме захищені резервні копії, коли буде досягнуто максимальної кількості резервних копій."</string>
+    <string name="protected_backup_description">Захищені резервні копії – це резервні копії, які ви хочете захистити від оновлень і видалення.\n\nЯкщо ви ввімкнули кілька резервних копій, Swift Backup не видалятиме захищені резервні копії, коли буде досягнуто максимальної кількості резервних копій.</string>
     <string name="protocol">Протокол</string>
     <string name="purchase">Купівля</string>
     <string name="purchase_plan">Придбати %1$s</string>
@@ -706,17 +677,15 @@ Swift Backup зберігатиме ваш пароль лише локальн�
     <string name="remove_from_blacklist">Видалити з чорного списку</string>
     <string name="removed_from_favorites">Видалено з обраних додатків</string>
     <string name="repeat">Повторити</string>
-    <string name="required_field">"Обов'язкове поле"</string>
+    <string name="required_field">Обов\'язкове поле</string>
     <string name="required_permissions">Необхідні дозволи</string>
     <string name="requires_android_15_root_access">Потрібен Android 15+ і root-доступ</string>
     <string name="reset">Скинути</string>
     <string name="reset_app">Скинути налаштування додатку</string>
     <string name="reset_app_summary">Скинути додаток до стандартного стану. Це очистить усі синхронізовані налаштування Swift Backup. Файли резервних копій або хмарний кеш не буде видалено.</string>
     <string name="reset_filters">Скинути фільтри</string>
-    <string name="reset_sms_app_warning">"Ви не зможете отримувати повідомлення, якщо не встановите SMS-додаток за замовчуванням! Виберіть 'ТАК' у наступному діалоговому вікні!"</string>
-    <string name="reset_sms_app_warning_q">"Ви не зможете отримувати повідомлення, якщо не встановите SMS-додаток за замовчуванням!
-
-Будь ласка, встановіть SMS-додаток за замовчуванням на наступному екрані!"</string>
+    <string name="reset_sms_app_warning">Ви не зможете отримувати повідомлення, якщо не встановите SMS-додаток за замовчуванням! Виберіть \'ТАК\' у наступному діалоговому вікні!</string>
+    <string name="reset_sms_app_warning_q">Ви не зможете отримувати повідомлення, якщо не встановите SMS-додаток за замовчуванням!\n\nБудь ласка, встановіть SMS-додаток за замовчуванням на наступному екрані!</string>
     <string name="restart_app">Перезапустити додаток</string>
     <string name="restart_app_settings_summary">Перезапустити Swift Backup</string>
     <string name="restore">Відновити</string>
@@ -724,9 +693,7 @@ Swift Backup зберігатиме ваш пароль лише локальн�
     <string name="restore_all_apps">Відновити всі додатки</string>
     <string name="restore_all_apps_summary">Відновити всі резервні копії додатків</string>
     <string name="restore_app_ssaids">Відновити SSAID додатка</string>
-    <string name="restore_app_ssaids_note">"Додатки все ще можуть виявляти зміну пристрою, скидання заводських налаштувань або зміну ПЗУ багатьма іншими способами.
-
-Належне відновлення даних для таких додатків не гарантується."</string>
+    <string name="restore_app_ssaids_note">Додатки все ще можуть виявляти зміну пристрою, скидання заводських налаштувань або зміну ПЗУ багатьма іншими способами.\n\nНалежне відновлення даних для таких додатків не гарантується.</string>
     <string name="restore_app_ssaids_summary">Відновлення ідентифікаторів Android для кожного додатка. Потрібне перезавантаження.</string>
     <string name="restore_call_logs">Відновити журнали викликів</string>
     <string name="restore_call_logs_summary">Відновити журнали викликів з останньої резервної копії</string>
@@ -935,11 +902,10 @@ Swift Backup зберігатиме ваш пароль лише локальн�
     <string name="terms_of_service">Умови надання послуг</string>
     <string name="test">Тест</string>
     <string name="test_anyway">Все одно перевірити</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 обмежує максимальний розмір файлу до 4 Гб. 
-Рішення: відформатуйте сховище за допомогою exFAT і використовуйте ядро, яке підтримує монтування сховища exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 обмежує максимальний розмір файлу до 4 Гб. \nРішення: відформатуйте сховище за допомогою exFAT і використовуйте ядро, яке підтримує монтування сховища exFAT.</string>
     <string name="to_cloud">В хмару</string>
     <string name="to_device">На пристрій</string>
-    <string name="tos_privacy_agreement">Продовжуючи, ви погоджуєтеся з нашими &lt;a href=https://www.swiftapps.org/tos>Умовами надання послуг&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Політикою конфіденційності&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Продовжуючи, ви погоджуєтеся з нашими &lt;a href=https://www.swiftapps.org/tos&gt;Умовами надання послуг&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Політикою конфіденційності&lt;/a&gt;.</string>
     <string name="translation_project">Проєкт перекладу</string>
     <string name="translation_project_summary">Допоможіть перекласти Swift Backup</string>
     <string name="turn_off">Вимкнути</string>
@@ -967,7 +933,7 @@ Swift Backup зберігатиме ваш пароль лише локальн�
     <string name="user">Користувацькі</string>
     <string name="user_apps">Користувацькі додатки</string>
     <string name="user_created_labels">Мітки, створені користувачем</string>
-    <string name="user_name">"Ім'я користувача"</string>
+    <string name="user_name">Ім\'я користувача</string>
     <string name="user_plus_system">Користувацькі + Системні</string>
     <string name="uses_root_access">Використовує root-доступ</string>
     <string name="uses_root_access_or_shizuku">Використовує Root-доступ або Shizuku</string>

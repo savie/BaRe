@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="IntroTheme" parent="@style/IntroTheme.Base" />
+    <style name="IntroTheme" parent="@style/IntroTheme.Base">
+    </style>
     <style name="IntroTheme.Base" parent="@style/SwiftThemeDark">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="android:windowAnimationStyle">@style/FadeActivityAnimations</item>

@@ -129,19 +129,16 @@
     <string name="backup_updated_apps">Sao lưu ứng dụng đã cập nhật</string>
     <string name="backup_updated_apps_summary">Sao lưu các ứng dụng APKs khi có phiên bản mới hơn trên thiết bị này</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Được mã hóa bằng AEGIS-256 theo mặc định</string>
-    <string name="backups_tagged_with">"Sao lưu được gắn thẻ với '%s'"</string>
+    <string name="backups_tagged_with">Sao lưu được gắn thẻ với \'%s\'</string>
     <string name="backups_tied_warning">Lưu ý: Tất cả các bản sao lưu (cục bộ / đám mây) được gắn với một tài khoản Google cụ thể. Bạn không thể truy cập các bản sao lưu của một tài khoản Google với một tài khoản khác.</string>
     <string name="backups_with_notes">Các sao lưu có ghi chú</string>
     <string name="base_backup">Sao lưu cơ sở</string>
     <string name="batch_actions">Các lệnh hàng loạt</string>
     <string name="battery_optimization">Tối ưu hóa pin</string>
-    <string name="battery_optimization_message">"Tắt tối ưu hóa pin để đảm bảo sao lưu theo lịch hoạt động tốt sau khi thiết bị chuyển sang chế độ ngủ. 
-Lưu ý: Bạn cũng có thể phải tắt thủ công tối ưu hóa pin của thiết bị khác nếu có"</string>
+    <string name="battery_optimization_message">Tắt tối ưu hóa pin để đảm bảo sao lưu theo lịch hoạt động tốt sau khi thiết bị chuyển sang chế độ ngủ. \nLưu ý: Bạn cũng có thể phải tắt thủ công tối ưu hóa pin của thiết bị khác nếu có</string>
     <string name="beta">Thử nghiệm</string>
     <string name="billed_yearly">Thanh toán hàng năm</string>
-    <string name="billing_initialization_error">"Thanh toán chưa được khởi tạo. 
-- Kiểm tra kết nối Internet của bạn 
-- Kiểm tra xem CH Play đã được cài đặt và hoạt động chưa"</string>
+    <string name="billing_initialization_error">Thanh toán chưa được khởi tạo. \n- Kiểm tra kết nối Internet của bạn \n- Kiểm tra xem CH Play đã được cài đặt và hoạt động chưa</string>
     <string name="blacklist">Danh sách đen</string>
     <string name="blacklist_apps">Danh sách đen ứng dụng</string>
     <string name="blacklist_apps_msg">Ẩn hoặc buộc sao lưu chỉ file APK cho các ứng dụng đã chọn</string>
@@ -179,25 +176,18 @@ Lưu ý: Bạn cũng có thể phải tắt thủ công tối ưu hóa pin của
     <string name="cloud_backup_for_apps">Mở khóa sao lưu đám mây cho các ứng dụng của bạn</string>
     <string name="cloud_backup_limit">Giới hạn sao lưu đám mây</string>
     <string name="cloud_backup_tag">Thẻ sao lưu đám mây</string>
-    <string name="cloud_backup_tag_message">"Ứng dụng, Tin nhắn &amp; Nhật ký cuộc gọi đã sao lưu được liên kết với một thẻ sao lưu. Bạn có thể sử dụng tính năng này để thay đổi thẻ nếu bạn đang sử dụng Swift Backup trên nhiều thiết bị. 
-
-Lưu ý: Không thể gắn thẻ sao lưu cho hình nền và WiFi."</string>
+    <string name="cloud_backup_tag_message">Ứng dụng, Tin nhắn &amp; Nhật ký cuộc gọi đã sao lưu được liên kết với một thẻ sao lưu. Bạn có thể sử dụng tính năng này để thay đổi thẻ nếu bạn đang sử dụng Swift Backup trên nhiều thiết bị. \n\nLưu ý: Không thể gắn thẻ sao lưu cho hình nền và WiFi.</string>
     <string name="cloud_backups">Sao lưu đám mây</string>
     <string name="cloud_backups_settings_summary">Chẩn đoán, truyền, tải xuống, phần</string>
     <string name="cloud_connection_failed">Kết nối tài khoản đám mây thất bại</string>
     <string name="cloud_connection_successful">Kết nối tài khoản đám mây của bạn thành công!</string>
     <string name="cloud_error">Lỗi đám mây</string>
     <string name="cloud_folder">Thư mục đám mây</string>
-    <string name="cloud_folder_creation_error_message">"Ứng dụng không có quyền tạo thư mục trên đường dẫn hiện tại trên máy chủ của bạn. 
-
- Vui lòng thêm tên của thư mục hiện có trong trường Đường dẫn."</string>
+    <string name="cloud_folder_creation_error_message">Ứng dụng không có quyền tạo thư mục trên đường dẫn hiện tại trên máy chủ của bạn. \n\n Vui lòng thêm tên của thư mục hiện có trong trường Đường dẫn.</string>
     <string name="cloud_folder_creation_failed">Tạo thư mục thất bại</string>
-    <string name="cloud_folder_edit_warning">"Vui lòng KHÔNG xóa, sửa đổi, di chuyển các tệp hoặc thư mục đám mây theo cách thủ công từ ứng dụng hoặc trang web dịch vụ đám mây. 
-
-Swift Backup giữ một cơ sở dữ liệu của id tệp đám mây trên máy chủ của nó để giảm yêu cầu mạng và hiệu suất nhanh hơn. Nếu bạn xóa, sửa đổi, di chuyển các tệp hoặc thư mục đám mây khỏi ứng dụng hoặc trang web dịch vụ, bạn sẽ gặp phải các vấn đề khi sử dụng ứng dụng và mất quyền truy cập vào bản sao lưu đám mây của mình."</string>
+    <string name="cloud_folder_edit_warning">Vui lòng KHÔNG xóa, sửa đổi, di chuyển các tệp hoặc thư mục đám mây theo cách thủ công từ ứng dụng hoặc trang web dịch vụ đám mây. \n\nSwift Backup giữ một cơ sở dữ liệu của id tệp đám mây trên máy chủ của nó để giảm yêu cầu mạng và hiệu suất nhanh hơn. Nếu bạn xóa, sửa đổi, di chuyển các tệp hoặc thư mục đám mây khỏi ứng dụng hoặc trang web dịch vụ, bạn sẽ gặp phải các vấn đề khi sử dụng ứng dụng và mất quyền truy cập vào bản sao lưu đám mây của mình.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Tạo và sử dụng mật khẩu ứng dụng bên ngoài thay vì mật khẩu tài khoản thông thường của bạn:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Tạo và sử dụng mật khẩu ứng dụng bên ngoài thay vì mật khẩu tài khoản thông thường của bạn:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Đám mây Mail.Ru yêu cầu người dùng phải có gói dung lượng trả phí cho tùy chọn này</string>
     <string name="cloud_maintenance_running_message">Đang bảo trì đám mây. Hãy thử lại sau khi quá trình hoàn tất.</string>
     <string name="cloud_not_connected_summary">Swift Backup không được kết nối với dịch vụ đám mây</string>
@@ -261,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Dữ liệu</string>
     <string name="data_encryption_smb_3">Mã hóa dữ liệu (SMB 3+)</string>
     <string name="date_used">Ngày sử dụng</string>
-    <string name="default_sms_app_rationale">"Để khôi phục tin nhắn trên thiết bị của bạn, Swift Backup cần phải là ứng dụng SMS mặc định.
-
-Sau khi khôi phục hoàn tất, bạn sẽ được yêu cầu đặt lại ứng dụng SMS về ứng dụng hiện tại."</string>
+    <string name="default_sms_app_rationale">Để khôi phục tin nhắn trên thiết bị của bạn, Swift Backup cần phải là ứng dụng SMS mặc định.\n\nSau khi khôi phục hoàn tất, bạn sẽ được yêu cầu đặt lại ứng dụng SMS về ứng dụng hiện tại.</string>
     <string name="default_word">Mặc định</string>
     <string name="delete">Xóa</string>
-    <string name="delete_active_tag">"Xóa thẻ '%s' và các bản sao lưu đã liên kết"</string>
-    <string name="delete_active_tag_message">"Lưu ý: Điều này sẽ xóa tất cả các tệp sao lưu đám mây được liên kết với thẻ '%s'!"</string>
+    <string name="delete_active_tag">Xóa thẻ \'%s\' và các bản sao lưu đã liên kết</string>
+    <string name="delete_active_tag_message">Lưu ý: Điều này sẽ xóa tất cả các tệp sao lưu đám mây được liên kết với thẻ \'%s\'!</string>
     <string name="delete_all">Xóa tất cả</string>
     <string name="delete_all_data">Xoá toàn bộ dữ liệu</string>
     <string name="delete_all_data_summary">Xóa tất cả dữ liệu được sử dụng bởi ứng dụng trên thiết bị cho tài khoản này, bao gồm cả các tệp đã sao lưu / cache. Đồng thời đặt lại ứng dụng về trạng thái mặc định và xóa tất cả các cài đặt Swift Backup đã đồng bộ.</string>
@@ -343,12 +331,8 @@ Sau khi khôi phục hoàn tất, bạn sẽ được yêu cầu đặt lại �
     <string name="external_storage">Bộ nhớ ngoài</string>
     <string name="favorite_apps">Ứng dụng yêu thích</string>
     <string name="favorites">Yêu thích</string>
-    <string name="feature_requires_root_access_message">"Tính năng này yêu cầu quyền truy cập Root để hoạt động.
-
-Vui lòng kiểm tra xem thiết bị của bạn đã được Root chưa và Swift Backup đã được cấp quyền truy cập Root chưa."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Tính năng này yêu cầu quyền Root hoặc Shizuku để hoạt động.
-
-Vui lòng kiểm tra xem thiết bị của bạn đã được Root chưa và Swift Backup đã được cấp quyền Root chưa hoặc dịch vụ Shizuku có đang chạy hay không."</string>
+    <string name="feature_requires_root_access_message">Tính năng này yêu cầu quyền truy cập Root để hoạt động.\n\nVui lòng kiểm tra xem thiết bị của bạn đã được Root chưa và Swift Backup đã được cấp quyền truy cập Root chưa.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Tính năng này yêu cầu quyền Root hoặc Shizuku để hoạt động.\n\nVui lòng kiểm tra xem thiết bị của bạn đã được Root chưa và Swift Backup đã được cấp quyền Root chưa hoặc dịch vụ Shizuku có đang chạy hay không.</string>
     <string name="filen_two_factor_authentication">Xác thực hai yếu tố Filen</string>
     <string name="filen_two_factor_code_hint">Mã 2FA hoặc mã khôi phục</string>
     <string name="files">Tệp</string>
@@ -372,8 +356,7 @@ Vui lòng kiểm tra xem thiết bị của bạn đã được Root chưa và S
     <string name="folder_creation_failed">Không thể tạo thư mục</string>
     <string name="folder_items_empty_list_error">Không có mục thư mục nào để liệt kê với tiêu chí đã chọn</string>
     <string name="folder_name">Tên thư mục</string>
-    <string name="folder_name_already_used_message">"Thiết lập thư mục có tên hiển thị này đã tồn tại. 
-Bạn vẫn có thể tiếp tục nhưng có thể khó phân biệt chúng hơn."</string>
+    <string name="folder_name_already_used_message">Thiết lập thư mục có tên hiển thị này đã tồn tại. \nBạn vẫn có thể tiếp tục nhưng có thể khó phân biệt chúng hơn.</string>
     <string name="folder_name_already_used_title">Tên hiển thị trùng lặp</string>
     <string name="folder_not_found">Không tìm thấy thư mục</string>
     <string name="folder_path">Đường dẫn thư mục</string>
@@ -429,9 +412,7 @@ Bạn vẫn có thể tiếp tục nhưng có thể khó phân biệt chúng hơ
     <string name="in_place_apk_downgrades">Hạ phiên bản ứng dụng mà không cần gỡ cài đặt</string>
     <string name="in_place_apk_downgrades_summary">Sử dụng hỗ trợ từ ROM hoặc mô-đun, chẳng hạn như CorePatch, để hạ phiên bản ứng dụng mà không cần gỡ cài đặt.</string>
     <string name="incompatible_launcher">Launcher không tương thích</string>
-    <string name="incompatible_launcher_msg">"'%s' được thử nghiệm và không tương thích để sao lưu hình nền.
-
-Vui lòng sử dụng một launcher thay thế để sao lưu hình nền chính xác."</string>
+    <string name="incompatible_launcher_msg">\'%s\' được thử nghiệm và không tương thích để sao lưu hình nền.\n\nVui lòng sử dụng một launcher thay thế để sao lưu hình nền chính xác.</string>
     <string name="incremental_backup">Sao lưu gia tăng</string>
     <string name="incremental_backups">Sao lưu gia tăng</string>
     <string name="initializing">Đang khởi tạo</string>
@@ -546,7 +527,7 @@ Vui lòng sử dụng một launcher thay thế để sao lưu hình nền chín
     <string name="multiple_backups_strategy_dated_title">Sao lưu mới mỗi lần</string>
     <string name="multiple_backups_strategy_single_description">Giữ một bản sao lưu duy nhất và cập nhật/ghi đè những phần đã thay đổi khi bạn thực hiện sao lưu.</string>
     <string name="multiple_backups_strategy_single_title">Sao lưu đơn</string>
-    <string name="multithreaded_downloads_description">Sử dụng nhiều kết nối để tải xuống tệp (>100 MB) theo từng khối để có tốc độ nhanh hơn.</string>
+    <string name="multithreaded_downloads_description">Sử dụng nhiều kết nối để tải xuống tệp (&gt;100 MB) theo từng khối để có tốc độ nhanh hơn.</string>
     <string name="multithreaded_downloads_title">Tải xuống đa luồng</string>
     <string name="name">Tên</string>
     <string name="navigation_drawer_open">Mở ngăn điều hướng</string>
@@ -571,11 +552,7 @@ Vui lòng sử dụng một launcher thay thế để sao lưu hình nền chín
     <string name="no_backups_synced">Không có bản sao lưu được đồng bộ trong đám mây</string>
     <string name="no_backups_with_active_tag">Chưa có bản sao lưu nào với thẻ này</string>
     <string name="no_backups_with_active_tag_message">Các bản sao lưu được tạo với thẻ này sẽ xuất hiện ở đây.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 không có các API cần thiết để khôi phục hàng loạt mạng WiFi (ngay cả khi có quyền truy cập Root). 
-
-1. Nhấp vào các mục WiFi đã sao lưu và chọn 'Khôi phục' từ cửa sổ bật lên. Thao tác này sẽ sao chép mật khẩu vào khay nhớ tạm. 
-
-. Trong hộp thoại hệ thống hiển thị sau đó, hãy chọn mạng WiFi và dán mật khẩu đã sao chép."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 không có các API cần thiết để khôi phục hàng loạt mạng WiFi (ngay cả khi có quyền truy cập Root). \n\n1. Nhấp vào các mục WiFi đã sao lưu và chọn \'Khôi phục\' từ cửa sổ bật lên. Thao tác này sẽ sao chép mật khẩu vào khay nhớ tạm. \n\n. Trong hộp thoại hệ thống hiển thị sau đó, hãy chọn mạng WiFi và dán mật khẩu đã sao chép.</string>
     <string name="no_browser_found_error">Không tìm thấy trình duyệt để mở liên kết!</string>
     <string name="no_call_logs_found">Không tìm thấy nhật ký các cuộc gọi trên thiết bị</string>
     <string name="no_cloud_connected">Chưa kết nối tài khoản đám mây</string>
@@ -589,8 +566,7 @@ Vui lòng sử dụng một launcher thay thế để sao lưu hình nền chín
     <string name="no_messages_found">Không tìm thấy tin nhắn nào trên thiết bị</string>
     <string name="no_purchases_found">Không tìm thấy hàng đã mua!</string>
     <string name="no_saved_wifi_networks_found">Không tìm thấy mạng WiFi nào đã lưu trên thiết bị</string>
-    <string name="no_schedules_added_message">"Không có Lịch Trình nào được thêm
-Nhấp vào bên dưới để tạo Lịch Trình mới"</string>
+    <string name="no_schedules_added_message">Không có Lịch Trình nào được thêm\nNhấp vào bên dưới để tạo Lịch Trình mới</string>
     <string name="no_tasks_to_perform_in_schedule">Không có nhiệm vụ nào để thực hiện theo Lịch Trình</string>
     <string name="no_wallpapers_found">Không tìm thấy hình nền!</string>
     <string name="none">Không</string>
@@ -608,8 +584,7 @@ Nhấp vào bên dưới để tạo Lịch Trình mới"</string>
     <string name="note">Ghi chú</string>
     <string name="notices">Thông báo của bên thứ ba</string>
     <string name="notifications">Thông báo</string>
-    <string name="notifications_perm_subtitle">"- Cho phép ứng dụng hiển thị thông báo cho các tác vụ như sao lưu / khôi phục, sao lưu đã được lên lịch và các lỗi khi thực hiện nếu có. 
-- Swift Backup sẽ chỉ hiển thị cho bạn những thông báo thực sự cần thiết."</string>
+    <string name="notifications_perm_subtitle">- Cho phép ứng dụng hiển thị thông báo cho các tác vụ như sao lưu / khôi phục, sao lưu đã được lên lịch và các lỗi khi thực hiện nếu có. \n- Swift Backup sẽ chỉ hiển thị cho bạn những thông báo thực sự cần thiết.</string>
     <string name="notifications_perm_title">Quyền thông báo</string>
     <string name="ok">OK</string>
     <string name="old_password">Mật khẩu cũ</string>
@@ -631,13 +606,9 @@ Nhấp vào bên dưới để tạo Lịch Trình mới"</string>
     <string name="password_copied_to_clipboard">Mật khẩu đã được sao chép vào bảng tạm</string>
     <string name="password_remember_warning">Vui lòng ghi nhớ hoặc ghi lại mật khẩu vì sau này bạn sẽ không thể lấy lại mật khẩu.</string>
     <string name="password_saved">Đã lưu mật khẩu</string>
-    <string name="password_strategy_standard_description">"Hãy để Swift Backup xử lý việc tạo mật khẩu cho các bản sao lưu được mã hóa của bạn. Mật khẩu là duy nhất cho tài khoản Swift Backup của bạn và khác nhau tùy thuộc vào tính năng được sao lưu (Tin nhắn, Nhật ký cuộc gọi, Gói ứng dụng đang được sao lưu, v.v.). 
-Các mật khẩu đã tạo chứa các ký tự chữ và số ngẫu nhiên giống như bfb69f180e4e1db7671c3188f90881d7. 
-Đối với người dùng Ẩn danh (Người dùng ứng dụng mà không có tài khoản), quy tắc tạo mật khẩu là phổ biến và không phải là duy nhất. Vui lòng sử dụng Quy tắc nâng cao nếu bạn muốn giữ mật khẩu của mình là duy nhất."</string>
+    <string name="password_strategy_standard_description">Hãy để Swift Backup xử lý việc tạo mật khẩu cho các bản sao lưu được mã hóa của bạn. Mật khẩu là duy nhất cho tài khoản Swift Backup của bạn và khác nhau tùy thuộc vào tính năng được sao lưu (Tin nhắn, Nhật ký cuộc gọi, Gói ứng dụng đang được sao lưu, v.v.). \nCác mật khẩu đã tạo chứa các ký tự chữ và số ngẫu nhiên giống như bfb69f180e4e1db7671c3188f90881d7. \nĐối với người dùng Ẩn danh (Người dùng ứng dụng mà không có tài khoản), quy tắc tạo mật khẩu là phổ biến và không phải là duy nhất. Vui lòng sử dụng Quy tắc nâng cao nếu bạn muốn giữ mật khẩu của mình là duy nhất.</string>
     <string name="password_strategy_standard_title">Tiêu chuẩn</string>
-    <string name="password_strategy_user_password_description">"Tương tự như kiểu Tiêu Chuẩn nhưng sử dụng thêm mật khẩu do người dùng nhập để tạo mật khẩu mã hóa cuối cùng. Nếu bạn mất mật khẩu, bạn sẽ không thể giải mã / khôi phục các bản sao lưu. 
-Swift Backup sẽ chỉ lưu trữ cục bộ mật khẩu của bạn trong thư mục dữ liệu riêng tư ở dạng được mã hóa. 
-Khi thiết lập Swift Backup, bạn cần nhập lại mật khẩu của mình để nó có thể giải mã và khôi phục các bản sao lưu đã mã hóa của bạn."</string>
+    <string name="password_strategy_user_password_description">Tương tự như kiểu Tiêu Chuẩn nhưng sử dụng thêm mật khẩu do người dùng nhập để tạo mật khẩu mã hóa cuối cùng. Nếu bạn mất mật khẩu, bạn sẽ không thể giải mã / khôi phục các bản sao lưu. \nSwift Backup sẽ chỉ lưu trữ cục bộ mật khẩu của bạn trong thư mục dữ liệu riêng tư ở dạng được mã hóa. \nKhi thiết lập Swift Backup, bạn cần nhập lại mật khẩu của mình để nó có thể giải mã và khôi phục các bản sao lưu đã mã hóa của bạn.</string>
     <string name="password_strategy_user_password_title">Nâng cao</string>
     <string name="passwords_matching_error">Mật khẩu không khớp</string>
     <string name="path">Đường dẫn</string>
@@ -681,9 +652,7 @@ Khi thiết lập Swift Backup, bạn cần nhập lại mật khẩu của mìn
     <string name="processing_please_wait">Đang xử lý, vui lòng đợi vì quá trình này có thể mất một lúc…</string>
     <string name="protect_backup">Bảo vệ bản sao lưu</string>
     <string name="protected_backup">Đã bảo vệ bản sao lưu</string>
-    <string name="protected_backup_description">"Bản sao lưu được bảo vệ là bản sao lưu mà bạn muốn giữ an toàn khỏi các cập nhật và xóa.
-
-Trong trường hợp bạn đã bật \"Nhiều bản sao lưu\", Swift Backup sẽ không xóa các bản sao lưu được bảo vệ khi đạt đến giới hạn số lượng bản sao lưu tối đa."</string>
+    <string name="protected_backup_description">Bản sao lưu được bảo vệ là bản sao lưu mà bạn muốn giữ an toàn khỏi các cập nhật và xóa.\n\nTrong trường hợp bạn đã bật \"Nhiều bản sao lưu\", Swift Backup sẽ không xóa các bản sao lưu được bảo vệ khi đạt đến giới hạn số lượng bản sao lưu tối đa.</string>
     <string name="protocol">Giao thức</string>
     <string name="purchase">Mua</string>
     <string name="purchase_plan">Mua %1$s</string>
@@ -715,10 +684,8 @@ Trong trường hợp bạn đã bật \"Nhiều bản sao lưu\", Swift Backup 
     <string name="reset_app">Cài lại ứng dụng</string>
     <string name="reset_app_summary">Đặt lại ứng dụng về trạng thái mặc định. Thao tác này sẽ xóa tất cả cài đặt Swift Backup đã đồng bộ của bạn. Các tệp sao lưu hoặc bộ nhớ cache đám mây sẽ không bị xóa.</string>
     <string name="reset_filters">Đặt lại bộ lọc</string>
-    <string name="reset_sms_app_warning">"Bạn sẽ không thể nhận tin nhắn nếu bạn không đặt ứng dụng SMS mặc định! Vui lòng chọn 'Có' trong hộp thoại tiếp theo!"</string>
-    <string name="reset_sms_app_warning_q">"Bạn sẽ không thể nhận tin nhắn nếu bạn không đặt ứng dụng SMS mặc định!
-
-Vui lòng đặt ứng dụng SMS mặc định trong màn hình tiếp theo!"</string>
+    <string name="reset_sms_app_warning">Bạn sẽ không thể nhận tin nhắn nếu bạn không đặt ứng dụng SMS mặc định! Vui lòng chọn \'Có\' trong hộp thoại tiếp theo!</string>
+    <string name="reset_sms_app_warning_q">Bạn sẽ không thể nhận tin nhắn nếu bạn không đặt ứng dụng SMS mặc định!\n\nVui lòng đặt ứng dụng SMS mặc định trong màn hình tiếp theo!</string>
     <string name="restart_app">Khởi động lại ứng dụng</string>
     <string name="restart_app_settings_summary">Tải lại Swift Backup</string>
     <string name="restore">Khôi phục</string>
@@ -726,12 +693,8 @@ Vui lòng đặt ứng dụng SMS mặc định trong màn hình tiếp theo!"</
     <string name="restore_all_apps">Khôi phục toàn bộ ứng dụng</string>
     <string name="restore_all_apps_summary">Khôi phục tất cả các ứng dụng đã sao lưu</string>
     <string name="restore_app_ssaids">Khôi phục ứng dụng SSAID(Android 8 Oreo trở lên)</string>
-    <string name="restore_app_ssaids_note">"Các ứng dụng vẫn có thể phát hiện thay đổi thiết bị, khôi phục cài đặt gốc hoặc thay đổi ROM bằng nhiều cách.
-
-Khôi phục dữ liệu không đảm bảo sẽ thích hợp cho các ứng dụng như vậy."</string>
-    <string name="restore_app_ssaids_summary">"Khôi phục ID thiết bị Android trên mỗi ứng dụng. Điều này hữu ích cho các ứng dụng không khôi phục đúng nếu ID thiết bị đã thay đổi.
-
-Lưu ý: Nếu bạn bật tính năng này, bạn cũng phải KHỞI ĐỘNG LẠI thiết bị sau khi khôi phục các ứng dụng đó."</string>
+    <string name="restore_app_ssaids_note">Các ứng dụng vẫn có thể phát hiện thay đổi thiết bị, khôi phục cài đặt gốc hoặc thay đổi ROM bằng nhiều cách.\n\nKhôi phục dữ liệu không đảm bảo sẽ thích hợp cho các ứng dụng như vậy.</string>
+    <string name="restore_app_ssaids_summary">Khôi phục ID thiết bị Android trên mỗi ứng dụng. Điều này hữu ích cho các ứng dụng không khôi phục đúng nếu ID thiết bị đã thay đổi.\n\nLưu ý: Nếu bạn bật tính năng này, bạn cũng phải KHỞI ĐỘNG LẠI thiết bị sau khi khôi phục các ứng dụng đó.</string>
     <string name="restore_call_logs">Khôi phục nhật ký cuộc gọi</string>
     <string name="restore_call_logs_summary">Khôi phục các nhật ký cuộc gọi từ bản sao lưu gần đây nhất</string>
     <string name="restore_folder">Khôi phục thư mục</string>
@@ -794,8 +757,7 @@ Lưu ý: Nếu bạn bật tính năng này, bạn cũng phải KHỞI ĐỘNG L
     <string name="right_swipe">Vuốt sang phải</string>
     <string name="root_access_needed">Yêu cầu quyền Root</string>
     <string name="root_access_or_shizuku_needed">Cần quyền Root hoặc Shizuku</string>
-    <string name="root_grant_permissions">"Cấp tất cả các quyền cho Swift Backup
-Cần quyền Root hoặc Shizuku"</string>
+    <string name="root_grant_permissions">Cấp tất cả các quyền cho Swift Backup\nCần quyền Root hoặc Shizuku</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Cấp các quyền bên dưới cho Swift Backup chỉ với một lần nhấn bằng Root hoặc Shizuku</string>
     <string name="root_grant_permissions_dialog_title">Cấp quyền với quyền Root hoặc Shizuku</string>
     <string name="root_provider">Nhà cung cấp</string>
@@ -940,11 +902,10 @@ Cần quyền Root hoặc Shizuku"</string>
     <string name="terms_of_service">Điều khoản dịch vụ</string>
     <string name="test">Kiểm tra</string>
     <string name="test_anyway">Vẫn kiểm tra</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 giới hạn kích thước tối đa của tệp là 4GB. 
-Giải pháp: Định dạng bộ nhớ của bạn bằng exFAT và sử dụng kernel hỗ trợ việc gắn các bộ lưu trữ exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 giới hạn kích thước tối đa của tệp là 4GB. \nGiải pháp: Định dạng bộ nhớ của bạn bằng exFAT và sử dụng kernel hỗ trợ việc gắn các bộ lưu trữ exFAT.</string>
     <string name="to_cloud">Đến đám mây</string>
     <string name="to_device">Đến thiết bị</string>
-    <string name="tos_privacy_agreement">Bằng cách tiếp tục, bạn đồng ý với chúng tôi&lt;a href=https://www.swiftapps.org/tos>Điều Khoản Dịch Vụ&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Chính Sách Quyền Riêng Tư&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Bằng cách tiếp tục, bạn đồng ý với chúng tôi&lt;a href=https://www.swiftapps.org/tos&gt;Điều Khoản Dịch Vụ&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Chính Sách Quyền Riêng Tư&lt;/a&gt;.</string>
     <string name="translation_project">Dự án dịch thuật</string>
     <string name="translation_project_summary">Giúp dịch ứng dụng sang ngôn ngữ của bạn</string>
     <string name="turn_off">Tắt</string>
@@ -1017,8 +978,7 @@ Giải pháp: Định dạng bộ nhớ của bạn bằng exFAT và sử dụng
     <string name="x_schedules">%s Lịch Trình</string>
     <string name="x_walls">%s Hình nền</string>
     <string name="x_wifi_networks">%s Mạng WiFi</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Cho phép Swift Backup đọc danh sách ứng dụng đã cài đặt trên thiết bị này.
-- Điều này là bắt buộc để hiển thị tất cả các ứng dụng để sao lưu và khôi phục ứng dụng."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Cho phép Swift Backup đọc danh sách ứng dụng đã cài đặt trên thiết bị này.\n- Điều này là bắt buộc để hiển thị tất cả các ứng dụng để sao lưu và khôi phục ứng dụng.</string>
     <string name="xiaomi_installed_apps_perm_title">Nhận quyền ứng dụng đã cài đặt</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Quyền truy cập ứng dụng đã cài đặt chỉ có trên thiết bị Xiaomi/HyperOS.</string>
     <string name="yandex_disk">Yandex.Disk</string>

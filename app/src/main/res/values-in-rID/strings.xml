@@ -129,19 +129,16 @@
     <string name="backup_updated_apps">Cadangkan aplikasi yang diperbarui</string>
     <string name="backup_updated_apps_summary">Cadangkan aplikasi yang memiliki APKs versi lebih baru yang diinstal di perangkat ini</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Dienkripsi dengan AEGIS-256 secara default</string>
-    <string name="backups_tagged_with">"Cadangan ditandai dengan '%s'"</string>
+    <string name="backups_tagged_with">Cadangan ditandai dengan \'%s\'</string>
     <string name="backups_tied_warning">Catatan: Semua cadangan (lokal/cloud) terikat ke akun Google tertentu. Anda tidak dapat mengakses cadangan dari satu akun Google dengan yang lain.</string>
     <string name="backups_with_notes">Cadangan dengan catatan</string>
     <string name="base_backup">Cadangan dasar</string>
     <string name="batch_actions">Tindakan kelompok</string>
     <string name="battery_optimization">Optimalisasi baterai</string>
-    <string name="battery_optimization_message">"Nonaktifkan optimisasi baterai untuk memastikan cadangan terjadwal berfungsi dengan baik setelah perangkat memasuki mode tidur. 
-Catatan: Anda mungkin juga harus menonaktifkan optimisasi baterai khusus perangkat lain secara manual jika ada"</string>
+    <string name="battery_optimization_message">Nonaktifkan optimisasi baterai untuk memastikan cadangan terjadwal berfungsi dengan baik setelah perangkat memasuki mode tidur. \nCatatan: Anda mungkin juga harus menonaktifkan optimisasi baterai khusus perangkat lain secara manual jika ada</string>
     <string name="beta">Beta</string>
     <string name="billed_yearly">Ditagih setiap tahun</string>
-    <string name="billing_initialization_error">"Penagihan belum dimulai. 
-- Periksa koneksi internet Anda 
-- Periksa apakah Google Play Store diinstal dan berfungsi"</string>
+    <string name="billing_initialization_error">Penagihan belum dimulai. \n- Periksa koneksi internet Anda \n- Periksa apakah Google Play Store diinstal dan berfungsi</string>
     <string name="blacklist">Daftar hitam</string>
     <string name="blacklist_apps">Daftar hitam aplikasi</string>
     <string name="blacklist_apps_msg">Sembunyikan atau paksa pencadangan khusus APK untuk aplikasi yang dipilih</string>
@@ -179,25 +176,18 @@ Catatan: Anda mungkin juga harus menonaktifkan optimisasi baterai khusus perangk
     <string name="cloud_backup_for_apps">Buka kunci dukungan pencadangan cloud untuk aplikasi Anda</string>
     <string name="cloud_backup_limit">Batas cadangan cloud</string>
     <string name="cloud_backup_tag">Tag cadangan cloud</string>
-    <string name="cloud_backup_tag_message">"Pencadangan aplikasi, Pesan &amp; log panggilan dikaitkan dengan tag cadangan. Anda dapat menggunakan fitur ini untuk mengubah tag jika Anda menggunakan Swift Backup di lebih dari satu perangkat. 
-
-Catatan: Cadangan Wallpaper dan WiFi tidak dapat ditandai."</string>
+    <string name="cloud_backup_tag_message">Pencadangan aplikasi, Pesan &amp; log panggilan dikaitkan dengan tag cadangan. Anda dapat menggunakan fitur ini untuk mengubah tag jika Anda menggunakan Swift Backup di lebih dari satu perangkat. \n\nCatatan: Cadangan Wallpaper dan WiFi tidak dapat ditandai.</string>
     <string name="cloud_backups">Cadangkan cloud</string>
     <string name="cloud_backups_settings_summary">Diagnostik, transfer, unduhan, potongan</string>
     <string name="cloud_connection_failed">Gagal menghubungkan akun cloud</string>
     <string name="cloud_connection_successful">Berhasil terhubung dengan akun cloud Anda!</string>
     <string name="cloud_error">Kesalahan cloud</string>
     <string name="cloud_folder">Folder cloud</string>
-    <string name="cloud_folder_creation_error_message">"Aplikasi tidak memiliki akses untuk membuat folder di path saat ini dari server Anda. 
-
-Silakan tambahkan nama folder yang ada di bidang Path."</string>
+    <string name="cloud_folder_creation_error_message">Aplikasi tidak memiliki akses untuk membuat folder di path saat ini dari server Anda. \n\nSilakan tambahkan nama folder yang ada di bidang Path.</string>
     <string name="cloud_folder_creation_failed">Membuat folder gagal</string>
-    <string name="cloud_folder_edit_warning">"Harap JANGAN menghapus, memodifikasi, atau memindahkan file atau folder cloud yang dikelola oleh Swift Backup dari aplikasi layanan cloud, situs web, atau dasbor. 
-
-Swift Backup menyimpan basis data file path/id pada servernya untuk mengurangi permintaan jaringan dan kinerja yang lebih cepat. Jika Anda menghapus, memodifikasi, atau memindahkan file atau folder cloud secara manual, Anda akan menghadapi masalah saat menggunakan aplikasi dan kehilangan akses ke cadangan cloud Anda."</string>
+    <string name="cloud_folder_edit_warning">Harap JANGAN menghapus, memodifikasi, atau memindahkan file atau folder cloud yang dikelola oleh Swift Backup dari aplikasi layanan cloud, situs web, atau dasbor. \n\nSwift Backup menyimpan basis data file path/id pada servernya untuk mengurangi permintaan jaringan dan kinerja yang lebih cepat. Jika Anda menghapus, memodifikasi, atau memindahkan file atau folder cloud secara manual, Anda akan menghadapi masalah saat menggunakan aplikasi dan kehilangan akses ke cadangan cloud Anda.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Buat dan gunakan kata sandi aplikasi eksternal sebagai pengganti kata sandi akun biasa Anda:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Buat dan gunakan kata sandi aplikasi eksternal sebagai pengganti kata sandi akun biasa Anda:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru mengharuskan pengguna memiliki paket penyimpanan berbayar dengan mereka untuk opsi ini</string>
     <string name="cloud_maintenance_running_message">Pemeliharaan cloud sedang berlangsung. Coba lagi setelah selesai.</string>
     <string name="cloud_not_connected_summary">Swift Backup tidak terhubung dengan layanan cloud</string>
@@ -261,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Data</string>
     <string name="data_encryption_smb_3">Enkripsi Data (SMB 3+)</string>
     <string name="date_used">Tanggal digunakan</string>
-    <string name="default_sms_app_rationale">"Untuk memulihkan pesan di perangkat Anda, Swift Backup harus menjadi aplikasi SMS default.
-
-Setelah memulihkan selesai, Anda akan diminta untuk mereset aplikasi SMS ke yang sekarang."</string>
+    <string name="default_sms_app_rationale">Untuk memulihkan pesan di perangkat Anda, Swift Backup harus menjadi aplikasi SMS default.\n\nSetelah memulihkan selesai, Anda akan diminta untuk mereset aplikasi SMS ke yang sekarang.</string>
     <string name="default_word">Default</string>
     <string name="delete">Hapus</string>
-    <string name="delete_active_tag">"Hapus tag '%s' dan cadangan terkait"</string>
-    <string name="delete_active_tag_message">"Catatan: Ini akan menghapus semua file cadangan cloud yang terkait dengan tag '%s'!"</string>
+    <string name="delete_active_tag">Hapus tag \'%s\' dan cadangan terkait</string>
+    <string name="delete_active_tag_message">Catatan: Ini akan menghapus semua file cadangan cloud yang terkait dengan tag \'%s\'!</string>
     <string name="delete_all">Hapus semua</string>
     <string name="delete_all_data">Hapus semua data</string>
     <string name="delete_all_data_summary">Hapus semua data yang digunakan oleh aplikasi pada perangkat untuk akun ini, termasuk file cadangan/cache. Ini juga akan mengatur ulang aplikasi ke status default dan menghapus semua pengaturan Swift Backup Anda yang disinkronkan.</string>
@@ -343,12 +331,8 @@ Setelah memulihkan selesai, Anda akan diminta untuk mereset aplikasi SMS ke yang
     <string name="external_storage">External storage</string>
     <string name="favorite_apps">Aplikasi favorit</string>
     <string name="favorites">Favorit</string>
-    <string name="feature_requires_root_access_message">"Fitur ini memerlukan akses root agar berfungsi.
-
-Periksa apakah perangkat Anda di-root dan Swift Backup telah diberikan akses root."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Fitur ini membutuhkan akses Root atau Shizuku untuk bekerja.
-
-Silakan periksa apakah perangkat Anda telah di-root dan Swift Backup telah diberikan akses root atau apakah layanan Shizuku sedang berjalan."</string>
+    <string name="feature_requires_root_access_message">Fitur ini memerlukan akses root agar berfungsi.\n\nPeriksa apakah perangkat Anda di-root dan Swift Backup telah diberikan akses root.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Fitur ini membutuhkan akses Root atau Shizuku untuk bekerja.\n\nSilakan periksa apakah perangkat Anda telah di-root dan Swift Backup telah diberikan akses root atau apakah layanan Shizuku sedang berjalan.</string>
     <string name="filen_two_factor_authentication">Autentikasi dua faktor Filen</string>
     <string name="filen_two_factor_code_hint">Kode 2FA atau kode pemulihan</string>
     <string name="files">File</string>
@@ -372,8 +356,7 @@ Silakan periksa apakah perangkat Anda telah di-root dan Swift Backup telah diber
     <string name="folder_creation_failed">Tidak dapat membuat folder</string>
     <string name="folder_items_empty_list_error">Tidak ada item folder untuk dicantumkan dengan kriteria yang dipilih</string>
     <string name="folder_name">Nama folder</string>
-    <string name="folder_name_already_used_message">"Pengaturan folder dengan nama tampilan ini sudah ada. 
-Anda masih dapat melanjutkan, namun mungkin lebih sulit membedakannya."</string>
+    <string name="folder_name_already_used_message">Pengaturan folder dengan nama tampilan ini sudah ada. \nAnda masih dapat melanjutkan, namun mungkin lebih sulit membedakannya.</string>
     <string name="folder_name_already_used_title">Nama Tampilan Duplikat</string>
     <string name="folder_not_found">Foldernya tidak ditemukan</string>
     <string name="folder_path">Jalur folder</string>
@@ -429,9 +412,7 @@ Anda masih dapat melanjutkan, namun mungkin lebih sulit membedakannya."</string>
     <string name="in_place_apk_downgrades">Downgrade aplikasi tanpa mencopot pemasangan</string>
     <string name="in_place_apk_downgrades_summary">Gunakan dukungan ROM atau modul, seperti CorePatch, untuk menurunkan versi aplikasi tanpa mencopot pemasangannya.</string>
     <string name="incompatible_launcher">Peluncur tidak kompatibel</string>
-    <string name="incompatible_launcher_msg">"'%s' diuji dan ditemukan tidak kompatibel untuk membuat cadangan wallpaper. 
-
-Silakan gunakan peluncur alternatif untuk membuat cadangan wallpaper dengan benar."</string>
+    <string name="incompatible_launcher_msg">\'%s\' diuji dan ditemukan tidak kompatibel untuk membuat cadangan wallpaper. \n\nSilakan gunakan peluncur alternatif untuk membuat cadangan wallpaper dengan benar.</string>
     <string name="incremental_backup">Cadangan tambahan</string>
     <string name="incremental_backups">Pencadangan tambahan</string>
     <string name="initializing">Memulai</string>
@@ -546,7 +527,7 @@ Silakan gunakan peluncur alternatif untuk membuat cadangan wallpaper dengan bena
     <string name="multiple_backups_strategy_dated_title">Cadangan baru setiap saat</string>
     <string name="multiple_backups_strategy_single_description">Simpan satu cadangan dan perbarui/timpa bagian yang diubah saat Anda melakukan pencadangan.</string>
     <string name="multiple_backups_strategy_single_title">Cadangan tunggal</string>
-    <string name="multithreaded_downloads_description">Gunakan beberapa koneksi untuk mengunduh file(>100 MB) dalam beberapa bagian untuk kecepatan yang lebih cepat.</string>
+    <string name="multithreaded_downloads_description">Gunakan beberapa koneksi untuk mengunduh file(&gt;100 MB) dalam beberapa bagian untuk kecepatan yang lebih cepat.</string>
     <string name="multithreaded_downloads_title">Pengunduhan Paralel</string>
     <string name="name">Nama</string>
     <string name="navigation_drawer_open">Buka panel navigasi</string>
@@ -571,11 +552,7 @@ Silakan gunakan peluncur alternatif untuk membuat cadangan wallpaper dengan bena
     <string name="no_backups_synced">Tidak ada cadangan yang disinkronkan di cloud</string>
     <string name="no_backups_with_active_tag">Belum ada cadangan dengan tag ini</string>
     <string name="no_backups_with_active_tag_message">Cadangan yang dibuat dengan tag ini akan muncul di sini.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 tidak memiliki API yang diperlukan untuk memulihkan jaringan WiFi secara massal (meskipun akses root tersedia). 
-
-1. Klik item wifi yang dicadangkan dan pilih 'Pulihkan' dari popup. Ini akan menyalin kata sandi ke clipboard. 
-
-1. Dalam dialog WiFi sistem yang muncul setelah itu, pilih jaringan WiFi dan tempel kata sandi yang disalin."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 tidak memiliki API yang diperlukan untuk memulihkan jaringan WiFi secara massal (meskipun akses root tersedia). \n\n1. Klik item wifi yang dicadangkan dan pilih \'Pulihkan\' dari popup. Ini akan menyalin kata sandi ke clipboard. \n\n1. Dalam dialog WiFi sistem yang muncul setelah itu, pilih jaringan WiFi dan tempel kata sandi yang disalin.</string>
     <string name="no_browser_found_error">Tidak ada browser yang ditemukan untuk membuka tautan!</string>
     <string name="no_call_logs_found">Tidak ada log panggilan yang ditemukan di perangkat</string>
     <string name="no_cloud_connected">Akun cloud tidak terhubung</string>
@@ -589,8 +566,7 @@ Silakan gunakan peluncur alternatif untuk membuat cadangan wallpaper dengan bena
     <string name="no_messages_found">Tidak ada pesan yang ditemukan di perangkat</string>
     <string name="no_purchases_found">Tidak ditemukan pembelian!</string>
     <string name="no_saved_wifi_networks_found">Tidak ditemukan jaringan WiFi yang tersimpan di perangkat</string>
-    <string name="no_schedules_added_message">"Tidak ada jadwal yang ditambahkan
-Klik di bawah untuk membuat jadwal baru"</string>
+    <string name="no_schedules_added_message">Tidak ada jadwal yang ditambahkan\nKlik di bawah untuk membuat jadwal baru</string>
     <string name="no_tasks_to_perform_in_schedule">Tidak ada tugas yang harus dilakukan sesuai jadwal</string>
     <string name="no_wallpapers_found">Wallpaper tidak ditemukan!</string>
     <string name="none">Tidak</string>
@@ -608,8 +584,7 @@ Klik di bawah untuk membuat jadwal baru"</string>
     <string name="note">Catatan</string>
     <string name="notices">Lisensi Pihak Ketiga</string>
     <string name="notifications">Notifikasi</string>
-    <string name="notifications_perm_subtitle">"- Izinkan aplikasi menampilkan pemberitahuan untuk tugas-tugas seperti pencadangan/pemulihan, pencadangan terjadwal, dan kesalahan tugas jika ada.
-- Swift Backup hanya akan menampilkan notifikasi yang benar-benar penting untuk Anda."</string>
+    <string name="notifications_perm_subtitle">- Izinkan aplikasi menampilkan pemberitahuan untuk tugas-tugas seperti pencadangan/pemulihan, pencadangan terjadwal, dan kesalahan tugas jika ada.\n- Swift Backup hanya akan menampilkan notifikasi yang benar-benar penting untuk Anda.</string>
     <string name="notifications_perm_title">Izin notifikasi</string>
     <string name="ok">OK</string>
     <string name="old_password">Kata sandi lama</string>
@@ -631,13 +606,9 @@ Klik di bawah untuk membuat jadwal baru"</string>
     <string name="password_copied_to_clipboard">Kata sandi disalin ke papan klip</string>
     <string name="password_remember_warning">Harap ingat atau catat kata sandi karena Anda tidak akan dapat mengambilnya nanti.</string>
     <string name="password_saved">Kata sandi disimpan</string>
-    <string name="password_strategy_standard_description">"Biarkan Swift Backup menangani pembuatan kata sandi untuk cadangan terenkripsi Anda. Kata sandi unik untuk akun Swift Backup Anda dan berbeda tergantung pada fitur yang akan dicadangkan (Pesan, Log Panggilan, Paket aplikasi yang dicadangkan, dll). 
-Sandi yang dihasilkan berisi karakter alfanumerik acak dan terlihat seperti bfb69f180e4e1db7671c3188f90881d7. 
-Untuk pengguna Anonim (pengguna yang menggunakan aplikasi tanpa akun), strategi pembuatan sandi adalah umum dan tidak unik. Silakan gunakan strategi Lanjutan jika Anda ingin menjaga agar kata sandi Anda tetap unik."</string>
+    <string name="password_strategy_standard_description">Biarkan Swift Backup menangani pembuatan kata sandi untuk cadangan terenkripsi Anda. Kata sandi unik untuk akun Swift Backup Anda dan berbeda tergantung pada fitur yang akan dicadangkan (Pesan, Log Panggilan, Paket aplikasi yang dicadangkan, dll). \nSandi yang dihasilkan berisi karakter alfanumerik acak dan terlihat seperti bfb69f180e4e1db7671c3188f90881d7. \nUntuk pengguna Anonim (pengguna yang menggunakan aplikasi tanpa akun), strategi pembuatan sandi adalah umum dan tidak unik. Silakan gunakan strategi Lanjutan jika Anda ingin menjaga agar kata sandi Anda tetap unik.</string>
     <string name="password_strategy_standard_title">Standar</string>
-    <string name="password_strategy_user_password_description">"Sama seperti strategi Standar tetapi juga menggunakan kata sandi yang dimasukkan oleh pengguna untuk menghasilkan kata sandi enkripsi akhir. Jika Anda kehilangan kata sandi, cadangan tidak dapat didekripsi/dipulihkan. 
-Swift Backup akan menyimpan kata sandi Anda hanya secara lokal di direktori data pribadinya dalam bentuk terenkripsi. 
-Ketika Anda menyiapkan Swift Backup, Anda perlu memasukkan kata sandi lagi agar dapat mendekripsi dan memulihkan cadangan terenkripsi Anda."</string>
+    <string name="password_strategy_user_password_description">Sama seperti strategi Standar tetapi juga menggunakan kata sandi yang dimasukkan oleh pengguna untuk menghasilkan kata sandi enkripsi akhir. Jika Anda kehilangan kata sandi, cadangan tidak dapat didekripsi/dipulihkan. \nSwift Backup akan menyimpan kata sandi Anda hanya secara lokal di direktori data pribadinya dalam bentuk terenkripsi. \nKetika Anda menyiapkan Swift Backup, Anda perlu memasukkan kata sandi lagi agar dapat mendekripsi dan memulihkan cadangan terenkripsi Anda.</string>
     <string name="password_strategy_user_password_title">Tingkat lanjut</string>
     <string name="passwords_matching_error">Kata sandi tidak cocok</string>
     <string name="path">Path</string>
@@ -681,9 +652,7 @@ Ketika Anda menyiapkan Swift Backup, Anda perlu memasukkan kata sandi lagi agar 
     <string name="processing_please_wait">Sedang dalam proses, mohon menunggu karena ini mungkin memakan waktu…</string>
     <string name="protect_backup">Lindungi cadangan</string>
     <string name="protected_backup">Cadangan terlindungi</string>
-    <string name="protected_backup_description">"Cadangan yang dilindungi adalah cadangan yang ingin Anda jaga agar tetap aman dari pembaruan dan penghapusan.
-
-Jika Anda telah mengaktifkan Beberapa cadangan, Swift Backup tidak akan menghapus cadangan yang dilindungi ketika jumlah maksimum cadangan tercapai."</string>
+    <string name="protected_backup_description">Cadangan yang dilindungi adalah cadangan yang ingin Anda jaga agar tetap aman dari pembaruan dan penghapusan.\n\nJika Anda telah mengaktifkan Beberapa cadangan, Swift Backup tidak akan menghapus cadangan yang dilindungi ketika jumlah maksimum cadangan tercapai.</string>
     <string name="protocol">Protocol</string>
     <string name="purchase">Membeli</string>
     <string name="purchase_plan">Beli %1$s</string>
@@ -715,10 +684,8 @@ Jika Anda telah mengaktifkan Beberapa cadangan, Swift Backup tidak akan menghapu
     <string name="reset_app">Setel ulang aplikasi</string>
     <string name="reset_app_summary">Setel ulang aplikasi ke status default. Ini akan menghapus semua pengaturan Swift Backup Anda yang disinkronkan. File cadangan atau cache cloud tidak akan dihapus.</string>
     <string name="reset_filters">Setel ulang filter</string>
-    <string name="reset_sms_app_warning">"Anda tidak akan dapat menerima pesan jika Anda tidak mengatur aplikasi SMS default! Silakan pilih 'YA' di dialog berikutnya!"</string>
-    <string name="reset_sms_app_warning_q">"Anda tidak akan dapat menerima pesan jika Anda tidak mengatur aplikasi SMS default!
-
-Silakan pilih 'YA' di dialog berikutnya!"</string>
+    <string name="reset_sms_app_warning">Anda tidak akan dapat menerima pesan jika Anda tidak mengatur aplikasi SMS default! Silakan pilih \'YA\' di dialog berikutnya!</string>
+    <string name="reset_sms_app_warning_q">Anda tidak akan dapat menerima pesan jika Anda tidak mengatur aplikasi SMS default!\n\nSilakan pilih \'YA\' di dialog berikutnya!</string>
     <string name="restart_app">Mulai ulang aplikasi</string>
     <string name="restart_app_settings_summary">Muat ulang Swift Backup</string>
     <string name="restore">Memulihkan</string>
@@ -726,12 +693,8 @@ Silakan pilih 'YA' di dialog berikutnya!"</string>
     <string name="restore_all_apps">Pulihkan semua aplikasi</string>
     <string name="restore_all_apps_summary">Pulihkan semua aplikasi yang dicadangkan</string>
     <string name="restore_app_ssaids">Pulihkan SSAID aplikasi (Android 8 Oreo dan lebih tinggi)</string>
-    <string name="restore_app_ssaids_note">"Aplikasi masih dapat mendeteksi perubahan perangkat, pengaturan ulang pabrik atau penggantian ROM dengan banyak cara lain. 
-
-Pemulihan data yang tepat untuk aplikasi semacam itu tidak dijamin."</string>
-    <string name="restore_app_ssaids_summary">"Pulihkan ID Perangkat Android per-aplikasi. Ini berguna untuk aplikasi yang tidak memulihkan dengan benar jika ID perangkat telah berubah. 
-
-Catatan: Jika Anda mengaktifkan ini, Anda juga harus REBOOT perangkat setelah memulihkan aplikasi tersebut."</string>
+    <string name="restore_app_ssaids_note">Aplikasi masih dapat mendeteksi perubahan perangkat, pengaturan ulang pabrik atau penggantian ROM dengan banyak cara lain. \n\nPemulihan data yang tepat untuk aplikasi semacam itu tidak dijamin.</string>
+    <string name="restore_app_ssaids_summary">Pulihkan ID Perangkat Android per-aplikasi. Ini berguna untuk aplikasi yang tidak memulihkan dengan benar jika ID perangkat telah berubah. \n\nCatatan: Jika Anda mengaktifkan ini, Anda juga harus REBOOT perangkat setelah memulihkan aplikasi tersebut.</string>
     <string name="restore_call_logs">Pulihkan log panggilan</string>
     <string name="restore_call_logs_summary">Pulihkan daftar panggilan dari cadangan terbaru</string>
     <string name="restore_folder">Pulihkan folder</string>
@@ -794,8 +757,7 @@ Catatan: Jika Anda mengaktifkan ini, Anda juga harus REBOOT perangkat setelah me
     <string name="right_swipe">Geser ke kanan</string>
     <string name="root_access_needed">Membutuhkan akses root</string>
     <string name="root_access_or_shizuku_needed">Akses Root atau Shizuku dibutuhkan</string>
-    <string name="root_grant_permissions">"Berikan semua izin ke Swift Backup
-Akses root atau Shizuku diperlukan"</string>
+    <string name="root_grant_permissions">Berikan semua izin ke Swift Backup\nAkses root atau Shizuku diperlukan</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Berikan izin di bawah ini ke Swift Backup dalam satu klik menggunakan akses Root atau Shizuku.</string>
     <string name="root_grant_permissions_dialog_title">Berikan izin dengan akses Root atau Shizuku</string>
     <string name="root_provider">Pemberi</string>
@@ -910,7 +872,7 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="subscriptions_fetch_failed_msg">Gagal mendapatkan daftar paket premium dari server</string>
     <string name="successful">Berhasil</string>
     <string name="sure_to_cancel_task">Anda yakin ingin membatalkan?</string>
-    <string name="sure_to_proceed">"Anda yakin ingin melanjutkan? Klik 'Ya' untuk konfirmasi."</string>
+    <string name="sure_to_proceed">Anda yakin ingin melanjutkan? Klik \'Ya\' untuk konfirmasi.</string>
     <string name="swift_backup_is_busy">Swift Backup sedang sibuk</string>
     <string name="swift_labs_settings_summary">Fitur eksperimental yang tidak dijamin berfungsi. Fitur-fitur ini dapat menghilang kapan saja!</string>
     <string name="swiftlogger_info">Log penting yang mungkin membantu dalam pelaporan bug</string>
@@ -940,11 +902,10 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="terms_of_service">Ketentuan Layanan</string>
     <string name="test">Tes</string>
     <string name="test_anyway">Tetap uji</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 membatasi ukuran maksimum file hingga 4GB. 
-Solusi: Format penyimpanan Anda dengan exFAT dan gunakan kernel yang mendukung pemasangan penyimpanan exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 membatasi ukuran maksimum file hingga 4GB. \nSolusi: Format penyimpanan Anda dengan exFAT dan gunakan kernel yang mendukung pemasangan penyimpanan exFAT.</string>
     <string name="to_cloud">Ke cloud</string>
     <string name="to_device">Ke perangkat</string>
-    <string name="tos_privacy_agreement">Dengan melanjutkan, Anda setuju dengan &lt;a href=https://www.swiftapps.org/tos>Ketentuan Layanan kami&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Kebijakan Privasi&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Dengan melanjutkan, Anda setuju dengan &lt;a href=https://www.swiftapps.org/tos&gt;Ketentuan Layanan kami&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Kebijakan Privasi&lt;/a&gt;.</string>
     <string name="translation_project">Proyek penerjemahan</string>
     <string name="translation_project_summary">Bantu menerjemahkan aplikasi ke bahasa Anda</string>
     <string name="turn_off">Matikan</string>
@@ -1017,8 +978,7 @@ Solusi: Format penyimpanan Anda dengan exFAT dan gunakan kernel yang mendukung p
     <string name="x_schedules">%s Jadwal</string>
     <string name="x_walls">%s Wallpapers</string>
     <string name="x_wifi_networks">%s Jaringan WiFi</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Izinkan Swift Backup membaca daftar aplikasi yang diinstal pada perangkat ini.
-- Ini diperlukan untuk menampilkan semua aplikasi untuk pencadangan dan pemulihan aplikasi."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Izinkan Swift Backup membaca daftar aplikasi yang diinstal pada perangkat ini.\n- Ini diperlukan untuk menampilkan semua aplikasi untuk pencadangan dan pemulihan aplikasi.</string>
     <string name="xiaomi_installed_apps_perm_title">Dapatkan izin aplikasi yang diinstal</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Akses aplikasi terinstal hanya tersedia di perangkat Xiaomi/HyperOS.</string>
     <string name="yandex_disk">Yandex.Disk</string>

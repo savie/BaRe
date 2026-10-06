@@ -129,7 +129,7 @@
     <string name="backup_updated_apps">更新されたアプリをバックアップする</string>
     <string name="backup_updated_apps_summary">このデバイスに新しいバージョンの APK がインストールされているアプリをバックアップします</string>
     <string name="backups_encrypted_with_aegis_by_default_message">デフォルトで AEGIS-256 で暗号化されます</string>
-    <string name="backups_tagged_with">"'%s' でタグ付けされたバックアップ"</string>
+    <string name="backups_tagged_with">\'%s\' でタグ付けされたバックアップ</string>
     <string name="backups_tied_warning">バックアップは、バックアップの作成に使用された Swift Backup アカウントにリンクされます。後で復元するには同じアカウントを使用します。</string>
     <string name="backups_with_notes">メモ付きバックアップ</string>
     <string name="base_backup">ベースバックアップ</string>
@@ -138,9 +138,7 @@
     <string name="battery_optimization_message">スケジュールされたバックアップを確実に実行できるように支援します</string>
     <string name="beta">ベータ版</string>
     <string name="billed_yearly">毎年請求される</string>
-    <string name="billing_initialization_error">"課金サービスがまだ初期化されていません。
-- インターネット接続を確認してください
-- Google Play ストアがインストールされ、機能しているかどうかを確認してください"</string>
+    <string name="billing_initialization_error">課金サービスがまだ初期化されていません。\n- インターネット接続を確認してください\n- Google Play ストアがインストールされ、機能しているかどうかを確認してください</string>
     <string name="blacklist">ブラックリスト</string>
     <string name="blacklist_apps">アプリをブラックリストに登録</string>
     <string name="blacklist_apps_msg">アプリを非表示にするか、APK のみをバックアップする</string>
@@ -178,25 +176,18 @@
     <string name="cloud_backup_for_apps">アプリとフォルダーのクラウドバックアップ</string>
     <string name="cloud_backup_limit">クラウドバックアップの制限</string>
     <string name="cloud_backup_tag">クラウドバックアップタグ</string>
-    <string name="cloud_backup_tag_message">"アプリ、メッセージ、通話記録、フォルダーのバックアップは、バックアップ タグの下にグループ化されます。これは、複数のデバイス間で Swift Backup を使用するときにバックアップを管理するのに役立ちます。 
-
-注: 壁紙と WiFi バックアップにはタグを付けることができません。"</string>
+    <string name="cloud_backup_tag_message">アプリ、メッセージ、通話記録、フォルダーのバックアップは、バックアップ タグの下にグループ化されます。これは、複数のデバイス間で Swift Backup を使用するときにバックアップを管理するのに役立ちます。 \n\n注: 壁紙と WiFi バックアップにはタグを付けることができません。</string>
     <string name="cloud_backups">クラウドバックアップ</string>
     <string name="cloud_backups_settings_summary">診断、転送、ダウンロード、チャンク</string>
     <string name="cloud_connection_failed">クラウドアカウントの接続に失敗しました</string>
     <string name="cloud_connection_successful">クラウド アカウントに正常に接続されました。</string>
     <string name="cloud_error">クラウドエラー</string>
     <string name="cloud_folder">クラウドフォルダー</string>
-    <string name="cloud_folder_creation_error_message">"アプリには、サーバーの現在のパスにフォルダーを作成するためのアクセス権がありません。
-
-[パス]フィールドに既存のフォルダーの名前を追加してください。"</string>
+    <string name="cloud_folder_creation_error_message">アプリには、サーバーの現在のパスにフォルダーを作成するためのアクセス権がありません。\n\n[パス]フィールドに既存のフォルダーの名前を追加してください。</string>
     <string name="cloud_folder_creation_failed">フォルダーの作成に失敗しました</string>
-    <string name="cloud_folder_edit_warning">"Swift Backup によって管理されているクラウド ファイルやフォルダーを、クラウド サービス アプリ、Web サイト、またはダッシュボードから削除、変更、または移動しないでください。 
-
-Swift Backup は、ネットワーク リクエストを削減し、パフォーマンスを高速化するために、サーバー上にクラウド ファイルのパス/ID のデータベースを保持します。クラウド ファイルやフォルダーを手動で削除、変更、移動すると、アプリの使用時に問題が発生し、クラウド バックアップにアクセスできなくなります。"</string>
+    <string name="cloud_folder_edit_warning">Swift Backup によって管理されているクラウド ファイルやフォルダーを、クラウド サービス アプリ、Web サイト、またはダッシュボードから削除、変更、または移動しないでください。 \n\nSwift Backup は、ネットワーク リクエストを削減し、パフォーマンスを高速化するために、サーバー上にクラウド ファイルのパス/ID のデータベースを保持します。クラウド ファイルやフォルダーを手動で削除、変更、移動すると、アプリの使用時に問題が発生し、クラウド バックアップにアクセスできなくなります。</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"通常のアカウントパスワードの代わりに、外部アプリ用パスワードを作成して使用してください:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">通常のアカウントパスワードの代わりに、外部アプリ用パスワードを作成して使用してください:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru では、ユーザーがこのオプションを利用するには有料のストレージ プランを持っている必要があります</string>
     <string name="cloud_maintenance_running_message">クラウドメンテナンス中です。終了したらもう一度試してください。</string>
     <string name="cloud_not_connected_summary">Swift Backup はクラウド サービスに接続されていません</string>
@@ -260,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">データ</string>
     <string name="data_encryption_smb_3">データ暗号化 (SMB 3+)</string>
     <string name="date_used">使用日</string>
-    <string name="default_sms_app_rationale">"デバイス上のメッセージを復元するには、Swift Backup をデフォルトの SMS アプリにする必要があります。
-
-復元が完了すると、SMS アプリを現在のアプリにリセットするよう要求されます。"</string>
+    <string name="default_sms_app_rationale">デバイス上のメッセージを復元するには、Swift Backup をデフォルトの SMS アプリにする必要があります。\n\n復元が完了すると、SMS アプリを現在のアプリにリセットするよう要求されます。</string>
     <string name="default_word">デフォルト</string>
     <string name="delete">削除</string>
-    <string name="delete_active_tag">"タグ '%s' および関連するバックアップを削除します"</string>
-    <string name="delete_active_tag_message">"注: これにより、'%s' タグに関連付けられたすべてのクラウド バックアップ ファイルが削除されます。"</string>
+    <string name="delete_active_tag">タグ \'%s\' および関連するバックアップを削除します</string>
+    <string name="delete_active_tag_message">注: これにより、\'%s\' タグに関連付けられたすべてのクラウド バックアップ ファイルが削除されます。</string>
     <string name="delete_all">すべて削除</string>
     <string name="delete_all_data">すべてのデータを削除する</string>
     <string name="delete_all_data_summary">このアカウントのデバイス上のアプリで使用されているすべてのデータ (バックアップ/キャッシュ ファイルを含む) を削除します。これにより、アプリがデフォルトの状態にリセットされ、同期された Swift Backup 設定がすべてクリアされます。</string>
@@ -342,12 +331,8 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="external_storage">外部ストレージ</string>
     <string name="favorite_apps">お気に入りのアプリ</string>
     <string name="favorites">お気に入り</string>
-    <string name="feature_requires_root_access_message">"この機能を動作させるには root アクセスが必要です。
-
-デバイスが root 化されており、Swift Backup に root アクセスが付与されているかどうかを確認してください。"</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"この機能を使用するには、Root アクセスまたは Shizuku が必要です。
-
-デバイスが root 化されており、Swift Backup に root アクセスが付与されているか、または Shizuku サービスが実行されているかどうかを確認してください。"</string>
+    <string name="feature_requires_root_access_message">この機能を動作させるには root アクセスが必要です。\n\nデバイスが root 化されており、Swift Backup に root アクセスが付与されているかどうかを確認してください。</string>
+    <string name="feature_requires_root_access_or_shizuku_message">この機能を使用するには、Root アクセスまたは Shizuku が必要です。\n\nデバイスが root 化されており、Swift Backup に root アクセスが付与されているか、または Shizuku サービスが実行されているかどうかを確認してください。</string>
     <string name="filen_two_factor_authentication">Filen の 2 要素認証</string>
     <string name="filen_two_factor_code_hint">2FA コードまたはリカバリ コード</string>
     <string name="files">ファイル</string>
@@ -371,8 +356,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="folder_creation_failed">フォルダーを作成できません</string>
     <string name="folder_items_empty_list_error">選択した条件でリストするフォルダー項目はありません</string>
     <string name="folder_name">フォルダ名</string>
-    <string name="folder_name_already_used_message">"この表示名のフォルダー設定はすでに存在します。
-続行できますが、それらを区別するのが難しくなる可能性があります。"</string>
+    <string name="folder_name_already_used_message">この表示名のフォルダー設定はすでに存在します。\n続行できますが、それらを区別するのが難しくなる可能性があります。</string>
     <string name="folder_name_already_used_title">表示名が重複しています</string>
     <string name="folder_not_found">フォルダーが見つかりません</string>
     <string name="folder_path">フォルダーパス</string>
@@ -428,9 +412,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="in_place_apk_downgrades">アプリをアンインストールせずにダウングレード</string>
     <string name="in_place_apk_downgrades_summary">CorePatch などの ROM またはモジュールのサポートを使用して、アプリをアンインストールせずにダウングレードします。</string>
     <string name="incompatible_launcher">互換性のないランチャー</string>
-    <string name="incompatible_launcher_msg">"'%s' はテストの結果、壁紙のバックアップには互換性がないことが判明しました。
-
-壁紙を正しくバックアップするには、代替ランチャーを使用してください。"</string>
+    <string name="incompatible_launcher_msg">\'%s\' はテストの結果、壁紙のバックアップには互換性がないことが判明しました。\n\n壁紙を正しくバックアップするには、代替ランチャーを使用してください。</string>
     <string name="incremental_backup">増分バックアップ</string>
     <string name="incremental_backups">増分バックアップ</string>
     <string name="initializing">初期化しています</string>
@@ -570,11 +552,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_backups_synced">クラウドで同期されたバックアップはありません</string>
     <string name="no_backups_with_active_tag">このタグが付いたバックアップはまだありません</string>
     <string name="no_backups_with_active_tag_message">このタグで作成されたバックアップがここに表示されます。</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 には、(root アクセスが利用可能な場合でも) WiFi ネットワークをバッチ復元するために必要な API がありません。 
-
-1. バックアップされた Wi-Fi 項目をクリックし、ポップアップから「復元」を選択します。これにより、パスワードがクリップボードにコピーされます。 
-
-2. その後表示されるシステム WiFi ダイアログで、WiFi ネットワークを選択し、コピーしたパスワードを貼り付けます。"</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 には、(root アクセスが利用可能な場合でも) WiFi ネットワークをバッチ復元するために必要な API がありません。 \n\n1. バックアップされた Wi-Fi 項目をクリックし、ポップアップから「復元」を選択します。これにより、パスワードがクリップボードにコピーされます。 \n\n2. その後表示されるシステム WiFi ダイアログで、WiFi ネットワークを選択し、コピーしたパスワードを貼り付けます。</string>
     <string name="no_browser_found_error">リンクを開けるブラウザが見つかりません!</string>
     <string name="no_call_logs_found">デバイス上に通話履歴が見つかりません</string>
     <string name="no_cloud_connected">クラウドアカウントが接続されていません</string>
@@ -588,8 +566,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_messages_found">デバイス上にメッセージが見つかりませんでした</string>
     <string name="no_purchases_found">購入した商品が見つかりません!</string>
     <string name="no_saved_wifi_networks_found">デバイスに保存された WiFi ネットワークが見つかりません</string>
-    <string name="no_schedules_added_message">"スケジュールは追加されていません
-下をクリックして新しいスケジュールを作成してください"</string>
+    <string name="no_schedules_added_message">スケジュールは追加されていません\n下をクリックして新しいスケジュールを作成してください</string>
     <string name="no_tasks_to_perform_in_schedule">スケジュールどおりに実行するタスクがありません</string>
     <string name="no_wallpapers_found">壁紙が見つかりません!</string>
     <string name="none">なし</string>
@@ -629,13 +606,9 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="password_copied_to_clipboard">パスワードがクリップボードにコピーされました</string>
     <string name="password_remember_warning">パスワードは後で取得することができないため、覚えておくかメモしておいてください。</string>
     <string name="password_saved">パスワードが保存されました</string>
-    <string name="password_strategy_standard_description">"暗号化されたバックアップのパスワードの生成は Swift Backup に任せてください。 パスワードは Swift Backup アカウントに固有であり、バックアップする機能 (メッセージ、通話記録、バックアップされるアプリ パッケージなど) によって異なります。 
-生成されたパスワードにはランダムな英数字が含まれており、bfb69f180e4e1db7671c3188f90881d7 のようになります。
-匿名ユーザー (アカウントなしでアプリを使用するユーザー) の場合、パスワード生成戦略は一般的であり、固有のものではありません。パスワードを一意に保ちたい場合は、高度な戦略を使用してください。"</string>
+    <string name="password_strategy_standard_description">暗号化されたバックアップのパスワードの生成は Swift Backup に任せてください。 パスワードは Swift Backup アカウントに固有であり、バックアップする機能 (メッセージ、通話記録、バックアップされるアプリ パッケージなど) によって異なります。 \n生成されたパスワードにはランダムな英数字が含まれており、bfb69f180e4e1db7671c3188f90881d7 のようになります。\n匿名ユーザー (アカウントなしでアプリを使用するユーザー) の場合、パスワード生成戦略は一般的であり、固有のものではありません。パスワードを一意に保ちたい場合は、高度な戦略を使用してください。</string>
     <string name="password_strategy_standard_title">標準</string>
-    <string name="password_strategy_user_password_description">"標準戦略と同じですが、ユーザーが入力したパスワードをさらに使用して、最終的な暗号化パスワードを生成します。パスワードを紛失した場合、バックアップを復号化/復元することはできません。 
-Swift Backup は、パスワードを暗号化した形式でアプリの非公開データディレクトリにのみ保存します。 
-Swift Backup をセットアップするときは、暗号化されたバックアップを復号化して復元できるように、パスワードを再度入力する必要があります。"</string>
+    <string name="password_strategy_user_password_description">標準戦略と同じですが、ユーザーが入力したパスワードをさらに使用して、最終的な暗号化パスワードを生成します。パスワードを紛失した場合、バックアップを復号化/復元することはできません。 \nSwift Backup は、パスワードを暗号化した形式でアプリの非公開データディレクトリにのみ保存します。 \nSwift Backup をセットアップするときは、暗号化されたバックアップを復号化して復元できるように、パスワードを再度入力する必要があります。</string>
     <string name="password_strategy_user_password_title">上級者向け</string>
     <string name="passwords_matching_error">パスワードが一致しません</string>
     <string name="path">パス</string>
@@ -679,9 +652,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="processing_please_wait">処理中、しばらく時間がかかる場合がありますのでお待ちください…</string>
     <string name="protect_backup">バックアップを保護する</string>
     <string name="protected_backup">保護されたバックアップ</string>
-    <string name="protected_backup_description">"保護されたバックアップは、更新や削除から安全に保管したいバックアップです。
-
-複数のバックアップを有効にしている場合、バックアップの最大数制限に達しても、Swift Backup は保護されたバックアップを削除しません。"</string>
+    <string name="protected_backup_description">保護されたバックアップは、更新や削除から安全に保管したいバックアップです。\n\n複数のバックアップを有効にしている場合、バックアップの最大数制限に達しても、Swift Backup は保護されたバックアップを削除しません。</string>
     <string name="protocol">プロトコル</string>
     <string name="purchase">購入する</string>
     <string name="purchase_plan">%1$sを購入</string>
@@ -714,9 +685,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="reset_app_summary">アプリをデフォルトの状態にリセットします。これにより、同期されたすべての Swift Backup 設定がクリアされます。バックアップ ファイルやクラウド キャッシュは削除されません。</string>
     <string name="reset_filters">フィルターをリセットする</string>
     <string name="reset_sms_app_warning">デフォルトの SMS アプリを設定しないと、メッセージを受信できなくなります。次のダイアログで「はい」を選択してください。</string>
-    <string name="reset_sms_app_warning_q">"デフォルトの SMS アプリを設定しないと、メッセージを受信できなくなります。
-
-次の画面でデフォルトの SMS アプリを設定してください。"</string>
+    <string name="reset_sms_app_warning_q">デフォルトの SMS アプリを設定しないと、メッセージを受信できなくなります。\n\n次の画面でデフォルトの SMS アプリを設定してください。</string>
     <string name="restart_app">アプリを再起動する</string>
     <string name="restart_app_settings_summary">Swift Backup を再起動する</string>
     <string name="restore">復元</string>
@@ -724,9 +693,7 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="restore_all_apps">すべてのアプリを復元する</string>
     <string name="restore_all_apps_summary">バックアップしたすべてのアプリを復元する</string>
     <string name="restore_app_ssaids">アプリのSSAIDを復元する</string>
-    <string name="restore_app_ssaids_note">"アプリは、他のさまざまな方法でデバイスの変更、工場出荷時設定へのリセット、または ROM の変更を検出できます。
-
-このようなアプリの適切なデータ復元は保証されません。"</string>
+    <string name="restore_app_ssaids_note">アプリは、他のさまざまな方法でデバイスの変更、工場出荷時設定へのリセット、または ROM の変更を検出できます。\n\nこのようなアプリの適切なデータ復元は保証されません。</string>
     <string name="restore_app_ssaids_summary">アプリごとの Android ID を復元します。再起動が必要です。</string>
     <string name="restore_call_logs">通話履歴を復元する</string>
     <string name="restore_call_logs_summary">最新のバックアップから通話ログを復元します</string>
@@ -935,11 +902,10 @@ Swift Backup をセットアップするときは、暗号化されたバック�
     <string name="terms_of_service">利用規約</string>
     <string name="test">テスト</string>
     <string name="test_anyway">とにかくテストしてください</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 では、ファイルの最大サイズが 4GB に制限されます。 
-解決策: ストレージを exFAT でフォーマットし、exFAT ストレージのマウントをサポートするカーネルを使用します。"</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 では、ファイルの最大サイズが 4GB に制限されます。 \n解決策: ストレージを exFAT でフォーマットし、exFAT ストレージのマウントをサポートするカーネルを使用します。</string>
     <string name="to_cloud">クラウドへ</string>
     <string name="to_device">デバイスへ</string>
-    <string name="tos_privacy_agreement">続行すると、<a href="https://www.swiftapps.org/tos">利用規約</a>および<a href="https://www.swiftapps.org/privacy-policy">プライバシーポリシー</a>に同意したことになります。</string>
+    <string name="tos_privacy_agreement">続行すると、利用規約およびプライバシーポリシーに同意したことになります。</string>
     <string name="translation_project">翻訳プロジェクト</string>
     <string name="translation_project_summary">Swift Backup の翻訳を手伝ってください</string>
     <string name="turn_off">オフにする</string>

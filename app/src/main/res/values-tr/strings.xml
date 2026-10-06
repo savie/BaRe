@@ -43,7 +43,7 @@
     <string name="common_google_play_services_updating_text">%1$s, şu anda güncellenmekte olan Google Play hizmetleri olmadan çalışmaz.</string>
     <string name="common_google_play_services_wear_update_text">Google Play hizmetlerinin yeni sürümü gerekiyor. Kendisini kısa süre içinde güncelleyecektir.</string>
     <string name="common_open_on_phone">Telefonda aç</string>
-    <string name="common_signin_button_text_long">"Google'da oturum aç"</string>
+    <string name="common_signin_button_text_long">Google\'da oturum aç</string>
     <string name="copy">Kopyala</string>
     <string name="error_a11y_label">Hata: geçersiz</string>
     <string name="error_icon_content_description">Hata</string>
@@ -56,7 +56,7 @@
     <string name="http_auth_dialog_username">Kullanıcı Adı</string>
     <string name="item_view_role_description">Sekme</string>
     <string name="m3_loading_indicator_content_description">Yükleniyor</string>
-    <string name="material_clock_toggle_content_description">"ÖÖ veya ÖS'yi seçin"</string>
+    <string name="material_clock_toggle_content_description">ÖÖ veya ÖS\'yi seçin</string>
     <string name="material_hour_24h_suffix">%1$s saat</string>
     <string name="material_hour_selection">Saat seçin</string>
     <string name="material_hour_suffix">Saat %1$s</string>

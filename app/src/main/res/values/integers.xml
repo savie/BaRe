@@ -7,17 +7,17 @@
     <integer name="bottom_sheet_slide_duration">150</integer>
     <integer name="button_pressed_animation_delay">100</integer>
     <integer name="button_pressed_animation_duration">100</integer>
-    <item type="integer" name="button_pressed_scale_down" format="float">0.97</item>
+    <integer name="button_pressed_scale_down">0.97</integer>
     <integer name="button_pressed_scale_duration">50</integer>
     <integer name="design_snackbar_text_max_lines">2</integer>
     <integer name="design_tab_indicator_anim_duration_ms">300</integer>
     <integer name="google_play_services_version">12451000</integer>
     <integer name="hide_password_duration">320</integer>
     <integer name="home_search_close_transition_time">180</integer>
-    <item type="integer" name="letterspacing_050" format="float">0.05</item>
-    <item type="integer" name="letterspacing_060" format="float">0.06</item>
+    <integer name="letterspacing_050">0.05</integer>
+    <integer name="letterspacing_060">0.06</integer>
     <integer name="letterspacing_default">@integer/letterspacing_lowest</integer>
-    <item type="integer" name="letterspacing_lowest" format="float">0.015</item>
+    <integer name="letterspacing_lowest">0.015</integer>
     <integer name="m3_badge_max_number">999</integer>
     <integer name="m3_btn_anim_delay_ms">100</integer>
     <integer name="m3_btn_anim_duration_ms">100</integer>

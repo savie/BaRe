@@ -155,13 +155,10 @@
     <string name="base_backup">基础备份</string>
     <string name="batch_actions">批量操作</string>
     <string name="battery_optimization">电池优化</string>
-    <string name="battery_optimization_message">"禁用电池优化以确保在设备进入打盹（Doze）模式后，计划备份可以正常工作。 
-注意：您可能还要手动禁用设备的其它电池优化（如果有的话）"</string>
+    <string name="battery_optimization_message">禁用电池优化以确保在设备进入打盹（Doze）模式后，计划备份可以正常工作。 \n注意：您可能还要手动禁用设备的其它电池优化（如果有的话）</string>
     <string name="beta">测试版</string>
     <string name="billed_yearly">按年计费</string>
-    <string name="billing_initialization_error">"账单未初始化。
-- 请检查您的互联网连接 
-- 请检查 Google Play 商店是否已安装并正常工作"</string>
+    <string name="billing_initialization_error">账单未初始化。\n- 请检查您的互联网连接 \n- 请检查 Google Play 商店是否已安装并正常工作</string>
     <string name="blacklist">黑名单</string>
     <string name="blacklist_apps">黑名单应用</string>
     <string name="blacklist_apps_msg">隐藏或强制所选的应用只备份APK文件</string>
@@ -206,25 +203,18 @@
     <string name="cloud_backup_for_apps">为您的应用程序解锁云备份支持</string>
     <string name="cloud_backup_limit">云备份大小限制</string>
     <string name="cloud_backup_tag">云备份标签</string>
-    <string name="cloud_backup_tag_message">"应用、信息和通话记录备份与备份标签相关联。如果您在多个设备上使用 Swift Backup，您可以使用该功能来区分不同设备上的备份。 
-
-注意：壁纸和 WLAN 备份无标签。"</string>
+    <string name="cloud_backup_tag_message">应用、信息和通话记录备份与备份标签相关联。如果您在多个设备上使用 Swift Backup，您可以使用该功能来区分不同设备上的备份。 \n\n注意：壁纸和 WLAN 备份无标签。</string>
     <string name="cloud_backups">云端备份</string>
     <string name="cloud_backups_settings_summary">诊断、传输、下载、分块</string>
     <string name="cloud_connection_failed">连接云端账户失败</string>
     <string name="cloud_connection_successful">已成功连接到您的云端账户！</string>
     <string name="cloud_error">云端错误</string>
     <string name="cloud_folder">云文件夹</string>
-    <string name="cloud_folder_creation_error_message">"应用无法在当前服务器路径上创建文件夹。 
-
-请在路径字段中添加一个现有文件夹的名称。"</string>
+    <string name="cloud_folder_creation_error_message">应用无法在当前服务器路径上创建文件夹。 \n\n请在路径字段中添加一个现有文件夹的名称。</string>
     <string name="cloud_folder_creation_failed">文件夹创建失败</string>
-    <string name="cloud_folder_edit_warning">"请！不！要！从云服务应用、网站或仪表板中删除、修改或移动由 Swift Backup 管理的云文件或文件夹。 
-
-Swift Backup 会在其服务器上保存一个文件路径和 ID 的数据库文件，用以减少网络请求并达到更佳的性能。 如果您手动删除、修改或移动您的云服务上的文件或文件夹，您在使用应用时将可能遇到问题，甚至无法访问您的云备份。"</string>
+    <string name="cloud_folder_edit_warning">请！不！要！从云服务应用、网站或仪表板中删除、修改或移动由 Swift Backup 管理的云文件或文件夹。 \n\nSwift Backup 会在其服务器上保存一个文件路径和 ID 的数据库文件，用以减少网络请求并达到更佳的性能。 如果您手动删除、修改或移动您的云服务上的文件或文件夹，您在使用应用时将可能遇到问题，甚至无法访问您的云备份。</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"创建并使用外部应用程序密码来替代您的常规账户密码：
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">创建并使用外部应用程序密码来替代您的常规账户密码：\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">该选项的 Cloud Mail.Ru 要求用户拥有付费存储计划</string>
     <string name="cloud_maintenance_running_message">云端维护正在进行中。请在维护完成后重试。</string>
     <string name="cloud_not_connected_summary">Swift Backup 未连接至云服务</string>
@@ -305,9 +295,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">数据</string>
     <string name="data_encryption_smb_3">数据加密（SMB 3+）</string>
     <string name="date_used">使用日期</string>
-    <string name="default_sms_app_rationale">"若要恢复设备上的信息，需要将 Swift Backup 设置为默认短信应用。
-
-恢复完成后，将要求您把短信应用重置回您当前使用的应用。"</string>
+    <string name="default_sms_app_rationale">若要恢复设备上的信息，需要将 Swift Backup 设置为默认短信应用。\n\n恢复完成后，将要求您把短信应用重置回您当前使用的应用。</string>
     <string name="default_word">默认</string>
     <string name="delete">删除</string>
     <string name="delete_active_tag">删除与标签%s相关的备份</string>
@@ -391,12 +379,8 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="external_storage">外置存储</string>
     <string name="favorite_apps">已收藏的应用</string>
     <string name="favorites">已收藏</string>
-    <string name="feature_requires_root_access_message">"此功能需要 root 权限。
-
-请检查您的设备是否已 root，以及 Swift Backup 是否已获得 root 权限。"</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"此功能需要 Root 访问权限或 Shizuku 才能工作。
-
-请检查您的设备是否已获取 Root 权限并授权给Swift Backup，或Shizuku服务是否正在运行。"</string>
+    <string name="feature_requires_root_access_message">此功能需要 root 权限。\n\n请检查您的设备是否已 root，以及 Swift Backup 是否已获得 root 权限。</string>
+    <string name="feature_requires_root_access_or_shizuku_message">此功能需要 Root 访问权限或 Shizuku 才能工作。\n\n请检查您的设备是否已获取 Root 权限并授权给Swift Backup，或Shizuku服务是否正在运行。</string>
     <string name="filen_two_factor_authentication">Filen 双重身份验证</string>
     <string name="filen_two_factor_code_hint">2FA 代码或恢复代码</string>
     <string name="files">文件</string>
@@ -420,8 +404,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="folder_creation_failed">无法创建文件夹</string>
     <string name="folder_items_empty_list_error">没有可根据所选条件列出的文件夹项目</string>
     <string name="folder_name">文件夹名称</string>
-    <string name="folder_name_already_used_message">"使用此显示名称的文件夹设置已存在。 
-您仍然可以继续，但可能更难区分它们。"</string>
+    <string name="folder_name_already_used_message">使用此显示名称的文件夹设置已存在。 \n您仍然可以继续，但可能更难区分它们。</string>
     <string name="folder_name_already_used_title">显示名称重复</string>
     <string name="folder_not_found">找不到文件夹</string>
     <string name="folder_path">文件夹路径</string>
@@ -482,9 +465,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="in_place_apk_downgrades">无需卸载即可降级应用</string>
     <string name="in_place_apk_downgrades_summary">使用 ROM 或模块支持（例如 CorePatch）来降级应用，而无需卸载。</string>
     <string name="incompatible_launcher">不兼容的启动器</string>
-    <string name="incompatible_launcher_msg">"已测试并发现“%s”与备份壁纸不兼容。
-
-请使用其它启动器备份壁纸。"</string>
+    <string name="incompatible_launcher_msg">已测试并发现“%s”与备份壁纸不兼容。\n\n请使用其它启动器备份壁纸。</string>
     <string name="incremental_backup">增量备份</string>
     <string name="incremental_backups">增量备份</string>
     <string name="initializing">正在初始化</string>
@@ -634,7 +615,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="multiple_backups_strategy_dated_title">每次都新建备份</string>
     <string name="multiple_backups_strategy_single_description">只保留一个备份并在执行备份时更新/覆盖被更改的部分。</string>
     <string name="multiple_backups_strategy_single_title">单个备份</string>
-    <string name="multithreaded_downloads_description">使用多个连接分块下载文件（>100 MB）使下载速度更快</string>
+    <string name="multithreaded_downloads_description">使用多个连接分块下载文件（&gt;100 MB）使下载速度更快</string>
     <string name="multithreaded_downloads_title">多线程下载</string>
     <string name="name">名称</string>
     <string name="navigation_drawer_open">打开导航栏</string>
@@ -659,11 +640,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_backups_synced">云端上没有备份</string>
     <string name="no_backups_with_active_tag">此标签下还没有备份</string>
     <string name="no_backups_with_active_tag_message">使用此标签创建的备份会显示在这里。</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 没有必要的 API 用以批量还原 WLAN 网络（即使具有 Root 访问权限）。 
-
-1. 点击已备份的 WLAN 项目并从弹出窗口中选择 “还原”。此操作将把密码复制到剪贴板。 
-
-2. 在随后出现的系统 WLAN 对话框中，选择 WLAN 网络并粘贴已复制的密码。"</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 没有必要的 API 用以批量还原 WLAN 网络（即使具有 Root 访问权限）。 \n\n1. 点击已备份的 WLAN 项目并从弹出窗口中选择 “还原”。此操作将把密码复制到剪贴板。 \n\n2. 在随后出现的系统 WLAN 对话框中，选择 WLAN 网络并粘贴已复制的密码。</string>
     <string name="no_browser_found_error">找不到用于打开链接的浏览器！</string>
     <string name="no_call_logs_found">设备上未找到通话记录</string>
     <string name="no_cloud_connected">云端账户未连接</string>
@@ -677,8 +654,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_messages_found">设备上未找到信息</string>
     <string name="no_purchases_found">未找到购买记录！</string>
     <string name="no_saved_wifi_networks_found">未在设备上发现已保存的 WLAN 网络</string>
-    <string name="no_schedules_added_message">"没有计划被添加
-点击下方创建新计划"</string>
+    <string name="no_schedules_added_message">没有计划被添加\n点击下方创建新计划</string>
     <string name="no_tasks_to_perform_in_schedule">计划中没有要执行的任务</string>
     <string name="no_wallpapers_found">找不到壁纸！</string>
     <string name="none">无</string>
@@ -697,8 +673,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="note">注意</string>
     <string name="notices">第三方许可证</string>
     <string name="notifications">通知</string>
-    <string name="notifications_perm_subtitle">"- 允许 Swift Backup 显示备份/恢复、定时 备份和任务错误等通知。 
-- Swift Backup 只会显示对您绝对必要的通知。"</string>
+    <string name="notifications_perm_subtitle">- 允许 Swift Backup 显示备份/恢复、定时 备份和任务错误等通知。 \n- Swift Backup 只会显示对您绝对必要的通知。</string>
     <string name="notifications_perm_title">通知权限</string>
     <string name="ok">确定</string>
     <string name="old_password">原密码</string>
@@ -720,13 +695,9 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="password_copied_to_clipboard">密码已复制到剪贴板</string>
     <string name="password_remember_warning">请务必牢记或记下密码，因为您以后将无法找回它。</string>
     <string name="password_saved">密码已保存</string>
-    <string name="password_strategy_standard_description">"允许 Swift Backup 为您的加密备份生成密码。 密码对于每个 Swift Backup 账户是唯一的，并且视您备份内容类型的不同而不同（ 例如短信，通话记录，应用程序等）。 
-生成的密码由随机字母和数字组成，形如 bfb69f180e4db7671c3188f90881d7。 
-对于匿名用户（没有使用账户登录的用户），密码的生成策略相同且不唯一。 如果您想要确保密码的唯一性，请使用高级策略。"</string>
+    <string name="password_strategy_standard_description">允许 Swift Backup 为您的加密备份生成密码。 密码对于每个 Swift Backup 账户是唯一的，并且视您备份内容类型的不同而不同（ 例如短信，通话记录，应用程序等）。 \n生成的密码由随机字母和数字组成，形如 bfb69f180e4db7671c3188f90881d7。 \n对于匿名用户（没有使用账户登录的用户），密码的生成策略相同且不唯一。 如果您想要确保密码的唯一性，请使用高级策略。</string>
     <string name="password_strategy_standard_title">标准</string>
-    <string name="password_strategy_user_password_description">"与标准策略相同，但额外使用用户输入的密码来生成最终加密密码。如果您丢失了您的密码，备份将无法被解密 / 还原。 
-Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的密码。 
-当您设置 Swift Backup 时，您需要再次输入密码，以便解密并还原您的加密备份。"</string>
+    <string name="password_strategy_user_password_description">与标准策略相同，但额外使用用户输入的密码来生成最终加密密码。如果您丢失了您的密码，备份将无法被解密 / 还原。 \nSwift Backup 将仅在本地私有数据目录中以加密的方式存储您的密码。 \n当您设置 Swift Backup 时，您需要再次输入密码，以便解密并还原您的加密备份。</string>
     <string name="password_strategy_user_password_title">进阶设置</string>
     <string name="password_toggle_content_description">显示密码</string>
     <string name="passwords_matching_error">密码不匹配</string>
@@ -772,9 +743,7 @@ Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的�
     <string name="processing_please_wait">正在处理中，请稍候，这可能需要一段时间…</string>
     <string name="protect_backup">保护备份</string>
     <string name="protected_backup">受保护的备份</string>
-    <string name="protected_backup_description">"受保护的备份是您希望确保其不受更新和删除影响的备份。
-
-如果您启用了多重备份，当达到最大备份数量限制时，Swift Backup将不会删除受保护的备份。"</string>
+    <string name="protected_backup_description">受保护的备份是您希望确保其不受更新和删除影响的备份。\n\n如果您启用了多重备份，当达到最大备份数量限制时，Swift Backup将不会删除受保护的备份。</string>
     <string name="protocol">协议</string>
     <string name="purchase">购买</string>
     <string name="purchase_plan">购买%1$s</string>
@@ -811,9 +780,7 @@ Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的�
     <string name="reset_app_summary">将应用程序重置为默认状态。这将清除您所有同步的 Swift Backup 设置。备份文件或云缓存将不会被删除。</string>
     <string name="reset_filters">重置筛选</string>
     <string name="reset_sms_app_warning">如果您没有设置默认的短信应用，您将无法接收信息！请在更改短信应用对话框中选择“是”！</string>
-    <string name="reset_sms_app_warning_q">"如果您没有设置默认短信应用，您将无法接收信息！
-
-请在接下来的界面中设置默认短信应用！"</string>
+    <string name="reset_sms_app_warning_q">如果您没有设置默认短信应用，您将无法接收信息！\n\n请在接下来的界面中设置默认短信应用！</string>
     <string name="restart_app">重启应用</string>
     <string name="restart_app_settings_summary">重新加载 Swift Backup</string>
     <string name="restore">还原</string>
@@ -821,12 +788,8 @@ Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的�
     <string name="restore_all_apps">还原所有应用</string>
     <string name="restore_all_apps_summary">还原所有备份应用</string>
     <string name="restore_app_ssaids">还原应用 SSAID（Android 8.0 及以上）</string>
-    <string name="restore_app_ssaids_note">"应用仍然可以通过许多其它方式检测设备已更改、恢复出厂设置或改变系统。
-
-此类应用的数据无法保证能够正确恢复。"</string>
-    <string name="restore_app_ssaids_summary">"还原每个应用的 Android 设备 ID。 这对于当设备 ID 已更改后，某些应用无法正确还原非常有用。
-
-注意：如果启用此功能，您必须在还原此类应用后重启设备。"</string>
+    <string name="restore_app_ssaids_note">应用仍然可以通过许多其它方式检测设备已更改、恢复出厂设置或改变系统。\n\n此类应用的数据无法保证能够正确恢复。</string>
+    <string name="restore_app_ssaids_summary">还原每个应用的 Android 设备 ID。 这对于当设备 ID 已更改后，某些应用无法正确还原非常有用。\n\n注意：如果启用此功能，您必须在还原此类应用后重启设备。</string>
     <string name="restore_call_logs">还原通话记录</string>
     <string name="restore_call_logs_summary">从最近的备份还原通话记录</string>
     <string name="restore_folder">恢复文件夹</string>
@@ -1070,11 +1033,10 @@ Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的�
     <string name="terms_of_service">服务条款</string>
     <string name="test">测试</string>
     <string name="test_anyway">仍然测试</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 将文件的最大大小限制为4GB。 
-解决方案：使用 exFAT 格式化您的存储，并使用支持装载 exFAT 存储的内核。"</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 将文件的最大大小限制为4GB。 \n解决方案：使用 exFAT 格式化您的存储，并使用支持装载 exFAT 存储的内核。</string>
     <string name="to_cloud">到云端</string>
     <string name="to_device">到设备</string>
-    <string name="tos_privacy_agreement">继续将视为您同意我们的 &lt;a href=https://www.swiftapps.org/tos>服务条款&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>隐私政策&lt;/a>.</string>
+    <string name="tos_privacy_agreement">继续将视为您同意我们的 &lt;a href=https://www.swiftapps.org/tos&gt;服务条款&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;隐私政策&lt;/a&gt;.</string>
     <string name="translation_project">翻译计划</string>
     <string name="translation_project_summary">帮助我们将本应用翻译成您的语言</string>
     <string name="turn_off">关闭</string>
@@ -1154,8 +1116,7 @@ Swift Backup 将仅在本地私有数据目录中以加密的方式存储您的�
     <string name="x_schedules">%s 个计划</string>
     <string name="x_walls">%s 张壁纸</string>
     <string name="x_wifi_networks">%s 个 Wi-Fi 网络</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- 允许 Swift Backup 读取此设备上已安装的应用程序列表。
-- 这是显示所有应用程序以进行应用程序备份和恢复所必需的。"</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- 允许 Swift Backup 读取此设备上已安装的应用程序列表。\n- 这是显示所有应用程序以进行应用程序备份和恢复所必需的。</string>
     <string name="xiaomi_installed_apps_perm_title">获取已安装应用程序的权限</string>
     <string name="xiaomi_installed_apps_permission_not_supported">已安装应用访问权限仅适用于 Xiaomi/HyperOS 设备。</string>
     <string name="yandex_disk">Yandex.Disk</string>

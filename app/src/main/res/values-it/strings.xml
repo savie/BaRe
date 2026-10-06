@@ -31,7 +31,7 @@
     <string name="common_google_play_services_enable_text">%1$s non funzionerà se non attivi Google Play Services.</string>
     <string name="common_google_play_services_enable_title">Attiva Google Play Services</string>
     <string name="common_google_play_services_install_button">Installa</string>
-    <string name="common_google_play_services_install_text">"L'app %1$s non funzionerà senza Google Play Services, non presente sul tuo dispositivo."</string>
+    <string name="common_google_play_services_install_text">L\'app %1$s non funzionerà senza Google Play Services, non presente sul tuo dispositivo.</string>
     <string name="common_google_play_services_install_title">Installa Google Play Services</string>
     <string name="common_google_play_services_notification_channel_name">Disponibilità di Google Play Services</string>
     <string name="common_google_play_services_notification_ticker">Errore Google Play Services</string>
@@ -41,7 +41,7 @@
     <string name="common_google_play_services_update_text">%1$s non funzionerà se non aggiorni Google Play Services.</string>
     <string name="common_google_play_services_update_title">Aggiorna Google Play Services</string>
     <string name="common_google_play_services_updating_text">%1$s non funzionerà senza Google Play Services, attualmente in fase di aggiornamento.</string>
-    <string name="common_google_play_services_wear_update_text">"È richiesta una nuova versione di Google Play Services. L'aggiornamento automatico verrà eseguito a breve."</string>
+    <string name="common_google_play_services_wear_update_text">È richiesta una nuova versione di Google Play Services. L\'aggiornamento automatico verrà eseguito a breve.</string>
     <string name="common_open_on_phone">Apri sul telefono</string>
     <string name="common_signin_button_text_long">Accedi con Google</string>
     <string name="copy">Copia</string>
@@ -58,7 +58,7 @@
     <string name="m3_loading_indicator_content_description">Caricamento in corso…</string>
     <string name="material_clock_toggle_content_description">Seleziona AM o PM</string>
     <string name="material_hour_24h_suffix">%1$s ore</string>
-    <string name="material_hour_selection">"Seleziona l'ora"</string>
+    <string name="material_hour_selection">Seleziona l\'ora</string>
     <string name="material_hour_suffix">%1$s in punto</string>
     <string name="material_minute_selection">Seleziona i minuti</string>
     <string name="material_minute_suffix">%1$s minuti</string>
@@ -66,7 +66,7 @@
     <string name="material_slider_range_start">Inizio intervallo</string>
     <string name="material_slider_value">Valore</string>
     <string name="material_timepicker_am">AM</string>
-    <string name="material_timepicker_clock_mode_description">"Passa alla modalità orologio per inserire l'ora."</string>
+    <string name="material_timepicker_clock_mode_description">Passa alla modalità orologio per inserire l\'ora.</string>
     <string name="material_timepicker_clock_mode_tooltip">Passa alla modalità orologio</string>
     <string name="material_timepicker_hour">Ora</string>
     <string name="material_timepicker_hour_error">Ora deve essere 1-12</string>
@@ -74,8 +74,8 @@
     <string name="material_timepicker_minute">Minuto</string>
     <string name="material_timepicker_minute_error">Minuto deve essere 0-59</string>
     <string name="material_timepicker_pm">PM</string>
-    <string name="material_timepicker_select_time">"Seleziona l'ora"</string>
-    <string name="material_timepicker_text_input_mode_description">"Passa alla modalità di immissione testo per inserire l'ora."</string>
+    <string name="material_timepicker_select_time">Seleziona l\'ora</string>
+    <string name="material_timepicker_text_input_mode_description">Passa alla modalità di immissione testo per inserire l\'ora.</string>
     <string name="material_timepicker_text_input_mode_tooltip">Passa alla modalità di immissione testo</string>
     <string name="mtrl_badge_numberless_content_description">Nuova notifica</string>
     <string name="mtrl_button_collapsed_content_description">Compresso</string>
@@ -99,15 +99,15 @@
     <string name="side_sheet_accessibility_pane_title">Scheda secondaria</string>
     <string name="smartcard_cert_dialog_negative_button">Annulla</string>
     <string name="smartcard_cert_dialog_positive_button">Continua</string>
-    <string name="smartcard_cert_dialog_title">"Selezionare un certificato per l'accesso"</string>
-    <string name="smartcard_early_unplug_dialog_message">"Il dispositivo smart card è stato rimosso. Reinserire il dispositivo prima di tentare di nuovo l'accesso."</string>
+    <string name="smartcard_cert_dialog_title">Selezionare un certificato per l\'accesso</string>
+    <string name="smartcard_early_unplug_dialog_message">Il dispositivo smart card è stato rimosso. Reinserire il dispositivo prima di tentare di nuovo l\'accesso.</string>
     <string name="smartcard_early_unplug_dialog_title">Riprova</string>
     <string name="smartcard_error_dialog_positive_button">OK</string>
     <string name="smartcard_general_error_dialog_message">Si è verificato un errore imprevisto. Riprova più tardi.</string>
     <string name="smartcard_general_error_dialog_title">Riprova più tardi</string>
     <string name="smartcard_max_attempt_dialog_message">Troppi tentativi non riusciti. Riprova più tardi.</string>
     <string name="smartcard_max_attempt_dialog_title">Riprova più tardi</string>
-    <string name="smartcard_nfc_diff_connected_message">"Usare la smart card con cui è stato eseguito l'accesso originale."</string>
+    <string name="smartcard_nfc_diff_connected_message">Usare la smart card con cui è stato eseguito l\'accesso originale.</string>
     <string name="smartcard_nfc_diff_connected_positive_button">Chiudi</string>
     <string name="smartcard_nfc_diff_connected_title">È possibile usare una sola smart card alla volta</string>
     <string name="smartcard_nfc_loading_dialog_message">Mantenere la smart card al suo posto.</string>
@@ -121,7 +121,7 @@
     <string name="smartcard_no_cert_dialog_message">Verificare che il provisioning del certificato sia stato eseguito correttamente nel dispositivo smart card.</string>
     <string name="smartcard_no_cert_dialog_title">Non sono stati trovati certificati applicabili.</string>
     <string name="smartcard_pin_dialog_error_message">Il PIN immesso non è corretto.</string>
-    <string name="smartcard_pin_dialog_message">"Immetti il PIN della smart card per accedere al certificato ed eseguire l'accesso"</string>
+    <string name="smartcard_pin_dialog_message">Immetti il PIN della smart card per accedere al certificato ed eseguire l\'accesso</string>
     <string name="smartcard_pin_dialog_negative_button">Annulla</string>
     <string name="smartcard_pin_dialog_positive_button">Sblocca</string>
     <string name="smartcard_pin_dialog_title">Sblocca smart card</string>

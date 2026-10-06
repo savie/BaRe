@@ -152,19 +152,16 @@
     <string name="backup_updated_apps">Backup dos aplicativos atualizados</string>
     <string name="backup_updated_apps_summary">Backup de aplicativos que possuem versão de APKs mais recentes instalados neste dispositivo</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Criptografado com AEGIS-256 por padrão</string>
-    <string name="backups_tagged_with">"Backups marcados com '%s'"</string>
+    <string name="backups_tagged_with">Backups marcados com \'%s\'</string>
     <string name="backups_tied_warning">Nota: Todos os backups (local/nuvem) estão vinculados a uma conta do Google específica. Você não pode acessar backups com outra conta do Google.</string>
     <string name="backups_with_notes">Backups com notas</string>
     <string name="base_backup">Backup básico</string>
     <string name="batch_actions">Ações em lote</string>
     <string name="battery_optimization">Otimização da bateria</string>
-    <string name="battery_optimization_message">"Desative as otimizações de bateria para garantir que os backups agendados funcionem bem depois que o dispositivo entrar no modo doze.          
-Nota: Também pode ser necessário desativar manualmente outras otimizações de bateria específicas do dispositivo, se houver."</string>
+    <string name="battery_optimization_message">Desative as otimizações de bateria para garantir que os backups agendados funcionem bem depois que o dispositivo entrar no modo doze.          \nNota: Também pode ser necessário desativar manualmente outras otimizações de bateria específicas do dispositivo, se houver.</string>
     <string name="beta">Beta</string>
     <string name="billed_yearly">Faturado anualmente</string>
-    <string name="billing_initialization_error">"Faturamento ainda não inicializado. 
-- Verifique sua conexão de internet 
-- Verifique se o Google Play Store está instalado e funcionando"</string>
+    <string name="billing_initialization_error">Faturamento ainda não inicializado. \n- Verifique sua conexão de internet \n- Verifique se o Google Play Store está instalado e funcionando</string>
     <string name="blacklist">Lista negra</string>
     <string name="blacklist_apps">Aplicativos na lista negra</string>
     <string name="blacklist_apps_msg">Ocultar ou forçar backups apenas de APK para os aplicativos selecionados</string>
@@ -209,25 +206,18 @@ Nota: Também pode ser necessário desativar manualmente outras otimizações de
     <string name="cloud_backup_for_apps">Desbloqueie o suporte de backup na nuvem para seus aplicativos</string>
     <string name="cloud_backup_limit">Limite de backup na nuvem</string>
     <string name="cloud_backup_tag">Etiqueta do backup na nuvem</string>
-    <string name="cloud_backup_tag_message">"Apps, Mensagens &amp; backups de logs de chamadas estão associados com uma tag de backup. Você pode usar este recurso para alterar as tags se você estiver usando o Swift Backup em mais de um dispositivo. 
-
-Nota: Papéis de parede e backups Wi-Fi não podem ser marcados."</string>
+    <string name="cloud_backup_tag_message">Apps, Mensagens &amp; backups de logs de chamadas estão associados com uma tag de backup. Você pode usar este recurso para alterar as tags se você estiver usando o Swift Backup em mais de um dispositivo. \n\nNota: Papéis de parede e backups Wi-Fi não podem ser marcados.</string>
     <string name="cloud_backups">Backups na nuvem</string>
     <string name="cloud_backups_settings_summary">Diagnósticos, transferências, downloads, partes</string>
     <string name="cloud_connection_failed">Falha ao conectar a conta na nuvem</string>
     <string name="cloud_connection_successful">Conectado com sucesso em sua conta na nuvem</string>
     <string name="cloud_error">Erro na nuvem</string>
     <string name="cloud_folder">Pasta na nuvem</string>
-    <string name="cloud_folder_creation_error_message">"O aplicativo não tem acesso para criar pasta no caminho atual do seu servidor. 
-
-Por favor, adicione o nome de uma pasta existente no campo Caminho."</string>
+    <string name="cloud_folder_creation_error_message">O aplicativo não tem acesso para criar pasta no caminho atual do seu servidor. \n\nPor favor, adicione o nome de uma pasta existente no campo Caminho.</string>
     <string name="cloud_folder_creation_failed">Falha ao criar a pasta</string>
-    <string name="cloud_folder_edit_warning">"Por favor NÃO exclua, modifique, mova arquivos ou pastas na nuvem gerenciados pelo Swift Backup no aplicativo, site ou painel de serviço em nuvem. 
-
-O Swift Backup mantém um banco de dados dos caminhos/IDs dos arquivos na nuvem em seu servidor para reduzir solicitações de rede e desempenho mais rápido. Se você excluir, modificar ou mover arquivos ou pastas na nuvem manualmente, enfrentará problemas ao usar o aplicativo e perderá o acesso aos seus backups na nuvem."</string>
+    <string name="cloud_folder_edit_warning">Por favor NÃO exclua, modifique, mova arquivos ou pastas na nuvem gerenciados pelo Swift Backup no aplicativo, site ou painel de serviço em nuvem. \n\nO Swift Backup mantém um banco de dados dos caminhos/IDs dos arquivos na nuvem em seu servidor para reduzir solicitações de rede e desempenho mais rápido. Se você excluir, modificar ou mover arquivos ou pastas na nuvem manualmente, enfrentará problemas ao usar o aplicativo e perderá o acesso aos seus backups na nuvem.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Criar e usar a senha do aplicativo externo em vez da senha normal da sua conta:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Criar e usar a senha do aplicativo externo em vez da senha normal da sua conta:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru essa opção requer que os usuários tenham um plano de armazenamento pago com eles</string>
     <string name="cloud_maintenance_running_message">A manutenção da nuvem está em andamento. Tente novamente quando terminar.</string>
     <string name="cloud_not_connected_summary">Swift Backup não está conectado com um serviço da nuvem</string>
@@ -308,13 +298,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Dados</string>
     <string name="data_encryption_smb_3">Criptografia de Dados (SMB 3+)</string>
     <string name="date_used">Dados utilizados</string>
-    <string name="default_sms_app_rationale">"Para restaurar as mensagens no seu dispositivo, o backup Swift precisa ser o app SMS padrão.
-
-Após a restauração ser concluída, você será solicitado para redefinir o aplicativo SMS para o seu app atual."</string>
+    <string name="default_sms_app_rationale">Para restaurar as mensagens no seu dispositivo, o backup Swift precisa ser o app SMS padrão.\n\nApós a restauração ser concluída, você será solicitado para redefinir o aplicativo SMS para o seu app atual.</string>
     <string name="default_word">Padrão</string>
     <string name="delete">Apagar</string>
-    <string name="delete_active_tag">"Excluir tag '%s' e backups associados"</string>
-    <string name="delete_active_tag_message">"Nota: Isto irá excluir todos os arquivos de backup na nuvem associados com a tag '%s'!"</string>
+    <string name="delete_active_tag">Excluir tag \'%s\' e backups associados</string>
+    <string name="delete_active_tag_message">Nota: Isto irá excluir todos os arquivos de backup na nuvem associados com a tag \'%s\'!</string>
     <string name="delete_all">Apagar todos</string>
     <string name="delete_all_data">Apagar todos os dados</string>
     <string name="delete_all_data_summary">Apagar todos os dados usados ​​pelo aplicativo no dispositivo para esta conta, incluindo arquivos de backup/cache. Isso também redefinirá o aplicativo para seu estado padrão e apagará todas as suas configurações sincronizadas do Swift Backup.</string>
@@ -394,12 +382,8 @@ Após a restauração ser concluída, você será solicitado para redefinir o ap
     <string name="external_storage">Armazenamento externo</string>
     <string name="favorite_apps">Aplicativos Favoritos</string>
     <string name="favorites">Favoritos</string>
-    <string name="feature_requires_root_access_message">"Este recurso requer acesso root para funcionar.
-
-Por favor, verifique se o seu dispositivo tem acesso root e se o Swift Backup tem permissão de acesso root."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Este recurso requer acesso Root ou Shizuku para funcionar. 
-
-Verifique se o seu dispositivo tem acesso root e se o acesso root foi concedido ao Swift Backup ou se o serviço Shizuku está em execução."</string>
+    <string name="feature_requires_root_access_message">Este recurso requer acesso root para funcionar.\n\nPor favor, verifique se o seu dispositivo tem acesso root e se o Swift Backup tem permissão de acesso root.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Este recurso requer acesso Root ou Shizuku para funcionar. \n\nVerifique se o seu dispositivo tem acesso root e se o acesso root foi concedido ao Swift Backup ou se o serviço Shizuku está em execução.</string>
     <string name="filen_two_factor_authentication">Autenticação de dois fatores do Filen</string>
     <string name="filen_two_factor_code_hint">Código 2FA ou código de recuperação</string>
     <string name="files">Arquivos</string>
@@ -423,8 +407,7 @@ Verifique se o seu dispositivo tem acesso root e se o acesso root foi concedido 
     <string name="folder_creation_failed">Não foi possível criar a pasta</string>
     <string name="folder_items_empty_list_error">Nenhum item de pasta para listar com os critérios selecionados</string>
     <string name="folder_name">Nome da pasta</string>
-    <string name="folder_name_already_used_message">"Já existe uma configuração de pasta com este nome de exibição. 
-Você ainda pode continuar, mas pode ser mais difícil diferenciá-los."</string>
+    <string name="folder_name_already_used_message">Já existe uma configuração de pasta com este nome de exibição. \nVocê ainda pode continuar, mas pode ser mais difícil diferenciá-los.</string>
     <string name="folder_name_already_used_title">Nome de exibição duplicado</string>
     <string name="folder_not_found">Pasta não encontrada</string>
     <string name="folder_path">Caminho da pasta</string>
@@ -485,9 +468,7 @@ Você ainda pode continuar, mas pode ser mais difícil diferenciá-los."</string
     <string name="in_place_apk_downgrades">Downgrade de apps sem desinstalação</string>
     <string name="in_place_apk_downgrades_summary">Use o suporte da ROM ou de um módulo, como o CorePatch, para fazer downgrade de apps sem desinstalá-los.</string>
     <string name="incompatible_launcher">Launcher incompatível</string>
-    <string name="incompatible_launcher_msg">"'%s' é testado e considerado incompatível para fazer o backup de papéis de parede.
-
-Por favor, use um launcher alternativo para fazer backup de papéis de parede corretamente."</string>
+    <string name="incompatible_launcher_msg">\'%s\' é testado e considerado incompatível para fazer o backup de papéis de parede.\n\nPor favor, use um launcher alternativo para fazer backup de papéis de parede corretamente.</string>
     <string name="incremental_backup">Backup incremental</string>
     <string name="incremental_backups">Backups incrementais</string>
     <string name="initializing">Inicializando</string>
@@ -637,7 +618,7 @@ Por favor, use um launcher alternativo para fazer backup de papéis de parede co
     <string name="multiple_backups_strategy_dated_title">Novo backup a cada vez</string>
     <string name="multiple_backups_strategy_single_description">Manter um único backup e atualize/substitua as partes alteradas ao realizar um backup.</string>
     <string name="multiple_backups_strategy_single_title">Backup único</string>
-    <string name="multithreaded_downloads_description">Use várias conexões para baixar um arquivo (>100 MB) em partes para velocidades mais rápidas</string>
+    <string name="multithreaded_downloads_description">Use várias conexões para baixar um arquivo (&gt;100 MB) em partes para velocidades mais rápidas</string>
     <string name="multithreaded_downloads_title">Downloads multi-threaded \"Paralelos\"</string>
     <string name="name">Nome</string>
     <string name="navigation_drawer_open">Abrir menu de navegação</string>
@@ -662,11 +643,7 @@ Por favor, use um launcher alternativo para fazer backup de papéis de parede co
     <string name="no_backups_synced">Nenhum backup sincronizado na nuvem</string>
     <string name="no_backups_with_active_tag">Ainda não há backups com esta etiqueta</string>
     <string name="no_backups_with_active_tag_message">Backups criados com esta etiqueta aparecerão aqui.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"O Android 10 não tem as APIs necessárias para restaurar redes Wi-Fi em lote (mesmo que o acesso root esteja disponível). 
-
-1. Clique nos itens do backup do wifi e selecione 'Restaurar' do popup. Isto irá copiar a senha para a área de transferência. 
-
-2. Na caixa de diálogo WiFi do sistema que aparece depois, selecione a rede WiFi e cole a senha copiada."</string>
+    <string name="no_batch_restore_wifi_on_q_message">O Android 10 não tem as APIs necessárias para restaurar redes Wi-Fi em lote (mesmo que o acesso root esteja disponível). \n\n1. Clique nos itens do backup do wifi e selecione \'Restaurar\' do popup. Isto irá copiar a senha para a área de transferência. \n\n2. Na caixa de diálogo WiFi do sistema que aparece depois, selecione a rede WiFi e cole a senha copiada.</string>
     <string name="no_browser_found_error">Nenhum navegador foi encontrado para abrir o link</string>
     <string name="no_call_logs_found">Não há registro de chamadas no dispositivo.</string>
     <string name="no_cloud_connected">Conta na nuvem não conectada</string>
@@ -680,8 +657,7 @@ Por favor, use um launcher alternativo para fazer backup de papéis de parede co
     <string name="no_messages_found">Nenhuma mensagem encontrada no dispositivo</string>
     <string name="no_purchases_found">Nenhuma compra encontrada!</string>
     <string name="no_saved_wifi_networks_found">Nenhuma rede Wi-Fi salva encontrada no dispositivo</string>
-    <string name="no_schedules_added_message">"Nenhum agendamento adicionado
-Clique abaixo para criar um novo agendamento"</string>
+    <string name="no_schedules_added_message">Nenhum agendamento adicionado\nClique abaixo para criar um novo agendamento</string>
     <string name="no_tasks_to_perform_in_schedule">Não há tarefas a serem executadas na agenda</string>
     <string name="no_wallpapers_found">Nenhum papel de parede encontrado!</string>
     <string name="none">Nenhum</string>
@@ -700,8 +676,7 @@ Clique abaixo para criar um novo agendamento"</string>
     <string name="note">Nota</string>
     <string name="notices">Avisos de terceiros</string>
     <string name="notifications">Notificações</string>
-    <string name="notifications_perm_subtitle">"- Permitir que o app mostre notificações de tarefas como backup/restauração, backups agendados e erros de tarefas, se houver. 
-- O Swift Backup só mostrará notificações que são absolutamente essenciais para você."</string>
+    <string name="notifications_perm_subtitle">- Permitir que o app mostre notificações de tarefas como backup/restauração, backups agendados e erros de tarefas, se houver. \n- O Swift Backup só mostrará notificações que são absolutamente essenciais para você.</string>
     <string name="notifications_perm_title">Permissão de notificações</string>
     <string name="ok">Ok</string>
     <string name="old_password">Senha antiga</string>
@@ -723,13 +698,9 @@ Clique abaixo para criar um novo agendamento"</string>
     <string name="password_copied_to_clipboard">Senha copiada para a área de transferência</string>
     <string name="password_remember_warning">Lembre-se ou anote a senha, pois você não poderá recuperá-la mais tarde.</string>
     <string name="password_saved">Senha salva</string>
-    <string name="password_strategy_standard_description">"Permitir que o Swift Backup gere senhas para seus backups criptografados. As senhas são exclusivas da sua conta do Swift Backup e são diferentes dependendo do recurso a ser salvo (mensagens, registro de chamadas, pacote de aplicativos que está sendo copiado, etc). 
-As senhas geradas contêm caracteres alfanuméricos aleatórios e parecem algo como bfb69f180e4e1db7671c3188f90881d7. 
-Para usuários anônimos (usuários que usam o aplicativo sem uma conta), a estratégia de geração de senha é comum e não única. Por favor, use a estratégia avançada se quiser manter suas senhas exclusivas."</string>
+    <string name="password_strategy_standard_description">Permitir que o Swift Backup gere senhas para seus backups criptografados. As senhas são exclusivas da sua conta do Swift Backup e são diferentes dependendo do recurso a ser salvo (mensagens, registro de chamadas, pacote de aplicativos que está sendo copiado, etc). \nAs senhas geradas contêm caracteres alfanuméricos aleatórios e parecem algo como bfb69f180e4e1db7671c3188f90881d7. \nPara usuários anônimos (usuários que usam o aplicativo sem uma conta), a estratégia de geração de senha é comum e não única. Por favor, use a estratégia avançada se quiser manter suas senhas exclusivas.</string>
     <string name="password_strategy_standard_title">Padrão</string>
-    <string name="password_strategy_user_password_description">"Igual à estratégia padrão, mas adicionalmente usa uma senha inserida pelo usuário para gerar a senha de criptografia final. Se você perder sua senha, os backups não poderão ser descriptografados / restaurados. 
-Swift Backup armazenará sua senha apenas localmente em seu diretório de dados privados em uma forma criptografada. 
-Quando você configura o Swift Backup, você precisa inserir sua senha novamente para que ele possa descriptografar e restaurar seus backups criptografados."</string>
+    <string name="password_strategy_user_password_description">Igual à estratégia padrão, mas adicionalmente usa uma senha inserida pelo usuário para gerar a senha de criptografia final. Se você perder sua senha, os backups não poderão ser descriptografados / restaurados. \nSwift Backup armazenará sua senha apenas localmente em seu diretório de dados privados em uma forma criptografada. \nQuando você configura o Swift Backup, você precisa inserir sua senha novamente para que ele possa descriptografar e restaurar seus backups criptografados.</string>
     <string name="password_strategy_user_password_title">Avançado</string>
     <string name="password_toggle_content_description">Exibir senha</string>
     <string name="passwords_matching_error">As senhas não coincidem</string>
@@ -775,9 +746,7 @@ Quando você configura o Swift Backup, você precisa inserir sua senha novamente
     <string name="processing_please_wait">Processando, por favor, aguarde, isso pode demorar um pouco...</string>
     <string name="protect_backup">Proteger o backup</string>
     <string name="protected_backup">Backup protegido</string>
-    <string name="protected_backup_description">"Os backups protegidos são backups que você deseja manter seguros contra atualizações e exclusão.
-
-Caso você tenha ativado vários backups, O Swift Backup não excluirá os backups protegidos quando o número máximo de backups for atingido."</string>
+    <string name="protected_backup_description">Os backups protegidos são backups que você deseja manter seguros contra atualizações e exclusão.\n\nCaso você tenha ativado vários backups, O Swift Backup não excluirá os backups protegidos quando o número máximo de backups for atingido.</string>
     <string name="protocol">Protocolo</string>
     <string name="purchase">Compra</string>
     <string name="purchase_plan">Comprar %1$s</string>
@@ -814,9 +783,7 @@ Caso você tenha ativado vários backups, O Swift Backup não excluirá os backu
     <string name="reset_app_summary">Redefina o aplicativo para seu estado padrão. Isso apagará todas as configurações do Swift Backup sincronizadas. Arquivos de backup ou cache em nuvem não serão excluídos.</string>
     <string name="reset_filters">Limpar filtros</string>
     <string name="reset_sms_app_warning">Você não receberá mensagens se você não definir um app de SMS como padrão. Por favor, selecione \"Sim\" na próxima caixa de diálogo.</string>
-    <string name="reset_sms_app_warning_q">"Você não receberá mensagens se não definir um aplicativo de SMS como padrão.
-
-Por favor, defina um aplicativo como padrão na próxima tela."</string>
+    <string name="reset_sms_app_warning_q">Você não receberá mensagens se não definir um aplicativo de SMS como padrão.\n\nPor favor, defina um aplicativo como padrão na próxima tela.</string>
     <string name="restart_app">Reiniciar aplicativo</string>
     <string name="restart_app_settings_summary">Recarregar Swift Backup</string>
     <string name="restore">Restaurar</string>
@@ -824,12 +791,8 @@ Por favor, defina um aplicativo como padrão na próxima tela."</string>
     <string name="restore_all_apps">Restaurar os aplicativos</string>
     <string name="restore_all_apps_summary">Restaurar todos os aplicativos em backup</string>
     <string name="restore_app_ssaids">Restaurar SSAIDs (Android 8 ou superior)</string>
-    <string name="restore_app_ssaids_note">"Os aplicativos ainda podem detectar uma alteração de dispositivo, redefinição de fábrica ou alteração de ROMs de muitas outras maneiras.
-
-A devida restauração de dados para esses aplicativos não é garantida."</string>
-    <string name="restore_app_ssaids_summary">"Restaurar IDs de dispositivos Android por aplicativo. Isso é útil para aplicativos que não são restaurados corretamente se o ID do dispositivo for alterado.
-
-Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após restaurar esses aplicativos."</string>
+    <string name="restore_app_ssaids_note">Os aplicativos ainda podem detectar uma alteração de dispositivo, redefinição de fábrica ou alteração de ROMs de muitas outras maneiras.\n\nA devida restauração de dados para esses aplicativos não é garantida.</string>
+    <string name="restore_app_ssaids_summary">Restaurar IDs de dispositivos Android por aplicativo. Isso é útil para aplicativos que não são restaurados corretamente se o ID do dispositivo for alterado.\n\nNota: Se você ativar isso, também precisará REINICIAR o dispositivo após restaurar esses aplicativos.</string>
     <string name="restore_call_logs">Restaurar os registros de chamadas</string>
     <string name="restore_call_logs_summary">Restaurar os registros de chamadas do backup mais recente.</string>
     <string name="restore_folder">Restaurar pasta</string>
@@ -892,8 +855,7 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="right_swipe">Deslizar para a direita</string>
     <string name="root_access_needed">Acesso root necessário</string>
     <string name="root_access_or_shizuku_needed">É necessário acesso root ou Shizuku</string>
-    <string name="root_grant_permissions">"Conceda todas as permissões para Swift Backup
-É necessário acesso root ou Shizuku"</string>
+    <string name="root_grant_permissions">Conceda todas as permissões para Swift Backup\nÉ necessário acesso root ou Shizuku</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Conceda as permissões abaixo para o Swift Backup em um clique usando o acesso Root ou Shizuku.</string>
     <string name="root_grant_permissions_dialog_title">Conceda permissões de acesso Root ou Shizuku</string>
     <string name="root_provider">Provedor</string>
@@ -1047,8 +1009,7 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="sure_to_cancel_task">Você tem certeza que deseja cancelar?</string>
     <string name="sure_to_proceed">Você tem certeza que deseja continuar? Clique em \"Sim\" para confirmar.</string>
     <string name="swift_backup_is_busy">O Swift Backup está ocupado</string>
-    <string name="swift_labs_settings_summary">"Recursos experimentais que podem não funcionar corretamente. 
-Nota: Esses recursos podem desaparecer a qualquer momento."</string>
+    <string name="swift_labs_settings_summary">Recursos experimentais que podem não funcionar corretamente. \nNota: Esses recursos podem desaparecer a qualquer momento.</string>
     <string name="swiftlogger_info">Registros importantes que podem ajudar ao reportar bugs</string>
     <string name="swipe_actions">Ações de deslizar</string>
     <string name="swipe_actions_description">Escolha até duas ações para cada direção do gesto</string>
@@ -1076,11 +1037,10 @@ Nota: Esses recursos podem desaparecer a qualquer momento."</string>
     <string name="terms_of_service">Termos de serviço</string>
     <string name="test">Teste</string>
     <string name="test_anyway">Testar mesmo assim</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 limita o tamanho máximo de um arquivo a 4GB. 
-Solução: Formate o seu armazenamento como exFAT e use um kernel que suporta montagem de armazenamentos exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 limita o tamanho máximo de um arquivo a 4GB. \nSolução: Formate o seu armazenamento como exFAT e use um kernel que suporta montagem de armazenamentos exFAT.</string>
     <string name="to_cloud">Para a nuvem</string>
     <string name="to_device">Para o dispositivo</string>
-    <string name="tos_privacy_agreement">Ao continuar, você concorda com nossos &lt;a href=https://www.swiftapps.org/tos>Termos de Serviço&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Política de Privacidade&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Ao continuar, você concorda com nossos &lt;a href=https://www.swiftapps.org/tos&gt;Termos de Serviço&lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Política de Privacidade&lt;/a&gt;.</string>
     <string name="translation_project">Projeto de tradução</string>
     <string name="translation_project_summary">Ajude-nos a traduzir o aplicativo para seu idioma.</string>
     <string name="turn_off"> Desligar</string>
@@ -1160,8 +1120,7 @@ Solução: Formate o seu armazenamento como exFAT e use um kernel que suporta mo
     <string name="x_schedules">%s Agendamentos</string>
     <string name="x_walls">%s Papéis de parede</string>
     <string name="x_wifi_networks">%s Redes WiFi</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Permitir que Swift Backup leia a lista de aplicativos instalados neste dispositivo.
-- Isso é necessário para mostrar todos os aplicativos para backup e restauração de aplicativos."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Permitir que Swift Backup leia a lista de aplicativos instalados neste dispositivo.\n- Isso é necessário para mostrar todos os aplicativos para backup e restauração de aplicativos.</string>
     <string name="xiaomi_installed_apps_perm_title">Obtenha permissão para aplicativos instalados</string>
     <string name="xiaomi_installed_apps_permission_not_supported">O acesso a apps instalados só está disponível em dispositivos Xiaomi/HyperOS.</string>
     <string name="yandex_disk">Yandex.Disk</string>

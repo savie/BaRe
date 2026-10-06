@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="IntroTheme" parent="@style/IntroTheme.Base">
-        <item name="android:windowSplashScreenBackground">?android:colorBackground</item>
+        <item name="android:windowSplashScreenBackground">?android:attr/colorBackground</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_splash</item>
     </style>
     <style name="ThemeOverlay.Material3.DynamicColors.Dark" parent="">
@@ -128,6 +128,8 @@
         <item name="colorTertiaryFixedDim">@color/m3_sys_color_dynamic_tertiary_fixed_dim</item>
         <item name="isMaterial3DynamicColorApplied">true</item>
     </style>
-    <style name="ThemeOverlay.Material3Expressive.DynamicColors.Dark" parent="@style/ThemeOverlay.Material3.DynamicColors.Dark" />
-    <style name="ThemeOverlay.Material3Expressive.DynamicColors.Light" parent="@style/ThemeOverlay.Material3.DynamicColors.Light" />
+    <style name="ThemeOverlay.Material3Expressive.DynamicColors.Dark" parent="@style/ThemeOverlay.Material3.DynamicColors.Dark">
+    </style>
+    <style name="ThemeOverlay.Material3Expressive.DynamicColors.Light" parent="@style/ThemeOverlay.Material3.DynamicColors.Light">
+    </style>
 </resources>

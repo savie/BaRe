@@ -5,7 +5,7 @@
     <string name="access">Erişim</string>
     <string name="account">Hesap</string>
     <string name="account_email">E-Mail hesabı</string>
-    <string name="account_id">"Hesap ID'si"</string>
+    <string name="account_id">Hesap ID\'si</string>
     <string name="active_backup_tag">Şuanki bulut yedeği etiketi</string>
     <string name="active_password">Mevcut Şifre</string>
     <string name="active_password_description">Bu, varsayılan olarak yedeklerinizin şifrelenmesi ve şifresinin çözülmesi için kullanılacak şifredir.</string>
@@ -94,7 +94,7 @@
     <string name="backing_up_external_data">Harici veri yedekleniyor</string>
     <string name="backing_up_media">Medyayı yedekleme</string>
     <string name="backing_up_shared_libraries">Paylaşılan Kitaplıkları Yedekle</string>
-    <string name="backing_up_split_apks">"Bölünmüş APK'lar yedekleniyor"</string>
+    <string name="backing_up_split_apks">Bölünmüş APK\'lar yedekleniyor</string>
     <string name="backup">Yedekle</string>
     <string name="backup_all">Tümünü yedekle</string>
     <string name="backup_all_apps">Tüm uygulamaları yedekle</string>
@@ -116,7 +116,7 @@
     <string name="backup_missing_apps">Yedeklenmeyi bekleyen uygulamalar</string>
     <string name="backup_missing_apps_summary">Henüz yedeklenmemiş uygulamaları yedekle</string>
     <string name="backup_mms">MMS/RCS mesajlarını yedekle ve geri yükle</string>
-    <string name="backup_mms_subtitle">"RCS mesajları sadece Google Mesajlar uygulaması için desteklenir. Android Ekosisteminde RCS API'larının bulunmaması nedeniyle RCS mesajları MMS olarak geri yüklenecektir."</string>
+    <string name="backup_mms_subtitle">RCS mesajları sadece Google Mesajlar uygulaması için desteklenir. Android Ekosisteminde RCS API\'larının bulunmaması nedeniyle RCS mesajları MMS olarak geri yüklenecektir.</string>
     <string name="backup_options">Yedekleme seçenekleri</string>
     <string name="backup_size">Yedekleme boyutu</string>
     <string name="backup_status">Cihaz hafızasına yedekle</string>
@@ -125,7 +125,7 @@
     <string name="backup_tag">Yedekleme etiketi</string>
     <string name="backup_to_cloud">Buluta Yedekle</string>
     <string name="backup_to_local">Cihaza yedekle</string>
-    <string name="backup_to_local_and_cloud">"Cihaz'a ve Bulut'a yedekle"</string>
+    <string name="backup_to_local_and_cloud">Cihaz\'a ve Bulut\'a yedekle</string>
     <string name="backup_updated_apps">Güncellenen uygulamaları yedekle</string>
     <string name="backup_updated_apps_summary">Bu cihazda daha yeni sürümü yüklü olan uygulamaları yedekle</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Varsayılan olarak AEGIS-256 ile şifrelenmiştir</string>
@@ -135,18 +135,15 @@
     <string name="base_backup">Temel yedekleme</string>
     <string name="batch_actions">Toplu işlemler</string>
     <string name="battery_optimization">Pil optimizasyonu</string>
-    <string name="battery_optimization_message">"Cihaz uyku modundayken zamanlanmış yedeklemelerin düzgün çalışacağından emin olmak için pil optimizasyonunu devre dışı bırakın. 
-Not: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılmalıdır"</string>
+    <string name="battery_optimization_message">Cihaz uyku modundayken zamanlanmış yedeklemelerin düzgün çalışacağından emin olmak için pil optimizasyonunu devre dışı bırakın. \nNot: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılmalıdır</string>
     <string name="beta">Beta</string>
     <string name="billed_yearly">Yıllık olarak faturalandırılır</string>
-    <string name="billing_initialization_error">"Ödeme yapılamadı. 
-- İnternet bağlantınızı kontrol edin 
-- Google Play Store'un kurulu olup çalıştığını kontrol edin"</string>
+    <string name="billing_initialization_error">Ödeme yapılamadı. \n- İnternet bağlantınızı kontrol edin \n- Google Play Store\'un kurulu olup çalıştığını kontrol edin</string>
     <string name="blacklist">Kara liste</string>
     <string name="blacklist_apps">Kara liste uygulamaları</string>
     <string name="blacklist_apps_msg">APK gizle veya zorla - Sadece Seçili uygulamalar için</string>
     <string name="blacklist_hide">Uygulamayı gizle ( yedekleme/ geri yükleme)</string>
-    <string name="blacklist_no_data">"Toplu işlemlerde sadece APK'yı Yedekle/Geri Yükle"</string>
+    <string name="blacklist_no_data">Toplu işlemlerde sadece APK\'yı Yedekle/Geri Yükle</string>
     <string name="both">Her ikisi de</string>
     <string name="built_in_labels">Yerleşik Etiketler</string>
     <string name="cache">Önbellek</string>
@@ -161,13 +158,13 @@ Not: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılma
     <string name="calls">Aramalar</string>
     <string name="cancel">İptal</string>
     <string name="cancelling_please_wait">İptal ediliyor, Lütfen bekleyin</string>
-    <string name="cannot_purchase_with_test_release_of_app_message">"Bu, Swift Backup'ın bir test APK'sıdır. Satın alma işlemleri yalnızca Google Play'den indirilen APK'larla yapılabilir. Lütfen uygulamayı Google Play'den indirin ve satın alma işlemini gerçekleştirin. Satın alma işlemini gerçekleştirdikten sonra uygulamanın test APK'larını kullanmaya başlayabilirsiniz."</string>
+    <string name="cannot_purchase_with_test_release_of_app_message">Bu, Swift Backup\'ın bir test APK\'sıdır. Satın alma işlemleri yalnızca Google Play\'den indirilen APK\'larla yapılabilir. Lütfen uygulamayı Google Play\'den indirin ve satın alma işlemini gerçekleştirin. Satın alma işlemini gerçekleştirdikten sonra uygulamanın test APK\'larını kullanmaya başlayabilirsiniz.</string>
     <string name="change_blacklist_mode">Kara liste modunu değiştir</string>
     <string name="change_password">Şifreyi değiştir</string>
     <string name="change_sms_app">Mesajlaşma uygulamasını değiştir</string>
     <string name="changelog">Sürüm değişiklikleri</string>
     <string name="charging_requirements">Gereken şarj</string>
-    <string name="checking_cloud_for_saved_settings">"Bulut'ta kayıtlı uygulama ayarları kontrol ediliyor"</string>
+    <string name="checking_cloud_for_saved_settings">Bulut\'ta kayıtlı uygulama ayarları kontrol ediliyor</string>
     <string name="clear_all">Tümünü temizle</string>
     <string name="clear_data">Verileri Temizle</string>
     <string name="clear_labels">Etiketleri temizle</string>
@@ -179,32 +176,25 @@ Not: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılma
     <string name="cloud_backup_for_apps">Uygulamalarınız için bulut yedekleme desteğinin kilidini açın</string>
     <string name="cloud_backup_limit">Bulut yedekleme limiti</string>
     <string name="cloud_backup_tag">Bulut yedeği etiketi</string>
-    <string name="cloud_backup_tag_message">"Uygulamalar, Mesajlar &amp; Arama Kayıtlarının yedekleri bir yedekleme etiketiyle ilişkilendirilir. Birden fazla cihazda Swift Backup'ı kullanıyorsanız, etiketleri değiştirmek için bu özelliği kullanabilirsiniz. 
-
-Not: Duvar kağıtları ve WiFi ağları etiketlenemez."</string>
+    <string name="cloud_backup_tag_message">Uygulamalar, Mesajlar &amp; Arama Kayıtlarının yedekleri bir yedekleme etiketiyle ilişkilendirilir. Birden fazla cihazda Swift Backup\'ı kullanıyorsanız, etiketleri değiştirmek için bu özelliği kullanabilirsiniz. \n\nNot: Duvar kağıtları ve WiFi ağları etiketlenemez.</string>
     <string name="cloud_backups">Bulut yedeklemeleri</string>
     <string name="cloud_backups_settings_summary">Tanılama, aktarımlar, indirmeler, parçalar</string>
     <string name="cloud_connection_failed">Bulut hesabınıza bağlantı başarısız oldu</string>
     <string name="cloud_connection_successful">Bulut hesabınıza başarıyla bağlanıldı!</string>
     <string name="cloud_error">Bulut hatası</string>
     <string name="cloud_folder">Bulut klasörü</string>
-    <string name="cloud_folder_creation_error_message">"Uygulamanın sunucunuzun geçerli yolunda klasör oluşturma erişimi yok. 
-
- Lütfen yol alanına mevcut bir klasörün adını ekleyin."</string>
+    <string name="cloud_folder_creation_error_message">Uygulamanın sunucunuzun geçerli yolunda klasör oluşturma erişimi yok. \n\n Lütfen yol alanına mevcut bir klasörün adını ekleyin.</string>
     <string name="cloud_folder_creation_failed">Klasör oluşturulamadı!</string>
-    <string name="cloud_folder_edit_warning">"Lütfen Swift Backup tarafından yönetilen bulut dosyalarını veya klasörlerini bulut hizmeti uygulamasından, web sitesinden veya kontrol panelinden silmeyin, değiştirmeyin veya taşımayın.      
-
-Swift Backup, ağ isteklerini ve daha hızlı performansı azaltmak için sunucusunda bulut dosya yollarının / kimliklerinin bir veritabanını tutar. Bulut dosyalarını veya klasörlerini elle silerseniz, değiştirir veya taşırsanız, uygulamayı kullanırken sorunlarla karşılaşır ve bulut yedeklemelerinize erişiminizi kaybedersiniz."</string>
+    <string name="cloud_folder_edit_warning">Lütfen Swift Backup tarafından yönetilen bulut dosyalarını veya klasörlerini bulut hizmeti uygulamasından, web sitesinden veya kontrol panelinden silmeyin, değiştirmeyin veya taşımayın.      \n\nSwift Backup, ağ isteklerini ve daha hızlı performansı azaltmak için sunucusunda bulut dosya yollarının / kimliklerinin bir veritabanını tutar. Bulut dosyalarını veya klasörlerini elle silerseniz, değiştirir veya taşırsanız, uygulamayı kullanırken sorunlarla karşılaşır ve bulut yedeklemelerinize erişiminizi kaybedersiniz.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Normal hesap parolanız yerine harici uygulama parolası oluşturun ve kullanın:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Normal hesap parolanız yerine harici uygulama parolası oluşturun ve kullanın:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Bu seçenek, ücretli bir Cloud Mail.Ru depolama planına sahip olmanızı gerektirir</string>
     <string name="cloud_maintenance_running_message">Bulut bakımı devam ediyor. Tamamlandığında tekrar deneyin.</string>
     <string name="cloud_not_connected_summary">Swift Backup bir bulut servisine bağlı değil</string>
     <string name="cloud_sync">Bulut senk</string>
     <string name="cloud_synced_apps">Bulut senkronizasyonu yapılmış uygulamalar</string>
     <string name="cloud_upload_skipped_cloud_not_connected">Bağlı bir bulut hesabı olmadığı için bulut yüklemesi atlandı</string>
-    <string name="cloud_upload_skipped_network_error">"Bulut'a yedekleme ağ problemlerinden dolayı atlandı"</string>
+    <string name="cloud_upload_skipped_network_error">Bulut\'a yedekleme ağ problemlerinden dolayı atlandı</string>
     <string name="cloud_upload_skipped_no_wifi_error">WiFi bağlantısı kesildiği için bulut yüklemesi atlandı.</string>
     <string name="compression_level">Sıkıştırma seviyesi:</string>
     <string name="compression_level_type_fast">Hızlı</string>
@@ -227,7 +217,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="connect_cloud_subtitle">Dosyalarınızı bulut hesabınıza yedeklemek için bir bulut servisine bağlanın.</string>
     <string name="connect_previous_cloud_service_message">Daha önce kullandığınız bulut hizmetine bağlanmak istiyor musunuz?</string>
     <string name="connect_service">Bir hizmete bağlanın</string>
-    <string name="connect_wifi">"WiFi'ye bağlan"</string>
+    <string name="connect_wifi">WiFi\'ye bağlan</string>
     <string name="connected">Bağlanıldı</string>
     <string name="connected_account">Bağlı hesap</string>
     <string name="contact">İletişim</string>
@@ -261,12 +251,10 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Veri</string>
     <string name="data_encryption_smb_3">Veri Şifreleme (SMB 3+)</string>
     <string name="date_used">Kullanılan tarih</string>
-    <string name="default_sms_app_rationale">"Cihazınıza mesajları geri yüklemek için, Swift Backup 'ın varsayılan mesajlaşma uygulaması yapılması gerekmektedir. 
-
- Geri yükleme tamamlandıktan sonra kullandığınız SMS uygulamanızı tekrar varsayılan uygulama yapmanız istenilecektir."</string>
+    <string name="default_sms_app_rationale">Cihazınıza mesajları geri yüklemek için, Swift Backup \'ın varsayılan mesajlaşma uygulaması yapılması gerekmektedir. \n\n Geri yükleme tamamlandıktan sonra kullandığınız SMS uygulamanızı tekrar varsayılan uygulama yapmanız istenilecektir.</string>
     <string name="default_word">Varsayılan</string>
     <string name="delete">Sil</string>
-    <string name="delete_active_tag">"'%s' etiketini ve ilişkili yedekleri silin"</string>
+    <string name="delete_active_tag">\'%s\' etiketini ve ilişkili yedekleri silin</string>
     <string name="delete_active_tag_message">Not: Bu işlem, %s etiketiyle ilişkili tüm bulut yedeklerini siler!</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="delete_all_data">Tüm verileri sil</string>
@@ -343,12 +331,8 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="external_storage">Harici depolama</string>
     <string name="favorite_apps">Favori uygulamalar</string>
     <string name="favorites">Favoriler</string>
-    <string name="feature_requires_root_access_message">"Bu özelliğin çalışması için root erişimi gerekli.
-
-Eğer cihazınız zaten root erişimine sahipse lütfen Swift Backup'a izin verdiğinizden emin olun."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Bu özelliğin çalışması için Root erişimi veya Shizuku gerekir.
-
- Lütfen cihazınızın rootlu olup olmadığını ve Swift Backup'a root erişiminin verilip verilmediğini veya Shizuku hizmetinin çalışıp çalışmadığını kontrol edin."</string>
+    <string name="feature_requires_root_access_message">Bu özelliğin çalışması için root erişimi gerekli.\n\nEğer cihazınız zaten root erişimine sahipse lütfen Swift Backup\'a izin verdiğinizden emin olun.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Bu özelliğin çalışması için Root erişimi veya Shizuku gerekir.\n\n Lütfen cihazınızın rootlu olup olmadığını ve Swift Backup\'a root erişiminin verilip verilmediğini veya Shizuku hizmetinin çalışıp çalışmadığını kontrol edin.</string>
     <string name="filen_two_factor_authentication">Filen iki faktörlü kimlik doğrulaması</string>
     <string name="filen_two_factor_code_hint">2FA kodu veya kurtarma kodu</string>
     <string name="files">Dosyalar</string>
@@ -372,8 +356,7 @@ Eğer cihazınız zaten root erişimine sahipse lütfen Swift Backup'a izin verd
     <string name="folder_creation_failed">Klasör oluşturulamıyor</string>
     <string name="folder_items_empty_list_error">Seçilen ölçütlerle listelenecek klasör öğesi yok</string>
     <string name="folder_name">Klasör İsmi</string>
-    <string name="folder_name_already_used_message">"Bu görünen ada sahip bir klasör kurulumu zaten mevcut. 
-Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."</string>
+    <string name="folder_name_already_used_message">Bu görünen ada sahip bir klasör kurulumu zaten mevcut. \nHala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir.</string>
     <string name="folder_name_already_used_title">Yinelenen Görünen Ad</string>
     <string name="folder_not_found">Klasör bulunamadı</string>
     <string name="folder_path">Klasör yolu</string>
@@ -409,7 +392,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="got_it">Anladım</string>
     <string name="grant_notifications_permission">Bildirimler izni verin.</string>
     <string name="grant_permissions">İzin ver</string>
-    <string name="grant_permissions_from_settings">"Lütfen Ayarlar'dan izinleri aktifleştirin."</string>
+    <string name="grant_permissions_from_settings">Lütfen Ayarlar\'dan izinleri aktifleştirin.</string>
     <string name="grant_storage_permission">Lütfen Depolama izinleri verin</string>
     <string name="grant_xiaomi_installed_apps_permission">Yüklü uygulamaları alma izni ver</string>
     <string name="granted">İzin verildi</string>
@@ -429,9 +412,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="in_place_apk_downgrades">Uygulamaları kaldırmadan eski sürüme düşürme</string>
     <string name="in_place_apk_downgrades_summary">Uygulamaları kaldırmadan eski sürüme düşürmek için CorePatch gibi ROM veya modül desteğini kullanın.</string>
     <string name="incompatible_launcher">Başlatıcı uyumsuz</string>
-    <string name="incompatible_launcher_msg">"'%s' test edildi ve duvar kağıtlarını yedeklemek için uyumsuz bulundu. 
-
- Duvar kağıtlarınızı düzgün bir şekilde yedeklemek için lütfen farklı bir başlatıcı kullanın."</string>
+    <string name="incompatible_launcher_msg">\'%s\' test edildi ve duvar kağıtlarını yedeklemek için uyumsuz bulundu. \n\n Duvar kağıtlarınızı düzgün bir şekilde yedeklemek için lütfen farklı bir başlatıcı kullanın.</string>
     <string name="incremental_backup">Artımlı yedekleme</string>
     <string name="incremental_backups">Artımlı yedeklemeler</string>
     <string name="initializing">Hazırlanıyor</string>
@@ -440,9 +421,9 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="install_date">Yükleme tarihi</string>
     <string name="install_status">Yükleme durumu</string>
     <string name="installed">Yüklendi</string>
-    <string name="installed_apps_with_newer_backups">"Yeni APK'lar ile alınmış yedeklemeler"</string>
-    <string name="installed_apps_with_older_backups">"Eski APK'lar ile alınmış yedeklemeler"</string>
-    <string name="installed_from_google_play">"Google Play Store'dan yüklendi"</string>
+    <string name="installed_apps_with_newer_backups">Yeni APK\'lar ile alınmış yedeklemeler</string>
+    <string name="installed_apps_with_older_backups">Eski APK\'lar ile alınmış yedeklemeler</string>
+    <string name="installed_from_google_play">Google Play Store\'dan yüklendi</string>
     <string name="installed_time_or_duration">Yüklenen: %s</string>
     <string name="internal_storage">Dahili depolama</string>
     <string name="intro_benefit_cloud_subtitle">Yedekleme ve geri yükleme için bulut depolamayı bağlayın</string>
@@ -546,7 +527,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="multiple_backups_strategy_dated_title">Her seferinde yeni yedekleme</string>
     <string name="multiple_backups_strategy_single_description">Tek bir yedek tutun ve bir yedekleme gerçekleştirdiğinizde değişen kısımları güncelleyin/üzerine yazın.</string>
     <string name="multiple_backups_strategy_single_title">Tek yedek</string>
-    <string name="multithreaded_downloads_description">Daha yüksek hızlar için bir dosyayı (>100 MB) parçalar halinde indirmek için birden fazla bağlantı kullan</string>
+    <string name="multithreaded_downloads_description">Daha yüksek hızlar için bir dosyayı (&gt;100 MB) parçalar halinde indirmek için birden fazla bağlantı kullan</string>
     <string name="multithreaded_downloads_title">Çok parçalı İndirmeler</string>
     <string name="name">Ad</string>
     <string name="navigation_drawer_open">Gezinme çekmecesini aç</string>
@@ -568,10 +549,10 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="no_apk_backup">Apk yedeği yok</string>
     <string name="no_backup_in_cloud">Bulutta yedekleme yok</string>
     <string name="no_backup_on_device">Cihazda yedekleme yok</string>
-    <string name="no_backups_synced">"Bulut'ta hiçbir yedekleme senkronize edilmedi"</string>
+    <string name="no_backups_synced">Bulut\'ta hiçbir yedekleme senkronize edilmedi</string>
     <string name="no_backups_with_active_tag">Bu etiketle henüz yedek yok</string>
     <string name="no_backups_with_active_tag_message">Bu etiketle oluşturulan yedeklemeler burada görünecek.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10, WiFi ağlarını toplu olarak geri yüklemek için gerekli API'lere sahip değildir (kök erişimi mevcut olsa bile). \\ n \\ n1. Yedeklenen wifi öğelerine tıklayın ve açılan pencereden 'Geri Yükle'yi seçin. Bu, şifreyi panoya kopyalayacaktır. \\ n \\ n2. Daha sonra görünen sistem WiFi iletişim kutusunda, WiFi ağını seçin ve kopyalanan şifreyi yapıştırın."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10, WiFi ağlarını toplu olarak geri yüklemek için gerekli API\'lere sahip değildir (kök erişimi mevcut olsa bile). \\ n \\ n1. Yedeklenen wifi öğelerine tıklayın ve açılan pencereden \'Geri Yükle\'yi seçin. Bu, şifreyi panoya kopyalayacaktır. \\ n \\ n2. Daha sonra görünen sistem WiFi iletişim kutusunda, WiFi ağını seçin ve kopyalanan şifreyi yapıştırın.</string>
     <string name="no_browser_found_error">Web sitesini açmak için tarayıcı bulunamadı!</string>
     <string name="no_call_logs_found">Cihazda arama kaydı bulunamadı</string>
     <string name="no_cloud_connected">Bulut hesabı bağlı değil</string>
@@ -585,8 +566,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="no_messages_found">Cihazda kısa mesajlar bulunamadı</string>
     <string name="no_purchases_found">Satın alım bulunamadı!</string>
     <string name="no_saved_wifi_networks_found">Cihazda kayıtlı WiFi ağları bulunmadı</string>
-    <string name="no_schedules_added_message">"Zamanlama eklenmedi 
-Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
+    <string name="no_schedules_added_message">Zamanlama eklenmedi \nYeni bir zamanlama oluşturmak için aşağıyı tıklayın</string>
     <string name="no_tasks_to_perform_in_schedule">Programda gerçekleştirilecek görev yok</string>
     <string name="no_wallpapers_found">Duvar kağıdı bulunamadı!</string>
     <string name="none">Hiçbiri</string>
@@ -597,15 +577,14 @@ Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
     <string name="not_enough_free_space_in_new_storage_msg">Yeni seçilen depolama alanında, yedekleme dosyalarını eski depolama alanınızdan taşımak / kopyalamak için yeterli boş alan yoktur! Yedek dosyalar taşınmayacak veya kopyalanmayacaktır!</string>
     <string name="not_favorites">Favoriler yok</string>
     <string name="not_installed">Yüklü değil</string>
-    <string name="not_installed_from_google_play">"Google Play Store'dan yüklenmedi"</string>
+    <string name="not_installed_from_google_play">Google Play Store\'dan yüklenmedi</string>
     <string name="not_labelled">Etiketlenmemiş</string>
     <string name="not_optimized">Optimize edilmedi</string>
     <string name="not_synced">Senkronize edilmedi</string>
     <string name="note">Not</string>
     <string name="notices">Üçüncü parti uyarıları</string>
     <string name="notifications">Bildirimler</string>
-    <string name="notifications_perm_subtitle">"Uygulamanın, yedekleme/geri yükleme, zamanlanmış yedeklemeler ve varsa görev hataları gibi görevler için bildirimler göstermesine izin verin. 
-- Swift Backup sadece sizin için kesinlikle gerekli olan bildirimleri gösterecektir."</string>
+    <string name="notifications_perm_subtitle">Uygulamanın, yedekleme/geri yükleme, zamanlanmış yedeklemeler ve varsa görev hataları gibi görevler için bildirimler göstermesine izin verin. \n- Swift Backup sadece sizin için kesinlikle gerekli olan bildirimleri gösterecektir.</string>
     <string name="notifications_perm_title">Bildirimler İzni</string>
     <string name="ok">Tamam</string>
     <string name="old_password">Eski şifre</string>
@@ -627,13 +606,9 @@ Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
     <string name="password_copied_to_clipboard">Şifre panoya kopyalandı</string>
     <string name="password_remember_warning">Lütfen şifreyi hatırlayın veya not edin, çünkü daha sonra geri alamayacaksınız.</string>
     <string name="password_saved">Şifre kaydedildi</string>
-    <string name="password_strategy_standard_description">"Swift Backup'ın şifrelenmiş yedeklemeleriniz için parola oluşturmayı yönetmesine izin verin. Şifreler Swift Backup hesabınıza özeldir ve yedeklenecek özelliğe (Mesajlar, Arama Kayıtları, yedeklenen Uygulama paketi vb.) bağlı olarak farklılık gösterir. 
-Oluşturulan parolalar rastgele alfasayısal karakterler içerir ve bfb69f180e4e1db7671c318f gibi görünür. 
-Anonim kullanıcılar (uygulamayı hesabı olmadan kullanan kullanıcılar) için parola oluşturma stratejisi ortaktır ve benzersiz değildir. Parolalarınızı benzersiz tutmak istiyorsanız lütfen gelişmiş stratejiyi kullanın."</string>
+    <string name="password_strategy_standard_description">Swift Backup\'ın şifrelenmiş yedeklemeleriniz için parola oluşturmayı yönetmesine izin verin. Şifreler Swift Backup hesabınıza özeldir ve yedeklenecek özelliğe (Mesajlar, Arama Kayıtları, yedeklenen Uygulama paketi vb.) bağlı olarak farklılık gösterir. \nOluşturulan parolalar rastgele alfasayısal karakterler içerir ve bfb69f180e4e1db7671c318f gibi görünür. \nAnonim kullanıcılar (uygulamayı hesabı olmadan kullanan kullanıcılar) için parola oluşturma stratejisi ortaktır ve benzersiz değildir. Parolalarınızı benzersiz tutmak istiyorsanız lütfen gelişmiş stratejiyi kullanın.</string>
     <string name="password_strategy_standard_title">Standart</string>
-    <string name="password_strategy_user_password_description">"Standart stratejiyle aynıdır, ancak ek olarak son şifreleme parolasını oluşturmak için kullanıcı tarafından girilen bir parolayı kullanır. Parolanızı kaybederseniz, yedeklerin şifresi çözülemez/geri yüklenemez. 
-Swift Backup, parolanızı yalnızca yerel olarak kendi özel veri dizininde şifrelenmiş bir biçimde saklayacaktır. 
-Swift Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri yükleyebilmesi için şifrenizi tekrar girmeniz gerekir."</string>
+    <string name="password_strategy_user_password_description">Standart stratejiyle aynıdır, ancak ek olarak son şifreleme parolasını oluşturmak için kullanıcı tarafından girilen bir parolayı kullanır. Parolanızı kaybederseniz, yedeklerin şifresi çözülemez/geri yüklenemez. \nSwift Backup, parolanızı yalnızca yerel olarak kendi özel veri dizininde şifrelenmiş bir biçimde saklayacaktır. \nSwift Backup\'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri yükleyebilmesi için şifrenizi tekrar girmeniz gerekir.</string>
     <string name="password_strategy_user_password_title">İleri düzey</string>
     <string name="passwords_matching_error">Şifreler eşleşmiyor</string>
     <string name="path">Yol</string>
@@ -665,7 +640,7 @@ Swift Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri 
     <string name="premium_plan_yearly">Yıllık plan</string>
     <string name="premium_plan_yearly_label">Yıllık</string>
     <string name="premium_user">Premium Kullanıcı</string>
-    <string name="premium_user_msg">"Premium'a sahipsiniz!"</string>
+    <string name="premium_user_msg">Premium\'a sahipsiniz!</string>
     <string name="preparing">Hazırlanıyor</string>
     <string name="preparing_apks">APKs hazırlanıyor</string>
     <string name="primary_action">Birincil eylem</string>
@@ -677,12 +652,10 @@ Swift Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri 
     <string name="processing_please_wait">İşleniyor, lütfen bekleyin, bu biraz zaman alabilir…</string>
     <string name="protect_backup">Yedeklemeyi koru</string>
     <string name="protected_backup">Korunan yedekleme</string>
-    <string name="protected_backup_description">"Korumalı yedekler, güncelleme ve silme işlemlerine karşı güvende tutmak istediğiniz yedeklerdir.
-
-Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayısı sınırına ulaşıldığında Swift Backup korumalı yedekleri silmeyecektir."</string>
+    <string name="protected_backup_description">Korumalı yedekler, güncelleme ve silme işlemlerine karşı güvende tutmak istediğiniz yedeklerdir.\n\nBirden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayısı sınırına ulaşıldığında Swift Backup korumalı yedekleri silmeyecektir.</string>
     <string name="protocol">Protokol</string>
     <string name="purchase">Satın al</string>
-    <string name="purchase_plan">"%1$s'u satın alın"</string>
+    <string name="purchase_plan">%1$s\'u satın alın</string>
     <string name="purchased">Satın Alındı</string>
     <string name="quick_actions">Hızlı işlemler</string>
     <string name="quick_actions_apps">Uygulamalar için hızlı işlemler</string>
@@ -696,7 +669,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="reading_mms_data_message">Sahip olduğunuz MMS mesajı ve ek sayısına bağlı olarak bu işlem biraz zaman alabilir.</string>
     <string name="reboot_required_to_restore_hidden_wifi_msg">Geri yüklenen gizli WiFi ağlarının çalışması için cihazı yeniden başlatın.</string>
     <string name="recent_changes">Son değişiklikler</string>
-    <string name="recurring_plan">"Yıllık ödendi, Google Play Store'dan istenildiği an iptal edilebilir"</string>
+    <string name="recurring_plan">Yıllık ödendi, Google Play Store\'dan istenildiği an iptal edilebilir</string>
     <string name="redo_backups">Mevcut yedeklemeleri yinele</string>
     <string name="redo_backups_message">Yedeklenmiş tüm uygulamaları yeniden yedekleyin</string>
     <string name="refresh">Yenile</string>
@@ -712,22 +685,16 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="reset_app_summary">Uygulamayı varsayılan durumuna sıfırlayın. Bu, senkronize edilmiş tüm Swift Backup ayarlarınızı temizleyecektir. Yedekleme dosyaları veya bulut önbelleği silinmeyecektir.</string>
     <string name="reset_filters">Filtreleri sıfırla</string>
     <string name="reset_sms_app_warning">Varsayılan SMS uygulamasını ayarlamazsanız gelen mesajları alamayabilirsiniz! Lütfen sonraki uyarıda \"Evet\" seçeneğini seçiniz!</string>
-    <string name="reset_sms_app_warning_q">"Varsayılan SMS uygulamasını ayarlamazsanız gelen mesajları alamayabilirsiniz!
-
- Lütfen sonraki uyarıda \"Evet\" seçeneğini seçiniz!"</string>
+    <string name="reset_sms_app_warning_q">Varsayılan SMS uygulamasını ayarlamazsanız gelen mesajları alamayabilirsiniz!\n\n Lütfen sonraki uyarıda \"Evet\" seçeneğini seçiniz!</string>
     <string name="restart_app">Uygulamayı yeniden başlat</string>
-    <string name="restart_app_settings_summary">"Swift Backup'ı yeniden başlat"</string>
+    <string name="restart_app_settings_summary">Swift Backup\'ı yeniden başlat</string>
     <string name="restore">Geri yükle</string>
     <string name="restore_all">Tümünü geri yükle</string>
     <string name="restore_all_apps">Tüm uygulamaları geri yükle</string>
     <string name="restore_all_apps_summary">Yedeklenen tüm uygulamaları geri yükleyin</string>
-    <string name="restore_app_ssaids">"Uygulama SSAID'lerini geri yükle ( Android 8 Oreo ve üzeri)"</string>
-    <string name="restore_app_ssaids_note">"Uygulamalar, cihaz değişikliğini, fabrika ayarlarına sıfırlamayı veya ROM değişikliklerini başka birçok yolla da algılayabilir. 
-
- Uygun veri geri yüklemesi her zaman için garanti edilmemektedir."</string>
-    <string name="restore_app_ssaids_summary">"Her bir uygulamanın Android cihaz IDsini geri yükle. Bu IDsi değişmiş cihazlarda uygulamaların düzgün olarak geri yüklenememe sorununda faydalı olacaktır. 
-
- Not: Etkinleştirmeniz durumunda yeniden başlatma gerekir."</string>
+    <string name="restore_app_ssaids">Uygulama SSAID\'lerini geri yükle ( Android 8 Oreo ve üzeri)</string>
+    <string name="restore_app_ssaids_note">Uygulamalar, cihaz değişikliğini, fabrika ayarlarına sıfırlamayı veya ROM değişikliklerini başka birçok yolla da algılayabilir. \n\n Uygun veri geri yüklemesi her zaman için garanti edilmemektedir.</string>
+    <string name="restore_app_ssaids_summary">Her bir uygulamanın Android cihaz IDsini geri yükle. Bu IDsi değişmiş cihazlarda uygulamaların düzgün olarak geri yüklenememe sorununda faydalı olacaktır. \n\n Not: Etkinleştirmeniz durumunda yeniden başlatma gerekir.</string>
     <string name="restore_call_logs">Arama kayıtlarını geri yükle</string>
     <string name="restore_call_logs_summary">Arama Kayıtlarını en son yedekten geri yükle</string>
     <string name="restore_folder">Klasörü geri yükle</string>
@@ -739,7 +706,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="restore_missing_apps">Eksik uygulamarı geri yükle</string>
     <string name="restore_missing_apps_summary">Cihazda yüklü olmayan yedeklenmiş uygulamaları geri yükleyin</string>
     <string name="restore_newer_versions">Yeni versiyonları geri yükle</string>
-    <string name="restore_newer_versions_summary">"Yeni sürüm APK'ları olan yedeklenmiş uygulamaları geri yükleyin"</string>
+    <string name="restore_newer_versions_summary">Yeni sürüm APK\'ları olan yedeklenmiş uygulamaları geri yükleyin</string>
     <string name="restore_options">Geri yükleme seçenekleri</string>
     <string name="restore_permission_option_all">Uygulama tarafından desteklenen tüm izinleri geri yükle</string>
     <string name="restore_permission_option_granted">Yedeklenen izin seçimlerini geri yükle</string>
@@ -758,7 +725,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="restore_special_data_details_title">Neler geri yüklenir</string>
     <string name="restore_special_data_display_over_apps_summary">Android uygulama operasyonları aracılığıyla verilen katman izni.</string>
     <string name="restore_special_data_display_over_apps_title">Diğer uygulamaların üzerinde görüntüle</string>
-    <string name="restore_special_data_install_unknown_apps_summary">"APKs'yi Play Store dışından yüklemek için uygulama başına izin."</string>
+    <string name="restore_special_data_install_unknown_apps_summary">APKs\'yi Play Store dışından yüklemek için uygulama başına izin.</string>
     <string name="restore_special_data_install_unknown_apps_title">Bilinmeyen uygulamaları yükleyin</string>
     <string name="restore_special_data_magisk_summary">Kök ve Magisk desteği mevcut olduğunda Magisk paketinin gizlenme durumu.</string>
     <string name="restore_special_data_magisk_title">Magisk Hide / DenyList modu</string>
@@ -770,7 +737,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="restore_special_data_notification_access_title">Bildirim erişimi</string>
     <string name="restore_special_data_notification_settings_summary">Android sürümü tarafından desteklendiğinde uygulama başına bildirim kanalı ayarları ve ilgili bildirim politikası verileri.</string>
     <string name="restore_special_data_notification_settings_title">Bildirim ayarları ve kanalları</string>
-    <string name="restore_special_data_system_modes_summary">"Uygulama widget'ı bağlama, VPN aktivasyonu, Picture-in-Picture, ekranı açma, arka planda çalıştırma ve kullanılmayan durumlar varsa uygulama etkinliğini duraklatma."</string>
+    <string name="restore_special_data_system_modes_summary">Uygulama widget\'ı bağlama, VPN aktivasyonu, Picture-in-Picture, ekranı açma, arka planda çalıştırma ve kullanılmayan durumlar varsa uygulama etkinliğini duraklatma.</string>
     <string name="restore_special_data_system_modes_title">Diğer sistem modları</string>
     <string name="restore_special_data_title">Özel izinleri ve ek verileri geri yükle</string>
     <string name="restore_special_data_usage_access_summary">Kullanım istatistiklerine erişim, Android uygulama operasyonları aracılığıyla verildi.</string>
@@ -790,9 +757,8 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="right_swipe">Sağa kaydırma</string>
     <string name="root_access_needed">Root hakları gerekmekte</string>
     <string name="root_access_or_shizuku_needed">Root veya Shizuku yetkisi gerekiyor</string>
-    <string name="root_grant_permissions">"Swift Backup'a tüm izinleri verin
- Root yetkisi veya Shizuku gerekiyor"</string>
-    <string name="root_grant_permissions_dialog_msg_prefix">"Root erişimi veya Shizuku kullanarak tek tıklamayla Swift Backup'a aşağıdaki izinleri verin."</string>
+    <string name="root_grant_permissions">Swift Backup\'a tüm izinleri verin\n Root yetkisi veya Shizuku gerekiyor</string>
+    <string name="root_grant_permissions_dialog_msg_prefix">Root erişimi veya Shizuku kullanarak tek tıklamayla Swift Backup\'a aşağıdaki izinleri verin.</string>
     <string name="root_grant_permissions_dialog_title">Root yetkisi veya Shizuku ile izinleri verin.</string>
     <string name="root_provider">Sağlayıcı</string>
     <string name="root_status">Root durumu</string>
@@ -823,7 +789,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="schedules">Zamanlamalar</string>
     <string name="search">Ara</string>
     <string name="search_hint_apps">Uygulamaları ara</string>
-    <string name="search_swift_backup">"Swift Backup'ta ara"</string>
+    <string name="search_swift_backup">Swift Backup\'ta ara</string>
     <string name="secondary_action">İkincil eylem</string>
     <string name="secondary_user_warning_msg">İkincil / İş kullanıcı profilleri, bazı kaçınılmaz sorunlar nedeniyle resmi olarak desteklenmemektedir. Lütfen ana kullanıcıya geçin.</string>
     <string name="see_all">Tümünü gör</string>
@@ -861,10 +827,10 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="share_apk">APK paylaş</string>
     <string name="share_apks">APKs paylaş</string>
     <string name="share_logs">Günlükleri paylaş</string>
-    <string name="share_swiftbackup">"Swift Backup'ı Paylaşın"</string>
+    <string name="share_swiftbackup">Swift Backup\'ı Paylaşın</string>
     <string name="share_swiftbackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı Swift Backup ve işte link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
     <string name="share_swiftbackup_subject">Swift Backup - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">"SwiftLogger + Cihaz Logcat'i"</string>
+    <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + Cihaz Logcat\'i</string>
     <string name="share_swiftlogger_text_only">Yalnızca metin raporunu paylaş</string>
     <string name="shared_libraries">Paylaşılan kütüphaneler</string>
     <string name="shortcuts">Kısayollar</string>
@@ -891,7 +857,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="sort">Sırala</string>
     <string name="space_needed_vs_available_error">Gereken %1$s, Mevcut %2$s</string>
     <string name="special_data">Özel veriler</string>
-    <string name="split_apks">"Bölünmüş APK'lar"</string>
+    <string name="split_apks">Bölünmüş APK\'lar</string>
     <string name="start_time">Başlama zamanı</string>
     <string name="storage_and_security">Depolama ve güvenlik</string>
     <string name="storage_change_restarting">Hafıza değiştirildi, uygulama yeniden başlatılıyor…</string>
@@ -901,7 +867,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="storage_perm_title">Depolama izni</string>
     <string name="storage_select_root_path_request">Lütfen %s root yolunu seçin</string>
     <string name="subscribe">Abone Ol</string>
-    <string name="subscribe_to_plan">"%1$s'a abone olun"</string>
+    <string name="subscribe_to_plan">%1$s\'a abone olun</string>
     <string name="subscribed">Abone Olundu</string>
     <string name="subscriptions_fetch_failed_msg">Premium plan listesi alınamadı</string>
     <string name="successful">Başarılı</string>
@@ -913,7 +879,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="swipe_actions">Kaydırma eylemleri</string>
     <string name="swipe_actions_description">Her kaydırma yönü için en fazla iki eylem seçin</string>
     <string name="sync_backups">Yedeklemeleri senkronize et</string>
-    <string name="sync_device_backup_to_cloud">"Cihazdaki en son yedeklemeyi bulut'la senkronize et"</string>
+    <string name="sync_device_backup_to_cloud">Cihazdaki en son yedeklemeyi bulut\'la senkronize et</string>
     <string name="sync_device_backups_to_cloud">Cihaz yedeklemelerini buluta senkronize edin</string>
     <string name="sync_device_backups_to_cloud_message">Şu anda yedeklenmiş tüm uygulamaları cihazdan buluta senkronize edin</string>
     <string name="sync_in_cloud">Bulutta senkronize et</string>
@@ -936,11 +902,10 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="terms_of_service">Hizmet Şartları</string>
     <string name="test">Test</string>
     <string name="test_anyway">Yine de dene</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32, bir dosyanın maksimum boyutunu 4GB ile sınırlar. 
-Çözüm: Depolama alanınızı exFAT ile biçimlendirin ve exFAT depolama alanlarını bağlamayı destekleyen bir kernel kullanın."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32, bir dosyanın maksimum boyutunu 4GB ile sınırlar. \nÇözüm: Depolama alanınızı exFAT ile biçimlendirin ve exFAT depolama alanlarını bağlamayı destekleyen bir kernel kullanın.</string>
     <string name="to_cloud">Buluta</string>
     <string name="to_device">Cihaza</string>
-    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://www.swiftapps.org/tos>Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Gizlilik politikası&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://www.swiftapps.org/tos&gt;Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a&gt; &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Gizlilik politikası&lt;/a&gt;.</string>
     <string name="translation_project">Çeviri projesi</string>
     <string name="translation_project_summary">Uygulamayı kendi dilinize çevirmek için bize yardımcı olun</string>
     <string name="turn_off">Kapat</string>
@@ -992,18 +957,18 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="wifi_networks">WiFi Ağları</string>
     <string name="wifi_networks_backup">WiFi ağları yedekle</string>
     <string name="wifi_not_available">WiFi mevcut değil veya Internet erişimi yok</string>
-    <string name="wifi_not_enabled">"WiFi etkin değil. Swift Backup'ın kayıtlı WiFi ağlarını kontrol etmesi için açmanız gerekiyor."</string>
+    <string name="wifi_not_enabled">WiFi etkin değil. Swift Backup\'ın kayıtlı WiFi ağlarını kontrol etmesi için açmanız gerekiyor.</string>
     <string name="wifi_on_device">Cihazdaki WiFi ağları</string>
     <string name="wifi_or_mobile_data">WiFi veya Mobil veri</string>
     <string name="x_app_failed_to_install_message">%s yükleme başarısız oldu</string>
     <string name="x_apps">%s Uygulamalar</string>
     <string name="x_apps_downloading_error_message">%s uygulama(lar) indirilirken hata ile karşılaşıldı</string>
-    <string name="x_apps_failed_to_restore">"%s uygulama(lar)'ın geri yüklemesi başarısız oldu"</string>
+    <string name="x_apps_failed_to_restore">%s uygulama(lar)\'ın geri yüklemesi başarısız oldu</string>
     <string name="x_apps_had_data_restore_issues_data_corruption">%s uygulama(lar), olası veri bozulması nedeniyle verileri geri yüklemede sorun yaşadı</string>
     <string name="x_apps_had_data_restore_issues_wrong_password">%s uygulama(lar) yanlış şifre nedeniyle verileri geri yüklemede sorun yaşadı</string>
     <string name="x_apps_skipped_cloud_sync_message">Bulut senkronizasyonundan %s uygulama atlandı</string>
     <string name="x_apps_skipped_insufficient_space_message">Yetersiz depolama alanı sebebi ile %s uygulama(lar) atlandı</string>
-    <string name="x_apps_skipped_no_apk_message">"apk dosyası bulunmayan %s uygulama (lar)'ın geri yüklemesi atlandı"</string>
+    <string name="x_apps_skipped_no_apk_message">apk dosyası bulunmayan %s uygulama (lar)\'ın geri yüklemesi atlandı</string>
     <string name="x_calls">%s Arama</string>
     <string name="x_conversations">%s Sohbetler</string>
     <string name="x_folders">%s Klasör</string>
@@ -1013,8 +978,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="x_schedules">%s Zamanlanmış</string>
     <string name="x_walls">%s Duvar kağıtları</string>
     <string name="x_wifi_networks">%s Kablosuz ağlar</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Swift Backup'ın bu cihazda yüklü uygulamalar listesini okumasına izin verin.
-- Uygulama yedekleme ve geri yüklemeye yönelik tüm uygulamaları göstermek için bu gereklidir."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Swift Backup\'ın bu cihazda yüklü uygulamalar listesini okumasına izin verin.\n- Uygulama yedekleme ve geri yüklemeye yönelik tüm uygulamaları göstermek için bu gereklidir.</string>
     <string name="xiaomi_installed_apps_perm_title">Yüklü uygulamalara izin alın</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Yüklü uygulamalara erişim yalnızca Xiaomi/HyperOS cihazlarda kullanılabilir.</string>
     <string name="yandex_disk">Yandex.Disk</string>

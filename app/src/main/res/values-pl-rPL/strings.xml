@@ -129,19 +129,16 @@
     <string name="backup_updated_apps">Kopia zapasowa zaktualizowanych aplikacji</string>
     <string name="backup_updated_apps_summary">Kopia zapasowa aplikacji, które mają nowsze wersje APK zainstalowane na tym urządzeniu</string>
     <string name="backups_encrypted_with_aegis_by_default_message">Domyślnie szyfrowane za pomocą AEGIS-256</string>
-    <string name="backups_tagged_with">"Kopie zapasowe oznaczone '%s'"</string>
+    <string name="backups_tagged_with">Kopie zapasowe oznaczone \'%s\'</string>
     <string name="backups_tied_warning">Uwaga: Wszystkie kopie zapasowe (lokalne/w chmurze) są powiązane z określonym kontem Google. Nie możesz uzyskać dostępu do kopii zapasowych jednego konta Google używając innego.</string>
     <string name="backups_with_notes">Kopie zapasowe z notatkami</string>
     <string name="base_backup">Kopia zapasowa bazy</string>
     <string name="batch_actions">Akcje operacji zbiorowych</string>
     <string name="battery_optimization">Optymalizacja baterii</string>
-    <string name="battery_optimization_message">"Wyłącz optymalizację baterii, aby mieć pewność, że zaplanowane kopie zapasowe będą działać poprawnie po wejściu urządzenia w tryb uśpienia (Doze). 
-Uwaga: Konieczne może być również wyłączenie innych optymalizacji baterii urządzenia, jeśli takie istnieją"</string>
+    <string name="battery_optimization_message">Wyłącz optymalizację baterii, aby mieć pewność, że zaplanowane kopie zapasowe będą działać poprawnie po wejściu urządzenia w tryb uśpienia (Doze). \nUwaga: Konieczne może być również wyłączenie innych optymalizacji baterii urządzenia, jeśli takie istnieją</string>
     <string name="beta">Beta</string>
     <string name="billed_yearly">Rozliczane co roku</string>
-    <string name="billing_initialization_error">"Nie zainicjowano jeszcze płatności. 
-- Sprawdź swoje połączenie z internetem 
-- Sprawdź czy Sklep Google Play jest zainstalowany i działa"</string>
+    <string name="billing_initialization_error">Nie zainicjowano jeszcze płatności. \n- Sprawdź swoje połączenie z internetem \n- Sprawdź czy Sklep Google Play jest zainstalowany i działa</string>
     <string name="blacklist">Czarna lista</string>
     <string name="blacklist_apps">Czarna lista aplikacji</string>
     <string name="blacklist_apps_msg">Ukryj lub wymuś tworzenie kopii zapasowych tylko plików APK dla wybranych aplikacji</string>
@@ -179,25 +176,18 @@ Uwaga: Konieczne może być również wyłączenie innych optymalizacji baterii 
     <string name="cloud_backup_for_apps">Odblokuj obsługę kopii zapasowych w chmurze dla swoich aplikacji</string>
     <string name="cloud_backup_limit">Limit kopii zapasowych w chmurze</string>
     <string name="cloud_backup_tag">Oznaczenie kopii zapasowej w chmurze</string>
-    <string name="cloud_backup_tag_message">"Kopie zapasowe aplikacji, wiadomości i połączeń są powiązane z ich oznaczeniem. Możesz je zmienić, jeśli używasz Swift Backup na więcej niż jednym urządzeniu. 
-
-Uwaga: Kopii zapasowych tapet i sieci WiFi nie można oznaczyć."</string>
+    <string name="cloud_backup_tag_message">Kopie zapasowe aplikacji, wiadomości i połączeń są powiązane z ich oznaczeniem. Możesz je zmienić, jeśli używasz Swift Backup na więcej niż jednym urządzeniu. \n\nUwaga: Kopii zapasowych tapet i sieci WiFi nie można oznaczyć.</string>
     <string name="cloud_backups">Kopie zapasowe w chmurze</string>
     <string name="cloud_backups_settings_summary">Diagnostyka, transfery, pobieranie, części</string>
     <string name="cloud_connection_failed">Nie udało się połączyć z kontem w chmurze</string>
     <string name="cloud_connection_successful">Pomyślnie połączono z Twoim kontem w chmurze!</string>
     <string name="cloud_error">Błąd chmury</string>
     <string name="cloud_folder">Folder w chmurze</string>
-    <string name="cloud_folder_creation_error_message">"Aplikacja nie ma dostępu do utworzenia folderu na bieżącej ścieżce serwera. 
-
-Proszę dodać nazwę istniejącego folderu w polu Ścieżka."</string>
+    <string name="cloud_folder_creation_error_message">Aplikacja nie ma dostępu do utworzenia folderu na bieżącej ścieżce serwera. \n\nProszę dodać nazwę istniejącego folderu w polu Ścieżka.</string>
     <string name="cloud_folder_creation_failed">Nie udało się utworzyć folderu</string>
-    <string name="cloud_folder_edit_warning">"Proszę NIE usuwać, modyfikować, przenosić plików lub folderów ręcznie z aplikacji chmury, strony internetowej lub pulpitu nawigacyjnego. 
-
-Swift Backup utrzymuje bazę danych identyfikatorów plików w chmurze na swoim serwerze w celu zmniejszenia żądań sieciowych i szybszej wydajności. Jeśli usuniesz, zmodyfikujesz, przeniesiesz pliki lub foldery ręcznie, wystąpią problemy podczas korzystania z aplikacji i utracisz dostęp do kopii zapasowych w chmurze."</string>
+    <string name="cloud_folder_edit_warning">Proszę NIE usuwać, modyfikować, przenosić plików lub folderów ręcznie z aplikacji chmury, strony internetowej lub pulpitu nawigacyjnego. \n\nSwift Backup utrzymuje bazę danych identyfikatorów plików w chmurze na swoim serwerze w celu zmniejszenia żądań sieciowych i szybszej wydajności. Jeśli usuniesz, zmodyfikujesz, przeniesiesz pliki lub foldery ręcznie, wystąpią problemy podczas korzystania z aplikacji i utracisz dostęp do kopii zapasowych w chmurze.</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"Utwórz i używaj hasła aplikacji zewnętrznej zamiast zwykłego hasła do konta:
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">Utwórz i używaj hasła aplikacji zewnętrznej zamiast zwykłego hasła do konta:\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">Chmura Mail.Ru wymaga, aby użytkownicy posiadali płatny plan przestrzeni dyskowej dla tej opcji</string>
     <string name="cloud_maintenance_running_message">Trwa konserwacja chmury. Spróbuj ponownie po jej zakończeniu.</string>
     <string name="cloud_not_connected_summary">Swift Backup nie jest połączony z usługą w chmurze</string>
@@ -261,13 +251,11 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Dane</string>
     <string name="data_encryption_smb_3">Szyfrowanie danych (SMB 3+)</string>
     <string name="date_used">Data użycia</string>
-    <string name="default_sms_app_rationale">"Aby przywrócić wiadomości na urządzeniu, Swift Backup musi być ustawiony jako domyślna aplikacja do obsługi SMS.
-
-Po zakończeniu przywracania zostaniesz poproszony o zresetowanie aplikacji SMS do obecnej."</string>
+    <string name="default_sms_app_rationale">Aby przywrócić wiadomości na urządzeniu, Swift Backup musi być ustawiony jako domyślna aplikacja do obsługi SMS.\n\nPo zakończeniu przywracania zostaniesz poproszony o zresetowanie aplikacji SMS do obecnej.</string>
     <string name="default_word">Domyślny</string>
     <string name="delete">Usuń</string>
-    <string name="delete_active_tag">"Usuń oznaczenie '%s' i powiązane kopie zapasowe"</string>
-    <string name="delete_active_tag_message">"Uwaga: Spowoduje to usunięcie wszystkich plików kopii zapasowych w chmurze oznaczonych '%s'!"</string>
+    <string name="delete_active_tag">Usuń oznaczenie \'%s\' i powiązane kopie zapasowe</string>
+    <string name="delete_active_tag_message">Uwaga: Spowoduje to usunięcie wszystkich plików kopii zapasowych w chmurze oznaczonych \'%s\'!</string>
     <string name="delete_all">Usuń wszystko</string>
     <string name="delete_all_data">Usuń wszystkie dane</string>
     <string name="delete_all_data_summary">Usuń wszystkie dane używane przez aplikację na urządzeniu dla tego konta, w tym pliki kopii zapasowej/pamięci podręcznej. Spowoduje to również zresetowanie aplikacji do stanu domyślnego i wyczyszczenie wszystkich zsynchronizowanych ustawień Swift Backup.</string>
@@ -343,12 +331,8 @@ Po zakończeniu przywracania zostaniesz poproszony o zresetowanie aplikacji SMS 
     <string name="external_storage">Pamięć zewnętrzna</string>
     <string name="favorite_apps">Ulubione aplikacje</string>
     <string name="favorites">Ulubione</string>
-    <string name="feature_requires_root_access_message">"Funkcja, aby działała wymaga dostępu root.
-
-Sprawdź, czy Twoje urządzenie jest zrootowane i Swift Backup otrzymał uprawnienia roota."</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"Funkcja, aby działała wymaga dostępu Root lub Shizuku.
-
-Sprawdź, czy Twoje urządzenie jest zrootowane i Swift Backup otrzymał uprawnienia roota lub czy działa usługa Shizuku."</string>
+    <string name="feature_requires_root_access_message">Funkcja, aby działała wymaga dostępu root.\n\nSprawdź, czy Twoje urządzenie jest zrootowane i Swift Backup otrzymał uprawnienia roota.</string>
+    <string name="feature_requires_root_access_or_shizuku_message">Funkcja, aby działała wymaga dostępu Root lub Shizuku.\n\nSprawdź, czy Twoje urządzenie jest zrootowane i Swift Backup otrzymał uprawnienia roota lub czy działa usługa Shizuku.</string>
     <string name="filen_two_factor_authentication">Uwierzytelnianie dwuskładnikowe Filen</string>
     <string name="filen_two_factor_code_hint">Kod 2FA lub kod odzyskiwania</string>
     <string name="files">Pliki</string>
@@ -372,8 +356,7 @@ Sprawdź, czy Twoje urządzenie jest zrootowane i Swift Backup otrzymał uprawni
     <string name="folder_creation_failed">Nie można utworzyć folderu</string>
     <string name="folder_items_empty_list_error">Brak elementów folderów do wyświetlenia według wybranych kryteriów</string>
     <string name="folder_name">Nazwa folderu</string>
-    <string name="folder_name_already_used_message">"Konfiguracja folderu o tej wyświetlanej nazwie już istnieje. 
-Nadal możesz kontynuować, ale rozróżnienie ich może być trudniejsze."</string>
+    <string name="folder_name_already_used_message">Konfiguracja folderu o tej wyświetlanej nazwie już istnieje. \nNadal możesz kontynuować, ale rozróżnienie ich może być trudniejsze.</string>
     <string name="folder_name_already_used_title">Zduplikowana nazwa wyświetlana</string>
     <string name="folder_not_found">Nie znaleziono folderu</string>
     <string name="folder_path">Ścieżka folderu</string>
@@ -429,9 +412,7 @@ Nadal możesz kontynuować, ale rozróżnienie ich może być trudniejsze."</str
     <string name="in_place_apk_downgrades">Obniżanie wersji aplikacji bez odinstalowywania</string>
     <string name="in_place_apk_downgrades_summary">Użyj obsługi przez ROM lub moduł, taki jak CorePatch, aby obniżać wersje aplikacji bez ich odinstalowywania.</string>
     <string name="incompatible_launcher">Niekompatybilny program uruchamiający (launcher)</string>
-    <string name="incompatible_launcher_msg">"'%s' jest testowany i uznany za niekompatybilny dla tworzenia kopii zapasowych tapet.
-
-Użyj alternatywnego programu uruchamiającego (launchera), aby prawidłowo utworzyć kopię zapasową tapet."</string>
+    <string name="incompatible_launcher_msg">\'%s\' jest testowany i uznany za niekompatybilny dla tworzenia kopii zapasowych tapet.\n\nUżyj alternatywnego programu uruchamiającego (launchera), aby prawidłowo utworzyć kopię zapasową tapet.</string>
     <string name="incremental_backup">Przyrostowa kopia zapasowa</string>
     <string name="incremental_backups">Przyrostowe kopie zapasowe</string>
     <string name="initializing">Inicjowanie</string>
@@ -546,7 +527,7 @@ Użyj alternatywnego programu uruchamiającego (launchera), aby prawidłowo utwo
     <string name="multiple_backups_strategy_dated_title">Nowa kopia zapasowa za każdym razem</string>
     <string name="multiple_backups_strategy_single_description">Zachowaj pojedynczą kopię zapasową i aktualizuj/zastąp zmienione części podczas tworzenia kopii zapasowej.</string>
     <string name="multiple_backups_strategy_single_title">Pojedyncza kopia zapasowa</string>
-    <string name="multithreaded_downloads_description">Użyj wielu połączeń, aby pobrać plik (>100 MB) we fragmentach, aby uzyskać większą prędkość</string>
+    <string name="multithreaded_downloads_description">Użyj wielu połączeń, aby pobrać plik (&gt;100 MB) we fragmentach, aby uzyskać większą prędkość</string>
     <string name="multithreaded_downloads_title">Pobieranie wielowątkowe</string>
     <string name="name">Nazwa</string>
     <string name="navigation_drawer_open">Otwórz szufladę nawigacji</string>
@@ -571,11 +552,7 @@ Użyj alternatywnego programu uruchamiającego (launchera), aby prawidłowo utwo
     <string name="no_backups_synced">Brak kopii zapasowych zsynchronizowanych w chmurze</string>
     <string name="no_backups_with_active_tag">Brak kopii zapasowych z tym oznaczeniem</string>
     <string name="no_backups_with_active_tag_message">Kopie zapasowe utworzone z tym oznaczeniem pojawią się tutaj.</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 nie ma niezbędnych interfejsów API do zbiorowego przywracania sieci WiFi (nawet jeśli dostęp roota jest dostępny). 
-
-1. Kliknij pozycję kopii Wi-Fi i wybierz 'Przywróć' z wyskakującego okienka. Spowoduje to skopiowanie hasła do schowka. 
-
-2. W wyświetlonym później systemowym oknie dialogowym WiFi, wybierz sieć WiFi i wklej skopiowane hasło."</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 nie ma niezbędnych interfejsów API do zbiorowego przywracania sieci WiFi (nawet jeśli dostęp roota jest dostępny). \n\n1. Kliknij pozycję kopii Wi-Fi i wybierz \'Przywróć\' z wyskakującego okienka. Spowoduje to skopiowanie hasła do schowka. \n\n2. W wyświetlonym później systemowym oknie dialogowym WiFi, wybierz sieć WiFi i wklej skopiowane hasło.</string>
     <string name="no_browser_found_error">Nie znaleziono przeglądarki, aby otworzyć link!</string>
     <string name="no_call_logs_found">Brak połączeń na urządzeniu</string>
     <string name="no_cloud_connected">Konto w chmurze nie jest połączone</string>
@@ -589,8 +566,7 @@ Użyj alternatywnego programu uruchamiającego (launchera), aby prawidłowo utwo
     <string name="no_messages_found">Brak wiadomości na urządzeniu</string>
     <string name="no_purchases_found">Nie znaleziono zakupów!</string>
     <string name="no_saved_wifi_networks_found">Brak zapisanych sieci WiFi na urządzeniu</string>
-    <string name="no_schedules_added_message">"Nie dodano harmonogramu
-Kliknij poniżej, aby utworzyć nowy harmonogram"</string>
+    <string name="no_schedules_added_message">Nie dodano harmonogramu\nKliknij poniżej, aby utworzyć nowy harmonogram</string>
     <string name="no_tasks_to_perform_in_schedule">Brak zadań do wykonania w harmonogramie</string>
     <string name="no_wallpapers_found">Nie znaleziono tapet!</string>
     <string name="none">Brak</string>
@@ -608,8 +584,7 @@ Kliknij poniżej, aby utworzyć nowy harmonogram"</string>
     <string name="note">Uwaga</string>
     <string name="notices">Licencje firm trzecich</string>
     <string name="notifications">Powiadomienia</string>
-    <string name="notifications_perm_subtitle">"- Zezwól aplikacji na wyświetlanie powiadomień o zadaniach, takich jak tworzenie kopii zapasowych/przywracanie, zaplanowane kopie zapasowe i ewentualne błędy zadań. 
-- Swift Backup pokaże tylko te powiadomienia, które są dla Ciebie absolutnie niezbędne."</string>
+    <string name="notifications_perm_subtitle">- Zezwól aplikacji na wyświetlanie powiadomień o zadaniach, takich jak tworzenie kopii zapasowych/przywracanie, zaplanowane kopie zapasowe i ewentualne błędy zadań. \n- Swift Backup pokaże tylko te powiadomienia, które są dla Ciebie absolutnie niezbędne.</string>
     <string name="notifications_perm_title">Uprawnienie do powiadomień</string>
     <string name="ok">OK</string>
     <string name="old_password">Stare hasło</string>
@@ -631,13 +606,9 @@ Kliknij poniżej, aby utworzyć nowy harmonogram"</string>
     <string name="password_copied_to_clipboard">Hasło skopiowane do schowka</string>
     <string name="password_remember_warning">Zapamiętaj lub zanotuj hasło, ponieważ nie będzie można go później odzyskać.</string>
     <string name="password_saved">Hasło zapisane</string>
-    <string name="password_strategy_standard_description">"Swift Backup zajmie się generowaniem haseł do zaszyfrowanych kopii zapasowych. Hasła są unikalne dla Twojego konta Swift Backup i różnią się w zależności od funkcji, której kopia zapasowa ma zostać utworzona (Wiadomości, Połączenia, Kopia zapasowa pakietu aplikacji itp.). 
-Wygenerowane hasła zawierają losowe znaki alfanumeryczne i wyglądają jak bfb69f180e4e1db7671c3188f90881d7.
-Dla anonimowych użytkowników (użytkownicy korzystający z aplikacji bez konta), strategia generowania haseł jest powszechna i nie jest unikalna. Użyj strategii Zaawansowany, jeśli chcesz, aby Twoje hasła były unikatowe."</string>
+    <string name="password_strategy_standard_description">Swift Backup zajmie się generowaniem haseł do zaszyfrowanych kopii zapasowych. Hasła są unikalne dla Twojego konta Swift Backup i różnią się w zależności od funkcji, której kopia zapasowa ma zostać utworzona (Wiadomości, Połączenia, Kopia zapasowa pakietu aplikacji itp.). \nWygenerowane hasła zawierają losowe znaki alfanumeryczne i wyglądają jak bfb69f180e4e1db7671c3188f90881d7.\nDla anonimowych użytkowników (użytkownicy korzystający z aplikacji bez konta), strategia generowania haseł jest powszechna i nie jest unikalna. Użyj strategii Zaawansowany, jeśli chcesz, aby Twoje hasła były unikatowe.</string>
     <string name="password_strategy_standard_title">Standard</string>
-    <string name="password_strategy_user_password_description">"Taka sama jak strategia Standard, ale dodatkowo wykorzystuje hasło wprowadzone przez użytkownika do wygenerowania ostatecznego hasła szyfrowania. Jeśli zgubisz hasło, kopii zapasowych nie będzie można odszyfrować/przywrócić. 
-Swift Backup zapisze twoje hasło tylko lokalnie w swoim prywatnym katalogu danych w zaszyfrowanej formie. 
-Podczas konfiguracji Swift Backup należy ponownie wprowadzić hasło, aby można było odszyfrować i przywrócić zaszyfrowane kopie zapasowe."</string>
+    <string name="password_strategy_user_password_description">Taka sama jak strategia Standard, ale dodatkowo wykorzystuje hasło wprowadzone przez użytkownika do wygenerowania ostatecznego hasła szyfrowania. Jeśli zgubisz hasło, kopii zapasowych nie będzie można odszyfrować/przywrócić. \nSwift Backup zapisze twoje hasło tylko lokalnie w swoim prywatnym katalogu danych w zaszyfrowanej formie. \nPodczas konfiguracji Swift Backup należy ponownie wprowadzić hasło, aby można było odszyfrować i przywrócić zaszyfrowane kopie zapasowe.</string>
     <string name="password_strategy_user_password_title">Zaawansowany</string>
     <string name="passwords_matching_error">Hasła nie pasują do siebie</string>
     <string name="path">Ścieżka</string>
@@ -681,9 +652,7 @@ Podczas konfiguracji Swift Backup należy ponownie wprowadzić hasło, aby możn
     <string name="processing_please_wait">Przetwarzanie, poczekaj, ponieważ może to chwilę potrwać…</string>
     <string name="protect_backup">Chroń kopię zapasową</string>
     <string name="protected_backup">Chroniona kopia zapasowa</string>
-    <string name="protected_backup_description">"Chronione kopie zapasowe to kopie zapasowe, które chcesz chronić przed aktualizacjami i usunięciem.
-
-Jeśli włączyłeś opcję Wiele kopii zapasowych, Swift Backup nie usunie chronionych kopii zapasowych po osiągnięciu maksymalnego limitu liczby kopii zapasowych."</string>
+    <string name="protected_backup_description">Chronione kopie zapasowe to kopie zapasowe, które chcesz chronić przed aktualizacjami i usunięciem.\n\nJeśli włączyłeś opcję Wiele kopii zapasowych, Swift Backup nie usunie chronionych kopii zapasowych po osiągnięciu maksymalnego limitu liczby kopii zapasowych.</string>
     <string name="protocol">Protokół</string>
     <string name="purchase">Kup</string>
     <string name="purchase_plan">Kup %1$s</string>
@@ -715,10 +684,8 @@ Jeśli włączyłeś opcję Wiele kopii zapasowych, Swift Backup nie usunie chro
     <string name="reset_app">Zresetuj aplikację</string>
     <string name="reset_app_summary">Zresetuj aplikację do stanu domyślnego. Spowoduje to wyczyszczenie wszystkich zsynchronizowanych ustawień Swift Backup. Pliki kopii zapasowej lub pamięć podręczna z chmury nie zostaną usunięte.</string>
     <string name="reset_filters">Zresetuj filtry</string>
-    <string name="reset_sms_app_warning">"Nie będziesz mógł odbierać wiadomości, jeśli nie ustawisz domyślnej aplikacji do obsługi SMS! Wybierz 'TAK' w następnym oknie!"</string>
-    <string name="reset_sms_app_warning_q">"Nie będziesz mógł odbierać wiadomości, jeśli nie ustawisz domyślnej aplikacji do obsługi SMS!
-
-Ustaw domyślną aplikację SMS na następnym ekranie!"</string>
+    <string name="reset_sms_app_warning">Nie będziesz mógł odbierać wiadomości, jeśli nie ustawisz domyślnej aplikacji do obsługi SMS! Wybierz \'TAK\' w następnym oknie!</string>
+    <string name="reset_sms_app_warning_q">Nie będziesz mógł odbierać wiadomości, jeśli nie ustawisz domyślnej aplikacji do obsługi SMS!\n\nUstaw domyślną aplikację SMS na następnym ekranie!</string>
     <string name="restart_app">Uruchom ponownie aplikację</string>
     <string name="restart_app_settings_summary">Ponownie załaduj Swift Backup</string>
     <string name="restore">Przywracanie</string>
@@ -726,12 +693,8 @@ Ustaw domyślną aplikację SMS na następnym ekranie!"</string>
     <string name="restore_all_apps">Przywróć wszystkie aplikacje</string>
     <string name="restore_all_apps_summary">Przywróć wszystkie aplikacje</string>
     <string name="restore_app_ssaids">Przywróć SSAID aplikacji (Android 8 Oreo i wyższy)</string>
-    <string name="restore_app_ssaids_note">"Aplikacje nadal mogą wykryć zmianę urządzenia, przywrócenie ustawień fabrycznych lub zmianę ROM-u na wiele innych sposobów.
-
-Poprawne przywrócenie danych dla takich aplikacji nie jest gwarantowane."</string>
-    <string name="restore_app_ssaids_summary">"Przywróć ID (identyfikator) urządzenia dla aplikacji. Przydatne w przypadku, gdy aplikacje nie przywracają się prawidłowo, jeśli identyfikator urządzenia uległ zmianie.
-
-Uwaga: Jeśli włączysz, musisz URUCHOMIĆ PONOWNIE urządzenie, po przywróceniu aplikacji."</string>
+    <string name="restore_app_ssaids_note">Aplikacje nadal mogą wykryć zmianę urządzenia, przywrócenie ustawień fabrycznych lub zmianę ROM-u na wiele innych sposobów.\n\nPoprawne przywrócenie danych dla takich aplikacji nie jest gwarantowane.</string>
+    <string name="restore_app_ssaids_summary">Przywróć ID (identyfikator) urządzenia dla aplikacji. Przydatne w przypadku, gdy aplikacje nie przywracają się prawidłowo, jeśli identyfikator urządzenia uległ zmianie.\n\nUwaga: Jeśli włączysz, musisz URUCHOMIĆ PONOWNIE urządzenie, po przywróceniu aplikacji.</string>
     <string name="restore_call_logs">Przywróć połączenia</string>
     <string name="restore_call_logs_summary">Przywróć połączenia z ostatniej kopii zapasowej</string>
     <string name="restore_folder">Przywróć folder</string>
@@ -794,8 +757,7 @@ Uwaga: Jeśli włączysz, musisz URUCHOMIĆ PONOWNIE urządzenie, po przywrócen
     <string name="right_swipe">Przesunięcie w prawo</string>
     <string name="root_access_needed">Wymagany dostęp Root</string>
     <string name="root_access_or_shizuku_needed">Wymagany dostęp Root lub Shizuku</string>
-    <string name="root_grant_permissions">"Przyznaj wszystkie uprawnienia Swift Backup
-Wymagany dostęp Root lub Shizuku"</string>
+    <string name="root_grant_permissions">Przyznaj wszystkie uprawnienia Swift Backup\nWymagany dostęp Root lub Shizuku</string>
     <string name="root_grant_permissions_dialog_msg_prefix">Przyznaj poniższe uprawnienia Swift Backup jednym dotknięciem, korzystając z dostępu Root lub Shizuku.</string>
     <string name="root_grant_permissions_dialog_title">Przyznaj uprawnienia z dostępem Root lub Shizuku</string>
     <string name="root_provider">Dostawca</string>
@@ -940,11 +902,10 @@ Wymagany dostęp Root lub Shizuku"</string>
     <string name="terms_of_service">Warunki korzystania z usługi</string>
     <string name="test">Test</string>
     <string name="test_anyway">Testuj mimo to</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 ogranicza maksymalny rozmiar pliku do 4 GB. 
-Rozwiązanie: Sformatuj swoją pamięć za pomocą exFAT i użyj jądra, które obsługuje montowanie pamięci exFAT."</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 ogranicza maksymalny rozmiar pliku do 4 GB. \nRozwiązanie: Sformatuj swoją pamięć za pomocą exFAT i użyj jądra, które obsługuje montowanie pamięci exFAT.</string>
     <string name="to_cloud">Do chmury</string>
     <string name="to_device">Na urządzenie</string>
-    <string name="tos_privacy_agreement">Kontynuując, zgadzasz się z naszymi &lt;a href=https://www.swiftapps.org/tos>Warunkami korzystania z usługi&lt;/a> i &lt;a href=https://www.swiftapps.org/privacy-policy>Polityką prywatności&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Kontynuując, zgadzasz się z naszymi &lt;a href=https://www.swiftapps.org/tos&gt;Warunkami korzystania z usługi&lt;/a&gt; i &lt;a href=https://www.swiftapps.org/privacy-policy&gt;Polityką prywatności&lt;/a&gt;.</string>
     <string name="translation_project">Tłumaczenie</string>
     <string name="translation_project_summary">Pomóż przetłumaczyć aplikację na swój język</string>
     <string name="turn_off">Wyłącz</string>
@@ -1017,8 +978,7 @@ Rozwiązanie: Sformatuj swoją pamięć za pomocą exFAT i użyj jądra, które 
     <string name="x_schedules">Harmonogramy: %s</string>
     <string name="x_walls">Tapety: %s</string>
     <string name="x_wifi_networks">Sieci WiFi: %s</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Zezwól Swift Backup na odczyt listy zainstalowanych aplikacji na tym urządzeniu.
-- Jest to wymagane, aby wyświetlić wszystkie aplikacje do tworzenia kopii zapasowych i przywracania aplikacji."</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- Zezwól Swift Backup na odczyt listy zainstalowanych aplikacji na tym urządzeniu.\n- Jest to wymagane, aby wyświetlić wszystkie aplikacje do tworzenia kopii zapasowych i przywracania aplikacji.</string>
     <string name="xiaomi_installed_apps_perm_title">Uzyskaj pozwolenie na zainstalowane aplikacje</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Dostęp do zainstalowanych aplikacji jest dostępny tylko na urządzeniach Xiaomi/HyperOS.</string>
     <string name="yandex_disk">Yandex.Disk</string>

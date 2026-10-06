@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="blue_gray_mtrl_palette">
+    <array name="blue_gray_mtrl_palette">
         <item>50#ECEFF1</item>
         <item>100#CFD8DC</item>
         <item>200#B0BEC5</item>
@@ -11,8 +11,8 @@
         <item>700#455A64</item>
         <item>800#37474F</item>
         <item>900#263238</item>
-    </string-array>
-    <string-array name="blue_mtrl_palette">
+    </array>
+    <array name="blue_mtrl_palette">
         <item>50#E3F2FD</item>
         <item>100#BBDEFB</item>
         <item>200#90CAF9</item>
@@ -27,8 +27,8 @@
         <item>A200#448AFF</item>
         <item>A400#2979FF</item>
         <item>A700#2962FF</item>
-    </string-array>
-    <string-array name="brown_mtrl_palette">
+    </array>
+    <array name="brown_mtrl_palette">
         <item>50#EFEBE9</item>
         <item>100#D7CCC8</item>
         <item>200#BCAAA4</item>
@@ -39,8 +39,8 @@
         <item>700#5D4037</item>
         <item>800#4E342E</item>
         <item>900#3E2723</item>
-    </string-array>
-    <string-array name="cyan_mtrl_palette">
+    </array>
+    <array name="cyan_mtrl_palette">
         <item>50#E0F7FA</item>
         <item>100#B2EBF2</item>
         <item>200#80DEEA</item>
@@ -55,8 +55,8 @@
         <item>A200#18FFFF</item>
         <item>A400#00E5FF</item>
         <item>A700#00B8D4</item>
-    </string-array>
-    <string-array name="deep_purple_mtrl_palette">
+    </array>
+    <array name="deep_purple_mtrl_palette">
         <item>50#EDE7F6</item>
         <item>100#D1C4E9</item>
         <item>200#B39DDB</item>
@@ -71,8 +71,8 @@
         <item>A200#7C4DFF</item>
         <item>A400#651FFF</item>
         <item>A700#6200EA</item>
-    </string-array>
-    <string-array name="gray_mtrl_palette">
+    </array>
+    <array name="gray_mtrl_palette">
         <item>50#FAFAFA</item>
         <item>100#F5F5F5</item>
         <item>200#EEEEEE</item>
@@ -83,8 +83,8 @@
         <item>700#616161</item>
         <item>800#424242</item>
         <item>900#212121</item>
-    </string-array>
-    <string-array name="green_mtrl_palette">
+    </array>
+    <array name="green_mtrl_palette">
         <item>50#E8F5E9</item>
         <item>100#C8E6C9</item>
         <item>200#A5D6A7</item>
@@ -99,8 +99,8 @@
         <item>A200#69F0AE</item>
         <item>A400#00E676</item>
         <item>A700#00C853</item>
-    </string-array>
-    <string-array name="indigo_mtrl_palette">
+    </array>
+    <array name="indigo_mtrl_palette">
         <item>50#E8EAF6</item>
         <item>100#C5CAE9</item>
         <item>200#9FA8DA</item>
@@ -115,8 +115,8 @@
         <item>A200#536DFE</item>
         <item>A400#3D5AFE</item>
         <item>A700#304FFE</item>
-    </string-array>
-    <string-array name="lime_mtrl_palette">
+    </array>
+    <array name="lime_mtrl_palette">
         <item>50#F9FBE7</item>
         <item>100#F0F4C3</item>
         <item>200#E6EE9C</item>
@@ -131,8 +131,8 @@
         <item>A200#EEFF41</item>
         <item>A400#C6FF00</item>
         <item>A700#AEEA00</item>
-    </string-array>
-    <string-array name="orange_mtrl_palette">
+    </array>
+    <array name="orange_mtrl_palette">
         <item>50#FFF3E0</item>
         <item>100#FFE0B2</item>
         <item>200#FFCC80</item>
@@ -147,8 +147,8 @@
         <item>A200#FFAB40</item>
         <item>A400#FF9100</item>
         <item>A700#FF6D00</item>
-    </string-array>
-    <string-array name="pink_mtrl_palette">
+    </array>
+    <array name="pink_mtrl_palette">
         <item>50#FCE4EC</item>
         <item>100#F8BBD0</item>
         <item>200#F48FB1</item>
@@ -163,8 +163,8 @@
         <item>A200#FF4081</item>
         <item>A400#F50057</item>
         <item>A700#C51162</item>
-    </string-array>
-    <string-array name="purple_mtrl_palette">
+    </array>
+    <array name="purple_mtrl_palette">
         <item>50#F3E5F5</item>
         <item>100#E1BEE7</item>
         <item>200#CE93D8</item>
@@ -179,8 +179,8 @@
         <item>A200#E040FB</item>
         <item>A400#D500F9</item>
         <item>A700#AA00FF</item>
-    </string-array>
-    <string-array name="red_mtrl_palette">
+    </array>
+    <array name="red_mtrl_palette">
         <item>50#FFEBEE</item>
         <item>100#FFCDD2</item>
         <item>200#EF9A9A</item>
@@ -195,8 +195,8 @@
         <item>A200#FF5252</item>
         <item>A400#FF1744</item>
         <item>A700#D50000</item>
-    </string-array>
-    <string-array name="teal_mtrl_palette">
+    </array>
+    <array name="teal_mtrl_palette">
         <item>50#E0F2F1</item>
         <item>100#B2DFDB</item>
         <item>200#80CBC4</item>
@@ -211,8 +211,8 @@
         <item>A200#64FFDA</item>
         <item>A400#1DE9B6</item>
         <item>A700#00BFA5</item>
-    </string-array>
-    <string-array name="yellow_mtrl_palette">
+    </array>
+    <array name="yellow_mtrl_palette">
         <item>50#FFFDE7</item>
         <item>100#FFF9C4</item>
         <item>200#FFF59D</item>
@@ -227,5 +227,5 @@
         <item>A200#FFFF00</item>
         <item>A400#FFEA00</item>
         <item>A700#FFD600</item>
-    </string-array>
+    </array>
 </resources>

@@ -149,19 +149,16 @@
     <string name="backup_updated_apps">備份更新的應用程式</string>
     <string name="backup_updated_apps_summary">從這個裝置上備份已安裝新版本的應用程式</string>
     <string name="backups_encrypted_with_aegis_by_default_message">預設使用AEGIS-256加密</string>
-    <string name="backups_tagged_with">"備份的標籤為 '%s'"</string>
+    <string name="backups_tagged_with">備份的標籤為 \'%s\'</string>
     <string name="backups_tied_warning">注意：所有備份 (本機和雲端) 會連結至特定的 Google 帳戶。您無法存取其它 Google 帳戶的備份</string>
     <string name="backups_with_notes">帶有附註的備份</string>
     <string name="base_backup">基礎備份</string>
     <string name="batch_actions">批次動作</string>
     <string name="battery_optimization">電池效能最佳化</string>
-    <string name="battery_optimization_message">"停用電池效能最佳化以確保在裝置進入打盹 (Doze) 模式後，排程備份可以正常運作。 
-注意：您可能還要手動停用裝置的其它電池最佳化 (如果有的話)"</string>
+    <string name="battery_optimization_message">停用電池效能最佳化以確保在裝置進入打盹 (Doze) 模式後，排程備份可以正常運作。 \n注意：您可能還要手動停用裝置的其它電池最佳化 (如果有的話)</string>
     <string name="beta">測試版</string>
     <string name="billed_yearly">按年計費</string>
-    <string name="billing_initialization_error">"帳單尚未初始化。
-- 請檢查您的網路連線
-- 請檢查 Google Play 商店是否已經安裝並運作"</string>
+    <string name="billing_initialization_error">帳單尚未初始化。\n- 請檢查您的網路連線\n- 請檢查 Google Play 商店是否已經安裝並運作</string>
     <string name="blacklist">黑名單</string>
     <string name="blacklist_apps">黑名單應用程式</string>
     <string name="blacklist_apps_msg">隱藏或強制已選取的應用程式做不含資料的應用程式備份</string>
@@ -206,26 +203,18 @@
     <string name="cloud_backup_for_apps">為您的應用程式解鎖雲端備份的支援</string>
     <string name="cloud_backup_limit">雲端備份限制</string>
     <string name="cloud_backup_tag">雲端備份標籤</string>
-    <string name="cloud_backup_tag_message">"應用程式、訊息和通話記錄備份都與一個備份的標籤關聯。若您在多個裝置上使用 Swift Backup，您可以利用這個功能來變更標籤。 
-
-注意：桌布和 Wi-Fi 備份無法被標記。"</string>
+    <string name="cloud_backup_tag_message">應用程式、訊息和通話記錄備份都與一個備份的標籤關聯。若您在多個裝置上使用 Swift Backup，您可以利用這個功能來變更標籤。 \n\n注意：桌布和 Wi-Fi 備份無法被標記。</string>
     <string name="cloud_backups">雲端備份</string>
     <string name="cloud_backups_settings_summary">診斷、傳輸、下載、分塊</string>
     <string name="cloud_connection_failed">連線到雲端帳戶失敗</string>
     <string name="cloud_connection_successful">成功連線到您的雲端帳戶！</string>
     <string name="cloud_error">雲端錯誤</string>
     <string name="cloud_folder">雲端資料夾</string>
-    <string name="cloud_folder_creation_error_message">"應用程式不被允許在您伺服器上的這個路徑建立資料夾。
-
-請在已存在的資料夾路徑內新增資料夾。"</string>
+    <string name="cloud_folder_creation_error_message">應用程式不被允許在您伺服器上的這個路徑建立資料夾。\n\n請在已存在的資料夾路徑內新增資料夾。</string>
     <string name="cloud_folder_creation_failed">建立資料夾失敗</string>
-    <string name="cloud_folder_edit_warning">"請勿刪除、修改、移動雲端的檔案，或是透過雲端服務應用程式、網頁或是中控台對 Swift Backup 的資料夾進行管理。 
-
-Swift Backup 在它的伺服器將雲端檔案路徑和識別碼以資料庫的形式維持，減少對網路的要求和增加效能。若您手動刪除、修改或是移動雲端的檔案或資料夾，您將會面臨當使用應用程式時遺失對您雲端備份存取的問題。"</string>
+    <string name="cloud_folder_edit_warning">請勿刪除、修改、移動雲端的檔案，或是透過雲端服務應用程式、網頁或是中控台對 Swift Backup 的資料夾進行管理。 \n\nSwift Backup 在它的伺服器將雲端檔案路徑和識別碼以資料庫的形式維持，減少對網路的要求和增加效能。若您手動刪除、修改或是移動雲端的檔案或資料夾，您將會面臨當使用應用程式時遺失對您雲端備份存取的問題。</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
-    <string name="cloud_mail_ru_external_password_warning">"建立並使用外部應用程式密碼取代您一般帳戶
-密碼：
-https://help.mail.ru/mail/security/protection/external/"</string>
+    <string name="cloud_mail_ru_external_password_warning">建立並使用外部應用程式密碼取代您一般帳戶\n密碼：\nhttps://help.mail.ru/mail/security/protection/external/</string>
     <string name="cloud_mail_ru_webdav_warning">這個選項需要 Cloud Mail.Ru 的使用者已經付費儲存空間的方案</string>
     <string name="cloud_maintenance_running_message">雲端維護正在進行中。請在維護完成後重試。</string>
     <string name="cloud_not_connected_summary">Swift Backup 未連線到任何一個雲端服務</string>
@@ -306,9 +295,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">資料</string>
     <string name="data_encryption_smb_3">資料加密 (SMB 3+)</string>
     <string name="date_used">使用日期</string>
-    <string name="default_sms_app_rationale">"若要還原裝置上的訊息，需要將 Swift Backup 設定為預設的簡訊應用程式。
-
-還原完成後，將會要求您把簡訊應用程式重設為您目前使用的應用程式。"</string>
+    <string name="default_sms_app_rationale">若要還原裝置上的訊息，需要將 Swift Backup 設定為預設的簡訊應用程式。\n\n還原完成後，將會要求您把簡訊應用程式重設為您目前使用的應用程式。</string>
     <string name="default_word">預設</string>
     <string name="delete">刪除</string>
     <string name="delete_active_tag">刪除標籤 %s 與其相關的備份</string>
@@ -392,12 +379,8 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="external_storage">外部儲存空間</string>
     <string name="favorite_apps">最愛應用程式</string>
     <string name="favorites">最愛</string>
-    <string name="feature_requires_root_access_message">"這個功能需要 Root 存取權才能運作。
-
-請檢查您的裝置是否已經 Root 並授予 Swift Backup Root 存取權。"</string>
-    <string name="feature_requires_root_access_or_shizuku_message">"這個功能需要 Root 存取權或是 Shizuku 服務才能運作。
-
-請檢查您的裝置是否已經 Root 並授予 Swift Backup Root 存取權或是讓 Shizuku 服務執行。"</string>
+    <string name="feature_requires_root_access_message">這個功能需要 Root 存取權才能運作。\n\n請檢查您的裝置是否已經 Root 並授予 Swift Backup Root 存取權。</string>
+    <string name="feature_requires_root_access_or_shizuku_message">這個功能需要 Root 存取權或是 Shizuku 服務才能運作。\n\n請檢查您的裝置是否已經 Root 並授予 Swift Backup Root 存取權或是讓 Shizuku 服務執行。</string>
     <string name="filen_two_factor_authentication">Filen 雙重驗證</string>
     <string name="filen_two_factor_code_hint">2FA 代碼或復原代碼</string>
     <string name="files">檔案</string>
@@ -421,8 +404,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="folder_creation_failed">無法建立資料夾</string>
     <string name="folder_items_empty_list_error">沒有可依所選條件列出的資料夾項目</string>
     <string name="folder_name">資料夾名稱</string>
-    <string name="folder_name_already_used_message">"使用此顯示名稱的資料夾設定已存在。 
-您仍然可以繼續，但可能更難區分它們。"</string>
+    <string name="folder_name_already_used_message">使用此顯示名稱的資料夾設定已存在。 \n您仍然可以繼續，但可能更難區分它們。</string>
     <string name="folder_name_already_used_title">顯示名稱重複</string>
     <string name="folder_not_found">找不到資料夾</string>
     <string name="folder_path">資料夾路徑</string>
@@ -483,9 +465,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="in_place_apk_downgrades">無需解除安裝即可降級應用程式</string>
     <string name="in_place_apk_downgrades_summary">使用 ROM 或模組支援（例如 CorePatch），無需解除安裝即可降級應用程式。</string>
     <string name="incompatible_launcher">不相容的啟動器</string>
-    <string name="incompatible_launcher_msg">"已測試並發現「%s」與備份桌布不相容。
-
-請使用其它啟動器備份桌布。"</string>
+    <string name="incompatible_launcher_msg">已測試並發現「%s」與備份桌布不相容。\n\n請使用其它啟動器備份桌布。</string>
     <string name="incremental_backup">增量備份</string>
     <string name="incremental_backups">增量備份</string>
     <string name="initializing">正在初始化</string>
@@ -635,7 +615,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="multiple_backups_strategy_dated_title">每次都建立新備份</string>
     <string name="multiple_backups_strategy_single_description">在執行備份時保留一個單一備份，並在執行備份工作時更新/覆寫變更的部分。</string>
     <string name="multiple_backups_strategy_single_title">單一備份</string>
-    <string name="multithreaded_downloads_description">使用多個連線以區塊的形式加速下載檔案 (>100 MB)</string>
+    <string name="multithreaded_downloads_description">使用多個連線以區塊的形式加速下載檔案 (&gt;100 MB)</string>
     <string name="multithreaded_downloads_title">多執行緒下載</string>
     <string name="name">名稱</string>
     <string name="navigation_drawer_open">開啟導覽匣</string>
@@ -660,11 +640,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_backups_synced">雲端上沒有的備份</string>
     <string name="no_backups_with_active_tag">此標籤尚無備份</string>
     <string name="no_backups_with_active_tag_message">使用此標籤建立的備份會顯示在這裡。</string>
-    <string name="no_batch_restore_wifi_on_q_message">"Android 10 沒有任何必要的 API 來批次還原 Wi-Fi 網路 (即使具備 Root 存取權)。 
-
-1. 點選已備份的 Wi-Fi 項目並在彈出視窗選取「還原」。這將會複製密碼到剪貼簿。 
-
-2. 在系統 Wi-Fi 對話方塊出現之後，選擇 Wi-Fi 網路來貼上已複製的密碼。"</string>
+    <string name="no_batch_restore_wifi_on_q_message">Android 10 沒有任何必要的 API 來批次還原 Wi-Fi 網路 (即使具備 Root 存取權)。 \n\n1. 點選已備份的 Wi-Fi 項目並在彈出視窗選取「還原」。這將會複製密碼到剪貼簿。 \n\n2. 在系統 Wi-Fi 對話方塊出現之後，選擇 Wi-Fi 網路來貼上已複製的密碼。</string>
     <string name="no_browser_found_error">沒有找到可以開啟這個連結的瀏覽器！</string>
     <string name="no_call_logs_found">沒有在裝置上找到通話記錄</string>
     <string name="no_cloud_connected">雲端帳戶尚未連線</string>
@@ -678,8 +654,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="no_messages_found">沒有在裝置上找到訊息</string>
     <string name="no_purchases_found">沒有找到購買記錄！</string>
     <string name="no_saved_wifi_networks_found">沒有在裝置上找到已儲存的 Wi-Fi 網路</string>
-    <string name="no_schedules_added_message">"沒有已新增的排程
-請按下方按鈕建立新的排程"</string>
+    <string name="no_schedules_added_message">沒有已新增的排程\n請按下方按鈕建立新的排程</string>
     <string name="no_tasks_to_perform_in_schedule">無須按照排程執行任務</string>
     <string name="no_wallpapers_found">沒有找到桌布！</string>
     <string name="none">無</string>
@@ -698,8 +673,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="note">注意</string>
     <string name="notices">第三方授權</string>
     <string name="notifications">通知</string>
-    <string name="notifications_perm_subtitle">"- 允許應用程式為顯示備份/還原、排程備份和工作錯誤等工作的通知 (如果有)。
-- Swift Backup 將只顯示對你絕對必要的通知。"</string>
+    <string name="notifications_perm_subtitle">- 允許應用程式為顯示備份/還原、排程備份和工作錯誤等工作的通知 (如果有)。\n- Swift Backup 將只顯示對你絕對必要的通知。</string>
     <string name="notifications_perm_title">通知權限</string>
     <string name="ok">確定</string>
     <string name="old_password">舊密碼</string>
@@ -721,13 +695,9 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="password_copied_to_clipboard">密碼已複製到剪貼簿</string>
     <string name="password_remember_warning">請務必記得並寫下密碼，否則您以後將無法恢復它。</string>
     <string name="password_saved">密碼已儲存</string>
-    <string name="password_strategy_standard_description">"允許 Swift Backup 為您的加密備份產生密碼。 每個 Swift Backup 密碼對應的帳戶都是唯一的，並且根據您備份內容而有差異 (例如：訊息、通話記錄和應用程式等等…)。 
-產生的密碼由隨機字母和數字組成，像是 bfb69f180e4e1db7671c3188f90881d7。
-對於匿名的使用者 (沒有使用帳戶登入的使用者)，密碼的產生策略相同但不會是獨特的。若您想要確保密碼的獨特性，請使用進階策略。"</string>
+    <string name="password_strategy_standard_description">允許 Swift Backup 為您的加密備份產生密碼。 每個 Swift Backup 密碼對應的帳戶都是唯一的，並且根據您備份內容而有差異 (例如：訊息、通話記錄和應用程式等等…)。 \n產生的密碼由隨機字母和數字組成，像是 bfb69f180e4e1db7671c3188f90881d7。\n對於匿名的使用者 (沒有使用帳戶登入的使用者)，密碼的產生策略相同但不會是獨特的。若您想要確保密碼的獨特性，請使用進階策略。</string>
     <string name="password_strategy_standard_title">標準</string>
-    <string name="password_strategy_user_password_description">"與標準策略相同，但額外利用使用者的密碼來產生最終加密的密碼。若您遺失了您的密碼，備份將無法被解密/還原。 
-Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密碼。 
-當您設定 Swift Backup 時，您需要再次輸入密碼以便解密並還原您的加密備份。"</string>
+    <string name="password_strategy_user_password_description">與標準策略相同，但額外利用使用者的密碼來產生最終加密的密碼。若您遺失了您的密碼，備份將無法被解密/還原。 \nSwift Backup 將只會在本機私有目錄中以加密的形式儲存您的密碼。 \n當您設定 Swift Backup 時，您需要再次輸入密碼以便解密並還原您的加密備份。</string>
     <string name="password_strategy_user_password_title">進階</string>
     <string name="password_toggle_content_description">顯示密碼</string>
     <string name="passwords_matching_error">密碼不正確</string>
@@ -773,9 +743,7 @@ Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密�
     <string name="processing_please_wait">正在處理，請稍候一段時間…</string>
     <string name="protect_backup">保護備份</string>
     <string name="protected_backup">受保護的備份</string>
-    <string name="protected_backup_description">"受保護的備份可以使備份在其更新或刪除時保持安全。
-
-在您啟用多重備份的情況下，Swift Backup 將不會在達到最大備份數量時刪除受保護的備份。"</string>
+    <string name="protected_backup_description">受保護的備份可以使備份在其更新或刪除時保持安全。\n\n在您啟用多重備份的情況下，Swift Backup 將不會在達到最大備份數量時刪除受保護的備份。</string>
     <string name="protocol">通訊協定</string>
     <string name="purchase">購買</string>
     <string name="purchase_plan">購買%1$s</string>
@@ -812,9 +780,7 @@ Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密�
     <string name="reset_app_summary">重設應用程式為預設狀態。這將會清除所有您已同步的 Swift Backup 設定。備份檔案或是雲端快取將不會被刪除。</string>
     <string name="reset_filters">重設過濾器</string>
     <string name="reset_sms_app_warning">若您沒有設定預設的簡訊應用程式，您將無法接收訊息！請在變更簡訊應用程式的對話方塊中選取「是」！</string>
-    <string name="reset_sms_app_warning_q">"若您未設定預設的簡訊應用程式，您將無法接收到訊息！
-
-請在下一個視窗設定預設簡訊的應用程式！"</string>
+    <string name="reset_sms_app_warning_q">若您未設定預設的簡訊應用程式，您將無法接收到訊息！\n\n請在下一個視窗設定預設簡訊的應用程式！</string>
     <string name="restart_app">重新啟動應用程式</string>
     <string name="restart_app_settings_summary">重新載入 Swift Backup</string>
     <string name="restore">還原</string>
@@ -822,12 +788,8 @@ Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密�
     <string name="restore_all_apps">還原所有應用程式</string>
     <string name="restore_all_apps_summary">還原所有已備份的應用程式</string>
     <string name="restore_app_ssaids">還原應用程式的 SSIDs (適用於 Android 8 或以上的系統)</string>
-    <string name="restore_app_ssaids_note">"應用程式仍然可以偵測裝置已經變更、原廠重設或變更系統等等其他的因素。
-
-不保證這種類型應用程式的資料正確的還原資料。"</string>
-    <string name="restore_app_ssaids_summary">"還原每個應用程式的 Android 裝置 ID。若裝置 ID 變更過，這對沒有正確還原的應用程式很有用。
-
-注意：若您啟用它，您在還原這類型的應用程式之後需要重新啟動裝置。"</string>
+    <string name="restore_app_ssaids_note">應用程式仍然可以偵測裝置已經變更、原廠重設或變更系統等等其他的因素。\n\n不保證這種類型應用程式的資料正確的還原資料。</string>
+    <string name="restore_app_ssaids_summary">還原每個應用程式的 Android 裝置 ID。若裝置 ID 變更過，這對沒有正確還原的應用程式很有用。\n\n注意：若您啟用它，您在還原這類型的應用程式之後需要重新啟動裝置。</string>
     <string name="restore_call_logs">還原通話記錄</string>
     <string name="restore_call_logs_summary">從最近一次的備份還原通話記錄</string>
     <string name="restore_folder">恢復資料夾</string>
@@ -1071,11 +1033,10 @@ Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密�
     <string name="terms_of_service">服務條款</string>
     <string name="test">測試</string>
     <string name="test_anyway">仍進行測試</string>
-    <string name="tip_format_external_storage_as_exfat">"FAT32 將單一檔案最大限制為 4 GB。 
-解決方案：格式化您的儲存裝置成 exFAT 和使用支援掛載 exFAT 儲存空間的內核。"</string>
+    <string name="tip_format_external_storage_as_exfat">FAT32 將單一檔案最大限制為 4 GB。 \n解決方案：格式化您的儲存裝置成 exFAT 和使用支援掛載 exFAT 儲存空間的內核。</string>
     <string name="to_cloud">到雲端</string>
     <string name="to_device">到本裝置</string>
-    <string name="tos_privacy_agreement">繼續下一步時您將視為同意我們的&lt;a href=https://www.swiftapps.org/tos>服務條款&lt;/a>&amp;amp;和 &lt;a href=https://www.swiftapps.org/privacy-policy>隱私權政策&lt;/a>。</string>
+    <string name="tos_privacy_agreement">繼續下一步時您將視為同意我們的&lt;a href=https://www.swiftapps.org/tos&gt;服務條款&lt;/a&gt;&amp;amp;和 &lt;a href=https://www.swiftapps.org/privacy-policy&gt;隱私權政策&lt;/a&gt;。</string>
     <string name="translation_project">翻譯計劃</string>
     <string name="translation_project_summary">幫助我們將本應用程式翻譯成您的語言</string>
     <string name="turn_off">關閉</string>
@@ -1155,8 +1116,7 @@ Swift Backup 將只會在本機私有目錄中以加密的形式儲存您的密�
     <string name="x_schedules">%s 個排程</string>
     <string name="x_walls">%s 張桌布</string>
     <string name="x_wifi_networks">%s 個 Wi-Fi 網路</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- 允許 Swift Backup 讀取此裝置上已安裝的應用程式清單。 
-- 這是顯示所有應用程式以進行應用程式備份和還原所必需的。"</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">- 允許 Swift Backup 讀取此裝置上已安裝的應用程式清單。 \n- 這是顯示所有應用程式以進行應用程式備份和還原所必需的。</string>
     <string name="xiaomi_installed_apps_perm_title">取得已安裝應用程式的權限</string>
     <string name="xiaomi_installed_apps_permission_not_supported">已安裝應用程式存取權僅適用於 Xiaomi/HyperOS 裝置。</string>
     <string name="yandex_disk">Yandex.Disk</string>
