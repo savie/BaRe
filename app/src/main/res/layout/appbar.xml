@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.swiftapps.swiftbackup.views.MAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="0dp"
+    app:elevation="0dp"
+    app:liftOnScroll="false">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+    <View style="@style/ToolbarDivider"/>
+</org.swiftapps.swiftbackup.views.MAppBarLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_home_selector"
+        android:id="@+id/nav_home"
+        android:title="@string/home"/>
+    <item
+        android:icon="@drawable/ic_cloud_selector"
+        android:id="@+id/nav_cloud"
+        android:title="@string/cloud_sync"/>
+    <item
+        android:icon="@drawable/ic_clock_selector"
+        android:id="@+id/nav_schedule"
+        android:title="@string/schedules"/>
+    <item
+        android:icon="@drawable/ic_person_selector"
+        android:id="@+id/nav_account"
+        android:title="@string/account"/>
+</menu>

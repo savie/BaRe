@@ -1,0 +1,21 @@
+package androidx.preference;
+
+import android.content.Context;
+import android.util.AttributeSet;
+import android.widget.LinearLayout;
+
+/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+/* JADX INFO: loaded from: classes.dex */
+public class UnPressableLinearLayout extends LinearLayout {
+    public UnPressableLinearLayout(Context context) {
+        this(context, null);
+    }
+
+    public UnPressableLinearLayout(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+    }
+
+    @Override // android.view.ViewGroup, android.view.View
+    public final void dispatchSetPressed(boolean z) {
+    }
+}

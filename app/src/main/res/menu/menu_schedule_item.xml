@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_play_arrow_outline"
+        android:id="@+id/action_run_schedule"
+        android:title="@string/run_schedule_now"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_exit_to_app"
+        android:id="@+id/action_goto_activity"
+        android:visible="false"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_content_copy"
+        android:id="@+id/action_copy_schedule_id"
+        android:title="@string/copy_schedule_id"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_delete"
+        android:id="@+id/action_delete"
+        android:title="@string/delete"
+        android:iconTint="?android:attr/textColorSecondary"/>
+</menu>

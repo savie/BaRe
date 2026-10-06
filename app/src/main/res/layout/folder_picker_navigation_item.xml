@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textColor="?android:attr/textColorSecondary"
+        android:id="@+id/tv_divider"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:alpha="0.6"
+        android:fontFamily="@font/main_medium"
+        android:paddingHorizontal="4dp"/>
+    <ImageView
+        android:id="@+id/iv_chevron"
+        android:visibility="gone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_chevron_down"
+        android:rotation="270"
+        app:tint="?android:attr/textColorSecondary"/>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/trans"
+        app:cardCornerRadius="100dp"
+        app:cardForegroundColor="@color/trans"
+        app:contentPaddingBottom="@dimen/spacing_low_more"
+        app:contentPaddingLeft="0dp"
+        app:contentPaddingRight="0dp"
+        app:contentPaddingTop="@dimen/spacing_low_more"
+        app:rippleColor="@color/ripple_color_primary"
+        app:strokeWidth="0dp">
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_medium"
+            android:stateListAnimator="@null"
+            style="@style/Subtitle"/>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

@@ -1,0 +1,256 @@
+0:46 Activity
+0:46 Activity Kotlin Extensions
+0:46 Experimental annotation
+0:46 Annotation
+0:46 AppCompat
+0:46 AppCompat Resources
+0:46 Android Arch-Common
+0:46 Android Arch-Runtime
+0:46 Biometric
+0:46 Browser
+0:46 Android Support CardView v7
+0:46 collections
+0:46 Collections Kotlin Extensions
+0:46 Compose Runtime Annotation
+0:46 AndroidX Futures
+0:46 ConstraintLayout
+0:46 ConstraintLayout Core
+0:46 Android Support Library Coordinator Layout
+0:46 Core
+0:46 Core Kotlin Extensions
+0:46 androidx.core:core-viewtree
+0:46 Credentials
+0:46 Credentials Play Services Auth
+0:46 Android Support Library Cursor Adapter
+0:46 Custom View
+0:46 androidx.customview:poolingcontainer
+0:46 androidx.databinding:viewbinding
+0:46 DataStore
+0:46 DataStore Core
+0:46 DataStore Core Okio
+0:46 Preferences DataStore
+0:46 Preferences DataStore Core
+47:44 Preferences External Protobuf
+0:46 Preferences DataStore Proto
+0:46 Document File
+0:46 Android Support Library Drawer Layout
+0:46 DynamicAnimation
+0:46 Android Emoji2 Compat
+0:46 Android Emoji2 Compat view helpers
+0:46 Android Support ExifInterface
+0:46 fragment
+0:46 Fragment Kotlin Extensions
+0:46 Graphics Shapes
+0:46 Android Support Library Interpolators
+0:46 Lifecycle-Common
+0:46 Lifecycle LiveData
+0:46 Lifecycle LiveData Core
+0:46 LiveData Core Kotlin Extensions
+0:46 LiveData Kotlin Extensions
+0:46 Lifecycle Process
+0:46 Lifecycle Runtime
+0:46 Lifecycle Kotlin Extensions
+0:46 Lifecycle ViewModel
+0:46 Lifecycle ViewModel
+0:46 Lifecycle ViewModel Kotlin Extensions
+0:46 Lifecycle ViewModel with SavedState
+0:46 Android Support Library loader
+0:46 Android Support Library Local Broadcast Manager
+0:46 Navigation Event
+0:46 AndroidX Preference
+0:46 Android Preferences KTX
+0:46 Profile Installer
+0:46 RecyclerView
+0:46 Android Resource Inspection - Annotations
+0:46 Room-Common
+0:46 Room-Runtime
+0:46 Saved State
+0:46 SavedState Kotlin Extensions
+0:46 Android Support Library Sliding Pane Layout
+0:46 SQLite
+0:46 SQLite Framework Integration
+0:46 Startup Runtime
+0:46 Swipe Refresh Layout
+0:46 Android Tracing
+0:46 Transition
+0:46 Android Support VectorDrawable
+0:46 Android Support AnimatedVectorDrawable
+0:46 VersionedParcelable
+0:46 Android Support Library View Pager
+0:46 ViewPager2
+0:46 Webkit
+0:46 Jetpack WindowManager Library
+92:60 Lottie
+153:47 billing
+201:47 Jackson-annotations
+201:47 Jackson-core
+201:47 jackson-databind
+249:42 Ferfalk/SimpleSearchView
+292:46 Glide Annotations
+0:46 Glide Annotations
+292:46 Glide Disk LRU Cache Library
+0:46 Glide Disk LRU Cache Library
+292:46 Glide GIF Decoder Library
+0:46 Glide GIF Decoder Library
+292:46 Glide
+0:46 Glide
+339:54 JSch
+394:62 JSch
+249:42 topjohnwu/libsu
+249:42 topjohnwu/libsu
+249:42 topjohnwu/libsu
+249:42 topjohnwu/libsu
+0:46 com.google.android.datatransport:transport-api
+0:46 com.google.android.datatransport:transport-backend-cct
+0:46 com.google.android.datatransport:transport-runtime
+0:46 flexbox-layout
+153:47 play-services-auth
+457:1096 Animal Sniffer
+1554:1892 Checker Framework Annotations
+3447:11358 Dagger
+14806:11357 Error Prone
+3447:11358 Google Auto
+3447:11358 Guava JDK5
+26164:11362 Guava JDK7
+37527:11359 HighwayHash
+48887:81008 J2ObjC
+3447:11358 JSR 250
+129896:1602 JSR 305
+131499:11365 JSR 330
+3447:11358 JSpecify
+142865:11357 Jakarta Inject
+154223:11307 JsInterop Annotations
+165531:28564 Kotlin
+14806:11357 Kotlin coroutines
+194096:1732 Protocol Buffers
+195829:1479 Protocol Buffers for Go v2
+197309:1732 Protocol Buffers for Java
+3447:11358 SafeParcelable library
+199042:10695 apksig
+209738:1036 checker_framework_util
+210775:1558 chrome_sync
+3447:11358 gsfclient
+212334:9116 java_annotations
+197309:1732 kotlin
+221451:11356 kotlinx_atomicfu
+232808:11356 kotlinx_serialization
+142865:11357 mobiledatadownload
+153:47 play-services-auth-api-phone
+153:47 play-services-auth-base
+3447:11358 Tink
+153:47 play-services-auth-blockstore
+153:47 play-services-base
+153:47 play-services-basement
+153:47 play-services-fido
+153:47 play-services-identity-credentials
+153:47 play-services-location
+244165:10694 AndroidX lifecycle common library
+244165:10694 AndroidX lifecycle livedatacore library
+244165:10694 AndroidX lifecycle runtime library
+153:47 play-services-places-placereport
+254860:680 STL
+3447:11358 safeparcel
+255541:731 UTF
+256273:11342 flatbuffers
+267616:2500 zlib
+270117:3182 PCRE
+273300:19442 ICU4C
+292743:1558 RE2
+294302:1481 darts_clone
+194096:1732 Protobuf Nano
+153:47 play-services-tasks
+153:47 googleid
+0:46 Material Components for Android
+295784:52 core-common
+295837:64 integrity
+153:47 recaptcha
+0:46 FindBugs-jsr305
+201:47 Gson
+0:46 error-prone annotations
+0:46 com.google.firebase:firebase-annotations
+0:46 com.google.firebase:firebase-appcheck-interop
+153:47 firebase-auth
+3447:11358 Conscrypt
+295902:328861 Cronet
+624764:11357 Firebase
+636122:13092 Gson
+3447:11358 android_build
+649215:9217 p2putils
+153:47 firebase-auth-interop
+0:46 com.google.firebase:firebase-common
+0:46 com.google.firebase:firebase-components
+0:46 com.google.firebase:firebase-config-interop
+0:46 com.google.firebase:firebase-crashlytics
+658433:555 Tape
+658989:11361 Apache-2.0
+0:46 com.google.firebase:firebase-crashlytics-ndk
+670351:563 Crashpad
+0:46 com.google.firebase:firebase-database
+0:46 firebase-database-collection
+0:46 com.google.firebase:firebase-datatransport
+0:46 firebase-encoders
+0:46 com.google.firebase:firebase-encoders-json
+0:46 firebase-encoders-proto
+0:46 com.google.firebase:firebase-installations
+0:46 com.google.firebase:firebase-installations-interop
+153:47 firebase-measurement-connector
+3447:11358 FlatBuffers
+670915:12521 archive_patcher
+0:46 com.google.firebase:firebase-sessions
+0:46 J2ObjC Annotations
+683437:43 asn-one
+683437:43 smbj
+683481:0 common
+683481:0 common4j
+683481:0 msal
+201:47 Nimbus JOSE+JWT
+683482:49 pcloud-sdk
+683482:49 pcloud-sdk
+683532:63 AES-Crypto
+0:46 secure-preferences
+201:47 moshi
+201:47 moshi-adapters
+201:47 okhttp
+0:46 okio
+0:46 Yubico YubiKit Android
+0:46 Yubico YubiKit Core
+0:46 Yubico YubiKit Piv
+683596:60 Shizuku API - aidl
+683596:60 Shizuku API - API
+683596:60 Shizuku API - provider
+683596:60 Shizuku API - shared
+201:47 TedPermission
+201:47 TedPermission-Normal
+0:46 FastScroll
+0:46 okhttp-digest
+683657:65 blake3
+0:46 minio
+0:46 Core
+0:46 Tables
+0:46 HTML
+0:46 Image Glide
+0:46 OpenTelemetry Java
+0:46 OpenTelemetry Java
+0:46 OpenTelemetry Java
+0:46 javax.inject
+683723:50 mbassador
+0:46 AppAuth for Android
+683774:41 Bouncy Castle Provider
+201:47 EventBus
+201:47 EventBus
+201:47 JetBrains Java Annotations
+0:46 Parcelize Runtime
+0:46 Kotlin Stdlib
+0:46 Kotlin Stdlib Jdk7
+0:46 Kotlin Stdlib Jdk8
+201:47 kotlinx-coroutines-android
+201:47 kotlinx-coroutines-core
+201:47 kotlinx-coroutines-play-services
+201:47 kotlinx-serialization-core
+201:47 kotlinx-serialization-json
+0:46 JSpecify annotations
+0:46 Android Hidden Api Bypass
+0:46 Simple XML
+683481:0 XZ for Java
+683816:48 snappy-java
+0:46 StAX API
