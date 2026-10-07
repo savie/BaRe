@@ -94,8 +94,8 @@ dependencies {
 
     implementation "net.openid:appauth:0.11.1"
     implementation "com.google.android.recaptcha:recaptcha:18.6.1"
-    implementation "org.bouncycastle:bctls-jdk18on:1.82"
-    implementation "org.bouncycastle:bcpkix-jdk18on:1.82"
+    implementation "org.bouncycastle:bctls-jdk18on:1.85"
+    implementation "org.bouncycastle:bcpkix-jdk18on:1.85"
     implementation "org.bouncycastle:bcprov-jdk18on:1.85"
     implementation "org.conscrypt:conscrypt-android:2.5.2"
     implementation "com.kohlschutter.junixsocket:junixsocket-common:2.10.1"
