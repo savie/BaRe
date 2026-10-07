@@ -312,16 +312,10 @@ public final class d8 implements ls7 {
     }
 
     @Override // android.view.MenuItem
-    public final MenuItem setContentDescription(CharSequence charSequence) {
-        this.q = charSequence;
-        return this;
-    }
+
 
     @Override // android.view.MenuItem
-    public final MenuItem setTooltipText(CharSequence charSequence) {
-        this.r = charSequence;
-        return this;
-    }
+
 
     @Override // android.view.MenuItem
     public final MenuItem setActionView(int i) {

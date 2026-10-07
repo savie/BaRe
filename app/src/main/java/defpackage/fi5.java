@@ -93,18 +93,18 @@ public final class fi5 implements sd4 {
     public final Object a(mt3 mt3Var, kv1 kv1Var) throws Throwable {
         ci5 ci5Var;
         mj5 mj5Var;
-        ?? r9;
+        mt3 r9;
         FileOutputStream fileOutputStream;
         Throwable th;
-        ?? r10;
-        ?? r8;
-        ?? r1;
+        Object r10;
+        Object r8;
+        Object r1;
         Closeable closeable;
         FileLock fileLock;
         FileLock fileLock2;
         Object objInvoke;
-        ?? r0;
-        ?? r11;
+        Object r0;
+        Object r11;
         if (kv1Var instanceof ci5) {
             ci5Var = (ci5) kv1Var;
             int i = ci5Var.f;
@@ -116,7 +116,7 @@ public final class fi5 implements sd4 {
         } else {
             ci5Var = new ci5(this, kv1Var);
         }
-        ?? r12 = ci5Var.d;
+        Object r12 = ci5Var.d;
         int i2 = ci5Var.f;
         yx1 yx1Var = yx1.a;
         try {
@@ -228,7 +228,7 @@ public final class fi5 implements sd4 {
                     ci5Var.f = 2;
                     Object objV = sl4.v(fileOutputStream, ci5Var);
                     if (objV != yx1Var) {
-                        ?? r7 = r12;
+                        Object r7 = r12;
                         r10 = objV;
                         r8 = r7;
                         r1 = r9;
@@ -334,15 +334,15 @@ public final class fi5 implements sd4 {
     /* JADX WARN: Type inference failed for: r4v0, types: [int, java.io.Closeable] */
     @Override // defpackage.sd4
     public final Object d(qt3 qt3Var, kv1 kv1Var) throws Throwable {
-        ?? ei5Var;
-        ?? r1;
-        ?? r2;
+        ei5 ei5Var;
+        mt3 r1;
+        Object r2;
         String message;
         FileLock fileLockTryLock;
         FileLock fileLock;
         FileInputStream fileInputStream;
-        ?? r3;
-        ?? r4;
+        Object r3;
+        Object r4;
         if (kv1Var instanceof ei5) {
             ei5 ei5Var2 = (ei5) kv1Var;
             int i = ei5Var2.k;
@@ -356,7 +356,7 @@ public final class fi5 implements sd4 {
             ei5Var = new ei5(this, kv1Var);
         }
         Object objInvoke = ei5Var.e;
-        ?? r5 = ei5Var.k;
+        int r5 = ei5Var.k;
         try {
             if (r5 == 0) {
                 lg7.H(objInvoke);

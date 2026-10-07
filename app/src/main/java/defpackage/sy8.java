@@ -9,6 +9,10 @@ import java.util.zip.ZipException;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public class sy8 implements oe8 {
+    private final String enumName;
+    private final int enumOrdinal;
+    public final String name() { return enumName; }
+    public final int ordinal() { return enumOrdinal; }
     public static final qy8 b;
     public static final /* synthetic */ sy8[] c;
     public final j15 a;
@@ -23,7 +27,8 @@ public class sy8 implements oe8 {
     }
 
     public sy8(String str, int i, j15 j15Var) {
-        super(str, i);
+        this.enumName = str;
+        this.enumOrdinal = i;
         this.a = j15Var;
     }
 
@@ -44,7 +49,8 @@ public class sy8 implements oe8 {
     }
 
     public static sy8 valueOf(String str) {
-        return (sy8) Enum.valueOf(sy8.class, str);
+        for (sy8 value : c) { if (value.name().equals(str)) return value; }
+        throw new IllegalArgumentException("No enum constant sy8." + str);
     }
 
     public static sy8[] values() {

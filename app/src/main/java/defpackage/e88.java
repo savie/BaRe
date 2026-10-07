@@ -5,6 +5,11 @@ package defpackage;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public abstract class e88 {
+    private final String enumName;
+    private final int enumOrdinal;
+    protected e88(String name, int ordinal) { this.enumName = name; this.enumOrdinal = ordinal; }
+    public final String name() { return enumName; }
+    public final int ordinal() { return enumOrdinal; }
     public static final u78 A0;
     public static final v78 B0;
     public static final w78 C0;
@@ -302,7 +307,8 @@ public abstract class e88 {
     }
 
     public static e88 valueOf(String str) {
-        return (e88) Enum.valueOf(e88.class, str);
+        for (e88 value : L0) { if (value.name().equals(str)) return value; }
+        throw new IllegalArgumentException("No enum constant e88." + str);
     }
 
     public static e88[] values() {

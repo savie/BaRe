@@ -6,8 +6,5 @@ import com.microsoft.identity.common.java.authscheme.TokenAuthenticationScheme;
 /* JADX INFO: loaded from: classes.dex */
 public interface r56 {
     public static final /* synthetic */ int v = 0;
-
-    static {
-        new z77(TokenAuthenticationScheme.SCHEME_DELIMITER);
-    }
+    public static final z77 W = new z77(TokenAuthenticationScheme.SCHEME_DELIMITER);
 }

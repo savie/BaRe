@@ -24,7 +24,7 @@ public final class ie2 {
     /* JADX WARN: Type inference failed for: r2v6, types: [h23] */
     /* JADX WARN: Type inference failed for: r8v2 */
     public static h23 a(String str, e23 e23Var) {
-        ?? he8Var;
+        Object he8Var;
         e23 e23Var2;
         h23 zo1Var;
         if (a.matcher(str).matches()) {

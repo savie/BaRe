@@ -553,31 +553,204 @@ public abstract class cy0 implements hw5 {
         return j;
     }
 
-    /*  JADX ERROR: NullPointerException in pass: ConstructorVisitor
-        java.lang.NullPointerException: Cannot invoke "jadx.core.dex.instructions.args.RegisterArg.sameRegAndSVar(jadx.core.dex.instructions.args.InsnArg)" because "resultArg" is null
-        	at jadx.core.dex.visitors.MoveInlineVisitor.processMove(MoveInlineVisitor.java:52)
-        	at jadx.core.dex.visitors.MoveInlineVisitor.moveInline(MoveInlineVisitor.java:41)
-        	at jadx.core.dex.visitors.ConstructorVisitor.visit(ConstructorVisitor.java:43)
-        */
-    public static org.bouncycastle.asn1.pkcs.PrivateKeyInfo l(
-    /*  JADX ERROR: Method generation error
-        jadx.core.utils.exceptions.JadxRuntimeException: Code variable not set in r46v0 ??
-        	at jadx.core.dex.instructions.args.SSAVar.getCodeVar(SSAVar.java:236)
-        	at jadx.core.codegen.MethodGen.addMethodArguments(MethodGen.java:215)
-        	at jadx.core.codegen.MethodGen.addDefinition(MethodGen.java:150)
-        	at jadx.core.codegen.ClassGen.addMethodCode(ClassGen.java:415)
-        	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:345)
-        	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:299)
-        	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-        	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
-        	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
-        */
-    /*  JADX ERROR: NullPointerException in pass: ConstructorVisitor
-        java.lang.NullPointerException: Cannot invoke "jadx.core.dex.instructions.args.RegisterArg.sameRegAndSVar(jadx.core.dex.instructions.args.InsnArg)" because "resultArg" is null
-        	at jadx.core.dex.visitors.MoveInlineVisitor.processMove(MoveInlineVisitor.java:52)
-        	at jadx.core.dex.visitors.MoveInlineVisitor.moveInline(MoveInlineVisitor.java:41)
-        */
+    public static org.bouncycastle.asn1.pkcs.PrivateKeyInfo l(n60 key, x1 attrs) throws IOException {
+        if (key instanceof dw6) {
+            dw6 k = (dw6) key;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya(bw5.a, new tv6(fi8.d(k.b))), new p82(ms8.k(k.c)), null, null);
+        }
+        if (key instanceof nj5) {
+            nj5 k = (nj5) key; short[] words = ms8.l(k.b); byte[] enc = new byte[words.length * 2];
+            for (int i2 = 0; i2 < words.length; i2++) { enc[i2 * 2] = (byte) words[i2]; enc[i2 * 2 + 1] = (byte) (words[i2] >>> 8); }
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya(bw5.b), new p82(enc), null, null);
+        }
+        if (key instanceof qp4) {
+            qp4 k = (qp4) key;
+            try {
+                ByteArrayOutputStream a = new ByteArrayOutputStream(); a.write(0); a.write(0); a.write(0); a.write(1); a.write(k.getEncoded());
+                ByteArrayOutputStream b = new ByteArrayOutputStream(); b.write(0); b.write(0); b.write(0); b.write(1);
+                rp4 pub = k.f(); if (pub == null) throw new NullPointerException("lmsPublicKey"); b.write(pub.b());
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya(tv5.a), new p82(a.toByteArray()), attrs, b.toByteArray());
+            } catch (Exception e2) { e6.i(e2.getMessage(), e2); return null; }
+        }
+        if (key instanceof m24) {
+            m24 k = (m24) key;
+            try {
+                ByteArrayOutputStream a = new ByteArrayOutputStream();
+                a.write(k.b >>> 24); a.write(k.b >>> 16); a.write(k.b >>> 8); a.write(k.b);
+                a.write(k.getEncoded());
+                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                b.write(k.b >>> 24); b.write(k.b >>> 16); b.write(k.b >>> 8); b.write(k.b);
+                qp4 pubHolder = (qp4) k.d.get(0); rp4 pub = pubHolder.f(); if (pub == null) throw new NullPointerException("lmsPublicKey"); b.write(pub.b());
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya(tv5.a), new p82(a.toByteArray()), attrs, b.toByteArray());
+            } catch (Exception e2) { e6.i(e2.getMessage(), e2); return null; }
+        }
+        if (key instanceof bw6) {
+            bw6 k = (bw6) key; byte[] a = k.d.b instanceof byte[] ? (byte[]) k.d.b : null; byte[] b = k.d.c instanceof byte[] ? (byte[]) k.d.c : null;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.o.get((aw6) k.b)), new p82(k.getEncoded()), attrs, ms8.p(a, b));
+        }
+        if (key instanceof sr6) {
+            sr6 k = (sr6) key;
+            byte[] pub0 = k.c.b;
+            byte[] pub1 = k.c.c;
+            byte[] aux0 = k.d.b instanceof byte[] ? (byte[]) k.d.b : null;
+            byte[] aux1 = k.d.c instanceof byte[] ? (byte[]) k.d.c : null;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                    new ya((f1) fi8.K.get((rr6) k.b)),
+                    ms8.q(new byte[][]{pub0, pub1, aux0, aux1}), attrs, null);
+        }
+        if (key instanceof h06) {
+            h06 k = (h06) key;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.g.get((g06) k.b)), new p82(ms8.k(k.c)), attrs, null);
+        }
+        if (key instanceof uy0) {
+            uy0 k = (uy0) key;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.m.get((sy0) k.b)), new p82(k.c), attrs, null);
+        }
+        if (key instanceof tx8) {
+            tx8 k = (tx8) key;
+            ya alg = new ya(bw5.c, new hx8(k.c.b, fi8.f(k.b)));
+            byte[] enc = k.getEncoded();
+            int n = k.c.f;
+            int index = k.c.b;
+            int off = 4;
+            long raw = jd4.c(enc, off);
+            if (!jd4.u(index, raw)) {
+                c6.f("index out of bounds");
+                return null;
+            }
+            byte[] a = jd4.o(enc, off, n);
+            off += n;
+            byte[] b = jd4.o(enc, off, n);
+            off += n;
+            byte[] d = jd4.o(enc, off, n);
+            off += n;
+            byte[] e = jd4.o(enc, off, n);
+            off += n;
+            byte[] state = jd4.o(enc, off, enc.length - off);
+            try {
+                lh0 parsed = (lh0) jd4.l(state, lh0.class);
+                int max = (1 << index) - 1;
+                sx8 bds = parsed.r != max
+                        ? new sx8((int) raw, a, b, d, e, state, parsed.r)
+                        : new sx8((int) raw, a, b, d, e, state);
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(alg, bds, attrs, null);
+            } catch (ClassNotFoundException ex) {
+                c6.k(ex.getMessage(), "cannot parse BDS: ");
+                return null;
+            }
+        }
+        if (key instanceof nx8) {
+            nx8 k = (nx8) key;
+            ya alg = new ya(bw5.d, new jx8(k.c.c, k.c.d, fi8.f(k.b)));
+            byte[] enc = k.getEncoded();
+            int n = k.c.b.f;
+            int index = k.c.c;
+            int off = (index + 7) / 8;
+            long raw = jd4.c(enc, off);
+            if (!jd4.u(index, raw)) {
+                c6.f("index out of bounds");
+                return null;
+            }
+            byte[] a = jd4.o(enc, off, n);
+            off += n;
+            byte[] b = jd4.o(enc, off, n);
+            off += n;
+            byte[] d = jd4.o(enc, off, n);
+            off += n;
+            byte[] e = jd4.o(enc, off, n);
+            off += n;
+            byte[] state = jd4.o(enc, off, enc.length - off);
+            try {
+                mh0 parsed = (mh0) jd4.l(state, mh0.class);
+                long max = (1L << index) - 1L;
+                lx8 map = parsed.b != max
+                        ? new lx8(raw, a, b, d, e, state, parsed.b)
+                        : new lx8(raw, a, b, d, e, state);
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(alg, map, attrs, null);
+            } catch (ClassNotFoundException ex) {
+                c6.k(ex.getMessage(), "cannot parse BDSStateMap: ");
+                return null;
+            }
+        }
+        if (key instanceof rs3) {
+            rs3 k = (rs3) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.i.get((qs3) k.b)), new p82(ms8.k(k.c)), attrs, null);
+        }
+        if (key instanceof cr6) {
+            cr6 k = (cr6) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.k.get((br6) k.b)), new p82(ms8.k(k.c)), attrs, null);
+        }
+        if (key instanceof yj5) {
+            yj5 k = (yj5) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.q.get((xj5) k.b)), new p82(ms8.k(k.c)), attrs, null);
+        }
+        if (key instanceof m33) {
+            m33 k = (m33) key;
+            n33 p = new n33(ms8.k(k.c));
+            l33 q = new l33();
+            q.a = 0;
+            q.b = ms8.k(k.d);
+            q.c = ms8.k(k.e);
+            q.d = ms8.k(k.f);
+            q.e = p;
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                    new ya((f1) fi8.s.get((k33) k.b)), q, attrs, null);
+        }
+        if (key instanceof p45) {
+            p45 k = (p45) key;
+            ya alg = new ya((f1) fi8.G.get((o45) k.b));
+            if (k.p == 1) {
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                        alg, new w82(2, 0x80, 0, new p82(ms8.k(k.n))), attrs, null);
+            }
+            if (k.p == 2) {
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                        alg, new p82(k.getEncoded()), attrs, null);
+            }
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                    alg, u(ms8.k(k.n), k.getEncoded()), attrs, null);
+        }
+        if (key instanceof vj5) {
+            vj5 k = (vj5) key; c0 seq = new c0(); seq.a(new p82(ms8.k(k.c))); seq.a(new p82(ms8.k(k.d))); seq.a(new p82(ms8.k(k.e))); seq.a(new p82(ms8.k(k.f)));
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.u.get((uj5) k.b)), new t82(seq), attrs, null);
+        }
+        if (key instanceof pv6) {
+            pv6 k = (pv6) key; c0 seq = new c0(); seq.a(new p82(ms8.k(k.c))); seq.a(new p82(ms8.k(k.d))); seq.a(new p82(ms8.k(k.e))); seq.a(new p82(ms8.k(k.f))); seq.a(new p82(ms8.k(k.k)));
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.w.get((ov6) k.b)), new t82(seq), attrs, null);
+        }
+        if (key instanceof i45) {
+            i45 k = (i45) key;
+            ya alg = new ya((f1) fi8.I.get((h45) k.b));
+            if (k.r == 1) {
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                        alg, new w82(false, 0, new p82(ms8.k(k.q))), attrs);
+            }
+            if (k.r == 2) {
+                return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                        alg, new p82(k.getEncoded()), attrs);
+            }
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(
+                    alg, u(ms8.k(k.q), k.getEncoded()), attrs);
+        }
+        if (key instanceof pl2) {
+            pl2 k = (pl2) key; ql2 params = new ql2((ol2) k.b, k.c, k.p);
+            return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.y.get((ol2) k.b)), new p82(ms8.q(new byte[][]{k.c, k.d, k.e, k.f, k.k, k.n})), attrs, ms8.p(params.c, params.d));
+        }
+        if (key instanceof gi0) {
+            gi0 k = (gi0) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.A.get((fi0) k.b)), new p82(k.getEncoded()), attrs);
+        }
+        if (key instanceof k24) {
+            k24 k = (k24) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.C.get((j24) k.b)), new p82(ms8.k(k.c)), attrs);
+        }
+        if (key instanceof se6) {
+            se6 k = (se6) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.E.get((re6) k.b)), new p82(k.getEncoded()), attrs);
+        }
+        if (key instanceof n95) {
+            n95 k = (n95) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.M.get((m95) k.b)), new p82(ms8.k(k.c)), attrs);
+        }
+        if (key instanceof ui7) {
+            ui7 k = (ui7) key; return new org.bouncycastle.asn1.pkcs.PrivateKeyInfo(new ya((f1) fi8.O.get(k.c)), new p82(ms8.k(k.b)), attrs);
+        }
+        g84.h("key parameters not recognized");
+        return null;
+    }
 
     public static final mx6 m(ej5 ej5Var) {
         LinkedHashMap linkedHashMap = ej5Var.a;

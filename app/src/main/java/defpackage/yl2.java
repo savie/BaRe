@@ -36,7 +36,7 @@ public final class yl2 {
             int[][] iArr3 = new int[i2][];
             System.arraycopy(iArr2, 0, iArr3, 0, i);
             this.c = iArr3;
-            ?? r1 = new tb7[i2];
+            tb7[] r1 = new tb7[i2];
             System.arraycopy((tb7[]) this.d, 0, r1, 0, i);
             this.d = r1;
         }

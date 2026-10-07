@@ -227,23 +227,118 @@ public final class pu3 extends ag8 {
         	at jadx.core.dex.visitors.MoveInlineVisitor.moveInline(MoveInlineVisitor.java:41)
         	at jadx.core.dex.visitors.ConstructorVisitor.visit(ConstructorVisitor.java:43)
         */
-    public final defpackage.yz3 m(
-    /*  JADX ERROR: Method generation error
-        jadx.core.utils.exceptions.JadxRuntimeException: Code variable not set in r41v0 ??
-        	at jadx.core.dex.instructions.args.SSAVar.getCodeVar(SSAVar.java:236)
-        	at jadx.core.codegen.MethodGen.addMethodArguments(MethodGen.java:215)
-        	at jadx.core.codegen.MethodGen.addDefinition(MethodGen.java:150)
-        	at jadx.core.codegen.ClassGen.addMethodCode(ClassGen.java:415)
-        	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:345)
-        	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:299)
-        	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
-        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-        	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
-        	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:258)
-        */
-    /*  JADX ERROR: NullPointerException in pass: ConstructorVisitor
-        java.lang.NullPointerException: Cannot invoke "jadx.core.dex.instructions.args.RegisterArg.sameRegAndSVar(jadx.core.dex.instructions.args.InsnArg)" because "resultArg" is null
-        	at jadx.core.dex.visitors.MoveInlineVisitor.processMove(MoveInlineVisitor.java:52)
-        	at jadx.core.dex.visitors.MoveInlineVisitor.moveInline(MoveInlineVisitor.java:41)
-        */
+    public final yz3 m(String str, zz3 zz3Var, long total, mu3 progress, rm onError, gj onFatal) throws Exception {
+        jh6 sessionCount = new jh6();
+        int maxRetries = Math.max(0, this.e - this.f);
+        int retryCount = 0;
+
+        oh1 openInput = new oh1(1, this, pu3.class, "openInputStreamAt", "openInputStreamAt(J)Ljava/io/InputStream;", 0, 2);
+        ou3 upload = new ou3(sessionCount, this, str, zz3Var, total, onError, onFatal);
+        rk shouldStop = new rk(0, this, pu3.class, "shouldStopUpload", "shouldStopUpload()Z", 0, 3);
+        ae1 recoverable = new ae1(1, this, pu3.class, "isRecoverableUploadError", "isRecoverableUploadError(Ljava/lang/Exception;)Z", 0, 6);
+        rx recoverHandler = new rx(4);
+        ox retryPredicate = new ox(this, 16);
+        nu3 progressCallback = new nu3(progress, this, total);
+        dk closeCallback = new dk(this, 28);
+
+        long initialOffset = Math.max(0L, (long) this.e - (long) this.f);
+        l04 state = new l04(total, maxRetries, openInput, upload, shouldStop, recoverable,
+                recoverHandler, retryPredicate, progressCallback, closeCallback, retryCount);
+
+        if (total < 0L || initialOffset < 0L) {
+            throw new IllegalArgumentException("Invalid Google Drive upload range");
+        }
+
+        while (true) {
+            Boolean stop = (Boolean) shouldStop.invoke();
+            if (stop.booleanValue()) {
+                throw new IOException("Google Drive upload stopped");
+            }
+
+            k04 session = upload.c();
+            if (session instanceof i04) {
+                return ((i04) session).a;
+            }
+            if (!(session instanceof j04)) {
+                q.j();
+                return null;
+            }
+
+            String uploadUrl = ((j04) session).a;
+            if (uploadUrl == null || nq7.j0(uploadUrl)) {
+                c6.f("Google Drive upload URL must not be blank");
+                return null;
+            }
+
+            long offset = initialOffset;
+            while (offset < total) {
+                stop = (Boolean) shouldStop.invoke();
+                if (stop.booleanValue()) {
+                    throw new IOException("Google Drive upload stopped");
+                }
+
+                long remaining = total - offset;
+                long chunkSize = Math.min(0x800000L, remaining);
+                java.io.InputStream input = null;
+                try {
+                    input = (java.io.InputStream) openInput.invoke(Long.valueOf(offset));
+                    kh6 chunkProgress = new kh6();
+                    e04 callback = new e04(chunkProgress, total, state, offset);
+                    h04 response = upload.a(uploadUrl, input, offset, chunkSize, total, callback);
+
+                    if (response instanceof f04) {
+                        state.b(total);
+                        Object value = ((f04) response).a;
+                        if (value instanceof yz3) {
+                            return (yz3) value;
+                        }
+                        return null;
+                    }
+
+                    if (!(response instanceof g04)) {
+                        q.j();
+                        return null;
+                    }
+
+                    g04 incomplete = (g04) response;
+                    long next = incomplete.a;
+                    state.d(next, offset, offset + chunkSize, "chunk");
+                    String nextUrl = incomplete.b;
+                    if (nextUrl != null) {
+                        uploadUrl = nextUrl;
+                    }
+
+                    if (next <= offset) {
+                        throw new IOException("Google Drive resumable upload made no progress");
+                    }
+                    offset = next;
+                    state.b(offset);
+                    retryCount = 0;
+                } catch (Exception ex) {
+                    Boolean retryable = (Boolean) recoverable.invoke(ex);
+                    if (!retryable.booleanValue() || !state.c(ex, retryCount)) {
+                        throw ex;
+                    }
+                    retryCount++;
+                    onError.invoke(ex);
+                    closeCallback.invoke();
+                    try {
+                        Thread.yield();
+                    } catch (Exception ignored) {
+                    }
+                    break;
+                } finally {
+                    f13.a(input);
+                }
+            }
+
+            if (offset >= total) {
+                k04 finalStatus = upload.b(total, uploadUrl);
+                if (finalStatus instanceof i04) {
+                    return ((i04) finalStatus).a;
+                }
+            }
+        }
+    }
+
 }

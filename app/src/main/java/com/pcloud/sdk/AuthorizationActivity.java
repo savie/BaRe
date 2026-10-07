@@ -79,7 +79,7 @@ public final class AuthorizationActivity extends Activity {
     /* JADX WARN: Type inference failed for: r3v4, types: [java.util.Map] */
     /* JADX WARN: Type inference failed for: r3v6, types: [java.util.TreeMap] */
     public final boolean d(String str) {
-        ?? treeMap;
+        Map treeMap;
         if (str != null) {
             if (str.startsWith("pcloud-oauth://" + getPackageName())) {
                 try {

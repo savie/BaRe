@@ -110,7 +110,7 @@ public final class x44 implements jk8 {
     /* JADX WARN: Type inference failed for: r2v2 */
     /* JADX WARN: Type inference failed for: r2v3, types: [of2] */
     public q27 d(Class cls) {
-        ?? of2Var;
+        q27 of2Var;
         oe oeVar = (oe) this.b;
         x44 x44Var = (x44) oeVar.c;
         bq1 bq1Var = (bq1) oeVar.b;
@@ -122,7 +122,7 @@ public final class x44 implements jk8 {
         if (x44Var.e(cls)) {
             of2Var = new of2(ri2VarE);
         } else {
-            ?? tr5Var = new tr5(ri2VarE, x44Var);
+            q27 tr5Var = new tr5(ri2VarE, x44Var);
             if (tr5Var.c.d) {
                 boolean zIsArray = true;
                 if (!Collection.class.isAssignableFrom(cls) && !Map.class.isAssignableFrom(cls)) {

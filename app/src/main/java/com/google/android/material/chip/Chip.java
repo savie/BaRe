@@ -487,7 +487,7 @@ public class Chip extends en implements tc7, Checkable {
         zD0 = false;
         if (v61Var != null && v61.L(v61Var.n0)) {
             v61 v61Var2 = this.e;
-            ?? IsEnabled = isEnabled();
+            int IsEnabled = isEnabled() ? 1 : 0;
             if (this.x) {
                 i = IsEnabled;
                 i = IsEnabled + 1;

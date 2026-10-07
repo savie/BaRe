@@ -405,23 +405,23 @@ public abstract class w13 {
     /* JADX WARN: Type inference failed for: r0v5, types: [int] */
     public static final int s(az6 az6Var) {
         boolean z = az6Var.b;
-        ?? r0 = z;
+        int r0 = z ? 1 : 0;
         if (az6Var.a) {
             r0 = (z ? 1 : 0) | 2;
         }
-        ?? r1 = r0;
+        int r1 = r0;
         if (az6Var.c) {
             r1 = (r0 == true ? 1 : 0) | 4;
         }
-        ?? r2 = r1;
+        int r2 = r1;
         if (az6Var.d) {
             r2 = (r1 == true ? 1 : 0) | 8;
         }
-        ?? r3 = r2;
+        int r3 = r2;
         if (az6Var.e) {
             r3 = (r2 == true ? 1 : 0) | 16;
         }
-        ?? r4 = r3;
+        int r4 = r3;
         if (az6Var.f) {
             r4 = (r3 == true ? 1 : 0) | 64;
         }

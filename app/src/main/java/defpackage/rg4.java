@@ -52,21 +52,11 @@ public final class rg4 extends yg7 {
 
     @Override // defpackage.yg7
     /* JADX INFO: renamed from: L0 */
-    public final yg7 H0(Object obj) {
-        if (obj == this.p) {
-            return this;
-        }
-        return new rg4(this.f, this.x, this.r, this.t, this.G, this.n, obj, this.q);
-    }
+
 
     @Override // defpackage.yg7
     /* JADX INFO: renamed from: M0 */
-    public final yg7 I0(Object obj) {
-        if (obj == this.n) {
-            return this;
-        }
-        return new rg4(this.f, this.x, this.r, this.t, this.G, obj, this.p, this.q);
-    }
+
 
     @Override // defpackage.yg7
     /* JADX INFO: renamed from: N0, reason: merged with bridge method [inline-methods] */

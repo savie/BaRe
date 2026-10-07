@@ -267,9 +267,4 @@ public final class j35 extends ValueAnimator implements Choreographer.FrameCallb
         throw new UnsupportedOperationException("LottieAnimator does not support setStartDelay.");
     }
 
-    @Override // android.animation.ValueAnimator, android.animation.Animator
-    public final /* bridge */ /* synthetic */ Animator setDuration(long j) {
-        setDuration(j);
-        throw null;
-    }
 }

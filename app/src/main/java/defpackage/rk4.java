@@ -7,11 +7,11 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface rk4 {
-    pk4 content() default pk4.a;
+    pk4 content() default pk4.ALWAYS;
 
     Class contentFilter() default Void.class;
 
-    pk4 value() default pk4.a;
+    pk4 value() default pk4.ALWAYS;
 
     Class valueFilter() default Void.class;
 }

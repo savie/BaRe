@@ -76,9 +76,9 @@ public final class p20 extends ws7 implements qt3 {
         boolean z;
         te1 te1Var;
         ef1 ef1VarA;
-        ?? r5;
+        tb1 r5;
         tb1 tb1Var;
-        ?? P;
+        te1 P;
         pd1 pd1VarA;
         tb1 tb1Var2;
         tb1 tb1VarC;
@@ -117,7 +117,7 @@ public final class p20 extends ws7 implements qt3 {
                 return be8.a;
             default:
                 lg7.H(obj);
-                ?? r3 = (we1) ((hf1) this.d).g.getValue();
+                we1 r3 = (we1) ((hf1) this.d).g.getValue();
                 ArrayList arrayList2 = (ArrayList) this.e;
                 int i2 = 2;
                 ke keVar = new ke((hf1) this.d, i2);
@@ -163,7 +163,7 @@ public final class p20 extends ws7 implements qt3 {
                                     if (r5 != 0) {
                                         Set set2 = ud1.a;
                                         sd1Var2.getClass();
-                                        ?? r8 = ud1.a.contains(sd1Var2) ? r5 : l;
+                                        tb1 r8 = ud1.a.contains(sd1Var2) ? r5 : null;
                                         if (r8 != 0) {
                                             P = we1.p(lh6Var, arrayList2, r3, r8);
                                         } else {

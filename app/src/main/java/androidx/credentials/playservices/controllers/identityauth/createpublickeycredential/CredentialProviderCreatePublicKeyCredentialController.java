@@ -85,28 +85,7 @@ public final class CredentialProviderCreatePublicKeyCredentialController extends
         context.getClass();
         this.context = context;
         final Handler handler = new Handler(Looper.getMainLooper());
-        this.resultReceiver = new ResultReceiver(handler) { // from class: androidx.credentials.playservices.controllers.identityauth.createpublickeycredential.CredentialProviderCreatePublicKeyCredentialController$resultReceiver$1
-            @Override // android.os.ResultReceiver
-            public void onReceiveResult(int i, Bundle bundle) {
-                bundle.getClass();
-                CredentialProviderCreatePublicKeyCredentialController credentialProviderCreatePublicKeyCredentialController = this.this$0;
-                CredentialProviderCreatePublicKeyCredentialController$resultReceiver$1$onReceiveResult$1 credentialProviderCreatePublicKeyCredentialController$resultReceiver$1$onReceiveResult$1 = new CredentialProviderCreatePublicKeyCredentialController$resultReceiver$1$onReceiveResult$1(CredentialProviderBaseController.Companion);
-                Executor executor = this.this$0.executor;
-                if (executor == null) {
-                    pe4.F("executor");
-                    throw null;
-                }
-                t22 t22Var = this.this$0.callback;
-                if (t22Var == null) {
-                    pe4.F("callback");
-                    throw null;
-                }
-                if (credentialProviderCreatePublicKeyCredentialController.maybeReportErrorFromResultReceiver(bundle, credentialProviderCreatePublicKeyCredentialController$resultReceiver$1$onReceiveResult$1, executor, t22Var, this.this$0.cancellationSignal)) {
-                    return;
-                }
-                this.this$0.handleResponse$credentials_play_services_auth(bundle.getInt(CredentialProviderBaseController.ACTIVITY_REQUEST_CODE_TAG), i, (Intent) bundle.getParcelable(CredentialProviderBaseController.RESULT_DATA_TAG));
-            }
-        };
+        this.resultReceiver = new CredentialProviderCreatePublicKeyCredentialController$resultReceiver$1(this, handler);
     }
 
     private final d22 JSONExceptionToPKCError(JSONException jSONException) {

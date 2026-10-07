@@ -49,13 +49,7 @@ public class y67 {
         this.head$volatile = b77Var;
         this.tail$volatile = b77Var;
         this._availablePermits$volatile = i;
-        this.b = new rt3() { // from class: v67
-            @Override // defpackage.rt3
-            public final Object a(Object obj, Object obj2, Object obj3) {
-                this.a.e();
-                return be8.a;
-            }
-        };
+        this.b = new v67(this);
     }
 
     public final Object c(kv1 kv1Var) {

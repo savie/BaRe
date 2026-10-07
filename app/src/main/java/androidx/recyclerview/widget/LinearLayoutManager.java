@@ -742,7 +742,7 @@ public class LinearLayoutManager extends a implements ah6 {
         int i2;
         int i3;
         int i4;
-        ?? r4;
+        int r4;
         List list;
         int i5;
         int i6;

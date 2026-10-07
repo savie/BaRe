@@ -221,7 +221,7 @@ public class StaggeredGridLayoutManager extends a implements ah6 {
     /* JADX WARN: Type inference failed for: r8v3, types: [boolean, int] */
     public final int S0(vg6 vg6Var, ms4 ms4Var, bh6 bh6Var) {
         p35 p35Var;
-        ?? r8;
+        int r8;
         int iK;
         int iE;
         int iE2;

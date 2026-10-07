@@ -1,0 +1,1 @@
+package defpackage; public final class gg9 implements us9 {}

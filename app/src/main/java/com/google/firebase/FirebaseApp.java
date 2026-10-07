@@ -70,7 +70,7 @@ public class FirebaseApp {
     /* JADX WARN: Type inference failed for: r0v6, types: [java.util.ArrayList] */
     /* JADX WARN: Type inference failed for: r0v7, types: [java.util.List] */
     public FirebaseApp(final Context context, String str, FirebaseOptions firebaseOptions) {
-        ?? arrayList;
+        List arrayList;
         ly8.h(context);
         this.applicationContext = context;
         ly8.e(str);

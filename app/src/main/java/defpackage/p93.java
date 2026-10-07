@@ -51,7 +51,7 @@ public final class p93 {
         }
         StringCharacterIterator stringCharacterIterator = new StringCharacterIterator("KMGTPE");
         long j = jAbs;
-        for (int i = 40; i >= 0 && jAbs > (1152865209611504844 >> i); i -= 10) {
+        for (int i = 40; i >= 0 && jAbs > (1152865209611504844L >> i); i -= 10) {
             j >>= 10;
             stringCharacterIterator.next();
         }

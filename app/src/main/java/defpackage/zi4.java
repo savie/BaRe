@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface zi4 {
-    yi4 creatorVisibility() default yi4.d;
+    yi4 creatorVisibility() default yi4.DEFAULT;
 
     yi4 fieldVisibility() default yi4.d;
 

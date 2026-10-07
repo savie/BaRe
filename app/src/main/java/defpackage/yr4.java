@@ -59,7 +59,7 @@ public final class yr4 extends ws7 implements qt3 {
                 /* JADX WARN: Type inference failed for: r2v3, types: [java.lang.Iterable] */
                 @Override // defpackage.bt3
                 public final Object invoke() {
-                    ?? arrayList;
+                    Object arrayList;
                     Map<String, LabelParams> labelParamsMap;
                     zr4 zr4Var2 = zr4Var;
                     Set setZ1 = el1.z1(zr4Var2.j());

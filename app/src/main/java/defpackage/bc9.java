@@ -53,14 +53,14 @@ public final class bc9 implements Map, Serializable {
         boolean z;
         int i2;
         char c;
-        ?? r3;
+        Object r3;
         char c2;
         short[] sArr;
         boolean z2;
         int i3;
-        ?? r16;
+        int r16;
         boolean z3;
-        ?? r4;
+        Object r4;
         Object[] objArr2;
         pa9 pa9Var;
         boolean z4;
@@ -70,7 +70,7 @@ public final class bc9 implements Map, Serializable {
             return k;
         }
         pa9 pa9Var2 = null;
-        ?? r5 = 0;
+        Object r5 = null;
         pa9 pa9Var3 = null;
         pa9 pa9Var4 = null;
         boolean z5 = false;

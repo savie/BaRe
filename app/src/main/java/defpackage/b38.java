@@ -84,7 +84,7 @@ public final class b38 implements ra2 {
     /* JADX WARN: Type inference failed for: r5v2, types: [android.database.Cursor] */
     /* JADX WARN: Type inference failed for: r6v0 */
     public final InputStream f() throws Throwable {
-        ?? r6;
+        Object r6;
         SecurityException e;
         Cursor cursorU;
         String string;
@@ -94,7 +94,7 @@ public final class b38 implements ra2 {
         e38 e38Var = this.b;
         ContentResolver contentResolver = (ContentResolver) e38Var.d;
         Uri uri = this.a;
-        ?? r5 = 0;
+        Object r5 = 0;
         InputStream inputStreamOpenInputStream2 = null;
         try {
             try {

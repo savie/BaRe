@@ -52,7 +52,7 @@ public abstract class eq {
             return true;
         }
         int i = 2;
-        ?? arrayList = 0;
+        List arrayList = null;
         List listH = (str.length() != 0 && new jr7(str).b("[ -e @@ ]")) ? mp6.a.h(new String[]{String.format((String) g42.u.getValue(), Arrays.copyOf(new Object[]{str, Long.valueOf((System.currentTimeMillis() - j) / 1000)}, 2))}, ip6.SHIZUKU) : null;
         List listC0 = listH != null ? h77.C0(new me3(new me3(new ll1(listH), false, new d7(str, i)), false, new dq(0))) : null;
         try {

@@ -175,13 +175,13 @@ public final class mv {
         ArrayList<jr7> arrayList2;
         int i;
         String str;
-        ?? r1 = gqVar;
-        if (r1 != 0) {
-            ji jiVar = r1.a;
-            ?? r3 = "Preserved downgrade backup archive: ";
-            ?? r4 = r1.c;
+        gq gqState = gqVar;
+        if (gqState != null) {
+            ji jiVar = gqState.a;
+            String preservedPrefix = "Preserved downgrade backup archive: ";
+            q63 archive = gqState.c;
             String strSubstring = "Failed to restore downgrade backup archive; preserving ";
-            ?? r6 = "App is not installed after downgrade attempt; preserving ";
+    
             vr6 vr6Var2 = vr6.INSTANCE;
             vr6.w$default(vr6Var2, "AppDowngradeTask", "Executing post-downgrade actions", null, 4, null);
             fq fqVar = fq.ArchivePreservedAppNotInstalled;
@@ -190,40 +190,25 @@ public final class mv {
                 zCheckInstalled = jiVar.checkInstalled();
                 try {
                     if (zCheckInstalled) {
-                        r6 = 4;
-                        g00 g00Var = g00.a;
+                                                g00 g00Var = g00.a;
                         String strU = g00.u(jiVar.getDataDir());
                         HashSet hashSet = mz6.a;
-                        q63 q63Var = r1.c;
-                        String parent = r1.b.getParent();
+                        q63 q63Var = gqState.c;
+                        String parent = gqState.b.getParent();
                         parent.getClass();
                         mz6.f(new jd0(q63Var, new q63(parent, 4), null, iu.DATA, f27.RootFidelity, null, null, iz6.Root, null, null, 832));
                         g00.e(jiVar, null, strU, false);
                         try {
                             fqVar = fq.Restored;
                             if (zCheckInstalled) {
-                                r4.f();
+                                archive.f();
                             } else {
-                                vr6.w$default(vr6Var2, "AppDowngradeTask", "Preserved downgrade backup archive: ".concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6Var2, "AppDowngradeTask", "Preserved downgrade backup archive: ".concat(archive.v()), null, 4, null);
                             }
-                            ArrayList arrayList3 = r1.d;
-                            r1 = r1;
-                            r3 = r3;
-                            r4 = r4;
-                            r6 = r6;
-                            if (arrayList3 != null) {
+                            ArrayList arrayList3 = gqState.d;
+                                                                                                            if (arrayList3 != null) {
                                 Iterator it = arrayList3.iterator();
-                                ?? r5 = r3;
-                                ?? r7 = r4;
-                                while (true) {
-                                    boolean zHasNext = it.hasNext();
-                                    r1 = zHasNext;
-                                    r3 = r5;
-                                    r4 = r7;
-                                    r6 = r6;
-                                    if (!zHasNext) {
-                                        break;
-                                    }
+                                while (it.hasNext()) {
                                     jr7 jr7Var = (jr7) it.next();
                                     String parent2 = jr7Var.getParent();
                                     String name = jr7Var.getName();
@@ -231,8 +216,7 @@ public final class mv {
                                     strSubstring = name.substring(0, jr7Var.getName().length() - 4);
                                     jr7 jr7Var2 = new jr7(parent2, strSubstring);
                                     jr7Var.renameTo(jr7Var2);
-                                    r5 = jr7Var2;
-                                    r7 = parent2;
+
                                 }
                                 if (fqVar != null) {
                                     i = lv.a[fqVar.ordinal()];
@@ -255,42 +239,38 @@ public final class mv {
                         } catch (Exception e) {
                             exc = e;
                             z = true;
-                            r1 = r1;
-                            r3 = r3;
-                            r4 = r4;
-                            r6 = r6;
-                            fq fqVar2 = fq.ArchivePreservedRestoreFailed;
+                                                                                                            fq fqVar2 = fq.ArchivePreservedRestoreFailed;
                             vr6Var = vr6.INSTANCE;
-                            vr6.e$default(vr6Var, "AppDowngradeTask", strSubstring.concat(r4.v()), exc, null, 8, null);
+                            vr6.e$default(vr6Var, "AppDowngradeTask", strSubstring.concat(archive.v()), exc, null, 8, null);
                             if (zCheckInstalled || !z) {
-                                vr6.w$default(vr6Var, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6Var, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                             } else {
-                                r4.f();
+                                archive.f();
                             }
-                            arrayList2 = r1.d;
+                            arrayList2 = gqState.d;
                             if (arrayList2 != null) {
                                 for (jr7 jr7Var3 : arrayList2) {
                                     String parent3 = jr7Var3.getParent();
                                     String name2 = jr7Var3.getName();
                                     name2.getClass();
-                                    jr7Var3.renameTo(new jr7(parent3, name2.substring(0, jr7Var3.getName().length() - (r6 == true ? 1 : 0))));
+                                    jr7Var3.renameTo(new jr7(parent3, name2.substring(0, jr7Var3.getName().length() - 4)));
                                 }
                             }
                             fqVar = fqVar2;
                         } catch (Throwable th) {
                             th = th;
                             if (zCheckInstalled) {
-                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                             } else {
-                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                             }
-                            arrayList = r1.d;
+                            arrayList = gqState.d;
                             if (arrayList != null) {
                                 for (jr7 jr7Var4 : arrayList) {
                                     String parent4 = jr7Var4.getParent();
                                     String name3 = jr7Var4.getName();
                                     name3.getClass();
-                                    jr7Var4.renameTo(new jr7(parent4, name3.substring(0, jr7Var4.getName().length() - r6)));
+                                    jr7Var4.renameTo(new jr7(parent4, name3.substring(0, jr7Var4.getName().length() - 4)));
                                 }
                             }
                             throw th;
@@ -298,26 +278,12 @@ public final class mv {
                     } else {
                         try {
                             char c = 4;
-                            vr6.e$default(vr6Var2, "AppDowngradeTask", "App is not installed after downgrade attempt; preserving ".concat(r4.v()), null, 4, null);
-                            vr6.w$default(vr6Var2, "AppDowngradeTask", "Preserved downgrade backup archive: ".concat(r4.v()), null, 4, null);
-                            ArrayList arrayList4 = r1.d;
-                            r1 = r1;
-                            r3 = r3;
-                            r4 = r4;
-                            r6 = c;
-                            if (arrayList4 != null) {
+                            vr6.e$default(vr6Var2, "AppDowngradeTask", "App is not installed after downgrade attempt; preserving ".concat(archive.v()), null, 4, null);
+                            vr6.w$default(vr6Var2, "AppDowngradeTask", "Preserved downgrade backup archive: ".concat(archive.v()), null, 4, null);
+                            ArrayList arrayList4 = gqState.d;
+                                                                                                                    if (arrayList4 != null) {
                                 Iterator it2 = arrayList4.iterator();
-                                ?? r8 = r3;
-                                ?? r9 = r4;
-                                while (true) {
-                                    boolean zHasNext2 = it2.hasNext();
-                                    r1 = zHasNext2;
-                                    r3 = r8;
-                                    r4 = r9;
-                                    r6 = c;
-                                    if (!zHasNext2) {
-                                        break;
-                                    }
+                                while (it2.hasNext()) {
                                     jr7 jr7Var5 = (jr7) it2.next();
                                     String parent5 = jr7Var5.getParent();
                                     String name4 = jr7Var5.getName();
@@ -325,8 +291,7 @@ public final class mv {
                                     strSubstring = name4.substring(0, jr7Var5.getName().length() - 4);
                                     jr7 jr7Var6 = new jr7(parent5, strSubstring);
                                     jr7Var5.renameTo(jr7Var6);
-                                    r8 = jr7Var6;
-                                    r9 = parent5;
+
                                 }
                                 if (fqVar != null && !jd4.v(list) && fqVar != fq.Restored) {
                                     i = lv.a[fqVar.ordinal()];
@@ -348,29 +313,24 @@ public final class mv {
                             }
                         } catch (Exception e2) {
                             e = e2;
-                            r6 = 4;
-                            exc = e;
+                                                        exc = e;
                             z = false;
-                            r1 = r1;
-                            r3 = r3;
-                            r4 = r4;
-                            r6 = r6;
-                            try {
+                                                                                                            try {
                                 fq fqVar3 = fq.ArchivePreservedRestoreFailed;
                                 vr6Var = vr6.INSTANCE;
-                                vr6.e$default(vr6Var, "AppDowngradeTask", strSubstring.concat(r4.v()), exc, null, 8, null);
+                                vr6.e$default(vr6Var, "AppDowngradeTask", strSubstring.concat(archive.v()), exc, null, 8, null);
                                 if (zCheckInstalled) {
-                                    vr6.w$default(vr6Var, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                    vr6.w$default(vr6Var, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                                 } else {
-                                    vr6.w$default(vr6Var, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                    vr6.w$default(vr6Var, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                                 }
-                                arrayList2 = r1.d;
+                                arrayList2 = gqState.d;
                                 if (arrayList2 != null) {
                                     while (r1.hasNext()) {
                                         String parent6 = jr7Var3.getParent();
                                         String name5 = jr7Var3.getName();
                                         name5.getClass();
-                                        jr7Var3.renameTo(new jr7(parent6, name5.substring(0, jr7Var3.getName().length() - (r6 == true ? 1 : 0))));
+                                        jr7Var3.renameTo(new jr7(parent6, name5.substring(0, jr7Var3.getName().length() - 4)));
                                     }
                                 }
                                 fqVar = fqVar3;
@@ -378,37 +338,36 @@ public final class mv {
                                 th = th2;
                                 z2 = z;
                                 if (zCheckInstalled || !z2) {
-                                    vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                    vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                                 } else {
-                                    r4.f();
+                                    archive.f();
                                 }
-                                arrayList = r1.d;
+                                arrayList = gqState.d;
                                 if (arrayList != null) {
                                     while (r1.hasNext()) {
                                         String parent7 = jr7Var4.getParent();
                                         String name6 = jr7Var4.getName();
                                         name6.getClass();
-                                        jr7Var4.renameTo(new jr7(parent7, name6.substring(0, jr7Var4.getName().length() - r6)));
+                                        jr7Var4.renameTo(new jr7(parent7, name6.substring(0, jr7Var4.getName().length() - 4)));
                                     }
                                 }
                                 throw th;
                             }
                         } catch (Throwable th3) {
                             th = th3;
-                            r6 = 4;
-                            z2 = false;
+                                                        z2 = false;
                             if (zCheckInstalled) {
-                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                             } else {
-                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", r3.concat(r4.v()), null, 4, null);
+                                vr6.w$default(vr6.INSTANCE, "AppDowngradeTask", preservedPrefix.concat(archive.v()), null, 4, null);
                             }
-                            arrayList = r1.d;
+                            arrayList = gqState.d;
                             if (arrayList != null) {
-                                while (r1.hasNext()) {
+                                for (jr7 jr7Var4 : arrayList) {
                                     String parent8 = jr7Var4.getParent();
                                     String name7 = jr7Var4.getName();
                                     name7.getClass();
-                                    jr7Var4.renameTo(new jr7(parent8, name7.substring(0, jr7Var4.getName().length() - r6)));
+                                    jr7Var4.renameTo(new jr7(parent8, name7.substring(0, jr7Var4.getName().length() - 4)));
                                 }
                             }
                             throw th;
@@ -420,17 +379,12 @@ public final class mv {
                     th = th4;
                 }
             } catch (Exception e4) {
-                r6 = 4;
-                exc = e4;
+                                exc = e4;
                 zCheckInstalled = false;
                 z = false;
-                r1 = r1;
-                r3 = r3;
-                r4 = r4;
-            } catch (Throwable th5) {
+                                    } catch (Throwable th5) {
                 th = th5;
-                r6 = 4;
-                z2 = false;
+                                z2 = false;
                 zCheckInstalled = false;
             }
             if (fqVar != null) {
@@ -655,8 +609,8 @@ public final class mv {
         hv hvVar;
         List listD;
         String str;
-        ?? r6;
-        ?? arrayList;
+        jr7 r6;
+        ArrayList arrayList;
         Iterator it;
         Object next;
         jr7 jr7Var;

@@ -1,169 +1,93 @@
 package defpackage;
 
-/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-/* JADX INFO: loaded from: classes.dex */
 public enum bp5 implements sx2 {
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(0),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_UNSUCCESSFUL(1),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_TIMEOUT(2),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_PENDING(3),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NOTIFY_CLEANUP(4),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NOTIFY_ENUM_DIR(5),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_BUFFER_OVERFLOW(6),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NO_MORE_FILES(7),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_STOPPED_ON_SYMLINK(8),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NOT_IMPLEMENTED(9),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_INVALID_INFO_CLASS(10),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_INFO_LENGTH_MISMATCH(11),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NO_SUCH_FILE(12),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_INVALID_PARAMETER(13),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_END_OF_FILE(14),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(15),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(16),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(17),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(18),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(19),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(20),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(21),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(22),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(23),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(24),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(25),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(26),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(27),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(28),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(29),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(30),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(31),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(32),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(33),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(34),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(35),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(36),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(37),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(38),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(39),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(40),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(41),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(42),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(43),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(44),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(45),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(46),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(47),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(48),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(49),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(50),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(51),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(52),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(53),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(54),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(55),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(56),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(57),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(58),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(59),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(60),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(61),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(62),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(63),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(64),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(65),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(66),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(67),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(68),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(69),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(70),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(71),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_FILE_ENCRYPTED(72),
-    /* JADX INFO: Fake field, exist only in values array */
-    STATUS_NETWORK_SESSION_EXPIRED(73),
-    STATUS_OTHER(74);
+    STATUS_SUCCESS(0L),
+    STATUS_UNSUCCESSFUL(1L),
+    STATUS_TIMEOUT(0x102L),
+    STATUS_PENDING(0x103L),
+    STATUS_NOTIFY_CLEANUP(0x10bL),
+    STATUS_NOTIFY_ENUM_DIR(0x10cL),
+    STATUS_BUFFER_OVERFLOW(0x80000005L),
+    STATUS_NO_MORE_FILES(0x80000006L),
+    STATUS_STOPPED_ON_SYMLINK(0x8000002dL),
+    STATUS_NOT_IMPLEMENTED(0xc0000002L),
+    STATUS_INVALID_INFO_CLASS(0xc0000003L),
+    STATUS_INFO_LENGTH_MISMATCH(0xc0000004L),
+    STATUS_NO_SUCH_FILE(0xc000000fL),
+    STATUS_INVALID_PARAMETER(0xc000000dL),
+    STATUS_END_OF_FILE(0xc0000011L),
+    STATUS_MORE_PROCESSING_REQUIRED(0xc0000016L),
+    STATUS_ACCESS_DENIED(0xc0000022L),
+    STATUS_BUFFER_TOO_SMALL(0xc0000023L),
+    STATUS_OBJECT_NAME_INVALID(0xc0000033L),
+    STATUS_OBJECT_NAME_NOT_FOUND(0xc0000034L),
+    STATUS_OBJECT_NAME_COLLISION(0xc0000035L),
+    STATUS_OBJECT_PATH_NOT_FOUND(0xc000003aL),
+    STATUS_SHARING_VIOLATION(0xc0000043L),
+    STATUS_FILE_LOCK_CONFLICT(0xc0000054L),
+    STATUS_LOCK_NOT_GRANTED(0xc0000055L),
+    STATUS_DELETE_PENDING(0xc0000056L),
+    STATUS_PRIVILEGE_NOT_HELD(0xc0000061L),
+    STATUS_LOGON_FAILURE(0xc000006dL),
+    STATUS_PASSWORD_EXPIRED(0xc0000071L),
+    STATUS_ACCOUNT_DISABLED(0xc0000072L),
+    STATUS_RANGE_NOT_LOCKED(0xc000007eL),
+    STATUS_DISK_FULL(0xc000007fL),
+    STATUS_INSUFFICIENT_RESOURCES(0xc000009aL),
+    STATUS_PIPE_NOT_AVAILABLE(0xc00000acL),
+    STATUS_INVALID_PIPE_STATE(0xc00000adL),
+    STATUS_PIPE_BUSY(0xc00000aeL),
+    STATUS_IO_TIMEOUT(0xc00000b5L),
+    STATUS_FILE_IS_A_DIRECTORY(0xc00000baL),
+    STATUS_NOT_SUPPORTED(0xc00000bbL),
+    STATUS_BAD_NETWORK_PATH(0xc00000beL),
+    STATUS_NETWORK_NAME_DELETED(0xc00000c9L),
+    STATUS_BAD_NETWORK_NAME(0xc00000ccL),
+    STATUS_REQUEST_NOT_ACCEPTED(0xc00000d0L),
+    STATUS_NET_WRITE_FAULT(0xc00000d2L),
+    STATUS_NOT_SAME_DEVICE(0xc00000d4L),
+    STATUS_FILE_RENAMED(0xc00000d5L),
+    STATUS_OPLOCK_NOT_GRANTED(0xc00000e2L),
+    STATUS_INTERNAL_ERROR(0xc00000e5L),
+    STATUS_UNEXPECTED_IO_ERROR(0xc00000e9L),
+    STATUS_DIRECTORY_NOT_EMPTY(0xc0000101L),
+    STATUS_NOT_A_DIRECTORY(0xc0000103L),
+    STATUS_NAME_TOO_LONG(0xc0000106L),
+    STATUS_FILES_OPEN(0xc0000107L),
+    STATUS_CONNECTION_IN_USE(0xc0000108L),
+    STATUS_TOO_MANY_OPENED_FILES(0xc000011fL),
+    STATUS_CANCELLED(0xc0000120L),
+    STATUS_CANNOT_DELETE(0xc0000121L),
+    STATUS_FILE_DELETED(0xc0000123L),
+    STATUS_FILE_CLOSED(0xc0000128L),
+    STATUS_OPEN_FAILED(0xc0000136L),
+    STATUS_LOGON_TYPE_NOT_GRANTED(0xc000015bL),
+    STATUS_TOO_MANY_SIDS(0xc000017eL),
+    STATUS_USER_SESSION_DELETED(0xc0000203L),
+    STATUS_INSUFF_SERVER_RESOURCES(0xc0000205L),
+    STATUS_CONNECTION_DISCONNECTED(0xc000020cL),
+    STATUS_CONNECTION_RESET(0xc000020dL),
+    STATUS_NOT_FOUND(0xc0000225L),
+    STATUS_RETRY(0xc000022dL),
+    STATUS_PATH_NOT_COVERED(0xc0000257L),
+    STATUS_DFS_UNAVAILABLE(0xc000026dL),
+    STATUS_VOLUME_DISMOUNTED(0xc000026eL),
+    STATUS_IO_REPARSE_TAG_NOT_HANDLED(0xc0000279L),
+    STATUS_FILE_ENCRYPTED(0xc0000293L),
+    STATUS_NETWORK_SESSION_EXPIRED(0xc000035cL),
+    STATUS_OTHER(0xffffffffL);
 
     public final long a;
 
-    bp5(int i) {
-        this.a = j;
+    bp5(long value) {
+        this.a = value;
     }
 
     public static boolean a(long j) {
         return (j >>> 30) == 0;
     }
 
-    @Override // defpackage.sx2
+    @Override
     public final long getValue() {
         return this.a;
     }

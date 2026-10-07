@@ -105,7 +105,7 @@ public final class yg4 extends as5 {
     /* JADX WARN: Type inference failed for: r0v3, types: [java.util.HashSet] */
     @Override // defpackage.as5
     public final sk4 A(jb9 jb9Var) {
-        ?? hashSet;
+        Set hashSet;
         tk4 tk4Var = (tk4) jb9Var.z(tk4.class);
         if (tk4Var == null) {
             return sk4.b;
@@ -923,7 +923,7 @@ public final class yg4 extends as5 {
     /* JADX WARN: Type inference failed for: r1v0, types: [java.util.Set] */
     @Override // defpackage.as5
     public final mk4 x(jb9 jb9Var) {
-        ?? hashSet;
+        Set hashSet;
         nk4 nk4Var = (nk4) jb9Var.z(nk4.class);
         if (nk4Var == null) {
             return mk4.f;
@@ -938,12 +938,12 @@ public final class yg4 extends as5 {
                 hashSet.add(str);
             }
         }
-        ?? r1 = hashSet;
+        Set r1 = hashSet;
         boolean zIgnoreUnknown = nk4Var.ignoreUnknown();
         boolean zAllowGetters = nk4Var.allowGetters();
         boolean zAllowSetters = nk4Var.allowSetters();
         mk4 mk4Var2 = mk4.f;
-        return (zIgnoreUnknown == mk4Var2.b && zAllowGetters == mk4Var2.c && zAllowSetters == mk4Var2.d && !mk4Var2.e && (r1 == 0 || r1.size() == 0)) ? mk4Var2 : new mk4(r1, zIgnoreUnknown, zAllowGetters, zAllowSetters, false);
+        return (zIgnoreUnknown == mk4Var2.b && zAllowGetters == mk4Var2.c && zAllowSetters == mk4Var2.d && !mk4Var2.e && (r1 == null || r1.size() == 0)) ? mk4Var2 : new mk4(r1, zIgnoreUnknown, zAllowGetters, zAllowSetters, false);
     }
 
     @Override // defpackage.as5

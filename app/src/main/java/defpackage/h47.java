@@ -82,7 +82,7 @@ public final /* synthetic */ class h47 implements bt3 {
         List listI;
         List list2;
         String str;
-        ?? r12;
+        Object r12;
         String title;
         Object objConditionMsg;
         List list3;
@@ -97,7 +97,7 @@ public final /* synthetic */ class h47 implements bt3 {
         boolean z3;
         List listI3;
         Set labels2;
-        ?? D;
+        y37 D;
         String strY1;
         List<q05> locations2;
         SyncOption syncOption2;
@@ -106,8 +106,8 @@ public final /* synthetic */ class h47 implements bt3 {
         ArrayList arrayList4;
         Iterator it3;
         y37 y37VarB;
-        ?? r31;
-        ?? D2;
+        y37 r31;
+        y37 D2;
         ArrayList arrayList5;
         ArrayList arrayList6;
         ex6 ex6Var = this.a.f;

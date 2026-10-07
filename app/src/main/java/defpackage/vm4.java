@@ -155,7 +155,7 @@ public abstract class vm4 {
     /* JADX WARN: Multi-variable type inference failed */
     public static String E(String str) {
         String str2;
-        Object obj;
+        String obj;
         boolean z;
         String strSubstring;
         int i;
@@ -436,7 +436,7 @@ public abstract class vm4 {
     /* JADX WARN: Type inference failed for: r1v1 */
     /* JADX WARN: Type inference failed for: r1v3, types: [java.util.LinkedHashMap, java.util.Map] */
     public static final Map b(q63 q63Var, boolean z) {
-        ?? bn6Var;
+        Object bn6Var;
         Object next;
         pv2 pv2Var = pv2.a;
         if (!z) {
@@ -465,7 +465,7 @@ public abstract class vm4 {
         } catch (Throwable th) {
             bn6Var = new bn6(th);
         }
-        ?? r0 = pv2Var;
+        Map r0 = pv2Var;
         if (!(bn6Var instanceof bn6)) {
             r0 = bn6Var;
         }

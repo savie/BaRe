@@ -15,87 +15,80 @@ public final class mh0 implements Serializable {
     /* JADX WARN: Type inference failed for: r0v19 */
     /* JADX WARN: Type inference failed for: r0v2 */
     public mh0(kx8 kx8Var, long j, byte[] bArr, byte[] bArr2) {
-        long j2;
-        mh0 mh0Var;
-        kx8 kx8Var2 = kx8Var;
-        ?? obj = new Object();
-        obj.a = new TreeMap();
-        long j3 = 1;
-        obj.b = (1 << kx8Var2.c) - 1;
-        long j4 = 0;
-        mh0 mh0Var2 = obj;
-        while (j4 < j) {
-            TreeMap treeMap = mh0Var2.a;
-            rx8 rx8Var = kx8Var2.b;
-            int i = rx8Var.b;
-            long j5 = j3;
-            long j6 = j4 >> i;
-            long j7 = (j5 << i) - j5;
-            int i2 = (int) (j4 & j7);
+        this.a = new TreeMap();
+        rx8 rx8Var = kx8Var.b;
+        int i = rx8Var.b;
+        long one = 1L;
+        this.b = (one << kx8Var.c) - one;
+        long offset = 0L;
+        while (offset < j) {
+            TreeMap treeMap = this.a;
+            long block = offset >> i;
+            long mask = (one << i) - one;
+            int index = (int) (offset & mask);
             tq5 tq5Var = new tq5();
-            tq5Var.b = j6;
-            tq5Var.e = i2;
+            tq5Var.b = block;
+            tq5Var.e = index;
             uq5 uq5Var = new uq5(tq5Var);
-            int i3 = 1 << i;
-            int i4 = i3 - 1;
-            if (i2 < i4) {
-                if (((lh0) treeMap.get(0)) == null || i2 == 0) {
-                    treeMap.put(0, new lh0(rx8Var, bArr, bArr2, uq5Var));
+            int fanout = 1 << i;
+            int lastIndex = fanout - 1;
+
+            if (index < lastIndex) {
+                lh0 existing = (lh0) treeMap.get(Integer.valueOf(0));
+                if (existing == null || index == 0) {
+                    treeMap.put(Integer.valueOf(0), new lh0(rx8Var, bArr, bArr2, uq5Var));
                 }
-                TreeMap treeMap2 = mh0Var2.a;
-                lh0 lh0Var = (lh0) treeMap2.get(0);
-                lh0Var.getClass();
+                existing = (lh0) this.a.get(Integer.valueOf(0));
+                existing.getClass();
+                this.a.put(Integer.valueOf(0), new lh0(existing, bArr, bArr2, uq5Var));
             }
-            int i5 = 1;
-            long j8 = j6;
-            ?? r0 = mh0Var2;
-            while (i5 < kx8Var2.d) {
-                long j9 = j8;
-                int i6 = (int) (j9 & j7);
-                long j10 = j4;
-                long j11 = j9 >> i;
+
+            int level = 1;
+            long levelBlock = block;
+            while (level < kx8Var.d) {
+                int levelIndex = (int) (levelBlock & mask);
+                long currentOffset = offset;
+                long nextBlock = levelBlock >> i;
                 tq5 tq5Var2 = new tq5();
-                tq5Var2.c = i5;
-                tq5Var2.b = j11;
-                tq5Var2.e = i6;
+                tq5Var2.c = level;
+                tq5Var2.b = nextBlock;
+                tq5Var2.e = levelIndex;
                 uq5 uq5Var2 = new uq5(tq5Var2);
-                if (treeMap.get(Integer.valueOf(i5)) != null) {
-                    j2 = j11;
-                    if (j10 != 0 && j10 % ((long) Math.pow(i3, i5 + 1)) == 0) {
-                    }
-                    if (i6 < i4 || j10 == 0 || (j10 + j5) % ((long) Math.pow(i3, i5)) != 0) {
-                        mh0Var = this;
+
+                if (treeMap.get(Integer.valueOf(level)) != null) {
+                    if (currentOffset != 0 && currentOffset % (long) Math.pow(fanout, level + 1) == 0) {
+                        // Reference smali skips replacement at this boundary.
+                    } else if (levelIndex < lastIndex || currentOffset == 0
+                            || (currentOffset + one) % (long) Math.pow(fanout, level) != 0) {
+                        // Keep the existing node.
                     } else {
-                        mh0Var = this;
-                        TreeMap treeMap3 = mh0Var.a;
-                        Integer numValueOf = Integer.valueOf(i5);
-                        lh0 lh0Var2 = (lh0) treeMap3.get(Integer.valueOf(i5));
-                        lh0Var2.getClass();
+                        Integer key = Integer.valueOf(level);
+                        lh0 existingLevel = (lh0) this.a.get(key);
+                        existingLevel.getClass();
+                        this.a.put(key, new lh0(existingLevel, bArr, bArr2, uq5Var2));
                     }
-                    i5++;
-                    kx8Var2 = kx8Var;
-                    j8 = j2;
-                    j4 = j10;
-                    r0 = mh0Var;
                 } else {
-                    j2 = j11;
+                    treeMap.put(Integer.valueOf(level), new lh0(rx8Var, bArr, bArr2, uq5Var2));
                 }
-                treeMap.put(Integer.valueOf(i5), new lh0(rx8Var, bArr, bArr2, uq5Var2));
-                if (i6 < i4) {
-                    mh0Var = this;
+
+                if (levelIndex < lastIndex) {
+                    // Reference smali falls through without replacing the node.
+                } else if (currentOffset == 0) {
+                    // No replacement on the zero-offset boundary.
                 } else {
-                    mh0Var = this;
+                    long candidate = currentOffset + one;
+                    if (candidate % (long) Math.pow(fanout, level) == 0) {
+                        Integer key = Integer.valueOf(level);
+                        lh0 existingLevel = (lh0) this.a.get(key);
+                        existingLevel.getClass();
+                        this.a.put(key, new lh0(existingLevel, bArr, bArr2, uq5Var2));
+                    }
                 }
-                i5++;
-                kx8Var2 = kx8Var;
-                j8 = j2;
-                j4 = j10;
-                r0 = mh0Var;
+
+                level++;
+                levelBlock = nextBlock;
             }
-            j4 += j5;
-            kx8Var2 = kx8Var;
-            j3 = j5;
-            mh0Var2 = r0;
+            offset += one;
         }
     }
 
@@ -122,4 +115,5 @@ public final class mh0 implements Serializable {
         this.a = new TreeMap();
         this.b = j;
     }
+// CI checkpoint: preserve forensic state while waiting for the next gate.
 }

@@ -65,7 +65,7 @@ public final class ik8 {
     /* JADX WARN: Type inference failed for: r2v1, types: [java.util.List] */
     /* JADX WARN: Type inference failed for: r2v2, types: [java.util.ArrayList] */
     public final List b(ez2 ez2Var, wc2 wc2Var) {
-        ?? arrayList;
+        ArrayList arrayList;
         int i = 0;
         ArrayList arrayList2 = this.d;
         if (wc2Var != null) {

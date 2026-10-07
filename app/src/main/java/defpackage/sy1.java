@@ -524,7 +524,7 @@ public final class sy1 {
                 }
             })) != null) {
                 int length = list.length;
-                for (?? r10 = z3; r10 < length; r10++) {
+                for (int r10 = z3 ? 1 : 0; r10 < length; r10++) {
                     ca3Var8.c(list[r10]);
                 }
             }
@@ -742,11 +742,11 @@ public final class sy1 {
         long jG = jm1.g(context);
         boolean zB = jm1.B();
         boolean zB2 = jm1.B();
-        ?? r1 = zB2;
+        int r1 = zB2 ? 1 : 0;
         if (jm1.C()) {
             r1 = (zB2 ? 1 : 0) | 2;
         }
-        ?? r2 = r1;
+        int r2 = r1;
         if (Debug.waitingForDebugger()) {
             r2 = (r1 == true ? 1 : 0) | 4;
         }
@@ -861,13 +861,13 @@ public final class sy1 {
         long blockCount2 = ((long) statFs2.getBlockCount()) * ((long) statFs2.getBlockSize());
         boolean zB3 = jm1.B();
         boolean zB4 = jm1.B();
-        ?? r3 = zB4;
+        int r3 = zB4 ? 1 : 0;
         if (jm1.C()) {
             r3 = (zB4 ? 1 : 0) | 2;
         }
-        ?? r4 = r3;
+        int r4 = r3;
         if (Debug.waitingForDebugger()) {
-            r4 = (r3 == true ? 1 : 0) | 4;
+            r4 = r3 | 4;
         }
         jc0 jc0Var = new jc0();
         jc0Var.a = iIntValue;

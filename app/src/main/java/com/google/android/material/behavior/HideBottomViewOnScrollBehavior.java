@@ -57,17 +57,7 @@ public class HideBottomViewOnScrollBehavior<V extends View> extends ew1 {
         if (accessibilityManager == 0 || this.h != null) {
             return false;
         }
-        ?? r4 = new AccessibilityManager.TouchExplorationStateChangeListener() { // from class: i44
-            @Override // android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener
-            public final void onTouchExplorationStateChanged(boolean z) {
-                if (z) {
-                    HideBottomViewOnScrollBehavior hideBottomViewOnScrollBehavior = this.a;
-                    if (hideBottomViewOnScrollBehavior.j == 1) {
-                        hideBottomViewOnScrollBehavior.w(view);
-                    }
-                }
-            }
-        };
+        i44 r4 = new i44(this, view);
         this.h = r4;
         accessibilityManager.addTouchExplorationStateChangeListener(r4);
         view.addOnAttachStateChangeListener(new j44(this));

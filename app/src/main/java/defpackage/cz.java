@@ -65,7 +65,7 @@ public final /* synthetic */ class cz implements mt3 {
         int i2 = 10;
         int i3 = 2;
         int i4 = 1;
-        ?? string = 0;
+        jv1 string = null;
         be8 be8Var = be8.a;
         Object obj2 = this.b;
         switch (i) {

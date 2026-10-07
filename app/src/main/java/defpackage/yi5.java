@@ -47,8 +47,8 @@ public final /* synthetic */ class yi5 implements bt3 {
         int i2 = 4;
         int i3 = R.id.appbar_layout;
         be8 be8Var = be8.a;
-        ?? localFile = 0;
-        localFile = 0;
+        q63 localFile = null;
+        localFile = null;
         Object obj = this.b;
         switch (i) {
             case 0:

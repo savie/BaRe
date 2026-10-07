@@ -89,13 +89,13 @@ public final class nb5 {
     /* JADX WARN: Type inference failed for: r5v1, types: [java.lang.Object, jb5] */
     public static void b(q63 q63Var, z95 z95Var, final ft7 ft7Var, String str) {
         gh ghVar;
-        ?? r28;
+        int retryBase;
         int[] iArr;
-        char c;
+        int c;
         TreeMap treeMap;
         Iterator it;
         Throwable th;
-        ?? r26;
+        pa5 currentPathSnapshot;
         str.getClass();
         q63Var.getClass();
         ft7Var.getClass();
@@ -105,7 +105,7 @@ public final class nb5 {
         if (pa5VarM == null) {
             throw new IllegalStateException("MEGA download path does not exist: ".concat(str).toString());
         }
-        final ?? r5 = (jb5) gt7.g.getValue();
+        final jb5 r5 = (jb5) gt7.g.getValue();
         gh ghVarF = gt7Var.f();
         r5.getClass();
         int[] iArr2 = pa5VarM.h;
@@ -135,13 +135,13 @@ public final class nb5 {
         int i4 = iArr2[5];
         final int[] iArr4 = {i3, i4, 0, 0};
         final int[] iArr5 = {i3, i4, i3, i4};
-        ?? r4 = 0;
-        ?? r3 = pa5VarM;
+        int retryCount = 0;
+        pa5 currentPath = pa5VarM;
         while (true) {
             try {
                 final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
                 try {
-                    final gb5 gb5VarM = r5.m(ghVarF, r3);
+                    final gb5 gb5VarM = r5.m(ghVarF, currentPath);
                     byte[] bArr = qa5.a;
                     qa5.a(iArr3, gb5VarM.c);
                     ArrayList arrayListD = jb5.d(gb5VarM.b);
@@ -175,10 +175,8 @@ public final class nb5 {
                                 int i7 = 0;
                                 int i8 = 0;
                                 int i9 = 0;
-                                r3 = r3;
-                                r4 = r4;
                                 while (true) {
-                                    r26 = r3;
+                                    currentPathSnapshot = currentPath;
                                     int i10 = 2;
                                     if (!it2.hasNext()) {
                                         break;
@@ -187,7 +185,7 @@ public final class nb5 {
                                         final ya5 ya5Var = (ya5) it2.next();
                                         jb5.t(ft7Var);
                                         semaphore.acquire();
-                                        ?? r27 = r4;
+                                        int retrySnapshot = retryCount;
                                         try {
                                             int i11 = i7;
                                             ArrayList arrayList2 = arrayList;
@@ -322,8 +320,8 @@ public final class nb5 {
                                                 treeMap2 = treeMap;
                                                 arrayList = arrayList2;
                                                 i7 = i12;
-                                                r3 = r26;
-                                                r4 = r27 == true ? 1 : 0;
+                                                currentPath = currentPathSnapshot;
+                                                retryCount = retrySnapshot;
                                             } catch (Throwable th9) {
                                                 th = th9;
                                                 semaphore.release();
@@ -338,19 +336,17 @@ public final class nb5 {
                                     }
                                 }
                                 int i16 = i7;
-                                r28 = r4;
+                                retryBase = retryCount;
                                 ArrayList arrayList3 = arrayList;
                                 treeMap = treeMap2;
                                 try {
                                     jb5.i(executorCompletionService, i8, i16, true, new hq0(2, treeMap, arrayList3));
                                     int i17 = i9;
-                                    r26 = r26;
                                     while (true) {
                                         byte[] bArr4 = (byte[]) treeMap.remove(Integer.valueOf(i17));
                                         if (bArr4 == null) {
                                             break;
                                         }
-                                        ?? r6 = r26;
                                         try {
                                             outputStreamF.write(bArr4);
                                             long length3 = j + ((long) bArr4.length);
@@ -358,7 +354,6 @@ public final class nb5 {
                                             try {
                                                 Arrays.fill(bArr4, (byte) 0);
                                                 i17++;
-                                                r26 = r6;
                                                 j = length3;
                                             } catch (Throwable th12) {
                                                 th = th12;
@@ -377,23 +372,21 @@ public final class nb5 {
                                         outputStreamF.close();
                                         try {
                                             executorServiceNewFixedThreadPool.shutdownNow();
-                                            jb5.w(r26, bArrArray, arrayList3);
+                                            jb5.w(currentPathSnapshot, bArrArray, arrayList3);
                                             Arrays.fill(bArrArray, (byte) 0);
                                             Arrays.fill(iArr4, 0);
                                             Arrays.fill(iArr5, 0);
                                             return;
                                         } catch (eb5 e) {
                                             e = e;
-                                            r4 = r26;
-                                            c = r28 == true ? 1 : 0;
+                                            c = retryBase;
                                             if (c >= 16 || ft7Var.a.get()) {
                                                 throw e;
                                             }
-                                            r3 = r4;
                                             ghVarF = ghVar;
                                             iArr3 = iArr;
                                             i = 4;
-                                            r4 = (c == true ? 1 : 0) + 1;
+                                            retryCount = c + 1;
                                         }
                                     } catch (Throwable th14) {
                                         th = th14;
@@ -426,15 +419,14 @@ public final class nb5 {
                 } catch (eb5 e3) {
                     e = e3;
                     ghVar = ghVarF;
-                    r28 = r4;
+                    retryBase = retryCount;
                     iArr = iArr3;
-                    r4 = r3;
+
                 }
-                r3 = r4;
                 ghVarF = ghVar;
                 iArr3 = iArr;
                 i = 4;
-                r4 = (c == true ? 1 : 0) + 1;
+                retryCount = c + 1;
             } catch (Throwable th18) {
                 q63Var.h();
                 Arrays.fill(bArrArray, (byte) 0);

@@ -69,10 +69,10 @@ public final class dt7 {
     /* JADX WARN: Type inference failed for: r20v3 */
     public static q63 a(Context context, boolean z, List list) {
         String path;
-        ?? r17;
-        ?? r12;
-        ?? r18;
-        ?? r19;
+        Object r17;
+        ArrayList r12;
+        long r18;
+        long r19;
         fw5 fw5Var;
         vr6 vr6Var;
         String str;
@@ -164,9 +164,7 @@ public final class dt7 {
                 }
                 xp1 xp1Var = xp1.FASTEST;
                 try {
-                    ?? r13 = jCurrentTimeMillis;
                     if (q63Var3.j()) {
-                        r13 = 15;
                         io4.j("CommonsSevenZipPacker", "pack", true, new ek(q63Var3, 15), 8);
                     }
                     if (xp1Var == null) {
@@ -179,7 +177,6 @@ public final class dt7 {
                         if (arrayListB.isEmpty()) {
                             throw new IllegalArgumentException("CommonsSevenZipPacker: Empty items");
                         }
-                        r13 = 10;
                         ArrayList arrayList4 = new ArrayList(hl1.G0(arrayListB, 10));
                         Iterator it = arrayListB.iterator();
                         while (it.hasNext()) {
@@ -234,7 +231,7 @@ public final class dt7 {
                         if (el1.z1(arrayList4).size() != arrayListB.size()) {
                             throw new IllegalArgumentException(("CommonsSevenZipPacker: Duplicate archive entry names").toString());
                         }
-                        ?? A = r17;
+                        long A = r17;
                         for (km1 km1Var : arrayListB) {
                             A += km1Var.a.y() ? km1Var.a.A() : r17;
                         }

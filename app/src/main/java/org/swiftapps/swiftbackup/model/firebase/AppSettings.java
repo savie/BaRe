@@ -830,7 +830,7 @@ public final class AppSettings {
             boolean z5;
             String string;
             Throwable th;
-            ?? r15;
+            Object r15;
             h28.Companion.getClass();
             int themeId = f28.b().getThemeId();
             boolean zE = f28.e();
@@ -958,7 +958,7 @@ public final class AppSettings {
                                             }
                                             i = sharedPreferences8.getInt("compression_level_folders", -1);
                                             xp1.Companion.getClass();
-                                            ?? A = wp1.a();
+                                            xp1[] A = wp1.a();
                                             int i2 = 0;
                                             while (true) {
                                                 if (i2 >= 2) {
@@ -968,7 +968,7 @@ public final class AppSettings {
                                                 }
                                                 r15 = A[i2];
                                                 th = th2;
-                                                if (r15.getLevel() == i) {
+                                                if (((xp1) r15).getLevel() == i) {
                                                     break;
                                                 }
                                                 i2++;
@@ -978,11 +978,11 @@ public final class AppSettings {
                                                 xp1.Companion.getClass();
                                                 r15 = xp1.DEFAULT;
                                             }
-                                            ?? r16 = r15;
+                                            Object r16 = r15;
                                             if (r15 == xp1.DEFAULT) {
                                                 r16 = th;
                                             }
-                                            ?? ValueOf = r16 != 0 ? Integer.valueOf(r16.getLevel()) : th;
+                                            Object ValueOf = r16 != 0 ? Integer.valueOf(((xp1) r16).getLevel()) : th;
                                             try {
                                                 SharedPreferences sharedPreferences9 = cz4.f;
                                                 if (sharedPreferences9 == null) {
@@ -990,33 +990,33 @@ public final class AppSettings {
                                                     throw th;
                                                 }
                                                 z7 = sharedPreferences9.getBoolean("show_system_apps", false);
-                                                ?? ValueOf2 = z7 ? Boolean.valueOf(z7) : th;
+                                                Object ValueOf2 = z7 ? Boolean.valueOf(z7) : th;
                                                 xy xyVar = xy.Right;
                                                 xyVar.getClass();
                                                 String strM = ho6.m(ho6.o(xyVar));
-                                                ?? r28 = !strM.equals(ho6.m(ho6.j(xyVar))) ? strM : th;
+                                                Object r28 = !strM.equals(ho6.m(ho6.j(xyVar))) ? strM : th;
                                                 xy xyVar2 = xy.Left;
                                                 xyVar2.getClass();
                                                 String strM2 = ho6.m(ho6.o(xyVar2));
-                                                ?? r29 = !strM2.equals(ho6.m(ho6.j(xyVar2))) ? strM2 : th;
+                                                Object r29 = !strM2.equals(ho6.m(ho6.j(xyVar2))) ? strM2 : th;
                                                 tb1 tb1Var = tb1.a;
-                                                ?? constant = qb1.m() ? qb1.f().getConstant() : th;
+                                                Object constant = qb1.m() ? qb1.f().getConstant() : th;
                                                 boolean zB = ho6.B();
-                                                ?? ValueOf3 = zB ? Boolean.valueOf(zB) : th;
+                                                Object ValueOf3 = zB ? Boolean.valueOf(zB) : th;
                                                 boolean zA = ho6.A();
-                                                ?? ValueOf4 = zA ? Boolean.valueOf(zA) : th;
+                                                Object ValueOf4 = zA ? Boolean.valueOf(zA) : th;
                                                 int iT = ho6.t();
                                                 Integer numValueOf6 = Integer.valueOf(iT);
                                                 gv7 gv7Var = oi5.L;
-                                                ?? r34 = iT != ly8.v() ? numValueOf6 : th;
+                                                Object r34 = iT != ly8.v() ? numValueOf6 : th;
                                                 int iQ = ho6.q();
-                                                ?? ValueOf5 = iQ != 25 ? Integer.valueOf(iQ) : th;
+                                                Object ValueOf5 = iQ != 25 ? Integer.valueOf(iQ) : th;
                                                 int iW = ho6.w();
-                                                ?? ValueOf6 = iW != 5 ? Integer.valueOf(iW) : th;
+                                                Object ValueOf6 = iW != 5 ? Integer.valueOf(iW) : th;
                                                 int iV = ho6.v();
-                                                ?? ValueOf7 = iV != 100 ? Integer.valueOf(iV) : th;
+                                                Object ValueOf7 = iV != 100 ? Integer.valueOf(iV) : th;
                                                 boolean z8 = ho6.z();
-                                                ?? ValueOf8 = z8 ? Boolean.valueOf(z8) : th;
+                                                Object ValueOf8 = z8 ? Boolean.valueOf(z8) : th;
                                                 int iY = ho6.y();
                                                 return new AppSettings(Integer.valueOf(themeId), boolValueOf, strY0, numValueOf, boolValueOf2, numValueOf2, numValueOf3, multipleBackupStrategy, boolValueOf3, null, arrayListD, boolValueOf4, boolValueOf5, boolValueOf6, boolValueOf7, string2, numU, numValueOf4, boolValueOf8, numS, numValueOf5, ValueOf2, r28, r29, ValueOf, constant, ValueOf3, ValueOf4, r34, ValueOf5, ValueOf6, ValueOf7, ValueOf8, iY != 5 ? Integer.valueOf(iY) : th, 512, 0, null);
                                             } catch (ClassCastException unused2) {

@@ -65,76 +65,7 @@ public final class TaskRunner implements Lockable {
         this.c = yr5.p;
         this.n = new ArrayList();
         this.p = new ArrayList();
-        this.q = new Runnable() { // from class: okhttp3.internal.concurrent.TaskRunner$runnable$1
-            @Override // java.lang.Runnable
-            public final void run() {
-                Task taskB;
-                long jNanoTime;
-                Task taskB2;
-                TaskRunner taskRunner = this.a;
-                synchronized (taskRunner) {
-                    taskRunner.k++;
-                    taskB = taskRunner.b();
-                }
-                if (taskB == null) {
-                    return;
-                }
-                Thread threadCurrentThread = Thread.currentThread();
-                String name = threadCurrentThread.getName();
-                while (true) {
-                    try {
-                        threadCurrentThread.setName(taskB.a);
-                        Logger logger2 = this.a.b;
-                        TaskQueue taskQueue = taskB.c;
-                        taskQueue.getClass();
-                        boolean zIsLoggable = logger2.isLoggable(Level.FINE);
-                        if (zIsLoggable) {
-                            jNanoTime = System.nanoTime();
-                            TaskLoggerKt.a(logger2, taskB, taskQueue, "starting");
-                        } else {
-                            jNanoTime = -1;
-                        }
-                        try {
-                            long jA = taskB.a();
-                            if (zIsLoggable) {
-                                TaskLoggerKt.a(logger2, taskB, taskQueue, "finished run in " + TaskLoggerKt.b(System.nanoTime() - jNanoTime));
-                            }
-                            TaskRunner taskRunner2 = this.a;
-                            synchronized (taskRunner2) {
-                                TaskRunner.a(taskRunner2, taskB, jA, true);
-                                taskB2 = taskRunner2.b();
-                            }
-                            if (taskB2 == null) {
-                                threadCurrentThread.setName(name);
-                                return;
-                            }
-                            taskB = taskB2;
-                        } catch (Throwable th) {
-                            if (zIsLoggable) {
-                                TaskLoggerKt.a(logger2, taskB, taskQueue, "failed a run in " + TaskLoggerKt.b(System.nanoTime() - jNanoTime));
-                            }
-                            throw th;
-                        }
-                    } catch (Throwable th2) {
-                        try {
-                            TaskRunner taskRunner3 = this.a;
-                            synchronized (taskRunner3) {
-                                TaskRunner.a(taskRunner3, taskB, -1L, false);
-                                if (!(th2 instanceof InterruptedException)) {
-                                    throw th2;
-                                }
-                                Thread.currentThread().interrupt();
-                                threadCurrentThread.setName(name);
-                                return;
-                            }
-                        } catch (Throwable th3) {
-                            threadCurrentThread.setName(name);
-                            throw th3;
-                        }
-                    }
-                }
-            }
-        };
+        this.q = new TaskRunner$runnable$1(this);
     }
 
     public static final void a(TaskRunner taskRunner, Task task, long j, boolean z) {

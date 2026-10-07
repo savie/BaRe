@@ -1,7 +1,6 @@
 package defpackage;
 
 import android.util.Log;
-import dalvik.system.VMRuntime;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Executable;
@@ -110,7 +109,8 @@ public abstract class h44 {
 
     public static boolean b(String... strArr) {
         try {
-            a(VMRuntime.class, a(VMRuntime.class, null, "getRuntime", new Object[0]), "setHiddenApiExemptions", strArr);
+            Class<?> vmRuntime = Class.forName("dalvik.system.VMRuntime");
+            a(vmRuntime, a(vmRuntime, null, "getRuntime", new Object[0]), "setHiddenApiExemptions", strArr);
             return true;
         } catch (ReflectiveOperationException e2) {
             Log.w("HiddenApiBypass", "setHiddenApiExemptions", e2);

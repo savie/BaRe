@@ -1256,16 +1256,16 @@ public class ChannelSftp extends ChannelSession {
     /* JADX WARN: Type inference failed for: r9v9 */
     public final void ls(String str, LsEntrySelector lsEntrySelector) throws SftpException {
         byte[] bArrT;
-        ?? r8;
+        Object r8;
         byte[] bytes;
-        ?? r9;
-        ?? r16;
+        Object r9;
+        Object r16;
         boolean zL;
-        ?? r10;
-        ?? r17;
-        ?? str2;
+        Object r10;
+        Object r17;
+        Object str2;
         String str3;
-        ?? r11;
+        Object r11;
         try {
             ((Channel.MyPipedInputStream) this.P).updateReadSide();
             String strG = G(str);
@@ -1277,7 +1277,7 @@ public class ChannelSftp extends ChannelSession {
             String strS = Util.s(strSubstring);
             byte[][] bArr = new byte[1][];
             boolean zB = B(strSubstring2, bArr);
-            ?? r12 = 0;
+            Object r12 = 0;
             if (zB) {
                 bArrT = bArr[0];
             } else {
@@ -1342,7 +1342,7 @@ public class ChannelSftp extends ChannelSession {
                         i8 -= iW;
                     }
                     byte[] string2 = this.I.getString();
-                    ?? string3 = this.M <= 3 ? this.I.getString() : r8;
+                    Object string3 = this.M <= 3 ? this.I.getString() : r8;
                     SftpATTRS sftpATTRSA = SftpATTRS.a(this.I);
                     if (bArrT == null) {
                         r11 = r8;
@@ -1350,7 +1350,7 @@ public class ChannelSftp extends ChannelSession {
                         zL = true;
                     } else if (zB) {
                         if (this.X) {
-                            ?? r18 = r8;
+                            Object r18 = r8;
                             bytes = string2;
                             r9 = r18;
                             r16 = r18;

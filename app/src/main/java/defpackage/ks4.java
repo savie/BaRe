@@ -42,7 +42,7 @@ public abstract class ks4 {
         bc bcVar2;
         bc bcVar3;
         bc bcVar4;
-        ?? r13;
+        int r13;
         Float fValueOf = Float.valueOf(1.0f);
         Float fValueOf2 = Float.valueOf(0.0f);
         ArrayList arrayList = new ArrayList();

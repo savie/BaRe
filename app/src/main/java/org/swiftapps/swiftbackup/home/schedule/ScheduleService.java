@@ -280,7 +280,7 @@ public final class ScheduleService extends IntentService {
     /* JADX WARN: Type inference failed for: r5v54 */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.Iterable, java.util.Collection, java.util.List] */
     public final void e() {
-        ?? I;
+        Object I;
         ScheduleLastRunDetails blockedLowBattery;
         long j;
         Context context;
@@ -288,8 +288,8 @@ public final class ScheduleService extends IntentService {
         boolean z;
         boolean zE;
         Object obj;
-        ?? arrayList;
-        ?? arrayList2;
+        Object arrayList;
+        Object arrayList2;
         ArrayList arrayList3;
         List<ConfigSettings> validSettings;
         int i2;
@@ -361,7 +361,7 @@ public final class ScheduleService extends IntentService {
                 I = ov2.a;
             }
         }
-        ?? r7 = I;
+        Object r7 = I;
         if (!V.INSTANCE.getVp()) {
             List listA0 = fl1.A0(fz5.j(c47.a.c().getSchedules().size(), "all="), fz5.j(r7.size(), "runnable="));
             zc2 zc2Var = re3.a;
@@ -1228,7 +1228,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty = arrayList13.isEmpty();
-        ?? r0 = arrayList13;
+        Object r0 = arrayList13;
         if (zIsEmpty) {
             r0 = context;
         }
@@ -1271,7 +1271,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty2 = arrayList14.isEmpty();
-        ?? r1 = arrayList14;
+        Object r1 = arrayList14;
         if (zIsEmpty2) {
             r1 = context;
         }
@@ -1307,7 +1307,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty3 = arrayList15.isEmpty();
-        ?? r2 = arrayList15;
+        Object r2 = arrayList15;
         if (zIsEmpty3) {
             r2 = context;
         }
@@ -1368,7 +1368,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty4 = arrayList17.isEmpty();
-        ?? r3 = arrayList17;
+        Object r3 = arrayList17;
         if (zIsEmpty4) {
             r3 = context;
         }
@@ -1433,7 +1433,7 @@ public final class ScheduleService extends IntentService {
             }
             i = i13;
         }
-        ?? string4 = i > 0 ? this.getString(R.string.schedule_error_notification_subtitle) : context;
+        Object string4 = i > 0 ? this.getString(R.string.schedule_error_notification_subtitle) : context;
         if (this.d) {
             vr6.w$default(vr6.INSTANCE, p, "Foreground service timed out while preparing schedules; skipping task handoff", null, 4, null);
             return;

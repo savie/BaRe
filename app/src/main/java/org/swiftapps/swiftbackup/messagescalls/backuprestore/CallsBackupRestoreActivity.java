@@ -203,8 +203,7 @@ public final class CallsBackupRestoreActivity extends sa1 {
     }
 
     @Override // defpackage.il0
-    /* JADX INFO: renamed from: a0, reason: merged with bridge method [inline-methods] */
-    public final b V() {
+    public final b a0() {
         return (b) this.P.getValue();
     }
 

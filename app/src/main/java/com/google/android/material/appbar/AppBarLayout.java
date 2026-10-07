@@ -281,7 +281,7 @@ public class AppBarLayout extends LinearLayout implements dw1 {
     }
 
     @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final ViewGroup.LayoutParams generateDefaultLayoutParams() {
+    public final jm generateDefaultLayoutParams() {
         jm jmVar = new jm(-1, -2);
         jmVar.a = 1;
         return jmVar;
@@ -792,12 +792,7 @@ public class AppBarLayout extends LinearLayout implements dw1 {
     }
 
     @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
-        return b(layoutParams);
-    }
-
-    @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ LinearLayout.LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
+    public final jm generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
         return b(layoutParams);
     }
 
@@ -1348,14 +1343,7 @@ public class AppBarLayout extends LinearLayout implements dw1 {
         }
     }
 
-    @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final LinearLayout.LayoutParams generateDefaultLayoutParams() {
-        jm jmVar = new jm(-1, -2);
-        jmVar.a = 1;
-        return jmVar;
-    }
-
-    /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
+        /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
     public static class ScrollingViewBehavior extends i34 {
         public ScrollingViewBehavior(Context context, AttributeSet attributeSet) {
             super(0);

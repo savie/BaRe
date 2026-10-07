@@ -495,7 +495,7 @@ public final class pt1 extends ot1 {
     /* JADX WARN: Type inference failed for: r6v66, types: [int] */
     /* JADX WARN: Type inference failed for: r6v80, types: [int] */
     public final void U() {
-        ?? r21;
+        int[] r21;
         ys1 ys1Var;
         int i;
         boolean z;
@@ -504,7 +504,7 @@ public final class pt1 extends ot1 {
         boolean z3;
         int i2;
         boolean zW;
-        ?? r13;
+        boolean r13;
         int i3;
         boolean z4;
         int i4;
@@ -513,20 +513,20 @@ public final class pt1 extends ot1 {
         int i5;
         boolean z7;
         int iMax;
-        ?? r10;
-        ?? r17;
+        int r10;
+        boolean r17;
         boolean z8;
         int iMax2;
-        ?? r0;
+        boolean r0;
         boolean z9;
         boolean z10;
-        ?? r1;
-        ?? r14;
+        boolean r1;
+        boolean r14;
         int i6;
         boolean z11;
         boolean z12;
-        ?? r2;
-        ?? r3;
+        boolean r2;
+        boolean r3;
         int i7;
         int iMax3;
         int iMax4;
@@ -749,9 +749,9 @@ public final class pt1 extends ot1 {
                         int i32 = i31;
                         ot1 ot1Var11 = (ot1) arrayList5.get(i31);
                         ArrayList arrayList12 = arrayList6;
-                        ?? r4 = r21[0];
+                        int r4 = r21[0];
                         ArrayList arrayList13 = arrayList7;
-                        ?? r6 = r21[1];
+                        int r6 = r21[1];
                         ArrayList arrayList14 = arrayList8;
                         int[] iArr3 = ot1Var11.p0;
                         ArrayList arrayList15 = arrayList9;
@@ -1062,8 +1062,8 @@ public final class pt1 extends ot1 {
                     }
                 } else {
                     ot1 ot1Var13 = (ot1) arrayList5.get(i30);
-                    ?? r5 = r21[0];
-                    ?? r7 = r21[1];
+                    int r5 = r21[0];
+                    int r7 = r21[1];
                     int i43 = i30;
                     int[] iArr5 = ot1Var13.p0;
                     ys1Var = ys1Var4;
@@ -1177,13 +1177,13 @@ public final class pt1 extends ot1 {
                                         z7 = z7;
                                         O(iMax5);
                                         r21[0] = 2;
-                                        r13 = 1;
+                                        r13 = true;
                                         z7 = true;
                                     }
                                     if (i12 == 2) {
                                         L(iMax6);
                                         r21[1] = 2;
-                                        r13 = 1;
+                                        r13 = true;
                                         z7 = true;
                                     }
                                 }
@@ -1193,7 +1193,7 @@ public final class pt1 extends ot1 {
                                     r10 = 1;
                                     r21[0] = 1;
                                     z8 = true;
-                                    r17 = 1;
+                                    r17 = true;
                                 } else {
                                     r10 = 1;
                                     r17 = r13;
@@ -1203,8 +1203,8 @@ public final class pt1 extends ot1 {
                                 if (iMax2 > k()) {
                                     L(iMax2);
                                     r21[r10] = r10;
-                                    r3 = r10;
-                                    z9 = r3 == true ? 1 : 0;
+                                    r3 = r10 != 0;
+                                    z9 = r3;
                                 } else {
                                     r0 = r17;
                                 }
@@ -1214,11 +1214,11 @@ public final class pt1 extends ot1 {
                                         r2 = r0;
                                         z12 = z9;
                                         if (q() > i) {
-                                            this.E0 = r10;
+                                            this.E0 = r10 != 0;
                                             r21[0] = r10;
                                             O(i);
-                                            ?? r8 = r10;
-                                            z12 = r8 == true ? 1 : 0;
+                                            boolean r8 = r10 != 0;
+                                            z12 = r8;
                                             r2 = r8;
                                         }
                                     }
@@ -1338,13 +1338,13 @@ public final class pt1 extends ot1 {
                                         z7 = z7;
                                         O(iMax5);
                                         r21[0] = 2;
-                                        r13 = 1;
+                                        r13 = true;
                                         z7 = true;
                                     }
                                     if (i12 == 2) {
                                         L(iMax6);
                                         r21[1] = 2;
-                                        r13 = 1;
+                                        r13 = true;
                                         z7 = true;
                                     }
                                 }
@@ -1354,7 +1354,7 @@ public final class pt1 extends ot1 {
                                     r10 = 1;
                                     r21[0] = 1;
                                     z8 = true;
-                                    r17 = 1;
+                                    r17 = true;
                                 } else {
                                     r10 = 1;
                                     r17 = r13;
@@ -1364,8 +1364,8 @@ public final class pt1 extends ot1 {
                                 if (iMax2 > k()) {
                                     L(iMax2);
                                     r21[r10] = r10;
-                                    r3 = r10;
-                                    z9 = r3 == true ? 1 : 0;
+                                    r3 = r10 != 0;
+                                    z9 = r3;
                                 } else {
                                     r0 = r17;
                                 }
@@ -1375,11 +1375,11 @@ public final class pt1 extends ot1 {
                                         r2 = r0;
                                         z12 = z9;
                                         if (q() > i) {
-                                            this.E0 = r10;
+                                            this.E0 = r10 != 0;
                                             r21[0] = r10;
                                             O(i);
-                                            ?? r9 = r10;
-                                            z12 = r9 == true ? 1 : 0;
+                                            boolean r9 = r10 != 0;
+                                            z12 = r9;
                                             r2 = r9;
                                         }
                                     }
@@ -1500,13 +1500,13 @@ public final class pt1 extends ot1 {
                                             z7 = z7;
                                             O(iMax5);
                                             r21[0] = 2;
-                                            r13 = 1;
+                                            r13 = true;
                                             z7 = true;
                                         }
                                         if (i12 == 2) {
                                             L(iMax6);
                                             r21[1] = 2;
-                                            r13 = 1;
+                                            r13 = true;
                                             z7 = true;
                                         }
                                     }
@@ -1516,7 +1516,7 @@ public final class pt1 extends ot1 {
                                         r10 = 1;
                                         r21[0] = 1;
                                         z8 = true;
-                                        r17 = 1;
+                                        r17 = true;
                                     } else {
                                         r10 = 1;
                                         r17 = r13;
@@ -1526,8 +1526,8 @@ public final class pt1 extends ot1 {
                                     if (iMax2 > k()) {
                                         L(iMax2);
                                         r21[r10] = r10;
-                                        r3 = r10;
-                                        z9 = r3 == true ? 1 : 0;
+                                        r3 = r10 != 0;
+                                        z9 = r3;
                                     } else {
                                         r0 = r17;
                                     }
@@ -1537,11 +1537,11 @@ public final class pt1 extends ot1 {
                                             r2 = r0;
                                             z12 = z9;
                                             if (q() > i) {
-                                                this.E0 = r10;
+                                                this.E0 = r10 != 0;
                                                 r21[0] = r10;
                                                 O(i);
-                                                ?? r11 = r10;
-                                                z12 = r11 == true ? 1 : 0;
+                                                boolean r11 = r10 != 0;
+                                                z12 = r11;
                                                 r2 = r11;
                                             }
                                         }
@@ -1654,13 +1654,13 @@ public final class pt1 extends ot1 {
                         z7 = z7;
                         O(iMax5);
                         r21[0] = 2;
-                        r13 = 1;
+                        r13 = true;
                         z7 = true;
                     }
                     if (i12 == 2 && k() < iMax6) {
                         L(iMax6);
                         r21[1] = 2;
-                        r13 = 1;
+                        r13 = true;
                         z7 = true;
                     }
                 }
@@ -1670,7 +1670,7 @@ public final class pt1 extends ot1 {
                     r10 = 1;
                     r21[0] = 1;
                     z8 = true;
-                    r17 = 1;
+                    r17 = true;
                 } else {
                     r10 = 1;
                     r17 = r13;
@@ -1680,8 +1680,8 @@ public final class pt1 extends ot1 {
                 if (iMax2 > k()) {
                     L(iMax2);
                     r21[r10] = r10;
-                    r3 = r10;
-                    z9 = r3 == true ? 1 : 0;
+                    r3 = r10 != 0;
+                    z9 = r3;
                 } else {
                     r0 = r17;
                 }
@@ -1691,11 +1691,11 @@ public final class pt1 extends ot1 {
                         r2 = r0;
                         z12 = z9;
                         if (q() > i) {
-                            this.E0 = r10;
+                            this.E0 = r10 != 0;
                             r21[0] = r10;
                             O(i);
-                            ?? r12 = r10;
-                            z12 = r12 == true ? 1 : 0;
+                            boolean r12 = r10 != 0;
+                            z12 = r12;
                             r2 = r12;
                         }
                     }
@@ -1709,11 +1709,11 @@ public final class pt1 extends ot1 {
                     z10 = z12;
                     z10 = z12;
                     if (r21[r10] != 2 && iMax8 > 0 && k() > iMax8) {
-                        this.F0 = r10;
+                        this.F0 = r10 != 0;
                         r21[r10] = r10;
                         L(iMax8);
                         i6 = 8;
-                        r14 = 1;
+                        r14 = true;
                         z11 = true;
                     }
                     if (i4 > i6) {
@@ -1891,13 +1891,13 @@ public final class pt1 extends ot1 {
                     z7 = z7;
                     O(iMax5);
                     r21[0] = 2;
-                    r13 = 1;
+                    r13 = true;
                     z7 = true;
                 }
                 if (i12 == 2) {
                     L(iMax6);
                     r21[1] = 2;
-                    r13 = 1;
+                    r13 = true;
                     z7 = true;
                 }
             }
@@ -1907,7 +1907,7 @@ public final class pt1 extends ot1 {
                 r10 = 1;
                 r21[0] = 1;
                 z8 = true;
-                r17 = 1;
+                r17 = true;
             } else {
                 r10 = 1;
                 r17 = r13;
@@ -1917,8 +1917,8 @@ public final class pt1 extends ot1 {
             if (iMax2 > k()) {
                 L(iMax2);
                 r21[r10] = r10;
-                r3 = r10;
-                z9 = r3 == true ? 1 : 0;
+                r3 = r10 != 0;
+                z9 = r3;
             } else {
                 r0 = r17;
             }
@@ -1928,11 +1928,11 @@ public final class pt1 extends ot1 {
                     r2 = r0;
                     z12 = z9;
                     if (q() > i) {
-                        this.E0 = r10;
+                        this.E0 = r10 != 0;
                         r21[0] = r10;
                         O(i);
-                        ?? r15 = r10;
-                        z12 = r15 == true ? 1 : 0;
+                        boolean r15 = r10 != 0;
+                        z12 = r15;
                         r2 = r15;
                     }
                 }

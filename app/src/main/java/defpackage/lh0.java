@@ -290,7 +290,7 @@ public final class lh0 implements Serializable {
                 z2 = z;
             }
         }
-        for (?? r7 = z2; i10 < ((i - i13) >> r7); r7 = 1) {
+        for (int r7 = 1; i10 < ((i - i13) >> r7); r7 = 1) {
             nh0 nh0Var2 = null;
             for (nh0 nh0Var3 : arrayList2) {
                 if (!nh0Var3.f && nh0Var3.e && (nh0Var2 == null || nh0Var3.b() < nh0Var2.b() || (nh0Var3.b() == nh0Var2.b() && nh0Var3.d < nh0Var2.d))) {

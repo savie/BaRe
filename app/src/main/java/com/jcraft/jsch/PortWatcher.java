@@ -114,12 +114,7 @@ class PortWatcher {
         StringBuilder sb;
         Logger logger2;
         StringBuilder sb2;
-        this.f = new Runnable() { // from class: com.jcraft.jsch.l
-            @Override // java.lang.Runnable
-            public final void run() {
-                this.a.d();
-            }
-        };
+        this.f = new l(this);
         while (this.f != null) {
             try {
                 Socket socketAccept = this.g.accept();

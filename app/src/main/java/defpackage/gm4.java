@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface gm4 {
-    sp5 contentNulls() default sp5.a;
+    sp5 contentNulls() default sp5.A;
 
     sp5 nulls() default sp5.a;
 

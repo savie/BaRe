@@ -316,10 +316,10 @@ public class dq0 {
         boolean z;
         Future futureF;
         String str3;
-        ?? r6;
-        ?? r4;
-        ?? r7;
-        ?? r5;
+        boolean r6;
+        long r4;
+        boolean r7;
+        long r5;
         int iF;
         int i;
         String string;

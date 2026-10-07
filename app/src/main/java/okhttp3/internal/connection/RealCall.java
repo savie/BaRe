@@ -155,12 +155,7 @@ public final class RealCall implements Call, Cloneable, Lockable {
         okHttpClient.d.getClass();
         TimeZone timeZone = _UtilJvmKt.a;
         this.d = EventListener.a;
-        ?? r3 = new c70() { // from class: okhttp3.internal.connection.RealCall$timeout$1
-            @Override // defpackage.c70
-            public final void k() {
-                this.n.cancel();
-            }
-        };
+        RealCall$timeout$1 r3 = new RealCall$timeout$1(this);
         r3.g(0L, TimeUnit.MILLISECONDS);
         this.e = r3;
         this.f = new AtomicBoolean();

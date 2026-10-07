@@ -1,7 +1,7 @@
 package defpackage;
 
 /* JADX INFO: loaded from: classes.dex */
-public interface vg0 {
+public abstract class vg0 {
     public static final f1 A;
     public static final f1 A0;
     public static final f1 A1;

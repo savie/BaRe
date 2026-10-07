@@ -56,18 +56,8 @@ public class HideViewOnScrollBehavior<V extends View> extends ew1 {
             this.b = (AccessibilityManager) view.getContext().getSystemService(AccessibilityManager.class);
         }
         AccessibilityManager accessibilityManager = this.b;
-        if (accessibilityManager != 0 && this.c == null) {
-            ?? r0 = new AccessibilityManager.TouchExplorationStateChangeListener() { // from class: o44
-                @Override // android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener
-                public final void onTouchExplorationStateChanged(boolean z) {
-                    if (z) {
-                        HideViewOnScrollBehavior hideViewOnScrollBehavior = this.a;
-                        if (hideViewOnScrollBehavior.j == 1) {
-                            hideViewOnScrollBehavior.x(view);
-                        }
-                    }
-                }
-            };
+        if (accessibilityManager != null && this.c == null) {
+            o44 r0 = new o44(this, view);
             this.c = r0;
             accessibilityManager.addTouchExplorationStateChangeListener(r0);
             view.addOnAttachStateChangeListener(new p44(this));

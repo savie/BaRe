@@ -232,14 +232,14 @@ public final class ic4 {
     public final void f(String str, on5 on5Var) {
         int i2;
         on5 aj7Var;
-        ?? r10;
-        ?? r4;
+        Object r10;
+        Object r4;
         on5 r08Var;
-        ?? r11;
+        Object r11;
         Object r08Var2;
         lv4 lv4Var;
         String strC;
-        ?? yj1Var;
+        Object yj1Var;
         int i3;
         String strA;
         String strA2;
@@ -257,9 +257,9 @@ public final class ic4 {
         int i6;
         int i7;
         r08 r08Var3;
-        ?? r5;
-        ?? r8;
-        ?? hc4Var;
+        Object r5;
+        int r8;
+        hc4 hc4Var;
         on5 on5Var5;
         on5 on5Var6;
         this.e = str.trim();
@@ -268,7 +268,7 @@ public final class ic4 {
         r08 r08Var4 = null;
         this.g = null;
         this.h = null;
-        ?? r6 = 0;
+        Object r6 = null;
         while (true) {
             char cG = g();
             if (cG == 0) {

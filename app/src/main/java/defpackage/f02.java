@@ -424,11 +424,11 @@ public final class f02 {
                                 break;
                             case "execution":
                                 jsonReader.beginObject();
-                                ?? D = mc0Var2;
-                                ?? F = D;
-                                ?? C = F;
-                                ?? rc0Var = C;
-                                ?? r26 = rc0Var;
+                                List D = null;
+                                Object F = D;
+                                ac0 C = null;
+                                rc0 rc0Var = null;
+                                List r26 = null;
                                 while (jsonReader.hasNext()) {
                                     String strNextName5 = jsonReader.nextName();
                                     strNextName5.getClass();
@@ -442,8 +442,8 @@ public final class f02 {
                                         case "signal":
                                             jsonReader.beginObject();
                                             long jNextLong = 0;
-                                            ?? NextString = mc0Var2;
-                                            ?? NextString2 = NextString;
+                                            String NextString = null;
+                                            String NextString2 = null;
                                             byte b2 = 0;
                                             while (jsonReader.hasNext()) {
                                                 String strNextName6 = jsonReader.nextName();

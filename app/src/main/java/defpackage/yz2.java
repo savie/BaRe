@@ -189,7 +189,7 @@ public final class yz2 {
         InputStream inputStream;
         String str;
         byte b;
-        ?? r13;
+        Serializable r13;
         byte[] bArr = this.d;
         InputStream inputStream2 = null;
         try {

@@ -63,7 +63,7 @@ public final class FoldersDashActivity extends sa1 {
 
     @Override // defpackage.il0
     /* JADX INFO: renamed from: W, reason: merged with bridge method [inline-methods] */
-    public final zo3 V() {
+    public final zo3 W() {
         return (zo3) this.P.getValue();
     }
 
@@ -93,7 +93,7 @@ public final class FoldersDashActivity extends sa1 {
             zn4.c(new l30(8, V(), folderItem2));
             return;
         }
-        zo3 zo3VarV = V();
+        zo3 zo3VarV = W();
         zn4 zn4Var = zn4.a;
         zn4.c(new cv(10, zo3VarV, folderItem2));
     }

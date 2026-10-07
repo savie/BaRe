@@ -62,7 +62,7 @@ public abstract class wl1 {
         if (!name.equals("selector")) {
             throw new XmlPullParserException(xmlPullParser.getPositionDescription() + ": invalid color state list tag " + name);
         }
-        ?? r4 = 1;
+        int r4 = 1;
         int depth2 = xmlPullParser.getDepth() + 1;
         Object[] objArr = new int[20][];
         int[] iArr = new int[20];
@@ -75,7 +75,7 @@ public abstract class wl1 {
             }
             if (next == 2 && depth <= depth2 && xmlPullParser.getName().equals("item")) {
                 int[] iArr2 = ae6.a;
-                ?? ObtainAttributes = theme == null ? resources.obtainAttributes(attributeSet, iArr2) : theme.obtainStyledAttributes(attributeSet, iArr2, i, i);
+                TypedArray ObtainAttributes = theme == null ? resources.obtainAttributes(attributeSet, iArr2) : theme.obtainStyledAttributes(attributeSet, iArr2, i, i);
                 int resourceId = ObtainAttributes.getResourceId(i, -1);
                 if (resourceId != -1) {
                     ThreadLocal threadLocal = a;
@@ -105,7 +105,7 @@ public abstract class wl1 {
                 } else {
                     f = ObtainAttributes.hasValue(3) ? ObtainAttributes.getFloat(3, 1.0f) : 1.0f;
                 }
-                ?? r16 = r4;
+                int r16 = r4;
                 float f2 = (Build.VERSION.SDK_INT < 31 || !ObtainAttributes.hasValue(2)) ? ObtainAttributes.getFloat(4, -1.0f) : ObtainAttributes.getFloat(2, -1.0f);
                 ObtainAttributes.recycle();
                 int attributeCount = attributeSet.getAttributeCount();

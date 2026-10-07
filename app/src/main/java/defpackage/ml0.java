@@ -88,7 +88,7 @@ public abstract class ml0 implements jv1, zx1, Serializable {
     /* JADX WARN: Type inference failed for: r2v5 */
     @Override // defpackage.jv1
     public final void resumeWith(Object obj) {
-        ?? r2 = this;
+        ml0 r2 = this;
         while (true) {
             ml0 ml0Var = (ml0) r2;
             jv1 jv1Var = ml0Var.completion;

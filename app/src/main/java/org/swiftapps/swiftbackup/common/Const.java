@@ -221,7 +221,7 @@ public final class Const {
     /* JADX WARN: Type inference failed for: r2v6, types: [java.util.List] */
     /* JADX WARN: Type inference failed for: r2v7, types: [java.util.ArrayList] */
     public static void E(String str) {
-        ?? X0;
+        Object X0;
         vr6.i$default(vr6.INSTANCE, "Const", "restartApp called with reason = ".concat(str), null, 4, null);
         try {
             if (b67.c()) {

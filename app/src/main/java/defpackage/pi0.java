@@ -70,11 +70,11 @@ public final /* synthetic */ class pi0 implements bt3 {
             @Override // defpackage.bt3
             public final Object invoke() {
                 Object next;
-                ?? arrayList;
+                Object arrayList;
                 Object next2;
                 ArrayList arrayList2;
                 Object next3;
-                ?? arrayList3;
+                Object arrayList3;
                 List list;
                 pj0 pj0Var2 = this.a;
                 Iterator it = pj0Var2.a().iterator();
@@ -177,7 +177,7 @@ public final /* synthetic */ class pi0 implements bt3 {
                     arrayList3 = 0;
                 }
                 boolean z2 = pj0Var2 instanceof mj0;
-                ?? r7 = this.d;
+                Object r7 = this.d;
                 ov2 ov2Var = ov2.a;
                 List list2 = arrayList2;
                 if (z2) {

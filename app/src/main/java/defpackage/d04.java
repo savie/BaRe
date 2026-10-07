@@ -251,7 +251,7 @@ public final class d04 {
     /* JADX WARN: Type inference failed for: r2v2 */
     /* JADX WARN: Type inference failed for: r2v9, types: [ov2] */
     public static yz3 s(fl4 fl4Var) {
-        ?? arrayList;
+        List arrayList;
         Object bn6Var;
         qj4 qj4VarX = fl4Var.x("id");
         String strA = qj4VarX != null ? a(qj4VarX) : null;
@@ -271,7 +271,7 @@ public final class d04 {
         String strA3 = qj4VarX5 != null ? a(qj4VarX5) : null;
         qj4 qj4VarX6 = fl4Var.x("parents");
         if (qj4VarX6 == null) {
-            arrayList = 0;
+            arrayList = null;
         } else {
             xi4 xi4VarG = !(qj4VarX6 instanceof xi4) ? null : qj4VarX6.g();
             if (xi4VarG != null) {
@@ -284,13 +284,13 @@ public final class d04 {
                     }
                 }
             } else {
-                arrayList = 0;
+                arrayList = null;
             }
         }
         if (arrayList == 0) {
             arrayList = ov2.a;
         }
-        ?? r12 = arrayList;
+        List r12 = arrayList;
         qj4 qj4VarX7 = fl4Var.x("trashed");
         boolean zBooleanValue = false;
         if (qj4VarX7 != null && !(qj4VarX7 instanceof el4)) {

@@ -468,7 +468,7 @@ public abstract class o85 extends LinearLayout {
     }
 
     @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final ViewGroup.LayoutParams generateDefaultLayoutParams() {
+    public final n85 generateDefaultLayoutParams() {
         return new n85(-2, -2);
     }
 
@@ -936,17 +936,7 @@ public abstract class o85 extends LinearLayout {
     }
 
     @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
-        return f(layoutParams);
-    }
-
-    @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final LinearLayout.LayoutParams generateDefaultLayoutParams() {
-        return new n85(-2, -2);
-    }
-
-    @Override // android.widget.LinearLayout, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ LinearLayout.LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
+    public final n85 generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
         return f(layoutParams);
     }
 }

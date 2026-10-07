@@ -26,7 +26,7 @@ public enum u65 implements rq1 {
     /* JADX INFO: Fake field, exist only in values array */
     IGNORE_DUPLICATE_MODULE_REGISTRATIONS(false),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(true),
+    APPLY_DEFAULT_VALUES_2(true),
     /* JADX INFO: Fake field, exist only in values array */
     REQUIRE_TYPE_ID_FOR_SUBTYPES(true),
     DEFAULT_VIEW_INCLUSION(true),
@@ -35,22 +35,22 @@ public enum u65 implements rq1 {
     SORT_CREATOR_PROPERTIES_BY_DECLARATION_ORDER(false),
     ACCEPT_CASE_INSENSITIVE_PROPERTIES(false),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(false),
+    APPLY_DEFAULT_VALUES_3(false),
     ACCEPT_CASE_INSENSITIVE_VALUES(false),
     USE_WRAPPER_NAME_AS_PROPERTY_NAME(false),
     USE_STD_BEAN_NAMING(false),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(false),
+    APPLY_DEFAULT_VALUES_4(false),
     FIX_FIELD_NAME_UPPER_CASE_PREFIX(false),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(true),
+    APPLY_DEFAULT_VALUES_5(true),
     /* JADX INFO: Fake field, exist only in values array */
-    IGNORE_DUPLICATE_MODULE_REGISTRATIONS(true),
+    IGNORE_DUPLICATE_MODULE_REGISTRATIONS_2(true),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(true),
+    APPLY_DEFAULT_VALUES_6(true),
     BLOCK_UNSAFE_POLYMORPHIC_BASE_TYPES(false),
     /* JADX INFO: Fake field, exist only in values array */
-    APPLY_DEFAULT_VALUES(true),
+    APPLY_DEFAULT_VALUES_7(true),
     REQUIRE_HANDLERS_FOR_JAVA8_OPTIONALS(true),
     REQUIRE_HANDLERS_FOR_JAVA8_TIMES(true);
 

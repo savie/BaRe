@@ -1589,15 +1589,15 @@ public abstract class jb9 implements om8 {
     /* JADX WARN: Type inference failed for: r9v15 */
     public static void l0(Context context, Executor executor, x76 x76Var, boolean z) {
         boolean z2;
-        ?? A;
+        FileInputStream A;
         tk2[] tk2VarArrA0;
         tk2[] tk2VarArr;
         x76 x76Var2;
         tk2[] tk2VarArr2;
         byte[] bArr;
-        ?? r7;
+        Object r7;
         byte[] bArr2;
-        ?? r8;
+        Object r8;
         boolean z3;
         ByteArrayInputStream byteArrayInputStream;
         Throwable th;
@@ -1607,17 +1607,17 @@ public abstract class jb9 implements om8 {
         FileLock fileLockTryLock;
         byte[] bArr3;
         int i;
-        ?? r9;
+        boolean r9;
         boolean z4;
         boolean z5;
-        ?? r10;
+        Object r10;
         ByteArrayOutputStream byteArrayOutputStream;
         sk2 sk2Var;
-        ?? r11;
+        Object r11;
         String str;
         FileInputStream fileInputStreamA;
-        ?? r12;
-        ?? r13;
+        boolean r12;
+        boolean r13;
         boolean z6;
         Context applicationContext = context.getApplicationContext();
         String packageName = applicationContext.getPackageName();
@@ -1753,7 +1753,7 @@ public abstract class jb9 implements om8 {
                                             }
                                             fileOutputStream.write(bArr3, 0, i);
                                         }
-                                        r9 = 1;
+                                        r9 = true;
                                         sk2Var2.b(1, null);
                                         fileLockTryLock.close();
                                         channel.close();
@@ -1767,7 +1767,7 @@ public abstract class jb9 implements om8 {
                                 throw new IOException("Unable to acquire a lock on the underlying file channel.");
                             }
                             z3 = false;
-                            r9 = 1;
+                            r9 = true;
                             if (z3) {
                                 I(packageInfo, filesDir);
                             }
@@ -1916,7 +1916,7 @@ public abstract class jb9 implements om8 {
                         bArr2 = sk2Var2.h;
                         if (bArr2 != null) {
                             z3 = false;
-                            r9 = 1;
+                            r9 = true;
                         } else {
                             try {
                                 if (sk2Var2.f) {
@@ -1948,7 +1948,7 @@ public abstract class jb9 implements om8 {
                                                                                         fileOutputStream.write(bArr3, 0, i);
                                                                                     }
                                                                                 }
-                                                                                r9 = 1;
+                                                                                r9 = true;
                                                                                 sk2Var2.b(1, null);
                                                                                 fileLockTryLock.close();
                                                                                 channel.close();
@@ -2088,7 +2088,7 @@ public abstract class jb9 implements om8 {
                     sk2Var2.b(4, null);
                 }
                 if (z4 || !z) {
-                    r13 = 0;
+                    r13 = false;
                 } else {
                     r13 = r12;
                 }
@@ -2099,9 +2099,9 @@ public abstract class jb9 implements om8 {
             z4 = false;
             r12 = z2;
             if (z4) {
-                r13 = 0;
+                r13 = false;
             } else {
-                r13 = 0;
+                r13 = false;
             }
             a86.c(context, r13);
         } catch (PackageManager.NameNotFoundException e18) {

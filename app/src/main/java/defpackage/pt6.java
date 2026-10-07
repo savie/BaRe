@@ -27,7 +27,7 @@ public final class pt6 extends rt6 {
     public final void f(zu6 zu6Var) throws iw0 {
         int iD;
         int iD2;
-        ?? arrayList;
+        ArrayList arrayList;
         zu6Var.t(2);
         vw2 vw2Var = zu6Var.b;
         this.e = vw2Var.d(zu6Var);

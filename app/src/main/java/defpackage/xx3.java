@@ -335,33 +335,34 @@ public abstract class xx3 {
     	at jadx.core.dex.visitors.typeinference.FixTypesVisitor.visit(FixTypesVisitor.java:94)
      */
     public static void B(q63 q63Var, final z95 z95Var, final ft7 ft7Var, String str) throws Throwable {
-        final ?? r14;
-        ?? HasNext;
+        Object r14;
+        Object HasNext;
+        boolean hasNext;
         long j;
-        ?? r8;
-        ?? r16;
-        ?? r6;
-        ?? r35;
-        ?? r1;
+        Object r8;
+        String r16;
+        int[] r6;
+        jb5 r35;
+        q63 r1;
         Throwable th;
-        ?? r7;
-        ?? r2;
+        int[] r7;
+        q63 r2;
         String str2;
-        ?? r9;
+        jb5 r9;
         pa5 pa5VarM;
         List list;
         ArrayList arrayList;
         Iterator it;
         pa5 pa5Var;
         List list2;
-        ?? r36;
-        ?? r10;
-        ?? r37;
-        ?? r38;
-        ?? r11;
-        ?? r39;
+        String r36;
+        InputStream r10;
+        String r37;
+        byte[] r38;
+        InputStream r11;
+        String r39;
         final byte[] bArr;
-        ?? r310;
+        String r310;
         byte[] bArr2;
         q63 q63Var2 = q63Var;
         q63Var2.getClass();
@@ -392,11 +393,11 @@ public abstract class xx3 {
         int i2 = 0;
         q63 q63Var3 = q63Var2;
         gt7 gt7Var2 = gt7Var;
-        ?? r12 = strK;
-        ?? r13 = strE0;
-        ?? A = pa5VarM2;
-        ?? r15 = strB0;
-        ?? r17 = jb5Var;
+        String r12 = strK;
+        String r13 = strE0;
+        pa5 A = pa5VarM2;
+        String r15 = strB0;
+        jb5 r17 = jb5Var;
         while (true) {
             final ConcurrentHashMap.KeySetView keySetViewNewKeySet = ConcurrentHashMap.newKeySet();
             fl4 fl4Var = new fl4();
@@ -423,7 +424,7 @@ public abstract class xx3 {
             iArrCopyOfRange.getClass();
             ByteBuffer byteBufferAllocate = ByteBuffer.allocate(iArrCopyOfRange.length * 4);
             byteBufferAllocate.getClass();
-            ?? r21 = iArr;
+            int[] r21 = iArr;
             int i5 = 0;
             for (int length = iArrCopyOfRange.length; i5 < length; length = length) {
                 byteBufferAllocate.putInt(iArrCopyOfRange[i5]);
@@ -434,7 +435,7 @@ public abstract class xx3 {
             int i6 = r21[4];
             int i7 = 5;
             int i8 = r21[5];
-            ?? arrayList2 = r13;
+            Object arrayList2 = r13;
             int i9 = i2;
             int[] iArr2 = {i6, i8, 0, 0};
             int[] iArr3 = {i6, i8, i6, i8};
@@ -457,9 +458,9 @@ public abstract class xx3 {
             }
             int i12 = i10;
             final lh6 lh6Var = new lh6();
-            final ?? kh6Var = new kh6();
+            final Object kh6Var = new kh6();
             ExecutorService executorServiceNewFixedThreadPool = Executors.newFixedThreadPool(4);
-            ?? executorCompletionService = r15;
+            Object executorCompletionService = r15;
             executorCompletionService = new ExecutorCompletionService(executorServiceNewFixedThreadPool);
             long j2 = jA;
             final Semaphore semaphore = new Semaphore(4);
@@ -471,11 +472,11 @@ public abstract class xx3 {
                     int i13 = 0;
                     int iJ = 0;
                     int i14 = 0;
-                    ?? r3 = q63Var3;
-                    ?? r18 = r12;
+                    q63 r3 = q63Var3;
+                    String r18 = r12;
                     r21 = inputStreamW;
                     r14 = r17;
-                    ?? r19 = str3;
+                    String r19 = str3;
                     r14 = r14;
                     while (true) {
                         try {
@@ -548,7 +549,7 @@ public abstract class xx3 {
                                                 Arrays.fill(bArr2, (byte) 0);
                                                 byte[] bArr4 = bArrArray;
                                                 r10 = r21;
-                                                final ?? r110 = HasNext;
+                                                final String r110 = (String) HasNext;
                                                 bArr = bArrF;
                                                 j = j2;
                                                 r14 = r14;
@@ -778,7 +779,7 @@ public abstract class xx3 {
                     }
                     int i22 = i13;
                     byte[] bArr5 = bArrArray;
-                    ?? r311 = r18;
+                    String r311 = r18;
                     j = j2;
                     try {
                         try {
@@ -813,7 +814,7 @@ public abstract class xx3 {
                                         Arrays.fill(iArr2, 0);
                                         Arrays.fill(iArr3, 0);
                                         gt7.i = null;
-                                        ?? D = gt7Var3.d();
+                                        vq D = gt7Var3.d();
                                         pa5VarM = D.m(arrayList2);
                                         list = ov2.a;
                                         if (pa5VarM != null) {
@@ -906,7 +907,7 @@ public abstract class xx3 {
                                                                         Arrays.fill(iArr2, 0);
                                                                         Arrays.fill(iArr3, 0);
                                                                         gt7.i = null;
-                                                                        ?? D2 = gt7Var3.d();
+                                                                        vq D2 = gt7Var3.d();
                                                                         pa5VarM = D2.m(arrayList2);
                                                                         list = ov2.a;
                                                                         if (pa5VarM != null && (list2 = (List) ((LinkedHashMap) D2.c).get(pa5VarM.a)) != null) {

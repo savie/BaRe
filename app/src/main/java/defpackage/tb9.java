@@ -57,14 +57,14 @@ public final class tb9 {
     /* JADX WARN: Type inference failed for: r0v9 */
     public final Object a(String str) {
         Map map;
-        ?? r0;
+        Map r0;
         Object objH;
         Map map2 = this.e;
-        ?? r1 = map2;
+        Map r1 = map2;
         if (map2 == null) {
             synchronized (this.d) {
-                ?? r2 = this.e;
-                if (r2 != 0) {
+                Map r2 = this.e;
+                if (r2 != null) {
                     r0 = r2;
                 } else {
                     try {
@@ -100,7 +100,7 @@ public final class tb9 {
             }
             r1 = r0;
         }
-        if (r1 == 0) {
+        if (r1 == null) {
             r1 = Collections.EMPTY_MAP;
         }
         return (String) r1.get(str);

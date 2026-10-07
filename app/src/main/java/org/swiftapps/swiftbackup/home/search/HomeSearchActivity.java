@@ -132,12 +132,6 @@ public final class HomeSearchActivity extends sa1 {
         this.S = new gv7(new zj(i2));
     }
 
-    @Override // defpackage.il0
-    /* JADX INFO: renamed from: F */
-    public final qo0 V() {
-        return (x54) this.P.getValue();
-    }
-
     public final void U() {
         if (isFinishing()) {
             return;
@@ -205,7 +199,7 @@ public final class HomeSearchActivity extends sa1 {
         }
         Integer num = s54Var.q;
         int i2 = 0;
-        ?? r3 = 0;
+        Object r3 = 0;
         to3 to3Var = null;
         if (num != null) {
             int iIntValue = num.intValue();
@@ -231,7 +225,7 @@ public final class HomeSearchActivity extends sa1 {
                         } else {
                             r3 = btVarValueOf;
                         }
-                        ?? intent2 = new Intent((Context) this, (Class<?>) AppListActivity.class);
+                        Object intent2 = new Intent((Context) this, (Class<?>) AppListActivity.class);
                         intent2.putExtra("KEY_SECTION", r3);
                         startActivity(intent2);
                     } catch (ClassCastException unused) {

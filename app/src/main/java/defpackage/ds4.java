@@ -66,7 +66,7 @@ public final class ds4 extends ws7 implements qt3 {
     public final Object invokeSuspend(Object obj) {
         List listN1;
         ArrayList<q63> arrayList;
-        ?? arrayList2;
+        List arrayList2;
         int i = this.a;
         Object obj2 = this.c;
         switch (i) {
@@ -186,9 +186,9 @@ public final class ds4 extends ws7 implements qt3 {
                                     el1.K0((Iterable) it4.next(), arrayList2);
                                 }
                             } else {
-                                arrayList2 = 0;
+                                arrayList2 = null;
                             }
-                            if (arrayList2 == 0) {
+                            if (arrayList2 == null) {
                                 arrayList2 = ov2Var;
                             }
                             ArrayList<q63> arrayList5 = new ArrayList();

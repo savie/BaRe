@@ -47,19 +47,7 @@ public final class qp7 extends Writer {
     }
 
     @Override // java.io.Writer, java.lang.Appendable
-    public final Appendable append(CharSequence charSequence) {
-        this.a.append(charSequence);
-        return this;
-    }
-
-    @Override // java.io.Writer, java.lang.Appendable
     public final Writer append(CharSequence charSequence, int i, int i2) {
-        this.a.append(charSequence, i, i2);
-        return this;
-    }
-
-    @Override // java.io.Writer, java.lang.Appendable
-    public final Appendable append(CharSequence charSequence, int i, int i2) {
         this.a.append(charSequence, i, i2);
         return this;
     }

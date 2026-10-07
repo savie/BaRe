@@ -2,14 +2,14 @@ package defpackage;
 
 import android.graphics.ColorSpace;
 import android.graphics.ImageDecoder;
-import android.graphics.ImageDecoder$OnHeaderDecodedListener;
+import android.graphics.ImageDecoder.OnHeaderDecodedListener;
 import android.os.Build;
 import android.util.Log;
 import android.util.Size;
 
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
-public final class if2 implements ImageDecoder$OnHeaderDecodedListener {
+public final class if2 implements OnHeaderDecodedListener {
     public final v24 a = v24.a();
     public final int b;
     public final int c;

@@ -279,7 +279,7 @@ public final class b82 extends tb1 {
     public final ui1 r(String str, boolean z) {
         ArrayList arrayList;
         ArrayList<vq2> arrayList2;
-        ?? arrayList3;
+        List arrayList3;
         String str2;
         String str3;
         br2 br2Var = this.h;

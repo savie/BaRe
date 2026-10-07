@@ -1,68 +1,38 @@
 package defpackage;
 
-/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-/* JADX INFO: loaded from: classes2.dex */
 public enum s5 implements sx2 {
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_ALL(0),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_EXECUTE(1),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_EXECUTE(2),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_EXECUTE(3),
-    FILE_LIST_DIRECTORY(4),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_WRITE_EA(5),
-    FILE_ADD_SUBDIRECTORY(6),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_TRAVERSE(7),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_DELETE_CHILD(8),
-    FILE_READ_ATTRIBUTES(9),
-    FILE_WRITE_ATTRIBUTES(10),
-    FILE_READ_EA(11),
-    /* JADX INFO: Fake field, exist only in values array */
-    FILE_WRITE_EA(12),
-    DELETE(13),
-    /* JADX INFO: Fake field, exist only in values array */
-    READ_CONTROL(14),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_EXECUTE(15),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_ALL(16),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_EXECUTE(17),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_ALL(18),
-    MAXIMUM_ALLOWED(19),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_ALL(20),
-    /* JADX INFO: Fake field, exist only in values array */
-    GENERIC_EXECUTE(21),
-    GENERIC_WRITE(22),
-    GENERIC_READ(23),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_CONTROL_ACCESS(24),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_CREATE_CHILD(25),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_DELETE_CHILD(26),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_READ_PROP(27),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_WRITE_PROP(28),
-    /* JADX INFO: Fake field, exist only in values array */
-    ADS_RIGHT_DS_SELF(29);
+    FILE_READ_DATA(1L),
+    FILE_WRITE_DATA(2L),
+    FILE_APPEND_DATA(4L),
+    FILE_EXECUTE(32L),
+    FILE_LIST_DIRECTORY(1L),
+    FILE_ADD_FILE(2L),
+    FILE_ADD_SUBDIRECTORY(4L),
+    FILE_TRAVERSE(32L),
+    FILE_DELETE_CHILD(64L),
+    FILE_READ_ATTRIBUTES(128L),
+    FILE_WRITE_ATTRIBUTES(256L),
+    FILE_READ_EA(8L),
+    FILE_WRITE_EA(16L),
+    DELETE(65536L),
+    READ_CONTROL(131072L),
+    WRITE_DAC(262144L),
+    WRITE_OWNER(524288L),
+    SYNCHRONIZE(1048576L),
+    ACCESS_SYSTEM_SECURITY(16777216L),
+    MAXIMUM_ALLOWED(33554432L),
+    GENERIC_ALL(268435456L),
+    GENERIC_EXECUTE(536870912L),
+    GENERIC_WRITE(1073741824L),
+    GENERIC_READ(2147483648L),
+    ADS_RIGHT_DS_CONTROL_ACCESS(256L),
+    ADS_RIGHT_DS_CREATE_CHILD(1L),
+    ADS_RIGHT_DS_DELETE_CHILD(2L),
+    ADS_RIGHT_DS_READ_PROP(16L),
+    ADS_RIGHT_DS_WRITE_PROP(32L),
+    ADS_RIGHT_DS_SELF(8L);
 
     public final long a;
-
-    s5(int i) {
-        this.a = j;
-    }
-
-    @Override // defpackage.sx2
-    public final long getValue() {
-        return this.a;
-    }
+    s5(long j){ this.a=j; }
+    @Override public final long getValue(){ return this.a; }
 }

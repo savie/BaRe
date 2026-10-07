@@ -12,10 +12,10 @@ public abstract class zg {
     /* JADX WARN: Type inference failed for: r10v3, types: [java.lang.Iterable] */
     /* JADX WARN: Type inference failed for: r10v4, types: [ov2] */
     /* JADX WARN: Type inference failed for: r10v5, types: [java.util.ArrayList] */
-    public static List a(q63 q63Var, q63 q63Var2, boolean z, bt3 bt3Var, fv fvVar, gv gvVar) {
+    public static List a(q63 q63Var, q63 q63Var2, boolean z, bt3 bt3Var, rt3 fvVar, rt3 gvVar) {
         q63Var.getClass();
         boolean zA = ky.a(q63Var, q63Var2, bt3Var, fvVar);
-        ?? arrayList = 0;
+        Object arrayList = 0;
         if (!zA) {
             vr6.e$default(vr6.INSTANCE, "ApkInstallSetPreparer", xs1.i(q63Var, "Extracting splits failed: "), null, 4, null);
             return null;

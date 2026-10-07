@@ -73,19 +73,7 @@ public final class q67 extends Writer {
     }
 
     @Override // java.io.Writer, java.lang.Appendable
-    public final /* bridge */ /* synthetic */ Appendable append(CharSequence charSequence, int i, int i2) {
-        append(charSequence, i, i2);
-        return this;
-    }
-
-    @Override // java.io.Writer, java.lang.Appendable
     public final Writer append(char c) {
-        write(c);
-        return this;
-    }
-
-    @Override // java.io.Writer, java.lang.Appendable
-    public final Appendable append(char c) {
         write(c);
         return this;
     }
@@ -94,12 +82,6 @@ public final class q67 extends Writer {
     public final Writer append(CharSequence charSequence) {
         String string = charSequence.toString();
         this.a.b(0, string.length(), string);
-        return this;
-    }
-
-    @Override // java.io.Writer, java.lang.Appendable
-    public final /* bridge */ /* synthetic */ Appendable append(CharSequence charSequence) {
-        append(charSequence);
         return this;
     }
 

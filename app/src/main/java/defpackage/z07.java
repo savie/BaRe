@@ -924,7 +924,7 @@ public final class z07 implements Closeable {
     /* JADX WARN: Type inference failed for: r14v7 */
     public final void a(final i07 i07Var, s07 s07Var, oz6 oz6Var, FileDescriptor fileDescriptor) throws NoSuchAlgorithmException, IOException {
         Throwable th;
-        ?? r14;
+        java.io.Closeable r14;
         Object obj = "SBA native FD decryption is not configured for ";
         f44 f44VarG = G(s07Var);
         l27 l27Var = s07Var.h;
@@ -1013,14 +1013,14 @@ public final class z07 implements Closeable {
             } catch (Throwable th3) {
                 th = th3;
                 th = th;
-                r14 = obj;
+                r14 = randomAccessFile;
             }
         } catch (Throwable th4) {
             th = th4;
             obj = randomAccessFile;
         }
         th = th;
-        r14 = obj;
+        r14 = randomAccessFile;
         try {
             throw th;
         } catch (Throwable th5) {

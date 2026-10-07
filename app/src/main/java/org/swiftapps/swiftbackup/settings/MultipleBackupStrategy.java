@@ -57,35 +57,15 @@ public final class MultipleBackupStrategy implements Parcelable {
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
     /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-    public static final class NewBackupCondition {
+    public enum NewBackupCondition {
         ApkChanges,
         DataChanges,
         ApkOrDataChanges;
 
-        private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
         public static final c Companion = new c();
+        public static final NewBackupCondition f1default = ApkChanges;
 
-        /* JADX INFO: renamed from: default, reason: not valid java name */
-        private static final NewBackupCondition f1default = new NewBackupCondition();
-
-        static {
-        }
-
-        private NewBackupCondition() {
-            super(str, i);
-        }
-
-        public static jx2 getEntries() {
-            return $ENTRIES;
-        }
-
-        public static NewBackupCondition valueOf(String str) {
-            return (NewBackupCondition) Enum.valueOf(NewBackupCondition.class, str);
-        }
-
-        public static NewBackupCondition[] values() {
-            return (NewBackupCondition[]) $VALUES.clone();
-        }
+        public static jx2 getEntries() { return ly8.q(values()); }
     }
 
     /* JADX WARN: Enum visitor error
@@ -102,35 +82,15 @@ public final class MultipleBackupStrategy implements Parcelable {
      */
     /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
     /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-    public static final class Type {
+    public enum Type {
         SingleBackup,
         DatedBackups,
         ConditionalBackup;
 
-        private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
         public static final d Companion = new d();
+        public static final Type f2default = SingleBackup;
 
-        /* JADX INFO: renamed from: default, reason: not valid java name */
-        private static final Type f2default = new Type();
-
-        static {
-        }
-
-        private Type() {
-            super(str, i);
-        }
-
-        public static jx2 getEntries() {
-            return $ENTRIES;
-        }
-
-        public static Type valueOf(String str) {
-            return (Type) Enum.valueOf(Type.class, str);
-        }
-
-        public static Type[] values() {
-            return (Type[]) $VALUES.clone();
-        }
+        public static jx2 getEntries() { return ly8.q(values()); }
     }
 
     public /* synthetic */ MultipleBackupStrategy(Integer num, Integer num2, Integer num3, int i, DefaultConstructorMarker defaultConstructorMarker) {

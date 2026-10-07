@@ -35,8 +35,8 @@ public final /* synthetic */ class a9 implements Runnable {
     @Override // java.lang.Runnable
     public final void run() {
         Object obj;
-        ?? r5;
-        ?? r4;
+        d9 r5;
+        Application r4;
         int i = this.a;
         Object obj2 = this.b;
         switch (i) {

@@ -12,7 +12,7 @@ public enum mm4 {
     /* JADX INFO: Fake field, exist only in values array */
     FIELD_NAME("]", 4),
     /* JADX INFO: Fake field, exist only in values array */
-    FIELD_NAME(null, 5),
+    FIELD_NAME_2(null, 5),
     VALUE_EMBEDDED_OBJECT(null, 12),
     VALUE_STRING(null, 6),
     /* JADX INFO: Fake field, exist only in values array */

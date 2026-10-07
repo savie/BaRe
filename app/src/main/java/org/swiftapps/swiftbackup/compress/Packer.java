@@ -87,7 +87,7 @@ public final class Packer {
         List list3 = (i & 4) != 0 ? null : list;
         String str2 = (i & 8) != 0 ? null : str;
         List list4 = (i & 16) != 0 ? null : list2;
-        ?? r6 = (i & 32) != 0 ? 0 : rt3Var;
+        Object r6 = (i & 32) != 0 ? 0 : rt3Var;
         q63Var.getClass();
         q63Var2.getClass();
         ArrayList arrayList2 = new ArrayList();
@@ -144,7 +144,7 @@ public final class Packer {
                                 }
                             }
                             if (!z4 || arrayList.isEmpty()) {
-                                ?? r2 = th;
+                                Object r2 = th;
                                 return new fw5(z4, (String) r2, (Exception) r2, 14);
                             }
                             int i2 = 0;
@@ -164,7 +164,7 @@ public final class Packer {
                         th = null;
                         if (z4) {
                         }
-                        ?? r3 = th;
+                        Object r3 = th;
                         return new fw5(z4, (String) r3, (Exception) r3, 14);
                     }
                 } catch (Exception e2) {
@@ -216,7 +216,7 @@ public final class Packer {
                 }
             }
             String str3 = null;
-            ?? r4 = 0;
+            Object r4 = 0;
             nb7.a(q63Var, q63Var2, list4, r6, null);
             return new fw5(true, str3, (Exception) (r4 == true ? 1 : 0), 14);
         } catch (Exception e3) {

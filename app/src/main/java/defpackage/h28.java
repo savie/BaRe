@@ -20,7 +20,7 @@ jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v2 h28,
 /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes2.dex */
-public final class h28 {
+public enum h28 {
     LIGHT(0),
     DARK(1),
     SYSTEM_DEFAULT(3);
@@ -28,13 +28,12 @@ public final class h28 {
     private final int themeId;
     private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
     public static final f28 Companion = new f28();
-    private static final h28 DEFAULT_THEME_MODE = new h28(3).getValidatedMode();
+    private static final h28 DEFAULT_THEME_MODE = SYSTEM_DEFAULT.getValidatedMode();
 
     static {
     }
 
     private h28(int i) {
-        super(str, i);
         this.themeId = i;
     }
 
@@ -45,14 +44,6 @@ public final class h28 {
     /* JADX INFO: Access modifiers changed from: private */
     public final h28 getValidatedMode() {
         return (this != SYSTEM_DEFAULT || Build.VERSION.SDK_INT >= 28) ? this : LIGHT;
-    }
-
-    public static h28 valueOf(String str) {
-        return (h28) Enum.valueOf(h28.class, str);
-    }
-
-    public static h28[] values() {
-        return (h28[]) $VALUES.clone();
     }
 
     public final String asString() {

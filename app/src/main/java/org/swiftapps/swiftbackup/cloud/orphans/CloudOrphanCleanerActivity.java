@@ -52,7 +52,7 @@ public final class CloudOrphanCleanerActivity extends sa1 {
 
     @Override // defpackage.il0
     /* JADX INFO: renamed from: V, reason: merged with bridge method [inline-methods] */
-    public final a U() {
+    public final a V() {
         return (a) this.P.getValue();
     }
 

@@ -113,7 +113,7 @@ public class TabLayout extends HorizontalScrollView {
     public ColorStateList y;
 
     public TabLayout(Context context, AttributeSet attributeSet, int i) {
-        super(zm5.J(context, attributeSet, i, R.style.Widget_Design_TabLayout), attributeSet, i);
+        super(zm5.J(context, attributeSet, i, org.swiftapps.swiftbackup.R.style.Widget_Design_TabLayout), attributeSet, i);
         this.a = -1;
         this.b = new ArrayList();
         this.r = -1;
@@ -127,7 +127,7 @@ public class TabLayout extends HorizontalScrollView {
         bw7 bw7Var = new bw7(this, context2);
         this.d = bw7Var;
         super.addView(bw7Var, 0, new FrameLayout.LayoutParams(-2, -1));
-        TypedArray typedArrayB = jd4.B(context2, attributeSet, td6.V, i, R.style.Widget_Design_TabLayout, 24);
+        TypedArray typedArrayB = jd4.B(context2, attributeSet, td6.V, i, org.swiftapps.swiftbackup.R.style.Widget_Design_TabLayout, 24);
         ColorStateList colorStateListD = du.d(getBackground());
         if (colorStateListD != null) {
             c95 c95Var = new c95();
@@ -151,12 +151,12 @@ public class TabLayout extends HorizontalScrollView {
         this.f = typedArrayB.getDimensionPixelSize(20, dimensionPixelSize);
         this.k = typedArrayB.getDimensionPixelSize(18, dimensionPixelSize);
         this.n = typedArrayB.getDimensionPixelSize(17, dimensionPixelSize);
-        if (jm1.R(context2.getTheme(), R.attr.isMaterial3Theme, false)) {
-            this.p = R.attr.textAppearanceTitleSmall;
+        if (jm1.R(context2.getTheme(), org.swiftapps.swiftbackup.R.attr.isMaterial3Theme, false)) {
+            this.p = org.swiftapps.swiftbackup.R.attr.textAppearanceTitleSmall;
         } else {
-            this.p = R.attr.textAppearanceButton;
+            this.p = org.swiftapps.swiftbackup.R.attr.textAppearanceButton;
         }
-        int resourceId = typedArrayB.getResourceId(24, R.style.TextAppearance_Design_Tab);
+        int resourceId = typedArrayB.getResourceId(24, org.swiftapps.swiftbackup.R.style.TextAppearance_Design_Tab);
         this.q = resourceId;
         int[] iArr = ge6.w;
         TypedArray typedArrayObtainStyledAttributes = context2.obtainStyledAttributes(resourceId, iArr);
@@ -195,7 +195,7 @@ public class TabLayout extends HorizontalScrollView {
             yc9.L(typedArrayB.getInt(4, -1), null);
             this.y = k55.m(context2, typedArrayB, 21);
             this.S = typedArrayB.getInt(6, 300);
-            this.e0 = ji8.G(context2, R.attr.motionEasingEmphasizedInterpolator, ed.b);
+            this.e0 = ji8.G(context2, org.swiftapps.swiftbackup.R.attr.motionEasingEmphasizedInterpolator, ed.b);
             this.N = typedArrayB.getDimensionPixelSize(14, -1);
             this.O = typedArrayB.getDimensionPixelSize(13, -1);
             this.L = typedArrayB.getResourceId(0, 0);
@@ -206,7 +206,7 @@ public class TabLayout extends HorizontalScrollView {
             this.c0 = typedArrayB.getBoolean(26, false);
             typedArrayB.recycle();
             Resources resources = getResources();
-            this.K = resources.getDimensionPixelSize(R.dimen.design_tab_text_size_2line);
+            this.K = resources.getDimensionPixelSize(org.swiftapps.swiftbackup.R.dimen.design_tab_text_size_2line);
             this.P = resources.getDimensionPixelSize(R.dimen.design_tab_scrollable_min_width);
             d();
         } catch (Throwable th2) {
@@ -398,11 +398,6 @@ public class TabLayout extends HorizontalScrollView {
             return null;
         }
         return (cw7) this.b.get(i);
-    }
-
-    @Override // android.widget.FrameLayout, android.view.ViewGroup
-    public final ViewGroup.LayoutParams generateLayoutParams(AttributeSet attributeSet) {
-        return generateDefaultLayoutParams();
     }
 
     public int getSelectedTabPosition() {
@@ -1135,7 +1130,7 @@ public class TabLayout extends HorizontalScrollView {
     }
 
     public TabLayout(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, R.attr.tabStyle);
+        this(context, attributeSet, org.swiftapps.swiftbackup.R.attr.tabStyle);
     }
 
     public TabLayout(Context context) {

@@ -485,9 +485,9 @@ public final class c03 {
                 byte[] bytes = "FUJIFILMCCD-RAW".getBytes(Charset.defaultCharset());
                 for (int i8 = 0; i8 < bytes.length; i8++) {
                     byte b = bArr4[i8];
-                    ?? r7 = bytes[i8];
-                    if (b != r7) {
-                        ?? r4 = 0;
+                    byte b2 = bytes[i8];
+                    if (b != b2) {
+                        i = 0;
                         xz2 xz2Var4 = null;
                         xz2 xz2Var5 = null;
                         xz2 xz2Var6 = null;

@@ -43,7 +43,7 @@ public final class fr6 implements xs0 {
             return;
         }
         char c3 = ' ';
-        ?? r5 = new int[32];
+        int[] r5 = new int[32];
         int i = 0;
         long jD = d(bArr, 0);
         long jD2 = d(bArr, 8);

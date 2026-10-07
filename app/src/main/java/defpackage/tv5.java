@@ -1,7 +1,7 @@
 package defpackage;
 
 /* JADX INFO: loaded from: classes.dex */
-public interface tv5 {
+public abstract class tv5 {
     public static final f1 a;
 
     static {

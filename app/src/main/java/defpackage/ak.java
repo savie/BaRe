@@ -359,7 +359,7 @@ public final /* synthetic */ class ak implements bt3 {
                 return be8.a;
             case 18:
                 int i18 = FoldersDashActivity.U;
-                ((FoldersDashActivity) obj).V().d.setCurrentItem(0);
+                ((FoldersDashActivity) obj).getTabsBinding().d.setCurrentItem(0);
                 return be8.a;
             case Argon2.V13 /* 19 */:
                 ((kp3) obj).m().j(true, true);

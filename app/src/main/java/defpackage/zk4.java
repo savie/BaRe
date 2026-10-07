@@ -7,5 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface zk4 {
-    fu5 value() default fu5.a;
+    fu5 value() default fu5.TRUE;
 }

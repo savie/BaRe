@@ -60,8 +60,8 @@ public final class i90 extends AsyncTask {
         InputStream inputStream2;
         InputStream inputStream3;
         t91 t91Var = this.b;
-        ?? r1 = this.a;
-        ?? r4 = 0;
+        l58 r1 = this.a;
+        InputStream r4 = null;
         try {
             try {
                 ge geVar = this.c;

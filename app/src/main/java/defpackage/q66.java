@@ -5,10 +5,19 @@ package defpackage;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public abstract class q66 {
+    private final String name;
+    private final int ordinal;
     public static final n66 a;
     public static final o66 b;
     public static final p66 c;
     public static final /* synthetic */ q66[] d;
+
+    protected q66(String name, int ordinal) {
+        this.name = name;
+        this.ordinal = ordinal;
+    }
+    public final String name() { return this.name; }
+    public final int ordinal() { return this.ordinal; }
 
     static {
         n66 n66Var = new n66();
@@ -21,11 +30,12 @@ public abstract class q66 {
     }
 
     public static q66 valueOf(String str) {
-        return (q66) Enum.valueOf(q66.class, str);
+        for (q66 value : d) if (value.name.equals(str)) return value;
+        throw new IllegalArgumentException("No enum constant q66." + str);
     }
 
     public static q66[] values() {
-        return (q66[]) d.clone();
+        return d.clone();
     }
 
     public abstract boolean a(boolean z);

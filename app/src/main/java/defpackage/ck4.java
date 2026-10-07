@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ck4 {
-    fu5 lenient() default fu5.b;
+    fu5 lenient() default fu5.DEFAULT;
 
     String locale() default "##default";
 

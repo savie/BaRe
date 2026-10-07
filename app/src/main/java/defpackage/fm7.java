@@ -44,7 +44,7 @@ public final class fm7 {
     /* JADX WARN: Type inference failed for: r1v2, types: [java.util.List] */
     /* JADX WARN: Type inference failed for: r1v3, types: [java.util.ArrayList] */
     public final fm7 b() {
-        ?? arrayList;
+        List arrayList;
         List list = this.a;
         if (list.isEmpty()) {
             arrayList = ov2.a;

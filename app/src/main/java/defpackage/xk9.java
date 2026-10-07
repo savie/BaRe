@@ -66,7 +66,8 @@ public final class xk9 extends LinkedHashMap {
         if (size() != map.size()) {
             return false;
         }
-        for (Map.Entry entry : entrySet()) {
+        for (Object entryObject : entrySet()) {
+            Map.Entry entry = (Map.Entry) entryObject;
             if (!map.containsKey(entry.getKey())) {
                 return false;
             }

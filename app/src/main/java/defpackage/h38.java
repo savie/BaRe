@@ -31,7 +31,7 @@ public class h38 {
 
     /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
     @no6
-    @xv1(C0011a.class)
+    @xv1(h38.a.class)
     public static class a {
         private static final DateTimeFormatter b = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd'T'HH':'mm':'ss").appendFraction(ChronoField.NANO_OF_SECOND, 0, 9, true).appendPattern("'Z'").toFormatter(Locale.US).withZone(h38.a);
         private ZonedDateTime a;

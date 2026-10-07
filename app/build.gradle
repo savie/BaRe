@@ -27,6 +27,7 @@ dependencies {
     implementation "androidx.fragment:fragment:1.8.9"
     implementation "androidx.credentials:credentials:1.6.0"
     implementation "androidx.credentials:credentials-play-services-auth:1.6.0"
+    implementation "androidx.preference:preference:1.2.1"
     implementation "androidx.profileinstaller:profileinstaller:1.4.0"
     implementation "androidx.room:room-runtime:2.8.4"
     implementation "androidx.startup:startup-runtime:1.2.0"

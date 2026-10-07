@@ -46,7 +46,7 @@ public class vh2 {
         /* JADX INFO: renamed from: vh2$a$a, reason: collision with other inner class name */
         /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
         @no6
-        @xv1(C0018a.class)
+        @xv1(vh2.a.class)
         public static class C0017a {
             private ZonedDateTime a;
 

@@ -103,32 +103,19 @@ public class ActionMenuView extends LinearLayoutCompat implements ec5, zc5 {
         return false;
     }
 
-    @Override // androidx.appcompat.widget.LinearLayoutCompat
-    /* JADX INFO: renamed from: e */
-    public final /* bridge */ /* synthetic */ tu4 generateDefaultLayoutParams() {
+    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
+    public final tu4 generateDefaultLayoutParams() {
         return i();
     }
 
-    @Override // androidx.appcompat.widget.LinearLayoutCompat
-    /* JADX INFO: renamed from: f */
+    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
     public final tu4 generateLayoutParams(AttributeSet attributeSet) {
         return new q8(getContext(), attributeSet);
     }
 
-    @Override // androidx.appcompat.widget.LinearLayoutCompat
-    /* JADX INFO: renamed from: g */
-    public final /* bridge */ /* synthetic */ tu4 generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
+    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
+    public final tu4 generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
         return j(layoutParams);
-    }
-
-    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ ViewGroup.LayoutParams generateDefaultLayoutParams() {
-        return i();
-    }
-
-    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
-    public final ViewGroup.LayoutParams generateLayoutParams(AttributeSet attributeSet) {
-        return new q8(getContext(), attributeSet);
     }
 
     public Menu getMenu() {
@@ -311,7 +298,7 @@ public class ActionMenuView extends LinearLayoutCompat implements ec5, zc5 {
     public final void onMeasure(int i, int i2) {
         int i3;
         int i4;
-        ?? r11;
+        int r11;
         int i5;
         int i6;
         fc5 fc5Var;
@@ -588,11 +575,6 @@ public class ActionMenuView extends LinearLayoutCompat implements ec5, zc5 {
         this.L = o8Var;
         o8Var.n = this;
         this.H = o8Var.c;
-    }
-
-    @Override // androidx.appcompat.widget.LinearLayoutCompat, android.view.ViewGroup
-    public final /* bridge */ /* synthetic */ ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams layoutParams) {
-        return j(layoutParams);
     }
 
     public ActionMenuView(Context context) {

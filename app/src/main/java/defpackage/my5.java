@@ -38,12 +38,12 @@ public final class my5 implements s03 {
     /* JADX WARN: Type inference failed for: r16v7 */
     /* JADX WARN: Type inference failed for: r16v8 */
     public my5(String str, vb8 vb8Var, vq3 vq3Var) throws sf5 {
-        ?? r16;
+        Object r16;
         int i;
         String strSubstring;
         int i2;
-        ?? r17;
-        ?? r18;
+        Object r17;
+        Object r18;
         ArrayList arrayList = new ArrayList();
         this.c = arrayList;
         ArrayList arrayList2 = new ArrayList();
@@ -67,7 +67,7 @@ public final class my5 implements s03 {
         if (c == '/') {
             throw new sf5("Path '%s' in %s references document root", str, vb8Var);
         }
-        ?? r12 = 1;
+        Object r12 = 1;
         if (c == '.') {
             if (cArr2.length > 1) {
                 int i5 = i4 + 1;
@@ -153,7 +153,7 @@ public final class my5 implements s03 {
                 }
             } else {
                 int i14 = 0;
-                ?? r13 = r12;
+                Object r13 = r12;
                 while (true) {
                     int i15 = this.y;
                     r16 = r13;

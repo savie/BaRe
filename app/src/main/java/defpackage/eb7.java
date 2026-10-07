@@ -340,7 +340,7 @@ public final class eb7 implements Closeable {
         if (iM == 8) {
             hj3[] hj3VarArr6 = g40Var.e;
             int length = hj3VarArr6.length;
-            for (?? r4 = z; r4 < length; r4++) {
+            for (int r4 = 0; r4 < length; r4++) {
                 hj3VarArr6[r4].i = 1;
             }
             long length2 = g40Var.e.length;
@@ -349,7 +349,7 @@ public final class eb7 implements Closeable {
                 hj3[] hj3VarArr7 = g40Var.e;
                 int length3 = hj3VarArr7.length;
                 long j12 = 0;
-                for (?? r7 = z; r7 < length3; r7++) {
+                for (int r7 = 0; r7 < length3; r7++) {
                     hj3 hj3Var4 = hj3VarArr7[r7];
                     long jV3 = v(byteBuffer);
                     hj3Var4.i = (int) jV3;
@@ -366,15 +366,15 @@ public final class eb7 implements Closeable {
             hj3[] hj3VarArr8 = g40Var.e;
             int length4 = hj3VarArr8.length;
             boolean z7 = z;
-            ?? r12 = z7;
-            ?? r10 = z7;
+            int r12 = 0;
+            int r10 = 0;
             while (r10 < length4) {
                 hj3 hj3Var5 = hj3VarArr8[r10];
                 if (hj3Var5.i != 0) {
                     if (iM4 == 9) {
                         j2 = 0;
                         r12 = r12;
-                        for (?? r14 = z; r14 < hj3Var5.i - 1; r14++) {
+                        for (int r14 = 0; r14 < hj3Var5.i - 1; r14++) {
                             long jV4 = v(byteBuffer);
                             int i15 = (r12 == true ? 1 : 0) + 1;
                             jArr5[r12 == true ? 1 : 0] = jV4;

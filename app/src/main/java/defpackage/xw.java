@@ -535,11 +535,11 @@ public final class xw {
         LocalMetadata localMetadataF;
         AppSpecialDataPayload appSpecialDataPayload;
         String ssaid;
-        ?? r0;
+        String r0;
         String ssaid2;
         String ssaid3;
         eb2 eb2Var;
-        ?? arrayList3;
+        ArrayList arrayList3;
         String str3;
         Iterator it5;
         Object next;
@@ -560,7 +560,7 @@ public final class xw {
         Integer numW4;
         boolean z8;
         eb2 eb2Var2;
-        ?? r1;
+        Iterator r1;
         int size;
         String str8;
         ArrayList arrayList5;
@@ -571,9 +571,9 @@ public final class xw {
         Object objT;
         String dataDir;
         String strI1;
-        ?? r3;
+        q63 r3;
         String installerPackage;
-        ?? r5;
+        String r5;
         boolean zCheckInstalled;
         Long apkBackupSize;
         Long splitsBackupSize;
@@ -586,35 +586,35 @@ public final class xw {
         iu iuVar;
         boolean zJ;
         LocalMetadata localMetadataF2;
-        ?? mediaBackupDate;
+        Long mediaBackupDate;
         qx sizeInfo;
-        ?? ValueOf;
+        Long ValueOf;
         LocalMetadata localMetadataF3;
-        ?? mediaSizeMirrored;
+        Long mediaSizeMirrored;
         iu iuVar2;
         boolean zJ2;
         LocalMetadata localMetadataF4;
-        ?? expansionBackupDate;
+        Long expansionBackupDate;
         qx sizeInfo2;
-        ?? ValueOf2;
+        Long ValueOf2;
         LocalMetadata localMetadataF5;
-        ?? expSizeMirrored;
+        Long expSizeMirrored;
         iu iuVar3;
         boolean zJ3;
         LocalMetadata localMetadataF6;
-        ?? extDataBackupDate;
+        Long extDataBackupDate;
         qx sizeInfo3;
-        ?? ValueOf3;
+        Long ValueOf3;
         LocalMetadata localMetadataF7;
-        ?? extDataSizeMirrored;
+        Long extDataSizeMirrored;
         iu iuVar4;
         boolean zJ4;
         LocalMetadata localMetadataF8;
-        ?? dataBackupDate;
+        Long dataBackupDate;
         qx sizeInfo4;
-        ?? ValueOf4;
+        Long ValueOf4;
         LocalMetadata localMetadataF9;
-        ?? dataSizeMirrored;
+        Long dataSizeMirrored;
         List listA0;
         Iterator it10;
         boolean zJ5;
@@ -622,7 +622,7 @@ public final class xw {
         long jC;
         String sourceDir;
         LocalMetadata localMetadataF10;
-        ?? apkSizeMirrored;
+        Long apkSizeMirrored;
         String versionName;
         Long versionCode;
         long jLongValue;
@@ -704,7 +704,7 @@ public final class xw {
                         if (localMetadataF10 != null) {
                             apkSizeMirrored = localMetadataF10.getApkSizeMirrored();
                         } else {
-                            apkSizeMirrored = uwVar;
+                            apkSizeMirrored = null;
                         }
                         versionName = jiVar2.getVersionName();
                         if (versionName == null) {
@@ -819,21 +819,21 @@ public final class xw {
                         if (localMetadataF8 != null) {
                             dataBackupDate = localMetadataF8.getDataBackupDate();
                         } else {
-                            dataBackupDate = uwVar;
+                            dataBackupDate = null;
                         }
                         long jH = io4.h(dataBackupDate);
                         sizeInfo4 = jiVar2.getSizeInfo();
                         if (sizeInfo4 != null) {
                             ValueOf4 = Long.valueOf(sizeInfo4.getTotalDataSize(z10));
                         } else {
-                            ValueOf4 = uwVar;
+                            ValueOf4 = null;
                         }
                         long jH2 = io4.h(ValueOf4);
                         localMetadataF9 = xwVar3.f();
                         if (localMetadataF9 != null) {
                             dataSizeMirrored = localMetadataF9.getDataSizeMirrored();
                         } else {
-                            dataSizeMirrored = uwVar;
+                            dataSizeMirrored = null;
                         }
                         zJ4 = xwVar3.q.b(iuVar4, dataDir2, jH, jH2, io4.h(dataSizeMirrored));
                     }
@@ -853,21 +853,21 @@ public final class xw {
                         if (localMetadataF6 != null) {
                             extDataBackupDate = localMetadataF6.getExtDataBackupDate();
                         } else {
-                            extDataBackupDate = uwVar;
+                            extDataBackupDate = null;
                         }
                         long jH3 = io4.h(extDataBackupDate);
                         sizeInfo3 = jiVar2.getSizeInfo();
                         if (sizeInfo3 != null) {
                             ValueOf3 = Long.valueOf(sizeInfo3.getExtDataSize(z10));
                         } else {
-                            ValueOf3 = uwVar;
+                            ValueOf3 = null;
                         }
                         long jH4 = io4.h(ValueOf3);
                         localMetadataF7 = xwVar3.f();
                         if (localMetadataF7 != null) {
                             extDataSizeMirrored = localMetadataF7.getExtDataSizeMirrored();
                         } else {
-                            extDataSizeMirrored = uwVar;
+                            extDataSizeMirrored = null;
                         }
                         zJ3 = xwVar3.q.b(iuVar3, externalDataDir, jH3, jH4, io4.h(extDataSizeMirrored));
                     }
@@ -889,21 +889,21 @@ public final class xw {
                         if (localMetadataF4 != null) {
                             expansionBackupDate = localMetadataF4.getExpansionBackupDate();
                         } else {
-                            expansionBackupDate = uwVar;
+                            expansionBackupDate = null;
                         }
                         long jH5 = io4.h(expansionBackupDate);
                         sizeInfo2 = jiVar2.getSizeInfo();
                         if (sizeInfo2 != null) {
                             ValueOf2 = Long.valueOf(sizeInfo2.getExternalObbSize());
                         } else {
-                            ValueOf2 = uwVar;
+                            ValueOf2 = null;
                         }
                         long jH6 = io4.h(ValueOf2);
                         localMetadataF5 = xwVar3.f();
                         if (localMetadataF5 != null) {
                             expSizeMirrored = localMetadataF5.getExpSizeMirrored();
                         } else {
-                            expSizeMirrored = uwVar;
+                            expSizeMirrored = null;
                         }
                         zJ2 = xwVar3.q.b(iuVar2, expansionDir, jH5, jH6, io4.h(expSizeMirrored));
                     }
@@ -1082,7 +1082,7 @@ public final class xw {
                                     r3 = workingDir;
                                 }
                             } else {
-                                r3 = uwVar;
+                                r3 = null;
                             }
                             boolean grantsAllSupportedPermissions = yuVar.getGrantsAllSupportedPermissions();
                             if (!z6) {
@@ -1091,13 +1091,13 @@ public final class xw {
                                     installerPackage = localMetadataF11.getInstallerPackage();
                                     r5 = installerPackage;
                                 } else {
-                                    r5 = uwVar;
+                                    r5 = null;
                                 }
                             } else if (cloudMetadata != null) {
                                 installerPackage = cloudMetadata.getInstallerPackage();
                                 r5 = installerPackage;
                             } else {
-                                r5 = uwVar;
+                                r5 = null;
                             }
                             jzVar = jzVar3;
                             kh6Var2 = kh6Var;
@@ -1133,7 +1133,7 @@ public final class xw {
                                 if (nq7.Z(strY0, "NO_MATCHING_ABIS", false)) {
                                     g00 g00Var = g00.a;
                                     if (pe4.d(Looper.myLooper(), Looper.getMainLooper())) {
-                                        uw uwVar3 = uwVar;
+                                        uw uwVar3 = null;
                                         d6.o();
                                         return uwVar3;
                                     }
@@ -1306,6 +1306,15 @@ public final class xw {
                             qvVar2 = qvVar;
                             jA = j2;
                             xwVar2.h((ax) gxVar2, numN.intValue(), new lw(kh6Var2, jA, qvVar2));
+                        } catch (Throwable th) {
+                            String str15 = str;
+                            if (xwVar2.t) {
+                                g00 g00Var7 = g00.a;
+                                g00.d(jiVar.getPackageName(), str15, false);
+                            }
+                            throw th;
+                        }
+
                             if (xwVar2.t) {
                                 str2 = str;
                                 i3 = 0;
@@ -1331,20 +1340,31 @@ public final class xw {
                                             if (sharedPreferences != null) {
                                                 z8 = sharedPreferences.getBoolean("use_test_pdras", false);
                                                 uwVar = null;
-                                                if (!z8 && (eb2Var2 = j36.d) != null) {
-                                                    zc2 zc2Var = eb2Var2.b;
-                                                    gy5 gy5VarL = zc2Var.b.l();
-                                                    if ((gy5VarL != null ? new zc2(zc2Var.a, gy5VarL) : uwVar) == null) {
-                                                        ui8.b(strT2);
-                                                    } else {
-                                                        ui8.a(strT2);
-                                                    }
-                                                    if (!eb2Var2.a.a.U(new gy5(strT2)).isEmpty()) {
-                                                        eb2Var = j36.d;
-                                                    }
+                                            } else {
+                                                pe4.F("prefs");
+                                                try {
+                                                    throw null;
+                                                } catch (ClassCastException unused) {
+                                                    z8 = false;
                                                 }
+                                            }
+                                        } catch (ClassCastException unused2) {
+                                            z8 = false;
+                                        }
+                                        if (!z8 && (eb2Var2 = j36.d) != null) {
+                                            zc2 zc2Var = eb2Var2.b;
+                                            gy5 gy5VarL = zc2Var.b.l();
+                                            if ((gy5VarL != null ? new zc2(zc2Var.a, gy5VarL) : uwVar) == null) {
+                                                ui8.b(strT2);
+                                            } else {
+                                                ui8.a(strT2);
+                                            }
+                                            if (!eb2Var2.a.a.U(new gy5(strT2)).isEmpty()) {
+                                                eb2Var = j36.d;
+                                            }
+                                        }
                                                 if (eb2Var != null || (str3 = (String) eb2Var.a(strT2).c(String.class)) == null) {
-                                                    arrayList3 = uwVar;
+                                                    arrayList3 = null;
                                                 } else {
                                                     List listX0 = nq7.x0(str3, new String[]{","}, 6);
                                                     ArrayList arrayList8 = new ArrayList(hl1.G0(listX0, 10));
@@ -1405,7 +1425,7 @@ public final class xw {
                                                                                         }
                                                                                     }
                                                                                 } else {
-                                                                                    arrayList3 = uwVar;
+                                                                                    arrayList3 = null;
                                                                                 }
                                                                             } while (!uq7.V((String) next4, "::minSdk", false));
                                                                             str7 = (String) next4;
@@ -1418,10 +1438,10 @@ public final class xw {
                                                                                 }
                                                                             }
                                                                         } else {
-                                                                            arrayList3 = uwVar;
+                                                                            arrayList3 = null;
                                                                         }
                                                                     } else {
-                                                                        arrayList3 = uwVar;
+                                                                        arrayList3 = null;
                                                                     }
                                                                 } while (!uq7.V((String) next2, "::minAppVersion", false));
                                                                 str5 = (String) next2;
@@ -1571,7 +1591,7 @@ public final class xw {
                                                                     }
                                                                 }
                                                             } else {
-                                                                arrayList3 = uwVar;
+                                                                arrayList3 = null;
                                                             }
                                                         } while (!uq7.V((String) next, "::maxAppVersion", false));
                                                         str4 = (String) next;
@@ -3401,7 +3421,7 @@ public final class xw {
                                                                 }
                                                             } else if (pe4.d((String) it13.next(), "::disabled")) {
                                                             }
-                                                            arrayList3 = uwVar;
+                                                            arrayList3 = null;
                                                         }
                                                     }
                                                 }
@@ -3412,164 +3432,19 @@ public final class xw {
                                                     throw null;
                                                 } catch (ClassCastException unused) {
                                                     z8 = false;
-                                                    eb2Var = !z8 ? j36.c : j36.c;
-                                                    if (eb2Var != null) {
-                                                        arrayList3 = uwVar;
-                                                    } else {
-                                                        arrayList3 = uwVar;
-                                                    }
-                                                    if (arrayList3 == 0) {
-                                                        if (arrayList3.isEmpty()) {
-                                                            r1 = arrayList3;
-                                                            r1 = uwVar;
-                                                        }
-                                                        if (r1 != 0) {
-                                                            size = r1.size();
-                                                            vr6 vr6Var3 = vr6.INSTANCE;
-                                                            if (size > 1) {
-                                                                str8 = "patches";
-                                                            } else {
-                                                                str8 = "patch";
-                                                            }
-                                                            vr6.i$default(vr6Var3, "AppRestoreTask", u48.k(size, "Applying ", " post data restore ", str8), null, 4, null);
-                                                            arrayList5 = new ArrayList();
-                                                            for (String str14 : r1) {
-                                                                if (nq7.Z(str14, "%dataDir", false)) {
-                                                                    dataDir = jiVar.getDataDir();
-                                                                    if (dataDir != null) {
-                                                                        objT = uwVar;
-                                                                    } else {
-                                                                        objT = uwVar;
-                                                                    }
-                                                                } else {
-                                                                    if (nq7.Z(str14, "%deDataDir", false)) {
-                                                                        deDataDir = jiVar.getDeDataDir();
-                                                                        if (deDataDir != null) {
-                                                                            strI0 = nq7.I0(deDataDir, '/');
-                                                                            if (strI0 == null) {
-                                                                                strT = uq7.T(str14, "%deDataDir", strI0);
-                                                                            }
-                                                                        } else {
-                                                                            objT = str14;
-                                                                        }
-                                                                        objT = str14;
-                                                                        obj = uwVar;
-                                                                    }
-                                                                    if (obj != null) {
-                                                                        objT = str14;
-                                                                        obj = strT;
-                                                                        arrayList5.add(obj);
-                                                                    } else {
-                                                                        objT = str14;
-                                                                        obj = strT;
-                                                                    }
-                                                                }
-                                                                objT = str14;
-                                                                obj = objT;
-                                                                if (obj != null) {
-                                                                    objT = str14;
-                                                                    obj = strT;
-                                                                    arrayList5.add(obj);
-                                                                } else {
-                                                                    objT = str14;
-                                                                    obj = strT;
-                                                                }
-                                                            }
-                                                            if (!arrayList5.isEmpty()) {
-                                                                mp6 mp6Var2 = mp6.a;
-                                                                String[] strArr2 = (String[]) arrayList5.toArray(new String[0]);
-                                                                mp6.a.h((String[]) Arrays.copyOf(strArr2, strArr2.length), ip6.SU);
-                                                            }
-                                                        }
-                                                    }
-                                                    jzVar2 = jzVar;
-                                                    if (jzVar2.f) {
-                                                        localMetadataF = xwVar2.f();
-                                                        gv7 gv7Var = mk7.a;
-                                                        if (mp6.g) {
-                                                            appSpecialDataPayload = (AppSpecialDataPayload) xwVar2.m.getValue();
-                                                            if (appSpecialDataPayload == null) {
-                                                                if (z6) {
-                                                                    if (cloudMetadata2 != null) {
-                                                                        ssaid2 = cloudMetadata2.getSsaid();
-                                                                    } else {
-                                                                        r0 = uwVar;
-                                                                    }
-                                                                } else if (localMetadataF != null) {
-                                                                    ssaid = localMetadataF.getSsaid();
-                                                                } else {
-                                                                    r0 = uwVar;
-                                                                }
-                                                            } else if (z6) {
-                                                                if (cloudMetadata2 != null) {
-                                                                    ssaid2 = cloudMetadata2.getSsaid();
-                                                                } else {
-                                                                    r0 = uwVar;
-                                                                }
-                                                            } else if (localMetadataF != null) {
-                                                                ssaid = localMetadataF.getSsaid();
-                                                            } else {
-                                                                r0 = uwVar;
-                                                            }
-                                                            if (r0 != 0) {
-                                                                r0 = ssaid;
-                                                                r0 = ssaid2;
-                                                                if (r0.length() == 0) {
-                                                                    r0 = ssaid;
-                                                                    r0 = ssaid2;
-                                                                    vr6.d$default(vr6.INSTANCE, "AppRestoreTask", "restoreSsaid: No saved ssaid", null, 4, null);
-                                                                } else {
-                                                                    ((mk7) xwVar2.p.getValue()).b(jiVar.getPackageName(), r0);
-                                                                }
-                                                            } else {
-                                                                r0 = ssaid;
-                                                                r0 = ssaid2;
-                                                                vr6.d$default(vr6.INSTANCE, "AppRestoreTask", "restoreSsaid: No saved ssaid", null, 4, null);
-                                                            }
-                                                        }
-                                                    }
-                                                    if (!xwVar2.w()) {
-                                                        xwVar2.m((cx) gxVar2, numN.intValue(), new mw(kh6Var2, jA, qvVar2));
-                                                    }
-                                                    if (xwVar2.w()) {
-                                                        kh6Var3 = kh6Var2;
-                                                    } else {
-                                                        kh6Var3 = kh6Var2;
-                                                    }
-                                                    if (xwVar2.w()) {
-                                                    }
-                                                    xwVar3 = xwVar2;
-                                                    jzVar3 = jzVar2;
-                                                    it3 = it4;
-                                                    i = i5;
-                                                    z3 = z18;
-                                                    z14 = z6;
-                                                    jiVar2 = jiVar;
-                                                    restoresAnyPermissions = z7;
-                                                    c40Var2 = c40Var;
-                                                    str9 = str2;
-                                                    arrayList = arrayList2;
                                                 }
                                             }
-                                        } catch (ClassCastException unused2) {
-                                            uwVar = null;
-                                        }
-                                    } else {
-                                        uwVar = null;
+                                    if (eb2Var == null) {
+                                        eb2Var = j36.c;
                                     }
                                     if (eb2Var != null) {
-                                        arrayList3 = uwVar;
+                                        arrayList3 = null;
                                     } else {
-                                        arrayList3 = uwVar;
+                                        arrayList3 = null;
                                     }
                                 }
-                                if (arrayList3 == 0) {
-                                    if (arrayList3.isEmpty()) {
-                                        r1 = arrayList3;
-                                        r1 = uwVar;
-                                    }
-                                    if (r1 != 0) {
-                                        size = r1.size();
+                                if (arrayList3 != null && !arrayList3.isEmpty()) {
+                                    size = arrayList3.size();
                                         vr6 vr6Var4 = vr6.INSTANCE;
                                         if (size > 1) {
                                             str8 = "patches";
@@ -3627,7 +3502,7 @@ public final class xw {
                                         }
                                     }
                                 }
-                            } else {
+                            if (packageInfoQ == null) {
                                 uwVar = null;
                             }
                             jzVar2 = jzVar;
@@ -3642,14 +3517,14 @@ public final class xw {
                                         if (cloudMetadata2 != null) {
                                             ssaid2 = cloudMetadata2.getSsaid();
                                         } else {
-                                            r0 = uwVar;
+                                            r0 = null;
                                         }
                                     } else if (localMetadataF != null) {
                                         ssaid = localMetadataF.getSsaid();
                                     } else {
-                                        r0 = uwVar;
+                                        r0 = null;
                                     }
-                                    if (r0 != 0) {
+                                    if (r0 != null) {
                                         r0 = ssaid;
                                         r0 = ssaid2;
                                         if (r0.length() == 0) {
@@ -3666,14 +3541,7 @@ public final class xw {
                                     }
                                 }
                             }
-                        } catch (Throwable th) {
-                            String str15 = str;
-                            if (xwVar2.t) {
-                                g00 g00Var7 = g00.a;
-                                g00.d(jiVar.getPackageName(), str15, false);
-                            }
-                            throw th;
-                        }
+
                     }
                     if (!xwVar2.w() && (gxVar2 instanceof cx)) {
                         xwVar2.m((cx) gxVar2, numN.intValue(), new mw(kh6Var2, jA, qvVar2));
@@ -3764,7 +3632,7 @@ public final class xw {
                         if (localMetadataF10 != null) {
                             apkSizeMirrored = localMetadataF10.getApkSizeMirrored();
                         } else {
-                            apkSizeMirrored = uwVar;
+                            apkSizeMirrored = null;
                         }
                         versionName = jiVar2.getVersionName();
                         if (versionName == null) {
@@ -3877,21 +3745,21 @@ public final class xw {
                         if (localMetadataF8 != null) {
                             dataBackupDate = localMetadataF8.getDataBackupDate();
                         } else {
-                            dataBackupDate = uwVar;
+                            dataBackupDate = null;
                         }
                         long jH10 = io4.h(dataBackupDate);
                         sizeInfo4 = jiVar2.getSizeInfo();
                         if (sizeInfo4 != null) {
                             ValueOf4 = Long.valueOf(sizeInfo4.getTotalDataSize(z10));
                         } else {
-                            ValueOf4 = uwVar;
+                            ValueOf4 = null;
                         }
                         long jH11 = io4.h(ValueOf4);
                         localMetadataF9 = xwVar3.f();
                         if (localMetadataF9 != null) {
                             dataSizeMirrored = localMetadataF9.getDataSizeMirrored();
                         } else {
-                            dataSizeMirrored = uwVar;
+                            dataSizeMirrored = null;
                         }
                         zJ4 = xwVar3.q.b(iuVar4, dataDir3, jH10, jH11, io4.h(dataSizeMirrored));
                     }
@@ -3910,21 +3778,21 @@ public final class xw {
                         if (localMetadataF6 != null) {
                             extDataBackupDate = localMetadataF6.getExtDataBackupDate();
                         } else {
-                            extDataBackupDate = uwVar;
+                            extDataBackupDate = null;
                         }
                         long jH12 = io4.h(extDataBackupDate);
                         sizeInfo3 = jiVar2.getSizeInfo();
                         if (sizeInfo3 != null) {
                             ValueOf3 = Long.valueOf(sizeInfo3.getExtDataSize(z10));
                         } else {
-                            ValueOf3 = uwVar;
+                            ValueOf3 = null;
                         }
                         long jH13 = io4.h(ValueOf3);
                         localMetadataF7 = xwVar3.f();
                         if (localMetadataF7 != null) {
                             extDataSizeMirrored = localMetadataF7.getExtDataSizeMirrored();
                         } else {
-                            extDataSizeMirrored = uwVar;
+                            extDataSizeMirrored = null;
                         }
                         zJ3 = xwVar3.q.b(iuVar3, externalDataDir2, jH12, jH13, io4.h(extDataSizeMirrored));
                     }
@@ -3946,21 +3814,21 @@ public final class xw {
                         if (localMetadataF4 != null) {
                             expansionBackupDate = localMetadataF4.getExpansionBackupDate();
                         } else {
-                            expansionBackupDate = uwVar;
+                            expansionBackupDate = null;
                         }
                         long jH14 = io4.h(expansionBackupDate);
                         sizeInfo2 = jiVar2.getSizeInfo();
                         if (sizeInfo2 != null) {
                             ValueOf2 = Long.valueOf(sizeInfo2.getExternalObbSize());
                         } else {
-                            ValueOf2 = uwVar;
+                            ValueOf2 = null;
                         }
                         long jH15 = io4.h(ValueOf2);
                         localMetadataF5 = xwVar3.f();
                         if (localMetadataF5 != null) {
                             expSizeMirrored = localMetadataF5.getExpSizeMirrored();
                         } else {
-                            expSizeMirrored = uwVar;
+                            expSizeMirrored = null;
                         }
                         zJ2 = xwVar3.q.b(iuVar2, expansionDir2, jH14, jH15, io4.h(expSizeMirrored));
                     }
@@ -5958,7 +5826,7 @@ public final class xw {
     /* JADX WARN: Type inference failed for: r3v7 */
     /* JADX WARN: Type inference failed for: r3v8, types: [java.util.List] */
     public final List v(boolean z, iu iuVar, char[] cArr, boolean z2) {
-        ?? arrayList;
+        List arrayList;
         if (!z) {
             return nc8.I(null);
         }

@@ -522,17 +522,7 @@ public final class ic5 implements ls7 {
         return null;
     }
 
-    @Override // android.view.MenuItem
-    public final /* bridge */ /* synthetic */ MenuItem setContentDescription(CharSequence charSequence) {
-        setContentDescription(charSequence);
-        return this;
-    }
 
-    @Override // android.view.MenuItem
-    public final /* bridge */ /* synthetic */ MenuItem setTooltipText(CharSequence charSequence) {
-        setTooltipText(charSequence);
-        return this;
-    }
 
     @Override // android.view.MenuItem
     public final MenuItem setIcon(Drawable drawable) {

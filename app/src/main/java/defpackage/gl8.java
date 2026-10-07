@@ -466,28 +466,21 @@ public final class gl8 {
     	at jadx.core.dex.visitors.typeinference.FixTypesVisitor.visit(FixTypesVisitor.java:94)
      */
     public final void l(float f, float f2, int i) {
-        int i2;
-        boolean zC = c(f, f2, i, 1);
-        ?? r0 = zC;
+        int mask = c(f, f2, i, 1) ? 1 : 0;
         if (c(f2, f, i, 4)) {
-            r0 = (zC ? 1 : 0) | 4;
+            mask |= 4;
         }
-        ?? r1 = r0;
         if (c(f, f2, i, 2)) {
-            r1 = (r0 == true ? 1 : 0) | 2;
+            mask |= 2;
         }
-        ?? r2 = r1;
         if (c(f2, f, i, 8)) {
-            i2 = (r1 == true ? 1 : 0) | 8;
+            mask |= 8;
         }
-        if (r2 == 0) {
-            r2 = i2;
-            return;
+        if (mask != 0) {
+            int[] iArr = this.i;
+            iArr[i] = iArr[i] | mask;
+            this.s.E(mask, i);
         }
-        r2 = i2;
-        int[] iArr = this.i;
-        iArr[i] = (iArr[i] | r2) == true ? 1 : 0;
-        this.s.E(r2, i);
     }
 
     public final void m(float f, float f2, int i) {

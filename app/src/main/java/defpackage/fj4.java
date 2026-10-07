@@ -7,5 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface fj4 {
-    ej4 mode() default ej4.a;
+    ej4 mode() default ej4.A;
 }

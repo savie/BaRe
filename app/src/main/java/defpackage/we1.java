@@ -266,7 +266,7 @@ public final class we1 {
         long jElapsedRealtime = SystemClock.elapsedRealtime();
         try {
             try {
-                ?? r4 = "Required value was null.";
+                Object r4 = "Required value was null.";
                 try {
                     switch (ue1.a[sd1Var.ordinal()]) {
                         case 1:
@@ -315,7 +315,7 @@ public final class we1 {
                             if (tb1Var == null) {
                                 throw new IllegalArgumentException("Required value was null.");
                             }
-                            ?? r5 = this;
+                            we1 r5 = this;
                             strT = y(r5, tb1Var, sd1Var, keVar, 65536L);
                             r4 = r5;
                             pd1Var = new pd1(rd1.PASSED, strT, null);
@@ -332,7 +332,7 @@ public final class we1 {
                                 if (tb1Var == null) {
                                     throw new IllegalArgumentException("Required value was null.");
                                 }
-                                ?? r6 = this;
+                                we1 r6 = this;
                                 strT = y(r6, tb1Var, sd1Var, keVar, 83886080L);
                                 r4 = r6;
                                 break;
@@ -404,7 +404,7 @@ public final class we1 {
                             throw new mn5();
                     }
                 } catch (CancellationException unused) {
-                    this = r4;
+                    this = (we1) r4;
                     rd1 rd1Var11 = rd1.SKIPPED;
                     String string = this.a.getString(R.string.cancelled);
                     string.getClass();
@@ -855,8 +855,8 @@ public final class we1 {
         boolean z;
         boolean z2;
         ArrayList arrayList;
-        ?? r4;
-        ?? r1;
+        tb1 r4;
+        we1 r1;
         Iterator it;
         ListIterator listIterator;
         Iterator it2;

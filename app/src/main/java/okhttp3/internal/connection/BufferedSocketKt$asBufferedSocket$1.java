@@ -42,13 +42,4 @@ public final class BufferedSocketKt$asBufferedSocket$1 implements BufferedSocket
         return this.b;
     }
 
-    @Override // defpackage.wi7
-    public final nh7 a() {
-        return this.c;
-    }
-
-    @Override // defpackage.wi7
-    public final ij7 getSource() {
-        return this.b;
-    }
 }

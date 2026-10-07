@@ -91,12 +91,6 @@ public final class FoldersBatchActivity extends sa1 {
         return (oo3) this.Q.getValue();
     }
 
-    @Override // defpackage.il0
-    /* JADX INFO: renamed from: Y, reason: merged with bridge method [inline-methods] */
-    public final qo3 a0() {
-        return (qo3) this.P.getValue();
-    }
-
     public final void Z(boolean z) {
         MenuItem menuItem = this.X;
         if (menuItem != null) {

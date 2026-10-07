@@ -1,0 +1,1 @@
+package defpackage; public final class fk9 implements us9 {}

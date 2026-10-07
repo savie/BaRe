@@ -46,7 +46,6 @@ public final /* synthetic */ class pf2 implements Runnable {
         BufferedWriter bufferedWriter;
         Exception e;
         int i = this.a;
-        ?? r1 = 0;
         Object obj = this.e;
         Object obj2 = this.d;
         Object obj3 = this.c;
@@ -181,40 +180,28 @@ public final /* synthetic */ class pf2 implements Runnable {
                     return;
                 }
                 File fileG = lf5Var.a.g(str3, "rollouts-state");
-                ?? IsEmpty = list.isEmpty();
+                boolean isEmpty = list.isEmpty();
+                BufferedWriter writer = null;
                 try {
-                    if (IsEmpty != 0) {
+                    if (isEmpty) {
                         lf5.g(fileG, "Rollout state is empty for session: " + str3);
                         return;
                     }
                     try {
                         String strE = lf5.e(list);
-                        bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileG), lf5.b));
-                        try {
-                            bufferedWriter.write(strE);
-                            bufferedWriter.flush();
-                            IsEmpty = bufferedWriter;
-                        } catch (Exception e3) {
-                            e = e3;
-                            Log.w("FirebaseCrashlytics", "Error serializing rollouts state.", e);
-                            lf5.f(fileG);
-                            IsEmpty = bufferedWriter;
-                        }
-                        break;
-                    } catch (Exception e4) {
-                        bufferedWriter = null;
-                        e = e4;
-                    } catch (Throwable th) {
-                        th = th;
+                        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileG), lf5.b));
+                        writer.write(strE);
+                        writer.flush();
+                    } catch (Exception e3) {
+                        Log.w("FirebaseCrashlytics", "Error serializing rollouts state.", e3);
+                        lf5.f(fileG);
                     }
-                    jm1.h(IsEmpty, "Failed to close rollouts state file.");
+                    jm1.h(writer, "Failed to close rollouts state file.");
                     return;
                 } catch (Throwable th2) {
-                    th = th2;
-                    r1 = IsEmpty;
+                    jm1.h(writer, "Failed to close rollouts state file.");
+                    throw th2;
                 }
-                jm1.h(r1, "Failed to close rollouts state file.");
-                throw th;
         }
     }
 }

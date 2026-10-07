@@ -58,24 +58,6 @@ public final class mh6 extends yg7 {
     }
 
     @Override // defpackage.yg7
-    /* JADX INFO: renamed from: L0 */
-    public final yg7 H0(Object obj) {
-        if (obj == this.p) {
-            return this;
-        }
-        return new mh6(this.f, this.x, this.r, this.t, this.G, this.H, this.n, obj, this.q);
-    }
-
-    @Override // defpackage.yg7
-    /* JADX INFO: renamed from: M0 */
-    public final yg7 I0(Object obj) {
-        if (obj == this.n) {
-            return this;
-        }
-        return new mh6(this.f, this.x, this.r, this.t, this.G, this.H, obj, this.p, this.q);
-    }
-
-    @Override // defpackage.yg7
     /* JADX INFO: renamed from: N0, reason: merged with bridge method [inline-methods] */
     public final mh6 G0() {
         if (this.q) {
@@ -130,12 +112,6 @@ public final class mh6 extends yg7 {
         StringBuilder sbQ0 = this.G.q0(sb);
         sbQ0.append(">;");
         return sbQ0;
-    }
-
-    @Override // defpackage.gc8
-    /* JADX INFO: renamed from: s0 */
-    public final gc8 x() {
-        return this.G;
     }
 
     @Override // defpackage.yg7
