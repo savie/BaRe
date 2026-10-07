@@ -71,6 +71,7 @@ def jgssStubJar = layout.buildDirectory.file("jgss-api-stubs/jgss-api-stubs.jar"
 tasks.register("compileJgssApiStubs", JavaCompile) {
     source fileTree(jgssStubSourceDir)
     destinationDirectory.set(jgssStubClassesDir)
+    classpath = files()
     sourceCompatibility = "8"
     targetCompatibility = "8"
 }
