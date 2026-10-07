@@ -14,14 +14,12 @@ public final class b60 extends d60 {
     }
 
     @Override // defpackage.d60, defpackage.z50
-    /* JADX INFO: renamed from: g */
-    public final z50 a(kp0 kp0Var) {
+    public final z50 g(kp0 kp0Var) {
         return this.b == kp0Var ? this : new b60(this.a, kp0Var, this.c);
     }
 
     @Override // defpackage.d60
-    /* JADX INFO: renamed from: h */
-    public final d60 a(kp0 kp0Var) {
+    public final d60 h(kp0 kp0Var) {
         return this.b == kp0Var ? this : new b60(this.a, kp0Var, this.c);
     }
 }
