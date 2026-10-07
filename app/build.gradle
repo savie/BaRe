@@ -64,8 +64,31 @@ android {
     }
 }
 
+def jgssStubSourceDir = file("$rootDir/gradle/jgss-api-stubs/src")
+def jgssStubClassesDir = layout.buildDirectory.dir("jgss-api-stubs/classes")
+def jgssStubJar = layout.buildDirectory.file("jgss-api-stubs/jgss-api-stubs.jar")
+
+tasks.register("compileJgssApiStubs", JavaCompile) {
+    source fileTree(jgssStubSourceDir)
+    destinationDirectory.set(jgssStubClassesDir)
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
+}
+
+tasks.register("jarJgssApiStubs", Jar) {
+    dependsOn("compileJgssApiStubs")
+    archiveFileName = "jgss-api-stubs.jar"
+    destinationDirectory.set(jgssStubJar.map { it.asFile.parentFile })
+    from(jgssStubClassesDir)
+}
+
+tasks.matching { it.name == "compileDebugJavaWithJavac" }.configureEach {
+    dependsOn("jarJgssApiStubs")
+}
+
 dependencies {
     compileOnly "androidx.performance:performance-unsafe:1.0.0-alpha01"
+    compileOnly files(jgssStubJar)
     implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.core:core:1.18.0"
     implementation "androidx.fragment:fragment:1.8.9"
