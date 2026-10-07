@@ -13,7 +13,7 @@ public @interface nl4 {
 
     int index() default -1;
 
-    fu5 isRequired() default fu5.b;
+    fu5 isRequired() default fu5.DEFAULT;
 
     String namespace() default "";
 
