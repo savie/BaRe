@@ -106,5 +106,6 @@ dependencies {
     // CommonMark, zstd, Glide, Lottie, EventBus, etc.
     implementation "io.github.ParkSangGwon:tedpermission:3.4.2"
     implementation "com.google.crypto.tink:tink-android:1.23.0"
+    implementation "org.commonmark:commonmark-ext-gfm-strikethrough:0.29.0"
     implementation "com.github.luben:zstd-jni:1.5.7-12@aar"
 }
