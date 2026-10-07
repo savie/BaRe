@@ -65,6 +65,7 @@ android {
 }
 
 dependencies {
+    compileOnly "androidx.performance:performance-unsafe:1.0.0-alpha01"
     implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.core:core:1.18.0"
     implementation "androidx.fragment:fragment:1.8.9"
