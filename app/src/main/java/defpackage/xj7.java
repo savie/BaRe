@@ -187,8 +187,6 @@ public final class xj7 extends SpannableStringBuilder {
     }
 
     @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
-
-    @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
     public final SpannableStringBuilder insert(int i, CharSequence charSequence, int i2, int i3) {
         super.insert(i, charSequence, i2, i3);
         return this;
