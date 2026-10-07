@@ -11,6 +11,14 @@ import java.util.Set;
 /* JADX INFO: loaded from: classes.dex */
 public final class xk9 extends LinkedHashMap {
     public static final xk9 b;
+
+    public xk9() {
+        super();
+    }
+
+    public xk9(Map map) {
+        super(map);
+    }
     public boolean a = true;
 
     static {
