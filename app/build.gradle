@@ -55,6 +55,7 @@ android {
                 exclude "com/google/android/recaptcha/internal/**"
                 exclude "com/microsoft/identity/**"
                 exclude "com/jcraft/jsch/PageantConnector.java"
+                exclude "com/jcraft/jsch/Log4j2Logger.java"
                 exclude "net/openid/appauth/**"
                 exclude "moe/shizuku/**"
                 exclude "rikka/shizuku/**"
