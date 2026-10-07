@@ -13,7 +13,7 @@ public @interface xm4 {
 
     String property() default "";
 
-    fu5 requireTypeIdForSubtypes() default fu5.b;
+    fu5 requireTypeIdForSubtypes() default fu5.DEFAULT;
 
     um4 use();
 
