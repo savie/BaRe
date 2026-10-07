@@ -7,9 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ch4 {
-    fu5 optional() default fu5.b;
+    fu5 optional() default fu5.DEFAULT;
 
-    fu5 useInput() default fu5.b;
+    fu5 useInput() default fu5.DEFAULT;
 
     String value() default "";
 }
