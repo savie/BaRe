@@ -120,7 +120,7 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
         oq9 oq9Var = (oq9) vm4Var;
         cz9 cz9VarY = dz9.y();
         cz9VarY.c();
-        ((dz9) cz9VarY.b).zzf = 0;
+        dz9.v((dz9) cz9VarY.b);
         gz9 gz9VarB = rq9.b(oq9Var.d);
         cz9VarY.c();
         dz9.x((dz9) cz9VarY.b, gz9VarB);
