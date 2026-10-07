@@ -3,6 +3,10 @@ package defpackage;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public final class ip4 extends jp4 {
+    public ip4(Object obj, Object obj2, hp4 hp4Var, hp4 hp4Var2) {
+        super(obj, obj2, hp4Var, hp4Var2);
+    }
+
     @Override // defpackage.jp4
     public final jp4 g(Object obj, Object obj2, hp4 hp4Var, hp4 hp4Var2) {
         if (obj == null) {
