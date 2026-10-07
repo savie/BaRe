@@ -120,9 +120,6 @@ public final class xj7 extends SpannableStringBuilder {
         }
         return objArr;
     }
-
-    @Override // android.text.SpannableStringBuilder, android.text.Editable
-
     @Override // android.text.SpannableStringBuilder, android.text.Spanned
     public final int nextSpanTransition(int i, int i2, Class cls) {
         if (cls == null || this.a == cls) {
@@ -206,21 +203,11 @@ public final class xj7 extends SpannableStringBuilder {
         super.append(c);
         return this;
     }
-
-    @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
-
-    @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
-
     @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
     public final SpannableStringBuilder append(CharSequence charSequence, int i, int i2) {
         super.append(charSequence, i, i2);
         return this;
     }
-
-
-    @Override // android.text.SpannableStringBuilder, android.text.Editable, java.lang.Appendable
-
-
     @Override // android.text.SpannableStringBuilder
     public final SpannableStringBuilder append(CharSequence charSequence, Object obj, int i) {
         super.append(charSequence, obj, i);
