@@ -66,6 +66,7 @@ android {
 
 def jgssStubSourceDir = file("$rootDir/gradle/jgss-api-stubs/src")
 def jgssStubClassesDir = layout.buildDirectory.dir("jgss-api-stubs/classes")
+def jgssStubJarDir = layout.buildDirectory.dir("jgss-api-stubs")
 def jgssStubJar = layout.buildDirectory.file("jgss-api-stubs/jgss-api-stubs.jar")
 
 tasks.register("compileJgssApiStubs", JavaCompile) {
@@ -79,7 +80,7 @@ tasks.register("compileJgssApiStubs", JavaCompile) {
 tasks.register("jarJgssApiStubs", Jar) {
     dependsOn("compileJgssApiStubs")
     archiveFileName = "jgss-api-stubs.jar"
-    destinationDirectory.set(jgssStubJar.map { it.asFile.parentFile })
+    destinationDirectory.set(jgssStubJarDir)
     from(jgssStubClassesDir)
 }
 
