@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 public interface a87 {
     Object d();
 
-    void h(Object obj, qd8 qd8Var);
+    void h(Object obj, qd8 qd8Var) throws IOException;
 
-    Object l(FileInputStream fileInputStream);
+    Object l(FileInputStream fileInputStream) throws dy1;
 }
