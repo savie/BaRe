@@ -44,8 +44,7 @@ public final class g4 extends j4 implements NavigableMap {
     }
 
     @Override // defpackage.j4
-    /* JADX INFO: renamed from: d */
-    public final SortedSet keySet() {
+    public final SortedSet d() {
         return (NavigableSet) super.keySet();
     }
 
