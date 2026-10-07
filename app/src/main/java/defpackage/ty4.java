@@ -7,5 +7,5 @@ import java.lang.annotation.RetentionPolicy;
 /* JADX INFO: loaded from: classes.dex */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ty4 {
-    nh6 references() default nh6.WEAK;
+    nh6 references() default nh6.Weak;
 }
