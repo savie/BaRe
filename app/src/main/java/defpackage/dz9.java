@@ -24,6 +24,10 @@ public final class dz9 extends k79 {
         return (dz9) k79.h(zzc, t69Var, f79Var);
     }
 
+    public static /* synthetic */ void v(dz9 dz9Var) {
+        dz9Var.zzf = 0;
+    }
+
     public static /* synthetic */ void w(dz9 dz9Var, x69 x69Var) {
         x69Var.getClass();
         dz9Var.zzh = x69Var;
