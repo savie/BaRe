@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="end"
+    android:id="@+id/btn_google"
+    android:layout_width="wrap_content"
+    android:layout_height="56dp"
+    android:minWidth="256dp"
+    android:text="@string/common_signin_button_text_long"
+    android:paddingStart="@dimen/spacing_medium_more"
+    android:paddingEnd="@dimen/spacing_large"
+    app:icon="@drawable/googleg_standard_color_18"
+    app:iconSize="22dp"
+    app:iconTint="@null"
+    style="@style/GoogleSignInButton"/>

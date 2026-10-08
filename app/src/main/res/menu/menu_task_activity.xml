@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_force_stop"
+        android:id="@+id/action_force_stop"
+        android:title="@string/force_stop"
+        app:showAsAction="never"/>
+    <item
+        android:icon="@drawable/ic_bug"
+        android:id="@+id/action_swiftlogger"
+        android:title="@string/swiftlogger"
+        android:checkable="true"
+        app:showAsAction="ifRoom"/>
+</menu>

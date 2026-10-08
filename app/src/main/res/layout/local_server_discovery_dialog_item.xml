@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/subtitle"
+    android:textColor="?android:attr/textColorPrimary"
+    android:ellipsize="end"
+    android:gravity="center_vertical"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:checkMark="?android:attr/listChoiceIndicatorSingle"
+    android:minHeight="76dp"
+    android:lineSpacingExtra="@dimen/spacing_lowest"
+    android:paddingHorizontal="@dimen/spacing_normal_more"
+    android:paddingVertical="@dimen/spacing_medium"
+    style="@style/M3CheckedTextViewStyle"/>

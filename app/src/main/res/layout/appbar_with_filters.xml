@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.swiftapps.swiftbackup.views.MAppBarLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:transitionName="appbar"
+    android:elevation="0dp"
+    app:elevation="0dp"
+    app:liftOnScroll="false">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/toolbar_mini"
+                layout="@layout/toolbar_mini"/>
+            <com.ferfalk.simplesearchview.SimpleSearchView
+                android:textColor="?android:attr/textColorPrimary"
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:backIconTint="?android:attr/textColorPrimary"
+                app:hintColor="?android:attr/textColorSecondary"
+                app:iconsTint="?android:attr/textColorPrimary"
+                app:searchBackground="@color/trans"
+                app:searchClearIcon="@drawable/ic_menu_close"
+                app:type="bar"/>
+        </FrameLayout>
+        <org.swiftapps.swiftbackup.views.QuickRecyclerView
+            android:id="@+id/rv_applied_filters"
+            android:paddingBottom="@dimen/spacing_low"
+            android:visibility="gone"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/spacing_normal"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"
+            app:layout_constraintEnd_toEndOf="@+id/tv_sort"
+            app:layout_constraintStart_toStartOf="@+id/tv_sort"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sort"/>
+        <View style="@style/ToolbarDivider"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</org.swiftapps.swiftbackup.views.MAppBarLayout>

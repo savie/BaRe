@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:versionCode="620"
+    android:versionName="5.1.0"
+    android:compileSdkVersion="37"
+    android:compileSdkVersionCodename="17"
+    package="org.swiftapps.swiftbackup"
+    platformBuildVersionCode="37"
+    platformBuildVersionName="17">
+    <uses-sdk
+        android:minSdkVersion="26"
+        android:targetSdkVersion="37"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ADVANCED_PROTECTION_MODE"/>
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="com.android.permission.GET_INSTALLED_APPS"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT"/>
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false"/>
+    <queries>
+        <package android:name="com.azure.authenticator"/>
+        <package android:name="com.microsoft.identity.testuserapp"/>
+        <package android:name="com.microsoft.windowsintune.companyportal"/>
+        <package android:name="com.microsoft.mockauthapp"/>
+        <package android:name="com.microsoft.mockcp"/>
+        <package android:name="com.microsoft.mockltw"/>
+        <package android:name="com.microsoft.appmanager"/>
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="https"/>
+        </intent>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService"/>
+        </intent>
+        <intent>
+            <action android:name="com.android.vending.billing.InAppBillingService.BIND"/>
+        </intent>
+        <intent>
+            <action android:name="com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND"/>
+        </intent>
+    </queries>
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <permission
+        android:name="org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="org.swiftapps.swiftbackup.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
+    <uses-permission android:name="moe.shizuku.manager.permission.API_V23"/>
+    <application
+        android:theme="@style/SwiftTheme"
+        android:label="@string/swift_backup"
+        android:icon="@mipmap/ic_launcher"
+        android:name="org.swiftapps.swiftbackup.SwiftApp"
+        android:allowClearUserData="false"
+        android:allowBackup="false"
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:extractNativeLibs="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:requestLegacyExternalStorage="true"
+        android:localeConfig="@xml/locales_config"
+        android:enableOnBackInvokedCallback="true">
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
+        <activity
+            android:theme="@style/IntroTheme"
+            android:name="org.swiftapps.swiftbackup.intro.IntroActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:resizeableActivity="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="org.swiftapps.swiftbackup"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="db-mzc5bxvbe0960q1"
+                    android:host="1"
+                    android:path="/connect"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="org.swiftapps.swiftbackup.box"
+                    android:host="oauth"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="org.swiftapps.swiftbackup.yandex"
+                    android:host="oauth"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.swiftapps.swiftbackup.home.HomeActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.home.search.HomeSearchActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/quick_actions_apps"
+            android:name="org.swiftapps.swiftbackup.appsquickactions.AppsQuickActionsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.appslist.ui.listbatch.AppsBatchActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.appslist.ui.listconfig.AppsConfigRunActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.detail.DetailActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"
+            android:parentActivityName="org.swiftapps.swiftbackup.appslist.ui.list.AppListActivity"/>
+        <activity
+            android:theme="@style/SwiftTheme"
+            android:label="@string/import_apks"
+            android:name="org.swiftapps.swiftbackup.apkshare.ApkImportActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/octet-stream"/>
+                <data android:mimeType="application/zip"/>
+                <data android:mimeType="application/x-zip"/>
+                <data android:mimeType="application/x-zip-compressed"/>
+                <data android:mimeType="application/vnd.android.package-archive"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/octet-stream"/>
+                <data android:mimeType="application/zip"/>
+                <data android:mimeType="application/x-zip"/>
+                <data android:mimeType="application/x-zip-compressed"/>
+                <data android:mimeType="application/vnd.android.package-archive"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.swiftapps.swiftbackup.appinfo.AppInfoActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.detail.DetailActivity"/>
+        <activity
+            android:label="@string/configs"
+            android:name="org.swiftapps.swiftbackup.appconfigs.list.ConfigListActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.appconfigs.edit.ConfigEditActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/edit_custom_settings"
+            android:name="org.swiftapps.swiftbackup.appconfigs.settings.ConfigSettingsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/labels"
+            android:name="org.swiftapps.swiftbackup.home.schedule.ScheduleLabelsSelectActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/select_folder_setups"
+            android:name="org.swiftapps.swiftbackup.home.schedule.ui.ScheduleFolderSelectActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/settings"
+            android:name="org.swiftapps.swiftbackup.settings.SettingsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/blacklist_apps"
+            android:name="org.swiftapps.swiftbackup.blacklist.BlacklistActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/announcements_from_developer"
+            android:name="org.swiftapps.swiftbackup.notice.NoticeListActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/swipe_actions"
+            android:name="org.swiftapps.swiftbackup.settings.AppSwipeActionsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
+        <activity
+            android:label="@string/cloud_diagnostics"
+            android:name="org.swiftapps.swiftbackup.cloud.diagnostics.CloudDiagnosticsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
+        <activity
+            android:label="@string/cloud_orphan_cleaner"
+            android:name="org.swiftapps.swiftbackup.cloud.orphans.CloudOrphanCleanerActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
+        <activity
+            android:label="@string/app_visibility_diagnostics"
+            android:name="org.swiftapps.swiftbackup.settings.appvisibility.AppVisibilityDiagnosticsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsDetailActivity"/>
+        <activity
+            android:label="@string/language"
+            android:name="org.swiftapps.swiftbackup.locale.LocaleActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
+        <activity
+            android:label="Translator details"
+            android:name="org.swiftapps.swiftbackup.contributor.ContributorRegActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName="org.swiftapps.swiftbackup.settings.SettingsActivity"/>
+        <activity
+            android:label="@string/manage_app_labels"
+            android:name="org.swiftapps.swiftbackup.appslist.ui.labels.LabelsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/manage_app_labels"
+            android:name="org.swiftapps.swiftbackup.appslist.ui.labels.LabelEditActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/manage_space"
+            android:name="org.swiftapps.swiftbackup.manage.ManageSpaceActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.shortcuts.ShortcutsActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.premium.PremiumActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.GmsSignInActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.NoGmsSignInActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/messages_backup"
+            android:name="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/messages_backup"
+            android:name="org.swiftapps.swiftbackup.messagescalls.backups.MessagesBackupsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity"/>
+        <activity
+            android:label="@string/conversations"
+            android:name="org.swiftapps.swiftbackup.messagescalls.backuprestore.MessagesBackupRestoreActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.MessagesDashActivity"/>
+        <activity
+            android:label="@string/call_logs_backup"
+            android:name="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/call_logs_backup"
+            android:name="org.swiftapps.swiftbackup.messagescalls.backups.CallsBackupsActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity"/>
+        <activity
+            android:label="@string/call_logs"
+            android:name="org.swiftapps.swiftbackup.messagescalls.backuprestore.CallsBackupRestoreActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.messagescalls.dash.CallsDashActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.messagescalls.conversationsview.ConversationsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.messagescalls.conversationsview.ChatActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/folder_backups"
+            android:name="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.folders.ui.batch.FoldersBatchActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
+        <activity
+            android:label="@string/select_folder"
+            android:name="org.swiftapps.swiftbackup.folders.ui.FolderPickerActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
+        <activity
+            android:label="@string/manage_folder_backup"
+            android:name="org.swiftapps.swiftbackup.folders.ui.FolderEditActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
+        <activity
+            android:label="@string/folder_backup"
+            android:name="org.swiftapps.swiftbackup.folders.ui.FolderDetailActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.folders.ui.FoldersDashActivity"/>
+        <activity
+            android:label="@string/swiftlogger"
+            android:name="org.swiftapps.swiftbackup.slog.SLogActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/wifi_networks_backup"
+            android:name="org.swiftapps.swiftbackup.wifi.WifiActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/wallpapers_backup"
+            android:name="org.swiftapps.swiftbackup.walls.WallsDashActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.home.HomeActivity"/>
+        <activity
+            android:label="@string/manage"
+            android:name="org.swiftapps.swiftbackup.walls.WallsManageActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.swiftapps.swiftbackup.walls.WallsDashActivity"/>
+        <activity
+            android:theme="@style/SwiftTheme.Translucent"
+            android:label="@string/set_wallpaper"
+            android:name="org.swiftapps.swiftbackup.walls.WallApplyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:label=""
+            android:name="org.swiftapps.swiftbackup.notice.NoticeViewActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/storage_for_local_backups"
+            android:name="org.swiftapps.swiftbackup.home.storageswitch.StorageSwitchActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/encryption_password_strategy"
+            android:name="org.swiftapps.swiftbackup.password.PasswordStrategyActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/set_user_password"
+            android:name="org.swiftapps.swiftbackup.password.UserPasswordActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:label="@string/multiple_backups_strategy"
+            android:name="org.swiftapps.swiftbackup.settings.MultipleBackupsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/restore_special_data_title"
+            android:name="org.swiftapps.swiftbackup.settings.RestoreSpecialDataDetailsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.tasks.ui.TaskActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:label="@string/grant_permissions"
+            android:name="org.swiftapps.swiftbackup.tasks.PreconditionsActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:label="@string/notices"
+            android:name="org.swiftapps.swiftbackup.settings.LicensesActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/Theme.Transparent.Permission"
+            android:name="com.gun0912.tedpermission.TedPermissionActivity"
+            android:screenOrientation="unspecified"
+            android:configChanges="fontScale|layoutDirection|screenSize|uiMode|screenLayout|orientation|keyboardHidden|keyboard|locale|mnc|mcc"/>
+        <activity
+            android:label="@string/select_a_cloud_service"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.common.CloudConnectActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.settings.appbackuplimits.AppBackupLimitsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.cloud.connect.DropboxSignInActivity"
+            android:exported="false"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.OneDriveSignInActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="com.microsoft.identity.client.BrowserTabActivity"
+            android:exported="true"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="msauth"
+                    android:host="org.swiftapps.swiftbackup"
+                    android:path="/a73Cd0Z4P4RkZQiyj1UX7/C56jo="/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.BoxSignInActivity"
+            android:exported="false"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.cloud.connect.MegaSignInActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.YandexSignInActivity"
+            android:exported="false"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.PCloudSignInActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+        <activity
+            android:theme="@style/SwiftTheme.Transparent"
+            android:name="org.swiftapps.swiftbackup.cloud.connect.TeraBoxSignInActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:scheme="org.swiftapps.swiftbackup.terabox"
+                    android:host="teraboxOauth"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.swiftapps.swiftbackup.cloud.connect.CsActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
+        <receiver android:name="org.swiftapps.swiftbackup.jobs.AlarmReceiver"/>
+        <receiver
+            android:name="org.swiftapps.swiftbackup.common.LocaleChangedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.swiftapps.swiftbackup.jobs.BootReceiver"
+            android:enabled="false"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="org.swiftapps.swiftbackup.tasks.TaskService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"/>
+        <service
+            android:name="org.swiftapps.swiftbackup.home.schedule.ScheduleService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync"/>
+        <receiver android:name="org.swiftapps.swiftbackup.tasks.NotificationTaskCancelReceiver"/>
+        <receiver
+            android:name="org.swiftapps.swiftbackup.common.PackageInstallResultReceiver"
+            android:exported="false"/>
+        <activity
+            android:name="org.swiftapps.swiftbackup.cloud.connect.FilenSignInActivity"
+            android:exported="false"/>
+        <receiver android:name="org.swiftapps.swiftbackup.detail.ShortcutPinnedReceiver"/>
+        <receiver
+            android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER"/>
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.MmsReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER"/>
+                <data android:mimeType="application/vnd.wap.mms-message"/>
+            </intent-filter>
+        </receiver>
+        <activity
+            android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.ComposeSmsActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SENDTO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="sms"/>
+                <data android:scheme="smsto"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="mmsto"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="org.swiftapps.swiftbackup.messagescalls.defaulthandler.HeadlessSmsSendService"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="sms"/>
+                <data android:scheme="smsto"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="mmsto"/>
+            </intent-filter>
+        </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="org.swiftapps.swiftbackup.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="org.swiftapps.swiftbackup.shizuku"/>
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="false"/>
+        <activity
+            android:name="com.microsoft.identity.common.internal.providers.oauth2.AuthorizationActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.microsoft.identity.common.internal.providers.oauth2.CurrentTaskAuthorizationActivity"
+            android:exported="false"
+            android:launchMode="standard"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.microsoft.identity.client.helper.BrokerHelperActivity"
+            android:exported="false"
+            android:launchMode="standard"/>
+        <activity
+            android:name="com.microsoft.identity.client.CurrentTaskBrowserTabActivity"
+            android:exported="true"/>
+        <activity
+            android:theme="@style/TransparentActivityTheme"
+            android:name="com.microsoft.identity.common.internal.providers.oauth2.SilentAuthorizationActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:name="com.microsoft.identity.common.internal.broker.BrokerActivity"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Light"
+            android:name="com.microsoft.identity.common.internal.broker.InstallCertActivityLauncher"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="genericidp"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="recaptcha"
+                    android:host="firebase.auth"
+                    android:path="/"/>
+            </intent-filter>
+        </activity>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false"
+            android:directBootAware="true">
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.FirebaseDatabaseKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.database.DatabaseRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.ndk.CrashlyticsNdkRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.FirebaseCrashlyticsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.sessions.FirebaseSessionsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar"/>
+        </service>
+        <service
+            android:name="androidx.credentials.playservices.CredentialProviderMetadataHolder"
+            android:enabled="true"
+            android:exported="false">
+            <meta-data
+                android:name="androidx.credentials.CREDENTIAL_PROVIDER_KEY"
+                android:value="androidx.credentials.playservices.CredentialProviderPlayServicesImpl"/>
+        </service>
+        <activity
+            android:theme="@style/Theme.Hidden"
+            android:name="androidx.credentials.playservices.controllers.identityauth.HiddenActivity"
+            android:enabled="true"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:fitsSystemWindows="true"/>
+        <activity
+            android:theme="@style/Theme.Hidden"
+            android:name="androidx.credentials.playservices.controllers.identitycredentials.IdentityCredentialApiHiddenActivity"
+            android:enabled="true"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden"
+            android:fitsSystemWindows="true"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"/>
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+            android:exported="true"
+            android:visibleToInstantApps="true"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Translucent.NoTitleBar"
+            android:name="net.openid.appauth.AuthorizationManagementActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <provider
+            android:name="com.gun0912.tedpermission.provider.TedPermissionProvider"
+            android:exported="false"
+            android:authorities="org.swiftapps.swiftbackup.tedpermissionprovider"/>
+        <meta-data
+            android:name="com.google.android.play.billingclient.version"
+            android:value="8.3.0"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivity"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.android.billingclient.api.ProxyBillingActivityV2"
+            android:exported="false"
+            android:configChanges="screenSize|screenLayout|orientation|keyboardHidden|keyboard"/>
+        <activity
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"/>
+        <service
+            android:name="com.google.firebase.sessions.SessionLifecycleService"
+            android:enabled="false"
+            android:exported="false"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            android:authorities="org.swiftapps.swiftbackup.androidx-startup">
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup"/>
+            <meta-data
+                android:name="okhttp3.internal.platform.PlatformInitializer"
+                android:value="androidx.startup"/>
+        </provider>
+        <activity android:name="com.pcloud.sdk.AuthorizationActivity"/>
+        <activity
+            android:name="com.pcloud.sdk.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="pcloud-oauth"
+                    android:host="org.swiftapps.swiftbackup"/>
+            </intent-filter>
+        </activity>
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false"/>
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false"/>
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:exported="false"
+            android:directBootAware="true"/>
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false">
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct"/>
+        </service>
+        <meta-data
+            android:name="moe.shizuku.client.V3_SUPPORT"
+            android:value="true"/>
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:permission="android.permission.DUMP"
+            android:enabled="true"
+            android:exported="true"
+            android:directBootAware="false">
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION"/>
+            </intent-filter>
+        </receiver>
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false"/>
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false"/>
+        <activity
+            android:theme="@style/YubiKitPromptDialogTheme"
+            android:label="@string/yubikit_otp_activity_title"
+            android:name="com.yubico.yubikit.android.ui.OtpActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/YubiKitPromptDialogTheme"
+            android:label="@string/yubikit_prompt_activity_title"
+            android:name="com.yubico.yubikit.android.ui.YubiKeyPromptActivity"
+            android:excludeFromRecents="true"/>
+        <activity
+            android:theme="@style/Theme.PlayCore.Transparent"
+            android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity"
+            android:exported="false"
+            android:stateNotNeeded="true"/>
+    </application>
+</manifest>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_information"
+        android:id="@+id/action_backup_details"
+        android:title="@string/backup_details"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_bug"
+        android:id="@+id/action_show_metadata"
+        android:visible="false"
+        android:title="Metadata"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_cloud_upload"
+        android:id="@+id/action_sync"
+        android:visible="false"
+        android:title="@string/sync_in_cloud"
+        android:iconTint="?android:attr/textColorSecondary"/>
+    <item
+        android:icon="@drawable/ic_delete"
+        android:id="@+id/action_delete"
+        android:title="@string/delete_backup"
+        android:iconTint="?android:attr/textColorSecondary"/>
+</menu>
