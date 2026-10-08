@@ -47,6 +47,8 @@ android {
                 exclude "android/**"
                 exclude "android/support/**"
                 exclude "androidx/credentials/**"
+                exclude "androidx/preference/**"
+                exclude "androidx/recyclerview/**"
                 exclude "org/xmlpull/**"
                 exclude "com/android/billingclient/**"
                 exclude "com/google/android/datatransport/**"
