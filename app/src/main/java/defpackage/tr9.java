@@ -258,9 +258,9 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
                 sw6Var.releaseIntercepted();
                 return be8Var;
             } catch (Throwable th) {
-                th = th;
                 sw6Var.releaseIntercepted();
-                throw th;
+                sneakyThrow(th);
+                return null;
             }
         }
         lg7.H(obj);
@@ -281,13 +281,14 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
                 sw6Var.releaseIntercepted();
                 return be8Var;
             } catch (Throwable th2) {
-                th = th2;
                 sw6Var = sw6Var2;
                 sw6Var.releaseIntercepted();
-                throw th;
+                sneakyThrow(th2);
+                return null;
             }
         } catch (Throwable th3) {
-            throw th3;
+            sneakyThrow(th3);
+            return null;
         }
     }
     public String toString() {
