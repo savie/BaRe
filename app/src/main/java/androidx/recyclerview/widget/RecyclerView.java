@@ -2688,10 +2688,10 @@ public class RecyclerView extends ViewGroup implements fm5 {
                         laVar.a(fh6VarL, mg6Var2);
                     } else {
                         rl8 rl8Var = (rl8) dg7Var2.get(fh6Var2);
-                        boolean z7 = (rl8Var == null || (rl8Var.a & 1) == 0) ? z4 : z3;
+                        boolean z8 = (rl8Var == null || (rl8Var.a & 1) == 0) ? z4 : z3;
                         rl8 rl8Var2 = (rl8) dg7Var2.get(fh6VarL);
-                        boolean z8 = (rl8Var2 == null || (rl8Var2.a & 1) == 0) ? z4 : z3;
-                        if (z7 && fh6Var2 == fh6VarL) {
+                        boolean z9 = (rl8Var2 == null || (rl8Var2.a & 1) == 0) ? z4 : z3;
+                        if (z8 && fh6Var2 == fh6VarL) {
                             laVar.a(fh6VarL, mg6Var2);
                         } else {
                             mg6 mg6VarD = laVar.d(fh6Var2, 4);

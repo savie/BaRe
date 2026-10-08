@@ -10,6 +10,10 @@ public final class em5 extends View.BaseSavedState {
     public static final Parcelable.Creator<em5> CREATOR = new f9(2);
     public int a;
 
+    public em5(Parcelable superState) {
+        super(superState);
+    }
+
     public final String toString() {
         StringBuilder sb = new StringBuilder("HorizontalScrollView.SavedState{");
         sb.append(Integer.toHexString(System.identityHashCode(this)));

@@ -48,7 +48,7 @@ import java.util.WeakHashMap;
 public class NestedScrollView extends FrameLayout implements im5, fm5 {
     public static final float U = (float) (Math.log(0.78d) / Math.log(0.9d));
     public static final bm5 V = new bm5();
-    public static final int[] W = {R.attr.fillViewport};
+    public static final int[] W = {android.R.attr.fillViewport};
     public boolean G;
     public final int H;
     public final int I;
@@ -510,7 +510,7 @@ public class NestedScrollView extends FrameLayout implements im5, fm5 {
         if (this.S == 0.0f) {
             TypedValue typedValue = new TypedValue();
             Context context = getContext();
-            if (!context.getTheme().resolveAttribute(R.attr.listPreferredItemHeight, typedValue, true)) {
+            if (!context.getTheme().resolveAttribute(android.R.attr.listPreferredItemHeight, typedValue, true)) {
                 l0.e("Expected theme to define listPreferredItemHeight.");
                 return 0.0f;
             }
