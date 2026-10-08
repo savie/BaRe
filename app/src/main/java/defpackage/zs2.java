@@ -8,6 +8,8 @@ import com.google.android.material.tabs.TabLayout;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public final class zs2 extends q34 {
+    public zs2(int ignored) { super(ignored); }
+
     @Override // defpackage.q34
     public final void s(TabLayout tabLayout, View view, View view2, float f, Drawable drawable) {
         float fSin;
