@@ -413,7 +413,7 @@ public class Preference implements Comparable<Preference> {
         }
         View viewR = k46Var.r(org.swiftapps.swiftbackup.R.id.icon_frame);
         if (viewR == null) {
-            viewR = k46Var.r(android.org.swiftapps.swiftbackup.R.id.icon_frame);
+            viewR = k46Var.r(android.R.id.icon_frame);
         }
         if (viewR != null) {
             if (this.r != null) {
@@ -568,7 +568,7 @@ public class Preference implements Comparable<Preference> {
     }
 
     public Preference(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, x13.q(context, org.swiftapps.swiftbackup.R.attr.preferenceStyle, android.org.swiftapps.swiftbackup.R.attr.preferenceStyle));
+        this(context, attributeSet, x13.q(context, org.swiftapps.swiftbackup.R.attr.preferenceStyle, android.R.attr.preferenceStyle));
     }
 
     public Preference(Context context) {

@@ -331,7 +331,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
                 }
                 String str = strTrim;
                 try {
-                    Class<? extends U> clsAsSubclass = Class.forName(str, false, isInEditMode() ? getClass().getClassLoader() : context.getClassLoader()).asSubclass(a.class);
+                    Class<? extends a> clsAsSubclass = Class.forName(str, false, isInEditMode() ? getClass().getClassLoader() : context.getClassLoader()).asSubclass(a.class);
                     try {
                         constructor = clsAsSubclass.getConstructor(Y0);
                         objArr = new Object[i2];
@@ -374,7 +374,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         boolean z = typedArrayObtainStyledAttributes2.getBoolean(0, true);
         typedArrayObtainStyledAttributes2.recycle();
         setNestedScrollingEnabled(z);
-        setTag(org.swiftapps.swiftbackup.R.id.is_pooling_container_tag, Boolean.TRUE);
+        setTag(androidx.core.R.id.is_pooling_container_tag, Boolean.TRUE);
     }
 
     public static RecyclerView F(View view) {
@@ -2019,7 +2019,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
                 defpackage.l0.a();
                 return;
             }
-            c36 c36Var = (c36) childAt.getTag(org.swiftapps.swiftbackup.R.id.pooling_container_listener_holder_tag);
+            c36 c36Var = (c36) childAt.getTag(androidx.core.R.id.pooling_container_listener_holder_tag);
             if (c36Var == null) {
                 c36Var = new c36();
                 childAt.setTag(org.swiftapps.swiftbackup.R.id.pooling_container_listener_holder_tag, c36Var);
@@ -2644,7 +2644,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         boolean z4 = false;
         bh6Var.i = false;
         boolean z5 = true;
-        Object[] objArr = this.M0 && !(this.N0 == getWidth() && this.O0 == getHeight());
+        boolean z6 = this.M0 && !(this.N0 == getWidth() && this.O0 == getHeight());
         this.N0 = 0;
         this.O0 = 0;
         this.M0 = false;
@@ -2654,7 +2654,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
             s();
         } else {
             x9 x9Var = this.e;
-            if ((x9Var.c.isEmpty() || x9Var.b.isEmpty()) && !objArr == true && this.y.y == getWidth() && this.y.G == getHeight()) {
+            if ((x9Var.c.isEmpty() || x9Var.b.isEmpty()) && !z6 && this.y.y == getWidth() && this.y.G == getHeight()) {
                 this.y.F0(this);
             } else {
                 this.y.F0(this);
@@ -3223,13 +3223,13 @@ public class RecyclerView extends ViewGroup implements fm5 {
             } else if (!fh6VarL.p()) {
                 StringBuilder sb = new StringBuilder("Called removeDetachedView with a view which is not flagged as tmp detached.");
                 sb.append(fh6VarL);
-                m0.i(sb, A());
+                defpackage.m0.i(sb, A());
                 return;
             }
         } else if (S0) {
             StringBuilder sb2 = new StringBuilder("No ViewHolder found for child: ");
             sb2.append(view);
-            m0.i(sb2, A());
+            defpackage.m0.i(sb2, A());
             return;
         }
         view.clearAnimation();
