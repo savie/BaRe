@@ -5,6 +5,8 @@ package defpackage;
 public final class nd4 extends ld4 {
     public static final nd4 d = new nd4(1, 0, 1);
 
+    public nd4(int a, int b, int c) { super(a, b, c); }
+
     @Override // defpackage.ld4
     public final boolean equals(Object obj) {
         if (!(obj instanceof nd4)) {
