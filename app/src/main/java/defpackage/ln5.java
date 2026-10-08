@@ -156,7 +156,7 @@ public final class ln5 implements xs0, vc5, dh5, i60, vb8, h9, gw6, OnCompleteLi
             iArr[i12] = ((i11 & 63) << 16) | ((i11 & 258048) << 12) | ((258048 & i13) >>> 4) | (i13 & 63);
         }
         this.b = iArr;
-        if (b42.class.isInstance(z61Var) {
+        if (z61Var instanceof b42) {
             c6.f("params should not be CryptoServicePurpose");
         } else {
             ((d42) e42.a.get()).getClass();
