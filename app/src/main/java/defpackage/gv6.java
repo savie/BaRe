@@ -1,7 +1,8 @@
 package defpackage;
 
-/* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-/* JADX INFO: loaded from: classes.dex */
 public class gv6 extends RuntimeException {
     public static final nh4 a = new nh4(9);
+    public gv6(String message) { super(message); }
+    public gv6(Throwable cause) { super(cause); }
+    public gv6(String message, Throwable cause) { super(message, cause); }
 }
