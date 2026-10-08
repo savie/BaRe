@@ -25,6 +25,8 @@ import defpackage.ib;
 import defpackage.ie0;
 import defpackage.j97;
 import defpackage.k50;
+import defpackage.eq3;
+import defpackage.xs1;
 import defpackage.kd8;
 import defpackage.la2;
 import defpackage.lg3;
@@ -168,14 +170,14 @@ public class FirebaseApp {
         this.dataCollectionConfigStorage = new ps4(new ga6() { // from class: ef3
             @Override // defpackage.ga6
             public final Object get() {
-                return this.a.lambda$new$0(context);
+                return FirebaseApp.this.lambda$new$0(context);
             }
         });
         this.defaultHeartBeatController = to1Var.c(ne2.class);
         addBackgroundStateChangeListener(new gf3() { // from class: ff3
             @Override // defpackage.gf3
             public final void a(boolean z) {
-                this.a.lambda$new$1(z);
+                FirebaseApp.this.lambda$new$1(z);
             }
         });
         Trace.endSection();
