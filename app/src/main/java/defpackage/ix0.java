@@ -718,7 +718,8 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
     public uz9 x() {
         try {
             tz9 tz9VarA = uz9.A();
-            for (lb9 lb9Var : (List) this.b) {
+            for (Object lb9Object : (List) this.b) {
+                lb9 lb9Var = (lb9) lb9Object;
                 vm4 vm4VarA = lb9Var.a();
                 int i = lb9Var.d;
                 int i2 = lb9Var.b;

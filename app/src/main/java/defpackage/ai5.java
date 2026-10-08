@@ -431,7 +431,8 @@ public final class ai5 implements jk8, vn5 {
     public synchronized ArrayList j(Class cls) {
         ArrayList arrayList;
         arrayList = new ArrayList();
-        for (zh5 zh5Var : (ArrayList) this.b) {
+        for (Object zh5Object : (ArrayList) this.b) {
+            zh5 zh5Var = (zh5) zh5Object;
             if (!arrayList.contains(zh5Var.b) && zh5Var.a.isAssignableFrom(cls)) {
                 arrayList.add(zh5Var.b);
             }
