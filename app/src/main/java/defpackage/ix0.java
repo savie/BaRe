@@ -561,7 +561,8 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
     public void s(nh nhVar) throws GeneralSecurityException, IOException {
         String str;
         uz9 uz9VarX = x();
-        for (sz9 sz9Var : uz9VarX.B()) {
+        for (Object sz9Object : uz9VarX.B()) {
+            sz9 sz9Var = (sz9) sz9Object;
             if (sz9Var.y().x() == 1 || sz9Var.y().x() == 2 || sz9Var.y().x() == 3) {
                 switch (sz9Var.y().x()) {
                     case 1:

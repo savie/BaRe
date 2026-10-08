@@ -176,7 +176,8 @@ public class f46 extends hg6 {
                             l0.e("Nesting an expandable group inside of another expandable group is not supported!");
                             return null;
                         }
-                        for (Preference preference2 : k(preferenceGroup2)) {
+                        for (Object preference2Object : k(preferenceGroup2)) {
+                            Preference preference2 = (Preference) preference2Object;
                             int i5 = preferenceGroup.k0;
                             if (i5 == Integer.MAX_VALUE || i2 < i5) {
                                 arrayList.add(preference2);

@@ -371,7 +371,8 @@ public final class ai5 implements jk8, vn5 {
         ArrayList arrayList;
         try {
             arrayList = new ArrayList();
-            for (zh5 zh5Var : (ArrayList) this.b) {
+            for (Object zh5Object : (ArrayList) this.b) {
+                zh5 zh5Var = (zh5) zh5Object;
                 if (!((HashSet) this.d).contains(zh5Var) && zh5Var.a.isAssignableFrom(cls)) {
                     ((HashSet) this.d).add(zh5Var);
                     arrayList.add(zh5Var.c.y(this));
