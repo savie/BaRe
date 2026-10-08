@@ -164,7 +164,7 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
                     fm1VarB.a = mk9.b(ov9VarU.y().A().w());
                     fm1VarB.f = mk9.a(mz9Var.z());
                     return fm1VarB.c();
-                } catch (p79 e2) {
+                } catch (Exception e2) {
                     throw new GeneralSecurityException("Parsing AesCtrHmacAeadParameters failed: ", e2);
                 }
             case Argon2.V13 /* 19 */:
@@ -181,7 +181,7 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
                     l22VarB.s(fv9VarU.y().t());
                     l22VarB.d = qu9.a(mz9Var2.z());
                     return l22VarB.q();
-                } catch (p79 e3) {
+                } catch (Exception e3) {
                     throw new GeneralSecurityException("Parsing AesCmacParameters failed: ", e3);
                 }
             case 20:
@@ -193,7 +193,7 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
                 try {
                     hx9.t(mz9Var3.A(), f79.a);
                     return new ah9(pm9.a(mz9Var3.z()));
-                } catch (p79 e4) {
+                } catch (Exception e4) {
                     throw new GeneralSecurityException("Parsing ChaCha20Poly1305Parameters failed: ", e4);
                 }
         }
