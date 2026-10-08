@@ -38,6 +38,8 @@ public class ge implements bw0, mo1, nr0, dh5, nx1, SuccessContinuation, qa7, w8
     public static final ge f = new ge();
     public static ge k;
 
+    public ge() { super(); }
+
     public ge(View view) {
         if (Build.VERSION.SDK_INT >= 30) {
             new bj7(view);
