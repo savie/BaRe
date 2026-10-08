@@ -10,6 +10,8 @@ public final class yg6 extends e3 {
     public static final Parcelable.Creator<yg6> CREATOR = new ml5(1);
     public Parcelable c;
 
+    public yg6(Parcelable parcelable) { super(parcelable); this.c = parcelable; }
+
     public yg6(Parcel parcel, ClassLoader classLoader) {
         super(parcel, classLoader);
         this.c = parcel.readParcelable(classLoader == null ? a.class.getClassLoader() : classLoader);
