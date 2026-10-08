@@ -374,7 +374,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         boolean z = typedArrayObtainStyledAttributes2.getBoolean(0, true);
         typedArrayObtainStyledAttributes2.recycle();
         setNestedScrollingEnabled(z);
-        setTag(androidx.core.R.id.is_pooling_container_tag, Boolean.TRUE);
+        setTag(org.swiftapps.swiftbackup.R.id.is_pooling_container_tag, Boolean.TRUE);
     }
 
     public static RecyclerView F(View view) {
@@ -2019,7 +2019,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
                 defpackage.l0.a();
                 return;
             }
-            c36 c36Var = (c36) childAt.getTag(androidx.core.R.id.pooling_container_listener_holder_tag);
+            c36 c36Var = (c36) childAt.getTag(org.swiftapps.swiftbackup.R.id.pooling_container_listener_holder_tag);
             if (c36Var == null) {
                 c36Var = new c36();
                 childAt.setTag(org.swiftapps.swiftbackup.R.id.pooling_container_listener_holder_tag, c36Var);
@@ -2665,11 +2665,11 @@ public class RecyclerView extends ViewGroup implements fm5 {
         j0();
         S();
         bh6Var.d = 1;
-        boolean z6 = bh6Var.j;
+        boolean z7 = bh6Var.j;
         j61 j61Var = this.f;
         vg6 vg6Var = this.c;
         la laVar = this.k;
-        if (z6) {
+        if (z7) {
             int iE = j61Var.e() - 1;
             while (iE >= 0) {
                 fh6 fh6VarL = L(j61Var.d(iE));

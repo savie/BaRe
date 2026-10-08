@@ -338,7 +338,7 @@ public abstract class a {
         int paddingBottom = getPaddingBottom() + getPaddingTop() + rect.height();
         RecyclerView recyclerView = this.b;
         WeakHashMap weakHashMap = dl8.a;
-        this.b.setMeasuredDimension(r(i, paddingRight, recyclerView.getMinimumWidth()), r(i2, paddingBottom, this.b.getMinimumHeight()));
+        this.b.p(r(i, paddingRight, recyclerView.getMinimumWidth()), r(i2, paddingBottom, this.b.getMinimumHeight()));
     }
 
     public int I(vg6 vg6Var, bh6 bh6Var) {
