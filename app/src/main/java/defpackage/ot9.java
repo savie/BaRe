@@ -21,6 +21,8 @@ public final class ot9 implements vt9, cz2, ls5, yi6, yu9 {
     public Object a;
     public Object b;
 
+    public ot9() { super(); }
+
     public ot9(int i) {
         switch (i) {
             case 5:
