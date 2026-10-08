@@ -112,7 +112,12 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
 
     @Override // defpackage.y1a
     public /* synthetic */ Object e(String str, Provider provider) {
-        return provider == null ? Mac.getInstance(str) : Mac.getInstance(str, provider);
+        try {
+            return provider == null ? Mac.getInstance(str) : Mac.getInstance(str, provider);
+        } catch (GeneralSecurityException e2) {
+            sneakyThrow(e2);
+            return null;
+        }
     }
 
     @Override // defpackage.es9
@@ -128,7 +133,12 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
         x69 x69VarG = t69.g(bArrB, 0, bArrB.length);
         cz9VarY.c();
         dz9.w((dz9) cz9VarY.b, x69VarG);
-        return pt9.a("type.googleapis.com/google.crypto.tink.HpkePrivateKey", ((dz9) cz9VarY.b()).b(), 3, (r0a) rq9.g.k(oq9Var.d.d.d), oq9Var.H());
+        try {
+            return pt9.a("type.googleapis.com/google.crypto.tink.HpkePrivateKey", ((dz9) cz9VarY.b()).b(), 3, (r0a) rq9.g.k(oq9Var.d.d.d), oq9Var.H());
+        } catch (GeneralSecurityException e2) {
+            sneakyThrow(e2);
+            return null;
+        }
     }
 
     @Override // defpackage.et9
@@ -252,7 +262,7 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
                 return ei9.K(ki9.a(l0aVarU.x(), pt9Var.e), pt9Var.f);
             }
             throw new GeneralSecurityException("KmsEnvelopeAeadKeys are only accepted with version 0, got ".concat(String.valueOf(l0aVarU)));
-        } catch (p79 e2) {
+        } catch (Exception e2) {
             throw new GeneralSecurityException("Parsing KmsEnvelopeAeadKey failed: ", e2);
         }
     }
@@ -298,6 +308,10 @@ public class q34 implements mo1, cj8, t91, a87, tt4, x98, c33, v36, zm7, dh5, eb
             default:
                 return new eq7(ai5Var.a(sy3.class, InputStream.class), 1);
         }
+    }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
     }
 
     @Override // defpackage.tt4
