@@ -206,7 +206,7 @@ public final class ai5 implements jk8, vn5 {
         ArrayList<byte[]> arrayList3 = new ArrayList();
         for (Object obj2 : arrayList2) {
             if (hashSet.add(hb3.t((byte[]) obj2))) {
-                arrayList3.add(obj2);
+                arrayList3.add((byte[]) obj2);
             }
         }
         if (arrayList3.size() <= 1) {
