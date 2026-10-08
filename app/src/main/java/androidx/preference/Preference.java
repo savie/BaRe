@@ -98,7 +98,7 @@ public class Preference implements Comparable<Preference> {
         this.Q = true;
         this.S = true;
         this.V = true;
-        this.W = R.layout.preference;
+        this.W = org.swiftapps.swiftbackup.R.layout.preference;
         this.e0 = new ju0(this, 1);
         this.a = context;
         TypedArray typedArrayObtainStyledAttributes = context.obtainStyledAttributes(attributeSet, de6.g, i, i2);
@@ -112,7 +112,7 @@ public class Preference implements Comparable<Preference> {
         this.k = typedArrayObtainStyledAttributes.getInt(28, typedArrayObtainStyledAttributes.getInt(8, Integer.MAX_VALUE));
         String string2 = typedArrayObtainStyledAttributes.getString(22);
         this.y = string2 == null ? typedArrayObtainStyledAttributes.getString(13) : string2;
-        this.W = typedArrayObtainStyledAttributes.getResourceId(27, typedArrayObtainStyledAttributes.getResourceId(3, R.layout.preference));
+        this.W = typedArrayObtainStyledAttributes.getResourceId(27, typedArrayObtainStyledAttributes.getResourceId(3, org.swiftapps.swiftbackup.R.layout.preference));
         this.X = typedArrayObtainStyledAttributes.getResourceId(35, typedArrayObtainStyledAttributes.getResourceId(9, 0));
         this.H = typedArrayObtainStyledAttributes.getBoolean(21, typedArrayObtainStyledAttributes.getBoolean(2, true));
         boolean z = typedArrayObtainStyledAttributes.getBoolean(30, typedArrayObtainStyledAttributes.getBoolean(5, true));
@@ -411,9 +411,9 @@ public class Preference implements Comparable<Preference> {
                 imageView.setVisibility(this.T ? 4 : 8);
             }
         }
-        View viewR = k46Var.r(R.id.icon_frame);
+        View viewR = k46Var.r(org.swiftapps.swiftbackup.R.id.icon_frame);
         if (viewR == null) {
-            viewR = k46Var.r(android.R.id.icon_frame);
+            viewR = k46Var.r(android.org.swiftapps.swiftbackup.R.id.icon_frame);
         }
         if (viewR != null) {
             if (this.r != null) {
@@ -568,7 +568,7 @@ public class Preference implements Comparable<Preference> {
     }
 
     public Preference(Context context, AttributeSet attributeSet) {
-        this(context, attributeSet, x13.q(context, R.attr.preferenceStyle, android.R.attr.preferenceStyle));
+        this(context, attributeSet, x13.q(context, org.swiftapps.swiftbackup.R.attr.preferenceStyle, android.org.swiftapps.swiftbackup.R.attr.preferenceStyle));
     }
 
     public Preference(Context context) {

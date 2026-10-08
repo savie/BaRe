@@ -1,6 +1,5 @@
 package androidx.recyclerview.widget;
 
-import android.R;
 import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.Resources;
@@ -107,7 +106,7 @@ import java.util.WeakHashMap;
 public class RecyclerView extends ViewGroup implements fm5 {
     public static boolean S0 = false;
     public static boolean T0 = false;
-    public static final int[] U0 = {R.attr.nestedScrollingEnabled};
+    public static final int[] U0 = {android.R.attr.nestedScrollingEnabled};
     public static final float V0 = (float) (Math.log(0.78d) / Math.log(0.9d));
     public static final boolean W0 = true;
     public static final boolean X0 = true;
@@ -198,10 +197,10 @@ public class RecyclerView extends ViewGroup implements fm5 {
     }
 
     public RecyclerView(Context context, AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
         int i2;
         Constructor constructor;
         Object[] objArr;
-        super(context, attributeSet, i);
         this.b = new xg6(this);
         this.c = new vg6(this);
         this.k = new la(10);
@@ -337,7 +336,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
                         constructor = clsAsSubclass.getConstructor(Y0);
                         objArr = new Object[i2];
                         objArr[0] = context;
-                        objArr[r12] = attributeSet;
+                        objArr[1] = attributeSet;
                         objArr[2] = Integer.valueOf(i);
                         objArr[3] = 0;
                     } catch (NoSuchMethodException e) {
@@ -472,7 +471,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
     public final View C(View view) {
         ViewParent parent = view.getParent();
         while (parent != null && parent != this && (parent instanceof View)) {
-            view = parent;
+            view = (View) parent;
             parent = view.getParent();
         }
         if (parent == this) {
@@ -823,7 +822,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         this.W = i2;
         if (i2 < 1) {
             if (S0 && i2 < 0) {
-                l0.e("layout or scroll counter cannot go below zero.Some calls are not matching".concat(A()));
+                defpackage.l0.e("layout or scroll counter cannot go below zero.Some calls are not matching".concat(A()));
                 return;
             }
             this.W = 0;
@@ -1592,7 +1591,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         if (aVar != null) {
             return aVar.C();
         }
-        l0.e("RecyclerView has no LayoutManager".concat(A()));
+        defpackage.l0.e("RecyclerView has no LayoutManager".concat(A()));
         return null;
     }
 
@@ -1602,7 +1601,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         if (aVar != null) {
             return aVar.D(getContext(), attributeSet);
         }
-        l0.e("RecyclerView has no LayoutManager".concat(A()));
+        defpackage.l0.e("RecyclerView has no LayoutManager".concat(A()));
         return null;
     }
 
@@ -1773,9 +1772,9 @@ public class RecyclerView extends ViewGroup implements fm5 {
                 Log.w("RecyclerView", "Cannot call this method in a scroll callback. Scroll callbacks mightbe run during a measure & layout pass where you cannot change theRecyclerView data. Any method call that might change the structureof the RecyclerView or the adapter contents should be postponed tothe next frame.", new IllegalStateException(A()));
             }
         } else if (str == null) {
-            l0.e("Cannot call this method while RecyclerView is computing a layout or scrolling".concat(A()));
+            defpackage.l0.e("Cannot call this method while RecyclerView is computing a layout or scrolling".concat(A()));
         } else {
-            l0.e(str);
+            defpackage.l0.e(str);
         }
     }
 
@@ -1791,7 +1790,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
     /* JADX WARN: Multi-variable type inference failed */
     public final void k0(int i) {
         boolean zO = this.y.o();
-        int i2 = zO;
+        int i2 = zO ? 1 : 0;
         if (this.y.p()) {
             i2 = (zO ? 1 : 0) | 2;
         }
@@ -1837,7 +1836,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
     public final void l0(boolean z) {
         if (this.N < 1) {
             if (S0) {
-                l0.e("stopInterceptRequestLayout was called more times than startInterceptRequestLayout.".concat(A()));
+                defpackage.l0.e("stopInterceptRequestLayout was called more times than startInterceptRequestLayout.".concat(A()));
                 return;
             }
             this.N = 1;
@@ -1979,7 +1978,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
             }
             ArrayList arrayList = this.v0.a;
             if (S0 && arrayList.contains(this)) {
-                l0.e("RecyclerView already present in worker list!");
+                defpackage.l0.e("RecyclerView already present in worker list!");
             } else {
                 arrayList.add(this);
             }
@@ -2017,7 +2016,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
             int i3 = i + 1;
             View childAt = getChildAt(i);
             if (childAt == null) {
-                l0.a();
+                defpackage.l0.a();
                 return;
             }
             c36 c36Var = (c36) childAt.getTag(org.swiftapps.swiftbackup.R.id.pooling_container_listener_holder_tag);
@@ -2041,7 +2040,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         if (!S0 || zRemove) {
             this.v0 = null;
         } else {
-            l0.e("RecyclerView removal failed!");
+            defpackage.l0.e("RecyclerView removal failed!");
         }
     }
 
@@ -2590,7 +2589,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
     public final void p(int i, int i2) {
         int paddingRight = getPaddingRight() + getPaddingLeft();
         WeakHashMap weakHashMap = dl8.a;
-        setMeasuredDimension(a.r(i, paddingRight, getMinimumWidth()), a.r(i2, getPaddingBottom() + getPaddingTop(), getMinimumHeight()));
+        setMeasuredDimension(androidx.recyclerview.widget.a.r(i, paddingRight, getMinimumWidth()), androidx.recyclerview.widget.a.r(i2, getPaddingBottom() + getPaddingTop(), getMinimumHeight()));
     }
 
     /* JADX WARN: Code duplicated, block: B:124:0x0279  */
@@ -3172,7 +3171,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
             for (int i2 = 0; i2 < iH; i2++) {
                 fh6 fh6VarL2 = L(j61Var.g(i2));
                 if (S0 && fh6VarL2.c == -1 && !fh6VarL2.i()) {
-                    l0.e("view holder cannot have position -1 unless it is removed".concat(A()));
+                    defpackage.l0.e("view holder cannot have position -1 unless it is removed".concat(A()));
                     return;
                 }
                 if (!fh6VarL2.p() && fh6VarL2.d == -1) {
@@ -3764,7 +3763,7 @@ public class RecyclerView extends ViewGroup implements fm5 {
         if (aVar != null) {
             return aVar.E(layoutParams);
         }
-        l0.e("RecyclerView has no LayoutManager".concat(A()));
+        defpackage.l0.e("RecyclerView has no LayoutManager".concat(A()));
         return null;
     }
 

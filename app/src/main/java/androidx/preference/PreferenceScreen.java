@@ -12,7 +12,7 @@ public final class PreferenceScreen extends PreferenceGroup {
     public final boolean l0;
 
     public PreferenceScreen(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet, x13.q(context, R.attr.preferenceScreenStyle, android.R.attr.preferenceScreenStyle), 0);
+        super(context, attributeSet, x13.q(context, org.swiftapps.swiftbackup.R.attr.preferenceScreenStyle, android.org.swiftapps.swiftbackup.R.attr.preferenceScreenStyle), 0);
         this.l0 = true;
     }
 
