@@ -230,7 +230,7 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
 
     /* JADX WARN: Code duplicated, block: B:7:0x0013  */
     @Override // defpackage.ji3
-    public Object t(li3 li3Var, kv1 kv1Var) throws Throwable {
+    public Object t(li3 li3Var, kv1 kv1Var) {
         r3 r3Var;
         sw6 sw6Var;
         if (kv1Var instanceof r3) {
