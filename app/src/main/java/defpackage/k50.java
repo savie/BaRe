@@ -12,6 +12,10 @@ public class k50 extends dg7 implements Map {
     public g50 e;
     public i50 f;
 
+    public k50() {
+        super(0);
+    }
+
     public k50(int ignored) {
         super(0);
     }
