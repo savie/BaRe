@@ -7,6 +7,8 @@ import java.io.IOException;
 public class p79 extends IOException {
     public boolean a;
 
+    public p79(String message) { super(message); }
+
     public static r79 a() {
         return new r79("Protocol message tag had invalid wire type.");
     }
