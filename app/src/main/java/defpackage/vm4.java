@@ -467,7 +467,7 @@ public abstract class vm4 {
         }
         Map r0 = pv2Var;
         if (!(bn6Var instanceof bn6)) {
-            r0 = bn6Var;
+            r0 = (Map) bn6Var;
         }
         return (Map) r0;
     }
