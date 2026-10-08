@@ -22,6 +22,8 @@ public final class w1a extends i5 implements dh8 {
     public boolean n;
     public String p;
 
+    public w1a() {}
+
     public w1a(String str, String str2, String str3, String str4, String str5, String str6, boolean z, String str7) {
         this.a = str;
         this.b = str2;

@@ -28,6 +28,8 @@ public final class la implements ji3, aj8, yi6 {
     public Object a;
     public Object b;
 
+    public la() {}
+
     public la(int i) {
         switch (i) {
             case 7:

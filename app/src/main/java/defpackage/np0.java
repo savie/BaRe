@@ -5,6 +5,10 @@ import java.util.Set;
 /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
 /* JADX INFO: loaded from: classes.dex */
 public final class np0 extends op0 {
+    public np0(gc8 gc8Var, pp0 pp0Var, mp0[] mp0VarArr, mp0[] mp0VarArr2) {
+        super(gc8Var, pp0Var, mp0VarArr, mp0VarArr2);
+    }
+
     @Override // defpackage.op0
     public final op0 A(mp0[] mp0VarArr, mp0[] mp0VarArr2) {
         return new np0(this, mp0VarArr, mp0VarArr2);
