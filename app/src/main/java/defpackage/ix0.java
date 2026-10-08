@@ -202,7 +202,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
                 m0.h("Parsing of a single key failed (wrong status) and Tink is configured via validateKeysetsOnParsing to reject such keysets.");
                 return null;
             }
-            arrayList.add(new lb9(ns9Var, sz9Var.z(), iT, iT == uz9Var.z(), z));
+            arrayList.add(new lb9((vm4) ns9Var, sz9Var.z(), iT, iT == uz9Var.z(), z));
         }
         return new ix0(Collections.unmodifiableList(arrayList), new HashMap());
     }
