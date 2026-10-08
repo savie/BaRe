@@ -108,7 +108,8 @@ public class FirebaseApp {
                 }
             }
         }
-        for (final String str3 : arrayList) {
+        for (Object str3Object : arrayList) {
+            final String str3 = (String) str3Object;
             arrayList2.add(new ga6() { // from class: lo1
                 @Override // defpackage.ga6
                 public final Object get() {
