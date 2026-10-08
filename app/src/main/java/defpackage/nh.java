@@ -305,7 +305,7 @@ public final class nh implements t22, a13, zi0, dc5, zv5, av7, jk8, yi6, h9, u1a
                     bn6Var = new bn6(th);
                 }
                 zn4 zn4Var2 = zn4.a;
-                zn4.e(new mh(0, w45Var, bn6Var, nh.this.a));
+                zn4.e(new mh(0, w45Var, bn6Var, this.a));
                 return be8.a;
             }
         });
