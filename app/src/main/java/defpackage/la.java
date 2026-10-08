@@ -336,7 +336,6 @@ public final class la implements ji3, aj8, yi6 {
                     return yx1Var;
                 }
             } catch (u2 e) {
-                e = e;
                 yi3Var = yi3Var2;
                 if (e.a == yi3Var) {
                     throw e;
@@ -352,9 +351,8 @@ public final class la implements ji3, aj8, yi6 {
             try {
                 lg7.H(obj);
             } catch (u2 e2) {
-                e = e2;
-                if (e.a == yi3Var) {
-                    throw e;
+                if (e2.a == yi3Var) {
+                    throw e2;
                 }
                 sz8.p(wi3Var.getContext());
             }

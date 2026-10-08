@@ -174,7 +174,6 @@ public final class km5 implements dc5, ri0, sl0, aj8, h9, dh5, jk8, av7, hu5 {
                         if (ny7Var instanceof my7) {
                             if (!((my7) ny7Var).b.isEmpty()) {
                                 z = true;
-                                break;
                             }
                         } else {
                             q.j();
@@ -193,7 +192,7 @@ public final class km5 implements dc5, ri0, sl0, aj8, h9, dh5, jk8, av7, hu5 {
                     }
                 }
             } else if (!ty7Var.equals(qy7.f) && !(ty7Var instanceof py7)) {
-                throw new io5(appsBatchActivity.r() + ": Unhandled taskParams=" + ty7Var + " in onTaskParams()");
+                throw new io5(0);
             }
         }
         mh mhVar = new mh(i, appsBatchActivity, arrayList, ty7Var);
@@ -273,7 +272,7 @@ public final class km5 implements dc5, ri0, sl0, aj8, h9, dh5, jk8, av7, hu5 {
             boolean z4 = true;
             char c = 1;
             if (!it.hasNext()) {
-                oj ojVar = new oj(c == true ? 1 : 0, appsBatchActivity, arrayList2, new ry7(z2));
+                oj ojVar = new oj(1, appsBatchActivity, arrayList2, new ry7(z2));
                 if (z) {
                     sa1.R(appsBatchActivity, null, ojVar, 1);
                     return;
@@ -426,7 +425,7 @@ public final class km5 implements dc5, ri0, sl0, aj8, h9, dh5, jk8, av7, hu5 {
             boolean zW = z85.w();
             xp1 xp1VarR = z85.r();
             MultipleBackupStrategy.Companion.getClass();
-            arrayList2.add(new hz(jiVar, list4, list3, hkVar, null, zW, xp1VarR, b.c(), ok.d()));
+            arrayList2.add(new hz(jiVar, list4, list3, hkVar, null, zW, xp1VarR, MultipleBackupStrategy.Companion.c(), ok.d()));
         }
         y10 y10Var = new y10(0, appsBatchActivity, arrayList2, new ky7(2, 0));
         if (list3.contains(q05.CLOUD)) {

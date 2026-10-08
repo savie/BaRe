@@ -161,7 +161,7 @@ public abstract class vm4 {
         int i;
         Integer numW;
         int iIntValue;
-        Object bn6Var;
+        LinkedHashMap bn6Var;
         String str3;
         String str4;
         String str5;

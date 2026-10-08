@@ -80,6 +80,8 @@ public final class uz9 extends k79 {
         }
     }
 
+    public static void x(uz9 x, int v) { x.zze = v; }
+
     public final int t() {
         return ((b89) this.zzf).size();
     }

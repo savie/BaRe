@@ -755,7 +755,7 @@ public final class ai5 implements jk8, vn5 {
             }
             List<String> metadataKeysHex = filenSession.getMetadataKeysHex();
             ArrayList arrayList = new ArrayList(hl1.G0(metadataKeysHex, 10));
-            Iterator<T> it = metadataKeysHex.iterator();
+            Iterator<String> it = metadataKeysHex.iterator();
             while (it.hasNext()) {
                 arrayList.add(hb3.q((String) it.next()));
             }

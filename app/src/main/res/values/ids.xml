@@ -2,4 +2,10 @@
 <resources>
     <item name="is_pooling_container_tag" type="id" />
     <item name="pooling_container_listener_holder_tag" type="id" />
-    <item name="ALT" type="id" />\n    <item name="accessibility_action_clickable_span" type="id" />\n    <item name="glide_custom_view_target_tag" type="id" />\n    <item name="mtrl_card_checked_layer_id" type="id" />\n    <item name="tag_accessibility_actions" type="id" />\n    <item name="tag_accessibility_clickable_spans" type="id" />\n</resources>
+    <item name="ALT" type="id" />
+    <item name="accessibility_action_clickable_span" type="id" />
+    <item name="glide_custom_view_target_tag" type="id" />
+    <item name="mtrl_card_checked_layer_id" type="id" />
+    <item name="tag_accessibility_actions" type="id" />
+    <item name="tag_accessibility_clickable_spans" type="id" />
+</resources>

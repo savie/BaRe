@@ -357,7 +357,6 @@ public final class sl4 implements hp4, xe9, k15, zm7, v36, aj8, w23, tl6, dh5, z
                 i4 = 1;
                 i = i2;
                 break;
-                break;
             }
             int iIntValue = num.intValue();
             int i5 = i2 - iIntValue;
@@ -379,7 +378,6 @@ public final class sl4 implements hp4, xe9, k15, zm7, v36, aj8, w23, tl6, dh5, z
                         i3++;
                         i4 = 1;
                         i = i2;
-                        break;
                         break;
                     }
                     i6++;

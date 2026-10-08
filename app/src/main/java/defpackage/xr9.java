@@ -39,8 +39,7 @@ public final class xr9 implements w99 {
         } catch (BadPaddingException e2) {
             throw e2;
         } catch (GeneralSecurityException e3) {
-            e = e3;
-            Log.w("xr9", "encountered a potentially transient KeyStore error, will wait and retry", e);
+            Log.w("xr9", "encountered a potentially transient KeyStore error, will wait and retry", e3);
             Thread.sleep((int) (Math.random() * 100.0d));
             return wr9Var.a(bArr, bArr2);
         }

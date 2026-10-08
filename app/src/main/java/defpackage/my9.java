@@ -75,6 +75,8 @@ public final class my9 extends k79 {
         }
     }
 
+    public static void v(my9 x, int v) { x.zzg = v; }
+
     public final int t() {
         return this.zzg;
     }

@@ -754,7 +754,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
                 sz9.u((sz9) rz9VarA.b, i);
                 r0a r0aVar = pt9Var.e;
                 rz9VarA.c();
-                ((sz9) rz9VarA.b).zzi = r0aVar.zza();
+                sz9.w((sz9) rz9VarA.b, r0aVar);
                 sz9 sz9Var = (sz9) rz9VarA.b();
                 tz9VarA.c();
                 uz9.y((uz9) tz9VarA.b, sz9Var);

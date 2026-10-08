@@ -72,6 +72,11 @@ public final class sz9 extends k79 {
         }
     }
 
+    public static void u(sz9 x, int v) { x.zzh = v; }
+    public static void v(sz9 x, jz9 v) { x.zzf = v; }
+    public static void w(sz9 x, r0a v) { x.zzi = v.zza(); }
+    public static void x(sz9 x, int v) { x.zzg = v; }
+
     public final int t() {
         return this.zzh;
     }

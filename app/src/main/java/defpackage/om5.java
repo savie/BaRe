@@ -116,54 +116,24 @@ public final class om5 implements jk8, pe2, dh5, vl2, zv2 {
         byte[] bArr = (byte[]) m35Var.c(65536, byte[].class);
         FileOutputStream fileOutputStream = null;
         try {
-            try {
-                FileOutputStream fileOutputStream2 = new FileOutputStream(file);
-                while (true) {
-                    try {
-                        int i = inputStream.read(bArr);
-                        if (i == -1) {
-                            break;
-                        }
-                        fileOutputStream2.write(bArr, 0, i);
-                    } catch (IOException e) {
-                        e = e;
-                        fileOutputStream = fileOutputStream2;
-                        if (Log.isLoggable("StreamEncoder", 3)) {
-                            Log.d("StreamEncoder", "Failed to encode data onto the OutputStream", e);
-                        }
-                        if (fileOutputStream != null) {
-                            try {
-                                fileOutputStream.close();
-                            } catch (IOException unused) {
-                            }
-                        }
-                        m35Var.g(bArr);
-                        return false;
-                    } catch (Throwable th) {
-                        th = th;
-                        fileOutputStream = fileOutputStream2;
-                        if (fileOutputStream != null) {
-                            try {
-                                fileOutputStream.close();
-                            } catch (IOException unused2) {
-                            }
-                        }
-                        m35Var.g(bArr);
-                        throw th;
-                    }
-                }
-                fileOutputStream2.close();
-                try {
-                    fileOutputStream2.close();
-                } catch (IOException unused3) {
-                }
-                m35Var.g(bArr);
-                return true;
-            } catch (IOException e2) {
-                e = e2;
+            fileOutputStream = new FileOutputStream(file);
+            while (true) {
+                int i = inputStream.read(bArr);
+                if (i == -1) break;
+                fileOutputStream.write(bArr, 0, i);
             }
-        } catch (Throwable th2) {
-            th = th2;
+            fileOutputStream.close();
+            m35Var.g(bArr);
+            return true;
+        } catch (IOException e) {
+            if (Log.isLoggable("StreamEncoder", 3)) Log.d("StreamEncoder", "Failed to encode data onto the OutputStream", e);
+            if (fileOutputStream != null) try { fileOutputStream.close(); } catch (IOException unused) {}
+            m35Var.g(bArr);
+            return false;
+        } catch (Throwable th) {
+            if (fileOutputStream != null) try { fileOutputStream.close(); } catch (IOException unused2) {}
+            m35Var.g(bArr);
+            throw th;
         }
     }
 

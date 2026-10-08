@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
+import android.R;
 import android.os.Build;
 import android.view.accessibility.AccessibilityNodeInfo;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
@@ -74,7 +74,7 @@ public final class g6 {
         if (i2 >= 36 && ax0.a() >= 3600001) {
             accessibilityActionA = l6.a();
         }
-        new g6(accessibilityActionA, R.id.ALT, null, null, null);
+        new g6(accessibilityActionA, org.swiftapps.swiftbackup.R.id.ALT, null, null, null);
     }
 
     public g6(Object obj, int i2, CharSequence charSequence, w6 w6Var, Class cls) {

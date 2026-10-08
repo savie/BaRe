@@ -194,7 +194,7 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
     }
 
     @Override // defpackage.gk8
-    public void i(MediaExtractor mediaExtractor, Object obj) throws IOException {
+    public void i(MediaExtractor mediaExtractor, Object obj)  {
         AssetFileDescriptor assetFileDescriptor = (AssetFileDescriptor) obj;
         mediaExtractor.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
     }

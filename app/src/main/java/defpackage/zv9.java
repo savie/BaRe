@@ -58,6 +58,8 @@ public final class zv9 extends k79 {
         }
     }
 
+    public static void u(zv9 x, int v) { x.zze = v; }
+
     public final int t() {
         return this.zze;
     }

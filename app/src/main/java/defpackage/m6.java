@@ -1,6 +1,6 @@
 package defpackage;
 
-import org.swiftapps.swiftbackup.R;
+import android.R;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,7 +118,7 @@ public final class m6 {
                                         switch (i) {
                                             case R.id.accessibilityActionScrollInDirection:
                                                 return "ACTION_SCROLL_IN_DIRECTION";
-                                            case R.id.ALT:
+                                            case org.swiftapps.swiftbackup.R.id.ALT:
                                                 return "ACTION_SET_EXTENDED_SELECTION";
                                             default:
                                                 return "ACTION_UNKNOWN";

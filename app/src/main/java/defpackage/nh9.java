@@ -39,12 +39,10 @@ public final class nh9 {
                 this.b[i] = b;
                 this.d = i2;
             } catch (IndexOutOfBoundsException e2) {
-                e = e2;
                 i = i2;
-                throw new uh9(i, this.c, 1, e);
+                throw new uh9(i, this.c, 1, e2);
             }
         } catch (IndexOutOfBoundsException e3) {
-            e = e3;
         }
     }
 
@@ -142,7 +140,6 @@ public final class nh9 {
                     throw new uh9(i2, this.c, 1, e2);
                 }
             }
-            throw new uh9(i2, this.c, 1, e2);
         }
     }
 
@@ -167,17 +164,15 @@ public final class nh9 {
                     j2 >>>= 7;
                     i4 = i5;
                 } catch (IndexOutOfBoundsException e2) {
-                    e = e2;
                     i = i5;
-                    throw new uh9(i, i3, 1, e);
+                    throw new uh9(i, i3, 1, e2);
                 }
             }
             i = i4 + 1;
             try {
                 bArr[i4] = (byte) j2;
             } catch (IndexOutOfBoundsException e3) {
-                e = e3;
-                throw new uh9(i, i3, 1, e);
+                throw new uh9(i, i3, 1, e3);
             }
         } else {
             int i6 = i2;

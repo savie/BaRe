@@ -65,6 +65,8 @@ public final class wv9 extends k79 {
         }
     }
 
+    public static void u(wv9 x, int v) { x.zzg = v; }
+
     public final int t() {
         return this.zzg;
     }
