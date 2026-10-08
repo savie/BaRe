@@ -5,6 +5,8 @@ package defpackage;
 public final class iz0 extends k50 {
     public int k;
 
+    public iz0(int ignored) { super(ignored); }
+
     @Override // defpackage.dg7, java.util.Map
     public final void clear() {
         this.k = 0;
