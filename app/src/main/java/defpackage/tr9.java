@@ -287,7 +287,7 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
                 throw th;
             }
         } catch (Throwable th3) {
-            th = th3;
+            throw th3;
         }
     }
     public String toString() {

@@ -60,7 +60,8 @@ public final class ln5 implements xs0, vc5, dh5, i60, vb8, h9, gw6, OnCompleteLi
             return ln5Var.p();
         }
         if (obj instanceof zv3) {
-            for (w22 w22Var : ((zv3) obj).a) {
+            for (Object obj2 : ((zv3) obj).a) {
+                w22 w22Var = (w22) obj2;
             }
         }
         Context context = (Context) ln5Var.b;
