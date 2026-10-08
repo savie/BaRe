@@ -78,7 +78,7 @@ public class av4 {
             return 0;
         }
         qg6 qg6Var = (qg6) view.getLayoutParams();
-        return a(a.L(view) - ((ViewGroup.MarginLayoutParams) qg6Var).leftMargin, a.O(view) + ((ViewGroup.MarginLayoutParams) qg6Var).rightMargin, aVar.getPaddingLeft(), aVar.y - aVar.getPaddingRight(), i);
+        return a(androidx.recyclerview.widget.a.L(view) - ((ViewGroup.MarginLayoutParams) qg6Var).leftMargin, androidx.recyclerview.widget.a.O(view) + ((ViewGroup.MarginLayoutParams) qg6Var).rightMargin, aVar.getPaddingLeft(), aVar.y - aVar.getPaddingRight(), i);
     }
 
     public int c(View view, int i) {
@@ -87,7 +87,7 @@ public class av4 {
             return 0;
         }
         qg6 qg6Var = (qg6) view.getLayoutParams();
-        return a(a.P(view) - ((ViewGroup.MarginLayoutParams) qg6Var).topMargin, a.J(view) + ((ViewGroup.MarginLayoutParams) qg6Var).bottomMargin, aVar.getPaddingTop(), aVar.G - aVar.getPaddingBottom(), i);
+        return a(androidx.recyclerview.widget.a.P(view) - ((ViewGroup.MarginLayoutParams) qg6Var).topMargin, androidx.recyclerview.widget.a.J(view) + ((ViewGroup.MarginLayoutParams) qg6Var).bottomMargin, aVar.getPaddingTop(), aVar.G - aVar.getPaddingBottom(), i);
     }
 
     public float d(DisplayMetrics displayMetrics) {

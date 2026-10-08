@@ -25,4 +25,5 @@ public final class r82 extends g92 {
     public final r82 a() {
         return this;
     }
+    public r82(java.io.ByteArrayOutputStream out) { super(out); }
 }

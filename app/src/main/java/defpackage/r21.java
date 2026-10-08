@@ -20,8 +20,8 @@ public abstract class r21 extends FrameLayout {
     public final oe e;
 
     public r21(Context context, AttributeSet attributeSet, int i) {
-        ColorStateList colorStateListValueOf;
         super(context, attributeSet, i);
+        ColorStateList colorStateListValueOf;
         Rect rect = new Rect();
         this.c = rect;
         this.d = new Rect();

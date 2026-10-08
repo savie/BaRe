@@ -1,6 +1,6 @@
 package defpackage;
 
-import android.R;
+import org.swiftapps.swiftbackup.R;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;

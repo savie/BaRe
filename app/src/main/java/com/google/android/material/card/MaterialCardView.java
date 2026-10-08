@@ -48,8 +48,8 @@ public class MaterialCardView extends r21 implements Checkable, tc7 {
     public boolean q;
 
     public MaterialCardView(Context context, AttributeSet attributeSet, int i) {
-        nm7 nm7VarH;
         super(zm5.J(context, attributeSet, i, org.swiftapps.swiftbackup.R.style.Widget_MaterialComponents_CardView), attributeSet, i);
+        nm7 nm7VarH;
         this.p = false;
         this.q = false;
         this.n = true;

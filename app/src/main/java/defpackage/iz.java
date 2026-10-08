@@ -7,4 +7,5 @@ public final class iz extends kz {
     public final boolean b() {
         return false;
     }
+    public iz(ji jiVar) { super(jiVar); }
 }

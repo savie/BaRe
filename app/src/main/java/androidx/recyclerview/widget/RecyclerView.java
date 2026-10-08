@@ -3774,4 +3774,10 @@ public class RecyclerView extends ViewGroup implements fm5 {
     public RecyclerView(Context context) {
         this(context, null);
     }
+
+    public static void a(RecyclerView rv, View child, int index, ViewGroup.LayoutParams params) { rv.attachViewToParent(child, index, params); }
+    public static void b(RecyclerView rv, int index) { rv.detachViewFromParent(index); }
+    public static boolean c(RecyclerView rv) { return rv.awakenScrollBars(); }
+    public static void d(RecyclerView rv, View child, int index, ViewGroup.LayoutParams params) { rv.attachViewToParent(child, index, params); }
+    public static void e(View child, RecyclerView rv) { rv.detachViewFromParent(child); }
 }

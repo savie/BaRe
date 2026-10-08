@@ -37,4 +37,5 @@ public final class ml5 implements Parcelable.ClassLoaderCreator {
                 return new yg6(parcel, null);
         }
     }
+    public ml5(int a) { this.a = a; }
 }

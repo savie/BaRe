@@ -143,4 +143,5 @@ public final class be {
         this.b = ns0Var;
         this.a = z;
     }
+    public be() { super(); }
 }

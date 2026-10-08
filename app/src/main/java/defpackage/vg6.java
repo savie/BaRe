@@ -840,7 +840,7 @@ public final class vg6 {
                     long j9 = ((ug6) this.g).a(i9).d;
                     if (j9 == 0 || j9 + nanoTime4 < j) {
                         if (fh6VarJ.k()) {
-                            recyclerView.attachViewToParent(view8, recyclerView.getChildCount(), view8.getLayoutParams());
+                            RecyclerView.a(recyclerView, view8, recyclerView.getChildCount(), view8.getLayoutParams());
                             z3 = z;
                         } else {
                             z3 = false;
@@ -890,7 +890,7 @@ public final class vg6 {
                             Trace.endSection();
                         }
                         if (z3) {
-                            recyclerView.detachViewFromParent(view8);
+                            RecyclerView.e(view8, recyclerView);
                         }
                         nanoTime = recyclerView.getNanoTime() - j3;
                         tg6 tg6VarA2 = ((ug6) this.g).a(fh6VarJ.f);
@@ -933,7 +933,7 @@ public final class vg6 {
                     }
                 } else {
                     if (fh6VarJ.k()) {
-                        recyclerView.attachViewToParent(view8, recyclerView.getChildCount(), view8.getLayoutParams());
+                        RecyclerView.a(recyclerView, view8, recyclerView.getChildCount(), view8.getLayoutParams());
                         z3 = z;
                     } else {
                         z3 = false;
@@ -982,7 +982,7 @@ public final class vg6 {
                         Trace.endSection();
                     }
                     if (z3) {
-                        recyclerView.detachViewFromParent(view8);
+                        RecyclerView.e(view8, recyclerView);
                     }
                     nanoTime = recyclerView.getNanoTime() - j3;
                     tg6 tg6VarA3 = ((ug6) this.g).a(fh6VarJ.f);

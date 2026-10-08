@@ -41,7 +41,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
     public Object b;
     public Object c;
 
-    public ix0(List list, Map map) throws GeneralSecurityException {
+    public ix0(List list, Map map)  {
         this.a = 12;
         this.b = list;
         this.c = map;
@@ -400,7 +400,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
         ly8.h(yb9Var);
         ArrayList arrayList = p49Var.f;
         if (arrayList != null && arrayList.contains(d80Var.n())) {
-            return Tasks.forException(y49.a(new Status(17015, null, null, null)));
+            return Tasks.forException(y49.a(new Status(17015, null, null)));
         }
         if (d80Var instanceof au2) {
             au2 au2Var = (au2) d80Var;
@@ -548,7 +548,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
         e6.d();
     }
 
-    public void r(la laVar, xr9 xr9Var, byte[] bArr) throws IOException {
+    public void r(la laVar, xr9 xr9Var, byte[] bArr)  {
         uz9 uz9VarX = x();
         byte[] bArrB = xr9Var.b(uz9VarX.c(), bArr);
         fy9 fy9VarW = gy9.w();
@@ -749,9 +749,9 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
                 rz9VarA.c();
                 sz9.v((sz9) rz9VarA.b, (jz9) iz9VarT.b());
                 rz9VarA.c();
-                ((sz9) rz9VarA.b).zzg = u48.d(i2);
+                sz9.x((sz9) rz9VarA.b, u48.d(i2));
                 rz9VarA.c();
-                ((sz9) rz9VarA.b).zzh = i;
+                sz9.u((sz9) rz9VarA.b, i);
                 r0a r0aVar = pt9Var.e;
                 rz9VarA.c();
                 ((sz9) rz9VarA.b).zzi = r0aVar.zza();
@@ -760,7 +760,7 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
                 uz9.y((uz9) tz9VarA.b, sz9Var);
                 if (lb9Var.e) {
                     tz9VarA.c();
-                    ((uz9) tz9VarA.b).zze = i;
+                    uz9.x((uz9) tz9VarA.b, i);
                 }
             }
             return (uz9) tz9VarA.b();

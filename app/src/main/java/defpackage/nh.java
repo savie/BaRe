@@ -167,7 +167,7 @@ public final class nh implements t22, a13, zi0, dc5, zv5, av7, jk8, yi6, h9, u1a
                     NoSwipeViewPager noSwipeViewPager = homeActivity2.Z().f;
                     noSwipeViewPager.M = false;
                     noSwipeViewPager.w(iIntValue2, 0, false, false);
-                    c64 c64VarA0 = homeActivity2.F();
+                    c64 c64VarA0 = homeActivity2.V();
                     zn4 zn4Var = zn4.a;
                     zn4.c(new ej(c64VarA0, 22));
                 } else {
@@ -323,7 +323,7 @@ public final class nh implements t22, a13, zi0, dc5, zv5, av7, jk8, yi6, h9, u1a
         if (xy7Var.e.contains(q05.CLOUD)) {
             sa1.R(messagesBackupRestoreActivity, null, new g52(8, messagesBackupRestoreActivity, ff5Var), 1);
         } else {
-            messagesBackupRestoreActivity.b0().c(ff5.class, ff5Var);
+            messagesBackupRestoreActivity.a0().c(ff5.class, ff5Var);
         }
     }
 

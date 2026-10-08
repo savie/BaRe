@@ -25,4 +25,5 @@ public class g92 extends m1 {
     public final g92 b() {
         return this;
     }
+    public g92(java.io.ByteArrayOutputStream out) { super(out); }
 }

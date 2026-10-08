@@ -21,4 +21,5 @@ public final class g73 extends h60 {
     public final Object i(AssetManager assetManager, String str) {
         return assetManager.openFd(str);
     }
+    public g73(int i, Comparable key, Object value) { super(i, key, value); }
 }

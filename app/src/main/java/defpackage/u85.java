@@ -20,4 +20,5 @@ public final class u85 extends InsetDrawable {
     public final boolean getPadding(Rect rect) {
         return false;
     }
+    public u85(android.graphics.drawable.Drawable drawable, int left, int top, int right, int bottom) { super(drawable, left, top, right, bottom); }
 }

@@ -215,10 +215,10 @@ public final class fl2 {
             }
             float f5 = fSqrt * 1000.0f;
             uj8Var2.c = f5;
-            if (f5 < (-Math.abs((float) r4))) {
+            if (f5 < (-Math.abs((float) scaledMaximumFlingVelocity))) {
                 uj8Var2.c = -Math.abs(Float.MAX_VALUE);
-            } else if (uj8Var2.c > Math.abs((float) r4)) {
-                uj8Var2.c = Math.abs((float) r4);
+            } else if (uj8Var2.c > Math.abs((float) scaledMaximumFlingVelocity)) {
+                uj8Var2.c = Math.abs((float) scaledMaximumFlingVelocity);
             }
         } else {
             f = 0.0f;

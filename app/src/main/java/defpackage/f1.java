@@ -172,22 +172,17 @@ public final class f1 extends q1 {
     public final f1 E() {
         c1 c1Var = new c1(this.a);
         ConcurrentHashMap concurrentHashMap = c;
-        f1 f1Var = (f1) concurrentHashMap.get(c1Var);
-        if (f1Var != null) {
-            return f1Var;
-        }
+        f1 result = (f1) concurrentHashMap.get(c1Var);
+        if (result != null) return result;
         synchronized (concurrentHashMap) {
-            try {
-                if (concurrentHashMap.containsKey(c1Var)) {
-                    this = (f1) concurrentHashMap.get(c1Var);
-                } else {
-                    concurrentHashMap.put(c1Var, this);
-                }
-            } catch (Throwable th) {
-                throw th;
+            if (concurrentHashMap.containsKey(c1Var)) {
+                result = (f1) concurrentHashMap.get(c1Var);
+            } else {
+                concurrentHashMap.put(c1Var, this);
+                result = this;
             }
         }
-        return this;
+        return result;
     }
 
     public final boolean F(f1 f1Var) {

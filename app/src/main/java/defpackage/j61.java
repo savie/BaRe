@@ -59,7 +59,7 @@ public final class j61 {
             sb2.append(strA);
             throw new IllegalArgumentException(sb2.toString());
         }
-        recyclerView.attachViewToParent(view, childCount, layoutParams);
+        RecyclerView.a(recyclerView, view, childCount, layoutParams);
     }
 
     public final void c(int i) {
@@ -86,7 +86,7 @@ public final class j61 {
             d6.h("No view at offset ", iF, recyclerView.A());
             return;
         }
-        recyclerView.detachViewFromParent(iF);
+        RecyclerView.b(recyclerView, iF);
     }
 
     public final View d(int i) {

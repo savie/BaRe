@@ -1,6 +1,6 @@
 package defpackage;
 
-import android.R;
+import org.swiftapps.swiftbackup.R;
 import android.os.Build;
 import android.view.accessibility.AccessibilityNodeInfo;
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;

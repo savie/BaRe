@@ -11,4 +11,5 @@ public final class ky7 extends ty7 {
         SwiftApp.Companion companion = SwiftApp.d;
         return dj7.g(R.string.backup);
     }
+    public ky7(int a, int b) { super(a, b); }
 }

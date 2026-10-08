@@ -160,7 +160,7 @@ public final class eh6 implements Runnable {
             if (i3 != 0 || i4 != 0) {
                 recyclerView.v(i3, i4);
             }
-            if (!recyclerView.awakenScrollBars()) {
+            if (!RecyclerView.c(recyclerView)) {
                 recyclerView.invalidate();
             }
             boolean z = overScroller.isFinished() || (((overScroller.getCurrX() == overScroller.getFinalX()) || i12 != 0) && ((overScroller.getCurrY() == overScroller.getFinalY()) || i13 != 0));

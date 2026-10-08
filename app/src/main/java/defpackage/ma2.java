@@ -31,7 +31,7 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
         this.a = 21;
     }
 
-    public static ff2 q(String str) throws IOException {
+    public static ff2 q(String str)  {
         HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(str).openConnection();
         httpURLConnection.setRequestMethod("GET");
         httpURLConnection.connect();
@@ -57,7 +57,7 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
     }
 
     @Override // defpackage.aa9
-    public Object d(ix0 ix0Var, Class cls) throws GeneralSecurityException {
+    public Object d(ix0 ix0Var, Class cls)  {
         d2a d2aVarJ;
         List arrayList;
         if (cls != w99.class) {
@@ -291,13 +291,13 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
         yv9 yv9VarV = zv9.v();
         int i = gf9Var.c;
         yv9VarV.c();
-        ((zv9) yv9VarV.b).zze = i;
+        zv9.u((zv9) yv9VarV.b, i);
         zv9 zv9Var = (zv9) yv9VarV.b();
         vv9VarW.c();
         wv9.v((wv9) vv9VarW.b, zv9Var);
         int i2 = gf9Var.a;
         vv9VarW.c();
-        ((wv9) vv9VarW.b).zzg = i2;
+        wv9.u((wv9) vv9VarW.b, i2);
         wv9 wv9Var = (wv9) vv9VarW.b();
         nv9VarT.c();
         ov9.v((ov9) nv9VarT.b, wv9Var);
@@ -307,7 +307,7 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
         my9.w((my9) ly9VarY.b, py9VarD);
         int i3 = gf9Var.b;
         ly9VarY.c();
-        ((my9) ly9VarY.b).zzg = i3;
+        my9.v((my9) ly9VarY.b, i3);
         my9 my9Var = (my9) ly9VarY.b();
         nv9VarT.c();
         ov9.w((ov9) nv9VarT.b, my9Var);
