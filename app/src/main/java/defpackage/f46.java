@@ -223,9 +223,7 @@ public class f46 extends hg6 {
         return (Preference) this.f.get(i);
     }
 
-    @Override // defpackage.hg6
-    /* JADX INFO: renamed from: n, reason: merged with bridge method [inline-methods] */
-    public void h(k46 k46Var, int i) {
+    public final void n(k46 k46Var, int i) {
         Preference preferenceM = m(i);
         ColorStateList colorStateList = k46Var.v;
         View view = k46Var.a;
@@ -240,6 +238,11 @@ public class f46 extends hg6 {
             textView.setTextColor(colorStateList);
         }
         preferenceM.l(k46Var);
+    }
+
+    @Override // defpackage.hg6
+    public void h(fh6 fh6Var, int i) {
+        n((k46) fh6Var, i);
     }
 
     public final void o() {
