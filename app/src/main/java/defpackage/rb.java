@@ -176,7 +176,8 @@ public class rb implements ls5, qp, zi0, ta4, z23, dh5, pe2, vl2, w6, za2, w23, 
     }
 
     @Override // defpackage.pe2
-    public int i(byte[] bArr, int i) throws oe2 {
+    public int i(byte[] bArr, int i) {
+        try {
         int i2 = 0;
         int i3 = 0;
         while (i2 < i && (i3 = ((InputStream) this.b).read(bArr, i2, i - i2)) != -1) {
@@ -186,15 +187,26 @@ public class rb implements ls5, qp, zi0, ta4, z23, dh5, pe2, vl2, w6, za2, w23, 
             throw new oe2();
         }
         return i2;
+    
+        } catch (Throwable e) {
+            sneakyThrow(e);
+            return 0;
+        }
     }
 
     @Override // defpackage.pe2
-    public short j() throws IOException {
+    public short j() {
+        try {
         int i = ((InputStream) this.b).read();
         if (i != -1) {
             return (short) i;
         }
         throw new oe2();
+    
+        } catch (IOException e) {
+            sneakyThrow(e);
+            return 0;
+        }
     }
 
     @Override // defpackage.vl2
@@ -434,7 +446,8 @@ public class rb implements ls5, qp, zi0, ta4, z23, dh5, pe2, vl2, w6, za2, w23, 
     }
 
     @Override // defpackage.pe2
-    public long skip(long j) throws IOException {
+    public long skip(long j) {
+        try {
         InputStream inputStream = (InputStream) this.b;
         if (j < 0) {
             return 0L;
@@ -451,6 +464,11 @@ public class rb implements ls5, qp, zi0, ta4, z23, dh5, pe2, vl2, w6, za2, w23, 
             j2 -= jSkip;
         }
         return j - j2;
+    
+        } catch (IOException e) {
+            sneakyThrow(e);
+            return 0L;
+        }
     }
 
     public void u(Object obj, int i, int i2) {
@@ -660,4 +678,9 @@ public class rb implements ls5, qp, zi0, ta4, z23, dh5, pe2, vl2, w6, za2, w23, 
         this.a = 6;
         this.b = new AtomicBoolean(z);
     }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
+
 }

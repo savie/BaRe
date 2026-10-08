@@ -349,7 +349,7 @@ public abstract class vm4 {
                         }
                         str3 = obj;
                     }
-                    if (str3 == 0) {
+                    if (str3 == null) {
                         str3 = str2;
                         str3 = str4;
                         str3 = str5;

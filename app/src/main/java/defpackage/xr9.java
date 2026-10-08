@@ -23,7 +23,8 @@ public final class xr9 implements w99 {
     }
 
     @Override // defpackage.w99
-    public final byte[] a(byte[] bArr, byte[] bArr2) throws BadPaddingException {
+    public final byte[] a(byte[] bArr, byte[] bArr2) {
+        try {
         wr9 wr9Var = this.a;
         try {
             return wr9Var.a(bArr, bArr2);
@@ -43,6 +44,11 @@ public final class xr9 implements w99 {
             Thread.sleep((int) (Math.random() * 100.0d));
             return wr9Var.a(bArr, bArr2);
         }
+    
+        } catch (Throwable e) {
+            sneakyThrow(e);
+            return null;
+        }
     }
 
     @Override // defpackage.w99
@@ -59,4 +65,9 @@ public final class xr9 implements w99 {
             return wr9Var.b(bArr, bArr2);
         }
     }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
+
 }

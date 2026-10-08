@@ -283,13 +283,19 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
     }
 
     @Override // defpackage.uc6
-    public void a(tc6 tc6Var, int i) throws IOException {
+    public void a(tc6 tc6Var, int i) {
+        try {
         int[] iArr = (int[]) this.c;
         try {
             tc6Var.read((byte[]) this.b, iArr[0], i);
             iArr[0] = iArr[0] + i;
         } finally {
             tc6Var.close();
+        }
+    
+        } catch (IOException e) {
+            sneakyThrow(e);
+            return;
         }
     }
 
@@ -815,4 +821,9 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
         this.c = f46Var;
         this.b = preferenceGroup;
     }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
+
 }

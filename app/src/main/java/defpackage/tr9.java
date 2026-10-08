@@ -170,12 +170,18 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
     }
 
     @Override // defpackage.fa6
-    public cz2 i(Reader reader) throws XmlPullParserException {
+    public cz2 i(Reader reader) {
+        try {
         XmlPullParser xmlPullParserNewPullParser = ((XmlPullParserFactory) this.b).newPullParser();
         xmlPullParserNewPullParser.setInput(reader);
         ot9 ot9Var = new ot9();
         ot9Var.a = xmlPullParserNewPullParser;
         return ot9Var;
+    
+        } catch (XmlPullParserException e) {
+            sneakyThrow(e);
+            return null;
+        }
     }
 
     @Override // defpackage.zv5
@@ -224,7 +230,8 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
 
     /* JADX WARN: Code duplicated, block: B:7:0x0013  */
     @Override // defpackage.ji3
-    public Object t(li3 li3Var, kv1 kv1Var) throws Throwable {
+    public Object t(li3 li3Var, kv1 kv1Var) {
+        try {
         r3 r3Var;
         sw6 sw6Var;
         if (kv1Var instanceof r3) {
@@ -282,6 +289,11 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
             }
         } catch (Throwable th3) {
             th = th3;
+        }
+    
+        } catch (Throwable e) {
+            sneakyThrow(e);
+            return null;
         }
     }
 
@@ -341,4 +353,9 @@ public final class tr9 implements am6, ls5, z98, jk8, zv5, fa6, ji3, z23, hu5, n
         this.a = 11;
         this.b = materialCardView;
     }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
+
 }

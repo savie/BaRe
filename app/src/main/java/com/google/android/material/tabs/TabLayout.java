@@ -207,7 +207,7 @@ public class TabLayout extends HorizontalScrollView {
             typedArrayB.recycle();
             Resources resources = getResources();
             this.K = resources.getDimensionPixelSize(org.swiftapps.swiftbackup.R.dimen.design_tab_text_size_2line);
-            this.P = resources.getDimensionPixelSize(R.dimen.design_tab_scrollable_min_width);
+            this.P = resources.getDimensionPixelSize(org.swiftapps.swiftbackup.R.dimen.design_tab_scrollable_min_width);
             d();
         } catch (Throwable th2) {
             typedArrayObtainStyledAttributes.recycle();

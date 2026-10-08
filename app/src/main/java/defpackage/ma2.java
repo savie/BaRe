@@ -103,7 +103,8 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
     }
 
     @Override // defpackage.es9
-    public pt9 f(vm4 vm4Var) throws GeneralSecurityException {
+    public pt9 f(vm4 vm4Var) {
+        try {
         r0a r0aVar;
         switch (this.a) {
             case 24:
@@ -141,6 +142,11 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
                     return pt9.a("type.googleapis.com/google.crypto.tink.AesSivKey", x69VarB2, 2, (r0a) map.get(cp9Var), to9Var.k);
                 }
                 throw new GeneralSecurityException("Unable to serialize variant: ".concat(String.valueOf(cp9Var)));
+        }
+    
+        } catch (GeneralSecurityException e) {
+            sneakyThrow(e);
+            return null;
         }
     }
 
@@ -330,4 +336,9 @@ public class ma2 implements mo1, vl0, dh5, fy0, e33, nx1, hu5, z23, y57, r67, gk
     @Override // defpackage.y57
     public void onScrollProgress(int i, int i2, int i3, int i4) {
     }
+
+    private static <T extends Throwable> void sneakyThrow(Throwable t) throws T {
+        throw (T) t;
+    }
+
 }
