@@ -65,9 +65,13 @@ android {
 }
 
 def jgssStubSourceDir = file("$rootDir/gradle/jgss-api-stubs/src")
+def javaxElStubSourceDir = file("$rootDir/gradle/javax-el-api-stubs/src")
 def jgssStubClassesDir = layout.buildDirectory.dir("jgss-api-stubs/classes")
 def jgssStubJarDir = layout.buildDirectory.dir("jgss-api-stubs")
 def jgssStubJar = layout.buildDirectory.file("jgss-api-stubs/jgss-api-stubs.jar")
+def javaxElStubClassesDir = layout.buildDirectory.dir("javax-el-api-stubs/classes")
+def javaxElStubJarDir = layout.buildDirectory.dir("javax-el-api-stubs")
+def javaxElStubJar = layout.buildDirectory.file("javax-el-api-stubs/javax-el-api-stubs.jar")
 
 tasks.register("compileJgssApiStubs", JavaCompile) {
     source fileTree(jgssStubSourceDir)
@@ -75,6 +79,21 @@ tasks.register("compileJgssApiStubs", JavaCompile) {
     classpath = files()
     sourceCompatibility = "8"
     targetCompatibility = "8"
+}
+
+tasks.register("compileJavaxElApiStubs", JavaCompile) {
+    source fileTree(javaxElStubSourceDir)
+    destinationDirectory.set(javaxElStubClassesDir)
+    classpath = files()
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
+}
+
+tasks.register("jarJavaxElApiStubs", Jar) {
+    dependsOn("compileJavaxElApiStubs")
+    archiveFileName = "javax-el-api-stubs.jar"
+    destinationDirectory.set(javaxElStubJarDir)
+    from(javaxElStubClassesDir)
 }
 
 tasks.register("jarJgssApiStubs", Jar) {
@@ -85,12 +104,13 @@ tasks.register("jarJgssApiStubs", Jar) {
 }
 
 tasks.matching { it.name == "compileDebugJavaWithJavac" }.configureEach {
-    dependsOn("jarJgssApiStubs")
+    dependsOn("jarJgssApiStubs", "jarJavaxElApiStubs")
 }
 
 dependencies {
     compileOnly "androidx.performance:performance-unsafe:1.0.0-alpha01"
     compileOnly files(jgssStubJar)
+    compileOnly files(javaxElStubJar)
     implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "androidx.core:core:1.18.0"
     implementation "androidx.fragment:fragment:1.8.9"
