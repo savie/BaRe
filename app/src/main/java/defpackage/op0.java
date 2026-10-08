@@ -458,28 +458,6 @@ public abstract class op0 extends tn7 implements iv1 {
 
     public abstract op0 z(lr5 lr5Var);
 
-    public op0(op0 op0Var, mp0[] mp0VarArr, mp0[] mp0VarArr2) {
-        super(op0Var.a);
-        this.c = op0Var.c;
-        this.d = mp0VarArr;
-        this.e = mp0VarArr2;
-        this.k = op0Var.k;
-        this.n = op0Var.n;
-        this.f = op0Var.f;
-        this.p = op0Var.p;
-    }
-
-    public op0(op0 op0Var, lr5 lr5Var, Object obj) {
-        super(op0Var.a);
-        this.c = op0Var.c;
-        this.d = op0Var.d;
-        this.e = op0Var.e;
-        this.k = op0Var.k;
-        this.n = lr5Var;
-        this.f = obj;
-        this.p = op0Var.p;
-    }
-
     public op0(gc8 gc8Var, pp0 pp0Var, mp0[] mp0VarArr, mp0[] mp0VarArr2) {
         super(gc8Var);
         this.c = gc8Var;
