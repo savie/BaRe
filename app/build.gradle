@@ -64,6 +64,11 @@ android {
     }
 }
 
+def libcoreIoStubSourceDir = file("$rootDir/gradle/libcore-io-stubs/src")
+def libcoreIoStubClassesDir = layout.buildDirectory.dir("libcore-io-stubs/classes")
+def libcoreIoStubJarDir = layout.buildDirectory.dir("libcore-io-stubs")
+def libcoreIoStubJar = layout.buildDirectory.file("libcore-io-stubs/libcore-io-stubs.jar")
+
 def jgssStubSourceDir = file("$rootDir/gradle/jgss-api-stubs/src")
 def javaxElStubSourceDir = file("$rootDir/gradle/javax-el-api-stubs/src")
 def jgssStubClassesDir = layout.buildDirectory.dir("jgss-api-stubs/classes")
@@ -72,6 +77,21 @@ def jgssStubJar = layout.buildDirectory.file("jgss-api-stubs/jgss-api-stubs.jar"
 def javaxElStubClassesDir = layout.buildDirectory.dir("javax-el-api-stubs/classes")
 def javaxElStubJarDir = layout.buildDirectory.dir("javax-el-api-stubs")
 def javaxElStubJar = layout.buildDirectory.file("javax-el-api-stubs/javax-el-api-stubs.jar")
+
+tasks.register("compileLibcoreIoStubs", JavaCompile) {
+    source fileTree(libcoreIoStubSourceDir)
+    destinationDirectory.set(libcoreIoStubClassesDir)
+    classpath = files()
+    sourceCompatibility = "8"
+    targetCompatibility = "8"
+}
+
+tasks.register("jarLibcoreIoStubs", Jar) {
+    dependsOn("compileLibcoreIoStubs")
+    archiveFileName = "libcore-io-stubs.jar"
+    destinationDirectory.set(libcoreIoStubJarDir)
+    from(libcoreIoStubClassesDir)
+}
 
 tasks.register("compileJgssApiStubs", JavaCompile) {
     source fileTree(jgssStubSourceDir)
@@ -104,11 +124,12 @@ tasks.register("jarJgssApiStubs", Jar) {
 }
 
 tasks.matching { it.name == "compileDebugJavaWithJavac" }.configureEach {
-    dependsOn("jarJgssApiStubs", "jarJavaxElApiStubs")
+    dependsOn("jarJgssApiStubs", "jarJavaxElApiStubs", "jarLibcoreIoStubs")
 }
 
 dependencies {
     compileOnly "androidx.performance:performance-unsafe:1.0.0-alpha01"
+    compileOnly files(libcoreIoStubJar)
     compileOnly files(jgssStubJar)
     compileOnly files(javaxElStubJar)
     implementation "androidx.appcompat:appcompat:1.7.1"
