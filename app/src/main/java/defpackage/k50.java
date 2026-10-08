@@ -61,7 +61,8 @@ public class k50 extends dg7 implements Map {
     @Override // java.util.Map
     public final void putAll(Map map) {
         b(map.size() + this.c);
-        for (Map.Entry entry : map.entrySet()) {
+        for (Object entryObject : map.entrySet()) {
+            Map.Entry entry = (Map.Entry) entryObject;
             put(entry.getKey(), entry.getValue());
         }
     }

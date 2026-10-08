@@ -91,7 +91,8 @@ public final class xk9 extends LinkedHashMap {
     @Override // java.util.AbstractMap, java.util.Map
     public final int hashCode() {
         int iA = 0;
-        for (Map.Entry entry : entrySet()) {
+        for (Object entryObject : entrySet()) {
+            Map.Entry entry = (Map.Entry) entryObject;
             iA += a(entry.getValue()) ^ a(entry.getKey());
         }
         return iA;

@@ -185,7 +185,8 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
             return null;
         }
         ArrayList arrayList = new ArrayList(uz9Var.t());
-        for (sz9 sz9Var : uz9Var.B()) {
+        for (Object sz9Object : uz9Var.B()) {
+            sz9 sz9Var = (sz9) sz9Object;
             int iT = sz9Var.t();
             try {
                 ns9Var = k(sz9Var);
@@ -448,7 +449,8 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
         boolean z = true;
         int i2 = 0;
         boolean z2 = false;
-        for (sz9 sz9Var : uz9VarX.B()) {
+        for (Object sz9Object : uz9VarX.B()) {
+            sz9 sz9Var = (sz9) sz9Object;
             if (sz9Var.z() == 2) {
                 if (!sz9Var.C()) {
                     throw new GeneralSecurityException(String.format("key %d has no key data", Integer.valueOf(sz9Var.t())));
@@ -699,7 +701,8 @@ public final class ix0 implements t36, jk8, uc6, OnCompleteListener {
     }
 
     public lb9 w() {
-        for (lb9 lb9Var : (List) this.b) {
+        for (Object lb9Object : (List) this.b) {
+            lb9 lb9Var = (lb9) lb9Object;
             if (lb9Var != null && lb9Var.e) {
                 if (lb9Var.c == ia9.c) {
                     return lb9Var;
