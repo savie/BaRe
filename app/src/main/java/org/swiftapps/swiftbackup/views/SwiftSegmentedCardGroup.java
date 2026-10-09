@@ -308,7 +308,7 @@ public final class SwiftSegmentedCardGroup extends LinearLayout {
         view.setOnClickListener(onClickListener);
         view.setClickable(true);
         view.setFocusable(true);
-        ?? r11 = view;
+        View r11 = view;
         while (true) {
             if (r11 == 0 || r11.equals(this)) {
                 r11 = 0;
@@ -321,8 +321,8 @@ public final class SwiftSegmentedCardGroup extends LinearLayout {
                 r11 = parent instanceof View ? (View) parent : 0;
             }
         }
-        final ?? r4 = r11 == 0 ? view : r11;
-        ?? r12 = r4;
+        final View r4 = r11 == 0 ? view : r11;
+        View r12 = r4;
         while (r12 != 0 && !r12.equals(this)) {
             if ((r12 instanceof MaterialCardView) && this.d.contains(r12)) {
                 materialCardView = (MaterialCardView) r12;
@@ -334,19 +334,19 @@ public final class SwiftSegmentedCardGroup extends LinearLayout {
         }
         Drawable foreground = r4.getForeground();
         c(this, r4, materialCardView, view);
-        ?? r6 = new View.OnLayoutChangeListener() { // from class: nt7
+        View.OnLayoutChangeListener r6 = new View.OnLayoutChangeListener() { // from class: nt7
             @Override // android.view.View.OnLayoutChangeListener
             public final void onLayoutChange(View view3, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 SwiftSegmentedCardGroup.c(this.a, r4, materialCardView, view);
             }
         };
-        ?? r7 = new View.OnLayoutChangeListener() { // from class: ot7
+        View.OnLayoutChangeListener r7 = new View.OnLayoutChangeListener() { // from class: ot7
             @Override // android.view.View.OnLayoutChangeListener
             public final void onLayoutChange(View view3, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
                 SwiftSegmentedCardGroup.c(this.a, r4, materialCardView, view);
             }
         };
-        ?? r8 = new View.OnTouchListener(this) { // from class: pt7
+        View.OnTouchListener r8 = new View.OnTouchListener(this) { // from class: pt7
             @Override // android.view.View.OnTouchListener
             public final boolean onTouch(View view3, MotionEvent motionEvent) {
                 rt7 rt7Var;
