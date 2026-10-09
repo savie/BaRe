@@ -990,35 +990,35 @@ public final class AppSettings {
                                                     throw th;
                                                 }
                                                 z7 = sharedPreferences9.getBoolean("show_system_apps", false);
-                                                ?? ValueOf2 = z7 ? Boolean.valueOf(z7) : th;
+                                                Boolean ValueOf2 = z7 ? Boolean.valueOf(z7) : null;
                                                 xy xyVar = xy.Right;
                                                 xyVar.getClass();
                                                 String strM = ho6.m(ho6.o(xyVar));
-                                                ?? r28 = !strM.equals(ho6.m(ho6.j(xyVar))) ? strM : th;
+                                                String r28 = !strM.equals(ho6.m(ho6.j(xyVar))) ? strM : null;
                                                 xy xyVar2 = xy.Left;
                                                 xyVar2.getClass();
                                                 String strM2 = ho6.m(ho6.o(xyVar2));
-                                                ?? r29 = !strM2.equals(ho6.m(ho6.j(xyVar2))) ? strM2 : th;
+                                                String r29 = !strM2.equals(ho6.m(ho6.j(xyVar2))) ? strM2 : null;
                                                 tb1 tb1Var = tb1.a;
-                                                ?? constant = qb1.m() ? qb1.f().getConstant() : th;
+                                                String constant = qb1.m() ? qb1.f().getConstant() : null;
                                                 boolean zB = ho6.B();
-                                                ?? ValueOf3 = zB ? Boolean.valueOf(zB) : th;
+                                                Boolean ValueOf3 = zB ? Boolean.valueOf(zB) : null;
                                                 boolean zA = ho6.A();
-                                                ?? ValueOf4 = zA ? Boolean.valueOf(zA) : th;
+                                                Boolean ValueOf4 = zA ? Boolean.valueOf(zA) : null;
                                                 int iT = ho6.t();
                                                 Integer numValueOf6 = Integer.valueOf(iT);
                                                 gv7 gv7Var = oi5.L;
-                                                ?? r34 = iT != ly8.v() ? numValueOf6 : th;
+                                                Integer r34 = iT != ly8.v() ? numValueOf6 : null;
                                                 int iQ = ho6.q();
-                                                ?? ValueOf5 = iQ != 25 ? Integer.valueOf(iQ) : th;
+                                                Integer ValueOf5 = iQ != 25 ? Integer.valueOf(iQ) : null;
                                                 int iW = ho6.w();
-                                                ?? ValueOf6 = iW != 5 ? Integer.valueOf(iW) : th;
+                                                Integer ValueOf6 = iW != 5 ? Integer.valueOf(iW) : null;
                                                 int iV = ho6.v();
-                                                ?? ValueOf7 = iV != 100 ? Integer.valueOf(iV) : th;
+                                                Integer ValueOf7 = iV != 100 ? Integer.valueOf(iV) : null;
                                                 boolean z8 = ho6.z();
-                                                ?? ValueOf8 = z8 ? Boolean.valueOf(z8) : th;
+                                                Boolean ValueOf8 = z8 ? Boolean.valueOf(z8) : null;
                                                 int iY = ho6.y();
-                                                return new AppSettings(Integer.valueOf(themeId), boolValueOf, strY0, numValueOf, boolValueOf2, numValueOf2, numValueOf3, multipleBackupStrategy, boolValueOf3, null, arrayListD, boolValueOf4, boolValueOf5, boolValueOf6, boolValueOf7, string2, numU, numValueOf4, boolValueOf8, numS, numValueOf5, ValueOf2, r28, r29, ValueOf, constant, ValueOf3, ValueOf4, r34, ValueOf5, ValueOf6, ValueOf7, ValueOf8, iY != 5 ? Integer.valueOf(iY) : th, 512, 0, null);
+                                                return new AppSettings(Integer.valueOf(themeId), boolValueOf, strY0, numValueOf, boolValueOf2, numValueOf2, numValueOf3, multipleBackupStrategy, boolValueOf3, null, arrayListD, boolValueOf4, boolValueOf5, boolValueOf6, boolValueOf7, string2, numU, numValueOf4, boolValueOf8, numS, numValueOf5, ValueOf2, r28, r29, ValueOf, constant, ValueOf3, ValueOf4, r34, ValueOf5, ValueOf6, ValueOf7, ValueOf8, iY != 5 ? Integer.valueOf(iY) : null, 512, 0, null);
                                             } catch (ClassCastException unused2) {
                                             }
                                         } catch (ClassCastException unused3) {
