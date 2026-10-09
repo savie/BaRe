@@ -205,7 +205,7 @@ public final class HomeSearchActivity extends sa1 {
         }
         Integer num = s54Var.q;
         int i2 = 0;
-        ?? r3 = 0;
+        bt r3 = null;
         to3 to3Var = null;
         if (num != null) {
             int iIntValue = num.intValue();
@@ -231,7 +231,7 @@ public final class HomeSearchActivity extends sa1 {
                         } else {
                             r3 = btVarValueOf;
                         }
-                        ?? intent2 = new Intent((Context) this, (Class<?>) AppListActivity.class);
+                        Intent intent2 = new Intent((Context) this, (Class<?>) AppListActivity.class);
                         intent2.putExtra("KEY_SECTION", r3);
                         startActivity(intent2);
                     } catch (ClassCastException unused) {
