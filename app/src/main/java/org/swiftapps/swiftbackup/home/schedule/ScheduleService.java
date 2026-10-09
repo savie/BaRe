@@ -280,7 +280,7 @@ public final class ScheduleService extends IntentService {
     /* JADX WARN: Type inference failed for: r5v54 */
     /* JADX WARN: Type inference failed for: r7v1, types: [java.lang.Iterable, java.util.Collection, java.util.List] */
     public final void e() {
-        ?? I;
+        List I;
         ScheduleLastRunDetails blockedLowBattery;
         long j;
         Context context;
@@ -288,8 +288,8 @@ public final class ScheduleService extends IntentService {
         boolean z;
         boolean zE;
         Object obj;
-        ?? arrayList;
-        ?? arrayList2;
+        ArrayList arrayList;
+        ArrayList arrayList2;
         ArrayList arrayList3;
         List<ConfigSettings> validSettings;
         int i2;
@@ -361,7 +361,7 @@ public final class ScheduleService extends IntentService {
                 I = ov2.a;
             }
         }
-        ?? r7 = I;
+        List r7 = I;
         if (!V.INSTANCE.getVp()) {
             List listA0 = fl1.A0(fz5.j(c47.a.c().getSchedules().size(), "all="), fz5.j(r7.size(), "runnable="));
             zc2 zc2Var = re3.a;
