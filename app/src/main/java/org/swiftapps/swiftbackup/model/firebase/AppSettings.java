@@ -830,7 +830,7 @@ public final class AppSettings {
             boolean z5;
             String string;
             Throwable th;
-            ?? r15;
+            xp1 r15;
             h28.Companion.getClass();
             int themeId = f28.b().getThemeId();
             boolean zE = f28.e();
