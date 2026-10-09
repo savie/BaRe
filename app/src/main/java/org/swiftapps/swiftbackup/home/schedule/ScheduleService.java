@@ -1228,7 +1228,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty = arrayList13.isEmpty();
-        ?? r0 = arrayList13;
+        List r0 = arrayList13;
         if (zIsEmpty) {
             r0 = context;
         }
@@ -1271,7 +1271,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty2 = arrayList14.isEmpty();
-        ?? r1 = arrayList14;
+        List r1 = arrayList14;
         if (zIsEmpty2) {
             r1 = context;
         }
@@ -1307,7 +1307,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty3 = arrayList15.isEmpty();
-        ?? r2 = arrayList15;
+        List r2 = arrayList15;
         if (zIsEmpty3) {
             r2 = context;
         }
@@ -1368,7 +1368,7 @@ public final class ScheduleService extends IntentService {
             }
         }
         boolean zIsEmpty4 = arrayList17.isEmpty();
-        ?? r3 = arrayList17;
+        List r3 = arrayList17;
         if (zIsEmpty4) {
             r3 = context;
         }
@@ -1433,7 +1433,7 @@ public final class ScheduleService extends IntentService {
             }
             i = i13;
         }
-        ?? string4 = i > 0 ? this.getString(R.string.schedule_error_notification_subtitle) : context;
+        String string4 = i > 0 ? this.getString(R.string.schedule_error_notification_subtitle) : null;
         if (this.d) {
             vr6.w$default(vr6.INSTANCE, p, "Foreground service timed out while preparing schedules; skipping task handoff", null, 4, null);
             return;
