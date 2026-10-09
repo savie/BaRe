@@ -43,93 +43,39 @@ public final class MultipleBackupStrategy implements Parcelable {
     private static final os4 defaultConditionalBackupsStrategy$delegate = new gv7(new qm(15));
     private static final os4 legacyArchiveStrategy$delegate = new gv7(new pu(10));
 
-    /* JADX WARN: Enum visitor error
-    jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v0 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$NewBackupCondition, still in use, count: 1, list:
-      (r0v0 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$NewBackupCondition) from 0x0031: SPUT (r0v0 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$NewBackupCondition) (LINE:50) org.swiftapps.swiftbackup.settings.MultipleBackupStrategy.NewBackupCondition.default org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$NewBackupCondition
-    	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:164)
-    	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:129)
-    	at jadx.core.utils.InsnRemover.lambda$unbindInsns$1(InsnRemover.java:101)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-    	at jadx.core.utils.InsnRemover.unbindInsns(InsnRemover.java:100)
-    	at jadx.core.utils.InsnRemover.removeAllAndUnbind(InsnRemover.java:257)
-    	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:187)
-    	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:102)
-     */
-    /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-    public static final class NewBackupCondition {
+    public enum NewBackupCondition {
         ApkChanges,
         DataChanges,
         ApkOrDataChanges;
 
         private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
         public static final c Companion = new c();
-
-        /* JADX INFO: renamed from: default, reason: not valid java name */
-        private static final NewBackupCondition f1default = new NewBackupCondition();
-
-        static {
-        }
-
-        private NewBackupCondition() {
-            super(str, i);
-        }
+        private static final NewBackupCondition f1default = ApkChanges;
 
         public static jx2 getEntries() {
             return $ENTRIES;
         }
 
-        public static NewBackupCondition valueOf(String str) {
-            return (NewBackupCondition) Enum.valueOf(NewBackupCondition.class, str);
-        }
-
-        public static NewBackupCondition[] values() {
-            return (NewBackupCondition[]) $VALUES.clone();
+        public static final NewBackupCondition access$getDefault$cp() {
+            return f1default;
         }
     }
 
-    /* JADX WARN: Enum visitor error
-    jadx.core.utils.exceptions.JadxRuntimeException: Can't remove SSA var: r0v2 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$Type, still in use, count: 1, list:
-      (r0v2 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$Type) from 0x0031: SPUT (r0v2 org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$Type) (LINE:50) org.swiftapps.swiftbackup.settings.MultipleBackupStrategy.Type.default org.swiftapps.swiftbackup.settings.MultipleBackupStrategy$Type
-    	at jadx.core.utils.InsnRemover.removeSsaVar(InsnRemover.java:164)
-    	at jadx.core.utils.InsnRemover.unbindResult(InsnRemover.java:129)
-    	at jadx.core.utils.InsnRemover.lambda$unbindInsns$1(InsnRemover.java:101)
-    	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-    	at jadx.core.utils.InsnRemover.unbindInsns(InsnRemover.java:100)
-    	at jadx.core.utils.InsnRemover.removeAllAndUnbind(InsnRemover.java:257)
-    	at jadx.core.dex.visitors.EnumVisitor.convertToEnum(EnumVisitor.java:187)
-    	at jadx.core.dex.visitors.EnumVisitor.visit(EnumVisitor.java:102)
-     */
-    /* JADX WARN: Failed to restore enum class, 'enum' modifier and super class removed */
-    /* JADX INFO: compiled from: r8-map-id-1bff7581625143effd57ac0798e0b9b336d7bf32101928a795c6093adf9a91d0 */
-    public static final class Type {
+    public enum Type {
         SingleBackup,
         DatedBackups,
         ConditionalBackup;
 
         private static final /* synthetic */ jx2 $ENTRIES = ly8.q(values());
         public static final d Companion = new d();
-
-        /* JADX INFO: renamed from: default, reason: not valid java name */
-        private static final Type f2default = new Type();
-
-        static {
-        }
-
-        private Type() {
-            super(str, i);
-        }
+        private static final Type f2default = ConditionalBackup;
 
         public static jx2 getEntries() {
             return $ENTRIES;
         }
 
-        public static Type valueOf(String str) {
-            return (Type) Enum.valueOf(Type.class, str);
-        }
-
-        public static Type[] values() {
-            return (Type[]) $VALUES.clone();
+        public static final Type access$getDefault$cp() {
+            return f2default;
         }
     }
 
