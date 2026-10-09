@@ -1256,7 +1256,7 @@ public class ChannelSftp extends ChannelSession {
     /* JADX WARN: Type inference failed for: r9v9 */
     public final void ls(String str, LsEntrySelector lsEntrySelector) throws SftpException {
         byte[] bArrT;
-        ?? r8;
+        byte[] r8;
         byte[] bytes;
         ?? r9;
         ?? r16;
