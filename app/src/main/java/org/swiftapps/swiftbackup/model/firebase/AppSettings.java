@@ -978,11 +978,11 @@ public final class AppSettings {
                                                 xp1.Companion.getClass();
                                                 r15 = xp1.DEFAULT;
                                             }
-                                            ?? r16 = r15;
+                                            xp1 r16 = r15;
                                             if (r15 == xp1.DEFAULT) {
-                                                r16 = th;
+                                                r16 = null;
                                             }
-                                            ?? ValueOf = r16 != 0 ? Integer.valueOf(r16.getLevel()) : th;
+                                            Integer ValueOf = r16 != null ? Integer.valueOf(r16.getLevel()) : null;
                                             try {
                                                 SharedPreferences sharedPreferences9 = cz4.f;
                                                 if (sharedPreferences9 == null) {
