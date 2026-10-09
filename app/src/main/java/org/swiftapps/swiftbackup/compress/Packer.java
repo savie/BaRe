@@ -87,7 +87,7 @@ public final class Packer {
         List list3 = (i & 4) != 0 ? null : list;
         String str2 = (i & 8) != 0 ? null : str;
         List list4 = (i & 16) != 0 ? null : list2;
-        ?? r6 = (i & 32) != 0 ? 0 : rt3Var;
+        rt3 r6 = (i & 32) != 0 ? null : rt3Var;
         q63Var.getClass();
         q63Var2.getClass();
         ArrayList arrayList2 = new ArrayList();
