@@ -958,7 +958,7 @@ public final class AppSettings {
                                             }
                                             i = sharedPreferences8.getInt("compression_level_folders", -1);
                                             xp1.Companion.getClass();
-                                            ?? A = wp1.a();
+                                            xp1[] A = wp1.a();
                                             int i2 = 0;
                                             while (true) {
                                                 if (i2 >= 2) {
