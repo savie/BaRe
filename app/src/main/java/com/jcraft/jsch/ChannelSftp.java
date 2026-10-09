@@ -1259,7 +1259,7 @@ public class ChannelSftp extends ChannelSession {
         byte[] r8;
         byte[] bytes;
         String r9;
-        ?? r16;
+        byte[] r16;
         boolean zL;
         ?? r10;
         ?? r17;
