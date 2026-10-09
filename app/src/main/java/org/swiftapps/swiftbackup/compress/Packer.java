@@ -144,7 +144,7 @@ public final class Packer {
                                 }
                             }
                             if (!z4 || arrayList.isEmpty()) {
-                                ?? r2 = th;
+                                Throwable r2 = th;
                                 return new fw5(z4, (String) r2, (Exception) r2, 14);
                             }
                             int i2 = 0;
@@ -164,7 +164,7 @@ public final class Packer {
                         th = null;
                         if (z4) {
                         }
-                        ?? r3 = th;
+                        Throwable r3 = th;
                         return new fw5(z4, (String) r3, (Exception) r3, 14);
                     }
                 } catch (Exception e2) {
@@ -216,7 +216,7 @@ public final class Packer {
                 }
             }
             String str3 = null;
-            ?? r4 = 0;
+            Exception r4 = null;
             nb7.a(q63Var, q63Var2, list4, r6, null);
             return new fw5(true, str3, (Exception) (r4 == true ? 1 : 0), 14);
         } catch (Exception e3) {
