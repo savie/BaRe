@@ -32,6 +32,17 @@ jobs:
         run: gradle --no-daemon assembleDebug
       - name: Verify APK exists
         run: test -s app/build/outputs/apk/debug/app-debug.apk
+      - name: Verify application identity and resource isolation
+        shell: bash
+        run: |
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Android/Sdk}}"
+          AAPT="$(find "$SDK/build-tools" -type f -name aapt | sort -V | tail -n 1)"
+          test -n "$AAPT"
+          "$AAPT" dump badging app/build/outputs/apk/debug/app-debug.apk | grep -q "package: name='com.bare.backup'"
+          if "$AAPT" dump resources app/build/outputs/apk/debug/app-debug.apk | grep -E 'msal_default_config|odrive_browser|odrive_webview'; then
+            echo "Legacy/reference provider resources must not be packaged in BΛR☰."
+            exit 1
+          fi
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
