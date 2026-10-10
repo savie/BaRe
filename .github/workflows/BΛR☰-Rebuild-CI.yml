@@ -3,7 +3,10 @@ name: BΛR☰ Rebuild CI
 run-name: "BΛR☰ Rebuild CI #${{ github.run_number }} - ${{ github.ref_name }}"
 
 on:
-  # Manual-only: GitHub does not support paths filters on workflow_dispatch.
+  push:
+    branches: [rewrite]
+  pull_request:
+    branches: [rewrite]
   workflow_dispatch:
 
 permissions:
@@ -13,32 +16,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: app
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Java 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: "17"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v6
+        uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "9.4.1"
-
-      - name: Prepare stable CI signing key
-        env:
-          BARE_DEBUG_KEYSTORE_B64: ${{ secrets.BARE_DEBUG_KEYSTORE_B64 }}
-        run: |
-          test -n "$BARE_DEBUG_KEYSTORE_B64"
-          printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
-          test -s "$RUNNER_TEMP/bare-ci.keystore"
+          gradle-version: "8.9"
 
       - name: Run unit tests
         run: gradle --no-daemon :app:testDebugUnitTest
@@ -46,32 +37,23 @@ jobs:
       - name: Assemble debug APK
         run: gradle --no-daemon :app:assembleDebug
 
-      - name: Sign debug APK with CI keystore
-        env:
-          CI_KEYSTORE: ${{ runner.temp }}/bare-ci.keystore
+      - name: Verify APK identity
+        shell: bash
         run: |
-          APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
-          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
-          test -n "$APKSIGNER"
-          "$APKSIGNER" sign \
-            --ks "$CI_KEYSTORE" \
-            --ks-key-alias androiddebugkey \
-            --ks-pass pass:android \
-            --key-pass pass:android \
-            "$APK_PATH"
-          "$APKSIGNER" verify "$APK_PATH"
-
-      - name: Verify APK artifact
-        run: |
-          test -f app/build/outputs/apk/debug/app-debug.apk
-          ls -lh app/build/outputs/apk/debug/app-debug.apk
-
-      - name: Rename APK with CI number
-        run: cp app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/BaRe-rebuild-debug-${GITHUB_RUN_NUMBER}.apk"
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          test -s "$APK"
+          SDK="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Android/Sdk}}"
+          AAPT="$(find "$SDK/build-tools" -type f -name aapt | sort -V | tail -n 1)"
+          test -n "$AAPT"
+          "$AAPT" dump badging "$APK" | grep -q "package: name='com.bareapps.barebackup'"
+          if "$AAPT" dump resources "$APK" | grep -E 'swift-backup-31751|msal_default_config|odrive_browser|odrive_webview'; then
+            echo "Reference backend/provider resources must not be packaged."
+            exit 1
+          fi
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: BaRe-rebuild-debug-${{ github.run_number }}
-          path: app/build/outputs/apk/debug/BaRe-rebuild-debug-${{ github.run_number }}.apk
+          name: bare-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
