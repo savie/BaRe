@@ -42,7 +42,6 @@ Total enumerated: **71 Activity source files**.
 - `folders/ui/batch/FoldersBatchActivity.java`
 - `home/HomeActivity.java`
 - `home/schedule/ScheduleLabelsSelectActivity.java`
-- `home/schedule/ScheduleFolderSelectActivity.java`
 - `home/schedule/ui/ScheduleFolderSelectActivity.java`
 - `home/search/HomeSearchActivity.java`
 - `home/storageswitch/StorageSwitchActivity.java`
