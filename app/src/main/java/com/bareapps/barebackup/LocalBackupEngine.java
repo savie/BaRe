@@ -1,4 +1,4 @@
-package com.bare.backup;
+package com.bareapps.barebackup;
 
 import android.content.ContentResolver;
 import android.content.Context;

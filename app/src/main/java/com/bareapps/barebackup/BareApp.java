@@ -1,4 +1,4 @@
-package com.bare.backup;
+package com.bareapps.barebackup;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /** Minimal usable UI for local folder backup, integrity verification, and safe restore. */
-public final class MainActivity extends Activity {
+public final class BareApp extends Activity {
     private static final int PICK_SOURCE = 101;
     private static final int PICK_BACKUP_ROOT = 102;
     private static final int PICK_BACKUP_TO_VERIFY = 103;

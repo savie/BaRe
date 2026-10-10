@@ -1,4 +1,4 @@
-package com.bare.backup;
+package com.bareapps.barebackup;
 
 import org.junit.Test;
 import static org.junit.Assert.*;

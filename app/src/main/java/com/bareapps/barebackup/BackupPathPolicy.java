@@ -1,4 +1,4 @@
-package com.bare.backup;
+package com.bareapps.barebackup;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
