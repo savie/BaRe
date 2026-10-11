@@ -1,0 +1,19 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.bareapps.barebackup"
+    compileSdk 37
+
+    defaultConfig {
+        applicationId "com.bareapps.barebackup"
+        minSdk 26
+        targetSdk 37
+        versionCode providers.environmentVariable("GITHUB_RUN_NUMBER").orElse("1").get().toInteger()
+        versionName "1.0.1"
+    }
+}
+
+dependencies {
+}

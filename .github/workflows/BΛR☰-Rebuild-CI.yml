@@ -3,19 +3,24 @@ name: BΛR☰ Rebuild CI
 run-name: "BΛR☰ Rebuild CI #${{ github.run_number }} - ${{ github.ref_name }}"
 
 on:
-  # Manual-only: GitHub does not support paths filters on workflow_dispatch.
+  # Manual runs are always available from the Actions tab.
   workflow_dispatch:
+
+  # Automatic runs are allowed only when files under app/ change.
+  #push:
+  #  paths:
+  #    - "app/**"
+  #pull_request:
+  #  paths:
+  #    - "app/**"
 
 permissions:
   contents: read
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
-    defaults:
-      run:
-        working-directory: app
 
     steps:
       - name: Checkout
@@ -30,7 +35,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
         with:
-          gradle-version: "9.4.1"
+          gradle-version: "9.8.1"
 
       - name: Prepare stable CI signing key
         env:
@@ -39,6 +44,15 @@ jobs:
           test -n "$BARE_DEBUG_KEYSTORE_B64"
           printf '%s' "$BARE_DEBUG_KEYSTORE_B64" | base64 --decode > "$RUNNER_TEMP/bare-ci.keystore"
           test -s "$RUNNER_TEMP/bare-ci.keystore"
+
+      - name: Print CI signing certificate SHA-1
+        run: |
+          keytool -list -v \
+            -keystore "$RUNNER_TEMP/bare-ci.keystore" \
+            -alias androiddebugkey \
+            -storepass android \
+            -keypass android |
+            grep -E 'SHA1:|SHA-1:'
 
       - name: Run unit tests
         run: gradle --no-daemon :app:testDebugUnitTest
@@ -70,7 +84,7 @@ jobs:
         run: cp app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/BaRe-rebuild-debug-${GITHUB_RUN_NUMBER}.apk"
 
       - name: Upload debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: BaRe-rebuild-debug-${{ github.run_number }}
           path: app/build/outputs/apk/debug/BaRe-rebuild-debug-${{ github.run_number }}.apk
