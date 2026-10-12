@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="signin_title">Siapkan akun BΛR☰</string>
+    <string name="signin_intro_subtitle">Buat akun untuk cadangan cloud, fitur premium, dan enkripsi berbasis akun.</string>
+    <string name="intro_benefit_cloud_title">Cadangan cloud</string>
+    <string name="intro_benefit_cloud_subtitle">Hubungkan penyimpanan cloud untuk mencadangkan dan memulihkan.</string>
+    <string name="intro_benefit_premium_title">Fitur premium</string>
+    <string name="intro_benefit_premium_subtitle">Beli dan gunakan Premium dengan akun Anda.</string>
+    <string name="intro_benefit_keys_title">Kunci enkripsi</string>
+    <string name="intro_benefit_settings_title">Preferensi aplikasi</string>
+    <string name="required_permissions">Izin yang diperlukan</string>
+    <string name="storage_perm_title">Izin penyimpanan</string>
+    <string name="storage_perm_subtitle">Buat, baca, dan pulihkan berkas cadangan lokal di perangkat ini.</string>
+    <string name="notifications_perm_title">Izin notifikasi</string>
+    <string name="notifications_perm_subtitle">Tampilkan notifikasi cadangan, pemulihan, jadwal, dan kesalahan.</string>
+    <string name="language_title">Bahasa</string>
+    <string name="restart_app_title">Mulai ulang aplikasi</string>
+    <string name="restart_app_action">Mulai ulang</string>
+    <string name="cancel">Batal</string>
+    <string name="home_tab_home">Beranda</string>
+    <string name="home_tab_cloud">Sinkronisasi cloud</string>
+    <string name="home_tab_schedules">Jadwal</string>
+    <string name="home_tab_account">Akun</string>
+    <string name="home_internal_storage">Penyimpanan internal</string>
+    <string name="home_backup_apps">Cadangkan semua aplikasi</string>
+    <string name="home_restore_apps">Pulihkan semua aplikasi</string>
+    <string name="home_from_device">Dari perangkat</string>
+    <string name="home_from_cloud">Dari cloud</string>
+    <string name="home_more_actions">Aksi lainnya →</string>
+</resources>
