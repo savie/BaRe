@@ -1,6 +1,7 @@
 package com.bareapps.barebackup.intro;
 
 import android.app.Activity;
+import android.content.Context;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Build;
@@ -22,6 +23,7 @@ import com.bareapps.barebackup.model.supabase.SupabaseAuthManager;
 import com.bareapps.rootservice.PrivilegeManager;
 import com.bareapps.barebackup.home.HomeActivity;
 import com.bareapps.barebackup.ui.SystemBarInsets;
+import com.bareapps.barebackup.ui.LocaleHelper;
 
 public final class IntroActivity extends Activity {
     private IntroFlowController flowController;
@@ -31,6 +33,13 @@ public final class IntroActivity extends Activity {
     private int nonRootTotalCount;
     private LocalAccountManager localAccountManager;
     private SupabaseAuthManager supabaseAuthManager;
+
+
+    @Override
+    protected Context attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+        return LocaleHelper.wrap(newBase);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -292,7 +301,9 @@ public final class IntroActivity extends Activity {
             if (which == 0) {
                 new AlertDialog.Builder(this).setTitle(R.string.language_title)
                     .setItems(new String[]{"English", "Bahasa Indonesia"}, (d, selected) -> {
-                        // Visual placeholder only; locale switching is intentionally not wired.
+                        String language = selected == 1 ? "id" : "en";
+                        getSharedPreferences("bare_settings", MODE_PRIVATE).edit().putString("language", language).apply();
+                        recreate();
                     }).show();
             } else if (which == 1) {
                 new AlertDialog.Builder(this).setTitle(R.string.barelogger_title)
@@ -301,9 +312,17 @@ public final class IntroActivity extends Activity {
                 new AlertDialog.Builder(this).setTitle(R.string.restart_app_title)
                     .setMessage(R.string.restart_app_placeholder)
                     .setNegativeButton(R.string.cancel, null)
-                    .setPositiveButton(R.string.restart_app_action, (d, w) -> showAccountSetup()).show();
+                    .setPositiveButton(R.string.restart_app_action, (d, w) -> restartApplication()).show();
             }
         }).show();
+    }
+
+    private void restartApplication() {
+        Intent restart = new Intent(this, IntroActivity.class);
+        restart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(restart);
+        finish();
+        Runtime.getRuntime().runFinalization();
     }
 
     private void showRootPermissionExplanation() {
