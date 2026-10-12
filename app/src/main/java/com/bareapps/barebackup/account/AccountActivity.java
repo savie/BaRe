@@ -52,7 +52,7 @@ public final class AccountActivity extends Activity {
     private void populateAccount() {
         boolean google = "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
         String email = google ? auth.getCurrentEmail() : null;
-        String name = google && email != null && !email.isEmpty() ? email : "Anonymous user";
+        String name = google ? "Google account" : "Anonymous user";
         ((TextView)findViewById(R.id.account_name)).setText(name);
         TextView emailView = findViewById(R.id.account_email);
         emailView.setText(google ? (email == null ? "" : email) : "Local account · limited features");
@@ -107,9 +107,7 @@ public final class AccountActivity extends Activity {
         new AlertDialog.Builder(this).setTitle("Language").setItems(languages, (d, which) -> {
             getSharedPreferences("bare_settings", MODE_PRIVATE).edit()
                     .putString("language", which == 1 ? "id" : "en").apply();
-            showMessage("Language", which == 1
-                    ? "Bahasa Indonesia dipilih. Terjemahan lengkap akan mengikuti resource yang tersedia."
-                    : "English selected.");
+            recreate();
         }).show();
     }
 
