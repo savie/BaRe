@@ -36,9 +36,8 @@ public final class IntroActivity extends Activity {
 
 
     @Override
-    protected Context attachBaseContext(Context newBase) {
+    protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(LocaleHelper.wrap(newBase));
-        return LocaleHelper.wrap(newBase);
     }
 
     @Override
@@ -322,7 +321,6 @@ public final class IntroActivity extends Activity {
         restart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(restart);
         finish();
-        Runtime.getRuntime().runFinalization();
     }
 
     private void showRootPermissionExplanation() {
