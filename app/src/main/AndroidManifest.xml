@@ -43,6 +43,7 @@
     <application
         android:name=".BareApp"
         android:allowBackup="false"
+        android:theme="@style/Theme.BaRe.Intro"
         android:label="BΛR☰"
         android:icon="@drawable/bare_logo"
         android:supportsRtl="true">
