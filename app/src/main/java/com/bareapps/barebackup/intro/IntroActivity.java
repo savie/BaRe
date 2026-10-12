@@ -5,16 +5,11 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.home.HomeActivity;
 
-/**
- * Reference-shaped onboarding UI. Actions are UI-only for now; no account,
- * permission, Root, or Shizuku operation is executed.
- */
 public final class IntroActivity extends Activity {
-    private View menuAnchor;
     private IntroFlowController flowController;
 
     @Override
@@ -25,9 +20,10 @@ public final class IntroActivity extends Activity {
     }
 
     private void showAccountSetup() {
+        flowController.moveTo(IntroFlowController.Step.ACCOUNT_SETUP);
         setContentView(R.layout.intro_activity);
-        menuAnchor = findViewById(R.id.iv_menu);
-        if (menuAnchor != null) menuAnchor.setOnClickListener(this::showOverflowMenu);
+        View menu = findViewById(R.id.iv_menu);
+        if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View google = findViewById(R.id.btn_google);
         if (google != null) google.setOnClickListener(v -> showSignInExplanation());
         View skip = findViewById(R.id.btn_anonymous);
@@ -45,10 +41,22 @@ public final class IntroActivity extends Activity {
 
     private void showOverflowMenu(View anchor) {
         String[] items = {"Language", "BareLogger", "Restart app"};
-        new AlertDialog.Builder(this)
-                .setItems(items, (dialog, which) -> {
-                    // Deliberately inert until the referenced feature is ported.
-                }).show();
+        new AlertDialog.Builder(this).setItems(items, (dialog, which) -> {
+            if (which == 0) {
+                new AlertDialog.Builder(this).setTitle(R.string.language_title)
+                    .setItems(new String[]{"English", "Bahasa Indonesia"}, (d, selected) -> {
+                        // Visual placeholder only; locale switching is intentionally not wired.
+                    }).show();
+            } else if (which == 1) {
+                new AlertDialog.Builder(this).setTitle(R.string.barelogger_title)
+                    .setMessage(R.string.barelogger_placeholder).setPositiveButton(android.R.string.ok, null).show();
+            } else {
+                new AlertDialog.Builder(this).setTitle(R.string.restart_app_title)
+                    .setMessage(R.string.restart_app_placeholder)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.restart_app_action, (d, w) -> showAccountSetup()).show();
+            }
+        }).show();
     }
 
     private void showSignInExplanation() {
@@ -68,19 +76,34 @@ public final class IntroActivity extends Activity {
     }
 
     private void showAccountChooserPlaceholder() {
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.account_chooser_title)
-                .setMessage(R.string.account_chooser_unavailable)
-                .setPositiveButton(android.R.string.ok, (d, w) -> { })
-                .show();
+        String[] accounts = {"Santo Priyono  ·  santo@example.com", "eSPe STP  ·  espe@example.com",
+                "Giant Killers  ·  giant@example.com", "Banned  ·  banned@example.com", "Add another account"};
+        new AlertDialog.Builder(this).setTitle(R.string.account_chooser_title)
+            .setMessage(R.string.account_chooser_subtitle)
+            .setItems(accounts, (dialog, which) -> showPermissions()).show();
     }
 
     private void showRootPermissionExplanation() {
         new AlertDialog.Builder(this)
-                .setTitle(R.string.root_permission_dialog_title)
-                .setMessage(R.string.root_permission_dialog_message)
-                .setNegativeButton(R.string.cancel, (d, w) -> d.dismiss())
-                .setPositiveButton(R.string.grant_permissions, (d, w) -> d.dismiss())
-                .show();
+            .setTitle(R.string.root_permission_dialog_title)
+            .setMessage(R.string.root_permission_dialog_message)
+            .setNegativeButton(R.string.cancel, (d, w) -> d.dismiss())
+            .setPositiveButton(R.string.grant_permissions, (d, w) -> openHome())
+            .show();
+    }
+
+    private void openHome() {
+        flowController.moveTo(IntroFlowController.Step.READY);
+        startActivity(new android.content.Intent(this, HomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (flowController.getCurrentStep() == IntroFlowController.Step.REQUIRED_PERMISSIONS) {
+            showAccountSetup();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
