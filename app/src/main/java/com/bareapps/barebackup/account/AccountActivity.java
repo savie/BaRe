@@ -41,7 +41,8 @@ public final class AccountActivity extends Activity {
             auth = null;
             android.util.Log.e("BaReAccount", "Secure cloud session storage is unavailable", error);
         }
-        bind(R.id.account_search, () -> showMessage("Search", "Search across backups and settings."));
+        bind(R.id.home_search, () -> showMessage("Search", "Search across backups and settings."));
+        bind(R.id.home_profile, () -> { /* Already on Account; shared header action is intentionally stable. */ });
         bind(R.id.account_premium, () -> showMessage("Premium", "Premium purchase and entitlement flow is not implemented yet."));
         bind(R.id.account_open_settings, () -> showMessage("Settings", "Settings screen placeholder."));
         bind(R.id.account_open_logger, () -> showMessage("SwiftLogger", "Logger screen placeholder."));
@@ -51,12 +52,20 @@ public final class AccountActivity extends Activity {
         bind(R.id.account_rate, () -> showMessage("Rate", "Store listing is not configured yet."));
         bind(R.id.account_share, this::shareApp);
         bind(R.id.account_about, () -> showMessage("About BΛR☰", "BΛR☰ backup and restore."));
-        bind(R.id.account_nav_home, () -> startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)));
-        bind(R.id.account_nav_cloud, () -> showMessage("Cloud sync", "Cloud provider setup is not implemented yet."));
-        bind(R.id.account_nav_schedule, () -> showMessage("Schedules", "Backup schedules are not implemented yet."));
+        bind(R.id.account_nav_home, () -> openHomeTab(0));
+        bind(R.id.account_nav_cloud, () -> openHomeTab(1));
+        bind(R.id.account_nav_schedule, () -> openHomeTab(2));
         bind(R.id.account_nav_account, () -> {});
         findViewById(R.id.account_sign_out).setOnClickListener(v -> confirmSignOut());
         populateAccount();
+    }
+
+    private void openHomeTab(int selectedTab) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("selected_tab", selectedTab);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void populateAccount() {
@@ -73,7 +82,6 @@ public final class AccountActivity extends Activity {
         ((TextView)findViewById(R.id.account_device_id)).setText(deviceId == null ? "Unknown device" : deviceId.toUpperCase(java.util.Locale.ROOT));
         String initialsSource = name == null || name.trim().isEmpty() ? "B" : name.trim();
         String initial = initialsSource.substring(0, 1).toUpperCase(java.util.Locale.ROOT);
-        ((TextView)findViewById(R.id.account_avatar_small)).setText(initial);
         TextView profileAvatar = findViewById(R.id.account_avatar_profile);
         if (profileAvatar != null) profileAvatar.setText(initial);
     }
