@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">BΛR☰</string>
     <string name="intro_menu">Intro menu</string>
+    <string name="intro_menu_barelogger">BareLogger</string>
     <string name="signin_title">Set up your BΛR☰ account</string>
     <string name="signin_intro_subtitle">Create an account for cloud backups, premium features, and account-based encryption.</string>
     <string name="intro_benefit_cloud_title">Cloud backups</string>
