@@ -87,7 +87,7 @@ public final class IntroActivity extends Activity {
         super.onResume();
         if (localAccountManager != null && supabaseAuthManager != null
                 && "supabase".equals(localAccountManager.getActiveKind())
-                && supabaseAuthManager.hasSession() && !sessionRefreshInFlight) {
+                && supabaseAuthManager.shouldRefreshSession() && !sessionRefreshInFlight) {
             refreshCloudSession();
         }
         View notifications = findViewById(R.id.btn_notifications_perm);
