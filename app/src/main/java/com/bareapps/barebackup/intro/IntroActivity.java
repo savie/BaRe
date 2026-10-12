@@ -163,6 +163,7 @@ public final class IntroActivity extends Activity {
     private void showPermissions() {
         flowController.moveTo(IntroFlowController.Step.REQUIRED_PERMISSIONS);
         setContentView(R.layout.intro_permissions_screen);
+        SystemBarInsets.apply(this);
         View menu = findViewById(R.id.iv_menu);
         if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View root = findViewById(R.id.btn_root_permissions);
