@@ -93,7 +93,7 @@ public final class IntroActivity extends Activity {
                 return;
             }
             PrivilegeManager.Status status = actionHandler.getStatus();
-            if (status.rootGranted) {
+            if (status.mode == PrivilegeManager.Mode.ROOT && status.rootGranted) {
                 actionHandler.execute(new String[]{"appops", "set", getPackageName(),
                         "MANAGE_EXTERNAL_STORAGE", "allow"}, 10000L, (result, mode) -> {
                     boolean ok = result != null && result.getInt("exitCode", -1) == 0
