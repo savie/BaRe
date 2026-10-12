@@ -61,6 +61,7 @@
             android:value="true" />
 
         <activity android:name=".home.HomeActivity" android:exported="false" />
+        <activity android:name=".storage.StorageActivity" android:exported="false" />
 
         <activity
             android:name=".intro.IntroActivity"
