@@ -120,20 +120,25 @@ public final class HomeActivity extends Activity {
                 TextView value = findViewById(R.id.home_root_status_value);
                 TextView detail = findViewById(R.id.home_root_status_detail);
                 if (value == null || detail == null) return;
-                if (status.rootGranted) {
+                if (status.mode == PrivilegeManager.Mode.ROOT && status.rootGranted) {
                     value.setText("Root active");
                     value.setTextColor(0xFF9CCC65);
                     detail.setText("Execution UID: " + status.executionUid);
-                } else if (status.shizukuConnected) {
+                } else if (status.mode == PrivilegeManager.Mode.SHIZUKU && status.shizukuConnected) {
                     value.setText("Shizuku active");
                     value.setTextColor(0xFF9CCC65);
                     detail.setText("Privileged service connected · UID " + status.executionUid);
                 } else {
-                    value.setText("Non-root mode");
+                    value.setText(status.mode == PrivilegeManager.Mode.ROOT
+                            ? "Root selected · access unavailable"
+                            : status.mode == PrivilegeManager.Mode.SHIZUKU
+                                ? "Shizuku selected · service unavailable" : "Non-root mode");
                     value.setTextColor(0xFFFFAFB9);
-                    detail.setText(status.shizukuAvailable
-                        ? (status.shizukuAuthorized ? "Shizuku authorized; service not connected" : "Shizuku authorization unavailable")
-                        : "No privileged execution session is active");
+                    detail.setText(status.mode == PrivilegeManager.Mode.ROOT
+                        ? "Root was selected, but the root shell is not active"
+                        : status.mode == PrivilegeManager.Mode.SHIZUKU
+                            ? (status.shizukuAvailable ? "Shizuku authorized; service not connected" : "Shizuku is unavailable")
+                            : "Commands run with the app UID; privileged permissions are not assumed");
                 }
             });
         }
