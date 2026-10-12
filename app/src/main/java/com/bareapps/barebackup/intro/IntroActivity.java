@@ -52,6 +52,50 @@ public final class IntroActivity extends Activity {
         if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View root = findViewById(R.id.btn_root_permissions);
         if (root != null) root.setOnClickListener(v -> showRootPermissionExplanation());
+        View notifications = findViewById(R.id.btn_notifications_perm);
+        if (notifications != null) {
+            updateNotificationPermissionButton(notifications);
+            notifications.setOnClickListener(v -> requestNotificationPermission());
+        }
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            Toast.makeText(this, "Runtime notification permission is not required on this Android version.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (checkSelfPermission("android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Notifications permission is already granted.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        requestPermissions(new String[]{"android.permission.POST_NOTIFICATIONS"}, 6206);
+    }
+
+    private void updateNotificationPermissionButton(View button) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && checkSelfPermission("android.permission.POST_NOTIFICATIONS") == PackageManager.PERMISSION_GRANTED) {
+            if (button instanceof android.widget.TextView) {
+                ((android.widget.TextView) button).setText("Notifications permission granted");
+            }
+            button.setEnabled(false);
+        } else {
+            if (button instanceof android.widget.TextView) {
+                ((android.widget.TextView) button).setText(R.string.grant_notifications_permission);
+            }
+            button.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != 6206) return;
+        View button = findViewById(R.id.btn_notifications_perm);
+        if (button != null) updateNotificationPermissionButton(button);
+        boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+        Toast.makeText(this, granted ? "Notifications permission granted." : "Notifications permission not granted.",
+                Toast.LENGTH_LONG).show();
     }
 
     private void showOverflowMenu(View anchor) {
