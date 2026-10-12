@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/btn_google" android:layout_width="match_parent" android:layout_height="56dp"
-    android:minHeight="56dp" android:text="@string/common_signin_button_text_long" android:enabled="false"/>
+    android:minHeight="56dp" android:text="@string/common_signin_button_text_long" android:enabled="true"/>
