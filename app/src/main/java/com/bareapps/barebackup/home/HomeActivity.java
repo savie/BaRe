@@ -38,13 +38,53 @@ public final class HomeActivity extends Activity {
         View search = findViewById(R.id.home_search);
         if (search != null) search.setOnClickListener(v -> showPlaceholder(R.string.home_search_title));
         View storage = findViewById(R.id.home_storage_card);
-        if (storage != null) storage.setOnClickListener(v -> showPlaceholder(R.string.home_storage_title));
+        if (storage != null) storage.setOnClickListener(v -> openInternalStorageSettings());
+        bindAction(R.id.home_chip_apps, () -> openSettings(android.provider.Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS));
+        bindAction(R.id.home_chip_messages, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_MAIN)
+                .addCategory(android.content.Intent.CATEGORY_APP_MESSAGING), "No messaging app is available."));
+        bindAction(R.id.home_chip_call_logs, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_VIEW,
+                android.net.Uri.parse("content://call_log/calls")), "The system call log could not be opened."));
+        bindAction(R.id.home_chip_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE),
+                "The system file picker is not available."));
+        bindAction(R.id.home_chip_wallpapers, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_SET_WALLPAPER),
+                "No wallpaper picker is available."));
+        bindAction(R.id.home_chip_wifi, () -> openSettings(android.provider.Settings.ACTION_WIFI_SETTINGS));
+        bindAction(R.id.action_restore_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT)
+                .setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.action_restore_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
         int[] actions = {R.id.action_backup_apps, R.id.action_restore_apps, R.id.action_more};
         int[] actionTitles = {R.string.home_backup_apps, R.string.home_restore_apps, R.string.home_more_actions};
         for (int i = 0; i < actions.length; i++) {
             final int index = i;
             View action = findViewById(actions[i]);
             if (action != null) action.setOnClickListener(v -> showPlaceholder(actionTitles[index]));
+        }
+    }
+
+    private interface Action { void run(); }
+
+    private void bindAction(int id, Action action) {
+        View view = findViewById(id);
+        if (view != null) view.setOnClickListener(v -> action.run());
+    }
+
+    private void openInternalStorageSettings() {
+        openSettings(android.provider.Settings.ACTION_INTERNAL_STORAGE_SETTINGS);
+    }
+
+    private void openSettings(String action) {
+        android.content.Intent intent = new android.content.Intent(action);
+        if (intent.resolveActivity(getPackageManager()) == null) {
+            intent = new android.content.Intent(android.provider.Settings.ACTION_SETTINGS);
+        }
+        openIntent(intent, "Android settings could not be opened.");
+    }
+
+    private void openIntent(android.content.Intent intent, String message) {
+        try {
+            startActivity(intent);
+        } catch (RuntimeException error) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         }
     }
 
