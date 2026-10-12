@@ -36,7 +36,7 @@ public final class IntroActivity extends Activity {
 
     private void showPermissions() {
         flowController.moveTo(IntroFlowController.Step.REQUIRED_PERMISSIONS);
-        setContentView(R.layout.intro_activity_permissions);
+        setContentView(R.layout.intro_permissions_screen);
         View menu = findViewById(R.id.iv_menu);
         if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View root = findViewById(R.id.btn_root_permissions);
