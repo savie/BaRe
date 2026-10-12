@@ -46,6 +46,9 @@ public final class CommandExecutor {
             Thread.currentThread().interrupt();
             if (process != null) process.destroyForcibly();
             return failure(e);
+        } catch (RuntimeException e) {
+            if (process != null) process.destroyForcibly();
+            return failure(e);
         } finally {
             if (process != null && process.isAlive()) process.destroyForcibly();
         }
@@ -64,6 +67,7 @@ public final class CommandExecutor {
 
     private static String readOutput(Process process) throws IOException {
         StringBuilder output = new StringBuilder();
+        boolean truncated = false;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(
                 process.getInputStream(), StandardCharsets.UTF_8))) {
             char[] buffer = new char[4096];
@@ -71,10 +75,11 @@ public final class CommandExecutor {
             while ((count = reader.read(buffer)) != -1) {
                 int remaining = MAX_OUTPUT_CHARS - output.length();
                 if (remaining > 0) output.append(buffer, 0, Math.min(count, remaining));
-                if (output.length() >= MAX_OUTPUT_CHARS) {
-                    output.append("\n[output truncated]");
-                    break;
+                if (!truncated && output.length() >= MAX_OUTPUT_CHARS) {
+                    output.append("\\n[output truncated]");
+                    truncated = true;
                 }
+                // Keep draining after the cap so a child process cannot block on a full pipe.
             }
         }
         return output.toString();
