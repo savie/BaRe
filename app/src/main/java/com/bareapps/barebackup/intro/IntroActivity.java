@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Build;
+import android.os.Environment;
+import android.content.pm.PackageManager;
 import android.window.OnBackInvokedDispatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,9 +169,26 @@ public final class IntroActivity extends Activity {
         }
 
         if (index >= commands.size()) {
+            int verified = 0;
+            int total = 4;
+            if (hasPermission("android.permission.READ_CONTACTS")) verified++;
+            if (hasPermission("android.permission.READ_SMS")) verified++;
+            if (hasPermission("android.permission.READ_CALL_LOG")) verified++;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (hasPermission("android.permission.POST_NOTIFICATIONS")) verified++;
+            } else {
+                total--;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                total++;
+                if (Environment.isExternalStorageManager()) verified++;
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                total++;
+                if (hasPermission("android.permission.READ_EXTERNAL_STORAGE")) verified++;
+            }
             String mode = rootMode ? "ROOT" : "Shizuku";
-            Toast.makeText(this, mode + " permission pass finished: " + granted + "/"
-                    + commands.size() + " operations accepted. Verify Android settings for special access.",
+            Toast.makeText(this, mode + " finished. Verified " + verified + "/" + total
+                    + " permission groups. Some access may require Android settings or a default-app role.",
                     Toast.LENGTH_LONG).show();
             openHome();
             return;
@@ -182,6 +201,10 @@ public final class IntroActivity extends Activity {
             boolean accepted = result != null && result.getInt("exitCode", -1) == 0 && expectedExecutor;
             grantPrivilegedPermissions(index + 1, granted + (accepted ? 1 : 0), rootMode);
         });
+    }
+
+    private boolean hasPermission(String permission) {
+        return checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void openHome() {
