@@ -96,6 +96,25 @@ public final class SupabaseAuthManager {
         return !TextUtils.isEmpty(getCurrentUserId()) && !TextUtils.isEmpty(getAccessToken());
     }
 
+    /** Avoid rotating refresh tokens on every foreground/resume event. */
+    public boolean shouldRefreshSession() {
+        if (!hasSession()) return false;
+        try {
+            String retryAfter = secureStore.get("refresh_retry_after");
+            if (!TextUtils.isEmpty(retryAfter) && System.currentTimeMillis() < Long.parseLong(retryAfter)) return false;
+            String expiresAt = secureStore.get("access_token_expires_at");
+            return TextUtils.isEmpty(expiresAt) || System.currentTimeMillis() >= Long.parseLong(expiresAt) - 120_000L;
+        } catch (Exception ignored) {
+            return true;
+        }
+    }
+
+    private void storeExpiry(JSONObject response) throws Exception {
+        long seconds = response.optLong("expires_in", 3600L);
+        secureStore.put("access_token_expires_at", Long.toString(System.currentTimeMillis() + Math.max(60L, seconds) * 1000L));
+        secureStore.put("refresh_retry_after", null);
+    }
+
     /** Refresh a persisted Supabase session before its access token expires. */
     public void refreshSession(Callback callback) {
         executor.execute(() -> {
@@ -123,11 +142,14 @@ public final class SupabaseAuthManager {
                 if (user == null || TextUtils.isEmpty(user.optString("id", ""))) throw new IllegalStateException("Supabase refresh tidak mengembalikan user ID.");
                 secureStore.put("access_token", json.optString("access_token", null));
                 secureStore.put("refresh_token", json.optString("refresh_token", refreshToken));
+                storeExpiry(json);
                 secureStore.put(PREF_USER_ID, user.getString("id"));
                 secureStore.put(PREF_EMAIL, user.optString("email", ""));
                 persistUserProfile(user);
                 callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
             } catch (Exception error) {
+                try { secureStore.put("refresh_retry_after", Long.toString(System.currentTimeMillis() + 300_000L)); }
+                catch (Exception ignored) { }
                 callback.onError("Session Supabase perlu diperbarui: " + safeMessage(error));
             } finally {
                 if (connection != null) connection.disconnect();
@@ -238,6 +260,7 @@ public final class SupabaseAuthManager {
                 }
                 secureStore.put("access_token", json.optString("access_token", null));
                 secureStore.put("refresh_token", json.optString("refresh_token", null));
+                storeExpiry(json);
                 secureStore.put(PREF_USER_ID, user.getString("id"));
                 secureStore.put(PREF_EMAIL, user.optString("email", ""));
                 persistUserProfile(user);
