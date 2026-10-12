@@ -15,8 +15,8 @@ android {
         // Supply with -PSUPABASE_URL / -PSUPABASE_ANON_KEY or environment variables.
         def supabaseUrl = providers.gradleProperty("SUPABASE_URL").orElse(providers.environmentVariable("SUPABASE_URL").orElse("")).get()
         def supabaseAnonKey = providers.gradleProperty("SUPABASE_ANON_KEY").orElse(providers.environmentVariable("SUPABASE_ANON_KEY").orElse("")).get()
-        buildConfigField "String", "SUPABASE_URL", "\"${supabaseUrl}\""
-        buildConfigField "String", "SUPABASE_ANON_KEY", "\"${supabaseAnonKey}\""
+        buildConfigField "String", "SUPABASE_URL", '"' + supabaseUrl + '"'
+        buildConfigField "String", "SUPABASE_ANON_KEY", '"' + supabaseAnonKey + '"'
         applicationId "com.bareapps.barebackup"
         minSdk 26
         targetSdk 37
