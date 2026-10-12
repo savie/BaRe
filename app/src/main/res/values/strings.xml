@@ -62,7 +62,9 @@
     <string name="home_tab_cloud">Cloud sync</string>
     <string name="home_tab_schedules">Schedules</string>
     <string name="home_tab_account">Account</string>
-    <string name="home_internal_storage">INTERNAL STORAGE</string>
+    <string name="home_internal_storage">Internal storage</string>
+    <string name="storage_for_local_backups">Storage for your local backups</string>
+    <string name="backup_folder_location">Folder location</string>
     <string name="home_storage_value">160.13 GB free of 481.38 GB</string>
     <string name="home_storage_used">66.7% used</string>
     <string name="home_root_status">ROOT STATUS</string>
