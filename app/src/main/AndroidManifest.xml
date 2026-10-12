@@ -37,12 +37,27 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
+    <!-- Shizuku bridge; access still requires Shizuku/Sui to be installed and authorized. -->
+    <uses-permission android:name="moe.shizuku.manager.permission.API_V23" />
+
     <application
         android:name=".BareApp"
         android:allowBackup="false"
         android:label="BΛR☰"
         android:icon="@drawable/bare_logo"
         android:supportsRtl="true">
+
+        <!-- Root access has no manifest permission; execution must be implemented and user-authorized at runtime. -->
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:authorities="${applicationId}.shizuku" />
+        <meta-data
+            android:name="moe.shizuku.client.V3_SUPPORT"
+            android:value="true" />
 
         <activity
             android:name=".intro.IntroActivity"
