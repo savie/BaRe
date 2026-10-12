@@ -2,7 +2,7 @@
 
 ## Build configuration
 
-Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Gradle project properties or environment variables. The GitHub Actions rebuild workflow reads the optional repository Actions secrets with those names.
+The app has defaults for the BΛR☰ Supabase project URL and publishable client key. To override them, set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Gradle project properties or environment variables. The GitHub Actions rebuild workflow accepts optional secrets with those names; when absent, it uses the same public project values.
 
 Local build example:
 
@@ -16,8 +16,8 @@ These values are the Supabase project URL and public client key, not a service-r
 
 1. Enable Google under Authentication → Sign In / Providers and configure the Google OAuth client ID and secret there.
 2. Add `bare://auth-callback` to Authentication → URL Configuration → Redirect URLs.
-3. Configure the Google OAuth consent screen and allowed redirect URI for the Supabase project callback URL shown by the dashboard.
-4. Set the repository Actions secrets `SUPABASE_URL` and `SUPABASE_ANON_KEY` for APKs built by GitHub Actions.
+3. In Google Cloud Console, add `https://fbiazqbrkwovzrirnzpb.supabase.co/auth/v1/callback` as the authorized redirect URI for the Google OAuth web client, then use that client ID/secret in Supabase's Google provider settings.
+4. No database schema or table is needed for Google sign-in alone. The CI secrets are optional overrides, not service credentials.
 
 ## Identity and local folders
 
