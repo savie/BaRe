@@ -16,6 +16,7 @@ public final class LocalAccountManager {
     private static final String KEY_UID = "local_uid";
     private static final String KEY_ACTIVE = "active_uid";
     private static final String KEY_KIND = "active_kind";
+    private static final String KEY_SETUP_COMPLETE = "setup_complete";
     private static final String KIND_LOCAL = "local";
     private static final String KIND_SUPABASE = "supabase";
 
@@ -51,6 +52,13 @@ public final class LocalAccountManager {
         prefs.edit().putString(KEY_ACTIVE, supabaseUid).putString(KEY_KIND, KIND_SUPABASE).apply();
     }
 
+    public boolean isSetupComplete() {
+        return prefs.getBoolean(KEY_SETUP_COMPLETE, false);
+    }
+
+    public void markSetupComplete() {
+        prefs.edit().putBoolean(KEY_SETUP_COMPLETE, true).apply();
+    }
     public String getActiveUid() {
         String active = prefs.getString(KEY_ACTIVE, null);
         return active == null || active.trim().isEmpty() ? ensureLocalUid() : active;
