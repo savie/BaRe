@@ -60,6 +60,8 @@
             android:name="moe.shizuku.client.V3_SUPPORT"
             android:value="true" />
 
+        <activity android:name=".home.HomeActivity" android:exported="false" />
+
         <activity
             android:name=".intro.IntroActivity"
             android:exported="true"
