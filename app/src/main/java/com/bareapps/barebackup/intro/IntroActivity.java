@@ -374,8 +374,10 @@ public final class IntroActivity extends Activity {
             int verified = 0;
             int total = 4;
             if (hasPermission("android.permission.READ_CONTACTS")) verified++;
-            if (hasPermission("android.permission.READ_SMS")) verified++;
-            if (hasPermission("android.permission.READ_CALL_LOG")) verified++;
+            if (hasPermission("android.permission.READ_SMS")
+                    && hasPermission("android.permission.WRITE_SMS")) verified++;
+            if (hasPermission("android.permission.READ_CALL_LOG")
+                    && hasPermission("android.permission.WRITE_CALL_LOG")) verified++;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (hasPermission("android.permission.POST_NOTIFICATIONS")) verified++;
             } else {
