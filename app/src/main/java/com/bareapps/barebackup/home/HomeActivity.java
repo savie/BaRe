@@ -2,6 +2,10 @@ package com.bareapps.barebackup.home;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.bareapps.barebackup.BareApp;
+import com.bareapps.rootservice.PrivilegeManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +13,8 @@ import com.bareapps.barebackup.R;
 
 /** Static, reference-shaped Home surface. Data and actions are placeholders by design. */
 public final class HomeActivity extends Activity {
+    private PrivilegeManager privilegeManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +40,40 @@ public final class HomeActivity extends Activity {
             View action = findViewById(actions[i]);
             if (action != null) action.setOnClickListener(v -> showPlaceholder(actionTitles[index]));
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        privilegeManager = ((BareApp) getApplication()).getPrivilegeManager();
+        if (privilegeManager != null) {
+            privilegeManager.setStatusListener(status -> {
+                TextView value = findViewById(R.id.home_root_status_value);
+                TextView detail = findViewById(R.id.home_root_status_detail);
+                if (value == null || detail == null) return;
+                if (status.rootGranted) {
+                    value.setText("Root active");
+                    value.setTextColor(0xFF9CCC65);
+                    detail.setText("Execution UID: " + status.executionUid);
+                } else if (status.shizukuConnected) {
+                    value.setText("Shizuku active");
+                    value.setTextColor(0xFF9CCC65);
+                    detail.setText("Privileged service connected · UID " + status.executionUid);
+                } else {
+                    value.setText("Non-root mode");
+                    value.setTextColor(0xFFFFAFB9);
+                    detail.setText(status.shizukuAvailable
+                        ? (status.shizukuAuthorized ? "Shizuku authorized; service not connected" : "Shizuku authorization unavailable")
+                        : "No privileged execution session is active");
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        if (privilegeManager != null) privilegeManager.setStatusListener(null);
+        super.onPause();
     }
 
     private void selectTab(int selected, int[] tabs, int[] labels) {
