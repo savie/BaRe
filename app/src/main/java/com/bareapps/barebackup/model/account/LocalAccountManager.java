@@ -38,20 +38,22 @@ public final class LocalAccountManager {
 
     public synchronized String ensureLocalUid() {
         String uid = null;
+        boolean secureReadSucceeded = true;
         try {
             uid = identityStore.get(KEY_UID);
         } catch (Exception error) {
-            // Preserve an identity written by an older build when migration is still possible.
+            secureReadSucceeded = false;
             uid = prefs.getString(KEY_UID, null);
         }
-        if (uid == null || uid.trim().isEmpty()) {
-            uid = prefs.getString(KEY_UID, null);
+        if (!secureReadSucceeded || uid == null || uid.trim().isEmpty()) {
+            String legacyUid = prefs.getString(KEY_UID, null);
+            if (legacyUid != null && !legacyUid.trim().isEmpty()) uid = legacyUid;
             if (uid == null || uid.trim().isEmpty()) uid = UUID.randomUUID().toString();
             try {
                 identityStore.put(KEY_UID, uid);
                 prefs.edit().remove(KEY_UID).apply();
             } catch (Exception error) {
-                // Keep the legacy copy so the next launch does not silently generate a new UID.
+                // Keep a recoverable copy so a Keystore problem never silently rotates the UID.
                 prefs.edit().putString(KEY_UID, uid).apply();
                 throw new IllegalStateException("Unable to persist encrypted local account identity", error);
             }
