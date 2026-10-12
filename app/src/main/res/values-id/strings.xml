@@ -45,4 +45,13 @@
     <string name="restart_app_placeholder">Mulai ulang alur onboarding aplikasi?</string>
     <string name="restart_app_action">Mulai ulang</string>
     <string name="account_chooser_subtitle">untuk melanjutkan ke BΛR☰</string>
+    <string name="home_backup_folders">Cadangkan folder</string>
+    <string name="home_restore_folders">Pulihkan folder</string>
+    <string name="account_share_app">Bagikan BΛR☰</string>
+    <string name="account_anonymous_user">Pengguna anonim</string>
+    <string name="account_local_limited">Akun lokal · fitur terbatas</string>
+    <string name="home_nav_home">⌂\nBeranda</string>
+    <string name="home_nav_cloud">☁\nSinkronisasi cloud</string>
+    <string name="home_nav_schedules">◷\nJadwal</string>
+    <string name="home_nav_account">♙\nAkun</string>
 </resources>

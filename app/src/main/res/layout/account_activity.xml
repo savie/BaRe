@@ -43,16 +43,16 @@
                 <TextView android:id="@+id/account_help" style="@style/AccountMenuItem" android:text="Help center" android:drawableEnd="@android:drawable/ic_menu_help"/>
                 <TextView android:id="@+id/account_contact" style="@style/AccountMenuItem" android:text="Contact" android:drawableEnd="@android:drawable/ic_dialog_email"/>
                 <TextView android:id="@+id/account_rate" style="@style/AccountMenuItem" android:text="Rate" android:drawableEnd="@android:drawable/btn_star_big_on"/>
-                <TextView android:id="@+id/account_share" style="@style/AccountMenuItem" android:text="Share Swift Backup" android:drawableEnd="@android:drawable/ic_menu_share"/>
+                <TextView android:id="@+id/account_share" style="@style/AccountMenuItem" android:text="@string/account_share_app" android:drawableEnd="@android:drawable/ic_menu_share"/>
                 <TextView android:id="@+id/account_about" style="@style/AccountMenuItem" android:text="About" android:drawableEnd="@android:drawable/ic_dialog_info"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"
         android:paddingTop="6dp" android:paddingBottom="6dp" android:background="@drawable/intro_card_background">
-        <TextView android:id="@+id/account_nav_home" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="⌂&#10;Home"/>
-        <TextView android:id="@+id/account_nav_cloud" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="☁&#10;Cloud sync"/>
-        <TextView android:id="@+id/account_nav_schedule" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="◷&#10;Schedules"/>
-        <TextView android:id="@+id/account_nav_account" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="♙&#10;Account" android:textStyle="bold"/>
+        <TextView android:id="@+id/account_nav_home" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="@string/home_nav_home"/>
+        <TextView android:id="@+id/account_nav_cloud" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="@string/home_nav_cloud"/>
+        <TextView android:id="@+id/account_nav_schedule" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="@string/home_nav_schedules"/>
+        <TextView android:id="@+id/account_nav_account" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1" android:gravity="center" android:text="@string/home_nav_account" android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>

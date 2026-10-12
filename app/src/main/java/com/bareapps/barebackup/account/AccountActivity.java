@@ -57,16 +57,18 @@ public final class AccountActivity extends Activity {
     private void populateAccount() {
         boolean google = "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
         String email = google ? auth.getCurrentEmail() : null;
-        String name = google && email != null && email.contains("@")
-                ? email.substring(0, email.indexOf("@")) : (google ? "Google account" : "Anonymous user");
+        String profileName = google ? auth.getCurrentDisplayName() : null;
+        String name = google && profileName != null && !profileName.trim().isEmpty()
+                ? profileName : (google ? "Google account" : getString(R.string.account_anonymous_user));
         ((TextView)findViewById(R.id.account_name)).setText(name);
         TextView emailView = findViewById(R.id.account_email);
-        emailView.setText(google ? (email == null ? "" : email) : "Local account · limited features");
+        emailView.setText(google ? (email == null ? "" : email) : getString(R.string.account_local_limited));
         emailView.setVisibility(View.VISIBLE);
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         ((TextView)findViewById(R.id.account_device_id)).setText(deviceId == null ? "Unknown device" : deviceId.toUpperCase(java.util.Locale.ROOT));
-        ((TextView)findViewById(R.id.account_avatar_small)).setText(google && email != null && !email.isEmpty()
-                ? email.substring(0, 1).toUpperCase(java.util.Locale.ROOT) : "S");
+        String initialsSource = name == null || name.trim().isEmpty() ? "B" : name.trim();
+        ((TextView)findViewById(R.id.account_avatar_small)).setText(
+                initialsSource.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
     }
 
     private void confirmSignOut() {

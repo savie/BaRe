@@ -70,35 +70,30 @@ public final class HomeActivity extends Activity {
             rootDetail.setFocusable(true);
             rootDetail.setOnClickListener(v -> showExecutionModeDialog());
         }
-        bindAction(R.id.home_chip_apps, () -> openSettings(android.provider.Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS));
-        bindAction(R.id.home_chip_messages, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_MAIN)
-                .addCategory(android.content.Intent.CATEGORY_APP_MESSAGING), "No messaging app is available."));
-        bindAction(R.id.home_chip_call_logs, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_VIEW,
-                android.net.Uri.parse("content://call_log/calls")), "The system call log could not be opened."));
-        bindAction(R.id.home_chip_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE),
-                "The system file picker is not available."));
-        bindAction(R.id.home_chip_wallpapers, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_SET_WALLPAPER),
-                "No wallpaper picker is available."));
-        bindAction(R.id.home_chip_wifi, () -> openSettings(android.provider.Settings.ACTION_WIFI_SETTINGS));
-        bindAction(R.id.action_restore_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT)
-                .setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.home_chip_apps, () -> showPlaceholder(R.string.home_chip_apps));
+        bindAction(R.id.home_chip_messages, () -> showPlaceholder(R.string.home_chip_messages));
+        bindAction(R.id.home_chip_call_logs, () -> showPlaceholder(R.string.home_chip_call_logs));
+        bindAction(R.id.home_chip_folders, () -> showPlaceholder(R.string.home_chip_folders));
+        bindAction(R.id.home_chip_wallpapers, () -> showPlaceholder(R.string.home_chip_wallpapers));
+        bindAction(R.id.home_chip_wifi, () -> showPlaceholder(R.string.home_chip_wifi));
+        bindAction(R.id.action_restore_from_device, () -> showPlaceholder(R.string.home_restore_apps));
         bindAction(R.id.action_restore_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
 
         bindAction(R.id.action_backup_messages, () -> showPlaceholder(R.string.home_backup_messages));
         bindAction(R.id.action_restore_messages, () -> showPlaceholder(R.string.home_restore_messages));
-        bindAction(R.id.action_messages_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.action_messages_from_device, () -> showPlaceholder(R.string.home_restore_messages));
         bindAction(R.id.action_messages_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
         bindAction(R.id.action_backup_calls, () -> showPlaceholder(R.string.home_backup_calls));
         bindAction(R.id.action_restore_calls, () -> showPlaceholder(R.string.home_restore_calls));
-        bindAction(R.id.action_calls_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.action_calls_from_device, () -> showPlaceholder(R.string.home_restore_calls));
         bindAction(R.id.action_calls_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
-        bindAction(R.id.action_backup_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
-        bindAction(R.id.action_restore_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
+        bindAction(R.id.action_backup_folders, () -> showPlaceholder(R.string.home_backup_folders));
+        bindAction(R.id.action_restore_folders, () -> showPlaceholder(R.string.home_restore_folders));
         bindAction(R.id.action_folders_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
-        bindAction(R.id.action_folders_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
-        bindAction(R.id.action_wallpapers_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("image/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No image picker is available."));
+        bindAction(R.id.action_folders_from_device, () -> showPlaceholder(R.string.home_restore_folders));
+        bindAction(R.id.action_wallpapers_from_device, () -> showPlaceholder(R.string.home_restore_wallpapers));
         bindAction(R.id.action_wallpapers_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
-        bindAction(R.id.action_wifi_from_device, () -> openSettings(android.provider.Settings.ACTION_WIFI_SETTINGS));
+        bindAction(R.id.action_wifi_from_device, () -> showPlaceholder(R.string.home_restore_wifi));
         bindAction(R.id.action_wifi_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
         bindAction(R.id.action_backup_wallpapers, () -> showPlaceholder(R.string.home_backup_wallpapers));
         bindAction(R.id.action_restore_wallpapers, () -> showPlaceholder(R.string.home_restore_wallpapers));

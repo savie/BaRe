@@ -37,6 +37,8 @@ public final class SupabaseAuthManager {
     private static final String PREF_REDIRECT = "redirect_uri";
     private static final String PREF_USER_ID = "user_id";
     private static final String PREF_EMAIL = "email";
+    private static final String PREF_DISPLAY_NAME = "display_name";
+    private static final String PREF_AVATAR_URL = "avatar_url";
     private final Context app;
     private final String baseUrl;
     private final String publishableKey;
@@ -60,6 +62,30 @@ public final class SupabaseAuthManager {
 
     public String getCurrentEmail() {
         try { return secureStore.get(PREF_EMAIL); } catch (Exception ignored) { return null; }
+    }
+
+    public String getCurrentDisplayName() {
+        try { return secureStore.get(PREF_DISPLAY_NAME); } catch (Exception ignored) { return null; }
+    }
+
+    public String getCurrentAvatarUrl() {
+        try { return secureStore.get(PREF_AVATAR_URL); } catch (Exception ignored) { return null; }
+    }
+
+    private void persistUserProfile(JSONObject user) throws Exception {
+        JSONObject metadata = user.optJSONObject("user_metadata");
+        String displayName = metadata == null ? null : firstNonEmpty(metadata, "full_name", "name", "display_name");
+        String avatarUrl = metadata == null ? null : firstNonEmpty(metadata, "avatar_url", "picture");
+        secureStore.put(PREF_DISPLAY_NAME, displayName);
+        secureStore.put(PREF_AVATAR_URL, avatarUrl);
+    }
+
+    private static String firstNonEmpty(JSONObject json, String... keys) {
+        for (String key : keys) {
+            String value = json.optString(key, "");
+            if (!TextUtils.isEmpty(value)) return value;
+        }
+        return null;
     }
 
     public String getAccessToken() {
@@ -99,6 +125,7 @@ public final class SupabaseAuthManager {
                 secureStore.put("refresh_token", json.optString("refresh_token", refreshToken));
                 secureStore.put(PREF_USER_ID, user.getString("id"));
                 secureStore.put(PREF_EMAIL, user.optString("email", ""));
+                persistUserProfile(user);
                 callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
             } catch (Exception error) {
                 callback.onError("Session Supabase perlu diperbarui: " + safeMessage(error));
@@ -213,6 +240,7 @@ public final class SupabaseAuthManager {
                 secureStore.put("refresh_token", json.optString("refresh_token", null));
                 secureStore.put(PREF_USER_ID, user.getString("id"));
                 secureStore.put(PREF_EMAIL, user.optString("email", ""));
+                persistUserProfile(user);
                 secureStore.put(PREF_VERIFIER, null);
                 secureStore.put(PREF_REDIRECT, null);
                 callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
@@ -243,7 +271,9 @@ public final class SupabaseAuthManager {
                 secureStore.clear();
                 callback.onSuccess(new Session("", null));
             } catch (Exception error) {
-                callback.onError("Gagal sign out: " + safeMessage(error));
+                // Remote logout may fail offline; clear local credentials so the user can switch accounts.
+                secureStore.clear();
+                callback.onSuccess(new Session("", null));
             } finally {
                 if (connection != null) connection.disconnect();
             }

@@ -101,4 +101,11 @@
     <string name="home_restore_wallpapers">Restore wallpapers</string>
     <string name="home_backup_wifi">Backup WiFi</string>
     <string name="home_restore_wifi">Restore WiFi</string>
+    <string name="account_share_app">Share BΛR☰</string>
+    <string name="account_anonymous_user">Anonymous user</string>
+    <string name="account_local_limited">Local account · limited features</string>
+    <string name="home_nav_home">⌂\nHome</string>
+    <string name="home_nav_cloud">☁\nCloud sync</string>
+    <string name="home_nav_schedules">◷\nSchedules</string>
+    <string name="home_nav_account">♙\nAccount</string>
 </resources>
