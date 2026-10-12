@@ -138,6 +138,12 @@ public final class SupabaseAuthManager {
         if (uri == null) { callback.onError("Callback OAuth kosong."); return; }
         String error = uri.getQueryParameter("error_description");
         if (error == null) error = uri.getQueryParameter("error");
+        String fragment = uri.getFragment();
+        if (TextUtils.isEmpty(error) && !TextUtils.isEmpty(fragment)) {
+            Uri fragmentParameters = Uri.parse("https://callback.invalid/?" + fragment);
+            error = fragmentParameters.getQueryParameter("error_description");
+            if (error == null) error = fragmentParameters.getQueryParameter("error");
+        }
         if (!TextUtils.isEmpty(error)) { callback.onError("Google sign-in gagal: " + error); return; }
         String code = uri.getQueryParameter("code");
         if (TextUtils.isEmpty(code)) { callback.onError("Callback OAuth tidak memiliki authorization code."); return; }
@@ -148,6 +154,12 @@ public final class SupabaseAuthManager {
                 String redirect = secureStore.get(PREF_REDIRECT);
                 if (TextUtils.isEmpty(verifier) || TextUtils.isEmpty(redirect)) {
                     throw new IllegalStateException("OAuth verifier tidak ada atau sudah kedaluwarsa.");
+                }
+                Uri expectedRedirect = Uri.parse(redirect);
+                if (TextUtils.isEmpty(uri.getScheme()) || TextUtils.isEmpty(uri.getHost())
+                        || !uri.getScheme().equals(expectedRedirect.getScheme())
+                        || !uri.getHost().equals(expectedRedirect.getHost())) {
+                    throw new IllegalStateException("OAuth callback URI tidak sesuai redirect yang diminta.");
                 }
                 URL endpoint = new URL(baseUrl + "/auth/v1/token?grant_type=pkce");
                 connection = (HttpURLConnection) endpoint.openConnection();
