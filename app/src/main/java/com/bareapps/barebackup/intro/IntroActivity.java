@@ -8,16 +8,21 @@ import android.window.OnBackInvokedDispatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import android.widget.Toast;
+
 import com.bareapps.barebackup.R;
+import com.bareapps.rootservice.PrivilegeManager;
 import com.bareapps.barebackup.home.HomeActivity;
 
 public final class IntroActivity extends Activity {
     private IntroFlowController flowController;
+    private IntroActionHandler actionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         flowController = new IntroFlowController();
+        actionHandler = new IntroActionHandler(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
                 OnBackInvokedDispatcher.PRIORITY_DEFAULT,
@@ -96,7 +101,31 @@ public final class IntroActivity extends Activity {
             .setTitle(R.string.root_permission_dialog_title)
             .setMessage(R.string.root_permission_dialog_message)
             .setNegativeButton(R.string.cancel, (d, w) -> d.dismiss())
-            .setPositiveButton(R.string.grant_permissions, (d, w) -> openHome())
+            .setPositiveButton(R.string.grant_permissions, (d, w) -> chooseExecutionMode())
+            .show();
+    }
+
+    private void chooseExecutionMode() {
+        String[] modes = {"Root access", "Shizuku", "Continue without root"};
+        new AlertDialog.Builder(this)
+            .setTitle("Choose execution mode")
+            .setItems(modes, (dialog, which) -> {
+                if (which == 0) {
+                    actionHandler.requestRootAccess(status -> {
+                        if (!status.rootGranted) {
+                            Toast.makeText(this,
+                                "Root was not granted. Continuing with " + status.mode + " mode.",
+                                Toast.LENGTH_LONG).show();
+                        }
+                        openHome();
+                    });
+                } else if (which == 1) {
+                    actionHandler.requestShizukuAccess();
+                    openHome();
+                } else {
+                    openHome();
+                }
+            })
             .show();
     }
 

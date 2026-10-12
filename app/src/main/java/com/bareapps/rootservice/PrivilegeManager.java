@@ -115,6 +115,11 @@ public final class PrivilegeManager implements AutoCloseable {
 
     /** Request root explicitly. This may display the installed superuser manager's prompt. */
     public void requestRootAccess() {
+        requestRootAccess(null);
+    }
+
+    /** Request root and invoke completion after the actual shell result is known. */
+    public void requestRootAccess(StatusListener completion) {
         worker.execute(() -> {
             Shell candidate = null;
             try {
@@ -129,7 +134,11 @@ public final class PrivilegeManager implements AutoCloseable {
                 Log.w(TAG, "Root shell initialization failed", error);
             } finally {
                 closeQuietly(candidate);
+                Status status = getStatus();
                 publishStatus();
+                if (completion != null) {
+                    mainHandler.post(() -> completion.onStatusChanged(status));
+                }
             }
         });
     }
