@@ -44,7 +44,7 @@
     <string name="account_chooser_title">Choose an account</string>
     <string name="account_chooser_unavailable">Google account selection is not connected yet. This placeholder keeps the reference flow separate without starting authentication.</string>
     <string name="root_permission_dialog_title">Grant permissions with Root access or Shizuku</string>
-    <string name="root_permission_dialog_message">Grant below permissions to BΛR☰ in one click using Root access or Shizuku.\n\n• Storage\n• SMS\n• Call Logs\n• Contacts\n• Notifications</string>
+    <string name="root_permission_dialog_message">BΛR☰ will attempt to grant supported permissions using Root access or Shizuku, then report how many operations succeeded. Android may restrict some permissions by OS version or default-app role.\n\n• Storage access\n• Read SMS\n• Read call logs\n• Read contacts\n• Notifications</string>
     <string name="cancel">Cancel</string>
     <string name="grant_permissions">Grant permissions</string>
     <string name="signin_google_title">Sign in with Google</string>
@@ -66,8 +66,8 @@
     <string name="home_storage_value">160.13 GB free of 481.38 GB</string>
     <string name="home_storage_used">66.7% used</string>
     <string name="home_root_status">ROOT STATUS</string>
-    <string name="home_root_not_granted">Not connected</string>
-    <string name="home_root_version">Root status is a visual placeholder</string>
+    <string name="home_root_not_granted">Checking access…</string>
+    <string name="home_root_version">Checking the active execution session</string>
     <string name="home_chip_apps">Apps</string>
     <string name="home_chip_messages">Messages</string>
     <string name="home_chip_call_logs">Call Logs</string>
