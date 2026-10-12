@@ -66,4 +66,25 @@
     <string name="account_menu_about">Tentang</string>
     <string name="account_get_premium">DAPATKAN PREMIUM</string>
     <string name="account_sign_out">Keluar</string>
+    <string name="home_storage_free_of">%1$s kosong dari %2$s</string>
+    <string name="home_storage_percent_used">%1$d%% terpakai</string>
+    <string name="home_storage_unavailable">Informasi penyimpanan tidak tersedia</string>
+    <string name="home_storage_stats_unavailable">Statistik penyimpanan tidak dapat dibaca</string>
+    <string name="home_root_status">STATUS ROOT</string>
+    <string name="home_root_not_granted">Memeriksa akses…</string>
+    <string name="home_root_version">Memeriksa sesi eksekusi aktif</string>
+    <string name="home_chip_apps">Aplikasi</string>
+    <string name="home_chip_messages">Pesan</string>
+    <string name="home_chip_call_logs">Log panggilan</string>
+    <string name="home_chip_folders">Folder</string>
+    <string name="home_chip_wallpapers">Wallpaper</string>
+    <string name="home_chip_wifi">Wi-Fi</string>
+    <string name="home_apps_quick_actions">AKSI CEPAT APLIKASI</string>
+    <string name="home_messages_quick_actions">AKSI CEPAT PESAN</string>
+    <string name="home_calls_quick_actions">AKSI CEPAT LOG PANGGILAN</string>
+    <string name="home_folders_quick_actions">AKSI CEPAT FOLDER</string>
+    <string name="home_wallpapers_quick_actions">AKSI CEPAT WALLPAPER</string>
+    <string name="home_wifi_quick_actions">AKSI CEPAT WI-FI</string>
+    <string name="home_backup_apps_subtitle">Cadangkan aplikasi yang terpasang di perangkat ini</string>
+    <string name="home_restore_apps_subtitle">Pulihkan semua aplikasi yang dicadangkan</string>
 </resources>
