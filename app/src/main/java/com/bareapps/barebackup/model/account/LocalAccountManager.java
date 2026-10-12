@@ -44,6 +44,10 @@ public final class LocalAccountManager {
         } catch (Exception error) {
             secureReadSucceeded = false;
             uid = prefs.getString(KEY_UID, null);
+            if (uid == null || uid.trim().isEmpty()) {
+                // Never silently rotate an identity if encrypted data exists but cannot be decrypted.
+                throw new IllegalStateException("Cannot decrypt saved local account UID; refusing to create a different account identity", error);
+            }
         }
         if (!secureReadSucceeded || uid == null || uid.trim().isEmpty()) {
             String legacyUid = prefs.getString(KEY_UID, null);
@@ -53,9 +57,9 @@ public final class LocalAccountManager {
                 identityStore.put(KEY_UID, uid);
                 prefs.edit().remove(KEY_UID).apply();
             } catch (Exception error) {
-                // Keep a recoverable copy so a Keystore problem never silently rotates the UID.
+                // Keep the same UID as a recoverable fallback; retry encryption on the next launch.
                 prefs.edit().putString(KEY_UID, uid).apply();
-                throw new IllegalStateException("Unable to persist encrypted local account identity", error);
+                android.util.Log.w("BaReAccount", "Could not encrypt local UID; retained existing identity", error);
             }
         } else if (prefs.contains(KEY_UID)) {
             prefs.edit().remove(KEY_UID).apply();
