@@ -91,7 +91,56 @@ public final class IntroActivity extends Activity {
         if (skip != null) skip.setOnClickListener(v -> continueWithoutAccount());
     }
 
-    private void continueWithoutAccount() {\n        localAccountManager.useLocalAccount();\n        showPermissions();\n    }\n\n    private void beginGoogleSignIn() {\n        if (supabaseAuthManager == null) {\n            Toast.makeText(this, "Supabase secure session is unavailable on this device.", Toast.LENGTH_LONG).show();\n            return;\n        }\n        if (!supabaseAuthManager.isConfigured()) {\n            Toast.makeText(this, "Supabase is not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY in the build environment.", Toast.LENGTH_LONG).show();\n            return;\n        }\n        Toast.makeText(this, "Opening Google sign-in…", Toast.LENGTH_SHORT).show();\n        supabaseAuthManager.beginGoogleSignIn("bare://auth-callback", new SupabaseAuthManager.Callback() {\n            @Override public void onSuccess(SupabaseAuthManager.Session session) {\n                runOnUiThread(() -> {\n                    try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(session.userId))); }\n                    catch (RuntimeException error) { Toast.makeText(IntroActivity.this, "No browser is available for Google sign-in.", Toast.LENGTH_LONG).show(); }\n                });\n            }\n            @Override public void onError(String message) { runOnUiThread(() -> Toast.makeText(IntroActivity.this, message, Toast.LENGTH_LONG).show()); }\n        });\n    }\n\n    private void handleSupabaseCallback(Uri callbackUri) {\n        if (supabaseAuthManager == null) {\n            Toast.makeText(this, "Supabase session storage is unavailable.", Toast.LENGTH_LONG).show();\n            showAccountSetup();\n            return;\n        }\n        supabaseAuthManager.handleOAuthRedirect(callbackUri, new SupabaseAuthManager.Callback() {\n            @Override public void onSuccess(SupabaseAuthManager.Session session) {\n                runOnUiThread(() -> {\n                    try {\n                        localAccountManager.useSupabaseAccount(session.userId);\n                        Toast.makeText(IntroActivity.this, "Signed in with Google: " + (session.email == null ? "account connected" : session.email), Toast.LENGTH_LONG).show();\n                        showPermissions();\n                    } catch (RuntimeException error) {\n                        Toast.makeText(IntroActivity.this, "Sign-in succeeded but account setup failed: " + error.getMessage(), Toast.LENGTH_LONG).show();\n                    }\n                });\n            }\n            @Override public void onError(String message) {\n                runOnUiThread(() -> { Toast.makeText(IntroActivity.this, message, Toast.LENGTH_LONG).show(); showAccountSetup(); });\n            }\n        });\n    }\n    private void showPermissions() {
+    private void continueWithoutAccount() {
+        localAccountManager.useLocalAccount();
+        showPermissions();
+    }
+
+    private void beginGoogleSignIn() {
+        if (supabaseAuthManager == null) {
+            Toast.makeText(this, "Supabase secure session is unavailable on this device.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!supabaseAuthManager.isConfigured()) {
+            Toast.makeText(this, "Supabase is not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY in the build environment.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Toast.makeText(this, "Opening Google sign-in…", Toast.LENGTH_SHORT).show();
+        supabaseAuthManager.beginGoogleSignIn("bare://auth-callback", new SupabaseAuthManager.AuthUrlCallback() {
+            @Override public void onUrl(String url) {
+                runOnUiThread(() -> {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); }
+                    catch (RuntimeException error) { Toast.makeText(IntroActivity.this, "No browser is available for Google sign-in.", Toast.LENGTH_LONG).show(); }
+                });
+            }
+            @Override public void onError(String message) { runOnUiThread(() -> Toast.makeText(IntroActivity.this, message, Toast.LENGTH_LONG).show()); }
+        });
+    }
+
+    private void handleSupabaseCallback(Uri callbackUri) {
+        if (supabaseAuthManager == null) {
+            Toast.makeText(this, "Supabase session storage is unavailable.", Toast.LENGTH_LONG).show();
+            showAccountSetup();
+            return;
+        }
+        supabaseAuthManager.handleOAuthRedirect(callbackUri, new SupabaseAuthManager.Callback() {
+            @Override public void onSuccess(SupabaseAuthManager.Session session) {
+                runOnUiThread(() -> {
+                    try {
+                        localAccountManager.useSupabaseAccount(session.userId);
+                        Toast.makeText(IntroActivity.this, "Signed in with Google: " + (session.email == null ? "account connected" : session.email), Toast.LENGTH_LONG).show();
+                        showPermissions();
+                    } catch (RuntimeException error) {
+                        Toast.makeText(IntroActivity.this, "Sign-in succeeded but account setup failed: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            @Override public void onError(String message) {
+                runOnUiThread(() -> { Toast.makeText(IntroActivity.this, message, Toast.LENGTH_LONG).show(); showAccountSetup(); });
+            }
+        });
+    }
+    private void showPermissions() {
         flowController.moveTo(IntroFlowController.Step.REQUIRED_PERMISSIONS);
         setContentView(R.layout.intro_permissions_screen);
         View menu = findViewById(R.id.iv_menu);
