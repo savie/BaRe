@@ -40,4 +40,14 @@
     <string name="continue_anyway">Continue anyway</string>
     <string name="exit">Exit</string>
     <string name="getting_started">Getting started!</string>
+    <string name="account_chooser_title">Choose an account</string>
+    <string name="account_chooser_unavailable">Google account selection is not connected yet. This placeholder keeps the reference flow separate without starting authentication.</string>
+    <string name="root_permission_dialog_title">Grant permissions with Root access or Shizuku</string>
+    <string name="root_permission_dialog_message">Grant below permissions to BΛR☰ in one click using Root access or Shizuku.\n\n• Storage\n• SMS\n• Call Logs\n• Contacts\n• Notifications</string>
+    <string name="cancel">Cancel</string>
+    <string name="grant_permissions">Grant permissions</string>
+    <string name="signin_google_title">Sign in with Google</string>
+    <string name="signin_google_explanation">Google Sign-in is required to use all the available features in the app including cloud backups, making purchases, using premium features, etc.</string>
+    <string name="signin_without_account_explanation">Use the app without an account with limited features. This option is specifically made for users who do not want to use cloud backups or any premium features in the app.</string>
+    <string name="continue_without_account">Continue without an account</string>
 </resources>
