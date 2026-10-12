@@ -30,5 +30,6 @@ These values are the Supabase project URL and public client key, not a service-r
 ## Scope and limitations
 
 - Google OAuth is routed through Supabase Auth using PKCE; no Firebase Auth dependency is used.
+- Before opening the browser, the app checks `/auth/v1/settings` and gives a specific error if the Google provider is disabled. The dashboard redirect allow-list still must include `bare://auth-callback`.
 - The Supabase access/refresh tokens and local account UID are encrypted with separate Android Keystore AES-GCM keys.
 - Cloud backup operations, refresh-token renewal for future API calls, explicit account switching, and safe local-to-Google backup migration are separate follow-up work; this change does not claim those features are complete.
