@@ -16,6 +16,7 @@ import java.io.File;
 
 import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.storage.StorageActivity;
+import com.bareapps.barebackup.account.AccountActivity;
 import com.bareapps.barebackup.ui.SystemBarInsets;
 
 /** Home dashboard; dedicated screens own their detailed UI and data presentation. */
@@ -32,12 +33,15 @@ public final class HomeActivity extends Activity {
         for (int i = 0; i < tabs.length; i++) {
             final int selected = i;
             View tab = findViewById(tabs[i]);
-            if (tab != null) tab.setOnClickListener(v -> selectTab(selected, tabs, labels));
+            if (tab != null) tab.setOnClickListener(v -> {
+                if (selected == 3) startActivity(new android.content.Intent(this, AccountActivity.class));
+                else selectTab(selected, tabs, labels);
+            });
         }
         selectTab(0, tabs, labels);
         updateStorageStats();
         View profile = findViewById(R.id.home_profile);
-        if (profile != null) profile.setOnClickListener(v -> selectTab(3, tabs, labels));
+        if (profile != null) profile.setOnClickListener(v -> startActivity(new android.content.Intent(this, AccountActivity.class)));
         View search = findViewById(R.id.home_search);
         if (search != null) search.setOnClickListener(v -> showPlaceholder(R.string.home_search_title));
 
@@ -72,6 +76,24 @@ public final class HomeActivity extends Activity {
         bindAction(R.id.action_restore_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT)
                 .setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
         bindAction(R.id.action_restore_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+
+        bindAction(R.id.action_backup_messages, () -> showPlaceholder(R.string.home_backup_messages));
+        bindAction(R.id.action_restore_messages, () -> showPlaceholder(R.string.home_restore_messages));
+        bindAction(R.id.action_messages_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.action_messages_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_backup_calls, () -> showPlaceholder(R.string.home_backup_calls));
+        bindAction(R.id.action_restore_calls, () -> showPlaceholder(R.string.home_restore_calls));
+        bindAction(R.id.action_calls_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("*/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No file picker is available."));
+        bindAction(R.id.action_calls_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_backup_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
+        bindAction(R.id.action_restore_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
+        bindAction(R.id.action_folders_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_backup_wallpapers, () -> showPlaceholder(R.string.home_backup_wallpapers));
+        bindAction(R.id.action_restore_wallpapers, () -> showPlaceholder(R.string.home_restore_wallpapers));
+        bindAction(R.id.action_wallpapers_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_backup_wifi, () -> showPlaceholder(R.string.home_backup_wifi));
+        bindAction(R.id.action_restore_wifi, () -> showPlaceholder(R.string.home_restore_wifi));
+        bindAction(R.id.action_wifi_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
         int[] actions = {R.id.action_backup_apps, R.id.action_restore_apps, R.id.action_more};
         int[] actionTitles = {R.string.home_backup_apps, R.string.home_restore_apps, R.string.home_more_actions};
         for (int i = 0; i < actions.length; i++) {
