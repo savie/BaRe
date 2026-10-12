@@ -6,13 +6,15 @@ on:
   # Manual runs are always available from the Actions tab.
   workflow_dispatch:
 
-  # Automatic runs are allowed only when files under app/ change.
-  #push:
-  #  paths:
-  #    - "app/**"
-  #pull_request:
-  #  paths:
-  #    - "app/**"
+  # Build and test changes to the app and this workflow.
+  push:
+    paths:
+      - "app/**"
+      - ".github/workflows/BΛR☰-Rebuild-CI.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - ".github/workflows/BΛR☰-Rebuild-CI.yml"
 
 permissions:
   contents: read
