@@ -19,23 +19,18 @@
                 android:layout_width="match_parent" android:layout_height="wrap_content"/>
             <include android:id="@+id/intro_activity_sign_in" layout="@layout/intro_activity_sign_in"
                 android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            <include android:id="@+id/intro_activity_permissions" layout="@layout/intro_activity_permissions"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
     <LinearLayout android:id="@+id/intro_bottom_actions" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="vertical" android:paddingStart="20dp" android:paddingEnd="20dp" android:paddingTop="16dp"
         android:paddingBottom="20dp" android:elevation="8dp" android:background="?android:attr/colorBackground">
-        <LinearLayout android:id="@+id/container_sign_in_actions" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView android:id="@+id/tv_sign_in_subtitle2" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="@string/backups_tied_warning" android:textSize="12sp" android:gravity="center"
-                android:textColor="?android:attr/textColorSecondary" android:layout_marginBottom="10dp"/>
-            <include android:id="@+id/btn_google" layout="@layout/google_sign_in_button"
-                android:layout_width="match_parent" android:layout_height="56dp"/>
-            <include android:id="@+id/btn_anonymous" layout="@layout/intro_skip_sign_in_button"
-                android:layout_width="match_parent" android:layout_height="48dp"/>
-        </LinearLayout>
+        <TextView android:id="@+id/tv_sign_in_subtitle2" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/backups_tied_warning" android:textSize="12sp" android:gravity="center"
+            android:textColor="?android:attr/textColorSecondary" android:layout_marginBottom="10dp"/>
+        <include android:id="@+id/btn_google" layout="@layout/google_sign_in_button"
+            android:layout_width="match_parent" android:layout_height="56dp"/>
+        <include android:id="@+id/btn_anonymous" layout="@layout/intro_skip_sign_in_button"
+            android:layout_width="match_parent" android:layout_height="48dp"/>
         <TextView android:id="@+id/tv_privacy_policy" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:layout_marginTop="10dp" android:text="@string/tos_privacy_agreement" android:gravity="center"
             android:textColor="?android:attr/textColorSecondary" android:textSize="12sp"/>
