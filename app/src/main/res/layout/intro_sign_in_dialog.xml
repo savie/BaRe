@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
+    android:padding="24dp" android:background="@drawable/intro_card_background">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+        android:text="G" android:textColor="#4285F4" android:textSize="52sp" android:textStyle="bold"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+        android:layout_marginTop="12dp" android:text="@string/signin_google_title" android:textSize="24sp" android:textStyle="bold"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="20dp"
+        android:text="@string/signin_google_explanation" android:textSize="16sp" android:lineSpacingExtra="5dp"/>
+    <Button android:id="@+id/dialog_google_sign_in" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="18dp" android:text="@string/common_signin_button_text_long" android:enabled="true"/>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="20dp" android:layout_marginBottom="16dp"
+        android:background="?android:attr/listDivider"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/signin_without_account_explanation"
+        android:textSize="16sp" android:lineSpacingExtra="5dp"/>
+    <Button android:id="@+id/dialog_continue_without_account" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:layout_marginTop="18dp" android:text="@string/continue_without_account"/>
+</LinearLayout>
