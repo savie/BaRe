@@ -319,8 +319,17 @@ public final class IntroActivity extends Activity {
     private void restartApplication() {
         Intent restart = new Intent(this, IntroActivity.class);
         restart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(restart);
-        finish();
+        android.app.PendingIntent pending = android.app.PendingIntent.getActivity(this, 620, restart,
+                android.app.PendingIntent.FLAG_CANCEL_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
+        android.app.AlarmManager alarm = (android.app.AlarmManager) getSystemService(ALARM_SERVICE);
+        if (alarm != null) {
+            alarm.set(android.app.AlarmManager.ELAPSED_REALTIME,
+                    android.os.SystemClock.elapsedRealtime() + 500L, pending);
+            finishAffinity();
+        } else {
+            startActivity(restart);
+            finish();
+        }
     }
 
     private void showRootPermissionExplanation() {

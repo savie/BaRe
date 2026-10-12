@@ -67,8 +67,10 @@ public final class AccountActivity extends Activity {
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         ((TextView)findViewById(R.id.account_device_id)).setText(deviceId == null ? "Unknown device" : deviceId.toUpperCase(java.util.Locale.ROOT));
         String initialsSource = name == null || name.trim().isEmpty() ? "B" : name.trim();
-        ((TextView)findViewById(R.id.account_avatar_small)).setText(
-                initialsSource.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
+        String initial = initialsSource.substring(0, 1).toUpperCase(java.util.Locale.ROOT);
+        ((TextView)findViewById(R.id.account_avatar_small)).setText(initial);
+        TextView profileAvatar = findViewById(R.id.account_avatar_profile);
+        if (profileAvatar != null) profileAvatar.setText(initial);
     }
 
     private void confirmSignOut() {
