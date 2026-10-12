@@ -44,7 +44,7 @@ public final class IntroActivity extends Activity {
     }
 
     private void showOverflowMenu(View anchor) {
-        String[] items = {"Language", "SwiftLogger", "Restart app"};
+        String[] items = {"Language", "BareLogger", "Restart app"};
         new AlertDialog.Builder(this)
                 .setItems(items, (dialog, which) -> {
                     // Deliberately inert until the referenced feature is ported.
