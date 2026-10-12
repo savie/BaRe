@@ -29,6 +29,7 @@ public final class IntroActivity extends Activity {
     private IntroFlowController flowController;
     private IntroActionHandler actionHandler;
     private boolean awaitingNonRootStorageSettings;
+    private boolean sessionRefreshInFlight;
     private int nonRootGrantedCount;
     private int nonRootTotalCount;
     private LocalAccountManager localAccountManager;
@@ -84,6 +85,11 @@ public final class IntroActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (localAccountManager != null && supabaseAuthManager != null
+                && "supabase".equals(localAccountManager.getActiveKind())
+                && supabaseAuthManager.hasSession() && !sessionRefreshInFlight) {
+            refreshCloudSession();
+        }
         View notifications = findViewById(R.id.btn_notifications_perm);
         if (notifications != null) updateNotificationPermissionButton(notifications);
         View storage = findViewById(R.id.btn_storage_perm);
@@ -93,6 +99,31 @@ public final class IntroActivity extends Activity {
             nonRootGrantedCount = countNonRootPermissionGroups(true);
             showNonRootPermissionSummaryAndOpenHome();
         }
+    }
+
+    private void refreshCloudSession() {
+        sessionRefreshInFlight = true;
+        supabaseAuthManager.refreshSession(new SupabaseAuthManager.Callback() {
+            @Override public void onSuccess(SupabaseAuthManager.Session session) {
+                runOnUiThread(() -> {
+                    sessionRefreshInFlight = false;
+                    if (isFinishing() || isDestroyed()) return;
+                    if (localAccountManager != null && "supabase".equals(localAccountManager.getActiveKind())
+                            && !session.userId.equals(localAccountManager.getActiveUid())) {
+                        localAccountManager.useSupabaseAccount(session.userId);
+                    }
+                });
+            }
+            @Override public void onError(String message) {
+                runOnUiThread(() -> {
+                    sessionRefreshInFlight = false;
+                    if (isFinishing() || isDestroyed()) return;
+                    android.util.Log.w("BaReAuth", "Cloud session refresh failed: " + message);
+                    Toast.makeText(IntroActivity.this,
+                            "Cloud session needs attention. Local backups remain available.", Toast.LENGTH_LONG).show();
+                });
+            }
+        });
     }
 
     private void showAccountSetup() {
