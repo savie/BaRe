@@ -6,7 +6,7 @@ on:
   # Manual runs are always available from the Actions tab.
   workflow_dispatch:
 
-  # Build and test changes to the app and this workflow; latest resource fix included.
+  # Build and test changes to the app and this workflow; account constructor error fixed.
   push:
     paths:
       - "app/**"
