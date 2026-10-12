@@ -114,19 +114,70 @@ public final class IntroActivity extends Activity {
                     actionHandler.requestRootAccess(status -> {
                         if (!status.rootGranted) {
                             Toast.makeText(this,
-                                "Root was not granted. Continuing with " + status.mode + " mode.",
+                                "Root was not granted. No privileged permissions were changed.",
                                 Toast.LENGTH_LONG).show();
+                            openHome();
+                            return;
                         }
-                        openHome();
+                        grantPrivilegedPermissions(0, 0, true);
                     });
                 } else if (which == 1) {
+                    PrivilegeManager.Status status = actionHandler.getStatus();
+                    if (!status.shizukuAvailable) {
+                        Toast.makeText(this, "Shizuku is not running. No permissions were changed.",
+                                Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     actionHandler.requestShizukuAccess();
-                    openHome();
+                    actionHandler.getStatus();
+                    ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
+                        .setStatusListener(updated -> {
+                            if (updated.shizukuConnected) {
+                                ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
+                                    .setStatusListener(null);
+                                grantPrivilegedPermissions(0, 0, false);
+                            }
+                        });
+                    Toast.makeText(this, "Waiting for Shizuku authorization…",
+                            Toast.LENGTH_LONG).show();
                 } else {
+                    Toast.makeText(this, "Continuing without privileged permissions.",
+                            Toast.LENGTH_LONG).show();
                     openHome();
                 }
             })
             .show();
+    }
+
+    private void grantPrivilegedPermissions(int index, int granted, boolean rootMode) {
+        final java.util.ArrayList<String[]> commands = new java.util.ArrayList<>();
+        String pkg = getPackageName();
+        commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_CONTACTS"});
+        commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_SMS"});
+        commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_CALL_LOG"});
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            commands.add(new String[]{"pm", "grant", pkg, "android.permission.POST_NOTIFICATIONS"});
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            commands.add(new String[]{"appops", "set", pkg, "MANAGE_EXTERNAL_STORAGE", "allow"});
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_EXTERNAL_STORAGE"});
+        }
+
+        if (index >= commands.size()) {
+            String mode = rootMode ? "ROOT" : "Shizuku";
+            Toast.makeText(this, mode + " permission pass finished: " + granted + "/"
+                    + commands.size() + " operations accepted. Verify Android settings for special access.",
+                    Toast.LENGTH_LONG).show();
+            openHome();
+            return;
+        }
+
+        actionHandler.execute(commands.get(index), 10000L, (result, mode) -> {
+            boolean accepted = result != null && result.getInt("exitCode", -1) == 0
+                    && mode == (rootMode ? PrivilegeManager.Mode.ROOT : PrivilegeManager.Mode.SHIZUKU);
+            grantPrivilegedPermissions(index + 1, granted + (accepted ? 1 : 0), rootMode);
+        });
     }
 
     private void openHome() {
