@@ -31,6 +31,16 @@
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
     -->
 
+    <!-- Deferred permissions requested for the rewrite audit; declarations do not implement the features. -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+    <uses-permission android:name="android.permission.QUERY_ADVANCED_PROTECTION_MODE" />
+    <uses-permission android:name="android.permission.INSTALL_SHORTCUT" />
+
     <!-- Legacy storage: prefer Storage Access Framework on modern Android. -->
     <!--
     <uses-permission
