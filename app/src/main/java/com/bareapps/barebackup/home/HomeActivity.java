@@ -45,18 +45,27 @@ public final class HomeActivity extends Activity {
                 else selectTab(selected, tabs, labels);
             });
         }
-        selectTab(0, tabs, labels);
+        int requestedTab = getIntent() == null ? 0 : getIntent().getIntExtra("selected_tab", 0);
+        selectTab(requestedTab >= 0 && requestedTab < tabs.length ? requestedTab : 0, tabs, labels);
         updateStorageStats();
         View profile = findViewById(R.id.home_profile);
         if (profile != null) profile.setOnClickListener(v -> startActivity(new android.content.Intent(this, AccountActivity.class)));
         View search = findViewById(R.id.home_search);
         if (search != null) search.setOnClickListener(v -> showPlaceholder(R.string.home_search_title));
 
-        View storage = findViewById(R.id.home_storage_card);
-        if (storage != null) {
-            storage.setClickable(true);
-            storage.setFocusable(true);
-            storage.setOnClickListener(v -> startActivity(new android.content.Intent(this, StorageActivity.class)));
+        // Do not make the entire overview card clickable: whitespace around Apps/Folders/WiFi
+        // shortcuts used to open StorageActivity by accident. Only storage-specific controls open it.
+        View storageValue = findViewById(R.id.home_storage_value);
+        if (storageValue != null) {
+            storageValue.setClickable(true);
+            storageValue.setFocusable(true);
+            storageValue.setOnClickListener(v -> startActivity(new android.content.Intent(this, StorageActivity.class)));
+        }
+        View storageLabel = findViewById(R.id.home_storage_label);
+        if (storageLabel != null) {
+            storageLabel.setClickable(true);
+            storageLabel.setFocusable(true);
+            storageLabel.setOnClickListener(v -> startActivity(new android.content.Intent(this, StorageActivity.class)));
         }
         View rootStatus = findViewById(R.id.home_root_status_value);
         if (rootStatus != null) {
@@ -189,6 +198,20 @@ public final class HomeActivity extends Activity {
                 Toast.makeText(this, "Non-root execution mode selected.", Toast.LENGTH_SHORT).show();
             }
         }).show();
+    }
+
+    @Override
+    protected void onNewIntent(android.content.Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        int selected = intent == null ? 0 : intent.getIntExtra("selected_tab", 0);
+        int[] tabs = {R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account};
+        int[] labels = {R.string.home_overview, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
+        if (selected == 3) {
+            startActivity(new android.content.Intent(this, AccountActivity.class));
+        } else {
+            selectTab(selected >= 0 && selected < tabs.length ? selected : 0, tabs, labels);
+        }
     }
 
     @Override
