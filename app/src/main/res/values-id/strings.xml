@@ -87,4 +87,7 @@
     <string name="home_wifi_quick_actions">AKSI CEPAT WI-FI</string>
     <string name="home_backup_apps_subtitle">Cadangkan aplikasi yang terpasang di perangkat ini</string>
     <string name="home_restore_apps_subtitle">Pulihkan semua aplikasi yang dicadangkan</string>
+    <string name="app_name">BΛR☰</string>
+    <string name="home_storage_value">Memuat informasi penyimpanan…</string>
+    <string name="home_storage_used">Memuat persentase penggunaan…</string>
 </resources>
