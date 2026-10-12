@@ -2,6 +2,7 @@ package com.bareapps.rootservice;
 
 import com.topjohnwu.superuser.Shell;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -28,7 +29,11 @@ public final class ShellHelper {
         try {
             return shell.newJob().add(Arrays.copyOf(commands, commands.length)).exec();
         } finally {
-            shell.close();
+            try {
+                shell.close();
+            } catch (IOException ignored) {
+                // Do not mask the command result/failure with a cleanup exception.
+            }
         }
     }
 
