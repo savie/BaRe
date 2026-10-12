@@ -106,8 +106,10 @@ public final class IntroActivity extends Activity {
             return;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE",
-                    "android.permission.WRITE_EXTERNAL_STORAGE"}, 6207);
+            String[] requested = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P
+                    ? new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"}
+                    : new String[]{"android.permission.READ_EXTERNAL_STORAGE"};
+            requestPermissions(requested, 6207);
         } else {
             Toast.makeText(this, "Storage access is available on this Android version.", Toast.LENGTH_SHORT).show();
         }
