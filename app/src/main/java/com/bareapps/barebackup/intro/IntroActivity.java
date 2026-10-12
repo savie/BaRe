@@ -128,8 +128,6 @@ public final class IntroActivity extends Activity {
                                 Toast.LENGTH_LONG).show();
                         return;
                     }
-                    actionHandler.requestShizukuAccess();
-                    actionHandler.getStatus();
                     ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
                         .setStatusListener(updated -> {
                             if (updated.shizukuConnected) {
@@ -138,6 +136,7 @@ public final class IntroActivity extends Activity {
                                 grantPrivilegedPermissions(0, 0, false);
                             }
                         });
+                    actionHandler.requestShizukuAccess();
                     Toast.makeText(this, "Waiting for Shizuku authorization…",
                             Toast.LENGTH_LONG).show();
                 } else {
