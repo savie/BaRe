@@ -3,6 +3,8 @@ package com.bareapps.barebackup.intro;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Build;
+import android.window.OnBackInvokedDispatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -16,6 +18,12 @@ public final class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         flowController = new IntroFlowController();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                this::handleBackNavigation
+            );
+        }
         showAccountSetup();
     }
 
@@ -100,10 +108,14 @@ public final class IntroActivity extends Activity {
 
     @Override
     public void onBackPressed() {
+        handleBackNavigation();
+    }
+
+    private void handleBackNavigation() {
         if (flowController.getCurrentStep() == IntroFlowController.Step.REQUIRED_PERMISSIONS) {
             showAccountSetup();
-        } else {
-            super.onBackPressed();
+            return;
         }
+        finish();
     }
 }
