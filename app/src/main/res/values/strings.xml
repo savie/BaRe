@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BΛR☰</string>
+    <string name="intro_menu">Intro menu</string>
+    <string name="signin_title">Set up your BΛR☰ account</string>
+    <string name="signin_intro_subtitle">Create an account for cloud backups, premium features, and account-based encryption.</string>
+    <string name="intro_benefit_cloud_title">Cloud backups</string>
+    <string name="intro_benefit_cloud_subtitle">Connect cloud storage for backup and restore.</string>
+    <string name="intro_benefit_premium_title">Premium features</string>
+    <string name="intro_benefit_premium_subtitle">Purchase and use Premium with your account.</string>
+    <string name="intro_benefit_keys_title">Encryption keys</string>
+    <string name="intro_benefit_keys_subtitle">Use account-based keys for encrypted backups.</string>
+    <string name="intro_benefit_settings_title">App preferences</string>
+    <string name="intro_benefit_settings_subtitle">Sync settings, schedules, app labels, and app configurations.</string>
+    <string name="required_permissions">Required permissions</string>
+    <string name="storage_perm_title">Storage permission</string>
+    <string name="storage_perm_subtitle">Create, read, and restore local backup files on this device.</string>
+    <string name="notifications_perm_title">Notifications permission</string>
+    <string name="notifications_perm_subtitle">Show backup, restore, schedule, and error notifications.</string>
+    <string name="xiaomi_installed_apps_perm_title">Installed apps access</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">Read installed apps on this device so apps can appear for backup and restore.</string>
+    <string name="grant_storage_permission">Grant Storage permission</string>
+    <string name="grant_notifications_permission">Grant Notifications permission</string>
+    <string name="grant_xiaomi_installed_apps_permission">Grant installed apps access</string>
+    <string name="root_grant_permissions">Grant all with Root or Shizuku</string>
+    <string name="skip_for_now">Skip for now</string>
+    <string name="common_signin_button_text_long">Continue with Google</string>
+    <string name="backups_tied_warning">Backups are linked to the account used to create them. Use the same account to restore them later.</string>
+    <string name="tos_privacy_agreement">By continuing you agree to the Terms of Service and Privacy Policy.</string>
+    <string name="firebase_backend_diagnostics_title">Unable to connect with app backend</string>
+    <string name="firebase_backend_diagnostics_message">The app cannot reach its backend. Cloud backups, premium activation, and settings sync may be unavailable.</string>
+    <string name="backup_storage_setup_failure_title">Unable to set up backup storage</string>
+    <string name="backup_storage_setup_failure_message">BΛR☰ could not finish setting up the selected backup location.</string>
+    <string name="backup_storage_failure_location_label">Backup location</string>
+    <string name="backup_storage_what_to_try">What to try</string>
+    <string name="backup_storage_review_step">Review storage access and choose a location the app can use.</string>
+    <string name="review_storage_access">Review storage access</string>
+    <string name="backup_storage_diagnostics">If the problem persists, check the storage provider and device permissions.</string>
+    <string name="retry">Retry</string>
+    <string name="continue_anyway">Continue anyway</string>
+    <string name="exit">Exit</string>
+    <string name="getting_started">Getting started!</string>
+</resources>
