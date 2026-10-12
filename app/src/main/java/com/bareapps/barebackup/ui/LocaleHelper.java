@@ -11,7 +11,7 @@ public final class LocaleHelper {
     public static Context wrap(Context context) {
         SharedPreferences preferences = context.getSharedPreferences("bare_settings", Context.MODE_PRIVATE);
         String language = preferences.getString("language", "en");
-        Locale locale = new Locale("id".equals(language) ? "id" : "en");
+        Locale locale = new Locale("id".equals(language) ? "in" : "en");
         Locale.setDefault(locale);
         Configuration configuration = new Configuration(context.getResources().getConfiguration());
         configuration.setLocale(locale);
