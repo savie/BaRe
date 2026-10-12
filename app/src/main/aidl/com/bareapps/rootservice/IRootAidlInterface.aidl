@@ -3,9 +3,12 @@ package com.bareapps.rootservice;
 import android.os.Bundle;
 
 /**
- * Minimal IPC contract for commands executed inside a Shizuku user-service process.
- * The caller must bind through Shizuku after the user grants Shizuku permission.
+ * BΛR☰ command IPC contract. The Shizuku UserService executes argv without shell interpolation.
+ * Each command element is one executable/argument; callers must not pass untrusted shell strings.
  */
 interface IRootAidlInterface {
     Bundle execute(in String[] command, long timeoutMillis);
+    int getPid();
+    int getUid();
+    String getServiceVersion();
 }
