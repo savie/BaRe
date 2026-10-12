@@ -94,9 +94,21 @@ public final class IntroActivity extends Activity {
         View menu = findViewById(R.id.iv_menu);
         if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View google = findViewById(R.id.btn_google);
-        if (google != null) google.setOnClickListener(v -> beginGoogleSignIn());
+        if (google != null) google.setOnClickListener(v -> showGoogleSignInPrompt());
         View skip = findViewById(R.id.btn_anonymous);
         if (skip != null) skip.setOnClickListener(v -> continueWithoutAccount());
+    }
+
+    private void showGoogleSignInPrompt() {
+        GoogleSignInPrompt.show(this, new GoogleSignInPrompt.Listener() {
+            @Override public void onGoogleSignIn() {
+                beginGoogleSignIn();
+            }
+
+            @Override public void onContinueWithoutAccount() {
+                continueWithoutAccount();
+            }
+        });
     }
 
     private void continueWithoutAccount() {
