@@ -187,8 +187,6 @@ public final class PrivilegeManager implements AutoCloseable {
         worker.execute(() -> {
             Bundle result;
             Mode mode;
-            Bundle result;
-            Mode mode;
             Mode selected = preferredMode;
             if (selected == Mode.ROOT) {
                 Shell shell = rootShell;
@@ -212,9 +210,11 @@ public final class PrivilegeManager implements AutoCloseable {
                     try {
                         result = service.execute(command, timeoutMillis);
                     } catch (RemoteException | RuntimeException error) {
-                        Log.w(TAG, "Shizuku execution failed; using app UID", error);
+                        Log.w(TAG, "Shizuku execution failed", error);
                         mode = Mode.NON_ROOT;
-                        result = CommandExecutor.execute(command, timeoutMillis);
+                        result = new Bundle();
+                        result.putInt("exitCode", -1);
+                        result.putString("output", "Shizuku execution failed; command was not retried with app UID.");
                     }
                 } else {
                     mode = Mode.NON_ROOT;
