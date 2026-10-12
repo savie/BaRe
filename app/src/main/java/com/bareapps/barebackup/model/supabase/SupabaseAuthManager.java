@@ -1,7 +1,6 @@
 package com.bareapps.barebackup.model.supabase;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -12,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.UUID;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -165,12 +163,13 @@ public final class SupabaseAuthManager {
                 connection.setConnectTimeout(15000);
                 connection.setReadTimeout(20000);
                 connection.setDoOutput(true);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
                 connection.setRequestProperty("apikey", anonKey);
                 connection.setRequestProperty("Authorization", "Bearer " + anonKey);
-                String form = "auth_code=" + URLEncoder.encode(code, "UTF-8")
-                        + "&code_verifier=" + URLEncoder.encode(verifier, "UTF-8");
-                byte[] bytes = form.getBytes(StandardCharsets.UTF_8);
+                JSONObject body = new JSONObject();
+                body.put("auth_code", code);
+                body.put("code_verifier", verifier);
+                byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
                 try (OutputStream output = connection.getOutputStream()) { output.write(bytes); }
                 int status = connection.getResponseCode();
                 String response = readAll(status >= 200 && status < 300
