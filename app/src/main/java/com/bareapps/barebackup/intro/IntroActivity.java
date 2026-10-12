@@ -37,6 +37,15 @@ public final class IntroActivity extends Activity {
         showAccountSetup();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View notifications = findViewById(R.id.btn_notifications_perm);
+        if (notifications != null) updateNotificationPermissionButton(notifications);
+        View storage = findViewById(R.id.btn_storage_perm);
+        if (storage != null) updateStoragePermissionButton(storage);
+    }
+
     private void showAccountSetup() {
         flowController.moveTo(IntroFlowController.Step.ACCOUNT_SETUP);
         setContentView(R.layout.intro_activity);
