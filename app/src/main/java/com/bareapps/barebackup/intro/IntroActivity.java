@@ -53,6 +53,8 @@ public final class IntroActivity extends Activity {
         }
         if (getIntent() != null && getIntent().getData() != null && "auth-callback".equals(getIntent().getData().getHost())) {
             handleSupabaseCallback(getIntent().getData());
+        } else if (localAccountManager.isSetupComplete()) {
+            openHome();
         } else {
             showAccountSetup();
         }
@@ -285,30 +287,6 @@ public final class IntroActivity extends Activity {
         }).show();
     }
 
-    private void showSignInExplanation() {
-        View content = LayoutInflater.from(this).inflate(R.layout.intro_sign_in_dialog, null, false);
-        AlertDialog dialog = new AlertDialog.Builder(this).setView(content).create();
-        View google = content.findViewById(R.id.dialog_google_sign_in);
-        View without = content.findViewById(R.id.dialog_continue_without_account);
-        if (google != null) google.setOnClickListener(v -> {
-            dialog.dismiss();
-            showAccountChooserPlaceholder();
-        });
-        if (without != null) without.setOnClickListener(v -> {
-            dialog.dismiss();
-            showPermissions();
-        });
-        dialog.show();
-    }
-
-    private void showAccountChooserPlaceholder() {
-        String[] accounts = {"Santo Priyono  ·  santo@example.com", "eSPe STP  ·  espe@example.com",
-                "Giant Killers  ·  giant@example.com", "Banned  ·  banned@example.com", "Add another account"};
-        new AlertDialog.Builder(this).setTitle(R.string.account_chooser_title)
-            .setMessage(R.string.account_chooser_subtitle)
-            .setItems(accounts, (dialog, which) -> showPermissions()).show();
-    }
-
     private void showRootPermissionExplanation() {
         new AlertDialog.Builder(this)
             .setTitle(R.string.root_permission_dialog_title)
@@ -492,6 +470,7 @@ public final class IntroActivity extends Activity {
         } catch (java.io.IOException | SecurityException error) {
             Toast.makeText(this, "Account selected, but backup folders could not be created. Check storage access: " + error.getMessage(), Toast.LENGTH_LONG).show();
         }
+        localAccountManager.markSetupComplete();
         flowController.moveTo(IntroFlowController.Step.READY);
         startActivity(new android.content.Intent(this, HomeActivity.class));
         finish();
