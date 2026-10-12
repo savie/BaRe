@@ -21,6 +21,7 @@ import com.bareapps.barebackup.model.account.LocalAccountManager;
 import com.bareapps.barebackup.model.supabase.SupabaseAuthManager;
 import com.bareapps.rootservice.PrivilegeManager;
 import com.bareapps.barebackup.home.HomeActivity;
+import com.bareapps.barebackup.ui.SystemBarInsets;
 
 public final class IntroActivity extends Activity {
     private IntroFlowController flowController;
@@ -89,6 +90,7 @@ public final class IntroActivity extends Activity {
     private void showAccountSetup() {
         flowController.moveTo(IntroFlowController.Step.ACCOUNT_SETUP);
         setContentView(R.layout.intro_activity);
+        SystemBarInsets.apply(this);
         View menu = findViewById(R.id.iv_menu);
         if (menu != null) menu.setOnClickListener(this::showOverflowMenu);
         View google = findViewById(R.id.btn_google);
