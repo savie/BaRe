@@ -64,8 +64,8 @@ public final class StorageInfoLocal {
     public float getAccountPercent() { return accountPercent; }
     public String getFolderPath() { return folderPath; }
     public String getUsedSummary(Context context) {
-        return usedPercent + "% Used (" + Formatter.formatFileSize(context, usedBytes)
-                + " Used / " + Formatter.formatFileSize(context, totalBytes) + ")";
+        return usedPercent + "% Used (" + Formatter.formatFileSize(context, freeBytes)
+                + " Free / " + Formatter.formatFileSize(context, totalBytes) + ")";
     }
     public String getAccountSummary(Context context) {
         java.text.NumberFormat format = java.text.NumberFormat.getNumberInstance();
