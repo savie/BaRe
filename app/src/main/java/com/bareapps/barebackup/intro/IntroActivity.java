@@ -126,7 +126,7 @@ public final class IntroActivity extends Activity {
         }
         if (button instanceof android.widget.TextView) {
             ((android.widget.TextView) button).setText(granted
-                    ? "Storage access granted" : R.string.grant_storage_permission);
+                    ? "Storage access granted" : getString(R.string.grant_storage_permission));
         }
         button.setEnabled(!granted);
     }
