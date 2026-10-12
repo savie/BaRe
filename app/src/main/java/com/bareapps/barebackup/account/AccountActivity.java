@@ -35,7 +35,12 @@ public final class AccountActivity extends Activity {
         SystemBarInsets.apply(this);
         accounts = new LocalAccountManager(this);
         accounts.ensureLocalUid();
-        auth = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY);
+        try {
+            auth = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY);
+        } catch (Exception error) {
+            auth = null;
+            android.util.Log.e("BaReAccount", "Secure cloud session storage is unavailable", error);
+        }
         bind(R.id.account_search, () -> showMessage("Search", "Search across backups and settings."));
         bind(R.id.account_premium, () -> showMessage("Premium", "Premium purchase and entitlement flow is not implemented yet."));
         bind(R.id.account_open_settings, () -> showMessage("Settings", "Settings screen placeholder."));
@@ -55,9 +60,9 @@ public final class AccountActivity extends Activity {
     }
 
     private void populateAccount() {
-        boolean google = "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
-        String email = google ? auth.getCurrentEmail() : null;
-        String profileName = google ? auth.getCurrentDisplayName() : null;
+        boolean google = auth != null && "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
+        String email = google && auth != null ? auth.getCurrentEmail() : null;
+        String profileName = google && auth != null ? auth.getCurrentDisplayName() : null;
         String name = google && profileName != null && !profileName.trim().isEmpty()
                 ? profileName : (google ? "Google account" : getString(R.string.account_anonymous_user));
         ((TextView)findViewById(R.id.account_name)).setText(name);
