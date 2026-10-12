@@ -144,15 +144,15 @@ public final class HomeActivity extends Activity {
             TextView value = findViewById(R.id.home_storage_value);
             TextView usedLabel = findViewById(R.id.home_storage_used);
             android.widget.ProgressBar progress = findViewById(R.id.home_storage_progress);
-            if (value != null) value.setText(Formatter.formatFileSize(this, free) + " free of "
-                    + Formatter.formatFileSize(this, total));
-            if (usedLabel != null) usedLabel.setText(percent + "% used");
+            if (value != null) value.setText(getString(R.string.home_storage_free_of,
+                    Formatter.formatFileSize(this, free), Formatter.formatFileSize(this, total)));
+            if (usedLabel != null) usedLabel.setText(getString(R.string.home_storage_percent_used, percent));
             if (progress != null) progress.setProgress(percent);
         } catch (RuntimeException error) {
             TextView value = findViewById(R.id.home_storage_value);
             TextView usedLabel = findViewById(R.id.home_storage_used);
-            if (value != null) value.setText("Storage information unavailable");
-            if (usedLabel != null) usedLabel.setText("Could not read storage statistics");
+            if (value != null) value.setText(R.string.home_storage_unavailable);
+            if (usedLabel != null) usedLabel.setText(R.string.home_storage_stats_unavailable);
         }
     }
 
