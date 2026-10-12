@@ -161,6 +161,9 @@ public final class IntroActivity extends Activity {
             commands.add(new String[]{"appops", "set", pkg, "MANAGE_EXTERNAL_STORAGE", "allow"});
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_EXTERNAL_STORAGE"});
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                commands.add(new String[]{"pm", "grant", pkg, "android.permission.WRITE_EXTERNAL_STORAGE"});
+            }
         }
 
         if (index >= commands.size()) {
@@ -173,8 +176,10 @@ public final class IntroActivity extends Activity {
         }
 
         actionHandler.execute(commands.get(index), 10000L, (result, mode) -> {
-            boolean accepted = result != null && result.getInt("exitCode", -1) == 0
-                    && mode == (rootMode ? PrivilegeManager.Mode.ROOT : PrivilegeManager.Mode.SHIZUKU);
+            boolean expectedExecutor = rootMode
+                    ? mode == PrivilegeManager.Mode.ROOT
+                    : mode == PrivilegeManager.Mode.SHIZUKU || mode == PrivilegeManager.Mode.ROOT;
+            boolean accepted = result != null && result.getInt("exitCode", -1) == 0 && expectedExecutor;
             grantPrivilegedPermissions(index + 1, granted + (accepted ? 1 : 0), rootMode);
         });
     }
