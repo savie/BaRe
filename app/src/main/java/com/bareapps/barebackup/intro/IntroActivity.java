@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.Build;
 import android.os.Environment;
 import android.content.pm.PackageManager;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.window.OnBackInvokedDispatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +60,64 @@ public final class IntroActivity extends Activity {
             updateNotificationPermissionButton(notifications);
             notifications.setOnClickListener(v -> requestNotificationPermission());
         }
+        View storage = findViewById(R.id.btn_storage_perm);
+        if (storage != null) {
+            updateStoragePermissionButton(storage);
+            storage.setOnClickListener(v -> requestStorageAccess());
+        }
+    }
+
+    private void requestStorageAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (Environment.isExternalStorageManager()) {
+                Toast.makeText(this, "All-files storage access is already granted.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            PrivilegeManager.Status status = actionHandler.getStatus();
+            if (status.rootGranted) {
+                actionHandler.execute(new String[]{"appops", "set", getPackageName(),
+                        "MANAGE_EXTERNAL_STORAGE", "allow"}, 10000L, (result, mode) -> {
+                    boolean ok = result != null && result.getInt("exitCode", -1) == 0
+                            && mode == PrivilegeManager.Mode.ROOT;
+                    updateStoragePermissionButton(findViewById(R.id.btn_storage_perm));
+                    Toast.makeText(this, ok && Environment.isExternalStorageManager()
+                            ? "All-files storage access granted."
+                            : "Root command ran, but Android has not confirmed all-files access.",
+                            Toast.LENGTH_LONG).show();
+                });
+                return;
+            }
+            try {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            } catch (RuntimeException error) {
+                startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+            }
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE",
+                    "android.permission.WRITE_EXTERNAL_STORAGE"}, 6207);
+        } else {
+            Toast.makeText(this, "Storage access is available on this Android version.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateStoragePermissionButton(View button) {
+        if (button == null) return;
+        boolean granted;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            granted = Environment.isExternalStorageManager();
+        } else {
+            granted = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                    || checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED;
+        }
+        if (button instanceof android.widget.TextView) {
+            ((android.widget.TextView) button).setText(granted
+                    ? "Storage access granted" : R.string.grant_storage_permission);
+        }
+        button.setEnabled(!granted);
     }
 
     private void requestNotificationPermission() {
@@ -90,6 +151,14 @@ public final class IntroActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 6207) {
+            View storage = findViewById(R.id.btn_storage_perm);
+            if (storage != null) updateStoragePermissionButton(storage);
+            boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
+            Toast.makeText(this, granted ? "Storage permission granted." : "Storage permission not granted.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
         if (requestCode != 6206) return;
         View button = findViewById(R.id.btn_notifications_perm);
         if (button != null) updateNotificationPermissionButton(button);
