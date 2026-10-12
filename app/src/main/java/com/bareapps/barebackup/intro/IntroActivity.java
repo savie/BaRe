@@ -299,8 +299,7 @@ public final class IntroActivity extends Activity {
         requested.add("android.permission.READ_CALL_LOG");
         requested.add("android.permission.WRITE_CALL_LOG");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) requested.add("android.permission.POST_NOTIFICATIONS");
-        nonRootTotalCount = 3 + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ? 1 : 0)
-                + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? 1 : 0);
+        nonRootTotalCount = 4 + (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ? 1 : 0);
         nonRootGrantedCount = countNonRootPermissionGroups(false);
         java.util.ArrayList<String> missing = new java.util.ArrayList<>();
         for (String permission : requested) {
