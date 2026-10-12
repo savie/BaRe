@@ -39,19 +39,19 @@ public final class SupabaseAuthManager {
     private static final String PREF_EMAIL = "email";
     private final Context app;
     private final String baseUrl;
-    private final String anonKey;
+    private final String publishableKey;
     private final SecureSessionStore secureStore;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public SupabaseAuthManager(Context context, String url, String key) throws Exception {
         app = context.getApplicationContext();
         baseUrl = url == null ? "" : url.trim().replaceAll("/+$", "");
-        anonKey = key == null ? "" : key.trim();
+        publishableKey = key == null ? "" : key.trim();
         secureStore = new SecureSessionStore(app);
     }
 
     public boolean isConfigured() {
-        return baseUrl.startsWith("https://") && !anonKey.isEmpty();
+        return baseUrl.startsWith("https://") && !publishableKey.isEmpty();
     }
 
     public String getCurrentUserId() {
@@ -83,8 +83,8 @@ public final class SupabaseAuthManager {
                 connection.setReadTimeout(20000);
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                connection.setRequestProperty("apikey", anonKey);
-                connection.setRequestProperty("Authorization", "Bearer " + anonKey);
+                connection.setRequestProperty("apikey", publishableKey);
+                connection.setRequestProperty("Authorization", "Bearer " + publishableKey);
                 JSONObject body = new JSONObject();
                 body.put("refresh_token", refreshToken);
                 byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
@@ -110,7 +110,7 @@ public final class SupabaseAuthManager {
 
     public void beginGoogleSignIn(String redirectUri, AuthUrlCallback callback) {
         if (!isConfigured()) {
-            callback.onError("Supabase belum dikonfigurasi. Set SUPABASE_URL dan SUPABASE_ANON_KEY sebelum login Google.");
+            callback.onError("Supabase belum dikonfigurasi. Set SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY sebelum login Google.");
             return;
         }
         executor.execute(() -> {
@@ -168,8 +168,8 @@ public final class SupabaseAuthManager {
                 connection.setReadTimeout(20000);
                 connection.setDoOutput(true);
                 connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                connection.setRequestProperty("apikey", anonKey);
-                connection.setRequestProperty("Authorization", "Bearer " + anonKey);
+                connection.setRequestProperty("apikey", publishableKey);
+                connection.setRequestProperty("Authorization", "Bearer " + publishableKey);
                 JSONObject body = new JSONObject();
                 body.put("auth_code", code);
                 body.put("code_verifier", verifier);
@@ -212,7 +212,7 @@ public final class SupabaseAuthManager {
                     connection.setConnectTimeout(10000);
                     connection.setReadTimeout(10000);
                     connection.setDoOutput(true);
-                    connection.setRequestProperty("apikey", anonKey);
+                    connection.setRequestProperty("apikey", publishableKey);
                     connection.setRequestProperty("Authorization", "Bearer " + token);
                     int code = connection.getResponseCode();
                     if (code < 200 || code >= 300) throw new IllegalStateException("Supabase logout HTTP " + code);
