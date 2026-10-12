@@ -37,8 +37,23 @@ public final class HomeActivity extends Activity {
         if (profile != null) profile.setOnClickListener(v -> selectTab(3, tabs, labels));
         View search = findViewById(R.id.home_search);
         if (search != null) search.setOnClickListener(v -> showPlaceholder(R.string.home_search_title));
+        // Storage statistics are informational, not a navigation target.
+        // Taps on the card's blank space or root status must not open storage settings.
         View storage = findViewById(R.id.home_storage_card);
-        if (storage != null) storage.setOnClickListener(v -> openInternalStorageSettings());
+        if (storage != null) {
+            storage.setClickable(false);
+            storage.setOnClickListener(null);
+        }
+        View rootStatus = findViewById(R.id.home_root_status_value);
+        if (rootStatus != null) {
+            rootStatus.setClickable(false);
+            rootStatus.setOnClickListener(null);
+        }
+        View rootDetail = findViewById(R.id.home_root_status_detail);
+        if (rootDetail != null) {
+            rootDetail.setClickable(false);
+            rootDetail.setOnClickListener(null);
+        }
         bindAction(R.id.home_chip_apps, () -> openSettings(android.provider.Settings.ACTION_MANAGE_ALL_APPLICATIONS_SETTINGS));
         bindAction(R.id.home_chip_messages, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_MAIN)
                 .addCategory(android.content.Intent.CATEGORY_APP_MESSAGING), "No messaging app is available."));
