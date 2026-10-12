@@ -88,6 +88,11 @@ public final class LocalAccountManager {
     public void markSetupComplete() {
         prefs.edit().putBoolean(KEY_SETUP_COMPLETE, true).apply();
     }
+
+    /** Return to onboarding without deleting the local UID or any backup files. */
+    public void resetSetup() {
+        prefs.edit().putBoolean(KEY_SETUP_COMPLETE, false).apply();
+    }
     public String getActiveUid() {
         String active = prefs.getString(KEY_ACTIVE, null);
         return active == null || active.trim().isEmpty() ? ensureLocalUid() : active;
