@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 
+import com.bareapps.barebackup.model.supabase.SecureSessionStore;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,24 +24,45 @@ public final class LocalAccountManager {
 
     private final Context app;
     private final SharedPreferences prefs;
+    private final SecureSessionStore identityStore;
 
     public LocalAccountManager(Context context) {
         app = context.getApplicationContext();
         prefs = app.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
+        try {
+            identityStore = new SecureSessionStore(app, "bare_local_identity_secure", "bare_local_identity_v1");
+        } catch (Exception error) {
+            throw new IllegalStateException("Unable to initialize encrypted local account identity storage", error);
+        }
     }
 
     public synchronized String ensureLocalUid() {
-        String uid = prefs.getString(KEY_UID, null);
+        String uid = null;
+        try {
+            uid = identityStore.get(KEY_UID);
+        } catch (Exception error) {
+            // Preserve an identity written by an older build when migration is still possible.
+            uid = prefs.getString(KEY_UID, null);
+        }
         if (uid == null || uid.trim().isEmpty()) {
-            uid = UUID.randomUUID().toString();
-            prefs.edit().putString(KEY_UID, uid).apply();
+            uid = prefs.getString(KEY_UID, null);
+            if (uid == null || uid.trim().isEmpty()) uid = UUID.randomUUID().toString();
+            try {
+                identityStore.put(KEY_UID, uid);
+                prefs.edit().remove(KEY_UID).apply();
+            } catch (Exception error) {
+                // Keep the legacy copy so the next launch does not silently generate a new UID.
+                prefs.edit().putString(KEY_UID, uid).apply();
+                throw new IllegalStateException("Unable to persist encrypted local account identity", error);
+            }
+        } else if (prefs.contains(KEY_UID)) {
+            prefs.edit().remove(KEY_UID).apply();
         }
         if (prefs.getString(KEY_ACTIVE, null) == null) {
             prefs.edit().putString(KEY_ACTIVE, uid).putString(KEY_KIND, KIND_LOCAL).apply();
         }
         return uid;
     }
-
     public synchronized void useLocalAccount() {
         String uid = ensureLocalUid();
         prefs.edit().putString(KEY_ACTIVE, uid).putString(KEY_KIND, KIND_LOCAL).apply();
