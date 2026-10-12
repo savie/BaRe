@@ -64,6 +64,7 @@ public final class PrivilegeManager implements AutoCloseable {
     private volatile boolean userServiceBound;
     private volatile boolean closed;
     private volatile StatusListener statusListener;
+    private volatile Mode preferredMode;
 
     private final Shizuku.OnBinderReceivedListener binderReceivedListener = () -> {
         publishStatus();
@@ -96,6 +97,10 @@ public final class PrivilegeManager implements AutoCloseable {
 
     public PrivilegeManager(Context context) {
         appContext = context.getApplicationContext();
+        String savedMode = appContext.getSharedPreferences("privilege_mode", Context.MODE_PRIVATE)
+                .getString("selected", Mode.NON_ROOT.name());
+        try { preferredMode = Mode.valueOf(savedMode); }
+        catch (IllegalArgumentException error) { preferredMode = Mode.NON_ROOT; }
         userServiceArgs = new Shizuku.UserServiceArgs(new ComponentName(
                 appContext.getPackageName(), ShizukuAidlService.class.getName()))
                 .daemon(false)
@@ -154,14 +159,25 @@ public final class PrivilegeManager implements AutoCloseable {
         publishStatus();
     }
 
+    /** Selects and persists the execution path; privileged access is never silently substituted. */
+    public void setExecutionMode(Mode mode) {
+        if (mode == null) throw new IllegalArgumentException("mode must not be null");
+        preferredMode = mode;
+        appContext.getSharedPreferences("privilege_mode", Context.MODE_PRIVATE)
+                .edit().putString("selected", mode.name()).apply();
+        publishStatus();
+    }
+
     public Status getStatus() {
         Shell cached = rootShell != null ? rootShell : Shell.getCachedShell();
         boolean root = cached != null && cached.getStatus() == Shell.ROOT_SHELL;
         boolean available = Shizuku.pingBinder();
         boolean authorized = available && isShizukuAuthorized();
         boolean connected = shizukuService != null && shizukuService.asBinder().isBinderAlive();
-        Mode mode = root ? Mode.ROOT : connected ? Mode.SHIZUKU : Mode.NON_ROOT;
-        int uid = root ? 0 : connected ? serviceUid() : android.os.Process.myUid();
+        Mode selected = preferredMode;
+        Mode mode = selected == Mode.ROOT && root ? Mode.ROOT
+                : selected == Mode.SHIZUKU && connected ? Mode.SHIZUKU : Mode.NON_ROOT;
+        int uid = mode == Mode.ROOT ? 0 : mode == Mode.SHIZUKU ? serviceUid() : android.os.Process.myUid();
         return new Status(mode, root, available, authorized, connected, uid);
     }
 
@@ -171,15 +187,23 @@ public final class PrivilegeManager implements AutoCloseable {
         worker.execute(() -> {
             Bundle result;
             Mode mode;
-            Shell shell = rootShell;
-            if (shell == null) {
-                Shell cached = Shell.getCachedShell();
-                if (cached != null && cached.getStatus() == Shell.ROOT_SHELL) shell = cached;
-            }
-            if (shell != null && shell.getStatus() == Shell.ROOT_SHELL) {
-                mode = Mode.ROOT;
-                result = ShellHelper.executeAsRoot(shell, command, timeoutMillis);
-            } else {
+            Bundle result;
+            Mode mode;
+            Mode selected = preferredMode;
+            if (selected == Mode.ROOT) {
+                Shell shell = rootShell;
+                if (shell == null) {
+                    Shell cached = Shell.getCachedShell();
+                    if (cached != null && cached.getStatus() == Shell.ROOT_SHELL) shell = cached;
+                }
+                if (shell != null && shell.getStatus() == Shell.ROOT_SHELL) {
+                    mode = Mode.ROOT;
+                    result = ShellHelper.executeAsRoot(shell, command, timeoutMillis);
+                } else {
+                    mode = Mode.NON_ROOT;
+                    result = CommandExecutor.execute(command, timeoutMillis);
+                }
+            } else if (selected == Mode.SHIZUKU) {
                 IRootAidlInterface service = shizukuService;
                 if (service != null && service.asBinder().isBinderAlive()) {
                     mode = Mode.SHIZUKU;
@@ -194,6 +218,9 @@ public final class PrivilegeManager implements AutoCloseable {
                     mode = Mode.NON_ROOT;
                     result = CommandExecutor.execute(command, timeoutMillis);
                 }
+            } else {
+                mode = Mode.NON_ROOT;
+                result = CommandExecutor.execute(command, timeoutMillis);
             }
             final Bundle completed = result;
             final Mode usedMode = mode;
