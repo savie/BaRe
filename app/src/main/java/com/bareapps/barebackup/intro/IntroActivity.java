@@ -295,7 +295,7 @@ public final class IntroActivity extends Activity {
     }
 
     private void showOverflowMenu(View anchor) {
-        String[] items = {"Language", "BareLogger", "Restart app"};
+        String[] items = {getString(R.string.language_title), getString(R.string.intro_menu_barelogger), getString(R.string.restart_app_title)};
         new AlertDialog.Builder(this).setItems(items, (dialog, which) -> {
             if (which == 0) {
                 new AlertDialog.Builder(this).setTitle(R.string.language_title)
