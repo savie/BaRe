@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.model.storage.StorageInfoLocal;
+import com.bareapps.barebackup.ui.SystemBarInsets;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,6 +28,7 @@ public final class StorageActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.storage_activity);
+        SystemBarInsets.apply(this);
         View back = findViewById(R.id.storage_back);
         if (back != null) back.setOnClickListener(v -> finish());
         View card = findViewById(R.id.storage_detail_card);
