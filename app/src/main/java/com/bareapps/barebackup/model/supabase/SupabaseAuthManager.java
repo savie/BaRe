@@ -1,0 +1,206 @@
+package com.bareapps.barebackup.model.supabase;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
+
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/** Supabase Google OAuth using PKCE and the Supabase Auth HTTP API (no Firebase Auth dependency). */
+public final class SupabaseAuthManager {
+    public interface Callback {
+        void onSuccess(Session session);
+        void onError(String message);
+    }
+    public static final class Session {
+        public final String userId;
+        public final String email;
+        Session(String userId, String email) { this.userId = userId; this.email = email; }
+    }
+
+    private static final String PREF_VERIFIER = "pkce_verifier";
+    private static final String PREF_STATE = "oauth_state";
+    private static final String PREF_REDIRECT = "redirect_uri";
+    private static final String PREF_USER_ID = "user_id";
+    private static final String PREF_EMAIL = "email";
+    private final Context app;
+    private final String baseUrl;
+    private final String anonKey;
+    private final SecureSessionStore secureStore;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    public SupabaseAuthManager(Context context, String url, String key) throws Exception {
+        app = context.getApplicationContext();
+        baseUrl = url == null ? "" : url.trim().replaceAll("/+$", "");
+        anonKey = key == null ? "" : key.trim();
+        secureStore = new SecureSessionStore(app);
+    }
+
+    public boolean isConfigured() {
+        return baseUrl.startsWith("https://") && !anonKey.isEmpty();
+    }
+
+    public String getCurrentUserId() {
+        try { return secureStore.get(PREF_USER_ID); } catch (Exception ignored) { return null; }
+    }
+
+    public String getCurrentEmail() {
+        try { return secureStore.get(PREF_EMAIL); } catch (Exception ignored) { return null; }
+    }
+
+    public void beginGoogleSignIn(String redirectUri, Callback callback) {
+        if (!isConfigured()) {
+            callback.onError("Supabase belum dikonfigurasi. Set SUPABASE_URL dan SUPABASE_ANON_KEY sebelum login Google.");
+            return;
+        }
+        executor.execute(() -> {
+            try {
+                String verifier = randomUrlSafe(64);
+                String challenge = base64Url(MessageDigest.getInstance("SHA-256")
+                        .digest(verifier.getBytes(StandardCharsets.US_ASCII)));
+                String state = randomUrlSafe(32);
+                secureStore.put(PREF_VERIFIER, verifier);
+                secureStore.put(PREF_STATE, state);
+                secureStore.put(PREF_REDIRECT, redirectUri);
+                Uri authorize = Uri.parse(baseUrl + "/auth/v1/authorize").buildUpon()
+                        .appendQueryParameter("provider", "google")
+                        .appendQueryParameter("redirect_to", redirectUri)
+                        .appendQueryParameter("code_challenge", challenge)
+                        .appendQueryParameter("code_challenge_method", "s256")
+                        .appendQueryParameter("state", state)
+                        .build();
+                callback.onSuccess(new Session(authorize.toString(), null));
+            } catch (Exception error) {
+                callback.onError("Gagal menyiapkan Google OAuth: " + safeMessage(error));
+            }
+        });
+    }
+
+    /** Exchange a Supabase PKCE authorization code from the app deep-link callback. */
+    public void handleOAuthRedirect(Uri uri, Callback callback) {
+        if (uri == null) { callback.onError("Callback OAuth kosong."); return; }
+        String error = uri.getQueryParameter("error_description");
+        if (error == null) error = uri.getQueryParameter("error");
+        if (!TextUtils.isEmpty(error)) { callback.onError("Google sign-in gagal: " + error); return; }
+        String code = uri.getQueryParameter("code");
+        String state = uri.getQueryParameter("state");
+        if (TextUtils.isEmpty(code)) { callback.onError("Callback OAuth tidak memiliki authorization code."); return; }
+        executor.execute(() -> {
+            HttpURLConnection connection = null;
+            try {
+                String expectedState = secureStore.get(PREF_STATE);
+                String verifier = secureStore.get(PREF_VERIFIER);
+                String redirect = secureStore.get(PREF_REDIRECT);
+                if (TextUtils.isEmpty(expectedState) || !expectedState.equals(state)
+                        || TextUtils.isEmpty(verifier) || TextUtils.isEmpty(redirect)) {
+                    throw new IllegalStateException("OAuth state/verifier tidak cocok atau sudah kedaluwarsa.");
+                }
+                URL endpoint = new URL(baseUrl + "/auth/v1/token?grant_type=pkce");
+                connection = (HttpURLConnection) endpoint.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(20000);
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("apikey", anonKey);
+                connection.setRequestProperty("Authorization", "Bearer " + anonKey);
+                JSONObject body = new JSONObject();
+                body.put("auth_code", code);
+                body.put("code_verifier", verifier);
+                byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
+                try (OutputStream output = connection.getOutputStream()) { output.write(bytes); }
+                int status = connection.getResponseCode();
+                String response = readAll(status >= 200 && status < 300
+                        ? connection.getInputStream() : connection.getErrorStream());
+                if (status < 200 || status >= 300) {
+                    throw new IllegalStateException(extractError(response, status));
+                }
+                JSONObject json = new JSONObject(response);
+                JSONObject user = json.optJSONObject("user");
+                if (user == null || TextUtils.isEmpty(user.optString("id", ""))) {
+                    throw new IllegalStateException("Supabase tidak mengembalikan user ID.");
+                }
+                secureStore.put("access_token", json.optString("access_token", null));
+                secureStore.put("refresh_token", json.optString("refresh_token", null));
+                secureStore.put(PREF_USER_ID, user.getString("id"));
+                secureStore.put(PREF_EMAIL, user.optString("email", ""));
+                secureStore.put(PREF_VERIFIER, null);
+                secureStore.put(PREF_STATE, null);
+                secureStore.put(PREF_REDIRECT, null);
+                callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
+            } catch (Exception failure) {
+                callback.onError("Supabase OAuth gagal: " + safeMessage(failure));
+            } finally {
+                if (connection != null) connection.disconnect();
+            }
+        });
+    }
+
+    public void signOut(Callback callback) {
+        executor.execute(() -> {
+            HttpURLConnection connection = null;
+            try {
+                String token = secureStore.get("access_token");
+                if (!TextUtils.isEmpty(token) && isConfigured()) {
+                    connection = (HttpURLConnection) new URL(baseUrl + "/auth/v1/logout").openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setConnectTimeout(10000);
+                    connection.setReadTimeout(10000);
+                    connection.setRequestProperty("apikey", anonKey);
+                    connection.setRequestProperty("Authorization", "Bearer " + token);
+                    int code = connection.getResponseCode();
+                    if (code < 200 || code >= 300) throw new IllegalStateException("Supabase logout HTTP " + code);
+                }
+                secureStore.clear();
+                callback.onSuccess(new Session("", null));
+            } catch (Exception error) {
+                callback.onError("Gagal sign out: " + safeMessage(error));
+            } finally {
+                if (connection != null) connection.disconnect();
+            }
+        });
+    }
+
+    private static String randomUrlSafe(int length) {
+        byte[] bytes = new byte[length];
+        new SecureRandom().nextBytes(bytes);
+        return base64Url(bytes);
+    }
+    private static String base64Url(byte[] bytes) {
+        return android.util.Base64.encodeToString(bytes,
+                android.util.Base64.URL_SAFE | android.util.Base64.NO_WRAP | android.util.Base64.NO_PADDING);
+    }
+    private static String readAll(InputStream stream) throws Exception {
+        if (stream == null) return "";
+        try (InputStream input = stream; ByteArrayOutputStream output = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[4096]; int count;
+            while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+            return output.toString("UTF-8");
+        }
+    }
+    private static String extractError(String response, int status) {
+        try {
+            JSONObject json = new JSONObject(response);
+            String message = json.optString("msg", json.optString("message",
+                    json.optString("error_description", json.optString("error", ""))));
+            return "Supabase HTTP " + status + (message.isEmpty() ? "" : ": " + message);
+        } catch (Exception ignored) { return "Supabase HTTP " + status; }
+    }
+    private static String safeMessage(Exception error) {
+        String message = error.getMessage();
+        return message == null || message.trim().isEmpty() ? error.getClass().getSimpleName() : message;
+    }
+}
