@@ -16,4 +16,10 @@ android {
 }
 
 dependencies {
+    // Shizuku/Sui API and manifest provider integration.
+    implementation "dev.rikka.shizuku:api:13.1.5"
+    implementation "dev.rikka.shizuku:provider:13.1.5"
+
+    // Root shell execution; the user must still grant superuser access on supported devices.
+    implementation "com.github.topjohnwu.libsu:core:6.0.0"
 }
