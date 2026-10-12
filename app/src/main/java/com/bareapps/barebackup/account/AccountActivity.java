@@ -24,6 +24,11 @@ public final class AccountActivity extends Activity {
     private SupabaseAuthManager auth;
     private boolean signingOut;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
+
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.account_activity);
