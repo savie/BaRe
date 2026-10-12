@@ -43,7 +43,7 @@
     <string name="signin_without_account_explanation">Gunakan aplikasi tanpa akun dengan fitur terbatas. Pilihan ini ditujukan bagi pengguna yang tidak membutuhkan cadangan cloud atau fitur premium.</string>
     <string name="continue_without_account">Lanjut tanpa akun</string>
     <string name="restart_app_placeholder">Mulai ulang alur onboarding aplikasi?</string>
-    <string name="restart_app_action">Mulai ulang</string>
+
     <string name="account_chooser_subtitle">untuk melanjutkan ke BΛR☰</string>
     <string name="home_backup_folders">Cadangkan folder</string>
     <string name="home_restore_folders">Pulihkan folder</string>
