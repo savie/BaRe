@@ -1,6 +1,7 @@
 package com.bareapps.barebackup.storage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.model.storage.StorageInfoLocal;
 import com.bareapps.barebackup.ui.SystemBarInsets;
+import com.bareapps.barebackup.ui.LocaleHelper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,6 +25,11 @@ public final class StorageActivity extends Activity {
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final AtomicInteger refreshGeneration = new AtomicInteger();
     private boolean destroyed;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
