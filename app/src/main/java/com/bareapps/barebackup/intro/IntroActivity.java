@@ -300,7 +300,9 @@ public final class IntroActivity extends Activity {
         java.util.ArrayList<String> requested = new java.util.ArrayList<>();
         requested.add("android.permission.READ_CONTACTS");
         requested.add("android.permission.READ_SMS");
+        requested.add("android.permission.WRITE_SMS");
         requested.add("android.permission.READ_CALL_LOG");
+        requested.add("android.permission.WRITE_CALL_LOG");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requested.add("android.permission.POST_NOTIFICATIONS");
         }
@@ -358,7 +360,9 @@ public final class IntroActivity extends Activity {
         String pkg = getPackageName();
         commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_CONTACTS"});
         commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_SMS"});
+        commands.add(new String[]{"pm", "grant", pkg, "android.permission.WRITE_SMS"});
         commands.add(new String[]{"pm", "grant", pkg, "android.permission.READ_CALL_LOG"});
+        commands.add(new String[]{"pm", "grant", pkg, "android.permission.WRITE_CALL_LOG"});
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             commands.add(new String[]{"pm", "grant", pkg, "android.permission.POST_NOTIFICATIONS"});
         }
