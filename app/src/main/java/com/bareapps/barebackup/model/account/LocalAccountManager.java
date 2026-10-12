@@ -3,12 +3,20 @@ package com.bareapps.barebackup.model.account;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
+import android.provider.Settings;
+import android.util.Base64;
 
 import com.bareapps.barebackup.model.supabase.SecureSessionStore;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.util.Arrays;
+import javax.crypto.Cipher;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -38,36 +46,131 @@ public final class LocalAccountManager {
 
     public synchronized String ensureLocalUid() {
         String uid = null;
-        boolean secureReadSucceeded = true;
+
+        // The encrypted shared-storage marker survives app-data clearing and reinstall.
+        // It is encrypted with a device/app-scoped key so the raw UID is not stored in clear text.
         try {
-            uid = identityStore.get(KEY_UID);
+            uid = readPortableIdentity();
         } catch (Exception error) {
-            secureReadSucceeded = false;
-            uid = prefs.getString(KEY_UID, null);
-            if (uid == null || uid.trim().isEmpty()) {
-                // Never silently rotate an identity if encrypted data exists but cannot be decrypted.
-                throw new IllegalStateException("Cannot decrypt saved local account UID; refusing to create a different account identity", error);
-            }
+            android.util.Log.w("BaReAccount", "Portable local identity could not be read", error);
         }
-        if (!secureReadSucceeded || uid == null || uid.trim().isEmpty()) {
-            String legacyUid = prefs.getString(KEY_UID, null);
-            if (legacyUid != null && !legacyUid.trim().isEmpty()) uid = legacyUid;
-            if (uid == null || uid.trim().isEmpty()) uid = UUID.randomUUID().toString();
+
+        if (uid == null || uid.trim().isEmpty()) {
             try {
-                identityStore.put(KEY_UID, uid);
-                prefs.edit().remove(KEY_UID).apply();
+                uid = identityStore.get(KEY_UID);
             } catch (Exception error) {
-                // Keep the same UID as a recoverable fallback; retry encryption on the next launch.
-                prefs.edit().putString(KEY_UID, uid).apply();
-                android.util.Log.w("BaReAccount", "Could not encrypt local UID; retained existing identity", error);
+                uid = prefs.getString(KEY_UID, null);
+                if (uid == null || uid.trim().isEmpty()) {
+                    // Don't silently rotate an identity when encrypted data exists but is unavailable.
+                    throw new IllegalStateException(
+                            "Cannot decrypt saved local account UID; refusing to create a different account identity",
+                            error);
+                }
             }
-        } else if (prefs.contains(KEY_UID)) {
-            prefs.edit().remove(KEY_UID).apply();
         }
-        if (prefs.getString(KEY_ACTIVE, null) == null) {
+
+        if (uid == null || uid.trim().isEmpty()) {
+            uid = prefs.getString(KEY_UID, null);
+        }
+        if (uid == null || uid.trim().isEmpty()) {
+            uid = UUID.randomUUID().toString();
+        }
+
+        try {
+            identityStore.put(KEY_UID, uid);
+            prefs.edit().remove(KEY_UID).apply();
+        } catch (Exception error) {
+            // Keep legacy fallback only if secure storage is temporarily unavailable.
+            prefs.edit().putString(KEY_UID, uid).apply();
+            android.util.Log.w("BaReAccount", "Could not encrypt local UID; retained existing identity", error);
+        }
+
+        try {
+            writePortableIdentity(uid);
+        } catch (Exception error) {
+            // Shared storage may not be accessible until the user grants storage access.
+            android.util.Log.i("BaReAccount", "Portable local identity not written; will retry next launch", error);
+        }
+
+        String activeKind = prefs.getString(KEY_KIND, null);
+        String activeUid = prefs.getString(KEY_ACTIVE, null);
+        if (activeUid == null || activeUid.trim().isEmpty()
+                || (KIND_LOCAL.equals(activeKind) && !uid.equals(activeUid))) {
             prefs.edit().putString(KEY_ACTIVE, uid).putString(KEY_KIND, KIND_LOCAL).apply();
         }
         return uid;
+    }
+
+    private File getPortableIdentityFile() {
+        return new File(new File(getRootDirectory(), "accounts"), ".bare_local_identity.enc");
+    }
+
+    private byte[] portableIdentityKey() throws Exception {
+        String androidId = Settings.Secure.getString(app.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (androidId == null || androidId.trim().isEmpty()) {
+            throw new IllegalStateException("Device-scoped identity key is unavailable");
+        }
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        digest.update("BΛR☰-local-identity-v1".getBytes(StandardCharsets.UTF_8));
+        digest.update((byte) 0);
+        digest.update(app.getPackageName().getBytes(StandardCharsets.UTF_8));
+        digest.update((byte) 0);
+        digest.update(androidId.getBytes(StandardCharsets.UTF_8));
+        return digest.digest();
+    }
+
+    private String readPortableIdentity() throws Exception {
+        File file = getPortableIdentityFile();
+        if (!file.isFile()) return null;
+        byte[] packed = new byte[(int) file.length()];
+        if (packed.length < 29 || packed.length > 4096) {
+            throw new IllegalStateException("Portable local identity marker has an invalid size");
+        }
+        try (FileInputStream input = new FileInputStream(file)) {
+            int offset = 0;
+            while (offset < packed.length) {
+                int count = input.read(packed, offset, packed.length - offset);
+                if (count < 0) throw new java.io.IOException("Unexpected end of local identity marker");
+                offset += count;
+            }
+        }
+        byte[] iv = Arrays.copyOfRange(packed, 0, 12);
+        byte[] ciphertext = Arrays.copyOfRange(packed, 12, packed.length);
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(portableIdentityKey(), "AES"),
+                new GCMParameterSpec(128, iv));
+        String uid = new String(cipher.doFinal(ciphertext), StandardCharsets.UTF_8);
+        if (uid.trim().isEmpty()) throw new IllegalStateException("Portable local identity marker is empty");
+        return uid;
+    }
+
+    private void writePortableIdentity(String uid) throws Exception {
+        File file = getPortableIdentityFile();
+        File parent = file.getParentFile();
+        if (!parent.isDirectory() && !parent.mkdirs() && !parent.isDirectory()) {
+            throw new java.io.IOException("Cannot create portable identity directory");
+        }
+        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+        cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(portableIdentityKey(), "AES"));
+        byte[] ciphertext = cipher.doFinal(uid.getBytes(StandardCharsets.UTF_8));
+        byte[] iv = cipher.getIV();
+        byte[] packed = new byte[iv.length + ciphertext.length];
+        System.arraycopy(iv, 0, packed, 0, iv.length);
+        System.arraycopy(ciphertext, 0, packed, iv.length, ciphertext.length);
+
+        File temporary = new File(parent, file.getName() + ".tmp");
+        try (FileOutputStream output = new FileOutputStream(temporary)) {
+            output.write(packed);
+            output.getFD().sync();
+        }
+        if (file.exists() && !file.delete()) {
+            temporary.delete();
+            throw new java.io.IOException("Cannot replace portable local identity marker");
+        }
+        if (!temporary.renameTo(file)) {
+            temporary.delete();
+            throw new java.io.IOException("Cannot finalize portable local identity marker");
+        }
     }
     public synchronized void useLocalAccount() {
         String uid = ensureLocalUid();
