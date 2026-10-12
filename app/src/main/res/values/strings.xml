@@ -91,4 +91,14 @@
     <string name="home_action_placeholder">This is a visual placeholder. Feature behavior is intentionally not connected yet.</string>
     <string name="home_search_title">Search</string>
     <string name="home_storage_title">Internal storage</string>
+    <string name="home_backup_messages">Backup messages</string>
+    <string name="home_restore_messages">Restore messages</string>
+    <string name="home_backup_calls">Backup call logs</string>
+    <string name="home_restore_calls">Restore call logs</string>
+    <string name="home_backup_folders">Backup folders</string>
+    <string name="home_restore_folders">Restore folders</string>
+    <string name="home_backup_wallpapers">Backup wallpapers</string>
+    <string name="home_restore_wallpapers">Restore wallpapers</string>
+    <string name="home_backup_wifi">Backup WiFi</string>
+    <string name="home_restore_wifi">Restore WiFi</string>
 </resources>
