@@ -1,6 +1,7 @@
 package com.bareapps.barebackup.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,10 +19,16 @@ import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.storage.StorageActivity;
 import com.bareapps.barebackup.account.AccountActivity;
 import com.bareapps.barebackup.ui.SystemBarInsets;
+import com.bareapps.barebackup.ui.LocaleHelper;
 
 /** Home dashboard; dedicated screens own their detailed UI and data presentation. */
 public final class HomeActivity extends Activity {
     private PrivilegeManager privilegeManager;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
