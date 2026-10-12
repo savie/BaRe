@@ -120,4 +120,13 @@
     <string name="account_menu_about">About</string>
     <string name="account_get_premium">GET PREMIUM</string>
     <string name="account_sign_out">Sign out</string>
+    <string name="home_storage_free_of">%1$s free of %2$s</string>
+    <string name="home_storage_percent_used">%1$d%% used</string>
+    <string name="home_storage_unavailable">Storage information unavailable</string>
+    <string name="home_storage_stats_unavailable">Could not read storage statistics</string>
+    <string name="home_messages_quick_actions">MESSAGES QUICK ACTIONS</string>
+    <string name="home_calls_quick_actions">CALL LOGS QUICK ACTIONS</string>
+    <string name="home_folders_quick_actions">FOLDERS QUICK ACTIONS</string>
+    <string name="home_wallpapers_quick_actions">WALLPAPERS QUICK ACTIONS</string>
+    <string name="home_wifi_quick_actions">WIFI QUICK ACTIONS</string>
 </resources>
