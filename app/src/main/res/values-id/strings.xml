@@ -27,4 +27,22 @@
     <string name="home_from_device">Dari perangkat</string>
     <string name="home_from_cloud">Dari cloud</string>
     <string name="home_more_actions">Aksi lainnya →</string>
+    <string name="intro_benefit_keys_subtitle">Gunakan kunci berbasis akun untuk cadangan terenkripsi.</string>
+    <string name="intro_benefit_settings_subtitle">Sinkronkan pengaturan, jadwal, label aplikasi, dan konfigurasi aplikasi.</string>
+    <string name="xiaomi_installed_apps_perm_title">Akses aplikasi terpasang</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">Baca aplikasi yang terpasang agar aplikasi dapat muncul untuk pencadangan dan pemulihan.</string>
+    <string name="grant_storage_permission">Izinkan akses penyimpanan</string>
+    <string name="grant_notifications_permission">Izinkan notifikasi</string>
+    <string name="grant_xiaomi_installed_apps_permission">Izinkan akses aplikasi terpasang</string>
+    <string name="root_grant_permissions">Izinkan semua dengan Root atau Shizuku</string>
+    <string name="skip_for_now">Lewati dulu</string>
+    <string name="backups_tied_warning">Cadangan terhubung dengan akun yang membuatnya. Gunakan akun yang sama untuk memulihkannya nanti.</string>
+    <string name="tos_privacy_agreement">Dengan melanjutkan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi.</string>
+    <string name="signin_google_title">Masuk dengan Google</string>
+    <string name="signin_google_explanation">Login Google diperlukan untuk menggunakan fitur aplikasi, termasuk cadangan cloud, pembelian, dan fitur premium.</string>
+    <string name="signin_without_account_explanation">Gunakan aplikasi tanpa akun dengan fitur terbatas. Pilihan ini ditujukan bagi pengguna yang tidak membutuhkan cadangan cloud atau fitur premium.</string>
+    <string name="continue_without_account">Lanjut tanpa akun</string>
+    <string name="restart_app_placeholder">Mulai ulang alur onboarding aplikasi?</string>
+    <string name="restart_app_action">Mulai ulang</string>
+    <string name="account_chooser_subtitle">untuk melanjutkan ke BΛR☰</string>
 </resources>
