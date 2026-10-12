@@ -65,6 +65,92 @@
                 </LinearLayout>
                 <TextView android:id="@+id/action_more" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="18dp"
                     android:layout_marginTop="6dp" android:background="@drawable/intro_card_background" android:text="@string/home_more_actions" android:textStyle="bold" android:textSize="18sp"/>
+
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="12dp"
+                    android:text="MESSAGES QUICK ACTIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="?android:attr/textColorSecondary"/>
+                <LinearLayout android:id="@+id/messages_quick_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/intro_card_background">
+                    <LinearLayout android:id="@+id/action_backup_messages" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup messages" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Create a new backup of all messages on this device" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#332F292B"/>
+                    <LinearLayout android:id="@+id/action_restore_messages" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Restore messages" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Restore messages from the most recent backup" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                            <TextView android:id="@+id/action_messages_from_device" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_device" android:clickable="true" android:focusable="true"/>
+                            <TextView android:id="@+id/action_messages_from_cloud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_cloud" android:clickable="true" android:focusable="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="12dp"
+                    android:text="CALL LOGS QUICK ACTIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="?android:attr/textColorSecondary"/>
+                <LinearLayout android:id="@+id/calls_quick_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/intro_card_background">
+                    <LinearLayout android:id="@+id/action_backup_calls" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup call logs" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Create a new backup of all call logs on this device" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#332F292B"/>
+                    <LinearLayout android:id="@+id/action_restore_calls" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Restore call logs" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Restore call logs from the most recent backup" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                            <TextView android:id="@+id/action_calls_from_device" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_device" android:clickable="true" android:focusable="true"/>
+                            <TextView android:id="@+id/action_calls_from_cloud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_cloud" android:clickable="true" android:focusable="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="12dp"
+                    android:text="FOLDERS QUICK ACTIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="?android:attr/textColorSecondary"/>
+                <LinearLayout android:id="@+id/folders_quick_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/intro_card_background">
+                    <LinearLayout android:id="@+id/action_backup_folders" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup folders" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Create backups for folder setups on this device" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#332F292B"/>
+                    <LinearLayout android:id="@+id/action_restore_folders" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Restore folders" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Restore folders from the most recent backups" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                            <TextView android:id="@+id/action_folders_from_device" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_device" android:clickable="true" android:focusable="true"/>
+                            <TextView android:id="@+id/action_folders_from_cloud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_cloud" android:clickable="true" android:focusable="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="12dp"
+                    android:text="WALLPAPERS QUICK ACTIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="?android:attr/textColorSecondary"/>
+                <LinearLayout android:id="@+id/wallpapers_quick_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/intro_card_background">
+                    <LinearLayout android:id="@+id/action_backup_wallpapers" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup wallpapers" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Save wallpaper files and setup for this device" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#332F292B"/>
+                    <LinearLayout android:id="@+id/action_restore_wallpapers" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Restore wallpapers" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Restore wallpaper files from a backup" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                            <TextView android:id="@+id/action_wallpapers_from_device" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_device" android:clickable="true" android:focusable="true"/>
+                            <TextView android:id="@+id/action_wallpapers_from_cloud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_cloud" android:clickable="true" android:focusable="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="24dp" android:layout_marginBottom="12dp"
+                    android:text="WIFI QUICK ACTIONS" android:textSize="12sp" android:textStyle="bold" android:textColor="?android:attr/textColorSecondary"/>
+                <LinearLayout android:id="@+id/wifi_quick_actions" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/intro_card_background">
+                    <LinearLayout android:id="@+id/action_backup_wifi" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Backup WiFi" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Save available WiFi configuration data where Android permits" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#332F292B"/>
+                    <LinearLayout android:id="@+id/action_restore_wifi" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Restore WiFi" android:textSize="16sp"/>
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:text="Restore WiFi configuration where Android permits" android:textSize="13sp" android:textColor="?android:attr/textColorSecondary"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="12dp">
+                            <TextView android:id="@+id/action_wifi_from_device" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_device" android:clickable="true" android:focusable="true"/>
+                            <TextView android:id="@+id/action_wifi_from_cloud" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:gravity="center" android:padding="12dp" android:background="@drawable/intro_card_background" android:text="@string/home_from_cloud" android:clickable="true" android:focusable="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
             <TextView android:id="@+id/home_content_placeholder" android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:visibility="gone" android:padding="20dp" android:background="@drawable/intro_card_background" android:textSize="16sp"/>
