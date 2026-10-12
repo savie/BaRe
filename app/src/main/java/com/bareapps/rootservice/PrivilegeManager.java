@@ -201,7 +201,9 @@ public final class PrivilegeManager implements AutoCloseable {
                     result = ShellHelper.executeAsRoot(shell, command, timeoutMillis);
                 } else {
                     mode = Mode.NON_ROOT;
-                    result = CommandExecutor.execute(command, timeoutMillis);
+                    result = new Bundle();
+                    result.putInt("exitCode", -1);
+                    result.putString("output", "Root mode is selected, but no authorized root shell is active.");
                 }
             } else if (selected == Mode.SHIZUKU) {
                 IRootAidlInterface service = shizukuService;
@@ -216,7 +218,9 @@ public final class PrivilegeManager implements AutoCloseable {
                     }
                 } else {
                     mode = Mode.NON_ROOT;
-                    result = CommandExecutor.execute(command, timeoutMillis);
+                    result = new Bundle();
+                    result.putInt("exitCode", -1);
+                    result.putString("output", "Shizuku mode is selected, but its authorized service is not connected.");
                 }
             } else {
                 mode = Mode.NON_ROOT;
