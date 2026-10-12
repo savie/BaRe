@@ -4,7 +4,7 @@
     android:orientation="vertical" android:background="?android:attr/colorBackground">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_vertical" android:orientation="horizontal" android:paddingStart="20dp"
-        android:paddingEnd="12dp" android:paddingTop="20dp" android:paddingBottom="12dp">
+        android:paddingEnd="12dp" android:paddingTop="0dp" android:paddingBottom="12dp">
         <ImageView android:layout_width="40dp" android:layout_height="40dp" android:src="@drawable/bare_logo"
             android:contentDescription="@string/app_name" android:scaleType="fitCenter"/>
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
