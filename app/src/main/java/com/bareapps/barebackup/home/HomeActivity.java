@@ -8,6 +8,11 @@ import com.bareapps.barebackup.BareApp;
 import com.bareapps.rootservice.PrivilegeManager;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ProgressBar;
+import android.os.Environment;
+import android.os.StatFs;
+import android.text.format.Formatter;
+import java.io.File;
 
 import com.bareapps.barebackup.R;
 
@@ -27,6 +32,7 @@ public final class HomeActivity extends Activity {
             if (tab != null) tab.setOnClickListener(v -> selectTab(selected, tabs, labels));
         }
         selectTab(0, tabs, labels);
+        updateStorageStats();
         View profile = findViewById(R.id.home_profile);
         if (profile != null) profile.setOnClickListener(v -> selectTab(3, tabs, labels));
         View search = findViewById(R.id.home_search);
@@ -39,6 +45,29 @@ public final class HomeActivity extends Activity {
             final int index = i;
             View action = findViewById(actions[i]);
             if (action != null) action.setOnClickListener(v -> showPlaceholder(actionTitles[index]));
+        }
+    }
+
+    private void updateStorageStats() {
+        try {
+            File root = Environment.getExternalStorageDirectory();
+            StatFs stats = new StatFs(root.getAbsolutePath());
+            long total = stats.getTotalBytes();
+            long free = stats.getAvailableBytes();
+            long used = Math.max(0L, total - free);
+            int percent = total <= 0 ? 0 : (int) Math.min(100L, used * 100L / total);
+            TextView value = findViewById(R.id.home_storage_value);
+            TextView usedLabel = findViewById(R.id.home_storage_used);
+            ProgressBar progress = findViewById(R.id.home_storage_progress);
+            if (value != null) value.setText(Formatter.formatFileSize(this, free) + " free of "
+                    + Formatter.formatFileSize(this, total));
+            if (usedLabel != null) usedLabel.setText(percent + "% used");
+            if (progress != null) progress.setProgress(percent);
+        } catch (RuntimeException error) {
+            TextView value = findViewById(R.id.home_storage_value);
+            TextView usedLabel = findViewById(R.id.home_storage_used);
+            if (value != null) value.setText("Storage information unavailable");
+            if (usedLabel != null) usedLabel.setText("Could not read storage statistics");
         }
     }
 
