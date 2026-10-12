@@ -21,7 +21,7 @@ These values are the Supabase project URL and public client key, not a service-r
 
 ## Identity and local folders
 
-- A stable local UUID is generated once and stored in app-private preferences for the no-account mode.
+- A stable local UUID is generated once and stored encrypted using a separate Android Keystore AES-GCM key for the no-account mode. Existing legacy local UUIDs are migrated without changing the UID when possible.
 - The active account directory uses the first 16 lowercase hexadecimal characters of MD5(UID), matching the reference's half-hash convention.
 - The public root is `/storage/emulated/0/BΛR☰/`; account files live under `accounts/<half-md5-uid>/`.
 - Local and Supabase account folders are kept separate. Signing into Google does not delete or silently merge an existing local account folder.
@@ -30,5 +30,5 @@ These values are the Supabase project URL and public client key, not a service-r
 ## Scope and limitations
 
 - Google OAuth is routed through Supabase Auth using PKCE; no Firebase Auth dependency is used.
-- The Supabase access/refresh tokens are encrypted with an Android Keystore AES-GCM key.
+- The Supabase access/refresh tokens and local account UID are encrypted with separate Android Keystore AES-GCM keys.
 - Cloud backup operations, refresh-token renewal for future API calls, explicit account switching, and safe local-to-Google backup migration are separate follow-up work; this change does not claim those features are complete.
