@@ -66,6 +66,52 @@ public final class SupabaseAuthManager {
         try { return secureStore.get(PREF_EMAIL); } catch (Exception ignored) { return null; }
     }
 
+    public String getAccessToken() {
+        try { return secureStore.get("access_token"); } catch (Exception ignored) { return null; }
+    }
+
+    public boolean hasSession() {
+        return !TextUtils.isEmpty(getCurrentUserId()) && !TextUtils.isEmpty(getAccessToken());
+    }
+
+    /** Refresh a persisted Supabase session before its access token expires. */
+    public void refreshSession(Callback callback) {
+        executor.execute(() -> {
+            HttpURLConnection connection = null;
+            try {
+                String refreshToken = secureStore.get("refresh_token");
+                if (TextUtils.isEmpty(refreshToken)) throw new IllegalStateException("Tidak ada refresh token; login Google ulang diperlukan.");
+                connection = (HttpURLConnection) new URL(baseUrl + "/auth/v1/token?grant_type=refresh_token").openConnection();
+                connection.setRequestMethod("POST");
+                connection.setConnectTimeout(15000);
+                connection.setReadTimeout(20000);
+                connection.setDoOutput(true);
+                connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                connection.setRequestProperty("apikey", anonKey);
+                connection.setRequestProperty("Authorization", "Bearer " + anonKey);
+                JSONObject body = new JSONObject();
+                body.put("refresh_token", refreshToken);
+                byte[] bytes = body.toString().getBytes(StandardCharsets.UTF_8);
+                try (OutputStream output = connection.getOutputStream()) { output.write(bytes); }
+                int status = connection.getResponseCode();
+                String response = readAll(status >= 200 && status < 300 ? connection.getInputStream() : connection.getErrorStream());
+                if (status < 200 || status >= 300) throw new IllegalStateException(extractError(response, status));
+                JSONObject json = new JSONObject(response);
+                JSONObject user = json.optJSONObject("user");
+                if (user == null || TextUtils.isEmpty(user.optString("id", ""))) throw new IllegalStateException("Supabase refresh tidak mengembalikan user ID.");
+                secureStore.put("access_token", json.optString("access_token", null));
+                secureStore.put("refresh_token", json.optString("refresh_token", refreshToken));
+                secureStore.put(PREF_USER_ID, user.getString("id"));
+                secureStore.put(PREF_EMAIL, user.optString("email", ""));
+                callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
+            } catch (Exception error) {
+                callback.onError("Session Supabase perlu diperbarui: " + safeMessage(error));
+            } finally {
+                if (connection != null) connection.disconnect();
+            }
+        });
+    }
+
     public void beginGoogleSignIn(String redirectUri, AuthUrlCallback callback) {
         if (!isConfigured()) {
             callback.onError("Supabase belum dikonfigurasi. Set SUPABASE_URL dan SUPABASE_ANON_KEY sebelum login Google.");
