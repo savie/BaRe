@@ -36,7 +36,7 @@ public final class HomeActivity extends Activity {
         setContentView(R.layout.home_activity);
         SystemBarInsets.apply(this);
         int[] tabs = {R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account};
-        int[] labels = {R.string.home_tab_home, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
+        int[] labels = {R.string.home_overview, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
         for (int i = 0; i < tabs.length; i++) {
             final int selected = i;
             View tab = findViewById(tabs[i]);
