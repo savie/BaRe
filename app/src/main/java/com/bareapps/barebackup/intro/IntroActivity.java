@@ -22,6 +22,9 @@ import com.bareapps.barebackup.home.HomeActivity;
 public final class IntroActivity extends Activity {
     private IntroFlowController flowController;
     private IntroActionHandler actionHandler;
+    private boolean awaitingNonRootStorageSettings;
+    private int nonRootGrantedCount;
+    private int nonRootTotalCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,13 @@ public final class IntroActivity extends Activity {
         if (notifications != null) updateNotificationPermissionButton(notifications);
         View storage = findViewById(R.id.btn_storage_perm);
         if (storage != null) updateStoragePermissionButton(storage);
+        if (awaitingNonRootStorageSettings) {
+            awaitingNonRootStorageSettings = false;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
+                nonRootGrantedCount++;
+            }
+            showNonRootPermissionSummaryAndOpenHome();
+        }
     }
 
     private void showAccountSetup() {
@@ -162,6 +172,13 @@ public final class IntroActivity extends Activity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 6208) {
+            for (String permission : permissions) {
+                if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) nonRootGrantedCount++;
+            }
+            continueNonRootStorageSetup();
+            return;
+        }
         if (requestCode == 6207) {
             View storage = findViewById(R.id.btn_storage_perm);
             if (storage != null) updateStoragePermissionButton(storage);
@@ -245,6 +262,9 @@ public final class IntroActivity extends Activity {
                             openHome();
                             return;
                         }
+                        actionHandler.getStatus();
+                        ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
+                                .setExecutionMode(PrivilegeManager.Mode.ROOT);
                         grantPrivilegedPermissions(0, 0, true);
                     });
                 } else if (which == 1) {
@@ -259,6 +279,8 @@ public final class IntroActivity extends Activity {
                             if (updated.shizukuConnected) {
                                 ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
                                     .setStatusListener(null);
+                                ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
+                                        .setExecutionMode(PrivilegeManager.Mode.SHIZUKU);
                                 grantPrivilegedPermissions(0, 0, false);
                             }
                         });
@@ -266,12 +288,69 @@ public final class IntroActivity extends Activity {
                     Toast.makeText(this, "Waiting for Shizuku authorization…",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(this, "Continuing without privileged permissions.",
-                            Toast.LENGTH_LONG).show();
-                    openHome();
+                    ((com.bareapps.barebackup.BareApp) getApplication()).getPrivilegeManager()
+                            .setExecutionMode(PrivilegeManager.Mode.NON_ROOT);
+                    requestNonRootPermissions();
                 }
             })
             .show();
+    }
+
+    private void requestNonRootPermissions() {
+        java.util.ArrayList<String> requested = new java.util.ArrayList<>();
+        requested.add("android.permission.READ_CONTACTS");
+        requested.add("android.permission.READ_SMS");
+        requested.add("android.permission.READ_CALL_LOG");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requested.add("android.permission.POST_NOTIFICATIONS");
+        }
+        nonRootTotalCount = requested.size() + 1; // storage is a separate special-access group on Android 11+
+        nonRootGrantedCount = 0;
+        java.util.ArrayList<String> missing = new java.util.ArrayList<>();
+        for (String permission : requested) {
+            if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) nonRootGrantedCount++;
+            else missing.add(permission);
+        }
+        if (missing.isEmpty()) {
+            continueNonRootStorageSetup();
+        } else {
+            requestPermissions(missing.toArray(new String[0]), 6208);
+        }
+    }
+
+    private void continueNonRootStorageSetup() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !Environment.isExternalStorageManager()) {
+            awaitingNonRootStorageSettings = true;
+            try {
+                startActivity(new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION,
+                        Uri.parse("package:" + getPackageName())));
+            } catch (RuntimeException error) {
+                try {
+                    startActivity(new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION));
+                } catch (RuntimeException unavailable) {
+                    awaitingNonRootStorageSettings = false;
+                    showNonRootPermissionSummaryAndOpenHome();
+                }
+            }
+            return;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            nonRootTotalCount = Math.max(0, nonRootTotalCount - 1);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                    || checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") == PackageManager.PERMISSION_GRANTED) {
+                nonRootGrantedCount++;
+            }
+        } else {
+            nonRootGrantedCount++;
+        }
+        showNonRootPermissionSummaryAndOpenHome();
+    }
+
+    private void showNonRootPermissionSummaryAndOpenHome() {
+        Toast.makeText(this, "NON-ROOT finished. Verified " + nonRootGrantedCount + "/"
+                + nonRootTotalCount + " permission groups. Permissions Android does not allow must be enabled in Settings or may require a default-app role.",
+                Toast.LENGTH_LONG).show();
+        openHome();
     }
 
     private void grantPrivilegedPermissions(int index, int granted, boolean rootMode) {
