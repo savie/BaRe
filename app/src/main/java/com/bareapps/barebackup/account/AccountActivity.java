@@ -1,6 +1,7 @@
 package com.bareapps.barebackup.account;
 
 import android.app.Activity;
+import android.content.Context;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.bareapps.barebackup.intro.IntroActivity;
 import com.bareapps.barebackup.model.account.LocalAccountManager;
 import com.bareapps.barebackup.model.supabase.SupabaseAuthManager;
 import com.bareapps.barebackup.ui.SystemBarInsets;
+import com.bareapps.barebackup.ui.LocaleHelper;
 
 public final class AccountActivity extends Activity {
     private LocalAccountManager accounts;
