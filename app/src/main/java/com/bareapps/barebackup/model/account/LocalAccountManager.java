@@ -52,7 +52,14 @@ public final class LocalAccountManager {
         try {
             uid = readPortableIdentity();
         } catch (Exception error) {
-            android.util.Log.w("BaReAccount", "Portable local identity could not be read", error);
+            if (getPortableIdentityFile().exists()) {
+                // A present but unreadable marker may be the only surviving copy after reinstall.
+                // Fail closed rather than silently minting a different local identity.
+                throw new IllegalStateException(
+                        "Portable local identity exists but cannot be decrypted; refusing to rotate local UID",
+                        error);
+            }
+            android.util.Log.i("BaReAccount", "Portable local identity is not available yet", error);
         }
 
         if (uid == null || uid.trim().isEmpty()) {
