@@ -35,7 +35,6 @@ public final class SupabaseAuthManager {
     }
 
     private static final String PREF_VERIFIER = "pkce_verifier";
-    private static final String PREF_STATE = "oauth_state";
     private static final String PREF_REDIRECT = "redirect_uri";
     private static final String PREF_USER_ID = "user_id";
     private static final String PREF_EMAIL = "email";
@@ -120,16 +119,13 @@ public final class SupabaseAuthManager {
                 String verifier = randomUrlSafe(64);
                 String challenge = base64Url(MessageDigest.getInstance("SHA-256")
                         .digest(verifier.getBytes(StandardCharsets.US_ASCII)));
-                String state = UUID.randomUUID().toString();
                 secureStore.put(PREF_VERIFIER, verifier);
-                secureStore.put(PREF_STATE, state);
                 secureStore.put(PREF_REDIRECT, redirectUri);
                 Uri authorize = Uri.parse(baseUrl + "/auth/v1/authorize").buildUpon()
                         .appendQueryParameter("provider", "google")
                         .appendQueryParameter("redirect_to", redirectUri)
                         .appendQueryParameter("code_challenge", challenge)
                         .appendQueryParameter("code_challenge_method", "s256")
-                        .appendQueryParameter("state", state)
                         .build();
                 callback.onUrl(authorize.toString());
             } catch (Exception error) {
@@ -145,17 +141,14 @@ public final class SupabaseAuthManager {
         if (error == null) error = uri.getQueryParameter("error");
         if (!TextUtils.isEmpty(error)) { callback.onError("Google sign-in gagal: " + error); return; }
         String code = uri.getQueryParameter("code");
-        String returnedState = uri.getQueryParameter("state");
         if (TextUtils.isEmpty(code)) { callback.onError("Callback OAuth tidak memiliki authorization code."); return; }
         executor.execute(() -> {
             HttpURLConnection connection = null;
             try {
                 String verifier = secureStore.get(PREF_VERIFIER);
-                String expectedState = secureStore.get(PREF_STATE);
                 String redirect = secureStore.get(PREF_REDIRECT);
-                if (TextUtils.isEmpty(verifier) || TextUtils.isEmpty(redirect)
-                        || TextUtils.isEmpty(expectedState) || !expectedState.equals(returnedState)) {
-                    throw new IllegalStateException("OAuth state/verifier tidak cocok atau sudah kedaluwarsa.");
+                if (TextUtils.isEmpty(verifier) || TextUtils.isEmpty(redirect)) {
+                    throw new IllegalStateException("OAuth verifier tidak ada atau sudah kedaluwarsa.");
                 }
                 URL endpoint = new URL(baseUrl + "/auth/v1/token?grant_type=pkce");
                 connection = (HttpURLConnection) endpoint.openConnection();
@@ -187,7 +180,6 @@ public final class SupabaseAuthManager {
                 secureStore.put(PREF_USER_ID, user.getString("id"));
                 secureStore.put(PREF_EMAIL, user.optString("email", ""));
                 secureStore.put(PREF_VERIFIER, null);
-                secureStore.put(PREF_STATE, null);
                 secureStore.put(PREF_REDIRECT, null);
                 callback.onSuccess(new Session(user.getString("id"), user.optString("email", "")));
             } catch (Exception failure) {
