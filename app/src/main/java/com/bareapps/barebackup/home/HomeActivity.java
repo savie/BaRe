@@ -9,15 +9,15 @@ import com.bareapps.barebackup.BareApp;
 import com.bareapps.rootservice.PrivilegeManager;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.ProgressBar;
 import android.os.Environment;
 import android.os.StatFs;
 import android.text.format.Formatter;
 import java.io.File;
 
 import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.storage.StorageActivity;
 
-/** Home surface with live storage statistics and an accessible execution-mode selector. */
+/** Home dashboard; dedicated screens own their detailed UI and data presentation. */
 public final class HomeActivity extends Activity {
     private PrivilegeManager privilegeManager;
 
@@ -39,17 +39,12 @@ public final class HomeActivity extends Activity {
         View search = findViewById(R.id.home_search);
         if (search != null) search.setOnClickListener(v -> showPlaceholder(R.string.home_search_title));
 
-        // Storage taps refresh the live values instead of navigating away or hiding the card.
         View storage = findViewById(R.id.home_storage_card);
         if (storage != null) {
             storage.setClickable(true);
             storage.setFocusable(true);
-            storage.setOnClickListener(v -> {
-                updateStorageStats();
-                Toast.makeText(this, "Storage statistics refreshed", Toast.LENGTH_SHORT).show();
-            });
+            storage.setOnClickListener(v -> startActivity(new android.content.Intent(this, StorageActivity.class)));
         }
-        // The root status area is the persistent entry point for changing execution mode.
         View rootStatus = findViewById(R.id.home_root_status_value);
         if (rootStatus != null) {
             rootStatus.setClickable(true);
@@ -117,7 +112,7 @@ public final class HomeActivity extends Activity {
             int percent = total <= 0 ? 0 : (int) Math.min(100L, used * 100L / total);
             TextView value = findViewById(R.id.home_storage_value);
             TextView usedLabel = findViewById(R.id.home_storage_used);
-            ProgressBar progress = findViewById(R.id.home_storage_progress);
+            android.widget.ProgressBar progress = findViewById(R.id.home_storage_progress);
             if (value != null) value.setText(Formatter.formatFileSize(this, free) + " free of "
                     + Formatter.formatFileSize(this, total));
             if (usedLabel != null) usedLabel.setText(percent + "% used");
@@ -131,46 +126,38 @@ public final class HomeActivity extends Activity {
     }
 
     private void showExecutionModeDialog() {
-        if (privilegeManager == null) {
-            privilegeManager = ((BareApp) getApplication()).getPrivilegeManager();
-        }
+        if (privilegeManager == null) privilegeManager = ((BareApp) getApplication()).getPrivilegeManager();
         if (privilegeManager == null) {
             Toast.makeText(this, "Execution mode manager is unavailable.", Toast.LENGTH_LONG).show();
             return;
         }
         String[] modes = {"Root access", "Shizuku", "Continue without root"};
-        new AlertDialog.Builder(this)
-                .setTitle("Choose execution mode")
-                .setItems(modes, (dialog, which) -> {
-                    if (which == 0) {
-                        Toast.makeText(this, "Checking root access…", Toast.LENGTH_SHORT).show();
-                        privilegeManager.requestRootAccess(status -> {
-                            if (isFinishing() || isDestroyed()) return;
-                            if (status.rootGranted) {
-                                privilegeManager.setExecutionMode(PrivilegeManager.Mode.ROOT);
-                                Toast.makeText(this, "Root execution mode selected.", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(this, "Root access was not granted. Previous mode was kept.",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else if (which == 1) {
-                        PrivilegeManager.Status status = privilegeManager.getStatus();
-                        if (!status.shizukuAvailable) {
-                            Toast.makeText(this, "Shizuku is not running. Start Shizuku and try again.",
-                                    Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                        privilegeManager.setExecutionMode(PrivilegeManager.Mode.SHIZUKU);
-                        privilegeManager.requestShizukuAccess();
-                        Toast.makeText(this, "Shizuku selected. Approve its authorization prompt if shown.",
-                                Toast.LENGTH_LONG).show();
+        new AlertDialog.Builder(this).setTitle("Choose execution mode").setItems(modes, (dialog, which) -> {
+            if (which == 0) {
+                Toast.makeText(this, "Checking root access…", Toast.LENGTH_SHORT).show();
+                privilegeManager.requestRootAccess(status -> {
+                    if (isFinishing() || isDestroyed()) return;
+                    if (status.rootGranted) {
+                        privilegeManager.setExecutionMode(PrivilegeManager.Mode.ROOT);
+                        Toast.makeText(this, "Root execution mode selected.", Toast.LENGTH_LONG).show();
                     } else {
-                        privilegeManager.setExecutionMode(PrivilegeManager.Mode.NON_ROOT);
-                        Toast.makeText(this, "Non-root execution mode selected.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Root access was not granted. Previous mode was kept.", Toast.LENGTH_LONG).show();
                     }
-                })
-                .show();
+                });
+            } else if (which == 1) {
+                PrivilegeManager.Status status = privilegeManager.getStatus();
+                if (!status.shizukuAvailable) {
+                    Toast.makeText(this, "Shizuku is not running. Start Shizuku and try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                privilegeManager.setExecutionMode(PrivilegeManager.Mode.SHIZUKU);
+                privilegeManager.requestShizukuAccess();
+                Toast.makeText(this, "Shizuku selected. Approve its authorization prompt if shown.", Toast.LENGTH_LONG).show();
+            } else {
+                privilegeManager.setExecutionMode(PrivilegeManager.Mode.NON_ROOT);
+                Toast.makeText(this, "Non-root execution mode selected.", Toast.LENGTH_SHORT).show();
+            }
+        }).show();
     }
 
     @Override
@@ -235,7 +222,7 @@ public final class HomeActivity extends Activity {
     }
 
     private void showPlaceholder(int title) {
-        new AlertDialog.Builder(this).setTitle(title)
-            .setMessage(R.string.home_action_placeholder).setPositiveButton(android.R.string.ok, null).show();
+        new AlertDialog.Builder(this).setTitle(title).setMessage(R.string.home_action_placeholder)
+            .setPositiveButton(android.R.string.ok, null).show();
     }
 }
