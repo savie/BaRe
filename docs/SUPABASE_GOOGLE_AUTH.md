@@ -2,12 +2,12 @@
 
 ## Build configuration
 
-The app has defaults for the BΛR☰ Supabase project URL and publishable client key. To override them, set `SUPABASE_URL` and `SUPABASE_ANON_KEY` as Gradle project properties or environment variables. The GitHub Actions rebuild workflow accepts optional secrets with those names; when absent, it uses the same public project values.
+The app has defaults for the BΛR☰ Supabase project URL and publishable client key. To override them, set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` as Gradle project properties or environment variables. The GitHub Actions rebuild workflow accepts optional secrets with those names; when absent, it uses the same public project values.
 
 Local build example:
 
 ```sh
-gradle -PSUPABASE_URL=https://YOUR_PROJECT.supabase.co -PSUPABASE_ANON_KEY=YOUR_PUBLIC_ANON_OR_PUBLISHABLE_KEY :app:assembleDebug
+gradle -PSUPABASE_URL=https://YOUR_PROJECT.supabase.co -PSUPABASE_PUBLISHABLE_KEY=YOUR_PUBLIC_ANON_OR_PUBLISHABLE_KEY :app:assembleDebug
 ```
 
 These values are the Supabase project URL and public client key, not a service-role key. Never put a service-role key in an Android app.
