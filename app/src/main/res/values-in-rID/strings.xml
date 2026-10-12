@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BΛR☰</string>
+    <string name="intro_menu">Menu intro</string>
+    <string name="signin_title">Siapkan akun BΛR☰</string>
+    <string name="signin_intro_subtitle">Buat akun untuk backup cloud, fitur premium, dan enkripsi berbasis akun.</string>
+    <string name="intro_benefit_cloud_title">Backup cloud</string>
+    <string name="intro_benefit_cloud_subtitle">Hubungkan penyimpanan cloud untuk backup dan pemulihan.</string>
+    <string name="intro_benefit_premium_title">Fitur premium</string>
+    <string name="intro_benefit_premium_subtitle">Beli dan gunakan Premium dengan akunmu.</string>
+    <string name="intro_benefit_keys_title">Kunci enkripsi</string>
+    <string name="intro_benefit_keys_subtitle">Gunakan kunci berbasis akun untuk backup terenkripsi.</string>
+    <string name="intro_benefit_settings_title">Preferensi aplikasi</string>
+    <string name="intro_benefit_settings_subtitle">Sinkronkan pengaturan, jadwal, label aplikasi, dan konfigurasi aplikasi.</string>
+    <string name="required_permissions">Izin yang diperlukan</string>
+    <string name="storage_perm_title">Izin penyimpanan</string>
+    <string name="storage_perm_subtitle">Buat, baca, dan pulihkan file backup lokal di perangkat ini.</string>
+    <string name="notifications_perm_title">Izin notifikasi</string>
+    <string name="notifications_perm_subtitle">Tampilkan notifikasi backup, pemulihan, jadwal, dan kesalahan.</string>
+    <string name="xiaomi_installed_apps_perm_title">Akses aplikasi terpasang</string>
+    <string name="xiaomi_installed_apps_perm_subtitle">Baca aplikasi yang terpasang agar dapat ditampilkan untuk backup dan pemulihan.</string>
+    <string name="grant_storage_permission">Izinkan akses penyimpanan</string>
+    <string name="grant_notifications_permission">Izinkan notifikasi</string>
+    <string name="grant_xiaomi_installed_apps_permission">Izinkan akses aplikasi terpasang</string>
+    <string name="root_grant_permissions">Izinkan semua dengan Root atau Shizuku</string>
+    <string name="skip_for_now">Lewati dulu</string>
+    <string name="common_signin_button_text_long">Lanjutkan dengan Google</string>
+    <string name="backups_tied_warning">Backup terhubung ke akun yang digunakan saat membuatnya. Gunakan akun yang sama untuk memulihkannya nanti.</string>
+    <string name="tos_privacy_agreement">Dengan melanjutkan, kamu menyetujui Ketentuan Layanan dan Kebijakan Privasi.</string>
+    <string name="firebase_backend_diagnostics_title">Tidak dapat terhubung ke backend aplikasi</string>
+    <string name="firebase_backend_diagnostics_message">Aplikasi tidak dapat menjangkau backend. Backup cloud, aktivasi premium, dan sinkronisasi pengaturan mungkin tidak tersedia.</string>
+    <string name="backup_storage_setup_failure_title">Tidak dapat menyiapkan penyimpanan backup</string>
+    <string name="backup_storage_setup_failure_message">BΛR☰ tidak dapat menyelesaikan penyiapan lokasi backup yang dipilih.</string>
+    <string name="backup_storage_failure_location_label">Lokasi backup</string>
+    <string name="backup_storage_what_to_try">Yang bisa dicoba</string>
+    <string name="backup_storage_review_step">Periksa akses penyimpanan dan pilih lokasi yang dapat digunakan aplikasi.</string>
+    <string name="review_storage_access">Periksa akses penyimpanan</string>
+    <string name="backup_storage_diagnostics">Jika masalah berlanjut, periksa penyedia penyimpanan dan izin perangkat.</string>
+    <string name="retry">Coba lagi</string>
+    <string name="continue_anyway">Lanjutkan</string>
+    <string name="exit">Keluar</string>
+    <string name="getting_started">Memulai!</string>
+</resources>
