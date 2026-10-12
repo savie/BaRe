@@ -5,23 +5,11 @@
     <TextView android:id="@+id/tv_header" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="@string/required_permissions" android:textSize="26sp" android:textStyle="bold"
         android:textColor="?android:attr/textColorPrimary" android:includeFontPadding="false"/>
-    <com.bareapps.barebackup.intro.IntroPermissionCardView android:id="@+id/container_storage_perm"
-        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/storage_perm_title" android:textStyle="bold" android:textSize="16sp"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/storage_perm_subtitle" android:textSize="14sp" android:textColor="?android:attr/textColorSecondary" android:layout_marginTop="4dp"/>
-        <Button android:id="@+id/btn_storage_perm" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/grant_storage_permission" android:layout_marginTop="12dp" android:minHeight="48dp" android:enabled="true"/>
-    </com.bareapps.barebackup.intro.IntroPermissionCardView>
     <com.bareapps.barebackup.intro.IntroPermissionCardView android:id="@+id/container_notifications_perm"
         android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp">
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/notifications_perm_title" android:textStyle="bold" android:textSize="16sp"/>
         <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/notifications_perm_subtitle" android:textSize="14sp" android:textColor="?android:attr/textColorSecondary" android:layout_marginTop="4dp"/>
         <Button android:id="@+id/btn_notifications_perm" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/grant_notifications_permission" android:layout_marginTop="12dp" android:minHeight="48dp" android:enabled="true"/>
-    </com.bareapps.barebackup.intro.IntroPermissionCardView>
-    <com.bareapps.barebackup.intro.IntroPermissionCardView android:id="@+id/container_xiaomi_installed_apps_perm"
-        android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/xiaomi_installed_apps_perm_title" android:textStyle="bold" android:textSize="16sp"/>
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/xiaomi_installed_apps_perm_subtitle" android:textSize="14sp" android:textColor="?android:attr/textColorSecondary" android:layout_marginTop="4dp"/>
-        <Button android:id="@+id/btn_xiaomi_installed_apps_perm" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/grant_xiaomi_installed_apps_permission" android:layout_marginTop="12dp" android:minHeight="48dp" android:enabled="true"/>
     </com.bareapps.barebackup.intro.IntroPermissionCardView>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginHorizontal="12dp" android:layout_marginTop="20dp" android:background="?android:attr/listDivider"/>
     <Button android:id="@+id/btn_root_permissions" android:layout_width="match_parent" android:layout_height="wrap_content"
