@@ -115,6 +115,7 @@ public final class SupabaseAuthManager {
         }
         executor.execute(() -> {
             try {
+                requireGoogleProviderEnabled();
                 String verifier = randomUrlSafe(64);
                 String challenge = base64Url(MessageDigest.getInstance("SHA-256")
                         .digest(verifier.getBytes(StandardCharsets.US_ASCII)));
@@ -133,6 +134,28 @@ public final class SupabaseAuthManager {
         });
     }
 
+    /** Query Supabase Auth so a disabled Google provider fails with a clear actionable message. */
+    private void requireGoogleProviderEnabled() throws Exception {
+        HttpURLConnection connection = null;
+        try {
+            connection = (HttpURLConnection) new URL(baseUrl + "/auth/v1/settings").openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(10000);
+            connection.setReadTimeout(10000);
+            connection.setRequestProperty("apikey", publishableKey);
+            connection.setRequestProperty("Authorization", "Bearer " + publishableKey);
+            int status = connection.getResponseCode();
+            String response = readAll(status >= 200 && status < 300 ? connection.getInputStream() : connection.getErrorStream());
+            if (status < 200 || status >= 300) throw new IllegalStateException(extractError(response, status));
+            JSONObject settings = new JSONObject(response);
+            JSONObject external = settings.optJSONObject("external");
+            if (external == null || !external.optBoolean("google", false)) {
+                throw new IllegalStateException("Provider Google belum aktif di Supabase Auth. Aktifkan di Authentication > Sign In / Providers.");
+            }
+        } finally {
+            if (connection != null) connection.disconnect();
+        }
+    }
     /** Exchange a Supabase PKCE authorization code from the app deep-link callback. */
     public void handleOAuthRedirect(Uri uri, Callback callback) {
         if (uri == null) { callback.onError("Callback OAuth kosong."); return; }
