@@ -41,7 +41,11 @@ public final class IntroActivity extends Activity {
         try {
             supabaseAuthManager = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_ANON_KEY);
             String existingUserId = supabaseAuthManager.getCurrentUserId();
-            if (existingUserId != null && !existingUserId.isEmpty()) localAccountManager.useSupabaseAccount(existingUserId);
+            // Do not let a persisted Google session override an explicit local/anonymous selection.
+            if ("supabase".equals(localAccountManager.getActiveKind())
+                    && existingUserId != null && !existingUserId.isEmpty()) {
+                localAccountManager.useSupabaseAccount(existingUserId);
+            }
         } catch (Exception error) {
             Toast.makeText(this, "Secure session storage unavailable: " + error.getMessage(), Toast.LENGTH_LONG).show();
         }
