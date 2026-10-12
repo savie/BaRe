@@ -128,7 +128,7 @@ public final class IntroActivity extends Activity {
             ((android.widget.TextView) button).setText(granted
                     ? "Storage access granted" : getString(R.string.grant_storage_permission));
         }
-        button.setEnabled(!granted);
+        button.setEnabled(true);
     }
 
     private void requestNotificationPermission() {
@@ -150,7 +150,7 @@ public final class IntroActivity extends Activity {
             if (button instanceof android.widget.TextView) {
                 ((android.widget.TextView) button).setText("Notifications permission granted");
             }
-            button.setEnabled(false);
+            button.setEnabled(true);
         } else {
             if (button instanceof android.widget.TextView) {
                 ((android.widget.TextView) button).setText(R.string.grant_notifications_permission);
