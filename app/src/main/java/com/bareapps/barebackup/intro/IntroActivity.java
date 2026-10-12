@@ -39,7 +39,7 @@ public final class IntroActivity extends Activity {
         localAccountManager = new LocalAccountManager(this);
         localAccountManager.ensureLocalUid();
         try {
-            supabaseAuthManager = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_ANON_KEY);
+            supabaseAuthManager = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY);
             String existingUserId = supabaseAuthManager.getCurrentUserId();
             // Do not let a persisted Google session override an explicit local/anonymous selection.
             if ("supabase".equals(localAccountManager.getActiveKind())
@@ -108,7 +108,7 @@ public final class IntroActivity extends Activity {
             return;
         }
         if (!supabaseAuthManager.isConfigured()) {
-            Toast.makeText(this, "Supabase is not configured. Set SUPABASE_URL and SUPABASE_ANON_KEY in the build environment.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Supabase is not configured. Set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY in the build environment.", Toast.LENGTH_LONG).show();
             return;
         }
         Toast.makeText(this, "Opening Google sign-in…", Toast.LENGTH_SHORT).show();
