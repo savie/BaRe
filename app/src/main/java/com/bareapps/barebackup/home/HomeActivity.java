@@ -88,6 +88,11 @@ public final class HomeActivity extends Activity {
         bindAction(R.id.action_backup_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
         bindAction(R.id.action_restore_folders, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
         bindAction(R.id.action_folders_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_folders_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT_TREE), "The system file picker is not available."));
+        bindAction(R.id.action_wallpapers_from_device, () -> openIntent(new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT).setType("image/*").addCategory(android.content.Intent.CATEGORY_OPENABLE), "No image picker is available."));
+        bindAction(R.id.action_wallpapers_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
+        bindAction(R.id.action_wifi_from_device, () -> openSettings(android.provider.Settings.ACTION_WIFI_SETTINGS));
+        bindAction(R.id.action_wifi_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
         bindAction(R.id.action_backup_wallpapers, () -> showPlaceholder(R.string.home_backup_wallpapers));
         bindAction(R.id.action_restore_wallpapers, () -> showPlaceholder(R.string.home_restore_wallpapers));
         bindAction(R.id.action_wallpapers_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
