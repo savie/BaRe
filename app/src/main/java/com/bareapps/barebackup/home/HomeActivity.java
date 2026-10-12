@@ -16,6 +16,7 @@ import java.io.File;
 
 import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.storage.StorageActivity;
+import com.bareapps.barebackup.ui.SystemBarInsets;
 
 /** Home dashboard; dedicated screens own their detailed UI and data presentation. */
 public final class HomeActivity extends Activity {
@@ -25,6 +26,7 @@ public final class HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
+        SystemBarInsets.apply(this);
         int[] tabs = {R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account};
         int[] labels = {R.string.home_tab_home, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
         for (int i = 0; i < tabs.length; i++) {
