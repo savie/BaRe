@@ -48,7 +48,7 @@ public final class PrivilegeManager implements AutoCloseable {
         }
 
         public boolean hasPrivilegedExecution() {
-            return mode == Mode.ROOT || mode == Mode.SHIZUKU;
+            return (mode == Mode.ROOT && rootGranted) || (mode == Mode.SHIZUKU && shizukuConnected);
         }
     }
 
@@ -174,14 +174,13 @@ public final class PrivilegeManager implements AutoCloseable {
         boolean available = Shizuku.pingBinder();
         boolean authorized = available && isShizukuAuthorized();
         boolean connected = shizukuService != null && shizukuService.asBinder().isBinderAlive();
-        Mode selected = preferredMode;
-        Mode mode = selected == Mode.ROOT && root ? Mode.ROOT
-                : selected == Mode.SHIZUKU && connected ? Mode.SHIZUKU : Mode.NON_ROOT;
-        int uid = mode == Mode.ROOT ? 0 : mode == Mode.SHIZUKU ? serviceUid() : android.os.Process.myUid();
+        Mode mode = preferredMode;
+        int uid = mode == Mode.ROOT && root ? 0
+                : mode == Mode.SHIZUKU && connected ? serviceUid() : android.os.Process.myUid();
         return new Status(mode, root, available, authorized, connected, uid);
     }
 
-    /** Executes argv in the strongest currently authorized mode, otherwise app UID. */
+    /** Executes argv only in the explicitly selected mode; unavailable privileged modes fail closed. */
     public void execute(String[] command, long timeoutMillis, CommandCallback callback) {
         CommandExecutor.validate(command);
         worker.execute(() -> {
