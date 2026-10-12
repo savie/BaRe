@@ -54,4 +54,16 @@
     <string name="home_nav_cloud">☁\nSinkronisasi cloud</string>
     <string name="home_nav_schedules">◷\nJadwal</string>
     <string name="home_nav_account">♙\nAkun</string>
+    <string name="account_section_title">AKUN</string>
+    <string name="account_device_label">PERANGKAT</string>
+    <string name="account_settings_title">PENGATURAN</string>
+    <string name="account_menu_settings">Pengaturan</string>
+    <string name="account_menu_logger">SwiftLogger</string>
+    <string name="account_menu_language">Bahasa</string>
+    <string name="account_menu_help">Pusat bantuan</string>
+    <string name="account_menu_contact">Kontak</string>
+    <string name="account_menu_rate">Beri rating</string>
+    <string name="account_menu_about">Tentang</string>
+    <string name="account_get_premium">DAPATKAN PREMIUM</string>
+    <string name="account_sign_out">Keluar</string>
 </resources>
