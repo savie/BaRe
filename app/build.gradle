@@ -6,6 +6,10 @@ android {
     namespace "com.bareapps.barebackup"
     compileSdk 37
 
+    buildFeatures {
+        aidl true
+    }
+
     defaultConfig {
         applicationId "com.bareapps.barebackup"
         minSdk 26
