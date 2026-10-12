@@ -52,11 +52,12 @@ public final class AccountActivity extends Activity {
     private void populateAccount() {
         boolean google = "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
         String email = google ? auth.getCurrentEmail() : null;
-        String name = google ? "Google account" : "Anonymous user";
+        String name = google && email != null && email.contains("@")
+                ? email.substring(0, email.indexOf("@")) : (google ? "Google account" : "Anonymous user");
         ((TextView)findViewById(R.id.account_name)).setText(name);
         TextView emailView = findViewById(R.id.account_email);
         emailView.setText(google ? (email == null ? "" : email) : "Local account · limited features");
-        emailView.setVisibility(google ? View.VISIBLE : View.VISIBLE);
+        emailView.setVisibility(View.VISIBLE);
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         ((TextView)findViewById(R.id.account_device_id)).setText(deviceId == null ? "Unknown device" : deviceId.toUpperCase(java.util.Locale.ROOT));
         ((TextView)findViewById(R.id.account_avatar_small)).setText(google && email != null && !email.isEmpty()
