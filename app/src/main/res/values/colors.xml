@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- BΛR☰ aliases for reference-derived surface tones, kept separate from platform colors. -->
+    <color name="bare_surface_container">#261B1D</color>
+    <color name="bare_card_overlay">#12000000</color>
+    <color name="bare_primary_accent">#FFAFB9</color>
+    <color name="bare_text_primary">#F3E5E7</color>
+    <color name="bare_text_secondary">#D3C3C6</color>
+</resources>
