@@ -11,6 +11,7 @@
                 android:gravity="center_vertical" android:orientation="horizontal" android:layout_marginBottom="16dp" android:clipChildren="false" android:clipToPadding="false">
                 <ImageView android:id="@+id/intro_logo" android:layout_width="40dp" android:layout_height="40dp"
                     android:src="@drawable/bare_logo" android:contentDescription="@string/app_name" android:scaleType="fitCenter"/>
+                <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
                 <TextView android:id="@+id/iv_menu" android:layout_width="48dp" android:layout_height="48dp"
                     android:gravity="center" android:text="⋮" android:textSize="24sp" android:padding="12dp" android:background="?android:attr/selectableItemBackgroundBorderless" android:contentDescription="@string/intro_menu"/>
             </LinearLayout>
