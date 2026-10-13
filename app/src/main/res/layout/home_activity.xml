@@ -9,7 +9,7 @@
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center"
             android:text="BΛR☰" android:textStyle="bold" android:textSize="17sp"/>
         <TextView android:id="@+id/home_search" android:layout_width="52dp" android:layout_height="40dp" android:gravity="center"
-            android:text="⌕" android:textSize="26sp" android:background="@drawable/home_search_button_background"
+            android:text="⌕" android:textSize="26sp" android:background="?android:attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/home_search" android:clickable="true" android:focusable="true"/>
     </LinearLayout>
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
