@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/appbar_layout"
+        layout="@layout/appbar"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:paddingBottom="@dimen/spacing_normal_more"
+        android:scrollbars="none"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingTop="@dimen/spacing_medium"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin">
+            <include
+                android:id="@+id/folder_detail_info_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/folder_detail_info_card"/>
+            <include
+                android:id="@+id/folder_backup_card_device"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                layout="@layout/folder_detail_backup_card"/>
+            <include
+                android:id="@+id/folder_backup_card_cloud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                layout="@layout/folder_detail_backup_card"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

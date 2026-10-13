@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_create_new_folder"
+        android:id="@+id/action_new_folder"
+        android:title="@string/new_folder"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:icon="@drawable/ic_storage_device"
+        android:id="@+id/action_storage_switch"
+        android:title="@string/select_storage"
+        app:showAsAction="ifRoom"/>
+</menu>

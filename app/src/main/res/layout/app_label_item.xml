@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_low_more"
+    android:minHeight="24dp"
+    android:layout_marginEnd="@dimen/spacing_low_more"
+    app:cardCornerRadius="11dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="1.5dp">
+    <TextView
+        android:textSize="@dimen/subtitle_smaller"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/spacing_lowest"
+        android:textAllCaps="true"
+        android:fontFamily="@font/main_bold"
+        android:letterSpacing="@integer/letterspacing_050"
+        android:paddingHorizontal="@dimen/spacing_medium"
+        android:paddingVertical="@dimen/spacing_low"/>
+</com.google.android.material.card.MaterialCardView>

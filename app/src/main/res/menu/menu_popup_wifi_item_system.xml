@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_exit_to_app"
+        android:id="@+id/action_manage"
+        android:title="@string/manage"/>
+    <item
+        android:icon="@drawable/ic_device"
+        android:id="@+id/action_backup_local"
+        android:title="@string/backup_to_local"/>
+    <item
+        android:icon="@drawable/ic_cloud"
+        android:id="@+id/action_backup_cloud"
+        android:title="@string/backup_to_cloud"/>
+</menu>

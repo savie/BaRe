@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textSize="@dimen/subtitle_small"
+    android:gravity="center"
+    android:id="@+id/tv_title"
+    android:background="@drawable/circle"
+    android:layout_width="?attr/listPreferredItemHeightSmall"
+    android:layout_height="?attr/listPreferredItemHeightSmall"
+    android:layout_margin="@dimen/spacing_medium"
+    android:textAllCaps="true"
+    android:fontFamily="@font/main_bold"
+    android:letterSpacing="@integer/letterspacing_060"/>

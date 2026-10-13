@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:icon="@drawable/ic_show_hide_visibility"
+        android:id="@+id/action_view_messages"
+        android:visible="false"
+        android:title="View messages"
+        app:showAsAction="never"/>
+    <item
+        android:icon="@drawable/ic_message"
+        android:id="@+id/action_sms_settings"
+        android:title="@string/messages_backup_settings"
+        app:showAsAction="never"/>
+    <item
+        android:icon="@drawable/ic_settings"
+        android:id="@+id/action_settings"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
+</menu>
