@@ -55,6 +55,14 @@ public final class LocalAccountManager {
         try {
             uid = readPortableIdentity();
         } catch (Exception error) {
+            // EACCES means the marker has not been read, not that its encrypted contents are
+            // invalid. Defer identity initialization until Android grants storage access.
+            if (portableIdentityFile.isFile() && isStorageAccessDenied(error)) {
+                android.util.Log.w("BaReAccount",
+                        "Portable local identity exists but storage access is not granted yet", error);
+                throw new LocalIdentityAccessException(
+                        "Storage access is required to read the saved local identity", error);
+            }
             // An existing encrypted identity marker is authoritative. Never create a second
             // local account when its key exists but cannot be validated/decrypted.
             if (portableIdentityFile.isFile()) {
@@ -103,6 +111,23 @@ public final class LocalAccountManager {
             prefs.edit().putString(KEY_ACTIVE, uid).putString(KEY_KIND, KIND_LOCAL).apply();
         }
         return uid;
+    }
+
+    /** Signals that identity recovery must wait for Android storage access. */
+    public static final class LocalIdentityAccessException extends IllegalStateException {
+        public LocalIdentityAccessException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    private static boolean isStorageAccessDenied(Throwable error) {
+        for (Throwable current = error; current != null; current = current.getCause()) {
+            if (current instanceof SecurityException) return true;
+            String message = current.getMessage();
+            if (message != null && (message.contains("EACCES")
+                    || message.toLowerCase(Locale.ROOT).contains("permission denied"))) return true;
+        }
+        return false;
     }
 
     /** Dedicated encrypted local identity key; unrelated backup *.enc files are never scanned. */
