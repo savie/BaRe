@@ -82,7 +82,7 @@ public final class HomeActivity extends Activity {
             rootDetail.setFocusable(true);
             rootDetail.setOnClickListener(v -> showExecutionModeDialog());
         }
-        bindAction(R.id.home_chip_apps, () -> showPlaceholder(R.string.home_chip_apps));
+        bindAction(R.id.home_chip_apps, this::openAppsList);
         bindAction(R.id.home_chip_messages, () -> showPlaceholder(R.string.home_chip_messages));
         bindAction(R.id.home_chip_call_logs, () -> showPlaceholder(R.string.home_chip_call_logs));
         bindAction(R.id.home_chip_folders, () -> showPlaceholder(R.string.home_chip_folders));
@@ -113,13 +113,17 @@ public final class HomeActivity extends Activity {
         bindAction(R.id.action_backup_wifi, () -> showPlaceholder(R.string.home_backup_wifi));
         bindAction(R.id.action_restore_wifi, () -> showPlaceholder(R.string.home_restore_wifi));
         bindAction(R.id.action_wifi_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
-        int[] actions = {R.id.action_backup_apps, R.id.action_restore_apps, R.id.action_more};
-        int[] actionTitles = {R.string.home_backup_apps, R.string.home_restore_apps, R.string.home_more_actions};
-        for (int i = 0; i < actions.length; i++) {
-            final int index = i;
-            View action = findViewById(actions[i]);
-            if (action != null) action.setOnClickListener(v -> showPlaceholder(actionTitles[index]));
-        }
+        View backupApps = findViewById(R.id.action_backup_apps);
+        if (backupApps != null) backupApps.setOnClickListener(v -> openAppsList());
+        View restoreApps = findViewById(R.id.action_restore_apps);
+        if (restoreApps != null) restoreApps.setOnClickListener(v -> openAppsList());
+        View moreActions = findViewById(R.id.action_more);
+        if (moreActions != null) moreActions.setOnClickListener(v -> showPlaceholder(R.string.home_more_actions));
+    }
+
+    private void openAppsList() {
+        startActivity(new android.content.Intent(this,
+                com.bareapps.barebackup.appslist.ui.list.AppListActivity.class));
     }
 
     private interface Action { void run(); }
