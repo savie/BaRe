@@ -16,6 +16,9 @@ import android.text.format.Formatter;
 import java.io.File;
 
 import com.bareapps.barebackup.R;
+import com.bareapps.barebackup.BuildConfig;
+import com.bareapps.barebackup.model.account.LocalAccountManager;
+import com.bareapps.barebackup.model.supabase.SupabaseAuthManager;
 import com.bareapps.barebackup.storage.StorageActivity;
 import com.bareapps.barebackup.account.AccountActivity;
 import com.bareapps.barebackup.ui.SystemBarInsets;
@@ -219,6 +222,7 @@ public final class HomeActivity extends Activity {
         super.onResume();
         privilegeManager = ((BareApp) getApplication()).getPrivilegeManager();
         updateStorageStats();
+        updateProfileAvatar();
         if (privilegeManager != null) {
             privilegeManager.setStatusListener(status -> {
                 TextView value = findViewById(R.id.home_root_status_value);
@@ -252,6 +256,35 @@ public final class HomeActivity extends Activity {
     protected void onPause() {
         if (privilegeManager != null) privilegeManager.setStatusListener(null);
         super.onPause();
+    }
+
+
+    /**
+     * Keep the compact header avatar in sync with the same display-name source
+     * used by AccountActivity. Called on resume so returning from Account reflects
+     * profile changes without requiring an app restart.
+     */
+    private void updateProfileAvatar() {
+        TextView avatar = findViewById(R.id.home_profile);
+        if (avatar == null) return;
+
+        String name = getString(R.string.account_anonymous_user);
+        try {
+            LocalAccountManager accounts = new LocalAccountManager(this);
+            SupabaseAuthManager auth = new SupabaseAuthManager(
+                    this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY);
+            boolean google = "supabase".equals(accounts.getActiveKind()) && auth.hasSession();
+            String displayName = google ? auth.getCurrentDisplayName() : null;
+            if (google) {
+                name = displayName == null || displayName.trim().isEmpty()
+                        ? "Google account" : displayName.trim();
+            }
+        } catch (Exception error) {
+            android.util.Log.w("BaReHome", "Could not resolve profile name for header avatar", error);
+        }
+
+        String source = name == null || name.trim().isEmpty() ? "B" : name.trim();
+        avatar.setText(source.substring(0, 1).toUpperCase(java.util.Locale.ROOT));
     }
 
     private void selectTab(int selected, int[] tabs, int[] labels) {
