@@ -31,7 +31,7 @@ public final class InstalledApp {
     public android.graphics.drawable.Drawable loadIcon(PackageManager packageManager) {
         try {
             return packageManager.getApplicationIcon(applicationInfo);
-        } catch (PackageManager.NameNotFoundException | RuntimeException ignored) {
+        } catch (RuntimeException ignored) {
             return null;
         }
     }
