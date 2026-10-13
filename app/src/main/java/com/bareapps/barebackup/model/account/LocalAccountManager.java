@@ -66,10 +66,11 @@ public final class LocalAccountManager {
             } catch (Exception error) {
                 uid = prefs.getString(KEY_UID, null);
                 if (uid == null || uid.trim().isEmpty()) {
-                    // Don't silently rotate an identity when encrypted data exists but is unavailable.
-                    throw new IllegalStateException(
-                            "Cannot decrypt saved local account UID; refusing to create a different account identity",
-                            error);
+                    // After uninstall/reinstall Android Keystore may no longer have the old key,
+                    // while the app-private encrypted preference is gone. Recover instead of
+                    // crashing; a portable marker (when readable) was checked first above.
+                    android.util.Log.w("BaReAccount",
+                            "App-private local identity is unavailable; creating a recoverable identity", error);
                 }
             }
         }
