@@ -388,9 +388,7 @@ public final class AppListActivity extends Activity {
         List<InstalledApp> filtered = repository.filter(allApps, searchInput.getText().toString(), selectedFilter);
         if ("Name".equals(sortMode)) {
             filtered.sort((a, b) -> a.getLabel().compareToIgnoreCase(b.getLabel()));
-        } else if ("Install date".equals(sortMode) || "Update date".equals(sortMode)) {
-            filtered.sort((a, b) -> Long.compare(b.getApplicationInfo().lastUpdateTime, a.getApplicationInfo().lastUpdateTime));
-        }
+        } // Date/backup sort modes stay visual-only until the catalog model exposes verified metadata.
         adapter.submit(filtered);
         countView.setText(filtered.size() + (filtered.size() == 1 ? " app" : " apps"));
     }
