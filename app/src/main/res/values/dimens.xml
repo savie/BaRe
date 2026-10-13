@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Values mapped from Swift Backup 5.1.0 (620) dimens.xml. -->
+    <dimen name="bare_spacing_low">4dp</dimen>
+    <dimen name="bare_spacing_medium">8dp</dimen>
+    <dimen name="bare_spacing_medium_more">12dp</dimen>
+    <dimen name="bare_spacing_normal">16dp</dimen>
+    <dimen name="bare_spacing_normal_more">20dp</dimen>
+    <dimen name="bare_spacing_large">24dp</dimen>
+    <dimen name="bare_activity_horizontal_margin">12dp</dimen>
+    <dimen name="bare_activity_vertical_margin">16dp</dimen>
+    <dimen name="bare_title_large">17sp</dimen>
+    <dimen name="bare_title_largest">20sp</dimen>
+    <dimen name="bare_subtitle_smallest">11sp</dimen>
+    <dimen name="bare_card_corner_radius">16dp</dimen>
+</resources>
