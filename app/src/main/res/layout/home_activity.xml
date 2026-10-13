@@ -160,12 +160,12 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal"
         android:paddingTop="4dp" android:paddingBottom="4dp" android:background="@drawable/intro_card_background" android:elevation="8dp">
         <TextView android:id="@+id/nav_home" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1"
-            android:gravity="center" android:text="@string/home_nav_home" android:textStyle="bold" android:textSize="12sp" android:minHeight="56dp"/>
+            android:gravity="center" android:text="@string/home_nav_home" android:textStyle="bold" android:textSize="12sp" android:minHeight="56dp" android:background="?android:attr/selectableItemBackground" android:clickable="true" android:focusable="true"/>
         <TextView android:id="@+id/nav_cloud" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1"
-            android:gravity="center" android:text="@string/home_nav_cloud" android:textSize="12sp" android:minHeight="56dp"/>
+            android:gravity="center" android:text="@string/home_nav_cloud" android:textSize="12sp" android:minHeight="56dp" android:background="?android:attr/selectableItemBackground" android:clickable="true" android:focusable="true"/>
         <TextView android:id="@+id/nav_schedule" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1"
-            android:gravity="center" android:text="@string/home_nav_schedules" android:textSize="12sp" android:minHeight="56dp"/>
+            android:gravity="center" android:text="@string/home_nav_schedules" android:textSize="12sp" android:minHeight="56dp" android:background="?android:attr/selectableItemBackground" android:clickable="true" android:focusable="true"/>
         <TextView android:id="@+id/nav_account" android:layout_width="0dp" android:layout_height="56dp" android:layout_weight="1"
-            android:gravity="center" android:text="@string/home_nav_account" android:textSize="12sp" android:minHeight="56dp"/>
+            android:gravity="center" android:text="@string/home_nav_account" android:textSize="12sp" android:minHeight="56dp" android:background="?android:attr/selectableItemBackground" android:clickable="true" android:focusable="true"/>
     </LinearLayout>
 </LinearLayout>
