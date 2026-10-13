@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -37,6 +38,8 @@ public final class AppListActivity extends Activity {
     private TextView countView;
     private TextView emptyView;
     private AppFilter selectedFilter = AppFilter.ALL;
+    private float pullStartY;
+    private boolean pullRefreshTriggered;
 
     @Override
     protected void attachBaseContext(Context newBase) {
