@@ -52,14 +52,12 @@ public final class LocalAccountManager {
         try {
             uid = readPortableIdentity();
         } catch (Exception error) {
-            if (getPortableIdentityFile().exists()) {
-                // A present but unreadable marker may be the only surviving copy after reinstall.
-                // Fail closed rather than silently minting a different local identity.
-                throw new IllegalStateException(
-                        "Portable local identity exists but cannot be decrypted; refusing to rotate local UID",
-                        error);
-            }
-            android.util.Log.i("BaReAccount", "Portable local identity is not available yet", error);
+            // A marker can outlive the app's Keystore state across uninstall/reinstall or device
+            // restore. Never crash startup because of stale external state. Continue to the
+            // app-private encrypted/legacy stores; if neither has the UID, mint a new UID and
+            // atomically replace the unreadable marker below. Existing account folders are untouched.
+            android.util.Log.w("BaReAccount",
+                    "Portable local identity is unreadable; recovering without crashing", error);
         }
 
         if (uid == null || uid.trim().isEmpty()) {
