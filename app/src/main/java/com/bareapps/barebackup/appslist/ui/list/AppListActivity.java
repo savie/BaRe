@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -15,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bareapps.barebackup.R;
 import com.bareapps.barebackup.appslist.data.AppCatalogRepository;
@@ -39,7 +39,8 @@ public final class AppListActivity extends Activity {
     private TextView emptyView;
     private AppFilter selectedFilter = AppFilter.ALL;
     private float pullStartY;
-    private boolean pullRefreshTriggered;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private boolean loadingApps;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -65,6 +66,9 @@ public final class AppListActivity extends Activity {
         searchClear = findViewById(R.id.apps_search_clear);
         searchPanel = findViewById(R.id.apps_search_panel);
         filterSpinner = findViewById(R.id.apps_filter);
+        swipeRefreshLayout = findViewById(R.id.apps_swipe_refresh);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_blue_light);
+        swipeRefreshLayout.setOnRefreshListener(this::loadApps);
 
         ArrayAdapter<AppFilter> filters = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, AppFilter.values());
@@ -108,22 +112,6 @@ public final class AppListActivity extends Activity {
         findViewById(R.id.apps_batch_actions).setOnClickListener(v ->
                 Toast.makeText(this, "Batch backup actions will be added in a later phase.", Toast.LENGTH_SHORT).show());
 
-        list.setOnTouchListener((view, event) -> {
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                pullStartY = event.getY();
-                pullRefreshTriggered = false;
-            } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
-                float distance = event.getY() - pullStartY;
-                boolean atTop = list.getFirstVisiblePosition() == 0
-                        && (list.getChildCount() == 0 || list.getChildAt(0).getTop() >= list.getPaddingTop());
-                if (!pullRefreshTriggered && atTop && distance > 96f * getResources().getDisplayMetrics().density) {
-                    pullRefreshTriggered = true;
-                    loadApps();
-                }
-            }
-            return false;
-        });
-
         list.setOnItemClickListener((parent, view, position, id) -> {
             InstalledApp app = adapter.getItem(position);
             Toast.makeText(this, app.getLabel() + "\n" + app.getPackageName(),
@@ -147,9 +135,12 @@ public final class AppListActivity extends Activity {
     }
 
     private void loadApps() {
+        if (loadingApps) return;
+        loadingApps = true;
         TextView loading = findViewById(R.id.apps_loading);
-        loading.setVisibility(View.VISIBLE);
-        findViewById(R.id.apps_list).setVisibility(View.INVISIBLE);
+        boolean initialLoad = allApps.isEmpty();
+        loading.setVisibility(initialLoad ? View.VISIBLE : View.GONE);
+        findViewById(R.id.apps_list).setVisibility(initialLoad ? View.INVISIBLE : View.VISIBLE);
         new Thread(() -> {
             List<InstalledApp> loaded;
             String error = null;
@@ -162,7 +153,9 @@ public final class AppListActivity extends Activity {
             final List<InstalledApp> result = loaded;
             final String message = error;
             runOnUiThread(() -> {
+                loadingApps = false;
                 loading.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
                 findViewById(R.id.apps_list).setVisibility(View.VISIBLE);
                 if (message != null) {
                     emptyView.setText("Unable to load installed apps. " + message);
