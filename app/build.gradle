@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     // Shizuku/Sui API and manifest provider integration.
     implementation "dev.rikka.shizuku:api:13.1.5"
