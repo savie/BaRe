@@ -108,6 +108,22 @@ public final class AppListActivity extends Activity {
         findViewById(R.id.apps_batch_actions).setOnClickListener(v ->
                 Toast.makeText(this, "Batch backup actions will be added in a later phase.", Toast.LENGTH_SHORT).show());
 
+        list.setOnTouchListener((view, event) -> {
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                pullStartY = event.getY();
+                pullRefreshTriggered = false;
+            } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+                float distance = event.getY() - pullStartY;
+                boolean atTop = list.getFirstVisiblePosition() == 0
+                        && (list.getChildCount() == 0 || list.getChildAt(0).getTop() >= list.getPaddingTop());
+                if (!pullRefreshTriggered && atTop && distance > 96f * getResources().getDisplayMetrics().density) {
+                    pullRefreshTriggered = true;
+                    loadApps();
+                }
+            }
+            return false;
+        });
+
         list.setOnItemClickListener((parent, view, position, id) -> {
             InstalledApp app = adapter.getItem(position);
             Toast.makeText(this, app.getLabel() + "\n" + app.getPackageName(),
