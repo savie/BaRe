@@ -541,10 +541,18 @@ public final class IntroActivity extends Activity {
 
     private void openHome() {
         try {
+            // Retry writing the portable identity after the user has granted storage access.
+            // On a fresh install, the first attempt during onCreate may have happened too early.
+            localAccountManager.ensureLocalUid();
             java.io.File accountDirectory = localAccountManager.ensureAccountDirectories();
             android.util.Log.i("BaReAccount", "Account backup directory ready: " + accountDirectory.getAbsolutePath());
-        } catch (java.io.IOException | SecurityException error) {
-            Toast.makeText(this, "Account selected, but backup folders could not be created. Check storage access: " + error.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException | SecurityException | IllegalStateException error) {
+            android.util.Log.e("BaReAccount", "Cannot initialize local account storage", error);
+            Toast.makeText(this,
+                    "BΛR☰ folder could not be created. Grant storage access, then continue again. " + error.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            // Do not mark setup complete or leave onboarding when required storage initialization failed.
+            return;
         }
         localAccountManager.markSetupComplete();
         flowController.moveTo(IntroFlowController.Step.READY);
