@@ -78,6 +78,21 @@
             android:paddingEnd="12dp"
             android:background="@drawable/intro_card_background" />
 
+        <TextView
+            android:id="@+id/apps_search_clear"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
+            android:text="×"
+            android:textSize="24sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:contentDescription="Clear search"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true" />
+
         <Spinner
             android:id="@+id/apps_filter"
             android:layout_width="112dp"
