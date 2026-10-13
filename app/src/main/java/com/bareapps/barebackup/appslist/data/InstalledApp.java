@@ -24,8 +24,8 @@ public final class InstalledApp {
     public boolean isSystemApp() { return systemApp; }
 
     public String getBackupStatus() {
-        // Backup engine/history is not implemented in this UI-first phase.
-        return "No backup on device";
+        // Backup history is not connected yet, so do not claim that no backup exists.
+        return "Backup status unavailable";
     }
 
     public android.graphics.drawable.Drawable loadIcon(PackageManager packageManager) {
