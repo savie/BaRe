@@ -1,0 +1,39 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.bareapps.barebackup"
+    compileSdk 37
+
+    buildFeatures {
+        aidl true
+        buildConfig true
+    }
+
+    defaultConfig {
+        // Supply with -PSUPABASE_URL / -PSUPABASE_PUBLISHABLE_KEY or environment variables.
+        def supabaseUrl = providers.gradleProperty("SUPABASE_URL")
+                .orElse(providers.environmentVariable("SUPABASE_URL")
+                .orElse("https://fbiazqbrkwovzrirnzpb.supabase.co")).get()
+        def supabasePublishableKey = providers.gradleProperty("SUPABASE_PUBLISHABLE_KEY")
+                .orElse(providers.environmentVariable("SUPABASE_PUBLISHABLE_KEY")
+                .orElse("sb_publishable_qTDGXWoCW79yAL0jyO27mw_MPJY_Ryi")).get()
+        buildConfigField "String", "SUPABASE_URL", '"' + supabaseUrl + '"'
+        buildConfigField "String", "SUPABASE_PUBLISHABLE_KEY", '"' + supabasePublishableKey + '"'
+        applicationId "com.bareapps.barebackup"
+        minSdk 26
+        targetSdk 37
+        versionCode providers.environmentVariable("GITHUB_RUN_NUMBER").orElse("1").get().toInteger()
+        versionName "1.0.1"
+    }
+}
+
+dependencies {
+    // Shizuku/Sui API and manifest provider integration.
+    implementation "dev.rikka.shizuku:api:13.1.5"
+    implementation "dev.rikka.shizuku:provider:13.1.5"
+
+    // Root shell execution; the user must still grant superuser access on supported devices.
+    implementation "com.github.topjohnwu.libsu:core:6.0.0"
+}
