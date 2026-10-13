@@ -2,16 +2,16 @@
 <resources>
     <style name="Theme.BaRe.Intro" parent="@android:style/Theme.Material.NoActionBar">
         <item name="android:fontFamily">sans</item>
-        <item name="android:colorAccent">#FFAFB9</item>
+        <item name="android:colorAccent">@color/bare_primary_accent</item>
         <item name="android:colorControlActivated">#FFAFB9</item>
-        <item name="android:colorBackground">#261B1D</item>
+        <item name="android:colorBackground">@color/bare_surface_container</item>
         <item name="android:windowBackground">#261B1D</item>
         <item name="android:statusBarColor">#261B1D</item>
         <item name="android:navigationBarColor">#261B1D</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:textColorPrimary">#F3E5E7</item>
-        <item name="android:textColorSecondary">#D3C3C6</item>
+        <item name="android:textColorPrimary">@color/bare_text_primary</item>
+        <item name="android:textColorSecondary">@color/bare_text_secondary</item>
         <item name="android:colorButtonNormal">#3A2A2D</item>
     </style>
     <style name="AccountMenuItem">
