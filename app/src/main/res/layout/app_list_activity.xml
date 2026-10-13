@@ -7,39 +7,65 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="72dp"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:orientation="horizontal">
+        android:paddingEnd="12dp">
 
         <TextView
             android:id="@+id/apps_back"
-            android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:gravity="center"
             android:text="‹"
             android:textSize="36sp"
+            android:textColor="?android:attr/textColorPrimary"
             android:contentDescription="Back"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+            android:background="@drawable/intro_card_background"
+            android:clickable="true"
+            android:focusable="true" />
 
         <LinearLayout
+            android:id="@+id/apps_title_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="12dp">
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="4dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true">
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="LOCAL APPS"
-                android:textStyle="bold"
-                android:textSize="17sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/apps_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOCAL APPS"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="▾"
+                    android:textSize="18sp"
+                    android:textColor="?android:attr/colorAccent" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/apps_count"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Loading apps…"
                 android:textSize="14sp"
@@ -47,24 +73,55 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/apps_refresh"
+            android:id="@+id/apps_search_toggle"
             android:layout_width="44dp"
-            android:layout_height="44dp"
+            android:layout_height="48dp"
             android:gravity="center"
-            android:text="⟳"
-            android:textSize="27sp"
-            android:contentDescription="Refresh installed apps"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+            android:text="⌕"
+            android:textSize="30sp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:contentDescription="Search apps"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/apps_filter_toggle"
+            android:layout_width="44dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="☰"
+            android:textSize="23sp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:contentDescription="Filter apps"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/apps_menu_toggle"
+            android:layout_width="40dp"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:text="☷"
+            android:textSize="24sp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:contentDescription="Open apps menu"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/apps_search_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/apps_search"
@@ -92,14 +149,14 @@
             android:visibility="gone"
             android:clickable="true"
             android:focusable="true" />
-
-        <Spinner
-            android:id="@+id/apps_filter"
-            android:layout_width="112dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:contentDescription="Filter apps" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/apps_filter"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:visibility="gone"
+        android:contentDescription="App category filter" />
 
     <FrameLayout
         android:layout_width="match_parent"
