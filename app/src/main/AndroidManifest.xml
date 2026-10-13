@@ -63,6 +63,7 @@
         <activity android:name=".home.HomeActivity" android:exported="false" />
         <activity android:name=".account.AccountActivity" android:exported="false" />
         <activity android:name=".storage.StorageActivity" android:exported="false" />
+        <activity android:name=".appslist.ui.list.AppListActivity" android:exported="false" />
 
         <activity
             android:name=".intro.IntroActivity"

@@ -38,18 +38,27 @@ public final class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         SystemBarInsets.apply(this);
+        androidx.viewpager.widget.ViewPager pager = findViewById(R.id.viewPager);
+        pager.setAdapter(new HomeContentPagerAdapter(getLayoutInflater()));
         int[] tabs = {R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account};
         int[] labels = {R.string.home_overview, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
-        for (int i = 0; i < tabs.length; i++) {
-            final int selected = i;
-            View tab = findViewById(tabs[i]);
-            if (tab != null) tab.setOnClickListener(v -> {
-                if (selected == 3) startActivity(new android.content.Intent(this, AccountActivity.class));
-                else selectTab(selected, tabs, labels);
-            });
-        }
+        com.google.android.material.bottomnavigation.BottomNavigationView navigation =
+                findViewById(R.id.primaryNavigation);
         int requestedTab = getIntent() == null ? 0 : getIntent().getIntExtra("selected_tab", 0);
-        selectTab(requestedTab >= 0 && requestedTab < tabs.length ? requestedTab : 0, tabs, labels);
+        int initialTab = requestedTab >= 0 && requestedTab < tabs.length ? requestedTab : 0;
+        navigation.setSelectedItemId(tabs[initialTab]);
+        selectTab(initialTab, tabs, labels);
+        navigation.setOnItemSelectedListener(item -> {
+            int selected = item.getItemId() == R.id.nav_home ? 0
+                    : item.getItemId() == R.id.nav_cloud ? 1
+                    : item.getItemId() == R.id.nav_schedule ? 2 : 3;
+            if (selected == 3) {
+                startActivity(new android.content.Intent(this, AccountActivity.class));
+                return true;
+            }
+            selectTab(selected, tabs, labels);
+            return true;
+        });
         updateStorageStats();
         View profile = findViewById(R.id.home_profile);
         if (profile != null) profile.setOnClickListener(v -> startActivity(new android.content.Intent(this, AccountActivity.class)));
@@ -82,7 +91,7 @@ public final class HomeActivity extends Activity {
             rootDetail.setFocusable(true);
             rootDetail.setOnClickListener(v -> showExecutionModeDialog());
         }
-        bindAction(R.id.home_chip_apps, () -> showPlaceholder(R.string.home_chip_apps));
+        bindAction(R.id.home_chip_apps, this::openAppsList);
         bindAction(R.id.home_chip_messages, () -> showPlaceholder(R.string.home_chip_messages));
         bindAction(R.id.home_chip_call_logs, () -> showPlaceholder(R.string.home_chip_call_logs));
         bindAction(R.id.home_chip_folders, () -> showPlaceholder(R.string.home_chip_folders));
@@ -113,13 +122,17 @@ public final class HomeActivity extends Activity {
         bindAction(R.id.action_backup_wifi, () -> showPlaceholder(R.string.home_backup_wifi));
         bindAction(R.id.action_restore_wifi, () -> showPlaceholder(R.string.home_restore_wifi));
         bindAction(R.id.action_wifi_from_cloud, () -> showPlaceholder(R.string.home_from_cloud));
-        int[] actions = {R.id.action_backup_apps, R.id.action_restore_apps, R.id.action_more};
-        int[] actionTitles = {R.string.home_backup_apps, R.string.home_restore_apps, R.string.home_more_actions};
-        for (int i = 0; i < actions.length; i++) {
-            final int index = i;
-            View action = findViewById(actions[i]);
-            if (action != null) action.setOnClickListener(v -> showPlaceholder(actionTitles[index]));
-        }
+        View backupApps = findViewById(R.id.action_backup_apps);
+        if (backupApps != null) backupApps.setOnClickListener(v -> openAppsList());
+        View restoreApps = findViewById(R.id.action_restore_apps);
+        if (restoreApps != null) restoreApps.setOnClickListener(v -> openAppsList());
+        View moreActions = findViewById(R.id.action_more);
+        if (moreActions != null) moreActions.setOnClickListener(v -> showPlaceholder(R.string.home_more_actions));
+    }
+
+    private void openAppsList() {
+        startActivity(new android.content.Intent(this,
+                com.bareapps.barebackup.appslist.ui.list.AppListActivity.class));
     }
 
     private interface Action { void run(); }
@@ -210,10 +223,14 @@ public final class HomeActivity extends Activity {
         int selected = intent == null ? 0 : intent.getIntExtra("selected_tab", 0);
         int[] tabs = {R.id.nav_home, R.id.nav_cloud, R.id.nav_schedule, R.id.nav_account};
         int[] labels = {R.string.home_overview, R.string.home_tab_cloud, R.string.home_tab_schedules, R.string.home_tab_account};
-        if (selected == 3) {
+        int safeSelected = selected >= 0 && selected < tabs.length ? selected : 0;
+        com.google.android.material.bottomnavigation.BottomNavigationView navigation =
+                findViewById(R.id.primaryNavigation);
+        if (navigation != null) navigation.setSelectedItemId(tabs[safeSelected]);
+        if (safeSelected == 3) {
             startActivity(new android.content.Intent(this, AccountActivity.class));
         } else {
-            selectTab(selected >= 0 && selected < tabs.length ? selected : 0, tabs, labels);
+            selectTab(safeSelected, tabs, labels);
         }
     }
 
@@ -288,13 +305,6 @@ public final class HomeActivity extends Activity {
     }
 
     private void selectTab(int selected, int[] tabs, int[] labels) {
-        for (int i = 0; i < tabs.length; i++) {
-            TextView tab = findViewById(tabs[i]);
-            if (tab != null) {
-                tab.setSelected(i == selected);
-                tab.setAlpha(i == selected ? 1.0f : 0.72f);
-            }
-        }
         TextView title = findViewById(R.id.home_content_title);
         if (title != null) title.setText(labels[selected]);
         TextView content = findViewById(R.id.home_content_placeholder);
