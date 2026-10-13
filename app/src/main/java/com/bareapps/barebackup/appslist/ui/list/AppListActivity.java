@@ -8,7 +8,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,6 +30,7 @@ public final class AppListActivity extends Activity {
     private AppListAdapter adapter;
     private final List<InstalledApp> allApps = new ArrayList<>();
     private EditText searchInput;
+    private TextView searchClear;
     private Spinner filterSpinner;
     private TextView countView;
     private TextView emptyView;
@@ -57,6 +57,7 @@ public final class AppListActivity extends Activity {
         countView = findViewById(R.id.apps_count);
         emptyView = findViewById(R.id.apps_empty);
         searchInput = findViewById(R.id.apps_search);
+        searchClear = findViewById(R.id.apps_search_clear);
         filterSpinner = findViewById(R.id.apps_filter);
 
         ArrayAdapter<AppFilter> filters = new ArrayAdapter<>(this,
@@ -75,10 +76,12 @@ public final class AppListActivity extends Activity {
         searchInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchClear.setVisibility(s.length() == 0 ? View.GONE : View.VISIBLE);
                 applyFilter();
             }
             @Override public void afterTextChanged(Editable s) { }
         });
+        searchClear.setOnClickListener(v -> searchInput.setText(""));
 
         findViewById(R.id.apps_back).setOnClickListener(v -> finish());
         findViewById(R.id.apps_refresh).setOnClickListener(v -> loadApps());
