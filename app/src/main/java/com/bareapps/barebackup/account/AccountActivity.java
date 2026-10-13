@@ -80,10 +80,17 @@ public final class AccountActivity extends Activity {
         emailView.setVisibility(View.VISIBLE);
         String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         ((TextView)findViewById(R.id.account_device_id)).setText(deviceId == null ? "Unknown device" : deviceId.toUpperCase(java.util.Locale.ROOT));
-        String initialsSource = name == null || name.trim().isEmpty() ? "B" : name.trim();
-        String initial = initialsSource.substring(0, 1).toUpperCase(java.util.Locale.ROOT);
+        String initial = getProfileInitial(name);
         TextView profileAvatar = findViewById(R.id.account_avatar_profile);
         if (profileAvatar != null) profileAvatar.setText(initial);
+        // The compact header avatar must use the exact same profile-derived initial.
+        TextView headerAvatar = findViewById(R.id.home_profile);
+        if (headerAvatar != null) headerAvatar.setText(initial);
+    }
+
+    private String getProfileInitial(String name) {
+        String source = name == null || name.trim().isEmpty() ? "B" : name.trim();
+        return source.substring(0, 1).toUpperCase(java.util.Locale.ROOT);
     }
 
     private void confirmSignOut() {

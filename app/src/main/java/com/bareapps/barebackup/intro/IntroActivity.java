@@ -30,6 +30,7 @@ public final class IntroActivity extends Activity {
     private IntroActionHandler actionHandler;
     private boolean awaitingNonRootStorageSettings;
     private boolean sessionRefreshInFlight;
+    private boolean recoveringIdentityForStorage;
     private int nonRootGrantedCount;
     private int nonRootTotalCount;
     private LocalAccountManager localAccountManager;
@@ -47,7 +48,22 @@ public final class IntroActivity extends Activity {
         flowController = new IntroFlowController();
         actionHandler = new IntroActionHandler(this);
         localAccountManager = new LocalAccountManager(this);
-        localAccountManager.ensureLocalUid();
+        try {
+            localAccountManager.ensureLocalUid();
+        } catch (LocalAccountManager.LocalIdentityAccessException error) {
+            // The existing marker could not be read because Android denied storage access.
+            // Keep the old identity authoritative and request access before retrying startup.
+            recoveringIdentityForStorage = true;
+            android.util.Log.w("BaReAccount",
+                    "Deferring startup until access to the saved local identity is granted", error);
+            showPermissions();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                continueNonRootStorageSetup();
+            } else {
+                requestStorageAccess();
+            }
+            return;
+        }
         try {
             supabaseAuthManager = new SupabaseAuthManager(this, BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_PUBLISHABLE_KEY);
             String existingUserId = supabaseAuthManager.getCurrentUserId();
@@ -153,6 +169,17 @@ public final class IntroActivity extends Activity {
     private void continueWithoutAccount() {
         localAccountManager.useLocalAccount();
         showPermissions();
+
+        // Honor a previously selected and verified privileged mode. Otherwise request the
+        // Android runtime/settings permissions automatically; Skip must not bypass storage setup.
+        PrivilegeManager.Status status = actionHandler.getStatus();
+        if (status.mode == PrivilegeManager.Mode.ROOT && status.rootGranted) {
+            grantPrivilegedPermissions(0, 0, true);
+        } else if (status.mode == PrivilegeManager.Mode.SHIZUKU && status.shizukuConnected) {
+            grantPrivilegedPermissions(0, 0, false);
+        } else {
+            requestNonRootPermissions();
+        }
     }
 
     private void beginGoogleSignIn() {
@@ -315,6 +342,9 @@ public final class IntroActivity extends Activity {
             boolean granted = grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
             Toast.makeText(this, granted ? "Storage permission granted." : "Storage permission not granted.",
                     Toast.LENGTH_LONG).show();
+            if (recoveringIdentityForStorage && granted) {
+                openHome();
+            }
             return;
         }
         if (requestCode != 6206) return;
@@ -541,10 +571,18 @@ public final class IntroActivity extends Activity {
 
     private void openHome() {
         try {
+            // Retry writing the portable identity after the user has granted storage access.
+            // On a fresh install, the first attempt during onCreate may have happened too early.
+            localAccountManager.ensureLocalUid();
             java.io.File accountDirectory = localAccountManager.ensureAccountDirectories();
             android.util.Log.i("BaReAccount", "Account backup directory ready: " + accountDirectory.getAbsolutePath());
-        } catch (java.io.IOException | SecurityException error) {
-            Toast.makeText(this, "Account selected, but backup folders could not be created. Check storage access: " + error.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException | SecurityException | IllegalStateException error) {
+            android.util.Log.e("BaReAccount", "Cannot initialize local account storage", error);
+            Toast.makeText(this,
+                    "BΛR☰ folder could not be created. Grant storage access, then continue again. " + error.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            // Do not mark setup complete or leave onboarding when required storage initialization failed.
+            return;
         }
         localAccountManager.markSetupComplete();
         flowController.moveTo(IntroFlowController.Step.READY);
