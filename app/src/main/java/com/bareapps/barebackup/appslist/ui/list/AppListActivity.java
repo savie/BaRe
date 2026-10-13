@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
@@ -24,13 +25,14 @@ import com.bareapps.barebackup.ui.SystemBarInsets;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Installed Apps catalog. UI and discovery are implemented; backup/restore actions are not yet wired. */
+/** Installed Apps catalog. Header search/filter are wired; backup/restore actions are not yet wired. */
 public final class AppListActivity extends Activity {
     private AppCatalogRepository repository;
     private AppListAdapter adapter;
     private final List<InstalledApp> allApps = new ArrayList<>();
     private EditText searchInput;
     private TextView searchClear;
+    private View searchPanel;
     private Spinner filterSpinner;
     private TextView countView;
     private TextView emptyView;
@@ -58,6 +60,7 @@ public final class AppListActivity extends Activity {
         emptyView = findViewById(R.id.apps_empty);
         searchInput = findViewById(R.id.apps_search);
         searchClear = findViewById(R.id.apps_search_clear);
+        searchPanel = findViewById(R.id.apps_search_panel);
         filterSpinner = findViewById(R.id.apps_filter);
 
         ArrayAdapter<AppFilter> filters = new ArrayAdapter<>(this,
@@ -84,7 +87,21 @@ public final class AppListActivity extends Activity {
         searchClear.setOnClickListener(v -> searchInput.setText(""));
 
         findViewById(R.id.apps_back).setOnClickListener(v -> finish());
-        findViewById(R.id.apps_refresh).setOnClickListener(v -> loadApps());
+        findViewById(R.id.apps_search_toggle).setOnClickListener(v -> {
+            boolean opening = searchPanel.getVisibility() != View.VISIBLE;
+            searchPanel.setVisibility(opening ? View.VISIBLE : View.GONE);
+            if (opening) {
+                searchInput.requestFocus();
+            } else {
+                searchInput.setText("");
+            }
+        });
+        findViewById(R.id.apps_filter_toggle).setOnClickListener(v -> showFilterMenu(v));
+        // The reference menu button opens a navigation drawer. This screen has no drawer
+        // implementation yet, so don't attach a misleading placeholder action to the icon.
+
+        findViewById(R.id.apps_title_container).setOnClickListener(v ->
+                Toast.makeText(this, "Section switching is not implemented yet.", Toast.LENGTH_SHORT).show());
         findViewById(R.id.apps_batch_actions).setOnClickListener(v ->
                 Toast.makeText(this, "Batch backup actions will be added in a later phase.", Toast.LENGTH_SHORT).show());
 
@@ -94,6 +111,20 @@ public final class AppListActivity extends Activity {
                     Toast.LENGTH_SHORT).show();
         });
         loadApps();
+    }
+
+    private void showFilterMenu(View anchor) {
+        PopupMenu menu = new PopupMenu(this, anchor);
+        for (AppFilter filter : AppFilter.values()) {
+            menu.getMenu().add(0, filter.ordinal(), filter.ordinal(), filter.toString());
+        }
+        menu.setOnMenuItemClickListener(item -> {
+            int position = item.getItemId();
+            if (position < 0 || position >= AppFilter.values().length) return false;
+            filterSpinner.setSelection(position);
+            return true;
+        });
+        menu.show();
     }
 
     private void loadApps() {
