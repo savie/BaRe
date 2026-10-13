@@ -153,6 +153,9 @@ public final class IntroActivity extends Activity {
     private void continueWithoutAccount() {
         localAccountManager.useLocalAccount();
         showPermissions();
+        // Skip still requires storage access before local backup folders can be created.
+        // Start the non-root permission flow automatically instead of waiting for a second tap.
+        requestNonRootPermissions();
     }
 
     private void beginGoogleSignIn() {
