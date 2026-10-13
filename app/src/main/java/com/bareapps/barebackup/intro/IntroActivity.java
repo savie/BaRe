@@ -153,9 +153,17 @@ public final class IntroActivity extends Activity {
     private void continueWithoutAccount() {
         localAccountManager.useLocalAccount();
         showPermissions();
-        // Skip still requires storage access before local backup folders can be created.
-        // Start the non-root permission flow automatically instead of waiting for a second tap.
-        requestNonRootPermissions();
+
+        // Honor a previously selected and verified privileged mode. Otherwise request the
+        // Android runtime/settings permissions automatically; Skip must not bypass storage setup.
+        PrivilegeManager.Status status = actionHandler.getStatus();
+        if (status.mode == PrivilegeManager.Mode.ROOT && status.rootGranted) {
+            grantPrivilegedPermissions(0, 0, true);
+        } else if (status.mode == PrivilegeManager.Mode.SHIZUKU && status.shizukuConnected) {
+            grantPrivilegedPermissions(0, 0, false);
+        } else {
+            requestNonRootPermissions();
+        }
     }
 
     private void beginGoogleSignIn() {
