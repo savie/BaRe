@@ -866,7 +866,7 @@ Wymagany dostęp Root lub Shizuku"</string>
     <string name="share_apks">Udostępnij APKs</string>
     <string name="share_logs">Udostępnij dziennik</string>
     <string name="share_barebackup">Udostępnij BΛR☰</string>
-    <string name="share_barebackup_msg">Sprawdź nowy, niesamowity menedżer tworzenia kopii zapasowych, którego używam! Nazywa się BΛR☰, oto link: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Sprawdź nowy, niesamowity menedżer tworzenia kopii zapasowych, którego używam! Nazywa się BΛR☰, oto link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - proste, szybkie i inteligentne rozwiązanie do tworzenia kopii zapasowych dla Androida</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + logcat urządzenia</string>
     <string name="share_barelogger_text_only">Udostępnij raport tylko tekstowy</string>
