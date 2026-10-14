@@ -1538,6 +1538,6 @@
     <id name="yubikit_prompt_enable_nfc_btn" />
     <id name="yubikit_prompt_help_text_view" />
     <id name="yubikit_prompt_title" />
-    <item type="id" name="ivBareBackupLogo" />
-    <item type="id" name="btnOpenInBareBackup" />
+    <id name="ivBareBackupLogo" />
+    <id name="btnOpenInBareBackup" />
 </resources>
