@@ -161,7 +161,7 @@ Nota: potresti anche dover disabilitare manualmente altre ottimizzazioni della b
     <string name="calls">Chiamate</string>
     <string name="cancel">Annulla</string>
     <string name="cancelling_please_wait">Annullamento, attendere prego</string>
-    <string name="cannot_purchase_with_test_release_of_app_message">"Questo è un APK di prova di Swift Backup. Gli acquisti possono essere effettuati solo con APK scaricati da Google Play. Scarica l'app da Google Play ed effettua l'acquisto. Dopo aver effettuato l'acquisto, puoi iniziare a utilizzare gli APK di prova dell'app."</string>
+    <string name="cannot_purchase_with_test_release_of_app_message">"Questo è un APK di prova di BΛR☰. Gli acquisti possono essere effettuati solo con APK scaricati da Google Play. Scarica l'app da Google Play ed effettua l'acquisto. Dopo aver effettuato l'acquisto, puoi iniziare a utilizzare gli APK di prova dell'app."</string>
     <string name="change_blacklist_mode">Cambia modalità blacklist</string>
     <string name="change_password">Modifica password</string>
     <string name="change_sms_app">Cambia app SMS</string>
@@ -179,7 +179,7 @@ Nota: potresti anche dover disabilitare manualmente altre ottimizzazioni della b
     <string name="cloud_backup_for_apps">Sblocca il supporto di backup su cloud per le tue app</string>
     <string name="cloud_backup_limit">Limite del backup su cloud</string>
     <string name="cloud_backup_tag">Tag del backup su cloud</string>
-    <string name="cloud_backup_tag_message">"App, Messaggi &amp; Il backup dei log chiamate sono associati a un tag di backup. Puoi utilizzare questa funzione per cambiare i tag se stai usando Swift Backup su più di un dispositivo. 
+    <string name="cloud_backup_tag_message">"App, Messaggi &amp; Il backup dei log chiamate sono associati a un tag di backup. Puoi utilizzare questa funzione per cambiare i tag se stai usando BΛR☰ su più di un dispositivo. 
 
 Nota: I backup degli sfondi e delle reti WiFi non possono essere taggati."</string>
     <string name="cloud_backups">Backup su cloud</string>
@@ -192,15 +192,15 @@ Nota: I backup degli sfondi e delle reti WiFi non possono essere taggati."</stri
 
 Aggiungi il nome di una cartella esistente nel campo Percorso."</string>
     <string name="cloud_folder_creation_failed">Creazione della cartella non riuscita</string>
-    <string name="cloud_folder_edit_warning">"Si prega di NON eliminare, modificare o spostare file o cartelle cloud gestiti da Swift Backup dall'app del servizio cloud, sito web o dashboard. 
+    <string name="cloud_folder_edit_warning">"Si prega di NON eliminare, modificare o spostare file o cartelle cloud gestiti da BΛR☰ dall'app del servizio cloud, sito web o dashboard. 
 
-Swift Backup conserva un database dei percorsi dei file cloud sul suo server per ridurre le richieste di rete e ottenere prestazioni più veloci. Se elimini, modifichi o sposti file cloud o cartelle manualmente, incontrerai dei problemi quando usi l'app e perderai l'accesso ai tuoi backup cloud."</string>
+BΛR☰ conserva un database dei percorsi dei file cloud sul suo server per ridurre le richieste di rete e ottenere prestazioni più veloci. Se elimini, modifichi o sposti file cloud o cartelle manualmente, incontrerai dei problemi quando usi l'app e perderai l'accesso ai tuoi backup cloud."</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
     <string name="cloud_mail_ru_external_password_warning">"Crea e utilizza la password dell'app esterna invece della password del tuo account normale:
 https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="cloud_mail_ru_webdav_warning">Cloud Mail.Ru richiede agli utenti di avere un piano di archiviazione a pagamento con loro per questa opzione</string>
     <string name="cloud_maintenance_running_message">La manutenzione del cloud è in corso. Riprova al termine.</string>
-    <string name="cloud_not_connected_summary">Swift Backup non è connesso ad un servizio cloud</string>
+    <string name="cloud_not_connected_summary">BΛR☰ non è connesso ad un servizio cloud</string>
     <string name="cloud_sync">Cloud</string>
     <string name="cloud_synced_apps">App sincronizzate su Cloud</string>
     <string name="cloud_upload_skipped_cloud_not_connected">Caricamento su cloud ignorato perché nessun account cloud è connesso</string>
@@ -261,7 +261,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Dati</string>
     <string name="data_encryption_smb_3">Crittografia Dei Dati (SMB 3+)</string>
     <string name="date_used">Data utilizzata</string>
-    <string name="default_sms_app_rationale">"Per ripristinare i messaggi sul tuo dispositivo, Swift Backup deve essere l'app SMS predefinita.
+    <string name="default_sms_app_rationale">"Per ripristinare i messaggi sul tuo dispositivo, BΛR☰ deve essere l'app SMS predefinita.
 
 Dopo il ripristino verrà richiesto di reimpostare l'app SMS a quella attuale."</string>
     <string name="default_word">Predefinito</string>
@@ -270,7 +270,7 @@ Dopo il ripristino verrà richiesto di reimpostare l'app SMS a quella attuale."<
     <string name="delete_active_tag_message">"Nota: Questo cancellerà tutti i file di backup su cloud associati al tag '%s'!"</string>
     <string name="delete_all">Elimina tutto</string>
     <string name="delete_all_data">Elimina tutti i dati</string>
-    <string name="delete_all_data_summary">"Elimina tutti i dati utilizzati dall'app sul dispositivo per questo account, inclusi i file di backup/cache. Ciò ripristinerà anche l'app al suo stato predefinito e cancellerà tutte le impostazioni di Swift Backup sincronizzate."</string>
+    <string name="delete_all_data_summary">"Elimina tutti i dati utilizzati dall'app sul dispositivo per questo account, inclusi i file di backup/cache. Ciò ripristinerà anche l'app al suo stato predefinito e cancellerà tutte le impostazioni di BΛR☰ sincronizzate."</string>
     <string name="delete_backup">Elimina backup</string>
     <string name="delete_backup_files">Elimina file di backup</string>
     <string name="delete_backup_files_summary">Elimina tutti i file di backup locali dal dispositivo per questo account:</string>
@@ -297,7 +297,7 @@ Dopo il ripristino verrà richiesto di reimpostare l'app SMS a quella attuale."<
     <string name="disable">Disattiva</string>
     <string name="disable_apps">Disabilita le app</string>
     <string name="disable_apps_warning">Nota: fai attenzione quando utilizzi questa azione e assicurati di non disabilitare le app o i servizi di sistema principali</string>
-    <string name="disable_battery_opt_message">Si prega di disabilitare le ottimizzazioni della batteria per Swift Backup</string>
+    <string name="disable_battery_opt_message">Si prega di disabilitare le ottimizzazioni della batteria per BΛR☰</string>
     <string name="disabled">Disabilitato</string>
     <string name="discard_changes_confirmation">Annullare le modifiche?</string>
     <string name="disconnect_cloud">Disconnetti</string>
@@ -338,17 +338,17 @@ Dopo il ripristino verrà richiesto di reimpostare l'app SMS a quella attuale."<
     <string name="expansion">Espansione</string>
     <string name="export_apps_list">Esporta la lista delle app</string>
     <string name="export_settings">Esporta impostazioni</string>
-    <string name="export_settings_summary">Crea un backup delle tue impostazioni di Swift Backup</string>
+    <string name="export_settings_summary">Crea un backup delle tue impostazioni di BΛR☰</string>
     <string name="external_data">Dati esterni</string>
     <string name="external_storage">Memoria esterna</string>
     <string name="favorite_apps">App preferite</string>
     <string name="favorites">Preferiti</string>
     <string name="feature_requires_root_access_message">"Questa funzione richiede l'accesso root per funzionare.
 
-Si prega di controllare se il dispositivo è rootato e a Swift Backup è stato concesso l'accesso root."</string>
+Si prega di controllare se il dispositivo è rootato e a BΛR☰ è stato concesso l'accesso root."</string>
     <string name="feature_requires_root_access_or_shizuku_message">"Questa funzione richiede l'accesso Root o Shizuku per funzionare.
 
-Si prega di controllare se il dispositivo è rootato e a Swift Backup è stato concesso l'accesso root o se il servizio Shizuku è in esecuzione."</string>
+Si prega di controllare se il dispositivo è rootato e a BΛR☰ è stato concesso l'accesso root o se il servizio Shizuku è in esecuzione."</string>
     <string name="filen_two_factor_authentication">Autenticazione a due fattori di Filen</string>
     <string name="filen_two_factor_code_hint">Codice 2FA o codice di recupero</string>
     <string name="files">File</string>
@@ -395,7 +395,7 @@ Puoi ancora continuare, ma potrebbe essere più difficile distinguerli."</string
     <string name="folders">Cartelle</string>
     <string name="for_advanced_rooted_users">Per utenti root avanzati</string>
     <string name="force_chunked_uploads">Forza caricamento frazionato</string>
-    <string name="force_chunked_uploads_description">Swift Backup utilizza già i caricamenti frazionati quando richiesto dal server. Abilita questa opzione per forzare i caricamenti frazionati in continuazione.</string>
+    <string name="force_chunked_uploads_description">BΛR☰ utilizza già i caricamenti frazionati quando richiesto dal server. Abilita questa opzione per forzare i caricamenti frazionati in continuazione.</string>
     <string name="force_stop">Arresto forzato</string>
     <string name="free_storage_of_total_text">%1$s liberi su %2$s</string>
     <string name="free_storage_text">%s Gratuito</string>
@@ -424,7 +424,7 @@ Puoi ancora continuare, ma potrebbe essere più difficile distinguerli."</string
     <string name="icon_indicates_root_or_shizuku_needed_message">"L'icona indica che la funzionalità richiede l'accesso Root o Shizuku per funzionare."</string>
     <string name="import_apks">Importa APKs</string>
     <string name="import_settings">Importa impostazioni</string>
-    <string name="import_settings_summary">Ripristina le impostazioni di Swift Backup</string>
+    <string name="import_settings_summary">Ripristina le impostazioni di BΛR☰</string>
     <string name="important_announcement">Annuncio importante</string>
     <string name="in_place_apk_downgrades">Downgrade delle app senza disinstallazione</string>
     <string name="in_place_apk_downgrades_summary">Usa il supporto della ROM o di un modulo, come CorePatch, per eseguire il downgrade delle app senza disinstallarle.</string>
@@ -451,7 +451,7 @@ Si prega di utilizzare un launcher alternativo per il backup corretto degli sfon
     <string name="intro_benefit_keys_title">Chiavi di crittografia</string>
     <string name="intro_benefit_premium_subtitle">Acquista e usa Premium con il tuo account</string>
     <string name="intro_benefit_premium_title">Funzioni Premium</string>
-    <string name="intro_benefit_settings_subtitle">Sincronizza impostazioni di Swift Backup, pianificazioni, etichette app, configurazioni app, ecc.</string>
+    <string name="intro_benefit_settings_subtitle">Sincronizza impostazioni di BΛR☰, pianificazioni, etichette app, configurazioni app, ecc.</string>
     <string name="intro_benefit_settings_title">Preferenze app</string>
     <string name="invalid_apks_archive">Archivio APKs non valido</string>
     <string name="invalid_config">Configurazione non valida</string>
@@ -609,17 +609,17 @@ Clicca qui sotto per creare una nuova pianificazione"</string>
     <string name="notices">Avvisi di terze parti</string>
     <string name="notifications">Notifiche</string>
     <string name="notifications_perm_subtitle">"- Consenti all'applicazione di mostrare le notifiche per attività come backup/ripristino, backup pianificati ed eventuali errori di attività. 
-- Swift Backup mostrerà solo le notifiche che sono assolutamente essenziali per te."</string>
+- BΛR☰ mostrerà solo le notifiche che sono assolutamente essenziali per te."</string>
     <string name="notifications_perm_title">Autorizzazione alle notifiche</string>
     <string name="ok">OK</string>
     <string name="old_password">Vecchia password</string>
     <string name="old_passwords">Vecchie password</string>
-    <string name="old_passwords_description">Se disponi di backup crittografati con password diverse utilizzate in precedenza, Swift Backup può utilizzare le tue vecchie password per decrittografare tali backup.</string>
+    <string name="old_passwords_description">Se disponi di backup crittografati con password diverse utilizzate in precedenza, BΛR☰ può utilizzare le tue vecchie password per decrittografare tali backup.</string>
     <string name="one_time_purchase">Acquista una volta, premium per sempre</string>
     <string name="only_if_battery_is_x_percent">Solo se il livello della batteria è almeno %s</string>
     <string name="only_when_charging">Solo quando in carica</string>
     <string name="open_folder">Apri cartella</string>
-    <string name="open_in_swift_backup">Apri in Swift Backup</string>
+    <string name="open_in_bare_backup">Apri in BΛR☰</string>
     <string name="optimizing_battery_use">Ottimizzazione della batteria</string>
     <string name="original_size">Dimensione originale</string>
     <string name="other_quick_actions">Altre azioni rapide</string>
@@ -631,20 +631,20 @@ Clicca qui sotto per creare una nuova pianificazione"</string>
     <string name="password_copied_to_clipboard">Password copiata negli appunti</string>
     <string name="password_remember_warning">Si prega di ricordare o annotare la password poiché non sarà possibile recuperarla in seguito.</string>
     <string name="password_saved">Password salvata</string>
-    <string name="password_strategy_standard_description">"Lascia che Swift Backup gestisca la generazione di password per i backup crittografati. Le password sono univoche per il tuo account Swift Backup e sono diverse a seconda della funzione di esecuzione dei backup (Messaggi, Registro chiamate, pacchetto app in fase di backup, ecc). 
+    <string name="password_strategy_standard_description">"Lascia che BΛR☰ gestisca la generazione di password per i backup crittografati. Le password sono univoche per il tuo account BΛR☰ e sono diverse a seconda della funzione di esecuzione dei backup (Messaggi, Registro chiamate, pacchetto app in fase di backup, ecc). 
 Le password generate contengono caratteri alfanumerici casuali tipo bfb69f180e4e1db7671c3188f90881d7. 
 Per gli utenti anonimi (utenti che utilizzano l'app senza un account), la strategia di generazione della password è comune e non univoca. Si prega di utilizzare una strategia avanzata se si desidera mantenere le password univoche."</string>
     <string name="password_strategy_standard_title">Standard</string>
     <string name="password_strategy_user_password_description">"Uguale alla strategia Standard, ma con l'aggiunta di una password immessa dall'utente per generare la password di crittografia finale. Se perdi la password, i backup non possono essere decifrati/ripristinati. 
-Swift Backup memorizzerà la tua password in forma crittografata solo localmente nella sua directory di dati privati. 
-Quando configuri Swift Backup, devi inserire nuovamente la password in modo che possa decrittografare e ripristinare i backup crittografati."</string>
+BΛR☰ memorizzerà la tua password in forma crittografata solo localmente nella sua directory di dati privati. 
+Quando configuri BΛR☰, devi inserire nuovamente la password in modo che possa decrittografare e ripristinare i backup crittografati."</string>
     <string name="password_strategy_user_password_title">Avanzate</string>
     <string name="passwords_matching_error">Le password non corrispondono</string>
     <string name="path">Percorso</string>
     <string name="pending_payment">Pagamento in attesa</string>
     <string name="permission_error">Errore di autorizzazione</string>
     <string name="permission_needed_to_proceed">Permesso necessario per procedere</string>
-    <string name="permission_request_message">Swift Backup ha bisogno dei permessi qui sotto per eseguire alcune azioni. Clicca qui sotto e concedi i permessi nei popup.</string>
+    <string name="permission_request_message">BΛR☰ ha bisogno dei permessi qui sotto per eseguire alcune azioni. Clicca qui sotto e concedi i permessi nei popup.</string>
     <string name="permissions_needed">Permessi necessari</string>
     <string name="permissions_needed_for_service">Non puoi utilizzare questo servizio senza i permessi sottostanti</string>
     <string name="pinned_to_home_page">Fissato nella home</string>
@@ -683,7 +683,7 @@ Quando configuri Swift Backup, devi inserire nuovamente la password in modo che 
     <string name="protected_backup">Backup protetto</string>
     <string name="protected_backup_description">"I backup protetti sono backup che si desidera mantenere al sicuro da aggiornamenti e cancellazioni.
 
-Nel caso in cui tu abbia abilitato i backup multipli, Swift Backup non eliminerà i backup protetti quando viene raggiunto il limite massimo di backup."</string>
+Nel caso in cui tu abbia abilitato i backup multipli, BΛR☰ non eliminerà i backup protetti quando viene raggiunto il limite massimo di backup."</string>
     <string name="protocol">Protocollo</string>
     <string name="purchase">Acquista</string>
     <string name="purchase_plan">Acquista %1$s</string>
@@ -713,14 +713,14 @@ Nel caso in cui tu abbia abilitato i backup multipli, Swift Backup non eliminer�
     <string name="requires_android_15_root_access">Richiede Android 15+ e accesso root</string>
     <string name="reset">Ripristina</string>
     <string name="reset_app">Ripristina app</string>
-    <string name="reset_app_summary">"Ripristina l'app al suo stato predefinito. Questo cancellerà tutte le impostazioni di Swift Backup sincronizzate. I file di backup o la cache cloud non verranno eliminati."</string>
+    <string name="reset_app_summary">"Ripristina l'app al suo stato predefinito. Questo cancellerà tutte le impostazioni di BΛR☰ sincronizzate. I file di backup o la cache cloud non verranno eliminati."</string>
     <string name="reset_filters">Resetta filtri</string>
     <string name="reset_sms_app_warning">"Non sarai in grado di ricevere messaggi se non imposti un'applicazione SMS predefinita! Si prega di selezionare 'Sì' nella prossima finestra!"</string>
     <string name="reset_sms_app_warning_q">"Non sarai in grado di ricevere messaggi se non imposti un'applicazione SMS predefinita!
 
  Si prega di impostare un'applicazione SMS predefinita nella prossima schermata!"</string>
     <string name="restart_app">Riavvia app</string>
-    <string name="restart_app_settings_summary">Ricarica Swift Backup</string>
+    <string name="restart_app_settings_summary">Ricarica BΛR☰</string>
     <string name="restore">Ripristina</string>
     <string name="restore_all">Ripristina tutto</string>
     <string name="restore_all_apps">Ripristina tutte le app</string>
@@ -748,7 +748,7 @@ Nota: Abilitando questa funzione dovrai anche RIAVVIARE il dispositivo dopo aver
     <string name="restore_permission_option_all">"Ripristina tutte le autorizzazioni supportate dall'app"</string>
     <string name="restore_permission_option_granted">Ripristina le scelte dei permessi salvate nel backup</string>
     <string name="restore_permission_option_none">Non ripristinare i permessi</string>
-    <string name="restore_previous_password_message">In precedenza hai utilizzato una password personalizzata per i tuoi backup crittografati. Inseriscilo ora in modo che Swift Backup possa decrittografare e ripristinare i backup crittografati.</string>
+    <string name="restore_previous_password_message">In precedenza hai utilizzato una password personalizzata per i tuoi backup crittografati. Inseriscilo ora in modo che BΛR☰ possa decrittografare e ripristinare i backup crittografati.</string>
     <string name="restore_purchases">Ripristina acquisti</string>
     <string name="restore_runtime_permissions">Ripristina i permessi di runtime</string>
     <string name="restore_special_data_accessibility_service_summary">"Componente del servizio di accessibilità abilitato per l'app."</string>
@@ -794,9 +794,9 @@ Nota: Abilitando questa funzione dovrai anche RIAVVIARE il dispositivo dopo aver
     <string name="right_swipe">Scorri verso destra</string>
     <string name="root_access_needed">Accesso root necessario</string>
     <string name="root_access_or_shizuku_needed">Necessario accesso root o Shizuku</string>
-    <string name="root_grant_permissions">"Concedi tutte le autorizzazioni a Swift Backup
+    <string name="root_grant_permissions">"Concedi tutte le autorizzazioni a BΛR☰
 Accesso root o Shizuku necessari"</string>
-    <string name="root_grant_permissions_dialog_msg_prefix">"Concedi qui sotto i permessi a Swift Backup in un solo clic utilizzando l'accesso Root o Shizuku."</string>
+    <string name="root_grant_permissions_dialog_msg_prefix">"Concedi qui sotto i permessi a BΛR☰ in un solo clic utilizzando l'accesso Root o Shizuku."</string>
     <string name="root_grant_permissions_dialog_title">Concedi le autorizzazioni con accesso Root o Shizuku</string>
     <string name="root_provider">Fornitore</string>
     <string name="root_status">Stato del Root</string>
@@ -827,7 +827,7 @@ Accesso root o Shizuku necessari"</string>
     <string name="schedules">Pianificazioni</string>
     <string name="search">Cerca</string>
     <string name="search_hint_apps">Cerca app</string>
-    <string name="search_swift_backup">Cerca in Swift Backup</string>
+    <string name="search_bare_backup">Cerca in BΛR☰</string>
     <string name="secondary_action">Azione secondaria</string>
     <string name="secondary_user_warning_msg">"I profili utente secondari/di lavoro non sono ufficialmente supportati a causa di alcuni problemi inevitabili. Passa all'utente principale su questo dispositivo."</string>
     <string name="see_all">Vedi tutto</string>
@@ -865,11 +865,11 @@ Accesso root o Shizuku necessari"</string>
     <string name="share_apk">Condividi APK</string>
     <string name="share_apks">Condividi APKs</string>
     <string name="share_logs">Condividi log</string>
-    <string name="share_swiftbackup">Condividi Swift Backup</string>
-    <string name="share_swiftbackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di Swift Backup e questo è il link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup"</string>
-    <string name="share_swiftbackup_subject">Swift Backup - Soluzione di backup semplice, veloce e intelligente per Android</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">SwiftLogger + Logcat dispositivo</string>
-    <string name="share_swiftlogger_text_only">Condividi report solo testo</string>
+    <string name="share_barebackup">Condividi BΛR☰</string>
+    <string name="share_barebackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di BΛR☰ e questo è il link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup"</string>
+    <string name="share_barebackup_subject">BΛR☰ - Soluzione di backup semplice, veloce e intelligente per Android</string>
+    <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat dispositivo</string>
+    <string name="share_barelogger_text_only">Condividi report solo testo</string>
     <string name="shared_libraries">Librerie condivise</string>
     <string name="shortcuts">Scorciatoie</string>
     <string name="show_less">Mostra meno</string>
@@ -877,8 +877,8 @@ Accesso root o Shizuku necessari"</string>
     <string name="show_system_apps">Mostra app di sistema</string>
     <string name="sign_in_required_for_full_features">"L'accesso con Google è necessario per utilizzare tutte le funzionalità disponibili nell'app, inclusi backup su cloud, effettuare acquisti, utilizzare funzionalità premium, etc."</string>
     <string name="sign_out">Esci</string>
-    <string name="signin_intro_subtitle">"Crea il tuo account Swift Backup per backup cloud, Premium e crittografia basata sull'account."</string>
-    <string name="signin_title">Imposta il tuo account Swift Backup</string>
+    <string name="signin_intro_subtitle">"Crea il tuo account BΛR☰ per backup cloud, Premium e crittografia basata sull'account."</string>
+    <string name="signin_title">Imposta il tuo account BΛR☰</string>
     <string name="size">Dimensioni</string>
     <string name="skip_for_now">Salta per ora</string>
     <string name="skip_mms">Salta messaggi MMS</string>
@@ -911,9 +911,9 @@ Accesso root o Shizuku necessari"</string>
     <string name="successful">Riuscito</string>
     <string name="sure_to_cancel_task">Sei sicuro di voler annullare?</string>
     <string name="sure_to_proceed">Sei sicuro di voler procedere? Clicca Sì per confermare.</string>
-    <string name="swift_backup_is_busy">Swift Backup è occupato</string>
-    <string name="swift_labs_settings_summary">Funzionalità sperimentali il cui funzionamento non è garantito. Queste funzioni potrebbero scomparire in qualsiasi momento!</string>
-    <string name="swiftlogger_info">Log importanti che potrebbero aiutare a segnalare i bug</string>
+    <string name="bare_backup_is_busy">BΛR☰ è occupato</string>
+    <string name="bare_labs_settings_summary">Funzionalità sperimentali il cui funzionamento non è garantito. Queste funzioni potrebbero scomparire in qualsiasi momento!</string>
+    <string name="barelogger_info">Log importanti che potrebbero aiutare a segnalare i bug</string>
     <string name="swipe_actions">Azioni di scorrimento</string>
     <string name="swipe_actions_description">Scegli fino a due azioni per ogni direzione di scorrimento</string>
     <string name="sync_backups">Sincronizza backup</string>
@@ -944,7 +944,7 @@ Accesso root o Shizuku necessari"</string>
 Soluzione: Formatta il tuo storage con exFAT e utilizza un kernel che lo supporti."</string>
     <string name="to_cloud">Su cloud</string>
     <string name="to_device">Su dispositivo</string>
-    <string name="tos_privacy_agreement">Continuando accetti i nostri &lt;a href=https://www.swiftapps.org/tos>Termini di Servizio&lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Informativa sulla Privacy&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Continuando accetti i nostri &lt;a href=https://www.bareapps.org/tos>Termini di Servizio&lt;/a> &amp;amp; &lt;a href=https://www.bareapps.org/privacy-policy>Informativa sulla Privacy&lt;/a>.</string>
     <string name="translation_project">Progetto di traduzione</string>
     <string name="translation_project_summary">"Aiuta a tradurre l'app nella tua lingua"</string>
     <string name="turn_off">Spegni</string>
@@ -996,7 +996,7 @@ Soluzione: Formatta il tuo storage con exFAT e utilizza un kernel che lo support
     <string name="wifi_networks">WiFi</string>
     <string name="wifi_networks_backup">Backup delle reti WiFi</string>
     <string name="wifi_not_available">Wifi non disponibile o internet non funzionante</string>
-    <string name="wifi_not_enabled">WiFi non abilitato. Attiva il WiFi per consentire a Swift Backup di controllare le reti WiFi salvate.</string>
+    <string name="wifi_not_enabled">WiFi non abilitato. Attiva il WiFi per consentire a BΛR☰ di controllare le reti WiFi salvate.</string>
     <string name="wifi_on_device">Reti WiFi</string>
     <string name="wifi_or_mobile_data">WiFi o dati mobili</string>
     <string name="x_app_failed_to_install_message">%s installazione fallita</string>
