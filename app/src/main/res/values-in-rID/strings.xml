@@ -866,7 +866,7 @@ Akses root atau Shizuku diperlukan"</string>
     <string name="share_apks">Bagikan APKs</string>
     <string name="share_logs">Bagikan log</string>
     <string name="share_barebackup">Bagikan BΛR☰</string>
-    <string name="share_barebackup_msg">Lihat manajer cadangan baru yang mengagumkan ini yang saya gunakan! Namanya BΛR☰ dan inilah tautannya: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Lihat manajer cadangan baru yang mengagumkan ini yang saya gunakan! Namanya BΛR☰ dan inilah tautannya: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - Solusi pencadangan sederhana, cepat, dan cerdas untuk Android</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat Perangkat</string>
     <string name="share_barelogger_text_only">Bagikan laporan teks saja</string>
