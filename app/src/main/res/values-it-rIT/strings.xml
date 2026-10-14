@@ -866,7 +866,7 @@ Accesso root o Shizuku necessari"</string>
     <string name="share_apks">Condividi APKs</string>
     <string name="share_logs">Condividi log</string>
     <string name="share_barebackup">Condividi BΛR☰</string>
-    <string name="share_barebackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di BΛR☰ e questo è il link: https://play.google.com/store/apps/details?id=org.bareapps.barebackup"</string>
+    <string name="share_barebackup_msg">"Dai un'occhiata a questo nuovo gestore di backup che sto usando! Il suo nome è di BΛR☰ e questo è il link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup"</string>
     <string name="share_barebackup_subject">BΛR☰ - Soluzione di backup semplice, veloce e intelligente per Android</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat dispositivo</string>
     <string name="share_barelogger_text_only">Condividi report solo testo</string>
