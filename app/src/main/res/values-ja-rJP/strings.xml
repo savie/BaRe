@@ -861,7 +861,7 @@ BΛR☰ をセットアップするときは、暗号化されたバックアッ
     <string name="share_apks">APKを共有する</string>
     <string name="share_logs">ログを共有する</string>
     <string name="share_barebackup">BΛR☰ を共有</string>
-    <string name="share_barebackup_msg">私が使っている便利なバックアップマネージャー、BΛR☰ をぜひお試しください: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">私が使っている便利なバックアップマネージャー、BΛR☰ をぜひお試しください: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - Android 向けのシンプル、高速、スマートなバックアップ ソリューション</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + デバイス Logcat</string>
     <string name="share_barelogger_text_only">テキストのみのレポートを共有する</string>
