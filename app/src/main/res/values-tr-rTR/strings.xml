@@ -161,7 +161,7 @@ Not: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılma
     <string name="calls">Aramalar</string>
     <string name="cancel">İptal</string>
     <string name="cancelling_please_wait">İptal ediliyor, Lütfen bekleyin</string>
-    <string name="cannot_purchase_with_test_release_of_app_message">"Bu, Swift Backup'ın bir test APK'sıdır. Satın alma işlemleri yalnızca Google Play'den indirilen APK'larla yapılabilir. Lütfen uygulamayı Google Play'den indirin ve satın alma işlemini gerçekleştirin. Satın alma işlemini gerçekleştirdikten sonra uygulamanın test APK'larını kullanmaya başlayabilirsiniz."</string>
+    <string name="cannot_purchase_with_test_release_of_app_message">"Bu, Bare Backup'ın bir test APK'sıdır. Satın alma işlemleri yalnızca Google Play'den indirilen APK'larla yapılabilir. Lütfen uygulamayı Google Play'den indirin ve satın alma işlemini gerçekleştirin. Satın alma işlemini gerçekleştirdikten sonra uygulamanın test APK'larını kullanmaya başlayabilirsiniz."</string>
     <string name="change_blacklist_mode">Kara liste modunu değiştir</string>
     <string name="change_password">Şifreyi değiştir</string>
     <string name="change_sms_app">Mesajlaşma uygulamasını değiştir</string>
@@ -179,7 +179,7 @@ Not: Cihaza özel farklı pil optimizasyonları el ile devre dışı bırakılma
     <string name="cloud_backup_for_apps">Uygulamalarınız için bulut yedekleme desteğinin kilidini açın</string>
     <string name="cloud_backup_limit">Bulut yedekleme limiti</string>
     <string name="cloud_backup_tag">Bulut yedeği etiketi</string>
-    <string name="cloud_backup_tag_message">"Uygulamalar, Mesajlar &amp; Arama Kayıtlarının yedekleri bir yedekleme etiketiyle ilişkilendirilir. Birden fazla cihazda Swift Backup'ı kullanıyorsanız, etiketleri değiştirmek için bu özelliği kullanabilirsiniz. 
+    <string name="cloud_backup_tag_message">"Uygulamalar, Mesajlar &amp; Arama Kayıtlarının yedekleri bir yedekleme etiketiyle ilişkilendirilir. Birden fazla cihazda Bare Backup'ı kullanıyorsanız, etiketleri değiştirmek için bu özelliği kullanabilirsiniz. 
 
 Not: Duvar kağıtları ve WiFi ağları etiketlenemez."</string>
     <string name="cloud_backups">Bulut yedeklemeleri</string>
@@ -192,15 +192,15 @@ Not: Duvar kağıtları ve WiFi ağları etiketlenemez."</string>
 
  Lütfen yol alanına mevcut bir klasörün adını ekleyin."</string>
     <string name="cloud_folder_creation_failed">Klasör oluşturulamadı!</string>
-    <string name="cloud_folder_edit_warning">"Lütfen Swift Backup tarafından yönetilen bulut dosyalarını veya klasörlerini bulut hizmeti uygulamasından, web sitesinden veya kontrol panelinden silmeyin, değiştirmeyin veya taşımayın.      
+    <string name="cloud_folder_edit_warning">"Lütfen Bare Backup tarafından yönetilen bulut dosyalarını veya klasörlerini bulut hizmeti uygulamasından, web sitesinden veya kontrol panelinden silmeyin, değiştirmeyin veya taşımayın.      
 
-Swift Backup, ağ isteklerini ve daha hızlı performansı azaltmak için sunucusunda bulut dosya yollarının / kimliklerinin bir veritabanını tutar. Bulut dosyalarını veya klasörlerini elle silerseniz, değiştirir veya taşırsanız, uygulamayı kullanırken sorunlarla karşılaşır ve bulut yedeklemelerinize erişiminizi kaybedersiniz."</string>
+Bare Backup, ağ isteklerini ve daha hızlı performansı azaltmak için sunucusunda bulut dosya yollarının / kimliklerinin bir veritabanını tutar. Bulut dosyalarını veya klasörlerini elle silerseniz, değiştirir veya taşırsanız, uygulamayı kullanırken sorunlarla karşılaşır ve bulut yedeklemelerinize erişiminizi kaybedersiniz."</string>
     <string name="cloud_mail_ru">Cloud Mail.Ru</string>
     <string name="cloud_mail_ru_external_password_warning">"Normal hesap parolanız yerine harici uygulama parolası oluşturun ve kullanın:
 https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="cloud_mail_ru_webdav_warning">Bu seçenek, ücretli bir Cloud Mail.Ru depolama planına sahip olmanızı gerektirir</string>
     <string name="cloud_maintenance_running_message">Bulut bakımı devam ediyor. Tamamlandığında tekrar deneyin.</string>
-    <string name="cloud_not_connected_summary">Swift Backup bir bulut servisine bağlı değil</string>
+    <string name="cloud_not_connected_summary">Bare Backup bir bulut servisine bağlı değil</string>
     <string name="cloud_sync">Bulut senk</string>
     <string name="cloud_synced_apps">Bulut senkronizasyonu yapılmış uygulamalar</string>
     <string name="cloud_upload_skipped_cloud_not_connected">Bağlı bir bulut hesabı olmadığı için bulut yüklemesi atlandı</string>
@@ -261,7 +261,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="data">Veri</string>
     <string name="data_encryption_smb_3">Veri Şifreleme (SMB 3+)</string>
     <string name="date_used">Kullanılan tarih</string>
-    <string name="default_sms_app_rationale">"Cihazınıza mesajları geri yüklemek için, Swift Backup 'ın varsayılan mesajlaşma uygulaması yapılması gerekmektedir. 
+    <string name="default_sms_app_rationale">"Cihazınıza mesajları geri yüklemek için, Bare Backup 'ın varsayılan mesajlaşma uygulaması yapılması gerekmektedir. 
 
  Geri yükleme tamamlandıktan sonra kullandığınız SMS uygulamanızı tekrar varsayılan uygulama yapmanız istenilecektir."</string>
     <string name="default_word">Varsayılan</string>
@@ -270,7 +270,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="delete_active_tag_message">Not: Bu işlem, %s etiketiyle ilişkili tüm bulut yedeklerini siler!</string>
     <string name="delete_all">Tümünü sil</string>
     <string name="delete_all_data">Tüm verileri sil</string>
-    <string name="delete_all_data_summary">Yedekleme/önbellek dosyaları da dahil olmak üzere, bu hesap için uygulama tarafından cihazda kullanılan tüm verileri silin. Bu aynı zamanda uygulamayı varsayılan durumuna sıfırlayacak ve senkronize edilmiş tüm Swift Backup ayarlarınızı temizleyecektir.</string>
+    <string name="delete_all_data_summary">Yedekleme/önbellek dosyaları da dahil olmak üzere, bu hesap için uygulama tarafından cihazda kullanılan tüm verileri silin. Bu aynı zamanda uygulamayı varsayılan durumuna sıfırlayacak ve senkronize edilmiş tüm Bare Backup ayarlarınızı temizleyecektir.</string>
     <string name="delete_backup">Yedeklemeyi sil</string>
     <string name="delete_backup_files">Yedek dosyalarını sil</string>
     <string name="delete_backup_files_summary">Bu hesap için cihazdaki tüm dahili yedekleri sil:</string>
@@ -297,7 +297,7 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="disable">Devre dışı bırak</string>
     <string name="disable_apps">Uygulamaları devre dışı bırak</string>
     <string name="disable_apps_warning">Not: Bu özelliği kullanırken çok dikkatli olun ve herhangi bir sistem uygulamasını veya servisini devre dışı bırakmadığınızdan emin olun</string>
-    <string name="disable_battery_opt_message">Lütfen Swift Backup için pil optimizasyonunu devre dışı bırakın</string>
+    <string name="disable_battery_opt_message">Lütfen Bare Backup için pil optimizasyonunu devre dışı bırakın</string>
     <string name="disabled">Devre dışı bırakıldı</string>
     <string name="discard_changes_confirmation">Değişiklikler yok sayılsın mı?</string>
     <string name="disconnect_cloud">Bağlantıyı kes</string>
@@ -338,17 +338,17 @@ https://help.mail.ru/mail/security/protection/external/"</string>
     <string name="expansion">OBB</string>
     <string name="export_apps_list">Uygulama listesini dışa aktar</string>
     <string name="export_settings">Ayarları dışa aktar</string>
-    <string name="export_settings_summary">Swift Backup ayarlarınızın yedeğini oluştur</string>
+    <string name="export_settings_summary">Bare Backup ayarlarınızın yedeğini oluştur</string>
     <string name="external_data">Dahili veri</string>
     <string name="external_storage">Harici depolama</string>
     <string name="favorite_apps">Favori uygulamalar</string>
     <string name="favorites">Favoriler</string>
     <string name="feature_requires_root_access_message">"Bu özelliğin çalışması için root erişimi gerekli.
 
-Eğer cihazınız zaten root erişimine sahipse lütfen Swift Backup'a izin verdiğinizden emin olun."</string>
+Eğer cihazınız zaten root erişimine sahipse lütfen Bare Backup'a izin verdiğinizden emin olun."</string>
     <string name="feature_requires_root_access_or_shizuku_message">"Bu özelliğin çalışması için Root erişimi veya Shizuku gerekir.
 
- Lütfen cihazınızın rootlu olup olmadığını ve Swift Backup'a root erişiminin verilip verilmediğini veya Shizuku hizmetinin çalışıp çalışmadığını kontrol edin."</string>
+ Lütfen cihazınızın rootlu olup olmadığını ve Bare Backup'a root erişiminin verilip verilmediğini veya Shizuku hizmetinin çalışıp çalışmadığını kontrol edin."</string>
     <string name="filen_two_factor_authentication">Filen iki faktörlü kimlik doğrulaması</string>
     <string name="filen_two_factor_code_hint">2FA kodu veya kurtarma kodu</string>
     <string name="files">Dosyalar</string>
@@ -395,7 +395,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="folders">Klasörler</string>
     <string name="for_advanced_rooted_users">Rootlu kullanıcılar için</string>
     <string name="force_chunked_uploads">Parçalanmış yüklemeyi zorla</string>
-    <string name="force_chunked_uploads_description">Swift Backup, sunucu tarafından gerektiğinde zaten yığınlanmış yüklemeler kullanır. Her zaman yığın halinde yüklemeleri zorlamak için bunu etkinleştirin.</string>
+    <string name="force_chunked_uploads_description">Bare Backup, sunucu tarafından gerektiğinde zaten yığınlanmış yüklemeler kullanır. Her zaman yığın halinde yüklemeleri zorlamak için bunu etkinleştirin.</string>
     <string name="force_stop">Durdurmaya zorla</string>
     <string name="free_storage_of_total_text">%1$s / %2$s boş</string>
     <string name="free_storage_text">%s Boş</string>
@@ -424,7 +424,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="icon_indicates_root_or_shizuku_needed_message">Bu simge, özelliğin çalışması için Root erişimi veya Shizuku gerektirdiğini belirtir.</string>
     <string name="import_apks">APKs içe aktar</string>
     <string name="import_settings">Ayarları içe aktar</string>
-    <string name="import_settings_summary">Yedeklenmiş Swift Backup ayarlarını geri yükle</string>
+    <string name="import_settings_summary">Yedeklenmiş Bare Backup ayarlarını geri yükle</string>
     <string name="important_announcement">Önemli Duyuru</string>
     <string name="in_place_apk_downgrades">Uygulamaları kaldırmadan eski sürüme düşürme</string>
     <string name="in_place_apk_downgrades_summary">Uygulamaları kaldırmadan eski sürüme düşürmek için CorePatch gibi ROM veya modül desteğini kullanın.</string>
@@ -451,7 +451,7 @@ Hala devam edebilirsiniz ancak bunları birbirinden ayırmak daha zor olabilir."
     <string name="intro_benefit_keys_title">Şifreleme anahtarları</string>
     <string name="intro_benefit_premium_subtitle">Premium özellikleri hesabınızla satın alın ve kullanın</string>
     <string name="intro_benefit_premium_title">Premium özellikler</string>
-    <string name="intro_benefit_settings_subtitle">Swift Backup ayarlarını, zamanlamaları, uygulama etiketlerini, uygulama yapılandırmalarını vb. senkronize edin.</string>
+    <string name="intro_benefit_settings_subtitle">Bare Backup ayarlarını, zamanlamaları, uygulama etiketlerini, uygulama yapılandırmalarını vb. senkronize edin.</string>
     <string name="intro_benefit_settings_title">Uygulama tercihleri</string>
     <string name="invalid_apks_archive">Geçersiz APKs arşivi</string>
     <string name="invalid_config">Geçersiz yapılandırma</string>
@@ -605,17 +605,17 @@ Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
     <string name="notices">Üçüncü parti uyarıları</string>
     <string name="notifications">Bildirimler</string>
     <string name="notifications_perm_subtitle">"Uygulamanın, yedekleme/geri yükleme, zamanlanmış yedeklemeler ve varsa görev hataları gibi görevler için bildirimler göstermesine izin verin. 
-- Swift Backup sadece sizin için kesinlikle gerekli olan bildirimleri gösterecektir."</string>
+- Bare Backup sadece sizin için kesinlikle gerekli olan bildirimleri gösterecektir."</string>
     <string name="notifications_perm_title">Bildirimler İzni</string>
     <string name="ok">Tamam</string>
     <string name="old_password">Eski şifre</string>
     <string name="old_passwords">Eski şifreler</string>
-    <string name="old_passwords_description">Daha önce kullanılan farklı şifrelerle şifrelenmiş yedekleriniz varsa, Swift Backup bu yedeklerin şifresini çözmek için eski şifrelerinizi kullanabilir.</string>
+    <string name="old_passwords_description">Daha önce kullanılan farklı şifrelerle şifrelenmiş yedekleriniz varsa, Bare Backup bu yedeklerin şifresini çözmek için eski şifrelerinizi kullanabilir.</string>
     <string name="one_time_purchase">Bir kere alın, sonsuza dek Premium kalın</string>
     <string name="only_if_battery_is_x_percent">Sadece pil yüzdesi en az %s ise</string>
     <string name="only_when_charging">Sadece şarj ederken</string>
     <string name="open_folder">Klasörü aç</string>
-    <string name="open_in_swift_backup">Swift Backup’ta aç</string>
+    <string name="open_in_bare_backup">Bare Backup’ta aç</string>
     <string name="optimizing_battery_use">Pil kullanımı optimize ediliyor</string>
     <string name="original_size">Orijinal boyut</string>
     <string name="other_quick_actions">Diğer hızlı işlemler</string>
@@ -627,20 +627,20 @@ Yeni bir zamanlama oluşturmak için aşağıyı tıklayın"</string>
     <string name="password_copied_to_clipboard">Şifre panoya kopyalandı</string>
     <string name="password_remember_warning">Lütfen şifreyi hatırlayın veya not edin, çünkü daha sonra geri alamayacaksınız.</string>
     <string name="password_saved">Şifre kaydedildi</string>
-    <string name="password_strategy_standard_description">"Swift Backup'ın şifrelenmiş yedeklemeleriniz için parola oluşturmayı yönetmesine izin verin. Şifreler Swift Backup hesabınıza özeldir ve yedeklenecek özelliğe (Mesajlar, Arama Kayıtları, yedeklenen Uygulama paketi vb.) bağlı olarak farklılık gösterir. 
+    <string name="password_strategy_standard_description">"Bare Backup'ın şifrelenmiş yedeklemeleriniz için parola oluşturmayı yönetmesine izin verin. Şifreler Bare Backup hesabınıza özeldir ve yedeklenecek özelliğe (Mesajlar, Arama Kayıtları, yedeklenen Uygulama paketi vb.) bağlı olarak farklılık gösterir. 
 Oluşturulan parolalar rastgele alfasayısal karakterler içerir ve bfb69f180e4e1db7671c318f gibi görünür. 
 Anonim kullanıcılar (uygulamayı hesabı olmadan kullanan kullanıcılar) için parola oluşturma stratejisi ortaktır ve benzersiz değildir. Parolalarınızı benzersiz tutmak istiyorsanız lütfen gelişmiş stratejiyi kullanın."</string>
     <string name="password_strategy_standard_title">Standart</string>
     <string name="password_strategy_user_password_description">"Standart stratejiyle aynıdır, ancak ek olarak son şifreleme parolasını oluşturmak için kullanıcı tarafından girilen bir parolayı kullanır. Parolanızı kaybederseniz, yedeklerin şifresi çözülemez/geri yüklenemez. 
-Swift Backup, parolanızı yalnızca yerel olarak kendi özel veri dizininde şifrelenmiş bir biçimde saklayacaktır. 
-Swift Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri yükleyebilmesi için şifrenizi tekrar girmeniz gerekir."</string>
+Bare Backup, parolanızı yalnızca yerel olarak kendi özel veri dizininde şifrelenmiş bir biçimde saklayacaktır. 
+Bare Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri yükleyebilmesi için şifrenizi tekrar girmeniz gerekir."</string>
     <string name="password_strategy_user_password_title">İleri düzey</string>
     <string name="passwords_matching_error">Şifreler eşleşmiyor</string>
     <string name="path">Yol</string>
     <string name="pending_payment">Ödeme bekliyor</string>
     <string name="permission_error">İzin hatası</string>
     <string name="permission_needed_to_proceed">Devam etmek için izin gerekli</string>
-    <string name="permission_request_message">Swift Backup, bazı işlemleri gerçekleştirmek için aşağıdaki izinlere ihtiyaç duyuyor. Lütfen her bir öğeye dokunarak, açılan pencerelerdeki gerekli izinleri verin.</string>
+    <string name="permission_request_message">Bare Backup, bazı işlemleri gerçekleştirmek için aşağıdaki izinlere ihtiyaç duyuyor. Lütfen her bir öğeye dokunarak, açılan pencerelerdeki gerekli izinleri verin.</string>
     <string name="permissions_needed">İzinler gerekli</string>
     <string name="permissions_needed_for_service">Bu hizmeti aşağıdaki izinleri vermeden kullanamazsınız</string>
     <string name="pinned_to_home_page">Ana ekranan sabitlenen</string>
@@ -679,7 +679,7 @@ Swift Backup'ı kurduğunuzda, şifreli yedeklerinizin şifresini çözüp geri 
     <string name="protected_backup">Korunan yedekleme</string>
     <string name="protected_backup_description">"Korumalı yedekler, güncelleme ve silme işlemlerine karşı güvende tutmak istediğiniz yedeklerdir.
 
-Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayısı sınırına ulaşıldığında Swift Backup korumalı yedekleri silmeyecektir."</string>
+Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayısı sınırına ulaşıldığında Bare Backup korumalı yedekleri silmeyecektir."</string>
     <string name="protocol">Protokol</string>
     <string name="purchase">Satın al</string>
     <string name="purchase_plan">"%1$s'u satın alın"</string>
@@ -709,14 +709,14 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="requires_android_15_root_access">Android 15+ ve root erişimi gerektirir</string>
     <string name="reset">Sıfırla</string>
     <string name="reset_app">Uygulamayı sıfırla</string>
-    <string name="reset_app_summary">Uygulamayı varsayılan durumuna sıfırlayın. Bu, senkronize edilmiş tüm Swift Backup ayarlarınızı temizleyecektir. Yedekleme dosyaları veya bulut önbelleği silinmeyecektir.</string>
+    <string name="reset_app_summary">Uygulamayı varsayılan durumuna sıfırlayın. Bu, senkronize edilmiş tüm Bare Backup ayarlarınızı temizleyecektir. Yedekleme dosyaları veya bulut önbelleği silinmeyecektir.</string>
     <string name="reset_filters">Filtreleri sıfırla</string>
     <string name="reset_sms_app_warning">Varsayılan SMS uygulamasını ayarlamazsanız gelen mesajları alamayabilirsiniz! Lütfen sonraki uyarıda \"Evet\" seçeneğini seçiniz!</string>
     <string name="reset_sms_app_warning_q">"Varsayılan SMS uygulamasını ayarlamazsanız gelen mesajları alamayabilirsiniz!
 
  Lütfen sonraki uyarıda \"Evet\" seçeneğini seçiniz!"</string>
     <string name="restart_app">Uygulamayı yeniden başlat</string>
-    <string name="restart_app_settings_summary">"Swift Backup'ı yeniden başlat"</string>
+    <string name="restart_app_settings_summary">"Bare Backup'ı yeniden başlat"</string>
     <string name="restore">Geri yükle</string>
     <string name="restore_all">Tümünü geri yükle</string>
     <string name="restore_all_apps">Tüm uygulamaları geri yükle</string>
@@ -744,7 +744,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="restore_permission_option_all">Uygulama tarafından desteklenen tüm izinleri geri yükle</string>
     <string name="restore_permission_option_granted">Yedeklenen izin seçimlerini geri yükle</string>
     <string name="restore_permission_option_none">İzinleri geri yükleme</string>
-    <string name="restore_previous_password_message">Şifrelenmiş yedeklemeleriniz için daha önce özel bir parola kullandınız. Lütfen şimdi o şifreyi girin, böylece Swift Backup şifrelenmiş yedeklerinizin şifresini çözebilir ve uygulamalarınızı geri yükleyebilir.</string>
+    <string name="restore_previous_password_message">Şifrelenmiş yedeklemeleriniz için daha önce özel bir parola kullandınız. Lütfen şimdi o şifreyi girin, böylece Bare Backup şifrelenmiş yedeklerinizin şifresini çözebilir ve uygulamalarınızı geri yükleyebilir.</string>
     <string name="restore_purchases">Satın alımları geri yükle</string>
     <string name="restore_runtime_permissions">İşleyiş izinlerini geri yükle</string>
     <string name="restore_special_data_accessibility_service_summary">Uygulama için erişilebilirlik hizmeti bileşeni etkinleştirildi.</string>
@@ -790,9 +790,9 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="right_swipe">Sağa kaydırma</string>
     <string name="root_access_needed">Root hakları gerekmekte</string>
     <string name="root_access_or_shizuku_needed">Root veya Shizuku yetkisi gerekiyor</string>
-    <string name="root_grant_permissions">"Swift Backup'a tüm izinleri verin
+    <string name="root_grant_permissions">"Bare Backup'a tüm izinleri verin
  Root yetkisi veya Shizuku gerekiyor"</string>
-    <string name="root_grant_permissions_dialog_msg_prefix">"Root erişimi veya Shizuku kullanarak tek tıklamayla Swift Backup'a aşağıdaki izinleri verin."</string>
+    <string name="root_grant_permissions_dialog_msg_prefix">"Root erişimi veya Shizuku kullanarak tek tıklamayla Bare Backup'a aşağıdaki izinleri verin."</string>
     <string name="root_grant_permissions_dialog_title">Root yetkisi veya Shizuku ile izinleri verin.</string>
     <string name="root_provider">Sağlayıcı</string>
     <string name="root_status">Root durumu</string>
@@ -823,7 +823,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="schedules">Zamanlamalar</string>
     <string name="search">Ara</string>
     <string name="search_hint_apps">Uygulamaları ara</string>
-    <string name="search_swift_backup">"Swift Backup'ta ara"</string>
+    <string name="search_bare_backup">"Bare Backup'ta ara"</string>
     <string name="secondary_action">İkincil eylem</string>
     <string name="secondary_user_warning_msg">İkincil / İş kullanıcı profilleri, bazı kaçınılmaz sorunlar nedeniyle resmi olarak desteklenmemektedir. Lütfen ana kullanıcıya geçin.</string>
     <string name="see_all">Tümünü gör</string>
@@ -861,11 +861,11 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="share_apk">APK paylaş</string>
     <string name="share_apks">APKs paylaş</string>
     <string name="share_logs">Günlükleri paylaş</string>
-    <string name="share_swiftbackup">"Swift Backup'ı Paylaşın"</string>
-    <string name="share_swiftbackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı Swift Backup ve işte link: https://play.google.com/store/apps/details?id=org.swiftapps.swiftbackup</string>
-    <string name="share_swiftbackup_subject">Swift Backup - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
-    <string name="share_swiftlogger_archive_with_device_logcat">"SwiftLogger + Cihaz Logcat'i"</string>
-    <string name="share_swiftlogger_text_only">Yalnızca metin raporunu paylaş</string>
+    <string name="share_barebackup">"Bare Backup'ı Paylaşın"</string>
+    <string name="share_barebackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı Bare Backup ve işte link: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_subject">Bare Backup - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
+    <string name="share_barelogger_archive_with_device_logcat">"BareLogger + Cihaz Logcat'i"</string>
+    <string name="share_barelogger_text_only">Yalnızca metin raporunu paylaş</string>
     <string name="shared_libraries">Paylaşılan kütüphaneler</string>
     <string name="shortcuts">Kısayollar</string>
     <string name="show_less">Daha az göster</string>
@@ -873,8 +873,8 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="show_system_apps">Sistem uygulamalarını göster</string>
     <string name="sign_in_required_for_full_features">Bulut yedeklemeleri, satın alma işlemleri, premium özellikleri kullanma vb. dahil olmak üzere uygulamadaki tüm mevcut özellikleri kullanmak için Google ile Oturum Açma gereklidir.</string>
     <string name="sign_out">Oturumu Kapat</string>
-    <string name="signin_intro_subtitle">Bulut yedeklemeleri, Premium ve hesap tabanlı şifreleme için Swift Backup hesabınızı oluşturun.</string>
-    <string name="signin_title">Swift Backup hesabınızı ayarlayın</string>
+    <string name="signin_intro_subtitle">Bulut yedeklemeleri, Premium ve hesap tabanlı şifreleme için Bare Backup hesabınızı oluşturun.</string>
+    <string name="signin_title">Bare Backup hesabınızı ayarlayın</string>
     <string name="size">Boyut</string>
     <string name="skip_for_now">Şimdilik atla</string>
     <string name="skip_mms">MMS mesajlarını atla</string>
@@ -907,9 +907,9 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="successful">Başarılı</string>
     <string name="sure_to_cancel_task">İptal etmek istediğinizden emin misiniz?</string>
     <string name="sure_to_proceed">Devam etmek istediğinizden emin misiniz? Onaylamak için \"Evet\"e tıklayın.</string>
-    <string name="swift_backup_is_busy">Swift Backup meşgul</string>
-    <string name="swift_labs_settings_summary">Deneyesel özelliklerin çalışma garantisi yoktur. Bu özellikler her an kullanım dışı kalabilir!</string>
-    <string name="swiftlogger_info">Hata raporlamada yardımcı olabilecek önemli günlükler</string>
+    <string name="bare_backup_is_busy">Bare Backup meşgul</string>
+    <string name="bare_labs_settings_summary">Deneyesel özelliklerin çalışma garantisi yoktur. Bu özellikler her an kullanım dışı kalabilir!</string>
+    <string name="barelogger_info">Hata raporlamada yardımcı olabilecek önemli günlükler</string>
     <string name="swipe_actions">Kaydırma eylemleri</string>
     <string name="swipe_actions_description">Her kaydırma yönü için en fazla iki eylem seçin</string>
     <string name="sync_backups">Yedeklemeleri senkronize et</string>
@@ -940,7 +940,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
 Çözüm: Depolama alanınızı exFAT ile biçimlendirin ve exFAT depolama alanlarını bağlamayı destekleyen bir kernel kullanın."</string>
     <string name="to_cloud">Buluta</string>
     <string name="to_device">Cihaza</string>
-    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://www.swiftapps.org/tos>Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a> &amp;amp; &lt;a href=https://www.swiftapps.org/privacy-policy>Gizlilik politikası&lt;/a>.</string>
+    <string name="tos_privacy_agreement">Devam ederek &lt;a href=https://www.bareapps.org/tos>Kullanım Şartlarımızı kabul ediyorsunuz &lt;/a> &amp;amp; &lt;a href=https://www.bareapps.org/privacy-policy>Gizlilik politikası&lt;/a>.</string>
     <string name="translation_project">Çeviri projesi</string>
     <string name="translation_project_summary">Uygulamayı kendi dilinize çevirmek için bize yardımcı olun</string>
     <string name="turn_off">Kapat</string>
@@ -992,7 +992,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="wifi_networks">WiFi Ağları</string>
     <string name="wifi_networks_backup">WiFi ağları yedekle</string>
     <string name="wifi_not_available">WiFi mevcut değil veya Internet erişimi yok</string>
-    <string name="wifi_not_enabled">"WiFi etkin değil. Swift Backup'ın kayıtlı WiFi ağlarını kontrol etmesi için açmanız gerekiyor."</string>
+    <string name="wifi_not_enabled">"WiFi etkin değil. Bare Backup'ın kayıtlı WiFi ağlarını kontrol etmesi için açmanız gerekiyor."</string>
     <string name="wifi_on_device">Cihazdaki WiFi ağları</string>
     <string name="wifi_or_mobile_data">WiFi veya Mobil veri</string>
     <string name="x_app_failed_to_install_message">%s yükleme başarısız oldu</string>
@@ -1013,7 +1013,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="x_schedules">%s Zamanlanmış</string>
     <string name="x_walls">%s Duvar kağıtları</string>
     <string name="x_wifi_networks">%s Kablosuz ağlar</string>
-    <string name="xiaomi_installed_apps_perm_subtitle">"- Swift Backup'ın bu cihazda yüklü uygulamalar listesini okumasına izin verin.
+    <string name="xiaomi_installed_apps_perm_subtitle">"- Bare Backup'ın bu cihazda yüklü uygulamalar listesini okumasına izin verin.
 - Uygulama yedekleme ve geri yüklemeye yönelik tüm uygulamaları göstermek için bu gereklidir."</string>
     <string name="xiaomi_installed_apps_perm_title">Yüklü uygulamalara izin alın</string>
     <string name="xiaomi_installed_apps_permission_not_supported">Yüklü uygulamalara erişim yalnızca Xiaomi/HyperOS cihazlarda kullanılabilir.</string>
