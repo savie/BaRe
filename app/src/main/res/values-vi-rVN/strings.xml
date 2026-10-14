@@ -866,7 +866,7 @@ Cần quyền Root hoặc Shizuku"</string>
     <string name="share_apks">Chia sẻ APKs</string>
     <string name="share_logs">Chia sẻ nhật ký</string>
     <string name="share_barebackup">Chia sẻ BΛR☰</string>
-    <string name="share_barebackup_msg">Xem trình quản lý sao lưu tuyệt vời này tôi đang sử dụng này! Nó được gọi là BΛR☰ và đây là liên kết: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Xem trình quản lý sao lưu tuyệt vời này tôi đang sử dụng này! Nó được gọi là BΛR☰ và đây là liên kết: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - Giải pháp sao lưu đơn giản, nhanh chóng và thông minh cho Android</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat thiết bị</string>
     <string name="share_barelogger_text_only">Chia sẻ báo cáo chỉ văn bản</string>
