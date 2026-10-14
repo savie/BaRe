@@ -1,8 +1,8 @@
 **v5.1.0**
-[release-summary] Bare Backup 5.1 introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
+[release-summary] BΛR☰ 5.1 introduces folder backups, a faster and more space-efficient backup format, Android 17 support, Filen cloud storage, and major improvements across app, cloud, WiFi, and scheduled backups.
 
 **Android 17 Support**
-- Bare Backup now targets Android 17.
+- BΛR☰ now targets Android 17.
 - **Local network access:** Added support for Android 17's Local network permission so LAN/self-hosted backups continue to work with local servers via SMB, SFTP, FTP, WebDAV, etc.
 
 **New: Folder Backups**
@@ -13,13 +13,13 @@
 **New Backup Format**
 - The new backup format improves backup and restore speed, provides smoother progress updates, and better handles complex Android app data used by apps like Termux and Android Virtualization Terminal.
 - **Lower storage requirement:** Each backup part now needs only enough free space for that part; previous versions needed at least twice as much.
-- **Important:** Backups created with v5.1.0 cannot be restored using older Bare Backup versions. Please update Bare Backup before restoring these backups on another device.
-- Existing backups created by older Bare Backup versions can still be restored in v5.1.0.
+- **Important:** Backups created with v5.1.0 cannot be restored using older BΛR☰ versions. Please update BΛR☰ before restoring these backups on another device.
+- Existing backups created by older BΛR☰ versions can still be restored in v5.1.0.
 
 **App Backups**
 - **Notification channels:** Added backup and restore support for notification channel settings.
 - **App permissions:** Backed-up permission choices now preserve both allowed and denied permissions.
-- **Play Store compatibility:** Apps restored by Bare Backup no longer complain that they must be installed from Google Play.
+- **Play Store compatibility:** Apps restored by BΛR☰ no longer complain that they must be installed from Google Play.
 - **Performance:** App backups and restores are now faster and show better task progress with the new backup format.
 - **Backup details:** Added a new view in the app detail screen under the backup’s 3-dot menu.
 - **APK sharing:** Export and import APKs from installed apps and app backups, including split APK sets, through Android’s share menu.
@@ -31,7 +31,7 @@
 
 **Cloud**
 - **Filen** cloud support.
-- **Mega.nz** now uses Bare Backup’s lighter built-in implementation instead of the large Mega SDK, reducing app size while keeping Mega backup and restore support.
+- **Mega.nz** now uses BΛR☰’s lighter built-in implementation instead of the large Mega SDK, reducing app size while keeping Mega backup and restore support.
 - Added **Cloud diagnostics** to help identify cloud connection and transfer issues.
 - Added local server discovery for supported self-hosted and LAN cloud services.
 - Improved cloud setup with branded S3-compatible and WebDAV presets.
