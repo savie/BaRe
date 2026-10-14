@@ -965,7 +965,7 @@ Nota: Se você ativar isso, também precisará REINICIAR o dispositivo após res
     <string name="share_apks">Compartilhar APKs</string>
     <string name="share_logs">Compartilhar logs</string>
     <string name="share_barebackup">Compartilhar o BΛR☰</string>
-    <string name="share_barebackup_msg">Confira este incrível novo gerenciador de backup que estou usando! O BΛR☰ e aqui está o link: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Confira este incrível novo gerenciador de backup que estou usando! O BΛR☰ e aqui está o link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰: Uma solução de backup simples, rápido e inteligente para seu Android</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat do dispositivo</string>
     <string name="share_barelogger_text_only">Compartilhar relatório somente texto</string>
