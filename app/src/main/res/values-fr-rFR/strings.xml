@@ -866,7 +866,7 @@ L'accès Root ou l'application Shizuku est nécessaire"</string>
     <string name="share_apks">Partager les APKs</string>
     <string name="share_logs">Partager les logs</string>
     <string name="share_barebackup">Partager BΛR☰</string>
-    <string name="share_barebackup_msg">"Découvre ce nouveau gestionnaire de sauvegarde absolument incroyable que j'utilise ! Il s'appelle BΛR☰, voici le lien de téléchargement : https://play.google.com/store/apps/details?id=org.bareapps.barebackup"</string>
+    <string name="share_barebackup_msg">"Découvre ce nouveau gestionnaire de sauvegarde absolument incroyable que j'utilise ! Il s'appelle BΛR☰, voici le lien de téléchargement : https://play.google.com/store/apps/details?id=com.bareapps.barebackup"</string>
     <string name="share_barebackup_subject">BΛR☰ - Une solution de sauvegarde simple, rapide et intelligente pour Android</string>
     <string name="share_barelogger_archive_with_device_logcat">"BareLogger + Logcat de l'appareil"</string>
     <string name="share_barelogger_text_only">Partager le rapport en texte uniquement</string>
