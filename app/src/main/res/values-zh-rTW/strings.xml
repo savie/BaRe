@@ -961,7 +961,7 @@ BΛR☰ 將只會在本機私有目錄中以加密的形式儲存您的密碼。
     <string name="share_apks">分享 APKs</string>
     <string name="share_logs">分享記錄</string>
     <string name="share_barebackup">分享 BΛR☰</string>
-    <string name="share_barebackup_msg">請過目我正在使用的這個超棒的備份管理員！其名為 BΛR☰ 而後連結在此：https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">請過目我正在使用的這個超棒的備份管理員！其名為 BΛR☰ 而後連結在此：https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - 在 Android 系統上簡單、快速和智慧的備份解決方案</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + 裝置 Logcat</string>
     <string name="share_barelogger_text_only">分享純文字報告</string>
