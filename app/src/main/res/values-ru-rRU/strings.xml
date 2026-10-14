@@ -861,7 +861,7 @@ BΛR☰ сохраняет Ваш пароль только локально в 
     <string name="share_apks">Поделиться несколькими APK</string>
     <string name="share_logs">Поделиться журналами</string>
     <string name="share_barebackup">Поделиться BΛR☰</string>
-    <string name="share_barebackup_msg">Попробуйте удивительный новый менеджер резервного копирования, который я использую! Он называется BΛR☰, вот ссылка: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Попробуйте удивительный новый менеджер резервного копирования, который я использую! Он называется BΛR☰, вот ссылка: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - простое, быстрое и умное решение для резервного копирования на Android</string>
     <string name="share_barelogger_archive_with_device_logcat">BareLogger + Logcat устройства</string>
     <string name="share_barelogger_text_only">Поделиться текстовым отчетом</string>
