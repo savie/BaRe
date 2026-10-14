@@ -862,7 +862,7 @@ Birden fazla yedeklemeyi etkinleştirmeniz durumunda, maksimum yedekleme sayıs�
     <string name="share_apks">APKs paylaş</string>
     <string name="share_logs">Günlükleri paylaş</string>
     <string name="share_barebackup">"BΛR☰'ı Paylaşın"</string>
-    <string name="share_barebackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı BΛR☰ ve işte link: https://play.google.com/store/apps/details?id=org.bareapps.barebackup</string>
+    <string name="share_barebackup_msg">Kullandığım bu harika yeni yedekleme yöneticisi göz atın! Adı BΛR☰ ve işte link: https://play.google.com/store/apps/details?id=com.bareapps.barebackup</string>
     <string name="share_barebackup_subject">BΛR☰ - Android için basit, hızlı ve akıllı yedekleme çözümü</string>
     <string name="share_barelogger_archive_with_device_logcat">"BareLogger + Cihaz Logcat'i"</string>
     <string name="share_barelogger_text_only">Yalnızca metin raporunu paylaş</string>
