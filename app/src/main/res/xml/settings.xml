@@ -3,8 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.preference.PreferenceCategory android:title="@string/appearance_and_language" app:layout="@layout/preference_category">
         <androidx.preference.Preference android:icon="@drawable/ic_settings_dark_mode_filled" android:title="@string/app_theme" android:key="app_theme" />
-        <org.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_palette_filled" android:title="@string/dynamic_colors" android:key="dynamic_colors" android:summary="@string/dynamic_colors_summary" />
-        <org.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_invert_colors_filled" android:title="@string/amoled_black_backgrounds" android:key="amoled_black_theme" android:summary="@string/amoled_black_backgrounds_message" />
+        <com.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_palette_filled" android:title="@string/dynamic_colors" android:key="dynamic_colors" android:summary="@string/dynamic_colors_summary" />
+        <com.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_invert_colors_filled" android:title="@string/amoled_black_backgrounds" android:key="amoled_black_theme" android:summary="@string/amoled_black_backgrounds_message" />
         <androidx.preference.Preference android:icon="@drawable/ic_settings_language_filled" android:title="@string/language" android:key="language" />
     </androidx.preference.PreferenceCategory>
     <androidx.preference.PreferenceCategory android:title="@string/backup_content" app:layout="@layout/preference_category">
@@ -24,7 +24,7 @@
     </androidx.preference.PreferenceCategory>
     <androidx.preference.PreferenceCategory android:title="@string/notifications" android:key="notifications" app:layout="@layout/preference_category">
         <androidx.preference.Preference android:icon="@drawable/ic_settings_notifications_filled" android:title="@string/manage_notifications" android:key="manage_notifications" android:summary="@string/manage_notifications_settings_summary" />
-        <org.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_music_note_filled" android:title="@string/play_notification_sounds" android:key="play_notification_sounds" android:summary="@string/play_notification_sounds_msg" />
+        <com.bareapps.barebackup.settings.MSwitchPreference android:icon="@drawable/ic_settings_music_note_filled" android:title="@string/play_notification_sounds" android:key="play_notification_sounds" android:summary="@string/play_notification_sounds_msg" />
     </androidx.preference.PreferenceCategory>
     <androidx.preference.PreferenceCategory android:title="@string/advanced_tools" app:layout="@layout/preference_category">
         <androidx.preference.Preference android:icon="@drawable/ic_settings_science_filled" android:title="@string/bare_labs" android:key="labs" android:summary="@string/bare_labs_settings_summary" />
