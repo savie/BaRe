@@ -5,8 +5,11 @@ import android.os.Bundle
 import com.bareapps.barebackup.R
 
 /**
- * Kotlin entry point for the existing XML-based introduction UI.
- * Screen content is kept in res/layout/intro_activity.xml.
+ * Hosts the resource-defined onboarding screen.
+ *
+ * The layout and its included views remain the source of truth for the intro UI.
+ * Authentication, restore, and permission workflows must be connected to their
+ * respective application controllers when those controllers are available.
  */
 class IntroActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {

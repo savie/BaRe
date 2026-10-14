@@ -5,67 +5,86 @@ import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.graphics.ColorUtils
 import com.bareapps.barebackup.R
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 
-/** XML-backed permission card. Action callbacks are wired by the screen controller later. */
+/**
+ * Resource-backed permission card used by the intro screen.
+ * Attribute indices follow attrs.xml: action text, bulleted subtitle,
+ * button id, icon, icon background tint, subtitle, tint, title.
+ */
 class IntroPermissionCardView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+    defStyleAttr: Int = R.attr.materialCardViewStyle
+) : MaterialCardView(context, attrs, defStyleAttr) {
+
+    private lateinit var actionButton: MaterialButton
 
     init {
-        orientation = VERTICAL
         LayoutInflater.from(context).inflate(R.layout.intro_permission_card_view, this, true)
-        if (attrs != null) {
-            val values = context.obtainStyledAttributes(
-                attrs,
-                intArrayOf(
-                    R.attr.introPermissionActionText,
-                    R.attr.introPermissionButtonId,
-                    R.attr.introPermissionIcon,
-                    R.attr.introPermissionIconBackgroundTint,
-                    R.attr.introPermissionSubtitle,
-                    R.attr.introPermissionTint,
-                    R.attr.introPermissionTitle,
-                    R.attr.introPermissionBulletedSubtitle
-                ),
-                defStyleAttr,
-                0
-            )
-            try {
-                val actionText = values.getText(0)
-                val buttonId = values.getResourceId(1, ViewIdFallback)
-                val icon = values.getResourceId(2, 0)
-                val iconBackgroundTint = values.getColorStateList(3)
-                val subtitle = values.getText(4)
-                val tint = values.getColorStateList(5)
-                val title = values.getText(6)
-                val bulletSubtitle = values.getBoolean(7, false)
 
-                findViewById<ImageView>(R.id.iv_permission_icon).apply {
-                    if (icon != 0) setImageResource(icon)
-                    imageTintList = tint
-                    backgroundTintList = iconBackgroundTint
-                }
-                findViewById<TextView>(R.id.tv_permission_title).text = title
-                findViewById<TextView>(R.id.tv_permission_subtitle).text =
-                    if (bulletSubtitle && !subtitle.isNullOrEmpty()) "• $subtitle" else subtitle
-                findViewById<MaterialButton>(R.id.btn_permission_action).apply {
-                    if (buttonId != ViewIdFallback) id = buttonId
-                    text = actionText
-                    backgroundTintList = tint
-                }
-            } finally {
-                values.recycle()
+        val iconView = findViewById<ImageView>(R.id.iv_permission_icon)
+        val titleView = findViewById<TextView>(R.id.tv_permission_title)
+        val subtitleView = findViewById<TextView>(R.id.tv_permission_subtitle)
+        actionButton = findViewById(R.id.btn_permission_action)
+
+        val values = context.obtainStyledAttributes(
+            attrs,
+            intArrayOf(
+                R.attr.introPermissionActionText,
+                R.attr.introPermissionBulletedSubtitle,
+                R.attr.introPermissionButtonId,
+                R.attr.introPermissionIcon,
+                R.attr.introPermissionIconBackgroundTint,
+                R.attr.introPermissionSubtitle,
+                R.attr.introPermissionTint,
+                R.attr.introPermissionTitle
+            ),
+            defStyleAttr,
+            0
+        )
+
+        try {
+            actionButton.text = values.getText(0)
+
+            val icon = values.getResourceId(3, 0)
+            if (icon != 0) iconView.setImageResource(icon)
+
+            titleView.text = values.getText(7)
+            val subtitle = values.getText(5) ?: ""
+            subtitleView.text = if (
+                values.getBoolean(1, false) && subtitle.isNotEmpty()
+            ) "• $subtitle" else subtitle
+
+            values.getColorStateList(4)?.let { iconView.backgroundTintList = it }
+
+            values.getColorStateList(6)?.let { tint ->
+                iconView.imageTintList = tint
+                actionButton.setTextColor(tint)
+                actionButton.iconTint = tint
+
+                val color = tint.defaultColor
+                actionButton.strokeColor = ColorStateList.valueOf(
+                    ColorUtils.setAlphaComponent(color, 50)
+                )
+                actionButton.backgroundTintList = ColorStateList.valueOf(
+                    ColorUtils.setAlphaComponent(color, 8)
+                )
+                actionButton.rippleColor = ColorStateList.valueOf(
+                    ColorUtils.setAlphaComponent(color, 20)
+                )
             }
+
+            val buttonId = values.getResourceId(2, -1)
+            if (buttonId != -1) actionButton.id = buttonId
+        } finally {
+            values.recycle()
         }
     }
 
-    private companion object {
-        const val ViewIdFallback = 0
-    }
+    fun getActionButton(): MaterialButton = actionButton
 }
