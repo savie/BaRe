@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <org.swiftapps.swiftbackup.views.MAppBarLayout android:id="@id/appbar_layout" android:background="?toolbarColor" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <org.bareapps.barebackup.views.MAppBarLayout android:id="@id/appbar_layout" android:background="?toolbarColor" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="wrap_content">
         <include android:id="@id/toolbar_mini" layout="@layout/toolbar_mini" />
         <View style="@style/ToolbarDivider" />
-    </org.swiftapps.swiftbackup.views.MAppBarLayout>
+    </org.bareapps.barebackup.views.MAppBarLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@id/swipe_layout" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="wrap_content" app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.recyclerview.widget.RecyclerView android:gravity="center" android:id="@id/recycler_view" android:paddingBottom="@dimen/spacing_largest4" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
