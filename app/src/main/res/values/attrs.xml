@@ -511,16 +511,7 @@
     <attr name="endIconContentDescription" format="string" />
     <attr name="endIconDrawable" format="reference" />
     <attr name="endIconMinSize" format="dimension" />
-    
-    <attr name="endIconScaleType">
-        <enum name="fitXY" value="0" />
-        <enum name="fitStart" value="1" />
-        <enum name="fitCenter" value="2" />
-        <enum name="fitEnd" value="3" />
-        <enum name="center" value="4" />
-        <enum name="centerCrop" value="5" />
-        <enum name="centerInside" value="6" />
-    </attr>
+
     <attr name="endIconTint" format="color" />
     
     <attr name="enforceMaterialTheme" format="boolean" />
