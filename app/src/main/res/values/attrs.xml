@@ -99,7 +99,6 @@
     <attr name="backgroundStacked" format="color|reference" />
     <attr name="backgroundTint" format="color" />
 
-    <attr name="badgeFixedEdge">
         <enum name="start" value="0" />
         <enum name="end" value="1" />
     </attr>
@@ -209,7 +208,6 @@
     <attr name="cardSubtitleColor" format="color" />
     <attr name="cardTitleColor" format="color" />
     <attr name="cardUseCompatPadding" format="boolean" />
-    <attr name="carousel_alignment">
         <enum name="start" value="0" />
         <enum name="center" value="1" />
     </attr>
@@ -421,7 +419,6 @@
         <enum name="cut" value="1" />
     </attr>
 
-    <attr name="cornerFamilyTopRight">
         <enum name="rounded" value="0" />
         <enum name="cut" value="1" />
     </attr>
@@ -601,7 +598,6 @@
 
     <attr name="fabAlignmentModeEndMargin" format="dimension" />
 
-    <attr name="fabAnimationMode">
         <enum name="scale" value="0" />
         <enum name="slide" value="1" />
     </attr>
@@ -862,7 +858,6 @@
     <attr name="itemActiveIndicatorStyle" format="reference" />
     <attr name="itemBackground" format="reference" />
     <attr name="itemFillColor" format="color" />
-    <attr name="itemGravity">
         <enum name="top_center" value="49" />
         <enum name="center" value="17" />
         <enum name="start_center" value="8388627" />
@@ -1039,7 +1034,6 @@
         <enum name="wrap" value="-2" />
     </attr>
     <attr name="layout_constraintWidth_percent" format="float" />
-    <attr name="layout_dodgeInsetEdges">
         <flag name="none" value="0x0" />
         <flag name="top" value="0x30" />
         <flag name="bottom" value="0x50" />
@@ -1474,7 +1468,6 @@
     <attr name="shouldDisableView" format="boolean" />
     <attr name="shouldRemoveExpandedCorners" format="boolean" />
 
-    <attr name="showAsAction">
         <flag name="never" value="0" />
         <flag name="ifRoom" value="1" />
         <flag name="always" value="2" />
@@ -1536,7 +1529,6 @@
     <attr name="startIconContentDescription" format="string" />
     <attr name="startIconDrawable" format="reference" />
     <attr name="startIconMinSize" format="dimension" />
-    <attr name="startIconScaleType">
         <enum name="fitXY" value="0" />
         <enum name="fitStart" value="1" />
         <enum name="fitCenter" value="2" />
@@ -1617,7 +1609,6 @@
     <attr name="tabInlineLabel" format="boolean" />
     <attr name="tabMaxWidth" format="dimension" />
     <attr name="tabMinWidth" format="dimension" />
-    <attr name="tabMode">
         <enum name="scrollable" value="0" />
         <enum name="fixed" value="1" />
         <enum name="auto" value="2" />
