@@ -410,10 +410,7 @@
         <enum name="rounded" value="0" />
         <enum name="cut" value="1" />
     </attr>
-    <attr name="cornerFamilyBottomRight">
-        <enum name="rounded" value="0" />
-        <enum name="cut" value="1" />
-    </attr>
+    
 
     
     <attr name="cornerRadius" format="dimension" />
@@ -517,13 +514,7 @@
     <attr name="endIconContentDescription" format="string" />
     <attr name="endIconDrawable" format="reference" />
     <attr name="endIconMinSize" format="dimension" />
-    <attr name="endIconMode">
-        <enum name="custom" value="-1" />
-        <enum name="none" value="0" />
-        <enum name="password_toggle" value="1" />
-        <enum name="clear_text" value="2" />
-        <enum name="dropdown_menu" value="3" />
-    </attr>
+    
     <attr name="endIconScaleType">
         <enum name="fitXY" value="0" />
         <enum name="fitStart" value="1" />
@@ -751,14 +742,7 @@
     <attr name="iconSpaceReserved" format="boolean" />
     <attr name="iconStartPadding" format="dimension" />
     <attr name="iconTint" format="color" />
-    <attr name="iconTintMode">
-        <enum name="src_over" value="3" />
-        <enum name="src_in" value="5" />
-        <enum name="src_atop" value="9" />
-        <enum name="multiply" value="14" />
-        <enum name="screen" value="15" />
-        <enum name="add" value="16" />
-    </attr>
+    
     <attr name="iconsAlpha" format="dimension" />
     <attr name="iconsTint" format="color" />
     <attr name="imageButtonStyle" format="reference" />
@@ -1212,10 +1196,7 @@
     <attr name="measureBottomPaddingFromLabelBaseline" format="boolean" />
     <attr name="measureWithLargestChild" format="boolean" />
     <attr name="menu" format="reference" />
-    <attr name="menuAlignmentMode">
-        <enum name="auto" value="0" />
-        <enum name="start" value="1" />
-    </attr>
+    
 
     <attr name="methodName" format="string" />
     <attr name="min" format="integer" />
@@ -1554,11 +1535,7 @@
     <attr name="switchTextOn" format="string" />
     <attr name="tabBackground" format="reference" />
     <attr name="tabContentStart" format="dimension" />
-    <attr name="tabGravity">
-        <enum name="fill" value="0" />
-        <enum name="center" value="1" />
-        <enum name="start" value="2" />
-    </attr>
+    
     <attr name="tabIconTint" format="color" />
     <attr name="tabIconTintMode">
         <enum name="src_over" value="3" />
