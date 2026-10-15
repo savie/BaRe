@@ -35,6 +35,7 @@ class BareApp : Application() {
         registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
         logLastProcessExit()
+        logLastProcessStart()
     }
 
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
@@ -129,6 +130,51 @@ class BareApp : Application() {
         }
     }
 
+    /**
+     * Mirrors SwiftBackup's startup diagnostics on Android versions that expose them.
+     * Diagnostics are best-effort and must never block application startup.
+     */
+    private fun logLastProcessStart() {
+        if (android.os.Build.VERSION.SDK_INT < 35) return
+
+        val activityManager = getSystemService(android.app.ActivityManager::class.java) ?: return
+        try {
+            val startInfo = activityManager.historicalProcessStartReasons(1)
+                .firstOrNull { it.processName == packageName }
+                ?: return
+
+            val reason = when (startInfo.reason) {
+                0 -> "UNKNOWN"
+                1 -> "ALARM"
+                2 -> "BACKUP"
+                3 -> "BOOT COMPLETE"
+                4 -> "BROADCAST"
+                5 -> "CONTENT PROVIDER"
+                6 -> "JOB"
+                7 -> "LAUNCHER"
+                8 -> "LAUNCHER RECENTS"
+                9 -> "OTHER"
+                10 -> "PUSH"
+                11 -> "SERVICE"
+                12 -> "START ACTIVITY"
+                else -> "UNKNOWN(" + startInfo.reason + ")"
+            }
+            val startType = when (startInfo.startType) {
+                0 -> "UNSET"
+                1 -> "COLD"
+                2 -> "WARM"
+                3 -> "HOT"
+                else -> "UNKNOWN(" + startInfo.startType + ")"
+            }
+            Log.i(
+                TAG,
+                "ApplicationStartInfo: startReason=" + reason + ", startType=" + startType +
+                    ", wasForceStopped=" + startInfo.wasForceStopped()
+            )
+        } catch (failure: Exception) {
+            Log.w(TAG, "Unable to read historical process-start information", failure)
+        }
+    }
     private fun createNotificationChannels() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
 
@@ -176,7 +222,7 @@ class BareApp : Application() {
             },
             NotificationChannel(
                 CHANNEL_CRASH_ERROR,
-                getString(R.string.error),
+                "Crash notification",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
                 setSound(errorSound, soundAttributes)
