@@ -150,7 +150,7 @@ class BareApp : Application() {
                     TAG,
                     "Last process start: reason=${startInfo.reason}, " +
                         "startupState=${startInfo.startupState}, " +
-                        "wasForceStopped=${startInfo.wasForceStopped}"
+                        "wasForceStopped=${startInfo.wasForceStopped()}"
                 )
             }
         } catch (failure: Exception) {
