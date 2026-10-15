@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1029811634472",
+    "project_id": "bare-6f8d6",
+    "storage_bucket": "bare-6f8d6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029811634472:android:e3e2c754016bc519cc101d",
+        "android_client_info": {
+          "package_name": "com.bareapps.barebackup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029811634472-b10cdj0qqeaflbirepljms5fc7ucbsd7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bareapps.barebackup",
+            "certificate_hash": "d0b5152be302957bf4fb52a132eb3b1360f78c3e"
+          }
+        },
+        {
+          "client_id": "1029811634472-mo42j73v5b1u23bot6flbodl9qd9kbok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWzIWLz_Zo_f9A9WmX5f2KbVmI_J6HDC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029811634472-mo42j73v5b1u23bot6flbodl9qd9kbok.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
