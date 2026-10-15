@@ -144,19 +144,18 @@ class BareApp : Application() {
                 ?: return
 
             val reason = when (startInfo.reason) {
-                0 -> "UNKNOWN"
-                1 -> "ALARM"
-                2 -> "BACKUP"
-                3 -> "BOOT COMPLETE"
-                4 -> "BROADCAST"
-                5 -> "CONTENT PROVIDER"
-                6 -> "JOB"
-                7 -> "LAUNCHER"
-                8 -> "LAUNCHER RECENTS"
-                9 -> "OTHER"
-                10 -> "PUSH"
-                11 -> "SERVICE"
-                12 -> "START ACTIVITY"
+                0 -> "ALARM"
+                1 -> "BACKUP"
+                2 -> "BOOT COMPLETE"
+                3 -> "BROADCAST"
+                4 -> "CONTENT PROVIDER"
+                5 -> "JOB"
+                6 -> "LAUNCHER"
+                7 -> "LAUNCHER RECENTS"
+                8 -> "OTHER"
+                9 -> "PUSH"
+                10 -> "SERVICE"
+                11 -> "START ACTIVITY"
                 else -> "UNKNOWN(" + startInfo.reason + ")"
             }
             val startType = when (startInfo.startType) {
