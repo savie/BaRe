@@ -4,12 +4,17 @@ import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.res.Configuration
 import android.media.AudioAttributes
 import android.net.Uri
 import android.util.Log
 import java.io.PrintWriter
 import java.io.StringWriter
+import java.util.Locale
 
 /**
  * Application-level entry point for BΛR☰.
@@ -27,6 +32,7 @@ class BareApp : Application() {
 
         createNotificationChannels()
         getSystemService(NotificationManager::class.java)?.cancelAll()
+        registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
         logLastProcessExit()
     }
@@ -40,6 +46,60 @@ class BareApp : Application() {
             @Suppress("DEPRECATION")
             Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
         }
+    }
+
+    /**
+     * Mirrors SwiftBackup's locale-change receiver without adding another source file.
+     * Existing channels are renamed using the system's current primary locale.
+     */
+    private fun registerLocaleChangedReceiver() {
+        val filter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(localeChangedReceiver, filter, Context.RECEIVER_EXPORTED)
+        } else {
+            @Suppress("DEPRECATION")
+            registerReceiver(localeChangedReceiver, filter)
+        }
+    }
+
+    private val localeChangedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != Intent.ACTION_LOCALE_CHANGED) return
+            updateNotificationChannelNamesForSystemLocale()
+        }
+    }
+
+    private fun updateNotificationChannelNamesForSystemLocale() {
+        val manager = getSystemService(NotificationManager::class.java) ?: return
+        val locale = getSystemPrimaryLocale()
+        val localizedContext = createConfigurationContext(
+            Configuration(resources.configuration).apply { setLocale(locale) }
+        )
+
+        val channelLabels = listOf(
+            CHANNEL_BACKUP_RESTORE to R.string.backup_and_restore,
+            CHANNEL_NORMAL to R.string.normal,
+            CHANNEL_TASK_SUCCESS to R.string.task_successful,
+            CHANNEL_TASK_ERROR to R.string.task_error,
+            CHANNEL_TASK_SILENT to R.string.task_complete_no_sound
+        )
+
+        channelLabels.forEach { (channelId, labelRes) ->
+            val channel = manager.getNotificationChannel(channelId) ?: return@forEach
+            channel.name = localizedContext.getString(labelRes)
+            manager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun getSystemPrimaryLocale(): Locale {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            val localeManager = getSystemService(android.app.LocaleManager::class.java)
+            localeManager?.systemLocales?.get(0)?.let { return it }
+        }
+
+        @Suppress("DEPRECATION")
+        val locales = android.content.res.Resources.getSystem().configuration.locales
+        return locales.get(0) ?: Locale.ENGLISH
     }
 
     /**
