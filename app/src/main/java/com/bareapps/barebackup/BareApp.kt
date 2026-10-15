@@ -35,7 +35,6 @@ class BareApp : Application() {
         registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
         logLastProcessExit()
-        logLastProcessStart()
     }
 
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
@@ -130,50 +129,6 @@ class BareApp : Application() {
         }
     }
 
-    /**
-     * Mirrors SwiftBackup's startup diagnostics on Android versions that expose them.
-     * Diagnostics are best-effort and must never block application startup.
-     */
-    private fun logLastProcessStart() {
-        if (android.os.Build.VERSION.SDK_INT < 35) return
-
-        val activityManager = getSystemService(android.app.ActivityManager::class.java) ?: return
-        try {
-            val startInfo = activityManager.historicalProcessStartReasons(1)
-                .firstOrNull { it.processName == packageName }
-                ?: return
-
-            val reason = when (startInfo.reason) {
-                0 -> "ALARM"
-                1 -> "BACKUP"
-                2 -> "BOOT COMPLETE"
-                3 -> "BROADCAST"
-                4 -> "CONTENT PROVIDER"
-                5 -> "JOB"
-                6 -> "LAUNCHER"
-                7 -> "LAUNCHER RECENTS"
-                8 -> "OTHER"
-                9 -> "PUSH"
-                10 -> "SERVICE"
-                11 -> "START ACTIVITY"
-                else -> "UNKNOWN(" + startInfo.reason + ")"
-            }
-            val startType = when (startInfo.startType) {
-                0 -> "UNSET"
-                1 -> "COLD"
-                2 -> "WARM"
-                3 -> "HOT"
-                else -> "UNKNOWN(" + startInfo.startType + ")"
-            }
-            Log.i(
-                TAG,
-                "ApplicationStartInfo: startReason=" + reason + ", startType=" + startType +
-                    ", wasForceStopped=" + startInfo.wasForceStopped()
-            )
-        } catch (failure: Exception) {
-            Log.w(TAG, "Unable to read historical process-start information", failure)
-        }
-    }
     private fun createNotificationChannels() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
 
