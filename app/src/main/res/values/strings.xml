@@ -1428,4 +1428,5 @@ Solution: Format your storage with exFAT and use a kernel that supports mounting
     <string name="yubikit_prompt_plug_in">Connect your YubiKey.</string>
     <string name="yubikit_prompt_plug_in_or_tap">Hold your YubiKey flat against the back of your device, or connect it via USB.</string>
     <string name="yubikit_prompt_wait">Please wait…</string>
+    <string name="intro_feature_not_available_yet">This feature is not available in this build yet.</string>
 </resources>
