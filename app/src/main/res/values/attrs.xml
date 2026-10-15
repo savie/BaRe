@@ -154,11 +154,7 @@
     <attr name="bottomSheetDragHandleStyle" format="reference" />
     <attr name="bottomSheetStyle" format="reference" />
     <attr name="boxBackgroundColor" format="color" />
-    <attr name="boxBackgroundMode">
-        <enum name="none" value="0" />
-        <enum name="filled" value="1" />
-        <enum name="outline" value="2" />
-    </attr>
+
     <attr name="boxCollapsedPaddingTop" format="dimension" />
     <attr name="boxCornerRadiusBottomEnd" format="dimension" />
     <attr name="boxCornerRadiusBottomStart" format="dimension" />
