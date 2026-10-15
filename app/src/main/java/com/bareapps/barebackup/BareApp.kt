@@ -5,15 +5,14 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.media.AudioAttributes
-import android.media.RingtoneManager
+import android.net.Uri
 import android.util.Log
 
 /**
  * Application-level entry point for BΛR☰.
  *
- * Startup behavior is being restored in small, verifiable stages against the
- * SwiftBackup reference. Resource-specific sounds and crash reporting are
- * intentionally deferred until their supporting resources are in place.
+ * Startup behavior is restored incrementally against the SwiftBackup reference,
+ * reusing existing app resources wherever they are available.
  */
 class BareApp : Application() {
 
@@ -30,60 +29,61 @@ class BareApp : Application() {
     private fun createNotificationChannels() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
 
-        val channels = listOf(
-            NotificationChannel(
-                CHANNEL_BACKUP_RESTORE,
-                "Backup and restore",
-                NotificationManager.IMPORTANCE_LOW
-            ),
-            NotificationChannel(
-                CHANNEL_NORMAL,
-                "Normal",
-                NotificationManager.IMPORTANCE_LOW
-            ),
-            NotificationChannel(
-                CHANNEL_TASK_SUCCESS,
-                "Task successful",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ),
-            NotificationChannel(
-                CHANNEL_TASK_ERROR,
-                "Task error",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ),
-            NotificationChannel(
-                CHANNEL_TASK_SILENT,
-                "Task complete (no sound)",
-                NotificationManager.IMPORTANCE_LOW
-            ),
-            NotificationChannel(
-                CHANNEL_CRASH_ERROR,
-                "Crash notification",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-        )
-
-        val defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val soundAttributes = AudioAttributes.Builder()
             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
             .setUsage(AudioAttributes.USAGE_NOTIFICATION)
             .build()
 
+        val successSound = Uri.parse("android.resource://$packageName/${R.raw.task_complete_sound_success}")
+        val errorSound = Uri.parse("android.resource://$packageName/${R.raw.task_complete_sound_error}")
+
+        val channels = listOf(
+            NotificationChannel(
+                CHANNEL_BACKUP_RESTORE,
+                getString(R.string.backup_and_restore),
+                NotificationManager.IMPORTANCE_LOW
+            ),
+            NotificationChannel(
+                CHANNEL_NORMAL,
+                getString(R.string.normal),
+                NotificationManager.IMPORTANCE_LOW
+            ),
+            NotificationChannel(
+                CHANNEL_TASK_SUCCESS,
+                getString(R.string.task_successful),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setSound(successSound, soundAttributes)
+                enableVibration(true)
+            },
+            NotificationChannel(
+                CHANNEL_TASK_ERROR,
+                getString(R.string.task_error),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setSound(errorSound, soundAttributes)
+                enableVibration(true)
+            },
+            NotificationChannel(
+                CHANNEL_TASK_SILENT,
+                getString(R.string.task_complete_no_sound),
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                enableVibration(true)
+            },
+            NotificationChannel(
+                CHANNEL_CRASH_ERROR,
+                getString(R.string.task_error),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setSound(errorSound, soundAttributes)
+                enableVibration(true)
+            }
+        )
+
         channels.forEach { channel ->
             channel.setShowBadge(false)
             channel.setBypassDnd(false)
-
-            when (channel.id) {
-                CHANNEL_TASK_SUCCESS,
-                CHANNEL_TASK_ERROR,
-                CHANNEL_CRASH_ERROR -> {
-                    channel.setSound(defaultSound, soundAttributes)
-                    channel.enableVibration(true)
-                }
-
-                CHANNEL_TASK_SILENT -> channel.enableVibration(true)
-            }
-
             manager.createNotificationChannel(channel)
         }
     }
