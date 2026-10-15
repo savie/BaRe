@@ -28,6 +28,34 @@ class BareApp : Application() {
         createNotificationChannels()
         getSystemService(NotificationManager::class.java)?.cancelAll()
         installUncaughtExceptionHandler()
+        logLastProcessExit()
+    }
+
+    /**
+     * Records Android's latest exit reason for this app when the platform
+     * exposes historical process-exit diagnostics.
+     */
+    private fun logLastProcessExit() {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R) return
+
+        val activityManager = getSystemService(android.app.ActivityManager::class.java) ?: return
+        try {
+            val lastExit = activityManager
+                .getHistoricalProcessExitReasons(packageName, 0, 1)
+                .firstOrNull { it.processName == packageName }
+
+            if (lastExit != null) {
+                Log.i(
+                    TAG,
+                    "Last process exit: reason=${lastExit.reason}, " +
+                        "description=${lastExit.description}, " +
+                        "timestamp=${lastExit.timestamp}"
+                )
+            }
+        } catch (failure: Exception) {
+            // Diagnostics must not prevent application startup.
+            Log.w(TAG, "Unable to read historical process-exit information", failure)
+        }
     }
 
     private fun createNotificationChannels() {
