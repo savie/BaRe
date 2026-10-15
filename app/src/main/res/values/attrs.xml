@@ -99,9 +99,7 @@
     <attr name="backgroundStacked" format="color|reference" />
     <attr name="backgroundTint" format="color" />
 
-        <enum name="start" value="0" />
-        <enum name="end" value="1" />
-    </attr>
+    
 
     <attr name="badgeHeight" format="dimension" />
     <attr name="badgeRadius" format="dimension" />
@@ -208,9 +206,7 @@
     <attr name="cardSubtitleColor" format="color" />
     <attr name="cardTitleColor" format="color" />
     <attr name="cardUseCompatPadding" format="boolean" />
-        <enum name="start" value="0" />
-        <enum name="center" value="1" />
-    </attr>
+    
     <attr name="carousel_backwardTransition" format="reference" />
 
     <attr name="carousel_firstView" format="reference" />
@@ -419,9 +415,7 @@
         <enum name="cut" value="1" />
     </attr>
 
-        <enum name="rounded" value="0" />
-        <enum name="cut" value="1" />
-    </attr>
+    
     <attr name="cornerRadius" format="dimension" />
     <attr name="cornerSize" format="dimension|fraction" />
     <attr name="cornerSizeBottomLeft" format="dimension|fraction" />
@@ -598,9 +592,7 @@
 
     <attr name="fabAlignmentModeEndMargin" format="dimension" />
 
-        <enum name="scale" value="0" />
-        <enum name="slide" value="1" />
-    </attr>
+    
     <attr name="fabCradleMargin" format="dimension" />
     <attr name="fabCradleRoundedCornerRadius" format="dimension" />
     <attr name="fabCradleVerticalOffset" format="dimension" />
@@ -858,10 +850,7 @@
     <attr name="itemActiveIndicatorStyle" format="reference" />
     <attr name="itemBackground" format="reference" />
     <attr name="itemFillColor" format="color" />
-        <enum name="top_center" value="49" />
-        <enum name="center" value="17" />
-        <enum name="start_center" value="8388627" />
-    </attr>
+    
     <attr name="itemHorizontalPadding" format="dimension" />
     <attr name="itemHorizontalTranslationEnabled" format="boolean" />
 
@@ -1034,15 +1023,7 @@
         <enum name="wrap" value="-2" />
     </attr>
     <attr name="layout_constraintWidth_percent" format="float" />
-        <flag name="none" value="0x0" />
-        <flag name="top" value="0x30" />
-        <flag name="bottom" value="0x50" />
-        <flag name="left" value="0x3" />
-        <flag name="right" value="0x5" />
-        <flag name="start" value="0x800003" />
-        <flag name="end" value="0x800005" />
-        <flag name="all" value="0x77" />
-    </attr>
+    
     <attr name="layout_editor_absoluteX" format="dimension" />
     <attr name="layout_editor_absoluteY" format="dimension" />
     <attr name="layout_flexBasisPercent" format="fraction" />
@@ -1468,12 +1449,7 @@
     <attr name="shouldDisableView" format="boolean" />
     <attr name="shouldRemoveExpandedCorners" format="boolean" />
 
-        <flag name="never" value="0" />
-        <flag name="ifRoom" value="1" />
-        <flag name="always" value="2" />
-        <flag name="withText" value="4" />
-        <flag name="collapseActionView" value="8" />
-    </attr>
+    
     <attr name="showBubble" format="boolean" />
     <attr name="showBubbleAlways" format="boolean" />
     <attr name="showDelay" format="integer" />
@@ -1529,14 +1505,7 @@
     <attr name="startIconContentDescription" format="string" />
     <attr name="startIconDrawable" format="reference" />
     <attr name="startIconMinSize" format="dimension" />
-        <enum name="fitXY" value="0" />
-        <enum name="fitStart" value="1" />
-        <enum name="fitCenter" value="2" />
-        <enum name="fitEnd" value="3" />
-        <enum name="center" value="4" />
-        <enum name="centerCrop" value="5" />
-        <enum name="centerInside" value="6" />
-    </attr>
+    
     <attr name="startIconTint" format="color" />
 
     <attr name="state_collapsed" format="boolean" />
@@ -1609,10 +1578,7 @@
     <attr name="tabInlineLabel" format="boolean" />
     <attr name="tabMaxWidth" format="dimension" />
     <attr name="tabMinWidth" format="dimension" />
-        <enum name="scrollable" value="0" />
-        <enum name="fixed" value="1" />
-        <enum name="auto" value="2" />
-    </attr>
+    
     <attr name="tabPadding" format="dimension" />
     <attr name="tabPaddingBottom" format="dimension" />
     <attr name="tabPaddingEnd" format="dimension" />
