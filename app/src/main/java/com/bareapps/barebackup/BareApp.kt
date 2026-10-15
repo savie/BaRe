@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.content.IntentFilter
 import android.content.res.Configuration
 import android.media.AudioAttributes
 import android.net.Uri
+import androidx.core.content.FileProvider
 import android.util.Log
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -35,6 +37,7 @@ class BareApp : Application() {
         registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
         logLastProcessExit()
+        logLastProcessStart()
     }
 
     override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
@@ -129,6 +132,32 @@ class BareApp : Application() {
         }
     }
 
+    /**
+     * Records Android's latest process-start reason when supported by the OS.
+     * Diagnostic failures must never prevent application startup.
+     */
+    private fun logLastProcessStart() {
+        if (android.os.Build.VERSION.SDK_INT < 35) return
+
+        val activityManager = getSystemService(android.app.ActivityManager::class.java) ?: return
+        try {
+            val startInfo = activityManager
+                .getHistoricalProcessStartReasons(1)
+                .firstOrNull { it.processName == packageName }
+
+            if (startInfo != null) {
+                Log.i(
+                    TAG,
+                    "Last process start: reason=${startInfo.reason}, " +
+                        "startupState=${startInfo.startupState}, " +
+                        "wasForceStopped=${startInfo.wasForceStopped}"
+                )
+            }
+        } catch (failure: Exception) {
+            Log.w(TAG, "Unable to read historical process-start information", failure)
+        }
+    }
+
     private fun createNotificationChannels() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
 
@@ -213,6 +242,22 @@ class BareApp : Application() {
                 val notificationManager =
                     getSystemService(NotificationManager::class.java)
 
+                val reportUri = FileProvider.getUriForFile(
+                    this,
+                    "$packageName.fileprovider",
+                    reportFile
+                )
+                val reportIntent = Intent(Intent.ACTION_VIEW).apply {
+                    setDataAndType(reportUri, "text/plain")
+                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                val reportPendingIntent = PendingIntent.getActivity(
+                    this,
+                    CRASH_NOTIFICATION_ID,
+                    reportIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+
                 val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(getString(R.string.error))
@@ -229,6 +274,7 @@ class BareApp : Application() {
                                     "\nCrash report saved to app cache as $CRASH_REPORT_FILE."
                             )
                     )
+                    .setContentIntent(reportPendingIntent)
                     .setAutoCancel(true)
                     .build()
 
