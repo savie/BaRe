@@ -6,6 +6,12 @@ android {
     namespace "com.bareapps.barebackup"
     compileSdk 37
 
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
+
     buildFeatures {
         aidl true
         buildConfig true
