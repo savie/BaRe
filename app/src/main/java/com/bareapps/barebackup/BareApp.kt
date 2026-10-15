@@ -31,6 +31,17 @@ class BareApp : Application() {
         logLastProcessExit()
     }
 
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            Log.i(LOCALE_TAG, "Configuration changed. Locales: ${newConfig.locales}")
+        } else {
+            @Suppress("DEPRECATION")
+            Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
+        }
+    }
+
     /**
      * Records Android's latest exit reason for this app when the platform
      * exposes historical process-exit diagnostics.
@@ -178,6 +189,7 @@ class BareApp : Application() {
 
     companion object {
         private const val TAG = "BareApp"
+        private const val LOCALE_TAG = "LocaleManager"
         private const val CRASH_REPORT_FILE = "error.txt"
         private const val CRASH_NOTIFICATION_ID = 912
 
