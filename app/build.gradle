@@ -44,6 +44,10 @@ dependencies {
     // TedPermission runtime required by the reference manifest components.
     implementation "io.github.ParkSangGwon:tedpermission-normal:3.4.2"
 
+    // The reference manifest registers OkHttp's AndroidX Startup initializer.
+    // Include the matching runtime class instead of removing the reference metadata.
+    implementation "com.squareup.okhttp3:okhttp:5.1.0"
+
     // Firebase Authentication is retained for compatibility with the SwiftBackup reference flow.
     implementation platform("com.google.firebase:firebase-bom:34.4.0")
     implementation "com.google.firebase:firebase-auth"
