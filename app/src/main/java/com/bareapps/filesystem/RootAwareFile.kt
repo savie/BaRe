@@ -1,6 +1,6 @@
 package com.bareapps.filesystem
 
-import com.topjohnwu.superuser.Shell
+import com.bareapps.rootservice.ShellHelper
 import java.io.File
 import java.io.FileFilter
 import java.io.FilenameFilter
@@ -27,7 +27,7 @@ class RootAwareFile : File {
 
     private fun run(command: String): CommandResult {
         val resolvedCommand = command.replace("@@", escapedPath)
-        val rootAvailable = runCatching { Shell.getShell().isRoot }.getOrDefault(false)
+        val rootAvailable = runCatching { ShellHelper.getMainShell().isRoot }.getOrDefault(false)
 
         // jr7.d()/jr7.a(): use qe7 only when root is absent and the Shizuku
         // route is available; otherwise use the configured libsu shell.
@@ -35,7 +35,7 @@ class RootAwareFile : File {
             val result = ShizukuCommandExecutor.execute(arrayOf(resolvedCommand))
             CommandResult(result.exitCode, result.output)
         } else {
-            LibsuCommandExecutor().use { executor ->
+            LibsuCommandExecutor(ShellHelper.getMainShell()).use { executor ->
                 val result = executor.add(resolvedCommand).execute()
                 CommandResult(
                     exitCode = result.exitCode,
@@ -173,7 +173,7 @@ class RootAwareFile : File {
          */
         @JvmStatic
         fun create(path: String): File {
-            val rootAvailable = runCatching { Shell.getShell().isRoot }.getOrDefault(false)
+            val rootAvailable = runCatching { ShellHelper.getMainShell().isRoot }.getOrDefault(false)
             val shizukuAvailable = ShizukuCommandExecutor.serviceVersion() >= 0 &&
                 ShizukuCommandExecutor.isAvailable()
             return if (rootAvailable || shizukuAvailable) RootAwareFile(path) else File(path)
