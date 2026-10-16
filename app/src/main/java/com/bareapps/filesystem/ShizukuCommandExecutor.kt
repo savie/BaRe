@@ -13,9 +13,13 @@ import kotlin.concurrent.thread
  * Filesystem command-execution port for reference defpackage.qe7 and its
  * service/permission gate in defpackage.le7.
  *
- * The reference first checks the binder/service state and self permission;
- * for service versions that support the remote permission path, it can fall
- * back to that permission check and cache a successful result.
+ * The reference qe7.b() has two paths:
+ * - flagged/old service: check API_V23 permission locally;
+ * - newer service: use the cached service-side permission result.
+ *
+ * The original le7 flag and service-side binder method are private to the
+ * decompiled implementation, so the public Shizuku API can only approximate
+ * those branches; that limitation is intentionally explicit here.
  */
 internal object ShizukuCommandExecutor {
 
@@ -31,7 +35,7 @@ internal object ShizukuCommandExecutor {
         val exitCode: Int
     )
 
-    /** Mirrors qe7.a()/le7.d(): version failures return -1 at this adapter boundary. */
+    /** qe7.a(): return -1 if querying the service version fails. */
     fun serviceVersion(): Int = try {
         Shizuku.getVersion()
     } catch (exception: Exception) {
@@ -39,7 +43,7 @@ internal object ShizukuCommandExecutor {
         -1
     }
 
-    /** Mirrors the practical gate in jr7.e(), with the le7 remote-permission fallback. */
+    /** Approximation of jr7.e() = le7.f() && qe7.b(). */
     fun isAvailable(): Boolean {
         if (!runCatching { Shizuku.pingBinder() }.getOrDefault(false)) {
             remotePermissionGranted = false
@@ -47,21 +51,21 @@ internal object ShizukuCommandExecutor {
         }
 
         val version = serviceVersion()
-        val selfPermission = try {
-            Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
-        } catch (_: SecurityException) {
-            false
-        } catch (_: IllegalStateException) {
-            false
+        if (version < MIN_REMOTE_PERMISSION_VERSION) {
+            // qe7.b() uses Context.checkSelfPermission(API_V23) in this branch.
+            // Shizuku.checkSelfPermission() is the closest public permission gate.
+            return try {
+                Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+            } catch (_: SecurityException) {
+                false
+            } catch (_: IllegalStateException) {
+                false
+            }
         }
 
-        if (selfPermission) return true
-
-        // In le7, the remote permission fallback is tied to a service-state
-        // flag or a service version below 11. The flag is not exposed by the
-        // public Shizuku API, so this port can faithfully model the version
-        // branch but must leave the hidden flag as a known parity gap.
-        if (version >= MIN_REMOTE_PERMISSION_VERSION) return true
+        // qe7.b() calls le7.h().f() and caches the result in le7.e. The
+        // service-side method isn't exposed by this public API, so use the
+        // API_V23 remote permission check as a conservative compatibility proxy.
         if (remotePermissionGranted) return true
         val granted = try {
             Shizuku.checkRemotePermission(API_PERMISSION) == PackageManager.PERMISSION_GRANTED
