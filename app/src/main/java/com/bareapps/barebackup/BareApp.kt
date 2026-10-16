@@ -100,8 +100,18 @@ class BareApp : Application() {
         // TODO(reference-port): determine whether any of these native behaviors are required,
         // then port or independently reimplement each method with a verified implementation.
 
-        // 9) d45 registers the Application as a listener; gg3 initializes another callback.
-        // TODO(reference-port): identify the concrete BΛR☰ listener/callback equivalents.
+        // 9) d45's listener set participates in Firebase user/session transitions: its
+        // callback updates Crashlytics user ID/custom key and a database sync for a signed-in
+        // user; when there is no user, it reconciles first-run/cloud-restore preferences and
+        // refreshes alarm-related state. Its sign-out path also clears anonymous/Firebase state
+        // and may clear per-user app data. BΛR☰ currently has Firebase Auth in Gradle but no
+        // matching user/session, Crashlytics, or alarm-lifecycle implementation audited.
+        // gg3 initializes a Firebase Realtime Database listener for /.info/connected and
+        // tracks connection state used by cloud/network diagnostics. The current BΛR☰ Gradle
+        // dependencies list Firebase Auth but not Realtime Database/Crashlytics; do not wire
+        // these callbacks until the corresponding feature lifecycle and dependencies are real.
+        // TODO(reference-port): map d45 auth/session transitions and gg3 RTDB connectivity
+        // lifecycle to named BΛR☰ components after those components exist.
 
         // 10) jz4 receives PACKAGE_ADDED/REMOVED/REPLACED/CHANGED with data scheme
         // "package", ignores SwiftBackup itself, suppresses most replacement intermediate
