@@ -40,12 +40,12 @@ class BareApp : Application() {
         instance = this
         Log.i(TAG, "BΛR☰ application process started")
 
-        initializePreferences()
         createNotificationChannels()
         getSystemService(NotificationManager::class.java)?.cancelAll()
         registerLocaleChangedReceiver()
-        initializeShell()
         installUncaughtExceptionHandler()
+        initializePreferences()
+        initializeShell()
         logLastProcessExit()
         logLastProcessStart()
 
@@ -138,8 +138,10 @@ class BareApp : Application() {
      * without inventing a second preference namespace.
      */
     private fun initializePreferences() {
-        preferences = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
-        Log.d(TAG, "application preferences initialized")
+        val store = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
+        preferences = store
+        preferencesEditor = store.edit()
+        Log.d(TAG, "application preferences and editor initialized")
     }
 
     private fun initializeShell() {
@@ -395,6 +397,9 @@ class BareApp : Application() {
         @Volatile
         private var preferences: SharedPreferences? = null
 
+        @Volatile
+        private var preferencesEditor: SharedPreferences.Editor? = null
+
         @JvmStatic
         fun getInstance(): BareApp? = instance
 
@@ -403,6 +408,13 @@ class BareApp : Application() {
          */
         @JvmStatic
         fun appPreferences(): SharedPreferences? = preferences
+
+        /**
+         * Returns the cached editor paired with [appPreferences], mirroring the
+         * reference startup's shared preference/editor initialization pair.
+         */
+        @JvmStatic
+        fun appPreferencesEditor(): SharedPreferences.Editor? = preferencesEditor
 
         @JvmStatic
         fun appContext(): Context? = instance?.applicationContext
