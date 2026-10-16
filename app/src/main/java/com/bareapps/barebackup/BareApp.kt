@@ -507,21 +507,27 @@ class BareApp : Application() {
                 val notificationManager =
                     getSystemService(NotificationManager::class.java)
 
-                val reportUri = FileProvider.getUriForFile(
-                    this,
-                    "$packageName.fileprovider",
-                    reportFile
-                )
-                val reportIntent = Intent(Intent.ACTION_VIEW).apply {
-                    setDataAndType(reportUri, "text/plain")
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                // Reference attaches the report viewer only if error.txt exists and is
+                // non-empty. Keep the crash notification available if report creation failed.
+                val reportPendingIntent = if (reportFile.exists() && reportFile.length() > 0L) {
+                    val reportUri = FileProvider.getUriForFile(
+                        this,
+                        "$" + "{packageName}.fileprovider",
+                        reportFile
+                    )
+                    val reportIntent = Intent(Intent.ACTION_VIEW).apply {
+                        setDataAndType(reportUri, "text/plain")
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    }
+                    PendingIntent.getActivity(
+                        this,
+                        CRASH_NOTIFICATION_ID,
+                        reportIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
+                } else {
+                    null
                 }
-                val reportPendingIntent = PendingIntent.getActivity(
-                    this,
-                    CRASH_NOTIFICATION_ID,
-                    reportIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
 
                 val crashMessage = formatCrashMessage(throwable.cause ?: throwable)
                 val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
@@ -534,7 +540,7 @@ class BareApp : Application() {
                                 "$crashMessage\nCrash report saved to app cache as $CRASH_REPORT_FILE."
                             )
                     )
-                    .setContentIntent(reportPendingIntent)
+                    .apply { reportPendingIntent?.let(::setContentIntent) }
                     .setAutoCancel(true)
                     .build()
 
