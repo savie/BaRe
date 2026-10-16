@@ -38,14 +38,25 @@ internal object SelectedStorageState {
 
             if (selectedPath != null && storageManager != null) {
                 val selectedDirectory = File(selectedPath)
-                val selectedVolume = try {
+                var selectedVolume = try {
                     storageManager.getStorageVolume(selectedDirectory)
                 } catch (_: Exception) {
                     null
                 }
 
-                // A selected path only counts if Android still resolves it to a volume.
-                // yn7.d() falls back to default storage when the saved root is not discovered.
+                // zn7.v() in the reference falls back to discovered StorageVolume directories
+                // when getStorageVolume(File) cannot resolve the selected root directly.
+                if (selectedVolume == null) {
+                    selectedVolume = try {
+                        storageManager.storageVolumes.firstOrNull { volume ->
+                            volume.directory?.path == selectedDirectory.path
+                        }
+                    } catch (_: Exception) {
+                        null
+                    }
+                }
+
+                // yn7.d() reverts to default storage only when the saved root is not discovered.
                 if (selectedVolume != null) return selectedVolume.isRemovable
             }
 
