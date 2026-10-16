@@ -86,10 +86,11 @@ class BareApp : Application() {
 
     private fun updateNotificationChannelNamesForSystemLocale() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
-        // Use the app's active configuration locale, not Resources.getSystem():
-        // the latter ignores the app-level language override selected from Intro.
+        // SwiftBackup resolves notification-channel labels from the Android system locale,
+        // independently of any per-app locale override.
+        val locale = getSystemPrimaryLocale()
         val localizedContext = createConfigurationContext(
-            Configuration(resources.configuration).apply { setLocale(getAppPrimaryLocale()) }
+            Configuration(resources.configuration).apply { setLocale(locale) }
         )
 
         val channelLabels = listOf(
@@ -107,9 +108,17 @@ class BareApp : Application() {
         }
     }
 
-    private fun getAppPrimaryLocale(): Locale {
-        val locales = resources.configuration.locales
-        return if (!locales.isEmpty) locales[0] else Locale.ENGLISH
+    private fun getSystemPrimaryLocale(): Locale {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSystemService(android.app.LocaleManager::class.java)
+                ?.systemLocales
+                ?.get(0)
+                ?.let { return it }
+        }
+
+        @Suppress("DEPRECATION")
+        val systemLocales = android.content.res.Resources.getSystem().configuration.locales
+        return if (!systemLocales.isEmpty) systemLocales[0] else Locale.ENGLISH
     }
 
     /**
