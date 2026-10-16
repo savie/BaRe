@@ -502,16 +502,20 @@ class BareApp : Application() {
 
                 val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
                     .setSmallIcon(R.drawable.ic_stat)
-                    .setContentTitle(getString(R.string.error))
+                    // Reference SwiftApp uses the causal exception message when present,
+                    // falling back to the top-level throwable's message.
+                    .setContentTitle("BΛR☰ crashed")
                     .setContentText(
-                        throwable.localizedMessage
+                        throwable.cause?.localizedMessage
+                            ?: throwable.localizedMessage
                             ?: getString(R.string.unknown_error_occured)
                     )
                     .setStyle(
                         Notification.BigTextStyle()
                             .bigText(
                                 "${throwable.javaClass.simpleName}: " +
-                                    (throwable.localizedMessage
+                                    (throwable.cause?.localizedMessage
+                                        ?: throwable.localizedMessage
                                         ?: getString(R.string.unknown_error_occured)) +
                                     "\nCrash report saved to app cache as $CRASH_REPORT_FILE."
                             )
