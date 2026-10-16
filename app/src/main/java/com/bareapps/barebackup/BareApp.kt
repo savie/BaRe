@@ -656,8 +656,9 @@ class BareApp : Application() {
     companion object {
         // SwiftApp.c(reason) logs an exit reason, invokes Const.x(app) plus
         // Const.g(reason, true), and terminates through its app-specific shutdown workflow.
-        // TODO(reference-port): map those two cleanup hooks to an actual BΛR☰ lifecycle before
-        // adding an exit helper; a generic Process.killProcess call would not be equivalent.
+        // exitAfterHandledCrash ports the HOME launch and process-state summary. The exact
+        // Const.x/Const.g cleanup hooks remain unported because no corresponding BΛR☰ lifecycle
+        // implementation has been identified; do not claim full parity for this shutdown path.
         private const val TAG = "BareApp"
         private const val LOCALE_TAG = "LocaleManager"
         private const val CONNECTIVITY_TAG = "ConnectivityTracker"
