@@ -6,9 +6,9 @@ import java.io.Serializable
 /**
  * Kotlin port of `org.swiftapps.filesystem.File$FileType`.
  *
- * The reference type is Serializable and stores the File returned by its
- * constructor. JavaFile keeps the supplied File. LibsuFile instead stores the
- * result of `jr7.g(file.getPath())`, a root/alternate-shell-aware File subtype.
+ * Reference semantics:
+ * - JavaFile stores the supplied java.io.File directly.
+ * - LibsuFile stores the result of `jr7.g(file.getPath())`.
  */
 abstract class FileType private constructor(
     private val file: File
@@ -26,24 +26,7 @@ abstract class FileType private constructor(
         override fun toString(): String = "${JavaFile::class.java.simpleName}:${getFile()}"
     }
 
-    /**
-     * Variant corresponding to the reference's nested LibsuFile.
-     *
-     * This constructor intentionally refuses to masquerade a plain java.io.File
-     * as the reference's root-aware File. Port `defpackage.jr7.g(path)` and its
-     * root/alternate-shell dependencies before enabling this variant.
-     */
-    class LibsuFile(file: File) : FileType(file) {
-        init {
-            // Match the reference's eager null dereference/check for the argument.
-            file.path
-        }
-
-        override fun getFile(): File =
-            throw UnsupportedOperationException(
-                "TODO(reference-port): migrate defpackage.jr7.g(path) before using LibsuFile"
-            )
-
+    class LibsuFile(file: File) : FileType(RootAwareFile.create(file.path)) {
         override fun toString(): String = "${LibsuFile::class.java.simpleName}:${getFile()}"
     }
 }
