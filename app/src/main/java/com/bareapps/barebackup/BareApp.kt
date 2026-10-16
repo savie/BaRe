@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
@@ -39,6 +40,7 @@ class BareApp : Application() {
         instance = this
         Log.i(TAG, "BΛR☰ application process started")
 
+        initializePreferences()
         createNotificationChannels()
         getSystemService(NotificationManager::class.java)?.cancelAll()
         registerLocaleChangedReceiver()
@@ -380,8 +382,17 @@ class BareApp : Application() {
         @Volatile
         private var instance: BareApp? = null
 
+        @Volatile
+        private var preferences: SharedPreferences? = null
+
         @JvmStatic
         fun getInstance(): BareApp? = instance
+
+        /**
+         * Returns the app preference store after Application startup has initialized it.
+         */
+        @JvmStatic
+        fun appPreferences(): SharedPreferences? = preferences
 
         @JvmStatic
         fun appContext(): Context? = instance?.applicationContext
