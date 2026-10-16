@@ -14,18 +14,34 @@ import java.util.Locale
 
 /**
  * BΛR☰ locale orchestration aligned with SwiftBackup's j05/xx3 responsibilities.
- * Supported locales come from res/xml/locales_config.xml rather than a duplicate list.
+ *
+ * locales_config.xml is the fixed Android system-settings inventory. SwiftBackup's
+ * xx3.m() also prepends its dynamic xx3.h() default locale, so the in-app list
+ * includes that locale even when its region is not a fixed XML entry.
  */
 object AppLocaleManager {
     private const val TAG = "LocaleManager"
     private const val KEY_APP_LOCALE = "app_locale"
 
     @Volatile
-    private var cachedSupportedLocales: List<Locale>? = null
+    private var cachedResourceLocales: List<Locale>? = null
 
     @JvmStatic
     fun supportedLocales(context: Context): List<Locale> {
-        cachedSupportedLocales?.let { return it }
+        val fixedLocales = resourceLocales(context)
+        val dynamicDefault = defaultLocaleFromSystem()
+        return buildList {
+            add(dynamicDefault)
+            fixedLocales.forEach { candidate ->
+                if (none { localeTag(it).equals(localeTag(candidate), ignoreCase = true) }) {
+                    add(candidate)
+                }
+            }
+        }
+    }
+
+    private fun resourceLocales(context: Context): List<Locale> {
+        cachedResourceLocales?.let { return it }
         val locales = mutableListOf<Locale>()
         val parser = context.resources.getXml(R.xml.locales_config)
         try {
@@ -37,7 +53,9 @@ object AppLocaleManager {
                     ) ?: parser.getAttributeValue(null, "name")
                     if (!tag.isNullOrBlank()) {
                         parseLocaleTag(tag)?.let { locale ->
-                            if (locales.none { localeTag(it) == localeTag(locale) }) {
+                            if (locales.none {
+                                    localeTag(it).equals(localeTag(locale), ignoreCase = true)
+                                }) {
                                 locales += locale
                             }
                         }
@@ -48,7 +66,7 @@ object AppLocaleManager {
         } finally {
             parser.close()
         }
-        return locales.toList().also { cachedSupportedLocales = it }
+        return locales.toList().also { cachedResourceLocales = it }
     }
 
     @JvmStatic
@@ -69,7 +87,7 @@ object AppLocaleManager {
         val selectedTag = localeTag(selected)
         if (currentAppLocale == null || localeTag(currentAppLocale) != selectedTag) {
             AppCompatDelegate.setApplicationLocales(
-                LocaleListCompat.forLanguageTags(selectedTag)
+                LocaleListCompat.forLanguageTags(selectedTag.replace('_', '-'))
             )
         }
         Log.i(TAG, "Application locale initialized to $selectedTag")
@@ -110,7 +128,7 @@ object AppLocaleManager {
         val selected = findSupportedLocale(tag, supportedLocales(context)) ?: return false
         persist(preferences, selected)
         AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(localeTag(selected))
+            LocaleListCompat.forLanguageTags(localeTag(selected).replace('_', '-'))
         )
         Log.i(TAG, "Application locale selected: " + localeTag(selected))
         return true
@@ -152,18 +170,22 @@ object AppLocaleManager {
             language.lowercase(Locale.ROOT)
         }
 
-    private fun defaultLocale(supported: List<Locale>): Locale {
+    /**
+     * Mirrors xx3.h(): choose the first system locale whose language is English,
+     * preserving its region. If none is English, the reference default is en_US.
+     */
+    private fun defaultLocaleFromSystem(): Locale {
         val systemLocales = LocaleList.getDefault()
         for (index in 0 until systemLocales.size()) {
             val systemLocale = systemLocales[index]
             if (systemLocale.language.equals("en", ignoreCase = true)) {
-                return supported.firstOrNull { candidate ->
-                    candidate.language == "en" &&
-                        (candidate.country == systemLocale.country || candidate.country.isEmpty())
-                } ?: supported.firstOrNull { it.language == "en" }
-                    ?: Locale("en", "US")
+                return Locale("en", systemLocale.country)
             }
         }
-        return supported.firstOrNull { it.language == "en" } ?: Locale("en", "US")
+        return Locale("en", "US")
     }
+
+    private fun defaultLocale(supported: List<Locale>): Locale =
+        supported.firstOrNull { it.language.equals("en", ignoreCase = true) }
+            ?: Locale("en", "US")
 }
