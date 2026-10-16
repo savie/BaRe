@@ -86,11 +86,17 @@ class BareApp : Application() {
         // installed-app inventory/event-bus behavior.
         // TODO(reference-port): trace BΛR☰ app inventory observers before registering a receiver.
 
-        // 11) kc2 reconciles stale Android dataSync foreground-service runtime-ledger entries.
-        // BΛR☰ has dataSync services and a Labs setting related to extending the timeout,
-        // but the matching persisted runtime ledger/reconciliation semantics are not yet audited.
-        // TODO(reference-port): inspect schedule/task service timeout bookkeeping and port
-        // the stale-entry cleanup only when its state model is identified.
+        // 11) kc2 startup reconciliation is now source-audited:
+        // - Ledger file: filesDir/diagnostics/data_sync_fgs_runtime_ledger.json.
+        // - Read/write uses Android AtomicFile + Gson serialization of Entry records.
+        // - On process start, every entry with endMs == null is closed at now with
+        //   outcome PROCESS_RESTARTED; records older than the rolling 24h window are
+        //   dropped and the newest 200 records are retained.
+        // BΛR☰ declares dataSync services and a related Labs setting, but no matching
+        // ledger model or call sites have been found in its Kotlin source yet.
+        // TODO(reference-port): add a named DataSyncFgsRuntimeLedger implementation and
+        // wire it to the actual TaskService/ScheduleService lifecycle before enabling
+        // startup reconciliation; do not create a ledger that no service writes to.
 
         // 12) zn4 launches two coroutine initializers; q63/m70 initialize storage/trash helpers.
         // TODO(reference-port): map each initializer to existing BΛR☰ services before porting.
