@@ -66,7 +66,7 @@ class BareApp : Application() {
             Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
         }
 
-        preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it) }
+        preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it, this@BareApp) }
         updateNotificationChannelNamesForSystemLocale()
     }
 
