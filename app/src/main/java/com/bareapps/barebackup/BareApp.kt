@@ -576,7 +576,10 @@ class BareApp : Application() {
      * "IO Exception on a removable storage, avoid crash report." Do not approximate this with
      * q63.e / "use_saf": that controls SAF access behavior and is a separate state. Port this
      * predicate only after BΛR☰ exposes the selected storage target through its real storage
-     * abstraction.
+     * abstraction. Current branch audit found only the "backup_storage_location" preference
+     * declaration in settings.xml and a manifest declaration for StorageSwitchActivity; the
+     * corresponding activity/source implementation and any selected-volume state provider were
+     * not found. Those declarations alone do not establish which volume is selected or removable.
      */
     private fun referenceHandledCrashReason(
         throwable: Throwable,
