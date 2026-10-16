@@ -7,7 +7,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.SpannableStringBuilder
+import android.text.TextPaint
 import android.text.method.LinkMovementMethod
+import android.text.style.URLSpan
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -21,17 +24,27 @@ import com.bareapps.barebackup.R
 import rikka.shizuku.Shizuku
 
 /**
- * Intro screen using the existing reference layout and resource IDs.
- *
- * Actions implemented here only launch the corresponding Android permission
- * flow. Authentication and OEM-specific installed-app access remain separate
- * workflows and are not reported as successful until actually integrated.
+ * Intro screen backed by the project's existing reference layout/resources.
+ * Authentication is intentionally not reported as successful until wired to
+ * the independent BΛR☰ authentication flow.
  */
 class IntroActivity : Activity() {
+
+    private val shizukuPermissionListener =
+        Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+            if (requestCode != REQUEST_SHIZUKU) return@OnRequestPermissionResultListener
+            if (grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                showMessage(getString(R.string.all_permissions_granted))
+            } else {
+                showMessage(getString(R.string.root_grant_permissions))
+            }
+            refreshPermissionCardState()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.intro_activity)
+        Shizuku.addRequestPermissionResultListener(shizukuPermissionListener)
 
         renderLegalAgreement()
 
@@ -63,12 +76,43 @@ class IntroActivity : Activity() {
         refreshPermissionCardState()
     }
 
+    override fun onDestroy() {
+        Shizuku.removeRequestPermissionResultListener(shizukuPermissionListener)
+        super.onDestroy()
+    }
+
+    /** Mirrors the reference: parse HTML, replace URLSpan handlers, enable links. */
     private fun renderLegalAgreement() {
         val legalText = findViewById<TextView>(R.id.tv_privacy_policy) ?: return
-        legalText.text = HtmlCompat.fromHtml(
+        val parsed = HtmlCompat.fromHtml(
             getString(R.string.tos_privacy_agreement),
             HtmlCompat.FROM_HTML_MODE_LEGACY
         )
+        val styled = SpannableStringBuilder(parsed)
+        styled.getSpans(0, styled.length, URLSpan::class.java).forEach { oldSpan ->
+            val url = oldSpan.url
+            val start = styled.getSpanStart(oldSpan)
+            val end = styled.getSpanEnd(oldSpan)
+            val flags = styled.getSpanFlags(oldSpan)
+            styled.removeSpan(oldSpan)
+            styled.setSpan(object : URLSpan(url) {
+                override fun onClick(widget: View) {
+                    val safeUri = runCatching { Uri.parse(url) }.getOrNull() ?: return
+                    if (safeUri.scheme != "https") return
+                    runCatching {
+                        startActivity(Intent(Intent.ACTION_VIEW, safeUri))
+                    }.onFailure {
+                        showMessage(getString(R.string.unknown_error_occured))
+                    }
+                }
+
+                override fun updateDrawState(ds: TextPaint) {
+                    super.updateDrawState(ds)
+                    ds.isUnderlineText = true
+                }
+            }, start, end, flags)
+        }
+        legalText.text = styled
         legalText.movementMethod = LinkMovementMethod.getInstance()
     }
 
@@ -86,7 +130,11 @@ class IntroActivity : Activity() {
                     )
                 )
             } catch (_: Exception) {
-                startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                runCatching {
+                    startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+                }.onFailure {
+                    showMessage(getString(R.string.storage_perm_subtitle))
+                }
             }
         } else {
             ActivityCompat.requestPermissions(
@@ -114,45 +162,43 @@ class IntroActivity : Activity() {
             )
         } else {
             val enabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
-            showMessage(
-                if (enabled) getString(R.string.all_permissions_granted)
-                else getString(R.string.notifications_perm_subtitle)
-            )
-            if (!enabled) {
-                startActivity(
-                    Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                        .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                )
+            if (enabled) {
+                showMessage(getString(R.string.all_permissions_granted))
+            } else {
+                runCatching {
+                    startActivity(
+                        Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                            .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                    )
+                }.onFailure {
+                    showMessage(getString(R.string.notifications_perm_subtitle))
+                }
             }
         }
     }
 
     private fun openInstalledAppsAccessHelp() {
-        // Android has no universal runtime permission for an OEM's installed-app
-        // access gate. Open this app's settings rather than pretending the gate
-        // can be granted generically; QUERY_ALL_PACKAGES is already in the manifest.
+        // OEM installed-app gates are not a universal Android runtime permission.
         showMessage(getString(R.string.xiaomi_installed_apps_permission_not_supported))
-        startActivity(
-            Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:$packageName")
+        runCatching {
+            startActivity(
+                Intent(
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse("package:$packageName")
+                )
             )
-        )
+        }
     }
 
     private fun requestElevatedAccess() {
-        if (Shizuku.pingBinder()) {
-            when {
-                Shizuku.checkSelfPermission() == android.content.pm.PackageManager.PERMISSION_GRANTED ->
-                    showMessage(getString(R.string.all_permissions_granted))
-                Shizuku.shouldShowRequestPermissionRationale() ->
-                    Shizuku.requestPermission(REQUEST_SHIZUKU)
-                else -> Shizuku.requestPermission(REQUEST_SHIZUKU)
-            }
-        } else {
+        if (!Shizuku.pingBinder()) {
             showMessage(getString(R.string.root_grant_permissions))
-            // Root access is checked by libsu only when a root-backed operation is
-            // invoked. Do not block the UI with a shell request on the main thread.
+            return
+        }
+        when (Shizuku.checkSelfPermission()) {
+            android.content.pm.PackageManager.PERMISSION_GRANTED ->
+                showMessage(getString(R.string.all_permissions_granted))
+            else -> Shizuku.requestPermission(REQUEST_SHIZUKU)
         }
     }
 
@@ -226,7 +272,6 @@ class IntroActivity : Activity() {
     }
 }
 
-/** Keeps the API-level check isolated from the activity's permission flow. */
 private object EnvironmentCompat {
     fun hasAllFilesAccess(): Boolean =
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
