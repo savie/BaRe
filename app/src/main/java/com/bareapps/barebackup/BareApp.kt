@@ -55,9 +55,11 @@ class BareApp : Application() {
         initializePreferences()
 
         // 5) bs4.b() reference behavior is confirmed from the decompiled source:
-        // read "use_saf" from the shared preferences (default false), then assign q63.e.
-        // q63.d is also read by the reference for its logging branch. BΛR☰ has no audited
-        // equivalent for those q63 storage flags yet, so keep this as a compile-safe TODO.
+        // read "use_saf" from shared preferences (default false), then assign q63.e.
+        // q63.e gates SAF/removable-storage checks (including storage-switch behavior).
+        // q63.d is not merely a logging flag: Const.checkFileReadWriteAccess flips it after
+        // a failed normal access check and retries in root-mode filesystem mode. BΛR☰ has
+        // no audited equivalent for these coupled storage/access states yet, so keep a TODO.
         // TODO(reference-port): trace BΛR☰'s SAF/document-tree storage state and port the
         // preference synchronization there; do not create a duplicate global flag.
 
