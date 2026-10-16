@@ -81,12 +81,10 @@ class BareApp : Application() {
         // TODO(reference-port): locate BΛR☰'s canonical file abstraction and root/SAF bridge,
         // then map the access-mode transitions before wiring use_saf; don't add duplicate flags.
 
-        // 6) mp6.d is ex0: timeout=10s and shell selection is su --mount-master (only
-        // when its builder flags allow it), then su, and finally sh. Root candidates are
-        // accepted only when isRoot() is true. The current libsu Builder is NOT equivalent:
-        // it only sets a timeout and leaves command selection to libsu defaults.
-        // TODO(reference-port): inspect libsu 6.0.0's supported custom-builder API and
-        // implement the same ordered root attempts/fallback without relying on guessed APIs.
+        // 6) mp6.d configures a 10s timeout and enables the mount-master flag; ex0 then
+        // tries su --mount-master, then su (accepting only a root shell), then sh. libsu 6.0.0
+        // documents this exact fallback sequence for FLAG_MOUNT_MASTER, so use its supported
+        // Builder API rather than a custom or guessed shell implementation.
         initializeShell()
 
         // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
@@ -276,7 +274,11 @@ class BareApp : Application() {
     private fun initializeShell() {
         try {
             synchronized(Shell::class.java) {
-                Shell.setDefaultBuilder(Shell.Builder.create().setTimeout(10))
+                Shell.setDefaultBuilder(
+                    Shell.Builder.create()
+                        .setFlags(Shell.FLAG_MOUNT_MASTER)
+                        .setTimeout(10)
+                )
             }
             Log.d(TAG, "libsu default shell builder initialized")
         } catch (failure: Exception) {
