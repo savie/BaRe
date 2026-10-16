@@ -21,7 +21,10 @@ internal class LibsuCommandExecutor(
 
     fun execute(): CommandResult {
         if (commands.isEmpty()) return CommandResult(emptyList(), emptyList(), 0)
-        val result = Shell.cmd(*commands.toTypedArray()).exec()
+        // Use the configured shell instance rather than Shell.cmd's global
+        // convenience entry point. The reference rh4 is constructed with the
+        // app-selected Shell (k55.j()) and obtains jobs from that shell.
+        val result = Shell.getShell().newJob().add(*commands.toTypedArray()).exec()
         return CommandResult(
             output = result.out.orEmpty(),
             error = result.err.orEmpty(),
