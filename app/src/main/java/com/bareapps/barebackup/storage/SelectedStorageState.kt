@@ -44,8 +44,10 @@ internal object SelectedStorageState {
                     null
                 }
 
-                // zn7.v() in the reference falls back to discovered StorageVolume directories
-                // when getStorageVolume(File) cannot resolve the selected root directly.
+                // The reference's zn7.v() also falls back to discovered StorageVolume
+                // directories, comparing against zn7.n().v() rather than the saved l() path.
+                // This crash-only resolver has no zn7 model, so it performs a conservative direct
+                // path match; this is a fallback heuristic, not a full port of zn7.v().
                 if (selectedVolume == null) {
                     selectedVolume = try {
                         storageManager.storageVolumes.firstOrNull { volume ->
