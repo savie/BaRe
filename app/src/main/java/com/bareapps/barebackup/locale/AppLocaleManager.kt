@@ -92,7 +92,7 @@ object AppLocaleManager {
             .mapNotNull { configurationLocales[it] }
             .firstNotNullOfOrNull { incoming ->
                 supported.firstOrNull { candidate ->
-                    candidate.language.equals(incoming.language, ignoreCase = true) &&
+                    canonicalLanguage(candidate.language) == canonicalLanguage(incoming.language) &&
                         (candidate.country.isEmpty() ||
                             candidate.country.equals(incoming.country, ignoreCase = true))
                 }
@@ -129,7 +129,7 @@ object AppLocaleManager {
     private fun findSupportedLocale(tag: String, supported: List<Locale>): Locale? {
         val parsed = parseLocaleTag(tag) ?: return null
         return supported.firstOrNull { candidate ->
-            candidate.language.equals(parsed.language, ignoreCase = true) &&
+            canonicalLanguage(candidate.language) == canonicalLanguage(parsed.language) &&
                 (parsed.country.isEmpty() || candidate.country.equals(parsed.country, ignoreCase = true))
         }
     }
@@ -144,6 +144,13 @@ object AppLocaleManager {
             .apply { if (parsed.country.isNotEmpty()) setRegion(parsed.country) }
             .build()
     }
+
+    private fun canonicalLanguage(language: String): String =
+        if (language.equals("id", ignoreCase = true) || language.equals("in", ignoreCase = true)) {
+            "in"
+        } else {
+            language.lowercase(Locale.ROOT)
+        }
 
     private fun defaultLocale(supported: List<Locale>): Locale {
         val systemLocales = LocaleList.getDefault()
