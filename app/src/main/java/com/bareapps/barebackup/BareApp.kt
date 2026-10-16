@@ -5,30 +5,30 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.BroadcastReceiver
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import android.net.NetworkCapabilities
-import android.content.res.Configuration
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import android.content.res.Configuration
 import android.media.AudioAttributes
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.NetworkInfo
+import android.net.Uri
 import android.os.Build
 import android.os.StrictMode
-import android.net.Uri
-import androidx.core.content.FileProvider
+import android.util.Base64
 import android.util.Log
-import com.topjohnwu.superuser.Shell
+import androidx.core.content.FileProvider
 import com.bareapps.barebackup.locale.AppLocaleManager
+import com.topjohnwu.superuser.Shell
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.util.Locale
-import android.util.Base64
 import java.security.MessageDigest
+import java.util.Locale
 
 /**
  * Application-level entry point for BΛR☰.
@@ -194,10 +194,10 @@ class BareApp : Application() {
      * CONNECTIVITY_ACTION is deprecated on modern Android but retained here because it is
      * the exact reference signal. The callback is diagnostic only and does not gate backups.
      */
+    @Suppress("DEPRECATION")
     private fun registerConnectivityTracker() {
         if (connectivityReceiverRegistered) return
         try {
-            @Suppress("DEPRECATION")
             registerReceiver(
                 connectivityReceiver,
                 IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -536,6 +536,10 @@ class BareApp : Application() {
     }
 
     companion object {
+        // SwiftApp.c(reason) logs an exit reason, invokes Const.x(app) plus
+        // Const.g(reason, true), and terminates through its app-specific shutdown workflow.
+        // TODO(reference-port): map those two cleanup hooks to an actual BΛR☰ lifecycle before
+        // adding an exit helper; a generic Process.killProcess call would not be equivalent.
         private const val TAG = "BareApp"
         private const val LOCALE_TAG = "LocaleManager"
         private const val CONNECTIVITY_TAG = "ConnectivityTracker"
