@@ -356,7 +356,7 @@ class BareApp : Application() {
                     11 -> "START ACTIVITY"
                     else -> "UNKNOWN(${startInfo.reason})"
                 }
-                val startType = when (startInfo.startupState) {
+                val startType = when (startInfo.startType) {
                     0 -> "UNSET"
                     1 -> "COLD"
                     2 -> "WARM"
