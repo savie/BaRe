@@ -60,28 +60,31 @@ internal object SelectedStorageState {
 
             if (selectedPath != null && storageManager != null) {
                 val selectedDirectory = File(selectedPath)
-                var selectedVolume = try {
-                    storageManager.getStorageVolume(selectedDirectory)
+
+                // yn7.d() accepts a saved preference only when it matches a discovered storage
+                // root. Do not let getStorageVolume() classify an arbitrary/stale subdirectory as
+                // the selected root: zn7 is constructed from a discovered root and q63 path.
+                val selectedVolume = try {
+                    storageManager.storageVolumes.firstOrNull { volume ->
+                        storageVolumeDirectory(volume)?.path == selectedDirectory.path
+                    }
                 } catch (_: Exception) {
                     null
                 }
 
-                // The reference's zn7.v() also falls back to discovered StorageVolume
-                // directories, comparing against zn7.n().v() rather than the saved l() path.
-                // This crash-only resolver has no zn7 model, so it performs a conservative direct
-                // path match; this is a fallback heuristic, not a full port of zn7.v().
-                if (selectedVolume == null) {
-                    selectedVolume = try {
-                        storageManager.storageVolumes.firstOrNull { volume ->
-                            storageVolumeDirectory(volume)?.path == selectedDirectory.path
-                        }
+                if (selectedVolume != null) {
+                    // zn7.v() first resolves the q63 path with getStorageVolumeForFile, then
+                    // falls back to discovered volume roots. Since this crash-only helper has no
+                    // zn7/q63 model, the exact discovered-root match is the safe parity boundary.
+                    val resolvedVolume = try {
+                        storageManager.getStorageVolume(selectedDirectory) ?: selectedVolume
                     } catch (_: Exception) {
-                        null
+                        selectedVolume
                     }
+                    return resolvedVolume.isRemovable
                 }
 
-                // yn7.d() reverts to default storage only when the saved root is not discovered.
-                if (selectedVolume != null) return selectedVolume.isRemovable
+                // If the saved root is not discovered, yn7.d() selects the default storage.
             }
 
             if (storageManager != null) {
