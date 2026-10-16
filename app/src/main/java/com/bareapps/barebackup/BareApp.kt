@@ -8,6 +8,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.Intent
+import android.content.IntentFilter
+import android.content.BroadcastReceiver
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
+import android.net.NetworkCapabilities
 import android.content.res.Configuration
 import android.content.pm.PackageManager
 import android.content.pm.Signature
@@ -32,6 +37,10 @@ import java.security.MessageDigest
  * reusing existing app resources wherever they are available.
  */
 class BareApp : Application() {
+
+    private var connectivityReceiverRegistered = false
+    private var shouldLogFirstConnectivityChange = true
+    private var lastNetworkInfo: NetworkInfo? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -83,9 +92,15 @@ class BareApp : Application() {
         // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
         preferences?.let { AppLocaleManager.initialize(this, it) }
 
-        // 8) System.loadLibrary("native-lib") exists in SwiftApp, but no matching BΛR☰
-        // native library has been identified. Do NOT load it until a real BΛR☰ .so is found.
-        // TODO(reference-port): inspect APK/JNI inventory and map native methods individually.
+        // 8) The supplied SwiftBackup reference archive contains libnative-lib.so for
+        // arm64-v8a, armeabi-v7a, x86, and x86_64. Its exported JNI entry points include:
+        // SwiftApp.getGoogleAuthAndroidClientId(), getGoogleAuthWebClientId(), and
+        // isLocalNetworkTcpBlockedByPermission(String, int, int). These JNI symbols are
+        // package/class-specific (org.swiftapps.swiftbackup.SwiftApp), and the BΛR☰ rewrite
+        // branch currently contains no .so or C/C++ source. Do NOT load the reference .so
+        // into BΛR☰ or declare external methods without a matching BΛR☰ native implementation.
+        // TODO(reference-port): determine whether any of these native behaviors are required,
+        // then port or independently reimplement each method with a verified implementation.
 
         // 9) d45 registers the Application as a listener; gg3 initializes another callback.
         // TODO(reference-port): identify the concrete BΛR☰ listener/callback equivalents.
@@ -124,18 +139,19 @@ class BareApp : Application() {
         // BΛR☰ has the setting/resource and manifest entries, but repository source search did
         // not locate the Kotlin client/account lifecycle. Do not transplant cleanup or invoke a
         // guessed MSAL factory until actual BΛR☰ cloud-connect call sites and dependencies are traced.
-        // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C();
-        // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
-        // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
-        // or connectivity tracker found by source search, so this is not registered here.
+        // The reference's later zs7 coroutine registers CONNECTIVITY_CHANGE once through
+        // Const.C(); r80 reads ConnectivityManager.activeNetworkInfo and rx logs only the first
+        // observed event or a changed NetworkInfo, plus Const.z()'s Wi-Fi/Ethernet transport
+        // result. The equivalent lightweight tracker is registered below; cloud/storage
+        // integrations remain TODO until their missing feature modules are implemented.
         // m70.a maps paths according to the requested access mode: one mode resolves through
         // the configured filesystem mapper; root-oriented modes rewrite /storage/emulated/<user>
         // (except user 0) to /data/media/<user>. m70.b is initialized with g70, which chooses
         // the deepest matching configured storage root and returns its .trash/atomic-delete
         // directory. These helpers depend on q63's JavaFile/LibsuFile/SAF mode selection; do
         // not port path rewriting or trash location independently of BΛR☰ storage semantics.
-        // TODO(reference-port): map the OneDrive client lifecycle, Const.C()/rx connectivity
-        // tracker, and q63/m70 storage consumers into named BΛR☰ components after auditing callers.
+        // TODO(reference-port): map the OneDrive client lifecycle and q63/m70 storage
+        // consumers after their corresponding BΛR☰ feature modules exist.
 
         // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
         logLastProcessExit()
@@ -144,6 +160,53 @@ class BareApp : Application() {
         // SwiftApp sets StrictMode.VmPolicy at the end of onCreate().
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
         Log.d(TAG, "startup initialization complete")
+        registerConnectivityTracker()
+    }
+
+    /**
+     * Ports SwiftApp's zs7/r80/rx connectivity diagnostics.
+     *
+     * CONNECTIVITY_ACTION is deprecated on modern Android but retained here because it is
+     * the exact reference signal. The callback is diagnostic only and does not gate backups.
+     */
+    private fun registerConnectivityTracker() {
+        if (connectivityReceiverRegistered) return
+        try {
+            @Suppress("DEPRECATION")
+            registerReceiver(
+                connectivityReceiver,
+                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+            )
+            connectivityReceiverRegistered = true
+        } catch (failure: Exception) {
+            // Match Const.C(): registration failure is logged but does not block app startup.
+            Log.e(CONNECTIVITY_TAG, "registerReceiver failed", failure)
+        }
+    }
+
+    private val connectivityReceiver = object : BroadcastReceiver() {
+        @Suppress("DEPRECATION")
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != ConnectivityManager.CONNECTIVITY_ACTION) return
+            val manager = getSystemService(ConnectivityManager::class.java) ?: return
+            val networkInfo = manager.activeNetworkInfo
+            if (shouldLogFirstConnectivityChange || lastNetworkInfo != networkInfo) {
+                Log.i(
+                    CONNECTIVITY_TAG,
+                    "Network change: $networkInfo. isWifiOrEthernetConnected: " +
+                        isWifiOrEthernetConnected(manager)
+                )
+                shouldLogFirstConnectivityChange = false
+                lastNetworkInfo = networkInfo
+            }
+        }
+    }
+
+    private fun isWifiOrEthernetConnected(manager: ConnectivityManager): Boolean {
+        val activeNetwork = manager.activeNetwork ?: return false
+        val capabilities = manager.getNetworkCapabilities(activeNetwork) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -446,6 +509,7 @@ class BareApp : Application() {
     companion object {
         private const val TAG = "BareApp"
         private const val LOCALE_TAG = "LocaleManager"
+        private const val CONNECTIVITY_TAG = "ConnectivityTracker"
         private const val CRASH_REPORT_FILE = "error.txt"
         private const val CRASH_NOTIFICATION_ID = 912
 
