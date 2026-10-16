@@ -475,7 +475,7 @@ class BareApp : Application() {
                 )
 
                 val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.ic_stat)
                     .setContentTitle(getString(R.string.error))
                     .setContentText(
                         throwable.localizedMessage
