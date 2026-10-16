@@ -463,6 +463,23 @@ class BareApp : Application() {
     }
 
     /**
+     * Mirrors SwiftBackup's io4.b(Throwable): class name plus every non-null message
+     * in the cause chain, stopping if a malformed cause chain cycles.
+     */
+    private fun formatCrashMessage(throwable: Throwable): String {
+        val messages = mutableListOf<String>()
+        val visited = java.util.Collections.newSetFromMap(
+            java.util.IdentityHashMap<Throwable, Boolean>()
+        )
+        var current: Throwable? = throwable
+        while (current != null && visited.add(current)) {
+            current.message?.let(messages::add)
+            current = current.cause
+        }
+        return "${throwable.javaClass.simpleName}: " + messages.joinToString("\n")
+    }
+
+    /**
      * Captures a local crash report and attempts a user-visible notification,
      * then delegates to Android's original handler so normal crash termination
      * behavior is preserved.
@@ -500,24 +517,15 @@ class BareApp : Application() {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
+                val crashMessage = formatCrashMessage(throwable.cause ?: throwable)
                 val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
                     .setSmallIcon(R.drawable.ic_stat)
-                    // Reference SwiftApp uses the causal exception message when present,
-                    // falling back to the top-level throwable's message.
                     .setContentTitle("BΛR☰ crashed")
-                    .setContentText(
-                        throwable.cause?.localizedMessage
-                            ?: throwable.localizedMessage
-                            ?: getString(R.string.unknown_error_occured)
-                    )
+                    .setContentText(crashMessage)
                     .setStyle(
                         Notification.BigTextStyle()
                             .bigText(
-                                "${throwable.javaClass.simpleName}: " +
-                                    (throwable.cause?.localizedMessage
-                                        ?: throwable.localizedMessage
-                                        ?: getString(R.string.unknown_error_occured)) +
-                                    "\nCrash report saved to app cache as $CRASH_REPORT_FILE."
+                                "$crashMessage\nCrash report saved to app cache as $CRASH_REPORT_FILE."
                             )
                     )
                     .setContentIntent(reportPendingIntent)
