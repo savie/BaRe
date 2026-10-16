@@ -1,7 +1,6 @@
 package com.bareapps.filesystem
 
 import com.bareapps.rootservice.ShellHelper
-import com.bareapps.rootservice.ShellHelper
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileFilter
@@ -37,11 +36,13 @@ class RootAwareFile : File {
             val result = ShizukuCommandExecutor.execute(arrayOf(resolvedCommand))
             CommandResult(result.exitCode, result.output)
         } else {
-            val result = ShellHelper.sh(resolvedCommand).exec()
-            CommandResult(
-                exitCode = result.code,
-                output = result.out.orEmpty() + result.err.orEmpty()
-            )
+            LibsuCommandExecutor().use { executor ->
+                val result = executor.add(resolvedCommand).execute()
+                CommandResult(
+                    exitCode = result.exitCode,
+                    output = result.output
+                )
+            }
         }
     }
 
