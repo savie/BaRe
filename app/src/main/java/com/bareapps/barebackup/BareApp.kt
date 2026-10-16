@@ -54,12 +54,19 @@ class BareApp : Application() {
         // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
 
-        // 5) bs4.b(): reference synchronizes the "use_saf" preference into SAF state.
-        // TODO(reference-port): map bs4.b() to BΛR☰'s actual SAF/storage implementation.
-        // Deliberately no-op until that subsystem is identified; do not invent a parallel state.
+        // 5) bs4.b() reference behavior is confirmed from the decompiled source:
+        // read "use_saf" from the shared preferences (default false), then assign q63.e.
+        // q63.d is also read by the reference for its logging branch. BΛR☰ has no audited
+        // equivalent for those q63 storage flags yet, so keep this as a compile-safe TODO.
+        // TODO(reference-port): trace BΛR☰'s SAF/document-tree storage state and port the
+        // preference synchronization there; do not create a duplicate global flag.
 
-        // 6) mp6.d: reference installs a custom ex0 shell builder (su --mount-master,
-        // then su, with sh fallback). This libsu builder is only a temporary approximation.
+        // 6) mp6.d is ex0: timeout=10s and shell selection is su --mount-master (only
+        // when its builder flags allow it), then su, and finally sh. Root candidates are
+        // accepted only when isRoot() is true. The current libsu Builder is NOT equivalent:
+        // it only sets a timeout and leaves command selection to libsu defaults.
+        // TODO(reference-port): inspect libsu 6.0.0's supported custom-builder API and
+        // implement the same ordered root attempts/fallback without relying on guessed APIs.
         initializeShell()
 
         // 7) j05.d(this): initialize app locale and synchronize platform/app locale state.
@@ -72,11 +79,18 @@ class BareApp : Application() {
         // 9) d45 registers the Application as a listener; gg3 initializes another callback.
         // TODO(reference-port): identify the concrete BΛR☰ listener/callback equivalents.
 
-        // 10) jz4 registers PACKAGE_ADDED/REMOVED/REPLACED/CHANGED for package URI events.
-        // TODO(reference-port): map the reference receiver to BΛR☰ installed-app tracking.
+        // 10) jz4 receives PACKAGE_ADDED/REMOVED/REPLACED/CHANGED with data scheme
+        // "package", ignores SwiftBackup itself, suppresses most replacement intermediate
+        // events, and posts a local-app-change event to the reference event bus.
+        // BΛR☰ has package-install result handling, but that is not proof of equivalent
+        // installed-app inventory/event-bus behavior.
+        // TODO(reference-port): trace BΛR☰ app inventory observers before registering a receiver.
 
-        // 11) kc2 reconciles stale dataSync foreground-service runtime ledger entries.
-        // TODO(reference-port): only port after locating BΛR☰'s dataSync runtime ledger.
+        // 11) kc2 reconciles stale Android dataSync foreground-service runtime-ledger entries.
+        // BΛR☰ has dataSync services and a Labs setting related to extending the timeout,
+        // but the matching persisted runtime ledger/reconciliation semantics are not yet audited.
+        // TODO(reference-port): inspect schedule/task service timeout bookkeeping and port
+        // the stale-entry cleanup only when its state model is identified.
 
         // 12) zn4 launches two coroutine initializers; q63/m70 initialize storage/trash helpers.
         // TODO(reference-port): map each initializer to existing BΛR☰ services before porting.
