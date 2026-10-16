@@ -20,34 +20,35 @@ internal object SelectedStorageState {
     private const val PREFERRED_STORAGE_DIRECTORY = "preferred_storage_dir"
 
     fun isSelectedStorageRemovable(context: Context): Boolean? {
-        val preferences = context.getSharedPreferences(
-            "${context.packageName}_preferences",
-            Context.MODE_PRIVATE
-        )
-        val selectedPath = try {
-            preferences.getString(PREFERRED_STORAGE_DIRECTORY, null)
-                ?.takeIf { it.isNotBlank() }
-        } catch (_: ClassCastException) {
-            null
-        }
-
-        val selectedDirectory = selectedPath?.let(::File)
-            ?: Environment.getExternalStorageDirectory()
-
-        val storageManager = context.getSystemService(StorageManager::class.java)
-        if (storageManager != null) {
-            try {
-                storageManager.getStorageVolume(selectedDirectory)?.let { volume ->
-                    return volume.isRemovable
-                }
-            } catch (_: Exception) {
-                // Match the reference's legacy fallback when volume lookup fails.
-            }
-        }
-
         return try {
+            val preferences = context.getSharedPreferences(
+                "${context.packageName}_preferences",
+                Context.MODE_PRIVATE
+            )
+            val selectedPath = try {
+                preferences.getString(PREFERRED_STORAGE_DIRECTORY, null)
+                    ?.takeIf { it.isNotBlank() }
+            } catch (_: ClassCastException) {
+                null
+            }
+
+            val selectedDirectory = selectedPath?.let(::File)
+                ?: Environment.getExternalStorageDirectory()
+
+            val storageManager = context.getSystemService(StorageManager::class.java)
+            if (storageManager != null) {
+                try {
+                    storageManager.getStorageVolume(selectedDirectory)?.let { volume ->
+                        return volume.isRemovable
+                    }
+                } catch (_: Exception) {
+                    // Match the reference's legacy fallback when volume lookup fails.
+                }
+            }
+
             Environment.isExternalStorageRemovable(selectedDirectory)
         } catch (_: Exception) {
+            // Crash diagnostics must not replace the original uncaught exception.
             null
         }
     }
