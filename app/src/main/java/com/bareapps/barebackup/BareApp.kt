@@ -135,11 +135,12 @@ class BareApp : Application() {
         // - On process start, every entry with endMs == null is closed at now with
         //   outcome PROCESS_RESTARTED; records older than the rolling 24h window are
         //   dropped and the newest 200 records are retained.
-        // BΛR☰ declares dataSync services and a related Labs setting, but no matching
-        // ledger model or call sites have been found in its Kotlin source yet.
-        // TODO(reference-port): add a named DataSyncFgsRuntimeLedger implementation and
-        // wire it to the actual TaskService/ScheduleService lifecycle before enabling
-        // startup reconciliation; do not create a ledger that no service writes to.
+        // The manifest declares TaskService and ScheduleService, but tasks/ and tasks/fgs
+        // are .gitkeep-only and the schedule implementation source is absent in this branch.
+        // There are no service lifecycle call sites to instrument yet.
+        // TODO(reference-port): implement the actual service lifecycle first, then add a
+        // named DataSyncFgsRuntimeLedger and wire start/stop outcomes before reconciliation;
+        // do not add a ledger that no service can write to.
 
         // 12) Concrete startup coroutine mapping from the reference:
         // ys7 first logs Const.l()'s app-state/version line, then calls SwiftApp.a() on API
@@ -155,9 +156,11 @@ class BareApp : Application() {
         // jq5 also validates the custom cached token pair (onedrive_access_token and
         // onedrive_access_token_expiry); its cleanup path removes those values, several
         // onedrive_conformance_* values, and matching com.microsoft* shared-pref files.
-        // BΛR☰ has the setting/resource and manifest entries, but repository source search did
-        // not locate the Kotlin client/account lifecycle. Do not transplant cleanup or invoke a
-        // guessed MSAL factory until actual BΛR☰ cloud-connect call sites and dependencies are traced.
+        // Directory listings confirm cloud/clients and account are .gitkeep-only; cloud/connect
+        // has only a placeholder plus an empty common subdirectory. The manifest and setting
+        // exist, but the rewrite branch has no cloud client implementation and no direct MSAL
+        // dependency. This is a missing implementation boundary, not an unlocated class:
+        // do not transplant token cleanup or invoke a guessed MSAL factory.
         // The reference's later zs7 coroutine registers CONNECTIVITY_CHANGE once through
         // Const.C(); r80 reads ConnectivityManager.activeNetworkInfo and rx logs only the first
         // observed event or a changed NetworkInfo, plus Const.z()'s Wi-Fi/Ethernet transport
