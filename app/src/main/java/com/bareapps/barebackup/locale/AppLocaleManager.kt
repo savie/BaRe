@@ -20,6 +20,7 @@ import java.util.Locale
 object AppLocaleManager {
     private const val TAG = "LocaleManager"
     private const val KEY_APP_LOCALE = "app_locale"
+    private const val KEY_FOLLOW_SYSTEM_LOCALE = "follow_system_locale_key"
 
     /**
      * Mirrors xx3.m(): dynamic default first, followed by the fixed in-app locales.
@@ -63,12 +64,17 @@ object AppLocaleManager {
 
         persist(preferences, selected)
         val selectedTag = localeTag(selected)
-        if (currentAppLocale == null || localeTag(currentAppLocale) != selectedTag) {
+        val followSystem = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU &&
+            preferences.getBoolean(KEY_FOLLOW_SYSTEM_LOCALE, false)
+        if (followSystem) {
+            // kv4.a() delegates to Lingver's system-locale behavior on pre-33 Android.
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+        } else if (currentAppLocale == null || localeTag(currentAppLocale) != selectedTag) {
             AppCompatDelegate.setApplicationLocales(
                 LocaleListCompat.forLanguageTags(toLanguageTag(selected))
             )
         }
-        Log.i(TAG, "Application locale initialized to $selectedTag")
+        Log.i(TAG, "Application locale initialized to $selectedTag; followSystem=$followSystem")
     }
 
     /** Mirrors j05.c: match incoming configuration locales and persist the match. */
@@ -103,6 +109,10 @@ object AppLocaleManager {
     fun selectLocale(context: Context, preferences: SharedPreferences, tag: String): Boolean {
         val selected = findSupportedLocale(tag, supportedLocales(context)) ?: return false
         persist(preferences, selected)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            // kv4.b() disables follow-system mode when a locale is explicitly selected.
+            preferences.edit().putBoolean(KEY_FOLLOW_SYSTEM_LOCALE, false).apply()
+        }
         AppCompatDelegate.setApplicationLocales(
             LocaleListCompat.forLanguageTags(toLanguageTag(selected))
         )
