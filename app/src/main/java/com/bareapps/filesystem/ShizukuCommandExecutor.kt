@@ -57,22 +57,21 @@ internal object ShizukuCommandExecutor {
 
         if (selfPermission) return true
 
-        // le7.e caches a successful remote permission check. Reference takes
-        // this branch for old/flagged service states; for newer services we
-        // also retain the remote check as a fallback when self permission fails.
+        // In le7, the remote permission fallback is tied to a service-state
+        // flag or a service version below 11. The flag is not exposed by the
+        // public Shizuku API, so this port can faithfully model the version
+        // branch but must leave the hidden flag as a known parity gap.
+        if (version >= MIN_REMOTE_PERMISSION_VERSION) return true
         if (remotePermissionGranted) return true
-        if (version >= MIN_REMOTE_PERMISSION_VERSION || version < MIN_REMOTE_PERMISSION_VERSION) {
-            val granted = try {
-                Shizuku.checkRemotePermission(API_PERMISSION) == PackageManager.PERMISSION_GRANTED
-            } catch (_: SecurityException) {
-                false
-            } catch (_: IllegalStateException) {
-                false
-            }
-            if (granted) remotePermissionGranted = true
-            return granted
+        val granted = try {
+            Shizuku.checkRemotePermission(API_PERMISSION) == PackageManager.PERMISSION_GRANTED
+        } catch (_: SecurityException) {
+            false
+        } catch (_: IllegalStateException) {
+            false
         }
-        return false
+        if (granted) remotePermissionGranted = true
+        return granted
     }
 
     fun execute(commands: Array<out String>): CommandResult {
