@@ -104,7 +104,10 @@ class BareApp : Application() {
         // and startup-reason diagnostics respectively. BΛR☰ already has guarded versions.
         // iq5 invokes nq5.i.c(): jq5.c() initializes/refreshes the Microsoft OneDrive
         // SingleAccountPublicClientApplication, respecting the saved OneDrive auth agent.
-        // BΛR☰ currently has no audited equivalent OneDrive MSAL initialization to call here.
+        // BΛR☰ already declares OneDriveSignInActivity, the MSAL browser/broker activities,
+        // and the onedrive_auth_agent setting in resources. However, the Kotlin initialization
+        // path and its account/config lifecycle have not been located/audited yet, so do not
+        // call a guessed MSAL factory here or assume manifest presence proves parity.
         // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C();
         // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
         // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
