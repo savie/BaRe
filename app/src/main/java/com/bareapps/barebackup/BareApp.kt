@@ -11,6 +11,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.media.AudioAttributes
+import android.os.Build
+import android.os.StrictMode
 import android.net.Uri
 import androidx.core.content.FileProvider
 import android.util.Log
@@ -38,17 +40,23 @@ class BareApp : Application() {
         installUncaughtExceptionHandler()
         logLastProcessExit()
         logLastProcessStart()
+
+        // Keep the reference application's VM policy initialization at the end of startup.
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
+        Log.d(TAG, "startup initialization complete")
     }
 
-    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Log.i(LOCALE_TAG, "Configuration changed. Locales: ${newConfig.locales}")
         } else {
             @Suppress("DEPRECATION")
             Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
         }
+
+        updateNotificationChannelNamesForSystemLocale()
     }
 
     /**
@@ -115,15 +123,26 @@ class BareApp : Application() {
         val activityManager = getSystemService(android.app.ActivityManager::class.java) ?: return
         try {
             val lastExit = activityManager
-                .getHistoricalProcessExitReasons(packageName, 0, 1)
-                .firstOrNull { it.processName == packageName }
+                .getHistoricalProcessExitReasons(null, 0, 0)
+                .orEmpty()
+                .filter { it.processName == packageName }
+                .maxByOrNull { it.timestamp }
 
             if (lastExit != null) {
+                val summary = try {
+                    lastExit.processStateSummary?.toString(Charsets.UTF_8)
+                } catch (_: Exception) {
+                    null
+                }
+                val memoryLimiterHint = if (
+                    lastExit.reason == 13 &&
+                    lastExit.description?.contains("MemoryLimiter:AnonSwap", ignoreCase = true) == true
+                ) "; previous backup/restore may have been stopped by Android's memory limiter" else ""
+
                 Log.i(
                     TAG,
-                    "Last process exit: reason=${lastExit.reason}, " +
-                        "description=${lastExit.description}, " +
-                        "timestamp=${lastExit.timestamp}"
+                    "Last process exit: info=$lastExit, description=${lastExit.description}, " +
+                        "stateSummary=$summary$memoryLimiterHint"
                 )
             }
         } catch (failure: Exception) {
@@ -146,12 +165,31 @@ class BareApp : Application() {
                 .firstOrNull { it.processName == packageName }
 
             if (startInfo != null) {
-                Log.i(
-                    TAG,
-                    "Last process start: reason=${startInfo.reason}, " +
-                        "startupState=${startInfo.startupState}, " +
-                        "wasForceStopped=${startInfo.wasForceStopped()}"
-                )
+                val reason = when (startInfo.reason) {
+                    0 -> "ALARM"
+                    1 -> "BACKUP"
+                    2 -> "BOOT COMPLETE"
+                    3 -> "BROADCAST"
+                    4 -> "CONTENT PROVIDER"
+                    5 -> "JOB"
+                    6 -> "LAUNCHER"
+                    7 -> "LAUNCHER RECENTS"
+                    8 -> "OTHER"
+                    9 -> "PUSH"
+                    10 -> "SERVICE"
+                    11 -> "START ACTIVITY"
+                    else -> "UNKNOWN(${startInfo.reason})"
+                }
+                val startType = when (startInfo.startupState) {
+                    0 -> "UNSET"
+                    1 -> "COLD"
+                    2 -> "WARM"
+                    3 -> "HOT"
+                    else -> "UNKNOWN(${startInfo.startupState})"
+                }
+                val forceStopped = startInfo.wasForceStopped()
+                val message = "ApplicationStartInfo: startReason=$reason, startType=$startType, wasForceStopped=$forceStopped"
+                if (forceStopped) Log.w(TAG, message) else Log.i(TAG, message)
             }
         } catch (failure: Exception) {
             Log.w(TAG, "Unable to read historical process-start information", failure)
