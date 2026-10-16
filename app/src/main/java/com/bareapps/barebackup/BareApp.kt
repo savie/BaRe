@@ -499,61 +499,65 @@ class BareApp : Application() {
             }.toString()
 
             Log.e(TAG, "Uncaught exception on thread ${thread.name}", throwable)
-
-            // SwiftApp attempts report persistence independently: a failed write must not
-            // suppress the crash notification. The report action is added only for a non-empty file.
-            val reportFile = cacheDir.resolve(CRASH_REPORT_FILE)
-            val reportUri = try {
-                reportFile.writeText(stackTrace)
-                if (reportFile.exists() && reportFile.length() > 0L) {
-                    FileProvider.getUriForFile(this, "$packageName.fileprovider", reportFile)
-                } else {
-                    null
-                }
-            } catch (reportFailure: Exception) {
-                Log.e(TAG, "Unable to save crash report", reportFailure)
-                null
-            }
+            val crashMessage = formatCrashMessage(throwable.cause ?: throwable)
 
             try {
-                val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
-                    .setSmallIcon(R.drawable.ic_stat)
-                    .setContentTitle("BΛR☰ crashed")
-                    .setContentText(crashMessage)
-                    .setStyle(
-                        Notification.BigTextStyle()
-                            .bigText(
-                                if (reportUri != null) {
-                                    "$crashMessage\\nCrash report saved to app cache as $CRASH_REPORT_FILE."
-                                } else {
-                                    crashMessage
-                                }
-                            )
-                    )
-                    .apply {
-                        if (reportUri != null) {
-                            val reportIntent = Intent(Intent.ACTION_VIEW).apply {
-                                setDataAndType(reportUri, "text/plain")
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            }
-                            val reportPendingIntent = PendingIntent.getActivity(
-                                this@BareApp,
-                                CRASH_NOTIFICATION_ID,
-                                reportIntent,
-                                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                            )
-                            setContentIntent(reportPendingIntent)
-                        }
+                // SwiftBackup attempts report persistence independently: a failed write must not
+                // suppress the crash notification. The report action requires a non-empty file.
+                val reportFile = cacheDir.resolve(CRASH_REPORT_FILE)
+                val reportUri = try {
+                    reportFile.writeText(stackTrace)
+                    if (reportFile.exists() && reportFile.length() > 0L) {
+                        FileProvider.getUriForFile(this, "$packageName.fileprovider", reportFile)
+                    } else {
+                        null
                     }
-                    .setAutoCancel(true)
-                    .build()
+                } catch (reportFailure: Exception) {
+                    Log.e(TAG, "Unable to save crash report", reportFailure)
+                    null
+                }
 
-                getSystemService(NotificationManager::class.java)
-                    ?.notify(CRASH_NOTIFICATION_ID, notification)
-            } catch (reportingFailure: Exception) {
-                // Notification/report failures must never replace the original application crash.
-                Log.e(TAG, "Unable to post crash notification", reportingFailure)
-            }
+                try {
+                    val notification = Notification.Builder(this, CHANNEL_CRASH_ERROR)
+                        .setSmallIcon(R.drawable.ic_stat)
+                        .setContentTitle("BΛR☰ crashed")
+                        .setContentText(crashMessage)
+                        .setStyle(
+                            Notification.BigTextStyle()
+                                .bigText(
+                                    if (reportUri != null) {
+                                        "$crashMessage\\nCrash report saved to app cache as $CRASH_REPORT_FILE."
+                                    } else {
+                                        crashMessage
+                                    }
+                                )
+                        )
+                        .apply {
+                            if (reportUri != null) {
+                                val reportIntent = Intent(Intent.ACTION_VIEW).apply {
+                                    setDataAndType(reportUri, "text/plain")
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                }
+                                val reportPendingIntent = PendingIntent.getActivity(
+                                    this@BareApp,
+                                    CRASH_NOTIFICATION_ID,
+                                    reportIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                                )
+                                setContentIntent(reportPendingIntent)
+                            }
+                        }
+                        .setAutoCancel(true)
+                        .build()
+
+                    getSystemService(NotificationManager::class.java)
+                        ?.notify(CRASH_NOTIFICATION_ID, notification)
+                } catch (notificationFailure: Exception) {
+                    Log.e(TAG, "Unable to post crash notification", notificationFailure)
+                }
+            } catch (handlerFailure: Exception) {
+                // Diagnostics must never replace the original application crash.
+                Log.e(TAG, "Crash handler failed", handlerFailure)
             } finally {
                 if (previousHandler != null) {
                     previousHandler.uncaughtException(thread, throwable)
