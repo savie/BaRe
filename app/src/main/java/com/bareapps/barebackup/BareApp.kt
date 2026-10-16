@@ -25,6 +25,7 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.bareapps.barebackup.locale.AppLocaleManager
 import com.bareapps.barebackup.common.IgnoredException
+import com.bareapps.barebackup.storage.SelectedStorageState
 import com.topjohnwu.superuser.Shell
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -61,8 +62,8 @@ class BareApp : Application() {
         // 3) Install the crash handler before initializing shared app state.
         installUncaughtExceptionHandler()
         // Reference exception filters are evaluated after the report/notification attempt.
-        // Removable-storage filtering remains TODO until BΛR☰ has the matching storage-mode
-        // state; do not infer it from the unrelated use_saf preference.
+        // SelectedStorageState resolves the reference's preferred_storage_dir against Android's
+        // StorageManager and uses Environment.isExternalStorageRemovable as the legacy fallback.
 
         // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
@@ -569,23 +570,26 @@ class BareApp : Application() {
     /**
      * Mirrors the exception predicates in SwiftApp's uncaught-exception handler.
      *
-     * Reference-only removable-storage predicate (not implementable yet in BΛR☰):
-     * zn7.b means the selected storage target is external/removable. Only when that flag is true,
-     * the reference searches the FULL formatted stack trace case-sensitively for
-     * "FileNotFoundException" OR "IOException", then exits with the reason
-     * "IO Exception on a removable storage, avoid crash report." Do not approximate this with
-     * q63.e / "use_saf": that controls SAF access behavior and is a separate state. Port this
-     * predicate only after BΛR☰ exposes the selected storage target through its real storage
-     * abstraction. Current branch audit found only the "backup_storage_location" preference
-     * declaration in settings.xml and a manifest declaration for StorageSwitchActivity; the
-     * corresponding activity/source implementation and any selected-volume state provider were
-     * not found. Those declarations alone do not establish which volume is selected or removable.
+     * The reference's zn7.b flag means the selected storage target is removable. Its selected
+     * root is stored under "preferred_storage_dir"; SelectedStorageState resolves that path to
+     * StorageVolume.isRemovable(), with Environment.isExternalStorageRemovable() as fallback.
+     * This is separate from q63.e / "use_saf", which controls SAF access behavior.
      */
     private fun referenceHandledCrashReason(
         throwable: Throwable,
         stackTrace: String,
         crashSummary: String
     ): String? {
+        if (
+            SelectedStorageState.isSelectedStorageRemovable(this) == true &&
+            (
+                stackTrace.contains("FileNotFoundException") ||
+                    stackTrace.contains("IOException")
+                )
+        ) {
+            return "IO Exception on a removable storage, avoid crash report."
+        }
+
         if (throwable is OutOfMemoryError) return throwable.javaClass.simpleName
         if (throwable is IgnoredException) return throwable.javaClass.simpleName
         if (throwable.javaClass.simpleName == "RemoteServiceException") {
