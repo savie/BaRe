@@ -18,6 +18,7 @@ import android.os.StrictMode
 import android.net.Uri
 import androidx.core.content.FileProvider
 import android.util.Log
+import com.topjohnwu.superuser.Shell
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.Locale
@@ -41,6 +42,7 @@ class BareApp : Application() {
         createNotificationChannels()
         getSystemService(NotificationManager::class.java)?.cancelAll()
         registerLocaleChangedReceiver()
+        initializeShell()
         installUncaughtExceptionHandler()
         logLastProcessExit()
         logLastProcessStart()
@@ -119,6 +121,25 @@ class BareApp : Application() {
         @Suppress("DEPRECATION")
         val systemLocales = android.content.res.Resources.getSystem().configuration.locales
         return if (!systemLocales.isEmpty) systemLocales[0] else Locale.ENGLISH
+    }
+
+    /**
+     * Configure libsu's default shell before any feature requests root access.
+     *
+     * SwiftBackup installs its custom Shell builder during Application startup.
+     * BΛR☰ uses libsu's public builder here rather than recreating the reference's
+     * obfuscated defpackage implementation or importing its private classes.
+     */
+    private fun initializeShell() {
+        try {
+            synchronized(Shell::class.java) {
+                Shell.setDefaultBuilder(Shell.Builder.create().setTimeout(10))
+            }
+            Log.d(TAG, "libsu default shell builder initialized")
+        } catch (failure: Exception) {
+            // Root access is optional; an unavailable shell must not block app launch.
+            Log.w(TAG, "Unable to initialize libsu default shell builder", failure)
+        }
     }
 
     /**
