@@ -1,6 +1,7 @@
 package com.bareapps.barebackup.storage
 
 import android.content.Context
+import com.bareapps.barebackup.BareApp
 import android.os.Environment
 import android.os.storage.StorageManager
 import java.io.File
@@ -22,10 +23,10 @@ internal object SelectedStorageState {
 
     fun isSelectedStorageRemovable(context: Context): Boolean? {
         return try {
-            val preferences = context.getSharedPreferences(
-                "${context.packageName}_preferences",
-                Context.MODE_PRIVATE
-            )
+            // Use the application-owned preference store initialized by BareApp, rather than
+            // reconstructing a preference filename here. SwiftBackup reads cz4.f, its initialized
+            // shared-preferences instance; BareApp.appPreferences() is the corresponding BΛR☰ source.
+            val preferences = BareApp.appPreferences() ?: return null
             val selectedPath = try {
                 preferences.getString(PREFERRED_STORAGE_DIRECTORY, null)
                     ?.takeIf { it.isNotBlank() }
