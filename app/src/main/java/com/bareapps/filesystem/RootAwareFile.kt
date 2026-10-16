@@ -1,6 +1,5 @@
 package com.bareapps.filesystem
 
-import com.bareapps.rootservice.ShellHelper
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileFilter
@@ -71,7 +70,7 @@ class RootAwareFile : File {
 
     private fun changeMode(mask: Int, enable: Boolean, ownerOnly: Boolean): Boolean {
         val mode = output("stat -c '%a' @@")
-        if (mode.length != 3 || mode.any { it !in '0'..'7' }) return false
+        if (mode.length != 3) return false
         val updated = mode.mapIndexed { index, char ->
             val digit = char - '0'
             val next = if (!enable || (ownerOnly && index != 0)) {
