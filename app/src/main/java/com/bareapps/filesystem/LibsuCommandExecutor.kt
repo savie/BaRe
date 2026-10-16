@@ -12,6 +12,7 @@ import java.io.Closeable
  * libsu owns shell lifecycle and command execution.
  */
 internal class LibsuCommandExecutor(
+    private val shell: Shell = Shell.getShell(),
     private val commands: MutableList<String> = mutableListOf()
 ) : Closeable {
 
@@ -21,10 +22,12 @@ internal class LibsuCommandExecutor(
 
     fun execute(): CommandResult {
         if (commands.isEmpty()) return CommandResult(emptyList(), emptyList(), 0)
-        // Use the configured shell instance rather than Shell.cmd's global
-        // convenience entry point. The reference rh4 is constructed with the
-        // app-selected Shell (k55.j()) and obtains jobs from that shell.
-        val result = Shell.getShell().newJob().add(*commands.toTypedArray()).exec()
+        // rh4 is constructed with a caller-selected Shell (k55.j()) and
+        // creates its job from that exact instance. Inject the shell so this
+        // adapter does not silently replace a caller's shell with a global one.
+        // The current default is libsu's configured shell; a full port of k55/ex0
+        // must supply the reference-equivalent root-or-sh shell explicitly.
+        val result = shell.newJob().add(*commands.toTypedArray()).exec()
         return CommandResult(
             output = result.out.orEmpty(),
             error = result.err.orEmpty(),
