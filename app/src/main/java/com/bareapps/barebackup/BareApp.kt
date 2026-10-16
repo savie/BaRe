@@ -597,7 +597,9 @@ class BareApp : Application() {
             "Binary XML",
             "InflateException"
         )
-        if (stackTraceExitMarkers.any { stackTrace.contains(it, ignoreCase = true) }) {
+        // These reference checks use case-sensitive substring matching against io4.b(Throwable),
+        // not the full stack trace. Keep that distinction from the case-insensitive remote markers.
+        if (stackTraceExitMarkers.any { crashSummary.contains(it) }) {
             return throwable.javaClass.simpleName
         }
 
@@ -605,7 +607,7 @@ class BareApp : Application() {
             "EPERM (Operation not permitted)",
             "ENOSPC (No space left on device)"
         )
-        if (summaryExitMarkers.any { crashSummary.contains(it, ignoreCase = true) }) {
+        if (summaryExitMarkers.any { crashSummary.contains(it) }) {
             return throwable.javaClass.simpleName
         }
 
