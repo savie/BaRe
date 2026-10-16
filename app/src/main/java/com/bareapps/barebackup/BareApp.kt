@@ -24,6 +24,7 @@ import android.util.Base64
 import android.util.Log
 import androidx.core.content.FileProvider
 import com.bareapps.barebackup.locale.AppLocaleManager
+import com.bareapps.barebackup.common.IgnoredException
 import com.topjohnwu.superuser.Shell
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -59,17 +60,9 @@ class BareApp : Application() {
 
         // 3) Install the crash handler before initializing shared app state.
         installUncaughtExceptionHandler()
-        // TODO(reference-port): crash filtering is not ported yet. The reference checks the
-        // full formatted stack trace for FileNotFoundException/IOException when removable
-        // storage mode is active, and checks ShizukuRemoteProcess plus
-        // android.os.DeadObjectException. It routes OutOfMemoryError, IgnoredException,
-        // RemoteServiceException, those remote-process failures, selected Resources$NotFoundException/
-        // Binary XML/InflateException cases, and EPERM/ENOSPC cases through SwiftApp.c().
-        // The remaining cases delegate to the prior uncaught-exception handler. Exact parity
-        // depends on the reference storage-mode flag, IgnoredException type, and Const cleanup /
-        // exit workflow, none of which is currently implemented as a matching BΛR☰ lifecycle.
-        // Do not reproduce these filters with guessed string checks until those dependencies and
-        // the reference's per-case conditions are mapped to real BΛR☰ components.
+        // Reference exception filters are evaluated after the report/notification attempt.
+        // Removable-storage filtering remains TODO until BΛR☰ has the matching storage-mode
+        // state; do not infer it from the unrelated use_saf preference.
 
         // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
@@ -499,6 +492,7 @@ class BareApp : Application() {
             }.toString()
 
             Log.e(TAG, "Uncaught exception on thread ${thread.name}", throwable)
+            val crashSummary = formatCrashMessage(throwable)
             val crashMessage = formatCrashMessage(throwable.cause ?: throwable)
 
             try {
@@ -559,7 +553,10 @@ class BareApp : Application() {
                 // Diagnostics must never replace the original application crash.
                 Log.e(TAG, "Crash handler failed", handlerFailure)
             } finally {
-                if (previousHandler != null) {
+                val handledCrashReason = referenceHandledCrashReason(throwable, stackTrace, crashSummary)
+                if (handledCrashReason != null) {
+                    exitAfterHandledCrash(handledCrashReason)
+                } else if (previousHandler != null) {
                     previousHandler.uncaughtException(thread, throwable)
                 } else {
                     android.os.Process.killProcess(android.os.Process.myPid())
@@ -567,6 +564,83 @@ class BareApp : Application() {
                 }
             }
         }
+    }
+
+    /**
+     * Mirrors the exception predicates in SwiftApp's uncaught-exception handler.
+     *
+     * The reference's removable-storage branch is intentionally excluded here: its condition
+     * is a storage-manager state, not simply the "use_saf" preference. Port it when BΛR☰ has
+     * the corresponding storage abstraction and can expose the same state reliably.
+     */
+    private fun referenceHandledCrashReason(
+        throwable: Throwable,
+        stackTrace: String,
+        crashSummary: String
+    ): String? {
+        if (throwable is OutOfMemoryError) return throwable.javaClass.simpleName
+        if (throwable is IgnoredException) return throwable.javaClass.simpleName
+        if (throwable.javaClass.simpleName == "RemoteServiceException") {
+            return throwable.javaClass.simpleName
+        }
+
+        // The reference requires BOTH markers for this special Shizuku/remote-process path.
+        if (
+            stackTrace.contains("ShizukuRemoteProcess", ignoreCase = true) &&
+            stackTrace.contains("android.os.DeadObjectException", ignoreCase = true)
+        ) {
+            return throwable.javaClass.simpleName
+        }
+
+        val stackTraceExitMarkers = listOf(
+            "Resources\$NotFoundException",
+            "Binary XML",
+            "InflateException"
+        )
+        if (stackTraceExitMarkers.any { stackTrace.contains(it, ignoreCase = true) }) {
+            return throwable.javaClass.simpleName
+        }
+
+        val summaryExitMarkers = listOf(
+            "EPERM (Operation not permitted)",
+            "ENOSPC (No space left on device)"
+        )
+        if (summaryExitMarkers.any { crashSummary.contains(it, ignoreCase = true) }) {
+            return throwable.javaClass.simpleName
+        }
+
+        return null
+    }
+
+    /**
+     * Ports the observable SwiftApp.c(reason) shutdown sequence that is supportable here:
+     * log the reason, launch the HOME activity, and record the process-state summary on API 30+.
+     * The reference then terminates by throwing from its uncaught handler; explicitly terminate
+     * this process instead so the Kotlin handler cannot accidentally return to the runtime.
+     */
+    private fun exitAfterHandledCrash(reason: String): Nothing {
+        Log.e(TAG, "Exiting after handled crash: reason=($reason)")
+        try {
+            startActivity(
+                Intent(Intent.ACTION_MAIN)
+                    .addCategory(Intent.CATEGORY_HOME)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            )
+        } catch (failure: Exception) {
+            Log.w(TAG, "Unable to launch HOME while handling crash", failure)
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            try {
+                getSystemService(android.app.ActivityManager::class.java)
+                    ?.setProcessStateSummary(reason.toByteArray(Charsets.UTF_8))
+            } catch (failure: Exception) {
+                Log.w(TAG, "Unable to record crash exit reason", failure)
+            }
+        }
+
+        android.os.Process.killProcess(android.os.Process.myPid())
+        kotlin.system.exitProcess(10)
     }
 
     companion object {
