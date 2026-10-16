@@ -102,12 +102,17 @@ class BareApp : Application() {
         // ys7 logs Const.l() app diagnostics, then calls SwiftApp.a() on API 30+ and
         // SwiftApp.b() on API 35+ (or preview VanillaIceCream); those are the last-exit
         // and startup-reason diagnostics respectively. BΛR☰ already has guarded versions.
-        // iq5 invokes nq5.i.c(): jq5.c() initializes/refreshes the Microsoft OneDrive
-        // SingleAccountPublicClientApplication, respecting the saved OneDrive auth agent.
-        // BΛR☰ already declares OneDriveSignInActivity, the MSAL browser/broker activities,
-        // and the onedrive_auth_agent setting in resources. However, the Kotlin initialization
-        // path and its account/config lifecycle have not been located/audited yet, so do not
-        // call a guessed MSAL factory here or assume manifest presence proves parity.
+        // iq5 invokes nq5.i.c(), which delegates to jq5.c(). Reference behavior is more
+        // specific than "initialize MSAL": it checks the cached client's AuthorizationAgent
+        // against preference "onedrive_auth_agent"; missing/invalid values default to BROWSER.
+        // If the agent differs, or no client exists, it loads R.raw.odrive_browser or
+        // R.raw.odrive_webview and calls PublicClientApplication.createSingleAccountPublicClientApplication.
+        // jq5 also validates the custom cached token pair (onedrive_access_token and
+        // onedrive_access_token_expiry); its cleanup path removes those values, several
+        // onedrive_conformance_* values, and matching com.microsoft* shared-pref files.
+        // BΛR☰ has the setting/resource and manifest entries, but repository source search did
+        // not locate the Kotlin client/account lifecycle. Do not transplant cleanup or invoke a
+        // guessed MSAL factory until actual BΛR☰ cloud-connect call sites and dependencies are traced.
         // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C();
         // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
         // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
