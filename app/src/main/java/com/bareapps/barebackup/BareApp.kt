@@ -10,6 +10,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
+import android.content.pm.PackageManager
+import android.content.pm.Signature
 import android.media.AudioAttributes
 import android.os.Build
 import android.os.StrictMode
@@ -19,6 +21,8 @@ import android.util.Log
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.Locale
+import android.util.Base64
+import java.security.MessageDigest
 
 /**
  * Application-level entry point for BΛR☰.
@@ -129,9 +133,13 @@ class BareApp : Application() {
                 .maxByOrNull { it.timestamp }
 
             if (lastExit != null) {
-                val summary = try {
-                    lastExit.processStateSummary?.toString(Charsets.UTF_8)
-                } catch (_: Exception) {
+                val summary = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    try {
+                        lastExit.processStateSummary?.toString(Charsets.UTF_8)
+                    } catch (_: Exception) {
+                        null
+                    }
+                } else {
                     null
                 }
                 val memoryLimiterHint = if (
@@ -352,5 +360,41 @@ class BareApp : Application() {
 
         @JvmStatic
         fun appContext(): Context? = instance?.applicationContext
+
+        /**
+         * Returns the signing certificates for this installed package.
+         * Uses the modern signing API on Android P+ and the legacy API before P.
+         */
+        @JvmStatic
+        fun signingCertificates(): Array<Signature>? {
+            val app = instance ?: return null
+            val packageManager = app.packageManager
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                val packageInfo = packageManager.getPackageInfo(
+                    app.packageName,
+                    PackageManager.GET_SIGNING_CERTIFICATES
+                )
+                packageInfo.signingInfo?.apkContentsSigners
+            } else {
+                @Suppress("DEPRECATION")
+                packageManager.getPackageInfo(
+                    app.packageName,
+                    PackageManager.GET_SIGNATURES
+                ).signatures
+            }
+        }
+
+        /**
+         * SHA digest of the first signing certificate, encoded with Android's
+         * NO_WRAP Base64 flag to match the reference's Companion.d() format.
+         * This is a fingerprint utility, not a substitute for server-side trust.
+         */
+        @JvmStatic
+        fun signingCertificateShaBase64(): String? {
+            val signature = signingCertificates()?.firstOrNull() ?: return null
+            val digest = MessageDigest.getInstance("SHA")
+            digest.update(signature.toByteArray())
+            return Base64.encodeToString(digest.digest(), Base64.NO_WRAP)
+        }
     }
 }
