@@ -128,12 +128,12 @@ class RootAwareFile : File {
 
     override fun listFiles(): Array<File>? {
         if (!isDirectory) return null
-        return list()?.map { RootAwareFile(this, it) }?.toTypedArray()
+        return list()?.map { RootAwareFile(this, it) as File }?.toTypedArray()
     }
 
     override fun listFiles(filter: FilenameFilter?): Array<File>? {
         if (!isDirectory) return null
-        return list(filter)?.map { RootAwareFile(this, it) }?.toTypedArray()
+        return list(filter)?.map { RootAwareFile(this, it) as File }?.toTypedArray()
     }
 
     override fun listFiles(filter: FileFilter?): Array<File>? {
