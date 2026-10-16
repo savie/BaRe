@@ -86,9 +86,10 @@ class BareApp : Application() {
 
     private fun updateNotificationChannelNamesForSystemLocale() {
         val manager = getSystemService(NotificationManager::class.java) ?: return
-        val locale = getSystemPrimaryLocale()
+        // Use the app's active configuration locale, not Resources.getSystem():
+        // the latter ignores the app-level language override selected from Intro.
         val localizedContext = createConfigurationContext(
-            Configuration(resources.configuration).apply { setLocale(locale) }
+            Configuration(resources.configuration).apply { setLocale(getAppPrimaryLocale()) }
         )
 
         val channelLabels = listOf(
@@ -106,15 +107,9 @@ class BareApp : Application() {
         }
     }
 
-    private fun getSystemPrimaryLocale(): Locale {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            val localeManager = getSystemService(android.app.LocaleManager::class.java)
-            localeManager?.systemLocales?.get(0)?.let { return it }
-        }
-
-        @Suppress("DEPRECATION")
-        val locales = android.content.res.Resources.getSystem().configuration.locales
-        return locales.get(0) ?: Locale.ENGLISH
+    private fun getAppPrimaryLocale(): Locale {
+        val locales = resources.configuration.locales
+        return if (!locales.isEmpty) locales[0] else Locale.ENGLISH
     }
 
     /**
