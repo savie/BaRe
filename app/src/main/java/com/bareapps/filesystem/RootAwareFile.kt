@@ -1,6 +1,7 @@
 package com.bareapps.filesystem
 
 import com.bareapps.rootservice.ShellHelper
+import com.bareapps.rootservice.ShellHelper
 import com.topjohnwu.superuser.Shell
 import java.io.File
 import java.io.FileFilter
@@ -27,9 +28,26 @@ class RootAwareFile : File {
     }
 
     private fun run(command: String): CommandResult {
-        val result = ShellHelper.sh(command.replace("@@", escapedPath)).exec()
-        return CommandResult(result.code, result.out.orEmpty())
+        val resolvedCommand = command.replace("@@", escapedPath)
+        val rootAvailable = runCatching { Shell.getShell().isRoot }.getOrDefault(false)
+
+        // jr7.d()/jr7.a(): use qe7 only when root is absent and the Shizuku
+        // route is available; otherwise use the configured libsu shell.
+        return if (!rootAvailable && shizukuRouteAvailable()) {
+            val result = ShizukuCommandExecutor.execute(arrayOf(resolvedCommand))
+            CommandResult(result.exitCode, result.output)
+        } else {
+            val result = ShellHelper.sh(resolvedCommand).exec()
+            CommandResult(
+                exitCode = result.code,
+                output = result.out.orEmpty() + result.err.orEmpty()
+            )
+        }
     }
+
+    private fun shizukuRouteAvailable(): Boolean =
+        ShizukuCommandExecutor.serviceVersion() >= 0 &&
+            ShizukuCommandExecutor.isAvailable()
 
     private fun test(command: String): Boolean = run(command).exitCode == 0
 
@@ -154,12 +172,12 @@ class RootAwareFile : File {
          * otherwise return an ordinary java.io.File.
          */
         @JvmStatic
-        fun create(path: String): File =
-            if (runCatching { Shell.getShell().isRoot }.getOrDefault(false)) {
-                RootAwareFile(path)
-            } else {
-                File(path)
-            }
+        fun create(path: String): File {
+            val rootAvailable = runCatching { Shell.getShell().isRoot }.getOrDefault(false)
+            val shizukuAvailable = ShizukuCommandExecutor.serviceVersion() >= 0 &&
+                ShizukuCommandExecutor.isAvailable()
+            return if (rootAvailable || shizukuAvailable) RootAwareFile(path) else File(path)
+        }
 
         /** Exact shell argument escaping from reference `jr7.c(String)`. */
         @JvmStatic
