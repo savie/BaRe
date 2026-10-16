@@ -142,9 +142,11 @@ class BareApp : Application() {
         // startup reconciliation; do not create a ledger that no service writes to.
 
         // 12) Concrete startup coroutine mapping from the reference:
-        // ys7 logs Const.l() app diagnostics, then calls SwiftApp.a() on API 30+ and
-        // SwiftApp.b() on API 35+ (or preview VanillaIceCream); those are the last-exit
-        // and startup-reason diagnostics respectively. BΛR☰ already has guarded versions.
+        // ys7 first logs Const.l()'s app-state/version line, then calls SwiftApp.a() on API
+        // 30+ and SwiftApp.b() on API 35+ (or preview VanillaIceCream) for process-exit and
+        // process-start diagnostics. BΛR☰ has guarded exit/start equivalents, but has not
+        // copied the reference's app-state formatter/version identity; keep that mapping
+        // explicit rather than logging SwiftBackup's package/version in BΛR☰.
         // iq5 invokes nq5.i.c(), which delegates to jq5.c(). Reference behavior is more
         // specific than "initialize MSAL": it checks the cached client's AuthorizationAgent
         // against preference "onedrive_auth_agent"; missing/invalid values default to BROWSER.
@@ -161,13 +163,15 @@ class BareApp : Application() {
         // observed event or a changed NetworkInfo, plus Const.z()'s Wi-Fi/Ethernet transport
         // result. The equivalent lightweight tracker is registered below; cloud/storage
         // integrations remain TODO until their missing feature modules are implemented.
+        // cy0.b = new n63(1) installs the reference logging adapter used by its filesystem
+        // abstraction; BΛR☰ has no corresponding q63/cy0 file abstraction to attach it to.
         // m70.a maps paths according to the requested access mode: one mode resolves through
         // the configured filesystem mapper; root-oriented modes rewrite /storage/emulated/<user>
         // (except user 0) to /data/media/<user>. m70.b is initialized with g70, which chooses
         // the deepest matching configured storage root and returns its .trash/atomic-delete
         // directory. These helpers depend on q63's JavaFile/LibsuFile/SAF mode selection; do
         // not port path rewriting or trash location independently of BΛR☰ storage semantics.
-        // TODO(reference-port): map the OneDrive client lifecycle and q63/m70 storage
+        // TODO(reference-port): map the OneDrive client lifecycle and q63/cy0/m70 storage
         // consumers after their corresponding BΛR☰ feature modules exist.
 
         // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
