@@ -1,11 +1,11 @@
 package com.bareapps.barebackup.storage
 
 import android.content.Context
-import com.bareapps.barebackup.BareApp
 import android.os.Build
 import android.os.Environment
 import android.os.storage.StorageManager
 import android.os.storage.StorageVolume
+import com.bareapps.barebackup.BareApp
 import java.io.File
 
 /**
@@ -73,15 +73,10 @@ internal object SelectedStorageState {
                 }
 
                 if (selectedVolume != null) {
-                    // zn7.v() first resolves the q63 path with getStorageVolumeForFile, then
-                    // falls back to discovered volume roots. Since this crash-only helper has no
-                    // zn7/q63 model, the exact discovered-root match is the safe parity boundary.
-                    val resolvedVolume = try {
-                        storageManager.getStorageVolume(selectedDirectory) ?: selectedVolume
-                    } catch (_: Exception) {
-                        selectedVolume
-                    }
-                    return resolvedVolume.isRemovable
+                    // The saved path has now been matched to a discovered root. Return that
+                    // root's own removability; do not re-resolve it as an arbitrary File because
+                    // this helper does not carry zn7's q63 abstraction or its transformed path.
+                    return selectedVolume.isRemovable
                 }
 
                 // If the saved root is not discovered, yn7.d() selects the default storage.
