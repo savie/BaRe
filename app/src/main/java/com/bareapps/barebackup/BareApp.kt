@@ -98,8 +98,14 @@ class BareApp : Application() {
         // wire it to the actual TaskService/ScheduleService lifecycle before enabling
         // startup reconciliation; do not create a ledger that no service writes to.
 
-        // 12) zn4 launches two coroutine initializers; q63/m70 initialize storage/trash helpers.
-        // TODO(reference-port): map each initializer to existing BΛR☰ services before porting.
+        // 12) Concrete startup coroutine mapping from the reference:
+        // ys7 logs Const.l() app diagnostics and conditionally runs SwiftApp.a/b based on
+        // b67.c()/b67.f(); iq5 invokes nq5.i.c() (initializer still needs call-graph audit).
+        // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C().
+        // q63.d/e are static file/SAF flags; m70.b is initialized with g70 and its path
+        // mapper rewrites selected /storage/emulated/<user> paths to /data/media/<user>.
+        // TODO(reference-port): audit b67, SwiftApp.a/b, nq5.i.c(), Const.C(), and the
+        // storage/trash consumers before mapping these behaviors into named BΛR☰ components.
 
         // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
         logLastProcessExit()
