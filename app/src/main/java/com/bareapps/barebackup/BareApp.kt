@@ -279,6 +279,8 @@ class BareApp : Application() {
         // Reference order 4: preferences.
         initializePreferences()
 
+        // Reference order 5: bs4/q63 filesystem initialization is not ported yet.
+        // TODO(reference-port): restore the shared filesystem abstraction and SAF/root access mode.
 
         // Reference order 6: shell builder.
         initializeShell()
@@ -297,16 +299,16 @@ class BareApp : Application() {
         // Reference order 12: kc2 foreground-service runtime-ledger reconciliation (not ported).
         // TODO(reference-port): implement service lifecycle writers before startup reconciliation.
         // Reference order 13: ys7/iq5 startup coroutine work (partially represented below).
-
-
-
-
-
-
+        // ys7 process diagnostics are called directly here rather than launched in a coroutine.
         logLastProcessExit()
         logLastProcessStart()
 
+        // Reference order 14: q63/cy0/m70 filesystem adapter, path mapper and trash mapping (not ported).
+        // TODO(reference-port): restore these together with the canonical filesystem abstraction.
+
         Log.d(TAG, "startup initialization complete")
+
+        // Reference order 15: zs7 connectivity listener.
         registerConnectivityTracker()
 
         StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
