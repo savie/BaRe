@@ -569,9 +569,14 @@ class BareApp : Application() {
     /**
      * Mirrors the exception predicates in SwiftApp's uncaught-exception handler.
      *
-     * The reference's removable-storage branch is intentionally excluded here: its condition
-     * is a storage-manager state, not simply the "use_saf" preference. Port it when BΛR☰ has
-     * the corresponding storage abstraction and can expose the same state reliably.
+     * Reference-only removable-storage predicate (not implementable yet in BΛR☰):
+     * zn7.b means the selected storage target is external/removable. Only when that flag is true,
+     * the reference searches the FULL formatted stack trace case-sensitively for
+     * "FileNotFoundException" OR "IOException", then exits with the reason
+     * "IO Exception on a removable storage, avoid crash report." Do not approximate this with
+     * q63.e / "use_saf": that controls SAF access behavior and is a separate state. Port this
+     * predicate only after BΛR☰ exposes the selected storage target through its real storage
+     * abstraction.
      */
     private fun referenceHandledCrashReason(
         throwable: Throwable,
@@ -592,14 +597,14 @@ class BareApp : Application() {
             return throwable.javaClass.simpleName
         }
 
-        val stackTraceExitMarkers = listOf(
+        val crashSummaryExitMarkers = listOf(
             "Resources\$NotFoundException",
             "Binary XML",
             "InflateException"
         )
         // These reference checks use case-sensitive substring matching against io4.b(Throwable),
         // not the full stack trace. Keep that distinction from the case-insensitive remote markers.
-        if (stackTraceExitMarkers.any { crashSummary.contains(it) }) {
+        if (crashSummaryExitMarkers.any { crashSummary.contains(it) }) {
             return throwable.javaClass.simpleName
         }
 
