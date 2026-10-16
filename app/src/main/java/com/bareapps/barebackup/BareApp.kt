@@ -59,11 +59,17 @@ class BareApp : Application() {
 
         // 3) Install the crash handler before initializing shared app state.
         installUncaughtExceptionHandler()
-        // TODO(reference-port): this handler currently writes a local stack trace, posts a
-        // notification, and delegates to the prior handler. SwiftApp additionally applies
-        // special exception/removable-storage filters and routes selected failures through its
-        // app-exit/diagnostics workflow. Those filters depend on Const/IgnoredException and
-        // storage/account components that do not exist in this BΛR☰ source tree.
+        // TODO(reference-port): crash filtering is not ported yet. The reference checks the
+        // full formatted stack trace for FileNotFoundException/IOException when removable
+        // storage mode is active, and checks ShizukuRemoteProcess plus
+        // android.os.DeadObjectException. It routes OutOfMemoryError, IgnoredException,
+        // RemoteServiceException, those remote-process failures, selected Resources$NotFoundException/
+        // Binary XML/InflateException cases, and EPERM/ENOSPC cases through SwiftApp.c().
+        // The remaining cases delegate to the prior uncaught-exception handler. Exact parity
+        // depends on the reference storage-mode flag, IgnoredException type, and Const cleanup /
+        // exit workflow, none of which is currently implemented as a matching BΛR☰ lifecycle.
+        // Do not reproduce these filters with guessed string checks until those dependencies and
+        // the reference's per-case conditions are mapped to real BΛR☰ components.
 
         // 4) cz4: initialize <package>_preferences and its shared editor.
         initializePreferences()
