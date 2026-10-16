@@ -20,6 +20,7 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import android.util.Log
 import com.topjohnwu.superuser.Shell
+import com.bareapps.barebackup.locale.AppLocaleManager
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.Locale
@@ -46,6 +47,7 @@ class BareApp : Application() {
         installUncaughtExceptionHandler()
         initializePreferences()
         initializeShell()
+        preferences?.let { AppLocaleManager.initialize(this, it) }
         logLastProcessExit()
         logLastProcessStart()
 
@@ -64,6 +66,7 @@ class BareApp : Application() {
             Log.i(LOCALE_TAG, "Configuration changed. Locale: ${newConfig.locale}")
         }
 
+        preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it) }
         updateNotificationChannelNamesForSystemLocale()
     }
 
