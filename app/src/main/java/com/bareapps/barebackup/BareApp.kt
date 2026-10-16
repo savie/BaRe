@@ -101,10 +101,14 @@ class BareApp : Application() {
         // 12) Concrete startup coroutine mapping from the reference:
         // ys7 logs Const.l() app diagnostics and conditionally runs SwiftApp.a/b based on
         // b67.c()/b67.f(); iq5 invokes nq5.i.c() (initializer still needs call-graph audit).
-        // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C().
-        // q63.d/e are static file/SAF flags; m70.b is initialized with g70 and its path
-        // mapper rewrites selected /storage/emulated/<user> paths to /data/media/<user>.
-        // TODO(reference-port): audit b67, SwiftApp.a/b, nq5.i.c(), Const.C(), and the
+        // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C();
+        // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
+        // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
+        // or connectivity tracker found by source search, so this is not registered here.
+        // q63.d/e are static file/SAF flags; bs4.b() copies use_saf into q63.e. m70.b is
+        // initialized with g70 and its path mapper rewrites selected /storage/emulated/<user>
+        // paths to /data/media/<user>; q63 has many consumers, so this is not just a path helper.
+        // TODO(reference-port): audit b67, SwiftApp.a/b, nq5.i.c(), Const.C()/rx, and the
         // storage/trash consumers before mapping these behaviors into named BΛR☰ components.
 
         // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
