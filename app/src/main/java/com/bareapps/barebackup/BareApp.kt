@@ -42,6 +42,8 @@ class BareApp : Application() {
         Log.i(TAG, "BΛR☰ application process started")
 
         createNotificationChannels()
+        // Reference channel labels use the Android system locale, not the app override.
+        updateNotificationChannelNamesForSystemLocale()
         getSystemService(NotificationManager::class.java)?.cancelAll()
         registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
@@ -128,13 +130,6 @@ class BareApp : Application() {
         return if (!systemLocales.isEmpty) systemLocales[0] else Locale.ENGLISH
     }
 
-    /**
-     * Configure libsu's default shell before any feature requests root access.
-     *
-     * SwiftBackup installs its custom Shell builder during Application startup.
-     * BΛR☰ uses libsu's public builder here rather than recreating the reference's
-     * obfuscated defpackage implementation or importing its private classes.
-     */
     /**
      * Initialize the app-scoped preference file used by SwiftBackup's startup path.
      * Keep the original file name so future feature ports can migrate settings
