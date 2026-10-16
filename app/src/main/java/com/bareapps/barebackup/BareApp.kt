@@ -45,7 +45,6 @@ class BareApp : Application() {
         // Reference channel labels use the Android system locale, not the app override.
         updateNotificationChannelNamesForSystemLocale()
         getSystemService(NotificationManager::class.java)?.cancelAll()
-        registerLocaleChangedReceiver()
         installUncaughtExceptionHandler()
         initializePreferences()
         initializeShell()
@@ -70,27 +69,6 @@ class BareApp : Application() {
 
         preferences?.let { AppLocaleManager.onConfigurationChanged(newConfig, it, this@BareApp) }
         updateNotificationChannelNamesForSystemLocale()
-    }
-
-    /**
-     * Mirrors SwiftBackup's locale-change receiver without adding another source file.
-     * Existing channels are renamed using the system's current primary locale.
-     */
-    private fun registerLocaleChangedReceiver() {
-        val filter = IntentFilter(Intent.ACTION_LOCALE_CHANGED)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(localeChangedReceiver, filter, Context.RECEIVER_EXPORTED)
-        } else {
-            @Suppress("DEPRECATION")
-            registerReceiver(localeChangedReceiver, filter)
-        }
-    }
-
-    private val localeChangedReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action != Intent.ACTION_LOCALE_CHANGED) return
-            updateNotificationChannelNamesForSystemLocale()
-        }
     }
 
     private fun updateNotificationChannelNamesForSystemLocale() {
