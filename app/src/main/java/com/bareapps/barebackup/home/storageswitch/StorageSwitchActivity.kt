@@ -124,7 +124,8 @@ class StorageSwitchActivity : Activity() {
         }
 
         val useSaf = preferences.getBoolean(USE_SAF, false)
-        if (choice.removable && useSaf && !hasValidTreeGrant(choice)) {
+        val normalFileAccessInsufficient = !choice.root.canRead() || !choice.root.canWrite()
+        if (choice.removable && useSaf && normalFileAccessInsufficient && !hasValidTreeGrant(choice)) {
             if (choice.rootId == null) {
                 Toast.makeText(this, "Cannot determine the document root for this volume", Toast.LENGTH_LONG).show()
                 finish()
@@ -226,7 +227,38 @@ class StorageSwitchActivity : Activity() {
             android.os.Process.myUid(),
             Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         ) == android.content.pm.PackageManager.PERMISSION_GRANTED
-        return hasRead && hasWrite
+        if (!hasRead || !hasWrite) return false
+
+        // Mirrors zn7.g(): URI permission alone is insufficient; inspect the root document
+        // metadata and accept only a provider that advertises a supported write/create operation.
+        return try {
+            contentResolver.query(
+                uri,
+                arrayOf(
+                    DocumentsContract.Document.COLUMN_MIME_TYPE,
+                    DocumentsContract.Document.COLUMN_FLAGS
+                ),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                if (!cursor.moveToFirst()) return@use false
+                val mimeIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_MIME_TYPE)
+                val flagsIndex = cursor.getColumnIndex(DocumentsContract.Document.COLUMN_FLAGS)
+                if (mimeIndex < 0 || flagsIndex < 0) return@use false
+                val mimeType = cursor.getString(mimeIndex)
+                val flags = cursor.getLong(flagsIndex).toInt()
+                mimeType.isNotBlank() &&
+                    (
+                        flags and 4 != 0 ||
+                            (mimeType == DocumentsContract.Document.MIME_TYPE_DIR && flags and 8 != 0) ||
+                            flags and 2 != 0
+                    )
+            } ?: false
+        } catch (failure: Exception) {
+            Log.w(TAG, "Unable to validate storage document metadata", failure)
+            false
+        }
     }
 
     private fun saveChoice(choice: StorageChoice) {
