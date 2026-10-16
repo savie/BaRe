@@ -99,8 +99,12 @@ class BareApp : Application() {
         // startup reconciliation; do not create a ledger that no service writes to.
 
         // 12) Concrete startup coroutine mapping from the reference:
-        // ys7 logs Const.l() app diagnostics and conditionally runs SwiftApp.a/b based on
-        // b67.c()/b67.f(); iq5 invokes nq5.i.c() (initializer still needs call-graph audit).
+        // ys7 logs Const.l() app diagnostics, then calls SwiftApp.a() on API 30+ and
+        // SwiftApp.b() on API 35+ (or preview VanillaIceCream); those are the last-exit
+        // and startup-reason diagnostics respectively. BΛR☰ already has guarded versions.
+        // iq5 invokes nq5.i.c(): jq5.c() initializes/refreshes the Microsoft OneDrive
+        // SingleAccountPublicClientApplication, respecting the saved OneDrive auth agent.
+        // BΛR☰ currently has no audited equivalent OneDrive MSAL initialization to call here.
         // A later zs7 coroutine registers CONNECTIVITY_CHANGE once through Const.C();
         // r80 obtains ConnectivityManager.activeNetworkInfo and rx logs network changes
         // plus Const.z()'s Wi-Fi/Ethernet-connected result. BΛR☰ has no matching receiver
@@ -108,8 +112,8 @@ class BareApp : Application() {
         // q63.d/e are static file/SAF flags; bs4.b() copies use_saf into q63.e. m70.b is
         // initialized with g70 and its path mapper rewrites selected /storage/emulated/<user>
         // paths to /data/media/<user>; q63 has many consumers, so this is not just a path helper.
-        // TODO(reference-port): audit b67, SwiftApp.a/b, nq5.i.c(), Const.C()/rx, and the
-        // storage/trash consumers before mapping these behaviors into named BΛR☰ components.
+        // TODO(reference-port): map the OneDrive client lifecycle, Const.C()/rx connectivity
+        // tracker, and q63/m70 storage consumers into named BΛR☰ components after auditing callers.
 
         // Reference logs exit/start diagnostics around startup; keep existing guarded diagnostics.
         logLastProcessExit()
