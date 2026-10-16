@@ -23,7 +23,7 @@ class RootAwareFile : File {
     constructor(file: File) : this(file.absolutePath)
 
     constructor(path: String) : super(File(path).absolutePath) {
-        escapedPath = escapeShellArgument(path)
+        escapedPath = escapeShellArgument(absolutePath)
     }
 
     private fun run(command: String): CommandResult {
@@ -126,17 +126,17 @@ class RootAwareFile : File {
         return names.toTypedArray()
     }
 
-    override fun listFiles(): Array<RootAwareFile>? {
+    override fun listFiles(): Array<File>? {
         if (!isDirectory) return null
         return list()?.map { RootAwareFile(this, it) }?.toTypedArray()
     }
 
-    override fun listFiles(filter: FilenameFilter?): Array<RootAwareFile>? {
+    override fun listFiles(filter: FilenameFilter?): Array<File>? {
         if (!isDirectory) return null
         return list(filter)?.map { RootAwareFile(this, it) }?.toTypedArray()
     }
 
-    override fun listFiles(filter: FileFilter?): Array<RootAwareFile>? {
+    override fun listFiles(filter: FileFilter?): Array<File>? {
         val names = list() ?: return null
         return names.map { RootAwareFile(this, it) }
             .filter { filter == null || filter.accept(it) }
