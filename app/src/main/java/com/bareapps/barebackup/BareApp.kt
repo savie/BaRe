@@ -132,6 +132,16 @@ class BareApp : Application() {
      * BΛR☰ uses libsu's public builder here rather than recreating the reference's
      * obfuscated defpackage implementation or importing its private classes.
      */
+    /**
+     * Initialize the app-scoped preference file used by SwiftBackup's startup path.
+     * Keep the original file name so future feature ports can migrate settings
+     * without inventing a second preference namespace.
+     */
+    private fun initializePreferences() {
+        preferences = getSharedPreferences("${packageName}_preferences", Context.MODE_PRIVATE)
+        Log.d(TAG, "application preferences initialized")
+    }
+
     private fun initializeShell() {
         try {
             synchronized(Shell::class.java) {
