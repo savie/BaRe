@@ -1,5 +1,6 @@
 package com.bareapps.filesystem
 
+import com.bareapps.rootservice.ShellHelper
 import com.topjohnwu.superuser.Shell
 import java.io.Closeable
 
@@ -12,7 +13,7 @@ import java.io.Closeable
  * libsu owns shell lifecycle and command execution.
  */
 internal class LibsuCommandExecutor(
-    private val shell: Shell = Shell.getShell(),
+    private val shell: Shell = ShellHelper.getMainShell(),
     private val commands: MutableList<String> = mutableListOf()
 ) : Closeable {
 
@@ -25,8 +26,7 @@ internal class LibsuCommandExecutor(
         // rh4 is constructed with a caller-selected Shell (k55.j()) and
         // creates its job from that exact instance. Inject the shell so this
         // adapter does not silently replace a caller's shell with a global one.
-        // The current default is libsu's configured shell; a full port of k55/ex0
-        // must supply the reference-equivalent root-or-sh shell explicitly.
+        // The default comes from ShellHelper's k55/ex0-inspired selector.
         val result = shell.newJob().add(*commands.toTypedArray()).exec()
         return CommandResult(
             output = result.out.orEmpty(),
