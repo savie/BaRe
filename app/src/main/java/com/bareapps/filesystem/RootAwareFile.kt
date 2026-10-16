@@ -13,8 +13,8 @@ import java.util.Locale
  * Kotlin port of `defpackage.jr7` from SwiftBackup 5.1.0 (620).
  *
  * This is a `java.io.File` subtype whose filesystem operations are executed
- * through the configured libsu shell. The reference also supports an alternate
- * Shizuku-backed executor (`qe7`); that backend is not yet wired here.
+ * through libsu when root is available, or through the Shizuku process backend
+ * when the Shizuku service and permission are available.
  */
 class RootAwareFile : File {
 
@@ -149,13 +149,9 @@ class RootAwareFile : File {
 
     companion object {
         /**
-         * Equivalent of reference `jr7.g(path)`: choose shell-backed File when
-         * the configured libsu shell is root; otherwise use java.io.File.
-         *
-         * TODO(reference-port): include the reference's alternate Shizuku route
-         * (`jr7.e() -> le7.f() && qe7.b()`) once its permission/process bridge
-         * has been migrated. Until then, non-root Shizuku availability is not
-         * treated as sufficient to select this implementation.
+         * Equivalent of reference `jr7.g(path)`: use the shell-backed File
+         * when root is available or the Shizuku service grants execution access;
+         * otherwise return an ordinary java.io.File.
          */
         @JvmStatic
         fun create(path: String): File =
