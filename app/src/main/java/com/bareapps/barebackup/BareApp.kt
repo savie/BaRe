@@ -83,6 +83,17 @@ class BareApp : Application() {
         // reference's per-file JavaFile/LibsuFile selection, root PFD bridge, or SAF document
         // tree operations. The build file also has no direct MSAL dependency, so manifest
         // merged components alone do not prove the app-level OneDrive client is present.
+        // Reference SAF bridge detail (ji8.q(q63, mode)): it finds a containing storage root
+        // by checking /mnt/media_rw and /storage, derives the external-storage UUID/root document
+        // URI, then walks the relative path through DocumentsContract. Existing-file open modes
+        // map to provider modes ("r", "rwt", or "rw"); create modes create the target document
+        // first. The bridge returns a ParcelFileDescriptor and may return null when it cannot
+        // resolve a root/path. This is coupled to q63.v()/p(), SAF URI grants, and root-PFD fallback;
+        // a standalone DocumentFile helper would not reproduce those semantics.
+        // zn7.c() uses StorageVolume.createOpenDocumentTreeIntent() when possible, otherwise
+        // ACTION_OPEN_DOCUMENT_TREE with DocumentsContract.buildRootUri and SHOW_ADVANCED.
+        // zn7.g() validates read/write URI permission, MIME type, and document flags before
+        // treating a SAF tree as usable. Keep these checks separate from use_saf's preference bit.
         // TODO(reference-port): locate BΛR☰'s canonical file abstraction and root/SAF bridge,
         // then map the access-mode transitions before wiring use_saf; don't add duplicate flags.
 
