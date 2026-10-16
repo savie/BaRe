@@ -64,6 +64,11 @@ class BareApp : Application() {
         // (with root PFD fallback if SAF opening fails). q63 also selects JavaFile vs
         // LibsuFile based on access checks and retries mkdir/stream operations through shell
         // or alternate streams. This is a coupled file abstraction, not a preference-only port.
+        // BΛR☰ currently exposes all-files access from IntroActivity.requestStorageAccess()
+        // and Shizuku permission onboarding, but those permission prompts do not implement the
+        // reference's per-file JavaFile/LibsuFile selection, root PFD bridge, or SAF document
+        // tree operations. The build file also has no direct MSAL dependency, so manifest
+        // merged components alone do not prove the app-level OneDrive client is present.
         // TODO(reference-port): locate BΛR☰'s canonical file abstraction and root/SAF bridge,
         // then map the access-mode transitions before wiring use_saf; don't add duplicate flags.
 
